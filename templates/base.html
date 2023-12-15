@@ -1,12 +1,22 @@
+{% load django_bootstrap5 %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
     <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
 </head>
 
-<body>
-  {% block content %}
-  {% endblock %}
+<body class="container">
+  {% bootstrap_messages %}
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
 </body>
+
 </html>
