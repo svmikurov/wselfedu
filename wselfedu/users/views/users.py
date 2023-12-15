@@ -1,8 +1,9 @@
 from django.contrib import messages
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 from django.urls import reverse_lazy
 
 from wselfedu.users.forms import UserRegistrationForm
+from wselfedu.users.models import UserModel
 
 
 class UserRegistrationView(
@@ -20,3 +21,12 @@ class UserRegistrationView(
         response = super().form_valid(form)
         messages.success(self.request, self.success_message)
         return response
+
+
+class UserDetailView(
+    DetailView,
+):
+    model = UserModel
+    extra_context = {
+        'title': 'Личный кабинет',
+    }

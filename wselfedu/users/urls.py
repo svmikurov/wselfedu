@@ -9,4 +9,9 @@ urlpatterns = [
         views.UserRegistrationView.as_view(template_name='form.html'),
         name='create',
     ),
+    path(
+        '<pk>/account/',
+        views.UserDetailView.as_view(template_name='users/account.html'),
+        name='detail',
+    ),
 ]

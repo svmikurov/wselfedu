@@ -1,1 +1,4 @@
-from wselfedu.users.views.users import UserRegistrationView
+from wselfedu.users.views.users import (
+    UserRegistrationView,
+    UserDetailView,
+)
