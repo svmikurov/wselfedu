@@ -30,7 +30,10 @@ class UserUpdateTest(TestCase):
             'user:edit',
             kwargs={'pk': self.fake_user.pk}
         )
-        self.redirect_url = self.url
+        self.redirect_url = reverse_lazy(
+            'user:detail',
+            kwargs={'pk': self.fake_user.pk}
+        )
         self.success_message = 'Вы успешно обновили свои данные'
         self.redirect_no_permission = reverse_lazy('home')
         self.message_no_permission = 'У вас нет разрешения на эти действия'
