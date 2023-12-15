@@ -5,3 +5,6 @@ start:
 
 lint:
 	poetry run flake8
+
+test:
+	poetry run coverage run --source='.' manage.py test
