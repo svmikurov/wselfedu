@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from faker import Faker
 from faker.generator import Generator
 
+from contrib_app.contrib_test import flash_message_test
 from wselfedu.users.models import UserModel
 
 
@@ -18,20 +19,34 @@ class UserDetailTest(TestCase):
         Создаем данные пользователя.
         """
         self.client: Client = Client()
-        self.faker: Generator = Faker()
+        faker: Generator = Faker()
 
         # Создаем тестового пользователя
         # 'Generator' object has no attribute 'username'
-        fake_username: str = self.faker.user_name()
+        fake_username: str = faker.user_name()
         self.fake_user = UserModel.objects.create(username=fake_username)
+        self.fake_name_not_owner = faker.user_name()
+        self.fake_user_not_owner = UserModel.objects.create(username=self.fake_name_not_owner)
 
         # Создаем url-адрес личного кабинета тестового пользователя
         self.url = reverse_lazy(
             'user:detail',
             kwargs={'pk': self.fake_user.pk}
         )
+        self.redirect_no_permission = reverse_lazy('home')
+        self.message_no_permission = 'У вас нет разрешения на эти действия'
 
     def test_get(self):
         """ Тест статуса личного кабинета """
         response: TemplateResponse = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
+
+    def test_get_not_owner(self):
+        response = self.client.get(self.url)
+        self.assertRedirects(response, self.redirect_no_permission, 302)
+        flash_message_test(response, self.message_no_permission)
+
+        self.client.force_login(self.fake_user_not_owner)
+        response = self.client.get(self.url)
+        self.assertRedirects(response, self.redirect_no_permission, 302)
+        flash_message_test(response, self.message_no_permission)
