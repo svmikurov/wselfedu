@@ -16,6 +16,8 @@ django-bootstrap5 = "^23.3"
 flake8 = "^6.1.0"
 faker = "^21.0.0"
 coverage = "^7.3.3"
+django-extensions = "^3.2.3"
+ipython = "^8.18.1"
 
 [build-system]
 requires = ["poetry-core"]

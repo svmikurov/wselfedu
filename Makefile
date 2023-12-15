@@ -8,3 +8,6 @@ lint:
 
 test:
 	poetry run coverage run --source='.' manage.py test
+
+shell:
+	poetry run python manage.py shell_plus --ipython
