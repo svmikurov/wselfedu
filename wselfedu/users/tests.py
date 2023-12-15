@@ -13,15 +13,14 @@ class RegistrationUserViewTest(TestCase):
     def setUp(self):
         """
         Создаем пустую тестовую базу данных.
-        Объявляем url регистрации пользователя.
-        Объявляем reverse_url регистрации пользователя.
+        Объявляем url, redirect_url регистрации пользователя.
         Объявляем сообщение об успешной регистрации пользователя.
         Создаем данные пользователя.
         """
         self.client: Client = Client()
-        self.url: str = reverse_lazy('users:registration')
-        self.reverse_url: str = reverse_lazy('users:login')
-        self.success_message: str = 'Пользователь успешно зарегистрирован'
+        self.url: str = reverse_lazy('user:create')
+        self.redirect_url: str = reverse_lazy('home')
+        self.success_message: str = 'Вы успешно зарегистрировались'
 
         self.faker: Faker = Faker()
         self.fake_username: str = self.faker.user_name()
@@ -41,8 +40,8 @@ class RegistrationUserViewTest(TestCase):
         """ Тест результата регистрации пользователя """
         response: TemplateResponse = self.client.post(self.url, self.user_data)
 
-        self.assertRedirects(response, self.reverse_url, 302)
+        self.assertRedirects(response, self.redirect_url, 302)
         self.assertTrue(UserModel.objects.filter(
             username=self.fake_username
-        ).exist())
+        ).exists())
         flash_message_test(response, self.success_message)
