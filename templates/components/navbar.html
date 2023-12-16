@@ -3,8 +3,8 @@
   <div class="container-fluid">
 
     <a class="navbar-brand" href="{% url 'home' %}">
-      {% if balance_by_today %}
-        WSE / счет: {{ balance_by_today }}
+      {% if reward_by_today %}
+        WSE / счет: {{ reward_by_today }}
       {% else %}
         WSE
       {% endif %}
@@ -27,8 +27,7 @@
         <a id="eng-nav" class="nav-link" href="{% url 'home' %}">Английский язык</a>
         {% if user.is_superuser %}
           <a id="dev-nav" class="nav-link" href="{% url 'home' %}">Определения</a>
-        {% endif %}
-        <!-- End Tasks -->
+        {% endif %}<!-- End Tasks -->
 
         <!-- Authentication -->
         {% if user.is_authenticated %}

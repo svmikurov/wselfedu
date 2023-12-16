@@ -11,5 +11,5 @@ class HomeView(TemplateView):
     }
     extra_context = {
         'title': 'Математика',
-        'chapters': chapters
+        'chapters': chapters,
     }

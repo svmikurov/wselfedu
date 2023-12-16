@@ -9,7 +9,7 @@ END_RANGE = 9
 
 
 class MultTask:
-    """Multiplication task."""
+    """Creates a multiplication task."""
 
     # random operand values are dropped only during initialization
     def __init__(self):

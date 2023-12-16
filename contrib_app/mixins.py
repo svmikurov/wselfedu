@@ -41,7 +41,10 @@ class AccountOwnershipMixin(
     HandleNoPermissionMixin,
     CheckUserForOwnershipAccountMixin,
 ):
-    pass
+    """
+    Check if the user has owner permission on account.
+    Add a redirect url and a message, if the user doesn't have permission.
+    """
 
 
 class AddMessageToFormSubmissionMixin:
