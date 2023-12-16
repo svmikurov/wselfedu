@@ -38,6 +38,7 @@ class UserDetailTest(TestCase):
 
     def test_get(self):
         """ Тест статуса личного кабинета """
+        self.client.force_login(self.fake_user)
         response: TemplateResponse = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 

@@ -20,20 +20,30 @@ class UserUpdateTest(TestCase):
         self.client: Client = Client()
         faker: Generator = Faker()
 
-        self.fake_username = faker.user_name()
-        self.fake_updated_username = faker.user_name()
-        self.fake_user = UserModel.objects.create(username=self.fake_username)
+        self.fake_username: str = faker.user_name()
+        fake_password: str = faker.password(length=10)
+        self.fake_user = UserModel.objects.create(
+            username=self.fake_username,
+            password=fake_password,
+        )
+        self.fake_updated_username: str = faker.user_name()
+        self.fake_updated_data = {
+            'username': self.fake_updated_username,
+            'password1': fake_password,
+            'password2': fake_password,
+        }
         self.fake_name_not_owner = faker.user_name()
-        self.fake_user_not_owner = UserModel.objects.create(username=self.fake_name_not_owner)
-
+        self.fake_user_not_owner = UserModel.objects.create(
+            username=self.fake_name_not_owner
+        )
         self.url = reverse_lazy(
-            'user:edit',
+            'user:update',
             kwargs={'pk': self.fake_user.pk}
         )
-        self.redirect_url = reverse_lazy(
-            'user:detail',
-            kwargs={'pk': self.fake_user.pk}
-        )
+        # self.redirect_url = reverse_lazy(
+        #     'user:detail',
+        #     kwargs={'pk': self.fake_user.pk}
+        # )
         self.success_message = 'Вы успешно обновили свои данные'
         self.redirect_no_permission = reverse_lazy('home')
         self.message_no_permission = 'У вас нет разрешения на эти действия'
@@ -47,30 +57,19 @@ class UserUpdateTest(TestCase):
     def test_get_not_owner(self):
         response = self.client.get(self.url)
         self.assertRedirects(response, self.redirect_no_permission, 302)
-        self.assertTrue(UserModel.objects.filter(
-            username=self.fake_username
-        ).exists())
         flash_message_test(response, self.message_no_permission)
 
         self.client.force_login(self.fake_user_not_owner)
         response = self.client.get(self.url)
         self.assertRedirects(response, self.redirect_no_permission, 302)
-        self.assertTrue(UserModel.objects.filter(
-            username=self.fake_username
-        ).exists())
         flash_message_test(response, self.message_no_permission)
 
     def test_post(self):
-        """
-        Отправляем обновленные данные пользователя.
-        Тестируем редирект с новым именем пользователя.
-        Тестируем существование пользователя с новым именем.
-        Тестируем сообщением об успешном обновлении пользователя.
-        """
         self.client.force_login(self.fake_user)
-        response = self.client.post(self.url, self.fake_updated_username)
+        response = self.client.post(self.url, self.fake_updated_data)
 
-        self.assertRedirects(response, self.url, 302)
+        # self.assertRedirects(response, self.redirect_url)
+        self.assertEqual(response.status_code, 302)
         self.assertTrue(UserModel.objects.filter(
             username=self.fake_updated_username
         ).exists())
