@@ -7,7 +7,7 @@ from contrib_app.contrib_test import flash_message_test
 from wselfedu.users.models import UserModel
 
 
-class UserDeletionTest(TestCase):
+class UserDeleteTest(TestCase):
     """ Тест удаления пользователя """
 
     def setUp(self):

@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
 from contrib_app.mixins import (
@@ -50,6 +50,24 @@ class UserUpdateView(
         'btn_name': 'Обновить',
     }
     success_message = 'Вы успешно обновили свои данные'
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, self.success_message)
+        return response
+
+
+class UserDeleteView(
+    HandleNoPermissionMixin,
+    CheckUserForOwnershipAccountMixin,
+    DeleteView,
+):
+    model = UserModel
+    success_url = reverse_lazy('home')
+    extra_context = {
+        'title': 'Удаление пользователя',
+    }
+    success_message = 'Пользователь удален'
 
     def form_valid(self, form):
         response = super().form_valid(form)

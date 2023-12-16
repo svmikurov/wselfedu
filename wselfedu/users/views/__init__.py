@@ -2,4 +2,5 @@ from wselfedu.users.views.users import (
     UserRegistrationView,
     UserDetailView,
     UserUpdateView,
+    UserDeleteView,
 )

@@ -19,4 +19,9 @@ urlpatterns = [
         views.UserUpdateView.as_view(template_name='form.html'),
         name='update',
     ),
+    path(
+        '<pk>/delete/',
+        views.UserDeleteView.as_view(template_name='delete.html'),
+        name='delete',
+    ),
 ]
