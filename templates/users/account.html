@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
-
 {% block content %}
-  <h1>{{ title }}</h1>
-  <p>{{ object.username }}</p>
+<!--======= Account Content =======-->
+<div>
+  <h4 class="card-title">{{ title }}</h4>
+
+  <!--=== Update/Delete User ===-->
+  <div class="pt-3">
+    <a href="{% url 'users:update' object.pk %}" class="btn btn-outline-primary btn-sm" type="button"> Обновить </a>
+    <a href="{% url 'users:delete' object.pk %}" class="btn btn-outline-danger btn-sm" type="button"> Удалить  </a>
+    {% include 'components/back_btn.html' %}
+  </div><!-- End Update/Delete User -->
+</div><!-- End Account Content -->
 {% endblock %}

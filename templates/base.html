@@ -4,19 +4,26 @@
 <html lang="en">
 
 <head>
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
 </head>
 
 <body class="container">
-  {% bootstrap_messages %}
-  <main>
-    {% block content %}
-    {% endblock %}
-  </main>
+  <div class="card">
+    <div class="card-header">
+      {% include 'components/navbar.html' %}
+      {% bootstrap_messages %}
+    </div>
+    <div class="card-body">
+      <main>
+        {% block content %}
+        {% endblock %}
+      </main>
+    </div>
+  </div>
 </body>
 
 </html>

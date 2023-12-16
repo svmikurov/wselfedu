@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
 {% block content %}
+<!--======== User Login Content =======-->
 <div class="">
-  <h4 class="card-title pb-3">Вы уверены, что хотите удалить "{{ object }}"?</h4>
+  <h5 class="card-title">{{ title }}</h5>
+
   <form method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
-    {% bootstrap_button btn_name button_type='submit' button_class='btn-outline-danger btn-sm' %}
+    <button type="submit" class="btn btn-outline-success btn-sm">Войти</button>
     {% include 'components/back_btn.html' %}
   </form>
-</div>
+</div><!-- End User Login Content -->
 {% endblock %}

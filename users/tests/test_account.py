@@ -5,7 +5,7 @@ from faker import Faker
 from faker.generator import Generator
 
 from contrib_app.contrib_test import flash_message_test
-from wselfedu.users.models import UserModel
+from users.models import UserModel
 
 
 class UserDetailTest(TestCase):
@@ -30,11 +30,11 @@ class UserDetailTest(TestCase):
 
         # Создаем url-адрес личного кабинета тестового пользователя
         self.url = reverse_lazy(
-            'user:detail',
+            'users:detail',
             kwargs={'pk': self.fake_user.pk}
         )
         self.redirect_no_permission = reverse_lazy('home')
-        self.message_no_permission = 'У вас нет разрешения на эти действия'
+        self.message_no_permission = 'Так не получится!'
 
     def test_get(self):
         """ Тест статуса личного кабинета """

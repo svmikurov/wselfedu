@@ -6,10 +6,9 @@ from django.urls import reverse_lazy
 
 class HandleNoPermissionMixin:
     """
-    Add a redirect url and a message,
-    if the user doesn't have permission.
+    Add a redirect url and a message, if the user doesn't have permission.
     """
-    message_no_permission = 'У вас нет разрешения на эти действия'
+    message_no_permission = 'Так не получится!'
     url_no_permission = reverse_lazy('home')
 
     def handle_no_permission(self):
@@ -18,10 +17,9 @@ class HandleNoPermissionMixin:
 
 
 class CheckUserForOwnershipAccountMixin(UserPassesTestMixin):
-    """
-    Check if the user has owner permission on account.
-    """
-    message_no_permission = 'У вас нет разрешения на эти действия'
+    """Check if the user has owner permission on account."""
+
+    message_no_permission = 'Так не получится!'
     url_no_permission = reverse_lazy('home')
 
     def authorship_check(self):
@@ -37,3 +35,27 @@ class CheckUserForOwnershipAccountMixin(UserPassesTestMixin):
 
     def get_test_func(self):
         return self.authorship_check
+
+
+class AccountOwnershipMixin(
+    HandleNoPermissionMixin,
+    CheckUserForOwnershipAccountMixin,
+):
+    pass
+
+
+class AddMessageToFormSubmissionMixin:
+    """Add a flash message on form submission."""
+
+    success_message = 'Успех!'
+    error_message = 'Не удалось!'
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, self.success_message)
+        return response
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        messages.error(self.request, self.error_message)
+        return response

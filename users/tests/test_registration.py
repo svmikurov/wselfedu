@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from faker import Faker
 
 from contrib_app.contrib_test import flash_message_test
-from wselfedu.users.models import UserModel
+from users.models import UserModel
 
 
 class RegistrationUserViewTest(TestCase):
@@ -18,9 +18,9 @@ class RegistrationUserViewTest(TestCase):
         Создаем данные пользователя.
         """
         self.client: Client = Client()
-        self.url: str = reverse_lazy('user:create')
-        self.redirect_url: str = reverse_lazy('home')
-        self.success_message: str = 'Вы успешно зарегистрировались'
+        self.url: str = reverse_lazy('users:create')
+        self.redirect_url: str = reverse_lazy('users:login')
+        self.success_message: str = 'Вы зарегистрировались'
 
         self.faker: Faker = Faker()
         self.fake_username: str = self.faker.user_name()

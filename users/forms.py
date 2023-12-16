@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 
-from wselfedu.users.models import UserModel
+from users.models import UserModel
 
 
 class UserRegistrationForm(UserCreationForm):
