@@ -12,7 +12,7 @@ urlpatterns = [
     ),
     path(
         'mult/',
-        views.MultTaskView.as_view(template_name='mathem/mult.html'),
+        views.MultTaskView.as_view(),
         name='mult',
     ),
 ]

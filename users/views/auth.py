@@ -24,6 +24,9 @@ class UserLoginView(
     AddMessageToFormSubmissionMixin,
     LoginView,
 ):
+    extra_context = {
+        'title': 'Вход в приложение',
+    }
     next_page = reverse_lazy('home')
     success_message = 'Вы вошли в приложение'
 
