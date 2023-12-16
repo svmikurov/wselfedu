@@ -3,8 +3,7 @@
 {% block content %}
 <!--======== User Login Content =======-->
 <div class="">
-  <h5 class="card-title">{{ title }}</h5>
-
+  {% include 'components/card_title.html' %}
   <form method="post">
     {% csrf_token %}
     {% bootstrap_form form %}

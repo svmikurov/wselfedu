@@ -2,8 +2,7 @@
 {% block content %}
 <!--======= Account Content =======-->
 <div>
-  <h4 class="card-title">{{ title }}</h4>
-
+  {% include 'components/card_title.html' %}
   <!--=== Update/Delete User ===-->
   <div class="pt-3">
     <a href="{% url 'users:update' object.pk %}" class="btn btn-outline-primary btn-sm" type="button"> Обновить </a>

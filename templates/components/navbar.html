@@ -23,7 +23,7 @@
         {% endif %}<!-- End User Account Link -->
 
         <!-- Tasks -->
-        <a id="mult-table-nav" class="nav-link" href="{% url 'home' %}">Математика</a>
+        <a id="mult-table-nav" class="nav-link" href="{% url 'math:home' %}">Математика</a>
         <a id="eng-nav" class="nav-link" href="{% url 'home' %}">Английский язык</a>
         {% if user.is_superuser %}
           <a id="dev-nav" class="nav-link" href="{% url 'home' %}">Определения</a>
