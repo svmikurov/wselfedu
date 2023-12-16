@@ -14,4 +14,9 @@ urlpatterns = [
         views.UserDetailView.as_view(template_name='users/account.html'),
         name='detail',
     ),
+    path(
+        '<pk>/update/',
+        views.UserUpdateView.as_view(template_name='form.html'),
+        name='update',
+    ),
 ]

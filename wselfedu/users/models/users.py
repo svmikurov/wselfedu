@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.urls import reverse_lazy
 
 
 class UserModel(AbstractUser):
@@ -9,3 +10,6 @@ class UserModel(AbstractUser):
 
     def __str__(self):
         return self.username
+
+    def get_absolute_url(self):
+        return reverse_lazy('user:detail', kwargs={'pk': self.pk})
