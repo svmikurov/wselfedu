@@ -5,6 +5,7 @@ staticfiles/
 htmlcov/
 
 *.sqlite3
+db*
 
 .env
 .coverage

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div><!--======= Content Of Academic Subject =======-->
+  {% include 'components/card_title.html' %}
+  <!--=== List Of Theoretical Chapters ===-->
+  {% if chapters %}
+    <nav class="nav flex-column">
+      {% for chapter, chapter_url in chapters.items %}
+        <a class="nav-link" href="{% url chapter_url %}">{{ chapter }}</a>
+      {% endfor %}
+    </nav>
+  {% endif %}<!--End List Of Theoretical Chapters -->
+
+  <!--=== List Of Solutions ===-->
+  {% if solutions %}
+    <nav class="nav flex-column">
+      {% for solution, solution_url in solutions.items %}
+        <a class="nav-link" href="{% url solution_url %}">{{ solution }}</a>
+      {% endfor %}
+    </nav>
+  {% endif %}<!--End List Of Solutions -->
+</div><!-- End Content Of Academic Subject -->
+{% endblock %}
