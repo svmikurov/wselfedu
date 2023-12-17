@@ -15,3 +15,6 @@ test-just:
 
 shell:
 	poetry run python manage.py shell_plus --ipython
+
+dry:
+	@$(MANAGE) makemigrations --dry-run
