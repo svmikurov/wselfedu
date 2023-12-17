@@ -1,0 +1,10 @@
+<!--======= Solution Timeout Script =======-->
+<script>
+  window.setTimeout(function () {
+    if ('{{ task_status }}' === 'question') {
+      location.href = "{% url next_url 'answer' %}";
+    } else {
+      location.href = "{% url next_url 'question' %}";
+    }
+  }, {{ timeout }});
+</script><!-- End Solution Timeout Script -->

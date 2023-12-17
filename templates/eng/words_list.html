@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="">
+
+  <!--======= Header =======-->
+  {% include 'components/card_title.html' %}
+  <div class="">
+    {% if user.is_superuser %}
+      <p class="h4"><a href="{% url 'eng:word_create' %}">Добавить слово</a></p>
+    {% endif %}
+  </div><!-- End Header -->
+
+  <div class="card-body">
+    {% include 'components/words_filter.html' %}
+
+    <!--======= Words Table =======-->
+    <div class="py-3">
+      {% include 'components/pagination.html' %}
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-info">
+
+        <thead class="table-primary">
+          <tr>
+            <th>ID</th>
+            <th>Слово по-английски</th>
+            <th>Слово по-русски</th>
+            <th>Категория</th>
+            {% if user.is_superuser %}
+              <th>Урок</th>
+              <th>Источник</th>
+              <th></th>
+            {% endif %}
+          </tr>
+        </thead>
+
+        <tbody>
+        {% for word in words %}
+          <tr>
+            <td class="table-primary">{{ word.pk }}</td>
+            <td>{{ word.words_eng }}</td>
+            <td>{{ word.words_rus }}</td>
+            <td>{% if word.category %}{{ word.category }}{% endif %}</td>
+            {% if user.is_superuser %}
+              <td class="text-nowrap">{% if word.lesson %}{{ word.lesson }}{% endif %}</td>
+              <td class="text-nowrap">{% if word.source %}{{ word.source }}{% endif %}</td>
+              <td class="text-nowrap">
+                <a href="{% url 'eng:words_update' word.pk %}">Изменить</a> /
+                <a href="{% url 'eng:words_delete' word.pk %}">Удалить</a>
+              </td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+        </tbody>
+
+      </table>
+      {% include 'components/pagination.html' %}
+    </div><!-- End Words Table -->
+
+  </div>
+</div>
+{% endblock %}

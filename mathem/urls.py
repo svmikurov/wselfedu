@@ -7,7 +7,7 @@ app_name = 'math'
 urlpatterns = [
     path(
         '',
-        views.HomeView.as_view(template_name='mathem/home.html'),
+        views.HomeView.as_view(template_name='table_of_contents.html'),
         name='home',
     ),
     path(

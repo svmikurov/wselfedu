@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="">
+
+  {% include 'components/card_title.html' %}
+
+  <div class="card-header">
+    <h1><a href="{% url 'eng:home' %}">{{ supertitle }}</a></h1>
+    <ul class="list-unstyled ps-3">
+      <li class="pb-1"><a class="h5" href="{% url 'eng:word_list' %}">Список слов</a></li>
+      <li class=""><a class="h5" href="{% url 'eng:word_create' %}">Добавить слово</a></li>
+    </ul>
+    <p class="h6">Категория: {{ category }}</p>
+    <p class="h6">Источник: {{ source }}</p>
+  </div>
+
+  <!--======= Solution =======-->
+  <div class="">
+    <h3 class="mb-3">Вопрос:</h3>
+    <h4><mark>{{ task.question }}</mark></h4>
+
+    <h3 class="mb-3">Ответ:</h3>
+    <h4><mark>
+      {% if task_status == 'answer' %}
+        {{ task.answer }}
+      {% endif %}
+    </mark></h4>
+  </div><!-- End Solution -->
+
+</div>
+{% include 'components/jscripts/timeout_jscript.html' %}
+{% endblock %}

@@ -23,10 +23,10 @@
         {% endif %}<!-- End User Account Link -->
 
         <!-- Tasks -->
-        <a id="mult-table-nav" class="nav-link" href="{% url 'math:home' %}">Математика</a>
-        <a id="eng-nav" class="nav-link" href="{% url 'home' %}">Английский язык</a>
+        <a href="{% url 'math:home' %}" class="nav-link">Математика</a>
+        <a href="{% url 'eng:home' %}" class="nav-link" >Английский язык</a>
         {% if user.is_superuser %}
-          <a id="dev-nav" class="nav-link" href="{% url 'home' %}">Определения</a>
+          <a href="{% url 'home' %}" class="nav-link">Определения</a>
         {% endif %}<!-- End Tasks -->
 
         <!-- Authentication -->

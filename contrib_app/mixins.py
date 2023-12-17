@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.db.models import ProtectedError
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
@@ -45,6 +46,25 @@ class AccountOwnershipMixin(
     Check if the user has owner permission on account.
     Add a redirect url and a message, if the user doesn't have permission.
     """
+    pass
+
+
+class UserPassesTestAdminMixin(UserPassesTestMixin):
+    """
+    Check current user for admin permissions.
+    """
+    message = 'К сожалению, вы пока не можете сделать это'
+
+    def admin_check(self):
+        if self.request.user.is_superuser:
+            return True
+        else:
+            self.message_no_permission = self.message
+            # self.url_no_permission = reverse_lazy('home')
+            return False
+
+    def get_test_func(self):
+        return self.admin_check
 
 
 class AddMessageToFormSubmissionMixin:
@@ -62,3 +82,22 @@ class AddMessageToFormSubmissionMixin:
         response = super().form_invalid(form)
         messages.error(self.request, self.error_message)
         return response
+
+
+class RedirectForModelObjectDeleteErrorMixin:
+    """
+    Add protected_redirect_url when raise ProtectedError.
+    Add protected_message when raise ProtectedError.
+    """
+    protected_redirect_url = 'home'
+    protected_message = (
+        'Невозможно удалить этот объект, '
+        'так как он используется в другом месте приложения'
+    )
+
+    def post(self, request, *args, **kwargs):
+        try:
+            return super().post(request, *args, **kwargs)
+        except ProtectedError:
+            messages.error(request, self.protected_message)
+            return redirect(self.protected_redirect_url)

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="">
+
+  {% include 'components/card_title.html' %}
+
+  <div class="card-body">
+    <form action="{% url 'eng:repetition' task_status %}" method="get">
+      {% csrf_token %}
+
+      <div class="pb-3">
+        <p class="h5">Выбери категорию</p>
+        <select class="form-select" name="selected_category">
+          <option value="{{ default_category_id }}" selected>{{ default_category }}</option>
+          {% for category in categories %}
+            <option value="{{ category.id }}">{{ category.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="pb-3">
+        <p class="h5">Выбери источник</p>
+        <select class="form-select" name="selected_source">
+          <option value="{{ default_source_id }}" selected>{{ default_source }}</option>
+          {% for source in sources %}
+            <option value="{{ source.id }}">{{ source.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="">
+        <button class="btn btn-primary">{{ btn_name }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -2,7 +2,9 @@
 
 {% block content %}
 <div><!--======= Content Of Academic Subject =======-->
+
   {% include 'components/card_title.html' %}
+
   <!--=== List Of Theoretical Chapters ===-->
   {% if chapters %}
     <nav class="nav flex-column">
@@ -20,5 +22,6 @@
       {% endfor %}
     </nav>
   {% endif %}<!--End List Of Solutions -->
+
 </div><!-- End Content Of Academic Subject -->
 {% endblock %}
