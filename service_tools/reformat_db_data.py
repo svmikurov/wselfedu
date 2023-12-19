@@ -1,7 +1,9 @@
 """
-Этот модуль в выгруженном файле *.json
+В выгруженном файле *.json
 из базы данных
 заменяет НАИМЕНОВАНИЕ ТАБЛИЦЫ.
+
+Может быть изменен по мере возникновения новых задач.
 """
 
 import json
@@ -29,7 +31,7 @@ def reformat_file_data(dict_path: str):
     """
     Replaces the model name
     in the uploaded file from the database.
-    Create a new *.json.
+    Save updated data to new *.json.
     """
     loaded_data: dict = open_file(dict_path)
     new_data: list[dict] = []
