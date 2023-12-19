@@ -1,11 +1,14 @@
 .venv/
 .idea/
+.ipynb_checkpoints/
 __pycache__/
-staticfiles/
 htmlcov/
+staticfiles/
+wiki/
+
+.coverage
+.env
+service_tools/tempt.py
 
 *.sqlite3
 db*
-
-.env
-.coverage
