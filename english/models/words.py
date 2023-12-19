@@ -56,7 +56,7 @@ class WordModel(models.Model):
 
     class Meta:
         verbose_name = 'Англо-русский словарь'
-        verbose_name_plural = 'Англо-русские словари'
+        verbose_name_plural = 'Англо-русский словарь'
 
 
 class WordLabelRelation(models.Model):
