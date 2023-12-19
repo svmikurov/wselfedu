@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    # installed
     'django_extensions',
     'django_bootstrap5',
     'django_filters',
@@ -124,8 +124,23 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
-
 STATIC_URL = 'static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_DIRS = [
+    # "/home/special.polls.com/polls/static",
+]
+
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/'
+# End static
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -134,3 +149,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Bootstrap
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+
+# For configuration jupiter notebook
+# https://docs.djangoproject.com/en/5.0/topics/async/#envvar-DJANGO_ALLOW_ASYNC_UNSAFE
+if DEBUG:
+    os.environ['DJANGO_ALLOW_ASYNC_UNSAFE'] = 'true'
