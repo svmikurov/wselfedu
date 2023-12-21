@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 from english.models.categories import CategoryModel
 from english.models.labels import LabelModel
@@ -51,8 +52,8 @@ class WordModel(models.Model):
         verbose_name='Метки',
         related_name='labels',
     )
-    created_at = models.DateField(auto_now_add=True)
-    updated_at = models.DateField(auto_now=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
         verbose_name = 'Англо-русский словарь'

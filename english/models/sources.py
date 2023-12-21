@@ -3,9 +3,10 @@ from django.db import models
 
 class SourceModel(models.Model):
     name = models.CharField(
-        max_length=30,
+        max_length=50,
         blank=False, null=False,
         verbose_name='Источник',
+        help_text='Не более 50 символов',
     )
     url = models.URLField(
         max_length=255,
