@@ -1,7 +1,8 @@
-.venv/
 .idea/
 .ipynb_checkpoints/
+.venv/
 __pycache__/
+dev_local/
 htmlcov/
 staticfiles/
 wiki/
