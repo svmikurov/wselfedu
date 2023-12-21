@@ -33,15 +33,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # installed
+    # Installed packages
     'django_extensions',
     'django_bootstrap5',
-    'django_filters',
-    # set crispy_forms and crispy_bootstrap5 together
-    # set CRISPY_TEMPLATE_PACK = "bootstrap5"
     'crispy_forms',
     'crispy_bootstrap5',
-
+    'django_filters',
+    # Project applications
     'english',
     'mathem',
     'users',
@@ -87,6 +85,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+# End Database
 
 # Authentication
 AUTH_USER_MODEL = 'users.UserModel'
@@ -140,18 +139,25 @@ STATICFILES_FINDERS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
-# End static
+# End static files
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
 # Bootstrap
+# https://pypi.org/project/crispy-bootstrap5/
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+# End Bootstrap
 
 
 # For configuration jupiter notebook
 # https://docs.djangoproject.com/en/5.0/topics/async/#envvar-DJANGO_ALLOW_ASYNC_UNSAFE
 if DEBUG:
     os.environ['DJANGO_ALLOW_ASYNC_UNSAFE'] = 'true'
+# End For configuration jupiter notebook
