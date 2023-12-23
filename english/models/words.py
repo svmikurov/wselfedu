@@ -11,6 +11,22 @@ from users.models import UserModel
 class WordModel(models.Model):
     """Англо-русский словарь"""
 
+    # Количество слов для перевода, может быть словом, словосочетанием,
+    # частью предложения, целым предложением.
+    NOT_CHOICE_WORD_COUNT = 'NC'
+    ONE_WORD = 'OW'
+    COMBINATION = 'CB'
+    PART_SENTENCE = 'PS'
+    SENTENCE = 'ST'
+
+    WORD_COUNT = [
+        ('NC', 'Любое количество слов'),
+        ('OW', 'Слово'),
+        ('CB', 'Словосочетание'),
+        ('PS', 'Часть предложения'),
+        ('ST', 'Предложение'),
+    ]
+
     user = models.ForeignKey(
         UserModel,
         on_delete=models.CASCADE,
@@ -38,6 +54,13 @@ class WordModel(models.Model):
         on_delete=models.PROTECT,
         null=True, blank=True,
         verbose_name='Категория',
+    )
+    # https://docs.djangoproject.com/en/4.2/ref/models/fields/#choices
+    word_count = models.CharField(
+        max_length=2,
+        choices=WORD_COUNT,
+        default=NOT_CHOICE_WORD_COUNT,
+        verbose_name='Количество слов',
     )
     lesson = models.ForeignKey(
         LessonModel,
