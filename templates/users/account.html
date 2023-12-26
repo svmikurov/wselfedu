@@ -6,8 +6,8 @@
   {% include 'components/card_title.html' %}
   <!--=== Update/Delete User ===-->
   <div class="pt-3">
-    <a href="{% url 'users:update' object.pk %}" class="btn btn-outline-primary btn-sm" type="button"> Обновить </a>
-    <a href="{% url 'users:delete' object.pk %}" class="btn btn-outline-danger btn-sm" type="button"> Удалить  </a>
+    <a href="{% url 'users:update' object.pk %}" class="btn btn-outline-primary btn-sm m-1" type="button">Обновить</a>
+    <a href="{% url 'users:delete' object.pk %}" class="btn btn-outline-danger btn-sm m-1" type="button">Удалить</a>
     {% include 'components/back_btn.html' %}
   </div><!-- End Update/Delete User -->
 </div><!-- End Account Content -->

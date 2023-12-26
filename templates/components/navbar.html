@@ -22,12 +22,12 @@
           <a id="user-nav" class="nav-link" href="{% url 'users:detail' user.pk %}" tabindex="-1" aria-disabled="true">Личный кабинет: {{ user }}</a>
         {% endif %}<!-- End For authorized users -->
 
-        <!-- Tasks -->
+        <!-- Chapters -->
         <a href="{% url 'mathem:home' %}" class="nav-link">Математика</a>
         <a href="{% url 'eng:home' %}" class="nav-link" >Английский язык</a>
         {% if user.is_superuser %}
           <a href="{% url 'home' %}" class="nav-link">Определения</a>
-        {% endif %}<!-- End Tasks -->
+        {% endif %}<!-- End Chapters -->
 
         <!-- Authentication -->
         {% if user.is_authenticated %}
