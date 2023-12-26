@@ -54,6 +54,7 @@ class WordModel(models.Model):
         on_delete=models.PROTECT,
         null=True, blank=True,
         verbose_name='Категория',
+        default=CategoryModel.objects.get(pk=8).pk
     )
     # https://docs.djangoproject.com/en/4.2/ref/models/fields/#choices
     word_count = models.CharField(

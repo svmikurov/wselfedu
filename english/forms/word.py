@@ -11,7 +11,6 @@ class WordForm(ModelForm):
             'words_eng',
             'words_rus',
             'category',
-            'lesson',
             'source',
-            'labels',
+            'word_count',
         )
