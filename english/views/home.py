@@ -12,7 +12,6 @@ class HomeEnglishView(TemplateView):
     # Theoretical Chapters
     chapters = {
         'Словарь': 'eng:word_list',
-        'Добавить слово': 'eng:word_create',
     }
 
     # Solutions
@@ -26,3 +25,12 @@ class HomeEnglishView(TemplateView):
         'chapters': chapters,
         'solutions': solutions,
     }
+
+    def add_for_admin(self, request, kwargs):
+        """Enable chapters if user is an admin"""
+        if request.user.is_superuser:
+            self.chapters.update(
+                {
+                    'Добавить слово': 'eng:word_create',
+                }
+            )
