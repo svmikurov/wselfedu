@@ -6,12 +6,9 @@
 <div class="">
 
   <!--======= Header =======-->
+  {% include 'components/navbar_adding.html' %}
   {% include 'components/card_title.html' %}
-  <div class="">
-    {% if user.is_superuser %}
-      <p class="h4"><a href="{% url 'eng:word_create' %}">Добавить слово</a></p>
-    {% endif %}
-  </div><!-- End Header -->
+  <!-- End Header -->
 
   <div class="card-body">
     {% include 'components/words_filter.html' %}

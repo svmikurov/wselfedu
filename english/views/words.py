@@ -30,8 +30,13 @@ class WordListView(
     context_object_name = 'words'
     filterset_class = WordsFilter
     paginate_by = PAGINATE_NUMBER
+
+    additional_admin_navigation = {
+        'Добавить слово': 'eng:word_create'
+    }
     extra_context = {
         'title': 'Список слов',
+        'additional_admin_navigation': additional_admin_navigation,
     }
 
 
@@ -44,10 +49,19 @@ class WordCreateView(
     form_class = WordForm
     template_name = 'form.html'
     success_url = reverse_lazy('eng:word_create')
+
+    additional_admin_navigation = {
+        # 'Словарь': 'eng:word_list'
+    }
+    additional_user_navigation = {
+        'Словарь': 'eng:word_list'
+    }
     extra_context = {
         'title': 'Добавить слово',
         'btn_name': 'Добавить',
         'list_items': LIST_ITEMS,
+        'additional_admin_navigation': additional_admin_navigation,
+        'additional_user_navigation': additional_user_navigation,
     }
 
     success_message = 'Слово успешно добавлено'

@@ -1,0 +1,17 @@
+<!--======= Additional navigation =======-->
+<div class="h5 ps-2 pb-2">
+  <div class="">
+  {% if additional_admin_navigation %}
+    {% for nav_name, nav_url in additional_admin_navigation.items %}
+      <a class="" href="{% url nav_url %}">{{ nav_name }}</a>
+    {% endfor %}
+  {% endif %}
+  </div>
+  <div class="">
+    {% if additional_user_navigation %}
+      {% for nav_name, nav_url in additional_user_navigation.items %}
+        <a class="" href="{% url nav_url %}">{{ nav_name }}</a>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div><!-- End Additional navigation -->
