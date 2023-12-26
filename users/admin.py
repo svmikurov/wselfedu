@@ -22,4 +22,4 @@ class CategoryModelAdmin(admin.ModelAdmin):
 @admin.register(WordModel)
 class WordModelAdmin(admin.ModelAdmin):
     list_display = ['words_eng', 'words_rus', 'source',
-                    'word_count',  'created_at']
+                    'word_count', 'created_at']
