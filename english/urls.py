@@ -6,7 +6,7 @@ app_name = 'eng'
 urlpatterns = [
     path(
         '',
-        views.HomeEnglishView.as_view(template_name='table_of_contents.html'),
+        views.HomeEnglishView.as_view(),
         name='home',
     ),
     path(

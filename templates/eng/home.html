@@ -12,18 +12,16 @@
     <div class="card-title">
       <h5>Упражнения</h5>
       <ul class="list-unstyled ps-3">
-        <li class="py-1"><a href="{% url 'eng:test' %}">Тест</a></li>
-        <li class="py-1"><a href="{% url 'eng:start_repetition' %}">Начать упражнение</a></li>
+        <li class="py-1"><a href="{% url 'eng:start_repetition' %}">Повторить слова</a></li>
       </ul>
     </div>
 
     <div>
       <h5>Словарь</h5>
       <ul class="list-unstyled ps-3">
-          <li class="py-1"><a href="{% url 'eng:words_list' %}">Список слов</a></li>
+          <li class="py-1"><a href="{% url 'eng:word_list' %}">Список слов</a></li>
         {% if user.is_superuser %}
-          <li class="py-1"><a href="{% url 'eng:categories_list' %}">Список категорий</a></li>
-          <li class="py-1"><a href="{% url 'eng:sources_list' %}">Список источников</a></li>
+          <li class="py-1"><a href="{% url 'eng:word_create' %}">Добавить слово</a></li>
         {% endif %}
       </ul>
     </div>

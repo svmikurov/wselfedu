@@ -38,7 +38,7 @@ class MultTaskView(MultTask, View):
             user_answer = form.cleaned_data.get('user_answer')
             if str(user_answer) == str(correct_answer):
                 messages.success(request, SUCCESS_MESSAGE)
-                return redirect(reverse_lazy('math:mult'))
+                return redirect(reverse_lazy('mathem:mult'))
 
         # Repeats the question
         # if the answer is incorrect or the answer is not above

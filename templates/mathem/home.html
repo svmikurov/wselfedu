@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card bg-light">
+
+  <div class="card-header">
+    <h1>{{ title }}</h1>
+  </div>
+
+  <div class="card-body">
+
+    <div class="card-title">
+      <h5>Упражнения</h5>
+      <ul class="list-unstyled ps-3">
+        <li class="py-1"><a href="{% url 'mathem:mult' %}">Таблица умножения</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

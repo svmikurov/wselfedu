@@ -2,7 +2,7 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-<div class="">
+<div class="card">
   {% include 'components/card_title.html' %}
 
   <div class="">
@@ -10,7 +10,7 @@
   </div>
 
   <!-- Answer form -->
-  <form action="{% url 'math:mult' %}" method="post">
+  <form action="{% url 'mathem:mult' %}" method="post">
     {% csrf_token %}
     <div class="text-center">
       <input class="text-center w-25 p-2" name="user_answer" value="{{ user_answer }}" type="text" style="font-size: 3rem"  autofocus>

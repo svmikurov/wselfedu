@@ -2,12 +2,12 @@ from django.urls import path
 
 from . import views
 
-app_name = 'math'
+app_name = 'mathem'
 
 urlpatterns = [
     path(
         '',
-        views.HomeView.as_view(template_name='table_of_contents.html'),
+        views.HomeView.as_view(),
         name='home',
     ),
     path(
