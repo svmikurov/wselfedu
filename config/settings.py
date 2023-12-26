@@ -19,6 +19,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = [
+    'd45400kr.beget.tech',
+    'www.d45400kr.beget.tech',
     '127.0.0.1',
     'localhost',
 ]
@@ -40,9 +42,9 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'django_filters',
     # Project applications
-    'english',
-    'mathem',
-    'users',
+    'english.apps.EnglishConfig',
+    'mathem.apps.MathemConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
