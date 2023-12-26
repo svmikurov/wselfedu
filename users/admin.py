@@ -21,4 +21,5 @@ class CategoryModelAdmin(admin.ModelAdmin):
 
 @admin.register(WordModel)
 class WordModelAdmin(admin.ModelAdmin):
-    list_display = ['words_eng', 'words_rus', 'source', 'created_at']
+    list_display = ['words_eng', 'words_rus', 'source',
+                    'word_count',  'created_at']

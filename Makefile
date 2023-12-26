@@ -2,7 +2,7 @@ MANAGE := poetry run python manage.py
 TEST_JUST := wselfedu.users.tests.test_account
 
 start:
-	@$(MANAGE) runserver
+	@$(MANAGE) runserver 0.0.0.0:8001
 
 lint:
 	poetry run flake8

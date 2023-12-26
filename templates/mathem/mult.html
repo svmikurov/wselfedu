@@ -9,6 +9,7 @@
     <p class="text-center" style="font-size: 3rem">{{ text_task }}</p>
   </div>
 
+  <!-- Answer form -->
   <form action="{% url 'math:mult' %}" method="post">
     {% csrf_token %}
     <div class="text-center">
@@ -17,7 +18,7 @@
     <div class="text-center p-3">
       <button type="submit" class="btn btn-primary">Проверить</button>
     </div>
-  </form>
+  </form><!-- End Answer form -->
 
 </div>
 {% endblock %}

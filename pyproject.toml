@@ -13,13 +13,13 @@ django = "4.2.6"
 django-filter = "^23.5"
 django-crispy-forms = "^2.1"
 crispy-bootstrap5 = "^2023.10"
+django-extensions = "^3.2.3"
 
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^6.1.0"
 faker = "^21.0.0"
 coverage = "^7.3.3"
-django-etensions = "^3.2.3"
 ipython = "^8.18.1"
 notebook = "6.5.6"
 
