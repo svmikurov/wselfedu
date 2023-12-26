@@ -9,20 +9,24 @@
   <title>{{ title }}</title>
   {% bootstrap_css %}
   {% bootstrap_javascript %}
+  <style>
+    .main {
+      margin-top: 70px; /* Add a top margin to avoid content overlay */
+    }
+  </style>
 </head>
 
-<body class="container">
-  <div class="card">
-    <div class="card-header">
-      {% include 'components/navbar.html' %}
-      {% bootstrap_messages %}
-    </div>
+<body>
+  <header>
+    {% include 'components/navbar.html' %}
+  </header>
+    {% bootstrap_messages %}
+  <main class="container main">
     <div class="card-body">
-      <main>
-        {% block content %}
-        {% endblock %}
-      </main>
+      {% block content %}
+      {% endblock %}
     </div>
+  </main>
   </div>
 </body>
 
