@@ -4,18 +4,19 @@
 
 {% block content %}
 <div class="">
+  <!-- Additional Navigation -->
+  <div class="row row-cols-2 row-cols-sm-2 row-cols-md-4 row-cols-lg-6">
+    <a class="col h5" href="{% url 'eng:word_list' %}">Словарь</a>
+    <a class="col h5" href="{% url 'eng:word_create' %}">Добавить</a>
+  </div><!-- End Additional Navigation -->
 
   {% include 'components/card_title.html' %}
 
+  <!-- Show selected word criteria -->
   <div class="card-header">
-    <h1><a href="{% url 'eng:home' %}">{{ supertitle }}</a></h1>
-    <ul class="list-unstyled ps-3">
-      <li class="pb-1"><a class="h5" href="{% url 'eng:word_list' %}">Список слов</a></li>
-      <li class=""><a class="h5" href="{% url 'eng:word_create' %}">Добавить слово</a></li>
-    </ul>
     <p class="h6">Категория: {{ category }}</p>
     <p class="h6">Источник: {{ source }}</p>
-  </div>
+  </div><!-- End Show selected word criteria -->
 
   <!--======= Solution =======-->
   <div class="">
