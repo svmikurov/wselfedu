@@ -34,12 +34,12 @@ class WordModel(models.Model):
         related_name='vocabulary_added_by_user',
     )
     words_eng = models.CharField(
-        max_length=70,
+        max_length=75,
         null=False, blank=False,
         verbose_name='Слово на английском',
     )
     words_rus = models.CharField(
-        max_length=70,
+        max_length=75,
         null=False, blank=False,
         verbose_name='Слово на русском',
     )
