@@ -96,8 +96,8 @@ class RepetitionWordsView(View):
 
         context = {
             'title': TITLE,
-            'category': category_name,
-            'source': source_name,
+            # 'category': category_name,    # temporarily not used
+            # 'source': source_name,        # temporarily not used
             'task_status': task_status,
             'task': task,
             'timeout': timeout,

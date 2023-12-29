@@ -76,6 +76,13 @@ class WordModel(models.Model):
         verbose_name='Метки',
         related_name='labels',
     )
+    # A field that displays how the user rates his knowledge of this word
+    knowledge_assessment = models.ManyToManyField(
+        UserModel,
+        through='WordUserKnowledgeRelation',
+        blank=True,
+        related_name='knowledge_assessment',
+    )
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
 
@@ -87,3 +94,12 @@ class WordModel(models.Model):
 class WordLabelRelation(models.Model):
     word = models.ForeignKey(WordModel, on_delete=models.CASCADE)
     label = models.ForeignKey(LabelModel, on_delete=models.CASCADE)
+
+
+class WordUserKnowledgeRelation(models.Model):
+    word = models.ForeignKey(WordModel, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    knowledge_assessment = models.DecimalField(
+        max_digits=2,
+        decimal_places=0,
+    )
