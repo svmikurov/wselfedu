@@ -7,6 +7,9 @@ The language of the question word is also displayed in random order.
 A timeout is set between displays.
 The solution continues until it is interrupted.
 """
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -17,16 +20,18 @@ from django.views.generic import TemplateView
 from english.models import (
     CategoryModel,
     SourceModel,
+    WordModel, WordUserKnowledgeRelation,
 )
 from english.tasks.repetition_task import create_task
+from users.models import UserModel
 
 TITLE = 'Переведи слова'
 DEFAULT_CATEGORY = 'Все категории'
 DEFAULT_CATEGORY_ID = 0
 DEFAULT_SOURCE = 'Учебник'
 DEFAULT_SOURCE_ID = 1
-QUESTION_TIMEOUT = 8000     # ms
-ANSWER_TIMEOUT = 8000       # ms
+QUESTION_TIMEOUT = 2000  # ms
+ANSWER_TIMEOUT = 2000  # ms
 BTN_NAME = 'Начать'
 
 INDEX_ERROR_MESSAGE = 'Ничего не найдено, попробуйте другие варианты'
@@ -58,6 +63,7 @@ class StartRepetitionWordsView(TemplateView):
 
 class RepetitionWordsView(View):
     def get(self, request, *args, **kwargs):
+        user_id = self.request.user.id
         task_status: str = kwargs.get('task_status')
         selected_category = request.GET.get('selected_category')
         selected_source = request.GET.get('selected_source')
@@ -77,6 +83,7 @@ class RepetitionWordsView(View):
         if task_status == 'question':
             try:
                 task = create_task(
+                    user_id,
                     selected_category,
                     is_category_selected,
                     selected_source,
@@ -91,17 +98,52 @@ class RepetitionWordsView(View):
             task = request.session['task']
             timeout = ANSWER_TIMEOUT
 
-        category_name = CategoryModel.objects.get(pk=selected_category).name
-        source_name = SourceModel.objects.get(pk=selected_source).name
+        word_id = task.get('word_id', '')
+
+        knowledge_assessment_obj, is_create = (
+            WordUserKnowledgeRelation.objects.get_or_create(
+                word=WordModel.objects.get(pk=word_id),
+                user=UserModel.objects.get(pk=user_id),
+            )
+        )
+        knowledge_assessment = knowledge_assessment_obj.knowledge_assessment
 
         context = {
             'title': TITLE,
-            # 'category': category_name,    # temporarily not used
-            # 'source': source_name,        # temporarily not used
             'task_status': task_status,
             'task': task,
             'timeout': timeout,
             'next_url': 'eng:repetition',
+            'knowledge_assessment': knowledge_assessment,
         }
 
         return render(request, 'eng/tasks/repetition.html', context)
+
+
+def knowledge_assessment_view(request, *args, **kwargs):
+    """Изменяет в модели WordUserKnowledgeRelation значение поля
+    knowledge_assessment (самооценки пользователя знания слова)"""
+    data = request.POST
+    current_word_assessment = data['knowledge_assessment']
+    word_pk = kwargs['word_id']
+    user_pk = request.user.pk
+
+    if request.user.is_authenticated:
+        knowledge_assessment_obj, is_create = (
+            WordUserKnowledgeRelation.objects.get_or_create(
+                word=WordModel.objects.get(pk=word_pk),
+                user=UserModel.objects.get(pk=user_pk),
+            )
+        )
+
+        assessment = int(knowledge_assessment_obj.knowledge_assessment)
+        assessment += int(current_word_assessment)
+        knowledge_assessment_obj.knowledge_assessment = assessment
+        knowledge_assessment_obj.save()
+
+    return redirect(
+        reverse_lazy(
+            'eng:repetition',
+            kwargs={'task_status': 'question'}
+        )
+    )

@@ -20,6 +20,11 @@ urlpatterns = [
         name='repetition',
     ),
     path(
+        'knowledge_assessment/<int:word_id>/',
+        views.knowledge_assessment_view,
+        name='knowledge_assessment',
+    ),
+    path(
         'test/',
         views.TestWordView.as_view(),
         name='test',

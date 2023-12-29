@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% load django_bootstrap5 %}
 
 {% block content %}
@@ -12,11 +11,20 @@
 
   {% include 'components/card_title.html' %}
 
-  <!-- Show selected word criteria -->
-  <div class="card-header">
-    <p class="h6">Категория: {{ category }}</p>
-    <p class="h6">Источник: {{ source }}</p>
-  </div><!-- End Show selected word criteria -->
+  <!-- User rating of word knowledge -->
+  {% if user.is_authenticated %}
+    <div class="">
+      <form action="{% url 'eng:knowledge_assessment' task.word_id %}" method="post">
+        <div class="row">
+          {% csrf_token %}
+          <p class="col d-inline mx-1" >Уровень: {{ knowledge_assessment }}</p>
+          <button class="col d-inline mx-1 bg-primary text-white" name="knowledge_assessment" value="+1" style="height:30px; width:80px">Знаю</button>
+          <button class="col d-inline mx-1 bg-primary text-white" name="knowledge_assessment" value="-1" style="height:30px; width:80px">Не знаю</button>
+        </div>
+      </form>
+    </div>
+  {% endif %}
+  <!-- End User rating of word knowledge -->
 
   <!--======= Solution =======-->
   <div class="">
@@ -30,7 +38,7 @@
       {% endif %}
     </mark></h4>
   </div><!-- End Solution -->
-
 </div>
+
 {% include 'components/jscripts/timeout_jscript.html' %}
 {% endblock %}

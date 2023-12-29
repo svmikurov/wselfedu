@@ -19,6 +19,7 @@ class SourceModel(models.Model):
     class Meta:
         verbose_name = 'Источник'
         verbose_name_plural = 'Источники'
+        ordering = ['name']
 
     def __str__(self):
         return self.name

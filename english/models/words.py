@@ -47,6 +47,7 @@ class WordModel(models.Model):
         SourceModel,
         on_delete=models.PROTECT,
         null=True, blank=True,
+        related_name='get_source',
         verbose_name='Источник',
     )
     category = models.ForeignKey(
@@ -81,7 +82,6 @@ class WordModel(models.Model):
         UserModel,
         through='WordUserKnowledgeRelation',
         blank=True,
-        related_name='knowledge_assessment',
     )
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
@@ -89,6 +89,10 @@ class WordModel(models.Model):
     class Meta:
         verbose_name = 'Англо-русский словарь'
         verbose_name_plural = 'Англо-русский словарь'
+        ordering = ['words_eng']
+
+    def __str__(self):
+        return self.words_eng
 
 
 class WordLabelRelation(models.Model):
@@ -102,4 +106,5 @@ class WordUserKnowledgeRelation(models.Model):
     knowledge_assessment = models.DecimalField(
         max_digits=2,
         decimal_places=0,
+        default=0,
     )
