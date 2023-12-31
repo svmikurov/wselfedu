@@ -103,7 +103,7 @@ class WordDeleteView(
 ):
     model = WordModel
     template_name = 'delete.html'
-    success_url = reverse_lazy('eng:words_list')
+    success_url = reverse_lazy('eng:word_list')
     extra_context = {
         'title': 'Удаление слова',
         'btn_name': 'Удалить',

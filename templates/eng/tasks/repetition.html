@@ -18,8 +18,8 @@
         <div class="row">
           {% csrf_token %}
           <p class="col d-inline mx-1" >Уровень: {{ knowledge_assessment }}</p>
-          <button class="col d-inline mx-1 bg-primary text-white" name="knowledge_assessment" value="+1" style="height:30px; width:80px">Знаю</button>
-          <button class="col d-inline mx-1 bg-primary text-white" name="knowledge_assessment" value="-1" style="height:30px; width:80px">Не знаю</button>
+          <button class="col d-inline mx-1 bg-primary text-white" name="knowledge_assessment" value="+1" style="height:40px; width:80px">Знаю</button>
+          <button class="col d-inline mx-1 bg-primary text-white" name="knowledge_assessment" value="-1" style="height:40px; width:80px">Не знаю</button>
         </div>
       </form>
     </div>
@@ -28,11 +28,13 @@
 
   <!--======= Solution =======-->
   <div class="">
-    <h3 class="mb-3">Вопрос:</h3>
-    <h4><mark>{{ task.question }}</mark></h4>
+    <h6 class="mb-3">Вопрос:</h6>
+    <h4 style="line-height:1.4">
+      <a href="{% url 'eng:words_update' word_id %}"><mark>{{ task.question }}</mark></a>
+    </h4>
 
-    <h3 class="mb-3">Ответ:</h3>
-    <h4><mark>
+    <h6 class="mb-3">Ответ:</h6>
+    <h4 style="line-height:1.4"><mark>
       {% if task_status == 'answer' %}
         {{ task.answer }}
       {% endif %}

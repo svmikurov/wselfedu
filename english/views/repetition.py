@@ -9,8 +9,6 @@ The solution continues until it is interrupted.
 """
 import logging
 
-logging.basicConfig(level=logging.INFO)
-
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -25,13 +23,15 @@ from english.models import (
 from english.tasks.repetition_task import create_task
 from users.models import UserModel
 
+logging.basicConfig(level=logging.INFO)
+
 TITLE = 'Переведи слова'
 DEFAULT_CATEGORY = 'Все категории'
 DEFAULT_CATEGORY_ID = 0
 DEFAULT_SOURCE = 'Учебник'
 DEFAULT_SOURCE_ID = 1
-QUESTION_TIMEOUT = 2000  # ms
-ANSWER_TIMEOUT = 2000  # ms
+QUESTION_TIMEOUT = 7000  # ms
+ANSWER_TIMEOUT = 7000  # ms
 BTN_NAME = 'Начать'
 
 INDEX_ERROR_MESSAGE = 'Ничего не найдено, попробуйте другие варианты'
@@ -75,17 +75,11 @@ class RepetitionWordsView(View):
             selected_category = request.session['selected_category']
             selected_source = request.session['selected_source']
 
-        if selected_category == 0:
-            is_category_selected = False
-        else:
-            is_category_selected = True
-
         if task_status == 'question':
             try:
                 task = create_task(
                     user_id,
                     selected_category,
-                    is_category_selected,
                     selected_source,
                 )
             except IndexError:
@@ -100,6 +94,7 @@ class RepetitionWordsView(View):
 
         word_id = task.get('word_id', '')
 
+        # Get or create knowledge_assessment
         knowledge_assessment_obj, is_create = (
             WordUserKnowledgeRelation.objects.get_or_create(
                 word=WordModel.objects.get(pk=word_id),
@@ -115,6 +110,7 @@ class RepetitionWordsView(View):
             'timeout': timeout,
             'next_url': 'eng:repetition',
             'knowledge_assessment': knowledge_assessment,
+            'word_id': word_id,
         }
 
         return render(request, 'eng/tasks/repetition.html', context)

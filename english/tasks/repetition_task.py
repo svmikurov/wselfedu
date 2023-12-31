@@ -7,7 +7,7 @@ from english.tasks.task_func import (
 )
 from users.models import UserModel
 
-MAX_LEVEL_WORD_KNOWLEDGE_FOR_SHOW = 7
+MAX_LEVEL_WORD_KNOWLEDGE_FOR_SHOW = 4
 
 logging.basicConfig(level=logging.INFO)
 
@@ -15,32 +15,32 @@ logging.basicConfig(level=logging.INFO)
 def create_task(
         user_id: int,
         category_id: int,
-        is_category_selected: bool,
         source_id,
 ) -> dict[str, str]:
-    if is_category_selected:
-        words = WordModel.objects.filter(
-            category_id=category_id,
-            source_id=source_id,
-        )
-    else:
-        words = WordModel.objects.filter(
-            source_id=source_id,
-        )
+    words = WordModel.objects.all().filter(
+        category_id=category_id,
+        source_id=source_id,
+        word_count__in=[
+            'OW',
+            'CB',
+            # 'PS',
+            # 'ST',
+        ],
+    )
 
     # Get user Queryset list word_id by user_id
     # which has not max level knowledge word.
     user_knowledge_words_pk = WordUserKnowledgeRelation.objects.filter(
         user=UserModel.objects.get(pk=user_id),
     ).filter(
-        knowledge_assessment__lte=MAX_LEVEL_WORD_KNOWLEDGE_FOR_SHOW
+        knowledge_assessment__gte=MAX_LEVEL_WORD_KNOWLEDGE_FOR_SHOW
     ).values_list('word_id', flat=True)
 
     # Get list WordModel instance of words for choice word.
     words_id_for_choice = []
-    for word_bj in words:
-        if word_bj.pk in user_knowledge_words_pk:
-            words_id_for_choice.append(word_bj)
+    for word_obj in words:
+        if word_obj.pk not in user_knowledge_words_pk:
+            words_id_for_choice.append(word_obj)
 
     # Choice random word for task.
     selected_word: dict = choice(words_id_for_choice)
