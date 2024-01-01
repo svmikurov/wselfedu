@@ -19,9 +19,9 @@
     <div>
       <h5>Словарь</h5>
       <ul class="list-unstyled ps-3">
-          <li class="py-1"><a href="{% url 'eng:word_list' %}">Список слов</a></li>
+          <li class="py-1"><a href="{% url 'eng:words_list' %}">Список слов</a></li>
         {% if user.is_superuser %}
-          <li class="py-1"><a href="{% url 'eng:word_create' %}">Добавить слово</a></li>
+          <li class="py-1"><a href="{% url 'eng:words_create' %}">Добавить слово</a></li>
         {% endif %}
       </ul>
     </div>

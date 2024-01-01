@@ -34,12 +34,12 @@ urlpatterns = [
     path(
         'words/list/',
         views.WordListView.as_view(),
-        name='word_list',
+        name='words_list',
     ),
     path(
         'words/create/',
         views.WordCreateView.as_view(),
-        name='word_create',
+        name='words_create',
     ),
     path(
         'words/<int:pk>/update/',

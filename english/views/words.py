@@ -32,7 +32,7 @@ class WordListView(
     paginate_by = PAGINATE_NUMBER
 
     additional_admin_navigation = {
-        'Добавить слово': 'eng:word_create'
+        'Добавить слово': 'eng:words_create'
     }
     extra_context = {
         'title': 'Список слов',
@@ -48,13 +48,13 @@ class WordCreateView(
 ):
     form_class = WordForm
     template_name = 'form.html'
-    success_url = reverse_lazy('eng:word_create')
+    success_url = reverse_lazy('eng:words_create')
 
     additional_admin_navigation = {
-        # 'Словарь': 'eng:word_list'
+        # 'Словарь': 'eng:words_list'
     }
     additional_user_navigation = {
-        'Словарь': 'eng:word_list'
+        'Словарь': 'eng:words_list'
     }
     extra_context = {
         'title': 'Добавить слово',
@@ -103,7 +103,7 @@ class WordDeleteView(
 ):
     model = WordModel
     template_name = 'delete.html'
-    success_url = reverse_lazy('eng:word_list')
+    success_url = reverse_lazy('eng:words_list')
     extra_context = {
         'title': 'Удаление слова',
         'btn_name': 'Удалить',
