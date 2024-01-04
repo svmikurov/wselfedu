@@ -1,3 +1,4 @@
+import logging
 import os
 from pathlib import Path
 
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'django_filters',
+    'debug_toolbar',
     # Project applications
     'english.apps.EnglishConfig',
     'mathem.apps.MathemConfig',
@@ -55,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -163,3 +166,21 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 if DEBUG:
     os.environ['DJANGO_ALLOW_ASYNC_UNSAFE'] = 'true'
 # End For configuration jupiter notebook
+
+if os.getenv('LOGGING_DB'):
+    LOGGING = {
+        'version': 1,
+        'handlers': {
+            'console': {'class': 'logging.StreamHandler'},
+        },
+        'loggers': {
+            'django.db.backends': {
+                'handlers': ['console'],
+                'level': 'DEBUG',
+            }
+        }
+    }
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]

@@ -1,6 +1,5 @@
 MANAGE := poetry run python manage.py
-TEST_JUST := wselfedu.users.tests.test_account
-
+TEST_JUST := english.tests.test_add_word.TestAddWord.test_post_auth_admin
 start:
 	@$(MANAGE) runserver 0.0.0.0:8001
 
