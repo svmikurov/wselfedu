@@ -1,0 +1,53 @@
+site_name: practece_django
+
+
+
+site_dir: 'wiki/GENERIC/generic'
+
+
+
+nav:
+  - index: index.md
+  - pip install: pip.md
+  - Dev: dev.md
+  - settings: settings.md
+  - Blog: blog/models.md
+
+
+
+
+
+
+
+theme:
+  name: material
+
+
+dev_addr:
+    127.0.0.1:8200
+
+
+
+
+
+
+markdown_extensions:
+ - pymdownx.highlight
+ - pymdownx.inlinehilite
+ - pymdownx.superfences
+ - pymdownx.snippets
+ - toc:
+     permalink: True
+
+
+
+
+# сворачивание страниц
+collapse_single_pages: true
+
+plugins:
+  - search
+  - awesome-pages
+
+site_author:
+    Сергей Микуров
