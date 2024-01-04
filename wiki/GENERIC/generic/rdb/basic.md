@@ -3,8 +3,11 @@
 
 ## Список основных команд  
 
+`$ psql db_name -c "\du"` подменяет `db_name=> \du` 
+
 `--`                    выделение комментария  
 `...=> \du`             список ролей  
+`$ psql wse -c "\du"`   список ролей
 `$ whoami`              имя текущего пользователя  
 `$ sudo -u postgres createuser --createdb name` создать роль `name`  
 ```cfgrlanguage
