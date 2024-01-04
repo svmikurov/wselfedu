@@ -9,6 +9,7 @@
     <form action="{% url 'eng:repetition' task_status %}" method="get">
       {% csrf_token %}
 
+      <!-- Word category choice -->
       <div class="pb-3">
         <p class="h5">Выбери категорию</p>
         <select class="form-select" name="selected_category">
@@ -17,8 +18,9 @@
             <option value="{{ category.id }}">{{ category.name }}</option>
           {% endfor %}
         </select>
-      </div>
+      </div><!-- End Word category choice -->
 
+      <!-- Word source choice -->
       <div class="pb-3">
         <p class="h5">Выбери источник</p>
         <select class="form-select" name="selected_source">
@@ -27,11 +29,23 @@
             <option value="{{ source.id }}">{{ source.name }}</option>
           {% endfor %}
         </select>
-      </div>
+      </div><!-- End Word source choice -->
 
+      <!-- Study stage choice -->
+      <div class="pb-3">
+        <p class="h5">Выбери этап изучения слов</p>
+        <select class="form-select" name="selected_stage">
+          <option value="{{ ... }}" selected>{{ ... }}</option>
+          {% for source in sources %}
+            <option value="{{ ... }}">{{ ... }}</option>
+          {% endfor %}
+        </select>
+      </div><!-- End Study stage choice -->
+
+      <!-- Confirm selection button -->
       <div class="">
         <button class="btn btn-primary">{{ btn_name }}</button>
-      </div>
+      </div><!-- End Confirm selection button -->
     </form>
   </div>
 </div>

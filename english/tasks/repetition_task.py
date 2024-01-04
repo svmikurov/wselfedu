@@ -1,4 +1,3 @@
-import logging
 from random import choice
 
 from english.models import WordModel, WordUserKnowledgeRelation
@@ -9,13 +8,11 @@ from users.models import UserModel
 
 MAX_LEVEL_WORD_KNOWLEDGE_FOR_SHOW = 4
 
-logging.basicConfig(level=logging.INFO)
-
 
 def create_task(
         user_id: int,
         category_id: int,
-        source_id,
+        source_id: int,
 ) -> dict[str, str]:
     words = WordModel.objects.all().filter(
         category_id=category_id,
@@ -25,6 +22,7 @@ def create_task(
             'CB',
             # 'PS',
             # 'ST',
+            'NC',
         ],
     )
 

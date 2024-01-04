@@ -7,9 +7,8 @@ The language of the question word is also displayed in random order.
 A timeout is set between displays.
 The solution continues until it is interrupted.
 """
-import logging
-
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -21,9 +20,8 @@ from english.models import (
     WordModel, WordUserKnowledgeRelation,
 )
 from english.tasks.repetition_task import create_task
+from english.models.words import get_knowledge_assessment
 from users.models import UserModel
-
-logging.basicConfig(level=logging.INFO)
 
 TITLE = 'Переведи слова'
 DEFAULT_CATEGORY = 'Все категории'
@@ -67,6 +65,7 @@ class RepetitionWordsView(View):
         task_status: str = kwargs.get('task_status')
         selected_category = request.GET.get('selected_category')
         selected_source = request.GET.get('selected_source')
+        selected_stage = request.GET.get('selected_stage')
 
         if selected_category:
             request.session['selected_category'] = selected_category
@@ -95,13 +94,7 @@ class RepetitionWordsView(View):
         word_id = task.get('word_id', '')
 
         # Get or create knowledge_assessment
-        knowledge_assessment_obj, is_create = (
-            WordUserKnowledgeRelation.objects.get_or_create(
-                word=WordModel.objects.get(pk=word_id),
-                user=UserModel.objects.get(pk=user_id),
-            )
-        )
-        knowledge_assessment = knowledge_assessment_obj.knowledge_assessment
+        knowledge_assessment = get_knowledge_assessment(word_id, user_id)
 
         context = {
             'title': TITLE,
@@ -116,6 +109,7 @@ class RepetitionWordsView(View):
         return render(request, 'eng/tasks/repetition.html', context)
 
 
+@login_required
 def knowledge_assessment_view(request, *args, **kwargs):
     """Изменяет в модели WordUserKnowledgeRelation значение поля
     knowledge_assessment (самооценки пользователя знания слова)"""

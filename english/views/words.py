@@ -1,5 +1,3 @@
-# from typing import Type
-
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django_filters.views import FilterView
@@ -14,11 +12,6 @@ from contrib_app.mixins import (
     UserPassesTestAdminMixin,
 )
 
-SUPERTITLE = 'Английский язык'
-LIST_ITEMS = {
-    'name': 'Список слов',
-    'href': 'eng:words_list',
-}
 PAGINATE_NUMBER = 20
 
 
@@ -59,8 +52,6 @@ class WordCreateView(
     extra_context = {
         'title': 'Добавить слово',
         'btn_name': 'Добавить',
-        'list_items': LIST_ITEMS,
-        'additional_admin_navigation': additional_admin_navigation,
         'additional_user_navigation': additional_user_navigation,
     }
 
