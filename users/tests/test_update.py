@@ -40,10 +40,6 @@ class UserUpdateTest(TestCase):
             'users:update',
             kwargs={'pk': self.fake_user.pk}
         )
-        # self.redirect_url = reverse_lazy(
-        #     'users:detail',
-        #     kwargs={'pk': self.fake_user.pk}
-        # )
         self.success_message = 'Вы обновили свои данные'
         self.redirect_no_permission = reverse_lazy('home')
         self.message_no_permission = 'Так не получится!'
@@ -68,7 +64,6 @@ class UserUpdateTest(TestCase):
         self.client.force_login(self.fake_user)
         response = self.client.post(self.url, self.fake_updated_data)
 
-        # self.assertRedirects(response, self.redirect_url)
         self.assertEqual(response.status_code, 302)
         self.assertTrue(UserModel.objects.filter(
             username=self.fake_updated_username

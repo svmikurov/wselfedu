@@ -65,7 +65,7 @@ class RepetitionWordsView(View):
         task_status: str = kwargs.get('task_status')
         selected_category = request.GET.get('selected_category')
         selected_source = request.GET.get('selected_source')
-        selected_stage = request.GET.get('selected_stage')
+        # selected_stage = request.GET.get('selected_stage')
 
         if selected_category:
             request.session['selected_category'] = selected_category
@@ -112,13 +112,14 @@ class RepetitionWordsView(View):
 @login_required
 def knowledge_assessment_view(request, *args, **kwargs):
     """Изменяет в модели WordUserKnowledgeRelation значение поля
-    knowledge_assessment (самооценки пользователя знания слова)"""
-    data = request.POST
-    current_word_assessment = data['knowledge_assessment']
-    word_pk = kwargs['word_id']
-    user_pk = request.user.pk
-
+    knowledge_assessment (самооценки пользователя знания слова)
+    """
     if request.user.is_authenticated:
+        data = request.POST
+        current_word_assessment = data['knowledge_assessment']
+        word_pk = kwargs['word_id']
+        user_pk = request.user.pk
+
         knowledge_assessment_obj, is_create = (
             WordUserKnowledgeRelation.objects.get_or_create(
                 word=WordModel.objects.get(pk=word_pk),

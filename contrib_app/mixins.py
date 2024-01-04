@@ -6,9 +6,9 @@ from django.urls import reverse_lazy
 
 
 class HandleNoPermissionMixin:
+    """Add a redirect url and a message, if the user doesn't have permission.
     """
-    Add a redirect url and a message, if the user doesn't have permission.
-    """
+
     message_no_permission = 'Так не получится!'
     url_no_permission = reverse_lazy('home')
 
@@ -46,14 +46,12 @@ class AccountOwnershipMixin(
     Check if the user has owner permission on account.
     Add a redirect url and a message, if the user doesn't have permission.
     """
-    pass
 
 
 class UserPassesTestAdminMixin(UserPassesTestMixin):
-    """
-    Check current user for admin permissions.
-    """
-    message = 'К сожалению, вы пока не можете сделать это'
+    """Check current user for admin permissions."""
+
+    message = 'Вы пока не можете делать это'
 
     def admin_check(self):
         if self.request.user.is_superuser:
