@@ -8,7 +8,7 @@ A timeout is set between displays.
 The solution continues until it is interrupted.
 """
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.db.models import F
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -112,32 +112,21 @@ class RepetitionWordsView(View):
         return render(request, 'eng/tasks/repetition.html', context)
 
 
-@login_required
 def knowledge_assessment_view(request, *args, **kwargs):
     """Изменяет в модели WordUserKnowledgeRelation значение поля
-    knowledge_assessment (самооценки пользователя знания слова)
+    knowledge_assessment (самооценки пользователем знания слова)
     """
     if request.user.is_authenticated:
-        data = request.POST
-        current_word_assessment = data['knowledge_assessment']
+        current_assessment = request.POST['knowledge_assessment']
         word_pk = kwargs['word_id']
         user_pk = request.user.pk
 
-        knowledge_assessment_obj, is_create = (
-            WordUserKnowledgeRelation.objects.get_or_create(
-                word=WordModel.objects.get(pk=word_pk),
-                user=UserModel.objects.get(pk=user_pk),
-            )
+        WordUserKnowledgeRelation.objects.filter(
+            word=WordModel.objects.get(pk=word_pk),
+            user=UserModel.objects.get(pk=user_pk),
+        ).update(
+            knowledge_assessment=F('knowledge_assessment') + current_assessment
         )
 
-        assessment = int(knowledge_assessment_obj.knowledge_assessment)
-        assessment += int(current_word_assessment)
-        knowledge_assessment_obj.knowledge_assessment = assessment
-        knowledge_assessment_obj.save()
-
-    return redirect(
-        reverse_lazy(
-            'eng:repetition',
-            kwargs={'task_status': 'question'}
-        )
-    )
+    kwargs = {'task_status': 'question'}
+    return redirect(reverse_lazy('eng:repetition', kwargs=kwargs))
