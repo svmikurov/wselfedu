@@ -77,7 +77,7 @@ class RepetitionWordsView(View):
         if task_status == 'question':
             try:
                 task = create_task(
-                    user_id,
+                    request,
                     selected_category,
                     selected_source,
                 )
@@ -94,7 +94,10 @@ class RepetitionWordsView(View):
         word_id = task.get('word_id', '')
 
         # Get or create knowledge_assessment
-        knowledge_assessment = get_knowledge_assessment(word_id, user_id)
+        if request.user.is_authenticated:
+            knowledge_assessment = get_knowledge_assessment(word_id, user_id)
+        else:
+            knowledge_assessment = 0
 
         context = {
             'title': TITLE,

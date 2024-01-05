@@ -10,10 +10,11 @@ MAX_LEVEL_WORD_KNOWLEDGE_FOR_SHOW = 4
 
 
 def create_task(
-        user_id: int,
+        request,
         category_id: int,
         source_id: int,
 ) -> dict[str, str]:
+    user = request.user
     words = WordModel.objects.all().filter(
         category_id=category_id,
         source_id=source_id,
@@ -28,20 +29,24 @@ def create_task(
 
     # Get user Queryset list word_id by user_id
     # which has not max level knowledge word.
-    user_knowledge_words_pk = WordUserKnowledgeRelation.objects.filter(
-        user=UserModel.objects.get(pk=user_id),
-    ).filter(
-        knowledge_assessment__gte=MAX_LEVEL_WORD_KNOWLEDGE_FOR_SHOW
-    ).values_list('word_id', flat=True)
+    if user.is_authenticated:
+        user_knowledge_words_pk = WordUserKnowledgeRelation.objects.filter(
+            user=UserModel.objects.get(pk=user.id),
+        ).filter(
+            knowledge_assessment__gte=MAX_LEVEL_WORD_KNOWLEDGE_FOR_SHOW
+        ).values_list('word_id', flat=True)
 
-    # Get list WordModel instance of words for choice word.
-    words_id_for_choice = []
-    for word_obj in words:
-        if word_obj.pk not in user_knowledge_words_pk:
-            words_id_for_choice.append(word_obj)
+        # Get list WordModel instance of words for choice word.
+        words_id_for_choice = []
+        for word_obj in words:
+            if word_obj.pk not in user_knowledge_words_pk:
+                words_id_for_choice.append(word_obj)
 
-    # Choice random word for task.
-    selected_word: dict = choice(words_id_for_choice)
+        # Choice random word for task.
+        selected_word: dict = choice(words_id_for_choice)
+
+    else:
+        selected_word: dict = choice(words)
 
     word_id = selected_word.pk
     question_key, answer_key = get_random_sequence_language_keys()
