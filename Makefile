@@ -1,5 +1,5 @@
 MANAGE := poetry run python manage.py
-TEST_JUST := english.tests.test_delete_word
+TEST_JUST := english.tests.test_update_knowledge_assessment
 
 start:
 	@$(MANAGE) runserver 0.0.0.0:8001
