@@ -6,6 +6,7 @@ class CategoryModel(models.Model):
         max_length=30,
         null=False,
         blank=False,
+        verbose_name='Наименование категории',
     )
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)

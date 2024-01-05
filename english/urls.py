@@ -95,4 +95,26 @@ urlpatterns = [
         views.SourceDeleteView.as_view(),
         name='sources_delete'
     ),
+
+    # --======= Lessons =======--
+    path(
+        'lessons/list/',
+        views.LessonsListView.as_view(),
+        name='lessons_list'
+    ),
+    path(
+        'lessons/create/',
+        views.LessonCreateView.as_view(),
+        name='lesson_create'
+    ),
+    path(
+        'lessons/<int:pk>/update/',
+        views.LessonUpdateView.as_view(),
+        name='lesson_update'
+    ),
+    path(
+        'lessons/<int:pk>/delete/',
+        views.LessonDeleteView.as_view(),
+        name='lesson_delete'
+    ),
 ]

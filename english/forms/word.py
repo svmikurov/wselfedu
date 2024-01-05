@@ -4,6 +4,7 @@ from english.models import WordModel
 
 
 class WordForm(ModelForm):
+    """Форма добавления и изменения слова."""
 
     class Meta:
         model = WordModel

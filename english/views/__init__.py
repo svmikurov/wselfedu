@@ -20,4 +20,9 @@ from english.views.words import WordListView
 from english.views.words import WordUpdateView
 from english.views.words import WordDeleteView
 
+from english.views.lessons import LessonsListView
+from english.views.lessons import LessonCreateView
+from english.views.lessons import LessonUpdateView
+from english.views.lessons import LessonDeleteView
+
 from english.views.check import TestWordView
