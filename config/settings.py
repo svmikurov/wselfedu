@@ -41,12 +41,12 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'django_filters',
-    'debug_toolbar',
     # Project applications
     'english.apps.EnglishConfig',
     'mathem.apps.MathemConfig',
     'users.apps.UsersConfig',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -56,8 +56,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
+
+# debug_toolbar settings
+if os.getenv('ENVIRONMENT') != 'PRODUCTION':
+    INSTALLED_APPS.insert(-4, 'debug_toolbar')
+    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+    INTERNAL_IPS = [
+        "127.0.0.1",
+    ]
+# End debug_toolbar settings
 
 ROOT_URLCONF = 'config.urls'
 
@@ -190,7 +199,3 @@ if os.getenv('LOGGING_DB'):
             }
         }
     }
-
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
