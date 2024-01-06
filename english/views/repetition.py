@@ -7,6 +7,7 @@ The language of the question word is also displayed in random order.
 A timeout is set between displays.
 The solution continues until it is interrupted.
 """
+
 from django.contrib import messages
 from django.db.models import F
 from django.shortcuts import render, redirect
@@ -19,17 +20,16 @@ from english.models import (
     SourceModel,
     WordModel, WordUserKnowledgeRelation,
 )
-from english.tasks.repetition_task import create_task
+from english.tasks.repetition_task import (
+    create_task,
+    add_filers_to_queryset,
+)
 from english.models.words import get_knowledge_assessment
 from users.models import UserModel
 
 TITLE = 'Изучаем слова'
-DEFAULT_CATEGORY = 'Все категории'
-DEFAULT_CATEGORY_ID = 0
-DEFAULT_SOURCE = 'Учебник'
-DEFAULT_SOURCE_ID = 1
-QUESTION_TIMEOUT = 7000  # ms
-ANSWER_TIMEOUT = 7000  # ms
+QUESTION_TIMEOUT = 2000  # ms
+ANSWER_TIMEOUT = 2000  # ms
 BTN_NAME = 'Начать'
 
 INDEX_ERROR_MESSAGE = 'Ничего не найдено, попробуйте другие варианты'
@@ -48,11 +48,7 @@ class StartRepetitionWordsView(TemplateView):
     extra_context = {
         'title': TITLE,
         'categories': categories,
-        'default_category': DEFAULT_CATEGORY,
-        'default_category_id': DEFAULT_CATEGORY_ID,
         'sources': sources,
-        'default_source': DEFAULT_SOURCE,
-        'default_source_id': DEFAULT_SOURCE_ID,
         'task_status': 'question',
         'btn_name': BTN_NAME,
         'next_url': 'eng:repetition',
@@ -63,33 +59,30 @@ class RepetitionWordsView(View):
     def get(self, request, *args, **kwargs):
         user_id = self.request.user.id
         task_status: str = kwargs.get('task_status')
-        category = request.GET.get('category')
-        source = request.GET.get('source')
 
-        if category:
-            request.session['category'] = category
-            request.session['source'] = source
-        else:
-            category = request.session['category']
-            source = request.session['source']
+        # Получаем QuerySet всех слов.
+        words_qs = WordModel.objects.all()
+        # Применяем фильтрацию к QuerySet, если применяются фильтры.
+        filtered_words: list[dict] = add_filers_to_queryset(request, words_qs)
 
+        # Запускаем задание.
         if task_status == 'question':
             try:
-                task = create_task(
-                    request,
-                    category,
-                    source,
-                )
+                task = create_task(filtered_words)
             except IndexError:
                 messages.error(self.request, INDEX_ERROR_MESSAGE)
                 return redirect(reverse_lazy('eng:start_repetition'))
             else:
+                # Сохраняем задачу при выведении запроса,
+                # чтоб ее условия применить при выведении ответа.
                 request.session['task'] = task
                 timeout = QUESTION_TIMEOUT
         else:
+            # Если статус - ответ, достаем условия задачи из сессии.
             task = request.session['task']
             timeout = ANSWER_TIMEOUT
 
+        # Формируем context.
         word_id = task.get('word_id', '')
         context = {
             'title': TITLE,
@@ -99,7 +92,8 @@ class RepetitionWordsView(View):
             'next_url': 'eng:repetition',
             'word_id': word_id,
         }
-        # Get or create knowledge_assessment
+        # Получаем или добавляем в БД значении самооценки пользователя уровня
+        # знания слова.
         if request.user.is_authenticated:
             context[
                 'knowledge_assessment'
@@ -110,7 +104,7 @@ class RepetitionWordsView(View):
 
 def knowledge_assessment_view(request, *args, **kwargs):
     """Изменяет в модели WordUserKnowledgeRelation значение поля
-    knowledge_assessment (самооценки пользователем знания слова)
+    knowledge_assessment (самооценки пользователем знания слова).
     """
     if request.user.is_authenticated:
         current_assessment = request.POST['knowledge_assessment']

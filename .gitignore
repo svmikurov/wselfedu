@@ -9,6 +9,7 @@ staticfiles/
 .coverage
 .env
 service_tools/tempt.py
+myapp.log
 
 *.sqlite3
 db*

@@ -1,66 +1,58 @@
 from random import choice
 
-from english.models import WordModel, WordUserKnowledgeRelation
+from config.logger_config import logger
 from english.tasks.task_func import (
     get_random_sequence_language_keys,
 )
-from users.models import UserModel
 
 MAX_LEVEL_WORD_KNOWLEDGE_FOR_SHOW = 4
 
 
-def create_task(
-        request,
-        category_id: int,
-        source_id: int,
-) -> dict[str, str]:
-    user = request.user
-    words = WordModel.objects.all().filter(
-        category_id=category_id,
-        source_id=source_id,
-        word_count__in=[
-            'OW',
-            'CB',
-            # 'PS',
-            # 'ST',
-            'NC',
-        ],
-    )
+def add_filers_to_queryset(request, words_qs):
+    """Добавь фильтры в QuerySet."""
+    # Получи словарь фильтров из сессии, если он там есть.
+    # Создай пустой словарь фильтров, если его нет в сессии.
+    words_filter = request.session.get('words_filter', dict())
 
-    # Get user Queryset list word_id by user_id
-    # which has not max level knowledge word.
-    if user.is_authenticated:
-        user_knowledge_words_pk = WordUserKnowledgeRelation.objects.filter(
-            user=UserModel.objects.get(pk=user.id),
-        ).filter(
-            knowledge_assessment__gte=MAX_LEVEL_WORD_KNOWLEDGE_FOR_SHOW
-        ).values_list('word_id', flat=True)
+    # Получи из GET запроса значения для фильтрации по категории и источнику.
+    # Если они сеть, то обнови словарь фильтров.
+    category_id = request.GET.get('category_id')
+    if category_id:
+        words_filter['category_id'] = category_id
+    source_id = request.GET.get('source_id')
+    if source_id:
+        words_filter['source_id'] = source_id
 
-        # Get list WordModel instance of words for choice word.
-        words_id_for_choice = []
-        for word_obj in words:
-            if word_obj.pk not in user_knowledge_words_pk:
-                words_id_for_choice.append(word_obj)
+    # Если есть значения фильтров в словаре, примени их последовательно к
+    # QuerySet.
+    category_id = words_filter.get('category_id')
+    if category_id:
+        words_qs = words_qs.filter(category_id=category_id)
+        logger.debug(f'Произведена фильтрация по category_id = {category_id}')
+    source_id = words_filter.get('source_id')
+    if source_id:
+        words_qs = words_qs.filter(source_id=source_id)
+        logger.debug(f'Произведена фильтрация по source_id = {source_id}')
 
-        # Choice random word for task.
-        selected_word: dict = choice(words_id_for_choice)
+    # Обнови словарь фильтров в сессии.
+    if words_filter:
+        request.session['words_filter'] = words_filter
+        logger.debug('Обновлен словарь в сессии')
 
-    else:
-        selected_word: dict = choice(words)
+    return words_qs.values()
 
-    word_id = selected_word.pk
+
+def create_task(words: list[dict]) -> dict[str, str]:
+    selected_word: dict = choice(words)
     question_key, answer_key = get_random_sequence_language_keys()
 
     task_word = {
-        'words_eng': selected_word.words_eng,
-        'words_rus': selected_word.words_rus,
+        'words_eng': selected_word.get('words_eng'),
+        'words_rus': selected_word.get('words_rus'),
     }
-    question = task_word.get(question_key)
-    answer = task_word.get(answer_key)
     task = {
-        'word_id': word_id,
-        'question': question,
-        'answer': answer,
+        'word_id': selected_word.get('id'),
+        'question': task_word.get(question_key),
+        'answer': task_word.get(answer_key),
     }
-
     return task
