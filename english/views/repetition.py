@@ -36,8 +36,8 @@ INDEX_ERROR_MESSAGE = 'Ничего не найдено, попробуйте д
 
 
 class StartRepetitionWordsView(TemplateView):
-    """
-    Start solution.
+    """Start solution.
+
     In this View is selected the category and source of repeated words.
     After this solution is redirected
     to another View in which it alternates words
@@ -92,22 +92,19 @@ class RepetitionWordsView(View):
             timeout = ANSWER_TIMEOUT
 
         word_id = task.get('word_id', '')
-
-        # Get or create knowledge_assessment
-        if request.user.is_authenticated:
-            knowledge_assessment = get_knowledge_assessment(word_id, user_id)
-        else:
-            knowledge_assessment = 0
-
         context = {
             'title': TITLE,
             'task_status': task_status,
             'task': task,
             'timeout': timeout,
             'next_url': 'eng:repetition',
-            'knowledge_assessment': knowledge_assessment,
             'word_id': word_id,
         }
+        # Get or create knowledge_assessment
+        if request.user.is_authenticated:
+            context[
+                'knowledge_assessment'
+            ] = get_knowledge_assessment(word_id, user_id)
 
         return render(request, 'eng/tasks/repetition.html', context)
 
