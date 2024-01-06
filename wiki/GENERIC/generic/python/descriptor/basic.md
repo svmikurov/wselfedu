@@ -20,19 +20,21 @@ dot operator - lookup atribut in class dict
 ```
 class Descriptor:
     
-    def__get__(
-        self: 'MyClass.atribut = Descriptor()',
-        obj: 'my_instance = MyClass()',
-        objtype: 'class MyClass'
-        ):
+    def__get__(self, obj, objtype):
         return 'Hello, Word!'
 
 class MyClass:
-    atribut = Descriptor()'
+    atribut = Descriptor()
 
 my_instance = MyClass()
 my_instance.atribut
 => 'Hello, Word!'
+
+#    def__get__(
+#        self: 'MyClass.atribut = Descriptor()',
+#        obj: 'my_instance = MyClass()',
+#        objtype: 'class MyClass'
+#        ):
 ```
 
 ```cfgrlanguage
