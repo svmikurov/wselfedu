@@ -16,6 +16,7 @@ class WordsFilter(django_filters.FilterSet):
         ('CB', 'Словосочетание'),
         ('PS', 'Часть предложения'),
         ('ST', 'Предложение'),
+        ('NC', 'Не указано'),
     )
 
     filtered_category = django_filters.ModelChoiceFilter(

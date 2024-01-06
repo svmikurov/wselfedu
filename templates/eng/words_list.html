@@ -25,10 +25,10 @@
             <th>ID</th>
             <th>Слово по-английски</th>
             <th>Слово по-русски</th>
+            <th>Кол-во слов</th>
             <th>Самооценка знания</th>
             <th>Категория</th>
             {% if user.is_superuser %}
-              <th>Урок</th>
               <th>Источник</th>
               <th></th>
             {% endif %}
@@ -41,12 +41,12 @@
             <td class="table-primary">{{ word.pk }}</td>
             <td>{{ word.words_eng }}</td>
             <td>{{ word.words_rus }}</td>
-            <td>{{ knowledge_assessment }}</td>
+            <td>{{ word.word_count }}</td>
+            <td>{{ word. }}</td>
             <td>{% if word.category %}{{ word.category }}{% endif %}</td>
+            <td>{% if word.source %}{{ word.source }}{% endif %}</td>
             {% if user.is_superuser %}
-              <td class="text-nowrap">{% if word.lesson %}{{ word.lesson }}{% endif %}</td>
-              <td class="text-nowrap">{% if word.source %}{{ word.source }}{% endif %}</td>
-              <td class="text-nowrap">
+              <td>
                 <a href="{% url 'eng:words_update' word.pk %}">Изменить</a> /
                 <a href="{% url 'eng:words_delete' word.pk %}">Удалить</a>
               </td>

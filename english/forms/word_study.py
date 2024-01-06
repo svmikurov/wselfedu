@@ -3,7 +3,7 @@ from django import forms
 WORD_STUDY_STAGE_CHOICE = [
     ('AL', 'Все'),  # all
     ('WS', 'Изучение'),  # word study
-    ('CK', 'Закрепление'),  # consolidation of knowledge
+    ('CK', 'Повторение'),  # consolidation of knowledge
     ('CH', 'Проверка'),  # check of knowledge
 ]
 KNOWLEDGE_STAGE_LEVELS = {
