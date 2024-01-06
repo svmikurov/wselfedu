@@ -3,9 +3,7 @@ import django_filters
 from english.models import (
     CategoryModel,
     SourceModel,
-    WordModel, WordUserKnowledgeRelation,
 )
-from users.models import UserModel
 
 
 class WordsFilter(django_filters.FilterSet):
@@ -40,16 +38,3 @@ class WordsFilter(django_filters.FilterSet):
         label='',
         empty_label='Любое кол-во слов',
     )
-    # filtered_knowledge_assessment = django_filters.ChoiceFilter(
-    #     field_name='knowledge_assessment',
-    #     method='get_knowledge_assessment_by_user',
-    #     label='',
-    #     empty_label='Оценка',
-    # )
-    #
-    # def get_knowledge_assessment_by_user(self, request, *args, **kwargs):
-    #     """Получи список оценок знания слов текущего пользователя."""
-    #     queryset = WordUserKnowledgeRelation.objects.filter(
-    #         user=UserModel.objects.get(pk=request.user.pk),
-    #     )
-    #     return queryset
