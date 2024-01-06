@@ -23,7 +23,7 @@ from english.tasks.repetition_task import create_task
 from english.models.words import get_knowledge_assessment
 from users.models import UserModel
 
-TITLE = 'Переведи слова'
+TITLE = 'Изучаем слова'
 DEFAULT_CATEGORY = 'Все категории'
 DEFAULT_CATEGORY_ID = 0
 DEFAULT_SOURCE = 'Учебник'
@@ -63,23 +63,22 @@ class RepetitionWordsView(View):
     def get(self, request, *args, **kwargs):
         user_id = self.request.user.id
         task_status: str = kwargs.get('task_status')
-        selected_category = request.GET.get('selected_category')
-        selected_source = request.GET.get('selected_source')
-        # selected_stage = request.GET.get('selected_stage')
+        category = request.GET.get('category')
+        source = request.GET.get('source')
 
-        if selected_category:
-            request.session['selected_category'] = selected_category
-            request.session['selected_source'] = selected_source
+        if category:
+            request.session['category'] = category
+            request.session['source'] = source
         else:
-            selected_category = request.session['selected_category']
-            selected_source = request.session['selected_source']
+            category = request.session['category']
+            source = request.session['source']
 
         if task_status == 'question':
             try:
                 task = create_task(
                     request,
-                    selected_category,
-                    selected_source,
+                    category,
+                    source,
                 )
             except IndexError:
                 messages.error(self.request, INDEX_ERROR_MESSAGE)
