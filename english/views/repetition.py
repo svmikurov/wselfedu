@@ -16,6 +16,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView
 
+from config import settings
 from english.models import (
     CategoryModel,
     SourceModel,
@@ -30,8 +31,8 @@ from english.models.words import get_knowledge_assessment
 from users.models import UserModel
 
 TITLE = 'Изучаем слова'
-QUESTION_TIMEOUT = 3000  # ms
-ANSWER_TIMEOUT = 3000  # ms
+QUESTION_TIMEOUT = settings.QUESTION_TIMEOUT
+ANSWER_TIMEOUT = settings.ANSWER_TIMEOUT
 BTN_NAME = 'Начать'
 
 INDEX_ERROR_MESSAGE = 'Ничего не найдено, попробуйте другие варианты'
