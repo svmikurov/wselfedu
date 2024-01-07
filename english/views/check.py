@@ -1,22 +1,10 @@
 from django.contrib import messages
-from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 
-# from balance import (
-#     get_user_data_by_today,
-#     add_count_to_user_balance,
-# )
-from english.tasks.task_func import (
-    # add_vocabulary_user_answer_to_db,
-    get_random_sequence_language_keys,
-)
-from english.tasks.test_task import (
-    TestWordTask,
-)
-
-User = get_user_model()
+from english.tasks.repetition_task import get_random_sequence_language_keys
+from english.tasks.test_task import TestWordTask
 
 SUPERTITLE = 'Английский язык'
 TITLE = 'Тест'

@@ -7,6 +7,7 @@ The language of the question word is also displayed in random order.
 A timeout is set between displays.
 The solution continues until it is interrupted.
 """
+import logging
 
 from django.contrib import messages
 from django.db.models import F
@@ -18,21 +19,28 @@ from django.views.generic import TemplateView
 from english.models import (
     CategoryModel,
     SourceModel,
-    WordModel, WordUserKnowledgeRelation,
+    WordModel,
+    WordUserKnowledgeRelation,
 )
 from english.tasks.repetition_task import (
-    create_task,
+    choice_word,
     add_filers_to_queryset,
 )
 from english.models.words import get_knowledge_assessment
 from users.models import UserModel
 
 TITLE = 'Изучаем слова'
-QUESTION_TIMEOUT = 2000  # ms
-ANSWER_TIMEOUT = 2000  # ms
+QUESTION_TIMEOUT = 3000  # ms
+ANSWER_TIMEOUT = 3000  # ms
 BTN_NAME = 'Начать'
 
 INDEX_ERROR_MESSAGE = 'Ничего не найдено, попробуйте другие варианты'
+
+logging.basicConfig(
+    format='%(levelname)s: %(message)s',
+    filename='myapp.log',
+    level=logging.DEBUG,
+)
 
 
 class StartRepetitionWordsView(TemplateView):
@@ -49,7 +57,7 @@ class StartRepetitionWordsView(TemplateView):
         'title': TITLE,
         'categories': categories,
         'sources': sources,
-        'task_status': 'question',
+        'task_status': 'start',
         'btn_name': BTN_NAME,
         'next_url': 'eng:repetition',
     }
@@ -62,23 +70,25 @@ class RepetitionWordsView(View):
 
         # Получаем QuerySet всех слов.
         words_qs = WordModel.objects.all()
-        # Применяем фильтрацию к QuerySet, если применяются фильтры.
-        filtered_words: list[dict] = add_filers_to_queryset(request, words_qs)
+        # Применяем фильтрацию к QuerySet, если имеются фильтры.
+        filtered_words: list[dict] = add_filers_to_queryset(
+            request, words_qs, task_status,
+        )
 
         # Запускаем задание.
-        if task_status == 'question':
+        if task_status == 'question' or task_status == 'start':
             try:
-                task = create_task(filtered_words)
+                # Получи слово для задания.
+                task = choice_word(filtered_words)
             except IndexError:
                 messages.error(self.request, INDEX_ERROR_MESSAGE)
                 return redirect(reverse_lazy('eng:start_repetition'))
             else:
-                # Сохраняем задачу при выведении запроса,
-                # чтоб ее условия применить при выведении ответа.
+                # Сохрани задание в сессию, если статус - вопрос.
                 request.session['task'] = task
                 timeout = QUESTION_TIMEOUT
         else:
-            # Если статус - ответ, достаем условия задачи из сессии.
+            # Получи задание из сессии, если статус - ответ.
             task = request.session['task']
             timeout = ANSWER_TIMEOUT
 
@@ -92,13 +102,16 @@ class RepetitionWordsView(View):
             'next_url': 'eng:repetition',
             'word_id': word_id,
         }
-        # Получаем или добавляем в БД значении самооценки пользователя уровня
+        # Получаем или добавляем в БД значение самооценки пользователя уровня
         # знания слова.
+        # Добавляем в context значение самооценки пользователя уровня знания
+        # слова.
         if request.user.is_authenticated:
             context[
                 'knowledge_assessment'
             ] = get_knowledge_assessment(word_id, user_id)
 
+        # Отправляем задание пользователю.
         return render(request, 'eng/tasks/repetition.html', context)
 
 
@@ -106,11 +119,13 @@ def knowledge_assessment_view(request, *args, **kwargs):
     """Изменяет в модели WordUserKnowledgeRelation значение поля
     knowledge_assessment (самооценки пользователем знания слова).
     """
+    # Если пользователь аутентифицирован, обнови его самооценку знания слова.
     if request.user.is_authenticated:
         current_assessment = request.POST['knowledge_assessment']
         word_pk = kwargs['word_id']
         user_pk = request.user.pk
 
+        # Обнови самооценку знания слова.
         WordUserKnowledgeRelation.objects.filter(
             word=WordModel.objects.get(pk=word_pk),
             user=UserModel.objects.get(pk=user_pk),
@@ -118,5 +133,6 @@ def knowledge_assessment_view(request, *args, **kwargs):
             knowledge_assessment=F('knowledge_assessment') + current_assessment
         )
 
+    # Редирект на формирование нового задания.
     kwargs = {'task_status': 'question'}
     return redirect(reverse_lazy('eng:repetition', kwargs=kwargs))

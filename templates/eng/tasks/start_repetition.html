@@ -11,9 +11,8 @@
 
       <!-- Word category choice -->
       <div class="pb-3">
-        <p class="h5">Выбери категорию</p>
-        <select class="form-select" name="category">
-          <option value="{{ default_category_id }}" selected>{{ default_category }}</option>
+         <select class="form-select" name="category_id">
+          <option value="" selected>Выберите категорию</option>
           {% for category in categories %}
             <option value="{{ category.id }}">{{ category.name }}</option>
           {% endfor %}
@@ -22,64 +21,52 @@
 
       <!-- Word source choice -->
       <div class="pb-3">
-        <p class="h5">Выбери источник</p>
-        <select class="form-select" name="source">
-          <option value="{{ default_source_id }}" selected>{{ default_source }}</option>
+        <select class="form-select" name="source_id">
+          <option value="" selected>Выберите источник</option>
           {% for source in sources %}
             <option value="{{ source.id }}">{{ source.name }}</option>
           {% endfor %}
         </select>
       </div><!-- End Word source choice -->
 
-      <!-- Study stage choice -->
-      <div class="pb-3">
-        <p class="h5">Выбери этап изучения слов</p>
-        <select class="form-select" name="stage">
-          <option value="{{ ... }}" selected>{{ ... }}</option>
-          {% for source in sources %}
-            <option value="{{ ... }}">{{ ... }}</option>
-          {% endfor %}
-        </select>
-      </div><!-- End Study stage choice -->
-
       <!-- Checkbox word count choice -->
-      <fieldset class="form-checkpb-2">
+      <fieldset class="form-check pb-2">
         <legend>Выбери количество слов</legend>
         <div class="form-check form-check-inline">
           <div>
-            <input class="form-check-input" type="checkbox" name="word_count" value="OW" checked />
+            <input class="form-check-input" type="checkbox" name="word_count_ow" value="OW" checked />
             <label class="form-check-label">Слово</label>
           </div>
           <div>
-            <input class="form-check-input" type="checkbox" name="word_count" value="CB" checked />
+            <input class="form-check-input" type="checkbox" name="word_count_cb" value="CB" checked />
             <label class="form-check-label">Словосочетание</label>
           </div>
         </div>
         <div class="form-check form-check-inline">
           <div>
-            <input class="form-check-input" type="checkbox" name="word_count" value="PS" />
+            <input class="form-check-input" type="checkbox" name="word_count_ps" value="PS" />
             <label class="form-check-label">Часть предложения</label>
           </div>
           <div>
-            <input class="form-check-input" type="checkbox" name="word_count" value="CT" />
+            <input class="form-check-input" type="checkbox" name="word_count_st" value="ST" />
             <label class="form-check-label">Предложение</label>
           </div>
         </div>
       </fieldset><!-- End Checkbox word count choice-->
 
       <!-- Checkbox word knowledge assessment -->
-      <fieldset class="pb-2">
+      <fieldset class="form-check pb-2">
         <legend>Выбери уровень знания слов</legend>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" name="assessment" value="WS" checked />
+          <input class="form-check-input" type="checkbox" name="ws" value="5" checked />
           <label class="form-check-label">Изучение</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" name="assessment" value="CK"  />
+          <input class="form-check-input" type="checkbox" name="ck" value="8"  />
           <label class="form-check-label">Повторение</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" name="assessment" value="CH" />
+          <input class="form-check-input" type="checkbox" name="ch" value="10" />
           <label class="form-check-label">Проверка</label>
         </div>
       </fieldset><!-- End Checkbox word knowledge assessment-->

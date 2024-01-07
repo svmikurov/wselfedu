@@ -62,6 +62,7 @@ class WordModel(models.Model):
         choices=WORD_COUNT,
         default=NOT_CHOICE_WORD_COUNT,
         verbose_name='Количество слов',
+        blank=False, null=False,
     )
     lesson = models.ForeignKey(
         LessonModel,

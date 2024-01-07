@@ -1,7 +1,7 @@
 <!--======= Solution Timeout Script =======-->
 <script>
   window.setTimeout(function () {
-    if ('{{ task_status }}' === 'question') {
+    if ('{{ task_status }}' === 'question' || '{{ task_status }}' === 'start') {
       location.href = "{% url next_url 'answer' %}";
     } else {
       location.href = "{% url next_url 'question' %}";
