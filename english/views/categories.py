@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
@@ -15,7 +16,7 @@ PAGINATE_NUMBER = 20
 
 class CategoryListView(
     HandleNoPermissionMixin,
-    UserPassesTestAdminMixin,
+    LoginRequiredMixin,
     ListView,
 ):
     model = CategoryModel
@@ -25,23 +26,26 @@ class CategoryListView(
     extra_context = {
         'title': 'Список категорий',
     }
+    message_no_permission = 'Вы пока не можете делать это'
 
 
 class CategoryCreateView(
     HandleNoPermissionMixin,
     UserPassesTestAdminMixin,
+    AddMessageToFormSubmissionMixin,
     CreateView,
 ):
     form_class = CategoryForm
     template_name = 'form.html'
-    success_url = reverse_lazy('eng:cat_list')
+    success_url = reverse_lazy('eng:categories_list')
     extra_context = {
         'title': 'Добавить категорию',
         'btn_name': 'Добавить',
     }
 
-    success_message = 'Категория успешно добавлена'
+    success_message = 'Категория добавлена'
     error_message = 'Ошибка в добавлении категории'
+    message_no_permission = 'Вы пока не можете делать это'
 
 
 class CategoryUpdateView(
