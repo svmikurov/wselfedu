@@ -102,6 +102,13 @@ if os.getenv('DEFAULT_DB') == 'PostgresSQL':
             'PORT': '',
         }
     }
+elif os.getenv('DEFAULT_DB') == 'Fixtures':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db-wse-fixtures.sqlite3',
+        }
+    }
 else:
     DATABASES = {
         'default': {
@@ -199,6 +206,7 @@ if os.getenv('LOGGING_DB'):
             }
         }
     }
+
 
 # Константы приложения
 QUESTION_TIMEOUT = os.getenv('QUESTION_TIMEOUT')  # ms
