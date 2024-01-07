@@ -2,7 +2,7 @@ from random import choice, shuffle
 
 from django.forms.models import model_to_dict
 
-from english.models import WordUserKnowledgeRelation, CategoryModel
+from english.models import WordUserKnowledgeRelation
 from users.models import UserModel
 
 
