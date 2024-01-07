@@ -57,13 +57,12 @@ class CategoryUpdateView(
     model = CategoryModel
     form_class = CategoryForm
     template_name = 'form.html'
-    success_url = reverse_lazy('eng:cat_list')
     extra_context = {
         'title': 'Изменить категорию',
         'btn_name': 'Изменить',
     }
-
-    success_message = 'Категория успешно изменена'
+    success_url = reverse_lazy('eng:categories_list')
+    success_message = 'Категория изменена'
     error_message = 'Ошибка изменения категории'
     message_no_permission = 'Вы не можете этого делать'
 
@@ -77,8 +76,10 @@ class CategoryDeleteView(
 ):
     model = CategoryModel
     template_name = 'delete.html'
-    success_url = reverse_lazy('eng:cat_list')
     extra_context = {
         'title': 'Удаление категории',
         'btn_name': 'Удалить',
     }
+    success_url = reverse_lazy('eng:categories_list')
+    success_message = 'Категория удалена'
+    message_no_permission = 'Вы не можете этого делать'
