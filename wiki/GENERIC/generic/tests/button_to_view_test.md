@@ -1,3 +1,4 @@
+```cfgrlanguage
 from django.test import TestCase
 from django.urls import reverse_lazy
 
@@ -41,7 +42,7 @@ class TestUpdateKnowledgeAssessment(TestCase):
         # Аутентифицируем пользователя.
         self.client.force_login(self.admin_user)
         # Тестируем передачу данных от button в views
-        # Даем оценку "+1".
+        # Имитируем нажатие кнопки, даем оценку "+1".
         response = self.client.post(
             self.assessment_url,
             {'knowledge_assessment': '+1'},
@@ -55,16 +56,4 @@ class TestUpdateKnowledgeAssessment(TestCase):
         self.assertEqual(response.status_code, 302)
         # Сравниваем значение обновленной оценки.
         self.assertEqual(self.updated_assessment.knowledge_assessment, 1)
-
-    def test_negative(self):
-        self.client.force_login(self.admin_user)
-        response = self.client.post(
-            self.assessment_url,
-            {'knowledge_assessment': '+1'},
-        )
-        self.updated_assessment = WordUserKnowledgeRelation.objects.get(
-            word=WordModel.objects.get(pk=self.word.pk),
-            user=UserModel.objects.get(pk=self.admin_user.pk),
-        )
-        self.assertEqual(response.status_code, 302)
-        self.assertNotEqual(self.updated_assessment.knowledge_assessment, 0)
+```
