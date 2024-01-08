@@ -5,26 +5,38 @@
 <div class="">
   <!-- Additional Navigation -->
   <div class="row row-cols-2 row-cols-sm-2 row-cols-md-4 row-cols-lg-6">
-    <a class="col h5" href="{% url 'eng:words_list' %}">Словарь</a>
-    <a class="col h5" href="{% url 'eng:words_create' %}">Добавить</a>
+    <a class="col h6" href="{% url 'eng:words_list' %}">Словарь</a>
+    <a class="col h6" href="{% url 'eng:words_create' %}">Добавить</a>
   </div><!-- End Additional Navigation -->
 
+  <!-- Title -->
   {% include 'components/card_title.html' %}
+  <!-- End Title -->
 
-  <!-- User rating of word knowledge -->
+  <!-- Display word choices -->
+  <p class="" >Уровень: {{ knowledge_assessment }}</p>
+  <!-- End Display word choices -->
+
+  <!-- Buttons user rating of word knowledge -->
   {% if user.is_authenticated %}
-    <div class="">
+    <div class="pb-2">
       <form action="{% url 'eng:knowledge_assessment' task.word_id %}" method="post">
+        {% csrf_token %}
         <div class="row">
-          {% csrf_token %}
-          <p class="col d-inline mx-1" >Уровень: {{ knowledge_assessment }}</p>
-          <button class="col d-inline mx-1 bg-primary text-white" name="knowledge_assessment" value="+1" style="height:30px; width:80px">Знаю</button>
-          <button class="col d-inline mx-1 bg-primary text-white" name="knowledge_assessment" value="-1" style="height:30px; width:80px">Не знаю</button>
+          <button class="col btn d-inline mx-1 bg-primary text-white" name="knowledge_assessment" value="-1" style="height:40px; width:80px">Не знаю</button>
+          <button class="col btn d-inline mx-1 bg-primary text-white" name="knowledge_assessment" value="+1" style="height:40px; width:80px">Знаю</button>
+          <!-- Button "Next" -->
+            {% if task_status == 'question' or task_status == 'start' %}
+              <a class="col btn d-inline mx-1 bg-primary text-white" style="height:40px; width:80px" href="{% url next_url 'answer' %}">Далее</a>
+            {% else %}
+              <a class="col btn d-inline mx-1 bg-primary text-white" style="height:40px; width:80px" href="{% url next_url 'question' %}">Далее</a>
+            {% endif %}
+          <!- End- Button "Next" -->
         </div>
       </form>
     </div>
   {% endif %}
-  <!-- End User rating of word knowledge -->
+  <!-- End Buttons user rating of word knowledge -->
 
   <!--======= Solution =======-->
   <div class="">

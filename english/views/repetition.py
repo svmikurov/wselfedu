@@ -30,7 +30,7 @@ from english.tasks.repetition_task import (
 from english.models.words import get_knowledge_assessment
 from users.models import UserModel
 
-TITLE = 'Изучаем слова'
+TITLE = {'title_name': 'Изучаем слова', 'url_name': 'eng:start_repetition'}
 QUESTION_TIMEOUT = settings.QUESTION_TIMEOUT
 ANSWER_TIMEOUT = settings.ANSWER_TIMEOUT
 BTN_NAME = 'Начать'
