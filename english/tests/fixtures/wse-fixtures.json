@@ -1,0 +1,84 @@
+[
+{
+  "model": "sessions.session",
+  "pk": "lz2b6ccev11kapu5tgai7kuqj3yl707q",
+  "fields": {
+    "session_data": ".eJxVjs1qwzAQhN9lz8JIlmxkH5Nzm2MOJQhptYmduhLoh1JC3r12E0p7GdiZb4e5gbG1TKZmSmb2MIIA9tdzFt8pbIG_2nCJDcZQ0uyaDWmeaW5eoqdl92T_FUw2T-t3q5X2AvmAUlrV2k4I753k3dBKjsixJ66kk70jzdGjk9qdue0G7Qah-m3VZ0w-m_O8FEow3gBtoUtMX4_dK5BjTUi_58YbjDUUGN_gcFyt_Q5YqMvyEHjdw4mBzZly_qAfjjPBWiaZYt3pfv8GreZcMg:1rMeOL:VfVS1a-2t7rdv3AX7HeoVRij9kZpMYQIG0ngJLzrIOA",
+    "expire_date": "2024-01-22T01:25:25.050Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "zn9k1zqzlyvkkcr781xixr0ipjt97bgx",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGllrrx3ZlPScwdqPIQGUSHFSRdwdIqWA9s3M20yhdenL2upcBjVn48zpd2OSZx13oA8a75OVaVzmge2u2IM2e520vi6H-3fQU-u_tU8hqRPIgkjBU3ROlRFi9ggiIF2FgIwd1wSiwpj4BhRz4uxC58z7A8-mN34:1rNEaf:fHIdAqfdL0ThbOr5aH-gS2E9EW1VhahIebxVL_bBhyw",
+    "expire_date": "2024-01-23T16:04:33.817Z"
+  }
+},
+{
+  "model": "english.categorymodel",
+  "pk": 1,
+  "fields": {
+    "name": "category1",
+    "created_at": "2024-01-07",
+    "updated_at": "2024-01-07"
+  }
+},
+{
+  "model": "english.categorymodel",
+  "pk": 2,
+  "fields": {
+    "name": "category2",
+    "created_at": "2024-01-07",
+    "updated_at": "2024-01-07"
+  }
+},
+{
+  "model": "english.sourcemodel",
+  "pk": 1,
+  "fields": {
+    "name": "source1",
+    "url": null,
+    "created_at": "2024-01-09",
+    "updated_at": "2024-01-09"
+  }
+},
+{
+  "model": "users.usermodel",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$5CxuW5qMwMLvE1r7DPIxR8$KEuj0qOThZ9DIBDUgxtkzJ+knH4lqBWIwKBNxtJNb+8=",
+    "last_login": "2024-01-09T16:04:33.758Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2024-01-07T17:09:49.730Z",
+    "updated_at": "2024-01-07T17:09:50.581Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.usermodel",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$AKVCCqg1j0EJjsPAVxSFlO$3xugOhsksbabtgSObYaWOPJMtEIGWEeBcciLGy7sV+4=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user1",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2024-01-07T17:10:45.216Z",
+    "updated_at": "2024-01-07T17:10:46.230Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]
