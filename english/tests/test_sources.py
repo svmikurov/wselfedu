@@ -10,6 +10,8 @@ Fixtures are created and taken from the db-wse-fixtures.sqlite3, contain:
     - sources: source1, source2.
 """
 
+import logging
+
 from django.test import TestCase
 from django.urls import reverse_lazy
 
@@ -77,8 +79,8 @@ class TestCreateSource(TestCase):
         self.new_source = {'name': 'new_source'}
 
         self.create_url = reverse_lazy('eng:source_create')
-        self.success_url = reverse_lazy('eng:source_list')
-        self.success_message = 'Источник добавлен'
+        self.success_url = reverse_lazy('eng:sources_list')
+        self.success_message = 'Источник слов добавлен'
         self.no_permissions_message = 'Вы пока не можете делать это'
         self.no_permissions_redirect = reverse_lazy('home')
 
@@ -98,7 +100,7 @@ class TestCreateSource(TestCase):
         self.assertRedirects(response, self.success_url, 302)
         flash_message_test(response, self.success_message)
 
-        # Does the category list page contain a new category?
+        # Does the sources list page contain a new source?
         response = self.client.get(self.success_url)
         self.assertInHTML(self.new_source['name'], response.content.decode())
 
@@ -148,7 +150,7 @@ class TestUpdateSource(TestCase):
             'eng:source_update', kwargs={'pk': 1}
         )
         self.success_url = reverse_lazy('eng:sources_list')
-        self.success_message = 'Категория изменена'
+        self.success_message = 'Источник слов изменен'
         self.no_permissions_message = 'Вы пока не можете делать это'
         self.no_permissions_redirect = reverse_lazy('home')
 
@@ -168,10 +170,10 @@ class TestUpdateSource(TestCase):
         self.assertRedirects(response, self.success_url, 302)
         flash_message_test(response, self.success_message)
 
-        # Does the category list page contain an updated category?
+        # Does the sources list page contain an updated source?
         response = self.client.get(self.success_url)
         html = response.content.decode()
-        self.assertInHTML(self.updated_category['name'], html)
+        self.assertInHTML(self.updated_source['name'], html)
 
     ####################################
     # Test update with no permissions. #
@@ -190,10 +192,10 @@ class TestUpdateSource(TestCase):
         self.assertRedirects(response, self.no_permissions_redirect, 302)
         flash_message_test(response, self.no_permissions_message)
 
-        # Does the sources list page contain a not updated sources?
-        response = self.client.get(self.success_url)
-        html = response.content.decode()
-        self.assertInHTML(self.source.name, html)
+        # Does the db contain an updated_source?
+        self.assertNotEqual(SourceModel.objects.filter(
+            name=self.source
+        ), self.updated_source['name'])
 
     def test_get_update_not_auth(self):
         """Get method by not auth user."""
@@ -228,7 +230,7 @@ class TestDeleteSource(TestCase):
             'eng:source_delete', kwargs={'pk': 1}
         )
         self.success_url = reverse_lazy('eng:sources_list')
-        self.success_message = 'Источник удален'
+        self.success_message = 'Источник слов удален'
         self.no_permissions_message = 'Вы пока не можете делать это'
         self.no_permissions_redirect = reverse_lazy('home')
 
