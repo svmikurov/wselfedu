@@ -21,6 +21,7 @@ def add_filers_to_queryset(request, words_qs, task_status):
     # Обнови словарь фильтров.
     assess = []
     if task_status == 'start':
+        words_filter['words_favorites'] = request.GET.get('words_favorites')
         words_filter['category_id'] = request.GET.get('category_id')
         words_filter['source_id'] = request.GET.get('source_id')
         words_filter['word_count'] = (
@@ -36,13 +37,21 @@ def add_filers_to_queryset(request, words_qs, task_status):
         words_filter['assessment'] = assess
 
     # Добавь последовательно фильтры к QuerySet.
+    words_favorites = words_filter.get('words_favorites')
+    user_id = request.user.id
+    word_count = words_filter['word_count']
+
+    if words_favorites:
+        words_qs = words_qs.filter(favorites__pk=user_id)
     category_id = words_filter.get('category_id')
+
     if category_id:
         words_qs = words_qs.filter(category_id=category_id)
     source_id = words_filter.get('source_id')
+    
     if source_id:
         words_qs = words_qs.filter(source_id=source_id)
-    words_qs = words_qs.filter(word_count__in=words_filter['word_count'])
+    words_qs = words_qs.filter(word_count__in=word_count)
 
     # Добавь фильтрацию по уровню знания слова.
     user = request.user

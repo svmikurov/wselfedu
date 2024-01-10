@@ -22,7 +22,12 @@ urlpatterns = [
     path(
         'knowledge_assessment/<int:word_id>/',
         views.knowledge_assessment_view,
-        name='knowledge_assessment',
+        name='knowledge_assessment'
+    ),
+    path(
+        'words_favorites_view/<int:word_id>/',
+        views.words_favorites_view,
+        name='words_favorites_view',
     ),
     path(
         'test/',
