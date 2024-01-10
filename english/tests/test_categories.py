@@ -52,6 +52,9 @@ class TestListCategories(TestCase):
         self.assertInHTML(self.category_name1, html)
         self.assertInHTML(self.category_name2, html)
 
+        # # Does the categories list page contain "Изменить / Удалить"?
+        # self.assertInHTML('Изменить / Удалить', html)
+
     def test_get_list_by_user(self):
         """Get method by auth user."""
         self.client.force_login(self.user)
