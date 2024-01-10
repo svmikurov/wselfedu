@@ -15,6 +15,9 @@ def get_random_sequence_language_keys() -> list[str]:
 
 def add_filers_to_queryset(request, words_qs, task_status):
     """Добавь фильтры в QuerySet."""
+
+    # Нужен рефакторинг!
+
     # Получи словарь фильтров.
     words_filter = request.session.get('words_filter', dict())
 

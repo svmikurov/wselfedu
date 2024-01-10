@@ -4,14 +4,23 @@ from english import views
 
 app_name = 'eng'
 urlpatterns = [
+    # --======= English chapter =======--
     path(
         '',
         views.HomeEnglishView.as_view(),
         name='home',
     ),
+    # For account.
+    path(
+        'words-users/<int:pk>/',
+        views.ShowUsersWordsView.as_view(),
+        name='users_words',
+    ),
+    # End For account.
+    # Tasks.
     path(
         'repetition/',
-        views.StartRepetitionWordsView.as_view(template_name='eng/tasks/start_repetition.html'),
+        views.StartRepetitionWordsView.as_view(),
         name='start_repetition',
     ),
     path(
@@ -20,20 +29,23 @@ urlpatterns = [
         name='repetition',
     ),
     path(
-        'knowledge_assessment/<int:word_id>/',
-        views.knowledge_assessment_view,
-        name='knowledge_assessment'
-    ),
-    path(
-        'words_favorites_view/<int:word_id>/',
-        views.words_favorites_view,
-        name='words_favorites_view',
-    ),
-    path(
         'test/',
         views.TestWordView.as_view(),
         name='test',
     ),
+    # End Tasks.
+    # Handle post requests to the database.
+    path(
+        'knowledge-assessment/<int:word_id>/',
+        views.change_words_knowledge_assessment_view,
+        name='knowledge_assessment'
+    ),
+    path(
+        'words_favorites_view/<int:word_id>/',
+        views.change_words_favorites_status_view,
+        name='words_favorites_view',
+    ),
+    # End Handle post requests to the database.
 
     # --======= Words =======--
     path(

@@ -58,7 +58,6 @@ class UserPassesTestAdminMixin(UserPassesTestMixin):
             return True
         else:
             self.message_no_permission = self.message
-            # self.url_no_permission = reverse_lazy('home')
             return False
 
     def get_test_func(self):

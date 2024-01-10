@@ -4,6 +4,11 @@
 <!--======= Account Content =======-->
 <div>
   {% include 'components/card_title.html' %}
+
+  <!-- Links to user data -->
+  <a class="" href="{% url 'eng:users_words' user.pk %}">К списку изучаемых слов</a>
+  <!-- End Links to user data -->
+
   <!--=== Update/Delete User ===-->
   <div class="pt-3">
     <a href="{% url 'users:update' object.pk %}" class="btn btn-outline-primary btn-sm m-1" type="button">Обновить</a>

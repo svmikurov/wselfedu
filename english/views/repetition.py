@@ -9,8 +9,6 @@ The solution continues until it is interrupted.
 """
 
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.db.models import F
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -21,19 +19,13 @@ from english.models import (
     CategoryModel,
     SourceModel,
     WordModel,
-    WordUserKnowledgeRelation,
 )
-from english.services import (
-    add_word_to_favorites,
-    remove_word_from_favorites,
-    get_favorites_status,
-)
+from english.services import is_word_in_favorites
 from english.tasks.repetition_task import (
     choice_word,
     add_filers_to_queryset,
 )
 from english.models.words import get_knowledge_assessment
-from users.models import UserModel
 
 TITLE = {'title_name': 'Изучаем слова', 'url_name': 'eng:start_repetition'}
 QUESTION_TIMEOUT = settings.QUESTION_TIMEOUT
@@ -52,6 +44,7 @@ class StartRepetitionWordsView(TemplateView):
     """
     categories = CategoryModel.objects.all()
     sources = SourceModel.objects.all()
+    template_name = 'eng/tasks/start_repetition.html'
 
     extra_context = {
         'title': TITLE,
@@ -94,7 +87,7 @@ class RepetitionWordsView(View):
 
         # Формируем context.
         word_id = task.get('word_id', '')
-        favorites_status: bool = get_favorites_status(user_id, word_id)
+        favorites_status: bool = is_word_in_favorites(user_id, word_id)
 
         context = {
             'title': TITLE,
@@ -116,44 +109,3 @@ class RepetitionWordsView(View):
 
         # Отправляем задание пользователю.
         return render(request, 'eng/tasks/repetition.html', context)
-
-
-def knowledge_assessment_view(request, *args, **kwargs):
-    """Изменяет в модели WordUserKnowledgeRelation значение поля
-    knowledge_assessment (самооценки пользователем знания слова).
-    """
-    # Если пользователь аутентифицирован, обнови его самооценку знания слова.
-    if request.user.is_authenticated:
-        current_assessment = request.POST['knowledge_assessment']
-        word_pk = kwargs['word_id']
-        user_pk = request.user.pk
-
-        # Обнови самооценку знания слова.
-        WordUserKnowledgeRelation.objects.filter(
-            word=WordModel.objects.get(pk=word_pk),
-            user=UserModel.objects.get(pk=user_pk),
-        ).update(
-            knowledge_assessment=F('knowledge_assessment') + current_assessment
-        )
-
-    # Редирект на формирование нового задания.
-    kwargs = {'task_status': 'question'}
-    return redirect(reverse_lazy('eng:repetition', kwargs=kwargs))
-
-
-@login_required
-def words_favorites_view(request, *args, **kwargs):
-    """Добавляет слова в избранные, убирает из избранных."""
-    favorites_action = request.POST.get('favorites_action')
-    word_id = kwargs['word_id']
-    user_id = request.user.pk
-
-    if favorites_action == 'add':
-        add_word_to_favorites(user_id, word_id, request)
-    elif favorites_action == 'remove':
-        remove_word_from_favorites(user_id, word_id)
-
-    # Редирект на формирование нового задания.
-    # Редирект на формирование нового задания.
-    kwargs = {'task_status': 'question'}
-    return redirect(reverse_lazy('eng:repetition', kwargs=kwargs))
