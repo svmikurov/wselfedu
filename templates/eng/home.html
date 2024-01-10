@@ -19,15 +19,16 @@
     <div>
       <h5>Словарь</h5>
       <ul class="list-unstyled ps-3">
-        {% if user.is_superuser %}
-          <li class="py-1">
-            <a href="{% url 'eng:words_list' %}">Список слов</a> /
-            <a href="{% url 'eng:words_create' %}">Добавить слово</a>
-          </li>
-          <li class="py-1"><a href="{% url 'eng:categories_list' %}">Категории</a></li>
-          <li class="py-1"><a href="{% url 'eng:sources_list' %}">Источники</a></li>
-          <li class="py-1"><a href="{% url 'eng:lessons_list' %}">Уроки</a></li>
-        {% endif %}
+        <li class="py-1">
+          {% if user.is_superuser %}
+            <a href="{% url 'eng:words_list' %}">Список слов</a> / <a href="{% url 'eng:words_create' %}">Добавить слово</a>
+          {% else %}
+            <a href="{% url 'eng:words_list' %}">Список слов</a>
+          {% endif %}
+        </li>
+        <li class="py-1"><a href="{% url 'eng:categories_list' %}">Категории</a></li>
+        <li class="py-1"><a href="{% url 'eng:sources_list' %}">Источники</a></li>
+        <li class="py-1"><a href="{% url 'eng:lessons_list' %}">Уроки</a></li>
       </ul>
     </div>
   </div>
