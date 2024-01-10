@@ -7,9 +7,9 @@ The language of the question word is also displayed in random order.
 A timeout is set between displays.
 The solution continues until it is interrupted.
 """
-import logging
 
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.db.models import F
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -22,6 +22,11 @@ from english.models import (
     SourceModel,
     WordModel,
     WordUserKnowledgeRelation,
+)
+from english.services import (
+    add_word_to_favorites,
+    remove_word_from_favorites,
+    get_favorites_status,
 )
 from english.tasks.repetition_task import (
     choice_word,
@@ -36,12 +41,6 @@ ANSWER_TIMEOUT = settings.ANSWER_TIMEOUT
 BTN_NAME = 'Начать'
 
 INDEX_ERROR_MESSAGE = 'Ничего не найдено, попробуйте другие варианты'
-
-logging.basicConfig(
-    format='%(levelname)s: %(message)s',
-    filename='myapp.log',
-    level=logging.DEBUG,
-)
 
 
 class StartRepetitionWordsView(TemplateView):
@@ -95,6 +94,8 @@ class RepetitionWordsView(View):
 
         # Формируем context.
         word_id = task.get('word_id', '')
+        favorites_status: bool = get_favorites_status(user_id, word_id)
+
         context = {
             'title': TITLE,
             'task_status': task_status,
@@ -102,6 +103,7 @@ class RepetitionWordsView(View):
             'timeout': timeout,
             'next_url': 'eng:repetition',
             'word_id': word_id,
+            'favorites_status': favorites_status,
         }
         # Получаем или добавляем в БД значение самооценки пользователя уровня
         # знания слова.
@@ -134,6 +136,24 @@ def knowledge_assessment_view(request, *args, **kwargs):
             knowledge_assessment=F('knowledge_assessment') + current_assessment
         )
 
+    # Редирект на формирование нового задания.
+    kwargs = {'task_status': 'question'}
+    return redirect(reverse_lazy('eng:repetition', kwargs=kwargs))
+
+
+@login_required
+def words_favorites_view(request, *args, **kwargs):
+    """Добавляет слова в избранные, убирает из избранных."""
+    favorites_action = request.POST.get('favorites_action')
+    word_id = kwargs['word_id']
+    user_id = request.user.pk
+
+    if favorites_action == 'add':
+        add_word_to_favorites(user_id, word_id, request)
+    elif favorites_action == 'remove':
+        remove_word_from_favorites(user_id, word_id)
+
+    # Редирект на формирование нового задания.
     # Редирект на формирование нового задания.
     kwargs = {'task_status': 'question'}
     return redirect(reverse_lazy('eng:repetition', kwargs=kwargs))

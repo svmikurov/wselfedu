@@ -82,6 +82,14 @@ class WordModel(models.Model):
         UserModel,
         through='WordUserKnowledgeRelation',
         blank=True,
+        related_name='word_knowledge'
+    )
+    # Does it word favorites for show?
+    favorites = models.ManyToManyField(
+        UserModel,
+        through='WordsFavoritesModel',
+        blank=True,
+        related_name='word_favorites',
     )
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
@@ -111,6 +119,16 @@ class WordUserKnowledgeRelation(models.Model):
         decimal_places=0,
         default=0,
     )
+
+
+class WordsFavoritesModel(models.Model):
+    """Model for store users favorites words."""
+
+    word = models.ForeignKey(WordModel, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = [['word', 'user']]
 
 
 def get_knowledge_assessment(word_id, user_id):

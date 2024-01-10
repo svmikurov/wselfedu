@@ -19,7 +19,7 @@
 
   <!-- Buttons user rating of word knowledge -->
   {% if user.is_authenticated %}
-    <div class="pb-2">
+    <div class="pb-2 px-2 row-cols-md-2 row-cols-lg-4">
       <form action="{% url 'eng:knowledge_assessment' task.word_id %}" method="post">
         {% csrf_token %}
         <div class="row">
@@ -38,8 +38,22 @@
   {% endif %}
   <!-- End Buttons user rating of word knowledge -->
 
+  <!-- Button word favorites status change -->
+  {% if user.is_authenticated %}
+    <div class="py-2">
+      <form action="{% url 'eng:words_favorites_view' task.word_id %}" method="post">
+        {% csrf_token %}
+        {% if favorites_status %}
+          <button class="btn bg-primary text-white" name="favorites_action" value="remove" style="">Убрать из избранного</button>
+        {% else %}
+          <button class="btn bg-primary text-white" name="favorites_action" value="add" style="">Добавить в избранное</button>
+        {% endif %}
+      </form>
+    </div>
+  {% endif %}
+
   <!--======= Solution =======-->
-  <div class="">
+  <div class="pt-2">
     <h6 class="mb-3">Вопрос:</h6>
     <h4 style="line-height:1.4">
       <a href="{% url 'eng:words_update' word_id %}"><mark>{{ task.question }}</mark></a>

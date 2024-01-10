@@ -7,8 +7,8 @@ from english.views.categories import CategoryDeleteView
 
 from english.views.repetition import StartRepetitionWordsView
 from english.views.repetition import RepetitionWordsView
-# from english.views.repetition import UserKnowledgeAssessmentView
 from english.views.repetition import knowledge_assessment_view
+from english.views.repetition import words_favorites_view
 
 from english.views.sources import SourceCreateView
 from english.views.sources import SourceListView
