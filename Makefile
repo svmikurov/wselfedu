@@ -8,7 +8,7 @@ lint:
 	poetry run flake8
 
 create-fixtures:
-	@$(MANAGE) dumpdata --exclude auth.permission --exclude contenttypes --indent 2 > wse-fixtures.json
+	@$(MANAGE) dumpdata --exclude auth --exclude contenttypes --exclude sessions --indent 2 > wse-fixtures.json
 
 test:
 	poetry run coverage run --source='.' manage.py test
