@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
@@ -15,7 +16,7 @@ PAGINATE_NUMBER = 20
 
 class SourceListView(
     HandleNoPermissionMixin,
-    UserPassesTestAdminMixin,
+    LoginRequiredMixin,
     ListView,
 ):
     model = SourceModel
@@ -25,11 +26,13 @@ class SourceListView(
     extra_context = {
         'title': 'Источники для изучения слов',
     }
+    message_no_permission = 'Вы пока не можете делать это'
 
 
 class SourceCreateView(
     HandleNoPermissionMixin,
     UserPassesTestAdminMixin,
+    AddMessageToFormSubmissionMixin,
     CreateView,
 ):
     form_class = SourceForm
@@ -40,8 +43,9 @@ class SourceCreateView(
         'btn_name': 'Добавить',
     }
 
-    success_message = 'Источник слов успешно добавлен'
+    success_message = 'Источник слов добавлен'
     error_message = 'Ошибка в добавлении источника слов'
+    message_no_permission = 'Вы пока не можете делать это'
 
 
 class SourceUpdateView(
@@ -59,7 +63,7 @@ class SourceUpdateView(
         'btn_name': 'Изменить',
     }
 
-    success_message = 'Источник слов успешно изменен'
+    success_message = 'Источник слов изменен'
     error_message = 'Ошибка изменения источника слов'
     message_no_permission = 'Вы не можете этого делать'
 
@@ -78,3 +82,4 @@ class SourceDeleteView(
         'title': 'Удаление источника слов',
         'btn_name': 'Удалить',
     }
+    success_message = 'Источник слов удален'

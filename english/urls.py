@@ -83,17 +83,17 @@ urlpatterns = [
     path(
         'sources/create/',
         views.SourceCreateView.as_view(),
-        name='sources_create'
+        name='source_create'
     ),
     path(
         'sources/<int:pk>/update/',
         views.SourceUpdateView.as_view(),
-        name='sources_update'
+        name='source_update'
     ),
     path(
         'sources/<int:pk>/delete/',
         views.SourceDeleteView.as_view(),
-        name='sources_delete'
+        name='source_delete'
     ),
 
     # --======= Lessons =======--
