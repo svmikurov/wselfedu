@@ -5,15 +5,25 @@
 <div>
   {% include 'components/card_title.html' %}
 
-  <!-- Links to user data -->
-  <a class="" href="{% url 'eng:users_words' user.pk %}">К списку изучаемых слов</a>
-  <!-- End Links to user data -->
+  <!-- Links for superuser -->
+  <div class="py-2">
+    {% if user.is_superuser %}
+      <a href="{% url 'users:list' %}">Список других пользователей</a>
+    {% endif %}
+  </div>
+  <!-- Links for superuser -->
 
-  <!--=== Update/Delete User ===-->
+  <!-- Links to user data -->
+  <div class="py-2">
+    <a class="" href="{% url 'eng:users_words' user.pk %}">К списку изучаемых слов</a>
+  </div><!-- End Links to user data -->
+
+  <!-- Update / Delete User -->
   <div class="pt-3">
     <a href="{% url 'users:update' object.pk %}" class="btn btn-outline-primary btn-sm m-1" type="button">Обновить</a>
     <a href="{% url 'users:delete' object.pk %}" class="btn btn-outline-danger btn-sm m-1" type="button">Удалить</a>
     {% include 'components/back_btn.html' %}
-  </div><!-- End Update/Delete User -->
+  </div><!-- End Update / Delete User -->
+
 </div><!-- End Account Content -->
 {% endblock %}

@@ -10,7 +10,7 @@
       {% csrf_token %}
 
       <!-- Checkbox words favorites -->
-      <fieldset class="form-check p-3">
+      <fieldset class="form-check px-0 py-2">
         <div class="form-check">
           <input class="form-check-input" type="checkbox" name="words_favorites" value="check">
           <label class="form-check-label">Только избранные слова</label>
@@ -18,7 +18,7 @@
       </fieldset><!-- End Checkbox words favorites -->
 
       <!-- Word category choice -->
-      <div class="pb-3">
+      <div class="py-1">
          <select class="form-select" name="category_id">
           <option value="" selected>Выберите категорию</option>
           {% for category in categories %}
@@ -28,7 +28,7 @@
       </div><!-- End Word category choice -->
 
       <!-- Word source choice -->
-      <div class="pb-3">
+      <div class="py-1">
         <select class="form-select" name="source_id">
           <option value="" selected>Выберите источник</option>
           {% for source in sources %}
@@ -38,8 +38,8 @@
       </div><!-- End Word source choice -->
 
       <!-- Checkbox word count choice -->
-      <fieldset class="form-check pb-2">
-        <legend>Выбери количество слов</legend>
+      <fieldset class="form-check p-0 py-2">
+        <legend class="h6">Выбери количество слов</legend>
         <div class="form-check form-check-inline">
           <div>
             <input class="form-check-input" type="checkbox" name="word_count_ow" value="OW" checked />
@@ -63,8 +63,8 @@
       </fieldset><!-- End Checkbox word count choice-->
 
       <!-- Checkbox word knowledge assessment -->
-      <fieldset class="form-check pb-2">
-        <legend>Выбери уровень знания слов</legend>
+      <fieldset class="form-check p-0 pb-2">
+        <legend class="h6">Выбери уровень знания слов</legend>
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="checkbox" name="ws" value="5" checked />
           <label class="form-check-label">Изучение</label>

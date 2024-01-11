@@ -6,6 +6,7 @@ app_name = 'eng'
 urlpatterns = [
     # --======= English chapter =======--
     path(
+        # Show list of registrations users.
         '',
         views.HomeEnglishView.as_view(),
         name='home',

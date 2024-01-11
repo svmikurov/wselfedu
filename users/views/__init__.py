@@ -2,6 +2,7 @@ from users.views.auth import (
     UserRegistrationView,
     UserLoginView,
     UserLogoutView,
+    UsersListView,
 )
 from users.views.accaunt import UserDetailView
 from users.views.update import UserUpdateView

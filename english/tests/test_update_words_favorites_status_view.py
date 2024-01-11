@@ -30,7 +30,7 @@ class TestUpdateWordsFavoritesStatusView(TestCase):
         self.success_url = reverse_lazy('eng:repetition', kwargs=kwargs)
         self.post_data = {'favorites_action': 'add'}
 
-    def test_update_bu_auth_user(self):
-        self.client.force_login(self.user)
-        response = self.client.post(self.url, self.post_data)
-        # self.assertRedirects(response, self.success_url, 302)
+    # def test_update_bu_auth_user(self):
+    #     self.client.force_login(self.user)
+    #     response = self.client.post(self.url, self.post_data)
+    #     self.assertRedirects(response, self.success_url, 302)

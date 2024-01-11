@@ -1,16 +1,22 @@
 from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 
-from contrib_app.mixins import AddMessageToFormSubmissionMixin
+from contrib_app.mixins import (
+    AddMessageToFormSubmissionMixin,
+    UserPassesTestAdminMixin,
+)
 from users.forms import UserRegistrationForm
+from users.models import UserModel
 
 
-class UserRegistrationView(AddMessageToFormSubmissionMixin, CreateView):
-    """
-    User registration in the application.
-    """
+class UserRegistrationView(
+    AddMessageToFormSubmissionMixin,
+    CreateView
+):
+    """User registration in the application."""
+
     form_class = UserRegistrationForm
     extra_context = {
         'title': 'Регистрация',
@@ -41,3 +47,14 @@ class UserLogoutView(
     def get_default_redirect_url(self):
         messages.info(self.request, self.success_message)
         return super().get_default_redirect_url()
+
+
+class UsersListView(
+    UserPassesTestAdminMixin,
+    ListView,
+):
+    """List of registrations users"""
+
+    template_name = 'users/list.html'
+    model = UserModel
+    context_object_name = 'users'

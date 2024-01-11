@@ -4,6 +4,14 @@ from users import views
 
 app_name = 'users'
 urlpatterns = [
+    # <!--======== Users list ========-->
+    path(
+        'list/',
+        views.UsersListView.as_view(),
+        name='list',
+    ),
+    # <!-- End Users list -->
+    # <!--======== Auth users =======-->
     path(
         'registration/',
         views.UserRegistrationView.as_view(template_name='form.html'),
@@ -18,7 +26,8 @@ urlpatterns = [
         'logout/',
         views.UserLogoutView.as_view(),
         name='logout',
-    ),
+    ),  # <!-- End Auth users -->
+    # <!--======== Users account editions =======-->
     path(
         '<pk>/account/',
         views.UserDetailView.as_view(template_name='users/account.html'),
@@ -34,4 +43,5 @@ urlpatterns = [
         views.UserDeleteView.as_view(template_name='delete.html'),
         name='delete',
     ),
+    # <!-- End Users account editions -->
 ]
