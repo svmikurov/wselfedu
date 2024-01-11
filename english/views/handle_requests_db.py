@@ -11,7 +11,7 @@ from users.models import UserModel
 
 @require_POST
 @login_required
-def change_words_knowledge_assessment_view(request, **kwargs):
+def update_words_knowledge_assessment_view(request, **kwargs):
     """Изменяет в модели WordUserKnowledgeRelation значение поля
        knowledge_assessment (самооценки пользователем знания слова).
     """
@@ -34,7 +34,7 @@ def change_words_knowledge_assessment_view(request, **kwargs):
 
 @require_POST
 @login_required
-def change_words_favorites_status_view(request, **kwargs):
+def update_words_favorites_status_view(request, **kwargs):
     """Если слова нет среди избранных - добавляет слова в избранные,
        если слово среди избранных - убирает из избранных.
     """

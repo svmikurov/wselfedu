@@ -1,4 +1,4 @@
-from django.views.generic import DetailView, TemplateView
+from django.views.generic import DetailView
 
 from contrib_app.mixins import AccountOwnershipMixin
 from users.models import UserModel

@@ -26,5 +26,5 @@ from english.views.lessons import LessonDeleteView
 
 from english.views.check import TestWordView
 
-from english.views.handle_requests_db import change_words_knowledge_assessment_view
-from english.views.handle_requests_db import change_words_favorites_status_view
+from english.views.handle_requests_db import update_words_knowledge_assessment_view
+from english.views.handle_requests_db import update_words_favorites_status_view

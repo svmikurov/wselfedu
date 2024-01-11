@@ -6,12 +6,19 @@ class SourceModel(models.Model):
         max_length=50,
         blank=False, null=False,
         verbose_name='Источник',
-        help_text='Не более 50 символов',
+        help_text='Имя не более 50 символов.',
     )
     url = models.URLField(
         max_length=255,
         blank=True, null=True,
         verbose_name='Ссылка',
+        help_text='URL-адрес источника.'
+    )
+    description = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name='Описание',
+        help_text='Описание не более 100 слов.'
     )
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)

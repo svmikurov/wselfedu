@@ -37,12 +37,12 @@ urlpatterns = [
     # Handle post requests to the database.
     path(
         'knowledge-assessment/<int:word_id>/',
-        views.change_words_knowledge_assessment_view,
+        views.update_words_knowledge_assessment_view,
         name='knowledge_assessment'
     ),
     path(
         'words_favorites_view/<int:word_id>/',
-        views.change_words_favorites_status_view,
+        views.update_words_favorites_status_view,
         name='words_favorites_view',
     ),
     # End Handle post requests to the database.

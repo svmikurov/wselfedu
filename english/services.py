@@ -23,9 +23,8 @@ def all_objects(objects_manager: Manager):
 
 def add_word_to_favorites(user_id, word_id):
     """Add word to favorites."""
-    is_word_already_favorite = all_objects(
-        WordsFavoritesModel.objects,
-        fields_filter={'user_id': user_id, 'word_id': word_id}
+    is_word_already_favorite = WordsFavoritesModel.objects.filter(
+        user_id=user_id, word_id=word_id,
     ).exists()
     if not is_word_already_favorite:
         WordsFavoritesModel.objects.create(
@@ -47,8 +46,8 @@ def remove_word_from_favorites(user_pk, word_pk):
 def is_word_in_favorites(user_id, word_id) -> bool:
     """Return the True if the word is the favorites,
        otherwise return the False."""
-    is_favorites = all_objects(
-        WordsFavoritesModel.objects.filter(user=user_id, word=word_id)
+    is_favorites = WordsFavoritesModel.objects.filter(
+        user=user_id, word=word_id,
     ).exists()
     print(f'is_favorites = {is_favorites}')
     return is_favorites

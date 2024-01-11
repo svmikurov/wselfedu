@@ -25,6 +25,8 @@ class TestUpdateKnowledgeAssessment(TestCase):
             word=WordModel.objects.get(pk=self.word.pk),
             user=UserModel.objects.get(pk=self.admin_user.pk),
         )
+        # Задаем данные метода post.
+        self.post_data = {'knowledge_assessment': '+1'}
         # Задаем url для изменения оценки.
         # Значение оценки по умолчанию равно "0".
         self.assessment_url = reverse_lazy(
@@ -42,10 +44,7 @@ class TestUpdateKnowledgeAssessment(TestCase):
         self.client.force_login(self.admin_user)
         # Тестируем передачу данных от button в views
         # Даем оценку "+1".
-        response = self.client.post(
-            self.assessment_url,
-            {'knowledge_assessment': '+1'},
-        )
+        response = self.client.post(self.assessment_url, self.post_data)
         # Получаем обновленное значение оценки.
         self.updated_assessment = WordUserKnowledgeRelation.objects.get(
             word=WordModel.objects.get(pk=self.word.pk),

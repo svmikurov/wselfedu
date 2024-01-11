@@ -21,10 +21,7 @@ from users.models import UserModel
 class TestListCategories(TestCase):
     """Test list categories."""
 
-    fixtures = [
-        'english/tests/fixtures/categories.json',
-        'english/tests/fixtures/users.json',
-    ]
+    fixtures = ['english/tests/fixtures/wse-fixtures.json']
 
     def setUp(self):
         """Preparing the testing environment."""
@@ -74,10 +71,7 @@ class TestListCategories(TestCase):
 class TestCreateCategory(TestCase):
     """Test create category."""
 
-    fixtures = [
-        'english/tests/fixtures/categories.json',
-        'english/tests/fixtures/users.json',
-    ]
+    fixtures = ['english/tests/fixtures/wse-fixtures.json']
 
     def setUp(self):
         """Preparing the testing environment."""
@@ -144,10 +138,7 @@ class TestCreateCategory(TestCase):
 class TestUpdateCategory(TestCase):
     """Test update category."""
 
-    fixtures = [
-        'english/tests/fixtures/categories.json',
-        'english/tests/fixtures/users.json',
-    ]
+    fixtures = ['english/tests/fixtures/wse-fixtures.json']
 
     def setUp(self):
         """Preparing the testing environment."""
@@ -228,10 +219,7 @@ class TestUpdateCategory(TestCase):
 class TestDeleteCategory(TestCase):
     """Test delete category."""
 
-    fixtures = [
-        'english/tests/fixtures/categories.json',
-        'english/tests/fixtures/users.json',
-    ]
+    fixtures = ['english/tests/fixtures/wse-fixtures.json']
 
     def setUp(self):
         """Preparing the testing environment."""

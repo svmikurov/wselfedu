@@ -49,16 +49,18 @@ def add_filers_to_queryset(request, words_qs, task_status):
     if category_id:
         words_qs = words_qs.filter(category_id=category_id)
 
-    word_count = words_filter['word_count']
     source_id = words_filter.get('source_id')
     if source_id:
         words_qs = words_qs.filter(source_id=source_id)
-    words_qs = words_qs.filter(word_count__in=word_count)
+
+    word_count = words_filter.get('word_count')
+    if word_count:
+        words_qs = words_qs.filter(word_count__in=word_count)
 
     # Добавь фильтрацию по уровню знания слова.
     user = request.user
     word_set = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-    assessment = set(words_filter['assessment'])
+    assessment = set(words_filter.get('assessment', (0,)))
     if user.is_authenticated:
         words_id_for_choice = []
         if len(assessment) == 6:

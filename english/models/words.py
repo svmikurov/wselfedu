@@ -78,6 +78,7 @@ class WordModel(models.Model):
         related_name='labels',
     )
     # A field that displays how the user rates his knowledge of this word
+    # Оценка пользователем уровня знания слова
     knowledge_assessment = models.ManyToManyField(
         UserModel,
         through='WordUserKnowledgeRelation',
@@ -120,6 +121,14 @@ class WordUserKnowledgeRelation(models.Model):
         default=0,
     )
 
+    class Meta:
+        verbose_name = 'Оценка пользователем знания слова'
+        verbose_name_plural = 'Оценки пользователем знания слова'
+
+    def __str__(self):
+        return (f'{self.user} оценивает знание слова {self.word} '
+                f'на {self.knowledge_assessment}')
+
 
 class WordsFavoritesModel(models.Model):
     """Model for store users favorites words."""
@@ -129,6 +138,11 @@ class WordsFavoritesModel(models.Model):
 
     class Meta:
         unique_together = [['word', 'user']]
+        verbose_name = 'Избранное слово'
+        verbose_name_plural = 'Избранные слова'
+
+    def __str__(self):
+        return f'Слово {self.word} избрано {self.user}'
 
 
 def get_knowledge_assessment(word_id, user_id):
