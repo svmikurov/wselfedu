@@ -27,7 +27,9 @@ class TestAddWorToFavoritesService(TestCase):
 
     def test_add_word_to_favorites(self):
         """Протестируй добавление слова в список избранных пользователя."""
+        # Добавь слово через тест функции.
         add_word_to_favorites(self.user_id, self.word_id)
+        # Проверь, есть ли в базе данных добавленная связь.
         self.assertTrue(
             WordsFavoritesModel.objects.filter(
                 user=UserModel.objects.get(pk=self.user_id),
@@ -36,7 +38,7 @@ class TestAddWorToFavoritesService(TestCase):
         )
 
     def test_is_word_in_favorites(self):
-        """Протестируй имеющуюся связь в загруженной фикстуре."""
+        """Протестируй функцию уже имеющуюся связь в загруженной фикстуре."""
         self.assertTrue(is_word_in_favorites(
             self.user_id_in_favorites, self.word_id_in_favorites
         ))

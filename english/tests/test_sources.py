@@ -235,13 +235,26 @@ class TestDeleteSource(TestCase):
         self.user = UserModel.objects.get(username='user1')
         self.deleted_source = SourceModel.objects.get(pk=1)
 
+        # URL источника, которые не имеет связей.
         self.delete_url = reverse_lazy(
             'eng:source_delete', kwargs={'pk': 1}
         )
+        # URL источника, который имеет защищенные от удаления связи.
+        self.delete_url_protected_source = reverse_lazy(
+            'eng:source_delete', kwargs={'pk': 2}
+        )
+        # Успешное удаление.
         self.success_url = reverse_lazy('eng:sources_list')
         self.success_message = 'Источник слов удален'
+        # Удаление без прав на удаление.
         self.no_permissions_message = 'Вы пока не можете делать это'
         self.no_permissions_redirect = reverse_lazy('home')
+        # Защита базы от удаления данных.
+        self.protected_redirect = reverse_lazy('home')
+        self.protected_message = (
+            'Невозможно удалить этот объект, '
+            'так как он используется в другом месте приложения'
+        )
 
     #################################
     # Test delete with permissions. #
@@ -261,6 +274,13 @@ class TestDeleteSource(TestCase):
 
         # Does the db contain a deleted source?
         self.assertFalse(SourceModel.objects.filter(pk=1).exists())
+
+    def test_delete_protected_error(self):
+        """Delete protected source."""
+        self.client.force_login(self.admin)
+        response = self.client.post(self.delete_url_protected_source)
+        self.assertRedirects(response, self.protected_redirect, 302)
+        flash_message_test(response, self.protected_message)
 
     ####################################
     # Test delete with no permissions. #

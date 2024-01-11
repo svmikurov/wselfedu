@@ -1,5 +1,5 @@
 MANAGE := poetry run python manage.py
-TEST_JUST := english.tests.test_services
+TEST_JUST := english.tests.test_sources
 
 start:
 	@$(MANAGE) runserver 0.0.0.0:8001
@@ -15,6 +15,15 @@ test:
 
 test-just:
 	@$(MANAGE) test $(TEST_JUST)
+
+test-coverage:
+	poetry run coverage run --source="" manage.py test
+	poetry run coverage xml
+
+coverage:
+	coverage run --source='.' ./manage.py test .
+	coverage report
+	coverage html
 
 shell:
 	@$(MANAGE) shell_plus --ipython

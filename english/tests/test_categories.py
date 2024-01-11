@@ -230,10 +230,18 @@ class TestDeleteCategory(TestCase):
         self.delete_url = reverse_lazy(
             'eng:categories_delete', kwargs={'pk': 1}
         )
+        self.delete_url_protected_source = reverse_lazy(
+            'eng:categories_delete', kwargs={'pk': 2}
+        )
         self.success_url = reverse_lazy('eng:categories_list')
         self.success_message = 'Категория удалена'
         self.no_permissions_message = 'Вы пока не можете делать это'
         self.no_permissions_redirect = reverse_lazy('home')
+        self.protected_redirect = reverse_lazy('home')
+        self.protected_message = (
+            'Невозможно удалить этот объект, '
+            'так как он используется в другом месте приложения'
+        )
 
     #################################
     # Test delete with permissions. #
@@ -253,6 +261,13 @@ class TestDeleteCategory(TestCase):
 
         # Does the db contain a deleted category?
         self.assertFalse(CategoryModel.objects.filter(pk=1).exists())
+
+    def test_delete_protected_error(self):
+        """Delete protected source."""
+        self.client.force_login(self.admin)
+        response = self.client.post(self.delete_url_protected_source)
+        self.assertRedirects(response, self.protected_redirect, 302)
+        flash_message_test(response, self.protected_message)
 
     ####################################
     # Test delete with no permissions. #

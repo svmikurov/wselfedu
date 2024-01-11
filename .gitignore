@@ -8,6 +8,7 @@ staticfiles/
 
 .coverage
 .env
+coverage.xml
 service_tools/tempt.py
 myapp.log
 
