@@ -4,9 +4,11 @@
 {% block content %}
 <div class="">
   <!-- Additional Navigation -->
-  <div class="row row-cols-2 row-cols-sm-2 row-cols-md-4 row-cols-lg-6">
-    <a class="col h6" href="{% url 'eng:words_list' %}">Словарь</a>
-    <a class="col h6" href="{% url 'eng:words_create' %}">Добавить</a>
+  <div class="row row-cols-3 row-cols-sm-4 row-cols-md-4 row-cols-lg-6">
+    <a class="col h5" href="{% url 'eng:words_list' %}">Словарь</a>
+    <a class="col h5" href="{% url 'eng:words_create' %}">Добавить</a>
+    <!-- Link to the Google translater -->
+    <a class="col h5" href="https://translate.google.com/?hl=ru&sl=auto&tl=ru&text={{words_eng}}&op=translate">Google</a><!-- Ebd Link to the Google translater -->
   </div><!-- End Additional Navigation -->
 
   <!-- Title -->
@@ -38,19 +40,25 @@
   {% endif %}
   <!-- End Buttons user rating of word knowledge -->
 
-  <!-- Button word favorites status change -->
-  {% if user.is_authenticated %}
-    <div class="py-2">
-      <form action="{% url 'eng:words_favorites_view' task.word_id %}" method="post">
-        {% csrf_token %}
-        {% if favorites_status %}
-          <button class="btn bg-primary text-white" name="favorites_action" value="remove" style="">Убрать из избранного</button>
-        {% else %}
-          <button class="btn bg-primary text-white" name="favorites_action" value="add" style="">Добавить в избранное</button>
-        {% endif %}
-      </form>
+  <div class="row">
+    <!-- Button word favorites status change -->
+    <div class="=col d-inline">
+    {% if user.is_authenticated %}
+      <div class="py-2">
+        <form action="{% url 'eng:words_favorites_view' task.word_id %}" method="post">
+          {% csrf_token %}
+          {% if favorites_status %}
+            <button class="btn bg-primary text-white" name="favorites_action" value="remove" style="">Убрать из избранного</button>
+          {% else %}
+            <button class="btn bg-primary text-white" name="favorites_action" value="add" style="">Добавить в избранное</button>
+          {% endif %}
+        </form>
+      </div>
+    {% endif %}
     </div>
-  {% endif %}
+
+
+  </div>
 
   <!--======= Solution =======-->
   <div class="pt-2">

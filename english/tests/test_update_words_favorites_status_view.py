@@ -11,7 +11,6 @@ from django.test import TestCase
 from django.urls import reverse_lazy
 
 from english.models import WordModel
-from english.models import WordsFavoritesModel
 from users.models import UserModel
 
 
@@ -23,11 +22,6 @@ class TestUpdateWordsFavoritesStatusView(TestCase):
     def setUp(self):
         self.user = UserModel.objects.get(pk=2)
         self.word_id = WordModel.objects.get(pk=1).pk
-        self.current_status = WordsFavoritesModel.objects.filter(
-            user=self.user,
-            word=self.word_id,
-        )
-        print(f'self.current_status = {self.current_status}')
         self.url = reverse_lazy(
             'eng:words_favorites_view',
             kwargs={'word_id': self.word_id},
@@ -39,9 +33,4 @@ class TestUpdateWordsFavoritesStatusView(TestCase):
     def test_update_bu_auth_user(self):
         self.client.force_login(self.user)
         response = self.client.post(self.url, self.post_data)
-        self.current_status = WordsFavoritesModel.objects.filter(
-            user=self.user,
-            word=self.word_id,
-        )
-        print(f'self.current_status = {self.current_status}')
         self.assertRedirects(response, self.success_url, 302)

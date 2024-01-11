@@ -87,6 +87,7 @@ class RepetitionWordsView(View):
 
         # Формируем context.
         word_id = task.get('word_id', '')
+        words_eng = WordModel.objects.get(pk=word_id)
         favorites_status: bool = is_word_in_favorites(user_id, word_id)
 
         context = {
@@ -96,6 +97,7 @@ class RepetitionWordsView(View):
             'timeout': timeout,
             'next_url': 'eng:repetition',
             'word_id': word_id,
+            'words_eng': words_eng,
             'favorites_status': favorites_status,
         }
         # Получаем или добавляем в БД значение самооценки пользователя уровня
