@@ -20,12 +20,11 @@ from english.models import (
     SourceModel,
     WordModel,
 )
-from english.services import is_word_in_favorites
+from english.services import is_word_in_favorites, get_knowledge_assessment
 from english.tasks.repetition_task import (
     choice_word,
     add_filers_to_queryset,
 )
-from english.models.words import get_knowledge_assessment
 
 TITLE = {'title_name': 'Изучаем слова', 'url_name': 'eng:start_repetition'}
 QUESTION_TIMEOUT = settings.QUESTION_TIMEOUT

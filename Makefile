@@ -1,5 +1,5 @@
 MANAGE := poetry run python manage.py
-TEST_JUST := english.tests.test_update_words_favorites_status_view
+TEST_JUST := english.tests.test_services
 
 start:
 	@$(MANAGE) runserver 0.0.0.0:8001
@@ -8,7 +8,7 @@ lint:
 	poetry run flake8
 
 create-fixtures:
-	@$(MANAGE) dumpdata users.usermodel english.wordmodel english.sourcemodel english.categorymodel --indent 2 > wse-fixtures.json
+	@$(MANAGE) dumpdata --exclude auth.permission --exclude contenttypes --indent 2 > wse-fixtures.json
 
 test:
 	poetry run coverage run --source='.' manage.py test

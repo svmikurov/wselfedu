@@ -1,40 +1,245 @@
 [
 {
-  "model": "users.usermodel",
+  "model": "admin.logentry",
   "pk": 1,
   "fields": {
-    "password": "pbkdf2_sha256$600000$5CxuW5qMwMLvE1r7DPIxR8$KEuj0qOThZ9DIBDUgxtkzJ+knH4lqBWIwKBNxtJNb+8=",
-    "last_login": "2024-01-11T14:59:42.966Z",
-    "is_superuser": true,
-    "username": "admin",
-    "first_name": "",
-    "last_name": "",
-    "email": "",
-    "is_staff": true,
-    "is_active": true,
-    "date_joined": "2024-01-07T17:09:49.730Z",
-    "updated_at": "2024-01-07T17:09:50.581Z",
-    "groups": [],
-    "user_permissions": []
+    "action_time": "2024-01-11T15:00:43.602Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "1",
+    "object_repr": "word01",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
   }
 },
 {
-  "model": "users.usermodel",
+  "model": "admin.logentry",
   "pk": 2,
   "fields": {
-    "password": "pbkdf2_sha256$600000$AKVCCqg1j0EJjsPAVxSFlO$3xugOhsksbabtgSObYaWOPJMtEIGWEeBcciLGy7sV+4=",
-    "last_login": "2024-01-10T06:09:05.998Z",
-    "is_superuser": false,
-    "username": "user1",
-    "first_name": "",
-    "last_name": "",
-    "email": "",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2024-01-07T17:10:45.216Z",
-    "updated_at": "2024-01-07T17:10:46.230Z",
-    "groups": [],
-    "user_permissions": []
+    "action_time": "2024-01-11T15:01:09.864Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "2",
+    "object_repr": "word02",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2024-01-11T15:10:00.043Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "1",
+    "object_repr": "WordsFavoritesModel object (1)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2024-01-11T15:23:55.620Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "1",
+    "object_repr": "word01",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u0418\\u0441\\u0442\\u043e\\u0447\\u043d\\u0438\\u043a\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2024-01-11T15:24:04.062Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "2",
+    "object_repr": "word02",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u0418\\u0441\\u0442\\u043e\\u0447\\u043d\\u0438\\u043a\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2024-01-11T15:31:28.156Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "2",
+    "object_repr": "word02",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u041a\\u0430\\u0442\\u0435\\u0433\\u043e\\u0440\\u0438\\u044f\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2024-01-11T15:31:36.364Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "1",
+    "object_repr": "word01",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u041a\\u0430\\u0442\\u0435\\u0433\\u043e\\u0440\\u0438\\u044f\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2024-01-11T15:39:36.147Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "1",
+    "object_repr": "source1",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2024-01-11T15:39:57.839Z",
+    "user": 1,
+    "content_type": 6,
+    "object_id": "1",
+    "object_repr": "category1",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435.\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2024-01-11T15:41:35.762Z",
+    "user": 1,
+    "content_type": 6,
+    "object_id": "1",
+    "object_repr": "category1",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435.\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 11,
+  "fields": {
+    "action_time": "2024-01-11T15:41:47.059Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "1",
+    "object_repr": "source1",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 12,
+  "fields": {
+    "action_time": "2024-01-11T15:43:45.811Z",
+    "user": 1,
+    "content_type": 6,
+    "object_id": "1",
+    "object_repr": "category1",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435.\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 13,
+  "fields": {
+    "action_time": "2024-01-11T15:43:54.413Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "1",
+    "object_repr": "source1",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "amvq3hsofhizyx2p6gctr8nzbyrn67gf",
+  "fields": {
+    "session_data": ".eJxVj81qwzAQhN9lz8JIlmxkH5Nzm2MOJQhptYmduhLoh1JC3r12E2h72cPMN8vMDYytZTI1UzKzhxEEsL-as_hOYTP81YZLbDCGkmbXbEjzdHPzEj0tuyf778Fk87SmW620F8gHlNKq1nZCeO8k74ZWckSOPXElnewdaY4endTuzG03aDcI1W-tPmPy2ZznpVCC8QZoC11i-nr0XoEca0L6nbEFDMYaCoxvcDiu0n4HLNRleRx43cOJgc2Zcv6gH44zwVommWLd6X7_BgKbXGM:1rNVfX:8dDXLoQ5cY1nvTAq75DcgthR0O2gcbTPbPZT5aEToIs",
+    "expire_date": "2024-01-24T10:18:43.831Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "iwv4egg1dmve91p7y2s1e91kk9nhnz36",
+  "fields": {
+    "session_data": ".eJxVT8tuwjAQ_Jc9W5EdOyjJEc5tjz20KPJjgUBqq167qEL8e-MAVXsZeWdnxjsXGHROhyETxmF00IMA9pcz2p7Ql4U7ar8PlQ0-xdFURVLdt1Q9BYfT-q79F3DQdJjddataJyzvrJRa1boRwjkjedPVklvL7Qq5kkauDLbcOmtka3ZcN11rOqFW5apziI6G3TgljNBfHrP-CnFMSND7PE0MrE64D_H7Vmf2UcjR4u9YbIMN2Sfo3-DldaY2a2CL-ZbwvIEtA02ERB-46DgTrGaSKdZsrwySptPjhCVYMPjMSGkMfv7lPXOlREFpFsQF69ublzLa07nUWCJm5nr9Ae5Qft4:1rNyhn:XannIkpTfOd1Je4mbPiDGfRficluyDI5DD00lsWnMEo",
+    "expire_date": "2024-01-25T17:18:59.065Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "lz2b6ccev11kapu5tgai7kuqj3yl707q",
+  "fields": {
+    "session_data": ".eJxVjs1qwzAQhN9lz8JIlmxkH5Nzm2MOJQhptYmduhLoh1JC3r12E0p7GdiZb4e5gbG1TKZmSmb2MIIA9tdzFt8pbIG_2nCJDcZQ0uyaDWmeaW5eoqdl92T_FUw2T-t3q5X2AvmAUlrV2k4I753k3dBKjsixJ66kk70jzdGjk9qdue0G7Qah-m3VZ0w-m_O8FEow3gBtoUtMX4_dK5BjTUi_58YbjDUUGN_gcFyt_Q5YqMvyEHjdw4mBzZly_qAfjjPBWiaZYt3pfv8GreZcMg:1rMeOL:VfVS1a-2t7rdv3AX7HeoVRij9kZpMYQIG0ngJLzrIOA",
+    "expire_date": "2024-01-22T01:25:25.050Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "sbwvdnndxig5jhix69u4j8d67ravbk4w",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGllrrx3ZlPScwdqPIQGUSHFSRdwdIqWA9s3M20yhdenL2upcBjVn48zpd2OSZx13oA8a75OVaVzmge2u2IM2e520vi6H-3fQU-u_tU8hqRPIgkjBU3ROlRFi9ggiIF2FgIwd1wSiwpj4BhRz4uxC58z7A8-mN34:1rO0On:IDRgCvMJykbSijvekPpyOfwUBQSdEwuQLfldqyC9MS0",
+    "expire_date": "2024-01-25T19:07:29.597Z"
+  }
+},
+{
+  "model": "english.categorymodel",
+  "pk": 1,
+  "fields": {
+    "name": "category1",
+    "description": "Не должна содержать связей с другими таблицами.",
+    "created_at": "2024-01-07",
+    "updated_at": "2024-01-11"
+  }
+},
+{
+  "model": "english.categorymodel",
+  "pk": 2,
+  "fields": {
+    "name": "category2",
+    "description": "",
+    "created_at": "2024-01-07",
+    "updated_at": "2024-01-07"
+  }
+},
+{
+  "model": "english.sourcemodel",
+  "pk": 1,
+  "fields": {
+    "name": "source1",
+    "url": null,
+    "description": "Не должен содержать связей с другими таблицами.",
+    "created_at": "2024-01-09",
+    "updated_at": "2024-01-11"
+  }
+},
+{
+  "model": "english.sourcemodel",
+  "pk": 2,
+  "fields": {
+    "name": "source2",
+    "url": null,
+    "description": "",
+    "created_at": "2024-01-10",
+    "updated_at": "2024-01-10"
   }
 },
 {
@@ -68,45 +273,67 @@
   }
 },
 {
-  "model": "english.sourcemodel",
+  "model": "english.worduserknowledgerelation",
   "pk": 1,
   "fields": {
-    "name": "source1",
-    "url": null,
-    "description": "Не должен содержать связей с другими таблицами.",
-    "created_at": "2024-01-09",
-    "updated_at": "2024-01-11"
+    "word": 1,
+    "user": 1,
+    "knowledge_assessment": "0"
   }
 },
 {
-  "model": "english.sourcemodel",
+  "model": "english.worduserknowledgerelation",
   "pk": 2,
   "fields": {
-    "name": "source2",
-    "url": null,
-    "description": "",
-    "created_at": "2024-01-10",
-    "updated_at": "2024-01-10"
+    "word": 2,
+    "user": 1,
+    "knowledge_assessment": "0"
   }
 },
 {
-  "model": "english.categorymodel",
+  "model": "english.wordsfavoritesmodel",
   "pk": 1,
   "fields": {
-    "name": "category1",
-    "description": "Не должна содержать связей с другими таблицами.",
-    "created_at": "2024-01-07",
-    "updated_at": "2024-01-11"
+    "word": 1,
+    "user": 2
   }
 },
 {
-  "model": "english.categorymodel",
+  "model": "users.usermodel",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$5CxuW5qMwMLvE1r7DPIxR8$KEuj0qOThZ9DIBDUgxtkzJ+knH4lqBWIwKBNxtJNb+8=",
+    "last_login": "2024-01-11T19:07:29.536Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2024-01-07T17:09:49.730Z",
+    "updated_at": "2024-01-07T17:09:50.581Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.usermodel",
   "pk": 2,
   "fields": {
-    "name": "category2",
-    "description": "",
-    "created_at": "2024-01-07",
-    "updated_at": "2024-01-07"
+    "password": "pbkdf2_sha256$600000$AKVCCqg1j0EJjsPAVxSFlO$3xugOhsksbabtgSObYaWOPJMtEIGWEeBcciLGy7sV+4=",
+    "last_login": "2024-01-10T06:09:05.998Z",
+    "is_superuser": false,
+    "username": "user1",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2024-01-07T17:10:45.216Z",
+    "updated_at": "2024-01-07T17:10:46.230Z",
+    "groups": [],
+    "user_permissions": []
   }
 }
 ]

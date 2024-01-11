@@ -1,6 +1,7 @@
 from django.db.models import Manager
 
-from english.models.words import WordsFavoritesModel, WordModel
+from english.models.words import WordsFavoritesModel, WordModel, \
+    WordUserKnowledgeRelation
 from users.models import UserModel
 
 
@@ -49,10 +50,20 @@ def is_word_in_favorites(user_id, word_id) -> bool:
     is_favorites = WordsFavoritesModel.objects.filter(
         user=user_id, word=word_id,
     ).exists()
-    print(f'is_favorites = {is_favorites}')
     return is_favorites
 
 
 ######################################################
 # End Handle current words favorites words to learn. #
 ######################################################
+
+
+def get_knowledge_assessment(word_id, user_id):
+    knowledge_assessment_obj, is_create = (
+        WordUserKnowledgeRelation.objects.get_or_create(
+            word=WordModel.objects.get(pk=word_id),
+            user=UserModel.objects.get(pk=user_id),
+        )
+    )
+    knowledge_assessment = knowledge_assessment_obj.knowledge_assessment
+    return knowledge_assessment
