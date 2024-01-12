@@ -8,9 +8,9 @@ staticfiles/
 
 .coverage
 .env
+/wse-fixtures.json
 coverage.xml
-service_tools/tempt.py
-temp.py
+service_tools/temp.py
 myapp.log
 
 *.sqlite3
