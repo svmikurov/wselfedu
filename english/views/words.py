@@ -8,7 +8,7 @@ from django_filters.views import FilterView
 
 from english.filters import WordsFilter
 from english.forms import WordForm
-from english.models import WordModel
+from english.models import WordModel, CategoryModel
 from contrib_app.mixins import (
     AddMessageToFormSubmissionMixin,
     HandleNoPermissionMixin,
@@ -59,9 +59,19 @@ class WordCreateView(
     success_message = 'Слово успешно добавлено'
     error_message = 'Ошибка в добавлении слова'
 
+    default_category_name = 'Developer'
+
     def form_valid(self, form):
-        """Add current user to model"""
+        """Add current user and category instance default to model.
+
+        If form don't contain category instance, set category instance by
+        default "Developer".
+        """
         form.instance.user = self.request.user
+        if not form.instance.category:
+            form.instance.category = CategoryModel.objects.get(
+                name=self.default_category_name
+            )
         return super().form_valid(form)
 
 

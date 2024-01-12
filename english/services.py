@@ -5,6 +5,7 @@ from english.models.words import WordsFavoritesModel, WordModel, \
 from users.models import UserModel
 
 
+# NOT USED:
 def filter_objects(func: callable):
     """Decorator for filter objects by field name."""
     def inner(objects: Manager, fields_filter=(), *args, **kwargs):
@@ -12,6 +13,7 @@ def filter_objects(func: callable):
     return inner
 
 
+# NOT USED:
 @filter_objects
 def all_objects(objects_manager: Manager):
     return objects_manager.all()
@@ -67,3 +69,13 @@ def get_knowledge_assessment(word_id, user_id):
     )
     knowledge_assessment = knowledge_assessment_obj.knowledge_assessment
     return knowledge_assessment
+
+
+def include_favorites_to_words_qs(
+        words_objects: Manager,
+        user_id: int,
+) -> iter:
+    queryset = words_objects.filter(
+        user_id=user_id,
+    )
+    return queryset.values()
