@@ -1,5 +1,5 @@
 MANAGE := poetry run python manage.py
-TEST_JUST := english.tests.test_sources
+TEST_JUST := english.tests.test_add_word.TestAddWord
 
 start:
 	@$(MANAGE) runserver 0.0.0.0:8001
@@ -8,7 +8,7 @@ lint:
 	poetry run flake8
 
 create-fixtures:
-	@$(MANAGE) dumpdata --exclude auth.permission --exclude contenttypes --indent 2 > wse-fixtures.json
+	@$(MANAGE) dumpdata --exclude auth --exclude contenttypes --exclude admin --exclude sessions --indent 2 > wse-fixtures.json
 
 test:
 	poetry run coverage run --source='.' manage.py test

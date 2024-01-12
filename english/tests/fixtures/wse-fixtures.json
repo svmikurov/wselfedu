@@ -20,6 +20,16 @@
   }
 },
 {
+  "model": "english.categorymodel",
+  "pk": 3,
+  "fields": {
+    "name": "Developer",
+    "description": "Значение по умолчанию, если пользователем не задана категория.",
+    "created_at": "2024-01-12",
+    "updated_at": "2024-01-12"
+  }
+},
+{
   "model": "english.sourcemodel",
   "pk": 1,
   "fields": {
