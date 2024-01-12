@@ -15,7 +15,6 @@ from contrib_app.mixins import (
     RedirectForModelObjectDeleteErrorMixin,
     UserPassesTestAdminMixin,
 )
-from english.services import is_word_in_favorites
 
 PAGINATE_NUMBER = 20
 
@@ -109,7 +108,6 @@ class ShowUsersWordsView(FilterView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user_id = self.request.user.pk
         words = WordModel.objects.all().select_related(
             'user',
             'source',
@@ -117,7 +115,6 @@ class ShowUsersWordsView(FilterView):
             'lesson',
         )
         context['words'] = words
-        # favorites_status: bool = is_word_in_favorites(user_id, word_id)
         return context
 
 

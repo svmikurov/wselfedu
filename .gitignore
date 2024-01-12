@@ -10,6 +10,7 @@ staticfiles/
 .env
 coverage.xml
 service_tools/tempt.py
+temp.py
 myapp.log
 
 *.sqlite3

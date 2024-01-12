@@ -25,6 +25,8 @@ coverage:
 	coverage report
 	coverage html
 
+check: lint test
+
 shell:
 	@$(MANAGE) shell_plus --ipython
 
