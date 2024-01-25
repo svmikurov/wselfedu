@@ -1,5 +1,5 @@
 MANAGE := poetry run python manage.py
-TEST_JUST := english.tests.test_add_word.TestAddWord
+TEST_JUST := english.tests.test_update_words_knowledge_assessment_view
 
 start:
 	@$(MANAGE) runserver 0.0.0.0:8000
@@ -13,7 +13,7 @@ create-fixtures:
 test:
 	poetry run coverage run --source='.' manage.py test
 
-test-just: lint
+test-just:
 	@$(MANAGE) test $(TEST_JUST)
 
 test-coverage:

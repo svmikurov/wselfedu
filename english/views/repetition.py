@@ -1,3 +1,7 @@
+# Нужен рефакторинг!
+# Вынести из представлений работу с БД.
+# Упростить логику.
+
 """
 Solution for repetition and learning of words.
 Before the solution, you need to select a category and source of words.
@@ -108,6 +112,5 @@ class RepetitionWordsView(View):
             context[
                 'knowledge_assessment'
             ] = get_knowledge_assessment(word_id, user_id)
-
         # Отправляем задание пользователю.
         return render(request, 'eng/tasks/repetition.html', context)

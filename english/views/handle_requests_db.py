@@ -1,15 +1,14 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import F
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
 
-from config.settings import MAX_KNOWLEDGE_ASSESSMENT, MIN_KNOWLEDGE_ASSESSMENT
-from english.models import WordUserKnowledgeRelation, WordModel
-from english.services import remove_word_from_favorites, add_word_to_favorites
-from english.tasks.repetition_task import get_word_knowledge_assessment, \
-    update_word_knowledge_assessment
-from users.models import UserModel
+from english.services import (
+    add_word_to_favorites,
+    remove_word_from_favorites,
+    get_word_knowledge_assessment,
+    update_word_knowledge_assessment,
+)
 
 
 @require_POST
@@ -27,22 +26,11 @@ def update_words_knowledge_assessment_view(request, **kwargs):
     user_pk = request.user.pk
     kwargs = {'task_status': 'question'}
 
-    # Если самооценка не изменена переходи к следующему вопросу.
-    if not given_assessment:
-        return redirect(reverse_lazy('eng:repetition', kwargs))
+    if given_assessment:
+        old_assessment = get_word_knowledge_assessment(user_pk, word_pk)
+        new_assessment = old_assessment + given_assessment
+        update_word_knowledge_assessment(user_pk, word_pk, new_assessment)
 
-    # Получи уже имеющееся значение самооценки.
-    old_knowledge_assessment = get_word_knowledge_assessment(word_pk, user_pk)
-
-    # Обнови в базе данных оценку знания слова пользователем
-    update_word_knowledge_assessment(
-            old_knowledge_assessment,
-            given_assessment,
-            word_pk,
-            user_pk
-    )
-
-    # Редирект на формирование нового задания.
     return redirect(reverse_lazy('eng:repetition', kwargs=kwargs))
 
 

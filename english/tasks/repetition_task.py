@@ -1,10 +1,8 @@
 from random import choice, shuffle
 
-from django.db.models import F
 from django.forms.models import model_to_dict
 
-from config.settings import MIN_KNOWLEDGE_ASSESSMENT, MAX_KNOWLEDGE_ASSESSMENT
-from english.models import WordUserKnowledgeRelation, WordModel
+from english.models import WordUserKnowledgeRelation
 from users.models import UserModel
 
 
@@ -16,7 +14,8 @@ def get_random_sequence_language_keys() -> list[str]:
 
 
 def add_filers_to_queryset(request, words_qs, task_status):
-    """Добавь фильтры в QuerySet."""
+    """Добавь фильтры в QuerySet.
+    """
 
     # Нужен рефакторинг!
 
@@ -101,7 +100,8 @@ def add_filers_to_queryset(request, words_qs, task_status):
 
 
 def choice_word(words: list) -> dict:
-    """Создай задание для изучения слов."""
+    """Создай задание для изучения слов.
+    """
     # Выбери случайным образом слово для перевода.
     selected_word = model_to_dict(choice(words))
     # Выбери случайным образом язык слова для перевода.
@@ -118,34 +118,3 @@ def choice_word(words: list) -> dict:
 ########################################################
 # Change a user's word knowledge score in the database #
 ########################################################
-
-
-def get_word_knowledge_assessment(word_pk, user_pk) -> int:
-    """Получи из базы данных оценку знания слова пользователем."""
-    [knowledge_assessment] = WordUserKnowledgeRelation.objects.filter(
-        word=WordModel.objects.get(pk=word_pk),
-        user=UserModel.objects.get(pk=user_pk),
-    ).values_list('knowledge_assessment', flat=True)
-    return int(knowledge_assessment)
-
-
-def update_word_knowledge_assessment(
-        old_knowledge_assessment,
-        given_assessment,
-        word_pk,
-        user_pk
-):
-    """Обнови в базе данных оценку знания слова пользователем"""
-    new_knowledge_assessment = old_knowledge_assessment + given_assessment
-    # Обнови значение аккумулированной самооценки в БД, если оно в
-    # установленном допустимом диапазоне.
-    if (MIN_KNOWLEDGE_ASSESSMENT
-            <= new_knowledge_assessment
-            <= MAX_KNOWLEDGE_ASSESSMENT):
-        WordUserKnowledgeRelation.objects.filter(
-            word=WordModel.objects.get(pk=word_pk),
-            user=UserModel.objects.get(pk=user_pk),
-        ).update(
-            knowledge_assessment=F(
-                'knowledge_assessment') + new_knowledge_assessment
-        )

@@ -1,23 +1,15 @@
-from django.db.models import Manager
+"""
+Модуль для работы с базой данных.
+"""
 
-from english.models.words import WordsFavoritesModel, WordModel, \
-    WordUserKnowledgeRelation
+from config.settings import MIN_KNOWLEDGE_ASSESSMENT, MAX_KNOWLEDGE_ASSESSMENT
+
+from english.models.words import (
+    WordsFavoritesModel,
+    WordModel,
+    WordUserKnowledgeRelation,
+)
 from users.models import UserModel
-
-
-# NOT USED:
-def filter_objects(func: callable):
-    """Decorator for filter objects by field name."""
-    def inner(objects: Manager, fields_filter=(), *args, **kwargs):
-        return func(objects, *args, **kwargs).filter(*fields_filter)
-    return inner
-
-
-# NOT USED:
-@filter_objects
-def all_objects(objects_manager: Manager):
-    return objects_manager.all()
-
 
 ###############################################################################
 # Handle current words favorites words to learn.                              #
@@ -25,7 +17,8 @@ def all_objects(objects_manager: Manager):
 
 
 def add_word_to_favorites(user_id, word_id):
-    """Add word to favorites."""
+    """Add word to favorites.
+    """
     is_word_already_favorite = WordsFavoritesModel.objects.filter(
         user_id=user_id, word_id=word_id,
     ).exists()
@@ -37,7 +30,8 @@ def add_word_to_favorites(user_id, word_id):
 
 
 def remove_word_from_favorites(user_pk, word_pk):
-    """Remove word from favorites."""
+    """Remove word from favorites.
+    """
     try:
         word = WordsFavoritesModel.objects.filter(user=user_pk, word=word_pk)
     except ValueError:
@@ -48,20 +42,23 @@ def remove_word_from_favorites(user_pk, word_pk):
 
 def is_word_in_favorites(user_id, word_id) -> bool:
     """Return the True if the word is the favorites,
-       otherwise return the False."""
+       otherwise return the False.
+    """
     is_favorites = WordsFavoritesModel.objects.filter(
         user=user_id, word=word_id,
     ).exists()
     return is_favorites
 
 
-######################################################
-# End Handle current words favorites words to learn. #
-######################################################
+###############################################################################
+# End Handle current words favorites words to learn.                          #
+###############################################################################
+# Handle users' word knowledge assessment.                                    #
+###############################################################################
 
 
 def get_knowledge_assessment(word_id, user_id):
-    """Получи или создай оценку пользователем знание слова.
+    """Получи или создай в базе данных оценку пользователем знание слова.
        При создании оценки, оценка рана "0".
     """
     knowledge_assessment_obj, is_create = (
@@ -74,11 +71,26 @@ def get_knowledge_assessment(word_id, user_id):
     return knowledge_assessment
 
 
-def include_favorites_to_words_qs(
-        words_objects: Manager,
-        user_id: int,
-) -> iter:
-    queryset = words_objects.filter(
-        user_id=user_id,
-    )
-    return queryset.values()
+def get_word_knowledge_assessment(user_id: int, word_id: int) -> int:
+    """Получи из базы данных оценку знания слова пользователем.
+    """
+    assessment = WordUserKnowledgeRelation.objects.filter(
+        user_id=user_id, word_id=word_id
+    ).values_list('knowledge_assessment', flat=True)[0]
+    return assessment
+
+
+def update_word_knowledge_assessment(user_pk, word_pk, new_assessment):
+    """Обнови в базе данных оценку знания слова пользователем.
+    """
+    if (MIN_KNOWLEDGE_ASSESSMENT
+            <= new_assessment
+            <= MAX_KNOWLEDGE_ASSESSMENT):
+        WordUserKnowledgeRelation.objects.filter(
+            word_id=word_pk, user_id=user_pk,
+        ).update(knowledge_assessment=new_assessment)
+
+
+###############################################################################
+# End Handle users' word knowledge assessment.                                #
+###############################################################################
