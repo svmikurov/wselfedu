@@ -83,3 +83,8 @@ class SourceDeleteView(
         'btn_name': 'Удалить',
     }
     success_message = 'Источник слов удален'
+    protected_redirect_url = reverse_lazy('eng:sources_list')
+    protected_message = (
+        'Невозможно удалить этот объект, '
+        'так как он используется в другом месте приложения'
+    )

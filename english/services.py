@@ -61,6 +61,9 @@ def is_word_in_favorites(user_id, word_id) -> bool:
 
 
 def get_knowledge_assessment(word_id, user_id):
+    """Получи или создай оценку пользователем знание слова.
+       При создании оценки, оценка рана "0".
+    """
     knowledge_assessment_obj, is_create = (
         WordUserKnowledgeRelation.objects.get_or_create(
             word=WordModel.objects.get(pk=word_id),

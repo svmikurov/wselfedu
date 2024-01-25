@@ -1,8 +1,10 @@
 from random import choice, shuffle
 
+from django.db.models import F
 from django.forms.models import model_to_dict
 
-from english.models import WordUserKnowledgeRelation
+from config.settings import MIN_KNOWLEDGE_ASSESSMENT, MAX_KNOWLEDGE_ASSESSMENT
+from english.models import WordUserKnowledgeRelation, WordModel
 from users.models import UserModel
 
 
@@ -111,3 +113,39 @@ def choice_word(words: list) -> dict:
         'answer': selected_word.get(answer_key),
     }
     return word
+
+
+########################################################
+# Change a user's word knowledge score in the database #
+########################################################
+
+
+def get_word_knowledge_assessment(word_pk, user_pk) -> int:
+    """Получи из базы данных оценку знания слова пользователем."""
+    [knowledge_assessment] = WordUserKnowledgeRelation.objects.filter(
+        word=WordModel.objects.get(pk=word_pk),
+        user=UserModel.objects.get(pk=user_pk),
+    ).values_list('knowledge_assessment', flat=True)
+    return int(knowledge_assessment)
+
+
+def update_word_knowledge_assessment(
+        old_knowledge_assessment,
+        given_assessment,
+        word_pk,
+        user_pk
+):
+    """Обнови в базе данных оценку знания слова пользователем"""
+    new_knowledge_assessment = old_knowledge_assessment + given_assessment
+    # Обнови значение аккумулированной самооценки в БД, если оно в
+    # установленном допустимом диапазоне.
+    if (MIN_KNOWLEDGE_ASSESSMENT
+            <= new_knowledge_assessment
+            <= MAX_KNOWLEDGE_ASSESSMENT):
+        WordUserKnowledgeRelation.objects.filter(
+            word=WordModel.objects.get(pk=word_pk),
+            user=UserModel.objects.get(pk=user_pk),
+        ).update(
+            knowledge_assessment=F(
+                'knowledge_assessment') + new_knowledge_assessment
+        )

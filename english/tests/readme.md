@@ -11,8 +11,8 @@
 
 Имеются следующие отношения('word - user (assessment)'):
     - WordUserKnowledgeRelation:
-        - word01 - admin (0);
-        - word02 - admin (0)
+        - word01 - admin: knowledge_assessment = 0;  
+        - word05 - admin: knowledge_assessment = 0.  
     - WordsFavoritesModel:
         - word01 - user1.
 
@@ -29,3 +29,5 @@
     - подумать о вынесении в отдельные тесты:  
         - тестирование вью;  
         - тестирование функции обновления статуса.  
+
+- Закончить тест чекбокса "Выбери уровень знания слов" в упражнении "Изучаем слова".  

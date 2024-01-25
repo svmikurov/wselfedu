@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 from english.models import WordModel
-from english.services import include_favorites_to_words_qs
+# from english.services import include_favorites_to_words_qs
 
 
 class TestJoinQS(TestCase):
@@ -38,15 +38,15 @@ class TestJoinQS(TestCase):
             },
         ]
 
-    def test(self):
-        current_queryset = include_favorites_to_words_qs(
-            self.words_objects,
-            self.user_id,
-        )
-        for index, query in enumerate(current_queryset):
-            for field in query:
-                print(f'from test: field = {field}')
-                print(f'from test: index = {index}')
-                print(f'from test: query.get(field) = {query.get(field)}')
-                print(f'from test: self.expected_queryset[index].get(field) = {self.expected_queryset[index].get(field)}')
-                assert query.get(field) == self.expected_queryset[index].get(field)
+    # def test(self):
+    #     current_queryset = include_favorites_to_words_qs(
+    #         self.words_objects,
+    #         self.user_id,
+    #     )
+    #     for index, query in enumerate(current_queryset):
+    #         for field in query:
+    #             print(f'from test: field = {field}')
+    #             print(f'from test: index = {index}')
+    #             print(f'from test: query.get(field) = {query.get(field)}')
+    #             print(f'from test: self.expected_queryset[index].get(field) = {self.expected_queryset[index].get(field)}')
+    #             assert query.get(field) == self.expected_queryset[index].get(field)

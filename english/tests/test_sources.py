@@ -233,7 +233,6 @@ class TestDeleteSource(TestCase):
         """Preparing the testing environment."""
         self.admin = UserModel.objects.get(username='admin')
         self.user = UserModel.objects.get(username='user1')
-        self.deleted_source = SourceModel.objects.get(pk=1)
 
         # URL источника, которые не имеет связей.
         self.delete_url = reverse_lazy(
@@ -250,7 +249,7 @@ class TestDeleteSource(TestCase):
         self.no_permissions_message = 'Вы пока не можете делать это'
         self.no_permissions_redirect = reverse_lazy('home')
         # Защита базы от удаления данных.
-        self.protected_redirect = reverse_lazy('home')
+        self.protected_redirect = reverse_lazy('eng:sources_list')
         self.protected_message = (
             'Невозможно удалить этот объект, '
             'так как он используется в другом месте приложения'

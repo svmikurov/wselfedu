@@ -46,7 +46,7 @@
   "fields": {
     "name": "source2",
     "url": null,
-    "description": "Содержит связи со словами",
+    "description": "",
     "created_at": "2024-01-10",
     "updated_at": "2024-01-10"
   }
@@ -112,21 +112,6 @@
   }
 },
 {
-  "model": "english.wordmodel",
-  "pk": 5,
-  "fields": {
-    "user": 1,
-    "words_eng": "word05",
-    "words_rus": "слово05",
-    "source": 2,
-    "category": 3,
-    "word_count": "ST",
-    "lesson": null,
-    "created_at": "2024-01-25T04:58:56.021Z",
-    "updated_at": "2024-01-25T04:58:56.021Z"
-  }
-},
-{
   "model": "english.worduserknowledgerelation",
   "pk": 1,
   "fields": {
@@ -163,15 +148,6 @@
   }
 },
 {
-  "model": "english.worduserknowledgerelation",
-  "pk": 5,
-  "fields": {
-    "word": 5,
-    "user": 1,
-    "knowledge_assessment": "11"
-  }
-},
-{
   "model": "english.wordsfavoritesmodel",
   "pk": 1,
   "fields": {
@@ -192,7 +168,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$600000$5CxuW5qMwMLvE1r7DPIxR8$KEuj0qOThZ9DIBDUgxtkzJ+knH4lqBWIwKBNxtJNb+8=",
-    "last_login": "2024-01-25T04:57:32.873Z",
+    "last_login": "2024-01-12T15:12:16.514Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "",

@@ -31,8 +31,6 @@ QUESTION_TIMEOUT = settings.QUESTION_TIMEOUT
 ANSWER_TIMEOUT = settings.ANSWER_TIMEOUT
 BTN_NAME = 'Начать'
 
-INDEX_ERROR_MESSAGE = 'Ничего не найдено, попробуйте другие варианты'
-
 
 class StartRepetitionWordsView(TemplateView):
     """Start solution.
@@ -73,7 +71,10 @@ class RepetitionWordsView(View):
                 # Получи слово для задания.
                 task = choice_word(filtered_words)
             except IndexError:
-                messages.error(self.request, INDEX_ERROR_MESSAGE)
+                messages.error(
+                    self.request,
+                    'Ничего не найдено, попробуйте другие варианты'
+                )
                 return redirect(reverse_lazy('eng:start_repetition'))
             else:
                 # Сохрани задание в сессию, если статус - вопрос.
