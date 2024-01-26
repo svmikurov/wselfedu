@@ -57,7 +57,7 @@ def is_word_in_favorites(user_id, word_id) -> bool:
 ###############################################################################
 
 
-def get_knowledge_assessment(word_id, user_id):
+def get_or_create_knowledge_assessment(word_id, user_id):
     """Получи или создай в базе данных оценку пользователем знание слова.
        При создании оценки, оценка рана "0".
     """

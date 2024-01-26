@@ -1,5 +1,5 @@
 MANAGE := poetry run python manage.py
-TEST_JUST := english.tests.test_update_words_knowledge_assessment_view
+TEST_JUST := english.tests.test_knowledge_assessment
 
 start:
 	@$(MANAGE) runserver 0.0.0.0:8000

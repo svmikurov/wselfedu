@@ -24,7 +24,10 @@ from english.models import (
     SourceModel,
     WordModel,
 )
-from english.services import is_word_in_favorites, get_knowledge_assessment
+from english.services import (
+    is_word_in_favorites,
+    get_or_create_knowledge_assessment
+)
 from english.tasks.repetition_task import (
     choice_word,
     add_filers_to_queryset,
@@ -111,6 +114,6 @@ class RepetitionWordsView(View):
         if request.user.is_authenticated:
             context[
                 'knowledge_assessment'
-            ] = get_knowledge_assessment(word_id, user_id)
+            ] = get_or_create_knowledge_assessment(word_id, user_id)
         # Отправляем задание пользователю.
         return render(request, 'eng/tasks/repetition.html', context)

@@ -2,8 +2,9 @@ from django.test import TestCase
 from django.urls import reverse_lazy
 
 from config.settings import MIN_KNOWLEDGE_ASSESSMENT, MAX_KNOWLEDGE_ASSESSMENT
-from english.models import WordModel
-from english.services import get_word_knowledge_assessment
+from english.models import WordModel, WordUserKnowledgeRelation
+from english.services import get_word_knowledge_assessment, \
+    get_or_create_knowledge_assessment
 from users.models import UserModel
 
 
@@ -23,6 +24,7 @@ class TestKnowledgeAssessment(TestCase):
         self.word_max_assessment = WordModel.objects.get(pk=5)     # 11
         self.word_middle_assessment = WordModel.objects.get(pk=3)  # 7
         self.expected_updated_assessment = 6
+        self.new_word_data = {'words_eng': 'test', 'words_rus': 'тест'}
 
         self.assessment_up = {'knowledge_assessment': '+1'}
         self.assessment_down = {'knowledge_assessment': '-1'}
@@ -42,10 +44,16 @@ class TestKnowledgeAssessment(TestCase):
         )
 
     def test_add_knowledge_assessment(self):
-        ...
-
-    def test_get_knowledge_assessment(self):
-        ...
+        """Тест get_or_create_knowledge_assessment.
+        """
+        new_word_pk = WordModel.objects.create(**self.new_word_data).pk
+        self.assertFalse(WordUserKnowledgeRelation.objects.filter(
+            word_id=new_word_pk
+        ).exists())
+        get_or_create_knowledge_assessment(new_word_pk, self.user.pk)
+        self.assertTrue(WordUserKnowledgeRelation.objects.filter(
+            word_id=new_word_pk
+        ).exists())
 
     def test_update_knowledge_assessment(self):
         """Тест изменения пользователем оценки знания слова.

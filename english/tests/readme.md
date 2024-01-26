@@ -28,9 +28,8 @@
 - category;  
 - ...  
 
-###### test_knowledge_assessment.py:    
-- добавить тест "test_add_knowledge_assessment"  
-- добавить тест "test_get_knowledge_assessment"
+###### test_words.py
+- Не содержит тесты на права пользователей
 
 ###### Тест Выбери уровень знания слов
 - Закончить тест чекбокса "Выбери уровень знания слов" в упражнении "Изучаем слова".  
