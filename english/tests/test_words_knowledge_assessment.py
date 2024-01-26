@@ -8,7 +8,7 @@ from english.services import get_word_knowledge_assessment, \
 from users.models import UserModel
 
 
-class TestKnowledgeAssessment(TestCase):
+class TestWordsKnowledgeAssessment(TestCase):
     """Тест обновления в базе данных оценки пользователем знания слова.
 
     Минимальное значение оценки "MIN_KNOWLEDGE_ASSESSMENT" = "0",

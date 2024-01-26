@@ -1,7 +1,3 @@
-"""
-Модуль содержит тесты сервисов по запросам к базе данных, не должен содержать
-тесты view and templates.
-"""
 from django.test import TestCase
 
 from english.models import WordModel, WordsFavoritesModel
@@ -13,7 +9,7 @@ from english.services import (
 from users.models import UserModel
 
 
-class TestAddWorToFavoritesService(TestCase):
+class TestWordsFavorites(TestCase):
 
     fixtures = ['english/tests/fixtures/wse-fixtures.json']
 
