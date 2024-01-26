@@ -1,5 +1,7 @@
-"""
-Рефакторинг view длф изучения слов.
+#
+# Данный модуль является часть приложения по изучению английского языка.
+#
+"""Представления пользователю для изучения, повторения, проверки знания слов.
 """
 
 from django.contrib import messages
@@ -9,16 +11,19 @@ from django.views.generic import TemplateView
 
 from config.settings import ANSWER_TIMEOUT, QUESTION_TIMEOUT
 from english.models import CategoryModel, SourceModel
+from english.services.serve_query import all_objects
 
 MESSAGE_NO_WORDS = 'Ничего не найдено, попробуйте другие варианты'
+"""Нет слов, удовлетворяющих критериям выборки пользователя (`str`)
+"""
 
 
 class ChooseEnglishWordsStudyView(TemplateView):
     """View choosing English words to study."""
 
     template_name = 'english/tasks/words_choose.html'
-    categories = CategoryModel.objects.all()
-    sources = SourceModel.objects.all()
+    categories = all_objects(CategoryModel.objects)
+    sources = all_objects(SourceModel.objects)
     extra_context = {
         'categories': categories,
         'sources': sources,
