@@ -3,8 +3,10 @@ from django.urls import reverse_lazy
 
 from config.settings import MIN_KNOWLEDGE_ASSESSMENT, MAX_KNOWLEDGE_ASSESSMENT
 from english.models import WordModel, WordUserKnowledgeRelation
-from english.services import get_word_knowledge_assessment, \
-    get_or_create_knowledge_assessment
+from english.services.words_knowledge_assessment import (
+    get_word_knowledge_assessment,
+    get_or_create_knowledge_assessment,
+)
 from users.models import UserModel
 
 

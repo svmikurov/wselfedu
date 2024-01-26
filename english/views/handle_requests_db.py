@@ -3,11 +3,13 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
 
-from english.services import (
-    add_word_to_favorites,
-    remove_word_from_favorites,
+from english.services.words_knowledge_assessment import (
     get_word_knowledge_assessment,
     update_word_knowledge_assessment,
+)
+from english.services.words_favorites import (
+    add_word_to_favorites,
+    remove_word_from_favorites
 )
 
 

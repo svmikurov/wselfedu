@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 from english.models import WordModel, WordsFavoritesModel
-from english.services import (
+from english.services.words_favorites import (
     add_word_to_favorites,
     remove_word_from_favorites,
     is_word_in_favorites,
