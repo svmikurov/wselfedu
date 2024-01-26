@@ -60,7 +60,7 @@
     "words_rus": "слово01",
     "source": 2,
     "category": 2,
-    "word_count": "OW",
+    "word_count": "NC",
     "lesson": null,
     "created_at": "2024-01-11T15:00:05Z",
     "updated_at": "2024-01-11T15:00:05Z"
@@ -90,7 +90,7 @@
     "words_rus": "слово03",
     "source": 2,
     "category": 2,
-    "word_count": "OW",
+    "word_count": "CB",
     "lesson": null,
     "created_at": "2024-01-12T15:12:31Z",
     "updated_at": "2024-01-12T15:12:31Z"
@@ -105,7 +105,7 @@
     "words_rus": "слово04",
     "source": 2,
     "category": 2,
-    "word_count": "OW",
+    "word_count": "PS",
     "lesson": null,
     "created_at": "2024-01-12T15:13:06Z",
     "updated_at": "2024-01-12T15:13:06Z"
@@ -120,10 +120,25 @@
     "words_rus": "слово05",
     "source": 2,
     "category": 3,
-    "word_count": "OW",
+    "word_count": "ST",
     "lesson": null,
     "created_at": "2024-01-25T04:58:56.021Z",
     "updated_at": "2024-01-25T04:58:56.021Z"
+  }
+},
+{
+  "model": "english.wordmodel",
+  "pk": 6,
+  "fields": {
+    "user": 1,
+    "words_eng": "word06",
+    "words_rus": "слово06",
+    "source": 2,
+    "category": 2,
+    "word_count": "OW",
+    "lesson": null,
+    "created_at": "2024-01-26T00:00:00Z",
+    "updated_at": "2024-01-26T00:00:00Z"
   }
 },
 {
