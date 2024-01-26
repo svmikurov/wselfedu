@@ -28,7 +28,7 @@ from english.services import (
     is_word_in_favorites,
     get_or_create_knowledge_assessment
 )
-from english.tasks.repetition_task import (
+from english.tasks.study_words import (
     choice_word,
     add_filers_to_queryset,
 )

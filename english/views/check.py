@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 
-from english.tasks.repetition_task import get_random_sequence_language_keys
+from english.tasks.study_words import get_random_sequence_language_keys
 from english.tasks.test_task import TestWordTask
 
 SUPERTITLE = 'Английский язык'

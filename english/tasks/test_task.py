@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from english.models import (
     WordModel,
 )
-from english.tasks.repetition_task import get_random_sequence_language_keys
+from english.tasks.study_words import get_random_sequence_language_keys
 
 User = get_user_model()
 
