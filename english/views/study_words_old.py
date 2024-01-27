@@ -33,7 +33,7 @@ from english.tasks.study_words import (
     add_filers_to_queryset,
 )
 
-TITLE = {'title_name': 'Изучаем слова', 'url_name': 'eng:start_repetition'}
+TITLE = {'title_name': 'Изучаем слова', 'url_name': 'eng:words_choose'}
 QUESTION_TIMEOUT = settings.QUESTION_TIMEOUT
 ANSWER_TIMEOUT = settings.ANSWER_TIMEOUT
 BTN_NAME = 'Начать'
@@ -48,7 +48,7 @@ class StartRepetitionWordsView(TemplateView):
     """
     categories = CategoryModel.objects.all()
     sources = SourceModel.objects.all()
-    template_name = 'eng/tasks/start_repetition.html'
+    template_name = 'eng/tasks/words_choose.html'
 
     extra_context = {
         'title': TITLE,
@@ -82,7 +82,7 @@ class RepetitionWordsView(View):
                     self.request,
                     'Ничего не найдено, попробуйте другие варианты'
                 )
-                return redirect(reverse_lazy('eng:start_repetition'))
+                return redirect(reverse_lazy('eng:words_choose'))
             else:
                 # Сохрани задание в сессию, если статус - вопрос.
                 request.session['task'] = task

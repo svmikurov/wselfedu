@@ -20,9 +20,9 @@ urlpatterns = [
     # End For account.
     # Tasks.
     path(
-        'repetition/',
-        views.StartRepetitionWordsView.as_view(),
-        name='start_repetition',
+        'words-choose/',
+        views.ChooseEnglishWordsStudyView.as_view(),
+        name='words_choose',
     ),
     path(
         'repetition/<str:task_status>/',

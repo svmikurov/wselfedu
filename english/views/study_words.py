@@ -21,13 +21,15 @@ MESSAGE_NO_WORDS = 'Ничего не найдено, попробуйте др�
 class ChooseEnglishWordsStudyView(TemplateView):
     """View choosing English words to study."""
 
-    template_name = 'english/tasks/words_choose.html'
+    template_name = 'eng/tasks/words_choose.html'
     categories = all_objects(CategoryModel.objects)
     sources = all_objects(SourceModel.objects)
     extra_context = {
         'categories': categories,
         'sources': sources,
         'message_no_words': MESSAGE_NO_WORDS,
+        'task_status': 'start',
+        'next_url': 'eng:repetition',
     }
 
 

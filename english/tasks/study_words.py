@@ -1,10 +1,26 @@
+#
+# Этот модуль часть группы задач, выполняемых пользователем.
+#
+"""Модуль задачи изучения пользователем слов.
+"""
+
 from random import choice, shuffle
 
 from django.forms.models import model_to_dict
 
-from english.models import WordUserKnowledgeRelation
+from english.models import WordUserKnowledgeRelation, WordModel
+from english.services.serve_query import filter_objects, all_objects
 from users.models import UserModel
 
+
+def filter_words(lookup_parameters):
+    """Отфильтруй слова для изучения согласно параметрам пользователя"""
+    return filter_objects(all_objects(WordModel.objects), **lookup_parameters)
+
+
+###############################################################################
+# Функции, подлежащие рефакторингу.                                           #
+###############################################################################
 
 def get_random_sequence_language_keys() -> list[str]:
     """Return a random sequence of language keys."""

@@ -8,6 +8,8 @@ from english.views.categories import CategoryDeleteView
 from english.views.study_words_old import StartRepetitionWordsView
 from english.views.study_words_old import RepetitionWordsView
 
+from english.views.study_words import ChooseEnglishWordsStudyView
+
 from english.views.sources import SourceCreateView
 from english.views.sources import SourceListView
 from english.views.sources import SourceUpdateView
