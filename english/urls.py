@@ -18,14 +18,14 @@ urlpatterns = [
         name='users_words',
     ),
     # End For account.
-    # Tasks.
+    # --======= Tasks =======--
     path(
         'words-choose/',
         views.ChooseEnglishWordsStudyView.as_view(),
         name='words_choose',
     ),
     path(
-        'words-study/<str:task_status>/',
+        'words_study/<str:task_status>/',
         views.study_english_words_view,
         name='words_study',
     ),
@@ -34,7 +34,7 @@ urlpatterns = [
         views.TestWordView.as_view(),
         name='test',
     ),
-    # End Tasks.
+    # -- End Tasks --
     # Handle post requests to the database.
     path(
         'knowledge-assessment/<int:word_id>/',

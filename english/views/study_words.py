@@ -12,6 +12,7 @@ from django.views.generic import TemplateView
 from config.settings import ANSWER_TIMEOUT, QUESTION_TIMEOUT
 from english.models import CategoryModel, SourceModel
 from english.services.serve_query import all_objects
+from english.tasks.study_words import choice_word
 
 MESSAGE_NO_WORDS = 'Ничего не найдено, попробуйте другие варианты'
 """Нет слов, удовлетворяющих критериям выборки пользователя (`str`)
@@ -45,14 +46,14 @@ def study_english_words_view(request, **kwargs):
         task = request.session['task']
         context = {
             'task': task,
-            'timeout': ANSWER_TIMEOUT
+            'timeout': ANSWER_TIMEOUT,
+            'next_url': 'english:words_study',
         }
         return render(request, template_name, context)
 
     # Отправь вопрос пользователю.
     try:
-        print(f'\nrequest = {request}')
-        task = 1
+        task = choice_word([])
     except IndexError:
         # Не осталось слов, которые соответствуют фильтрам.
         messages.error(request, MESSAGE_NO_WORDS)
@@ -63,5 +64,6 @@ def study_english_words_view(request, **kwargs):
         context = {
             'task': task,
             'timeout': QUESTION_TIMEOUT,
+            'next_url': 'english:words_study',
         }
         return render(request, template_name, context)

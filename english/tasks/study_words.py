@@ -4,9 +4,7 @@
 """Модуль задачи изучения пользователем слов.
 """
 
-from random import choice, shuffle
-
-from django.forms.models import model_to_dict
+from random import shuffle
 
 from english.models import WordUserKnowledgeRelation, WordModel
 from english.services.serve_query import filter_objects, all_objects
@@ -128,17 +126,22 @@ def add_filers_to_queryset(request, words_qs, task_status):
 
 
 def choice_word(words: list) -> dict:
-    """Создай задание для изучения слов.
-    """
-    # Выбери случайным образом слово для перевода.
-    selected_word = model_to_dict(choice(words))
-    # Выбери случайным образом язык слова для перевода.
-    question_key, answer_key = get_random_sequence_language_keys()
-    # Сформируй словарь с условиями упражнения.
+    # """Создай задание для изучения слов.
+    # """
+    # # Выбери случайным образом слово для перевода.
+    # selected_word = model_to_dict(choice(words))
+    # # Выбери случайным образом язык слова для перевода.
+    # question_key, answer_key = get_random_sequence_language_keys()
+    # # Сформируй словарь с условиями упражнения.
+    # word = {
+    #     'word_id': selected_word.get('id'),
+    #     'question': selected_word.get(question_key),
+    #     'answer': selected_word.get(answer_key),
+    # }
     word = {
-        'word_id': selected_word.get('id'),
-        'question': selected_word.get(question_key),
-        'answer': selected_word.get(answer_key),
+        'word_id': 1,
+        'question': 'greetings',
+        'answer': 'приветствие',
     }
     return word
 
