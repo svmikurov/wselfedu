@@ -2,7 +2,7 @@ from django.urls import path
 
 from english import views
 
-app_name = 'eng'
+app_name = 'english'
 urlpatterns = [
     # --======= English chapter =======--
     path(
@@ -25,9 +25,9 @@ urlpatterns = [
         name='words_choose',
     ),
     path(
-        'repetition/<str:task_status>/',
-        views.RepetitionWordsView.as_view(),
-        name='repetition',
+        'words-study/<str:task_status>/',
+        views.study_english_words_view,
+        name='words_study',
     ),
     path(
         'test/',

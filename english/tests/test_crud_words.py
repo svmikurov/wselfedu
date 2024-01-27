@@ -18,7 +18,7 @@ class TestAddWord(TestCase):
     fixtures = ['english/tests/fixtures/wse-fixtures.json']
 
     def setUp(self):
-        self.add_word_url = reverse_lazy('eng:words_create')
+        self.add_word_url = reverse_lazy('english:words_create')
         self.redirect_nopermission_url = reverse_lazy('home')
 
         faker: Generator = Faker()
@@ -103,10 +103,10 @@ class TestUpdateWord(TestCase):
         }
 
         self.update_word_url = reverse_lazy(
-            'eng:words_update',
+            'english:words_update',
             kwargs={'pk': self.word.pk},
         )
-        self.success_url = reverse_lazy('eng:words_list')
+        self.success_url = reverse_lazy('english:words_list')
         self.redirect_nopermission_url = reverse_lazy('home')
 
     def test_get_update_by_admin(self):
@@ -141,10 +141,10 @@ class TestDeleteWord(TestCase):
         )
 
         self.delete_word_url = reverse_lazy(
-            'eng:words_delete',
+            'english:words_delete',
             kwargs={'pk': self.deleted_word.pk},
         )
-        self.success_url = reverse_lazy('eng:words_list')
+        self.success_url = reverse_lazy('english:words_list')
 
     def test_get_delete_word_by_admin_user(self):
         self.client.force_login(self.admin_user)

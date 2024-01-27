@@ -47,8 +47,8 @@
             <td>{% if word.source %}{{ word.source }}{% endif %}</td>
             {% if user.is_superuser %}
               <td>
-                <a href="{% url 'eng:words_update' word.pk %}">Изменить</a> /
-                <a href="{% url 'eng:words_delete' word.pk %}">Удалить</a>
+                <a href="{% url 'english:words_update' word.pk %}">Изменить</a> /
+                <a href="{% url 'english:words_delete' word.pk %}">Удалить</a>
               </td>
             {% endif %}
           </tr>

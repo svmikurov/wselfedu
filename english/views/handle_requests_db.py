@@ -33,7 +33,7 @@ def update_words_knowledge_assessment_view(request, **kwargs):
         new_assessment = old_assessment + given_assessment
         update_word_knowledge_assessment(user_pk, word_pk, new_assessment)
 
-    return redirect(reverse_lazy('eng:repetition', kwargs=kwargs))
+    return redirect(reverse_lazy('english:words_study', kwargs=kwargs))
 
 
 @require_POST
@@ -54,4 +54,4 @@ def update_words_favorites_status_view(request, **kwargs):
 
     # Редирект на формирование нового задания.
     kwargs = {'task_status': 'question'}
-    return redirect(reverse_lazy('eng:repetition', kwargs=kwargs))
+    return redirect(reverse_lazy('english:words_study', kwargs=kwargs))

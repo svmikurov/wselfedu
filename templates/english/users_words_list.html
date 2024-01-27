@@ -24,7 +24,7 @@
           <td class="align-middle">{% if word.source %}{{ word.source }}{% endif %}</td>
           <td class="align-middle">{{ word.created_at }}</td>
           <td class="align-middle">
-            <form action="{% url 'eng:words_favorites_view' word.pk %}" method="post">
+            <form action="{% url 'english:words_favorites_view' word.pk %}" method="post">
               {% csrf_token %}
               {% if word.favorites %}
                 <button type="submit" class="btn btn-link" name="favorites_action">Удалить</button>

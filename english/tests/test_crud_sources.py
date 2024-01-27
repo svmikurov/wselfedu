@@ -31,7 +31,7 @@ class TestListSources(TestCase):
         self.user = UserModel.objects.get(username='user1')
         self.source_name1 = SourceModel.objects.get(pk=1).name
         self.source_name2 = SourceModel.objects.get(pk=2).name
-        self.list_url = reverse_lazy('eng:sources_list')
+        self.list_url = reverse_lazy('english:sources_list')
 
         self.no_permissions_message = 'Вы пока не можете делать это'
         self.no_permissions_redirect = reverse_lazy('home')
@@ -87,8 +87,8 @@ class TestCreateSource(TestCase):
         self.user = UserModel.objects.get(username='user1')
         self.new_source = {'name': 'new_source'}
 
-        self.create_url = reverse_lazy('eng:source_create')
-        self.success_url = reverse_lazy('eng:sources_list')
+        self.create_url = reverse_lazy('english:source_create')
+        self.success_url = reverse_lazy('english:sources_list')
         self.success_message = 'Источник слов добавлен'
         self.no_permissions_message = 'Вы пока не можете делать это'
         self.no_permissions_redirect = reverse_lazy('home')
@@ -156,9 +156,9 @@ class TestUpdateSource(TestCase):
         self.updated_source = {'name': 'updated_source'}
 
         self.update_url = reverse_lazy(
-            'eng:source_update', kwargs={'pk': 1}
+            'english:source_update', kwargs={'pk': 1}
         )
-        self.success_url = reverse_lazy('eng:sources_list')
+        self.success_url = reverse_lazy('english:sources_list')
         self.success_message = 'Источник слов изменен'
         self.no_permissions_message = 'Вы пока не можете делать это'
         self.no_permissions_redirect = reverse_lazy('home')
@@ -236,20 +236,20 @@ class TestDeleteSource(TestCase):
 
         # URL источника, которые не имеет связей.
         self.delete_url = reverse_lazy(
-            'eng:source_delete', kwargs={'pk': 1}
+            'english:source_delete', kwargs={'pk': 1}
         )
         # URL источника, который имеет защищенные от удаления связи.
         self.delete_url_protected_source = reverse_lazy(
-            'eng:source_delete', kwargs={'pk': 2}
+            'english:source_delete', kwargs={'pk': 2}
         )
         # Успешное удаление.
-        self.success_url = reverse_lazy('eng:sources_list')
+        self.success_url = reverse_lazy('english:sources_list')
         self.success_message = 'Источник слов удален'
         # Удаление без прав на удаление.
         self.no_permissions_message = 'Вы пока не можете делать это'
         self.no_permissions_redirect = reverse_lazy('home')
         # Защита базы от удаления данных.
-        self.protected_redirect = reverse_lazy('eng:sources_list')
+        self.protected_redirect = reverse_lazy('english:sources_list')
         self.protected_message = (
             'Невозможно удалить этот объект, '
             'так как он используется в другом месте приложения'

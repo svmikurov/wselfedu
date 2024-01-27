@@ -21,7 +21,7 @@ class CategoryListView(
 ):
     model = CategoryModel
     context_object_name = 'categories'
-    template_name = 'eng/cat_list.html'
+    template_name = 'english/cat_list.html'
     paginate_by = PAGINATE_NUMBER
     extra_context = {
         'title': 'Список категорий',
@@ -37,7 +37,7 @@ class CategoryCreateView(
 ):
     form_class = CategoryForm
     template_name = 'form.html'
-    success_url = reverse_lazy('eng:categories_list')
+    success_url = reverse_lazy('english:categories_list')
     extra_context = {
         'title': 'Добавить категорию',
         'btn_name': 'Добавить',
@@ -61,7 +61,7 @@ class CategoryUpdateView(
         'title': 'Изменить категорию',
         'btn_name': 'Изменить',
     }
-    success_url = reverse_lazy('eng:categories_list')
+    success_url = reverse_lazy('english:categories_list')
     success_message = 'Категория изменена'
     error_message = 'Ошибка изменения категории'
     message_no_permission = 'Вы не можете этого делать'
@@ -80,6 +80,6 @@ class CategoryDeleteView(
         'title': 'Удаление категории',
         'btn_name': 'Удалить',
     }
-    success_url = reverse_lazy('eng:categories_list')
+    success_url = reverse_lazy('english:categories_list')
     success_message = 'Категория удалена'
     message_no_permission = 'Вы не можете этого делать'

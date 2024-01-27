@@ -29,7 +29,7 @@ class TestListCategories(TestCase):
         self.user = UserModel.objects.get(username='user1')
         self.category_name1 = CategoryModel.objects.get(pk=1).name
         self.category_name2 = CategoryModel.objects.get(pk=2).name
-        self.list_url = reverse_lazy('eng:categories_list')
+        self.list_url = reverse_lazy('english:categories_list')
 
         self.no_permissions_message = 'Вы пока не можете делать это'
         self.no_permissions_redirect = reverse_lazy('home')
@@ -79,8 +79,8 @@ class TestCreateCategory(TestCase):
         self.user = UserModel.objects.get(username='user1')
         self.new_category = {'name': 'new_category'}
 
-        self.create_url = reverse_lazy('eng:categories_create')
-        self.success_url = reverse_lazy('eng:categories_list')
+        self.create_url = reverse_lazy('english:categories_create')
+        self.success_url = reverse_lazy('english:categories_list')
         self.success_message = 'Категория добавлена'
         self.no_permissions_message = 'Вы пока не можете делать это'
         self.no_permissions_redirect = reverse_lazy('home')
@@ -148,9 +148,9 @@ class TestUpdateCategory(TestCase):
         self.updated_category = {'name': 'updated_category'}
 
         self.update_url = reverse_lazy(
-            'eng:categories_update', kwargs={'pk': 1}
+            'english:categories_update', kwargs={'pk': 1}
         )
-        self.success_url = reverse_lazy('eng:categories_list')
+        self.success_url = reverse_lazy('english:categories_list')
         self.success_message = 'Категория изменена'
         self.no_permissions_message = 'Вы пока не можете делать это'
         self.no_permissions_redirect = reverse_lazy('home')
@@ -228,12 +228,12 @@ class TestDeleteCategory(TestCase):
         self.deleted_category = CategoryModel.objects.get(pk=1)
 
         self.delete_url = reverse_lazy(
-            'eng:categories_delete', kwargs={'pk': 1}
+            'english:categories_delete', kwargs={'pk': 1}
         )
         self.delete_url_protected_source = reverse_lazy(
-            'eng:categories_delete', kwargs={'pk': 2}
+            'english:categories_delete', kwargs={'pk': 2}
         )
-        self.success_url = reverse_lazy('eng:categories_list')
+        self.success_url = reverse_lazy('english:categories_list')
         self.success_message = 'Категория удалена'
         self.no_permissions_message = 'Вы пока не можете делать это'
         self.no_permissions_redirect = reverse_lazy('home')

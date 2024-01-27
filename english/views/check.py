@@ -18,7 +18,7 @@ class TestWordView(
     TestWordTask,
     View,
 ):
-    template_name = 'eng/tasks/test_word.html'
+    template_name = 'english/tasks/test_word.html'
 
     def get(self, request):
         random_word, words_for_choice = self.create_task()
@@ -49,7 +49,7 @@ class TestWordView(
 
     def post(self, request):
         if 'choice' not in request.POST:
-            return redirect(reverse_lazy('eng:test'))
+            return redirect(reverse_lazy('english:test'))
 
         user_answer = request.POST['choice']
         correct_answer = request['correct_answer']
@@ -80,4 +80,4 @@ class TestWordView(
         else:
             messages.error(request, error_message)
 
-        return redirect(reverse_lazy('eng:test'))
+        return redirect(reverse_lazy('english:test'))

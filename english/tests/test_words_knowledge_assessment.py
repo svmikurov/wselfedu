@@ -31,7 +31,7 @@ class TestWordsKnowledgeAssessment(TestCase):
         self.assessment_up = {'knowledge_assessment': '+1'}
         self.assessment_down = {'knowledge_assessment': '-1'}
 
-        assessment_url = 'eng:knowledge_assessment'
+        assessment_url = 'english:knowledge_assessment'
         self.min_assessment_url = reverse_lazy(
             assessment_url, kwargs={'word_id': self.word_min_assessment.pk}
         )
@@ -42,7 +42,7 @@ class TestWordsKnowledgeAssessment(TestCase):
             assessment_url, kwargs={'word_id': self.word_max_assessment.pk}
         )
         self.redirect_url = reverse_lazy(
-            'eng:repetition', kwargs={'task_status': 'question'}
+            'english:words_study', kwargs={'task_status': 'question'}
         )
 
     def test_add_knowledge_assessment(self):

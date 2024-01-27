@@ -5,8 +5,8 @@
 <div class="">
   <!-- Additional Navigation -->
   <div class="row row-cols-3 row-cols-sm-4 row-cols-md-4 row-cols-lg-6">
-    <a class="col h5" href="{% url 'eng:words_list' %}">Словарь</a>
-    <a class="col h5" href="{% url 'eng:words_create' %}">Добавить</a>
+    <a class="col h5" href="{% url 'english:words_list' %}">Словарь</a>
+    <a class="col h5" href="{% url 'english:words_create' %}">Добавить</a>
     <!-- Link to the Google translater -->
     <a class="col h5" href="https://translate.google.com/?hl=ru&sl=auto&tl=ru&text={{words_eng}}&op=translate">Google</a><!-- Ebd Link to the Google translater -->
   </div><!-- End Additional Navigation -->
@@ -22,7 +22,7 @@
   <!-- Buttons user rating of word knowledge -->
   {% if user.is_authenticated %}
     <div class="pb-2 px-2 row-cols-md-2 row-cols-lg-4">
-      <form action="{% url 'eng:knowledge_assessment' task.word_id %}" method="post">
+      <form action="{% url 'english:knowledge_assessment' task.word_id %}" method="post">
         {% csrf_token %}
         <div class="row">
           <button class="col btn d-inline mx-1 bg-primary text-white" name="knowledge_assessment" value="-1" style="height:40px; width:80px">Не знаю</button>
@@ -45,7 +45,7 @@
     <div class="=col d-inline">
     {% if user.is_authenticated %}
       <div class="py-2">
-        <form action="{% url 'eng:words_favorites_view' task.word_id %}" method="post">
+        <form action="{% url 'english:words_favorites_view' task.word_id %}" method="post">
           {% csrf_token %}
           {% if favorites_status %}
             <button class="btn bg-primary text-white" name="favorites_action" value="remove" style="">Убрать из избранного</button>
@@ -62,7 +62,7 @@
   <div class="pt-2">
     <h6 class="mb-3">Вопрос:</h6>
     <h4 style="line-height:1.4">
-      <a href="{% url 'eng:words_update' word_id %}"><mark>{{ task.question }}</mark></a>
+      <a href="{% url 'english:words_update' word_id %}"><mark>{{ task.question }}</mark></a>
     </h4>
 
     <h6 class="mb-3">Ответ:</h6>

@@ -3,14 +3,14 @@
 {% block content %}
 <div class="card text-dark bg-light">
   <div class="card-header">
-    <h1><a href="{% url 'eng:home' %}">{{ supertitle }}</a></h1>
+    <h1><a href="{% url 'english:home' %}">{{ supertitle }}</a></h1>
     <h2>{{ title }}</h2>
   </div>
 
   <div class="card-body">
     <h3>Выбери перевод: <mark>{{ random_word.task_word }}</mark></h3>
 
-    <form action="{% url 'eng:test' %}" method="post">
+    <form action="{% url 'english:test' %}" method="post">
       {% csrf_token %}
 
       {% for choice in words_for_choice %}

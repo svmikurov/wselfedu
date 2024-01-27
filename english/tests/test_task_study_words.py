@@ -15,9 +15,9 @@ class TestChooseEnglishWordsStudy(TestCase):
 
     def setUp(self):
         user_id = UserModel.objects.get(username='user1').pk
-        self.words_choose_url = reverse_lazy('eng:words_choose')
+        self.words_choose_url = reverse_lazy('english:words_choose')
         self.study_words_url = reverse_lazy(
-            'eng:repetition', kwargs={'task_status': 'start'},
+            'english:words_study', kwargs={'task_status': 'start'},
         )
 
         # Параметры пользователя поиска слов для изучения.

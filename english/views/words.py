@@ -22,14 +22,14 @@ PAGINATE_NUMBER = 20
 class WordListView(
     FilterView,
 ):
-    template_name = 'eng/words_list.html'
+    template_name = 'english/words_list.html'
     model = WordModel
     context_object_name = 'words'
     filterset_class = WordsFilter
     paginate_by = PAGINATE_NUMBER
 
     additional_admin_navigation = {
-        'Добавить слово': 'eng:words_create'
+        'Добавить слово': 'english:words_create'
     }
     extra_context = {
         'title': 'Список слов',
@@ -45,10 +45,10 @@ class WordCreateView(
 ):
     form_class = WordForm
     template_name = 'form.html'
-    success_url = reverse_lazy('eng:words_create')
+    success_url = reverse_lazy('english:words_create')
 
     additional_user_navigation = {
-        'Словарь': 'eng:words_list'
+        'Словарь': 'english:words_list'
     }
     extra_context = {
         'title': 'Добавить слово',
@@ -84,7 +84,7 @@ class WordUpdateView(
     model = WordModel
     form_class = WordForm
     template_name = 'form.html'
-    success_url = reverse_lazy('eng:words_list')
+    success_url = reverse_lazy('english:words_list')
     extra_context = {
         'title': 'Изменить слово',
         'btn_name': 'Изменить',
@@ -104,7 +104,7 @@ class WordDeleteView(
 ):
     model = WordModel
     template_name = 'delete.html'
-    success_url = reverse_lazy('eng:words_list')
+    success_url = reverse_lazy('english:words_list')
     extra_context = {
         'title': 'Удаление слова',
         'btn_name': 'Удалить',
@@ -113,7 +113,7 @@ class WordDeleteView(
 
 class ShowUsersWordsView(FilterView):
     model = WordModel
-    template_name = 'eng/users_words_list.html'
+    template_name = 'english/users_words_list.html'
     paginate_by = PAGINATE_NUMBER
 
     def get_context_data(self, **kwargs):

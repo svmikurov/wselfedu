@@ -21,7 +21,7 @@ class SourceListView(
 ):
     model = SourceModel
     context_object_name = 'sources'
-    template_name = 'eng/sources_list.html'
+    template_name = 'english/sources_list.html'
     paginate_by = PAGINATE_NUMBER
     extra_context = {
         'title': 'Источники для изучения слов',
@@ -37,7 +37,7 @@ class SourceCreateView(
 ):
     form_class = SourceForm
     template_name = 'form.html'
-    success_url = reverse_lazy('eng:sources_list')
+    success_url = reverse_lazy('english:sources_list')
     extra_context = {
         'title': 'Добавить источник слов',
         'btn_name': 'Добавить',
@@ -57,7 +57,7 @@ class SourceUpdateView(
     model = SourceModel
     form_class = SourceForm
     template_name = 'form.html'
-    success_url = reverse_lazy('eng:sources_list')
+    success_url = reverse_lazy('english:sources_list')
     extra_context = {
         'title': 'Изменить источник слов',
         'btn_name': 'Изменить',
@@ -77,13 +77,13 @@ class SourceDeleteView(
 ):
     model = SourceModel
     template_name = 'delete.html'
-    success_url = reverse_lazy('eng:sources_list')
+    success_url = reverse_lazy('english:sources_list')
     extra_context = {
         'title': 'Удаление источника слов',
         'btn_name': 'Удалить',
     }
     success_message = 'Источник слов удален'
-    protected_redirect_url = reverse_lazy('eng:sources_list')
+    protected_redirect_url = reverse_lazy('english:sources_list')
     protected_message = (
         'Невозможно удалить этот объект, '
         'так как он используется в другом месте приложения'

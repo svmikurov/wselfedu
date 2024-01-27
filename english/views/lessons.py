@@ -20,7 +20,7 @@ class LessonsListView(
 ):
     model = LessonModel
     context_object_name = 'lessons'
-    template_name = 'eng/lessons_list.html'
+    template_name = 'english/lessons_list.html'
     paginate_by = PAGINATE_NUMBER
     extra_context = {
         'title': 'Уроки',
@@ -34,7 +34,7 @@ class LessonCreateView(
 ):
     form_class = LessonForm
     template_name = 'form.html'
-    success_url = reverse_lazy('eng:lessons_list')
+    success_url = reverse_lazy('english:lessons_list')
     extra_context = {
         'title': 'Добавить урок',
         'btn_name': 'Добавить',
@@ -53,7 +53,7 @@ class LessonUpdateView(
     model = LessonModel
     form_class = LessonForm
     template_name = 'form.html'
-    success_url = reverse_lazy('eng:lessons_list')
+    success_url = reverse_lazy('english:lessons_list')
     extra_context = {
         'title': 'Изменить урок',
         'btn_name': 'Изменить',
@@ -73,7 +73,7 @@ class LessonDeleteView(
 ):
     model = LessonModel
     template_name = 'delete.html'
-    success_url = reverse_lazy('eng:lessons_list')
+    success_url = reverse_lazy('english:lessons_list')
     extra_context = {
         'title': 'Удаление урока',
         'btn_name': 'Удалить',

@@ -21,7 +21,7 @@ MESSAGE_NO_WORDS = 'Ничего не найдено, попробуйте др�
 class ChooseEnglishWordsStudyView(TemplateView):
     """View choosing English words to study."""
 
-    template_name = 'eng/tasks/words_choose.html'
+    template_name = 'english/tasks/words_choose.html'
     categories = all_objects(CategoryModel.objects)
     sources = all_objects(SourceModel.objects)
     extra_context = {
@@ -29,18 +29,12 @@ class ChooseEnglishWordsStudyView(TemplateView):
         'sources': sources,
         'message_no_words': MESSAGE_NO_WORDS,
         'task_status': 'start',
-        'next_url': 'eng:repetition',
+        'next_url': 'english:words_choose',
     }
 
 
 def study_english_words_view(request, **kwargs):
     """View to study English words.
-
-    Parameters:
-    -----------
-    task_status: `str`
-        ...
-
     """
     template_name = 'english/tasks/words_study.html'
     task_status = request.GET.get('task_status')
@@ -57,7 +51,8 @@ def study_english_words_view(request, **kwargs):
 
     # Отправь вопрос пользователю.
     try:
-        task = ...
+        print(f'\nrequest = {request}')
+        task = 1
     except IndexError:
         # Не осталось слов, которые соответствуют фильтрам.
         messages.error(request, MESSAGE_NO_WORDS)

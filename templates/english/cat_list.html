@@ -5,9 +5,9 @@
 
   <!--======= Header =======-->
   <div class="card-header">
-    <h1><a href="{% url 'eng:home' %}">{{ supertitle }}</a></h1>
+    <h1><a href="{% url 'english:home' %}">{{ supertitle }}</a></h1>
     <h2 class="text-center pt-2">{{ title }}</h2>
-    <p class="h4"><a href="{% url 'eng:categories_create' %}">Добавить категорию</a></p>
+    <p class="h4"><a href="{% url 'english:categories_create' %}">Добавить категорию</a></p>
   </div><!-- End Header -->
 
   <div class="card-body">
@@ -31,8 +31,8 @@
             <td class="table-primary">{{ category.pk }}</td>
             <td>{{ category.name }}</td>
             <td>
-              <a href="{% url 'eng:categories_update' category.pk %}">Изменить</a> /
-              <a href="{% url 'eng:categories_delete' category.pk %}">Удалить</a>
+              <a href="{% url 'english:categories_update' category.pk %}">Изменить</a> /
+              <a href="{% url 'english:categories_delete' category.pk %}">Удалить</a>
             </td>
           </tr>
         {% endfor %}

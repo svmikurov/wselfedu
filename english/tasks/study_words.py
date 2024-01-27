@@ -12,6 +12,18 @@ from english.models import WordUserKnowledgeRelation, WordModel
 from english.services.serve_query import filter_objects, all_objects
 from users.models import UserModel
 
+LOOKUP_PARAMETERS = {
+    'words_favorites': 'favorites__pk',
+    'category_id': 'category_id',
+    'source_id': 'source_id',
+    'word_count': 'word_count__in',
+    'assessment': 'worduserknowledgerelation__knowledge_assessment__in',
+    'user': 'worduserknowledgerelation__user_id',
+}
+"""Константа переименования ключей kwargs, полученных из requests, в ключи
+lookup_parameters для фильтрации слов (`dict`)
+"""
+
 
 def filter_words(lookup_parameters):
     """Отфильтруй слова для изучения согласно параметрам пользователя"""

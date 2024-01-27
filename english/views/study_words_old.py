@@ -33,7 +33,7 @@ from english.tasks.study_words import (
     add_filers_to_queryset,
 )
 
-TITLE = {'title_name': 'Изучаем слова', 'url_name': 'eng:words_choose'}
+TITLE = {'title_name': 'Изучаем слова', 'url_name': 'english:words_choose'}
 QUESTION_TIMEOUT = settings.QUESTION_TIMEOUT
 ANSWER_TIMEOUT = settings.ANSWER_TIMEOUT
 BTN_NAME = 'Начать'
@@ -48,7 +48,7 @@ class StartRepetitionWordsView(TemplateView):
     """
     categories = CategoryModel.objects.all()
     sources = SourceModel.objects.all()
-    template_name = 'eng/tasks/words_choose.html'
+    template_name = 'english/tasks/words_choose.html'
 
     extra_context = {
         'title': TITLE,
@@ -56,7 +56,7 @@ class StartRepetitionWordsView(TemplateView):
         'sources': sources,
         'task_status': 'start',
         'btn_name': BTN_NAME,
-        'next_url': 'eng:repetition',
+        'next_url': 'english:words_study',
     }
 
 
@@ -82,7 +82,7 @@ class RepetitionWordsView(View):
                     self.request,
                     'Ничего не найдено, попробуйте другие варианты'
                 )
-                return redirect(reverse_lazy('eng:words_choose'))
+                return redirect(reverse_lazy('english:words_choose'))
             else:
                 # Сохрани задание в сессию, если статус - вопрос.
                 request.session['task'] = task
@@ -102,7 +102,7 @@ class RepetitionWordsView(View):
             'task_status': task_status,
             'task': task,
             'timeout': timeout,
-            'next_url': 'eng:repetition',
+            'next_url': 'english:words_study',
             'word_id': word_id,
             'words_eng': words_eng,
             'favorites_status': favorites_status,
@@ -116,4 +116,4 @@ class RepetitionWordsView(View):
                 'knowledge_assessment'
             ] = get_or_create_knowledge_assessment(word_id, user_id)
         # Отправляем задание пользователю.
-        return render(request, 'eng/tasks/repetition.html', context)
+        return render(request, 'english/tasks/words_study.html', context)

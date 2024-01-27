@@ -5,10 +5,10 @@
 
   <!--======= Header =======-->
   <div class="card-header">
-    <h1><a href="{% url 'eng:home' %}">{{ supertitle }}</a></h1>
+    <h1><a href="{% url 'english:home' %}">{{ supertitle }}</a></h1>
     <h2 class="text-center pt-2">{{ title }}</h2>
     {% if user.is_superuser %}
-      <p class="h4"><a href="{% url 'eng:source_create' %}">Добавить источник слов</a></p>
+      <p class="h4"><a href="{% url 'english:source_create' %}">Добавить источник слов</a></p>
     {% endif %}
   </div><!-- End Header -->
 
@@ -41,8 +41,8 @@
           </td>
           {% if user.is_superuser %}
           <td>
-            <a href="{% url 'eng:source_update' source.pk %}">Изменить</a> /
-            <a href="{% url 'eng:source_delete' source.pk %}">Удалить</a>
+            <a href="{% url 'english:source_update' source.pk %}">Изменить</a> /
+            <a href="{% url 'english:source_delete' source.pk %}">Удалить</a>
           </td>
           {% endif %}
         </tr>
