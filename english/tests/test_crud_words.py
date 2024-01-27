@@ -34,7 +34,7 @@ class TestAddWord(TestCase):
             'words_rus': 'тест',
             'word_count': 'NC',
         }
-        self.default_word_category_name = "Developer"
+        self.default_word_category_name = "category3"
 
     def test_get_auth_admin(self):
         self.client.force_login(self.fake_admin)

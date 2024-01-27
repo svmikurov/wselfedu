@@ -22,7 +22,7 @@ class TestWordsKnowledgeAssessment(TestCase):
 
     def setUp(self):
         self.user = UserModel.objects.get(pk=2)
-        self.word_min_assessment = WordModel.objects.get(pk=1)     # 0
+        self.word_min_assessment = WordModel.objects.get(pk=6)     # 0
         self.word_max_assessment = WordModel.objects.get(pk=5)     # 11
         self.word_middle_assessment = WordModel.objects.get(pk=3)  # 7
         self.expected_updated_assessment = 6
