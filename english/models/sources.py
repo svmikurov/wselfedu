@@ -16,7 +16,7 @@ class SourceModel(models.Model):
     )
     description = models.CharField(
         max_length=100,
-        blank=True,
+        blank=True, null=True,
         verbose_name='Описание',
         help_text='Описание не более 100 слов.'
     )
