@@ -59,13 +59,13 @@ class WordCreateView(
     success_message = 'Слово успешно добавлено'
     error_message = 'Ошибка в добавлении слова'
 
-    default_category_name = 'Developer'
+    default_category_name = 'category3'
 
     def form_valid(self, form):
         """Add current user and category instance default to model.
 
         If form don't contain category instance, set category instance by
-        default "Developer".
+        default "category3".
         """
         form.instance.user = self.request.user
         if not form.instance.category:
@@ -126,10 +126,3 @@ class ShowUsersWordsView(FilterView):
         )
         context['words'] = words
         return context
-
-
-"""
-Project.objects.prefetch_related('person') \
-    .filter(Q('registration__isnull=True) | Q(user=request.user.id)) \
-    .values('id','title','registration__project')
-"""
