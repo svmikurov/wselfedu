@@ -85,7 +85,7 @@
   "model": "english.wordmodel",
   "pk": 3,
   "fields": {
-    "user": null,
+    "user": 2,
     "words_eng": "word03",
     "words_rus": "слово03",
     "source": 2,
@@ -100,7 +100,7 @@
   "model": "english.wordmodel",
   "pk": 4,
   "fields": {
-    "user": null,
+    "user": 2,
     "words_eng": "word04",
     "words_rus": "слово04",
     "source": 2,
@@ -199,6 +199,22 @@
   "pk": 2,
   "fields": {
     "word": 2,
+    "user": 2
+  }
+},
+{
+  "model": "english.wordsfavoritesmodel",
+  "pk": 3,
+  "fields": {
+    "word": 6,
+    "user": 2
+  }
+},
+{
+  "model": "english.wordsfavoritesmodel",
+  "pk": 5,
+  "fields": {
+    "word": 4,
     "user": 2
   }
 },
