@@ -14,13 +14,16 @@
 Приложение содержит следующие интервалы: изучение, повторение, проверка.
 """
 
-from config.settings import MIN_KNOWLEDGE_ASSESSMENT, MAX_KNOWLEDGE_ASSESSMENT
-
 from english.models.words import (
     WordModel,
     WordUserKnowledgeRelation,
 )
 from users.models import UserModel
+
+MIN_KNOWLEDGE_ASSESSMENT = 0
+MAX_KNOWLEDGE_ASSESSMENT = 11
+"""Максимальное и минимальное значения оценки уровня знания слова пользователем
+"""
 
 
 def get_or_create_knowledge_assessment(word_id, user_id):

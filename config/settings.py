@@ -206,10 +206,3 @@ if os.getenv('LOGGING_DB'):
             }
         }
     }
-
-
-# Константы приложения
-QUESTION_TIMEOUT = os.getenv('QUESTION_TIMEOUT')  # ms
-ANSWER_TIMEOUT = os.getenv('ANSWER_TIMEOUT')  # ms
-MIN_KNOWLEDGE_ASSESSMENT = 0
-MAX_KNOWLEDGE_ASSESSMENT = 11

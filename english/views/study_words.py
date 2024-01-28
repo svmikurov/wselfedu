@@ -1,5 +1,5 @@
 #
-# Данный модуль является часть приложения по изучению английского языка.
+# Данный модуль является частью приложения по изучению английского языка.
 #
 """Представления пользователю для изучения, повторения, проверки знания слов.
 """
@@ -9,10 +9,27 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from config.settings import ANSWER_TIMEOUT, QUESTION_TIMEOUT
 from english.models import CategoryModel, SourceModel
 from english.services.serve_query import all_objects
-from english.tasks.study_words import create_task_study_words
+from english.tasks.study_words import (
+    create_task_study_words,
+    get_lookup_parameters,
+)
+
+QUESTION_TIMEOUT = 5000
+ANSWER_TIMEOUT = 5000
+"""Время на отображения вопроса и ответа задания на странице пользователя."""
+
+LOOKUP_PARAMETERS = {
+    'words_favorites': 'favorites__pk',
+    'category_id': 'category_id',
+    'source_id': 'source_id',
+    'word_count': 'word_count__in',
+    'assessment': 'worduserknowledgerelation__knowledge_assessment__in',
+    'user': 'worduserknowledgerelation__user_id',
+}
+"""Константа переименования ключей kwargs, полученных из requests, в ключи
+lookup_parameters для получения изучаемых слов (`dict`)"""
 
 MESSAGE_NO_WORDS = 'Ничего не найдено, попробуйте другие варианты'
 """Нет слов, удовлетворяющих критериям выборки пользователя (`str`)
@@ -53,7 +70,8 @@ def study_english_words_view(request, **kwargs):
 
     # Отправь вопрос пользователю.
     try:
-        task = create_task_study_words(request)
+        lookup_parameters = get_lookup_parameters(request, LOOKUP_PARAMETERS)
+        task = create_task_study_words(lookup_parameters)
     except ValueError:
         # Не осталось слов, которые соответствуют фильтрам.
         messages.error(request, MESSAGE_NO_WORDS)

@@ -1,13 +1,16 @@
 from django.test import TestCase
 from django.urls import reverse_lazy
 
-from config.settings import MIN_KNOWLEDGE_ASSESSMENT, MAX_KNOWLEDGE_ASSESSMENT
 from english.models import WordModel, WordUserKnowledgeRelation
 from english.services.words_knowledge_assessment import (
     get_word_knowledge_assessment,
     get_or_create_knowledge_assessment,
 )
 from users.models import UserModel
+
+MIN_KNOWLEDGE_ASSESSMENT = 0
+MAX_KNOWLEDGE_ASSESSMENT = 11
+"""Минимальная и максимальная оценки пользователь уровня знания слова."""
 
 
 class TestWordsKnowledgeAssessment(TestCase):
