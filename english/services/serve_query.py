@@ -27,6 +27,23 @@ def filter_objects(objects: Manager, *args, **kwargs):
     return objects.filter(*args, **kwargs)
 
 
+def adapt_values_for_orm(inbox_values, values_keys):
+    """Адаптируй параметры поиска из frontend применительно к базе данных.
+
+    Переименует именованные в frontend ключи-параметры поиска в соответствии с
+    именованием полей в базе данных, согласно lookup_parameters_keys.
+    """
+
+
+def get_lookup_parameters(request, lookup_parameters_keys):
+    """Получи из request параметры для поиска в базе данных.
+
+    Переименует именованные в frontend параметры поиска в соответствии с
+    именованием полей в базе данных, согласно lookup_parameters.
+    """
+    pass
+
+
 def get_random_model_from_queryset(queryset):
     """Получи случайную модель из QuerySet"""
     return choice(list(queryset))

@@ -10,11 +10,8 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from english.models import CategoryModel, SourceModel
-from english.services.serve_query import all_objects
-from english.tasks.study_words import (
-    create_task_study_words,
-    get_lookup_parameters,
-)
+from english.services.serve_query import all_objects, get_lookup_parameters
+from english.tasks.study_words import create_task_study_words
 
 QUESTION_TIMEOUT = 5000
 ANSWER_TIMEOUT = 5000

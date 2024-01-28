@@ -16,15 +16,6 @@ LANGUAGE_KEYS = ['words_eng', 'words_rus']
 """Константа ключей к языкам модели слова для изучения (`list`)"""
 
 
-def get_lookup_parameters(request, lookup_parameters_keys):
-    """Получи из request параметры для поиска в базе данных.
-
-    Переименует именованные в frontend параметры поиска в соответствии с
-    именованием полей в базе данных, согласно lookup_parameters.
-    """
-    pass
-
-
 def shuffle_sequence(sequence):
     shuffle(sequence)
     return sequence
