@@ -12,7 +12,7 @@ from django.views.generic import TemplateView
 from config.settings import ANSWER_TIMEOUT, QUESTION_TIMEOUT
 from english.models import CategoryModel, SourceModel
 from english.services.serve_query import all_objects
-from english.tasks.study_words import choice_word
+from english.tasks.study_words import create_task_study_words
 
 MESSAGE_NO_WORDS = 'Ничего не найдено, попробуйте другие варианты'
 """Нет слов, удовлетворяющих критериям выборки пользователя (`str`)
@@ -53,8 +53,8 @@ def study_english_words_view(request, **kwargs):
 
     # Отправь вопрос пользователю.
     try:
-        task = choice_word([])
-    except IndexError:
+        task = create_task_study_words(request)
+    except ValueError:
         # Не осталось слов, которые соответствуют фильтрам.
         messages.error(request, MESSAGE_NO_WORDS)
         return redirect(reverse_lazy('english:words_choose'))

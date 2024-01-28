@@ -5,8 +5,8 @@ from english.views.categories import CategoryListView
 from english.views.categories import CategoryUpdateView
 from english.views.categories import CategoryDeleteView
 
-from english.views.study_words_old import StartRepetitionWordsView
-from english.views.study_words_old import RepetitionWordsView
+# from english.views.study_words_old import StartRepetitionWordsView
+# from english.views.study_words_old import RepetitionWordsView
 
 from english.views.study_words import ChooseEnglishWordsStudyView
 from english.views.study_words import study_english_words_view
@@ -26,8 +26,6 @@ from english.views.lessons import LessonsListView
 from english.views.lessons import LessonCreateView
 from english.views.lessons import LessonUpdateView
 from english.views.lessons import LessonDeleteView
-
-from english.views.check import TestWordView
 
 from english.views.handle_requests_db import update_words_knowledge_assessment_view
 from english.views.handle_requests_db import update_words_favorites_status_view

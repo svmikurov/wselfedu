@@ -7,6 +7,8 @@
 
 Используется для единого применения в представлениях.
 """
+from random import choice
+
 from django.db.models import Manager
 
 
@@ -23,3 +25,8 @@ def all_objects(objects: Manager):
 def filter_objects(objects: Manager, *args, **kwargs):
     """Примени фильтр к менеджеру модели"""
     return objects.filter(*args, **kwargs)
+
+
+def get_random_model_from_queryset(queryset):
+    """Получи случайную модель из QuerySet"""
+    return choice(list(queryset))

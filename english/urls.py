@@ -29,11 +29,6 @@ urlpatterns = [
         views.study_english_words_view,
         name='words_study',
     ),
-    path(
-        'test/',
-        views.TestWordView.as_view(),
-        name='test',
-    ),
     # -- End Tasks --
     # Handle post requests to the database.
     path(
