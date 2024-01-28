@@ -8,7 +8,7 @@ from users.models import UserModel
 
 
 class RegistrationUserViewTest(TestCase):
-    """ Тест регистрации пользователя """
+    """Тест регистрации пользователя."""
 
     def setUp(self):
         """
@@ -32,12 +32,12 @@ class RegistrationUserViewTest(TestCase):
         }
 
     def test_get(self):
-        """ Тест страницы регистрации пользователя """
+        """Тест страницы регистрации пользователя."""
         response: TemplateResponse = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
     def test_post(self):
-        """ Тест результата регистрации пользователя """
+        """Тест результата регистрации пользователя."""
         response: TemplateResponse = self.client.post(self.url, self.user_data)
 
         self.assertRedirects(response, self.redirect_url, 302)

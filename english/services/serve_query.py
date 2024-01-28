@@ -4,65 +4,50 @@
 # Запросы в базу данных осуществляется посредством Django QuerySet API.
 #
 """Модуль для запросов в базу данных.
-
-Используется для единого применения в представлениях.
 """
 from random import choice
 
-from django.db.models import Manager
+from english.services.words_knowledge_assessment import get_numeric_value
+
+LOOKUP_PARAMETERS_KEYS = {
+    'words_favorites': 'favorites__pk',
+    'category_id': 'category_id',
+    'source_id': 'source_id',
+    'word_count': 'word_count__in',
+    'assessment': 'worduserknowledgerelation__knowledge_assessment__in',
+    'user_id': 'worduserknowledgerelation__user_id',
+}
+"""Константа переименования ключей kwargs, полученных из requests, в ключи
+lookup_parameters для получения изучаемых слов (`dict`)"""
+
+KEYS_WITH_INT_VALUE = {'words_favorites', 'category_id', 'source_id'}
+"""Параметры поиска для запросов в базу данных, значения которых должны быть 
+целым числом."""
 
 
-def get_objects(objects: Manager, **kwargs):
-    """Получи объект от менеджера модели"""
-    return objects.get(**kwargs)
+def get_lookup_parameters(querydict):
+    """Получи из request параметры для поиска слов в базе данных.
 
-
-def all_objects(objects: Manager):
-    """Получи все объекты от менеджера модели"""
-    return objects.all()
-
-
-def filter_objects(objects: Manager, *args, **kwargs):
-    """Примени фильтр к менеджеру модели"""
-    return objects.filter(*args, **kwargs)
-
-
-def adapt_lookup_parameters_for_orm(lookup_parameters, lookup_parameters_keys):
-    """Адаптируй ключи словаря параметров из request применительно к ORM.
-
-    Parameters:
-    -----------
-    lookup_parameters : `dict`
-        Словарь, чьи ключи надо переименовать.
-    lookup_parameters_keys : `dict`
-        Словарь, в котором ключ - старое имя ключа, значение - новое имя ключа.
-
-    Return:
-    -------
-    adapted_lookup_parameters : `dict`
-        Адаптированный словарь запросов в бау данных.
-
-    Notes:
-    ------
-    Переименует именованные в frontend ключи-параметры поиска в соответствии с
-    именованием полей в базе данных, согласно lookup_parameters_keys.
+    Адаптирует полученные данные к работе с ОРМ.
     """
-    adapted_lookup_parameters = dict()
-    for key, value in lookup_parameters.items():
-        adapted_key = lookup_parameters_keys.get(key)
-        adapted_lookup_parameters[adapted_key] = value
-    return adapted_lookup_parameters
+    lookup_parameters = dict()
+
+    for key, value in querydict.items():
+
+        if key == 'assessment':
+            value = get_numeric_value(value)
+
+        if value != [''] and key in LOOKUP_PARAMETERS_KEYS:
+            lookup_key = LOOKUP_PARAMETERS_KEYS[key]
+
+            if key in KEYS_WITH_INT_VALUE:
+                value = int(value[0])
+
+            lookup_parameters[lookup_key] = value
+
+    return lookup_parameters
 
 
-def get_lookup_parameters(request, lookup_parameters_keys):
-    """Получи из request параметры для поиска в базе данных.
-
-    Переименует именованные в frontend параметры поиска в соответствии с
-    именованием полей в базе данных, согласно lookup_parameters.
-    """
-    pass
-
-
-def get_random_model_from_queryset(queryset):
+def get_random_query_from_queryset(queryset):
     """Получи случайную модель из QuerySet."""
-    return choice(list(queryset))
+    return choice(queryset)

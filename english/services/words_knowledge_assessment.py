@@ -14,16 +14,39 @@
 Приложение содержит следующие интервалы: изучение, повторение, проверка.
 """
 
-from english.models.words import (
-    WordModel,
-    WordUserKnowledgeRelation,
-)
+from english.models.words import WordModel, WordUserKnowledgeRelation
 from users.models import UserModel
 
 MIN_KNOWLEDGE_ASSESSMENT = 0
+MAX_STUDYING_VALUE = 6
+MAX_REPETITION_VALUE = 8
+MAX_EXAMINATION_VALUE = 10
 MAX_KNOWLEDGE_ASSESSMENT = 11
-"""Максимальное и минимальное значения оценки уровня знания слова пользователем
+"""Значения оценки уровня знания слова пользователем
 """
+
+
+def get_numeric_value(assessment):
+    """Преобразуй строковое представление уровня знания в диапазон чисел
+     этого уровня.
+
+     Если строковое представление уровня будет отличаться от упомянутых в
+     условиях ниже, то по умолчанию устанавливается уровень [0].
+     """
+    value = [0]
+    if 'repetition' in assessment:
+        value1 = [*range(MIN_KNOWLEDGE_ASSESSMENT, MAX_STUDYING_VALUE + 1)]
+        value += value1
+    if 'repetition' in assessment:
+        value2 = [*range(MAX_STUDYING_VALUE + 1, MAX_REPETITION_VALUE + 1)]
+        value += value2
+    if 'examination' in assessment:
+        value3 = [*range(MAX_REPETITION_VALUE + 1, MAX_EXAMINATION_VALUE + 1)]
+        value += value3
+    if 'learned' in assessment:
+        value4 = [*range(MAX_EXAMINATION_VALUE + 1, MAX_KNOWLEDGE_ASSESSMENT + 1)]
+        value += value4
+    return value
 
 
 def get_or_create_knowledge_assessment(word_id, user_id):
@@ -51,7 +74,7 @@ def get_word_knowledge_assessment(user_id: int, word_id: int) -> int:
 
 def update_word_knowledge_assessment(user_pk, word_pk, new_assessment):
     """Обнови в базе данных оценку знания слова пользователем, в пределах
-    допустимого диапазона.
+       допустимого диапазона.
     """
     if (MIN_KNOWLEDGE_ASSESSMENT
             <= new_assessment

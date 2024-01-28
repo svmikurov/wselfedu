@@ -13,7 +13,7 @@ create-fixtures:
 test:
 	poetry run coverage run --source='.' manage.py test
 
-test-just: lint
+test-just:
 	@$(MANAGE) test $(TEST_JUST)
 
 test-coverage:

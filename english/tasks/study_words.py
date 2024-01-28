@@ -7,29 +7,26 @@
 from random import shuffle
 
 from english.models import WordModel
-from english.services.serve_query import (
-    filter_objects,
-    get_random_model_from_queryset,
-)
-
-LANGUAGE_KEYS = ['words_eng', 'words_rus']
-"""Константа ключей к языкам модели слова для изучения (`list`)"""
+from english.services.serve_query import get_random_query_from_queryset
 
 
 def shuffle_sequence(sequence):
+    """Перетасуй последовательность."""
     shuffle(sequence)
     return sequence
 
 
 def create_task_study_words(lookup_parameters):
-    model_manager = WordModel.objects
-    words_queryset = filter_objects(model_manager, **lookup_parameters)
-    random_word_task = get_random_model_from_queryset(words_queryset)
-    question_key, answer_key = shuffle_sequence(LANGUAGE_KEYS)
+    """Создай задание пользователю для изучения слов, согласно его фильтрам.
+    """
+    words_queryset = WordModel.objects.filter(**lookup_parameters)
+    word = get_random_query_from_queryset(words_queryset)
+    word_translations = [word.words_eng, word.words_rus]
+    question, answer = shuffle_sequence(word_translations)
 
     task_study_word = {
-        'word_id': random_word_task.get(id),
-        'question': random_word_task.get(question_key),
-        'answer': random_word_task.get(answer_key),
+        'word_id': word.id,
+        'question': question,
+        'answer': answer,
     }
     return task_study_word

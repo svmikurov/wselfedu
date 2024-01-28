@@ -5,89 +5,57 @@ from django.test import TestCase
 
 from english.models import WordModel
 from english.services.serve_query import (
-    all_objects,
-    filter_objects,
-    get_objects,
-    adapt_lookup_parameters_for_orm,
+    get_random_query_from_queryset,
+    get_lookup_parameters,
 )
-from users.models import UserModel
-
-
-class TestServeQuery(TestCase):
-    """Тест модуля test_serve_query.py"""
-
-    fixtures = ['english/tests/fixtures/wse-fixtures.json']
-
-    def setUp(self):
-        self.manager = WordModel.objects
-        self.kwargs = {'word_count': 'OW', 'id': 6}
-
-        user_id = UserModel.objects.get(username='user1').pk
-        level = {0, 1, 2, 3, 4}
-        count = ('OW', 'NC')
-        category_id = 2,
-        source_id = 2,
-        self.lookup_parameters = {
-            'favorites__pk': user_id,
-            'category_id': category_id,
-            'source_id': source_id,
-            'word_count__in': count,
-            'worduserknowledgerelation__knowledge_assessment__in': level,
-            'worduserknowledgerelation__user_id': user_id,
-        }
-        self.lookup_result = {'word02', 'word06'}
-
-    def test_get_objects(self):
-        """Тест получения объекта от менеджера модели."""
-        expected_words = self.manager.get(**self.kwargs)
-        received_words = get_objects(self.manager, **self.kwargs)
-        self.assertEqual(expected_words, received_words)
-
-    def test_all_objects(self):
-        """Тест получения всех объектов от менеджера модели."""
-        expected_words = self.manager.all()
-        received_words = all_objects(self.manager)
-        self.assertEqual(list(expected_words), list(received_words))
-
-    def test_filter_objects(self):
-        """Тест фильтра по параметрам поиска."""
-        words = filter_objects(WordModel.objects, **self.lookup_parameters)
-        received_words_eng = words.values_list('words_eng', flat=True)
-        self.assertEqual(set(received_words_eng), self.lookup_result)
+from english.tasks.study_words import shuffle_sequence
 
 
 class TestAdaptLookupParameters(TestCase):
     def setUp(self):
-        self.frontend_lookup_parameters = {
-            'words_favorites': 'user_id',
-            'category_id': 'category_id',
-            'source_id': 'source_id',
-            'word_count': 'count',
-            'assessment': 'level',
-            'user_id': 'user_id',
+        self.querydict = {
+            'csrfmiddlewaretoken': ['SfNSD...hpwu7soCX'],
+            'words_favorites': ['1'],
+            'category_id': [''],
+            'source_id': [''],
+            'word_count': ['OW', 'CB'],
+            'assessment': ['studying', 'examination']
+        }
+        self.expected_lookup_parameters = {
+            'favorites__pk': 1,
+            'word_count__in': ['OW', 'CB'],
+            'worduserknowledgerelation__knowledge_assessment__in': [
+                'studying', 'examination'
+            ]
         }
 
-        self.model_lookup_parameters = {
-            'favorites__pk': 'user_id',
-            'category_id': 'category_id',
-            'source_id': 'source_id',
-            'word_count__in': 'count',
-            'worduserknowledgerelation__knowledge_assessment__in': 'level',
-            'worduserknowledgerelation__user_id': 'user_id',
-        }
+    def test_get_lookup_parameters(self):
+        """Тест получения из request и переименования параметров поиска в БД.
+        """
+        lookup_parameters = get_lookup_parameters(self.querydict)
+        self.assertEqual(self.expected_lookup_parameters, lookup_parameters)
 
-        self.lookup_parameters_keys = {
-            'words_favorites': 'favorites__pk',
-            'category_id': 'category_id',
-            'source_id': 'source_id',
-            'word_count': 'word_count__in',
-            'assessment': 'worduserknowledgerelation__knowledge_assessment__in',
-            'user_id': 'worduserknowledgerelation__user_id',
-        }
 
-    def adapt_parameters_for_orm(self):
-        """Тест адаптации для ORM параметров поиска из request."""
-        parameters = adapt_lookup_parameters_for_orm(
-            self.frontend_lookup_parameters, self.lookup_parameters_keys
-        )
-        self.assertEqual(parameters, self.model_lookup_parameters)
+class TestRandomFunctions(TestCase):
+    """Тест функций, возвращающих случайные значения.
+
+    Целями теста являются:
+        - завершение выполнения функции без ошибки;
+        - возвращение заданного количества объектов;
+        - изменение последовательности объектов.
+    """
+
+    fixtures = ['english/tests/fixtures/wse-fixtures.json']
+
+    def setUp(self):
+        self.queryset = WordModel.objects.all()
+        self.number_words_in_question = 1
+
+    def test_get_random_query_from_queryset(self):
+        """Тест получи случайную модель из QuerySet."""
+        random_query = get_random_query_from_queryset(self.queryset)
+
+        translations = [random_query.words_eng, random_query.words_rus]
+        question, answer = shuffle_sequence(translations)
+        self.assertTrue(self.queryset.count() > self.number_words_in_question)
+        self.assertTrue(isinstance(question, str))
