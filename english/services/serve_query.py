@@ -27,12 +27,31 @@ def filter_objects(objects: Manager, *args, **kwargs):
     return objects.filter(*args, **kwargs)
 
 
-def adapt_values_for_orm(inbox_values, values_keys):
-    """Адаптируй параметры поиска из frontend применительно к базе данных.
+def adapt_lookup_parameters_for_orm(lookup_parameters, lookup_parameters_keys):
+    """Адаптируй ключи словаря параметров из request применительно к ORM.
 
+    Parameters:
+    -----------
+    lookup_parameters : `dict`
+        Словарь, чьи ключи надо переименовать.
+    lookup_parameters_keys : `dict`
+        Словарь, в котором ключ - старое имя ключа, значение - новое имя ключа.
+
+    Return:
+    -------
+    adapted_lookup_parameters : `dict`
+        Адаптированный словарь запросов в бау данных.
+
+    Notes:
+    ------
     Переименует именованные в frontend ключи-параметры поиска в соответствии с
     именованием полей в базе данных, согласно lookup_parameters_keys.
     """
+    adapted_lookup_parameters = dict()
+    for key, value in lookup_parameters.items():
+        adapted_key = lookup_parameters_keys.get(key)
+        adapted_lookup_parameters[adapted_key] = value
+    return adapted_lookup_parameters
 
 
 def get_lookup_parameters(request, lookup_parameters_keys):
@@ -45,5 +64,5 @@ def get_lookup_parameters(request, lookup_parameters_keys):
 
 
 def get_random_model_from_queryset(queryset):
-    """Получи случайную модель из QuerySet"""
+    """Получи случайную модель из QuerySet."""
     return choice(list(queryset))

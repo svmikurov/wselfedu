@@ -8,7 +8,7 @@ from english.services.serve_query import (
     all_objects,
     filter_objects,
     get_objects,
-    adapt_values_for_orm,
+    adapt_lookup_parameters_for_orm,
 )
 from users.models import UserModel
 
@@ -85,9 +85,9 @@ class TestAdaptLookupParameters(TestCase):
             'user_id': 'worduserknowledgerelation__user_id',
         }
 
-    def test_adapt_values_for_orm(self):
-        """Тест адаптации для ORM параметров поиска из frontend."""
-        lookup_parameters = adapt_values_for_orm(
+    def adapt_parameters_for_orm(self):
+        """Тест адаптации для ORM параметров поиска из request."""
+        parameters = adapt_lookup_parameters_for_orm(
             self.frontend_lookup_parameters, self.lookup_parameters_keys
         )
-        self.assertEqual(lookup_parameters, self.model_lookup_parameters)
+        self.assertEqual(parameters, self.model_lookup_parameters)
