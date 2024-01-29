@@ -1,8 +1,10 @@
 """Модуль тестирования упражнения Изучение слов.
 """
 
-from django.test import TestCase
+from django.test import Client, TestCase
 from django.urls import reverse_lazy
+
+from users.models import UserModel
 
 
 class TestChooseEnglishWordsStudy(TestCase):
@@ -25,11 +27,38 @@ class TestStudyEnglishWordsView(TestCase):
     fixtures = ['english/tests/fixtures/wse-fixtures.json']
 
     def setUp(self):
-        self.url = reverse_lazy(
+        """Set suite up."""
+        self.client = Client()
+        self.user = UserModel.objects.get(pk=2)
+        self.words_choose_url = reverse_lazy('english:words_choose')
+        self.start_words_study_url = reverse_lazy(
             'english:words_study', kwargs={'task_status': 'start'}
         )
+        self.answer_words_study_url = reverse_lazy(
+            'english:words_study', kwargs={'task_status': 'answer'}
+        )
 
-    def test_page_status_auth_user(self):
-        """Test words_study 200 page."""
-        response = self.client.get(self.url)
+    def test_words_choose_page_status(self):
+        """Test words choose page 200 status.
+        """
+        response = self.client.get(self.words_choose_url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_start_words_study_page_status(self):
+        """Test start words study page 200 status.
+        """
+        response = self.client.get(self.start_words_study_url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_answer_words_study_page_status(self):
+        """Test answer words study page 200 status."""
+        # Старт выполнения задания, формируется задача,
+        # в сессии сохраняется задача:
+        # request.session['task'] = task
+        self.client.get(self.start_words_study_url)
+        # Выполняется задание, в сессии есть сформированная задача,
+        # выполнима команда: task = request.session['task']
+        # Становится возможным переход на статус 'answer'.
+        # Без старта, без сохранения задачи тест выдаст ошибку!
+        response = self.client.get(self.answer_words_study_url)
         self.assertEqual(response.status_code, 200)
