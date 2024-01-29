@@ -6,7 +6,7 @@ from english.views.categories import CategoryUpdateView
 from english.views.categories import CategoryDeleteView
 
 from english.views.study_words import ChooseEnglishWordsStudyView
-from english.views.study_words import StudyWordsView
+from english.views.study_words import study_words_view
 
 from english.views.sources import SourceCreateView
 from english.views.sources import SourceListView

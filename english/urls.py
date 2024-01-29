@@ -26,7 +26,7 @@ urlpatterns = [
     ),
     path(
         'words-study/<str:task_status>/',
-        views.StudyWordsView.as_view(),
+        views.study_words_view,
         name='words_study',
     ),
     # -- End Task study words --
