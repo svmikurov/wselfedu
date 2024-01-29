@@ -46,19 +46,21 @@ class StudyWordsView(TemplateView):
 
         # Покажи пользователю перевод слова.
         if task_status == 'answer':
+            print('answer')
             task = request.session['task']
             context = {
                 'task': task,
                 'timeout': ANSWER_TIMEOUT,
                 'next_url': 'english:words_study',
+                'task_status': 'answer',
             }
             return render(request, template_name, context)
 
-        if task_status == 'start':
-            save_lookup_parameters_to_session(request)
-
         # Покажи пользователю слово для перевода.
-        if task_status == 'question':
+        if task_status == 'question' or task_status == 'start':
+            if task_status == 'start':
+                save_lookup_parameters_to_session(request)
+
             try:
                 lookup_parameters = request.session['lookup_parameters']
                 task = create_task_study_words(lookup_parameters)
@@ -71,6 +73,7 @@ class StudyWordsView(TemplateView):
                     'task': task,
                     'timeout': QUESTION_TIMEOUT,
                     'next_url': 'english:words_study',
+                    'task_status': 'question',
                 }
                 return render(request, template_name, context)
 

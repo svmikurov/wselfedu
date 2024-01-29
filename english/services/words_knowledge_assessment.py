@@ -29,12 +29,9 @@ MAX_KNOWLEDGE_ASSESSMENT = 11
 def get_numeric_value(assessment):
     """Преобразуй строковое представление уровня знания в диапазон чисел
      этого уровня.
-
-     Если строковое представление уровня будет отличаться от упомянутых в
-     условиях ниже, то по умолчанию устанавливается уровень [0].
      """
-    value = [0]
-    if 'repetition' in assessment:
+    value = []
+    if 'studying' in assessment:
         value1 = [*range(MIN_KNOWLEDGE_ASSESSMENT, MAX_STUDYING_VALUE + 1)]
         value += value1
     if 'repetition' in assessment:

@@ -21,8 +21,9 @@ LOOKUP_PARAMETERS_KEYS = {
 lookup_parameters для получения изучаемых слов (`dict`)"""
 
 KEYS_WITH_INT_VALUE = {'words_favorites', 'category_id', 'source_id'}
-"""Параметры поиска для запросов в базу данных, значения которых должны быть 
-целым числом."""
+"""Параметры поиска для запросов в базу данных, значения которых должны быть
+целым числом.
+"""
 
 
 def get_lookup_parameters(querydict):

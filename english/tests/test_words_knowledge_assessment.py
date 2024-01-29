@@ -67,6 +67,11 @@ class TestWordsKnowledgeAssessment(TestCase):
         response = self.client.post(
             self.middle_assessment_url, self.assessment_down
         )
+
+        session = self.client.session
+        session['lookup_parameters'] = {'knowledge_assessment': self.user.pk}
+        session.save()
+
         updated_assessment = get_word_knowledge_assessment(
             self.user.pk, self.word_middle_assessment.pk,
         )

@@ -25,7 +25,7 @@ class TestAdaptLookupParameters(TestCase):
             'favorites__pk': 1,
             'word_count__in': ['OW', 'CB'],
             'worduserknowledgerelation__knowledge_assessment__in': [
-                'studying', 'examination'
+                0, 1, 2, 3, 4, 5, 6, 9, 10
             ]
         }
 

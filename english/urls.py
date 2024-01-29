@@ -25,7 +25,7 @@ urlpatterns = [
         name='words_choose',
     ),
     path(
-        'words_study/<str:task_status>/',
+        'words-study/<str:task_status>/',
         views.StudyWordsView.as_view(),
         name='words_study',
     ),
