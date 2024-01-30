@@ -90,4 +90,12 @@
     </form>
   </div>
 </div>
+
+--======== Words Choice Form =======--
+<div>
+  <form action="/your-name/" method="get">
+    {% csrf_token %}
+    {{ form.as_div }}
+  </form>
+</div><!-- End Words Choice Form --
 {% endblock %}

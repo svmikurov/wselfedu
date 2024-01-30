@@ -1,6 +1,31 @@
 #
 # Данный модуль является частью приложения по изучению английского языка.
 #
+# Рабочий модуль,
+# используется в разработке, пока, как основной.
+#
+# Содержит два представления:
+#   1. для выбора параметров подбора слов
+#   2. выполняет несколько задач:
+#       - формирование задания;
+#       - рендеринг вопроса;
+#       - рендеринг ответа.
+#
+# Цель рефакторинга.
+#
+# Содержит 2 представления:
+#   1. Выбора параметров подбора слов
+#       - рендеринг формы для выбора параметров подбора слов
+#       - обработка формы
+#       - сохранение параметров в сессию
+#       - редирект на формирование задачи
+#
+#   2. Формирование задачи
+#       - формирование задачи;
+#       - рендеринг вопроса;
+#       - рендеринг ответа.
+#      - рендеринг ответа.
+
 """Представления пользователю для изучения, повторения, проверки знания слов.
 """
 
@@ -10,6 +35,7 @@ from django.urls import reverse_lazy
 from django.views.decorators.http import require_GET
 from django.views.generic import TemplateView
 
+from english.forms.custom_words_choice import WordsChooseForm
 from english.models import CategoryModel, SourceModel
 from english.services.serve_request import save_lookup_parameters_to_session
 from english.tasks.study_words import create_task_study_words
@@ -34,10 +60,14 @@ class ChooseEnglishWordsStudyView(TemplateView):
     """View choosing English words to study."""
 
     template_name = 'english/tasks/words_choose.html'
+    form = WordsChooseForm
+
     categories = CategoryModel.objects.all()
     sources = SourceModel.objects.all()
+
     extra_context = {
         'title': TITLE,
+        'form': form,
         'categories': categories,
         'sources': sources,
         'message_no_words': MESSAGE_NO_WORDS,
