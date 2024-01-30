@@ -35,7 +35,6 @@ from django.urls import reverse_lazy
 from django.views.decorators.http import require_GET
 from django.views.generic import TemplateView
 
-from english.forms.custom_words_choice import WordsChooseForm
 from english.models import CategoryModel, SourceModel
 from english.services.serve_request import save_lookup_parameters_to_session
 from english.tasks.study_words import create_task_study_words
@@ -60,14 +59,11 @@ class ChooseEnglishWordsStudyView(TemplateView):
     """View choosing English words to study."""
 
     template_name = 'english/tasks/words_choose.html'
-    form = WordsChooseForm
-
     categories = CategoryModel.objects.all()
     sources = SourceModel.objects.all()
 
     extra_context = {
         'title': TITLE,
-        'form': form,
         'categories': categories,
         'sources': sources,
         'message_no_words': MESSAGE_NO_WORDS,

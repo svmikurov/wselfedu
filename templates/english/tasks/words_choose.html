@@ -79,7 +79,7 @@
         </div>
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="checkbox" name="assessment" value="learned" />
-          <label class="form-check-label">Проверка</label>
+          <label class="form-check-label">Выучил</label>
         </div>
       </fieldset><!-- End Checkbox word knowledge assessment-->
 
@@ -90,12 +90,4 @@
     </form>
   </div>
 </div>
-
---======== Words Choice Form =======--
-<div>
-  <form action="/your-name/" method="get">
-    {% csrf_token %}
-    {{ form.as_div }}
-  </form>
-</div><!-- End Words Choice Form --
 {% endblock %}
