@@ -19,14 +19,17 @@ def shuffle_sequence(sequence):
 def create_task_study_words(lookup_parameters):
     """Создай задание пользователю для изучения слов, согласно его фильтрам.
     """
+    task_study_word = dict()
     words_queryset = WordModel.objects.filter(**lookup_parameters)
-    word = get_random_query_from_queryset(words_queryset)
-    word_translations = [word.words_eng, word.words_rus]
-    question, answer = shuffle_sequence(word_translations)
 
-    task_study_word = {
-        'word_id': word.id,
-        'question': question,
-        'answer': answer,
-    }
+    if words_queryset:
+        word = get_random_query_from_queryset(words_queryset)
+        word_translations = [word.words_eng, word.words_rus]
+        question, answer = shuffle_sequence(word_translations)
+
+        task_study_word = {
+            'word_id': word.id,
+            'question': question,
+            'answer': answer,
+        }
     return task_study_word

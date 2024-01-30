@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from english.models import WordModel, WordUserKnowledgeRelation
 from english.services.words_knowledge_assessment import (
     get_word_knowledge_assessment,
-    get_or_create_knowledge_assessment,
+    get_knowledge_assessment,
 )
 from users.models import UserModel
 
@@ -55,7 +55,7 @@ class TestWordsKnowledgeAssessment(TestCase):
         self.assertFalse(WordUserKnowledgeRelation.objects.filter(
             word_id=new_word_pk
         ).exists())
-        get_or_create_knowledge_assessment(new_word_pk, self.user.pk)
+        get_knowledge_assessment(new_word_pk, self.user.pk)
         self.assertTrue(WordUserKnowledgeRelation.objects.filter(
             word_id=new_word_pk
         ).exists())

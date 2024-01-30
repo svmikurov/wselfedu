@@ -46,18 +46,19 @@ def get_numeric_value(assessment):
     return value
 
 
-def get_or_create_knowledge_assessment(word_id, user_id):
+def get_knowledge_assessment(word_id, user_id):
     """Получи или создай в базе данных оценку пользователем знание слова.
        При создании оценки, оценка рана "0".
     """
-    knowledge_assessment_obj, is_create = (
-        WordUserKnowledgeRelation.objects.get_or_create(
-            word=WordModel.objects.get(pk=word_id),
-            user=UserModel.objects.get(pk=user_id),
+    if user_id and word_id:
+        knowledge_assessment_obj, is_create = (
+            WordUserKnowledgeRelation.objects.get_or_create(
+                word=WordModel.objects.get(pk=word_id),
+                user=UserModel.objects.get(pk=user_id),
+            )
         )
-    )
-    knowledge_assessment = knowledge_assessment_obj.knowledge_assessment
-    return knowledge_assessment
+        knowledge_assessment = knowledge_assessment_obj.knowledge_assessment
+        return knowledge_assessment
 
 
 def get_word_knowledge_assessment(user_id: int, word_id: int) -> int:
