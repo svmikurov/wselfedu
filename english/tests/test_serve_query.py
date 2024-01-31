@@ -24,9 +24,10 @@ class TestAdaptLookupParameters(TestCase):
             'word_count': ['OW', 'CB'],
             'assessment': ['studying', 'examination']
         }
+        # В word_count__in программно добавляется 'NC'.
         self.expected_lookup_parameters = {
             'favorites__pk': 1,
-            'word_count__in': ['OW', 'CB'],
+            'word_count__in': ['OW', 'CB', 'NC'],
             'worduserknowledgerelation__knowledge_assessment__in': [
                 0, 1, 2, 3, 4, 5, 6, 9, 10
             ]
