@@ -4,7 +4,7 @@ from english.models import WordModel, WordsFavoritesModel
 from english.services.words_favorites import (
     add_word_to_favorites,
     remove_word_from_favorites,
-    is_word_in_favorites,
+    is_word_in_favorites, update_words_favorites_status,
 )
 from users.models import UserModel
 
@@ -49,4 +49,16 @@ class TestWordsFavorites(TestCase):
                 user=UserModel.objects.get(pk=self.user_id_in_favorites),
                 word=WordModel.objects.get(pk=self.word_id_in_favorites),
             ).exists()
+        )
+
+    def test_update_words_favorites_status(self):
+        user_id = 1
+        word_id = 2
+
+        self.assertTrue(
+            WordsFavoritesModel.objects.filter(user=1, word=2).exists()
+        )
+        update_words_favorites_status(word_id, user_id, 'remove')
+        self.assertFalse(
+            WordsFavoritesModel.objects.filter(user=1, word=2).exists()
         )
