@@ -49,3 +49,17 @@ def is_word_in_favorites(user_id, word_id) -> bool:
         user=user_id, word=word_id,
     ).exists()
     return is_favorites
+
+
+def update_words_favorites_status(word_id, user_id, favorites_action):
+    """Измени статус слова, избранное ли оно.
+
+    Если слова нет среди избранных - добавляет слово в избранные,
+    если слово среди избранных - убирает слово из избранных.
+    """
+    # Не используется значение favorites_action = "change",
+    # во избежание дополнительного запроса в БД - текущий статус слова
+    if favorites_action == 'add':
+        add_word_to_favorites(user_id, word_id)
+    elif favorites_action == 'remove':
+        remove_word_from_favorites(user_id, word_id)

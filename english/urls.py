@@ -29,8 +29,6 @@ urlpatterns = [
         views.study_words_view,
         name='words_study',
     ),
-    # -- End Task study words --
-    # Handle post requests to the database.
     path(
         'knowledge-assessment/<int:word_id>/',
         views.update_words_knowledge_assessment_view,
@@ -41,7 +39,7 @@ urlpatterns = [
         views.update_words_favorites_status_view,
         name='words_favorites_view',
     ),
-    # End Handle post requests to the database.
+    # -- End Task study words --
 
     # --======= Words =======--
     path(
