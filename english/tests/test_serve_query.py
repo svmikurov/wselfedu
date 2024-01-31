@@ -12,6 +12,9 @@ from english.tasks.study_words import shuffle_sequence
 
 
 class TestAdaptLookupParameters(TestCase):
+    """Тест получения из request параметров поиска слов для задачи.
+    """
+
     def setUp(self):
         self.querydict = {
             'csrfmiddlewaretoken': ['SfNSD...hpwu7soCX'],

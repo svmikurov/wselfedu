@@ -35,8 +35,17 @@ def get_lookup_parameters(querydict):
 
     for key, value in querydict.items():
 
+        # Преобразуй строковое представление "уровня знания" в диапазон чисел
+        # для этого уровня
         if key == 'assessment':
             value = get_numeric_value(value)
+
+        # Включи в параметры поиска 'Любое количество слов' - добавлять везде
+        # Возможно, эта опция будет удалена в будущем.
+        # Без этой опции из формирования задачи выпадают слова,
+        # при добавлении в словарь которых не выбрано "количество солов".
+        if key == 'word_count':
+            value += ['NC']
 
         if value != [''] and key in LOOKUP_PARAMETERS_KEYS:
             lookup_key = LOOKUP_PARAMETERS_KEYS[key]
