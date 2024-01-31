@@ -38,6 +38,7 @@ from django.views.generic import TemplateView
 
 from english.models import CategoryModel, SourceModel
 from english.services.serve_request import save_lookup_parameters_to_session
+from english.services.words_favorites import is_word_in_favorites
 from english.services.words_knowledge_assessment import \
     get_knowledge_assessment
 from english.tasks.study_words import create_task_study_words
@@ -86,7 +87,9 @@ def study_words_view(request, *args, **kwargs):
     # Покажи пользователю перевод слова.
     if task_status == 'answer':
         task = request.session['task']
-        knowledge = get_knowledge_assessment(task.get('word_id'), user_id)
+        word_id = task.get('word_id')
+        knowledge = get_knowledge_assessment(word_id, user_id)
+        favorites_status = is_word_in_favorites(user_id, word_id)
         context = {
             'title': TITLE,
             'task': task,
@@ -94,6 +97,7 @@ def study_words_view(request, *args, **kwargs):
             'next_url': 'english:words_study',
             'task_status': 'answer',
             'knowledge_assessment': knowledge,
+            'favorites_status': favorites_status,
         }
         return render(request, template_name, context)
 
@@ -104,7 +108,9 @@ def study_words_view(request, *args, **kwargs):
 
         lookup_parameters = request.session['lookup_parameters']
         task = create_task_study_words(lookup_parameters)
-        knowledge = get_knowledge_assessment(task.get('word_id'), user_id)
+        word_id = task.get('word_id')
+        knowledge = get_knowledge_assessment(word_id, user_id)
+        favorites_status = is_word_in_favorites(user_id, word_id)
 
         if not task:
             messages.error(request, MESSAGE_NO_WORDS)
@@ -118,6 +124,7 @@ def study_words_view(request, *args, **kwargs):
                 'next_url': 'english:words_study',
                 'task_status': 'question',
                 'knowledge_assessment': knowledge,
+                'favorites_status': favorites_status,
             }
             return render(request, template_name, context)
 
