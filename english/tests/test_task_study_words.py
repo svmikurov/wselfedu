@@ -1,6 +1,5 @@
 """Модуль тестирования упражнения Изучение слов.
 """
-
 from django.test import Client, TestCase
 from django.urls import reverse_lazy
 
@@ -8,7 +7,7 @@ from users.models import UserModel
 
 
 class TestChooseEnglishWordsStudy(TestCase):
-    """Протестируй применение параметров пользователя для писка слов."""
+    """Протестируй получение параметров пользователя для писка слов."""
 
     fixtures = ['english/tests/fixtures/wse-fixtures.json']
 
@@ -52,12 +51,9 @@ class TestStudyEnglishWordsView(TestCase):
 
     def test_answer_words_study_page_status(self):
         """Test answer words study page 200 status."""
-        # Старт выполнения задания, формируется задача,
-        # в сессии сохраняется задача:
-        # request.session['task'] = task
+        # Старт выполнения задания, формируется задача, сохраняется задача.
         self.client.get(self.start_words_study_url)
-        # Выполняется задание, в сессии есть сформированная задача,
-        # выполнима команда: task = request.session['task']
+        # Выполняется задание, есть сформированная задача.
         # Становится возможным переход на статус 'answer'.
         # Без старта, без сохранения задачи тест выдаст ошибку!
         response = self.client.get(self.answer_words_study_url)

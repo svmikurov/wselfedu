@@ -37,7 +37,8 @@ from django.views.decorators.http import require_GET
 from django.views.generic import TemplateView
 
 from english.models import CategoryModel, SourceModel
-from english.services.serve_request import save_lookup_parameters_to_session
+from english.services.serve_request import set_lookup_parameters, \
+    get_lookup_parameters
 from english.services.words_favorites import is_word_in_favorites
 from english.services.words_knowledge_assessment import \
     get_knowledge_assessment
@@ -104,9 +105,9 @@ def study_words_view(request, *args, **kwargs):
     # Покажи пользователю слово для перевода.
     if task_status == 'question' or task_status == 'start':
         if task_status == 'start':
-            save_lookup_parameters_to_session(request)
+            set_lookup_parameters(request)
 
-        lookup_parameters = request.session['lookup_parameters']
+        lookup_parameters = get_lookup_parameters()
         task = create_task_study_words(lookup_parameters)
         word_id = task.get('word_id')
         knowledge = get_knowledge_assessment(word_id, user_id)

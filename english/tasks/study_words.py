@@ -31,5 +31,6 @@ def create_task_study_words(lookup_parameters):
             'word_id': word.id,
             'question': question,
             'answer': answer,
+            'words_eng': word.words_eng
         }
     return task_study_word
