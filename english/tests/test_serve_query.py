@@ -77,8 +77,8 @@ class TestLookupParametersByPeriods(TestCase):
     def test_period_only_today(self):
         """Тест фильтра слов по периоду "только сегодня"."""
         querydict = {'start_period': '1', 'end_period': '1'}
-        lookup_parameters = create_lookup_parameters(querydict)
-        filtered_words = WordModel.objects.filter(**lookup_parameters)
+        include_parameters, _ = create_lookup_parameters(querydict)
+        filtered_words = WordModel.objects.filter(**include_parameters)
 
         self.assertTrue(filtered_words.contains(self.word_added_today))
         self.assertFalse(filtered_words.contains(self.word_added_3_days_ago))
@@ -86,8 +86,8 @@ class TestLookupParametersByPeriods(TestCase):
     def test_period_3_days_ago_till_today(self):
         """Тест фильтра слов по периоду "только сегодня"."""
         querydict = {'start_period': '1', 'end_period': '1'}
-        lookup_parameters = create_lookup_parameters(querydict)
-        filtered_words = WordModel.objects.filter(**lookup_parameters)
+        include_parameters, _ = create_lookup_parameters(querydict)
+        filtered_words = WordModel.objects.filter(**include_parameters)
 
         self.assertTrue(filtered_words.contains(self.word_added_today))
         self.assertFalse(filtered_words.contains(self.word_added_3_days_ago))
@@ -95,8 +95,8 @@ class TestLookupParametersByPeriods(TestCase):
     def test_period_4_week_ago_till_1_week_ago(self):
         """Тест фильтра слов по периоду "4 недели назад" до "неделя назад"."""
         querydict = {'start_period': '4', 'end_period': '3'}
-        lookup_parameters = create_lookup_parameters(querydict)
-        filtered_words = WordModel.objects.filter(**lookup_parameters)
+        include_parameters, _ = create_lookup_parameters(querydict)
+        filtered_words = WordModel.objects.filter(**include_parameters)
 
         self.assertTrue(filtered_words.contains(self.word_added_3_week_ago))
         self.assertFalse(filtered_words.contains(self.word_added_3_days_ago))
@@ -105,8 +105,8 @@ class TestLookupParametersByPeriods(TestCase):
     def test_period_not_choised_till_1_week_ago(self):
         """Тест фильтра слов по периоду "не выбран" до "неделя назад"."""
         querydict = {'start_period': '9', 'end_period': '3'}
-        lookup_parameters = create_lookup_parameters(querydict)
-        filtered_words = WordModel.objects.filter(**lookup_parameters)
+        include_parameters, _ = create_lookup_parameters(querydict)
+        filtered_words = WordModel.objects.filter(**include_parameters)
 
         self.assertTrue(filtered_words.contains(self.word_added_3_week_ago))
         self.assertFalse(filtered_words.contains(self.word_added_3_days_ago))
@@ -114,8 +114,8 @@ class TestLookupParametersByPeriods(TestCase):
     def test_period_not_choised_till_today(self):
         """Тест фильтра слов по периоду "не выбран" до "сегодня"."""
         querydict = {'start_period': '9', 'end_period': '1'}
-        lookup_parameters = create_lookup_parameters(querydict)
-        filtered_words = WordModel.objects.filter(**lookup_parameters)
+        include_parameters, _ = create_lookup_parameters(querydict)
+        filtered_words = WordModel.objects.filter(**include_parameters)
 
         self.assertTrue(filtered_words.contains(self.word_added_today)),
         self.assertTrue(filtered_words.contains(self.word_added_5_week_ago))
@@ -137,22 +137,22 @@ class TestAdaptLookupParameters(TestCase):
             'assessment': ['studying', 'examination']
         }
 
-        begin_date_period = (
+        self.begin_date_period = (
             WordModel.objects.order_by('updated_at').first().updated_at
         )
         # В word_count__in программно добавляется 'NC'.
-        self.expected_lookup_parameters = {
+        self.include_parameters = {
             'favorites__pk': 1,
             'word_count__in': ['OW', 'CB', 'NC'],
-            'worduserknowledgerelation__knowledge_assessment__in': [
-                0, 1, 2, 3, 4, 5, 6, 9, 10
-            ],
             'updated_at__range': (
-                begin_date_period.strftime(
+                self.begin_date_period.strftime(
                     '%Y-%m-%d 00:00:00+00:00'),
                 datetime.datetime.now(tz=timezone.utc).strftime(
                     '%Y-%m-%d 23:59:59+00:00'),
             ),
+        }
+        self.exclude_parameters = {
+            'worduserknowledgerelation__knowledge_assessment__in': [7, 8, 11],
         }
 
         # Url выбора параметров поиска для фильтрации слов.
@@ -160,11 +160,39 @@ class TestAdaptLookupParameters(TestCase):
             'english:words_study', kwargs={'task_status': 'start'}
         )
 
+    def test_add_to_lookup_parameters_new_words(self):
+        """Тест включить в фильтр слова, еще не имеющие оценку уровня знания.
+
+        Создан для устранения существующей ошибки, не попадали в задачу вновь
+        добавленные слова и не имеющие оценку.
+        """
+        new_word = WordModel.objects.create(
+            words_eng='new word', words_rus='новое слово',
+        )
+        include_parameters = {
+            'word_count__in': ['OW', 'CB', 'NC'],
+            'updated_at__range': (
+                self.begin_date_period.strftime(
+                    '%Y-%m-%d 00:00:00+00:00'),
+                datetime.datetime.now(tz=timezone.utc).strftime(
+                    '%Y-%m-%d 23:59:59+00:00'),
+            ),
+        }
+        words = WordModel.objects.filter(
+            **include_parameters
+        ).exclude(
+            **self.exclude_parameters
+        )
+        self.assertTrue(words.contains(new_word))
+
     def test_create_lookup_parameters(self):
         """Тест получения из request и переименования параметров поиска в БД.
         """
-        lookup_parameters = create_lookup_parameters(self.querydict)
-        self.assertEqual(self.expected_lookup_parameters, lookup_parameters)
+        include_parameters, exclude_parameters = create_lookup_parameters(
+            self.querydict
+        )
+        self.assertEqual(self.include_parameters, include_parameters)
+        self.assertEqual(self.exclude_parameters, exclude_parameters)
 
 
 class TestRandomFunctions(TestCase):

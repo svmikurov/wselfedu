@@ -20,7 +20,12 @@ def create_task_study_words(lookup_parameters):
     """Создай задание пользователю для изучения слов, согласно его фильтрам.
     """
     task_study_word = dict()
-    words_queryset = WordModel.objects.filter(**lookup_parameters)
+    include_parameters, exclude_parameters = lookup_parameters
+    words_queryset = WordModel.objects.filter(
+        **include_parameters
+    ).exclude(
+        **exclude_parameters,
+    )
 
     if words_queryset:
         word = get_random_query_from_queryset(words_queryset)
