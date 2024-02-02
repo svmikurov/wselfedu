@@ -12,24 +12,27 @@ from datetime import timedelta
 from django.utils import timezone
 
 from english.models import WordModel
-from english.services.words_knowledge_assessment import get_numeric_value
+from english.services.words_knowledge_assessment import get_numeric_value, \
+    MAX_KNOWLEDGE_ASSESSMENT
 
 
-def create_lookup_parameters(querydict):
+def create_lookup_parameters(querydict) -> tuple:
     """Получи из request параметры для запроса слов в базе данных.
 
     Ожидаются изменения в условиях поиска по периоду добавления (изменения)
     слова, после добавления формы в представление.
 
-    Формирует словарь фильтров для запроса слов из базы данных.
+    Возвращает кортеж фильтров для запроса слов из базы данных, содержащий
+    параметры для включения и параметры для исключения слов в запросе.
     """
-    lookup_parameters = dict()
+    include_parameters = dict()
+    exclude_parameters = dict()
 
     # Фильтр по избранным словам.
     # Преобразует тип значения [str] в int.
     words_favorites = querydict.get('words_favorites')
     if words_favorites and words_favorites != ['']:
-        lookup_parameters[
+        include_parameters[
             'favorites__pk'
         ] = int(words_favorites[0])
 
@@ -37,7 +40,7 @@ def create_lookup_parameters(querydict):
     # Преобразует тип значения [str] в int.
     category = querydict.get('category_id')
     if category and category != ['']:
-        lookup_parameters[
+        include_parameters[
             'category_id'
         ] = int(category[0])
 
@@ -45,7 +48,7 @@ def create_lookup_parameters(querydict):
     # Преобразует тип значения [str] в int.
     source = querydict.get('source_id')
     if source and source != ['']:
-        lookup_parameters[
+        include_parameters[
             'source_id'
         ] = int(source[0])
 
@@ -53,18 +56,23 @@ def create_lookup_parameters(querydict):
     # Всегда присутствуют слова, количество которых не установлено: ['NC'].
     word_count = querydict.get('word_count', [])
     if word_count and word_count != ['']:
-        lookup_parameters[
+        include_parameters[
             'word_count__in'
         ] = querydict.get('word_count') + ['NC']
 
-    # Фильтр по оценке знаний.
+    # Фильтр исключений по оценке знаний.
     # Строковое значение "уровня знания" преобразуется в диапазон чисел.
-    if querydict.get('assessment'):
-        lookup_parameters[
-            'worduserknowledgerelation__knowledge_assessment__in'
-        ] = get_numeric_value(
-            querydict.get('assessment')
+    # Через разницу множеств вычисляется оценки для исключения.
+    assessment = querydict.get('assessment')
+    if assessment:
+        all_assessments = set(
+            [num for num in range(0, MAX_KNOWLEDGE_ASSESSMENT + 1)]
         )
+        include_assessments = set(get_numeric_value(assessment))
+        exclude_assessments = list(all_assessments - include_assessments)
+        exclude_parameters[
+            'worduserknowledgerelation__knowledge_assessment__in'
+        ] = sorted(exclude_assessments)
 
     # Фильтр по периоду добавления (изменения) слова.
     period = {
@@ -92,11 +100,12 @@ def create_lookup_parameters(querydict):
     # Программно добавляется часовой пояс '%Y-%m-%d 00:00:00+00:00'.
     # Добавляется в целях прохождения тестов.
     # Возможно, будет удалено программное добавление '00:00:00+00:00'.
-    lookup_parameters['updated_at__range'] = (
+    include_parameters['updated_at__range'] = (
         period['start_period'].strftime('%Y-%m-%d 00:00:00+00:00'),
         period['end_period'].strftime('%Y-%m-%d 23:59:59+00:00'),
     )
 
+    lookup_parameters = (include_parameters, exclude_parameters)
     return lookup_parameters
 
 
