@@ -71,9 +71,6 @@ def create_lookup_parameters(querydict):
         'start_period': querydict.get('start_period', ['9'])[0],
         'end_period': querydict.get('end_period', ['1'])[0],
     }
-
-    print(f'\nlookup_parameters = {lookup_parameters}')
-
     day_today = datetime.datetime.now(tz=timezone.utc)
     begin_date_period = (
         WordModel.objects.order_by('updated_at').first().updated_at
@@ -99,7 +96,6 @@ def create_lookup_parameters(querydict):
         period['start_period'].strftime('%Y-%m-%d 00:00:00+00:00'),
         period['end_period'].strftime('%Y-%m-%d 23:59:59+00:00'),
     )
-    print(f'\nlookup_parameters = {lookup_parameters}')
 
     return lookup_parameters
 
