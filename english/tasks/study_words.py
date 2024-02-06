@@ -26,6 +26,7 @@ def create_task_study_words(lookup_parameters):
     ).exclude(
         **exclude_parameters,
     )
+    words_length = words_queryset.count()
 
     if words_queryset:
         word = get_random_query_from_queryset(words_queryset)
@@ -36,6 +37,7 @@ def create_task_study_words(lookup_parameters):
             'word_id': word.id,
             'question': question,
             'answer': answer,
-            'words_eng': word.words_eng
+            'words_eng': word.words_eng,
+            'words_length': words_length,
         }
     return task_study_word
