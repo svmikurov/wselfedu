@@ -66,7 +66,7 @@ def create_lookup_parameters(querydict) -> tuple:
     assessment = querydict.get('assessment')
     if assessment:
         all_assessments = set(
-            [num for num in range(0, MAX_KNOWLEDGE_ASSESSMENT + 1)]
+            (num for num in range(0, MAX_KNOWLEDGE_ASSESSMENT + 1))
         )
         include_assessments = set(get_numeric_value(assessment))
         exclude_assessments = list(all_assessments - include_assessments)
