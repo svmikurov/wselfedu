@@ -15,6 +15,7 @@ from english.views.sources import SourceDeleteView
 
 from english.views.words import WordCreateView
 from english.views.words import WordListView
+from english.views.words import WordDetailView
 from english.views.words import WordUpdateView
 from english.views.words import WordDeleteView
 from english.views.words import ShowUsersWordsView

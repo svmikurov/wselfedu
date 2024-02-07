@@ -52,6 +52,10 @@ urlpatterns = [
         views.WordCreateView.as_view(),
         name='words_create',
     ),
+    path('words/<int:pk>/detail/',
+         views.WordDetailView.as_view(),
+         name='words_detail'
+         ),
     path(
         'words/<int:pk>/update/',
         views.WordUpdateView.as_view(),

@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
     DeleteView,
-    UpdateView,
+    UpdateView, DetailView,
 )
 from django_filters.views import FilterView
 
@@ -73,6 +73,16 @@ class WordCreateView(
                 name=self.default_category_name
             )
         return super().form_valid(form)
+
+
+class WordDetailView(
+    HandleNoPermissionMixin,
+    UserPassesTestAdminMixin,
+    DetailView,
+):
+    model = WordModel
+    template_name = 'english/word_detail.html'
+    context_object_name = 'word'
 
 
 class WordUpdateView(
