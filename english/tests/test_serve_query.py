@@ -3,12 +3,14 @@
 
 import datetime
 from datetime import timedelta
+
+from django.db.models import Subquery
 from django.utils import timezone
 
 from django.test import Client, TestCase
 from django.urls import reverse_lazy
 
-from english.models import WordModel
+from english.models import WordModel, WordUserKnowledgeRelation
 from english.services.serve_query import (
     get_random_query_from_queryset,
     create_lookup_parameters,
@@ -196,6 +198,27 @@ class TestAdaptLookupParameters(TestCase):
         )
         self.assertEqual(self.include_parameters, include_parameters)
         self.assertEqual(self.exclude_parameters, exclude_parameters)
+
+    def test_knowledge_assessment_by_users(self):
+        """Тест фильтра слов по knowledge_assessment конкретного пользователя.
+
+        Модель с отношениями m2m.
+        Значение knowledge_assessment слов других пользователей не должно
+        учитываться при фильтрации слов для текущего пользователя.
+        """
+        manager = WordModel.objects
+        words = manager.filter(
+            worduserknowledgerelation__knowledge_assessment__in=Subquery(
+                WordUserKnowledgeRelation.objects.exclude(
+                    knowledge_assessment__in=[7, 8, 9, 10, 11]
+                ).values('knowledge_assessment')
+            ),
+            worduserknowledgerelation__user_id__exact=2,
+        )
+
+        self.assertTrue(words.contains(manager.get(id=1)))
+        self.assertTrue(words.contains(manager.get(id=2)))
+        self.assertTrue(words.contains(manager.get(id=6)))
 
 
 class TestRandomFunctions(TestCase):
