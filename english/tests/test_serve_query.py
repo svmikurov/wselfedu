@@ -75,7 +75,8 @@ class TestLookupParametersByPeriods(TestCase):
         )
 
     def test_period_only_today(self):
-        """Тест фильтра слов по периоду "только сегодня"."""
+        """Тест фильтра слов по периоду "только сегодня".
+        """
         querydict = {'start_period': '1', 'end_period': '1'}
         include_parameters, _ = create_lookup_parameters(querydict)
         filtered_words = WordModel.objects.filter(**include_parameters)
@@ -84,13 +85,15 @@ class TestLookupParametersByPeriods(TestCase):
         self.assertFalse(filtered_words.contains(self.word_added_3_days_ago))
 
     def test_period_3_days_ago_till_today(self):
-        """Тест фильтра слов по периоду "только сегодня"."""
-        querydict = {'start_period': '1', 'end_period': '1'}
+        """Тест фильтра слов по периоду "3 дня назад" до "только сегодня".
+        """
+        querydict = {'start_period': '3', 'end_period': '1'}
         include_parameters, _ = create_lookup_parameters(querydict)
         filtered_words = WordModel.objects.filter(**include_parameters)
 
         self.assertTrue(filtered_words.contains(self.word_added_today))
-        self.assertFalse(filtered_words.contains(self.word_added_3_days_ago))
+        self.assertTrue(filtered_words.contains(self.word_added_3_days_ago))
+        self.assertFalse(filtered_words.contains(self.word_added_3_week_ago))
 
     def test_period_4_week_ago_till_1_week_ago(self):
         """Тест фильтра слов по периоду "4 недели назад" до "неделя назад"."""
