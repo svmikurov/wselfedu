@@ -49,7 +49,7 @@ class TestWordsKnowledgeAssessment(TestCase):
         )
 
     def test_add_knowledge_assessment(self):
-        """Тест get_or_create_knowledge_assessment.
+        """Тест получи или создай knowledge_assessment.
         """
         new_word_pk = WordModel.objects.create(**self.new_word_data).pk
         self.assertFalse(WordUserKnowledgeRelation.objects.filter(
@@ -79,7 +79,7 @@ class TestWordsKnowledgeAssessment(TestCase):
         self.assertRedirects(response, self.redirect_url, 302)
 
     def test_min_knowledge_assessment(self):
-        """Тест минимального уровня оценки пользователем знания слова.
+        """Тест на уменьшение минимального уровня оценки пользователем знания слова.
         """
         self.client.force_login(self.user)
         self.client.post(self.min_assessment_url, self.assessment_down)
@@ -89,7 +89,7 @@ class TestWordsKnowledgeAssessment(TestCase):
         self.assertEqual(given_assessment, MIN_KNOWLEDGE_ASSESSMENT)
 
     def test_max_knowledge_assessment(self):
-        """Тест максимального уровня оценки пользователем знания слова.
+        """Тест на увеличение максимального уровня оценки пользователем знания слова.
         """
         self.client.force_login(self.user)
         self.client.post(self.max_assessment_url, self.assessment_up)
