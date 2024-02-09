@@ -20,7 +20,7 @@
       <h5>Словарь</h5>
       <ul class="list-unstyled ps-3">
         <li class="py-1">
-          {% if user.is_superuser %}
+          {% if user.is_authenticated %}
             <a href="{% url 'english:words_list' %}">Список слов</a> / <a href="{% url 'english:words_create' %}">Добавить слово</a>
           {% else %}
             <a href="{% url 'english:words_list' %}">Список слов</a>

@@ -4,11 +4,11 @@
 {% block content %}
 <div class="">
   <!-- Additional Navigation -->
-  <div class="row row-cols-3 row-cols-sm-4 row-cols-md-4 row-cols-lg-6">
-    <a class="col h5" href="{% url 'english:words_list' %}">Словарь</a>
-    <a class="col h5" href="{% url 'english:words_create' %}">Добавить</a>
+  <div class="">
+    <a class="h5 pe-2" href="{% url 'english:words_list' %}">Словарь</a>
+    <a class="h5 pe-2" href="{% url 'english:words_create' %}">Добавить</a>
     <!-- Link to the Google translater -->
-    <a class="col h5" href="https://translate.google.com/?hl=ru&sl=auto&tl=ru&text={{task.words_eng}}&op=translate">Google</a><!-- Ebd Link to the Google translater -->
+    <a class="h5" href="https://translate.google.com/?hl=ru&sl=auto&tl=ru&text={{task.words_eng}}&op=translate">Google</a><!-- Ebd Link to the Google translater -->
   </div><!-- End Additional Navigation -->
 
   <!-- Title -->
