@@ -122,7 +122,7 @@ def get_words_for_study(lookup_parameters, user_id):
 
     words = objects.filter(**include_parameters)
     if exclude_parameters:
-        words.filter(
+        words = words.filter(
             worduserknowledgerelation__knowledge_assessment__in=Subquery(
                 WordUserKnowledgeRelation.objects.exclude(
                     knowledge_assessment__in=exclude_parameters.get(
