@@ -116,8 +116,10 @@ def get_random_query_from_queryset(queryset):
     return choice(queryset)
 
 
-def get_words_for_study(objects, lookup_parameters, user_id):
+def get_words_for_study(lookup_parameters, user_id):
+    objects = WordModel.objects
     include_parameters, exclude_parameters = lookup_parameters
+
     words = objects.filter(**include_parameters)
     if exclude_parameters:
         words.filter(

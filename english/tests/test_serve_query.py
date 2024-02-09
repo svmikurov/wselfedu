@@ -219,7 +219,6 @@ class TestAdaptLookupParameters(TestCase):
         user_id = 2
 
         words = get_words_for_study(
-            objects,
             (include_parameters, exclude_parameters),
             user_id
         )
