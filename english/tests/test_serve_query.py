@@ -225,6 +225,7 @@ class TestAdaptLookupParameters(TestCase):
 
         self.assertTrue(words.contains(objects.get(id=1)))
         self.assertTrue(words.contains(objects.get(id=2)))
+        self.assertFalse(words.contains(objects.get(id=3)))
         self.assertTrue(words.contains(objects.get(id=6)))
 
 
