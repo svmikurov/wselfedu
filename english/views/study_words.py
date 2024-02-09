@@ -108,7 +108,7 @@ def study_words_view(request, *args, **kwargs):
             set_lookup_parameters(request)
 
         lookup_parameters = get_lookup_parameters()
-        task = create_task_study_words(lookup_parameters)
+        task = create_task_study_words(lookup_parameters, user_id)
         word_id = task.get('word_id')
         knowledge = get_knowledge_assessment(word_id, user_id)
         favorites_status = is_word_in_favorites(user_id, word_id)

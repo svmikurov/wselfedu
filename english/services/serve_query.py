@@ -9,9 +9,11 @@ from random import choice
 
 import datetime
 from datetime import timedelta
+
+from django.db.models import Subquery
 from django.utils import timezone
 
-from english.models import WordModel
+from english.models import WordModel, WordUserKnowledgeRelation
 from english.services.words_knowledge_assessment import get_numeric_value, \
     MAX_KNOWLEDGE_ASSESSMENT
 
@@ -112,3 +114,22 @@ def create_lookup_parameters(querydict) -> tuple:
 def get_random_query_from_queryset(queryset):
     """Получи случайную модель из QuerySet."""
     return choice(queryset)
+
+
+def get_words_for_study(lookup_parameters, user_id):
+    objects = WordModel.objects
+    include_parameters, exclude_parameters = lookup_parameters
+
+    words = objects.filter(**include_parameters)
+    if exclude_parameters:
+        words.filter(
+            worduserknowledgerelation__knowledge_assessment__in=Subquery(
+                WordUserKnowledgeRelation.objects.exclude(
+                    knowledge_assessment__in=exclude_parameters.get(
+                        'worduserknowledgerelation__knowledge_assessment__in'
+                    )
+                ).values('knowledge_assessment')
+            ),
+            worduserknowledgerelation__user_id__exact=user_id,
+        )
+    return words

@@ -10,12 +10,14 @@
       {% csrf_token %}
 
       <!-- Checkbox words favorites -->
-      <fieldset class="form-check px-0 py-2">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="words_favorites" value="{{ user.id }}">
-          <label class="form-check-label">Только избранные слова</label>
-        </div>
-      </fieldset><!-- End Checkbox words favorites -->
+      {% if user.is_authenticated %}
+        <fieldset class="form-check px-0 py-2">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="words_favorites" value="{{ user.id }}">
+            <label class="form-check-label">Только избранные слова</label>
+          </div>
+        </fieldset><!-- End Checkbox words favorites -->
+      {% endif %}
 
       <!-- Word category choice -->
       <div class="py-1">
@@ -85,25 +87,27 @@
       </fieldset><!-- End Checkbox word count choice-->
 
       <!-- Checkbox word knowledge assessment -->
-      <fieldset class="form-check p-0 pb-2">
-        <legend class="h6">Выбери уровень знания слов</legend>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" name="assessment" value="studying" checked />
-          <label class="form-check-label">Изучение</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" name="assessment" value="repetition" />
-          <label class="form-check-label">Повторение</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" name="assessment" value="examination" />
-          <label class="form-check-label">Проверка</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" name="assessment" value="learned" />
-          <label class="form-check-label">Выучил</label>
-        </div>
-      </fieldset><!-- End Checkbox word knowledge assessment-->
+      {% if user.is_authenticated %}
+        <fieldset class="form-check p-0 pb-2">
+          <legend class="h6">Выбери уровень знания слов</legend>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="assessment" value="studying" checked />
+            <label class="form-check-label">Изучение</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="assessment" value="repetition" />
+            <label class="form-check-label">Повторение</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="assessment" value="examination" />
+            <label class="form-check-label">Проверка</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="assessment" value="learned" />
+            <label class="form-check-label">Выучил</label>
+          </div>
+        </fieldset>
+      {% endif %}<!-- End Checkbox word knowledge assessment-->
 
       <!-- Confirm selection button -->
       <div class="">

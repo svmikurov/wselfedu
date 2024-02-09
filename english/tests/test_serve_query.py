@@ -3,6 +3,7 @@
 
 import datetime
 from datetime import timedelta
+
 from django.utils import timezone
 
 from django.test import Client, TestCase
@@ -10,8 +11,9 @@ from django.urls import reverse_lazy
 
 from english.models import WordModel
 from english.services.serve_query import (
-    get_random_query_from_queryset,
     create_lookup_parameters,
+    get_random_query_from_queryset,
+    get_words_for_study,
 )
 from english.tasks.study_words import shuffle_sequence
 
@@ -75,7 +77,8 @@ class TestLookupParametersByPeriods(TestCase):
         )
 
     def test_period_only_today(self):
-        """Тест фильтра слов по периоду "только сегодня"."""
+        """Тест фильтра слов по периоду "только сегодня".
+        """
         querydict = {'start_period': '1', 'end_period': '1'}
         include_parameters, _ = create_lookup_parameters(querydict)
         filtered_words = WordModel.objects.filter(**include_parameters)
@@ -84,13 +87,15 @@ class TestLookupParametersByPeriods(TestCase):
         self.assertFalse(filtered_words.contains(self.word_added_3_days_ago))
 
     def test_period_3_days_ago_till_today(self):
-        """Тест фильтра слов по периоду "только сегодня"."""
-        querydict = {'start_period': '1', 'end_period': '1'}
+        """Тест фильтра слов по периоду "3 дня назад" до "только сегодня".
+        """
+        querydict = {'start_period': '3', 'end_period': '1'}
         include_parameters, _ = create_lookup_parameters(querydict)
         filtered_words = WordModel.objects.filter(**include_parameters)
 
         self.assertTrue(filtered_words.contains(self.word_added_today))
-        self.assertFalse(filtered_words.contains(self.word_added_3_days_ago))
+        self.assertTrue(filtered_words.contains(self.word_added_3_days_ago))
+        self.assertFalse(filtered_words.contains(self.word_added_3_week_ago))
 
     def test_period_4_week_ago_till_1_week_ago(self):
         """Тест фильтра слов по периоду "4 недели назад" до "неделя назад"."""
@@ -193,6 +198,34 @@ class TestAdaptLookupParameters(TestCase):
         )
         self.assertEqual(self.include_parameters, include_parameters)
         self.assertEqual(self.exclude_parameters, exclude_parameters)
+
+    def test_knowledge_assessment_by_users(self):
+        """Тест фильтра слов по knowledge_assessment конкретного пользователя
+        в функции get_words_for_study.
+
+        Модель m2m.
+        Значение knowledge_assessment слов других пользователей не должно
+        учитываться при фильтрации слов для текущего пользователя.
+        """
+        objects = WordModel.objects
+        include_parameters = {
+            'word_count__in': ['OW', 'CB', 'NC'],
+        }
+        exclude_parameters = {
+            'worduserknowledgerelation__knowledge_assessment__in': [
+                7, 8, 9, 10, 11
+            ]
+        }
+        user_id = 2
+
+        words = get_words_for_study(
+            (include_parameters, exclude_parameters),
+            user_id
+        )
+
+        self.assertTrue(words.contains(objects.get(id=1)))
+        self.assertTrue(words.contains(objects.get(id=2)))
+        self.assertTrue(words.contains(objects.get(id=6)))
 
 
 class TestRandomFunctions(TestCase):

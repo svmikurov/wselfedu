@@ -64,10 +64,10 @@ def get_knowledge_assessment(word_id, user_id):
 def get_word_knowledge_assessment(user_id: int, word_id: int) -> int:
     """Получи из базы данных оценку знания слова пользователем.
     """
-    assessment = WordUserKnowledgeRelation.objects.filter(
+    knowledge_assessment = WordUserKnowledgeRelation.objects.get(
         user_id=user_id, word_id=word_id
-    ).values_list('knowledge_assessment', flat=True)[0]
-    return assessment
+    ).knowledge_assessment
+    return knowledge_assessment
 
 
 def update_word_knowledge_assessment(user_pk, word_pk, new_assessment):

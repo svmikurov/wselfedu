@@ -28,10 +28,7 @@
             <th>Кол-во слов</th>
             <th>Самооценка знания</th>
             <th>Категория</th>
-            {% if user.is_superuser %}
-              <th>Источник</th>
-              <th></th>
-            {% endif %}
+            <th>Источник</th>
           </tr>
         </thead>
 
@@ -39,7 +36,9 @@
         {% for word in words %}
           <tr>
             <td class="table-primary">{{ word.pk }}</td>
-            <td>{{ word.words_eng }}</td>
+            <td>
+              <a href="{% url 'english:words_detail' word.pk %}">{{ word.words_eng }}</a>
+            </td>
             <td>{{ word.words_rus }}</td>
             <td>{{ word.word_count }}</td>
             <td>{{ word. }}</td>
