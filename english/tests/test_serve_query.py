@@ -4,16 +4,16 @@
 import datetime
 from datetime import timedelta
 
-from django.db.models import Subquery
 from django.utils import timezone
 
 from django.test import Client, TestCase
 from django.urls import reverse_lazy
 
-from english.models import WordModel, WordUserKnowledgeRelation
+from english.models import WordModel
 from english.services.serve_query import (
-    get_random_query_from_queryset,
     create_lookup_parameters,
+    get_random_query_from_queryset,
+    get_words_for_study,
 )
 from english.tasks.study_words import shuffle_sequence
 
@@ -200,25 +200,33 @@ class TestAdaptLookupParameters(TestCase):
         self.assertEqual(self.exclude_parameters, exclude_parameters)
 
     def test_knowledge_assessment_by_users(self):
-        """Тест фильтра слов по knowledge_assessment конкретного пользователя.
+        """Тест фильтра слов по knowledge_assessment конкретного пользователя
+        в функции get_words_for_study.
 
-        Модель с отношениями m2m.
+        Модель m2m.
         Значение knowledge_assessment слов других пользователей не должно
         учитываться при фильтрации слов для текущего пользователя.
         """
-        manager = WordModel.objects
-        words = manager.filter(
-            worduserknowledgerelation__knowledge_assessment__in=Subquery(
-                WordUserKnowledgeRelation.objects.exclude(
-                    knowledge_assessment__in=[7, 8, 9, 10, 11]
-                ).values('knowledge_assessment')
-            ),
-            worduserknowledgerelation__user_id__exact=2,
+        objects = WordModel.objects
+        include_parameters = {
+            'word_count__in': ['OW', 'CB', 'NC'],
+        }
+        exclude_parameters = {
+            'worduserknowledgerelation__knowledge_assessment__in': [
+                7, 8, 9, 10, 11
+            ]
+        }
+        user_id = 2
+
+        words = get_words_for_study(
+            objects,
+            (include_parameters, exclude_parameters),
+            user_id
         )
 
-        self.assertTrue(words.contains(manager.get(id=1)))
-        self.assertTrue(words.contains(manager.get(id=2)))
-        self.assertTrue(words.contains(manager.get(id=6)))
+        self.assertTrue(words.contains(objects.get(id=1)))
+        self.assertTrue(words.contains(objects.get(id=2)))
+        self.assertTrue(words.contains(objects.get(id=6)))
 
 
 class TestRandomFunctions(TestCase):
