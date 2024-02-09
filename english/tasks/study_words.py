@@ -7,7 +7,10 @@
 from random import shuffle
 
 from english.models import WordModel
-from english.services.serve_query import get_random_query_from_queryset
+from english.services.serve_query import (
+    get_random_query_from_queryset,
+    get_words_for_study,
+)
 
 
 def shuffle_sequence(sequence):
@@ -16,16 +19,12 @@ def shuffle_sequence(sequence):
     return sequence
 
 
-def create_task_study_words(lookup_parameters):
+def create_task_study_words(lookup_parameters, user_id):
     """Создай задание пользователю для изучения слов, согласно его фильтрам.
     """
     task_study_word = dict()
-    include_parameters, exclude_parameters = lookup_parameters
-    words_queryset = WordModel.objects.filter(
-        **include_parameters
-    ).exclude(
-        **exclude_parameters,
-    )
+    objects = WordModel.objects
+    words_queryset = get_words_for_study(objects, lookup_parameters, user_id)
     words_length = words_queryset.count()
 
     if words_queryset:
