@@ -33,8 +33,8 @@ class WordsFilter(django_filters.FilterSet):
     )
     filtered_word_count = django_filters.ChoiceFilter(
         choices=WORD_COUNT,
-        lookup_expr='icontains',
         field_name='word_count',
+        lookup_expr='icontains',
         label='',
         empty_label='Любое кол-во слов',
     )
