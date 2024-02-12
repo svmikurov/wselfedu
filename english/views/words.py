@@ -31,6 +31,9 @@ class WordListView(
     paginate_by = PAGINATE_NUMBER
     extra_context = {'title': 'Список слов'}
 
+    def get_queryset(self):
+        return super().get_queryset().select_related('category', 'source')
+
 
 class WordCreateView(
     HandleNoPermissionMixin,
