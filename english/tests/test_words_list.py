@@ -23,8 +23,14 @@ class TestWordListView(TestCase):
 
     def test_search_word(self):
         """Тест фильтра списка по слову."""
+        # filter by english
         search_parameter = {'search_word': 'word02'}
         response = self.client.get(self.url, search_parameter)
-
         self.assertContains(response, 'word02')
         self.assertNotContains(response, 'word01')
+
+        # filter by russian
+        search_parameter = {'search_word': 'слово01'}
+        response = self.client.get(self.url, search_parameter)
+        self.assertContains(response, 'слово01')
+        self.assertNotContains(response, 'слово02')
