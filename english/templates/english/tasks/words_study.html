@@ -8,7 +8,7 @@
     <a class="h5 pe-2" href="{% url 'english:word_list' %}">Словарь</a>
     <a class="h5 pe-2" href="{% url 'english:words_create' %}">Добавить</a>
     <!-- Link to the Google translater -->
-    <a class="h5" href="https://translate.google.com/?hl=ru&sl=auto&tl=ru&text={{task.words_eng}}&op=translate">Google</a><!-- Ebd Link to the Google translater -->
+    <a class="h5" href="https://translate.google.com/?hl=ru&sl=auto&tl=ru&text={{task.word_eng}}&op=translate">Google</a><!-- Ebd Link to the Google translater -->
   </div><!-- End Additional Navigation -->
 
   <!-- Title -->
@@ -17,7 +17,7 @@
 
   <!-- Display word choices -->
   <div class="">
-    <p class="">Уровень: {{ knowledge_assessment }}. Выбрано слов: {{ task.words_length }}. Источник: {{ task.source }}</p>
+    <p class="">Уровень: {{ knowledge_assessment }}. Выбрано слов: {{ task.word_count }}. Источник: {{ task.source }}</p>
   </div>
   <!-- End Display word choices -->
 
