@@ -5,6 +5,9 @@
   <form class="" method="get">
     <div class="row row-cols-1 row-cols-sm-3 row-cols-md-4 row-cols-lg-6">
       <div class="col">
+        {{ filter.form.search_word|as_crispy_field }}
+      </div>
+      <div class="col">
         {{ filter.form.filtered_category|as_crispy_field }}
       </div>
       <div class="col">
@@ -14,7 +17,7 @@
         {{ filter.form.filtered_word_count|as_crispy_field }}
       </div>
       <div class="col">
-        <button class="btn btn-primary" type="submit">Покажи</button>
+        <button class="btn btn-primary" type="submit">Поиск</button>
       </div>
     </div>
   </form>
