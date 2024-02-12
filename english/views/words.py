@@ -27,14 +27,7 @@ class WordListView(
     context_object_name = 'words'
     filterset_class = WordsFilter
     paginate_by = PAGINATE_NUMBER
-
-    additional_admin_navigation = {
-        'Добавить слово': 'english:words_create'
-    }
-    extra_context = {
-        'title': 'Список слов',
-        'additional_admin_navigation': additional_admin_navigation,
-    }
+    extra_context = {'title': 'Список слов'}
 
 
 class WordCreateView(
