@@ -122,13 +122,13 @@ def get_words_for_study(lookup_parameters, user_id):
 
     words = objects.filter(**include_parameters)
     if exclude_parameters:
-        words = words.filter(
+        words = words.exclude(
             worduserknowledgerelation__knowledge_assessment__in=Subquery(
-                WordUserKnowledgeRelation.objects.exclude(
+                WordUserKnowledgeRelation.objects.filter(
                     knowledge_assessment__in=exclude_parameters.get(
                         'worduserknowledgerelation__knowledge_assessment__in'
                     )
-                ).values('knowledge_assessment')
+                ).values('knowledge_assessment').distinct()
             ),
             worduserknowledgerelation__user_id__exact=user_id,
         )
