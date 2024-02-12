@@ -11,13 +11,13 @@ urlpatterns = [
         views.HomeEnglishView.as_view(),
         name='home',
     ),
-    # For account.
+    # --======= Account ======--
     path(
         'words-users/<int:pk>/',
         views.ShowUsersWordsView.as_view(),
         name='users_words',
     ),
-    # End For account.
+    # -- End Account --
     # --======= Task study words =======--
     path(
         'words-choose/',

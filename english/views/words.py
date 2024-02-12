@@ -22,6 +22,8 @@ PAGINATE_NUMBER = 20
 class WordListView(
     FilterView,
 ):
+    """View a word list page."""
+
     template_name = 'english/words_list.html'
     model = WordModel
     context_object_name = 'words'
