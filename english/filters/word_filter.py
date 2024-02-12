@@ -1,4 +1,5 @@
 import django_filters
+from django.db.models import Q
 from django.forms import TextInput
 
 from english.models import (
@@ -19,6 +20,7 @@ class WordsFilter(django_filters.FilterSet):
     )
 
     search_word = django_filters.CharFilter(
+        method='filter_word_by_any_language',
         field_name='words_eng',
         lookup_expr='icontains',
         label='',
@@ -45,3 +47,8 @@ class WordsFilter(django_filters.FilterSet):
         label='',
         empty_label='Любое кол-во слов',
     )
+
+    def filter_word_by_any_language(self, queryset, name, value):
+        return queryset.filter(
+            Q(words_eng__icontains=value) | Q(words_rus__icontains=value)
+        )
