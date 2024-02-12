@@ -256,6 +256,33 @@
   }
 },
 {
+  "model": "english.worduserknowledgerelation",
+  "pk": 11,
+  "fields": {
+    "word": 2,
+    "user": 1,
+    "knowledge_assessment": "0"
+  }
+},
+{
+  "model": "english.worduserknowledgerelation",
+  "pk": 12,
+  "fields": {
+    "word": 6,
+    "user": 1,
+    "knowledge_assessment": "0"
+  }
+},
+{
+  "model": "english.worduserknowledgerelation",
+  "pk": 13,
+  "fields": {
+    "word": 3,
+    "user": 1,
+    "knowledge_assessment": "0"
+  }
+},
+{
   "model": "english.wordsfavoritesmodel",
   "pk": 1,
   "fields": {
@@ -316,7 +343,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$600000$5CxuW5qMwMLvE1r7DPIxR8$KEuj0qOThZ9DIBDUgxtkzJ+knH4lqBWIwKBNxtJNb+8=",
-    "last_login": "2024-01-25T04:57:32.873Z",
+    "last_login": "2024-02-09T18:42:59.621Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "",
@@ -335,7 +362,7 @@
   "pk": 2,
   "fields": {
     "password": "pbkdf2_sha256$600000$AKVCCqg1j0EJjsPAVxSFlO$3xugOhsksbabtgSObYaWOPJMtEIGWEeBcciLGy7sV+4=",
-    "last_login": "2024-01-10T06:09:05.998Z",
+    "last_login": "2024-02-09T06:26:37.033Z",
     "is_superuser": false,
     "username": "user1",
     "first_name": "",
