@@ -36,5 +36,6 @@ def create_task_study_words(lookup_parameters, user_id):
             'answer': answer,
             'words_eng': word.words_eng,
             'words_length': words_length,
+            'source': word.source.name,
         }
     return task_study_word
