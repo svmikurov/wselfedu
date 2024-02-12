@@ -1,4 +1,5 @@
 import django_filters
+from django.forms import TextInput
 
 from english.models import (
     CategoryModel,
@@ -17,6 +18,12 @@ class WordsFilter(django_filters.FilterSet):
         ('NC', 'Не указано'),
     )
 
+    search_word = django_filters.CharFilter(
+        field_name='words_eng',
+        lookup_expr='icontains',
+        label='',
+        widget=TextInput(attrs={'placeholder': 'Поиск по слову'}),
+    )
     filtered_category = django_filters.ModelChoiceFilter(
         queryset=CategoryModel.objects.all(),
         field_name='category',
