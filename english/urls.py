@@ -45,7 +45,7 @@ urlpatterns = [
     path(
         'words/list/',
         views.WordListView.as_view(),
-        name='words_list',
+        name='word_list',
     ),
     path(
         'words/create/',

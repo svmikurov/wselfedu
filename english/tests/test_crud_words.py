@@ -106,7 +106,7 @@ class TestUpdateWord(TestCase):
             'english:words_update',
             kwargs={'pk': self.word.pk},
         )
-        self.success_url = reverse_lazy('english:words_list')
+        self.success_url = reverse_lazy('english:word_list')
         self.redirect_nopermission_url = reverse_lazy('home')
 
     def test_get_update_by_admin(self):
@@ -144,7 +144,7 @@ class TestDeleteWord(TestCase):
             'english:words_delete',
             kwargs={'pk': self.deleted_word.pk},
         )
-        self.success_url = reverse_lazy('english:words_list')
+        self.success_url = reverse_lazy('english:word_list')
 
     def test_get_delete_word_by_admin_user(self):
         self.client.force_login(self.admin_user)
