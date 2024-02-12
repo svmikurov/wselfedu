@@ -2,13 +2,14 @@ from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
     DeleteView,
-    UpdateView, DetailView,
+    DetailView,
+    UpdateView,
 )
 from django_filters.views import FilterView
 
 from english.filters import WordsFilter
 from english.forms import WordForm
-from english.models import WordModel, CategoryModel
+from english.models import CategoryModel, WordModel
 from contrib_app.mixins import (
     AddMessageToFormSubmissionMixin,
     HandleNoPermissionMixin,
@@ -32,7 +33,11 @@ class WordListView(
     extra_context = {'title': 'Список слов'}
 
     def get_queryset(self):
-        return super().get_queryset().select_related('category', 'source')
+        queryset = super().get_queryset().select_related(
+            'category',
+            'source',
+        ).order_by('-pk')
+        return queryset
 
 
 class WordCreateView(
