@@ -1,13 +1,39 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div>
-  <h1>Слово: {{ word.words_eng }}</h1>
-  <p>Перевод: {{ word.words_rus }}</p>
-  <p>Оценка уровня знания:</p>
-  <p>Количество слов:</p>
-  <p>Является избранным:</p>
-  <p>Источник:</p>
-  <p>Принадлежит категории:</p>
-</div>
+<h1>Слово: {{ word.words_eng }}</h1>
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Перевод:</td>
+      <td>{{ word.words_rus }}</td>
+    </tr>
+    <tr>
+      <td>Оценка уровня знания:</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Количество слов:</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Является избранным:</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Источник:</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Принадлежит категории:</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
 {% endblock %}
