@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from english.views import WordListView
 
 
-class TestWordListPage(TestCase):
+class TestWordListView(TestCase):
 
     fixtures = ['english/tests/fixtures/wse-fixtures.json']
 
