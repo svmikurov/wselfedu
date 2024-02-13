@@ -183,10 +183,9 @@ class TestAdaptLookupParameters(TestCase):
                     '%Y-%m-%d 23:59:59+00:00'),
             ),
         }
-        words = WordModel.objects.filter(
-            **include_parameters
-        ).exclude(
-            **self.exclude_parameters
+        words = get_words_for_study(
+            (include_parameters, self.exclude_parameters),
+            user_id=2,
         )
         self.assertTrue(words.contains(new_word))
 
