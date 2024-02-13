@@ -18,8 +18,8 @@ from english.services.serve_query import (
 from english.tasks.study_words import shuffle_sequence
 
 
-class TestLookupParameters(TestCase):
-    """Тест параметров фильтрации слов.
+class TestLookupParametersByPeriod(TestCase):
+    """Тест фильтрации слов по периодам изменения.
 
     Для фильтрации используется поле модели - дата изменения слова.
     Измененное слово должно включаться в выборку слов при фильтрации.
@@ -100,7 +100,7 @@ class TestLookupParameters(TestCase):
         self.assertTrue(filtered_words.contains(self.word_added_3_days_ago))
         self.assertFalse(filtered_words.contains(self.word_added_3_week_ago))
 
-    def test_period_4_week_ago_till_1_week_ago(self):
+    def test_filter_period_4_week_ago_till_1_week_ago(self):
         """Тест фильтра слов по периоду "4 недели назад" до "неделя назад"."""
         querydict = {'start_period': '4', 'end_period': '3'}
         parameters = create_lookup_parameters(querydict)
@@ -110,7 +110,7 @@ class TestLookupParameters(TestCase):
         self.assertFalse(filtered_words.contains(self.word_added_3_days_ago))
         self.assertFalse(filtered_words.contains(self.word_added_5_week_ago))
 
-    def test_period_not_choised_till_1_week_ago(self):
+    def test_filter_period_not_choised_till_1_week_ago(self):
         """Тест фильтра слов по периоду "не выбран" до "неделя назад"."""
         querydict = {'start_period': '9', 'end_period': '3'}
         parameters = create_lookup_parameters(querydict)
@@ -119,7 +119,7 @@ class TestLookupParameters(TestCase):
         self.assertTrue(filtered_words.contains(self.word_added_3_week_ago))
         self.assertFalse(filtered_words.contains(self.word_added_3_days_ago))
 
-    def test_period_not_choised_till_today(self):
+    def test_filter_period_not_choised_till_today(self):
         """Тест фильтра слов по периоду "не выбран" до "сегодня"."""
         querydict = {'start_period': '9', 'end_period': '1'}
         parameters = create_lookup_parameters(querydict)
@@ -129,7 +129,7 @@ class TestLookupParameters(TestCase):
         self.assertTrue(filtered_words.contains(self.word_added_5_week_ago))
 
 
-class TestAdaptLookupParameters(TestCase):
+class TestLookupParameters(TestCase):
     """Тест получения из request параметров поиска слов для задачи.
     """
 

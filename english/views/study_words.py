@@ -107,11 +107,17 @@ def study_words_view(request, *args, **kwargs):
         if task_status == 'start':
             set_lookup_parameters(request)
 
-        lookup_parameters = get_lookup_parameters()
-        task = create_task_study_words(lookup_parameters, user_id)
-        word_id = task.get('word_id')
-        knowledge = get_knowledge_assessment(word_id, user_id)
-        favorites_status = is_word_in_favorites(user_id, word_id)
+        try:
+            lookup_parameters = get_lookup_parameters()
+        except AttributeError:
+            msg = 'Что-то пошло не так, выберите условия задания.'
+            messages.error(request, msg)
+            return redirect(reverse_lazy('english:words_choose'))
+        else:
+            task = create_task_study_words(lookup_parameters, user_id)
+            word_id = task.get('word_id')
+            knowledge = get_knowledge_assessment(word_id, user_id)
+            favorites_status = is_word_in_favorites(user_id, word_id)
 
         if not task:
             messages.error(request, MESSAGE_NO_WORDS)
