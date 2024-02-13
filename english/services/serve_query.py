@@ -14,7 +14,10 @@ from django.db.models import Subquery
 from django.utils import timezone
 
 from english.models import WordModel, WordUserKnowledgeRelation
-from english.services.words_knowledge_assessment import get_numeric_value
+from english.services.words_knowledge_assessment import (
+    get_numeric_value,
+    MAX_KNOWLEDGE_ASSESSMENT,
+)
 
 
 def create_lookup_parameters(querydict) -> dict:
@@ -142,7 +145,7 @@ def get_words_for_study(lookup_parameters, user_id):
         pk__in=Subquery(
             WordUserKnowledgeRelation.objects.filter(
                 knowledge_assessment__in=[
-                    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+                    *range(0, MAX_KNOWLEDGE_ASSESSMENT + 1)
                 ]
             ).values('pk'),
         ),
