@@ -185,7 +185,7 @@ class TestAdaptLookupParameters(TestCase):
         }
         words = get_words_for_study(
             (include_parameters, self.exclude_parameters),
-            user_id=1,
+            user_id=2,
         )
         self.assertTrue(words.contains(new_word))
 

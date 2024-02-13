@@ -117,19 +117,37 @@ def get_random_query_from_queryset(queryset):
 
 
 def get_words_for_study(lookup_parameters, user_id):
+    """Примени параметры поиска конкретного пользователя для выборки слов на
+    задание."""
     objects = WordModel.objects
     include_parameters, exclude_parameters = lookup_parameters
 
     words = objects.filter(**include_parameters)
+
     if exclude_parameters:
-        words = words.exclude(
+        assessment_words = words.filter(
             worduserknowledgerelation__knowledge_assessment__in=Subquery(
-                WordUserKnowledgeRelation.objects.filter(
+                WordUserKnowledgeRelation.objects.exclude(
                     knowledge_assessment__in=exclude_parameters.get(
                         'worduserknowledgerelation__knowledge_assessment__in'
                     )
-                ).values('knowledge_assessment').distinct()
+                ).values('knowledge_assessment')
             ),
             worduserknowledgerelation__user_id__exact=user_id,
         )
+        if 0 not in exclude_parameters:
+            not_assessment_words = words.exclude(
+                id__in=Subquery(
+                    WordUserKnowledgeRelation.objects.exclude(
+                        knowledge_assessment__in=exclude_parameters.get(
+                            'worduserknowledgerelation__knowledge_assessment__in'
+                        )
+                    ).values('knowledge_assessment')
+                ),
+                worduserknowledgerelation__user_id__exact=user_id,
+            )
+            words = assessment_words | not_assessment_words
+        else:
+            words = assessment_words
+
     return words
