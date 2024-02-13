@@ -5,6 +5,7 @@
 #
 """Модуль для запросов в базу данных.
 """
+import copy
 from random import choice
 
 import datetime
@@ -14,10 +15,7 @@ from django.db.models import Subquery
 from django.utils import timezone
 
 from english.models import WordModel, WordUserKnowledgeRelation
-from english.services.words_knowledge_assessment import (
-    get_numeric_value,
-    MAX_KNOWLEDGE_ASSESSMENT,
-)
+from english.services.words_knowledge_assessment import get_numeric_value
 
 
 def create_lookup_parameters(querydict) -> dict:
@@ -70,7 +68,7 @@ def create_lookup_parameters(querydict) -> dict:
     if assessment:
         parameters[
             'worduserknowledgerelation__knowledge_assessment__in'
-        ] = sorted(get_numeric_value(assessment))
+        ] = get_numeric_value(assessment)
 
     # Фильтр по периоду добавления (изменения) слова.
     period = {
@@ -118,24 +116,25 @@ def get_words_for_study(lookup_parameters, user_id):
     """
     # Извлекаем из параметров поиска
     # поиск по оценке пользователем уровня знания слова.
+    params = copy.deepcopy(lookup_parameters)
     assessments = dict()
     assessments[
         'worduserknowledgerelation__knowledge_assessment__in'
-    ] = lookup_parameters.pop(
+    ] = params.pop(
         'worduserknowledgerelation__knowledge_assessment__in', dict()
     )
 
     # Получаем слова по параметрам поиска, без оценки.
-    words = WordModel.objects.filter(**lookup_parameters)
+    words = WordModel.objects.filter(**params)
 
     # Добавим фильтр по выбранным пользователем оценкам.
     words = words.filter(
-        pk__in=Subquery(
+        worduserknowledgerelation__knowledge_assessment__in=Subquery(
             WordUserKnowledgeRelation.objects.filter(
                 knowledge_assessment__in=assessments.get(
                     'worduserknowledgerelation__knowledge_assessment__in', []
                 )
-            ).values('pk'),
+            ).values('knowledge_assessment'),
         ),
         worduserknowledgerelation__user_id__exact=user_id,
     )
@@ -143,14 +142,10 @@ def get_words_for_study(lookup_parameters, user_id):
     # Получаем слова, не отображенные в таблице worduserknowledgerelation.
     not_assessment_words = WordModel.objects.exclude(
         pk__in=Subquery(
-            WordUserKnowledgeRelation.objects.filter(
-                knowledge_assessment__in=[
-                    *range(0, MAX_KNOWLEDGE_ASSESSMENT + 1)
-                ]
-            ).values('pk'),
+            WordUserKnowledgeRelation.objects.all().values('word_id'),
         ),
         worduserknowledgerelation__user_id__exact=user_id,
-    ).filter(**lookup_parameters)
+    ).filter(**params)
 
     words |= not_assessment_words
     return words

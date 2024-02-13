@@ -3,7 +3,6 @@ from django.urls import reverse_lazy
 
 from english.models import WordModel, WordUserKnowledgeRelation
 from english.services.words_knowledge_assessment import (
-    get_word_knowledge_assessment,
     get_knowledge_assessment,
 )
 from users.models import UserModel
@@ -84,8 +83,8 @@ class TestWordsKnowledgeAssessment(TestCase):
         # session['lookup_parameters'] = {'knowledge_assessment': self.user.pk}
         # session.save()
 
-        updated_assessment = get_word_knowledge_assessment(
-            self.user.pk, self.word_middle_assessment.pk,
+        updated_assessment = get_knowledge_assessment(
+            self.word_middle_assessment.pk, self.user.pk,
         )
 
         self.assertEqual(updated_assessment, self.expected_updated_assessment)
@@ -99,8 +98,8 @@ class TestWordsKnowledgeAssessment(TestCase):
         """
         self.client.force_login(self.user)
         self.client.post(self.min_assessment_url, self.assessment_down)
-        given_assessment = get_word_knowledge_assessment(
-            self.user.pk, self.word_min_assessment.pk
+        given_assessment = get_knowledge_assessment(
+            self.word_min_assessment.pk, self.user.pk,
         )
         self.assertEqual(given_assessment, MIN_KNOWLEDGE_ASSESSMENT)
 
@@ -109,7 +108,7 @@ class TestWordsKnowledgeAssessment(TestCase):
         """
         self.client.force_login(self.user)
         self.client.post(self.max_assessment_url, self.assessment_up)
-        given_assessment = get_word_knowledge_assessment(
-            self.user.pk, self.word_max_assessment.pk
+        given_assessment = get_knowledge_assessment(
+            self.word_max_assessment.pk, self.user.pk,
         )
         self.assertEqual(given_assessment, MAX_KNOWLEDGE_ASSESSMENT)

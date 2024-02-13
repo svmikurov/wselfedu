@@ -23,7 +23,7 @@ def create_task_study_words(lookup_parameters, user_id):
     """
     task_study_word = dict()
     words = get_words_for_study(lookup_parameters, user_id)
-    words_count = words.count()
+    word_count = words.count()
 
     if words:
         word = get_random_query_from_queryset(words)
@@ -35,7 +35,7 @@ def create_task_study_words(lookup_parameters, user_id):
             'question': question,
             'answer': answer,
             'word_eng': word.words_eng,
-            'word_count': words_count,
-            'source': word.source.name,
+            'word_count': word_count,
+            'source': word.source.name if word.source else '',
         }
     return task_study_word
