@@ -14,11 +14,10 @@ from django.db.models import Subquery
 from django.utils import timezone
 
 from english.models import WordModel, WordUserKnowledgeRelation
-from english.services.words_knowledge_assessment import get_numeric_value, \
-    MAX_KNOWLEDGE_ASSESSMENT
+from english.services.words_knowledge_assessment import get_numeric_value
 
 
-def create_lookup_parameters(querydict) -> tuple:
+def create_lookup_parameters(querydict) -> dict:
     """Получи из request параметры для запроса слов в базе данных.
 
     Ожидаются изменения в условиях поиска по периоду добавления (изменения)
@@ -27,14 +26,13 @@ def create_lookup_parameters(querydict) -> tuple:
     Возвращает кортеж фильтров для запроса слов из базы данных, содержащий
     параметры для включения и параметры для исключения слов в запросе.
     """
-    include_parameters = dict()
-    exclude_parameters = dict()
+    parameters = dict()
 
     # Фильтр по избранным словам.
     # Преобразует тип значения [str] в int.
     words_favorites = querydict.get('words_favorites')
     if words_favorites and words_favorites != ['']:
-        include_parameters[
+        parameters[
             'favorites__pk'
         ] = int(words_favorites[0])
 
@@ -42,7 +40,7 @@ def create_lookup_parameters(querydict) -> tuple:
     # Преобразует тип значения [str] в int.
     category = querydict.get('category_id')
     if category and category != ['']:
-        include_parameters[
+        parameters[
             'category_id'
         ] = int(category[0])
 
@@ -50,7 +48,7 @@ def create_lookup_parameters(querydict) -> tuple:
     # Преобразует тип значения [str] в int.
     source = querydict.get('source_id')
     if source and source != ['']:
-        include_parameters[
+        parameters[
             'source_id'
         ] = int(source[0])
 
@@ -58,7 +56,7 @@ def create_lookup_parameters(querydict) -> tuple:
     # Всегда присутствуют слова, количество которых не установлено: ['NC'].
     word_count = querydict.get('word_count', [])
     if word_count and word_count != ['']:
-        include_parameters[
+        parameters[
             'word_count__in'
         ] = querydict.get('word_count') + ['NC']
 
@@ -67,14 +65,9 @@ def create_lookup_parameters(querydict) -> tuple:
     # Через разницу множеств вычисляется оценки для исключения.
     assessment = querydict.get('assessment')
     if assessment:
-        all_assessments = set(
-            (num for num in range(0, MAX_KNOWLEDGE_ASSESSMENT + 1))
-        )
-        include_assessments = set(get_numeric_value(assessment))
-        exclude_assessments = list(all_assessments - include_assessments)
-        exclude_parameters[
+        parameters[
             'worduserknowledgerelation__knowledge_assessment__in'
-        ] = sorted(exclude_assessments)
+        ] = sorted(get_numeric_value(assessment))
 
     # Фильтр по периоду добавления (изменения) слова.
     period = {
@@ -102,13 +95,12 @@ def create_lookup_parameters(querydict) -> tuple:
     # Программно добавляется часовой пояс '%Y-%m-%d 00:00:00+00:00'.
     # Добавляется в целях прохождения тестов.
     # Возможно, будет удалено программное добавление '00:00:00+00:00'.
-    include_parameters['updated_at__range'] = (
+    parameters['updated_at__range'] = (
         period['start_period'].strftime('%Y-%m-%d 00:00:00+00:00'),
         period['end_period'].strftime('%Y-%m-%d 23:59:59+00:00'),
     )
 
-    lookup_parameters = (include_parameters, exclude_parameters)
-    return lookup_parameters
+    return parameters
 
 
 def get_random_query_from_queryset(queryset):
@@ -117,19 +109,45 @@ def get_random_query_from_queryset(queryset):
 
 
 def get_words_for_study(lookup_parameters, user_id):
-    objects = WordModel.objects
-    include_parameters, exclude_parameters = lookup_parameters
+    """
+    Примени параметры поиска конкретного пользователя для выборки слов на
+    задание.
+    """
+    # Извлекаем из параметров поиска
+    # поиск по оценке пользователем уровня знания слова.
+    assessments = dict()
+    assessments[
+        'worduserknowledgerelation__knowledge_assessment__in'
+    ] = lookup_parameters.pop(
+        'worduserknowledgerelation__knowledge_assessment__in', dict()
+    )
 
-    words = objects.filter(**include_parameters)
-    if exclude_parameters:
-        words = words.exclude(
-            worduserknowledgerelation__knowledge_assessment__in=Subquery(
-                WordUserKnowledgeRelation.objects.filter(
-                    knowledge_assessment__in=exclude_parameters.get(
-                        'worduserknowledgerelation__knowledge_assessment__in'
-                    )
-                ).values('knowledge_assessment').distinct()
-            ),
-            worduserknowledgerelation__user_id__exact=user_id,
-        )
+    # Получаем слова по параметрам поиска, без оценки.
+    words = WordModel.objects.filter(**lookup_parameters)
+
+    # Добавим фильтр по выбранным пользователем оценкам.
+    words = words.filter(
+        pk__in=Subquery(
+            WordUserKnowledgeRelation.objects.filter(
+                knowledge_assessment__in=assessments.get(
+                    'worduserknowledgerelation__knowledge_assessment__in', []
+                )
+            ).values('pk'),
+        ),
+        worduserknowledgerelation__user_id__exact=user_id,
+    )
+
+    # Получаем слова, не отображенные в таблице worduserknowledgerelation.
+    not_assessment_words = WordModel.objects.exclude(
+        pk__in=Subquery(
+            WordUserKnowledgeRelation.objects.filter(
+                knowledge_assessment__in=[
+                    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+                ]
+            ).values('pk'),
+        ),
+        worduserknowledgerelation__user_id__exact=user_id,
+    ).filter(**lookup_parameters)
+
+    words |= not_assessment_words
     return words

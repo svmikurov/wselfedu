@@ -51,8 +51,13 @@ class TestStudyEnglishWordsView(TestCase):
 
     def test_answer_words_study_page_status(self):
         """Test answer words study page 200 status."""
+        lookup_parameters = {
+            'word_count': ['OW', 'CB', 'NC'],
+            'assessment': ['studying', 'repetition']
+        }
+        self.client.force_login(self.user)
         # Старт выполнения задания, формируется задача, сохраняется задача.
-        self.client.get(self.start_words_study_url)
+        self.client.get(self.start_words_study_url, lookup_parameters)
         # Выполняется задание, есть сформированная задача.
         # Становится возможным переход на статус 'answer'.
         # Без старта, без сохранения задачи тест выдаст ошибку!

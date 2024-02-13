@@ -1,5 +1,5 @@
 MANAGE := poetry run python manage.py
-TEST_JUST := english.tests.test_serve_query
+TEST_JUST := english.tests.test_serve_query.TestAdaptLookupParameters.test_add_to_lookup_parameters_new_words
 
 start:
 	@$(MANAGE) runserver 0.0.0.0:8000
