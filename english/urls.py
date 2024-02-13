@@ -19,23 +19,27 @@ urlpatterns = [
     ),
     # -- End Account --
     # --======= Task study words =======--
+    # Выбор критериев для выборки слов на задание.
     path(
         'words-choose/',
         views.ChooseEnglishWordsStudyView.as_view(),
         name='words_choose',
     ),
+    # Выполнение задания.
     path(
         'words-study/<str:task_status>/',
         views.study_words_view,
         name='words_study',
     ),
+    # Пользователь добавил оценку слова.
     path(
         'knowledge-assessment/<int:word_id>/',
         views.update_words_knowledge_assessment_view,
         name='knowledge_assessment'
     ),
+    # Пользователь изменил статус избранного слова.
     path(
-        'words_favorites_view/<int:word_id>/',
+        'words-favorites-view/<int:word_id>/',
         views.update_words_favorites_status_view,
         name='words_favorites_view',
     ),
