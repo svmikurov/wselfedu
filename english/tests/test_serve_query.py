@@ -18,8 +18,8 @@ from english.services.serve_query import (
 from english.tasks.study_words import shuffle_sequence
 
 
-class TestLookupParametersByPeriods(TestCase):
-    """Тест получения параметра выбора слова по дате добавления слова.
+class TestLookupParameters(TestCase):
+    """Тест параметров фильтрации слов.
 
     Для фильтрации используется поле модели - дата изменения слова.
     Измененное слово должно включаться в выборку слов при фильтрации.
@@ -74,7 +74,7 @@ class TestLookupParametersByPeriods(TestCase):
             'english:words_study', kwargs={'task_status': 'start'}
         )
 
-    def test_period_only_today(self):
+    def test_filter_period_only_today(self):
         """Тест фильтра слов по периоду "только сегодня".
         """
         user_id = 2
@@ -89,7 +89,7 @@ class TestLookupParametersByPeriods(TestCase):
         self.assertTrue(filtered_words.contains(self.word_added_today))
         self.assertFalse(filtered_words.contains(self.word_added_3_days_ago))
 
-    def test_period_3_days_ago_till_today(self):
+    def test_filter_period_3_days_ago_till_today(self):
         """Тест фильтра слов по периоду "3 дня назад" до "только сегодня".
         """
         querydict = {'start_period': '3', 'end_period': '1'}
@@ -160,7 +160,7 @@ class TestAdaptLookupParameters(TestCase):
                 datetime.datetime.now(tz=timezone.utc).strftime(
                     '%Y-%m-%d 23:59:59+00:00'),
             ),
-            'worduserknowledgerelation__knowledge_assessment__in': [
+            'knowledge_assessment': [
                 0, 1, 2, 3, 4, 5, 6, 9, 10
             ],
         }
@@ -229,7 +229,7 @@ class TestAdaptLookupParameters(TestCase):
     def test_get_words_for_study_by_assessment_studying_learned(self):
         pass
 
-    def test_get_words_for_study_by_assessment_studying_not_choised(self):
+    def test_get_words_for_study_by_assessment_not_choised(self):
         pass
 
     def test_add_to_lookup_parameters_new_words(self):
@@ -246,7 +246,7 @@ class TestAdaptLookupParameters(TestCase):
                 datetime.datetime.now(tz=timezone.utc).strftime(
                     '%Y-%m-%d 23:59:59+00:00'),
             ),
-            'worduserknowledgerelation__knowledge_assessment__in': [
+            'knowledge_assessment': [
                 0, 1, 2, 3, 4, 5, 6
             ]
         }
@@ -269,7 +269,7 @@ class TestAdaptLookupParameters(TestCase):
         """
         params = {
             'word_count__in': ['OW', 'CB', 'NC'],
-            'worduserknowledgerelation__knowledge_assessment__in': [
+            'knowledge_assessment': [
                 0, 1, 2, 3, 4, 5, 6
             ]
         }
