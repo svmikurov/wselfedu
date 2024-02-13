@@ -60,7 +60,7 @@ def get_knowledge_assessment(word_id, user_id):
         return knowledge_assessment
 
 
-def update_word_knowledge_assessment(user_pk, word_pk, new_assessment):
+def update_word_knowledge_assessment(word_pk, user_pk, new_assessment):
     """Обнови в базе данных оценку знания слова пользователем, в пределах
        допустимого диапазона.
     """

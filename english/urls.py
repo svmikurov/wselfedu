@@ -2,6 +2,7 @@ from django.urls import path
 
 from english import views
 
+
 app_name = 'english'
 urlpatterns = [
     # --======= English chapter =======--
@@ -19,25 +20,37 @@ urlpatterns = [
     ),
     # -- End Account --
     # --======= Task study words =======--
-    # Выбор критериев для выборки слов на задание.
+    # Отображение критериев для выборки слов на задание.
     path(
         'words-choose/',
         views.ChooseEnglishWordsStudyView.as_view(),
         name='words_choose',
     ),
-    # Выполнение задания.
+    # Сохранение параметров выборки слов для задания.
     path(
-        'words-study/<str:task_status>/',
-        views.study_words_view,
-        name='words_study',
+        'words-start/',
+        views.start_study_word_view,
+        name='start_word_study',
     ),
-    # Пользователь добавил оценку слова.
+    # Отображение вопроса.
+    path(
+        'word-study/question/',
+        views.QuestionWordStudyView.as_view(),
+        name='word_study_question',
+    ),
+    # Отображение ответа.
+    path(
+        'word-study/answer/',
+        views.AnswerWordStudyView.as_view(),
+        name='word_study_answer',
+    ),
+    # Добавление оценки слова.
     path(
         'knowledge-assessment/<int:word_id>/',
         views.update_words_knowledge_assessment_view,
         name='knowledge_assessment'
     ),
-    # Пользователь изменил статус избранного слова.
+    # Изменение статуса избранного слова.
     path(
         'words-favorites-view/<int:word_id>/',
         views.update_words_favorites_status_view,

@@ -6,7 +6,7 @@
   {% include 'components/card_title.html' %}
 
   <div class="card-body">
-    <form action="{% url 'english:words_study' task_status %}" method="get">
+    <form action="{% url 'english:start_word_study' %}" method="get">
       {% csrf_token %}
 
       <!-- Checkbox words favorites -->

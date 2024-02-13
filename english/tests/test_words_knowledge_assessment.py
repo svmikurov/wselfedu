@@ -43,9 +43,7 @@ class TestWordsKnowledgeAssessment(TestCase):
         self.max_assessment_url = reverse_lazy(
             assessment_url, kwargs={'word_id': self.word_max_assessment.pk}
         )
-        self.redirect_url = reverse_lazy(
-            'english:words_study', kwargs={'task_status': 'question'}
-        )
+        self.redirect_url = reverse_lazy('english:word_study_question')
 
     def test_add_knowledge_assessment(self):
         """Тест получи или создай knowledge_assessment.
@@ -69,10 +67,7 @@ class TestWordsKnowledgeAssessment(TestCase):
         self.client.force_login(self.user)
         # Создадим задание.
         self.client.get(
-            reverse_lazy(
-                'english:words_study',
-                kwargs={'task_status': 'start'},
-            ),
+            reverse_lazy('english:start_word_study'),
             lookup_parameters
         )
 

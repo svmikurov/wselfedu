@@ -70,9 +70,7 @@ class TestLookupParametersByPeriod(TestCase):
 
         # Url выбора параметров поиска для фильтрации слов.
         # `<class 'django.utils.functional.lazy.<locals>.__proxy__'>`
-        self.start_words_study_url = reverse_lazy(
-            'english:words_study', kwargs={'task_status': 'start'}
-        )
+        self.word_study_start_url = reverse_lazy('english:word_study_question')
 
     def test_filter_period_only_today(self):
         """Тест фильтра слов по периоду "только сегодня".
@@ -166,11 +164,9 @@ class TestLookupParameters(TestCase):
         }
 
         # Url выбора параметров поиска для фильтрации слов.
-        self.start_words_study_url = reverse_lazy(
-            'english:words_study', kwargs={'task_status': 'start'}
-        )
+        self.word_study_start_url = reverse_lazy('english:word_study_question')
 
-    def test_get_words_for_study_by_knowledge_assessment_studying(self):
+    def test_get_word_for_study_by_knowledge_assessment_studying(self):
         """Протестируй фильтрацию слов по knowledge_assessment studying."""
         querydict = {
             'word_count__in': ['OW', 'CB', 'NC'],

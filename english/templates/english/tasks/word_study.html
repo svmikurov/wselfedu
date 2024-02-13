@@ -31,9 +31,9 @@
           <button class="col btn d-inline mx-1 bg-primary text-white" name="knowledge_assessment" value="+1" style="height:40px; width:80px">Знаю</button>
           <!-- Button "Next" -->
             {% if task_status == 'question' or task_status == 'start' %}
-              <a class="col btn d-inline mx-1 bg-primary text-white" style="height:40px; width:80px" href="{% url next_url 'answer' %}">Далее</a>
+              <a class="col btn d-inline mx-1 bg-primary text-white" style="height:40px; width:80px" href="{% url next_url %}">Далее</a>
             {% else %}
-              <a class="col btn d-inline mx-1 bg-primary text-white" style="height:40px; width:80px" href="{% url next_url 'question' %}">Далее</a>
+              <a class="col btn d-inline mx-1 bg-primary text-white" style="height:40px; width:80px" href="{% url next_url %}">Далее</a>
             {% endif %}
           <!- End- Button "Next" -->
         </div>
