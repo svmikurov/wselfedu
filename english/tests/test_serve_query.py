@@ -160,7 +160,7 @@ class TestAdaptLookupParameters(TestCase):
                 datetime.datetime.now(tz=timezone.utc).strftime(
                     '%Y-%m-%d 23:59:59+00:00'),
             ),
-            'worduserknowledgerelation__knowledge_assessment__in': [
+            'knowledge_assessment': [
                 0, 1, 2, 3, 4, 5, 6, 9, 10
             ],
         }
@@ -229,7 +229,7 @@ class TestAdaptLookupParameters(TestCase):
     def test_get_words_for_study_by_assessment_studying_learned(self):
         pass
 
-    def test_get_words_for_study_by_assessment_studying_not_choised(self):
+    def test_get_words_for_study_by_assessment_not_choised(self):
         pass
 
     def test_add_to_lookup_parameters_new_words(self):
@@ -246,7 +246,7 @@ class TestAdaptLookupParameters(TestCase):
                 datetime.datetime.now(tz=timezone.utc).strftime(
                     '%Y-%m-%d 23:59:59+00:00'),
             ),
-            'worduserknowledgerelation__knowledge_assessment__in': [
+            'knowledge_assessment': [
                 0, 1, 2, 3, 4, 5, 6
             ]
         }
@@ -269,7 +269,7 @@ class TestAdaptLookupParameters(TestCase):
         """
         params = {
             'word_count__in': ['OW', 'CB', 'NC'],
-            'worduserknowledgerelation__knowledge_assessment__in': [
+            'knowledge_assessment': [
                 0, 1, 2, 3, 4, 5, 6
             ]
         }

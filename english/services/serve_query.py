@@ -67,7 +67,7 @@ def create_lookup_parameters(querydict) -> dict:
     assessment = querydict.get('assessment')
     if assessment:
         parameters[
-            'worduserknowledgerelation__knowledge_assessment__in'
+            'knowledge_assessment'
         ] = get_numeric_value(assessment)
 
     # Фильтр по периоду добавления (изменения) слова.
@@ -115,13 +115,13 @@ def get_words_for_study(lookup_parameters, user_id):
     задание.
     """
     # Извлекаем из параметров поиска
-    # поиск по оценке пользователем уровня знания слова.
+    # параметр поиска по оценке пользователем уровня знания слова.
     params = copy.deepcopy(lookup_parameters)
     assessments = dict()
     assessments[
-        'worduserknowledgerelation__knowledge_assessment__in'
+        'knowledge_assessment'
     ] = params.pop(
-        'worduserknowledgerelation__knowledge_assessment__in', dict()
+        'knowledge_assessment', dict()
     )
 
     # Получаем слова по параметрам поиска, без оценки.
@@ -132,7 +132,7 @@ def get_words_for_study(lookup_parameters, user_id):
         worduserknowledgerelation__knowledge_assessment__in=Subquery(
             WordUserKnowledgeRelation.objects.filter(
                 knowledge_assessment__in=assessments.get(
-                    'worduserknowledgerelation__knowledge_assessment__in', []
+                    'knowledge_assessment', []
                 )
             ).values('knowledge_assessment'),
         ),
