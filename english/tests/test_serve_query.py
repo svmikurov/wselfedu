@@ -136,6 +136,8 @@ class TestAdaptLookupParameters(TestCase):
     fixtures = ['english/tests/fixtures/wse-fixtures.json']
 
     def setUp(self):
+        self.objects = WordModel.objects
+        self.user_id = 2
         self.querydict = {
             'csrfmiddlewaretoken': ['SfNSD...hpwu7soCX'],
             'words_favorites': ['1'],
@@ -149,7 +151,7 @@ class TestAdaptLookupParameters(TestCase):
             WordModel.objects.order_by('updated_at').first().updated_at
         )
         # В word_count__in программно добавляется 'NC'.
-        self.parameters = {
+        self.params = {
             'favorites__pk': 1,
             'word_count__in': ['OW', 'CB', 'NC'],
             'updated_at__range': (
@@ -168,14 +170,75 @@ class TestAdaptLookupParameters(TestCase):
             'english:words_study', kwargs={'task_status': 'start'}
         )
 
+    def test_get_words_for_study_by_knowledge_assessment_studying(self):
+        """Протестируй фильтрацию слов по knowledge_assessment studying."""
+        querydict = {
+            'word_count__in': ['OW', 'CB', 'NC'],
+            'assessment': ['studying'],
+        }
+        lookup_parameters = create_lookup_parameters(querydict)
+        words = get_words_for_study(lookup_parameters, self.user_id)
+
+        self.assertTrue(words.contains(self.objects.get(id=1)))
+        self.assertTrue(words.contains(self.objects.get(id=2)))
+        self.assertFalse(words.contains(self.objects.get(id=3)))
+        self.assertTrue(words.contains(self.objects.get(id=6)))
+
+    def test_get_words_for_study_by_knowledge_assessment_repetition(self):
+        """Протестируй фильтрацию слов по knowledge_assessment repetition."""
+        querydict = {
+            'word_count__in': ['OW', 'CB', 'NC'],
+            'assessment': ['repetition'],
+        }
+        lookup_parameters = create_lookup_parameters(querydict)
+        words = get_words_for_study(lookup_parameters, self.user_id)
+
+        self.assertFalse(words.contains(self.objects.get(id=2)))
+        self.assertTrue(words.contains(self.objects.get(id=3)))
+        self.assertFalse(words.contains(self.objects.get(id=4)))
+        self.assertFalse(words.contains(self.objects.get(id=5)))
+
+    def test_get_words_for_study_by_knowledge_assessment_examination(self):
+        """Протестируй фильтрацию слов по knowledge_assessment examination."""
+        querydict = {
+            'word_count__in': ['OW', 'CB', 'NC'],
+            'assessment': ['examination'],
+        }
+        lookup_parameters = create_lookup_parameters(querydict)
+        words = get_words_for_study(lookup_parameters, self.user_id)
+
+        self.assertFalse(words.contains(self.objects.get(id=2)))
+        self.assertFalse(words.contains(self.objects.get(id=3)))
+        self.assertTrue(words.contains(self.objects.get(id=4)))
+        self.assertFalse(words.contains(self.objects.get(id=5)))
+
+    def test_get_words_for_study_by_knowledge_assessment_learned(self):
+        """Протестируй фильтрацию слов по knowledge_assessment learned."""
+        querydict = {
+            'word_count__in': ['OW', 'CB', 'NC'],
+            'assessment': ['learned'],
+        }
+        lookup_parameters = create_lookup_parameters(querydict)
+        words = get_words_for_study(lookup_parameters, self.user_id)
+
+        self.assertFalse(words.contains(self.objects.get(id=2)))
+        self.assertFalse(words.contains(self.objects.get(id=3)))
+        self.assertFalse(words.contains(self.objects.get(id=4)))
+        self.assertTrue(words.contains(self.objects.get(id=5)))
+
+    def test_get_words_for_study_by_assessment_studying_learned(self):
+        pass
+
+    def test_get_words_for_study_by_assessment_studying_not_choised(self):
+        pass
+
     def test_add_to_lookup_parameters_new_words(self):
         """Тест включить в фильтр слова, еще не имеющие оценку уровня знания.
         """
-        user_id = 2
         new_word = WordModel.objects.create(
             words_eng='new word', words_rus='новое слово',
         )
-        parameters = {
+        params = {
             'word_count__in': ['OW', 'CB', 'NC'],
             'updated_at__range': (
                 self.begin_date_period.strftime(
@@ -187,14 +250,14 @@ class TestAdaptLookupParameters(TestCase):
                 0, 1, 2, 3, 4, 5, 6
             ]
         }
-        words = get_words_for_study(parameters, user_id)
+        words = get_words_for_study(params, self.user_id)
         self.assertTrue(words.contains(new_word))
 
     def test_create_lookup_parameters(self):
         """Тест получения из request и переименования параметров поиска в БД.
         """
-        parameters = create_lookup_parameters(self.querydict)
-        self.assertEqual(self.parameters, parameters)
+        params = create_lookup_parameters(self.querydict)
+        self.assertEqual(self.params, params)
 
     def test_knowledge_assessment_by_users(self):
         """Тест фильтра слов по knowledge_assessment конкретного пользователя
@@ -204,21 +267,19 @@ class TestAdaptLookupParameters(TestCase):
         Значение knowledge_assessment слов других пользователей не должно
         учитываться при фильтрации слов для текущего пользователя.
         """
-        objects = WordModel.objects
-        parameters = {
+        params = {
             'word_count__in': ['OW', 'CB', 'NC'],
             'worduserknowledgerelation__knowledge_assessment__in': [
                 0, 1, 2, 3, 4, 5, 6
             ]
         }
-        user_id = 2
 
-        words = get_words_for_study(parameters, user_id)
+        words = get_words_for_study(params, self.user_id)
 
-        self.assertTrue(words.contains(objects.get(id=1)))
-        self.assertTrue(words.contains(objects.get(id=2)))
-        self.assertFalse(words.contains(objects.get(id=3)))
-        self.assertTrue(words.contains(objects.get(id=6)))
+        self.assertTrue(words.contains(self.objects.get(id=1)))
+        self.assertTrue(words.contains(self.objects.get(id=2)))
+        self.assertFalse(words.contains(self.objects.get(id=3)))
+        self.assertTrue(words.contains(self.objects.get(id=6)))
 
 
 class TestRandomFunctions(TestCase):

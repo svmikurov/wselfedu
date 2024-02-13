@@ -14,8 +14,7 @@
 Приложение содержит следующие интервалы: изучение, повторение, проверка.
 """
 
-from english.models.words import WordModel, WordUserKnowledgeRelation
-from users.models import UserModel
+from english.models.words import WordUserKnowledgeRelation
 
 MIN_KNOWLEDGE_ASSESSMENT = 0
 MAX_STUDYING_VALUE = 6
@@ -53,21 +52,12 @@ def get_knowledge_assessment(word_id, user_id):
     if user_id and word_id:
         knowledge_assessment_obj, is_create = (
             WordUserKnowledgeRelation.objects.get_or_create(
-                word=WordModel.objects.get(pk=word_id),
-                user=UserModel.objects.get(pk=user_id),
+                word_id=word_id,
+                user_id=user_id,
             )
         )
         knowledge_assessment = knowledge_assessment_obj.knowledge_assessment
         return knowledge_assessment
-
-
-def get_word_knowledge_assessment(user_id: int, word_id: int) -> int:
-    """Получи из базы данных оценку знания слова пользователем.
-    """
-    knowledge_assessment = WordUserKnowledgeRelation.objects.get(
-        user_id=user_id, word_id=word_id
-    ).knowledge_assessment
-    return knowledge_assessment
 
 
 def update_word_knowledge_assessment(user_pk, word_pk, new_assessment):

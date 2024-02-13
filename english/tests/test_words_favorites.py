@@ -34,7 +34,7 @@ class TestWordsFavorites(TestCase):
         )
 
     def test_is_word_in_favorites(self):
-        """Протестируй функцию уже имеющуюся связь в загруженной фикстуре."""
+        """Протестируй is_word_in_favorites()."""
         self.assertTrue(is_word_in_favorites(
             self.user_id_in_favorites, self.word_id_in_favorites
         ))
@@ -52,6 +52,7 @@ class TestWordsFavorites(TestCase):
         )
 
     def test_update_words_favorites_status(self):
+        """Протестируй изменение статуса избранного слова."""
         user_id = 1
         word_id = 2
 

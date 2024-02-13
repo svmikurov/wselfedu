@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
 
 from english.services.words_knowledge_assessment import (
-    get_word_knowledge_assessment,
+    get_knowledge_assessment,
     update_word_knowledge_assessment,
 )
 from english.services.words_favorites import update_words_favorites_status
@@ -26,7 +26,7 @@ def update_words_knowledge_assessment_view(request, **kwargs):
     kwargs = {'task_status': 'question'}
 
     if given_assessment:
-        old_assessment = get_word_knowledge_assessment(user_pk, word_pk)
+        old_assessment = get_knowledge_assessment(word_pk, user_pk)
         new_assessment = old_assessment + given_assessment
         update_word_knowledge_assessment(user_pk, word_pk, new_assessment)
 
