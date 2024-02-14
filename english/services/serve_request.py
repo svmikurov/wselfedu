@@ -1,23 +1,33 @@
-from english.services.serve_query import create_lookup_parameters
+"""
+Модуль для работы с request.
+"""
 
 
-def save_lookup_parameters(request, lookup_parameters) -> None:
-    """Сохрани параметры поиска слова для упражнения."""
-    request.session['lookup_params'] = lookup_parameters
+from english.forms import WordChoiceHelperForm
+from english.services.serve_query import create_lookup_params
 
 
-def set_lookup_parameters(request) -> None:
-    """Установи параметры поиска слова для упражнения.
-
-    Создаст параметры фильтрации для поиска.
-    Сохранит параметры фильтрации.
+def set_lookup_params(request) -> dict or None:
+    """Установи параметры для фильтра слов.
     """
-    querydict = dict(request.GET.lists())
-    lookup_parameters = create_lookup_parameters(querydict)
-    save_lookup_parameters(request, lookup_parameters)
+    form = WordChoiceHelperForm(request.POST)
+    user_id = request.user.id
+
+    if form.is_valid():
+        form_data = form.cleaned_data
+        lookup_params = create_lookup_params(form_data, user_id)
+
+        return lookup_params
 
 
-def get_lookup_parameters(request) -> dict:
-    """Получи параметры для фильтра слов."""
+def save_lookup_params(request, lookup_params) -> None:
+    """Сохрани параметры для фильтра слов.
+    """
+    request.session['lookup_params'] = lookup_params
+
+
+def get_lookup_params(request) -> dict:
+    """Получи параметры для фильтра слов.
+    """
     lookup_params = request.session.get('lookup_params')
     return lookup_params

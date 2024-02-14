@@ -6,7 +6,9 @@ from english.models.lessons import LessonModel
 
 from english.models.sources import SourceModel
 
-from english.models.words import WordModel
-from english.models.words import WordLabelRelation
-from english.models.words import WordUserKnowledgeRelation
-from english.models.words import WordsFavoritesModel
+from english.models.words import (
+    WordModel,
+    WordLabelRelation,
+    WordUserKnowledgeRelation,
+    WordsFavoritesModel,
+)

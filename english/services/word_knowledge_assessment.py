@@ -1,8 +1,6 @@
 #
 # Этот модуль часть группы сервисов для обработки запросов в базу данных.
 #
-# Запросы в базу данных осуществляется посредством Django QuerySet API.
-#
 """Модуль для оценки пользователем и учета уровня знания слов в приложении.
 
 Модуль содержит функции запросов в базу данных для добавления, обновления и
@@ -14,7 +12,7 @@
 Приложение содержит следующие интервалы: изучение, повторение, проверка.
 """
 
-from english.models.words import WordUserKnowledgeRelation
+from english.models import WordUserKnowledgeRelation
 
 MIN_KNOWLEDGE_ASSESSMENT = 0
 MAX_STUDYING_VALUE = 6
@@ -23,26 +21,6 @@ MAX_EXAMINATION_VALUE = 10
 MAX_KNOWLEDGE_ASSESSMENT = 11
 """Значения оценки уровня знания слова пользователем
 """
-
-
-def get_numeric_value(assessment):
-    """Преобразуй строковое представление уровня знания в диапазон чисел
-     этого уровня.
-     """
-    value = []
-    if 'studying' in assessment:
-        value1 = [*range(MIN_KNOWLEDGE_ASSESSMENT, MAX_STUDYING_VALUE + 1)]
-        value += value1
-    if 'repetition' in assessment:
-        value2 = [*range(MAX_STUDYING_VALUE + 1, MAX_REPETITION_VALUE + 1)]
-        value += value2
-    if 'examination' in assessment:
-        value3 = [*range(MAX_REPETITION_VALUE + 1, MAX_EXAMINATION_VALUE + 1)]
-        value += value3
-    if 'learned' in assessment:
-        value4 = [*range(MAX_EXAMINATION_VALUE + 1, MAX_KNOWLEDGE_ASSESSMENT + 1)]
-        value += value4
-    return value
 
 
 def get_knowledge_assessment(word_id, user_id):
@@ -70,3 +48,21 @@ def update_word_knowledge_assessment(word_pk, user_pk, new_assessment):
         WordUserKnowledgeRelation.objects.filter(
             word_id=word_pk, user_id=user_pk,
         ).update(knowledge_assessment=new_assessment)
+
+
+def get_numeric_value(knowledge_assessment):
+    """Преобразуй строковое представление уровня знания в диапазон чисел
+     этого уровня.
+     """
+    value = []
+    if 'L' in knowledge_assessment:
+        value += [*range(MIN_KNOWLEDGE_ASSESSMENT, MAX_STUDYING_VALUE + 1)]
+    if 'R' in knowledge_assessment:
+        value += [*range(MAX_STUDYING_VALUE + 1, MAX_REPETITION_VALUE + 1)]
+    if 'E' in knowledge_assessment:
+        value += [*range(MAX_REPETITION_VALUE + 1, MAX_EXAMINATION_VALUE + 1)]
+    if 'K' in knowledge_assessment:
+        value += [
+            *range(MAX_EXAMINATION_VALUE + 1, MAX_KNOWLEDGE_ASSESSMENT + 1)
+        ]
+    return value

@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse_lazy
 
 from english.models import WordModel, WordUserKnowledgeRelation
-from english.services.words_knowledge_assessment import (
+from english.services import (
     get_knowledge_assessment,
 )
 from users.models import UserModel
@@ -60,33 +60,17 @@ class TestWordsKnowledgeAssessment(TestCase):
     def test_update_knowledge_assessment(self):
         """Тест изменения пользователем оценки знания слова.
         """
-        lookup_parameters = {
-            'word_count': ['OW', 'CB', 'NC'],
-            'assessment': ['studying', 'repetition']
-        }
         self.client.force_login(self.user)
-        # Создадим задание.
-        self.client.get(
-            reverse_lazy('english:start_word_study'),
-            lookup_parameters
-        )
+        self.client.get(reverse_lazy('english:word_choice'))
 
         # Оценим слово из задания.
         self.client.post(self.middle_assessment_url, self.assessment_down)
-
-        # session = self.client.session
-        # session['lookup_parameters'] = {'knowledge_assessment': self.user.pk}
-        # session.save()
 
         updated_assessment = get_knowledge_assessment(
             self.word_middle_assessment.pk, self.user.pk,
         )
 
         self.assertEqual(updated_assessment, self.expected_updated_assessment)
-        # Закомментировал, выдает статус 200, из параметров поиска выпадает
-        # 'worduserknowledgerelation__knowledge_assessment__in':
-        # [0, 1, 2, 3, 4, 5, 6, 7, 8]
-        # self.assertRedirects(response, self.redirect_url, 302)
 
     def test_min_knowledge_assessment(self):
         """Тест на уменьшение минимального уровня оценки пользователем знания слова.

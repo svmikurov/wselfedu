@@ -23,11 +23,7 @@
         {% endif %}<!-- End For authorized users -->
 
         <!-- Chapters -->
-        <a href="{% url 'mathem:home' %}" class="nav-link">Математика</a>
         <a href="{% url 'english:home' %}" class="nav-link" >Английский язык</a>
-        {% if user.is_superuser %}
-          <a href="{% url 'home' %}" class="nav-link">Определения</a>
-        {% endif %}<!-- End Chapters -->
 
         <!-- Authentication -->
         {% if user.is_authenticated %}

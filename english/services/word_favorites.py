@@ -13,7 +13,7 @@
 отмечено избранным для нескольких пользователей.
 """
 
-from english.models.words import WordsFavoritesModel, WordModel
+from english.models import WordsFavoritesModel, WordModel
 from users.models import UserModel
 
 
@@ -51,7 +51,7 @@ def is_word_in_favorites(user_id, word_id) -> bool:
     return is_favorites
 
 
-def update_words_favorites_status(word_id, user_id, favorites_action):
+def update_word_favorites_status(word_id, user_id, favorites_action):
     """Измени статус слова, избранное ли оно.
 
     Если слова нет среди избранных - добавляет слово в избранные,

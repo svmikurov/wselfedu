@@ -114,7 +114,7 @@ class WordLabelRelation(models.Model):
 
 class WordUserKnowledgeRelation(models.Model):
     word = models.ForeignKey(WordModel, on_delete=models.CASCADE)
-    user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE,)
     knowledge_assessment = models.DecimalField(
         max_digits=2,
         decimal_places=0,
@@ -143,14 +143,3 @@ class WordsFavoritesModel(models.Model):
 
     def __str__(self):
         return f'Слово {self.word} избрано {self.user}'
-
-
-def get_knowledge_assessment(word_id, user_id):
-    knowledge_assessment_obj, is_create = (
-        WordUserKnowledgeRelation.objects.get_or_create(
-            word=WordModel.objects.get(pk=word_id),
-            user=UserModel.objects.get(pk=user_id),
-        )
-    )
-    knowledge_assessment = knowledge_assessment_obj.knowledge_assessment
-    return knowledge_assessment

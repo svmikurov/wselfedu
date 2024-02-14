@@ -1,10 +1,11 @@
 from django.test import TestCase
 
 from english.models import WordModel, WordsFavoritesModel
-from english.services.words_favorites import (
+from english.services import (
     add_word_to_favorites,
     remove_word_from_favorites,
-    is_word_in_favorites, update_words_favorites_status,
+    is_word_in_favorites,
+    update_word_favorites_status,
 )
 from users.models import UserModel
 
@@ -59,7 +60,7 @@ class TestWordsFavorites(TestCase):
         self.assertTrue(
             WordsFavoritesModel.objects.filter(user=1, word=2).exists()
         )
-        update_words_favorites_status(word_id, user_id, 'remove')
+        update_word_favorites_status(word_id, user_id, 'remove')
         self.assertFalse(
             WordsFavoritesModel.objects.filter(user=1, word=2).exists()
         )

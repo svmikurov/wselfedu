@@ -10,8 +10,8 @@ from django.test import TestCase
 from django.urls import reverse_lazy
 
 from english.models import WordModel
-from english.services.serve_query import (
-    create_lookup_parameters,
+from english.services import (
+    create_lookup_params,
     get_random_query_from_queryset,
     get_words_for_study,
 )
@@ -25,14 +25,6 @@ class TestLookupParametersByPeriod(TestCase):
     Измененное слово должно включаться в выборку слов при фильтрации.
     """
 
-    # periods_choices = {
-    #     1: 'Сегодня',
-    #     2: 'Три дня назад',
-    #     3: 'Неделя назад',
-    #     4: 'Четыре недели назад',
-    #     9: 'Начало не выбрано'
-    #     }
-
     TestCase.maxDiff = None
 
     def setUp(self):
@@ -44,22 +36,22 @@ class TestLookupParametersByPeriod(TestCase):
         # Слово добавлено сегодня (`<class 'english.models.words.WordModel'>`).
         self.word_added_today = WordModel.objects.create(
             words_eng='word today', words_rus='слово сегодня',
-            updated_at=self.day_today,
+            updated_at=self.day_today, word_count='NC',
         )
         # Слово добавлено 3 дня назад.
         self.word_added_3_days_ago = WordModel.objects.create(
             words_eng='word 3 day ago', words_rus='слово 3 дня назад',
-            updated_at=self.day_today - timedelta(days=3),
+            updated_at=self.day_today - timedelta(days=3), word_count='NC',
         )
         # Слово добавлено 3 недели назад
         self.word_added_3_week_ago = WordModel.objects.create(
             words_eng='word 3 weeks ago', words_rus='слово 3 недели назад',
-            updated_at=self.day_today - timedelta(weeks=3),
+            updated_at=self.day_today - timedelta(weeks=3), word_count='NC',
         )
         # Слово добавлено 5 недель назад.
         self.word_added_5_week_ago = WordModel.objects.create(
             words_eng='word 5 weeks ago', words_rus='слово 5 недель назад',
-            updated_at=self.day_today - timedelta(weeks=5),
+            updated_at=self.day_today - timedelta(weeks=5), word_count='NC',
         )
 
         # Дата добавления первого слова (`<class 'datetime.datetime'>`).
@@ -77,11 +69,11 @@ class TestLookupParametersByPeriod(TestCase):
         """
         user_id = 2
         querydict = {
-            'start_period': ['1'],
-            'end_period': ['1'],
-            'assessment': ['studying']
+            'favorites': False, 'category': '0', 'source': '0',
+            'period_start_date': 'DT', 'period_end_date': 'DT',
+            'word_count': ['OW', 'CB', 'NC'], 'knowledge_assessment': ['L'],
         }
-        parameters = create_lookup_parameters(querydict)
+        parameters = create_lookup_params(querydict)
         filtered_words = get_words_for_study(parameters, user_id)
 
         self.assertTrue(filtered_words.contains(self.word_added_today))
@@ -90,9 +82,13 @@ class TestLookupParametersByPeriod(TestCase):
     def test_filter_period_3_days_ago_till_today(self):
         """Тест фильтра слов по периоду "3 дня назад" до "только сегодня".
         """
-        querydict = {'start_period': '3', 'end_period': '1'}
-        parameters = create_lookup_parameters(querydict)
-        filtered_words = WordModel.objects.filter(**parameters)
+        querydict = {
+            'favorites': False, 'category': '0', 'source': '0',
+            'period_start_date': 'D3', 'period_end_date': 'DT',
+            'word_count': [], 'knowledge_assessment': ['L'],
+        }
+        params = create_lookup_params(querydict)
+        filtered_words = get_words_for_study(params)
 
         self.assertTrue(filtered_words.contains(self.word_added_today))
         self.assertTrue(filtered_words.contains(self.word_added_3_days_ago))
@@ -100,9 +96,13 @@ class TestLookupParametersByPeriod(TestCase):
 
     def test_filter_period_4_week_ago_till_1_week_ago(self):
         """Тест фильтра слов по периоду "4 недели назад" до "неделя назад"."""
-        querydict = {'start_period': '4', 'end_period': '3'}
-        parameters = create_lookup_parameters(querydict)
-        filtered_words = WordModel.objects.filter(**parameters)
+        querydict = {
+            'favorites': False, 'category': '0', 'source': '0',
+            'period_start_date': 'W4', 'period_end_date': 'W1',
+            'word_count': [], 'knowledge_assessment': ['L'],
+        }
+        params = create_lookup_params(querydict)
+        filtered_words = get_words_for_study(params)
 
         self.assertTrue(filtered_words.contains(self.word_added_3_week_ago))
         self.assertFalse(filtered_words.contains(self.word_added_3_days_ago))
@@ -110,18 +110,26 @@ class TestLookupParametersByPeriod(TestCase):
 
     def test_filter_period_not_choised_till_1_week_ago(self):
         """Тест фильтра слов по периоду "не выбран" до "неделя назад"."""
-        querydict = {'start_period': '9', 'end_period': '3'}
-        parameters = create_lookup_parameters(querydict)
-        filtered_words = WordModel.objects.filter(**parameters)
+        querydict = {
+            'favorites': False, 'category': '0', 'source': '0',
+            'period_start_date': 'NC', 'period_end_date': 'W1',
+            'word_count': [], 'knowledge_assessment': ['L'],
+        }
+        params = create_lookup_params(querydict)
+        filtered_words = get_words_for_study(params)
 
         self.assertTrue(filtered_words.contains(self.word_added_3_week_ago))
         self.assertFalse(filtered_words.contains(self.word_added_3_days_ago))
 
     def test_filter_period_not_choised_till_today(self):
         """Тест фильтра слов по периоду "не выбран" до "сегодня"."""
-        querydict = {'start_period': '9', 'end_period': '1'}
-        parameters = create_lookup_parameters(querydict)
-        filtered_words = WordModel.objects.filter(**parameters)
+        querydict = {
+            'favorites': False, 'category': '0', 'source': '0',
+            'period_start_date': 'NC', 'period_end_date': 'DT',
+            'word_count': [], 'knowledge_assessment': ['L'],
+        }
+        params = create_lookup_params(querydict)
+        filtered_words = get_words_for_study(params)
 
         self.assertTrue(filtered_words.contains(self.word_added_today)),
         self.assertTrue(filtered_words.contains(self.word_added_5_week_ago))
@@ -137,12 +145,10 @@ class TestLookupParameters(TestCase):
         self.objects = WordModel.objects
         self.user_id = 2
         self.querydict = {
-            'csrfmiddlewaretoken': ['SfNSD...hpwu7soCX'],
-            'words_favorites': ['1'],
-            'category_id': [''],
-            'source_id': [''],
-            'word_count': ['OW', 'CB'],
-            'assessment': ['studying', 'examination']
+            'favorites': True, 'category': 0, 'source': 0,
+            'period_start_date': 'NC', 'period_end_date': 'DT',
+            'word_count': ['OW', 'CB', 'NC'],
+            'knowledge_assessment': ['L', 'E'],
         }
 
         self.begin_date_period = (
@@ -150,7 +156,7 @@ class TestLookupParameters(TestCase):
         )
         # В word_count__in программно добавляется 'NC'.
         self.params = {
-            'favorites__pk': 1,
+            'favorites__pk': 2,
             'word_count__in': ['OW', 'CB', 'NC'],
             'updated_at__range': (
                 self.begin_date_period.strftime(
@@ -158,7 +164,7 @@ class TestLookupParameters(TestCase):
                 datetime.datetime.now(tz=timezone.utc).strftime(
                     '%Y-%m-%d 23:59:59+00:00'),
             ),
-            'knowledge_assessment': [
+            'worduserknowledgerelation__knowledge_assessment__in': [
                 0, 1, 2, 3, 4, 5, 6, 9, 10
             ],
         }
@@ -169,10 +175,11 @@ class TestLookupParameters(TestCase):
     def test_get_word_for_study_by_knowledge_assessment_studying(self):
         """Протестируй фильтрацию слов по knowledge_assessment studying."""
         querydict = {
-            'word_count__in': ['OW', 'CB', 'NC'],
-            'assessment': ['studying'],
+            'favorites': False, 'category': 0, 'source': 0,
+            'period_start_date': 'NC', 'period_end_date': 'DT',
+            'word_count': ['OW', 'CB', 'NC'], 'knowledge_assessment': ['L'],
         }
-        lookup_parameters = create_lookup_parameters(querydict)
+        lookup_parameters = create_lookup_params(querydict)
         words = get_words_for_study(lookup_parameters, self.user_id)
 
         self.assertTrue(words.contains(self.objects.get(id=1)))
@@ -183,10 +190,11 @@ class TestLookupParameters(TestCase):
     def test_get_words_for_study_by_knowledge_assessment_repetition(self):
         """Протестируй фильтрацию слов по knowledge_assessment repetition."""
         querydict = {
-            'word_count__in': ['OW', 'CB', 'NC'],
-            'assessment': ['repetition'],
+            'favorites': False, 'category': 0, 'source': 0,
+            'period_start_date': 'NC', 'period_end_date': 'DT',
+            'word_count': ['OW', 'CB', 'NC'], 'knowledge_assessment': ['R'],
         }
-        lookup_parameters = create_lookup_parameters(querydict)
+        lookup_parameters = create_lookup_params(querydict)
         words = get_words_for_study(lookup_parameters, self.user_id)
 
         self.assertFalse(words.contains(self.objects.get(id=2)))
@@ -197,10 +205,11 @@ class TestLookupParameters(TestCase):
     def test_get_words_for_study_by_knowledge_assessment_examination(self):
         """Протестируй фильтрацию слов по knowledge_assessment examination."""
         querydict = {
-            'word_count__in': ['OW', 'CB', 'NC'],
-            'assessment': ['examination'],
+            'favorites': False, 'category': 0, 'source': 0,
+            'period_start_date': 'NC', 'period_end_date': 'DT',
+            'word_count': ['PS'], 'knowledge_assessment': ['E'],
         }
-        lookup_parameters = create_lookup_parameters(querydict)
+        lookup_parameters = create_lookup_params(querydict, self.user_id)
         words = get_words_for_study(lookup_parameters, self.user_id)
 
         self.assertFalse(words.contains(self.objects.get(id=2)))
@@ -211,16 +220,17 @@ class TestLookupParameters(TestCase):
     def test_get_words_for_study_by_knowledge_assessment_learned(self):
         """Протестируй фильтрацию слов по knowledge_assessment learned."""
         querydict = {
-            'word_count__in': ['OW', 'CB', 'NC'],
-            'assessment': ['learned'],
+            'favorites': False, 'category': 0, 'source': 0,
+            'period_start_date': 'NC', 'period_end_date': 'DT',
+            'word_count': ['OW', 'CB', 'NC'], 'knowledge_assessment': ['L'],
         }
-        lookup_parameters = create_lookup_parameters(querydict)
+        lookup_parameters = create_lookup_params(querydict, self.user_id)
         words = get_words_for_study(lookup_parameters, self.user_id)
 
-        self.assertFalse(words.contains(self.objects.get(id=2)))
+        self.assertTrue(words.contains(self.objects.get(id=2)))
         self.assertFalse(words.contains(self.objects.get(id=3)))
         self.assertFalse(words.contains(self.objects.get(id=4)))
-        self.assertTrue(words.contains(self.objects.get(id=5)))
+        self.assertFalse(words.contains(self.objects.get(id=5)))
 
     def test_get_words_for_study_by_assessment_studying_learned(self):
         pass
@@ -233,26 +243,30 @@ class TestLookupParameters(TestCase):
         """
         new_word = WordModel.objects.create(
             words_eng='new word', words_rus='новое слово',
+            word_count='OW', updated_at='2024-01-14',
         )
         params = {
             'word_count__in': ['OW', 'CB', 'NC'],
             'updated_at__range': (
                 self.begin_date_period.strftime(
-                    '%Y-%m-%d 00:00:00+00:00'),
+                    '%Y-%m-%d 00:00:00+00:00'
+                ),
                 datetime.datetime.now(tz=timezone.utc).strftime(
-                    '%Y-%m-%d 23:59:59+00:00'),
+                    '%Y-%m-%d 23:59:59+00:00'
+                ),
             ),
-            'knowledge_assessment': [
-                0, 1, 2, 3, 4, 5, 6
+            'worduserknowledgerelation__knowledge_assessment__in': [
+                0, 1, 2, 3, 4, 5, 6,
             ]
         }
+
         words = get_words_for_study(params, self.user_id)
         self.assertTrue(words.contains(new_word))
 
     def test_create_lookup_parameters(self):
         """Тест получения из request и переименования параметров поиска в БД.
         """
-        params = create_lookup_parameters(self.querydict)
+        params = create_lookup_params(self.querydict, self.user_id)
         self.assertEqual(self.params, params)
 
     def test_knowledge_assessment_by_users(self):
@@ -265,7 +279,7 @@ class TestLookupParameters(TestCase):
         """
         params = {
             'word_count__in': ['OW', 'CB', 'NC'],
-            'knowledge_assessment': [
+            'worduserknowledgerelation__knowledge_assessment__in': [
                 0, 1, 2, 3, 4, 5, 6
             ]
         }

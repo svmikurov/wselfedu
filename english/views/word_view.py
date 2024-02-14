@@ -33,7 +33,8 @@ class WordListView(
     extra_context = {'title': 'Список слов'}
 
     def get_queryset(self):
-        queryset = super().get_queryset().select_related(
+        queryset = super(WordListView, self).get_queryset(
+        ).select_related(
             'category',
             'source',
         ).order_by('-pk')

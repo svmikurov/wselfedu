@@ -7,9 +7,9 @@ from english.views.categories import (
     CategoryUpdateView,
     CategoryDeleteView,
 )
-from english.views.word_study import (
+from english.views.word_task_view import (
     AnswerWordStudyView,
-    ChooseEnglishWordsStudyView,
+    WordChoiceView,
     QuestionWordStudyView,
     start_study_word_view,
     update_words_favorites_status_view,
@@ -21,7 +21,7 @@ from english.views.sources import (
     SourceUpdateView,
     SourceDeleteView,
 )
-from english.views.words import (
+from english.views.word_view import (
     WordCreateView,
     WordListView,
     WordDetailView,
@@ -37,5 +37,4 @@ from english.views.lessons import (
 )
 from english.views.learn_django import (
     CalendarView,
-    WordLookupParamsView,
 )

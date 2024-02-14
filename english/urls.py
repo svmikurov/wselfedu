@@ -11,11 +11,6 @@ urlpatterns = [
         views.CalendarView.as_view(),
         name='calendar',
     ),
-    path(
-        'new-form',
-        views.WordLookupParamsView.as_view(),
-        name='new_form',
-    ),
     # --======= English chapter =======--
     path(
         # Show list of registrations users.
@@ -30,12 +25,12 @@ urlpatterns = [
         name='users_words',
     ),
     # -- End Account --
-    # --======= Task study words =======--
-    # Отображение критериев для выборки слов на задание.
+    # --======= Task word study =======--
+    # Отображение параметров для выборки слов на задание.
     path(
-        'words-choose/',
-        views.ChooseEnglishWordsStudyView.as_view(),
-        name='words_choose',
+        'words-choice/',
+        views.WordChoiceView.as_view(),
+        name='word_choice',
     ),
     # Сохранение параметров выборки слов для задания.
     path(
@@ -65,32 +60,32 @@ urlpatterns = [
     path(
         'words-favorites-view/<int:word_id>/',
         views.update_words_favorites_status_view,
-        name='words_favorites_view',
+        name='word_favorites_view',
     ),
     # -- End Task study words --
 
-    # --======= Words =======--
+    # --======= Word =======--
     path(
-        'words/list/',
+        'word/list/',
         views.WordListView.as_view(),
         name='word_list',
     ),
     path(
-        'words/create/',
+        'word/create/',
         views.WordCreateView.as_view(),
         name='words_create',
     ),
-    path('words/<int:pk>/detail/',
+    path('word/<int:pk>/detail/',
          views.WordDetailView.as_view(),
          name='words_detail'
          ),
     path(
-        'words/<int:pk>/update/',
+        'word/<int:pk>/update/',
         views.WordUpdateView.as_view(),
         name='words_update',
     ),
     path(
-        'words/<int:pk>/delete/',
+        'word/<int:pk>/delete/',
         views.WordDeleteView.as_view(),
         name='words_delete',
     ),

@@ -1,40 +1,28 @@
-#
-# Данный модуль является частью приложения по изучению английского языка.
-#
-
-"""
-Модуль содержит представления для изучения, повторения, проверки знания
-перевода слов.
-"""
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.decorators.http import require_GET, require_POST
 from django.views.generic import TemplateView
 
-from english.models import (
-    CategoryModel,
-    SourceModel,
-)
+from english.forms import WordChoiceHelperForm
+
 from english.services.serve_request import (
-    get_lookup_parameters,
-    set_lookup_parameters,
+    get_lookup_params,
+    save_lookup_params,
+    set_lookup_params,
 )
-from english.services.words_favorites import (
+from english.services.word_favorites import (
     is_word_in_favorites,
-    update_words_favorites_status,
+    update_word_favorites_status,
 )
-from english.services.words_knowledge_assessment import (
-    get_knowledge_assessment,
-    update_word_knowledge_assessment,
+from english.services.word_knowledge_assessment import (
+    update_word_knowledge_assessment, get_knowledge_assessment,
 )
 from english.tasks.study_words import create_task_study_words
 
-
-TITLE = {'title_name': 'Изучаем слова', 'url_name': 'english:words_choose'}
+TITLE = {'title_name': 'Изучаем слова', 'url_name': 'english:word_choice'}
 """Заголовок страниц упражнения Изучаем слова (`dict`)
 
 Содержит имя заголовка и ссылку на страницу выбора слов для упражнения.
@@ -55,37 +43,54 @@ RESTART_MSG = 'Выберите условия задания'
 """
 
 
-class ChooseEnglishWordsStudyView(TemplateView):
-    """View choosing English words to study."""
+class WordChoiceView(TemplateView):
+    """View choice English words to study."""
 
-    template_name = 'english/tasks/words_choose.html'
-    categories = CategoryModel.objects.all()
-    sources = SourceModel.objects.all()
+    template_name = 'english/tasks/word_choice.html'
+    url = reverse_lazy('english:word_choice')
+    redirect_url = reverse_lazy('english:word_study_question')
 
+    form_choice = WordChoiceHelperForm()
     extra_context = {
         'title': TITLE,
-        'categories': categories,
-        'sources': sources,
-        'message_no_words': MSG_NO_WORDS,
-        'next_url': 'english:words_choose',
+        'form_choice': form_choice,
     }
+
+    def post(self, request, *args, **kwargs):
+        """Сохрани параметры фильтра слов для упражнения.
+
+        Выполнит редирект на формирование задания и отображение вопроса.
+        """
+        lookup_params = set_lookup_params(request)
+        if lookup_params:
+            save_lookup_params(request, lookup_params)
+            return redirect(self.redirect_url)
+        else:
+            return redirect(self.url)
 
 
 @require_GET
 def start_study_word_view(request, *args, **kwargs):
     """Установи параметры выборки слов для упражнения.
 
+    Создаст параметры фильтрации для поиска.
+    Сохранит параметры фильтрации.
     Выполнит редирект на формирование и отображение вопроса из упражнения.
     """
-    set_lookup_parameters(request)
-    return redirect(reverse_lazy('english:word_study_question'))
+    redirect_url = reverse_lazy('english:word_study_question')
+
+    lookup_params = set_lookup_params(request)
+    if lookup_params:
+        save_lookup_params(request, lookup_params)
+
+    return redirect(redirect_url)
 
 
 class QuestionWordStudyView(View):
     """Представление для формирования задания и отображения вопроса."""
 
     template_name = 'english/tasks/word_study.html'
-    params_choice_url = reverse_lazy('english:words_choose')
+    params_choice_url = reverse_lazy('english:word_choice')
 
     def get(self, request, *args, **kwargs):
         """Создай задание и отобрази вопрос пользователю.
@@ -93,7 +98,7 @@ class QuestionWordStudyView(View):
         user_id = request.user.id
 
         try:
-            lookup_params = get_lookup_parameters(request)
+            lookup_params = get_lookup_params(request)
         except AttributeError:
             messages.error(request, RESTART_MSG)
             return redirect(self.params_choice_url)
@@ -127,7 +132,7 @@ class AnswerWordStudyView(View):
     """Представление для отображения ответа."""
 
     template_name = 'english/tasks/word_study.html'
-    params_choice_url = reverse_lazy('english:words_choose')
+    params_choice_url = reverse_lazy('english:word_choice')
 
     def get(self, request, *args, **kwargs):
         """Покажи пользователю перевод слова.
@@ -190,6 +195,6 @@ def update_words_favorites_status_view(request, **kwargs):
     word_id = kwargs['word_id']
     user_id = request.user.pk
 
-    update_words_favorites_status(word_id, user_id, favorites_action)
+    update_word_favorites_status(word_id, user_id, favorites_action)
     # Редирект на формирование нового задания.
     return redirect(reverse_lazy('english:word_study_question'))

@@ -47,7 +47,7 @@
     <div class="=col d-inline">
     {% if user.is_authenticated %}
       <div class="py-2">
-        <form action="{% url 'english:words_favorites_view' task.word_id %}" method="post">
+        <form action="{% url 'english:word_favorites_view' task.word_id %}" method="post">
           {% csrf_token %}
           {% if favorites_status %}
             <button class="btn bg-primary text-white" name="favorites_action" value="remove" style="">Убрать из избранного</button>
