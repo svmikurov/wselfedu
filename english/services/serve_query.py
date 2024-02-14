@@ -118,9 +118,7 @@ def get_words_for_study(lookup_parameters, user_id):
     # параметр поиска по оценке пользователем уровня знания слова.
     params = copy.deepcopy(lookup_parameters)
     assessments = dict()
-    assessments[
-        'knowledge_assessment'
-    ] = params.pop(
+    assessments['knowledge_assessment'] = params.pop(
         'knowledge_assessment', dict()
     )
 
@@ -132,7 +130,7 @@ def get_words_for_study(lookup_parameters, user_id):
         worduserknowledgerelation__knowledge_assessment__in=Subquery(
             WordUserKnowledgeRelation.objects.filter(
                 knowledge_assessment__in=assessments.get(
-                    'knowledge_assessment', []
+                    'knowledge_assessment',
                 )
             ).values('knowledge_assessment'),
         ),

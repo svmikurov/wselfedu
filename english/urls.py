@@ -5,6 +5,17 @@ from english import views
 
 app_name = 'english'
 urlpatterns = [
+    # --======= Django ========--
+    path(
+        'calendar/',
+        views.CalendarView.as_view(),
+        name='calendar',
+    ),
+    path(
+        'new-form',
+        views.WordLookupParamsView.as_view(),
+        name='new_form',
+    ),
     # --======= English chapter =======--
     path(
         # Show list of registrations users.

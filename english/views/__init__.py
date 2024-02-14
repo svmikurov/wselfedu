@@ -35,3 +35,7 @@ from english.views.lessons import (
     LessonUpdateView,
     LessonDeleteView,
 )
+from english.views.learn_django import (
+    CalendarView,
+    WordLookupParamsView,
+)

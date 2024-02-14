@@ -107,3 +107,4 @@ Faker~=21.0.0
 django-debug-toolbar~=4.2.0
 python-dotenv~=1.0.0
 django-filter~=23.5
+django-crispy-forms~=2.1

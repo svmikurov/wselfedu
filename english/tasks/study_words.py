@@ -18,11 +18,11 @@ def shuffle_sequence(sequence):
     return sequence
 
 
-def create_task_study_words(lookup_parameters, user_id):
+def create_task_study_words(lookup_params, user_id):
     """Создай задание пользователю для изучения слов, согласно его фильтрам.
     """
     task_study_word = dict()
-    words = get_words_for_study(lookup_parameters, user_id)
+    words = get_words_for_study(lookup_params, user_id)
     word_count = words.count()
 
     if words:

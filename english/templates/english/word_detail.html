@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
 
 {% block content %}
 <h1>Слово: {{ word.words_eng }}</h1>
@@ -36,4 +39,6 @@
     </tr>
   </tbody>
 </table>
+{% bootstrap_button button_type='submit' button_class='btn-outline-success btn-sm' content="OK"%}
+{% include 'components/back_btn.html' %}
 {% endblock %}

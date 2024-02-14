@@ -93,12 +93,12 @@ class QuestionWordStudyView(View):
         user_id = request.user.id
 
         try:
-            lookup_parameters = get_lookup_parameters()
+            lookup_params = get_lookup_parameters(request)
         except AttributeError:
             messages.error(request, RESTART_MSG)
             return redirect(self.params_choice_url)
         else:
-            task = create_task_study_words(lookup_parameters, user_id)
+            task = create_task_study_words(lookup_params, user_id)
 
         if not task:
             messages.error(request, MSG_NO_WORDS)
