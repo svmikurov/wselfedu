@@ -1,7 +1,18 @@
   <!-- Additional Navigation -->
-  <div class="">
-    <a class="h5 pe-2" href="{% url 'english:word_list' %}">Словарь</a>
-    <a class="h5 pe-2" href="{% url 'english:words_create' %}">Добавить</a>
-    <!-- Link to the Google translater -->
-    <a class="h5" href="https://translate.google.com/?hl=ru&sl=auto&tl=ru&text={{task.word_eng}}&op=translate">Google</a><!-- Ebd Link to the Google translater -->
+  <div class="pb-2">
+    <a href="{% url 'english:word_list' %}"
+       class="btn btn-outline-primary btn-sm"
+       role="button"
+    >Словарь
+    </a>
+    <a href="{% url 'english:words_create' %}"
+       class="btn btn-outline-primary btn-sm"
+       role="button"
+    >Добавить слово
+    </a>
+    <a href="https://translate.google.com/?hl=ru&sl=auto&tl=ru&text={{task.word_eng}}&op=translate"
+       class="btn btn-outline-primary btn-sm"
+       role="button"
+    >Google
+    </a>
   </div><!-- End Additional Navigation -->
