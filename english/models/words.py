@@ -13,19 +13,14 @@ class WordModel(models.Model):
 
     # Количество слов для перевода, может быть: словом, словосочетанием,
     # частью предложения, целым предложением, любым количеством слов.
-    NOT_CHOICE_WORD_COUNT = 'NC'
-    ONE_WORD = 'OW'
-    COMBINATION = 'CB'
-    PART_SENTENCE = 'PS'
-    SENTENCE = 'ST'
-
     WORD_COUNT = [
-        ('NC', 'Любое количество слов'),
-        ('OW', 'Слово'),
-        ('CB', 'Словосочетание'),
-        ('PS', 'Часть предложения'),
-        ('ST', 'Предложение'),
+        ('NC', 'Любое количество слов'),    # not choices
+        ('OW', 'Слово'),                    # one word
+        ('CB', 'Словосочетание'),           # combination
+        ('PS', 'Часть предложения'),        # part sentence
+        ('ST', 'Предложение'),              # sentence
     ]
+    DEFAULT_WORD_COUNT = WORD_COUNT[0][0]
 
     user = models.ForeignKey(
         UserModel,
@@ -35,12 +30,10 @@ class WordModel(models.Model):
     )
     words_eng = models.CharField(
         max_length=75,
-        null=False, blank=False,
         verbose_name='Слово на английском',
     )
     words_rus = models.CharField(
         max_length=75,
-        null=False, blank=False,
         verbose_name='Слово на русском',
     )
     source = models.ForeignKey(
@@ -60,9 +53,8 @@ class WordModel(models.Model):
     word_count = models.CharField(
         max_length=2,
         choices=WORD_COUNT,
-        default=NOT_CHOICE_WORD_COUNT,
+        default=DEFAULT_WORD_COUNT,
         verbose_name='Количество слов',
-        blank=False, null=False,
     )
     lesson = models.ForeignKey(
         LessonModel,
