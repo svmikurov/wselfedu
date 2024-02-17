@@ -21,7 +21,8 @@ from english.views.sources import (
     SourceUpdateView,
     SourceDeleteView,
 )
-from english.views.word_view import (
+from english.views.crud_word_view import (
+    DEFAULT_CATEGORY,
     WordCreateView,
     WordListView,
     WordDetailView,

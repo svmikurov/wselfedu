@@ -18,6 +18,10 @@ from contrib_app.mixins import (
 )
 
 PAGINATE_NUMBER = 20
+DEFAULT_CATEGORY = 'Developer'
+"""Константа значения добавления категории по умолчанию, если пользователем не
+не указана категория.
+"""
 
 
 class WordListView(
@@ -69,12 +73,10 @@ class WordCreateView(
         If form don't contain category instance, set category instance by
         default "category3".
         """
-        default_category_name = 'Developer'
-
         form.instance.user = self.request.user
         if not form.instance.category:
             form.instance.category = CategoryModel.objects.get(
-                name=default_category_name
+                name=DEFAULT_CATEGORY
             )
         return super().form_valid(form)
 
@@ -87,6 +89,9 @@ class WordDetailView(
     model = WordModel
     template_name = 'english/word_detail.html'
     context_object_name = 'word'
+    extra_context = {
+        'title': 'Обзор слова',
+    }
 
 
 class WordUpdateView(
