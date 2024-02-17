@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="">
+
+  <!--======= Header =======-->
+  <div class="h5 ps-2 pb-2">
+    <a class="" href="english:words_create">Добавить слово</a>
+  </div>
+  {% include 'components/card_title.html' %}
+  <!-- End Header -->
+
+  <p>Word = {{ words }}</p>
+
+  <div class="card-body">
+    <!--======= Words Table =======-->
+    <div class="table-responsive">
+      <table class="table table-hover">
+
+        <thead class="align-middle">
+          <tr>
+            <th>ID</th>
+            <th>Слово по-английски</th>
+            <th>Слово по-русски</th>
+            <th>Кол-во слов</th>
+            <th>Самооценка знания</th>
+            <th>Категория</th>
+            <th>Источник</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        {% for word in words %}
+          <tr>
+            <td class="">{{ word.id }}</td>
+            <td>{{ word.words_rus }}</td>
+            <td>{{ word.word_count }}</td>
+            <td>{{ word.worduserknowledgerelation.knowledge_assessment }}</td>
+            <td>{% if word.category %}{{ word.category }}{% endif %}</td>
+            <td>{% if word.source %}{{ word.source }}{% endif %}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+
+      </table>
+      {% include 'components/back_btn.html' %}
+    </div><!-- End Words Table -->
+
+  </div>
+</div>
+{% endblock %}

@@ -5,12 +5,20 @@ from english import views
 
 app_name = 'english'
 urlpatterns = [
-    # --======= Django ========--
+    # --======= Django Calendar ========--
     path(
         'calendar/',
         views.CalendarView.as_view(),
         name='calendar',
     ),
+    # -- End Django Calendar --
+    # --======= SQL =======--
+    path(
+        'word/list-sql/',
+        views.SqlWordListView.as_view(),
+        name='words_list_sql',
+    ),
+    # -- End SQL --
     # --======= English chapter =======--
     path(
         # Show list of registrations users.
