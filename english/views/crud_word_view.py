@@ -63,18 +63,18 @@ class WordCreateView(
     success_message = 'Слово успешно добавлено'
     error_message = 'Ошибка в добавлении слова'
 
-    default_category_name = 'category3'
-
     def form_valid(self, form):
         """Add current user and category instance default to model.
 
         If form don't contain category instance, set category instance by
         default "category3".
         """
+        default_category_name = 'Developer'
+
         form.instance.user = self.request.user
         if not form.instance.category:
             form.instance.category = CategoryModel.objects.get(
-                name=self.default_category_name
+                name=default_category_name
             )
         return super().form_valid(form)
 
