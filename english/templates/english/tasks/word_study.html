@@ -3,17 +3,8 @@
 
 {% block content %}
 <div class="">
-  <!-- Additional Navigation -->
-  <div class="">
-    <a class="h5 pe-2" href="{% url 'english:word_list' %}">Словарь</a>
-    <a class="h5 pe-2" href="{% url 'english:words_create' %}">Добавить</a>
-    <!-- Link to the Google translater -->
-    <a class="h5" href="https://translate.google.com/?hl=ru&sl=auto&tl=ru&text={{task.word_eng}}&op=translate">Google</a><!-- Ebd Link to the Google translater -->
-  </div><!-- End Additional Navigation -->
-
-  <!-- Title -->
+  {% include 'components/additional_word_navigation.html' %}
   {% include 'components/card_title.html' %}
-  <!-- End Title -->
 
   <!-- Display word choices -->
   <div class="">

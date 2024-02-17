@@ -1,52 +1,54 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
 
 {% block content %}
-<h1>Слово: {{ word.words_eng }}</h1>
-<table>
-  <thead>
-    <tr>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Перевод:</td>
-      <td>{{ word.words_rus }}</td>
-    </tr>
-    <tr>
-      <td>Оценка уровня знания:</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Количество слов:</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Является избранным:</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Источник:</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Принадлежит категории:</td>
-      <td></td>
-    </tr>
-  </tbody>
-</table>
+  {% include 'components/additional_word_navigation.html' %}
+  {% include 'components/card_title.html' %}
 
-<!--======= Buttons =======-->
-<div class="pt-1">
-  <a class="btn btn-outline-primary btn-sm m-1"
-     href="{% url 'english:words_update' word.pk %}"
-     role="button"
-     >Изменить слово
-  </a>
-  {% include 'components/back_btn.html' %}
-</div><!-- End Buttons -->
+  <h5>Слово: {{ word.words_eng }}</h5>
+
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Перевод:</td>
+        <td>{{ word.words_rus }}</td>
+      </tr>
+      <tr>
+        <td>Оценка уровня знания:</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Количество слов:</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Является избранным:</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Источник:</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Принадлежит категории:</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!--======= Buttons =======-->
+  <div class="pt-1">
+    <a class="btn btn-outline-primary btn-sm m-1"
+       href="{% url 'english:words_update' word.pk %}"
+       role="button"
+       >Изменить слово
+    </a>
+    {% include 'components/back_btn.html' %}
+  </div><!-- End Buttons -->
 {% endblock %}
