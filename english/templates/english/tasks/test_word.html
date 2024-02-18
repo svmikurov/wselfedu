@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card text-dark bg-light">
+  <div class="card-header">
+    <h1><a href="{% url 'english:home' %}">{{ supertitle }}</a></h1>
+    <h2>{{ title }}</h2>
+  </div>
+
+  <div class="card-body">
+    <h3>Выбери перевод: <mark>{{ random_word.task_word }}</mark></h3>
+
+    <form action="{% url 'english:test' %}" method="post">
+      {% csrf_token %}
+
+      {% for choice in words_for_choice %}
+        <div class="form-check m-3">
+          <input class="form-check-input" id="choice{{ choice.id }}"
+                 type="radio" name="choice" value="{{ choice.id }}">
+          <label for="choice{{ choice.id }}">{{ choice.answer_word }}</label>
+        </div>
+      {% endfor %}
+
+      <div>
+        <button id="reply-button" class="btn btn-primary">{{ btn_name }}</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+{% endblock %}

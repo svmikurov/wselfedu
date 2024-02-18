@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% block content %}
+<form action="{% url 'english:new_form' %}" method="get" class="form">
+  {% csrf_token %}
+
+  {% bootstrap_form form %}
+
+  {% bootstrap_button button_type="submit" content="OK" %}
+  {% bootstrap_button button_type="reset" content="Cancel" %}
+</form>
+{% endblock %}
