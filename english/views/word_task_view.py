@@ -41,14 +41,17 @@ RESTART_MSG = 'Выберите условия задания'
 """Сообщение о необходимости заново установить параметры выбора слова, в случае
 ошибки приложения (`str`).
 """
+CHOICE_PATH = 'english:word_choice'
+QUESTION_PATH = 'english:word_study_question'
+ANSWER_PATH = 'english:word_study_answer'
 
 
 class WordChoiceView(TemplateView):
     """View choice English words to study."""
 
     template_name = 'english/tasks/word_choice.html'
-    url = reverse_lazy('english:word_choice')
-    redirect_url = reverse_lazy('english:word_study_question')
+    url = reverse_lazy(CHOICE_PATH)
+    redirect_url = reverse_lazy(QUESTION_PATH)
 
     form_choice = WordChoiceHelperForm()
     extra_context = {
@@ -77,7 +80,7 @@ def start_study_word_view(request, *args, **kwargs):
     Сохранит параметры фильтрации.
     Выполнит редирект на формирование и отображение вопроса из упражнения.
     """
-    redirect_url = reverse_lazy('english:word_study_question')
+    redirect_url = reverse_lazy(QUESTION_PATH)
 
     lookup_params = set_lookup_params(request)
     if lookup_params:
@@ -90,7 +93,7 @@ class QuestionWordStudyView(View):
     """Представление для формирования задания и отображения вопроса."""
 
     template_name = 'english/tasks/word_study.html'
-    params_choice_url = reverse_lazy('english:word_choice')
+    params_choice_url = reverse_lazy(CHOICE_PATH)
 
     def get(self, request, *args, **kwargs):
         """Создай задание и отобрази вопрос пользователю.
@@ -119,7 +122,7 @@ class QuestionWordStudyView(View):
             'title': TITLE,
             'task': task,
             'timeout': QUESTION_TIMEOUT,
-            'next_url': 'english:word_study_answer',
+            'next_url': ANSWER_PATH,
             'task_status': 'question',
             'knowledge_assessment': knowledge,
             'favorites_status': favorites_status,
@@ -132,7 +135,7 @@ class AnswerWordStudyView(View):
     """Представление для отображения ответа."""
 
     template_name = 'english/tasks/word_study.html'
-    params_choice_url = reverse_lazy('english:word_choice')
+    params_choice_url = reverse_lazy(CHOICE_PATH)
 
     def get(self, request, *args, **kwargs):
         """Покажи пользователю перевод слова.
@@ -153,7 +156,7 @@ class AnswerWordStudyView(View):
             'title': TITLE,
             'task': task,
             'timeout': ANSWER_TIMEOUT,
-            'next_url': 'english:word_study_question',
+            'next_url': QUESTION_PATH,
             'task_status': 'answer',
             'knowledge_assessment': knowledge,
             'favorites_status': favorites_status,
@@ -172,16 +175,18 @@ def update_words_knowledge_assessment_view(request, **kwargs):
        Минимальное значение самооценки равно MIN_KNOWLEDGE_ASSESSMENT,
        максимальное равно MAX_KNOWLEDGE_ASSESSMENT.
     """
-    given_assessment = int(request.POST['knowledge_assessment'])
+    action = request.POST['action']
     word_pk = kwargs['word_id']
     user_pk = request.user.pk
 
-    if given_assessment:
+    if action in {'+1', '-1'}:
         old_assessment = get_knowledge_assessment(word_pk, user_pk)
-        new_assessment = old_assessment + given_assessment
+        new_assessment = old_assessment + int(action)
         update_word_knowledge_assessment(word_pk, user_pk, new_assessment)
+    elif action in {QUESTION_PATH, ANSWER_PATH}:
+        return redirect(action)
 
-    return redirect(reverse_lazy('english:word_study_question'))
+    return redirect(reverse_lazy(QUESTION_PATH))
 
 
 @require_POST
@@ -197,4 +202,4 @@ def update_words_favorites_status_view(request, **kwargs):
 
     update_word_favorites_status(word_id, user_id, favorites_action)
     # Редирект на формирование нового задания.
-    return redirect(reverse_lazy('english:word_study_question'))
+    return redirect(reverse_lazy(QUESTION_PATH))

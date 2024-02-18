@@ -14,20 +14,12 @@
 
   <!-- Buttons user rating of word knowledge -->
   {% if user.is_authenticated %}
-    <div class="pb-2 px-2 row-cols-md-2 row-cols-lg-4">
+    <div class="pb-2 row-cols-md-2 row-cols-lg-4">
       <form action="{% url 'english:knowledge_assessment' task.word_id %}" method="post">
         {% csrf_token %}
-        <div class="row">
-          <button class="col btn d-inline mx-1 bg-primary text-white" name="knowledge_assessment" value="-1" style="height:40px; width:80px">Не знаю</button>
-          <button class="col btn d-inline mx-1 bg-primary text-white" name="knowledge_assessment" value="+1" style="height:40px; width:80px">Знаю</button>
-          <!-- Button "Next" -->
-            {% if task_status == 'question' or task_status == 'start' %}
-              <a class="col btn d-inline mx-1 bg-primary text-white" style="height:40px; width:80px" href="{% url next_url %}">Далее</a>
-            {% else %}
-              <a class="col btn d-inline mx-1 bg-primary text-white" style="height:40px; width:80px" href="{% url next_url %}">Далее</a>
-            {% endif %}
-          <!-- End Button "Next" -->
-        </div>
+          <button class="btn btn-outline-primary btn-sm" name="action" value="-1">Не знаю</button>
+          <button class="btn btn-outline-primary btn-sm" name="action" value="+1">Знаю</button>
+          <button class="btn btn-outline-primary btn-sm" name="action" value="{{ next_url }}">Далее</button>
       </form>
     </div>
   {% endif %}

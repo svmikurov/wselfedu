@@ -30,8 +30,8 @@ class TestWordsKnowledgeAssessment(TestCase):
         self.expected_updated_assessment = 6
         self.new_word_data = {'words_eng': 'test', 'words_rus': 'тест'}
 
-        self.assessment_up = {'knowledge_assessment': '+1'}
-        self.assessment_down = {'knowledge_assessment': '-1'}
+        self.assessment_up = {'action': '+1'}
+        self.assessment_down = {'action': '-1'}
 
         assessment_url = 'english:knowledge_assessment'
         self.min_assessment_url = reverse_lazy(
