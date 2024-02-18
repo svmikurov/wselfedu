@@ -78,11 +78,13 @@ class WordChoiceHelperForm(forms.Form):
     period_start_date = forms.ChoiceField(
         choices=PERIOD_START,
         initial=DEFAULT_START_PERIOD,
+        required=False,
         label='Начало',
     )
     period_end_date = forms.ChoiceField(
         choices=PERIOD_END,
         initial=DEFAULT_END_PERIOD,
+        required=False,
         label='Конец',
     )
     word_count = forms.MultipleChoiceField(
