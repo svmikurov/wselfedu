@@ -15,22 +15,22 @@ from users.models import UserModel
 logger = logging.getLogger()
 
 CREATE_PATH = 'english:words_create'
-"""Word creation URL.
+"""Word creation path name.
 """
 DETAIL_PATH = 'english:words_detail'
-"""Word details URL.
+"""Word details path name.
 """
 UPDATE_PATH = 'english:words_update'
-"""Word update URL.
+"""Word update path name.
 """
 DELETE_PATH = 'english:words_delete'
-"""Delete word URL.
+"""Delete word path name.
 """
 LIST_PATH = 'english:word_list'
-"""Word list URL.
+"""Word list path name.
 """
 NOPERMISSION_PATH = 'home'
-"""Redirect URL if site visitor does not have permission to take action.
+"""Redirect path name if site visitor does not have permission to take action.
 """
 NOPERMISSION_MSG = 'Вы пока не можете делать это'
 """Message for a site visitor about lack of permission to perform an action.
