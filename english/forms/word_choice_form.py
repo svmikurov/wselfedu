@@ -115,10 +115,7 @@ class WordChoiceHelperForm(forms.Form):
                 Column('source', css_class='form-group col-6'),
                 css_class='form-row',
             ),
-            HTML(
-                '''<label class="h6">Период добавления (изменения) слова
-                   </label>'''
-            ),
+            HTML('<label class="h6">Период добавления (изменения)</label>'),
             Row(
                 Column('period_start_date', css_class='form-group col-sm-6'),
                 Column('period_end_date', css_class='form-group col-sm-6'),
