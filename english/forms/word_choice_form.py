@@ -43,13 +43,13 @@ def create_choices_by_model(model: Model):
     choices = []
     queryset = model.objects.all()
 
-    # Создание списка выборов поля формы.
+    # Создание списка выбора значений поля формы.
     for instance in queryset:
         form_value, choice_name = instance.pk, str(instance)
         choice = (form_value, choice_name)
         choices.append(choice)
 
-    # Добавление наименование модели в список выборов поля формы.
+    # Добавление наименование модели в список выбора значений поля формы.
     form_value, model_name = NOT_CHOISED_FORM_VALUE, model._meta.verbose_name
     not_choised = (form_value, model_name)
     choices.append(not_choised)
