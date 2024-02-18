@@ -14,14 +14,16 @@ PERIOD_START = (
     ('D3', 'Три дня назад'),
     ('W1', 'Неделя назад'),
     ('W4', 'Четыре недели назад'),
+    ('NC', 'Не выбран'),
 )
 PERIOD_END = (
     ('DT', 'Сегодня'),
     ('D3', 'Три дня назад'),
     ('W1', 'Неделя назад'),
     ('W4', 'Четыре недели назад'),
-    ('NC', 'Не выбран'),
 )
+DEFAULT_START_PERIOD = 'NC'
+DEFAULT_END_PERIOD = 'DT'
 WORD_COUNT = (
     ('OW', 'Слово'),
     ('CB', 'Словосочетание'),
@@ -75,14 +77,12 @@ class WordChoiceHelperForm(forms.Form):
     )
     period_start_date = forms.ChoiceField(
         choices=PERIOD_START,
-        initial='W1',
-        required=False,
+        initial=DEFAULT_START_PERIOD,
         label='Начало',
     )
     period_end_date = forms.ChoiceField(
         choices=PERIOD_END,
-        initial='DT',
-        required=False,
+        initial=DEFAULT_END_PERIOD,
         label='Конец',
     )
     word_count = forms.MultipleChoiceField(
