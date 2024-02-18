@@ -14,22 +14,22 @@ from users.models import UserModel
 
 logger = logging.getLogger()
 
-CREATE_URL = 'english:words_create'
+CREATE_PATH = 'english:words_create'
 """Word creation URL.
 """
-DETAIL_URL = 'english:words_detail'
+DETAIL_PATH = 'english:words_detail'
 """Word details URL.
 """
-UPDATE_URL = 'english:words_update'
+UPDATE_PATH = 'english:words_update'
 """Word update URL.
 """
-DELETE_URL = 'english:words_delete'
+DELETE_PATH = 'english:words_delete'
 """Delete word URL.
 """
-LIST_URL = 'english:word_list'
+LIST_PATH = 'english:word_list'
 """Word list URL.
 """
-NOPERMISSION_URL = 'home'
+NOPERMISSION_PATH = 'home'
 """Redirect URL if site visitor does not have permission to take action.
 """
 NOPERMISSION_MSG = 'Вы пока не можете делать это'
@@ -56,8 +56,8 @@ class TestCreateWord(TestCase):
         self.word_data = {'words_eng': 'test', 'words_rus': 'тест',
                           'word_count': 'NC'}
         CategoryModel.objects.create(name='Developer')
-        self.url = reverse_lazy(CREATE_URL)
-        self.nopermission_url = reverse_lazy(NOPERMISSION_URL)
+        self.url = reverse_lazy(CREATE_PATH)
+        self.nopermission_url = reverse_lazy(NOPERMISSION_PATH)
 
     def test_get_auth_admin(self):
         """Test create word by admin, GET method page status 200."""
@@ -127,10 +127,10 @@ class TestUpdateWord(TestCase):
             'words_eng': 'test', 'words_rus': 'тест изменения слова',
             'word_count': 'ST',
         }
-        self.url = reverse_lazy(UPDATE_URL)
-        self.word_url = reverse_lazy(UPDATE_URL, kwargs={'pk': self.word.pk})
-        self.success_url = reverse_lazy(LIST_URL)
-        self.nopermission_url = reverse_lazy(NOPERMISSION_URL)
+        self.url = reverse_lazy(UPDATE_PATH)
+        self.word_url = reverse_lazy(UPDATE_PATH, kwargs={'pk': self.word.pk})
+        self.success_url = reverse_lazy(LIST_PATH)
+        self.nopermission_url = reverse_lazy(NOPERMISSION_PATH)
 
     def test_get_update_by_admin(self):
         self.client.force_login(self.admin)
@@ -186,11 +186,11 @@ class TestDeleteWord(TestCase):
         self.deleted_word = WordModel.objects.create(
             words_eng='test', words_rus='тест', word_count='OW',
         )
-        self.url = reverse_lazy(DELETE_URL)
+        self.url = reverse_lazy(DELETE_PATH)
         self.word_url = reverse_lazy(
             'english:words_delete', kwargs={'pk': self.deleted_word.pk},
         )
-        self.success_url = reverse_lazy(LIST_URL)
+        self.success_url = reverse_lazy(LIST_PATH)
 
     def test_get_delete_word_by_admin_user(self):
         """Test delete word by admin, GET method page status."""
@@ -225,7 +225,7 @@ class TestWordListView(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.client = Client()
-        self.url = reverse_lazy(LIST_URL)
+        self.url = reverse_lazy(LIST_PATH)
 
     def test_status_words_list_page(self):
         """Тест статус 200 страницы списка слов."""
