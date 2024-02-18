@@ -3,22 +3,26 @@ from django.urls import path
 from english import views
 
 
-app_name = 'english'
-urlpatterns = [
-    # --======= Django Calendar ========--
+study = [
+    # --======= Calendar ========--
     path(
         'calendar/',
         views.CalendarView.as_view(),
         name='calendar',
     ),
-    # -- End Django Calendar --
+    # -- End Calendar --
     # --======= SQL =======--
     path(
-        'word/list-sql/',
-        views.SqlWordListView.as_view(),
-        name='words_list_sql',
+        'cats/list-sql/',
+        views.SqlCategoriesListView.as_view(),
+        name='cats_list',
     ),
     # -- End SQL --
+]
+
+
+app_name = 'english'
+urlpatterns = [
     # --======= English chapter =======--
     path(
         # Show list of registrations users.
@@ -163,4 +167,4 @@ urlpatterns = [
         views.LessonDeleteView.as_view(),
         name='lesson_delete'
     ),
-]
+] + study

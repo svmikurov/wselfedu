@@ -1,13 +1,25 @@
+# Temp studding views.
+from english.views.crud_categories_sql import (
+    SqlCategoriesListView,
+)
+from english.views.crud_word_sql import (
+    SqlShowUserWordsView,
+)
+from english.views.learn_django import (
+    CalendarView,
+)
+
+# Basic views.
 from english.views.home import (
     HomeEnglishView,
 )
-from english.views.categories import (
+from english.views.crud_categories import (
     CategoryCreateView,
     CategoryListView,
     CategoryUpdateView,
     CategoryDeleteView,
 )
-from english.views.crud_word_view import (
+from english.views.crud_word import (
     DEFAULT_CATEGORY,
     WordCreateView,
     WordListView,
@@ -16,23 +28,17 @@ from english.views.crud_word_view import (
     WordDeleteView,
     ShowUsersWordsView,
 )
-from english.views.learn_django import (
-    CalendarView,
-)
-from english.views.lessons import (
+from english.views.crud_lessons import (
     LessonsListView,
     LessonCreateView,
     LessonUpdateView,
     LessonDeleteView,
 )
-from english.views.sources import (
+from english.views.crud_sources import (
     SourceCreateView,
     SourceListView,
     SourceUpdateView,
     SourceDeleteView,
-)
-from english.views.word_list_sql import (
-    SqlWordListView,
 )
 from english.views.word_task_view import (
     AnswerWordStudyView,
