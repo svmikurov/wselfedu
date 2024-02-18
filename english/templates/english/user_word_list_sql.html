@@ -1,0 +1,42 @@
+{% extends 'base.html'  %}
+
+{% block content %}
+{% include 'components/card_title.html' %}
+
+<div>
+  <table class="table table-striped table-hover table-info">
+    <thead class="table-primary">
+      <tr>
+        <th class="align-middle text-center">ID</th>
+        <th class="align-middle text-center">Слово по-английски</th>
+        <th class="align-middle text-center">Слово по-русски</th>
+        <th class="align-middle text-center">Уровень знания</th>
+        <th class="align-middle text-center">Источник</th>
+        <th class="align-middle text-center">Дата добавления слова</th>
+        <th class="align-middle text-center">Убрать из избранного</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for word in words %}
+        <tr>
+          <td class="table-primary">{{ word.pk }}</td>
+          <td class="align-middle">{{ word.words_eng }}</td>
+          <td class="align-middle">{{ word.words_rus }}</td>
+          <td class="align-middle">{% if word.assessment %}{{ word.assessment }}{% endif %}</td>
+          <td class="align-middle">{% if word.source %}{{ word.source }}{% endif %}</td>
+          <td class="align-middle">{{ word.created_at|date:"d.m.Y" }}</td>
+          <td class="align-middle">
+            <form action="{% url 'english:word_favorites_view' word.pk %}" method="post">
+              {% csrf_token %}
+              {% if word.favorites %}
+                <button type="submit" class="btn btn-link" name="favorites_action">Удалить</button>
+              {% else %}
+                <button type="submit" class="btn btn-link" name="favorites_action">Добавить</button>
+              {% endif %}
+            </form>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
