@@ -32,6 +32,9 @@ LIST_URL = 'english:word_list'
 NOPERMISSION_URL = 'home'
 """Redirect URL if site visitor does not have permission to take action.
 """
+NOPERMISSION_MSG = 'Вы пока не можете делать это'
+"""Message for a site visitor about lack of permission to perform an action.
+"""
 DEFAULT_CATEGORY = 'Developer'
 """Automatically added category value if no category is selected.
 """
@@ -84,28 +87,28 @@ class TestCreateWord(TestCase):
         self.client.force_login(self.fake_user)
         response = self.client.get(self.url)
         self.assertRedirects(response, self.nopermission_url, 302)
-        flash_message_test(response, 'Вы пока не можете делать это')
+        flash_message_test(response, NOPERMISSION_MSG)
 
     def test_post_create_word_by_user(self):
         """Test create word by logged-in user, POST method page status 302."""
         self.client.force_login(self.fake_user)
         response = self.client.post(self.url, self.word_data)
         self.assertRedirects(response, self.nopermission_url, 302)
-        flash_message_test(response, 'Вы пока не можете делать это')
+        flash_message_test(response, NOPERMISSION_MSG)
 
     def test_get_create_word_by_anonymous(self):
         """Test create word by not logged-in user, GET method page status 302.
         """
         response = self.client.get(self.url)
         self.assertRedirects(response, self.nopermission_url, 302)
-        flash_message_test(response, 'Вы пока не можете делать это')
+        flash_message_test(response, NOPERMISSION_MSG)
 
     def test_post_create_word_by_anonymous(self):
         """Test create word by not logged-in user, POST method page status 302.
         """
         response = self.client.post(self.url, self.word_data)
         self.assertRedirects(response, self.nopermission_url, 302)
-        flash_message_test(response, 'Вы пока не можете делать это')
+        flash_message_test(response, NOPERMISSION_MSG)
 
 
 class TestUpdateWord(TestCase):
@@ -126,7 +129,8 @@ class TestUpdateWord(TestCase):
         }
         self.url = reverse_lazy(UPDATE_URL)
         self.word_url = reverse_lazy(UPDATE_URL, kwargs={'pk': self.word.pk})
-        self.success_url = reverse_lazy('english:word_list')
+        self.success_url = reverse_lazy(LIST_URL)
+        self.nopermission_url = reverse_lazy(NOPERMISSION_URL)
 
     def test_get_update_by_admin(self):
         self.client.force_login(self.admin)
@@ -140,16 +144,31 @@ class TestUpdateWord(TestCase):
         flash_message_test(response, 'Слово успешно изменено')
 
     def test_get_update_word_by_user(self):
-        ...
+        """Test update word by logged-in user, GET method page status 200."""
+        self.client.force_login(self.user)
+        response = self.client.get(self.word_url)
+        self.assertRedirects(response, self.nopermission_url, 302)
+        flash_message_test(response, NOPERMISSION_MSG)
 
     def test_post_update_word_by_user(self):
-        ...
+        """Test update word by logged-in user, POST method page status 200."""
+        self.client.force_login(self.user)
+        response = self.client.post(self.word_url, self.updated_word)
+        self.assertRedirects(response, self.nopermission_url, 302)
+        flash_message_test(response, NOPERMISSION_MSG)
 
     def test_get_update_word_by_anonymous(self):
-        ...
+        """Test update word by not logged-in user, GET method page status 200.
+        """
+        response = self.client.get(self.word_url)
+        self.assertRedirects(response, self.nopermission_url, 302)
+        flash_message_test(response, NOPERMISSION_MSG)
 
     def test_post_update_word_by_anonymous(self):
-        ...
+        """Test update word by logged-in user, POST method page status 200."""
+        response = self.client.post(self.word_url, self.updated_word)
+        self.assertRedirects(response, self.nopermission_url, 302)
+        flash_message_test(response, NOPERMISSION_MSG)
 
 
 class TestDeleteWord(TestCase):
