@@ -16,9 +16,9 @@
     {% if user.is_authenticated %}
       <form action="{% url 'english:knowledge_assessment' task.word_id %}" method="post">
         {% csrf_token %}
-          <button class="btn btn-outline-primary btn-sm" name="action" value="-1" style="width:80px">Не знаю</button>
-          <button class="btn btn-outline-primary btn-sm mx-1" name="action" value="+1" style="width:80px">Знаю</button>
-          <button class="btn btn-outline-primary btn-sm" name="action" value="{{ next_url }}" style="width:80px">Далее</button>
+          <button class="btn btn-outline-primary btn-sm" name="action" value="-1" style="width:110px">Не знаю</button>
+          <button class="btn btn-outline-primary btn-sm mx-2" name="action" value="+1" style="width:110px">Знаю</button>
+          <button class="btn btn-outline-primary btn-sm" name="action" value="{{ next_url }}" style="width:110px">Далее</button>
       </form>
     {% endif %}
     </div><!-- End Buttons user rating of word knowledge -->
@@ -29,9 +29,9 @@
       <form action="{% url 'english:word_favorites_view' task.word_id %}" method="post">
         {% csrf_token %}
         {% if favorites_status %}
-          <button class="btn btn-outline-primary btn-sm" name="favorites_action" value="remove" style="width:168px">Убрать из избранного</button>
+          <button class="btn btn-outline-primary btn-sm text-nowrap" name="favorites_action" value="remove">Убрать из избранного</button>
         {% else %}
-          <button class="btn btn-outline-primary btn-sm" name="favorites_action" value="add" style="width:168px">Добавить в избранное</button>
+          <button class="btn btn-outline-primary btn-sm text-nowrap"name="favorites_action" value="add">Добавить в избранное</button>
         {% endif %}
       </form>
     {% endif %}
