@@ -13,19 +13,9 @@ study = [
     # -- End Calendar --
     # --======= SQL =======--
     path(
-        'cat-list/sql/',
-        views.SqlCategoriesListView.as_view(),
-        name='cats_list',
-    ),
-    path(
         'user/word-list/',
-        views.ShowUserWordsView.as_view(),
-        name='user_words',
-    ),
-    path(
-        'user/word-list/sql',
-        views.SqlShowUserWordsView.as_view(),
-        name='user_words',
+        views.UsersWordsView.as_view(),
+        name='users_words',
     ),
     # -- End SQL --
 ]

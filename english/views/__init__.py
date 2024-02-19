@@ -1,10 +1,6 @@
 # Temp studding views.
-from english.views.crud_categories_sql import (
-    SqlCategoriesListView,
-)
-from english.views.crud_word_sql import (
-    ShowUserWordsView,
-    SqlShowUserWordsView,
+from english.views.account_views import (
+    UsersWordsView,
 )
 from english.views.learn_django import (
     CalendarView,
