@@ -12,12 +12,6 @@ study = [
     ),
     # -- End Calendar --
     # --======= SQL =======--
-    path(
-        'user/word-list/',
-        views.UsersWordsView.as_view(),
-        name='users_words',
-    ),
-    # -- End SQL --
 ]
 
 
@@ -32,8 +26,8 @@ urlpatterns = [
     ),
     # --======= Account ======--
     path(
-        'words-users/<int:pk>/',
-        views.ShowUsersWordsView.as_view(),
+        'user/<int:pk>/word-list/',
+        views.UsersWordsView.as_view(),
         name='users_words',
     ),
     # -- End Account --
