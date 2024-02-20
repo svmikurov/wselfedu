@@ -2,7 +2,6 @@ from django.db import models
 from django.utils import timezone
 
 from english.models.categories import CategoryModel
-from english.models.labels import LabelModel
 from english.models.lessons import LessonModel
 from english.models.sources import SourceModel
 from users.models import UserModel
@@ -62,13 +61,6 @@ class WordModel(models.Model):
         null=True, blank=True,
         verbose_name='Тема урока',
     )
-    labels = models.ManyToManyField(
-        LabelModel,
-        through='WordLabelRelation',
-        blank=True,
-        verbose_name='Метки',
-        related_name='labels',
-    )
     # A field that displays how the user rates his knowledge of this word
     # Оценка пользователем уровня знания слова
     knowledge_assessment = models.ManyToManyField(
@@ -97,11 +89,6 @@ class WordModel(models.Model):
 
     def __str__(self):
         return self.words_eng
-
-
-class WordLabelRelation(models.Model):
-    word = models.ForeignKey(WordModel, on_delete=models.CASCADE)
-    label = models.ForeignKey(LabelModel, on_delete=models.CASCADE)
 
 
 class WordUserKnowledgeRelation(models.Model):
