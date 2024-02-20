@@ -25,12 +25,6 @@ from english.views.crud_word import (
     WordDeleteView,
     ShowUsersWordsView,
 )
-from english.views.crud_lessons import (
-    LessonsListView,
-    LessonCreateView,
-    LessonUpdateView,
-    LessonDeleteView,
-)
 from english.views.crud_sources import (
     SourceCreateView,
     SourceListView,

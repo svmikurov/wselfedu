@@ -2,7 +2,6 @@ from django.db import models
 from django.utils import timezone
 
 from english.models.categories import CategoryModel
-from english.models.lessons import LessonModel
 from english.models.sources import SourceModel
 from users.models import UserModel
 
@@ -54,12 +53,6 @@ class WordModel(models.Model):
         choices=WORD_COUNT,
         default=DEFAULT_WORD_COUNT,
         verbose_name='Количество слов',
-    )
-    lesson = models.ForeignKey(
-        LessonModel,
-        on_delete=models.PROTECT,
-        null=True, blank=True,
-        verbose_name='Тема урока',
     )
     # A field that displays how the user rates his knowledge of this word
     # Оценка пользователем уровня знания слова
