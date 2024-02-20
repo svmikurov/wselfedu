@@ -199,7 +199,18 @@ def update_words_favorites_status_view(request, **kwargs):
     favorites_action = request.POST.get('favorites_action')
     word_id = kwargs['word_id']
     user_id = request.user.pk
+    request_from_page = kwargs['from_page']
+    redirect_url = 'english:home'
 
     update_word_favorites_status(word_id, user_id, favorites_action)
-    # Редирект на формирование нового задания.
-    return redirect(reverse_lazy(QUESTION_PATH))
+
+    if request_from_page == 'user_list':
+        redirect_url = reverse_lazy(
+            'english:users_words',
+            kwargs={'pk': user_id},
+        )
+    elif request_from_page == 'word_study':
+        # Редирект на формирование нового задания.
+        redirect_url = reverse_lazy(QUESTION_PATH)
+
+    return redirect(redirect_url)

@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 
-{% load django_bootstrap5 %}
-
 {% block content %}
 <div class="">
 
   <!--======= Header =======-->
-  <div class="h5 ps-2 pb-2">
-    <a class="" href="english:words_create">Добавить слово</a>
+  <div class="pb-2">
+    <a href="{% url 'english:words_create' %}"
+       class="btn btn-outline-dark btn-sm"
+       role="button"
+    >Добавить слово
+    </a>
   </div>
   {% include 'components/card_title.html' %}
   <!-- End Header -->
@@ -16,9 +18,7 @@
     {% include 'components/words_filter.html' %}
 
     <!--======= Words Table =======-->
-    <div class="py-3">
-      {% include 'components/pagination.html' %}
-    </div>
+    <div class="py-3">{% include 'components/pagination.html' %}</div>
     <div class="table-responsive">
       <table class="table table-hover">
 
@@ -38,9 +38,7 @@
         {% for word in words %}
           <tr>
             <td class="">{{ word.pk }}</td>
-            <td>
-              <a href="{% url 'english:words_detail' word.pk %}">{{ word.words_eng }}</a>
-            </td>
+            <td><a href="{% url 'english:words_detail' word.pk %}">{{ word.words_eng }}</a></td>
             <td>{{ word.words_rus }}</td>
             <td>{{ word.word_count }}</td>
             <td>{{ word.worduserknowledgerelation.knowledge_assessment }}</td>

@@ -26,7 +26,7 @@
   <!-- Button word favorites status change -->
   <div class="">
     {% if user.is_authenticated %}
-      <form action="{% url 'english:word_favorites_view' task.word_id %}" method="post">
+      <form action="{% url 'english:word_favorites_view' task.word_id 'word_study' %}" method="post">
         {% csrf_token %}
         {% if favorites_status %}
           <button class="btn btn-outline-primary btn-sm text-nowrap" name="favorites_action" value="remove">Убрать из избранного</button>

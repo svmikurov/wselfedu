@@ -1,40 +1,52 @@
 {% extends 'base.html'  %}
 
 {% block content %}
-<div>
-  <table class="table table-striped table-hover table-info">
-    <thead class="table-primary">
+<div class="pb-2">
+  <a href="{% url 'english:words_create' %}"
+     class="btn btn-outline-dark btn-sm"
+     role="button"
+  >Добавить слово
+  </a>
+</div>
+
+{% include 'components/card_title.html' %}
+
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead class="align-middle">
       <tr>
-        <th class="align-middle text-center">ID</th>
-        <th class="align-middle text-center">Слово по-английски</th>
-        <th class="align-middle text-center">Слово по-русски</th>
-        <th class="align-middle text-center">Уровень знания</th>
-        <th class="align-middle text-center">Источник</th>
-        <th class="align-middle text-center">Дата добавления слова</th>
-        <th class="align-middle text-center">Убрать из избранного</th>
+        <th>ID</th>
+        <th>Слово по-английски</th>
+        <th>Слово по-русски</th>
+        <th>Уровень знания</th>
+        <th>Источник</th>
+        <th>Дата добавления (изменения) слова</th>
+        <th>Избранные слова</th>
       </tr>
     </thead>
     <tbody>
       {% for word in words %}
         <tr>
-          <td class="table-primary">{{ word.pk }}</td>
-          <td class="align-middle">{{ word.words_eng }}</td>
+          <td class="text-table-primary">{{ word.pk }}</td>
+          <td><a href="{% url 'english:words_detail' word.pk %}">{{ word.words_eng }}</a></td>
           <td class="align-middle">{{ word.words_rus }}</td>
-          <td class="align-middle">{% if word.assessment %}{{ word.assessment }}{% endif %}</td>
+          <td class="text-center align-middle">{% if word.assessment %}{{ word.assessment }}{% endif %}</td>
           <td class="align-middle">{% if word.source %}{{ word.source }}{% endif %}</td>
-          <td class="align-middle">{{ word.created_at }}</td>
+          <td class="text-center align-middle">{{ word.updated_at|date:"d.m.Y" }}</td>
           <td class="align-middle">
-            <form action="{% url 'english:word_favorites_view' word.pk %}" method="post">
+            <form action="{% url 'english:word_favorites_view' word.pk 'user_list' %}" method="post">
               {% csrf_token %}
-              {% if word.favorites %}
-                <button type="submit" class="btn btn-link" name="favorites_action">Удалить</button>
+              {% if word.favorite %}
+                <button type="submit" class="btn btn-link" name="favorites_action" value="remove">Удалить</button>
               {% else %}
-                <button type="submit" class="btn btn-link" name="favorites_action">Добавить</button>
+                <button type="submit" class="btn btn-link" name="favorites_action" value="add">Добавить</button>
               {% endif %}
             </form>
+          </td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
 </div>
+{% include 'components/back_btn.html' %}
 {% endblock %}

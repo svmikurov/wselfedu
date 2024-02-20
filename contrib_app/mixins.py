@@ -41,23 +41,13 @@ class CheckUserForOwnershipAccountMixin(UserPassesTestMixin):
 class CheckUserPkForOwnershipAccountMixin(UserPassesTestMixin):
     """Check if the user has owner permission on account."""
 
-    def authorship_check(self):
-        if not self.request.user.is_authenticated:
-            return False
-
-        current_user = self.request.user.id
+    def check(self):
         url_kwargs = self.request.resolver_match.captured_kwargs
-        specific_user = url_kwargs.get('pk')
-        if not specific_user:
-            specific_user = url_kwargs.get('id')
-
-        if current_user != specific_user:
-            return False
-        elif current_user == specific_user:
+        if self.request.user.id == url_kwargs.get('pk'):
             return True
 
     def get_test_func(self):
-        return self.authorship_check
+        return self.check
 
 
 class AccountOwnershipMixin(

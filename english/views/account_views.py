@@ -13,7 +13,7 @@ class UsersWordsView(
 ):
     """Users word list view."""
 
-    template_name = 'english/user_word_list_sql.html'
+    template_name = 'english/user_word_list.html'
     model = WordModel
     context_object_name = 'words'
 
@@ -25,8 +25,7 @@ class UsersWordsView(
             'knowledge_assessment',
             'favorites',
         ).filter(
-            # !!!!! выведет значение любого пользователя
-            pk=F('worduserknowledgerelation__word_id')
+            user_id=self.request.user.pk
         ).annotate(
             assessment=F('worduserknowledgerelation__knowledge_assessment')
         ).annotate(
@@ -39,5 +38,5 @@ class UsersWordsView(
         return queryset
 
     extra_context = {
-        'title': 'Мной изучаемые слова',
+        'title': 'Изучаемые слова',
     }

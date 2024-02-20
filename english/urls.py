@@ -64,7 +64,7 @@ urlpatterns = [
     ),
     # Изменение статуса избранного слова.
     path(
-        'words-favorites-view/<int:word_id>/',
+        'words-favorites-view/<int:word_id>/<str:from_page>/',
         views.update_words_favorites_status_view,
         name='word_favorites_view',
     ),
