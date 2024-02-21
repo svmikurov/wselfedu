@@ -243,7 +243,7 @@ class TestLookupParameters(TestCase):
         """
         new_word = WordModel.objects.create(
             words_eng='new word', words_rus='новое слово',
-            word_count='OW', updated_at='2024-01-14',
+            word_count='OW', updated_at='2024-01-14 04:35:37+00:00',
         )
         params = {
             'word_count__in': ['OW', 'CB', 'NC'],
