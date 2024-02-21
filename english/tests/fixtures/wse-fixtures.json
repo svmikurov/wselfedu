@@ -103,7 +103,6 @@
     "source": 2,
     "category": 2,
     "word_count": "NC",
-    "lesson": null,
     "created_at": "2024-01-11T15:00:05Z",
     "updated_at": "2024-01-11T15:00:05Z"
   }
@@ -118,7 +117,6 @@
     "source": 2,
     "category": 2,
     "word_count": "OW",
-    "lesson": null,
     "created_at": "2024-01-11T15:00:49Z",
     "updated_at": "2024-01-11T15:00:49Z"
   }
@@ -133,7 +131,6 @@
     "source": 2,
     "category": 2,
     "word_count": "CB",
-    "lesson": null,
     "created_at": "2024-01-12T15:12:31Z",
     "updated_at": "2024-01-12T15:12:31Z"
   }
@@ -148,7 +145,6 @@
     "source": 2,
     "category": 2,
     "word_count": "PS",
-    "lesson": null,
     "created_at": "2024-01-12T15:13:06Z",
     "updated_at": "2024-01-12T15:13:06Z"
   }
@@ -163,7 +159,6 @@
     "source": 2,
     "category": 3,
     "word_count": "ST",
-    "lesson": null,
     "created_at": "2024-01-25T04:58:56.021Z",
     "updated_at": "2024-01-25T04:58:56.021Z"
   }
@@ -178,7 +173,6 @@
     "source": 2,
     "category": 2,
     "word_count": "OW",
-    "lesson": null,
     "created_at": "2024-01-26T00:00:00Z",
     "updated_at": "2024-01-26T00:00:00Z"
   }
