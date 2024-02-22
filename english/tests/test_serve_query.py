@@ -28,6 +28,7 @@ class TestLookupParametersByPeriod(TestCase):
     TestCase.maxDiff = None
 
     def setUp(self):
+        self.user_id = 2
         # Сегодняшняя дата (`<class 'datetime.datetime'>`).
         self.day_today = datetime.datetime.now(tz=timezone.utc)
 
@@ -35,23 +36,31 @@ class TestLookupParametersByPeriod(TestCase):
 
         # Слово добавлено сегодня (`<class 'english.models.words.WordModel'>`).
         self.word_added_today = WordModel.objects.create(
-            words_eng='word today', words_rus='слово сегодня',
-            updated_at=self.day_today, word_count='NC',
+            words_eng='word today',
+            words_rus='слово сегодня',
+            word_count='NC',
+            created_at=self.day_today,
         )
         # Слово добавлено 3 дня назад.
         self.word_added_3_days_ago = WordModel.objects.create(
-            words_eng='word 3 day ago', words_rus='слово 3 дня назад',
-            updated_at=self.day_today - timedelta(days=3), word_count='NC',
+            words_eng='word 3 day ago',
+            words_rus='слово 3 дня назад',
+            word_count='NC',
+            created_at=self.day_today - timedelta(days=3),
         )
         # Слово добавлено 3 недели назад
         self.word_added_3_week_ago = WordModel.objects.create(
-            words_eng='word 3 weeks ago', words_rus='слово 3 недели назад',
-            updated_at=self.day_today - timedelta(weeks=3), word_count='NC',
+            words_eng='word 3 weeks ago',
+            words_rus='слово 3 недели назад',
+            word_count='NC',
+            created_at=self.day_today - timedelta(weeks=3),
         )
         # Слово добавлено 5 недель назад.
         self.word_added_5_week_ago = WordModel.objects.create(
-            words_eng='word 5 weeks ago', words_rus='слово 5 недель назад',
-            updated_at=self.day_today - timedelta(weeks=5), word_count='NC',
+            words_eng='word 5 weeks ago',
+            words_rus='слово 5 недель назад',
+            word_count='NC',
+            created_at=self.day_today - timedelta(weeks=5),
         )
 
         # Дата добавления первого слова (`<class 'datetime.datetime'>`).
@@ -67,14 +76,13 @@ class TestLookupParametersByPeriod(TestCase):
     def test_filter_period_only_today(self):
         """Тест фильтра слов по периоду "только сегодня".
         """
-        user_id = 2
         querydict = {
             'favorites': False, 'category': '0', 'source': '0',
             'period_start_date': 'DT', 'period_end_date': 'DT',
             'word_count': ['OW', 'CB', 'NC'], 'knowledge_assessment': ['L'],
         }
-        parameters = create_lookup_params(querydict)
-        filtered_words = get_words_for_study(parameters, user_id)
+        params = create_lookup_params(querydict)
+        filtered_words = get_words_for_study(params, self.user_id)
 
         self.assertTrue(filtered_words.contains(self.word_added_today))
         self.assertFalse(filtered_words.contains(self.word_added_3_days_ago))
@@ -158,7 +166,7 @@ class TestLookupParameters(TestCase):
         self.params = {
             'favorites__pk': 2,
             'word_count__in': ['OW', 'CB', 'NC'],
-            'updated_at__range': (
+            'created_at__range': (
                 self.begin_date_period.strftime(
                     '%Y-%m-%d 00:00:00+00:00'),
                 datetime.datetime.now(tz=timezone.utc).strftime(
@@ -247,7 +255,7 @@ class TestLookupParameters(TestCase):
         )
         params = {
             'word_count__in': ['OW', 'CB', 'NC'],
-            'updated_at__range': (
+            'created_at__range': (
                 self.begin_date_period.strftime(
                     '%Y-%m-%d 00:00:00+00:00'
                 ),

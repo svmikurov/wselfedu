@@ -50,7 +50,7 @@ class TestStudyWordView(TestCase):
         )
         self.lookup_params = {
             'word_count__in': ['OW', 'CB', 'NC'],
-            'updated_at__range': (
+            'created_at__range': (
                 self.begin_date_period.strftime(
                     '%Y-%m-%d 00:00:00+00:00'),
                 datetime.datetime.now(tz=timezone.utc).strftime(
