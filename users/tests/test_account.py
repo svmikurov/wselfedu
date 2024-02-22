@@ -37,12 +37,13 @@ class UserDetailTest(TestCase):
         self.message_no_permission = 'Так не получится!'
 
     def test_get(self):
-        """ Тест статуса личного кабинета """
+        """Test account page status 200."""
         self.client.force_login(self.fake_user)
         response: TemplateResponse = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
     def test_get_not_owner(self):
+        """Test access to the account only by the owner."""
         response = self.client.get(self.url)
         self.assertRedirects(response, self.redirect_no_permission, 302)
         flash_message_test(response, self.message_no_permission)
