@@ -20,6 +20,12 @@ test-coverage:
 	poetry run coverage run --source="" manage.py test
 	poetry run coverage xml
 
+test-playwright:
+	pytest english/tests/tests_playwright
+
+test-playwright-headed:
+	pytest english/tests/tests_playwright --headed
+
 coverage:
 	coverage run --source='.' ./manage.py test .
 	coverage report
