@@ -23,7 +23,7 @@
         {% endif %}<!-- End For authorized users -->
 
         <!-- Chapters -->
-        <a href="{% url 'english:home' %}" class="nav-link" >Английский язык</a>
+        <a id="english-nav" href="{% url 'english:home' %}" class="nav-link" >Английский язык</a>
 
         <!-- Authentication -->
         {% if user.is_authenticated %}
