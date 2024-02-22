@@ -24,8 +24,8 @@ def get_date_value(form_value: str) -> date:
     """
     day_today = datetime.datetime.now(tz=timezone.utc)
     # Определение начала периода, по дате добавления первого слова.
-    begin_date_period = WordModel.objects.order_by('updated_at').first(
-    ).updated_at
+    begin_date_period = WordModel.objects.order_by('created_at').first(
+    ).created_at
 
     if form_value == 'DT':
         model_date = day_today
@@ -75,7 +75,7 @@ def create_lookup_params(form_data: dict, user_id=None) -> dict:
     # Фильтр по периоду добавления (изменения) слова.
     period_start_date = get_date_value(form_data['period_start_date'])
     period_end_date = get_date_value(form_data['period_end_date'])
-    lookup_params['updated_at__range'] = (
+    lookup_params['created_at__range'] = (
         period_start_date.strftime('%Y-%m-%d 00:00:00+00:00'),
         period_end_date.strftime('%Y-%m-%d 23:59:59+00:00'),
     )
