@@ -21,10 +21,10 @@ test-coverage:
 	poetry run coverage xml
 
 test-playwright:
-	pytest english/tests/tests_playwright
+	pytest english/tests/playwright
 
 test-playwright-headed:
-	pytest english/tests/tests_playwright --headed
+	pytest english/tests/playwright --headed
 
 coverage:
 	coverage run --source='.' ./manage.py test .
