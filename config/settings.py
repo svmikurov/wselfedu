@@ -104,7 +104,14 @@ if os.getenv('DEFAULT_DB') == 'PostgreSQL':
             'PORT': '',
         }
     }
-elif os.getenv('DEFAULT_DB') == 'fixtures':
+elif os.getenv('DEFAULT_DB') == 'db-wse-beget':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db-wse-beget.sqlite3',
+        }
+    }
+elif BRANCH_NAME == 'fixtures':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
