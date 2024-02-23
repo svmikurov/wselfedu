@@ -1,17 +1,14 @@
 """
-Test home page not logged in site visitor.
+Test home page not logged in site visitor and logged-in user.
 """
 
 from playwright.sync_api import Page, expect
 
+from english.tests.playwright.pw_framework import is_role_visible
+
 HOME_URL = 'http://127.0.0.1:8000/'
 """Home page URL.
 """
-
-
-def is_role_visible(page: Page, role: str, name: str):
-    """Test if there is an element on the page with a certain text."""
-    expect(page.get_by_role(role=role, name=name)).to_be_visible()
 
 
 def get_page_status(page: Page):
