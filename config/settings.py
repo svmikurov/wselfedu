@@ -102,25 +102,25 @@ if os.getenv('DEFAULT_DB') == 'PostgreSQL':
             'PORT': '',
         }
     }
-elif os.getenv('DEFAULT_DB') == 'Fixtures':
+elif os.getenv('DEFAULT_DB') == 'fixtures':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db-wse-fixtures.sqlite3',
         }
     }
-elif os.getenv('DEFAULT_DB') == 'db-wse-dev':
+elif os.getenv('DEFAULT_DB') == 'dev':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db-wse-dev.sqlite3',
         }
     }
-else:
+elif os.getenv('DEFAULT_DB') == 'main':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db-wse.sqlite3',
+            'NAME': BASE_DIR / 'db-wse-main.sqlite3',
         }
     }
 # End Database
