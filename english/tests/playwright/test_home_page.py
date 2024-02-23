@@ -34,6 +34,7 @@ def test_nome_page_body(page: Page):
     """Тест кнопки перехода на упражнение Изучаем слова."""
     page.goto(HOME_URL)
 
+    expect(page.get_by_text('Домашняя страница')).to_be_visible()
     is_role_visible(page, 'button', 'Упражнение "Изучаем слова"')
     is_role_visible(page, 'button', 'Добавить слово в словарь')
 

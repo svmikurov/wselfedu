@@ -52,7 +52,7 @@ class WordCreateView(
     CreateView,
 ):
     form_class = WordForm
-    template_name = 'form.html'
+    template_name = 'english/add_word.html'
     success_url = reverse_lazy('english:words_create')
 
     additional_user_navigation = {

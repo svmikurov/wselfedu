@@ -1,8 +1,6 @@
 <!-- Title -->
 {% if title.title_name %}
-  <div class="pb-2">
-    <a class="card-title h3 ps-3 text-decoration-none" href="{% url title.url_name %}">{{ title.title_name }}</a>
-  </div>
+  <a class="card-title h3 ps-3 text-decoration-none" href="{% url title.url_name %}">{{ title.title_name }}</a>
 {% else %}
   <h4 class="card-title h3 ps-3 pb-3 text-decoration-none">{{ title }}</h4>
 {% endif %}
