@@ -3,9 +3,9 @@
 
 {% block content %}
 <!--======== User Login Content =======-->
-<div class="">
-  {% include 'components/card_title.html' %}
-  <form method="post">
+{% include 'components/card_title.html' %}
+<div class="row row-cols-1 cols-sm-2 row-cols-md-3 row-cols-lg-4">
+  <form class ="" method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
     <button type="submit" class="btn btn-outline-success btn-sm">Войти</button>
