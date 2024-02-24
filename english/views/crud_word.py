@@ -17,11 +17,20 @@ from contrib_app.mixins import (
     UserPassesTestAdminMixin,
 )
 
-PAGINATE_NUMBER = 20
-DEFAULT_CATEGORY = 'Developer'
+LIST_WORD_PATH_NAME = 'english:word_list'
+CREATE_WORD_PATH_NAME = 'english:words_create'
+
+LIST_WORD_TEMPLATE_NAME = 'english/word_list.html'
+USER_LIST_WORD_TEMPLATE_NAME = 'english/user_word_list.html'
+FORM_WORD_TEMPLATE_NAME = 'english/word_form.html'
+DETAIL_WORD_TEMPLATE_NAME = 'english/word_detail.html'
+DELETE_WORD_TEMPLATE_NAME = 'delete.html'
+
+DEFAULT_WORD_CATEGORY = 'Developer'
 """Константа значения добавления категории по умолчанию, если пользователем не
 не указана категория.
 """
+PAGINATE_NUMBER = 20
 
 
 class WordListView(
@@ -29,7 +38,7 @@ class WordListView(
 ):
     """View a word list page."""
 
-    template_name = 'english/word_list.html'
+    template_name = LIST_WORD_TEMPLATE_NAME
     model = WordModel
     context_object_name = 'words'
     filterset_class = WordsFilter
@@ -52,11 +61,11 @@ class WordCreateView(
     CreateView,
 ):
     form_class = WordForm
-    template_name = 'english/add_word.html'
-    success_url = reverse_lazy('english:words_create')
+    template_name = FORM_WORD_TEMPLATE_NAME
+    success_url = reverse_lazy(CREATE_WORD_PATH_NAME)
 
     additional_user_navigation = {
-        'Словарь': 'english:word_list'
+        'Словарь': LIST_WORD_TEMPLATE_NAME
     }
     extra_context = {
         'title': 'Добавить слово',
@@ -76,7 +85,7 @@ class WordCreateView(
         form.instance.user = self.request.user
         if not form.instance.category:
             form.instance.category = CategoryModel.objects.get(
-                name=DEFAULT_CATEGORY
+                name=DEFAULT_WORD_CATEGORY
             )
         return super().form_valid(form)
 
@@ -87,7 +96,7 @@ class WordDetailView(
     DetailView,
 ):
     model = WordModel
-    template_name = 'english/word_detail.html'
+    template_name = DETAIL_WORD_TEMPLATE_NAME
     context_object_name = 'word'
     extra_context = {
         'title': 'Обзор слова',
@@ -102,8 +111,8 @@ class WordUpdateView(
 ):
     model = WordModel
     form_class = WordForm
-    template_name = 'form.html'
-    success_url = reverse_lazy('english:word_list')
+    template_name = FORM_WORD_TEMPLATE_NAME
+    success_url = reverse_lazy(LIST_WORD_PATH_NAME)
     extra_context = {
         'title': 'Изменить слово',
         'btn_name': 'Изменить',
@@ -122,8 +131,8 @@ class WordDeleteView(
     DeleteView,
 ):
     model = WordModel
-    template_name = 'delete.html'
-    success_url = reverse_lazy('english:word_list')
+    template_name = DELETE_WORD_TEMPLATE_NAME
+    success_url = reverse_lazy(LIST_WORD_PATH_NAME)
     extra_context = {
         'title': 'Удаление слова',
         'btn_name': 'Удалить',
@@ -132,7 +141,7 @@ class WordDeleteView(
 
 class ShowUsersWordsView(FilterView):
     model = WordModel
-    template_name = 'english/user_word_list.html'
+    template_name = USER_LIST_WORD_TEMPLATE_NAME
     paginate_by = PAGINATE_NUMBER
 
     def get_context_data(self, **kwargs):

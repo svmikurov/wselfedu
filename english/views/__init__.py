@@ -17,7 +17,7 @@ from english.views.crud_categories import (
     CategoryDeleteView,
 )
 from english.views.crud_word import (
-    DEFAULT_CATEGORY,
+    DEFAULT_WORD_CATEGORY,
     WordCreateView,
     WordListView,
     WordDetailView,
