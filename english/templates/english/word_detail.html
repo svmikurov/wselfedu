@@ -2,9 +2,22 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-  {% include 'components/additional_word_navigation.html' %}
-  {% include 'components/card_title.html' %}
+<!--======= Additional navigation =======-->
+<div class="pb-2">
+  <a href="{% url 'english:word_list' %}" class="btn btn-outline-dark btn-sm" role="button"
+    >Словарь
+  </a>
+  <a href="{% url 'english:words_create' %}" class="btn btn-outline-dark btn-sm" role="button"
+    >Добавить слово
+  </a>
+  <a href="https://translate.google.com/?hl=ru&sl=auto&tl=ru&text={{word.words_eng}}&op=translate" class="btn btn-outline-dark btn-sm" role="button"
+    >Google
+  </a>
+</div><!-- End Additional Navigation -->
 
+<div class="">{% include 'components/card_title.html' %}</div>
+
+  <!--======= Word List Table =======-->
   <h5>Слово: {{ word.words_eng }}</h5>
 
   <table>
@@ -40,7 +53,7 @@
         <td></td>
       </tr>
     </tbody>
-  </table>
+  </table><!-- End Word List Table -->
 
   <!--======= Buttons =======-->
   <div class="pt-1">

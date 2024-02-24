@@ -113,6 +113,7 @@ class WordUpdateView(
     form_class = WordForm
     template_name = FORM_WORD_TEMPLATE_NAME
     success_url = reverse_lazy(LIST_WORD_PATH_NAME)
+    context_object_name = 'word'
     extra_context = {
         'title': 'Изменить слово',
         'btn_name': 'Изменить',
