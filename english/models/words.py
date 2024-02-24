@@ -94,6 +94,7 @@ class WordUserKnowledgeRelation(models.Model):
     )
 
     class Meta:
+        unique_together = [['word', 'user']]
         verbose_name = 'Оценка пользователем знания слова'
         verbose_name_plural = 'Оценки пользователем знания слова'
 
