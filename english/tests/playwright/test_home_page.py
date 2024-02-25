@@ -1,7 +1,8 @@
 """
 Test home page not logged in site visitor and logged-in user.
 
-Run:
+Run
+---
     $ pytest -v english/tests/playwright
 """
 from playwright.sync_api import Page, expect
@@ -26,7 +27,7 @@ def test_home_page_navbar(page: Page, live_server):
 
 
 def test_nome_page_body(page: Page, live_server):
-    """Test 'Упражнение "Изучаем слова"' button."""
+    """Test Упражнение Изучаем слова button."""
     page.goto(live_server.url)
 
     expect(page.get_by_text('Домашняя страница')).to_be_visible()
