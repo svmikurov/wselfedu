@@ -26,8 +26,18 @@ notebook = "6.5.6"
 django-debug-toolbar = "^4.2.0"
 pytest-cov = "^4.1.0"
 pytest-playwright = "^0.4.4"
-django-pytest = "^0.2.0"
+pytest-django = "^4.8.0"
 
+#[build-system]
+#requires = ["poetry-core"]
+#build-backend = "poetry.core.masonry.api"
+# Managing your project with virtualenv, pip and editable mode
+# https://pytest-django.readthedocs.io/en/latest/managing_python_path.html#managing-your-project-with-virtualenv-pip-and-editable-mode
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools>=61.0.0",]
+build-backend = "setuptools.build_meta"
+
+# Configuring Django settings
+# https://pytest-django.readthedocs.io/en/latest/configuring_django.html#configuring-django-settings
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"

@@ -5,13 +5,14 @@ and saves it to file.
 Reusing signed in state.
 https://playwright.dev/python/docs/auth#reusing-signed-in-state
 
-Run:
+Run for get signed-in state:
+    make start                  # need the server running
     pytest english/tests/playwright/save_storage_state.py
 
-Reuse:
+Reuse the signed-in state:
+    ...
     context = browser.new_context(storage_state="state.json")
 """
-
 from playwright.sync_api import sync_playwright
 
 AUTH_URL = 'http://127.0.0.1:8000/users/login/'

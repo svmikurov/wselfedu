@@ -20,8 +20,11 @@ test-coverage:
 	poetry run coverage run --source="" manage.py test
 	poetry run coverage xml
 
+pytest:
+	pytest -v english/tests/playwright_pytest/test_home_page_mark.py --runplaywright
+
 test-playwright:
-	pytest english/tests/playwright
+	pytest -v english/tests/playwright
 
 test-playwright-headed:
 	pytest english/tests/playwright --headed
@@ -31,7 +34,7 @@ coverage:
 	coverage report
 	coverage html
 
-check: lint test
+check: lint test test-playwright
 
 shell:
 	@$(MANAGE) shell_plus --ipython
