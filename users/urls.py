@@ -29,17 +29,17 @@ urlpatterns = [
     ),  # <!-- End Auth users -->
     # <!--======== Users account editions =======-->
     path(
-        '<pk>/account/',
+        '<int:pk>/account/',
         views.UserDetailView.as_view(template_name='users/account.html'),
         name='detail',
     ),
     path(
-        '<pk>/update/',
+        '<int:pk>/update/',
         views.UserUpdateView.as_view(template_name='form.html'),
         name='update',
     ),
     path(
-        '<pk>/delete/',
+        '<int:pk>/delete/',
         views.UserDeleteView.as_view(template_name='delete.html'),
         name='delete',
     ),
