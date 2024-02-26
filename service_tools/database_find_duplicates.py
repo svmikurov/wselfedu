@@ -2,11 +2,11 @@
 Find duplicate values in a SQL table.
 
 Run:
-    python3 -m database_queries
+    python3 -m database_find_duplicates
 """
 import sqlite3
 
-DB_PATH = '../db-wse-main.sqlite3'
+DB_PATH = '../db-wse-dev.sqlite3'
 
 
 def find_duplicate_values(db):
@@ -27,6 +27,8 @@ def find_duplicate_values(db):
 
     for index, value in enumerate(duplications):
         print(f'{index}) {value}')
+
+    print('finish')
 
 
 if __name__ == '__main__':
