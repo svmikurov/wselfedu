@@ -111,7 +111,7 @@ elif os.getenv('DEFAULT_DB') == 'db-wse-beget':
             'NAME': BASE_DIR / 'db-wse-beget.sqlite3',
         }
     }
-elif BRANCH_NAME == 'fixtures':
+elif os.getenv('DEFAULT_DB') == 'fixtures':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
