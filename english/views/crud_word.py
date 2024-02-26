@@ -80,7 +80,7 @@ class WordCreateView(
         """Add current user and category instance default to model.
 
         If form don't contain category instance, set category instance by
-        default "category3".
+        DEFAULT_WORD_CATEGORY.
         """
         form.instance.user = self.request.user
         if not form.instance.category:
