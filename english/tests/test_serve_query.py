@@ -16,6 +16,7 @@ from english.services import (
     get_words_for_study,
 )
 from english.tasks.study_words import shuffle_sequence
+from users.models import UserModel
 
 
 class TestLookupParametersByPeriod(TestCase):
@@ -25,10 +26,13 @@ class TestLookupParametersByPeriod(TestCase):
     Измененное слово должно включаться в выборку слов при фильтрации.
     """
 
+    fixtures = ['english/tests/fixtures/wse-fixtures.json']
+
     TestCase.maxDiff = None
 
     def setUp(self):
         self.user_id = 2
+        user = UserModel.objects.get(pk=self.user_id)
         # Сегодняшняя дата (`<class 'datetime.datetime'>`).
         self.day_today = datetime.datetime.now(tz=timezone.utc)
 
@@ -36,6 +40,7 @@ class TestLookupParametersByPeriod(TestCase):
 
         # Слово добавлено сегодня (`<class 'english.models.words.WordModel'>`).
         self.word_added_today = WordModel.objects.create(
+            user=user,
             words_eng='word today',
             words_rus='слово сегодня',
             word_count='NC',
@@ -43,6 +48,7 @@ class TestLookupParametersByPeriod(TestCase):
         )
         # Слово добавлено 3 дня назад.
         self.word_added_3_days_ago = WordModel.objects.create(
+            user=user,
             words_eng='word 3 day ago',
             words_rus='слово 3 дня назад',
             word_count='NC',
@@ -50,6 +56,7 @@ class TestLookupParametersByPeriod(TestCase):
         )
         # Слово добавлено 3 недели назад
         self.word_added_3_week_ago = WordModel.objects.create(
+            user=user,
             words_eng='word 3 weeks ago',
             words_rus='слово 3 недели назад',
             word_count='NC',
@@ -57,6 +64,7 @@ class TestLookupParametersByPeriod(TestCase):
         )
         # Слово добавлено 5 недель назад.
         self.word_added_5_week_ago = WordModel.objects.create(
+            user=user,
             words_eng='word 5 weeks ago',
             words_rus='слово 5 недель назад',
             word_count='NC',
@@ -152,6 +160,7 @@ class TestLookupParameters(TestCase):
     def setUp(self):
         self.objects = WordModel.objects
         self.user_id = 2
+        self.user = UserModel.objects.get(pk=self.user_id)
         self.querydict = {
             'favorites': True, 'category': 0, 'source': 0,
             'period_start_date': 'NC', 'period_end_date': 'DT',
@@ -250,8 +259,11 @@ class TestLookupParameters(TestCase):
         """Тест включить в фильтр слова, еще не имеющие оценку уровня знания.
         """
         new_word = WordModel.objects.create(
-            words_eng='new word', words_rus='новое слово',
-            word_count='OW', updated_at='2024-01-14 04:35:37+00:00',
+            user=self.user,
+            words_eng='new word',
+            words_rus='новое слово',
+            word_count='OW',
+            updated_at='2024-01-14 04:35:37+00:00',
         )
         params = {
             'word_count__in': ['OW', 'CB', 'NC'],

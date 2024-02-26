@@ -121,7 +121,9 @@ class TestUpdateWord(TestCase):
             username=fake_admin_name,
         )
         self.word = WordModel.objects.create(
-            words_eng='test', words_rus='тест', word_count='NC',
+            user=self.user,
+            words_eng='test',
+            words_rus='тест',
         )
         self.updated_word = {
             'words_eng': 'test', 'words_rus': 'тест изменения слова',
@@ -181,10 +183,16 @@ class TestDeleteWord(TestCase):
             username=admin_name,
         )
         self.another_word = WordModel.objects.create(
-            words_eng='another', words_rus='другое', word_count='OW',
+            user=self.admin_user,
+            words_eng='another',
+            words_rus='другое',
+            word_count='OW',
         )
         self.deleted_word = WordModel.objects.create(
-            words_eng='test', words_rus='тест', word_count='OW',
+            user=self.admin_user,
+            words_eng='test',
+            words_rus='тест',
+            word_count='OW',
         )
         self.url = reverse_lazy(DELETE_PATH)
         self.word_url = reverse_lazy(

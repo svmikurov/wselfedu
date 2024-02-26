@@ -28,7 +28,11 @@ class TestWordsKnowledgeAssessment(TestCase):
         self.word_max_assessment = WordModel.objects.get(pk=5)     # 11
         self.word_middle_assessment = WordModel.objects.get(pk=3)  # 7
         self.expected_updated_assessment = 6
-        self.new_word_data = {'words_eng': 'test', 'words_rus': 'тест'}
+        self.new_word_data = {
+            'user': UserModel.objects.get(pk=1),
+            'words_eng': 'test',
+            'words_rus': 'тест',
+        }
 
         self.assessment_up = {'action': '+1'}
         self.assessment_down = {'action': '-1'}
