@@ -1,22 +1,21 @@
 {% extends 'base.html' %}
 
+{% block title %}
+  {% if title.title_name %}{{ title.title_name }}{% else %}{{ title }}{% endif %}
+{% endblock %}
+
 {% block content %}
 <!--======= Account Content =======-->
 <div>
   {% include 'components/card_title.html' %}
 
-  <!-- Links for superuser -->
   <div class="py-2">
     {% if user.is_superuser %}
       <a href="{% url 'users:list' %}">Список других пользователей</a>
     {% endif %}
   </div>
-  <!-- Links for superuser -->
 
-  <!-- Links to user data -->
-  <div class="py-2">
-    <a class="" href="{% url 'english:users_words' user.pk %}">К списку изучаемых слов</a>
-  </div><!-- End Links to user data -->
+  <div class="py-2"><a class="" href="{% url 'english:users_words' user.pk %}">К списку изучаемых слов</a></div>
 
   <!-- Update / Delete User -->
   <div class="pt-3">
