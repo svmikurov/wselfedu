@@ -58,6 +58,7 @@ class TestCreateWord(TestCase):
         CategoryModel.objects.create(name='Developer')
         self.url = reverse_lazy(CREATE_PATH)
         self.nopermission_url = reverse_lazy(NOPERMISSION_PATH)
+        self.msg_anonymous = 'Вам необходимо авторизоваться'
 
     def test_get_auth_admin(self):
         """Test create word by admin, GET method page status 200."""
@@ -86,29 +87,44 @@ class TestCreateWord(TestCase):
         """Test create word by logged-in user, GET method page status 302."""
         self.client.force_login(self.fake_user)
         response = self.client.get(self.url)
-        self.assertRedirects(response, self.nopermission_url, 302)
-        flash_message_test(response, NOPERMISSION_MSG)
+        self.assertEqual(response.status_code, 200)
 
     def test_post_create_word_by_user(self):
         """Test create word by logged-in user, POST method page status 302."""
         self.client.force_login(self.fake_user)
         response = self.client.post(self.url, self.word_data)
-        self.assertRedirects(response, self.nopermission_url, 302)
-        flash_message_test(response, NOPERMISSION_MSG)
+        self.assertTrue(WordModel.objects.filter(
+            words_eng=self.word_data['words_eng']
+        ).exists())
+        self.assertRedirects(response, self.url, 302)
+        flash_message_test(response, 'Слово успешно добавлено')
 
     def test_get_create_word_by_anonymous(self):
         """Test create word by not logged-in user, GET method page status 302.
         """
         response = self.client.get(self.url)
-        self.assertRedirects(response, self.nopermission_url, 302)
-        flash_message_test(response, NOPERMISSION_MSG)
+        self.assertEqual(response.status_code, 200)
 
     def test_post_create_word_by_anonymous(self):
         """Test create word by not logged-in user, POST method page status 302.
         """
         response = self.client.post(self.url, self.word_data)
-        self.assertRedirects(response, self.nopermission_url, 302)
-        flash_message_test(response, NOPERMISSION_MSG)
+        self.client.post(self.url, self.word_data)
+        self.assertFalse(WordModel.objects.filter(
+            words_eng=self.word_data['words_eng']
+        ).exists())
+        self.assertRedirects(response, self.url, 302)
+        flash_message_test(response, self.msg_anonymous)
+
+    def test_add_default_values(self):
+        """Test add default category and user to word model."""
+        self.client.force_login(self.fake_user)
+        self.client.post(self.url, self.word_data)
+        added_word = WordModel.objects.get(
+            words_eng=self.word_data['words_eng']
+        )
+        assert added_word.category.name == DEFAULT_CATEGORY
+        assert added_word.user.username == self.fake_user.username
 
 
 class TestUpdateWord(TestCase):
