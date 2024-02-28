@@ -8,7 +8,7 @@ https://playwright.dev/python/docs/auth#reusing-signed-in-state
 
 Run for get signed-in state:
     $ pytest english/tests/playwright/test_storage_state.py --liveserver 127.0.0.1:8000
-
+[page_status.md](page_status.md)
 Reuse the signed-in state:
     ...
     context = browser.new_context(storage_state="state.json")
