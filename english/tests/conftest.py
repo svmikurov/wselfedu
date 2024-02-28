@@ -24,7 +24,7 @@ TEST_PASSWORD = os.getenv('TEST_PASSWORD')
 
 
 # https://pytest-django.readthedocs.io/en/latest/database.html#django-db-modify-db-settings
-def django_db_modify_db_settings():
+def django_db_modify_db_settings() -> None:
     """Run tests with db-wse-pytest.sqlite3 date base.
 
     Allows to avoid overwriting the date base used in development.
@@ -38,14 +38,15 @@ def django_db_modify_db_settings():
 # https://pytest-django.readthedocs.io/en/latest/database.html#populate-the-test-database-if-you-don-t-use-transactional-or-live-server
 # https://pytest-django.readthedocs.io/en/latest/database.html#populate-the-test-database-if-you-use-transactional-or-live-server
 @pytest.fixture(scope='function')
-def django_db_setup(django_db_setup, django_db_blocker):
+def django_db_setup(django_db_setup, django_db_blocker) -> None:
     """Populate the test database from fixtures."""
     with django_db_blocker.unblock():
         call_command('loaddata', FIXTURE_PATH)
 
 
 @pytest.fixture(scope='function')
-def auth_home_page(page: Page, live_server):
+def auth_home_page(page: Page, live_server) -> Page:
+    """Return page with logged-in user."""
     page.goto(urljoin(live_server.url, AUTH_PATH))
     # fill form
     page.get_by_placeholder('Имя пользователя').fill(TEST_USER_NAME)
@@ -55,7 +56,8 @@ def auth_home_page(page: Page, live_server):
     return page
 
 
-@pytest.mark.browser_context_args(storage_state=STATE_PATH)
-def test_state(page: Page):
-    page.goto(BASE_URL)
-    expect(page.get_by_role('link', name='ВыЙтИ')).to_be_visible()
+@pytest.fixture(scope='function')
+def test_page(page: Page, live_server) -> Page:
+    """Return page on started server."""
+    page.goto(live_server.url)
+    return page
