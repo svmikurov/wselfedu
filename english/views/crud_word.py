@@ -1,3 +1,5 @@
+from django.shortcuts import redirect
+from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
@@ -56,7 +58,6 @@ class WordListView(
 
 class WordCreateView(
     HandleNoPermissionMixin,
-    UserPassesTestAdminMixin,
     AddMessageToFormSubmissionMixin,
     CreateView,
 ):
@@ -75,14 +76,27 @@ class WordCreateView(
 
     success_message = 'Слово успешно добавлено'
     error_message = 'Ошибка в добавлении слова'
+    msg_anonymous = 'Вам необходимо авторизоваться'
 
     def form_valid(self, form):
         """Add current user and category instance default to model.
 
+        Check user authentication. If site visitor is not authenticated,
+        redirect him to form create word and display him message about
+        restriction of permissions.
+        This behavior is only intended to demonstrate the application.
+
         If form don't contain category instance, set category instance by
         DEFAULT_WORD_CATEGORY.
         """
+        # redirect not auth site visitor
+        if not self.request.user.is_authenticated:
+            messages.error(self.request, self.msg_anonymous)
+            return redirect(reverse_lazy(CREATE_WORD_PATH_NAME))
+
+        # add user
         form.instance.user = self.request.user
+        # add category
         if not form.instance.category:
             form.instance.category = CategoryModel.objects.get(
                 name=DEFAULT_WORD_CATEGORY
