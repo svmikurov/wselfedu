@@ -1,6 +1,7 @@
 .idea/
 .ipynb_checkpoints/
 .venv/
+.auth/
 __pycache__/
 dev_local/
 draft/
