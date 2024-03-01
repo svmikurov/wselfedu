@@ -1,25 +1,31 @@
 """
-Test actions and views for anonymous.
+Test home page for anonymous.
 """
 from urllib.parse import urljoin
 
-from playwright.sync_api import Page, expect
+import pytest
+from playwright.sync_api import Page, expect, Response
 
 
-def test_home_page_status(page: Page, live_server):
+@pytest.fixture
+def go_to_home(page: Page, live_server):
+    host = live_server.url
+    url = urljoin(host, '/')
+    return page.goto(url)
+
+
+def test_home_page_status(go_to_home: Response):
     """Test home page status for anonymous."""
-    response = page.request.get(live_server.url)
-    expect(response).to_be_ok()
-    assert response.ok
+    assert go_to_home.ok
 
 
-def test_home_page_title(test_page: Page):
-    """Test home page content for anonymous."""
-    expect(test_page).to_have_title('WSE: Домашняя страница')
+def test_home_page_title(page: Page, go_to_home: Page):
+    """Test home page title for anonymous."""
+    expect(page).to_have_title('WSE: Домашняя страница')
 
 
 def test_home_page_navbar(page: Page, live_server):
-    """Test home page content for anonymous."""
+    """Test navbar for anonymous."""
     host = live_server.url
     locators = (
         ('WSE', '/'),
@@ -34,13 +40,13 @@ def test_home_page_navbar(page: Page, live_server):
         expect(page).to_have_url(urljoin(host, loc[1]))
 
 
-def test_home_page_content(test_page: Page):
+def test_home_page_content(go_to_home: Page, page: Page):
     """Test home page content for anonymous."""
-    home_url = test_page.url
+    url = go_to_home.url
 
-    test_page.get_by_role('button', name='Упражнение \"Изучаем слова\"').click()
-    expect(test_page).to_have_title('Изучаем слова')
+    page.get_by_role('button', name='Упражнение \"Изучаем слова\"').click()
+    expect(page).to_have_title('Изучаем слова')
 
-    test_page.goto(home_url)
-    test_page.get_by_role('button', name='Добавить слово в словарь').click()
-    expect(test_page).to_have_title('Добавить слово')
+    page.goto(url)
+    page.get_by_role('button', name='Добавить слово в словарь').click()
+    expect(page).to_have_title('Добавить слово')

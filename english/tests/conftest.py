@@ -4,7 +4,8 @@ from urllib.parse import urljoin
 import pytest
 from django.core.management import call_command
 from dotenv import load_dotenv
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page, expect, sync_playwright, \
+    APIRequestContext, BrowserContext
 
 from config import settings
 
@@ -25,7 +26,7 @@ TEST_PASSWORD = os.getenv('TEST_PASSWORD')
 
 # https://pytest-django.readthedocs.io/en/latest/database.html#django-db-modify-db-settings
 def django_db_modify_db_settings() -> None:
-    """Run tests with db-wse-pytest.sqlite3 date base.
+    """Run tests with TEST_DB_NAME date base.
 
     Allows to avoid overwriting the date base used in development.
     """
@@ -38,8 +39,13 @@ def django_db_modify_db_settings() -> None:
 # https://pytest-django.readthedocs.io/en/latest/database.html#populate-the-test-database-if-you-don-t-use-transactional-or-live-server
 # https://pytest-django.readthedocs.io/en/latest/database.html#populate-the-test-database-if-you-use-transactional-or-live-server
 @pytest.fixture(scope='function')
-def django_db_setup(django_db_setup, django_db_blocker) -> None:
-    """Populate the test database from fixtures."""
+def django_db_setup(django_db_setup, django_db_blocker):
+    """Load the Django fixture FIXTURE_PATH.
+
+    Override django_db_setup fixture.
+
+    Mark tests with the @pytest.mark.django_db().
+    """
     with django_db_blocker.unblock():
         call_command('loaddata', FIXTURE_PATH)
 
@@ -57,7 +63,29 @@ def auth_home_page(page: Page, live_server) -> Page:
 
 
 @pytest.fixture(scope='function')
+def auth_context(auth_home_page) -> BrowserContext:
+    """Return page context with logged-in user."""
+    return auth_home_page.context
+
+
+@pytest.fixture(scope='function')
 def test_page(page: Page, live_server) -> Page:
-    """Return page on started server."""
+    """Return page with started server."""
     page.goto(live_server.url)
     return page
+
+
+# https://earthly.dev/blog/playwright-python-api-testing/
+@pytest.fixture()
+def api_request_context(live_server) -> APIRequestContext:
+    """Create a new request context.
+
+    Returns:
+        APIRequestContext
+    """
+    with sync_playwright() as playwright:
+        api_request_context: APIRequestContext = playwright.request.new_context(
+            base_url=live_server.url
+        )
+        yield api_request_context
+        api_request_context.dispose()

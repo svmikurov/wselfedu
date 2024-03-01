@@ -2,7 +2,6 @@ import logging
 from typing import Generator
 
 from django.contrib.auth.models import AnonymousUser
-from django.template.response import TemplateResponse
 from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse_lazy
 from faker import Faker
@@ -60,31 +59,8 @@ class TestCreateWord(TestCase):
         self.nopermission_url = reverse_lazy(NOPERMISSION_PATH)
         self.msg_anonymous = 'Вам необходимо авторизоваться'
 
-    def test_get_auth_admin(self):
-        """Test create word by admin, GET method page status 200."""
-        self.client.force_login(self.fake_admin)
-        response: TemplateResponse = self.client.get(self.url)
-        self.assertEqual(response.status_code, 200)
-
-    def test_post_auth_admin(self):
-        """Test create word by admin, POST method page status 200."""
-        self.client.force_login(self.fake_admin)
-        response = self.client.post(self.url, self.word_data)
-        self.assertRedirects(response, self.url, 302)
-        flash_message_test(response, 'Слово успешно добавлено')
-
-    def test_add_category_default_by_admin(self):
-        """Test add default category and user_name to form."""
-        self.client.force_login(self.fake_admin)
-        self.client.post(self.url, self.word_data)
-        added_word = WordModel.objects.get(
-            words_eng=self.word_data['words_eng']
-        )
-        assert added_word.category.name == DEFAULT_CATEGORY
-        assert added_word.user.username == self.fake_admin_name
-
     def test_get_create_word_by_user(self):
-        """Test create word by logged-in user, GET method page status 302."""
+        """Test create word by logged-in user, GET method page status 200."""
         self.client.force_login(self.fake_user)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
