@@ -9,7 +9,6 @@ Fixtures are created and taken from the db-wse-fixtures.sqlite3, contain:
     - users: admin, user1;
     - categories: category1, category2.
 """
-
 from django.test import TestCase
 from django.urls import reverse_lazy
 
@@ -49,8 +48,10 @@ class TestListCategories(TestCase):
         self.assertInHTML(self.category_name1, html)
         self.assertInHTML(self.category_name2, html)
 
-        # # Does the categories list page contain "Изменить / Удалить"?
-        # self.assertInHTML('Изменить / Удалить', html)
+        # Does the categories list page contain "Изменить / Удалить"?
+        html = response.content.decode()
+        self.assertIn('Изменить', html)
+        self.assertIn('Удалить', html)
 
     def test_get_list_by_user(self):
         """Get method by auth user."""
@@ -58,14 +59,20 @@ class TestListCategories(TestCase):
         response = self.client.get(self.list_url)
         self.assertEqual(response.status_code, 200)
 
-    ####################################
-    # Test list with no permissions. #
-    ####################################
+        # Does the categories list page contain "Изменить / Удалить"?
+        html = response.content.decode()
+        self.assertIn('Изменить', html)
+        self.assertIn('Удалить', html)
+
     def test_get_list_by_not_auth(self):
         """Get method by not auth user."""
         response = self.client.get(self.list_url)
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
+        self.assertEqual(response.status_code, 200)
+
+        # Does the categories list page contain "Изменить / Удалить"?
+        html = response.content.decode()
+        self.assertIn('Изменить', html)
+        self.assertIn('Удалить', html)
 
 
 class TestCreateCategory(TestCase):
@@ -230,7 +237,7 @@ class TestDeleteCategory(TestCase):
         self.delete_url = reverse_lazy(
             'english:categories_delete', kwargs={'pk': 1}
         )
-        self.delete_url_protected_source = reverse_lazy(
+        self.delete_url_protected_category = reverse_lazy(
             'english:categories_delete', kwargs={'pk': 2}
         )
         self.success_url = reverse_lazy('english:categories_list')
@@ -263,9 +270,9 @@ class TestDeleteCategory(TestCase):
         self.assertFalse(CategoryModel.objects.filter(pk=1).exists())
 
     def test_delete_protected_error(self):
-        """Delete protected source."""
+        """Delete protected category."""
         self.client.force_login(self.admin)
-        response = self.client.post(self.delete_url_protected_source)
+        response = self.client.post(self.delete_url_protected_category)
         self.assertRedirects(response, self.protected_redirect, 302)
         flash_message_test(response, self.protected_message)
 

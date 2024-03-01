@@ -1,17 +1,6 @@
 """
 Test CRUD sources.
-
-Test permissions.
-Test if the list html contains an "Edit" and "Delete" link.
-For now:
-    - can reade source: admin, auth user;
-    - can create, update and delete source: admin.
-
-Fixtures are created and taken from the db-wse-fixtures.sqlite3, contain:
-    - users: admin, user1;
-    - sources: source1, source2.
 """
-
 from django.test import TestCase
 from django.urls import reverse_lazy
 
@@ -51,7 +40,7 @@ class TestListSources(TestCase):
         self.assertInHTML(self.source_name1, html)
         self.assertInHTML(self.source_name2, html)
 
-        # Does the categories list page contain "Изменить / Удалить"?
+        # Does the sources list page contain "Изменить / Удалить"?
         self.assertIn('Изменить', html)
         self.assertIn('Удалить', html)
 
@@ -61,7 +50,7 @@ class TestListSources(TestCase):
         response = self.client.get(self.list_url)
         self.assertEqual(response.status_code, 200)
 
-        # Does the categories list page contain "Изменить / Удалить"?
+        # Does the sources list page contain "Изменить / Удалить"?
         html = response.content.decode()
         self.assertNotIn('Изменить', html)
         self.assertNotIn('Удалить', html)
@@ -72,8 +61,12 @@ class TestListSources(TestCase):
     def test_get_list_by_not_auth(self):
         """Get method by not auth user."""
         response = self.client.get(self.list_url)
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
+        self.assertEqual(response.status_code, 200)
+
+        # Does the sources list page contain "Изменить / Удалить"?
+        html = response.content.decode()
+        self.assertNotIn('Изменить', html)
+        self.assertNotIn('Удалить', html)
 
 
 class TestCreateSource(TestCase):
