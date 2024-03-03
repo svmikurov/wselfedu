@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
@@ -26,11 +27,16 @@ class CategoryListView(
     }
     message_no_permission = 'Вы пока не можете делать это'
 
+    def get_queryset(self):
+        """Get categories added only by the current user."""
+        queryset = super().get_queryset().filter(user=self.request.user.pk)
+        return queryset
+
 
 class CategoryCreateView(
     HandleNoPermissionMixin,
-    UserPassesTestAdminMixin,
     AddMessageToFormSubmissionMixin,
+    LoginRequiredMixin,
     CreateView,
 ):
     form_class = CategoryForm
@@ -44,6 +50,12 @@ class CategoryCreateView(
     success_message = 'Категория добавлена'
     error_message = 'Ошибка в добавлении категории'
     message_no_permission = 'Вы пока не можете делать это'
+
+    def form_valid(self, form):
+        """Add the authenticated user to the `user` field of the CategoryModel.
+        """
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 class CategoryUpdateView(
