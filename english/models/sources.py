@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import UserModel
+
 
 class SourceModel(models.Model):
     name = models.CharField(
@@ -7,6 +9,12 @@ class SourceModel(models.Model):
         blank=False, null=False,
         verbose_name='Источник',
         help_text='Имя не более 50 символов.',
+    )
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
     )
     url = models.URLField(
         max_length=255,
