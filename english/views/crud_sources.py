@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
@@ -26,10 +27,14 @@ class SourceListView(
     }
     message_no_permission = 'Вы пока не можете делать это'
 
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(user=self.request.user.id)
+        return queryset
+
 
 class SourceCreateView(
     HandleNoPermissionMixin,
-    UserPassesTestAdminMixin,
+    LoginRequiredMixin,
     AddMessageToFormSubmissionMixin,
     CreateView,
 ):
@@ -44,6 +49,12 @@ class SourceCreateView(
     success_message = 'Источник слов добавлен'
     error_message = 'Ошибка в добавлении источника слов'
     message_no_permission = 'Вы пока не можете делать это'
+
+    def form_valid(self, form):
+        """Add the authenticated user to the `user` field of the SourceModel.
+        """
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 class SourceUpdateView(
