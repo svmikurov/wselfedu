@@ -1,13 +1,19 @@
 from django.db import models
 
+from users.models import UserModel
+
 
 class CategoryModel(models.Model):
     name = models.CharField(
         max_length=30,
-        null=False,
-        blank=False,
         verbose_name='Наименование категории',
         help_text='Наименование не более 30 символов.'
+    )
+    user = models.ForeignKey(
+        UserModel,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
     )
     description = models.CharField(
         max_length=100,
