@@ -63,7 +63,7 @@ class TestListSources(TestCase):
         """Test show source list only of user."""
         self.client.force_login(self.user)
         response = self.client.get(self.list_url)
-        object_list = response.__dict__['context_data']['object_list']
+        object_list = response.context['object_list']
 
         self.assertTrue(len(object_list) == 2)
         self.assertTrue(object_list.contains(SourceModel.objects.get(id=5)))
