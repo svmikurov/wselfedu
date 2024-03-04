@@ -7,7 +7,7 @@ from contrib_app.mixins import (
 from english.models import WordModel
 
 
-class UsersWordsView(
+class UserWordListView(
     CheckUserPkForOwnershipAccountMixin,
     FilterView,
 ):
@@ -18,23 +18,32 @@ class UsersWordsView(
     context_object_name = 'words'
 
     def get_queryset(self):
-        queryset = super(UsersWordsView, self).get_queryset(
+        """Get user word list with relations.
+        """
+        favorite_user = WordModel.objects.filter(
+            wordsfavoritesmodel__word_id=F('pk'),
+            wordsfavoritesmodel__user_id=self.request.user
+        ).values('pk')
+
+        queryset = super().get_queryset(
         ).select_related(
             'source',
         ).prefetch_related(
             'knowledge_assessment',
-            'favorites',
         ).filter(
-            user_id=self.request.user.pk
+            user=self.request.user
+        ).filter(
+            # `worduserknowledgerelation__user_id__isnull=True` allows
+            # to a create query using LEFT JOIN
+            Q(worduserknowledgerelation__user_id__isnull=True)
+            | Q(worduserknowledgerelation__user_id=self.request.user.pk)
         ).annotate(
-            assessment=F('worduserknowledgerelation__knowledge_assessment')
+            assessment=F('worduserknowledgerelation__knowledge_assessment'),
         ).annotate(
-            favorite=Q(
-                pk=F('wordsfavoritesmodel__word_id')
-            ) & Q(
-                user=F('wordsfavoritesmodel__user_id')
-            )
+            # if `favorite` is `True` then word is favorites
+            favorite=Q(pk__in=favorite_user)
         )
+
         return queryset
 
     extra_context = {
