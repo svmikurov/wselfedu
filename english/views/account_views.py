@@ -16,6 +16,9 @@ class UserWordListView(
     template_name = 'english/user_word_list.html'
     model = WordModel
     context_object_name = 'words'
+    extra_context = {
+        'title': 'Изучаемые слова',
+    }
 
     def get_queryset(self):
         """Get user word list with relations.
@@ -45,7 +48,3 @@ class UserWordListView(
         )
 
         return queryset
-
-    extra_context = {
-        'title': 'Изучаемые слова',
-    }
