@@ -6,7 +6,7 @@ from users.models import UserModel
 class SourceModel(models.Model):
     name = models.CharField(
         max_length=50,
-        blank=False, null=False,
+        blank=False,
         verbose_name='Источник',
         help_text='Имя не более 50 символов.',
     )
@@ -24,7 +24,7 @@ class SourceModel(models.Model):
     )
     description = models.CharField(
         max_length=100,
-        blank=True, null=True,
+        blank=True,
         verbose_name='Описание',
         help_text='Описание не более 100 слов.'
     )
