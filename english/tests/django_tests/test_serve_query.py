@@ -3,6 +3,7 @@
 
 import datetime
 from datetime import timedelta
+from unittest import skip
 
 from django.utils import timezone
 
@@ -249,9 +250,11 @@ class TestLookupParameters(TestCase):
         self.assertFalse(words.contains(self.objects.get(id=4)))
         self.assertFalse(words.contains(self.objects.get(id=5)))
 
+    @skip
     def test_get_words_for_study_by_assessment_studying_learned(self):
         pass
 
+    @skip
     def test_get_words_for_study_by_assessment_not_choised(self):
         pass
 
