@@ -2,6 +2,7 @@
 Registered user data confidentiality test module.
 Does not test application presentation to not logged-in user.
 """
+from unittest import skip
 
 from django.test import Client, TestCase
 from django.urls import reverse_lazy
@@ -10,12 +11,12 @@ from english.models import WordModel
 from users.models import UserModel
 
 WORD_LIST_PATH = 'english:users_words'
-"""Word list path name.
+"""User word list path name.
 """
 
 
-class TestWordListUserView(TestCase):
-    """Test user word list view."""
+class TestUserWordListPageStatusAndAccess(TestCase):
+    """Test user word list page status and access to list for any users."""
 
     fixtures = ['english/tests/fixtures/wse-fixtures-2.json']
     TestCase.maxDiff = None
@@ -55,18 +56,24 @@ class TestWordListUserView(TestCase):
 class TestShowOnlyUserData(TestCase):
     """Test the user word list confidentiality."""
 
-    fixtures = ['english/tests/fixtures/wse-fixtures-2.json']
+    fixtures = ['english/tests/fixtures/wse-fixtures.json']
 
     def setUp(self):
         self.client = Client()
         self.user_id = 2
-        self.url = reverse_lazy(WORD_LIST_PATH, kwargs={'pk': self.user_id})
         self.user = UserModel.objects.get(pk=self.user_id)
+        self.url = reverse_lazy(WORD_LIST_PATH, kwargs={'pk': self.user_id})
 
     def test_show_only_user_word_list(self):
         """Test show only user word list on page."""
         self.client.force_login(self.user)
         response = self.client.get(self.url)
+
         current_queryset = response.context.get('words')
         expected_queryset = WordModel.objects.filter(user_id=self.user_id)
+
         self.assertQuerySetEqual(current_queryset, expected_queryset)
+
+    @skip
+    def test_user_word_list_content(self):
+        """Test contents of the user's word list."""
