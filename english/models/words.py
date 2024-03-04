@@ -7,18 +7,20 @@ from users.models import UserModel
 
 
 class WordModel(models.Model):
-    """Англо-русский словарь"""
+    """English-Russian dictionary."""
 
-    # Количество слов для перевода, может быть: словом, словосочетанием,
-    # частью предложения, целым предложением, любым количеством слов.
+    NOT_CHOICES = 'NC'
+    ONE_WORD = 'OW'
+    COMBINATION = 'CB'
+    PART_SENTENCE = 'PS'
+    SENTENCE = 'ST'
     WORD_COUNT = [
-        ('NC', 'Любое количество слов'),    # not choices
-        ('OW', 'Слово'),                    # one word
-        ('CB', 'Словосочетание'),           # combination
-        ('PS', 'Часть предложения'),        # part sentence
-        ('ST', 'Предложение'),              # sentence
+        ('NC', 'Любое количество слов'),
+        ('OW', 'Слово'),
+        ('CB', 'Словосочетание'),
+        ('PS', 'Часть предложения'),
+        ('ST', 'Предложение'),
     ]
-    DEFAULT_WORD_COUNT = WORD_COUNT[0][0]
 
     user = models.ForeignKey(
         UserModel,
@@ -50,7 +52,7 @@ class WordModel(models.Model):
     word_count = models.CharField(
         max_length=2,
         choices=WORD_COUNT,
-        default=DEFAULT_WORD_COUNT,
+        default=NOT_CHOICES,
         verbose_name='Количество слов',
     )
     # A field that displays how the user rates his knowledge of this word
