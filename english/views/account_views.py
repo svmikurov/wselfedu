@@ -23,7 +23,7 @@ class UserWordListView(
     def get_queryset(self):
         """Get user word list with relations.
         """
-        favorite_user = WordModel.objects.filter(
+        user_favorites = WordModel.objects.filter(
             wordsfavoritesmodel__word_id=F('pk'),
             wordsfavoritesmodel__user_id=self.request.user
         ).values('pk')
@@ -44,7 +44,7 @@ class UserWordListView(
             assessment=F('worduserknowledgerelation__knowledge_assessment'),
         ).annotate(
             # if `favorite` is `True` then word is favorites
-            favorite=Q(pk__in=favorite_user)
+            favorite=Q(pk__in=user_favorites)
         )
 
         return queryset
