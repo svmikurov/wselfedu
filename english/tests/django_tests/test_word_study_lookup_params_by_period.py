@@ -18,12 +18,12 @@ class TestLookupParametersByPeriod(TestCase):
     Измененное слово должно включаться в выборку слов при фильтрации.
     """
 
-    fixtures = ['english/tests/fixtures/wse-fixtures.json']
+    fixtures = ['english/tests/fixtures/wse-fixtures-3.json']
 
     TestCase.maxDiff = None
 
     def setUp(self):
-        self.user_id = 2
+        self.user_id = 3
         user = UserModel.objects.get(pk=self.user_id)
         # Сегодняшняя дата (`<class 'datetime.datetime'>`).
         self.day_today = datetime.datetime.now(tz=timezone.utc)
@@ -79,7 +79,7 @@ class TestLookupParametersByPeriod(TestCase):
         querydict = {
             'favorites': False, 'category': '0', 'source': '0',
             'period_start_date': 'DT', 'period_end_date': 'DT',
-            'word_count': ['OW', 'CB', 'NC'], 'knowledge_assessment': ['L'],
+            'word_count': ['OW', 'CB', 'NC'], 'knowledge_assessment': ['S'],
         }
         params = create_lookup_params(querydict)
         filtered_words = get_words_for_study(params, self.user_id)
@@ -93,10 +93,10 @@ class TestLookupParametersByPeriod(TestCase):
         querydict = {
             'favorites': False, 'category': '0', 'source': '0',
             'period_start_date': 'D3', 'period_end_date': 'DT',
-            'word_count': [], 'knowledge_assessment': ['L'],
+            'word_count': [], 'knowledge_assessment': ['S'],
         }
         params = create_lookup_params(querydict)
-        filtered_words = get_words_for_study(params)
+        filtered_words = get_words_for_study(params, self.user_id)
 
         self.assertTrue(filtered_words.contains(self.word_added_today))
         self.assertTrue(filtered_words.contains(self.word_added_3_days_ago))
@@ -107,10 +107,10 @@ class TestLookupParametersByPeriod(TestCase):
         querydict = {
             'favorites': False, 'category': '0', 'source': '0',
             'period_start_date': 'W4', 'period_end_date': 'W1',
-            'word_count': [], 'knowledge_assessment': ['L'],
+            'word_count': [], 'knowledge_assessment': ['S'],
         }
         params = create_lookup_params(querydict)
-        filtered_words = get_words_for_study(params)
+        filtered_words = get_words_for_study(params, self.user_id)
 
         self.assertTrue(filtered_words.contains(self.word_added_3_week_ago))
         self.assertFalse(filtered_words.contains(self.word_added_3_days_ago))
@@ -121,10 +121,10 @@ class TestLookupParametersByPeriod(TestCase):
         querydict = {
             'favorites': False, 'category': '0', 'source': '0',
             'period_start_date': 'NC', 'period_end_date': 'W1',
-            'word_count': [], 'knowledge_assessment': ['L'],
+            'word_count': [], 'knowledge_assessment': ['S'],
         }
         params = create_lookup_params(querydict)
-        filtered_words = get_words_for_study(params)
+        filtered_words = get_words_for_study(params, self.user_id)
 
         self.assertTrue(filtered_words.contains(self.word_added_3_week_ago))
         self.assertFalse(filtered_words.contains(self.word_added_3_days_ago))
@@ -134,10 +134,10 @@ class TestLookupParametersByPeriod(TestCase):
         querydict = {
             'favorites': False, 'category': '0', 'source': '0',
             'period_start_date': 'NC', 'period_end_date': 'DT',
-            'word_count': [], 'knowledge_assessment': ['L'],
+            'word_count': [], 'knowledge_assessment': ['S'],
         }
         params = create_lookup_params(querydict)
-        filtered_words = get_words_for_study(params)
+        filtered_words = get_words_for_study(params, self.user_id)
 
         self.assertTrue(filtered_words.contains(self.word_added_today)),
         self.assertTrue(filtered_words.contains(self.word_added_5_week_ago))

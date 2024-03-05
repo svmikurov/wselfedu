@@ -27,12 +27,12 @@ class TestChoiceEnglishWordsStudy(TestCase):
 class TestStudyWordView(TestCase):
     """Тест представлений упражнения изучения слов."""
 
-    fixtures = ['english/tests/fixtures/wse-fixtures.json']
+    fixtures = ['english/tests/fixtures/wse-fixtures-3.json']
 
     def setUp(self):
         """Set suite up."""
         self.client = Client()
-        self.user = UserModel.objects.get(pk=2)
+        self.user = UserModel.objects.get(pk=3)
 
         self.words_choice_url = reverse_lazy('english:word_choice')
         self.start_study_url = reverse_lazy('english:start_word_study')
@@ -42,7 +42,7 @@ class TestStudyWordView(TestCase):
         self.querydict = {
             'favorites': False, 'category': '0', 'source_id': '0',
             'period_start_date': 'NC', 'period_end_date': 'DT',
-            'word_count': ['OW', 'CB', 'NC'], 'knowledge_assessment': ['L'],
+            'word_count': ['OW', 'CB', 'NC'], 'knowledge_assessment': ['S'],
         }
 
         self.begin_date_period = (

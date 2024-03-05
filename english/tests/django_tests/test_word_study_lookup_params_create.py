@@ -18,7 +18,7 @@ class TestCreateLookupParams(TestCase):
             'favorites': True, 'category': 0, 'source': 0,
             'period_start_date': 'NC', 'period_end_date': 'DT',
             'word_count': ['OW', 'CB', 'NC'],
-            'knowledge_assessment': ['L', 'E'],
+            'knowledge_assessment': ['S', 'E'],
         }
         self.begin_date_period = (
             WordModel.objects.order_by('updated_at').first().updated_at

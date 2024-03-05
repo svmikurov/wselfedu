@@ -14,7 +14,7 @@ load_dotenv()
 TEST_DB_NAME = 'db-wse-pytest.sqlite3'
 """Date base name used by pytest.
 """
-FIXTURE_PATH = 'english/tests/fixtures/wse-fixtures-2.json'
+FIXTURE_PATH = 'english/tests/fixtures/wse-fixtures-3.json'
 COOKIES_PATH = 'english/tests/playwright/.auth/cookies.json'
 STATE_PATH = 'english/tests/playwright/.auth/user02_state.json'
 BASE_URL = '127.0.0.1:8000'
