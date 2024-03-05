@@ -103,9 +103,17 @@ def get_random_query_from_queryset(queryset):
     return choice(queryset)
 
 
-def get_words_for_study(lookup_params, user_id=None):
+def get_words_for_study(lookup_params, user_id):
     """Примени параметры поиска конкретного пользователя для выборки слов на
     задание.
+
+    Parameters
+    ----------
+    lookup_params : Dict[str, str | int | sequence]
+        Where:
+        dict key - lookup method (e.g. `category_id` or `word_count__in`);
+        dict value - lookup criterion (e.g. `2` or `['OW', 'CB', 'NC']`).
+
     """
     # Извлекаем из параметров поиска параметр поиска по оценке пользователем
     # уровня знания слова.
@@ -123,6 +131,8 @@ def get_words_for_study(lookup_params, user_id=None):
             ).values('knowledge_assessment'),
         ),
         worduserknowledgerelation__user_id__exact=user_id,
+    ).filter(
+        user_id=user_id,
     )
 
     # Вновь добавленные слова не имеют оценок пользователя, и поэтому, не
@@ -133,7 +143,11 @@ def get_words_for_study(lookup_params, user_id=None):
             WordUserKnowledgeRelation.objects.all().values('word_id'),
         ),
         worduserknowledgerelation__user_id__exact=user_id,
-    ).filter(**params)
+    ).filter(
+        **params,
+    ).filter(
+        user_id=user_id,
+    )
 
     # Объединим слова с оценками уровня знания пользователя и без.
     words |= not_assessment_words
