@@ -31,7 +31,7 @@ WORD_COUNT = (
     ('ST', 'Предложение'),
 )
 KNOWLEDGE_ASSESSMENT = (
-    ('L', 'Изучаю'),        # learn
+    ('S', 'Изучаю'),        # study
     ('R', 'Повторяю'),      # repeat
     ('E', 'Проверяю'),      # examination
     ('K', 'Знаю'),          # know
