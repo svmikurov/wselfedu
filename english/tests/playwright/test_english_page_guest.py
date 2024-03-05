@@ -4,7 +4,7 @@ from urllib.parse import urljoin
 import pytest
 from playwright.sync_api import Page, expect, Response
 
-ELEMENTS = [
+PAGE_ELEMENTS = [
     {'locator': 'link',
      'name': 'Изучаем слова',
      'path': 'english/words-choice/'},
@@ -47,7 +47,7 @@ def test_english_page_title(page: Page, go_to_english: Response):
 def test_english_page_content(page: Page, live_server):
     host = live_server.url
     url = urljoin(host, 'english/')
-    for element in ELEMENTS:
+    for element in PAGE_ELEMENTS:
         page.goto(url)
         page.get_by_role(element['locator'], name=element['name']).click()
         assert page.url == urljoin(host, element['path'])

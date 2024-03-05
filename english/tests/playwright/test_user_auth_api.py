@@ -1,8 +1,9 @@
 import os
+import re
 from urllib.parse import urljoin
 
 import pytest
-from playwright.sync_api import BrowserContext, APIRequestContext, Page
+from playwright.sync_api import BrowserContext, APIRequestContext, Page, expect
 
 REGISTRATION_PATH = 'users/registration/'
 LOGIN_PATH = 'users/login/'
@@ -38,11 +39,16 @@ def test_user_authentication_api(
         'fail_on_status_code': True,
         'ignore_https_errors': True,
     }
-    form = {
+    form_data = {
         'username': TEST_USER_NAME,
         'password': TEST_PASSWORD,
     }
 
     # send post request
-    post_request: APIRequestContext = context.request
-    post_request.post(page.url, **params, form=form)
+    api_request_context: APIRequestContext = context.request
+    api_request_context.post(page.url, **params, form=form_data)
+
+    page.goto(host)
+    expect(page.locator('id=user-nav')).to_have_text(
+        re.compile(f'.*{TEST_USER_NAME}')
+    )

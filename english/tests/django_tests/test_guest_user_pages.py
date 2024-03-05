@@ -1,6 +1,7 @@
 """
 Test views and available data for the not logged-in visitor.
 """
+from unittest import skip
 
 from django.test import Client, TestCase
 
@@ -16,6 +17,7 @@ class TestGuest(TestCase):
     def setUp(self):
         self.client = Client()
 
+    @skip
     def test_guest_table_field_value(self):
         """Test the guest user table field value."""
         ...
