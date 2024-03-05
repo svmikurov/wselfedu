@@ -55,7 +55,7 @@ def get_numeric_value(knowledge_assessment):
      этого уровня.
      """
     value = []
-    if 'L' in knowledge_assessment:
+    if 'S' in knowledge_assessment:
         value += [*range(MIN_KNOWLEDGE_ASSESSMENT, MAX_STUDYING_VALUE + 1)]
     if 'R' in knowledge_assessment:
         value += [*range(MAX_STUDYING_VALUE + 1, MAX_REPETITION_VALUE + 1)]

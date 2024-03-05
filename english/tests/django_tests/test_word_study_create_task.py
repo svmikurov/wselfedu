@@ -39,9 +39,7 @@ class TestGetWordFordStudy(TestCase):
             # 'source_id': ...,
             # 'created_at__range': ...,
             # 'word_count__in': ['OW', 'CB'],
-            'worduserknowledgerelation__knowledge_assessment__in': [
-                0, 1, 2, 3, 4, 5, 6, 7, 8
-            ],
+            'worduserknowledgerelation__knowledge_assessment__in': [*range(9)]
         }
 
     def test_get_only_user_words(self):
