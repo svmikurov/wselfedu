@@ -136,6 +136,7 @@ elif BRANCH_NAME == 'main':
 
 # Authentication
 AUTH_USER_MODEL = 'users.UserModel'
+LOGIN_URL = '/users/login/'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
