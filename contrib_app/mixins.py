@@ -9,8 +9,8 @@ class HandleNoPermissionMixin:
     """Add a redirect url and a message, if the user doesn't have permission.
     """
 
-    message_no_permission = 'Так не получится!'
-    url_no_permission = reverse_lazy('home')
+    message_no_permission = 'Для доступа необходимо войти в систему'
+    url_no_permission = reverse_lazy('users:login')
 
     def handle_no_permission(self):
         messages.error(self.request, self.message_no_permission)
@@ -19,9 +19,6 @@ class HandleNoPermissionMixin:
 
 class CheckUserForOwnershipAccountMixin(UserPassesTestMixin):
     """Check if the user has owner permission on account."""
-
-    message_no_permission = 'Так не получится!'
-    url_no_permission = reverse_lazy('home')
 
     def authorship_check(self):
         current_user = self.get_object()
@@ -32,6 +29,20 @@ class CheckUserForOwnershipAccountMixin(UserPassesTestMixin):
         elif current_user != specified_user:
             return False
         elif current_user == specified_user:
+            return True
+
+    def get_test_func(self):
+        return self.authorship_check
+
+
+class CheckOwnershipWordUserMixin(UserPassesTestMixin):
+    """Check if the user has owner permission on word."""
+
+    def authorship_check(self):
+        current_user = self.request.user
+        specified_user = self.get_object().user
+
+        if current_user == specified_user:
             return True
 
     def get_test_func(self):
