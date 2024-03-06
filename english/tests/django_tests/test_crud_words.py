@@ -1,255 +1,295 @@
-import logging
-from typing import Generator
+from unittest import skip
 
-from django.contrib.auth.models import AnonymousUser
-from django.test import Client, RequestFactory, TestCase
-from django.urls import reverse_lazy
-from faker import Faker
+from django.test import Client, TestCase
+from django.urls import reverse
 
 from contrib_app.contrib_test import flash_message_test
-from english.models import WordModel, CategoryModel
-from english.views import WordListView
+from english.models import WordModel
 from users.models import UserModel
 
-logger = logging.getLogger()
+CREATE_WORD_PATH = 'english:words_create'
+DELETE_WORD_PATH = 'english:words_delete'
+DETAIL_WORD_PATH = 'english:words_detail'
+UPDATE_WORD_PATH = 'english:words_update'
+LIST_WORD_PATH = 'english:word_list'
 
-CREATE_PATH = 'english:words_create'
-"""Word creation path name.
-"""
-DETAIL_PATH = 'english:words_detail'
-"""Word details path name.
-"""
-UPDATE_PATH = 'english:words_update'
-"""Word update path name.
-"""
-DELETE_PATH = 'english:words_delete'
-"""Delete word path name.
-"""
-LIST_PATH = 'english:word_list'
-"""Word list path name.
-"""
-NOPERMISSION_PATH = 'home'
-"""Redirect path name if site visitor does not have permission to take action.
-"""
-NOPERMISSION_MSG = 'Вы пока не можете делать это'
-"""Message for a site visitor about lack of permission to perform an action.
-"""
-DEFAULT_CATEGORY = 'Developer'
-"""Automatically added category value if no category is selected.
-"""
+NO_PERMISSION_PATH = 'users:login'
+NO_PERMISSION_MSG = 'Для доступа необходимо войти в систему'
+NO_PERMISSION_URL = reverse(NO_PERMISSION_PATH)
+
+SUCCESS_CREATE_WORD_MSG = 'Слово добавлено'
+SUCCESS_DELETE_WORD_MSG = 'Слово удалено'
+SUCCESS_UPDATE_WORD_MSG = 'Слово изменено'
 
 
-class TestCreateWord(TestCase):
-    """Test create word."""
+class TestCreateWordView(TestCase):
+    """Test create word view."""
 
-    fixtures = ['english/tests/fixtures/wse-fixtures.json']
+    fixtures = ['english/tests/fixtures/wse-fixtures-3.json']
 
     def setUp(self):
-        faker: Generator = Faker()
-        fake_user_name: str = faker.user_name()
-        self.fake_admin_name: str = faker.user_name()
-        self.fake_user = UserModel.objects.create(username=fake_user_name,)
-        self.fake_admin = UserModel.objects.create_superuser(
-            username=self.fake_admin_name,
-        )
-        self.word_data = {'words_eng': 'test', 'words_rus': 'тест',
-                          'word_count': 'NC'}
-        CategoryModel.objects.create(name='Developer')
-        self.url = reverse_lazy(CREATE_PATH)
-        self.nopermission_url = reverse_lazy(NOPERMISSION_PATH)
-        self.msg_anonymous = 'Вам необходимо авторизоваться'
+        self.client: Client = Client()
+        user_id = 3
+        another_user_id = 4
+        self.user = UserModel.objects.get(pk=user_id,)
+        self.another_user = UserModel.objects.get(id=another_user_id)
+        self.word_data = {
+            'words_eng': 'test',
+            'words_rus': 'тест',
+            'word_count': 'NC',
+        }
+        self.url = reverse(CREATE_WORD_PATH)
 
     def test_get_create_word_by_user(self):
         """Test create word by logged-in user, GET method page status 200."""
-        self.client.force_login(self.fake_user)
+        self.client.force_login(self.user)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
     def test_post_create_word_by_user(self):
         """Test create word by logged-in user, POST method page status 302."""
-        self.client.force_login(self.fake_user)
+        self.client.force_login(self.user)
         response = self.client.post(self.url, self.word_data)
-        self.assertTrue(WordModel.objects.filter(
-            words_eng=self.word_data['words_eng']
-        ).exists())
+
         self.assertRedirects(response, self.url, 302)
-        flash_message_test(response, 'Слово успешно добавлено')
+        flash_message_test(response, SUCCESS_CREATE_WORD_MSG)
+        assert WordModel.objects.filter(words_eng='test').exists()
 
     def test_get_create_word_by_anonymous(self):
-        """Test create word by not logged-in user, GET method page status 302.
-        """
+        """Test create word by anonymous, GET method page status 302."""
         response = self.client.get(self.url)
-        self.assertEqual(response.status_code, 200)
+        flash_message_test(response, NO_PERMISSION_MSG)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
 
     def test_post_create_word_by_anonymous(self):
-        """Test create word by not logged-in user, POST method page status 302.
-        """
+        """Test create word by anonymous, POST method page status 302."""
         response = self.client.post(self.url, self.word_data)
-        self.client.post(self.url, self.word_data)
-        self.assertFalse(WordModel.objects.filter(
-            words_eng=self.word_data['words_eng']
-        ).exists())
-        self.assertRedirects(response, self.url, 302)
-        flash_message_test(response, self.msg_anonymous)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+        assert not WordModel.objects.filter(words_eng='test').exists()
 
     def test_add_default_values(self):
-        """Test add default category and user to word model."""
-        self.client.force_login(self.fake_user)
+        """Test add default user to word model."""
+        self.client.force_login(self.user)
         self.client.post(self.url, self.word_data)
-        added_word = WordModel.objects.get(
-            words_eng=self.word_data['words_eng']
-        )
-        assert added_word.category.name == DEFAULT_CATEGORY
-        assert added_word.user.username == self.fake_user.username
+        added_word = WordModel.objects.get(words_eng='test')
+        assert added_word.user.username == self.user.username
 
 
-class TestUpdateWord(TestCase):
+class TestUpdateWordView(TestCase):
+    """Test update word view."""
+
+    fixtures = ['english/tests/fixtures/wse-fixtures-3.json']
+
     def setUp(self):
-        faker: Generator = Faker()
-        fake_user_name: str = faker.user_name()
-        fake_admin_name: str = faker.user_name()
-        self.user = UserModel.objects.create_user(username=fake_user_name)
-        self.admin = UserModel.objects.create_superuser(
-            username=fake_admin_name,
-        )
-        self.word = WordModel.objects.create(
-            user=self.user,
-            words_eng='test',
-            words_rus='тест',
-        )
+        self.client: Client = Client()
+        user_id = 3
+        user_word_id = 1
+        another_user_id = 4
+        self.user = UserModel.objects.get(pk=user_id)
+        self.another_user = UserModel.objects.get(pk=another_user_id)
         self.updated_word = {
-            'words_eng': 'test', 'words_rus': 'тест изменения слова',
+            'words_eng': 'test',
+            'words_rus': 'тест',
             'word_count': 'ST',
         }
-        self.url = reverse_lazy(UPDATE_PATH)
-        self.word_url = reverse_lazy(UPDATE_PATH, kwargs={'pk': self.word.pk})
-        self.success_url = reverse_lazy(LIST_PATH)
-        self.nopermission_url = reverse_lazy(NOPERMISSION_PATH)
-
-    def test_get_update_by_admin(self):
-        self.client.force_login(self.admin)
-        response = self.client.get(self.word_url)
-        self.assertEqual(response.status_code, 200)
-
-    def test_post_update_by_admin(self):
-        self.client.force_login(self.admin)
-        response = self.client.post(self.word_url, self.updated_word)
-        self.assertRedirects(response, self.success_url, 302)
-        flash_message_test(response, 'Слово успешно изменено')
+        self.url = reverse(UPDATE_WORD_PATH, kwargs={'pk': user_word_id})
+        self.success_url = reverse(LIST_WORD_PATH)
+        self.no_permission_url = reverse(NO_PERMISSION_PATH)
 
     def test_get_update_word_by_user(self):
         """Test update word by logged-in user, GET method page status 200."""
         self.client.force_login(self.user)
-        response = self.client.get(self.word_url)
-        self.assertRedirects(response, self.nopermission_url, 302)
-        flash_message_test(response, NOPERMISSION_MSG)
-
-    def test_post_update_word_by_user(self):
-        """Test update word by logged-in user, POST method page status 200."""
-        self.client.force_login(self.user)
-        response = self.client.post(self.word_url, self.updated_word)
-        self.assertRedirects(response, self.nopermission_url, 302)
-        flash_message_test(response, NOPERMISSION_MSG)
-
-    def test_get_update_word_by_anonymous(self):
-        """Test update word by not logged-in user, GET method page status 200.
-        """
-        response = self.client.get(self.word_url)
-        self.assertRedirects(response, self.nopermission_url, 302)
-        flash_message_test(response, NOPERMISSION_MSG)
-
-    def test_post_update_word_by_anonymous(self):
-        """Test update word by logged-in user, POST method page status 200."""
-        response = self.client.post(self.word_url, self.updated_word)
-        self.assertRedirects(response, self.nopermission_url, 302)
-        flash_message_test(response, NOPERMISSION_MSG)
-
-
-class TestDeleteWord(TestCase):
-    """Test delete word."""
-
-    def setUp(self):
-        faker: Generator = Faker()
-        admin_name = faker.user_name()
-        self.admin_user = UserModel.objects.create_superuser(
-            username=admin_name,
-        )
-        self.another_word = WordModel.objects.create(
-            user=self.admin_user,
-            words_eng='another',
-            words_rus='другое',
-            word_count='OW',
-        )
-        self.deleted_word = WordModel.objects.create(
-            user=self.admin_user,
-            words_eng='test',
-            words_rus='тест',
-            word_count='OW',
-        )
-        self.url = reverse_lazy(DELETE_PATH)
-        self.word_url = reverse_lazy(
-            'english:words_delete', kwargs={'pk': self.deleted_word.pk},
-        )
-        self.success_url = reverse_lazy(LIST_PATH)
-
-    def test_get_delete_word_by_admin_user(self):
-        """Test delete word by admin, GET method page status."""
-        self.client.force_login(self.admin_user)
-        response = self.client.get(self.word_url)
+        response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
-    def test_post_delete_word_by_admin_user(self):
-        """Test delete word by admin, POST method page status."""
-        self.client.force_login(self.admin_user)
-        response = self.client.post(self.word_url)
+    def test_post_update_word_by_user(self):
+        """Test update word by logged-in user, POST method page status 302."""
+        self.client.force_login(self.user)
+        response = self.client.post(self.url, self.updated_word)
         self.assertRedirects(response, self.success_url, 302)
+        flash_message_test(response, SUCCESS_UPDATE_WORD_MSG)
+        assert WordModel.objects.filter(words_eng='test').exists()
+
+    def test_get_update_word_by_another_user(self):
+        """Test update word by another user, GET method page status 302."""
+        self.client.force_login(self.another_user)
+        response = self.client.get(self.url)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+
+    def test_post_update_word_by_another_user(self):
+        """Test update word by another user, POST method page status 302."""
+        self.client.force_login(self.another_user)
+        response = self.client.post(self.url, self.updated_word)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+        assert not WordModel.objects.filter(words_eng='test').exists()
+
+    def test_get_update_word_by_anonymous(self):
+        """Test update word by anonymous, GET method page status 200."""
+        response = self.client.get(self.url)
+        self.assertRedirects(response, self.no_permission_url, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+
+    def test_post_update_word_by_anonymous(self):
+        """Test update word by anonymous, POST method page status 200."""
+        response = self.client.post(self.url, self.updated_word)
+        self.assertRedirects(response, self.no_permission_url, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+        assert not WordModel.objects.filter(words_eng='test').exists()
+
+
+class TestDeleteWordView(TestCase):
+    """Test delete word view."""
+
+    fixtures = ['english/tests/fixtures/wse-fixtures-3.json']
+
+    def setUp(self):
+        self.client: Client = Client()
+        user_id = 3
+        self.word_id = 1
+        another_user_id = 4
+        self.user = UserModel.objects.get(pk=user_id)
+        self.another_user = UserModel.objects.get(pk=another_user_id)
+        self.url = reverse(DELETE_WORD_PATH, kwargs={'pk': self.word_id})
+        self.success_url = reverse(LIST_WORD_PATH)
 
     def test_get_delete_word_by_user(self):
-        ...
+        """Test delete word by logged-in user, GET method page status 200."""
+        self.client.force_login(self.user)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
 
     def test_post_delete_word_by_user(self):
-        ...
+        """Test delete word by logged-in user, POST method page status 302."""
+        self.client.force_login(self.user)
+        response = self.client.post(self.url)
+        self.assertRedirects(response, self.success_url, 302)
+        assert not WordModel.objects.filter(pk=self.word_id).exists()
+
+    def test_get_delete_word_by_another_user(self):
+        """Test delete word by another user, GET method page status 302."""
+        self.client.force_login(self.another_user)
+        response = self.client.get(self.url)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+
+    def test_post_delete_word_by_another_user(self):
+        """Tes delete word by another user, POST method page status 302."""
+        self.client.force_login(self.another_user)
+        response = self.client.get(self.url)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+        assert WordModel.objects.filter(pk=self.word_id).exists()
 
     def test_get_delete_word_by_anonymous(self):
-        ...
+        """Test delete word by anonymous, GET method page status 302."""
+        response = self.client.get(self.url)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
 
     def test_post_delete_word_by_anonymous(self):
-        ...
+        """Test delete word by anonymous, POST method page status 302."""
+        response = self.client.post(self.url)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+        assert WordModel.objects.filter(pk=self.word_id).exists()
 
 
 class TestWordListView(TestCase):
     """Test word list view."""
 
-    fixtures = ['english/tests/fixtures/wse-fixtures.json']
+    fixtures = ['english/tests/fixtures/wse-fixtures-3.json']
 
     def setUp(self):
-        self.factory = RequestFactory()
-        self.client = Client()
-        self.url = reverse_lazy(LIST_PATH)
+        self.client: Client = Client()
+        self.user_id = 3
+        self.another_user_id = 4
+        self.user = UserModel.objects.get(pk=self.user_id)
+        self.another_user = UserModel.objects.get(pk=self.another_user_id)
+        self.url = reverse(LIST_WORD_PATH)
 
-    def test_status_words_list_page(self):
-        """Тест статус 200 страницы списка слов."""
-        request = self.factory.get(self.url)
-        request.user = AnonymousUser()
-        response = WordListView.as_view()(request)
-        self.assertTrue(response.status_code, 200)
+    def test_show_list_word_to_user(self):
+        """Test showing the word list to logged_in user, page status 200."""
+        self.client.force_login(self.user)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
 
-    def test_search_word(self):
-        """Тест фильтра списка по слову."""
+    def test_show_specific_user_list_word(self):
+        """Test display word list to specific user."""
+        self.client.force_login(self.user)
+        response = self.client.get(self.url)
+
+        # assert by user id, that `words` contains only the user's words
+        words = response.context["words"]
+        user_ids = set(words.values_list('user', flat=True))
+        self.assertTrue(*user_ids, self.user_id)
+
+    def test_show_list_word_to_anonymous(self):
+        """Test permission denied to display a word list for an anonymous."""
+        response = self.client.get(self.url)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+
+    def test_filter_word_list_by_word(self):
+        """Test filtering the word list by text containing the word."""
+        self.client.force_login(self.user)
+
         # filter by english word
-        search_param = {'search_word': 'word02'}
+        search_param = {'search_word': 'word_u3_w1'}
         response = self.client.get(self.url, search_param)
-        self.assertTrue(response.status_code, 200)
-        self.assertContains(response, 'word02')
-        self.assertNotContains(response, 'word01')
+        self.assertContains(response, 'word_u3_w1', status_code=200)
+        self.assertNotContains(response, 'word_u3_w2')
 
         # filter by russian word
-        search_param = {'search_word': 'слово01'}
+        search_param = {'search_word': 'слово_п3_с1'}
         response = self.client.get(self.url, search_param)
-        self.assertTrue(response.status_code, 200)
-        self.assertContains(response, 'слово01')
-        self.assertNotContains(response, 'слово02')
+        self.assertContains(response, 'слово_п3_с1', status_code=200)
+        self.assertNotContains(response, 'слово_п3_с2')
+
+    @skip('Write a test')
+    def test_filter_word_list_by_category(self):
+        """Test filtering the word list by category."""
+
+    @skip('Write a test')
+    def test_filter_word_list_by_source(self):
+        """Test filtering the word list by source."""
+
+    @skip('Write a test')
+    def test_filter_word_list_by_length(self):
+        """Test filtering the word list by length."""
 
 
-class TestDetailWord(TestCase):
-    pass
+class TestWordDetailView(TestCase):
+    """Test word detail view."""
+
+    fixtures = ['english/tests/fixtures/wse-fixtures-3.json']
+
+    def setUp(self):
+        self.client: Client = Client()
+        user_id = 3
+        user_word_id = 1
+        another_user_id = 4
+        self.user = UserModel.objects.get(pk=user_id)
+        self.another_user = UserModel.objects.get(pk=another_user_id)
+        self.url = reverse(DETAIL_WORD_PATH, kwargs={'pk': user_word_id})
+
+    def test_show_word_detail_to_user(self):
+        """Test show word detail to user, page status 200."""
+        self.client.force_login(self.user)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_show_word_for_another_user(self):
+        """Test permission denied to display a word for another user."""
+        self.client.force_login(self.another_user)
+        response = self.client.get(self.url)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+
+    def test_show_word_detail_to_anonymous(self):
+        """Test permission denied to display a word for an anonymous."""
+        response = self.client.get(self.url)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
