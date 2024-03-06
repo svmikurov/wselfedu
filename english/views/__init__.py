@@ -17,13 +17,11 @@ from english.views.crud_categories import (
     CategoryDeleteView,
 )
 from english.views.crud_word import (
-    DEFAULT_WORD_CATEGORY,
     WordCreateView,
     WordListView,
     WordDetailView,
     WordUpdateView,
     WordDeleteView,
-    ShowUsersWordsView,
 )
 from english.views.crud_sources import (
     SourceCreateView,
