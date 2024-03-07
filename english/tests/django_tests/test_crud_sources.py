@@ -199,3 +199,38 @@ class TestSourceListView(TestCase):
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
+
+
+class TestSourceDetailView(TestCase):
+    """Test source detail view."""
+
+    fixtures = ['english/tests/fixtures/wse-fixtures-3.json']
+
+    def setUp(self):
+        """Set up data."""
+        self.client: Client = Client()
+        user_id = 3
+        user_source_id = 1
+        another_user_id = 4
+        self.user = UserModel.objects.get(pk=user_id)
+        self.another_user = UserModel.objects.get(pk=another_user_id)
+        self.url = reverse(DETAIL_SOURCE_PATH, kwargs={'pk': user_source_id})
+
+    def test_show_source_detail_to_user(self):
+        """Test show source detail to user, page status 200."""
+        self.client.force_login(self.user)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_show_source_for_another_user(self):
+        """Test permission denied to display a source for another user."""
+        self.client.force_login(self.another_user)
+        response = self.client.get(self.url)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+
+    def test_show_source_detail_to_anonymous(self):
+        """Test permission denied to display a source for an anonymous."""
+        response = self.client.get(self.url)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
