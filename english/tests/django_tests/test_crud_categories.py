@@ -1,326 +1,213 @@
-"""
-Test CRUD categories.
-"""
-from unittest import skip
-
-from django.test import TestCase
-from django.urls import reverse_lazy
+from django.test import Client, TestCase
+from django.urls import reverse_lazy, reverse
 
 from contrib_app.contrib_test import flash_message_test
 from english.models import CategoryModel
 from users.models import UserModel
 
+CREATE_CATEGORY_PATH = 'english:categories_create'
+DELETE_CATEGORY_PATH = 'english:categories_delete'
+DETAIL_CATEGORY_PATH = 'english:categories_detail'
+UPDATE_CATEGORY_PATH = 'english:categories_update'
+CATEGORY_LIST_PATH = 'english:categories_list'
 
-class TestListCategories(TestCase):
-    """Test list categories."""
+NO_PERMISSION_MSG = 'Для доступа необходимо войти в систему'
+NO_PERMISSION_URL = reverse('users:login')
 
-    fixtures = ['english/tests/fixtures/wse-fixtures.json']
-
-    def setUp(self):
-        """Preparing the testing environment."""
-        self.admin = UserModel.objects.get(username='admin')
-        self.user = UserModel.objects.get(username='user1')
-        self.category_name1 = CategoryModel.objects.get(pk=1).name
-        self.category_name2 = CategoryModel.objects.get(pk=2).name
-        self.list_url = reverse_lazy('english:categories_list')
-
-        self.no_permissions_message = 'Вы пока не можете делать это'
-        self.no_permissions_redirect = reverse_lazy('home')
-
-    def test_get_list_by_admin(self):
-        """Get method by admin."""
-        self.client.force_login(self.admin)
-        response = self.client.get(self.list_url)
-        self.assertEqual(response.status_code, 200)
-
-        # Does the categories list page contain a categories?
-        response = self.client.get(self.list_url)
-        html = response.content.decode()
-        self.assertInHTML(self.category_name1, html)
-        self.assertInHTML(self.category_name2, html)
-
-        # Does the categories list page contain "Изменить / Удалить"?
-        html = response.content.decode()
-        self.assertIn('Изменить', html)
-        self.assertIn('Удалить', html)
-
-    def test_get_list_by_user(self):
-        """Get method by auth user."""
-        self.client.force_login(self.user)
-        response = self.client.get(self.list_url)
-        self.assertEqual(response.status_code, 200)
-
-        # Does the categories list page contain "Изменить / Удалить"?
-        html = response.content.decode()
-        self.assertIn('Изменить', html)
-        self.assertIn('Удалить', html)
-
-    @skip('Not auth user see `guest` categories')
-    def test_get_list_by_not_auth(self):
-        """Get method by not auth user."""
-        response = self.client.get(self.list_url)
-        self.assertEqual(response.status_code, 200)
-
-        # Does the categories list page contain "Изменить / Удалить"?
-        html = response.content.decode()
-        self.assertIn('Изменить', html)
-        self.assertIn('Удалить', html)
-
-    def test_list_categories_only_current_user(self):
-        """Test show category list only of user."""
-        self.client.force_login(self.user)
-        response = self.client.get(self.list_url)
-        object_list = response.__dict__['context_data']['object_list']
-
-        self.assertTrue(len(object_list) == 2)
-        self.assertTrue(object_list.contains(CategoryModel.objects.get(id=7)))
-        self.assertFalse(object_list.contains(CategoryModel.objects.get(id=2)))
+SUCCESS_CREATE_CATEGORY_MSG = 'Категория слов добавлена'
+SUCCESS_UPDATE_CATEGORY_MSG = 'Категория слов изменена'
+SUCCESS_DELETE_CATEGORY_MSG = 'Категория слов удалена'
+PROTECT_DELETE_CATEGORY_MSG = ('Невозможно удалить этот объект, так как он '
+                               'используется в другом месте приложения')
 
 
-class TestCreateCategory(TestCase):
-    """Test create category."""
+class TestCreateCategoryView(TestCase):
+    """Test create category view."""
 
-    fixtures = ['english/tests/fixtures/wse-fixtures.json']
+    fixtures = ['english/tests/fixtures/wse-fixtures-3.json']
 
     def setUp(self):
-        """Preparing the testing environment."""
-        self.admin = UserModel.objects.get(username='admin')
-        self.user = UserModel.objects.get(username='user1')
-        self.new_category = {'name': 'new_category'}
-
-        self.create_url = reverse_lazy('english:categories_create')
-        self.success_url = reverse_lazy('english:categories_list')
-        self.success_message = 'Категория добавлена'
-        self.no_permissions_message = 'Вы пока не можете делать это'
-        self.no_permissions_redirect = reverse_lazy('home')
-
-    def test_get_create_by_admin(self):
-        """Get method by admin."""
-        self.client.force_login(self.admin)
-        response = self.client.get(self.create_url)
-        self.assertEqual(response.status_code, 200)
-
-    def test_post_create_by_admin(self):
-        """Post method by admin."""
-        self.client.force_login(self.admin)
-        response = self.client.post(self.create_url, self.new_category)
-        self.assertRedirects(response, self.success_url, 302)
-        flash_message_test(response, self.success_message)
-
-        # Does the category list page contain a new category?
-        response = self.client.get(self.success_url)
-        self.assertInHTML(self.new_category['name'], response.content.decode())
+        """Set up data."""
+        self.client: Client = Client()
+        user_id = 3
+        self.user = UserModel.objects.get(pk=user_id)
+        self.create_data = {'name': 'new category'}
+        self.url = reverse_lazy(CREATE_CATEGORY_PATH)
 
     def test_get_create_category_by_user(self):
-        """Test get method page status 200."""
+        """Test create category by logged-in user, GET method page status 200.
+        """
         self.client.force_login(self.user)
-        response = self.client.get(self.create_url)
+        response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
     def test_post_create_category_by_user(self):
-        """Test post method page status 200."""
+        """Test create category by logged-in user, POST method page status 302.
+        """
         self.client.force_login(self.user)
-        response = self.client.post(self.create_url, self.new_category)
-        self.assertRedirects(response, self.success_url, 302)
+        response = self.client.post(self.url, self.create_data)
 
-    def test_create_category_by_user(self):
-        """Test create category by user."""
-        self.client.force_login(self.user)
-        self.client.post(self.create_url, self.new_category)
+        self.assertRedirects(response, reverse(CATEGORY_LIST_PATH), 302)
+        flash_message_test(response, SUCCESS_CREATE_CATEGORY_MSG)
+        assert CategoryModel.objects.filter(name='new category').exists()
 
-        self.assertTrue(CategoryModel.objects.filter(
-            name=self.new_category['name']
-        ).exists())
-
-    def test_get_create_not_auth(self):
-        """Get method by not auth user."""
-        response = self.client.get(self.create_url)
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
-
-    def test_post_create_not_auth(self):
-        """Post method by not auth user."""
-        response = self.client.post(self.create_url, self.new_category)
-
-        self.assertFalse(CategoryModel.objects.filter(
-            name=self.new_category,
-        ).exists())
-
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
+    def test_post_create_category_by_anonymous(self):
+        """Test create category by anonymous, POST method page status 302."""
+        response = self.client.post(self.url, self.create_data)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+        assert not CategoryModel.objects.filter(name='new category').exists()
 
 
-class TestUpdateCategory(TestCase):
-    """Test update category."""
+class TestUpdateCategoryView(TestCase):
+    """Test update category view."""
 
-    fixtures = ['english/tests/fixtures/wse-fixtures.json']
+    fixtures = ['english/tests/fixtures/wse-fixtures-3.json']
 
     def setUp(self):
-        """Preparing the testing environment."""
-        self.admin = UserModel.objects.get(username='admin')
-        self.user = UserModel.objects.get(username='user1')
-        self.category = CategoryModel.objects.get(pk=1)
-        self.updated_category = {'name': 'updated_category'}
-
-        self.update_url = reverse_lazy(
-            'english:categories_update', kwargs={'pk': 1}
+        """Set up data."""
+        user_id = 3
+        user_category_id = 1
+        another_user_id = 4
+        self.user = UserModel.objects.get(pk=user_id)
+        self.another_user = UserModel.objects.get(pk=another_user_id)
+        self.update_data = {'name': 'updated category'}
+        self.url = reverse(
+            UPDATE_CATEGORY_PATH, kwargs={'pk': user_category_id}
         )
+        self.success_url = reverse_lazy(CATEGORY_LIST_PATH)
 
-        self.category_user = CategoryModel.objects.get(pk=6)
-        self.update_url_by_user = reverse_lazy(
-            'english:categories_update', kwargs={'pk': 6}
-        )
-
-        self.success_url = reverse_lazy('english:categories_list')
-        self.success_message = 'Категория изменена'
-        self.no_permissions_message = 'Вы пока не можете делать это'
-        self.no_permissions_redirect = reverse_lazy('home')
-
-    #################################
-    # Test update with permissions. #
-    #################################
-    def test_get_update_by_admin(self):
-        """Get method by admin."""
-        self.client.force_login(self.admin)
-        response = self.client.get(self.update_url)
+    def test_get_method_update_category_by_user(self):
+        """Test update category by logged-in user, GET method page status 200.
+        """
+        self.client.force_login(self.user)
+        response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
-    def test_post_update_by_admin(self):
-        """Post method by admin."""
-        self.client.force_login(self.admin)
-        response = self.client.post(self.update_url, self.updated_category)
+    def test_post_method_update_category_by_user(self):
+        """Test update category by logged-in user, POST method page status 302.
+        """
+        self.client.force_login(self.user)
+        response = self.client.post(self.url, self.update_data)
         self.assertRedirects(response, self.success_url, 302)
-        flash_message_test(response, self.success_message)
+        flash_message_test(response, SUCCESS_UPDATE_CATEGORY_MSG)
+        assert CategoryModel.objects.filter(name='updated category').exists()
 
-        # Does the category list page contain an updated category?
-        response = self.client.get(self.success_url)
-        html = response.content.decode()
-        self.assertInHTML(self.updated_category['name'], html)
+    def test_post_method_update_category_by_another_user(self):
+        """Test update category by another user, POST method page status 302.
+        """
+        self.client.force_login(self.another_user)
+        response = self.client.post(self.url, self.update_data)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+        assert not CategoryModel.objects.filter(name='updated category').exists()
 
-    ####################################
-    # Test update with no permissions. #
-    ####################################
-    def test_get_update_by_user(self):
-        """Get method by auth user."""
-        self.client.force_login(self.user)
-        response = self.client.get(self.update_url)
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
-
-    def test_post_update_by_user(self):
-        """Post method by auth user."""
-        self.client.force_login(self.user)
-        response = self.client.post(self.update_url_by_user, self.updated_category)
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
-
-        # Does the category list page contain a not updated category?
-        response = self.client.get(self.success_url)
-        html = response.content.decode()
-        self.assertInHTML(self.category_user.name, html)
-
-    def test_get_update_not_auth(self):
-        """Get method by not auth user."""
-        response = self.client.get(self.update_url)
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
-
-    def test_post_update_not_auth(self):
-        """Post method by not auth user."""
-        response = self.client.post(self.update_url, self.updated_category)
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
-
-        # Does the db contain a category name?
-        self.assertTrue(CategoryModel.objects.filter(
-            name=self.category.name
-        ).exists())
+    def test_post_update_category_by_anonymous(self):
+        """Test update category by anonymous, POST method page status 302."""
+        response = self.client.post(self.url, self.update_data)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+        assert not CategoryModel.objects.filter(name='updated category').exists()
 
 
-class TestDeleteCategory(TestCase):
-    """Test delete category."""
+class TestDeleteCategoryView(TestCase):
+    """Test delete category view."""
 
-    fixtures = ['english/tests/fixtures/wse-fixtures.json']
+    fixtures = ['english/tests/fixtures/wse-fixtures-3.json']
 
     def setUp(self):
-        """Preparing the testing environment."""
-        self.admin = UserModel.objects.get(username='admin')
-        self.user = UserModel.objects.get(username='user1')
-        self.deleted_category = CategoryModel.objects.get(pk=1)
+        """Set up data."""
+        user_id = 3
+        self.user_category_id = 5
+        self.user_protected_category_id = 1
+        another_user_id = 4
+        self.user = UserModel.objects.get(pk=user_id)
+        self.another_user = UserModel.objects.get(pk=another_user_id)
+        self.url = reverse(
+            DELETE_CATEGORY_PATH,
+            kwargs={'pk': self.user_category_id}
+        )
+        self.protected_url = reverse(
+            DELETE_CATEGORY_PATH,
+            kwargs={'pk': self.user_protected_category_id},
+        )
+        self.success_url = reverse(CATEGORY_LIST_PATH)
+        self.protected_redirect = reverse(CATEGORY_LIST_PATH)
 
-        self.delete_url = reverse_lazy(
-            'english:categories_delete', kwargs={'pk': 1}
-        )
-        self.delete_url_protected_category = reverse_lazy(
-            'english:categories_delete', kwargs={'pk': 2}
-        )
-        self.success_url = reverse_lazy('english:categories_list')
-        self.success_message = 'Категория удалена'
-        self.no_permissions_message = 'Вы пока не можете делать это'
-        self.no_permissions_redirect = reverse_lazy('home')
-        self.protected_redirect = reverse_lazy('home')
-        self.protected_message = (
-            'Невозможно удалить этот объект, '
-            'так как он используется в другом месте приложения'
-        )
-
-    #################################
-    # Test delete with permissions. #
-    #################################
-    def test_get_delete_by_admin(self):
-        """Get method by admin."""
-        self.client.force_login(self.admin)
-        response = self.client.get(self.delete_url)
+    def test_get_method_delete_category_by_user(self):
+        """Test delete category by logged-in user, GET method page status 200.
+        """
+        self.client.force_login(self.user)
+        response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
-    def test_post_delete_by_admin(self):
-        """Post method by admin."""
-        self.client.force_login(self.admin)
-        response = self.client.post(self.delete_url)
+    def test_post_method_delete_category_by_user(self):
+        """Test delete category by logged-in user, POST method page status 302.
+        """
+        self.client.force_login(self.user)
+        response = self.client.post(self.url)
         self.assertRedirects(response, self.success_url, 302)
-        flash_message_test(response, self.success_message)
+        flash_message_test(response, SUCCESS_DELETE_CATEGORY_MSG)
+        assert not CategoryModel.objects.filter(
+            pk=self.user_category_id
+        ).exists()
 
-        # Does the db contain a deleted category?
-        self.assertFalse(CategoryModel.objects.filter(pk=1).exists())
+    def test_post_method_delete_category_by_another_user(self):
+        """Tes delete category by another user, POST method page status 302."""
+        self.client.force_login(self.another_user)
+        response = self.client.get(self.url)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+        assert CategoryModel.objects.filter(pk=self.user_category_id).exists()
 
-    def test_delete_protected_error(self):
-        """Delete protected category."""
-        self.client.force_login(self.admin)
-        response = self.client.post(self.delete_url_protected_category)
+    def test_post_method_delete_category_by_anonymous(self):
+        """Test delete category by anonymous, POST method page status 302."""
+        response = self.client.post(self.url)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+        assert CategoryModel.objects.filter(pk=self.user_category_id).exists()
+
+    def test_delete_protected_category(self):
+        """Test delete protected category."""
+        self.client.force_login(self.user)
+        response = self.client.post(self.protected_url)
         self.assertRedirects(response, self.protected_redirect, 302)
-        flash_message_test(response, self.protected_message)
+        flash_message_test(response, PROTECT_DELETE_CATEGORY_MSG)
+        assert CategoryModel.objects.filter(
+            pk=self.user_protected_category_id
+        ).exists()
 
-    ####################################
-    # Test delete with no permissions. #
-    ####################################
-    def test_get_delete_by_user(self):
-        """Get method by auth user."""
+
+class TestCategoryListView(TestCase):
+    """Test category list view."""
+
+    fixtures = ['english/tests/fixtures/wse-fixtures-3.json']
+
+    def setUp(self):
+        """Set up data."""
+        self.client = Client()
+        self.user_id = 3
+        self.user = UserModel.objects.get(pk=self.user_id)
+        self.url = reverse(CATEGORY_LIST_PATH)
+
+    def test_show_specific_category_list_to_specific_user(self):
+        """Test display specific category list to specific user,
+        page status 200."""
         self.client.force_login(self.user)
-        response = self.client.get(self.delete_url)
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
+        response = self.client.get(self.url)
 
-    def test_post_delete_by_user(self):
-        """Post method by auth user."""
-        self.client.force_login(self.user)
-        response = self.client.post(self.delete_url)
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
+        # Assert page status 200.
+        self.assertEqual(response.status_code, 200)
 
-        # Does the db contain a category?
-        self.assertTrue(CategoryModel.objects.filter(pk=1).exists())
+        # Assert by user id, that `category` contains only the user's
+        # categories.
+        sources = response.context["categories"]
+        user_ids = set(sources.values_list('user', flat=True))
+        self.assertTrue(*user_ids, self.user_id)
 
-    def test_get_delete_not_auth(self):
-        """Get method by not auth user."""
-        response = self.client.get(self.delete_url)
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
-
-    def test_post_delete_not_auth(self):
-        """Post method by not auth user."""
-        response = self.client.post(self.delete_url)
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
-
-        # Does the db contain a category?
-        self.assertTrue(CategoryModel.objects.filter(pk=1).exists())
+    def test_show_category_list_to_anonymous(self):
+        """Test permission denied to display a category list for an anonymous.
+        """
+        response = self.client.get(self.url)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
