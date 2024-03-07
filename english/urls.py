@@ -120,11 +120,6 @@ urlpatterns = [
 
     # --======= Sources =======--
     path(
-        'sources/list/',
-        views.SourceListView.as_view(),
-        name='sources_list'
-    ),
-    path(
         'sources/create/',
         views.SourceCreateView.as_view(),
         name='source_create'
@@ -139,4 +134,14 @@ urlpatterns = [
         views.SourceDeleteView.as_view(),
         name='source_delete'
     ),
+    path(
+        'sources/list/',
+        views.SourceListView.as_view(),
+        name='sources_list'
+    ),
+    path(
+        'sources/<int:pk>/detail/',
+        views.SourceDetailView.as_view(),
+        name='source_detail'
+    )
 ] + study

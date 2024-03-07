@@ -25,9 +25,10 @@ from english.views.crud_word import (
 )
 from english.views.crud_sources import (
     SourceCreateView,
-    SourceListView,
     SourceUpdateView,
     SourceDeleteView,
+    SourceListView,
+    SourceDetailView
 )
 from english.views.word_task_view import (
     AnswerWordStudyView,

@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, UpdateView
+from django.views.generic import CreateView, ListView, UpdateView, DetailView
 
 from english.forms.source import SourceForm
 from english.models import SourceModel
@@ -12,6 +12,7 @@ from contrib_app.mixins import (
 SOURCE_LIST_PATH = 'english:sources_list'
 
 DELETE_SOURCE_TEMPLATE = 'delete.html'
+DETAIL_SOURCE_TEMPLATE = 'english/source_detail.html'
 SOURCE_FORM_TEMPLATE = 'form.html'
 SOURCE_LIST_TEMPLATE = 'english/sources_list.html'
 
@@ -84,3 +85,14 @@ class SourceListView(CheckLoginPermissionMixin, ListView):
             user=self.request.user.id
         )
         return queryset
+
+
+class SourceDetailView(CheckObjectPermissionMixin, DetailView):
+    """Detail source view."""
+
+    model = SourceModel
+    template_name = DETAIL_SOURCE_TEMPLATE
+    context_object_name = 'source'
+    extra_context = {
+        'title': 'Обзор источника',
+    }
