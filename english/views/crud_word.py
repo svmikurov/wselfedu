@@ -102,7 +102,7 @@ class WordListView(CheckLoginPermissionMixin, FilterView):
 
 
 class WordDetailView(CheckObjectPermissionMixin, DetailView):
-    """Delete word view."""
+    """Detail word view."""
 
     model = WordModel
     template_name = DETAIL_WORD_TEMPLATE
