@@ -27,7 +27,7 @@ urlpatterns = [
     # --======= Account ======--
     path(
         'user/<int:pk>/word-list/',
-        views.UserWordListView.as_view(),
+        views.WordListView.as_view(),
         name='users_words',
     ),
     # -- End Account --

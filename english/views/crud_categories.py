@@ -25,7 +25,6 @@ class CategoryListView(
     extra_context = {
         'title': 'Список категорий',
     }
-    message_no_permission = 'Вы пока не можете делать это'
 
     def get_queryset(self):
         """Get categories added only by the current user."""
@@ -42,18 +41,14 @@ class CategoryCreateView(
     form_class = CategoryForm
     template_name = 'form.html'
     success_url = reverse_lazy('english:categories_list')
+    success_message = 'Категория добавлена'
     extra_context = {
         'title': 'Добавить категорию',
         'btn_name': 'Добавить',
     }
 
-    success_message = 'Категория добавлена'
-    error_message = 'Ошибка в добавлении категории'
-    message_no_permission = 'Вы пока не можете делать это'
-
     def form_valid(self, form):
-        """Add the authenticated user to the `user` field of the CategoryModel.
-        """
+        """Add current user to form."""
         form.instance.user = self.request.user
         return super().form_valid(form)
 
@@ -67,14 +62,12 @@ class CategoryUpdateView(
     model = CategoryModel
     form_class = CategoryForm
     template_name = 'form.html'
+    success_url = reverse_lazy('english:categories_list')
+    success_message = 'Категория изменена'
     extra_context = {
         'title': 'Изменить категорию',
         'btn_name': 'Изменить',
     }
-    success_url = reverse_lazy('english:categories_list')
-    success_message = 'Категория изменена'
-    error_message = 'Ошибка изменения категории'
-    message_no_permission = 'Вы не можете этого делать'
 
 
 class CategoryDeleteView(
@@ -86,10 +79,9 @@ class CategoryDeleteView(
 ):
     model = CategoryModel
     template_name = 'delete.html'
+    success_url = reverse_lazy('english:categories_list')
+    success_message = 'Категория удалена'
     extra_context = {
         'title': 'Удаление категории',
         'btn_name': 'Удалить',
     }
-    success_url = reverse_lazy('english:categories_list')
-    success_message = 'Категория удалена'
-    message_no_permission = 'Вы не можете этого делать'

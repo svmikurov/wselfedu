@@ -1,11 +1,15 @@
 from django.template.response import TemplateResponse
 from django.test import Client, TestCase
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from faker import Faker
 from faker.generator import Generator
 
 from contrib_app.contrib_test import flash_message_test
 from users.models import UserModel
+
+NO_PERMISSION_PATH = 'users:login'
+NO_PERMISSION_MSG = 'Для доступа необходимо войти в систему'
+NO_PERMISSION_URL = reverse(NO_PERMISSION_PATH)
 
 
 class UserDetailTest(TestCase):
@@ -45,10 +49,10 @@ class UserDetailTest(TestCase):
     def test_get_not_owner(self):
         """Test access to the account only by the owner."""
         response = self.client.get(self.url)
-        self.assertRedirects(response, self.redirect_no_permission, 302)
-        flash_message_test(response, self.message_no_permission)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
 
         self.client.force_login(self.fake_user_not_owner)
         response = self.client.get(self.url)
-        self.assertRedirects(response, self.redirect_no_permission, 302)
-        flash_message_test(response, self.message_no_permission)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)

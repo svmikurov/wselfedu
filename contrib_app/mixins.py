@@ -1,8 +1,9 @@
 from django.contrib import messages
-from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.db.models import ProtectedError
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.views.generic import DeleteView
 
 
 class HandleNoPermissionMixin:
@@ -35,8 +36,8 @@ class CheckUserForOwnershipAccountMixin(UserPassesTestMixin):
         return self.authorship_check
 
 
-class CheckOwnershipWordUserMixin(UserPassesTestMixin):
-    """Check if the user has owner permission on word."""
+class CheckObjectOwnershipMixin(UserPassesTestMixin):
+    """Check if the user has owner permission on object."""
 
     def authorship_check(self):
         current_user = self.request.user
@@ -91,7 +92,7 @@ class AddMessageToFormSubmissionMixin:
     """Add a flash message on form submission."""
 
     success_message = 'Успех!'
-    error_message = 'Не удалось!'
+    error_message = 'Ошибка!'
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -99,7 +100,7 @@ class AddMessageToFormSubmissionMixin:
         return response
 
     def form_invalid(self, form):
-        response = super().form_invalid(form)
+        response = super().form_valid(form)
         messages.error(self.request, self.error_message)
         return response
 
@@ -121,3 +122,29 @@ class RedirectForModelObjectDeleteErrorMixin:
         except ProtectedError:
             messages.error(request, self.protected_message)
             return redirect(self.protected_redirect_url)
+
+
+class CheckObjectPermissionMixin(
+    HandleNoPermissionMixin,
+    CheckObjectOwnershipMixin,
+    AddMessageToFormSubmissionMixin,
+):
+    """"""
+
+
+class CheckLoginPermissionMixin(
+    HandleNoPermissionMixin,
+    LoginRequiredMixin,
+    AddMessageToFormSubmissionMixin,
+):
+    """"""
+
+
+class PermissionProtectDeleteView(
+    HandleNoPermissionMixin,
+    CheckObjectOwnershipMixin,
+    RedirectForModelObjectDeleteErrorMixin,
+    AddMessageToFormSubmissionMixin,
+    DeleteView,
+):
+    """"""

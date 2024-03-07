@@ -1,10 +1,13 @@
 from django.test import Client, TestCase
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from faker import Faker
 from faker.generator import Generator
 
 from contrib_app.contrib_test import flash_message_test
 from users.models import UserModel
+
+NO_PERMISSION_MSG = 'Для доступа необходимо войти в систему'
+NO_PERMISSION_URL = reverse('users:login')
 
 
 class UserDeleteTest(TestCase):
@@ -44,19 +47,19 @@ class UserDeleteTest(TestCase):
 
     def test_get_not_owner(self):
         response = self.client.get(self.url)
-        self.assertRedirects(response, self.redirect_no_permission, 302)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
         self.assertTrue(UserModel.objects.filter(
             username=self.fake_username
         ).exists())
-        flash_message_test(response, self.message_no_permission)
+        flash_message_test(response, NO_PERMISSION_MSG)
 
         self.client.force_login(self.fake_user_not_owner)
         response = self.client.get(self.url)
-        self.assertRedirects(response, self.redirect_no_permission, 302)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
         self.assertTrue(UserModel.objects.filter(
             username=self.fake_username
         ).exists())
-        flash_message_test(response, self.message_no_permission)
+        flash_message_test(response, NO_PERMISSION_MSG)
 
     def test_post(self):
         self.client.force_login(self.fake_user)
@@ -70,16 +73,16 @@ class UserDeleteTest(TestCase):
 
     def test_post_not_owner(self):
         response = self.client.post(self.url)
-        self.assertRedirects(response, self.redirect_no_permission, 302)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
         self.assertTrue(UserModel.objects.filter(
             username=self.fake_username
         ).exists())
-        flash_message_test(response, self.message_no_permission)
+        flash_message_test(response, NO_PERMISSION_MSG)
 
         self.client.force_login(self.fake_user_not_owner)
         response = self.client.post(self.url)
-        self.assertRedirects(response, self.redirect_no_permission, 302)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
         self.assertTrue(UserModel.objects.filter(
             username=self.fake_username
         ).exists())
-        flash_message_test(response, self.message_no_permission)
+        flash_message_test(response, NO_PERMISSION_URL)

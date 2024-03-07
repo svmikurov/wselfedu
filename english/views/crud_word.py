@@ -1,45 +1,38 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView
 from django_filters.views import FilterView
 
 from english.filters import WordsFilter
 from english.forms import WordForm
 from english.models import WordModel
 from contrib_app.mixins import (
-    AddMessageToFormSubmissionMixin,
-    CheckOwnershipWordUserMixin,
-    HandleNoPermissionMixin,
-    RedirectForModelObjectDeleteErrorMixin,
+    CheckLoginPermissionMixin,
+    CheckObjectPermissionMixin,
+    PermissionProtectDeleteView,
 )
 
-CREATE_PATH = 'english:words_create'
-LIST_PATH = 'english:word_list'
+CREATE_WORD_PATH = 'english:words_create'
+LIST_WORD_PATH = 'english:word_list'
 
-DETAIL_TEMPLATE = 'english/word_detail.html'
-DELETE_TEMPLATE = 'delete.html'
-FORM_TEMPLATE = 'english/word_form.html'
-LIST_TEMPLATE = 'english/word_list.html'
-USER_LIST_TEMPLATE = 'english/user_word_list.html'
+DELETE_WORD_TEMPLATE = 'delete.html'
+DETAIL_WORD_TEMPLATE = 'english/word_detail.html'
+WORD_FORM_TEMPLATE = 'english/word_form.html'
+WORD_LIST_TEMPLATE = 'english/word_list.html'
+USER_WORD_LIST_TEMPLATE = 'english/user_word_list.html'
 
 PAGINATE_NUMBER = 20
 
 
-class WordCreateView(
-    HandleNoPermissionMixin,
-    LoginRequiredMixin,
-    AddMessageToFormSubmissionMixin,
-    CreateView,
-):
+class WordCreateView(CheckLoginPermissionMixin, CreateView):
     """Create word view."""
 
     form_class = WordForm
-    template_name = FORM_TEMPLATE
-    success_url = reverse_lazy(CREATE_PATH)
+    template_name = WORD_FORM_TEMPLATE
+    success_url = reverse_lazy(CREATE_WORD_PATH)
     success_message = 'Слово добавлено'
 
     additional_user_navigation = {
-        'Словарь': LIST_TEMPLATE
+        'Словарь': WORD_LIST_TEMPLATE
     }
     extra_context = {
         'title': 'Добавить слово',
@@ -50,21 +43,17 @@ class WordCreateView(
     def form_valid(self, form):
         """Add current user to form."""
         form.instance.user = self.request.user
+        form.save()
         return super().form_valid(form)
 
 
-class WordUpdateView(
-    HandleNoPermissionMixin,
-    CheckOwnershipWordUserMixin,
-    AddMessageToFormSubmissionMixin,
-    UpdateView,
-):
+class WordUpdateView(CheckObjectPermissionMixin, UpdateView):
     """Update word view."""
 
     model = WordModel
     form_class = WordForm
-    template_name = FORM_TEMPLATE
-    success_url = reverse_lazy(LIST_PATH)
+    template_name = WORD_FORM_TEMPLATE
+    success_url = reverse_lazy(LIST_WORD_PATH)
     success_message = 'Слово изменено'
     context_object_name = 'word'
     extra_context = {
@@ -73,35 +62,25 @@ class WordUpdateView(
     }
 
 
-class WordDeleteView(
-    HandleNoPermissionMixin,
-    CheckOwnershipWordUserMixin,
-    RedirectForModelObjectDeleteErrorMixin,
-    AddMessageToFormSubmissionMixin,
-    DeleteView,
-):
+class WordDeleteView(CheckObjectPermissionMixin, PermissionProtectDeleteView):
     """Delete word view."""
 
     model = WordModel
-    template_name = DELETE_TEMPLATE
-    success_url = reverse_lazy(LIST_PATH)
+    template_name = DELETE_WORD_TEMPLATE
+    success_url = reverse_lazy(LIST_WORD_PATH)
+    success_message = 'Слово удалено'
     extra_context = {
         'title': 'Удаление слова',
         'btn_name': 'Удалить',
     }
 
 
-class WordListView(
-    HandleNoPermissionMixin,
-    LoginRequiredMixin,
-    AddMessageToFormSubmissionMixin,
-    FilterView,
-):
+class WordListView(CheckLoginPermissionMixin, FilterView):
     """List word view."""
 
     model = WordModel
     filterset_class = WordsFilter
-    template_name = LIST_TEMPLATE
+    template_name = WORD_LIST_TEMPLATE
     context_object_name = 'words'
     paginate_by = PAGINATE_NUMBER
     extra_context = {
@@ -122,15 +101,11 @@ class WordListView(
         return queryset
 
 
-class WordDetailView(
-    HandleNoPermissionMixin,
-    CheckOwnershipWordUserMixin,
-    DetailView,
-):
+class WordDetailView(CheckObjectPermissionMixin, DetailView):
     """Delete word view."""
 
     model = WordModel
-    template_name = DETAIL_TEMPLATE
+    template_name = DETAIL_WORD_TEMPLATE
     context_object_name = 'word'
     extra_context = {
         'title': 'Обзор слова',

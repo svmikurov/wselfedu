@@ -1,310 +1,201 @@
-"""
-Test CRUD sources.
-"""
-from django.test import TestCase
-from django.urls import reverse_lazy
+from django.test import Client, TestCase
+from django.urls import reverse_lazy, reverse
 
 from contrib_app.contrib_test import flash_message_test
 from english.models import SourceModel
 from users.models import UserModel
 
-SOURCES_LIST_PATH = 'english:sources_list'
-"""Source list page path name.
-"""
+CREATE_SOURCE_PATH = 'english:source_create'
+DELETE_SOURCE_PATH = 'english:source_delete'
+DETAIL_SOURCE_PATH = 'english:source_detail'
+UPDATE_SOURCE_PATH = 'english:source_update'
+SOURCE_LIST_PATH = 'english:sources_list'
+
+NO_PERMISSION_MSG = 'Для доступа необходимо войти в систему'
+NO_PERMISSION_URL = reverse('users:login')
+
+SUCCESS_CREATE_SOURCE_MSG = 'Источник слов добавлен'
+SUCCESS_UPDATE_SOURCE_MSG = 'Источник слов изменен'
+SUCCESS_DELETE_SOURCE_MSG = 'Источник слов удален'
+PROTECT_DELETE_SOURCE_MSG = ('Невозможно удалить этот объект, так как он '
+                             'используется в другом месте приложения')
 
 
-class TestListSources(TestCase):
-    """Test list sources."""
+class TestCreateSourceView(TestCase):
+    """Test create source view."""
 
-    fixtures = ['english/tests/fixtures/wse-fixtures.json']
-
-    def setUp(self):
-        """Preparing the testing environment."""
-        self.admin = UserModel.objects.get(username='admin')
-        self.user = UserModel.objects.get(username='user1')
-        self.source_name1 = SourceModel.objects.get(pk=1).name
-        self.source_name2 = SourceModel.objects.get(pk=2).name
-        self.list_url = reverse_lazy(SOURCES_LIST_PATH)
-
-        self.no_permissions_message = 'Вы пока не можете делать это'
-        self.no_permissions_redirect = reverse_lazy('home')
-
-    def test_get_list_by_admin(self):
-        """Test source list page status 200 for admin."""
-        self.client.force_login(self.admin)
-        response = self.client.get(self.list_url)
-        self.assertEqual(response.status_code, 200)
-
-    def test_source_list_content(self):
-        """Test source list page content."""
-        self.client.force_login(self.admin)
-        response = self.client.get(self.list_url)
-
-        html = response.content.decode()
-        self.assertInHTML(self.source_name1, html)
-        self.assertInHTML(self.source_name2, html)
-
-        # Does the sources list page contain "Изменить / Удалить"?
-        self.assertIn('Изменить', html)
-        self.assertIn('Удалить', html)
-
-    def test_get_list_by_user(self):
-        """Test source list page status 200 for auth user."""
-        self.client.force_login(self.user)
-        response = self.client.get(self.list_url)
-        self.assertEqual(response.status_code, 200)
-
-        # Does the sources list page contain "Изменить / Удалить"?
-        html = response.content.decode()
-        self.assertNotIn('Изменить', html)
-        self.assertNotIn('Удалить', html)
-
-    def test_source_list_only_current_user(self):
-        """Test show source list only of user."""
-        self.client.force_login(self.user)
-        response = self.client.get(self.list_url)
-        object_list = response.context['object_list']
-
-        self.assertTrue(len(object_list) == 2)
-        self.assertTrue(object_list.contains(SourceModel.objects.get(id=5)))
-        self.assertFalse(object_list.contains(SourceModel.objects.get(id=2)))
-
-    def test_get_list_by_not_auth(self):
-        """Test source list page status 200 for not auth user."""
-        response = self.client.get(self.list_url)
-        self.assertEqual(response.status_code, 200)
-
-
-class TestCreateSource(TestCase):
-    """Test create source."""
-
-    fixtures = ['english/tests/fixtures/wse-fixtures.json']
+    fixtures = ['english/tests/fixtures/wse-fixtures-3.json']
 
     def setUp(self):
-        """Preparing the testing environment."""
-        self.admin = UserModel.objects.get(username='admin')
-        self.user = UserModel.objects.get(username='user1')
-        self.new_source = {'name': 'new_source'}
+        """Set up data."""
+        self.client: Client = Client()
+        user_id = 3
+        self.user = UserModel.objects.get(pk=user_id)
+        self.create_data = {'name': 'new source'}
+        self.url = reverse_lazy(CREATE_SOURCE_PATH)
 
-        self.create_url = reverse_lazy('english:source_create')
-        self.success_url = reverse_lazy(SOURCES_LIST_PATH)
-        self.success_message = 'Источник слов добавлен'
-        self.no_permissions_message = 'Вы пока не можете делать это'
-        self.no_permissions_redirect = reverse_lazy('home')
+    def test_get_create_source_by_user(self):
+        """Test create source by logged-in user, GET method page status 200."""
+        self.client.force_login(self.user)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
 
-    def test_get_create_by_admin(self):
-        """Test get method page status 200, source creation by admin.
+    def test_post_create_source_by_user(self):
+        """Test create source by logged-in user, POST method page status 302.
         """
-        self.client.force_login(self.admin)
-        response = self.client.get(self.create_url)
-        self.assertEqual(response.status_code, 200)
-
-    def test_post_create_by_admin(self):
-        """Test post method page status 200, source creation by admin."""
-        self.client.force_login(self.admin)
-        response = self.client.post(self.create_url, self.new_source)
-        self.assertRedirects(response, self.success_url, 302)
-        flash_message_test(response, self.success_message)
-
-        # Does the sources list page contain a new source?
-        response = self.client.get(self.success_url)
-        self.assertInHTML(self.new_source['name'], response.content.decode())
-
-    def test_get_create_by_user(self):
-        """Test get method page status 200, source creation by auth user."""
         self.client.force_login(self.user)
-        response = self.client.get(self.create_url)
-        self.assertEqual(response.status_code, 200)
+        response = self.client.post(self.url, self.create_data)
 
-    def test_post_create_by_user(self):
-        """Test post method page status 200, source creation by auth user."""
-        self.client.force_login(self.user)
-        response = self.client.post(self.create_url, self.new_source)
-        self.assertRedirects(response, self.success_url, 302)
+        self.assertRedirects(response, reverse(SOURCE_LIST_PATH), 302)
+        flash_message_test(response, SUCCESS_CREATE_SOURCE_MSG)
+        assert SourceModel.objects.filter(name='new source').exists()
 
-    def test_create_source_by_user(self):
-        """Test create source by user."""
-        self.client.force_login(self.user)
-        self.client.post(self.create_url, self.new_source)
-
-        created_source = SourceModel.objects.filter(
-            name=self.new_source['name'],
-        )
-        # Test add new source to DB.
-        self.assertTrue(created_source.exists())
-        # Test add user to source.
-        self.assertTrue(created_source.values()[0]["user_id"] == self.user.id)
-
-    def test_get_create_not_auth(self):
-        """Get method by not auth user."""
-        response = self.client.get(self.create_url)
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
-
-    def test_post_create_not_auth(self):
-        """Post method by not auth user."""
-        response = self.client.post(self.create_url, self.new_source)
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
+    def test_post_create_source_by_anonymous(self):
+        """Test create source by anonymous, POST method page status 302."""
+        response = self.client.post(self.url, self.create_data)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+        assert not SourceModel.objects.filter(name='new source').exists()
 
 
-class TestUpdateSource(TestCase):
-    """Test update source."""
+class TestUpdateSourceView(TestCase):
+    """Test update source view."""
 
-    fixtures = ['english/tests/fixtures/wse-fixtures.json']
+    fixtures = ['english/tests/fixtures/wse-fixtures-3.json']
 
     def setUp(self):
-        """Preparing the testing environment."""
-        self.admin = UserModel.objects.get(username='admin')
-        self.user = UserModel.objects.get(username='user1')
-        self.source = SourceModel.objects.get(pk=1)
-        self.updated_source = {'name': 'updated_source'}
+        """Set up data."""
+        user_id = 3
+        user_source_id = 1
+        another_user_id = 4
+        self.user = UserModel.objects.get(pk=user_id)
+        self.another_user = UserModel.objects.get(pk=another_user_id)
+        self.update_data = {'name': 'updated source'}
+        self.url = reverse(UPDATE_SOURCE_PATH, kwargs={'pk': user_source_id})
+        self.success_url = reverse_lazy(SOURCE_LIST_PATH)
 
-        self.update_url = reverse_lazy(
-            'english:source_update', kwargs={'pk': 1}
-        )
-        self.success_url = reverse_lazy(SOURCES_LIST_PATH)
-        self.success_message = 'Источник слов изменен'
-        self.no_permissions_message = 'Вы пока не можете делать это'
-        self.no_permissions_redirect = reverse_lazy('home')
-
-    def test_get_update_by_admin(self):
-        """Get method by admin."""
-        self.client.force_login(self.admin)
-        response = self.client.get(self.update_url)
+    def test_get_method_update_source_by_user(self):
+        """Test update source by logged-in user, GET method page status 200."""
+        self.client.force_login(self.user)
+        response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
-    def test_post_update_by_admin(self):
-        """Post method by admin."""
-        self.client.force_login(self.admin)
-        response = self.client.post(self.update_url, self.updated_source)
+    def test_post_method_update_word_by_user(self):
+        """Test update source by logged-in user, POST method page status 302.
+        """
+        self.client.force_login(self.user)
+        response = self.client.post(self.url, self.update_data)
         self.assertRedirects(response, self.success_url, 302)
-        flash_message_test(response, self.success_message)
+        flash_message_test(response, SUCCESS_UPDATE_SOURCE_MSG)
+        assert SourceModel.objects.filter(name='updated source').exists()
 
-        # Does the sources list page contain an updated source?
-        response = self.client.get(self.success_url)
-        html = response.content.decode()
-        self.assertInHTML(self.updated_source['name'], html)
+    def test_post_method_update_source_by_another_user(self):
+        """Test update source by another user, POST method page status 302."""
+        self.client.force_login(self.another_user)
+        response = self.client.post(self.url, self.update_data)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+        assert not SourceModel.objects.filter(name='updated source').exists()
 
-    def test_get_update_by_user(self):
-        """Get method by auth user."""
-        self.client.force_login(self.user)
-        response = self.client.get(self.update_url)
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
-
-    def test_post_update_by_user(self):
-        """Post method by auth user."""
-        self.client.force_login(self.user)
-        response = self.client.post(self.update_url, self.updated_source)
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
-
-        # Does the db contain an updated_source?
-        self.assertNotEqual(SourceModel.objects.filter(
-            name=self.source
-        ), self.updated_source['name'])
-
-    def test_get_update_not_auth(self):
-        """Get method by not auth user."""
-        response = self.client.get(self.update_url)
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
-
-    def test_post_update_not_auth(self):
-        """Post method by not auth user."""
-        response = self.client.post(self.update_url, self.updated_source)
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
-
-        # Does the db contain a source name?
-        self.assertTrue(SourceModel.objects.filter(
-            name=self.source.name
-        ).exists())
+    def test_post_update_source_by_anonymous(self):
+        """Test update word by anonymous, POST method page status 302."""
+        response = self.client.post(self.url, self.update_data)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+        assert not SourceModel.objects.filter(name='updated source').exists()
 
 
-class TestDeleteSource(TestCase):
-    """Test delete source."""
+class TestDeleteSourceView(TestCase):
+    """Test delete source view."""
 
-    fixtures = ['english/tests/fixtures/wse-fixtures.json']
+    fixtures = ['english/tests/fixtures/wse-fixtures-3.json']
 
     def setUp(self):
-        """Preparing the testing environment."""
-        self.admin = UserModel.objects.get(username='admin')
-        self.user = UserModel.objects.get(username='user1')
+        """Set up data."""
+        user_id = 3
+        self.user_source_id = 5
+        self.user_protected_source_id = 1
+        another_user_id = 4
+        self.user = UserModel.objects.get(pk=user_id)
+        self.another_user = UserModel.objects.get(pk=another_user_id)
+        self.url = reverse(
+            DELETE_SOURCE_PATH, kwargs={'pk': self.user_source_id},
+        )
+        self.protected_url = reverse(
+            DELETE_SOURCE_PATH, kwargs={'pk': self.user_protected_source_id},
+        )
+        self.success_url = reverse(SOURCE_LIST_PATH)
+        self.protected_redirect = reverse(SOURCE_LIST_PATH)
 
-        # URL источника, которые не имеет связей.
-        self.delete_url = reverse_lazy(
-            'english:source_delete', kwargs={'pk': 1}
-        )
-        # URL источника, который имеет защищенные от удаления связи.
-        self.delete_url_protected_source = reverse_lazy(
-            'english:source_delete', kwargs={'pk': 2}
-        )
-        # Успешное удаление.
-        self.success_url = reverse_lazy(SOURCES_LIST_PATH)
-        self.success_message = 'Источник слов удален'
-        # Удаление без прав на удаление.
-        self.no_permissions_message = 'Вы пока не можете делать это'
-        self.no_permissions_redirect = reverse_lazy('home')
-        # Защита базы от удаления данных.
-        self.protected_redirect = reverse_lazy(SOURCES_LIST_PATH)
-        self.protected_message = (
-            'Невозможно удалить этот объект, '
-            'так как он используется в другом месте приложения'
-        )
-
-    def test_get_delete_by_admin(self):
-        """Get method by admin."""
-        self.client.force_login(self.admin)
-        response = self.client.get(self.delete_url)
+    def test_get_method_delete_source_by_user(self):
+        """Test delete source by logged-in user, GET method page status 200."""
+        self.client.force_login(self.user)
+        response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
-    def test_post_delete_by_admin(self):
-        """Post method by admin."""
-        self.client.force_login(self.admin)
-        response = self.client.post(self.delete_url)
+    def test_post_method_delete_source_by_user(self):
+        """Test delete source by logged-in user, POST method page status 302.
+        """
+        self.client.force_login(self.user)
+        response = self.client.post(self.url)
         self.assertRedirects(response, self.success_url, 302)
-        flash_message_test(response, self.success_message)
+        flash_message_test(response, SUCCESS_DELETE_SOURCE_MSG)
+        assert not SourceModel.objects.filter(pk=self.user_source_id).exists()
 
-        # Does the db contain a deleted source?
-        self.assertFalse(SourceModel.objects.filter(pk=1).exists())
+    def test_post_method_delete_source_by_another_user(self):
+        """Tes delete source by another user, POST method page status 302."""
+        self.client.force_login(self.another_user)
+        response = self.client.get(self.url)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+        assert SourceModel.objects.filter(pk=self.user_source_id).exists()
 
-    def test_delete_protected_error(self):
-        """Delete protected source."""
-        self.client.force_login(self.admin)
-        response = self.client.post(self.delete_url_protected_source)
+    def test_post_method_delete_source_by_anonymous(self):
+        """Test delete source by anonymous, POST method page status 302."""
+        response = self.client.post(self.url)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+        assert SourceModel.objects.filter(pk=self.user_source_id).exists()
+
+    def test_delete_protected_source(self):
+        """Test delete protested source."""
+        self.client.force_login(self.user)
+        response = self.client.post(self.protected_url)
         self.assertRedirects(response, self.protected_redirect, 302)
-        flash_message_test(response, self.protected_message)
+        flash_message_test(response, PROTECT_DELETE_SOURCE_MSG)
+        assert SourceModel.objects.filter(
+            pk=self.user_protected_source_id
+        ).exists()
 
-    def test_get_delete_by_user(self):
-        """Get method by auth user."""
+
+class TestSourceListView(TestCase):
+    """Test source list view."""
+
+    fixtures = ['english/tests/fixtures/wse-fixtures-3.json']
+
+    def setUp(self):
+        """Set up data."""
+        self.client: Client = Client()
+        self.user_id = 3
+        self.user = UserModel.objects.get(pk=self.user_id)
+        self.url = reverse(SOURCE_LIST_PATH)
+
+    def test_show_specific_source_list_to_specific_user(self):
+        """Test display specific source list to specific user, page status 200.
+        """
         self.client.force_login(self.user)
-        response = self.client.get(self.delete_url)
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
+        response = self.client.get(self.url)
 
-    def test_post_delete_by_user(self):
-        """Post method by auth user."""
-        self.client.force_login(self.user)
-        response = self.client.post(self.delete_url)
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
+        # Assert page status 200.
+        self.assertEqual(response.status_code, 200)
 
-        # Does the db contain a source?
-        self.assertTrue(SourceModel.objects.filter(pk=1).exists())
+        # Assert by user id, that `sources` contains only the user's sources.
+        sources = response.context["sources"]
+        user_ids = set(sources.values_list('user', flat=True))
+        self.assertTrue(*user_ids, self.user_id)
 
-    def test_get_delete_not_auth(self):
-        """Get method by not auth user."""
-        response = self.client.get(self.delete_url)
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
-
-    def test_post_delete_not_auth(self):
-        """Post method by not auth user."""
-        response = self.client.post(self.delete_url)
-        self.assertRedirects(response, self.no_permissions_redirect, 302)
-        flash_message_test(response, self.no_permissions_message)
-
-        # Does the db contain a source?
-        self.assertTrue(SourceModel.objects.filter(pk=1).exists())
+    def test_show_source_list_to_anonymous(self):
+        """Test permission denied to display a source list for an anonymous."""
+        response = self.client.get(self.url)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
