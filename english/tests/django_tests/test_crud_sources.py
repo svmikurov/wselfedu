@@ -80,7 +80,7 @@ class TestUpdateSourceView(TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
-    def test_post_method_update_word_by_user(self):
+    def test_post_method_update_source_by_user(self):
         """Test update source by logged-in user, POST method page status 302.
         """
         self.client.force_login(self.user)
@@ -98,7 +98,7 @@ class TestUpdateSourceView(TestCase):
         assert not SourceModel.objects.filter(name='updated source').exists()
 
     def test_post_update_source_by_anonymous(self):
-        """Test update word by anonymous, POST method page status 302."""
+        """Test update source by anonymous, POST method page status 302."""
         response = self.client.post(self.url, self.update_data)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
@@ -158,7 +158,7 @@ class TestDeleteSourceView(TestCase):
         assert SourceModel.objects.filter(pk=self.user_source_id).exists()
 
     def test_delete_protected_source(self):
-        """Test delete protested source."""
+        """Test delete protected source."""
         self.client.force_login(self.user)
         response = self.client.post(self.protected_url)
         self.assertRedirects(response, self.protected_redirect, 302)

@@ -32,7 +32,7 @@ class SourceCreateView(CheckLoginPermissionMixin, CreateView):
     }
 
     def form_valid(self, form):
-        """Add the logged-in user to the `user` field of the SourceModel."""
+        """Add the current user to the form."""
         form.instance.user = self.request.user
         form.save()
         return super().form_valid(form)

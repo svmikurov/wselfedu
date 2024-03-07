@@ -12,13 +12,12 @@ from contrib_app.mixins import (
 )
 
 CREATE_WORD_PATH = 'english:words_create'
-LIST_WORD_PATH = 'english:word_list'
+WORD_LIST_PATH = 'english:word_list'
 
 DELETE_WORD_TEMPLATE = 'delete.html'
 DETAIL_WORD_TEMPLATE = 'english/word_detail.html'
 WORD_FORM_TEMPLATE = 'english/word_form.html'
 WORD_LIST_TEMPLATE = 'english/word_list.html'
-USER_WORD_LIST_TEMPLATE = 'english/user_word_list.html'
 
 PAGINATE_NUMBER = 20
 
@@ -41,7 +40,7 @@ class WordCreateView(CheckLoginPermissionMixin, CreateView):
     }
 
     def form_valid(self, form):
-        """Add current user to form."""
+        """Add the current user to the form."""
         form.instance.user = self.request.user
         form.save()
         return super().form_valid(form)
@@ -53,7 +52,7 @@ class WordUpdateView(CheckObjectPermissionMixin, UpdateView):
     model = WordModel
     form_class = WordForm
     template_name = WORD_FORM_TEMPLATE
-    success_url = reverse_lazy(LIST_WORD_PATH)
+    success_url = reverse_lazy(WORD_LIST_PATH)
     success_message = 'Слово изменено'
     context_object_name = 'word'
     extra_context = {
@@ -67,7 +66,7 @@ class WordDeleteView(CheckObjectPermissionMixin, PermissionProtectDeleteView):
 
     model = WordModel
     template_name = DELETE_WORD_TEMPLATE
-    success_url = reverse_lazy(LIST_WORD_PATH)
+    success_url = reverse_lazy(WORD_LIST_PATH)
     success_message = 'Слово удалено'
     extra_context = {
         'title': 'Удаление слова',
@@ -88,7 +87,7 @@ class WordListView(CheckLoginPermissionMixin, FilterView):
     }
 
     def get_queryset(self):
-        """Get word queryset to specific user."""
+        """Get queryset to specific user."""
         queryset = super(WordListView, self).get_queryset(
         ).select_related(
             'category',

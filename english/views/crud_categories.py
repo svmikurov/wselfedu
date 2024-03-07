@@ -1,87 +1,89 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView
 
 from english.forms import CategoryForm
 from english.models import CategoryModel
 from contrib_app.mixins import (
-    AddMessageToFormSubmissionMixin,
-    HandleNoPermissionMixin,
-    RedirectForModelObjectDeleteErrorMixin,
-    UserPassesTestAdminMixin,
+    CheckLoginPermissionMixin,
+    CheckObjectPermissionMixin,
+    PermissionProtectDeleteView,
 )
+
+CREATE_CATEGORY_PATH = 'english:categories_create'
+CATEGORY_LIST_PATH = 'english:categories_list'
+
+DELETE_CATEGORY_TEMPLATE = 'delete.html'
+DETAIL_CATEGORY_TEMPLATE = 'english/category_detail.html'
+CATEGORY_FORM_TEMPLATE = 'form.html'
+CATEGORY_LIST_TEMPLATE = 'english/cat_list.html'
 
 PAGINATE_NUMBER = 20
 
 
-class CategoryListView(
-    HandleNoPermissionMixin,
-    ListView,
-):
-    model = CategoryModel
-    context_object_name = 'categories'
-    template_name = 'english/cat_list.html'
-    paginate_by = PAGINATE_NUMBER
-    extra_context = {
-        'title': 'Список категорий',
-    }
+class CategoryCreateView(CheckLoginPermissionMixin, CreateView):
+    """Create category view."""
 
-    def get_queryset(self):
-        """Get categories added only by the current user."""
-        queryset = super().get_queryset().filter(user=self.request.user.pk)
-        return queryset
-
-
-class CategoryCreateView(
-    HandleNoPermissionMixin,
-    AddMessageToFormSubmissionMixin,
-    LoginRequiredMixin,
-    CreateView,
-):
     form_class = CategoryForm
-    template_name = 'form.html'
-    success_url = reverse_lazy('english:categories_list')
-    success_message = 'Категория добавлена'
+    template_name = CATEGORY_FORM_TEMPLATE
+    success_url = reverse_lazy(CATEGORY_LIST_PATH)
+    success_message = 'Категория слов добавлена'
     extra_context = {
         'title': 'Добавить категорию',
         'btn_name': 'Добавить',
     }
 
     def form_valid(self, form):
-        """Add current user to form."""
+        """Add the current user to the form."""
         form.instance.user = self.request.user
+        form.save()
         return super().form_valid(form)
 
 
-class CategoryUpdateView(
-    HandleNoPermissionMixin,
-    UserPassesTestAdminMixin,
-    AddMessageToFormSubmissionMixin,
-    UpdateView,
-):
+class CategoryUpdateView(CheckObjectPermissionMixin, UpdateView):
+    """Create category view."""
+
     model = CategoryModel
     form_class = CategoryForm
-    template_name = 'form.html'
-    success_url = reverse_lazy('english:categories_list')
-    success_message = 'Категория изменена'
+    template_name = CATEGORY_FORM_TEMPLATE
+    success_url = reverse_lazy(CATEGORY_LIST_PATH)
+    success_message = 'Категория слов изменена'
     extra_context = {
         'title': 'Изменить категорию',
         'btn_name': 'Изменить',
     }
 
 
-class CategoryDeleteView(
-    HandleNoPermissionMixin,
-    UserPassesTestAdminMixin,
-    RedirectForModelObjectDeleteErrorMixin,
-    AddMessageToFormSubmissionMixin,
-    DeleteView,
-):
+class CategoryDeleteView(PermissionProtectDeleteView):
+    """Delete category view."""
+
     model = CategoryModel
-    template_name = 'delete.html'
-    success_url = reverse_lazy('english:categories_list')
-    success_message = 'Категория удалена'
+    template_name = DELETE_CATEGORY_TEMPLATE
+    success_url = reverse_lazy(CATEGORY_LIST_PATH)
+    success_message = 'Категория слов удалена'
+    protected_redirect_url = reverse_lazy(CATEGORY_LIST_PATH)
+    protected_message = ('Невозможно удалить этот объект, так как он '
+                         'используется в другом месте приложения')
     extra_context = {
         'title': 'Удаление категории',
         'btn_name': 'Удалить',
     }
+
+
+class CategoryListView(CheckLoginPermissionMixin, ListView):
+    """Category list view."""
+
+    model = CategoryModel
+    template_name = CATEGORY_LIST_TEMPLATE
+    context_object_name = 'categories'
+    paginate_by = PAGINATE_NUMBER
+    extra_context = {
+        'title': 'Список категорий',
+    }
+
+    def get_queryset(self):
+        """Get queryset to specific user."""
+        queryset = super().get_queryset(
+        ).filter(
+            user=self.request.user.pk
+        )
+        return queryset
