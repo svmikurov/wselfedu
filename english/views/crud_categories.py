@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
 from english.forms import CategoryForm
 from english.models import CategoryModel
@@ -87,3 +87,14 @@ class CategoryListView(CheckLoginPermissionMixin, ListView):
             user=self.request.user.pk
         )
         return queryset
+
+
+class CategoryDetailView(CheckObjectPermissionMixin, DetailView):
+    """Category detail view."""
+
+    model = CategoryModel
+    template_name = DETAIL_CATEGORY_TEMPLATE
+    context_object_name = 'category'
+    extra_context = {
+        'title': 'Обзор категории'
+    }

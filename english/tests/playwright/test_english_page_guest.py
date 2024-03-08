@@ -44,8 +44,9 @@ def test_english_page_title(page: Page, go_to_english: Response):
     expect(page).to_have_title('Английский язык')
 
 
-def test_english_page_content(page: Page, live_server):
-    host = live_server.url
+def test_english_page_content(auth_home_page: Page):
+    page = auth_home_page
+    host = page.url
     url = urljoin(host, 'english/')
     for element in PAGE_ELEMENTS:
         page.goto(url)

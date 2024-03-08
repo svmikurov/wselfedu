@@ -13,7 +13,7 @@ DETAIL_WORD_PATH = 'english:words_detail'
 UPDATE_WORD_PATH = 'english:words_update'
 WORD_LIST_PATH = 'english:word_list'
 
-NO_PERMISSION_MSG = 'Для доступа необходимо войти в систему'
+NO_PERMISSION_MSG = 'Для доступа необходимо войти в приложение'
 NO_PERMISSION_URL = reverse('users:login')
 
 SUCCESS_CREATE_WORD_MSG = 'Слово добавлено'
@@ -182,17 +182,12 @@ class TestWordListView(TestCase):
         self.another_user = UserModel.objects.get(pk=self.another_user_id)
         self.url = reverse(WORD_LIST_PATH)
 
-    def test_show_list_word_to_user(self):
-        """Test showing the word list to logged_in user, page status 200."""
+    def test_show_word_list_to_specific_user(self):
+        """Test display word list to specific user, page status 200."""
         self.client.force_login(self.user)
         response = self.client.get(self.url)
+
         self.assertEqual(response.status_code, 200)
-
-    def test_show_specific_word_list_to_specific_user(self):
-        """Test display specific word list to specific user."""
-        self.client.force_login(self.user)
-        response = self.client.get(self.url)
-
         # assert by user id, that `words` contains only the user's words
         words = response.context["words"]
         user_ids = set(words.values_list('user', flat=True))

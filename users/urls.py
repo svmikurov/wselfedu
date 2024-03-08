@@ -4,22 +4,10 @@ from users import views
 
 app_name = 'users'
 urlpatterns = [
-    # <!--======== Users list ========-->
-    path(
-        'list/',
-        views.UsersListView.as_view(),
-        name='list',
-    ),
-    # <!-- End Users list -->
     # <!--======== Auth users =======-->
     path(
-        'registration/',
-        views.UserRegistrationView.as_view(template_name='form.html'),
-        name='create',
-    ),
-    path(
         'login/',
-        views.UserLoginView.as_view(template_name='users/login.html'),
+        views.UserLoginView.as_view(),
         name='login',
     ),
     path(
@@ -29,19 +17,29 @@ urlpatterns = [
     ),  # <!-- End Auth users -->
     # <!--======== Users account editions =======-->
     path(
-        '<int:pk>/account/',
-        views.UserDetailView.as_view(template_name='users/account.html'),
-        name='detail',
+        'registration/',
+        views.CreateUserView.as_view(),
+        name='create',
     ),
     path(
         '<int:pk>/update/',
-        views.UserUpdateView.as_view(template_name='form.html'),
+        views.UpdateUserView.as_view(),
         name='update',
     ),
     path(
         '<int:pk>/delete/',
-        views.UserDeleteView.as_view(template_name='delete.html'),
+        views.DeleteUserView.as_view(),
         name='delete',
+    ),
+    path(
+        'list/',
+        views.UsersListView.as_view(),
+        name='list',
+    ),
+    path(
+        '<int:pk>/account/',
+        views.UserDetailView.as_view(),
+        name='detail',
     ),
     # <!-- End Users account editions -->
 ]

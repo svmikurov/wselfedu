@@ -49,4 +49,4 @@ def test_home_page_content(go_to_home: Page, page: Page):
 
     page.goto(url)
     page.get_by_role('button', name='Добавить слово в словарь').click()
-    expect(page).to_have_title('Добавить слово')
+    expect(page).to_have_title('Вход в приложение')

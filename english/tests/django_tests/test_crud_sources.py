@@ -11,7 +11,7 @@ DETAIL_SOURCE_PATH = 'english:source_detail'
 UPDATE_SOURCE_PATH = 'english:source_update'
 SOURCE_LIST_PATH = 'english:sources_list'
 
-NO_PERMISSION_MSG = 'Для доступа необходимо войти в систему'
+NO_PERMISSION_MSG = 'Для доступа необходимо войти в приложение'
 NO_PERMISSION_URL = reverse('users:login')
 
 SUCCESS_CREATE_SOURCE_MSG = 'Источник слов добавлен'
@@ -34,13 +34,13 @@ class TestCreateSourceView(TestCase):
         self.create_data = {'name': 'new source'}
         self.url = reverse_lazy(CREATE_SOURCE_PATH)
 
-    def test_get_create_source_by_user(self):
+    def test_get_method_create_source_by_user(self):
         """Test create source by logged-in user, GET method page status 200."""
         self.client.force_login(self.user)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
-    def test_post_create_source_by_user(self):
+    def test_post_method_create_source_by_user(self):
         """Test create source by logged-in user, POST method page status 302.
         """
         self.client.force_login(self.user)
@@ -50,7 +50,7 @@ class TestCreateSourceView(TestCase):
         flash_message_test(response, SUCCESS_CREATE_SOURCE_MSG)
         assert SourceModel.objects.filter(name='new source').exists()
 
-    def test_post_create_source_by_anonymous(self):
+    def test_post_method_create_source_by_anonymous(self):
         """Test create source by anonymous, POST method page status 302."""
         response = self.client.post(self.url, self.create_data)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
@@ -97,7 +97,7 @@ class TestUpdateSourceView(TestCase):
         flash_message_test(response, NO_PERMISSION_MSG)
         assert not SourceModel.objects.filter(name='updated source').exists()
 
-    def test_post_update_source_by_anonymous(self):
+    def test_post_method_update_source_by_anonymous(self):
         """Test update source by anonymous, POST method page status 302."""
         response = self.client.post(self.url, self.update_data)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
@@ -180,7 +180,7 @@ class TestSourceListView(TestCase):
         self.user = UserModel.objects.get(pk=self.user_id)
         self.url = reverse(SOURCE_LIST_PATH)
 
-    def test_show_specific_source_list_to_specific_user(self):
+    def test_show_source_list_to_specific_user(self):
         """Test display specific source list to specific user, page status 200.
         """
         self.client.force_login(self.user)
@@ -222,15 +222,17 @@ class TestSourceDetailView(TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
-    def test_show_source_for_another_user(self):
-        """Test permission denied to display a source for another user."""
+    def test_show_source_detail_to_another_user(self):
+        """Test permission denied to display a source detail for another user.
+        """
         self.client.force_login(self.another_user)
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
 
     def test_show_source_detail_to_anonymous(self):
-        """Test permission denied to display a source for an anonymous."""
+        """Test permission denied to display source details for anonymous user.
+        """
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)

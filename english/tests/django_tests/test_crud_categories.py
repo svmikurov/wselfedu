@@ -11,7 +11,7 @@ DETAIL_CATEGORY_PATH = 'english:categories_detail'
 UPDATE_CATEGORY_PATH = 'english:categories_update'
 CATEGORY_LIST_PATH = 'english:categories_list'
 
-NO_PERMISSION_MSG = 'Для доступа необходимо войти в систему'
+NO_PERMISSION_MSG = 'Для доступа необходимо войти в приложение'
 NO_PERMISSION_URL = reverse('users:login')
 
 SUCCESS_CREATE_CATEGORY_MSG = 'Категория слов добавлена'
@@ -207,6 +207,43 @@ class TestCategoryListView(TestCase):
 
     def test_show_category_list_to_anonymous(self):
         """Test permission denied to display a category list for an anonymous.
+        """
+        response = self.client.get(self.url)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+
+
+class TestCategoryDetailView(TestCase):
+    """Test source detail view."""
+
+    fixtures = ['english/tests/fixtures/wse-fixtures-3.json']
+
+    def setUp(self):
+        """Set up data."""
+        self.client: Client = Client()
+        user_id = 3
+        user_category_id = 1
+        another_user_id = 4
+        self.user = UserModel.objects.get(pk=user_id)
+        self.another_user = UserModel.objects.get(pk=another_user_id)
+        self.url = reverse(DETAIL_CATEGORY_PATH, kwargs={'pk': user_category_id})
+
+    def test_show_category_detail_to_user(self):
+        """Test show category detail to user, page status 200."""
+        self.client.force_login(self.user)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_show_category_detail_to_another_user(self):
+        """Test permission denied to display a category detail for another user.
+        """
+        self.client.force_login(self.another_user)
+        response = self.client.get(self.url)
+        self.assertRedirects(response, NO_PERMISSION_URL, 302)
+        flash_message_test(response, NO_PERMISSION_MSG)
+
+    def test_show_category_detail_to_anonymous(self):
+        """Test permission denied to display category details for anonymous user.
         """
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="">{% include 'components/card_title.html' %}</div>
+
+  <!--======= Source =======-->
+  <p>{{ category }}</p><!-- End Source -->
+
+  <!--======= Buttons =======-->
+  <div class="pt-1">
+    <a class="btn btn-outline-primary btn-sm"
+       href="{% url 'english:categories_update' category.pk %}"
+       role="button"
+    >Изменить
+    </a>
+    <a class="btn btn-outline-danger btn-sm ms-1"
+       href="{% url 'english:categories_delete' category.pk %}"
+       role="button"
+    >Удалить
+    </a>
+    {% include 'components/back_btn.html' %}
+  </div><!-- End Buttons -->
+{% endblock %}

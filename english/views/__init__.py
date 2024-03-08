@@ -15,6 +15,7 @@ from english.views.crud_categories import (
     CategoryListView,
     CategoryUpdateView,
     CategoryDeleteView,
+    CategoryDetailView,
 )
 from english.views.crud_word import (
     WordCreateView,

@@ -117,7 +117,11 @@ urlpatterns = [
         views.CategoryDeleteView.as_view(),
         name='categories_delete'
     ),
-
+    path(
+        'categories/<int:pk>/detail/',
+        views.CategoryDetailView.as_view(),
+        name='categories_detail'
+    ),
     # --======= Sources =======--
     path(
         'sources/create/',

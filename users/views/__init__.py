@@ -1,9 +1,11 @@
 from users.views.auth import (
-    UserRegistrationView,
     UserLoginView,
     UserLogoutView,
-    UsersListView,
 )
-from users.views.accaunt import UserDetailView
-from users.views.update import UserUpdateView
-from users.views.delete import UserDeleteView
+from users.views.crud_user import (
+    CreateUserView,
+    UpdateUserView,
+    DeleteUserView,
+    UsersListView,
+    UserDetailView,
+)
