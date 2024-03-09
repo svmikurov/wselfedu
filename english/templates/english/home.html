@@ -1,30 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="card bg-light">
+{% include 'components/card_title.html' %}
+<div class="card-body">
+  <h5>Упражнения</h5>
+  <ul class="list-unstyled ps-3">
+    <li class="py-1"><a href="{% url 'english:word_choice' %}">Изучаем слова</a></li>
+  </ul>
+</div>
 
-  <div class="card-header">
-    <h1>{{ title }}</h1>
-  </div>
-
-  <div class="card-body">
-
-    <div class="card-title">
-      <h5>Упражнения</h5>
-      <ul class="list-unstyled ps-3">
-        <li class="py-1"><a href="{% url 'english:word_choice' %}">Изучаем слова</a></li>
-      </ul>
-    </div>
-
-    <div>
-      <h5>Словарь</h5>
-      <ul class="list-unstyled ps-3">
-        <li class="py-1"><a href="{% url 'english:words_create' %}">Добавить слово</a></li>
-        <li class="py-1"><a href="{% url 'english:word_list' %}">Список слов</a></li>
-        <li class="py-1"><a href="{% url 'english:category_list' %}">Категории</a></li>
-        <li class="py-1"><a href="{% url 'english:source_list' %}">Источники</a></li>
-      </ul>
-    </div>
-  </div>
+<div>
+  <h5>Словарь</h5>
+  <ul class="list-unstyled ps-3">
+    <li class="py-1"><a href="{% url 'english:words_create' %}">Добавить слово</a></li>
+    <li class="py-1"><a href="{% url 'english:word_list' %}">Список слов</a></li>
+    <li class="py-1"><a href="{% url 'english:category_list' %}">Категории</a></li>
+    <li class="py-1"><a href="{% url 'english:source_list' %}">Источники</a></li>
+  </ul>
 </div>
 {% endblock %}
