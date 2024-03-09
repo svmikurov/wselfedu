@@ -9,7 +9,7 @@ CREATE_SOURCE_PATH = 'english:source_create'
 DELETE_SOURCE_PATH = 'english:source_delete'
 DETAIL_SOURCE_PATH = 'english:source_detail'
 UPDATE_SOURCE_PATH = 'english:source_update'
-SOURCE_LIST_PATH = 'english:sources_list'
+SOURCE_LIST_PATH = 'english:source_list'
 
 NO_PERMISSION_MSG = 'Для доступа необходимо войти в приложение'
 NO_PERMISSION_URL = reverse('users:login')

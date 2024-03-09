@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!--======= Additional Navigation =======-->
+<div class="pb-2">
+  <a href="{% url 'english:source_create' %}" class="btn btn-outline-dark btn-sm" role="button">Добавить источник</a>
+</div><!-- End Additional Navigation -->
+
+{% include 'components/card_title.html' %}
+
+<!--======= Sources Table =======-->
+<table class="table table-hover">
+
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Источник</th>
+      <th>Url</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+  {% for source in sources %}
+    <tr>
+      <td>{{ source.pk }}</td>
+      <td><a href="{% url 'english:source_detail' source.pk %}">{{ source.name }}</a></td>
+      <td>{% if source.url %}<a href="{{ source.url }}" target="_blank">{{ source.url }}</a>{% endif %}</td>
+      <td>
+        <a href="{% url 'english:source_update' source.pk %}">Изменить</a> /
+        <a href="{% url 'english:source_delete' source.pk %}">Удалить</a>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table><!-- End Sources Table -->
+
+<!--======= Navigation Buttons =======-->
+{% include 'components/back_btn.html' %}<!-- End Navigation Buttons -->
+{% endblock %}

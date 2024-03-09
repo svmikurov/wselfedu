@@ -2,7 +2,7 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-<!--======= Additional navigation =======-->
+<!--======= Additional Navigation =======-->
 <div class="pb-2">
   <a href="{% url 'english:word_list' %}" class="btn btn-outline-dark btn-sm" role="button"
     >Словарь
@@ -17,56 +17,56 @@
 
 <div class="">{% include 'components/card_title.html' %}</div>
 
-  <!--======= Word fields Table =======-->
-  <h5>Слово: {{ word.words_eng }}</h5>
+<!--======= Word fields Table =======-->
+<h5>Слово: {{ word.words_eng }}</h5>
 
-  <table>
-    <thead>
-      <tr>
-        <th></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Перевод:</td>
-        <td>{{ word.words_rus }}</td>
-      </tr>
-      <tr>
-        <td>Оценка уровня знания:</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Количество слов:</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Является избранным:</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Источник:</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Принадлежит категории:</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table><!-- End Word List Table -->
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Перевод:</td>
+      <td>{{ word.words_rus }}</td>
+    </tr>
+    <tr>
+      <td>Оценка уровня знания:</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Количество слов:</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Является избранным:</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Источник:</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Принадлежит категории:</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table><!-- End Word List Table -->
 
-  <!--======= Buttons =======-->
-  <div class="pt-1">
-    <a class="btn btn-outline-primary btn-sm"
-       href="{% url 'english:words_update' word.pk %}"
-       role="button"
-    >Изменить
-    </a>
-    <a class="btn btn-outline-danger btn-sm ms-1"
-       href="{% url 'english:words_delete' word.pk %}"
-       role="button"
-    >Удалить
-    </a>
-    {% include 'components/back_btn.html' %}
-  </div><!-- End Buttons -->
+<!--======= Buttons =======-->
+<div class="pt-1">
+  <a class="btn btn-outline-primary btn-sm"
+     href="{% url 'english:words_update' word.pk %}"
+     role="button"
+  >Изменить
+  </a>
+  <a class="btn btn-outline-danger btn-sm ms-1"
+     href="{% url 'english:words_delete' word.pk %}"
+     role="button"
+  >Удалить
+  </a>
+  {% include 'components/back_btn.html' %}
+</div><!-- End Buttons -->
 {% endblock %}

@@ -10,12 +10,12 @@ from contrib_app.mixins import (
 )
 
 CREATE_CATEGORY_PATH = 'english:categories_create'
-CATEGORY_LIST_PATH = 'english:categories_list'
+CATEGORY_LIST_PATH = 'english:category_list'
 
 DELETE_CATEGORY_TEMPLATE = 'delete.html'
 DETAIL_CATEGORY_TEMPLATE = 'english/category_detail.html'
 CATEGORY_FORM_TEMPLATE = 'form.html'
-CATEGORY_LIST_TEMPLATE = 'english/cat_list.html'
+CATEGORY_LIST_TEMPLATE = 'english/category_list.html'
 
 PAGINATE_NUMBER = 20
 
@@ -77,7 +77,7 @@ class CategoryListView(CheckLoginPermissionMixin, ListView):
     context_object_name = 'categories'
     paginate_by = PAGINATE_NUMBER
     extra_context = {
-        'title': 'Список категорий',
+        'title': 'Список категорий слов',
     }
 
     def get_queryset(self):
@@ -96,5 +96,5 @@ class CategoryDetailView(CheckObjectPermissionMixin, DetailView):
     template_name = DETAIL_CATEGORY_TEMPLATE
     context_object_name = 'category'
     extra_context = {
-        'title': 'Обзор категории'
+        'title': 'Обзор категории слов'
     }

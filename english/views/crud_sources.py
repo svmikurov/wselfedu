@@ -9,12 +9,12 @@ from contrib_app.mixins import (
     PermissionProtectDeleteView,
 )
 
-SOURCE_LIST_PATH = 'english:sources_list'
+SOURCE_LIST_PATH = 'english:source_list'
 
 DELETE_SOURCE_TEMPLATE = 'delete.html'
 DETAIL_SOURCE_TEMPLATE = 'english/source_detail.html'
 SOURCE_FORM_TEMPLATE = 'form.html'
-SOURCE_LIST_TEMPLATE = 'english/sources_list.html'
+SOURCE_LIST_TEMPLATE = 'english/source_list.html'
 
 PAGINATE_NUMBER = 20
 

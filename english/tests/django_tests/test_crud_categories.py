@@ -9,7 +9,7 @@ CREATE_CATEGORY_PATH = 'english:categories_create'
 DELETE_CATEGORY_PATH = 'english:categories_delete'
 DETAIL_CATEGORY_PATH = 'english:categories_detail'
 UPDATE_CATEGORY_PATH = 'english:categories_update'
-CATEGORY_LIST_PATH = 'english:categories_list'
+CATEGORY_LIST_PATH = 'english:category_list'
 
 NO_PERMISSION_MSG = 'Для доступа необходимо войти в приложение'
 NO_PERMISSION_URL = reverse('users:login')

@@ -100,7 +100,7 @@ urlpatterns = [
     path(
         'categories/list/',
         views.CategoryListView.as_view(),
-        name='categories_list'
+        name='category_list'
     ),
     path(
         'categories/create/',
@@ -141,7 +141,7 @@ urlpatterns = [
     path(
         'sources/list/',
         views.SourceListView.as_view(),
-        name='sources_list'
+        name='source_list'
     ),
     path(
         'sources/<int:pk>/detail/',
