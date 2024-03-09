@@ -23,12 +23,12 @@
   <tbody>
   {% for source in sources %}
     <tr>
-      <td>{{ source.pk }}</td>
-      <td><a href="{% url 'english:source_detail' source.pk %}">{{ source.name }}</a></td>
+      <td>{{ source.number }}</td>
+      <td><a href="{% url 'english:source_detail' source.id %}">{{ source.name }}</a></td>
       <td>{% if source.url %}<a href="{{ source.url }}" target="_blank">{{ source.url }}</a>{% endif %}</td>
       <td>
-        <a href="{% url 'english:source_update' source.pk %}">Изменить</a> /
-        <a href="{% url 'english:source_delete' source.pk %}">Удалить</a>
+        <a href="{% url 'english:source_update' source.id %}">Изменить</a> /
+        <a href="{% url 'english:source_delete' source.id %}">Удалить</a>
       </td>
     </tr>
   {% endfor %}
