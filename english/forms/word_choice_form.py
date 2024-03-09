@@ -96,7 +96,7 @@ class WordChoiceHelperForm(forms.Form):
     )
     knowledge_assessment = forms.MultipleChoiceField(
         choices=KNOWLEDGE_ASSESSMENT,
-        initial='L',
+        initial='S',
         required=False,
         widget=forms.CheckboxSelectMultiple(),
         label='',
