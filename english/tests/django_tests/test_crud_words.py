@@ -57,7 +57,7 @@ class TestCreateWordView(TestCase):
         assert WordModel.objects.filter(words_eng='new word').exists()
 
     def test_post_method_create_word_by_anonymous(self):
-        """Test create word by anonymous, POST method page status 302."""
+        """Test the permission denied to create a word for an anonymous."""
         response = self.client.post(self.url, self.create_data)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
@@ -107,7 +107,7 @@ class TestUpdateWordView(TestCase):
         assert WordModel.objects.filter(words_eng='test').exists()
 
     def test_post_method_update_word_by_another_user(self):
-        """Test update word by another user, POST method page status 302."""
+        """Test the permission denied to update a word for an anonymous."""
         self.client.force_login(self.another_user)
         response = self.client.post(self.url, self.update_data)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
@@ -115,7 +115,7 @@ class TestUpdateWordView(TestCase):
         assert not WordModel.objects.filter(words_eng='test').exists()
 
     def test_post_method_update_word_by_anonymous(self):
-        """Test update word by anonymous, POST method page status 302."""
+        """Test the permission denied to update a word for another user."""
         response = self.client.post(self.url, self.update_data)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
@@ -153,7 +153,7 @@ class TestDeleteWordView(TestCase):
         assert not WordModel.objects.filter(pk=self.word_id).exists()
 
     def test_post_method_delete_word_by_another_user(self):
-        """Tes delete word by another user, POST method page status 302."""
+        """Test the permission denied to delete a word for another user."""
         self.client.force_login(self.another_user)
         response = self.client.post(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
@@ -161,7 +161,7 @@ class TestDeleteWordView(TestCase):
         assert WordModel.objects.filter(pk=self.word_id).exists()
 
     def test_post_method_delete_word_by_anonymous(self):
-        """Test delete word by anonymous, POST method page status 302."""
+        """Test the permission denied to delete a word for an anonymous."""
         response = self.client.post(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
@@ -194,7 +194,8 @@ class TestWordListView(TestCase):
         self.assertTrue(*user_ids, self.user_id)
 
     def test_show_list_word_to_anonymous(self):
-        """Test permission denied to display a word list for an anonymous."""
+        """Test the permission denied to display a word list for an anonymous.
+        """
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
@@ -250,14 +251,14 @@ class TestWordDetailView(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_show_word_for_another_user(self):
-        """Test permission denied to display a word for another user."""
+        """Test the permission denied to display a word for another user."""
         self.client.force_login(self.another_user)
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
 
     def test_show_word_detail_to_anonymous(self):
-        """Test permission denied to display a word for an anonymous."""
+        """Test the permission denied to display a word for an anonymous."""
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)

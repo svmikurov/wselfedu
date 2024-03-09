@@ -52,7 +52,7 @@ class TestCreateCategoryView(TestCase):
         assert CategoryModel.objects.filter(name='new category').exists()
 
     def test_post_create_category_by_anonymous(self):
-        """Test create category by anonymous, POST method page status 302."""
+        """Test the permission denied to create a category for an anonymous."""
         response = self.client.post(self.url, self.create_data)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
@@ -94,7 +94,7 @@ class TestUpdateCategoryView(TestCase):
         assert CategoryModel.objects.filter(name='updated category').exists()
 
     def test_post_method_update_category_by_another_user(self):
-        """Test update category by another user, POST method page status 302.
+        """Test the permission denied to update a category for an another user.
         """
         self.client.force_login(self.another_user)
         response = self.client.post(self.url, self.update_data)
@@ -103,7 +103,8 @@ class TestUpdateCategoryView(TestCase):
         assert not CategoryModel.objects.filter(name='updated category').exists()
 
     def test_post_update_category_by_anonymous(self):
-        """Test update category by anonymous, POST method page status 302."""
+        """Test the permission denied to update a category for an anonymous.
+        """
         response = self.client.post(self.url, self.update_data)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
@@ -153,7 +154,8 @@ class TestDeleteCategoryView(TestCase):
         ).exists()
 
     def test_post_method_delete_category_by_another_user(self):
-        """Tes delete category by another user, POST method page status 302."""
+        """Test the permission denied to delete a category for an another user.
+        """
         self.client.force_login(self.another_user)
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
@@ -161,7 +163,7 @@ class TestDeleteCategoryView(TestCase):
         assert CategoryModel.objects.filter(pk=self.user_category_id).exists()
 
     def test_post_method_delete_category_by_anonymous(self):
-        """Test delete category by anonymous, POST method page status 302."""
+        """Test the permission denied to delete a category for an anonymous."""
         response = self.client.post(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
@@ -191,8 +193,9 @@ class TestCategoryListView(TestCase):
         self.url = reverse(CATEGORY_LIST_PATH)
 
     def test_show_specific_category_list_to_specific_user(self):
-        """Test display specific category list to specific user,
-        page status 200."""
+        """
+        Test display specific category list to specific user, page status 200.
+        """
         self.client.force_login(self.user)
         response = self.client.get(self.url)
 
@@ -206,7 +209,8 @@ class TestCategoryListView(TestCase):
         self.assertTrue(*user_ids, self.user_id)
 
     def test_show_category_list_to_anonymous(self):
-        """Test permission denied to display a category list for an anonymous.
+        """
+        Test the permission denied to display a category list for an anonymous.
         """
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
@@ -235,7 +239,8 @@ class TestCategoryDetailView(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_show_category_detail_to_another_user(self):
-        """Test permission denied to display a category detail for another user.
+        """
+        Test the permission denied to display a category detail for another user.
         """
         self.client.force_login(self.another_user)
         response = self.client.get(self.url)
@@ -243,7 +248,8 @@ class TestCategoryDetailView(TestCase):
         flash_message_test(response, NO_PERMISSION_MSG)
 
     def test_show_category_detail_to_anonymous(self):
-        """Test permission denied to display category details for anonymous user.
+        """
+        Test the permission denied to display category details for anonymous.
         """
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
