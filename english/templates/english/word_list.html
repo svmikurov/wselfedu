@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="">
-
   <!--======= Header =======-->
   <div class="pb-2">
     <a href="{% url 'english:words_create' %}" class="btn btn-outline-dark btn-sm" role="button"
@@ -15,43 +13,37 @@
   {% include 'components/card_title.html' %}
   <!-- End Header -->
 
-  <div class="card-body">
-    {% include 'components/words_filter.html' %}
+  {% include 'components/words_filter.html' %}
 
     <!--======= Words Table =======-->
-    <div class="py-3">{% include 'components/pagination.html' %}</div>
-    <div class="table-responsive">
-      <table class="table table-hover">
+  <div class="py-3">{% include 'components/pagination.html' %}</div>
+  <table class="table table-responsive table-hover">
 
-        <thead class="align-middle">
-          <tr>
-            <th>Слово по-английски</th>
-            <th>Слово по-русски</th>
-            <th>Кол-во слов</th>
-            <th>Самооценка знания</th>
-            <th>Категория</th>
-            <th>Источник</th>
-          </tr>
-        </thead>
+    <thead class="align-middle">
+      <tr>
+        <th>Слово по-английски</th>
+        <th>Слово по-русски</th>
+        <th>Кол-во слов</th>
+        <th>Самооценка знания</th>
+        <th>Категория</th>
+        <th>Источник</th>
+      </tr>
+    </thead>
 
-        <tbody>
-        {% for word in words %}
-          <tr>
-            <td><a href="{% url 'english:words_detail' word.pk %}">{{ word.words_eng }}</a></td>
-            <td>{{ word.words_rus }}</td>
-            <td>{{ word.word_count }}</td>
-            <td>{{ word.worduserknowledgerelation.knowledge_assessment }}</td>
-            <td>{% if word.category %}{{ word.category }}{% endif %}</td>
-            <td>{% if word.source %}{{ word.source }}{% endif %}</td>
-          </tr>
-        {% endfor %}
-        </tbody>
+    <tbody>
+    {% for word in words %}
+      <tr>
+        <td><a href="{% url 'english:words_detail' word.pk %}">{{ word.words_eng }}</a></td>
+        <td>{{ word.words_rus }}</td>
+        <td>{{ word.word_count }}</td>
+        <td>{{ word.worduserknowledgerelation.knowledge_assessment }}</td>
+        <td>{% if word.category %}{{ word.category }}{% endif %}</td>
+        <td>{% if word.source %}{{ word.source }}{% endif %}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
 
-      </table>
-      {% include 'components/pagination.html' %}
-      {% include 'components/back_btn.html' %}
-    </div><!-- End Words Table -->
-
-  </div>
-</div>
+  </table><!-- End Words Table -->
+  {% include 'components/pagination.html' %}
+  {% include 'components/back_btn.html' %}
 {% endblock %}
