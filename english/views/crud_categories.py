@@ -80,20 +80,13 @@ class CategoryListView(CheckLoginPermissionMixin, ListView):
         'title': 'Список категорий слов',
     }
 
-    def get_queryset(self) -> list[dict]:
-        """Get a `queryset` with only `user` categories."""
-        queryset = super().get_queryset().filter(user=self.request.user.pk)
+    def get_queryset(self):
+        """Get queryset to specific user."""
+        queryset = super().get_queryset(
+        ).filter(
+            user=self.request.user.pk
+        )
         return queryset
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        """Get a list of category dicts with the `number` of each category."""
-        categories = self.get_queryset().values()
-        for index, category in enumerate(categories, start=1):
-            category['number'] = index
-
-        context = super().get_context_data()
-        context['categories'] = categories
-        return context
 
 
 class CategoryDetailView(CheckObjectPermissionMixin, DetailView):
