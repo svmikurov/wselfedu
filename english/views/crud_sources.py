@@ -72,6 +72,7 @@ class SourceListView(CheckLoginPermissionMixin, ListView):
     """List source view."""
 
     model = SourceModel
+    context_object_name = 'sources'
     template_name = SOURCE_LIST_TEMPLATE
     paginate_by = PAGINATE_NUMBER
     extra_context = {
@@ -79,19 +80,11 @@ class SourceListView(CheckLoginPermissionMixin, ListView):
     }
 
     def get_queryset(self):
-        """Get a `queryset` with only `user` sources."""
-        queryset = super().get_queryset().filter(user=self.request.user.id)
+        queryset = super().get_queryset(
+        ).filter(
+            user=self.request.user.id
+        )
         return queryset
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        """Get a list of source dicts with the `number` of each source."""
-        sources = self.get_queryset().values()
-        for index, source in enumerate(sources, start=1):
-            source['number'] = index
-
-        context = super().get_context_data()
-        context['sources'] = sources
-        return context
 
 
 class SourceDetailView(CheckObjectPermissionMixin, DetailView):

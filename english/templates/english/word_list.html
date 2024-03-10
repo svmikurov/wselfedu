@@ -25,7 +25,6 @@
 
         <thead class="align-middle">
           <tr>
-            <th>#</th>
             <th>Слово по-английски</th>
             <th>Слово по-русски</th>
             <th>Кол-во слов</th>
@@ -38,8 +37,7 @@
         <tbody>
         {% for word in words %}
           <tr>
-            <td class="">{{ word.row_number }}</td>
-            <td><a href="{% url 'english:words_detail' word.id %}">{{ word.words_eng }}</a></td>
+            <td><a href="{% url 'english:words_detail' word.pk %}">{{ word.words_eng }}</a></td>
             <td>{{ word.words_rus }}</td>
             <td>{{ word.word_count }}</td>
             <td>{{ word.worduserknowledgerelation.knowledge_assessment }}</td>
