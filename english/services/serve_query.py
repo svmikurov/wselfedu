@@ -9,7 +9,7 @@ from random import choice
 import datetime
 from datetime import date, timedelta
 
-from django.db.models import Subquery
+from django.db.models import Subquery, QuerySet
 from django.utils import timezone
 
 from english.models import WordModel, WordUserKnowledgeRelation
@@ -98,14 +98,12 @@ def create_lookup_params(form_data: dict, user_id=None) -> dict:
 
 
 def get_random_query_from_queryset(queryset):
-    """Получи случайную модель из QuerySet.
-    """
+    """Get a random model from a QuerySet."""
     return choice(queryset)
 
 
-def get_words_for_study(lookup_params, user_id):
-    """Примени параметры поиска конкретного пользователя для выборки слов на
-    задание.
+def get_words_for_study(lookup_params: dict, user_id: int) -> QuerySet | None:
+    """Retrieve words based on a specific user's search parameters.
 
     Parameters
     ----------
@@ -113,14 +111,24 @@ def get_words_for_study(lookup_params, user_id):
         Where:
         dict key - lookup method (e.g. `category_id` or `word_count__in`);
         dict value - lookup criterion (e.g. `2` or `['OW', 'CB', 'NC']`).
+    user_id : int
+        User ID.
 
+    Returns
+    -------
+    words : `QuerySet` | None
+        `QuerySet` of word filtered by lookup_params for study words task.
+        None if user not chosen knowledge assessment.
     """
     # Извлекаем из параметров поиска параметр поиска по оценке пользователем
     # уровня знания слова.
     params = copy.deepcopy(lookup_params)
-    knowledge_assessment_value = params.pop(
-        'worduserknowledgerelation__knowledge_assessment__in'
-    )
+    try:
+        knowledge_assessment_value: list = params.pop(
+            'worduserknowledgerelation__knowledge_assessment__in'
+        )
+    except KeyError:
+        return None
 
     # Применяем фильтры.
     words = WordModel.objects.filter(**params)
@@ -150,6 +158,8 @@ def get_words_for_study(lookup_params, user_id):
     )
 
     # Объединим слова с оценками уровня знания пользователя и без.
-    words |= not_assessment_words
+    study_knowledge_assessment = 1
+    if study_knowledge_assessment in knowledge_assessment_value:
+        words |= not_assessment_words
 
     return words
