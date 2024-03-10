@@ -25,7 +25,7 @@
       <td><a href="{% url 'english:source_detail' source.pk %}">{{ source.name }}</a></td>
       <td>{% if source.url %}<a href="{{ source.url }}" target="_blank">{{ source.url }}</a>{% endif %}</td>
       <td class="text-nowrap">
-        <a href="{% url 'english:source_update' source.pk %}" class="pe-2">{% include 'icons/pencil.svg' %}</a>
+        <a href="{% url 'english:source_update' source.pk %}" class="pe-4">{% include 'icons/pencil.svg' %}</a>
         <a href="{% url 'english:source_delete' source.pk %}">{% include 'icons/basket.svg' %}</a>
       </td>
     </tr>
