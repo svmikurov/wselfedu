@@ -9,27 +9,28 @@
 {% include 'components/card_title.html' %}
 
 <!--======= Categories Table =======-->
-<table class="table table-responsive table-hover">
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Имя категории</th>
+        <th></th>
+      </tr>
+    </thead>
 
-  <thead>
-    <tr>
-      <th>Имя категории</th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-  {% for category in categories %}
-    <tr>
-      <td><a href="{% url 'english:categories_detail' category.pk %}">{{ category.name }}</a></td>
-      <td class="">
-        <span class="pe-4"><a href="{% url 'english:categories_update' category.pk %}">{% include 'icons/pencil.svg' %}</a></span>
-        <span class=""><a href="{% url 'english:categories_delete' category.pk %}">{% include 'icons/basket.svg' %}</a></span>
-      </td>
-    </tr>
-  {% endfor %}
-  </tbody>
-</table><!-- End Categories Table -->
+    <tbody>
+    {% for category in categories %}
+      <tr>
+        <td><a href="{% url 'english:categories_detail' category.pk %}">{{ category.name }}</a></td>
+        <td class="">
+          <span class="pe-4"><a href="{% url 'english:categories_update' category.pk %}">{% include 'icons/pencil.svg' %}</a></span>
+          <span class=""><a href="{% url 'english:categories_delete' category.pk %}">{% include 'icons/basket.svg' %}</a></span>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div><!-- End Categories Table -->
 
 <!--======= Navigation Buttons =======-->
 {% include 'components/back_btn.html' %}<!-- End Navigation Buttons -->
