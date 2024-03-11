@@ -1,12 +1,6 @@
-# Temp studding views.
 from english.views.account_views import (
     UserWordListView,
 )
-from english.views.learn_django import (
-    CalendarView,
-)
-
-# Basic views.
 from english.views.home import (
     HomeEnglishView,
 )
