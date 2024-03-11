@@ -3,8 +3,6 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from branch import BRANCH_NAME
-
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -118,18 +116,11 @@ elif os.getenv('DEFAULT_DB') == 'fixtures':
             'NAME': BASE_DIR / 'db-wse-fixtures.sqlite3',
         }
     }
-elif BRANCH_NAME == 'development':
+else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db-wse-dev.sqlite3',
-        }
-    }
-elif BRANCH_NAME == 'main':
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db-wse-main.sqlite3',
+            'NAME': BASE_DIR / 'db-wse-develop.sqlite3',
         }
     }
 # End Database
