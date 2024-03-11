@@ -200,6 +200,96 @@ class TestWordListView(TestCase):
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
 
+
+class TestWordObjectList(TestCase):
+    """Test to word list page object list."""
+
+    fixtures = ['english/tests/fixtures/wse-fixtures-3.json']
+
+    def setUp(self):
+        """Set up data."""
+        client: Client = Client()
+        self.user_id = 3
+        self.user = UserModel.objects.get(pk=self.user_id)
+        url = reverse(WORD_LIST_PATH)
+
+        client.force_login(self.user)
+        self.response = client.get(url)
+        self.object_list = self.response.context['object_list']
+
+    def test_context_object_name(self):
+        """Test 'context_object_name'."""
+        context_object_name = 'words'
+        word_index = 0
+        word_key = 'words_eng'
+        words = self.response.context[context_object_name].values()
+        html = self.response.content.decode()
+        self.assertInHTML(words[word_index][word_key], html)
+
+    def test_object_list_count(self):
+        """Test to 'object_list' length of word list page."""
+        user_word_count = WordModel.objects.filter(user=self.user).count()
+        object_list_length = self.object_list.count()
+        assert object_list_length == user_word_count
+
+    def test_object_list_contains_category(self):
+        """Test to 'object_list' word list page contains category."""
+        category = 'category_u3_c2'
+        categories = self.object_list.values_list('category__name', flat=True)
+        assert category in categories
+
+    def test_object_list_contains_source(self):
+        """Test to 'object_list' word list page contains source."""
+        source = 'source_u3_s1'
+        sources = self.object_list.values_list('source__name', flat=True)
+        assert source in sources
+
+    def test_object_list_contains_word_count(self):
+        """Test to 'object_list' word list page contains word count."""
+        word_count = 'Слово'
+        counted = self.object_list.values_list('word_count', flat=True)
+        assert word_count in counted
+
+    def test_object_list_contains_assessment(self):
+        """Test to 'object_list' word list page contains assessment."""
+        assessment = 1
+        assessments = self.object_list.values_list('assessment', flat=True)
+        assert assessment in assessments
+
+    def test_object_list_contains_favorite(self):
+        """Test to 'object_list' word list page contains favorite."""
+        favorite_word = ('word_u3_w3', True)
+        words = self.object_list.values_list('words_eng', 'favorites_anat')
+        assert favorite_word in words
+
+
+class WordListPageFilter(TestCase):
+    """Test filters word at word list word page."""
+
+    fixtures = ['english/tests/fixtures/wse-fixtures-3.json']
+
+    def setUp(self):
+        """Set up data."""
+        self.client: Client = Client()
+        self.user_id = 3
+        self.another_user_id = 4
+        self.user = UserModel.objects.get(pk=self.user_id)
+        self.another_user = UserModel.objects.get(pk=self.another_user_id)
+        self.url = reverse(WORD_LIST_PATH)
+
+    @skip('Fix category filter choice')
+    def test_contain_filter_only_user_choices(self):
+        """Test filter contain only user item."""
+        user_category = 'category_u3_c1'
+        another_user_category = 'category_u4_c1'
+
+        self.client.force_login(self.user)
+        response = self.client.get(self.url)
+        html = response.content.decode()
+
+        self.assertInHTML(user_category, html)
+        self.assertNotIn(another_user_category, html)
+
     def test_filter_word_list_by_word(self):
         """Test filtering the word list by text containing the word."""
         self.client.force_login(self.user)
