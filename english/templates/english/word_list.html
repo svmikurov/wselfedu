@@ -28,6 +28,7 @@
         <th>Самооценка знания</th>
         <th>Категория</th>
         <th>Источник</th>
+        <th>Избранное слово</th>
       </tr>
     </thead>
 
@@ -37,9 +38,11 @@
         <td><a href="{% url 'english:words_detail' word.pk %}">{{ word.words_eng }}</a></td>
         <td>{{ word.words_rus }}</td>
         <td>{{ word.word_count }}</td>
-        <td>{{ word.worduserknowledgerelation.knowledge_assessment }}</td>
-        <td>{% if word.category %}{{ word.category }}{% endif %}</td>
-        <td>{% if word.source %}{{ word.source }}{% endif %}</td>
+        <td>{% if word.assessment %}{{ word.assessment }}{% else %}-{% endif %}</td>
+        <td>{% if word.category %}{{ word.category }}{% else %}-{% endif %}</td>
+        <td>{% if word.source %}{{ word.source }}{% else %}-{% endif %}</td>
+        <td>{% if word.favorites_anat %}<a href="#">Убрать</a>{% else %}<a href="#">Добавить</a>{% endif %}
+        </td>
       </tr>
     {% endfor %}
     </tbody>

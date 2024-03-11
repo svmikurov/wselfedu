@@ -21,7 +21,6 @@ def test_user_authentication_page(test_page):
     """Test user authentication page."""
     base_url = test_page.url
     response = test_page.goto(urljoin(base_url, LOGIN_PATH))
-    print(f'response = {response}')
 
     expect(test_page).to_have_title('Вход в приложение')
 

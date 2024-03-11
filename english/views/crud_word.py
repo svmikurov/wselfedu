@@ -1,3 +1,4 @@
+from django.db.models import F, Q
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView
 from django_filters.views import FilterView
@@ -88,12 +89,30 @@ class WordListView(CheckLoginPermissionMixin, FilterView):
 
     def get_queryset(self):
         """Get queryset to specific user."""
+        user = self.request.user
         queryset = super(WordListView, self).get_queryset(
         ).select_related(
             'category',
             'source',
         ).filter(
-            user=self.request.user
+            # Выбери все слова конкретного пользователя.
+            user=user
+        ).filter(
+            # Filter wor favorites words, contain conditions:
+            # - filter words added to favorites by a specific user.
+            Q(wordsfavoritesmodel__user=user)
+            # - consider words not added to favorites.
+            | Q(wordsfavoritesmodel__user__isnull=True)
+        ).annotate(
+            # Assign `True` if there is a relationship between user and word
+            # in the WordsFavoritesModel, otherwise assign `None`.
+            favorites_anat=Q(
+                Q(wordsfavoritesmodel__user=F('user'))
+                & Q(wordsfavoritesmodel__word=F('pk'))
+            )
+        ).annotate(
+            #
+            assessment=F('worduserknowledgerelation__knowledge_assessment'),
         ).order_by(
             '-pk',
         )
