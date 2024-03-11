@@ -90,19 +90,14 @@ class WordListView(CheckLoginPermissionMixin, FilterView):
     def get_queryset(self):
         """Get queryset to specific user."""
         user = self.request.user
+
         queryset = super(WordListView, self).get_queryset(
         ).select_related(
             'category',
             'source',
         ).filter(
-            # Выбери все слова конкретного пользователя.
+            # Filter all words of a specific user.
             user=user
-        ).filter(
-            # Filter wor favorites words, contain conditions:
-            # - filter words added to favorites by a specific user.
-            Q(wordsfavoritesmodel__user=user)
-            # - consider words not added to favorites.
-            | Q(wordsfavoritesmodel__user__isnull=True)
         ).annotate(
             # Assign `True` if there is a relationship between user and word
             # in the WordsFavoritesModel, otherwise assign `None`.
@@ -111,7 +106,7 @@ class WordListView(CheckLoginPermissionMixin, FilterView):
                 & Q(wordsfavoritesmodel__word=F('pk'))
             )
         ).annotate(
-            #
+            # Add to query `knowledge_assessment` value.
             assessment=F('worduserknowledgerelation__knowledge_assessment'),
         ).order_by(
             '-pk',
