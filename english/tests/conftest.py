@@ -75,11 +75,11 @@ def test_page(page: Page, live_server) -> Page:
     return page
 
 
-# https://earthly.dev/blog/playwright-python-api-testing/
 @pytest.fixture()
 def api_request_context(live_server) -> APIRequestContext:
     """Create a new request context.
 
+    https://earthly.dev/blog/playwright-python-api-testing/
     Returns:
         APIRequestContext
     """
@@ -89,3 +89,21 @@ def api_request_context(live_server) -> APIRequestContext:
         )
         yield api_request_context
         api_request_context.dispose()
+
+
+@pytest.fixture(scope='function')
+def browser_context_args(browser_context_args):
+    """Set browser context args.
+
+    https://pypi.org/project/pytest-playwright/0.1.1/
+    """
+    return {
+        **browser_context_args,
+        "viewport": {
+            # Allows you to avoid covering the playwright tests screen with the
+            # toolbar panel.
+            # size WSXGA+ / 1680 × 1050 / 16:10
+            "width": 1680,
+            "height": 1050,
+        }
+    }
