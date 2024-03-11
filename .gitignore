@@ -11,6 +11,7 @@ sql_study/
 
 .coverage
 .env
+branch.py
 /wse-fixtures.json
 coverage.xml
 service_tools/temp.py

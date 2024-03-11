@@ -2,19 +2,6 @@ from django.urls import path
 
 from english import views
 
-
-study = [
-    # --======= Calendar ========--
-    path(
-        'calendar/',
-        views.CalendarView.as_view(),
-        name='calendar',
-    ),
-    # -- End Calendar --
-    # --======= SQL =======--
-]
-
-
 app_name = 'english'
 urlpatterns = [
     # --======= English chapter =======--
@@ -148,4 +135,4 @@ urlpatterns = [
         views.SourceDetailView.as_view(),
         name='source_detail'
     )
-] + study
+]

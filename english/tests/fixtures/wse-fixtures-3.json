@@ -113,7 +113,7 @@
   "model": "english.sourcemodel",
   "pk": 1,
   "fields": {
-    "name": "source-u3-s1",
+    "name": "source_u3_s1",
     "user": 3,
     "url": null,
     "description": "",
@@ -125,7 +125,7 @@
   "model": "english.sourcemodel",
   "pk": 2,
   "fields": {
-    "name": "source-u3-s2",
+    "name": "source_u3_s2",
     "user": 3,
     "url": null,
     "description": "",
@@ -137,7 +137,7 @@
   "model": "english.sourcemodel",
   "pk": 3,
   "fields": {
-    "name": "source-u3-s3",
+    "name": "source_u3_s3",
     "user": 3,
     "url": null,
     "description": "",
@@ -149,7 +149,7 @@
   "model": "english.sourcemodel",
   "pk": 4,
   "fields": {
-    "name": "source-u3-s4",
+    "name": "source_u3_s4",
     "user": 3,
     "url": null,
     "description": "",
@@ -161,7 +161,7 @@
   "model": "english.sourcemodel",
   "pk": 5,
   "fields": {
-    "name": "source-u3-s5",
+    "name": "source_u3_s5",
     "user": 3,
     "url": null,
     "description": "Не должен иметь связей.",
@@ -654,6 +654,22 @@
   }
 },
 {
+  "model": "english.wordsfavoritesmodel",
+  "pk": 1,
+  "fields": {
+    "word": 3,
+    "user": 3
+  }
+},
+{
+  "model": "english.wordsfavoritesmodel",
+  "pk": 2,
+  "fields": {
+    "word": 2,
+    "user": 4
+  }
+},
+{
   "model": "users.usermodel",
   "pk": 1,
   "fields": {
@@ -696,7 +712,7 @@
   "pk": 3,
   "fields": {
     "password": "pbkdf2_sha256$600000$T8xwAC7aw6dgjKkwYSSrnN$bAoeI9N5yRR3mrP8I12cWRIGquqVK0T6XKsddX9EFwM=",
-    "last_login": "2024-03-04T22:21:00.502Z",
+    "last_login": "2024-03-11T10:43:38.605Z",
     "is_superuser": false,
     "username": "user3",
     "first_name": "",

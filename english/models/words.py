@@ -100,8 +100,7 @@ class WordUserKnowledgeRelation(models.Model):
         verbose_name_plural = 'Оценки пользователем знания слова'
 
     def __str__(self):
-        return (f'{self.user} оценивает знание слова {self.word} '
-                f'на {self.knowledge_assessment}')
+        return self.knowledge_assessment
 
 
 class WordsFavoritesModel(models.Model):
