@@ -37,7 +37,7 @@
       <tr>
         <td><a href="{% url 'english:words_detail' word.pk %}">{{ word.words_eng }}</a></td>
         <td>{{ word.words_rus }}</td>
-        <td>{{ word.word_count }}</td>
+        <td>{{ word.get_word_count_display }}</td>
         <td>{% if word.assessment %}{{ word.assessment }}{% else %}-{% endif %}</td>
         <td>{% if word.category %}{{ word.category }}{% else %}-{% endif %}</td>
         <td>{% if word.source %}{{ word.source }}{% else %}-{% endif %}</td>
