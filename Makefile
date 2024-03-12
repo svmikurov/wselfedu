@@ -20,7 +20,7 @@ test-coverage:
 	poetry run coverage run --source="" manage.py test
 	poetry run coverage xml
 
-pytest: lint
+pytest:
 	pytest
 
 coverage:
@@ -28,7 +28,7 @@ coverage:
 	coverage report
 	coverage html
 
-check: lint test
+check: lint test pytest
 
 shell:
 	@$(MANAGE) shell_plus --ipython
