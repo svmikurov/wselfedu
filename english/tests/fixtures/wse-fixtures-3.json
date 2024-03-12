@@ -252,7 +252,7 @@
     "words_rus": "слово_п3_с2",
     "source": null,
     "category": 1,
-    "word_count": "NC",
+    "word_count": "OW",
     "created_at": "2024-03-04T22:29:12.828Z",
     "updated_at": "2024-03-04T22:29:12.843Z"
   }
@@ -321,10 +321,10 @@
     "words_eng": "word_u3_w7",
     "words_rus": "слово_п3_с7",
     "source": null,
-    "category": null,
+    "category": 1,
     "word_count": "NC",
     "created_at": "2024-03-04T22:31:23.793Z",
-    "updated_at": "2024-03-04T22:31:23.799Z"
+    "updated_at": "2024-03-11T13:02:03.380Z"
   }
 },
 {
@@ -712,7 +712,7 @@
   "pk": 3,
   "fields": {
     "password": "pbkdf2_sha256$600000$T8xwAC7aw6dgjKkwYSSrnN$bAoeI9N5yRR3mrP8I12cWRIGquqVK0T6XKsddX9EFwM=",
-    "last_login": "2024-03-11T10:43:38.605Z",
+    "last_login": "2024-03-11T20:11:13.531Z",
     "is_superuser": false,
     "username": "user3",
     "first_name": "",

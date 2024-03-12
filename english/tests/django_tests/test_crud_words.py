@@ -216,15 +216,15 @@ class TestWordObjectList(TestCase):
         client.force_login(self.user)
         self.response = client.get(url)
         self.object_list = self.response.context['object_list']
+        self.html = self.response.content.decode()
 
     def test_context_object_name(self):
         """Test 'context_object_name'."""
         context_object_name = 'words'
-        word_index = 0
+        word_index_in_context = 0
         word_key = 'words_eng'
         words = self.response.context[context_object_name].values()
-        html = self.response.content.decode()
-        self.assertInHTML(words[word_index][word_key], html)
+        self.assertInHTML(words[word_index_in_context][word_key], self.html)
 
     def test_object_list_count(self):
         """Test to 'object_list' length of word list page."""
@@ -246,9 +246,11 @@ class TestWordObjectList(TestCase):
 
     def test_object_list_contains_word_count(self):
         """Test to 'object_list' word list page contains word count."""
-        word_count = 'Слово'
+        word_count = 'OW'
+        readable_word_count = '<td>Слово</td>'
         counted = self.object_list.values_list('word_count', flat=True)
         assert word_count in counted
+        self.assertInHTML(readable_word_count, self.html)
 
     def test_object_list_contains_assessment(self):
         """Test to 'object_list' word list page contains assessment."""
