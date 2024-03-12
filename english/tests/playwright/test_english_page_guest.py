@@ -5,19 +5,19 @@ import pytest
 from playwright.sync_api import Page, expect, Response
 
 PAGE_ELEMENTS = [
-    {'locator': 'link',
+    {'locator': 'button',
      'name': 'Изучаем слова',
      'path': 'english/words-choice/'},
-    {'locator': 'link',
+    {'locator': 'button',
      'name': 'Добавить слово',
      'path': 'english/word/create/'},
-    {'locator': 'link',
+    {'locator': 'button',
      'name': 'Список слов',
      'path': 'english/word/list/'},
-    {'locator': 'link',
+    {'locator': 'button',
      'name': 'Категории',
      'path': 'english/categories/list/'},
-    {'locator': 'link',
+    {'locator': 'button',
      'name': 'Источники',
      'path': 'english/sources/list/'},
 ]
