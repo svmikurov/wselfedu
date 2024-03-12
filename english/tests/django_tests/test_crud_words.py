@@ -1,5 +1,6 @@
 from unittest import skip
 
+from django.db.models import F
 from django.test import Client, TestCase
 from django.urls import reverse
 
@@ -290,6 +291,17 @@ class WordListPageFilter(TestCase):
 
         self.assertInHTML(user_category, html)
         self.assertNotIn(another_user_category, html)
+
+    def test_checkbox_favorite_words(self):
+        self.client.force_login(self.user)
+        response = self.client.get(self.url, {'only_favorite_words': True})
+
+        objects_list = response.context['object_list']
+        user_favorite_words = WordModel.objects.filter(
+            wordsfavoritesmodel__word=F('pk'),
+            wordsfavoritesmodel__user=self.user_id,
+        )
+        self.assertQuerySetEqual(objects_list, user_favorite_words)
 
     def test_filter_word_list_by_word(self):
         """Test filtering the word list by text containing the word."""
