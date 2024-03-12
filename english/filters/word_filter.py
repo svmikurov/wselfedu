@@ -1,5 +1,6 @@
 import django_filters
-from django.db.models import Q
+from django import forms
+from django.db.models import Q, F
 from django.forms import TextInput
 
 from english.models import (
@@ -60,7 +61,23 @@ class WordsFilter(django_filters.FilterSet):
         empty_label='Любое кол-во слов',
     )
 
+    only_favorite_words = django_filters.BooleanFilter(
+        field_name='Только избранные слова',
+        method='get_user_favorite_words',
+        widget=forms.CheckboxInput,
+        label='Только избранные слова',
+    )
+
     def filter_word_by_any_language(self, queryset, name, value):
         return queryset.filter(
             Q(words_eng__icontains=value) | Q(words_rus__icontains=value)
         )
+
+    def get_user_favorite_words(self, queryset, name, value):
+        """Filter words by 'favorites' field."""
+        if value:
+            queryset = queryset.filter(
+                wordsfavoritesmodel__word=F('pk'),
+                wordsfavoritesmodel__user=F('user'),
+            )
+        return queryset
