@@ -279,7 +279,6 @@ class WordListPageFilter(TestCase):
         self.another_user = UserModel.objects.get(pk=self.another_user_id)
         self.url = reverse(WORD_LIST_PATH)
 
-    @skip('Fix category filter choice')
     def test_contain_filter_only_user_choices(self):
         """Test filter contain only user item."""
         user_category = 'category_u3_c1'
