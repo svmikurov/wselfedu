@@ -5,7 +5,6 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from config import FormCrispyView
 from config.views import HomePageView
 
 urlpatterns = [
@@ -14,7 +13,6 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('math/', include('mathem.urls')),
     path('english/', include('english.urls')),
-    path('django-crispy-filter/', FormCrispyView.as_view(), name='form_crispy'),
 ]
 
 if os.getenv('ENVIRONMENT') != 'PRODUCTION':
