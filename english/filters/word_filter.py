@@ -22,7 +22,7 @@ def source_by_current_user(request):
 
 
 class WordsFilter(django_filters.FilterSet):
-    """Words filter"""
+    """Word filter."""
 
     WORD_COUNT = (
         ('OW', 'Слово'),
