@@ -137,23 +137,24 @@ class RedirectForModelObjectDeleteErrorMixin:
             return redirect(self.protected_redirect_url)
 
 
-class ReuseSchemaFilterQueryMixin(MultipleObjectMixin):
-    """Reuses the previous schema filter query mixin."""
+def get_schema_query(request, keys):
+    """Get schema query by specific keys in request."""
+    querydict = request.GET
+    queries = []
+    for key, value in querydict.items():
+        if key in keys or value:
+            queries.append('='.join((key, value)))
+    return '&'.join(queries)
 
-    def get_schema_filter_query(self):
-        """Create schema filter query for reuse in filter."""
-        filter_fields = self.filterset_class.get_filter_fields()
-        querydict = self.request.GET
-        queries = []
-        for field, value in querydict.items():
-            if field in filter_fields or value:
-                queries.append('='.join((field, value)))
-        return '&'.join(queries)
+
+class ReuseSchemaFilterQueryMixin(MultipleObjectMixin):
+    """Reuses the previous schema filter query."""
 
     def get_context_data(self, **kwargs):
         """Add schema filter query to context."""
         context = super().get_context_data(**kwargs)
-        context['reused_query'] = self.get_schema_filter_query()
+        filter_fields = self.filterset_class.get_filter_fields()
+        context['reused_query'] = get_schema_query(self.request, filter_fields)
         return context
 
 

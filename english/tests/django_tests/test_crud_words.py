@@ -262,8 +262,10 @@ class TestWordObjectList(TestCase):
     def test_object_list_contains_favorite(self):
         """Test to 'object_list' word list page contains favorite."""
         favorite_word = ('word_u3_w3', True)
+        another_word = ('word_u3_w7', False)
         words = self.object_list.values_list('words_eng', 'favorites_anat')
         assert favorite_word in words
+        assert another_word not in words
 
 
 class WordListPageFilter(TestCase):
