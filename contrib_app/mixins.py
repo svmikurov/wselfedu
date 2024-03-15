@@ -4,6 +4,8 @@ from django.db.models import ProtectedError
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView
+from django.views.generic.list import MultipleObjectMixin
+from django_filters.views import FilterView
 
 NO_ADMIN_PERMISSION_MSG = 'Нужны права администратора'
 NO_ADMIN_PERMISSION_URL = 'users/login/'
@@ -135,6 +137,26 @@ class RedirectForModelObjectDeleteErrorMixin:
             return redirect(self.protected_redirect_url)
 
 
+class ReuseSchemaFilterQueryMixin(MultipleObjectMixin):
+    """Reuses the previous schema filter query mixin."""
+
+    def get_schema_filter_query(self):
+        """Create schema filter query for reuse in filter."""
+        filter_fields = self.filterset_class.get_filter_fields()
+        querydict = self.request.GET
+        queries = []
+        for field, value in querydict.items():
+            if field in filter_fields or value:
+                queries.append('='.join((field, value)))
+        return '&'.join(queries)
+
+    def get_context_data(self, **kwargs):
+        """Add schema filter query to context."""
+        context = super().get_context_data(**kwargs)
+        context['reused_query'] = self.get_schema_filter_query()
+        return context
+
+
 class CheckObjectPermissionMixin(
     HandleNoPermissionMixin,
     CheckObjectOwnershipMixin,
@@ -157,5 +179,14 @@ class PermissionProtectDeleteView(
     RedirectForModelObjectDeleteErrorMixin,
     AddMessageToFormSubmissionMixin,
     DeleteView,
+):
+    """"""
+
+
+class ReuseSchemaQueryFilterView(
+    HandleNoPermissionMixin,
+    LoginRequiredMixin,
+    ReuseSchemaFilterQueryMixin,
+    FilterView,
 ):
     """"""

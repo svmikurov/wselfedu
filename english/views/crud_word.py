@@ -1,7 +1,6 @@
 from django.db.models import F, Q
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView
-from django_filters.views import FilterView
 
 from english.filters import WordsFilter
 from english.forms import WordForm
@@ -10,6 +9,7 @@ from contrib_app.mixins import (
     CheckLoginPermissionMixin,
     CheckObjectPermissionMixin,
     PermissionProtectDeleteView,
+    ReuseSchemaQueryFilterView,
 )
 
 CREATE_WORD_PATH = 'english:words_create'
@@ -75,8 +75,8 @@ class WordDeleteView(CheckObjectPermissionMixin, PermissionProtectDeleteView):
     }
 
 
-class WordListView(CheckLoginPermissionMixin, FilterView):
-    """List word view."""
+class WordListView(ReuseSchemaQueryFilterView):
+    """Word list view."""
 
     model = WordModel
     filterset_class = WordsFilter

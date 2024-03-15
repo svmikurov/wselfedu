@@ -68,12 +68,14 @@ class WordsFilter(django_filters.FilterSet):
         label='Только избранные слова',
     )
 
-    def filter_word_by_any_language(self, queryset, name, value):
+    @classmethod
+    def filter_word_by_any_language(cls, queryset, name, value):
         return queryset.filter(
             Q(words_eng__icontains=value) | Q(words_rus__icontains=value)
         )
 
-    def get_user_favorite_words(self, queryset, name, value):
+    @classmethod
+    def get_user_favorite_words(cls, queryset, name, value):
         """Filter words by 'favorites' field."""
         if value:
             queryset = queryset.filter(
@@ -81,3 +83,13 @@ class WordsFilter(django_filters.FilterSet):
                 wordsfavoritesmodel__user=F('user'),
             )
         return queryset
+
+    @classmethod
+    def get_filter_fields(cls):
+        return (
+            'search_word',
+            'filtered_category',
+            'filtered_source',
+            'filtered_word_count',
+            'only_favorite_words',
+        )
