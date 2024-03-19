@@ -52,12 +52,16 @@ class WordChoiceView(TemplateView):
     template_name = 'english/tasks/word_choice.html'
     url = reverse_lazy(CHOICE_PATH)
     redirect_url = reverse_lazy(QUESTION_PATH)
-
-    form_choice = WordChoiceHelperForm()
     extra_context = {
         'title': TITLE,
-        'form_choice': form_choice,
     }
+
+    def get_context_data(self, **kwargs):
+        """Add a user-specific words choice form to context."""
+        user_id = self.request.user.id
+        context = super().get_context_data(**kwargs)
+        context['form_choice'] = WordChoiceHelperForm(user_id=user_id)
+        return context
 
     def post(self, request, *args, **kwargs):
         """Сохрани параметры фильтра слов для упражнения.

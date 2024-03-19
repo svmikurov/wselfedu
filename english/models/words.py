@@ -30,10 +30,12 @@ class WordModel(models.Model):
     words_eng = models.CharField(
         max_length=75,
         verbose_name='Слово на английском',
+        help_text='Не более 75 символов.',
     )
     words_rus = models.CharField(
         max_length=75,
         verbose_name='Слово на русском',
+        help_text='Не более 75 символов.',
     )
     source = models.ForeignKey(
         SourceModel,
