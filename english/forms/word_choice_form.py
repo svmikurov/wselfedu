@@ -38,8 +38,29 @@ KNOWLEDGE_ASSESSMENT = (
 )
 
 
-def create_choices_by_model(model: Model):
-    """Создай набор экземпляров модели для отображения в поле выбора формы."""
+def create_category_choice():
+    """Create category ``choices`` by ``CategoryModel``."""
+    model = CategoryModel
+    choices = []
+    queryset = model.objects.all()
+
+    # Создание списка выбора значений поля формы.
+    for instance in queryset:
+        form_value, choice_name = instance.pk, str(instance)
+        choice = (form_value, choice_name)
+        choices.append(choice)
+
+    # Добавление наименование модели в список выбора значений поля формы.
+    form_value, model_name = NOT_CHOISED_FORM_VALUE, model._meta.verbose_name
+    not_choised = (form_value, model_name)
+    choices.append(not_choised)
+
+    return choices
+
+
+def create_source_choice():
+    """Create source ``choices`` by ``SourceModel``."""
+    model = SourceModel
     choices = []
     queryset = model.objects.all()
 
@@ -64,13 +85,13 @@ class WordChoiceHelperForm(forms.Form):
         required=False,
     )
     category = forms.TypedChoiceField(
-        choices=create_choices_by_model(CategoryModel),
+        choices=create_category_choice,
         initial=NOT_CHOISED_FORM_VALUE,
         required=False,
         label='',
     )
     source = forms.TypedChoiceField(
-        choices=create_choices_by_model(SourceModel),
+        choices=create_source_choice,
         initial=NOT_CHOISED_FORM_VALUE,
         required=False,
         label='',
