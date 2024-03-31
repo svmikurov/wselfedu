@@ -29,7 +29,6 @@ from english.views.word_task_view import (
     AnswerWordStudyView,
     WordChoiceView,
     QuestionWordStudyView,
-    start_study_word_view,
     update_words_favorites_status_view,
     update_words_knowledge_assessment_view,
 )

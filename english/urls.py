@@ -25,12 +25,6 @@ urlpatterns = [
         views.WordChoiceView.as_view(),
         name='word_choice',
     ),
-    # Сохранение параметров выборки слов для задания.
-    path(
-        'words-start/',
-        views.start_study_word_view,
-        name='start_word_study',
-    ),
     # Отображение вопроса.
     path(
         'word-study/question/',

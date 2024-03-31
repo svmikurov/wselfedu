@@ -4,15 +4,15 @@ from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.decorators.http import require_GET, require_POST
+from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
 
 from english.forms import WordChoiceHelperForm
+from english.services import create_lookup_params
 
 from english.services.serve_request import (
     get_lookup_params,
     save_lookup_params,
-    set_lookup_params,
 )
 from english.services.word_favorites import (
     is_word_in_favorites,
@@ -48,6 +48,7 @@ ANSWER_PATH = 'english:word_study_answer'
 
 
 class WordChoiceView(TemplateView):
+    # Add only owner user
     """View choice English words to study."""
 
     template_name = 'english/tasks/word_choice.html'
@@ -68,29 +69,16 @@ class WordChoiceView(TemplateView):
 
         Выполнит редирект на формирование задания и отображение вопроса.
         """
-        lookup_params = set_lookup_params(request)
-        if lookup_params:
+        user_id = request.user.id
+        form = WordChoiceHelperForm(request.POST, user_id=user_id)
+
+        if form.is_valid():
+            form_data = form.cleaned_data
+            lookup_params = create_lookup_params(form_data, user_id)
             save_lookup_params(request, lookup_params)
             return redirect(reverse_lazy('english:word_study_question'))
         else:
             return redirect(reverse_lazy('english:word_choice'))
-
-
-@require_GET
-def start_study_word_view(request, *args, **kwargs):
-    """Установи параметры выборки слов для упражнения.
-
-    Создаст параметры фильтрации для поиска.
-    Сохранит параметры фильтрации.
-    Выполнит редирект на формирование и отображение вопроса из упражнения.
-    """
-    redirect_url = reverse_lazy(QUESTION_PATH)
-
-    lookup_params = set_lookup_params(request)
-    if lookup_params:
-        save_lookup_params(request, lookup_params)
-
-    return redirect(redirect_url)
 
 
 class QuestionWordStudyView(View):
