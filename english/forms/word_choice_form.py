@@ -72,7 +72,7 @@ class WordChoiceHelperForm(forms.Form):
     """Форма получения параметров выборки слов для упражнения изучения слов."""
 
     def __init__(self, *args, **kwargs):
-        self.user_id = kwargs.pop('user_id')
+        self.user_id = kwargs.pop('user_id', None)
         super(WordChoiceHelperForm, self).__init__(*args, **kwargs)
         self.fields['category'].choices = create_category_choice(self.user_id)
         self.fields['source'].choices = create_source_choice(self.user_id)

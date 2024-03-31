@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
@@ -50,17 +51,16 @@ class WordChoiceView(TemplateView):
     """View choice English words to study."""
 
     template_name = 'english/tasks/word_choice.html'
-    url = reverse_lazy(CHOICE_PATH)
-    redirect_url = reverse_lazy(QUESTION_PATH)
+    user_id = AnonymousUser.id
     extra_context = {
         'title': TITLE,
     }
 
     def get_context_data(self, **kwargs):
-        """Add a user-specific words choice form to context."""
-        user_id = self.request.user.id
+        """Add a user-specific words form to context."""
+        self.user_id = self.request.user.id
         context = super().get_context_data(**kwargs)
-        context['form_choice'] = WordChoiceHelperForm(user_id=user_id)
+        context['form'] = WordChoiceHelperForm(user_id=self.user_id)
         return context
 
     def post(self, request, *args, **kwargs):
@@ -71,9 +71,9 @@ class WordChoiceView(TemplateView):
         lookup_params = set_lookup_params(request)
         if lookup_params:
             save_lookup_params(request, lookup_params)
-            return redirect(self.redirect_url)
+            return redirect(reverse_lazy('english:word_study_question'))
         else:
-            return redirect(self.url)
+            return redirect(reverse_lazy('english:word_choice'))
 
 
 @require_GET
