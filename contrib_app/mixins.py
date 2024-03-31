@@ -148,7 +148,13 @@ def get_schema_query(request, keys):
 
 
 class ReuseSchemaFilterQueryMixin(MultipleObjectMixin):
-    """Reuses the previous schema filter query."""
+    """Reuses previous url schema filter query with pagination.
+
+    Adds ``reused_query`` to the URL scheme query.
+    Example:
+    -------
+        <a href="?{{ reused_query }}&page={{ page_obj.next_page_number }}">next page</a>
+    """
 
     def get_context_data(self, **kwargs):
         """Add schema filter query to context."""
