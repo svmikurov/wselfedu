@@ -13,7 +13,7 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('math/', include('mathem.urls')),
     path('english/', include('english.urls')),
-    # path('notion/', include('notion.urls.py')),
+    path('notion/', include('notion.urls')),
 ]
 
 if os.getenv('ENVIRONMENT') != 'PRODUCTION':
