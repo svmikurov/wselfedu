@@ -1,12 +1,12 @@
 from django.urls import path
 
-from config.views import HomePageView
+from notion.views.home_view import NotionHomeView
 
 app_name = 'notion'
 urlpatterns = [
     path(
         'home/',
-        HomePageView.as_view(),
+        NotionHomeView.as_view(),
         name='home',
     ),
 ]
