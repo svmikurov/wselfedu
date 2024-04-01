@@ -33,8 +33,14 @@ def get_date_value(form_value: str) -> date:
         model_date = day_today - timedelta(days=3)
     elif form_value == 'W1':
         model_date = day_today - timedelta(weeks=1)
+    elif form_value == 'W2':
+        model_date = day_today - timedelta(weeks=2)
+    elif form_value == 'W3':
+        model_date = day_today - timedelta(weeks=3)
     elif form_value == 'W4':
         model_date = day_today - timedelta(weeks=4)
+    elif form_value == 'W7':
+        model_date = day_today - timedelta(weeks=7)
     elif form_value == 'NC':
         model_date = begin_date_period
     else:
