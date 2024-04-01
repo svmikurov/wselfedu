@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views
+from mathem import views
 
 app_name = 'mathem'
 
@@ -14,5 +14,10 @@ urlpatterns = [
         'mult/',
         views.MultTaskView.as_view(),
         name='mult',
+    ),
+    path(
+        'calculations/',
+        views.CalculationsView.as_view(),
+        name='calculations',
     ),
 ]
