@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from config.views import HomePageView
+from config.home_view import HomePageView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
