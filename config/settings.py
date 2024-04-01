@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'english.apps.EnglishConfig',
     'mathem.apps.MathemConfig',
     'users.apps.UsersConfig',
+    'notion.apps.NotionConfig',
 ]
 
 
