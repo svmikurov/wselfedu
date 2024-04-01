@@ -9,6 +9,18 @@ class UserRegistrationForm(UserCreationForm):
         model = UserModel
         fields = ('username', 'password1', 'password2')
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update(
+            {'data-test': 'username'}
+        )
+        self.fields['username'].widget.attrs.update(
+            {'data-test': 'password1'}
+        )
+        self.fields['username'].widget.attrs.update(
+            {'data-test': 'password2'}
+        )
+
 
 class UserUpdateForm(UserRegistrationForm):
 

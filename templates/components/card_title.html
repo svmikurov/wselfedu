@@ -1,7 +1,7 @@
-{% if title.title_name %}
-  <div class="pb-2">
-    <a class="card-title h3 ps-3" href="{% url title.url_name %}">{{ title.title_name }}</a>
-  </div>
-{% else %}
-  <h4 class="card-title h3 ps-3 pb-3">{{ title }}</h4>
-{% endif %}
+<div class="card-title h3 ps-3 pb-3">
+  {% if title.title_name %}
+    <a class="text-decoration-none" href="{% url title.url_name %}">{{ title.title_name }}</a>
+  {% else %}
+    {{ title }}
+  {% endif %}
+</div>

@@ -103,7 +103,14 @@ if os.getenv('DEFAULT_DB') == 'PostgreSQL':
             'PORT': '',
         }
     }
-elif os.getenv('DEFAULT_DB') == 'Fixtures':
+elif os.getenv('DEFAULT_DB') == 'db-wse-beget':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db-wse-beget.sqlite3',
+        }
+    }
+elif os.getenv('DEFAULT_DB') == 'fixtures':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -114,13 +121,14 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+            'NAME': BASE_DIR / 'db-wse-develop.sqlite3',
         }
     }
 # End Database
 
 # Authentication
 AUTH_USER_MODEL = 'users.UserModel'
+LOGIN_URL = '/users/login/'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -183,7 +191,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Bootstrap
 # https://pypi.org/project/crispy-bootstrap5/
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 # End Bootstrap
 

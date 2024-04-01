@@ -11,54 +11,68 @@ urlpatterns = [
         views.HomeEnglishView.as_view(),
         name='home',
     ),
-    # For account.
+    # --======= Account ======--
     path(
-        'words-users/<int:pk>/',
-        views.ShowUsersWordsView.as_view(),
+        'user/<int:pk>/word-list/',
+        views.WordListView.as_view(),
         name='users_words',
     ),
-    # End For account.
-    # --======= Task study words =======--
+    # -- End Account --
+    # --======= Task word study =======--
+    # Отображение параметров для выборки слов на задание.
     path(
-        'words-choose/',
-        views.ChooseEnglishWordsStudyView.as_view(),
-        name='words_choose',
+        'words-choice/',
+        views.WordChoiceView.as_view(),
+        name='word_choice',
     ),
+    # Отображение вопроса.
     path(
-        'words-study/<str:task_status>/',
-        views.study_words_view,
-        name='words_study',
+        'word-study/question/',
+        views.QuestionWordStudyView.as_view(),
+        name='word_study_question',
     ),
+    # Отображение ответа.
+    path(
+        'word-study/answer/',
+        views.AnswerWordStudyView.as_view(),
+        name='word_study_answer',
+    ),
+    # Добавление оценки слова.
     path(
         'knowledge-assessment/<int:word_id>/',
         views.update_words_knowledge_assessment_view,
         name='knowledge_assessment'
     ),
+    # Изменение статуса избранного слова.
     path(
-        'words_favorites_view/<int:word_id>/',
+        'words-favorites-view/<int:word_id>/<str:from_page>/',
         views.update_words_favorites_status_view,
-        name='words_favorites_view',
+        name='word_favorites_view',
     ),
     # -- End Task study words --
 
-    # --======= Words =======--
+    # --======= Word =======--
     path(
-        'words/list/',
+        'word/list/',
         views.WordListView.as_view(),
-        name='words_list',
+        name='word_list',
     ),
     path(
-        'words/create/',
+        'word/create/',
         views.WordCreateView.as_view(),
         name='words_create',
     ),
+    path('word/<int:pk>/detail/',
+         views.WordDetailView.as_view(),
+         name='words_detail'
+         ),
     path(
-        'words/<int:pk>/update/',
+        'word/<int:pk>/update/',
         views.WordUpdateView.as_view(),
         name='words_update',
     ),
     path(
-        'words/<int:pk>/delete/',
+        'word/<int:pk>/delete/',
         views.WordDeleteView.as_view(),
         name='words_delete',
     ),
@@ -67,7 +81,7 @@ urlpatterns = [
     path(
         'categories/list/',
         views.CategoryListView.as_view(),
-        name='categories_list'
+        name='category_list'
     ),
     path(
         'categories/create/',
@@ -84,13 +98,12 @@ urlpatterns = [
         views.CategoryDeleteView.as_view(),
         name='categories_delete'
     ),
-
-    # --======= Sources =======--
     path(
-        'sources/list/',
-        views.SourceListView.as_view(),
-        name='sources_list'
+        'categories/<int:pk>/detail/',
+        views.CategoryDetailView.as_view(),
+        name='categories_detail'
     ),
+    # --======= Sources =======--
     path(
         'sources/create/',
         views.SourceCreateView.as_view(),
@@ -106,26 +119,14 @@ urlpatterns = [
         views.SourceDeleteView.as_view(),
         name='source_delete'
     ),
-
-    # --======= Lessons =======--
     path(
-        'lessons/list/',
-        views.LessonsListView.as_view(),
-        name='lessons_list'
+        'sources/list/',
+        views.SourceListView.as_view(),
+        name='source_list'
     ),
     path(
-        'lessons/create/',
-        views.LessonCreateView.as_view(),
-        name='lesson_create'
-    ),
-    path(
-        'lessons/<int:pk>/update/',
-        views.LessonUpdateView.as_view(),
-        name='lesson_update'
-    ),
-    path(
-        'lessons/<int:pk>/delete/',
-        views.LessonDeleteView.as_view(),
-        name='lesson_delete'
-    ),
+        'sources/<int:pk>/detail/',
+        views.SourceDetailView.as_view(),
+        name='source_detail'
+    )
 ]

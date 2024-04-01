@@ -4,9 +4,9 @@ asgiref==3.7.2 ; python_version >= "3.10" and python_version < "4.0" \
 crispy-bootstrap5==2023.10 ; python_version >= "3.10" and python_version < "4.0" \
     --hash=sha256:9b5a6c9880f37cd32aa678c0d7576ae60b3e502c444c8712e582f8bd91659afb \
     --hash=sha256:f16c44f1997310e5a89c0cf230402e7111cc1f942f64fb7e44603958b89b06a1
-django-bootstrap5==23.3 ; python_version >= "3.10" and python_version < "4.0" \
-    --hash=sha256:21e1956a8a819370decc5d365ce4f4207761cb065afec5a7df8c4c8c49507f2e \
-    --hash=sha256:ca1bb2f40175ed1c1725f52f249a574bf629b33b5a0af3bec0eab1de6d72836c
+django-bootstrap5==23.4 ; python_version >= "3.10" and python_version < "4.0" \
+    --hash=sha256:5181bf1e97afae6211e963f28f48d4a90c937a3b036b3f752f52260f0029f3bc \
+    --hash=sha256:fbf9942a17e1f48b4142e78df9e85afb65e4066a20e38ec7c497d36ae5ef7256
 django-crispy-forms==2.1 ; python_version >= "3.10" and python_version < "4.0" \
     --hash=sha256:4d7ec431933ad4d4b5c5a6de4a584d24613c347db9ac168723c9aaf63af4bb96 \
     --hash=sha256:d592044771412ae1bd539cc377203aa61d4eebe77fcbc07fbc8f12d3746d4f6b
@@ -106,4 +106,5 @@ Django~=4.2.6
 Faker~=21.0.0
 django-debug-toolbar~=4.2.0
 python-dotenv~=1.0.0
+django-crispy-forms~=2.1
 django-filter~=23.5

@@ -3,16 +3,14 @@
 
 {% block content %}
 <!--======= Form Content =======-->
-<div>
-  {% include 'components/navbar_adding.html' %}
-  <div class="">
-    {% include 'components/card_title.html' %}
-    <form method="post">
-      {% csrf_token %}
-      {% bootstrap_form form %}
-      {% bootstrap_button btn_name button_type='submit' button_class='btn-outline-success btn-sm' %}
-      {% include 'components/back_btn.html' %}
-    </form>
-  </div>
+{% include 'components/card_title.html' %}
+<div class="row cols-sm-1 row-cols-md-2 row-cols-lg-2">
+  <form method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% bootstrap_button btn_name button_type='submit' button_class='btn-outline-success btn-sm' %}
+    {% bootstrap_button button_type="reset" button_class='btn-outline-danger btn-sm' content="Cancel" %}
+    {% include 'components/back_btn.html' %}
+  </form>
 </div><!-- End Form Content -->
 {% endblock %}

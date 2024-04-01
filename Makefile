@@ -1,5 +1,5 @@
 MANAGE := poetry run python manage.py
-TEST_JUST := english.tests.test_serve_query
+TEST_JUST := english.tests.test_serve_query.TestAdaptLookupParameters.test_add_to_lookup_parameters_new_words
 
 start:
 	@$(MANAGE) runserver 0.0.0.0:8000
@@ -20,12 +20,15 @@ test-coverage:
 	poetry run coverage run --source="" manage.py test
 	poetry run coverage xml
 
+pytest:
+	pytest
+
 coverage:
 	coverage run --source='.' ./manage.py test .
 	coverage report
 	coverage html
 
-check: lint test
+check: lint test pytest
 
 shell:
 	@$(MANAGE) shell_plus --ipython

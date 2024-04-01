@@ -6,8 +6,12 @@
 
 from random import shuffle
 
-from english.models import WordModel
-from english.services.serve_query import get_random_query_from_queryset
+from django.db.models import QuerySet
+
+from english.services.serve_query import (
+    get_random_query_from_queryset,
+    get_words_for_study,
+)
 
 
 def shuffle_sequence(sequence):
@@ -16,19 +20,14 @@ def shuffle_sequence(sequence):
     return sequence
 
 
-def create_task_study_words(lookup_parameters):
-    """Создай задание пользователю для изучения слов, согласно его фильтрам.
-    """
-    task_study_word = dict()
-    include_parameters, exclude_parameters = lookup_parameters
-    words_queryset = WordModel.objects.filter(
-        **include_parameters
-    ).exclude(
-        **exclude_parameters,
-    )
+def create_task_study_words(lookup_params: dict, user_id: int) -> dict | None:
+    """Create a task for the user to learn words using his filters."""
+    task_study_word = None
+    words: QuerySet = get_words_for_study(lookup_params, user_id)
 
-    if words_queryset:
-        word = get_random_query_from_queryset(words_queryset)
+    if words:
+        word_count = words.count()
+        word = get_random_query_from_queryset(words)
         word_translations = [word.words_eng, word.words_rus]
         question, answer = shuffle_sequence(word_translations)
 
@@ -36,6 +35,8 @@ def create_task_study_words(lookup_parameters):
             'word_id': word.id,
             'question': question,
             'answer': answer,
-            'words_eng': word.words_eng
+            'word_eng': word.words_eng,
+            'word_count': word_count,
+            'source': word.source.name if word.source else '',
         }
     return task_study_word

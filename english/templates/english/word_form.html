@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<!--======= Additional navigation =======-->
+<div class="pb-2">
+  <a href="{% url 'english:word_list' %}" class="btn btn-outline-dark btn-sm" role="button"
+    >Словарь
+  </a>
+  <a href="https://translate.google.com/?hl=ru&sl=auto&tl=ru&text={{word.words_eng}}&op=translate" class="btn btn-outline-dark btn-sm" role="button"
+    >Google
+  </a>
+</div><!-- End Additional Navigation -->
+
+<div class="">{% include 'components/card_title.html' %}</div>
+
+<!--======= Word Form =======-->
+<div class="row cols-sm-1 row-cols-md-2 row-cols-lg-2">
+  <form method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% bootstrap_button btn_name button_type='submit' button_class='btn-outline-success btn-sm' %}
+    {% bootstrap_button button_type="reset" button_class='btn-outline-danger btn-sm' content="Cancel" %}
+    {% include 'components/back_btn.html' %}
+  </form>
+</div><!-- End Word Form -->
+{% endblock %}
