@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'components/card_title.html' %}
+<div>
+  <form action="{% url 'mathem:calculations' %}" method="post">
+    {%csrf_token%}
+
+  </form>
+</div>
+{% endblock %}
