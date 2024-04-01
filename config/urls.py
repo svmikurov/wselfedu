@@ -4,11 +4,16 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from dotenv import load_dotenv
 
 from config.home_view import HomePageView
 
+load_dotenv()
+
+admin_url = os.getenv('ADMIN_URL')
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path(admin_url, admin.site.urls),
     path('', HomePageView.as_view(), name='home'),
     path('users/', include('users.urls')),
     path('math/', include('mathem.urls')),
