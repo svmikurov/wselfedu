@@ -14,7 +14,8 @@ from crispy_forms.bootstrap import InlineCheckboxes
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Submit, HTML, Row, Column
 
-PERIOD_START = (
+
+EDGE_PERIODS = [
     ('DT', 'Сегодня'),
     ('D3', 'Три дня назад'),
     ('W1', 'Неделя назад'),
@@ -22,17 +23,13 @@ PERIOD_START = (
     ('W3', 'Три недели назад'),
     ('W4', 'Четыре недели назад'),
     ('W7', 'Семь недель назад'),
+    ('M3', 'Три месяца назад'),
+    ('M6', 'Шесть месяцев назад'),
+    ('M9', 'Девять месяцев назад'),
     ('NC', 'Добавлено'),
-)
-PERIOD_END = (
-    ('DT', 'Сегодня'),
-    ('D3', 'Три дня назад'),
-    ('W1', 'Неделя назад'),
-    ('W2', 'Две недели назад'),
-    ('W3', 'Три недели назад'),
-    ('W4', 'Четыре недели назад'),
-    ('W7', 'Семь недель назад'),
-)
+]
+DEFAULT_START_PERIOD = ('NC', 'Добавлено')
+DEFAULT_END_PERIOD = ('DT', 'Сегодня')
 WORD_COUNT = (
     ('OW', 'Слово'),
     ('CB', 'Словосочетание'),
@@ -45,8 +42,6 @@ KNOWLEDGE_ASSESSMENT = (
     ('E', 'Проверяю'),      # examination
     ('K', 'Знаю'),          # know
 )
-DEFAULT_START_PERIOD = 'NC'
-DEFAULT_END_PERIOD = 'DT'
 DEFAULT_KNOWLEDGE_ASSESSMENT = 'S'
 DEFAULT_WORD_COUNT = ('OW', 'CB')
 DEFAULT_CREATE_CHOICE_VALUE = 0
@@ -97,13 +92,13 @@ class WordChoiceHelperForm(forms.Form):
         label='',
     )
     period_start_date = forms.ChoiceField(
-        choices=PERIOD_START,
+        choices=EDGE_PERIODS,
         initial=DEFAULT_START_PERIOD,
         required=False,
         label='',
     )
     period_end_date = forms.ChoiceField(
-        choices=PERIOD_END,
+        choices=EDGE_PERIODS[:-1],
         initial=DEFAULT_END_PERIOD,
         required=False,
         label='',

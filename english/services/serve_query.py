@@ -15,6 +15,18 @@ from django.utils import timezone
 from english.models import WordModel, WordUserKnowledgeRelation
 from english.services.word_knowledge_assessment import get_numeric_value
 
+EDGE_PERIODS = {
+    'D3': {'days': 3},
+    'W1': {'weeks': 1},
+    'W2': {'weeks': 2},
+    'W3': {'weeks': 3},
+    'W4': {'weeks': 4},
+    'W7': {'weeks': 7},
+    'M3': {'weeks': 13},
+    'M6': {'weeks': 26},
+    'M9': {'weeks': 40},
+}
+
 
 def get_date_value(form_value: str) -> date:
     """Преобразуй строковое обозначение периода в дату.
@@ -29,22 +41,10 @@ def get_date_value(form_value: str) -> date:
 
     if form_value == 'DT':
         model_date = day_today
-    elif form_value == 'D3':
-        model_date = day_today - timedelta(days=3)
-    elif form_value == 'W1':
-        model_date = day_today - timedelta(weeks=1)
-    elif form_value == 'W2':
-        model_date = day_today - timedelta(weeks=2)
-    elif form_value == 'W3':
-        model_date = day_today - timedelta(weeks=3)
-    elif form_value == 'W4':
-        model_date = day_today - timedelta(weeks=4)
-    elif form_value == 'W7':
-        model_date = day_today - timedelta(weeks=7)
     elif form_value == 'NC':
         model_date = begin_date_period
     else:
-        raise ValueError('Выбранный период не предусмотрен.')
+        model_date = day_today - timedelta(**EDGE_PERIODS[form_value])
 
     return model_date
 
