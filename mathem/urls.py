@@ -1,6 +1,7 @@
 from django.urls import path
 
 from mathem import views
+from mathem.views.calculations_view import TaskAjax
 
 app_name = 'mathem'
 
@@ -20,4 +21,9 @@ urlpatterns = [
         views.CalculationsView.as_view(),
         name='calculations',
     ),
+    path(
+        'task_ajax/',
+        TaskAjax.as_view(),
+        name='task_ajax',
+    )
 ]

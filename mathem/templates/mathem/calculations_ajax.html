@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% include 'components/card_title.html' %}
+<div id="evaluate">
+  {{ evaluate }}
+</div>
+<div id="task_text">
+  {{ task_text }}
+</div>
+<div>
+  <form action="{% url 'mathem:task_ajax' %}" method="post" id="task_ajax">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" class="btn btn-primary">Ответить</button>
+  </form>
+</div>
+{% endblock %}
