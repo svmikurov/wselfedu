@@ -1,4 +1,4 @@
-from english.views.account_views import (
+from english.views.user_word_list import (
     UserWordListView,
 )
 from english.views.home import (

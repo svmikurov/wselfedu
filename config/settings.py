@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django_bootstrap5',
     'crispy_forms',
     'crispy_bootstrap5',
+    'bootstrap4',
     'django_filters',
     # Project applications
     'english.apps.EnglishConfig',
