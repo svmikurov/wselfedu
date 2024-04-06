@@ -1,3 +1,6 @@
+from english.views.account_word import (
+    AnalysisWordUserView,
+)
 from english.views.user_word_list import (
     UserWordListView,
 )

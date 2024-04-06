@@ -128,5 +128,11 @@ urlpatterns = [
         'sources/<int:pk>/detail/',
         views.SourceDetailView.as_view(),
         name='source_detail'
-    )
+    ),
+    # --======= Analysis =======--
+    path(
+        '<int:pk>/word-information/',
+        views.AnalysisWordUserView.as_view(),
+        name='word_information'
+    ),
 ]
