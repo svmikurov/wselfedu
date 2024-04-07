@@ -7,6 +7,7 @@ from english.models import (
     CategoryModel,
     SourceModel,
 )
+from english.services.word_knowledge_assessment import WORD_STUDY_ASSESSMENTS
 
 
 def category_by_current_user(request):
@@ -31,9 +32,15 @@ class WordsFilter(django_filters.FilterSet):
         ('ST', 'Предложение'),
         ('NC', 'Не указано'),
     )
+    WORD_STUDY_STAGE = (
+        ('S', 'Изучаю'),        # study
+        ('R', 'Повторяю'),      # repeat
+        ('E', 'Проверяю'),      # examination
+        ('K', 'Знаю'),          # know
+    )
 
     search_word = django_filters.CharFilter(
-        method='filter_word_by_any_language',
+        method='filter_word_by_any_translation',
         field_name='words_eng',
         lookup_expr='icontains',
         label='',
@@ -60,6 +67,12 @@ class WordsFilter(django_filters.FilterSet):
         label='',
         empty_label='Любое кол-во слов',
     )
+    filtered_study_stage = django_filters.ChoiceFilter(
+        choices=WORD_STUDY_STAGE,
+        method='get_filtered_study_stage',
+        label='',
+        empty_label='Стадия изучения слова',
+    )
 
     only_favorite_words = django_filters.BooleanFilter(
         field_name='Только избранные слова',
@@ -69,7 +82,7 @@ class WordsFilter(django_filters.FilterSet):
     )
 
     @classmethod
-    def filter_word_by_any_language(cls, queryset, name, value):
+    def filter_word_by_any_translation(cls, queryset, name, value):
         return queryset.filter(
             Q(words_eng__icontains=value) | Q(words_rus__icontains=value)
         )
@@ -85,11 +98,23 @@ class WordsFilter(django_filters.FilterSet):
         return queryset
 
     @classmethod
+    def get_filtered_study_stage(cls, queryset, name, value):
+        """Filter words by study stage (knowledge_assessment)."""
+        study = WORD_STUDY_ASSESSMENTS.get(value)
+        qs = queryset.filter(
+            worduserknowledgerelation__user_id=F('user'),
+            worduserknowledgerelation__word_id=F('pk'),
+            worduserknowledgerelation__knowledge_assessment__in=study,
+        )
+        return qs
+
+    @classmethod
     def get_filter_fields(cls):
         return (
             'search_word',
             'filtered_category',
             'filtered_source',
             'filtered_word_count',
+            'filtered_study_stage',
             'only_favorite_words',
         )
