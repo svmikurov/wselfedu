@@ -21,9 +21,9 @@ class TestFavoritesQuery(TestCase):
     def test_favorites_user_count_qs(self):
         """Test the queryset for counting the user's favorite words."""
         qs = get_favorites_analytic_data(self.user_id)
-        assert self.all_favorites_user_count == qs['count_favorites']
+        assert self.all_favorites_user_count == qs['favorites_count']
 
     def test_study_favorites_user_count_qs(self):
         """Test study favorites user word count."""
         qs = get_favorites_analytic_data(self.user_id)
-        assert self.study_favorites_user_count == qs['study_favorites']
+        assert self.study_favorites_user_count == qs['study_favorites_count']

@@ -7,4 +7,4 @@ register = template.Library()
 
 @register.filter
 def humanize_indicator(value):
-    return ANALYSIS_INDICATORS.get(value, 'undefined')
+    return ANALYSIS_INDICATORS.get(value, value)
