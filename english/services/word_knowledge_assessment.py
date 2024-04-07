@@ -21,6 +21,12 @@ MAX_EXAMINATION_VALUE = 10
 MAX_KNOWLEDGE_ASSESSMENT = 11
 """Значения оценки уровня знания слова пользователем
 """
+WORD_STUDY_ASSESSMENTS = {
+    'S': [*range(MIN_KNOWLEDGE_ASSESSMENT, MAX_STUDYING_VALUE + 1)],
+    'R': [*range(MAX_STUDYING_VALUE + 1, MAX_REPETITION_VALUE + 1)],
+    'E': [*range(MAX_REPETITION_VALUE + 1, MAX_EXAMINATION_VALUE + 1)],
+    'K': [MAX_KNOWLEDGE_ASSESSMENT],
+}
 
 
 def get_knowledge_assessment(word_id, user_id):
@@ -50,19 +56,12 @@ def update_word_knowledge_assessment(word_pk, user_pk, new_assessment):
         ).update(knowledge_assessment=new_assessment)
 
 
-def get_numeric_value(knowledge_assessment):
+def get_numeric_value(knowledge_assessments):
     """Преобразуй строковое представление уровня знания в диапазон чисел
      этого уровня.
      """
     value = []
-    if 'S' in knowledge_assessment:
-        value += [*range(MIN_KNOWLEDGE_ASSESSMENT, MAX_STUDYING_VALUE + 1)]
-    if 'R' in knowledge_assessment:
-        value += [*range(MAX_STUDYING_VALUE + 1, MAX_REPETITION_VALUE + 1)]
-    if 'E' in knowledge_assessment:
-        value += [*range(MAX_REPETITION_VALUE + 1, MAX_EXAMINATION_VALUE + 1)]
-    if 'K' in knowledge_assessment:
-        value += [
-            *range(MAX_EXAMINATION_VALUE + 1, MAX_KNOWLEDGE_ASSESSMENT + 1)
-        ]
+    for assessment in WORD_STUDY_ASSESSMENTS:
+        if assessment in knowledge_assessments:
+            value += WORD_STUDY_ASSESSMENTS[assessment]
     return value
