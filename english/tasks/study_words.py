@@ -20,7 +20,21 @@ def shuffle_sequence(sequence):
     return sequence
 
 
-def create_task_study_words(lookup_params: dict, user_id: int) -> dict | None:
+def get_language_order(word, order=None):
+    """Return order of languages by user choice."""
+    word_translations = [word.words_eng, word.words_rus]
+    if order == 'EN':
+        return word_translations
+    elif order == 'RU':
+        return [word.words_rus, word.words_eng]
+    return shuffle_sequence(word_translations)
+
+
+def create_task_study_words(
+        lookup_params: dict,
+        user_id: int,
+        language_order=None,
+) -> dict | None:
     """Create a task for the user to learn words using his filters.
 
     Parameters
@@ -29,6 +43,8 @@ def create_task_study_words(lookup_params: dict, user_id: int) -> dict | None:
         Contains search options to select a word to display to the user.
     user_id : `int`
         Current user ID.
+    language_order : `str` | None, optional
+        User's choice of language order to display it to him.
 
     Arguments
     ---------
@@ -45,13 +61,12 @@ def create_task_study_words(lookup_params: dict, user_id: int) -> dict | None:
         Data for rendering context.
     """
     task_study_word = None
-    words: QuerySet = get_words_for_study(lookup_params, user_id)
+    word_qs: QuerySet = get_words_for_study(lookup_params, user_id)
 
-    if words:
-        word_count = words.count()
-        word = get_random_query_from_queryset(words)
-        word_translations = [word.words_eng, word.words_rus]
-        question, answer = shuffle_sequence(word_translations)
+    if word_qs:
+        word_count = word_qs.count()
+        word = get_random_query_from_queryset(word_qs)
+        question, answer = get_language_order(word, language_order)
 
         task_study_word = {
             'word_id': word.id,

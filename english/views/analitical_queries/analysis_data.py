@@ -31,7 +31,7 @@ def get_favorites_analytic_data(user_id):
         favorites_count=Count('*'),
     )
     study_favorites_count = queryset.filter(
-            worduserknowledgerelation__knowledge_assessment__in=stages['S'],
+        worduserknowledgerelation__knowledge_assessment__in=stages['S'],
     ).aggregate(study_favorites_count=Count('*'))
     repeat_favorites_count = queryset.filter(
         worduserknowledgerelation__knowledge_assessment__in=stages['R'],

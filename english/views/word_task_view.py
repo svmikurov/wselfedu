@@ -10,10 +10,6 @@ from django.views.generic import TemplateView
 from english.forms import WordChoiceHelperForm
 from english.services import create_lookup_params
 
-from english.services.serve_request import (
-    get_lookup_params,
-    save_lookup_params,
-)
 from english.services.word_favorites import (
     is_word_in_favorites,
     update_word_favorites_status,
@@ -75,7 +71,11 @@ class WordChoiceView(TemplateView):
         if form.is_valid():
             form_data = form.cleaned_data
             lookup_params = create_lookup_params(form_data, user_id)
-            save_lookup_params(request, lookup_params)
+            language_order = form_data['language_order']
+
+            request.session['lookup_params'] = lookup_params
+            request.session['language_order'] = language_order
+
             return redirect(reverse_lazy('english:word_study_question'))
         else:
             return redirect(reverse_lazy('english:word_choice'))
@@ -93,12 +93,15 @@ class QuestionWordStudyView(View):
         user_id = request.user.id
 
         try:
-            lookup_params = get_lookup_params(request)
+            lookup_params = request.session.get('lookup_params')
+            language_order = request.session.get('language_order')
         except AttributeError:
             messages.error(request, RESTART_MSG)
             return redirect(self.params_choice_url)
         else:
-            task = create_task_study_words(lookup_params, user_id)
+            task = create_task_study_words(
+                lookup_params, user_id, language_order,
+            )
 
         if not task:
             messages.error(request, MSG_NO_WORDS)
