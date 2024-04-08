@@ -21,7 +21,29 @@ def shuffle_sequence(sequence):
 
 
 def create_task_study_words(lookup_params: dict, user_id: int) -> dict | None:
-    """Create a task for the user to learn words using his filters."""
+    """Create a task for the user to learn words using his filters.
+
+    Parameters
+    ----------
+    lookup_params : `dict`
+        Contains search options to select a word to display to the user.
+    user_id : `int`
+        Current user ID.
+
+    Arguments
+    ---------
+    word_count : `int`
+        For display current word count at page as information.
+    question : `str`
+        Word to translate in the task.
+    annswer : `str`
+        Correct translation of the word.
+
+    Returns
+    -------
+    task_study_word : `dict`
+        Data for rendering context.
+    """
     task_study_word = None
     words: QuerySet = get_words_for_study(lookup_params, user_id)
 
