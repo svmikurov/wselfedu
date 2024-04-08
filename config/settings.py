@@ -111,6 +111,13 @@ elif os.getenv('DEFAULT_DB') == 'db-wse-beget':
             'NAME': BASE_DIR / 'db-wse-beget.sqlite3',
         }
     }
+elif os.getenv('DEFAULT_DB') == 'db-wse-sweb':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db-wse-sweb.sqlite3',
+        }
+    }
 elif os.getenv('DEFAULT_DB') == 'fixtures':
     DATABASES = {
         'default': {
@@ -198,17 +205,3 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 if DEBUG:
     os.environ['DJANGO_ALLOW_ASYNC_UNSAFE'] = 'true'
 # End For configuration jupiter notebook
-
-if os.getenv('LOGGING_DB'):
-    LOGGING = {
-        'version': 1,
-        'handlers': {
-            'console': {'class': 'logging.StreamHandler'},
-        },
-        'loggers': {
-            'django.db.backends': {
-                'handlers': ['console'],
-                'level': 'DEBUG',
-            }
-        }
-    }
