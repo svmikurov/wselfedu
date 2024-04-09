@@ -7,6 +7,15 @@ class TwoOperandMathTaskNotCall:
 
     task_text = None
     calculation = None
+    value_range = None
+    ops = None
+
+    OPS = {
+        '+': operator.add,
+        '-': operator.sub,
+        '*': operator.mul,
+        '/': operator.or_
+    }
 
     def __init__(self, min_value, max_value, ops):
         if (
@@ -14,14 +23,16 @@ class TwoOperandMathTaskNotCall:
                 or not isinstance(max_value, int | float)
         ):
             raise ValueError('number expected')
+        if ops not in self.OPS:
+            raise ValueError("operators must be: '+' or '-' or '*' or '/'")
         self.value_range = (min_value, max_value)
         self.ops = ops
 
     def create_task(self):
         operand1 = randint(*self.value_range)
         operand2 = randint(*self.value_range)
+        self.calculation = self.OPS[self.ops](operand1, operand2)
         self.task_text = f"{operand1} {self.ops} {operand2}"
-        self.calculation = eval(self.task_text)
         return self.task_text
 
     def get_calculation(self):
