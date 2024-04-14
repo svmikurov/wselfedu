@@ -5,10 +5,6 @@ from english.services.serve_query import (
     get_random_query_from_queryset,
     get_words_for_study,
 )
-from english.services.serve_request import (
-    save_lookup_params,
-    get_lookup_params,
-)
 from english.services.word_knowledge_assessment import (
     get_numeric_value,
     get_knowledge_assessment,

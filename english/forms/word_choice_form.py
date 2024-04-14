@@ -12,9 +12,13 @@ from english.models import CategoryModel, SourceModel
 
 from crispy_forms.bootstrap import InlineCheckboxes
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Field, Submit, HTML, Row, Column
+from crispy_forms.layout import Layout, Submit, HTML, Row, Column
 
-
+LANGUAGE_ORDER = [
+    ('RN', 'Перевод в случайном порядке'),
+    ('EN', 'Перевод с английского языка'),
+    ('RU', 'Перевод на английский язык'),
+]
 EDGE_PERIODS = [
     ('DT', 'Сегодня'),
     ('D3', 'Три дня назад'),
@@ -42,6 +46,7 @@ KNOWLEDGE_ASSESSMENT = (
     ('E', 'Проверяю'),      # examination
     ('K', 'Знаю'),          # know
 )
+DEFAULT_LANGUAGE_ORDER = LANGUAGE_ORDER[0]
 DEFAULT_KNOWLEDGE_ASSESSMENT = 'S'
 DEFAULT_WORD_COUNT = ('OW', 'CB')
 DEFAULT_CREATE_CHOICE_VALUE = 0
@@ -80,6 +85,12 @@ class WordChoiceHelperForm(forms.Form):
 
     favorites = forms.BooleanField(
         required=False,
+    )
+    language_order = forms.ChoiceField(
+        choices=LANGUAGE_ORDER,
+        initial=DEFAULT_LANGUAGE_ORDER,
+        required=False,
+        label='',
     )
     category = forms.TypedChoiceField(
         initial=DEFAULT_CREATE_CHOICE_VALUE,
@@ -126,7 +137,10 @@ class WordChoiceHelperForm(forms.Form):
         helper.form_action = reverse_lazy('english:word_choice')
 
         helper.layout = Layout(
-            Field('favorites'),
+            Row(
+                Column('favorites', css_class='form-group col-6'),
+                Column('language_order', css_class='form-group col-6'),
+            ),
             Row(
                 Column('category', css_class='form-group col-6'),
                 Column('source', css_class='form-group col-6'),

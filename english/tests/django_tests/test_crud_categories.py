@@ -17,8 +17,6 @@ NO_PERMISSION_URL = reverse('users:login')
 SUCCESS_CREATE_CATEGORY_MSG = 'Категория слов добавлена'
 SUCCESS_UPDATE_CATEGORY_MSG = 'Категория слов изменена'
 SUCCESS_DELETE_CATEGORY_MSG = 'Категория слов удалена'
-PROTECT_DELETE_CATEGORY_MSG = ('Невозможно удалить этот объект, так как он '
-                               'используется в другом месте приложения')
 
 
 class TestCreateCategoryView(TestCase):
@@ -168,16 +166,6 @@ class TestDeleteCategoryView(TestCase):
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
         assert CategoryModel.objects.filter(pk=self.user_category_id).exists()
-
-    def test_delete_protected_category(self):
-        """Test delete protected category."""
-        self.client.force_login(self.user)
-        response = self.client.post(self.protected_url)
-        self.assertRedirects(response, self.protected_redirect, 302)
-        flash_message_test(response, PROTECT_DELETE_CATEGORY_MSG)
-        assert CategoryModel.objects.filter(
-            pk=self.user_protected_category_id
-        ).exists()
 
 
 class TestCategoryListView(TestCase):

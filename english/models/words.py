@@ -46,7 +46,7 @@ class WordModel(models.Model):
     )
     category = models.ForeignKey(
         CategoryModel,
-        on_delete=models.PROTECT,
+        on_delete=models.SET_NULL,
         null=True, blank=True,
         verbose_name='Категория',
     )
