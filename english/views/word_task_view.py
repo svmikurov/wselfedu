@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
@@ -184,28 +185,17 @@ def update_words_knowledge_assessment_view(request, **kwargs):
     return redirect(reverse_lazy(QUESTION_PATH))
 
 
-@require_POST
+# @require_POST
 @login_required
-def update_words_favorites_status_view(request, **kwargs):
-    """Обнови статус слова, избранное ли оно.
-
-    После обновления совершит редирект на формирование нового задания.
-    """
-    favorites_action = request.POST.get('favorites_action')
+def update_words_favorites_status_view_ajax(request, **kwargs):
+    """Обнови статус слова, избранное ли оно."""
     word_id = kwargs['word_id']
     user_id = request.user.pk
-    request_from_page = kwargs['from_page']
-    redirect_url = 'english:home'
+    favorites_status = update_word_favorites_status(word_id, user_id)
 
-    update_word_favorites_status(word_id, user_id, favorites_action)
-
-    if request_from_page == 'user_list':
-        redirect_url = reverse_lazy(
-            'english:users_words',
-            kwargs={'pk': user_id},
-        )
-    elif request_from_page == 'word_study':
-        # Редирект на формирование нового задания.
-        redirect_url = reverse_lazy(QUESTION_PATH)
-
-    return redirect(redirect_url)
+    return JsonResponse(
+        data={
+            'favorites_status': favorites_status,
+        },
+        status=201,
+    )

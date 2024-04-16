@@ -43,11 +43,10 @@ urlpatterns = [
         views.update_words_knowledge_assessment_view,
         name='knowledge_assessment'
     ),
-    # Изменение статуса избранного слова.
     path(
-        'words-favorites-view/<int:word_id>/<str:from_page>/',
-        views.update_words_favorites_status_view,
-        name='word_favorites_view',
+        'words-favorites-view-ajax/<int:word_id>/',
+        views.update_words_favorites_status_view_ajax,
+        name='word_favorites_view_ajax',
     ),
     # -- End Task study words --
 

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
 
 {% block content %}
 {% include 'components/card_title.html' %}
@@ -17,3 +18,9 @@
   </form>
 </div>
 {% endblock %}
+
+{% block script %}
+  <!-- Ajax Evaluate Task -->
+  <script src="{% static 'task.js' %}"></script>
+  <!-- End Ajax Evaluate Task -->
+{% endblock script %}

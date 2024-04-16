@@ -32,6 +32,6 @@ from english.views.word_task_view import (
     AnswerWordStudyView,
     WordChoiceView,
     QuestionWordStudyView,
-    update_words_favorites_status_view,
+    update_words_favorites_status_view_ajax,
     update_words_knowledge_assessment_view,
 )

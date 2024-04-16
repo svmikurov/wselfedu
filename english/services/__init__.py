@@ -11,8 +11,6 @@ from english.services.word_knowledge_assessment import (
     update_word_knowledge_assessment,
 )
 from english.services.word_favorites import (
-    add_word_to_favorites,
     is_word_in_favorites,
-    remove_word_from_favorites,
     update_word_favorites_status,
 )
