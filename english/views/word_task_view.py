@@ -39,8 +39,6 @@ RESTART_MSG = 'Выберите условия задания'
 ошибки приложения (`str`).
 """
 CHOICE_PATH = 'english:word_choice'
-QUESTION_PATH = 'english:word_study_question'
-ANSWER_PATH = 'english:word_study_answer'
 
 
 class WordChoiceView(TemplateView):
@@ -140,6 +138,8 @@ def update_words_knowledge_assessment_view(request, **kwargs):
         old_assessment = get_knowledge_assessment(word_pk, user_pk)
         new_assessment = old_assessment + int(action)
         update_word_knowledge_assessment(word_pk, user_pk, new_assessment)
+
+    return redirect(reverse_lazy('english:word_study_ajax'))
 
 
 @require_POST
