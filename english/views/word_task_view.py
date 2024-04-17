@@ -153,8 +153,6 @@ class AnswerWordStudyView(View):
         context = {
             'title': TITLE,
             'task': task,
-            'timeout': ANSWER_TIMEOUT,
-            'next_url': QUESTION_PATH,
             'task_status': 'answer',
             'knowledge_assessment': knowledge,
             'favorites_status': favorites_status,
