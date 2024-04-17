@@ -119,8 +119,6 @@ class QuestionWordStudyView(View):
         context = {
             'title': TITLE,
             'task': task,
-            'timeout': QUESTION_TIMEOUT,
-            'next_url': ANSWER_PATH,
             'task_status': 'question',
             'knowledge_assessment': knowledge,
             'favorites_status': favorites_status,
@@ -129,40 +127,8 @@ class QuestionWordStudyView(View):
         return render(request, self.template_name, context)
 
 
-class AnswerWordStudyView(View):
-    """Представление для отображения ответа."""
-
-    template_name = 'english/tasks/word_study.html'
-    params_choice_url = reverse_lazy(CHOICE_PATH)
-
-    def get(self, request, *args, **kwargs):
-        """Покажи пользователю перевод слова.
-        """
-        user_id = request.user.id
-
-        try:
-            task = request.session['task']
-        except ValueError:
-            messages.error(request, RESTART_MSG)
-            return redirect(self.params_choice_url)
-
-        word_id = task.get('word_id')
-        knowledge = get_knowledge_assessment(word_id, user_id)
-        favorites_status = is_word_in_favorites(user_id, word_id)
-
-        context = {
-            'title': TITLE,
-            'task': task,
-            'task_status': 'answer',
-            'knowledge_assessment': knowledge,
-            'favorites_status': favorites_status,
-        }
-
-        return render(request, self.template_name, context)
-
-
 def get_word_task_view_ajax(request):
-    """"""
+    """Get new word task."""
     user_id = request.user.id
 
     try:

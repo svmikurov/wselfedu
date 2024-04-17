@@ -31,12 +31,6 @@ urlpatterns = [
         views.QuestionWordStudyView.as_view(),
         name='word_study_question',
     ),
-    # Отображение ответа.
-    path(
-        'word-study/answer/',
-        views.AnswerWordStudyView.as_view(),
-        name='word_study_answer',
-    ),
     # Создание задания и отображение с помощью ajax.
     path(
         'word-study-ajax/',

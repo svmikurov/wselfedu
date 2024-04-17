@@ -30,7 +30,6 @@ from english.views.crud_sources import (
 )
 from english.views.word_task_view import (
     WordChoiceView,
-    AnswerWordStudyView,
     QuestionWordStudyView,
     get_word_task_view_ajax,
     update_words_favorites_status_view_ajax,
