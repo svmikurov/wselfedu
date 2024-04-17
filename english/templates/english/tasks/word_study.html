@@ -16,26 +16,22 @@
 
   <!-- Buttons user rating of word knowledge -->
   <div class="pb-2">
-    {% if user.is_authenticated %}
-      <form action="{% url 'english:knowledge_assessment' task.word_id %}" method="post">
-        {% csrf_token %}
-          <button class="btn btn-outline-primary btn-sm" name="action" value="-1" style="width:110px">Не знаю</button>
-          <button class="btn btn-outline-primary btn-sm mx-2" name="action" value="+1" style="width:110px">Знаю</button>
-          <button class="btn btn-outline-primary btn-sm" name="action" value="{{ next_url }}" style="width:110px">Далее</button>
-      </form>
-    {% endif %}
-    </div><!-- End Buttons user rating of word knowledge -->
+    <form id="knowledge_action" action="{% url 'english:knowledge_assessment' task.word_id %}" method="post">
+      {% csrf_token %}
+        <button class="btn btn-outline-primary btn-sm" name="action" value="-1" style="width:110px">Не знаю</button>
+        <button class="btn btn-outline-primary btn-sm mx-2" name="action" value="+1" style="width:110px">Знаю</button>
+        <button id="next_task_step" class="btn btn-outline-primary btn-sm" name="action" value="next" style="width:110px">Далее</button>
+    </form>
+  </div><!-- End Buttons user rating of word knowledge -->
 
   <!-- Button word favorites status change -->
   <div class="">
-    {% if user.is_authenticated %}
-      <form id="update_favorites" action="{% url 'english:word_favorites_view_ajax' task.word_id %}" method="post">
-        {% csrf_token %}
-        <button id="favorites_button" type="submit" class="btn btn-outline-primary btn-sm text-nowrap">
-          {% if favorites_status %}Убрать из избранного{% else %}Добавить в избранное{% endif %}
-        </button>
-      </form>
-    {% endif %}
+    <form id="update_favorites" action="{% url 'english:word_favorites_view_ajax' task.word_id %}" method="post">
+      {% csrf_token %}
+      <button id="favorites_button" type="submit" class="btn btn-outline-primary btn-sm text-nowrap">
+        {% if favorites_status %}Убрать из избранного{% else %}Добавить в избранное{% endif %}
+      </button>
+    </form>
   </div><!-- End Button word favorites status change -->
 
   <!--======= Solution =======-->
@@ -57,6 +53,6 @@
 
 {% block script %}
   <!-- Ajax Update Favorites Word -->
-  <script src="{% static 'favorites_word.js' %}"></script>
+  <script src="{% static 'task_word.js' %}"></script>
   <!-- End Ajax Update Favorites Word -->
 {% endblock script %}

@@ -1,17 +1,26 @@
-#
-# Этот модуль часть группы задач, выполняемых пользователем.
-#
 """Модуль задачи изучения пользователем слов.
 """
 
 from random import shuffle
 
+from django.contrib import messages
 from django.db.models import QuerySet
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 
 from english.services.serve_query import (
     get_random_query_from_queryset,
     get_words_for_study,
 )
+
+MSG_NO_WORDS = 'Ничего не найдено, попробуйте другие варианты'
+"""Нет слов, удовлетворяющих критериям выборки пользователя (`str`).
+"""
+RESTART_MSG = 'Выберите условия задания'
+"""Сообщение о необходимости заново установить параметры выбора слова, в случае
+ошибки приложения (`str`).
+"""
+CHOICE_PATH = 'english:word_choice'
 
 
 def shuffle_sequence(sequence):
@@ -78,3 +87,28 @@ def create_task_study_words(
             'source': word.source.name if word.source else '',
         }
     return task_study_word
+
+
+def create_task(request):
+    """"""
+    user_id = request.user.id
+    params_choice_url = reverse_lazy(CHOICE_PATH)
+
+    try:
+        lookup_params = request.session.get('lookup_params')
+        language_order = request.session.get('language_order')
+    except AttributeError:
+        messages.error(request, RESTART_MSG)
+        return redirect(params_choice_url)
+    else:
+        task = create_task_study_words(
+            lookup_params=lookup_params,
+            user_id=user_id,
+            language_order=language_order,
+        )
+
+    if not task:
+        messages.error(request, MSG_NO_WORDS)
+        return redirect(params_choice_url)
+    else:
+        return task

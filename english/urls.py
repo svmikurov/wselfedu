@@ -25,16 +25,10 @@ urlpatterns = [
         views.WordChoiceView.as_view(),
         name='word_choice',
     ),
-    # Отображение вопроса.
-    path(
-        'word-study/question/',
-        views.QuestionWordStudyView.as_view(),
-        name='word_study_question',
-    ),
     # Создание задания и отображение с помощью ajax.
     path(
         'word-study-ajax/',
-        views.get_word_task_view_ajax,
+        views.WordStudyView.as_view(),
         name='word_study_ajax',
     ),
     # Добавление оценки слова.

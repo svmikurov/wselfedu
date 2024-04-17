@@ -1,4 +1,3 @@
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 from django.http import JsonResponse
@@ -18,7 +17,7 @@ from english.services.word_favorites import (
 from english.services.word_knowledge_assessment import (
     update_word_knowledge_assessment, get_knowledge_assessment,
 )
-from english.tasks.study_words import create_task_study_words
+from english.tasks.study_words import create_task
 
 TITLE = {'title_name': 'Изучаем слова', 'url_name': 'english:word_choice'}
 """Заголовок страниц упражнения Изучаем слова (`dict`)
@@ -77,41 +76,21 @@ class WordChoiceView(TemplateView):
             request.session['lookup_params'] = lookup_params
             request.session['language_order'] = language_order
 
-            return redirect(reverse_lazy('english:word_study_question'))
+            return redirect(reverse_lazy('english:word_study_ajax'))
         else:
             return redirect(reverse_lazy('english:word_choice'))
 
 
-class QuestionWordStudyView(View):
+class WordStudyView(View):
     """Представление для формирования задания и отображения вопроса."""
 
     template_name = 'english/tasks/word_study.html'
-    params_choice_url = reverse_lazy(CHOICE_PATH)
 
     def get(self, request, *args, **kwargs):
         """Создай задание и отобрази вопрос пользователю.
         """
+        task = create_task(request)
         user_id = request.user.id
-
-        try:
-            lookup_params = request.session.get('lookup_params')
-            language_order = request.session.get('language_order')
-        except AttributeError:
-            messages.error(request, RESTART_MSG)
-            return redirect(self.params_choice_url)
-        else:
-            task = create_task_study_words(
-                lookup_params=lookup_params,
-                user_id=user_id,
-                language_order=language_order,
-            )
-
-        if not task:
-            messages.error(request, MSG_NO_WORDS)
-            return redirect(self.params_choice_url)
-        else:
-            request.session['task'] = task
-
         word_id = task.get('word_id')
         knowledge = get_knowledge_assessment(word_id, user_id)
         favorites_status = is_word_in_favorites(user_id, word_id)
@@ -119,43 +98,28 @@ class QuestionWordStudyView(View):
         context = {
             'title': TITLE,
             'task': task,
-            'task_status': 'question',
             'knowledge_assessment': knowledge,
             'favorites_status': favorites_status,
         }
 
         return render(request, self.template_name, context)
 
+    def post(self, request):
+        """Get new word task."""
+        task = create_task(request)
+        user_id = request.user.id
+        word_id = task.get('word_id')
+        knowledge = get_knowledge_assessment(word_id, user_id)
+        favorites_status = is_word_in_favorites(user_id, word_id)
 
-def get_word_task_view_ajax(request):
-    """Get new word task."""
-    user_id = request.user.id
-
-    try:
-        lookup_params = request.session.get('lookup_params')
-        language_order = request.session.get('language_order')
-    except AttributeError:
-        messages.error(request, RESTART_MSG)
-        return redirect(reverse_lazy(CHOICE_PATH))
-    else:
-        task = create_task_study_words(
-            user_id=user_id,
-            lookup_params=lookup_params,
-            language_order=language_order,
+        return JsonResponse(
+            data={
+                'task': task,
+                'knowledge_assessment': knowledge,
+                'favorites_status': favorites_status,
+            },
+            status=200,
         )
-
-    word_id = task.get('word_id')
-    knowledge = get_knowledge_assessment(word_id, user_id)
-    favorites_status = is_word_in_favorites(user_id, word_id)
-
-    return JsonResponse(
-        data={
-            'task': task,
-            'knowledge_assessment': knowledge,
-            'favorites_status': favorites_status,
-        },
-        status=200,
-    )
 
 
 @require_POST
@@ -176,10 +140,6 @@ def update_words_knowledge_assessment_view(request, **kwargs):
         old_assessment = get_knowledge_assessment(word_pk, user_pk)
         new_assessment = old_assessment + int(action)
         update_word_knowledge_assessment(word_pk, user_pk, new_assessment)
-    elif action in {QUESTION_PATH, ANSWER_PATH}:
-        return redirect(action)
-
-    return redirect(reverse_lazy(QUESTION_PATH))
 
 
 @require_POST
