@@ -101,7 +101,9 @@ class QuestionWordStudyView(View):
             return redirect(self.params_choice_url)
         else:
             task = create_task_study_words(
-                lookup_params, user_id, language_order,
+                lookup_params=lookup_params,
+                user_id=user_id,
+                language_order=language_order,
             )
 
         if not task:
@@ -161,6 +163,37 @@ class AnswerWordStudyView(View):
         return render(request, self.template_name, context)
 
 
+def get_word_task_view_ajax(request):
+    """"""
+    user_id = request.user.id
+
+    try:
+        lookup_params = request.session.get('lookup_params')
+        language_order = request.session.get('language_order')
+    except AttributeError:
+        messages.error(request, RESTART_MSG)
+        return redirect(reverse_lazy(CHOICE_PATH))
+    else:
+        task = create_task_study_words(
+            user_id=user_id,
+            lookup_params=lookup_params,
+            language_order=language_order,
+        )
+
+    word_id = task.get('word_id')
+    knowledge = get_knowledge_assessment(word_id, user_id)
+    favorites_status = is_word_in_favorites(user_id, word_id)
+
+    return JsonResponse(
+        data={
+            'task': task,
+            'knowledge_assessment': knowledge,
+            'favorites_status': favorites_status,
+        },
+        status=200,
+    )
+
+
 @require_POST
 @login_required
 def update_words_knowledge_assessment_view(request, **kwargs):
@@ -185,7 +218,7 @@ def update_words_knowledge_assessment_view(request, **kwargs):
     return redirect(reverse_lazy(QUESTION_PATH))
 
 
-# @require_POST
+@require_POST
 @login_required
 def update_words_favorites_status_view_ajax(request, **kwargs):
     """Обнови статус слова, избранное ли оно."""

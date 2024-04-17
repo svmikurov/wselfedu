@@ -37,6 +37,12 @@ urlpatterns = [
         views.AnswerWordStudyView.as_view(),
         name='word_study_answer',
     ),
+    # Создание задания и отображение с помощью ajax.
+    path(
+        'word-study-ajax/',
+        views.get_word_task_view_ajax,
+        name='word_study_ajax',
+    ),
     # Добавление оценки слова.
     path(
         'knowledge-assessment/<int:word_id>/',

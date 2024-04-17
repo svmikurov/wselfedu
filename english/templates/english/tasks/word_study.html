@@ -8,8 +8,10 @@
   {% include 'components/card_title.html' %}
 
   <!-- Display word choices -->
-  <div class="">
-    <p class="">Уровень: {{ knowledge_assessment }}. Выбрано слов: {{ task.word_count }}. Источник: {{ task.source }}</p>
+  <div class="pb-2">
+    <p id="knowledge_assessment" class="" style="display:inline">Уровень: {{ knowledge_assessment }}. </p>
+    <p id="word_count" class="" style="display:inline">Выбрано слов: {{ task.word_count }}. </p>
+    <p id="source" class="" style="display:inline">Источник: {{ task.source }}</p>
   </div><!-- End Display word choices -->
 
   <!-- Buttons user rating of word knowledge -->
@@ -39,24 +41,18 @@
   <!--======= Solution =======-->
   <div class="pt-2">
     <h6 class="mb-3">Вопрос:</h6>
-    <h4 style="line-height:1.4">
-      {% if user.is_authenticated %}
-        <a href="{% url 'english:words_update' task.word_id %}"><mark>{{ task.question }}</mark></a>
-      {% else %}
-        <mark>{{ task.question }}</mark>
-      {% endif %}
+    <h4 style="line-height: 1.4">
+      <a href="{% url 'english:words_update' task.word_id %}"><mark id="task_question">
+        {{ task.question }}
+      </mark></a>
     </h4>
 
     <h6 class="mb-3">Ответ:</h6>
-    <h4 style="line-height:1.4"><mark>
-      {% if task_status == 'answer' %}
+    <h4 style="line-height: 1.4"><mark id="task_answer" style="display: none">
         {{ task.answer }}
-      {% endif %}
     </mark></h4>
   </div><!-- End Solution -->
 </div>
-
-{% include 'components/jscripts/timeout_jscript.html' %}
 {% endblock %}
 
 {% block script %}

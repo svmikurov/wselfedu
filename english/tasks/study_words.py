@@ -31,6 +31,7 @@ def get_language_order(word, order=None):
 
 
 def create_task_study_words(
+        *,
         lookup_params: dict,
         user_id: int,
         language_order=None,
