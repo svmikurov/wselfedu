@@ -1,3 +1,5 @@
+// csrftoken
+// https://docs.djangoproject.com/en/5.0/howto/csrf/#using-csrf-protection-with-ajax
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -14,13 +16,16 @@ function getCookie(name) {
     return cookieValue;
 }
 const csrftoken = getCookie('csrftoken');
+// End csrftoken
+
+const outlineStateClass = "btn btn-outline-primary btn-sm";
 
 
 $(document).ready(function () {
     $(function ($) {
-        var answerTimer = undefined;
-        var questionTimer = undefined;
-        var task_status = undefined;
+        var answerTimer;
+        var questionTimer;
+        var task_status;
 
         function showAnswer () {
             $('#task_answer').show();
@@ -30,6 +35,7 @@ $(document).ready(function () {
         function getTask () {
             $.ajax({
                 method: 'POST',
+                // https://docs.djangoproject.com/en/5.0/howto/csrf/#setting-the-token-on-the-ajax-request
                 headers: {'X-CSRFToken': csrftoken},
                 url: '/english/word-study-ajax/',
                 data: $(this).serialize(),
@@ -41,6 +47,11 @@ $(document).ready(function () {
                     $('#task_question').text(data.task.question);
                     $('#task_answer').hide();
                     $('#task_answer').text(data.task.answer);
+                    if (data.favorites_status === true) {
+                        $('#favorites_button').html('Убрать из избранных');
+                    } else {
+                        $('#favorites_button').html('Добавить в избранные');
+                    };
                     answerTimer = setTimeout(showAnswer, 5000);
                     questionTimer = setTimeout(getTask, 10000);
                 },
@@ -48,6 +59,7 @@ $(document).ready(function () {
         };
         questionTimer = setTimeout(getTask, 10000);
 
+        // Favorites word action.
         $('#update_favorites').submit(function (e) {
             e.preventDefault()
             $.ajax({
@@ -65,6 +77,7 @@ $(document).ready(function () {
             });
         });
 
+        // Next task state.
         $('#next_task_step').click(function (e) {
             e.preventDefault()
             if ($('#task_answer').css('display') == 'none') {
