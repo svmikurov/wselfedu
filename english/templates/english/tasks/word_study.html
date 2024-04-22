@@ -16,9 +16,9 @@
 
   <!-- Buttons user rating of word knowledge -->
   <div class="pb-2" style="display: inline-block;">
-    <form action="{% url 'english:knowledge_assessment' task.word_id %}" method="post">
+    <form id="knowledge_action_url" action="{{task.knowledge_action_url}}" method="post">
       {% csrf_token %}
-      <button id="knowledge_up" class="btn btn-outline-primary btn-sm" name="action" value="-1" style="width:110px">Не знаю</button>
+      <button class="btn btn-outline-primary btn-sm" name="action" value="-1" style="width:110px">Не знаю</button>
       <button class="btn btn-outline-primary btn-sm mx-2" name="action" value="+1" style="width:110px">Знаю</button>
     </form>
   </div><!-- End Buttons user rating of word knowledge -->

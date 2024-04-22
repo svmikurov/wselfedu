@@ -44,6 +44,13 @@ def get_google_link(word_eng):
             f'{word_eng}&op=translate')
 
 
+def get_knowledge_action_url(word_id):
+    return reverse_lazy(
+        'english:knowledge_assessment',
+        kwargs={'word_id': word_id},
+    )
+
+
 def create_task_study_words(
         *,
         lookup_params: dict,
@@ -81,17 +88,20 @@ def create_task_study_words(
     if word_qs:
         word_count = word_qs.count()
         word = get_random_query_from_queryset(word_qs)
+        word_id = word.id
         question, answer = get_language_order(word, language_order)
         google_translate_word_link = get_google_link(word.words_eng)
+        knowledge_action_url = get_knowledge_action_url(word_id)
 
         task_study_word = {
-            'word_id': word.id,
+            'word_id': word_id,
             'question': question,
             'answer': answer,
             'word_eng': word.words_eng,
             'word_count': word_count,
             'source': word.source.name if word.source else '',
             'google_translate_word_link': google_translate_word_link,
+            'knowledge_action_url': knowledge_action_url,
         }
 
     return task_study_word
