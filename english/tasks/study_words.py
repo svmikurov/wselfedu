@@ -39,6 +39,11 @@ def get_language_order(word, order=None):
     return shuffle_sequence(word_translations)
 
 
+def get_google_link(word_eng):
+    return (f'https://translate.google.com/?hl=ru&sl=auto&tl=ru&text='
+            f'{word_eng}&op=translate')
+
+
 def create_task_study_words(
         *,
         lookup_params: dict,
@@ -77,6 +82,7 @@ def create_task_study_words(
         word_count = word_qs.count()
         word = get_random_query_from_queryset(word_qs)
         question, answer = get_language_order(word, language_order)
+        google_translate_word_link = get_google_link(word.words_eng)
 
         task_study_word = {
             'word_id': word.id,
@@ -85,7 +91,9 @@ def create_task_study_words(
             'word_eng': word.words_eng,
             'word_count': word_count,
             'source': word.source.name if word.source else '',
+            'google_translate_word_link': google_translate_word_link,
         }
+
     return task_study_word
 
 

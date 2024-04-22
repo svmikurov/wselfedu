@@ -41,6 +41,7 @@ $(document).ready(function () {
                 data: $(this).serialize(),
                 dataType: 'json',
                 success: function (data) {
+                    $('#google-translate').attr('href', data.task.google_translate_word_link);
                     $('#knowledge_assessment').text('Уровень: ' + data.knowledge_assessment);
                     $('#word_count').text('Выбрано слов: ' + data.task.word_count);
                     $('#source').text('Источник: ' + data.task.source);
