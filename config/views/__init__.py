@@ -1,0 +1,2 @@
+from config.views.home_view import HomePageView
+from config.views.common_task_interface_view import CommonTaskInterfaceView

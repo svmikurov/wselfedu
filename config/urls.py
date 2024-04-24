@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.urls import path, include
 from dotenv import load_dotenv
 
-from config.home_view import HomePageView
+from config import views
 
 load_dotenv()
 
@@ -14,7 +14,12 @@ admin_url = os.getenv('ADMIN_URL')
 
 urlpatterns = [
     path(admin_url, admin.site.urls),
-    path('', HomePageView.as_view(), name='home'),
+    path('', views.HomePageView.as_view(), name='home'),
+    path(
+        'common-task-interface/',
+        views.CommonTaskInterfaceView.as_view(),
+        name='common_task_interface',
+    ),
     path('users/', include('users.urls')),
     path('math/', include('mathem.urls')),
     path('english/', include('english.urls')),

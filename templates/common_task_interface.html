@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<!--======= Solution =======-->
+<div class="pt-2">
+  <h6 class="mb-3">Вопрос:</h6>
+  <h4 style="line-height: 1.4">
+    <mark id="task_question">
+      {{ task.text_question }}
+    </mark>
+  </h4>
+
+  <h6 class="mb-3">Ответ:</h6>
+  <h4 style="line-height: 1.4">
+    <mark id="task_answer" style="display: none">
+      {{ task.text_answer }}
+    </mark>
+  </h4>
+</div><!-- End Solution -->
+{% endblock %}
+
+{% block script %}
+  <!-- Ajax Update Favorites Word -->
+  <script src="{% static 'common_task_interface.js' %}"></script>
+  <!-- End Ajax Update Favorites Word -->
+{% endblock script %}

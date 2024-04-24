@@ -1,5 +1,5 @@
 """
-    The module contains a common task interface for English and Mathematics
+    This module contains a common task interface for English and mathematics
     subjects.
 """
 from abc import ABC, abstractmethod
@@ -10,9 +10,9 @@ class _Task:
     """Task interface.
 
         Example:
-            task.set_task_subject(subject)
-            text_question = task.get_text_question()
-            text_answer = task.get_text_answer()
+            app_task.set_task_subject(subject)
+            text_question = app_task.get_text_question()
+            text_answer = app_task.get_text_answer()
     """
 
     def __init__(self):
@@ -20,16 +20,20 @@ class _Task:
 
     def set_task_subject(self, subject):
         """Set the subject for the task."""
-        if not isinstance(subject, ABCSubject):
+        print(f'subject = {subject}')
+        print(isinstance(subject, SubjectABC))
+        if not isinstance(subject, SubjectABC):
             raise ValueError('Not corresponding subject')
         self._subject = subject
 
-    def get_text_question(self):
+    @property
+    def text_question(self):
         """Get a text representation of the task question."""
         self._check_task()
         return self._subject.get_text_question()
 
-    def get_text_answer(self):
+    @property
+    def text_answer(self):
         """Get a text representation of the task answer."""
         self._check_task()
         return self._subject.get_text_answer()
@@ -43,7 +47,7 @@ class _Task:
 task = _Task()
 
 
-class ABCSubject(ABC):
+class SubjectABC(ABC):
     """Base subject abstract class."""
 
     @abstractmethod
@@ -62,7 +66,7 @@ class ABCSubject(ABC):
         pass
 
 
-class _MultiplicationSubject(ABCSubject):
+class _MultiplicationSubject(SubjectABC):
     """Multiplication subject task params.
 
         Example:
@@ -84,8 +88,8 @@ class _MultiplicationSubject(ABCSubject):
             raise ValueError('number expected')
 
         self._number_range = (min_number, max_number)
-        self._first_operand = self._get_random_operand_value
-        self._second_operand = self._get_random_operand_value
+        self._first_operand = self._get_random_operand_value()
+        self._second_operand = self._get_random_operand_value()
         self._set_task_solution()
 
     def _get_random_operand_value(self):
@@ -107,7 +111,7 @@ class _MultiplicationSubject(ABCSubject):
         return self._text_answer
 
     @staticmethod
-    def _check_attr(attr):
+    def _check_attr(cls, attr):
         if not attr:
             raise ValueError('The subject params has not been set')
 
