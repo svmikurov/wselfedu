@@ -1,24 +1,42 @@
-class BaseSubject:
+from abc import ABC, abstractmethod
+
+
+class BaseSubject(ABC):
     """Subject base class."""
 
     def __init__(self):
         self._question_text = None
         self._answer_text = None
 
-    def set_subject_params(self, **kwargs):
-        """Set subject task params."""
+    def apply_subject(self, **kwargs):
+        """Apply the subject for task."""
         self._set_task_solution()
 
+    @abstractmethod
     def _set_task_solution(self):
-        """Create and set question and answer text."""
+        """Set up a text representation of the question and answer task.
+
+        Override this method.
+        This method should set self._question_text and self._answer_text attrs.
+        """
         pass
 
-    def get_question_text(self):
+    @abstractmethod
+    def subject_name(self):
+        """Get subject name.
+
+        Override this method as property.
+        """
+        pass
+
+    @property
+    def question_text(self):
         """Get a text representation of the task question."""
         self._check_attr(self._question_text)
         return self._question_text
 
-    def get_answer_text(self):
+    @property
+    def answer_text(self):
         """Get a text representation of the task answer."""
         self._check_attr(self._answer_text)
         return self._answer_text
@@ -27,4 +45,4 @@ class BaseSubject:
     def _check_attr(attr):
         """Check if the attribute is set."""
         if not attr:
-            raise ValueError('The subject params has not been set')
+            raise ValueError('The attribute has not been set')

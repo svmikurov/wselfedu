@@ -9,49 +9,58 @@ OPS = {
     '*': operator.mul,
     '/': operator.or_,
 }
+"""Operators dictionary, where the key is the textual representation of the
+calculation type and the value is the method for implementing the calculation
+type.
+"""
 
 
 class _CalculationSubject(BaseSubject):
-    """Calculation with two operand class.
-
-    Examples:
-    ---------
-    subject_params = {'min_number': 2, 'max_number': 9, 'ops': '*'}
-    calculation_subject.set_subject_params(**subject_params)
-    """
+    """Calculation class with two operands."""
 
     def __init__(self):
         super().__init__()
-        self._number_range = None
+        self._value_range = None
         self._first_operand = None
         self._second_operand = None
         self._ops = None
 
-    def set_subject_params(self, *, min_number, max_number, ops):
-        """Set subject task params."""
-        if min_number >= max_number:
-            raise ValueError('min_number must be less than max_number')
-        if not isinstance(min_number, int) or not isinstance(max_number, int):
+    def apply_subject(self, *, min_value, max_value, calculation_type):
+        """Apply the subject for task."""
+        if min_value >= max_value:
+            raise ValueError('min_value must be less than max_value')
+        if not isinstance(min_value, int) or not isinstance(max_value, int):
             raise ValueError('number expected')
-        if ops not in OPS:
-            raise ValueError("operators must be: '+' or '-' or '*' or '/'")
+        if calculation_type not in OPS:
+            raise ValueError(
+                "calculation_type must be: '+' or '-' or '*' or '/'"
+            )
 
-        self._number_range = (min_number, max_number)
-        self._ops = ops
-        self._first_operand = self._get_random_operand_value()
-        self._second_operand = self._get_random_operand_value()
-        super().set_subject_params()
-
-    def _get_random_operand_value(self):
-        """Get random operand value."""
-        return randint(*self._number_range)
+        setattr(self, '_value_range', (min_value, max_value))
+        setattr(self, '_first_operand', self._get_random_operand_value)
+        setattr(self, '_second_operand', self._get_random_operand_value)
+        setattr(self, '_ops', calculation_type)
+        super().apply_subject()
 
     def _set_task_solution(self):
         """Create and set question text with answer text."""
         question = f"{self._first_operand} {self._ops} {self._second_operand}"
-        answer = OPS[self._ops](self._first_operand, self._second_operand)
-        self._question_text = question
-        self._answer_text = str(answer)
+        answer = str(OPS[self._ops](self._first_operand, self._second_operand))
+        setattr(self, '_question_text', question)
+        setattr(self, '_answer_text', answer)
+
+    @property
+    def _get_random_operand_value(self):
+        """Get random operand value."""
+        return randint(*self._value_range)
+
+    @property
+    def subject_name(self):
+        """Get subject name."""
+        return 'calculation_subject'
+
+    def __str__(self):
+        return 'Математические вычисления'
 
 
 calculation_subject = _CalculationSubject()

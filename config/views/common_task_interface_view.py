@@ -2,22 +2,22 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
-from contrib_app.task.calculations import calculation_subject
 from contrib_app.task.task import task
 
 
 class CommonTaskInterfaceView(TemplateView):
     """Common task interface view."""
 
-    template_name = 'common_task_interface.html'
-    subject = calculation_subject
-    subject_params = {'min_number': 2, 'max_number': 9, 'ops': '*'}
+    template_name = 'common_task.html'
 
     def get(self, request, *args, **kwargs):
-        self.subject.set_subject_params(**self.subject_params)
-        task.set_task_subject(self.subject)
-        is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+        subject_name = request.session['subject_name']
+        subject_attrs = request.session['subject_attrs']
 
+        task.set_subject(subject_name)
+        task.apply_subject(**subject_attrs)
+
+        is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
         if is_ajax:
             return JsonResponse(
                 data={
