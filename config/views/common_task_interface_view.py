@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from contrib_app.task.calculations import calculation_subject
@@ -12,23 +13,23 @@ class CommonTaskInterfaceView(TemplateView):
     subject = calculation_subject
     subject_params = {'min_number': 2, 'max_number': 9, 'ops': '*'}
 
-    def get_context_data(self, **kwargs):
+    def get(self, request, *args, **kwargs):
         self.subject.set_subject_params(**self.subject_params)
         task.set_task_subject(self.subject)
-        context = super().get_context_data()
-        context['task'] = task
-        return context
+        is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
-    def post(self, request):
-        """Ajax representation task."""
-        self.subject.set_subject_params(**self.subject_params)
-        task.set_task_subject(self.subject)
-        return JsonResponse(
-            data={
-                'task': {
-                    'question_text': task.question_text,
-                    'answer_text': task.answer_text,
-                }
-            },
-            status=200,
-        )
+        if is_ajax:
+            return JsonResponse(
+                data={
+                    'task': {
+                        'question_text': task.question_text,
+                        'answer_text': task.answer_text,
+                    }
+                },
+                status=200,
+            )
+        else:
+            context = {
+                'task': task,
+            }
+            return render(request, self.template_name, context)

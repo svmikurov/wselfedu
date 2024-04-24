@@ -30,7 +30,7 @@ $(document).ready(function () {
 
         function getNextTask () {
             $.ajax({
-                method: 'POST',
+                method: 'get',
                 headers: {'X-CSRFToken': csrftoken},
                 url: '/common-task-interface/',
                 data: $(this).serialize(),
