@@ -4,7 +4,6 @@ from english import views
 
 app_name = 'english'
 urlpatterns = [
-    # --======= English chapter =======--
     path(
         # Show list of registrations users.
         '',

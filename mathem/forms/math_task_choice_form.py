@@ -8,13 +8,12 @@ CALCULATION_TYPES = (
 
 
 class MathTaskChoiceForm(forms.Form):
-    """Math task choice  form."""
+    """Math task choice form."""
 
     CALCULATION_TYPES = (
         ('+', 'Сложение'),
         ('-', 'Вычитание'),
         ('*', 'Умножение'),
-        # ('CHS', 'Выберите вычисление')
     )
     DEFAULT_CALCULATION_TYPES_INDEX = 0
     MIN_INITIAL_NUMBER = 1
