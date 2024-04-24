@@ -1,13 +1,13 @@
 import operator
 from random import randint
 
-from contrib_app.task.base import BaseSubject
+from contrib_app.task.base_subject import BaseSubject
 
 OPS = {
     '+': operator.add,
     '-': operator.sub,
     '*': operator.mul,
-    '/': operator.or_
+    '/': operator.or_,
 }
 
 
@@ -29,8 +29,8 @@ class _CalculationSubject(BaseSubject):
 
     def set_subject_params(self, *, min_number, max_number, ops):
         """Set subject task params."""
-        if min_number > max_number:
-            raise ValueError('min_number greater than max_number')
+        if min_number >= max_number:
+            raise ValueError('min_number must be less than max_number')
         if not isinstance(min_number, int) or not isinstance(max_number, int):
             raise ValueError('number expected')
         if ops not in OPS:
@@ -47,11 +47,10 @@ class _CalculationSubject(BaseSubject):
         return randint(*self._number_range)
 
     def _set_task_solution(self):
-        """Create and set question and answer text."""
-        self._question_text = (
-            f"{self._first_operand} {self._ops} {self._second_operand}"
-        )
+        """Create and set question text with answer text."""
+        question = f"{self._first_operand} {self._ops} {self._second_operand}"
         answer = OPS[self._ops](self._first_operand, self._second_operand)
+        self._question_text = question
         self._answer_text = str(answer)
 
 

@@ -1,6 +1,6 @@
 from random import choice, shuffle
 
-from contrib_app.task.base import BaseSubject
+from contrib_app.task.base_subject import BaseSubject
 from english.models import WordModel
 
 

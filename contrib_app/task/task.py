@@ -1,4 +1,4 @@
-from contrib_app.task.base import BaseSubject
+from contrib_app.task.base_subject import BaseSubject
 
 
 class _Task:
