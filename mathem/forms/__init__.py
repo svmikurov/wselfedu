@@ -1,4 +1,1 @@
-from mathem.forms.forms import UserAnswerForm
-from mathem.forms.calculations_form import CalculationsForms
-from mathem.forms.math_task_calculations_form import MathTaskCalculationsForm
-from mathem.forms.math_task_choice_form import MathTaskChoiceForm
+from mathem.forms.mult import UserAnswerForm

@@ -1,38 +1,62 @@
-from contrib_app.task.base_subject import BaseSubject
+from contrib_app.task import (
+    BaseSubject,
+    calculation_subject,
+    translate_subject,
+)
 
 
 class _Task:
-    """Task class interface.
+    """
+    Task class interface.
 
     Examples:
     ---------
-    task.set_task_subject(subject)
+    task.register_subject('subject_name', subject)
+    task.set_subject('subject_name')
+    task.apply_subject(**subject_attrs)
     question_text = task.question_text
     answer_text = task.answer_text
     """
 
+    registered_subjects = None
+
     def __init__(self):
         self._subject = None
 
-    def set_task_subject(self, subject):
-        """Set the subject for the task."""
-        if not subject:
-            raise ValueError('Non assigned subject')
+    def register_subject(self, subject_name: str, subject: BaseSubject):
+        """
+        Register a subject to access it through the ``task`` object interface.
+        """
         if not isinstance(subject, BaseSubject):
             raise ValueError('Not corresponding subject')
-        self._subject = subject
+        self.registered_subjects = self.registered_subjects or {}
+        self.registered_subjects[subject_name] = subject
+
+    def set_subject(self, subject_name: str):
+        """Set the subject for the task by subject name."""
+        if subject_name not in self.registered_subjects:
+            raise ValueError(
+                'The %s subject name is not registered' % subject_name
+            )
+        self._subject = self.registered_subjects[subject_name]
+
+    def apply_subject(self, **kwargs):
+        """Apply the subject for task."""
+        if not self._subject:
+            raise ValueError('Subject for setting attributes is not selected')
+        return self._subject.apply_subject(**kwargs)
 
     @property
     def question_text(self):
         """Get a text representation of the task question."""
         self._check_task()
-        return self._subject.get_question_text()
+        return self._subject.question_text
 
     @property
     def answer_text(self):
         """Get a text representation of the task answer."""
         self._check_task()
-        return self._subject.get_answer_text()
+        return self._subject.answer_text
 
     def _check_task(self):
         """Check if the subject is assigned to the task."""
@@ -41,3 +65,6 @@ class _Task:
 
 
 task = _Task()
+
+task.register_subject(calculation_subject.subject_name, calculation_subject)
+task.register_subject(translate_subject.subject_name, translate_subject)
