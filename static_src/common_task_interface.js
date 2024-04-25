@@ -20,13 +20,9 @@ const csrftoken = getCookie('csrftoken');
 
 $(document).ready(function () {
     $(function ($) {
-        var questionTimer;
-        var answerTimer;
-
         function showAnswer () {
             $('#answer_text').show();
         };
-        answerTimer = setTimeout(showAnswer, 2000);
 
         function getNextTask () {
             $.ajax({
@@ -39,11 +35,14 @@ $(document).ready(function () {
                     $('#question_text').text(data.task.question_text);
                     $('#answer_text').hide();
                     $('#answer_text').text(data.task.answer_text);
-                    answerTimer = setTimeout(showAnswer, 2000);
-                    questionTimer = setTimeout(getNextTask, 4000);
+                    const questionTimeout = data.task.timeout * 1000;
+                    const answerTimeout = data.task.timeout * 2000;
+                    setTimeout(showAnswer, questionTimeout);
+                    setTimeout(getNextTask, answerTimeout);
                 },
             });
         };
-        questionTimer = setTimeout(getNextTask, 4000);
+
+        getNextTask();
     })
 });

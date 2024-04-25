@@ -12,6 +12,7 @@ class MathTaskCommonSelectForm(forms.Form):
         ('-', 'Вычитание'),
         ('*', 'Умножение'),
     )
+    INITIAL_TIMEOUT = 2
     DEFAULT_CALCULATION_TYPES_INDEX = 2
     MIN_INITIAL_VALUE = 2
     MAX_INITIAL_VALUE = 9
@@ -20,18 +21,23 @@ class MathTaskCommonSelectForm(forms.Form):
     calculation_type = forms.ChoiceField(
         choices=CALCULATION_TYPES,
         initial=CALCULATION_TYPES[DEFAULT_CALCULATION_TYPES_INDEX],
-        label='Выберите тип вычислений',
+        label='Вид вычисления',
     )
     min_value = forms.DecimalField(
         max_digits=MAX_DIGITS,
         initial=MIN_INITIAL_VALUE,
-        label='Минимальное значение числа',
+        label='Минимальное число',
         widget=NumberInput(attrs={'class': "w-25"})
     )
     max_value = forms.DecimalField(
         max_digits=MAX_DIGITS,
         initial=MAX_INITIAL_VALUE,
-        label='Максимальное значение числа'
+        label='Максимальное число'
+    )
+    timeout = forms.DecimalField(
+        max_digits=2,
+        initial=INITIAL_TIMEOUT,
+        label='Время на ответ (сек)',
     )
 
     @property
@@ -41,7 +47,14 @@ class MathTaskCommonSelectForm(forms.Form):
         helper.form_id = 'select_math_conditions'
 
         helper.layout = Layout(
-            Field('calculation_type', css_class="w-50"),
+            Row(
+                Column(
+                    Field('calculation_type', css_class="w-50"),
+                ),
+                Column(
+                    Field('timeout', css_class="w-25"),
+                )
+            ),
             Row(
                 Column(
                     Field('min_value', css_class=""),

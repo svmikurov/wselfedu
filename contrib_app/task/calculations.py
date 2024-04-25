@@ -25,7 +25,14 @@ class _CalculationSubject(BaseSubject):
         self._second_operand = None
         self._ops = None
 
-    def apply_subject(self, *, min_value, max_value, calculation_type):
+    def apply_subject(
+            self,
+            *,
+            min_value,
+            max_value,
+            calculation_type,
+            **kwargs
+    ):
         """Apply the subject for task."""
         if min_value >= max_value:
             raise ValueError('min_value must be less than max_value')

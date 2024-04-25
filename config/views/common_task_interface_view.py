@@ -8,11 +8,10 @@ from contrib_app.task.task import task
 class CommonTaskInterfaceView(TemplateView):
     """Common task interface view."""
 
-    template_name = 'common_task.html'
-
     def get(self, request, *args, **kwargs):
         subject_name = request.session['subject_name']
         subject_attrs = request.session['subject_attrs']
+        timeout = subject_attrs.pop('timeout')
 
         task.set_subject(subject_name)
         task.apply_subject(**subject_attrs)
@@ -24,12 +23,13 @@ class CommonTaskInterfaceView(TemplateView):
                     'task': {
                         'question_text': task.question_text,
                         'answer_text': task.answer_text,
+                        'timeout': timeout,
                     }
                 },
                 status=200,
             )
         else:
             context = {
-                'task': task,
+                'timeout': timeout,
             }
-            return render(request, self.template_name, context)
+            return render(request, 'common_task.html', context)

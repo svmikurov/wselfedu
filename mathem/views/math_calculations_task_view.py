@@ -18,6 +18,7 @@ class SelectMathTaskParamsView(TemplateView):
             form_data = completed_form.clean()
             form_data['min_value'] = int(form_data['min_value'])
             form_data['max_value'] = int(form_data['max_value'])
+            form_data['timeout'] = int(form_data['timeout'])
 
             request.session['subject_name'] = calculation_subject.subject_name
             request.session['subject_attrs'] = form_data
