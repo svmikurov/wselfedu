@@ -31,7 +31,7 @@ class _CalculationSubject(BaseSubject):
             min_value,
             max_value,
             calculation_type,
-            **kwargs
+            **kwargs,
     ):
         """Apply the subject for task."""
         if min_value >= max_value:

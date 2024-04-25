@@ -12,7 +12,6 @@ class _Task:
     Examples:
     ---------
     task.register_subject('subject_name', subject)
-    task.set_subject('subject_name')
     task.apply_subject(**subject_attrs)
     question_text = task.question_text
     answer_text = task.answer_text
@@ -23,27 +22,24 @@ class _Task:
     def __init__(self):
         self._subject = None
 
-    def register_subject(self, subject_name: str, subject: BaseSubject):
+    def register_subject(self, subject):
         """
         Register a subject to access it through the ``task`` object interface.
         """
         if not isinstance(subject, BaseSubject):
             raise ValueError('Not corresponding subject')
+        subject_name = subject.subject_name
         self.registered_subjects = self.registered_subjects or {}
         self.registered_subjects[subject_name] = subject
 
-    def set_subject(self, subject_name: str):
-        """Set the subject for the task by subject name."""
+    def apply_subject(self, *, subject_name, **kwargs):
+        """Apply the subject for task."""
         if subject_name not in self.registered_subjects:
             raise ValueError(
                 'The %s subject name is not registered' % subject_name
             )
-        self._subject = self.registered_subjects[subject_name]
-
-    def apply_subject(self, **kwargs):
-        """Apply the subject for task."""
-        if not self._subject:
-            raise ValueError('Subject for setting attributes is not selected')
+        subject = self.registered_subjects[subject_name]
+        setattr(self, '_subject', subject)
         return self._subject.apply_subject(**kwargs)
 
     @property
@@ -66,5 +62,5 @@ class _Task:
 
 task = _Task()
 
-task.register_subject(calculation_subject.subject_name, calculation_subject)
-task.register_subject(translate_subject.subject_name, translate_subject)
+task.register_subject(calculation_subject)
+task.register_subject(translate_subject)

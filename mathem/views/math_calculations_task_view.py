@@ -15,13 +15,13 @@ class SelectMathTaskParamsView(TemplateView):
         completed_form = MathTaskCommonSelectForm(request.GET)
 
         if completed_form.is_valid():
-            form_data = completed_form.clean()
-            form_data['min_value'] = int(form_data['min_value'])
-            form_data['max_value'] = int(form_data['max_value'])
-            form_data['timeout'] = int(form_data['timeout'])
+            task_data = completed_form.clean()
+            task_data['min_value'] = int(task_data['min_value'])
+            task_data['max_value'] = int(task_data['max_value'])
+            task_data['timeout'] = int(task_data['timeout'])
+            task_data['subject_name'] = calculation_subject.subject_name
 
-            request.session['subject_name'] = calculation_subject.subject_name
-            request.session['subject_attrs'] = form_data
+            request.session['task_data'] = task_data
             return redirect(reverse_lazy('common_task_interface'))
 
         context = {
