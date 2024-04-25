@@ -20,8 +20,14 @@ const csrftoken = getCookie('csrftoken');
 
 $(document).ready(function () {
     $(function ($) {
+        let questionTimer;
+        let answerTimer;
+        let questionTimeout;
+        let answerTimeout;
+
         function showAnswer () {
             $('#answer_text').show();
+            $('#stub').hide();
         };
 
         function getNextTask () {
@@ -34,15 +40,30 @@ $(document).ready(function () {
                 success: function (data) {
                     $('#question_text').text(data.task.question_text);
                     $('#answer_text').hide();
+                    $('#stub').show();
                     $('#answer_text').text(data.task.answer_text);
-                    const questionTimeout = data.task.timeout * 1000;
-                    const answerTimeout = data.task.timeout * 2000;
-                    setTimeout(showAnswer, questionTimeout);
-                    setTimeout(getNextTask, answerTimeout);
+                    questionTimeout = data.task.timeout * 1000;
+                    answerTimeout = data.task.timeout * 2000;
+                    questionTimer = setTimeout(getNextTask, answerTimeout);
+                    answerTimer = setTimeout(showAnswer, questionTimeout);
                 },
             });
         };
-
         getNextTask();
+
+        // Next task state.
+        $('#next_task_step').click(function (e) {
+            e.preventDefault()
+            if ($('#answer_text').css('display') == 'none') {
+                clearTimeout(answerTimer);
+                clearTimeout(questionTimer);
+                showAnswer();
+                questionTimer = setTimeout(getNextTask, questionTimeout);
+            } else {
+                clearTimeout(answerTimer);
+                clearTimeout(questionTimer);
+                getNextTask();
+            }
+        });
     })
 });
