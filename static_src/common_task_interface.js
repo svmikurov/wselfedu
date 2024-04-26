@@ -20,30 +20,49 @@ const csrftoken = getCookie('csrftoken');
 
 $(document).ready(function () {
     $(function ($) {
-        var questionTimer;
-        var answerTimer;
+        let questionTimer;
+        let answerTimer;
+        let questionTimeout;
+        let answerTimeout;
 
         function showAnswer () {
             $('#answer_text').show();
+            $('#stub').hide();
         };
-        answerTimer = setTimeout(showAnswer, 2000);
 
         function getNextTask () {
             $.ajax({
                 method: 'get',
                 headers: {'X-CSRFToken': csrftoken},
-                url: '/common-task-interface/',
                 data: $(this).serialize(),
                 dataType: 'json',
                 success: function (data) {
-                    $('#question_text').text(data.task.question_text);
+                    $('#question_text').text(data.question_text);
                     $('#answer_text').hide();
-                    $('#answer_text').text(data.task.answer_text);
-                    answerTimer = setTimeout(showAnswer, 2000);
-                    questionTimer = setTimeout(getNextTask, 4000);
+                    $('#stub').show();
+                    $('#answer_text').text(data.answer_text);
+                    questionTimeout = data.timeout * 1000;
+                    answerTimeout = data.timeout * 2000;
+                    questionTimer = setTimeout(getNextTask, answerTimeout);
+                    answerTimer = setTimeout(showAnswer, questionTimeout);
                 },
             });
         };
-        questionTimer = setTimeout(getNextTask, 4000);
+        getNextTask();
+
+        // Next task state.
+        $('#next_task_step').click(function (e) {
+            e.preventDefault()
+            if ($('#answer_text').css('display') == 'none') {
+                clearTimeout(answerTimer);
+                clearTimeout(questionTimer);
+                showAnswer();
+                questionTimer = setTimeout(getNextTask, questionTimeout);
+            } else {
+                clearTimeout(answerTimer);
+                clearTimeout(questionTimer);
+                getNextTask();
+            }
+        });
     })
 });

@@ -16,8 +16,8 @@ urlpatterns = [
         name='mult',
     ),
     path(
-        'math-calculations-task/',
+        'select-calculations-task/',
         views.SelectMathTaskParamsView.as_view(),
-        name='math_calculations_task',
-        ),
+        name='select_calculations_task',
+    ),
 ]

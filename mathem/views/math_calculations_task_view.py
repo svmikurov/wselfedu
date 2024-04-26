@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from contrib_app.task import calculation_subject
+from task.task import calculation_subject
 from mathem.forms.math_calculations_task_form import MathTaskCommonSelectForm
 
 
@@ -15,15 +15,21 @@ class SelectMathTaskParamsView(TemplateView):
         completed_form = MathTaskCommonSelectForm(request.GET)
 
         if completed_form.is_valid():
-            form_data = completed_form.clean()
-            form_data['min_value'] = int(form_data['min_value'])
-            form_data['max_value'] = int(form_data['max_value'])
+            task_conditions = completed_form.clean()
+            task_conditions['min_value'] = int(task_conditions['min_value'])
+            task_conditions['max_value'] = int(task_conditions['max_value'])
+            task_conditions['timeout'] = int(task_conditions['timeout'])
+            task_conditions['subject_name'] = calculation_subject.subject_name
 
-            request.session['subject_name'] = calculation_subject.subject_name
-            request.session['subject_attrs'] = form_data
-            return redirect(reverse_lazy('common_task_interface'))
+            with_solution = task_conditions.pop('with_solution')
+            request.session['task_conditions'] = task_conditions
+
+            if with_solution:
+                return redirect(reverse_lazy('task:math_solutions'))
+            else:
+                return redirect(reverse_lazy('task:common_demo'))
 
         context = {
-            'form': MathTaskCommonSelectForm
+            'form': MathTaskCommonSelectForm,
         }
         return render(request, self.template_name, context)

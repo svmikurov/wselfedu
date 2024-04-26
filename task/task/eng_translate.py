@@ -1,6 +1,6 @@
 from random import choice, shuffle
 
-from contrib_app.task.base_subject import BaseSubject
+from task.task.base_subject import BaseSubject
 from english.models import WordModel
 
 
@@ -21,7 +21,7 @@ class _TranslateSubject(BaseSubject):
 
     @property
     def subject_name(self):
-        """Get subject name"""
+        """Get subject name."""
         return 'translate_subject'
 
 

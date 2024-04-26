@@ -1,7 +1,6 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Row, Column, Submit
 from django import forms
-from django.forms import NumberInput
 
 
 class MathTaskCommonSelectForm(forms.Form):
@@ -12,6 +11,7 @@ class MathTaskCommonSelectForm(forms.Form):
         ('-', 'Вычитание'),
         ('*', 'Умножение'),
     )
+    INITIAL_TIMEOUT = 2
     DEFAULT_CALCULATION_TYPES_INDEX = 2
     MIN_INITIAL_VALUE = 2
     MAX_INITIAL_VALUE = 9
@@ -20,18 +20,27 @@ class MathTaskCommonSelectForm(forms.Form):
     calculation_type = forms.ChoiceField(
         choices=CALCULATION_TYPES,
         initial=CALCULATION_TYPES[DEFAULT_CALCULATION_TYPES_INDEX],
-        label='Выберите тип вычислений',
+        label='Вид вычисления',
     )
     min_value = forms.DecimalField(
         max_digits=MAX_DIGITS,
         initial=MIN_INITIAL_VALUE,
-        label='Минимальное значение числа',
-        widget=NumberInput(attrs={'class': "w-25"})
+        label='Минимальное число',
+        widget=forms.NumberInput(attrs={'class': "w-25"})
     )
     max_value = forms.DecimalField(
         max_digits=MAX_DIGITS,
         initial=MAX_INITIAL_VALUE,
-        label='Максимальное значение числа'
+        label='Максимальное число'
+    )
+    timeout = forms.DecimalField(
+        max_digits=2,
+        initial=INITIAL_TIMEOUT,
+        label='Время на ответ (сек)',
+    )
+    with_solution = forms.BooleanField(
+        required=False,
+        label='С вводом ответа',
     )
 
     @property
@@ -50,7 +59,8 @@ class MathTaskCommonSelectForm(forms.Form):
                     Field('max_value', css_class="w-25"),
                 ),
             ),
-            Submit('Submit', 'Начать'),
+            Field('with_solution'),
+            Submit('Submit', 'Начать', css_class='btn-sm'),
         )
 
         return helper

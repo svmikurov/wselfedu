@@ -1,7 +1,7 @@
 import operator
 from random import randint
 
-from contrib_app.task.base_subject import BaseSubject
+from task.task.base_subject import BaseSubject
 
 OPS = {
     '+': operator.add,
@@ -9,8 +9,7 @@ OPS = {
     '*': operator.mul,
     '/': operator.or_,
 }
-"""
-Operators dictionary, where the key is the textual representation of the
+"""Operators dictionary, where the key is the textual representation of the
 calculation type and the value is the method for implementing the calculation
 type.
 """
@@ -26,7 +25,14 @@ class _CalculationSubject(BaseSubject):
         self._second_operand = None
         self._ops = None
 
-    def apply_subject(self, *, min_value, max_value, calculation_type):
+    def apply_subject(
+            self,
+            *,
+            min_value,
+            max_value,
+            calculation_type,
+            **kwargs,
+    ):
         """Apply the subject for task."""
         if min_value >= max_value:
             raise ValueError('min_value must be less than max_value')
@@ -46,10 +52,9 @@ class _CalculationSubject(BaseSubject):
     def _set_task_solution(self):
         """Create and set question text with answer text."""
         question = f"{self._first_operand} {self._ops} {self._second_operand}"
-        answer = OPS[self._ops](self._first_operand, self._second_operand)
-
-        self._question_text = question
-        self._answer_text = str(answer)
+        answer = str(OPS[self._ops](self._first_operand, self._second_operand))
+        setattr(self, '_question_text', question)
+        setattr(self, '_answer_text', answer)
 
     @property
     def _get_random_operand_value(self):
@@ -58,7 +63,7 @@ class _CalculationSubject(BaseSubject):
 
     @property
     def subject_name(self):
-        """Get subject name"""
+        """Get subject name."""
         return 'calculation_subject'
 
     def __str__(self):

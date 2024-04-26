@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!--======= Solution =======-->
+<div class="pt-2">
+  <h1 id="evaluation_msg">Начнём!</h1>
+  <h6 class="mb-3">Вопрос:</h6>
+  <h4 class="h1" style="line-height: 1.4">
+    <mark id="question_text"></mark>
+  </h4>
+
+  <h6 class="mb-3">Ответ:</h6>
+  <form id="solution_form" action="{% url 'task:math_solutions' %}" method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input id="solution_submit" type="submit" role="button" class="btn btn-outline-primary btn-sm" value="Ответить"/>
+    {% include 'components/back_btn.html' %}
+  </form>
+</div><!-- End Solution -->
+{% endblock %}
+
+{% block script %}
+  <!-- Ajax Update Favorites Word -->
+  <script src="{% static 'math_task.js' %}"></script>
+  <!-- End Ajax Update Favorites Word -->
+{% endblock script %}

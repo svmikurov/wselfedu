@@ -45,4 +45,4 @@ class BaseSubject(ABC):
     def _check_attr(attr):
         """Check if the attribute is set."""
         if not attr:
-            raise ValueError('The subject has not been set')
+            raise ValueError('The attribute has not been set')

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'mathem.apps.MathemConfig',
     'users.apps.UsersConfig',
     'notion.apps.NotionConfig',
+    'task.apps.TaskConfig',
 ]
 
 
@@ -64,7 +65,10 @@ MIDDLEWARE = [
 
 
 # debug_toolbar settings
-if os.getenv('ENVIRONMENT') != 'PRODUCTION':
+if (
+        os.getenv('ENVIRONMENT') != 'PRODUCTION'
+        and os.getenv('DEBUG_TOOLBAR') == 'True'
+):
     INSTALLED_APPS.insert(-4, 'debug_toolbar')
     MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
     INTERNAL_IPS = [
