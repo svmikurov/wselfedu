@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
-from contrib_app.task import task
+from task.task import task
 
 
 class CommonTaskInterfaceView(TemplateView):
@@ -25,4 +25,4 @@ class CommonTaskInterfaceView(TemplateView):
                 status=200,
             )
         else:
-            return render(request, 'common_task.html')
+            return render(request, 'task/common_task.html')

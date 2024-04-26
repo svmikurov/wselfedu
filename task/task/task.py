@@ -1,4 +1,4 @@
-from contrib_app.task import (
+from task.task import (
     BaseSubject,
     calculation_subject,
     translate_subject,

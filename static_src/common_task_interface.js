@@ -34,7 +34,6 @@ $(document).ready(function () {
             $.ajax({
                 method: 'get',
                 headers: {'X-CSRFToken': csrftoken},
-                url: '/common-task-interface/',
                 data: $(this).serialize(),
                 dataType: 'json',
                 success: function (data) {

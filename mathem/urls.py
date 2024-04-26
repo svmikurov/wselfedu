@@ -19,5 +19,5 @@ urlpatterns = [
         'math-calculations-task/',
         views.SelectMathTaskParamsView.as_view(),
         name='math_calculations_task',
-        ),
+    ),
 ]

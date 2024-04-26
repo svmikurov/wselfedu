@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from contrib_app.task import calculation_subject
+from task.task import calculation_subject
 from mathem.forms.math_calculations_task_form import MathTaskCommonSelectForm
 
 
@@ -22,7 +22,7 @@ class SelectMathTaskParamsView(TemplateView):
             task_data['subject_name'] = calculation_subject.subject_name
 
             request.session['task_data'] = task_data
-            return redirect(reverse_lazy('common_task_interface'))
+            return redirect(reverse_lazy('task:common_task_interface'))
 
         context = {
             'form': MathTaskCommonSelectForm

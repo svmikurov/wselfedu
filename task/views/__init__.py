@@ -1,0 +1,1 @@
+from task.views.common_task_interface_view import CommonTaskInterfaceView
