@@ -1,7 +1,6 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Row, Column, Submit
 from django import forms
-from django.forms import NumberInput
 
 
 class MathTaskCommonSelectForm(forms.Form):
@@ -27,7 +26,7 @@ class MathTaskCommonSelectForm(forms.Form):
         max_digits=MAX_DIGITS,
         initial=MIN_INITIAL_VALUE,
         label='Минимальное число',
-        widget=NumberInput(attrs={'class': "w-25"})
+        widget=forms.NumberInput(attrs={'class': "w-25"})
     )
     max_value = forms.DecimalField(
         max_digits=MAX_DIGITS,
@@ -38,6 +37,10 @@ class MathTaskCommonSelectForm(forms.Form):
         max_digits=2,
         initial=INITIAL_TIMEOUT,
         label='Время на ответ (сек)',
+    )
+    with_solution = forms.BooleanField(
+        required=False,
+        label='С вводом ответа',
     )
 
     @property
@@ -63,7 +66,8 @@ class MathTaskCommonSelectForm(forms.Form):
                     Field('max_value', css_class="w-25"),
                 ),
             ),
-            Submit('Submit', 'Начать'),
+            Field('with_solution'),
+            Submit('Submit', 'Начать', css_class='btn-sm'),
         )
 
         return helper

@@ -37,12 +37,12 @@ $(document).ready(function () {
                 data: $(this).serialize(),
                 dataType: 'json',
                 success: function (data) {
-                    $('#question_text').text(data.task.question_text);
+                    $('#question_text').text(data.question_text);
                     $('#answer_text').hide();
                     $('#stub').show();
-                    $('#answer_text').text(data.task.answer_text);
-                    questionTimeout = data.task.timeout * 1000;
-                    answerTimeout = data.task.timeout * 2000;
+                    $('#answer_text').text(data.answer_text);
+                    questionTimeout = data.timeout * 1000;
+                    answerTimeout = data.timeout * 2000;
                     questionTimer = setTimeout(getNextTask, answerTimeout);
                     answerTimer = setTimeout(showAnswer, questionTimeout);
                 },

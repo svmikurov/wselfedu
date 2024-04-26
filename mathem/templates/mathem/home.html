@@ -1,22 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="card bg-light">
-
-  <div class="card-header">
-    <h1>{{ title }}</h1>
-  </div>
-
-  <div class="card-body">
-
-    <div class="card-title">
-      <h5>Упражнения</h5>
-      <ul class="list-unstyled ps-3">
-        <li class="py-1"><a href="{% url 'mathem:mult' %}" class="btn btn-outline-primary btn-sm" role="button" style="weight: 250px;">Таблица умножения</a></li>
-        <li class="py-1"><a href="{% url 'mathem:math_calculations_task' %} " class="btn btn-outline-primary btn-sm" role="button" style="weight: 250px;">Демонстрация математических вычислений</a></li>
-      </ul>
-    </div>
-
+<div class="">
+  {% include 'components/card_title.html' %}
+  <div class="">
+    <h5>Упражнения</h5>
+    <div class="py-1"><a href="{% url 'mathem:select_calculations_task' %}" class="btn btn-outline-primary btn-sm" role="button" style="weight: 250px;">Математические вычисления</a></div>
   </div>
 </div>
 {% endblock %}

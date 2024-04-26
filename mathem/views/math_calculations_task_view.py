@@ -15,16 +15,21 @@ class SelectMathTaskParamsView(TemplateView):
         completed_form = MathTaskCommonSelectForm(request.GET)
 
         if completed_form.is_valid():
-            task_data = completed_form.clean()
-            task_data['min_value'] = int(task_data['min_value'])
-            task_data['max_value'] = int(task_data['max_value'])
-            task_data['timeout'] = int(task_data['timeout'])
-            task_data['subject_name'] = calculation_subject.subject_name
+            task_conditions = completed_form.clean()
+            task_conditions['min_value'] = int(task_conditions['min_value'])
+            task_conditions['max_value'] = int(task_conditions['max_value'])
+            task_conditions['timeout'] = int(task_conditions['timeout'])
+            task_conditions['subject_name'] = calculation_subject.subject_name
 
-            request.session['task_data'] = task_data
-            return redirect(reverse_lazy('task:common_task_interface'))
+            with_solution = task_conditions.pop('with_solution')
+            request.session['task_conditions'] = task_conditions
+
+            if with_solution:
+                return redirect(reverse_lazy('task:math_solutions'))
+            else:
+                return redirect(reverse_lazy('task:common_demo'))
 
         context = {
-            'form': MathTaskCommonSelectForm
+            'form': MathTaskCommonSelectForm,
         }
         return render(request, self.template_name, context)
