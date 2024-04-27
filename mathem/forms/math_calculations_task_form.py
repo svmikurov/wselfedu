@@ -52,6 +52,8 @@ class MathTaskCommonSelectForm(forms.Form):
         if min_value and max_value and min_value >= max_value:
             raise ValidationError('min_value must be less than max_value')
 
+        return cleaned_data
+
     @property
     def helper(self):
         helper = FormHelper()
