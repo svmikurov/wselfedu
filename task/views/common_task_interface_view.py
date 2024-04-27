@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
+from jsonview.decorators import json_view
 
 from task.forms.user_input_form import NumberInputForm
 from task.task import task
@@ -67,6 +68,7 @@ class MathSolutionsView(TemplateView):
         return JsonResponse(data={}, status=200)
 
 
+@json_view
 def render_task(request):
     """Send task data to page."""
     task_conditions = request.session['task_conditions']
@@ -74,6 +76,7 @@ def render_task(request):
     request.session['answer_text'] = task.answer_text
 
     data = {
+        'success': True,
         'question_text': task.question_text,
     }
-    return JsonResponse(data, status=200)
+    return data

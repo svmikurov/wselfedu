@@ -641,6 +641,17 @@ files = [
 Django = ">=3.2"
 
 [[package]]
+name = "django-jsonview"
+version = "2.0.0"
+description = "Always return JSON from your Django view."
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-jsonview-2.0.0.tar.gz", hash = "sha256:1871983f6c7ab0bec1bad3249b06ce64c47d3bed57cd190f87e5acaf65722ebb"},
+    {file = "django_jsonview-2.0.0-py2.py3-none-any.whl", hash = "sha256:77345393f8e8bb3279b9ba9fb2db687adfa74d41feab972521545d47103d321b"},
+]
+
+[[package]]
 name = "entrypoints"
 version = "0.4"
 description = "Discover and load entry points from installed packages."
@@ -2595,4 +2606,4 @@ brotli = ["Brotli"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "e1133cdc3e7c77b03dcf60a882fdb3141088d9dfdc38c490562dc38079458c58"
+content-hash = "a719dab485e9882c79ecb8e7509c5c7f9a27246a66a414dfe7eef78e17c105e4"
