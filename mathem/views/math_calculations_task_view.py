@@ -17,8 +17,6 @@ class SelectMathTaskParamsView(TemplateView):
         if completed_form.is_valid():
             task_conditions = completed_form.clean()
             task_conditions['subject_name'] = calculation_subject.subject_name
-            print(f'task_conditions = {task_conditions}')
-
             with_solution = task_conditions.pop('with_solution')
             request.session['task_conditions'] = task_conditions
 

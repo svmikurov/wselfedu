@@ -27,7 +27,6 @@ class MathTaskCommonSelectForm(forms.Form):
     min_value = forms.IntegerField(
         initial=MIN_INITIAL_VALUE,
         label='Минимальное число',
-        widget=forms.NumberInput(attrs={'class': "w-25"})
     )
     max_value = forms.IntegerField(
         initial=MAX_INITIAL_VALUE,
@@ -51,14 +50,14 @@ class MathTaskCommonSelectForm(forms.Form):
         min_value = cleaned_data.get('min_value')
         max_value = cleaned_data.get('max_value')
         timeout = cleaned_data.get('timeout')
-        print(f'min_value = {min_value}')
-
-        if min_value and max_value and min_value >= max_value:
-            msg = 'Минимальное число должно быть меньше максимального числа'
-            messages.error(self.request, msg)
-            raise ValidationError('min_value must be less than max_value')
 
         if min_value is not None:
+            if min_value >= max_value:
+                msg = ('Минимальное число должно быть '
+                       'меньше максимального числа')
+                messages.error(self.request, msg)
+                raise ValidationError('min_value must be less than max_value')
+
             if min_value < 1 or max_value < 1 or timeout < 1:
                 msg = 'Число должно натуральным'
                 messages.error(self.request, msg)
@@ -83,7 +82,7 @@ class MathTaskCommonSelectForm(forms.Form):
             ),
             Row(
                 Column(
-                    Field('min_value', css_class=""),
+                    Field('min_value', css_class="w-25"),
                 ),
                 Column(
                     Field('max_value', css_class="w-25"),
