@@ -11,6 +11,7 @@ class CommonTaskInterfaceView(TemplateView):
     """Common task interface view."""
 
     def get(self, request, *args, **kwargs):
+        """Render the task page and update tasks later on the page."""
         task_conditions = request.session['task_conditions']
         task.apply_subject(**task_conditions)
 
