@@ -1,6 +1,7 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Row, Column, Submit
 from django import forms
+from django.contrib import messages
 from django.core.exceptions import ValidationError
 
 
@@ -23,19 +24,16 @@ class MathTaskCommonSelectForm(forms.Form):
         initial=CALCULATION_TYPES[DEFAULT_CALCULATION_TYPES_INDEX],
         label='Вид вычисления',
     )
-    min_value = forms.DecimalField(
-        max_digits=MAX_DIGITS,
+    min_value = forms.IntegerField(
         initial=MIN_INITIAL_VALUE,
         label='Минимальное число',
         widget=forms.NumberInput(attrs={'class': "w-25"})
     )
-    max_value = forms.DecimalField(
-        max_digits=MAX_DIGITS,
+    max_value = forms.IntegerField(
         initial=MAX_INITIAL_VALUE,
         label='Максимальное число',
     )
-    timeout = forms.DecimalField(
-        max_digits=2,
+    timeout = forms.IntegerField(
         initial=INITIAL_TIMEOUT,
         label='Время на ответ (сек)',
     )
@@ -44,12 +42,18 @@ class MathTaskCommonSelectForm(forms.Form):
         label='С вводом ответа',
     )
 
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
+        super(MathTaskCommonSelectForm, self).__init__(*args, **kwargs)
+
     def clean(self):
         cleaned_data = super().clean()
         min_value = cleaned_data.get('min_value')
         max_value = cleaned_data.get('max_value')
 
         if min_value and max_value and min_value >= max_value:
+            msg = 'Минимальное число должно быть меньше максимального числа'
+            messages.error(self.request, msg)
             raise ValidationError('min_value must be less than max_value')
 
         return cleaned_data

@@ -12,7 +12,6 @@ class CommonTaskInterfaceView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         task_conditions = request.session['task_conditions']
-        print(f'task_data = {task_conditions}')
         task.apply_subject(**task_conditions)
 
         is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
