@@ -59,7 +59,14 @@ class MathTaskCommonSelectForm(forms.Form):
         helper.form_id = 'select_math_conditions'
 
         helper.layout = Layout(
-            Field('calculation_type', css_class="w-50"),
+            Row(
+                Column(
+                    Field('calculation_type', css_class="w-50"),
+                ),
+                Column(
+                    Field('timeout', css_class="w-25"),
+                )
+            ),
             Row(
                 Column(
                     Field('min_value', css_class=""),
