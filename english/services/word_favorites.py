@@ -37,4 +37,5 @@ def update_word_favorites_status(word_id, user_id):
             user=UserModel.objects.get(pk=user_id),
             word=WordModel.objects.get(pk=word_id),
         )
-    return not favorites_status
+    favorites_status = is_word_in_favorites(user_id, word_id)
+    return favorites_status

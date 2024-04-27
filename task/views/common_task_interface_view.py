@@ -56,7 +56,7 @@ class MathSolutionsView(TemplateView):
                 }
                 return JsonResponse(data, status=200)
             else:
-                msg = 'Не верно!'
+                msg = 'Неверно!'
                 is_correct_solution = False
                 data = {
                     'msg': msg,
