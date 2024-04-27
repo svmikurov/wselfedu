@@ -89,7 +89,7 @@ class MathTaskCommonSelectForm(forms.Form):
                 ),
             ),
             Field('with_solution'),
-            Submit('Submit', 'Начать', css_class='btn-sm'),
+            Submit('submit', 'Начать', css_class='btn-sm'),
         )
 
         return helper

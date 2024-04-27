@@ -12,7 +12,7 @@ from english.models import CategoryModel, SourceModel
 
 from crispy_forms.bootstrap import InlineCheckboxes
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, HTML, Row, Column
+from crispy_forms.layout import Layout, Submit, HTML, Row, Column, Field
 
 LANGUAGE_ORDER = [
     ('RN', 'Перевод в случайном порядке'),
@@ -128,6 +128,10 @@ class WordChoiceHelperForm(forms.Form):
         widget=forms.CheckboxSelectMultiple(),
         label='',
     )
+    timeout = forms.IntegerField(
+        initial=5,
+        label='Время на ответ (сек)'
+    )
 
     @property
     def helper(self):
@@ -138,25 +142,27 @@ class WordChoiceHelperForm(forms.Form):
 
         helper.layout = Layout(
             Row(
-                Column('favorites', css_class='form-group col-6'),
-                Column('language_order', css_class='form-group col-6'),
+                Column('favorites', css_class='col-6'),
+                Column('language_order', css_class='col-6'),
             ),
             Row(
-                Column('category', css_class='form-group col-6'),
-                Column('source', css_class='form-group col-6'),
-                css_class='form-row',
+                Column('category', css_class='col-6'),
+                Column('source', css_class='col-6'),
             ),
             HTML('<label class="h6">Период добавления слова</label>'),
             Row(
-                Column('period_start_date', css_class='form-group col-6'),
-                Column('period_end_date', css_class='form-group col-6'),
-                css_class='form-row',
+                Column('period_start_date', css_class='col-6'),
+                Column('period_end_date', css_class='col-6'),
             ),
-            HTML('<label class="h6">Слово, длина выражения</label>'),
-            InlineCheckboxes('word_count'),
             HTML('<label class="h6">Этап изучения слов</label>'),
             InlineCheckboxes('knowledge_assessment'),
-            Submit('submit', 'Начать', css_class='button white'),
+
+            Submit('submit', 'Начать', css_class='btn-sm'),
+
+            HTML('<p class="h6 pt-3">Дополнительные опции</p>'),
+            Field('timeout', css_class="form-group col-6 w-25"),
+            HTML('<label class="h6">Слово, длина выражения</label>'),
+            InlineCheckboxes('word_count'),
         )
 
         return helper
