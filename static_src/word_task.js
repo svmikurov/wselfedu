@@ -49,11 +49,13 @@ $(document).ready(function () {
                     $('#task_question').text(data.task.question);
                     $('#task_answer').hide();
                     $('#task_answer').text(data.task.answer);
+                    // Favorites word button
+                    $('#favorites_button').html('');
                     if (data.favorites_status === true) {
                         $('#favorites_button').html('Убрать из избранных');
                     } else {
                         $('#favorites_button').html('Добавить в избранные');
-                    };
+                    };// End Favorites word button
                     answerTimer = setTimeout(showAnswer, 5000);
                     questionTimer = setTimeout(getTask, 10000);
                 },

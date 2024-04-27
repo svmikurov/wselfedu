@@ -1,6 +1,7 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Row, Column, Submit
 from django import forms
+from django.core.exceptions import ValidationError
 
 
 class MathTaskCommonSelectForm(forms.Form):
@@ -31,7 +32,7 @@ class MathTaskCommonSelectForm(forms.Form):
     max_value = forms.DecimalField(
         max_digits=MAX_DIGITS,
         initial=MAX_INITIAL_VALUE,
-        label='Максимальное число'
+        label='Максимальное число',
     )
     timeout = forms.DecimalField(
         max_digits=2,
@@ -42,6 +43,14 @@ class MathTaskCommonSelectForm(forms.Form):
         required=False,
         label='С вводом ответа',
     )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        min_value = cleaned_data.get('min_value')
+        max_value = cleaned_data.get('max_value')
+
+        if min_value and max_value and min_value >= max_value:
+            raise ValidationError('min_value must be less than max_value')
 
     @property
     def helper(self):

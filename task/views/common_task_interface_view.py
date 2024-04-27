@@ -1,10 +1,9 @@
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from task.forms.user_input_form import NumberInputForm
-from task.task import task, calculation_subject
+from task.task import task
 
 
 class CommonTaskInterfaceView(TemplateView):
@@ -19,9 +18,9 @@ class CommonTaskInterfaceView(TemplateView):
         if is_ajax:
             return JsonResponse(
                 data={
-                   'question_text': task.question_text,
-                   'answer_text': task.answer_text,
-                   'timeout': task_conditions['timeout'],
+                    'question_text': task.question_text,
+                    'answer_text': task.answer_text,
+                    'timeout': task_conditions['timeout'],
                 },
                 status=200,
             )
@@ -57,7 +56,7 @@ class MathSolutionsView(TemplateView):
                 }
                 return JsonResponse(data, status=200)
             else:
-                msg = 'Не верно!'
+                msg = 'Неверно!'
                 is_correct_solution = False
                 data = {
                     'msg': msg,

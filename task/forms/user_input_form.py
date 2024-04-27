@@ -11,6 +11,7 @@ class NumberInputForm(forms.Form):
         label='',
         widget=forms.NumberInput(attrs={
             'autofocus': True,
-            'class': 'w-25'
+            # 'class': 'w-25',
+            'style': 'font-size: 32px; width: 110px',
         }),
     )
