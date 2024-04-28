@@ -5,19 +5,37 @@ from task import views
 app_name = 'task'
 
 urlpatterns = [
+    # --======= Math Tasks =======--
     path(
-        'common-demo/',
-        views.CommonTaskInterfaceView.as_view(),
-        name='common_demo',
+        'math-calculate-choice/',
+        views.MathCalculationChoiceView.as_view(),
+        name='math_calculate_choice',
     ),
     path(
-        'math-solutions/',
-        views.MathSolutionsView.as_view(),
-        name='math_solutions',
+        'math-calculate-demo/',
+        views.MathCalculationDemoView.as_view(),
+        name='math_calculate_demo',
     ),
     path(
-        'render-task/',
+        'math-calculate-solution/',
+        views.MathCalculationSolutionView.as_view(),
+        name='math_calculate_solution',
+    ),
+    path(
+        'render-calculate-task/',
         views.render_task,
-        name='render_task',
+        name='render_calculate_task',
+    ),  # -- End Math Tasks --
+    #
+    # --======= English Tasks =======--
+    path(
+        'english-translate-choice/',
+        views.EnglishTranslationChoiceView.as_view(),
+        name='english_translate_choice',
     ),
+    path(
+        'english-translate-demo/',
+        views.EnglishTranslationDemoView.as_view(),
+        name='english_translate_demo',
+    ),  # -- End English Tasks --
 ]

@@ -4,6 +4,8 @@ from abc import ABC, abstractmethod
 class BaseSubject(ABC):
     """Subject base class."""
 
+    info = None
+
     def __init__(self):
         self._question_text = None
         self._answer_text = None

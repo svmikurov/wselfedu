@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'django_filters',
     # Project applications
     'english.apps.EnglishConfig',
-    'mathem.apps.MathemConfig',
     'users.apps.UsersConfig',
     'notion.apps.NotionConfig',
     'task.apps.TaskConfig',

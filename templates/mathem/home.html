@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="">
+  {% include 'components/title.html' %}
+  <div class="">
+    <h5>Упражнения</h5>
+    <div class="py-1"><a href="{% url 'task:math_calculate_choice' %}" class="btn btn-outline-primary btn-sm" role="button" style="weight: 250px;">Математические вычисления</a></div>
+  </div>
+</div>
+{% endblock %}

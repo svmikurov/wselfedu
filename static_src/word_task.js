@@ -18,8 +18,6 @@ function getCookie(name) {
 const csrftoken = getCookie('csrftoken');
 // End csrftoken
 
-const outlineStateClass = "btn btn-outline-primary btn-sm";
-
 
 $(document).ready(function () {
     $(function ($) {

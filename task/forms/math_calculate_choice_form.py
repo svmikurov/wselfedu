@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.core.exceptions import ValidationError
 
 
-class MathTaskCommonSelectForm(forms.Form):
+class MathCalculationChoiceForm(forms.Form):
     """Form for choosing the conditions of a mathematical task."""
 
     CALCULATION_TYPES = (
@@ -13,27 +13,26 @@ class MathTaskCommonSelectForm(forms.Form):
         ('-', 'Вычитание'),
         ('*', 'Умножение'),
     )
-    INITIAL_TIMEOUT = 2
-    DEFAULT_CALCULATION_TYPES_INDEX = 2
-    MIN_INITIAL_VALUE = 2
-    MAX_INITIAL_VALUE = 9
-    MAX_DIGITS = 5
+    DEFAULT_TIMEOUT = 2
+    DEFAULT_CALCULATION_TYPE_INDEX = 2
+    DEFAULT_MIN_VALUE = 2
+    DEFAULT_MAX_VALUE = 9
 
     calculation_type = forms.ChoiceField(
         choices=CALCULATION_TYPES,
-        initial=CALCULATION_TYPES[DEFAULT_CALCULATION_TYPES_INDEX],
+        initial=CALCULATION_TYPES[DEFAULT_CALCULATION_TYPE_INDEX],
         label='Вид вычисления',
     )
     min_value = forms.IntegerField(
-        initial=MIN_INITIAL_VALUE,
+        initial=DEFAULT_MIN_VALUE,
         label='Минимальное число',
     )
     max_value = forms.IntegerField(
-        initial=MAX_INITIAL_VALUE,
+        initial=DEFAULT_MAX_VALUE,
         label='Максимальное число',
     )
     timeout = forms.IntegerField(
-        initial=INITIAL_TIMEOUT,
+        initial=DEFAULT_TIMEOUT,
         label='Время на ответ (сек)',
     )
     with_solution = forms.BooleanField(
@@ -42,10 +41,12 @@ class MathTaskCommonSelectForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
+        """Add attribute ``request`` for rendering messages at page."""
         self.request = kwargs.pop('request')
-        super(MathTaskCommonSelectForm, self).__init__(*args, **kwargs)
+        super(MathCalculationChoiceForm, self).__init__(*args, **kwargs)
 
     def clean(self):
+        """Validate the entered by form task conditions."""
         cleaned_data = super().clean()
         min_value = cleaned_data.get('min_value')
         max_value = cleaned_data.get('max_value')
@@ -67,9 +68,10 @@ class MathTaskCommonSelectForm(forms.Form):
 
     @property
     def helper(self):
+        """Django-crispy-form helper."""
         helper = FormHelper()
         helper.form_method = 'GET'
-        helper.form_id = 'select_math_conditions'
+        helper.form_id = 'math_calculate_choice'
 
         helper.layout = Layout(
             Row(

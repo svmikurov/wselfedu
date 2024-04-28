@@ -19,20 +19,23 @@ function getCookie(name) {
 const csrftoken = getCookie('csrftoken');
 // End csrftoken
 
+
+function getNextTask () {
+    $.ajax({
+        url: "/task/render-calculate-task/",
+        method: 'get',
+        data: $(this).serialize(),
+        headers: {'X-CSRFToken': csrftoken},
+        dataType: 'json',
+        success: function (data) {
+            $('#question_text').text(data.question_text);
+        },
+    });
+};
+
+
 $(document).ready(function () {
     $(function ($) {
-        function getNextTask () {
-            $.ajax({
-                url: "/task/render-task/",
-                method: 'get',
-                data: $(this).serialize(),
-                headers: {'X-CSRFToken': csrftoken},
-                dataType: 'json',
-                success: function (data) {
-                    $('#question_text').text(data.question_text);
-                },
-            });
-        };
         getNextTask();
 
         $('#solution_form').submit(function (e) {

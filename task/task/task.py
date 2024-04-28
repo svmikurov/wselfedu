@@ -12,7 +12,7 @@ class _Task:
     Examples:
     ---------
     task.register_subject('subject_name', subject)
-    task.apply_subject(**subject_attrs)
+    task.apply_subject(**task_conditions)
     question_text = task.question_text
     answer_text = task.answer_text
     """
@@ -58,6 +58,11 @@ class _Task:
         """Check if the subject is assigned to the task."""
         if not self._subject:
             raise ValueError('The subject for the task is not specified')
+
+    @property
+    def info(self):
+        self._check_task()
+        return self._subject.info
 
 
 task = _Task()
