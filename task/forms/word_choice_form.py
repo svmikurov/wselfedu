@@ -68,7 +68,7 @@ def create_choices(model, user_id):
     return choices
 
 
-class WordChoiceHelperForm(forms.Form):
+class WordChoiceForm(forms.Form):
     """Form obtaining word choice parameters for a word learning exercise."""
 
     # The remaining selection fields do not require specific user.
@@ -79,7 +79,7 @@ class WordChoiceHelperForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         self.user_id = kwargs.pop('user_id', None)
-        super(WordChoiceHelperForm, self).__init__(*args, **kwargs)
+        super(WordChoiceForm, self).__init__(*args, **kwargs)
         for field, model in self.only_user_field_choice.items():
             self.fields[field].choices = create_choices(model, self.user_id)
 
@@ -138,7 +138,7 @@ class WordChoiceHelperForm(forms.Form):
         """Create form."""
         helper = FormHelper()
         helper.form_method = 'post'
-        helper.form_action = reverse_lazy('english:word_choice')
+        helper.form_action = reverse_lazy('task:word_choice')
 
         helper.layout = Layout(
             Row(
