@@ -37,7 +37,7 @@ $(document).ready(function () {
                 method: 'POST',
                 // https://docs.djangoproject.com/en/5.0/howto/csrf/#setting-the-token-on-the-ajax-request
                 headers: {'X-CSRFToken': csrftoken},
-                url: '/english/word-study-ajax/',
+                url: '/task/word-study-ajax/',
                 data: $(this).serialize(),
                 dataType: 'json',
                 success: function (data) {

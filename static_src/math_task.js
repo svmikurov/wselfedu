@@ -23,7 +23,7 @@ $(document).ready(function () {
     $(function ($) {
         function getNextTask () {
             $.ajax({
-                url: '/task/render-task/',
+                url: "/task/render-task/",
                 method: 'get',
                 data: $(this).serialize(),
                 headers: {'X-CSRFToken': csrftoken},

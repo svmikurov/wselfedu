@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic import TemplateView
 
 from mathem import views
 
@@ -7,13 +8,13 @@ app_name = 'mathem'
 urlpatterns = [
     path(
         '',
-        views.HomeView.as_view(),
+        TemplateView.as_view(
+            template_name='mathem/home.html',
+            extra_context={
+                'title': 'Математика',
+            },
+        ),
         name='home',
-    ),
-    path(
-        'mult/',
-        views.MultTaskView.as_view(),
-        name='mult',
     ),
     path(
         'select-calculations-task/',
