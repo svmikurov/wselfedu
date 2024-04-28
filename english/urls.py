@@ -17,19 +17,7 @@ urlpatterns = [
         name='users_words',
     ),
     # -- End Account --
-    # --======= Task word study =======--
-    # Отображение параметров для выборки слов на задание.
-    path(
-        'words-choice/',
-        views.WordChoiceView.as_view(),
-        name='word_choice',
-    ),
-    # Создание задания и отображение с помощью ajax.
-    path(
-        'word-study-ajax/',
-        views.WordStudyView.as_view(),
-        name='word_study_ajax',
-    ),
+
     # Добавление оценки слова.
     path(
         'knowledge-assessment/<int:word_id>/',

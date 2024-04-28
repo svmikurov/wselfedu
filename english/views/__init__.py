@@ -28,9 +28,7 @@ from english.views.crud_sources import (
     SourceListView,
     SourceDetailView
 )
-from english.views.word_task_view import (
-    WordChoiceView,
-    WordStudyView,
+from english.views.word_views import (
     update_words_favorites_status_view_ajax,
     update_words_knowledge_assessment_view,
 )
