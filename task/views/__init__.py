@@ -1,9 +1,3 @@
-from task.views.common_task_interface_view import (
-    CommonTaskInterfaceView,
-    MathSolutionsView,
-    render_task,
-)
-from task.views.word_task_view import (
-    WordChoiceView,
-    WordStudyView,
-)
+from task.views.common_task_interface_view import CommonTaskInterfaceView
+from task.views.common_task_interface_view import MathSolutionsView
+from task.views.common_task_interface_view import render_task
