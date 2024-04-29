@@ -61,7 +61,7 @@ def create_choices(model, user_id):
     return choices
 
 
-class EnglishTranslationChoiceForm(forms.Form):
+class EnglishTranslateChoiceForm(forms.Form):
     """English word translation conditions choice form."""
 
     MODEL_FIELDS = {
@@ -72,7 +72,7 @@ class EnglishTranslationChoiceForm(forms.Form):
     def __init__(self, *args, **kwargs):
         """Init user's model instances at form fields."""
         user_id = kwargs.pop('request').user.id
-        super(EnglishTranslationChoiceForm, self).__init__(*args, **kwargs)
+        super(EnglishTranslateChoiceForm, self).__init__(*args, **kwargs)
         for field, model in self.MODEL_FIELDS.items():
             self.fields[field].choices = create_choices(model, user_id)
 

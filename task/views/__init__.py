@@ -5,6 +5,6 @@ from task.views.math_calculate_views import (
     render_task,
 )
 from task.views.english_translate_views import (
-    EnglishTranslationChoiceView,
-    EnglishTranslationDemoView,
+    EnglishTranslateChoiceView,
+    EnglishTranslateDemoView,
 )

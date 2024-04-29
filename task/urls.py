@@ -30,12 +30,12 @@ urlpatterns = [
     # --======= English Tasks =======--
     path(
         'english-translate-choice/',
-        views.EnglishTranslationChoiceView.as_view(),
+        views.EnglishTranslateChoiceView.as_view(),
         name='english_translate_choice',
     ),
     path(
         'english-translate-demo/',
-        views.EnglishTranslationDemoView.as_view(),
+        views.EnglishTranslateDemoView.as_view(),
         name='english_translate_demo',
     ),  # -- End English Tasks --
 ]

@@ -24,7 +24,7 @@ let answerTimer;
 let questionTimeout;
 let answerTimeout;
 const questionTimeoutToSec = 1000;
-const answerTimeoutToSek = 2000;
+const answerTimeoutToSec = 2000;
 
 
 function showAnswer () {
@@ -35,7 +35,7 @@ function showAnswer () {
 
 function getDemoTask () {
     $.ajax({
-        method: 'get',
+        method: 'post',
         headers: {'X-CSRFToken': csrftoken},
         data: $(this).serialize(),
         dataType: 'json',
@@ -45,7 +45,7 @@ function getDemoTask () {
             $('#stub').show();
             $('#answer_text').text(data.answer_text);
             questionTimeout = data.timeout * questionTimeoutToSec;
-            answerTimeout = data.timeout * answerTimeoutToSek;
+            answerTimeout = data.timeout * answerTimeoutToSec;
             questionTimer = setTimeout(getDemoTask, answerTimeout);
             answerTimer = setTimeout(showAnswer, questionTimeout);
         },

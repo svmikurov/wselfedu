@@ -59,11 +59,6 @@ class _Task:
         if not self._subject:
             raise ValueError('The subject for the task is not specified')
 
-    @property
-    def info(self):
-        self._check_task()
-        return self._subject.info
-
 
 task = _Task()
 
