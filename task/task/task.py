@@ -54,6 +54,12 @@ class _Task:
         self._check_task()
         return self._subject.answer_text
 
+    @property
+    def info(self):
+        """Get task info."""
+        self._check_task()
+        return self._subject.info
+
     def _check_task(self):
         """Check if the subject is assigned to the task."""
         if not self._subject:

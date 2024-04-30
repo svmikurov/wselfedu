@@ -13,10 +13,11 @@ class EnglishTranslateChoiceView(TemplateView):
     template_name = 'task/english/english_translate_choice.html'
     form = EnglishTranslateChoiceForm
     task_subject = translate_subject
+    TITLE = 'Выберите условия задания'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['title'] = 'Выберите условия задания'
+        context['title'] = self.TITLE
         context['form'] = self.form(request=self.request)
         return context
 
@@ -31,7 +32,11 @@ class EnglishTranslateChoiceView(TemplateView):
 
             return redirect(reverse_lazy('task:english_translate_demo'))
 
-        return render(request, self.template_name, {'form': self.form})
+        context = {
+            'title': self.TITLE,
+            'form': self.form,
+        }
+        return render(request, self.template_name, context)
 
 
 class EnglishTranslateDemoView(TemplateView):
@@ -54,5 +59,6 @@ class EnglishTranslateDemoView(TemplateView):
             'question_text': task.question_text,
             'answer_text': task.answer_text,
             'timeout': task_conditions['timeout'],
+            'info': task.info,
         }
         return JsonResponse(data, status=200)

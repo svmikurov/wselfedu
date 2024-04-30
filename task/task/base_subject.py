@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 class BaseSubject(ABC):
     """Subject base class."""
 
-    info = None
+    _info = None
 
     def __init__(self):
         self._question_text = None
@@ -42,6 +42,10 @@ class BaseSubject(ABC):
         """Get a text representation of the task answer."""
         self._check_attr(self._answer_text)
         return self._answer_text
+
+    @property
+    def info(self):
+        return self._info
 
     @staticmethod
     def _check_attr(attr):

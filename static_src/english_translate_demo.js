@@ -44,6 +44,8 @@ function getDemoTask () {
             $('#answer_text').hide();
             $('#stub').show();
             $('#answer_text').text(data.answer_text);
+            $('#word_count').text('Выбрано слов: ' + data.info.word_count)
+            $('#knowledge_assessment').text('Уровень: ' + data.info.knowledge)
             questionTimeout = data.timeout * questionTimeoutToSec;
             answerTimeout = data.timeout * answerTimeoutToSec;
             questionTimer = setTimeout(getDemoTask, answerTimeout);

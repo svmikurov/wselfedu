@@ -8,17 +8,17 @@ urlpatterns = [
     # --======= Math Tasks =======--
     path(
         'math-calculate-choice/',
-        views.MathCalculationChoiceView.as_view(),
+        views.MathCalculateChoiceView.as_view(),
         name='math_calculate_choice',
     ),
     path(
         'math-calculate-demo/',
-        views.MathCalculationDemoView.as_view(),
+        views.MathCalculateDemoView.as_view(),
         name='math_calculate_demo',
     ),
     path(
         'math-calculate-solution/',
-        views.MathCalculationSolutionView.as_view(),
+        views.MathCalculateSolutionView.as_view(),
         name='math_calculate_solution',
     ),
     path(

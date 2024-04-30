@@ -9,14 +9,15 @@ from task.forms import MathCalculationChoiceForm, NumberInputForm
 from task.task import task, calculation_subject
 
 
-class MathCalculationChoiceView(View):
+class MathCalculateChoiceView(TemplateView):
     """Select params math calculation task view."""
 
     template_name = 'task/mathem/math_calculate_choice.html'
+    form = MathCalculationChoiceForm
     task_subject = calculation_subject
 
     def get(self, request, *args, **kwargs):
-        form = MathCalculationChoiceForm(request.GET, request=request)
+        form = self.form(request.GET, request=request)
 
         if form.is_valid():
             task_conditions = form.clean()
@@ -31,12 +32,12 @@ class MathCalculationChoiceView(View):
 
         context = {
             'title': 'Условия задания',
-            'form': MathCalculationChoiceForm(request=request),
+            'form': self.form(request=request),
         }
         return render(request, self.template_name, context)
 
 
-class MathCalculationDemoView(View):
+class MathCalculateDemoView(View):
     """Math calculation demonstration view."""
 
     template_name = 'task/mathem/math_calculate_demo.html'
@@ -61,7 +62,7 @@ class MathCalculationDemoView(View):
         return render(request, self.template_name, context)
 
 
-class MathCalculationSolutionView(TemplateView):
+class MathCalculateSolutionView(TemplateView):
     """Math tasks requiring answering view."""
 
     template_name = 'task/mathem/math_calculate_solution.html'
