@@ -29,6 +29,7 @@
           <th>Самооценка знания</th>
           <th>Категория</th>
           <th>Источник</th>
+          <th>Добавлено</th>
           <th>Избранное слово</th>
         </tr>
       </thead>
@@ -42,6 +43,7 @@
           <td>{% if word.assessment %}{{ word.assessment }}{% else %}-{% endif %}</td>
           <td>{% if word.category %}{{ word.category }}{% else %}-{% endif %}</td>
           <td>{% if word.source %}{{ word.source }}{% else %}-{% endif %}</td>
+          <td>{{ word.created_at|date:"d/m/y" }}</td>
           <td>
             <form id="update_favorites_{{ word.pk }}" data-word-id="{{ word.pk }}" action="{% url 'english:word_favorites_view_ajax' word.pk %}" method="post">
               {% csrf_token %}
