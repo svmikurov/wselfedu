@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 from jsonview.decorators import json_view
 
 from task.forms import MathCalculationChoiceForm, NumberInputForm
-from task.tasks import task, calculation_subject
+from task.tasks.math_calculate_task import CalculationExercise
 
 
 class MathCalculateChoiceView(TemplateView):
@@ -14,14 +14,12 @@ class MathCalculateChoiceView(TemplateView):
 
     template_name = 'task/mathem/math_calculate_choice.html'
     form = MathCalculationChoiceForm
-    task_subject = calculation_subject
 
     def get(self, request, *args, **kwargs):
         form = self.form(request.GET, request=request)
 
         if form.is_valid():
             task_conditions = form.clean()
-            task_conditions['subject_name'] = self.task_subject.subject_name
             with_solution = task_conditions.pop('with_solution')
             request.session['task_conditions'] = task_conditions
 
@@ -45,14 +43,14 @@ class MathCalculateDemoView(View):
     def get(self, request, *args, **kwargs):
         """Render the task page and update tasks later on the page."""
         task_conditions = request.session['task_conditions']
-        task.apply_subject(**task_conditions)
+        task = CalculationExercise(**task_conditions)
 
         is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
         if is_ajax:
             data = {
                 'question_text': task.question_text,
                 'answer_text': task.answer_text,
-                'timeout': task_conditions['timeout'],
+                'timeout': task.timeout,
             }
             return JsonResponse(data=data, status=200)
 
@@ -82,17 +80,21 @@ class MathCalculateSolutionView(TemplateView):
             user_solution = str(form.cleaned_data.get('user_solution'))
 
             if user_solution == answer_text:
-                data = {
-                    'msg': 'Верно!',
-                    'is_correct_solution': True,
-                },
-                return JsonResponse(data=data, status=200)
+                return JsonResponse(
+                    data={
+                        'msg': 'Верно!',
+                        'is_correct_solution': True,
+                    },
+                    status=200,
+                )
             else:
-                data = {
-                    'msg': 'Неверно!',
-                    'is_correct_solution': False,
-                }
-                return JsonResponse(data=data, status=200)
+                return JsonResponse(
+                    data={
+                        'msg': 'Неверно!',
+                        'is_correct_solution': False,
+                    },
+                    status=200,
+                )
 
         return JsonResponse(data={}, status=200)
 
@@ -101,7 +103,7 @@ class MathCalculateSolutionView(TemplateView):
 def render_task(request):
     """Send task data to page."""
     task_conditions = request.session['task_conditions']
-    task.apply_subject(**task_conditions)
+    task = CalculationExercise(**task_conditions)
     request.session['answer_text'] = task.answer_text
     data = {
         'success': True,
