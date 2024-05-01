@@ -120,7 +120,6 @@ class WordStudyView(View):
         )
 
 
-@require_POST
 @login_required
 def update_words_knowledge_assessment_view(request, **kwargs):
     """Изменяет в модели WordUserKnowledgeRelation значение поля

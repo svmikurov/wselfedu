@@ -1,10 +1,3 @@
-from task.task import (
-    BaseSubject,
-    calculation_subject,
-    translate_subject,
-)
-
-
 class _Task:
     """
     Task class interface.
@@ -26,8 +19,6 @@ class _Task:
         """
         Register a subject to access it through the ``task`` object interface.
         """
-        if not isinstance(subject, BaseSubject):
-            raise ValueError('Not corresponding subject')
         subject_name = subject.subject_name
         self.registered_subjects = self.registered_subjects or {}
         self.registered_subjects[subject_name] = subject
@@ -64,9 +55,3 @@ class _Task:
         """Check if the subject is assigned to the task."""
         if not self._subject:
             raise ValueError('The subject for the task is not specified')
-
-
-task = _Task()
-
-task.register_subject(calculation_subject)
-task.register_subject(translate_subject)

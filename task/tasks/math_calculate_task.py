@@ -1,7 +1,7 @@
 import operator
 from random import randint
 
-from task.task.base_subject import BaseSubject
+from task.tasks.base_subject import BaseSubject
 
 OPS = {
     '+': operator.add,

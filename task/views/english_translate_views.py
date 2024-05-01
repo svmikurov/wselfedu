@@ -1,32 +1,37 @@
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
 
+from english.services import (
+    get_knowledge_assessment,
+    update_word_knowledge_assessment,
+    update_word_favorites_status,
+)
 from task.forms import EnglishTranslateChoiceForm
-from task.task import task, translate_subject
+from task.tasks import EnglishTranslateExercise
 
 
 class EnglishTranslateChoiceView(TemplateView):
     """"""
 
     template_name = 'task/english/english_translate_choice.html'
-    form = EnglishTranslateChoiceForm
-    task_subject = translate_subject
     TITLE = 'Выберите условия задания'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context['title'] = self.TITLE
-        context['form'] = self.form(request=self.request)
+        context['form'] = EnglishTranslateChoiceForm(request=self.request)
         return context
 
-    def post(self, request, *args, **kwargs):
-        form = self.form(request.POST, request=request)
+    def post(self, request):
+        form = EnglishTranslateChoiceForm(request.POST, request=request)
 
         if form.is_valid():
             task_conditions = form.clean()
-            task_conditions['subject_name'] = self.task_subject.subject_name
             task_conditions['user_id'] = request.user.id
             request.session['task_conditions'] = task_conditions
 
@@ -34,31 +39,95 @@ class EnglishTranslateChoiceView(TemplateView):
 
         context = {
             'title': self.TITLE,
-            'form': self.form,
+            'form': EnglishTranslateChoiceForm(request=self.request),
         }
         return render(request, self.template_name, context)
 
 
-class EnglishTranslateDemoView(TemplateView):
-    """"""
+class EnglishTranslateExerciseView(TemplateView):
+    """English word translate exercise view."""
 
     template_name = 'task/english/english_translate_demo.html'
-    extra_context = {
-        'title': {
-            'title_name': 'Изучаем слова',
-            'url_name': 'task:english_translate_choice',
-        },
-    }
+    task = EnglishTranslateExercise
+    msg_no_words = 'По заданным условиям слов не найдено'
+    redirect_no_words = reverse_lazy('task:english_translate_choice')
+
+    def get(self, request, *args, **kwargs):
+        """Render English word translate display exercise page."""
+        # Check has task by specific conditions
+        task_conditions = request.session['task_conditions']
+        task = self.task(**task_conditions)
+
+        if not task.success_task:
+            messages.error(request, self.msg_no_words)
+            return redirect(self.redirect_no_words)
+
+        # If check success render the task page
+        context = {
+            'title': {
+                'title_name': 'Изучаем слова',
+                'url_name': 'task:english_translate_choice',
+            },
+        }
+        return render(request, self.template_name, context)
 
     def post(self, request):
-        """"""
+        """Get new word for English word translate exercise page."""
         task_conditions = request.session['task_conditions']
-        task.apply_subject(**task_conditions)
+        task = self.task(**task_conditions)
 
-        data = {
-            'question_text': task.question_text,
-            'answer_text': task.answer_text,
-            'timeout': task_conditions['timeout'],
-            'info': task.info,
-        }
-        return JsonResponse(data, status=200)
+        if task.success_task:
+            return JsonResponse(
+                data={
+                    'success_task': task.success_task,
+                    'redirect_no_words': self.redirect_no_words,
+                    'question_text': task.question_text,
+                    'answer_text': task.answer_text,
+                    'timeout': task.timeout,
+                    'word_count': task.word_count,
+                    'knowledge': task.knowledge,
+                    'knowledge_url': task.knowledge_url,
+                    'favorites_status': task.favorites_status,
+                    'favorites_url': task.favorites_url,
+                },
+            )
+        else:
+            messages.error(request, self.msg_no_words)
+            return JsonResponse(
+                data={
+                    'redirect_no_words': self.redirect_no_words,
+                },
+                status=412,
+            )
+
+
+@require_POST
+@login_required
+def update_words_knowledge_assessment_view(request, **kwargs):
+    """"""
+    assessment = request.POST['assessment']
+    word_pk = kwargs['word_id']
+    user_pk = request.user.pk
+
+    if assessment in {'+1', '-1'}:
+        old_assessment = get_knowledge_assessment(word_pk, user_pk)
+        new_assessment = old_assessment + int(assessment)
+        update_word_knowledge_assessment(word_pk, user_pk, new_assessment)
+
+    return JsonResponse({}, status=201)
+
+
+@require_POST
+@login_required
+def update_words_favorites_status_view_ajax(request, **kwargs):
+    """Обнови статус слова, избранное ли оно."""
+    word_id = kwargs['word_id']
+    user_id = request.user.pk
+    favorites_status = update_word_favorites_status(word_id, user_id)
+
+    return JsonResponse(
+        data={
+            'favorites_status': favorites_status,
+        },
+        status=201,
+    )

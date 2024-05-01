@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 from jsonview.decorators import json_view
 
 from task.forms import MathCalculationChoiceForm, NumberInputForm
-from task.task import task, calculation_subject
+from task.tasks import task, calculation_subject
 
 
 class MathCalculateChoiceView(TemplateView):

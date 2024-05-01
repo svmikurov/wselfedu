@@ -35,7 +35,17 @@ urlpatterns = [
     ),
     path(
         'english-translate-demo/',
-        views.EnglishTranslateDemoView.as_view(),
+        views.EnglishTranslateExerciseView.as_view(),
         name='english_translate_demo',
+    ),
+    path(
+        'knowledge-assessment/<int:word_id>/',
+        views.update_words_knowledge_assessment_view,
+        name='knowledge_assessment'
+    ),
+    path(
+        'words-favorites-view-ajax/<int:word_id>/',
+        views.update_words_favorites_status_view_ajax,
+        name='word_favorites_view_ajax',
     ),  # -- End English Tasks --
 ]

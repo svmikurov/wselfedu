@@ -1,0 +1,2 @@
+from task.tasks.math_calculate_task import calculation_subject
+from task.tasks.english_translate_task import EnglishTranslateExercise

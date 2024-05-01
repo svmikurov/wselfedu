@@ -12,13 +12,12 @@
   </div><!-- End Display Task Info -->
 
   <!-- Buttons user rating of word knowledge -->
-  <div class="pb-2" style="display: inline-block;">
-    <form id="knowledge_action_url" action="#" method="post">
-      {% csrf_token %}
-      <button class="btn btn-outline-primary btn-sm" name="action" value="-1" style="width:110px">Не знаю</button>
-      <button class="btn btn-outline-primary btn-sm mx-2" name="action" value="+1" style="width:110px">Знаю</button>
-    </form>
-  </div><!-- End Buttons user rating of word knowledge -->
+    <div class="pb-2" style="display: inline-block;">
+      <button id="knowledge_down" class="btn btn-outline-primary btn-sm" name="assessment" value="-1" style="width:110px">Не знаю</button>
+    </div>
+    <div class="pb-2" style="display: inline-block;">
+      <button id="knowledge_up" class="btn btn-outline-primary btn-sm mx-2" name="assessment" value="+1" style="width:110px">Знаю</button>
+    </div><!-- End Buttons user rating of word knowledge -->
 
   <!-- Next -->
   <div id="next_task_step_div" style="display: inline-block;">
@@ -27,7 +26,7 @@
 
   <!-- Button word favorites status change -->
   <div class="">
-    <form id="update_favorites" action="{% if word_id %}{% url 'english:word_favorites_view_ajax' word_id %}{% else %}#{% endif %}" method="post">
+    <form id="update_favorites" action="#" method="post">
       {% csrf_token %}
       <button id="favorites_button" type="submit" class="btn btn-outline-primary btn-sm text-nowrap">#</button>
     </form>
