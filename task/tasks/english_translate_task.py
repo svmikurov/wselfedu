@@ -41,10 +41,11 @@ class EnglishTranslateExercise:
 
     def _create_task(self):
         self._set_words()
-        if self._words:
-            self._set_task_solution()
-            self._set_task_data()
-            setattr(self, 'success_task', True)
+        if not self._words:
+            return
+        self._set_task_solution()
+        self._set_task_data()
+        setattr(self, 'success_task', True)
 
     @property
     def _lookup_params(self):
