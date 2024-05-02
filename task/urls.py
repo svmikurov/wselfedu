@@ -5,33 +5,47 @@ from task import views
 app_name = 'task'
 
 urlpatterns = [
+    # --======= Math Tasks =======--
     path(
-        'common-demo/',
-        views.CommonTaskInterfaceView.as_view(),
-        name='common_demo',
+        'math-calculate-choice/',
+        views.MathCalculateChoiceView.as_view(),
+        name='math_calculate_choice',
     ),
     path(
-        'math-solutions/',
-        views.MathSolutionsView.as_view(),
-        name='math_solutions',
+        'math-calculate-demo/',
+        views.MathCalculateDemoView.as_view(),
+        name='math_calculate_demo',
     ),
     path(
-        'render-task/',
+        'math-calculate-solution/',
+        views.MathCalculateSolutionView.as_view(),
+        name='math_calculate_solution',
+    ),
+    path(
+        'render-calculate-task/',
         views.render_task,
-        name='render_task',
-    ),
-    # --======= Task word study =======--
-    # Отображение параметров для выборки слов на задание.
+        name='render_calculate_task',
+    ),  # -- End Math Tasks --
+    #
+    # --======= English Tasks =======--
     path(
-        'words-choice/',
-        views.WordChoiceView.as_view(),
-        name='word_choice',
+        'english-translate-choice/',
+        views.EnglishTranslateChoiceView.as_view(),
+        name='english_translate_choice',
     ),
-    # Создание задания и отображение с помощью ajax.
     path(
-        'word-study-ajax/',
-        views.WordStudyView.as_view(),
-        name='word_study_ajax',
+        'english-translate-demo/',
+        views.EnglishTranslateExerciseView.as_view(),
+        name='english_translate_demo',
     ),
-    # -- End Task word study --
+    path(
+        'knowledge-assessment/<int:word_id>/',
+        views.update_words_knowledge_assessment_view,
+        name='knowledge_assessment'
+    ),
+    path(
+        'words-favorites-view-ajax/<int:word_id>/',
+        views.update_words_favorites_status_view_ajax,
+        name='word_favorites_view_ajax',
+    ),  # -- End English Tasks --
 ]

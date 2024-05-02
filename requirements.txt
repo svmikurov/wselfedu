@@ -124,3 +124,4 @@ django-crispy-forms~=2.1
 pytest~=7.4.4
 playwright~=1.41.2
 django-filter~=23.5
+django-jsonview~=2.0.0

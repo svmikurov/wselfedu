@@ -3,11 +3,11 @@
 {% block content %}
 <!--======= Home Page Content =======-->
 <div>
-  <h4>{{ title }}</h4>
+  {% include 'components/title.html' %}
 
-  <div class="pt-1"><a href="{% url 'task:word_choice' %}" class="btn btn-outline-primary btn-sm" role="button" style="width: 250px;">Упражнение "Изучаем слова"</a></div>
+  <div class="pt-1"><a href="{% url 'task:english_translate_choice' %}" class="btn btn-outline-primary btn-sm" role="button" style="width: 250px;">Упражнение "Изучаем слова"</a></div>
   <div class="pt-1"><a href="{% url 'english:words_create' %}" class="btn btn-outline-primary btn-sm" role="button" style="width: 250px;">Добавить слово в словарь</a></div>
-  <div class="pt-1"><a href="{% url 'mathem:home' %}" class="btn btn-outline-primary btn-sm" role="button" style="width: 250px;">Математика</a></div>
+  <div class="pt-1"><a href="{% url 'math_home' %}" class="btn btn-outline-primary btn-sm" role="button" style="width: 250px;">Математика</a></div>
 
 </div><!-- End Home Page Content -->
-{% endblock %}q
+{% endblock %}

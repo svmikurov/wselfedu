@@ -2,5 +2,6 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+  {% include 'components/title.html' %}
   {% crispy form form.helper %}
 {% endblock %}

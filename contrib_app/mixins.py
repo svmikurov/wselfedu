@@ -44,11 +44,9 @@ class CheckUserOwnershipMixin(UserPassesTestMixin):
     """Check if the user has owner permission on account."""
 
     def authorship_check(self):
-        current_user = self.get_object()
-        specified_user = self.request.user
-
-        if current_user == specified_user:
-            return True
+        current_user = self.request.user
+        specified_user = self.get_object()
+        return current_user == specified_user
 
     def get_test_func(self):
         return self.authorship_check
@@ -60,9 +58,7 @@ class CheckObjectOwnershipMixin(UserPassesTestMixin):
     def authorship_check(self):
         current_user = self.request.user
         specified_user = self.get_object().user
-
-        if current_user == specified_user:
-            return True
+        return current_user == specified_user
 
     def get_test_func(self):
         return self.authorship_check
