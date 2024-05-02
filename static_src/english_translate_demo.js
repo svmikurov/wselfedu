@@ -31,12 +31,17 @@ const answerTimeoutToSec = 2000;
 function showAnswer () {
     $('#answer_text').show();
     $('#stub').hide();
-};
+}
 
 
 function clearTaskTimers () {
     clearTimeout(answerTimer);
     clearTimeout(questionTimer);
+}
+
+
+function pauseButton () {
+    clearTaskTimers();
 }
 
 
@@ -100,7 +105,7 @@ function getNextDemoTaskStep (e) {
     e.preventDefault()
     if ($('#answer_text').css('display') === 'none') {
         // display current task answer
-        clearTaskTimers()
+        clearTaskTimers();
         showAnswer();
         questionTimer = setTimeout(getDemoTask, questionTimeout);
     } else {
@@ -136,7 +141,6 @@ function addAssessmentDown (e) {
         dataType: 'json',
         success: function (data) {
             getDemoTask();
-            getDemoTask();
         }
     })
 }
@@ -150,5 +154,6 @@ $(document).ready(function () {
         $('#update_favorites').submit(favoritesAction);
         $('#knowledge_up').click(addAssessmentUp);
         $('#knowledge_down').click(addAssessmentDown);
+        $('#pause').click(pauseButton);
     })
 });
