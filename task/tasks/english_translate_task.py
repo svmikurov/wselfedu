@@ -58,8 +58,10 @@ class EnglishTranslateExercise:
     def _set_task_solution(self):
         """Create and set question and answer text."""
         random_word = choice(self._words)
-        word_translations = [random_word.words_eng, random_word.words_rus]
-        shuffle(word_translations)
+        word_translations = self._apply_language_order(
+            random_word,
+            self._language_order,
+        )
 
         setattr(self, '_word_id', random_word.id)
         self.question_text, self.answer_text = word_translations
@@ -80,3 +82,15 @@ class EnglishTranslateExercise:
         setattr(self, 'favorites_status', favorites_status)
         setattr(self, 'knowledge', knowledge)
         setattr(self, 'knowledge_url', knowledge_url)
+
+    @staticmethod
+    def _apply_language_order(word, language_order):
+        """Return order of languages by user choice."""
+        word_translations = [word.words_eng, word.words_rus]
+        if language_order == 'EN':
+            pass
+        elif language_order == 'RU':
+            word_translations = word_translations[::-1]
+        elif language_order == 'RN':
+            shuffle(word_translations)
+        return word_translations
