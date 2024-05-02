@@ -88,7 +88,7 @@ def create_lookup_params(form_data: dict, user_id=None) -> dict:
 
     # Фильтр по длине выражения из слов.
     word_count = form_data['word_count']
-    if 'NC' not in word_count:
+    if 'PS' not in word_count and 'ST' not in word_count:
         word_count += ['NC']
     lookup_method = 'word_count__in'
     lookup_params[lookup_method] = word_count
