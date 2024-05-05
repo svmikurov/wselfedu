@@ -44,6 +44,21 @@ class TestLookupParams(TestCase):
         queryset = self.query_database(form_data)
         self.assertQuerySetEqual(queryset, [*range(1, 11)])
 
+    def test_lookup_by_knowledge_assessment(self):
+        """Test filter words by word knowledge assessment."""
+        form_data = {'user_id': 3, 'knowledge_assessment': []}
+        queryset = self.query_database(form_data)
+        self.assertQuerySetEqual(queryset, [*range(1, 11)])
+
+        form_data = {'user_id': 3, 'knowledge_assessment': ['S']}
+        queryset = self.query_database(form_data)
+        self.assertQuerySetEqual(queryset, [2, 3, 4])
+
+        form_data = {'user_id': 3, 'knowledge_assessment': ['R', 'E', 'K']}
+        queryset = self.query_database(form_data)
+        self.assertQuerySetEqual(queryset, [5, 6, 7, 8, 9])
+
+
     @staticmethod
     def query_database(form_data):
         """Make a query to the database by form data."""
