@@ -1,3 +1,5 @@
+from datetime import datetime, timezone, timedelta
+
 from django.test import TestCase
 
 from english.models import WordModel
@@ -10,9 +12,8 @@ class TestLookupParams(TestCase):
     fixtures = ['task/tests/fixtures/wse-fixtures-4.json']
 
     @classmethod
-    def setUpTestData(cls):
+    def setUp(cls):
         """Set up database data."""
-        pass
 
     def test_lookup_by_user_id(self):
         """Test filter words by user."""
@@ -52,18 +53,65 @@ class TestLookupParams(TestCase):
 
         form_data = {'user_id': 3, 'knowledge_assessment': ['S']}
         queryset = self.query_database(form_data)
-        self.assertQuerySetEqual(queryset, [2, 3, 4])
+        self.assertQuerySetEqual(queryset, [1, 2, 3, 4, 10])
 
-        form_data = {'user_id': 3, 'knowledge_assessment': ['R', 'E', 'K']}
+        form_data = {'user_id': 3, 'knowledge_assessment': ['S', 'R']}
         queryset = self.query_database(form_data)
-        self.assertQuerySetEqual(queryset, [5, 6, 7, 8, 9])
+        self.assertQuerySetEqual(queryset, [1, 2, 3, 4, 5, 6, 10])
 
+        form_data = {'user_id': 3, 'knowledge_assessment': ['R', 'K']}
+        queryset = self.query_database(form_data)
+        self.assertQuerySetEqual(queryset, [5, 6, 9])
+
+    def test_lookup_by_date(self):
+        """Test filter words by word added date."""
+        # test no choice start period
+        today = datetime.now(tz=timezone.utc)
+        manager = WordModel.objects
+        manager.filter(pk=1).update(created_at=today)
+        manager.filter(pk=2).update(created_at=(today - timedelta(weeks=3)))
+
+        # test no choice start period
+        form_data = {'user_id': 3, 'period_start_date': 'NC'}
+        queryset = self.query_database(form_data)
+        self.assertQuerySetEqual(queryset, [*range(1, 11)])
+
+        # test choice 'today' start period
+        form_data = {'user_id': 3, 'period_start_date': 'DT'}
+        queryset = self.query_database(form_data)
+        self.assertQuerySetEqual(queryset, [1])
+
+        # test choice '3 week ago' start period
+        form_data = {'user_id': 3, 'period_start_date': 'W3'}
+        queryset = self.query_database(form_data)
+        self.assertQuerySetEqual(queryset, [1, 2])
+
+        # test choice 'today' end period
+        form_data = {'user_id': 3, 'period_end_date': 'DT'}
+        queryset = self.query_database(form_data)
+        self.assertQuerySetEqual(queryset, [*range(1, 11)])
+
+        # test choice '3 week ago' end period
+        form_data = {'user_id': 3, 'period_end_date': 'W3'}
+        queryset = self.query_database(form_data)
+        self.assertQuerySetEqual(queryset, [*range(2, 11)])
+
+        # test choice '4 week ago' start period
+        # with choice '2 week ago' end period
+        form_data = {
+            'user_id': 3,
+            'period_start_date': 'W4',
+            'period_end_date': 'W2',
+        }
+        queryset = self.query_database(form_data)
+        self.assertQuerySetEqual(queryset, [2])
 
     @staticmethod
     def query_database(form_data):
         """Make a query to the database by form data."""
         lookup_params = LookupParams(form_data).lookup_params
         queryset = WordModel.objects.filter(
-            **lookup_params
-        ).values_list('id', flat=True)
+            *lookup_params
+        )
+        queryset = queryset.values_list('id', flat=True)
         return queryset
