@@ -6,7 +6,7 @@ from english.models import WordModel
 from task.services import LookupParams
 
 
-class TestLookupParams(TestCase):
+class LookupParamsTest(TestCase):
     """Test get Word Queryset by user parameters."""
 
     fixtures = ['task/tests/fixtures/wse-fixtures-4.json']
@@ -109,7 +109,7 @@ class TestLookupParams(TestCase):
     @staticmethod
     def query_database(form_data):
         """Make a query to the database by form data."""
-        lookup_params = LookupParams(form_data).lookup_params
+        lookup_params = LookupParams(form_data).params
         queryset = WordModel.objects.filter(
             *lookup_params
         )
