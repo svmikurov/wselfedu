@@ -17,7 +17,14 @@ EDGE_PERIODS = {
 
 
 class LookupParams:
-    """Lookup parameters class."""
+    """Lookup parameters class.
+
+
+    Attributes:
+    -----------
+    params : `tuple[django.db.models.query_utils.Q]`
+        Lookup parameters for use it at queryset method filter():
+    """
 
     ASSESSMENTS = {
         'S': [0, 1, 2, 3, 4, 5, 6],
