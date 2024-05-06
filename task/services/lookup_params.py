@@ -30,11 +30,11 @@ class LookupParams:
         self.form_data = form_data
 
     @property
-    def lookup_params(self):
+    def params(self):
         """lookup parameters."""
         return (
             self._user,
-            self._favorite,
+            self._favorites,
             self._category,
             self._source,
             self._knowledge,
@@ -49,7 +49,7 @@ class LookupParams:
         return Q(user=lookup_value) if lookup_value else Q()
 
     @property
-    def _favorite(self):
+    def _favorites(self):
         """Lookup parameter by favorite status."""
         field_value = self.form_data.get('favorites')
         lookup_value = self.form_data.get('user_id')

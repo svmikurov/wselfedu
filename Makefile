@@ -1,5 +1,5 @@
 MANAGE := poetry run python manage.py
-TEST_JUST := task.tests.django_tests.test_translate_exercise
+TEST_JUST := task.tests.django_tests.test_lookup_params
 
 start:
 	@$(MANAGE) runserver 0.0.0.0:8000
