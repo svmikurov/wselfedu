@@ -39,7 +39,7 @@ class LookupParams:
     @property
     def params(self):
         """lookup parameters."""
-        return (
+        params = (
             self._user,
             self._favorites,
             self._category,
@@ -48,6 +48,7 @@ class LookupParams:
             self._date_start,
             self._date_end,
         )
+        return params
 
     @property
     def _user(self):
@@ -105,6 +106,9 @@ class LookupParams:
         format_time = '%Y-%m-%d 00:00:00+00:00'
         lookup_value = self._gat_date_value(period_date, format_time)
         return Q(created_at__gte=lookup_value) if lookup_value else Q()
+
+    def _word_count(self):
+        ...
 
     @property
     def _date_end(self):

@@ -2,12 +2,13 @@ from random import choice, shuffle
 
 from django.urls import reverse_lazy
 
+from english.models import WordModel
 from english.services import (
-    get_words_for_study,
     create_lookup_params,
     get_knowledge_assessment,
     is_word_in_favorites,
 )
+from task.services import LookupParams
 
 
 class EnglishTranslateExercise:
@@ -27,12 +28,11 @@ class EnglishTranslateExercise:
     def __init__(
             self,
             *,
-            user_id,
             timeout,
             language_order,
             **lookup_conditions,
     ):
-        self._user_id = user_id
+        self._user_id = lookup_conditions.get('user_id')
         self.timeout = timeout
         self._language_order = language_order
         self._lookup_conditions = lookup_conditions
@@ -40,20 +40,26 @@ class EnglishTranslateExercise:
         self._create_task()
 
     def _create_task(self):
-        self._set_words()
-        if not self._words:
+        words = self.get_words(self._lookup_params)
+        if not words:
             return
+        setattr(self, '_words', words)
+        setattr(self, 'success_task', True)
         self._set_task_solution()
         self._set_task_data()
-        setattr(self, 'success_task', True)
 
     @property
     def _lookup_params(self):
-        return create_lookup_params(self._lookup_conditions, self._user_id)
+        lookup_params = LookupParams(self._lookup_conditions)
+        return lookup_params.params
 
-    def _set_words(self, ):
-        words = get_words_for_study(self._lookup_params, self._user_id)
-        setattr(self, '_words', words)
+    @staticmethod
+    def get_words(lookup_params):
+        """Make user queryset to ``WordModel`` by filter ``lookup_params``."""
+        words = WordModel.objects.filter(
+            *lookup_params,
+        )
+        return words
 
     def _set_task_solution(self):
         """Create and set question and answer text."""
