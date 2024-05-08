@@ -21,7 +21,7 @@ class EnglishTranslateChoiceView(TemplateView):
     Notes:
     -----
     Task conditions may be:
-        task_conditions = {
+        ``task_conditions`` = {
             'favorites': True,
             'language_order': 'RN',
             'category': 0,
@@ -73,8 +73,9 @@ class EnglishTranslateExerciseView(TemplateView):
         # Check has task by specific conditions
         task_conditions = request.session['task_conditions']
         task = EnglishTranslateExercise(**task_conditions)
+        task.create_task()
 
-        if not task.success_task:
+        if not task.word_count:
             messages.error(request, self.msg_no_words)
             return redirect(self.redirect_no_words)
 
@@ -91,11 +92,11 @@ class EnglishTranslateExerciseView(TemplateView):
         """Get new word for English word translate exercise page."""
         task_conditions = request.session['task_conditions']
         task = EnglishTranslateExercise(**task_conditions)
+        task.create_task()
 
-        if task.success_task:
+        if task.word_count:
             return JsonResponse(
                 data={
-                    'success_task': task.success_task,
                     'redirect_no_words': self.redirect_no_words,
                     'question_text': task.question_text,
                     'answer_text': task.answer_text,
