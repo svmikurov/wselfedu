@@ -22,7 +22,7 @@ class LookupParams:
 
     Attributes:
     -----------
-    params : `tuple[django.db.models.query_utils.Q]`
+    params : `tuple[Q]`
         Lookup parameters for use it at queryset method filter():
     """
 

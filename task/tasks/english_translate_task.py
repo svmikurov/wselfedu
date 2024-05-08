@@ -1,12 +1,9 @@
 from random import choice, shuffle
 
+from django.db.models import Q, F, Model
 from django.urls import reverse_lazy
 
 from english.models import WordModel
-from english.services import (
-    get_knowledge_assessment,
-    is_word_in_favorites,
-)
 from task.services import LookupParams
 
 
@@ -34,25 +31,25 @@ class EnglishTranslateExercise:
         self.knowledge = None
         self.knowledge_url = None
 
-    def create_task(self):
+    def create_task(self) -> None:
         """Create task."""
         word_ids = self.get_word_ids()
         if not word_ids:
             return
 
-        self._word_id = self._get_random_word_id(word_ids)
         self.word_count = len(word_ids)
+        self._word_id = self._get_random_word_id(word_ids)
 
         self._set_task_solution()
-        self._get_task_data()
+        self._set_task_data()
 
     @property
-    def _lookup_params(self):
+    def _lookup_params(self) -> tuple[Q]:
         """Word lookup parameters for task."""
         lookup_params = LookupParams(self._lookup_conditions)
         return lookup_params.params
 
-    def get_word_ids(self):
+    def get_word_ids(self) -> list[int]:
         """Make user queryset to ``WordModel`` by filter ``lookup_params``."""
         word_ids = WordModel.objects.filter(
             *self._lookup_params,
@@ -60,40 +57,47 @@ class EnglishTranslateExercise:
         return word_ids
 
     @staticmethod
-    def _get_random_word_id(word_ids):
+    def _get_random_word_id(word_ids) -> int:
         """Get random word for task."""
         return choice(word_ids)
 
-    def _set_task_solution(self):
+    def _set_task_solution(self) -> None:
         """Create and set question and answer text."""
         self._word: WordModel = self._get_word()
         self.question_text, self.answer_text = self._word_translation_order
 
-    def _get_word(self):
+    def _get_word(self) -> Model:
         """Get word for task."""
-        word = WordModel.objects.get(pk=self._word_id)
+        word = WordModel.objects.annotate(
+            favorites_status=Q(
+                wordsfavoritesmodel__user_id=self._user_id,
+                wordsfavoritesmodel__word_id=self._word_id,
+            ),
+        ).annotate(
+            assessment_value=F(
+                'worduserknowledgerelation__knowledge_assessment',
+            ),
+        ).get(
+            pk=self._word_id,
+        )
         return word
 
-    def _get_task_data(self):
+    def _set_task_data(self) -> None:
         """Get data for task rendering."""
-        self.favorites_status = is_word_in_favorites(
-            self._user_id, self._word_id,
-        )
-        self.knowledge = get_knowledge_assessment(
-            self._word_id, self._user_id,
-        )
+        self.favorites_status = self._word.favorites_status
         self.favorites_url = reverse_lazy(
             'task:word_favorites_view_ajax',
             kwargs={'word_id': self._word_id},
         )
+        self.knowledge = self._word.assessment_value
         self.knowledge_url = reverse_lazy(
             'task:knowledge_assessment',
             kwargs={'word_id': self._word_id},
         )
 
     @property
-    def _word_translation_order(self):
-        """Return order of languages by user choice."""
+    def _word_translation_order(self) -> list[str]:
+        """Translations of words in order of user choice."""
         word_translations = [self._word.words_eng, self._word.words_rus]
         if self._language_order == 'EN':
             pass
