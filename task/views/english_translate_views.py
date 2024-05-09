@@ -106,6 +106,7 @@ class EnglishTranslateExerciseView(TemplateView):
                     'knowledge_url': task.knowledge_url,
                     'favorites_status': task.favorites_status,
                     'favorites_url': task.favorites_url,
+                    'google_translate_word_link': task.google_translate_word_link,
                 },
             )
         else:

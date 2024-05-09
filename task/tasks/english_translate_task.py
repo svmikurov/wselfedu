@@ -1,6 +1,6 @@
 from random import choice, shuffle
 
-from django.db.models import Q, F, Model
+from django.db.models import Q, F
 from django.urls import reverse_lazy
 
 from english.models import WordModel
@@ -30,10 +30,11 @@ class EnglishTranslateExercise:
         self.favorites_status = None
         self.knowledge = None
         self.knowledge_url = None
+        self.google_translate_word_link = None
 
     def create_task(self) -> None:
         """Create task."""
-        word_ids = self.get_word_ids()
+        word_ids = self._get_word_ids()
         if not word_ids:
             return
 
@@ -49,7 +50,7 @@ class EnglishTranslateExercise:
         lookup_params = LookupParams(self._lookup_conditions)
         return lookup_params.params
 
-    def get_word_ids(self) -> list[int]:
+    def _get_word_ids(self) -> list[int]:
         """Make user queryset to ``WordModel`` by filter ``lookup_params``."""
         word_ids = WordModel.objects.filter(
             *self._lookup_params,
@@ -66,7 +67,7 @@ class EnglishTranslateExercise:
         self._word: WordModel = self._get_word()
         self.question_text, self.answer_text = self._word_translation_order
 
-    def _get_word(self) -> Model:
+    def _get_word(self) -> WordModel:
         """Get word for task."""
         word = WordModel.objects.annotate(
             favorites_status=Q(
@@ -93,6 +94,10 @@ class EnglishTranslateExercise:
         self.knowledge_url = reverse_lazy(
             'task:knowledge_assessment',
             kwargs={'word_id': self._word_id},
+        )
+        self.google_translate_word_link = (
+            f'https://translate.google.com/?hl=ru&sl=auto&tl=ru&text='
+            f'{self._word.words_eng}&op=translate'
         )
 
     @property

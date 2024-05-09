@@ -61,6 +61,8 @@ function getDemoTask () {
             // Set task info
             $('#word_count').text('Выбрано слов: ' + data.word_count);
             $('#knowledge_assessment').text('Уровень: ' + data.knowledge);
+            // Set google translate word link
+            $('#google-translate').attr('href', data.google_translate_word_link)
             // Set elements attrs and text
             knowledge_url = data.knowledge_url;
             $('#update_favorites').attr('action', data.favorites_url);
