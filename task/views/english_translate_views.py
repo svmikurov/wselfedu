@@ -16,7 +16,24 @@ from task.tasks import EnglishTranslateExercise
 
 
 class EnglishTranslateChoiceView(TemplateView):
-    """"""
+    """English translate choice View.
+
+    Notes:
+    -----
+    Task conditions may be:
+        ``task_conditions`` = {
+            'favorites': True,
+            'language_order': 'RN',
+            'category': 0,
+            'source': 0,
+            'period_start_date': 'NC',
+            'period_end_date': 'DT',
+            'word_count': ['OW', 'CB'],
+            'knowledge_assessment': ['S'],
+            'timeout': 5,
+            'user_id': 1,
+        }
+    """
 
     template_name = 'task/english/english_translate_choice.html'
     TITLE = 'Выберите условия задания'
@@ -48,7 +65,6 @@ class EnglishTranslateExerciseView(TemplateView):
     """English word translate exercise view."""
 
     template_name = 'task/english/english_translate_demo.html'
-    task = EnglishTranslateExercise
     msg_no_words = 'По заданным условиям слов не найдено'
     redirect_no_words = reverse_lazy('task:english_translate_choice')
 
@@ -56,9 +72,10 @@ class EnglishTranslateExerciseView(TemplateView):
         """Render English word translate display exercise page."""
         # Check has task by specific conditions
         task_conditions = request.session['task_conditions']
-        task = self.task(**task_conditions)
+        task = EnglishTranslateExercise(**task_conditions)
+        task.create_task()
 
-        if not task.success_task:
+        if not task.word_count:
             messages.error(request, self.msg_no_words)
             return redirect(self.redirect_no_words)
 
@@ -74,12 +91,12 @@ class EnglishTranslateExerciseView(TemplateView):
     def post(self, request):
         """Get new word for English word translate exercise page."""
         task_conditions = request.session['task_conditions']
-        task = self.task(**task_conditions)
+        task = EnglishTranslateExercise(**task_conditions)
+        task.create_task()
 
-        if task.success_task:
+        if task.word_count:
             return JsonResponse(
                 data={
-                    'success_task': task.success_task,
                     'redirect_no_words': self.redirect_no_words,
                     'question_text': task.question_text,
                     'answer_text': task.answer_text,
@@ -89,6 +106,7 @@ class EnglishTranslateExerciseView(TemplateView):
                     'knowledge_url': task.knowledge_url,
                     'favorites_status': task.favorites_status,
                     'favorites_url': task.favorites_url,
+                    'google_translate_word_link': task.google_translate_word_link,
                 },
             )
         else:

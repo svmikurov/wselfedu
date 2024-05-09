@@ -25,7 +25,7 @@ class WordModel(models.Model):
     user = models.ForeignKey(
         UserModel,
         on_delete=models.CASCADE,
-        related_name='vocabulary_added_by_user',
+        related_name='user_word',
     )
     words_eng = models.CharField(
         max_length=75,
