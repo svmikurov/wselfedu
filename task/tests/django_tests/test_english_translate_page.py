@@ -1,5 +1,4 @@
 import pytest
-from django.contrib.auth.models import AnonymousUser
 from django.test import TestCase
 from django.urls import reverse_lazy
 
@@ -28,11 +27,11 @@ class TestEnglishTranslateExercisePage(TestMixin, TestCase):
         self.assertEqual(response.status_code, 200)
 
     @pytest.mark.filterwarnings("ignore")
-    def test_page_get_status_redirect(self):
+    def test_page_get_status_invalid_task_conditions(self):
         """Test get method redirect status for invalid task conditions."""
         msg = 'Не задан таймаут или порядок перевода слов'
         response = self.get_user_auth_response()
-        self.flash_message_test(response, msg)
+        self.assertMessage(response, msg)
         self.assertEqual(response.status_code, 302)
 
     def test_page_get_status_redirect_anonymous(self):
@@ -41,4 +40,4 @@ class TestEnglishTranslateExercisePage(TestMixin, TestCase):
         expected_url = reverse_lazy('users:login')
         response = self.client.get(self.url)
         self.assertRedirects(response, expected_url, 302)
-        self.flash_message_test(response, msg)
+        self.assertMessage(response, msg)
