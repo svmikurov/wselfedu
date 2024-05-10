@@ -40,44 +40,51 @@ class LookupParams:
     def params(self):
         """lookup parameters."""
         params = (
-            self._user,
-            self._favorites,
-            self._category,
-            self._source,
-            self._knowledge,
-            self._date_start,
-            self._date_end,
+            self._user_lookup_param,
+            self._favorites_lookup_param,
+            self._category_lookup_param,
+            self._source_lookup_param,
+            self._knowledge_lookup_param,
+            self._date_start_lookup_param,
+            self._date_end_lookup_param,
         )
         return params
 
     @property
-    def _user(self):
+    def _user_lookup_param(self):
         """Lookup parameter by user."""
         lookup_value = self.form_data.get('user_id')
-        return Q(user=lookup_value) if lookup_value else Q()
+        lookup_field = 'user'
+        param = Q(**{lookup_field: lookup_value}) if lookup_value else Q()
+        return param
 
     @property
-    def _favorites(self):
+    def _favorites_lookup_param(self):
         """Lookup parameter by favorite status."""
         field_value = self.form_data.get('favorites')
         lookup_value = self.form_data.get('user_id')
         lookup_field = 'wordsfavoritesmodel__user_id'
-        return Q(**{lookup_field: lookup_value}) if field_value else Q()
+        param = Q(**{lookup_field: lookup_value}) if field_value else Q()
+        return param
 
     @property
-    def _category(self):
+    def _category_lookup_param(self):
         """Lookup parameter by category."""
         lookup_value = self.form_data.get('category')
-        return Q(category_id=lookup_value) if lookup_value else Q()
+        lookup_field = 'category_id'
+        param = Q(**{lookup_field: lookup_value}) if lookup_value else Q()
+        return param
 
     @property
-    def _source(self):
+    def _source_lookup_param(self):
         """Lookup parameter by source."""
         lookup_value = self.form_data.get('source')
-        return Q(source_id=lookup_value) if lookup_value else Q()
+        lookup_field = 'source_id'
+        param = Q(**{lookup_field: lookup_value}) if lookup_value else Q()
+        return param
 
     @property
-    def _knowledge(self):
+    def _knowledge_lookup_param(self):
         """Lookup parameter by user knowledge assessment."""
         form_value = self.form_data.get('knowledge_assessment', {})
         lookup_value = self._to_numeric(self.ASSESSMENTS, form_value)
@@ -92,33 +99,37 @@ class LookupParams:
             )
         )
 
-        if lookup_value and 'S' in form_value:
-            return words_with_assessment | words_without_assessment
-        elif lookup_value:
-            return words_with_assessment
+        if lookup_value:
+            if 'S' in form_value:
+                param = words_with_assessment | words_without_assessment
+            else:
+                param = words_with_assessment
         else:
-            return Q()
+            param = Q()
+
+        return param
 
     @property
-    def _date_start(self):
+    def _date_start_lookup_param(self):
         """Lookup parameter by word added date."""
         period_date = 'period_start_date'
         format_time = '%Y-%m-%d 00:00:00+00:00'
-        lookup_value = self._gat_date_value(period_date, format_time)
-        return Q(created_at__gte=lookup_value) if lookup_value else Q()
-
-    def _word_count(self):
-        ...
+        lookup_value = self._get_date_value(period_date, format_time)
+        lookup_field = 'created_at__gte'
+        param = Q(**{lookup_field: lookup_value}) if lookup_value else Q()
+        return param
 
     @property
-    def _date_end(self):
+    def _date_end_lookup_param(self):
         """Lookup parameter by word added date."""
         period_date = 'period_end_date'
         format_time = '%Y-%m-%d 23:59:59+00:00'
-        lookup_value = self._gat_date_value(period_date, format_time)
-        return Q(created_at__lte=lookup_value) if lookup_value else Q()
+        lookup_value = self._get_date_value(period_date, format_time)
+        lookup_field = 'created_at__lte'
+        param = Q(**{lookup_field: lookup_value}) if lookup_value else Q()
+        return param
 
-    def _gat_date_value(self, period_date, format_time):
+    def _get_date_value(self, period_date: str, format_time: str) -> str:
         """Get lookup date value."""
         day_today = datetime.datetime.now(tz=datetime.timezone.utc)
         period = self.form_data.get(period_date)
@@ -126,7 +137,8 @@ class LookupParams:
         end_period = day_today - period_delta
 
         lookup_value = end_period.strftime(format_time)
-        return lookup_value if period in EDGE_PERIODS else {}
+        date_value = lookup_value if period in EDGE_PERIODS else ''
+        return date_value
 
     @staticmethod
     def _to_numeric(assessments, string_values):
