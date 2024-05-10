@@ -5,6 +5,7 @@ from users.models import UserModel
 
 
 def flash_message_test(response, expected_message):
+    """Test displaying Django message."""
     number_message = 1
     current_message = get_messages(response.wsgi_request)
     assert len(current_message) == number_message
