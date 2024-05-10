@@ -10,21 +10,15 @@ from task.services import LookupParams
 class EnglishTranslateExercise:
     """English word translate exercise class."""
 
-    def __init__(
-            self,
-            *,
-            timeout,
-            language_order,
-            **lookup_conditions,
-    ):
+    def __init__(self, **lookup_conditions):
         self._user_id = lookup_conditions.get('user_id')
-        self._language_order = language_order
+        self._language_order = lookup_conditions.pop('language_order')
+        self.timeout = lookup_conditions.pop('timeout')
         self._lookup_conditions = lookup_conditions
         self._word = None
         self._word_id = None
         self.question_text = None
         self.answer_text = None
-        self.timeout = timeout
         self.word_count = None
         self.favorites_url = None
         self.favorites_status = None
