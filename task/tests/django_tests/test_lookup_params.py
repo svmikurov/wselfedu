@@ -63,6 +63,23 @@ class LookupParamsTest(TestCase):
         queryset = self.query_database(form_data)
         self.assertQuerySetEqual(queryset, [5, 6, 9])
 
+    def test_lookup_by_word_count(self):
+        """Test filter words by word count."""
+        # no choice
+        form_data = {'user_id': 3, 'word_count': []}
+        queryset = self.query_database(form_data)
+        self.assertQuerySetEqual(queryset, [*range(1, 11)])
+
+        # 'Слово', 'Словосочетание' in condition
+        form_data = {'user_id': 3, 'word_count': ['OW', 'CB']}
+        queryset = self.query_database(form_data)
+        self.assertQuerySetEqual(queryset, [1, 2, 3, 6, 7, 8, 9, 10])
+
+        # 'Предложение' in condition
+        form_data = {'user_id': 3, 'word_count': ['ST']}
+        queryset = self.query_database(form_data)
+        self.assertQuerySetEqual(queryset, [5])
+
     def test_lookup_by_date(self):
         """Test filter words by word added date."""
         # test no choice start period

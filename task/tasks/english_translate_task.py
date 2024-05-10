@@ -51,7 +51,7 @@ class EnglishTranslateExercise:
         return lookup_params.params
 
     def _get_word_ids(self) -> list[int]:
-        """Make user queryset to ``WordModel`` by filter ``lookup_params``."""
+        """Make query to database by user lookup params."""
         word_ids = WordModel.objects.filter(
             *self._lookup_params,
         ).values_list('id', flat=True)

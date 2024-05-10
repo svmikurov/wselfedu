@@ -266,7 +266,7 @@
     "words_rus": "слово_п3_с3",
     "source": 1,
     "category": 2,
-    "word_count": "NC",
+    "word_count": "CB",
     "created_at": "2024-03-04T22:30:02.077Z",
     "updated_at": "2024-03-04T22:30:02.094Z"
   }
@@ -280,7 +280,7 @@
     "words_rus": "слово_п3_с4",
     "source": 3,
     "category": 4,
-    "word_count": "NC",
+    "word_count": "PS",
     "created_at": "2024-03-04T22:30:25.602Z",
     "updated_at": "2024-03-04T22:30:25.614Z"
   }
@@ -294,7 +294,7 @@
     "words_rus": "слово_п3_с5",
     "source": null,
     "category": null,
-    "word_count": "NC",
+    "word_count": "ST",
     "created_at": "2024-03-04T22:30:41.963Z",
     "updated_at": "2024-03-04T22:30:41.972Z"
   }
@@ -654,6 +654,69 @@
   }
 },
 {
+  "model": "english.worduserknowledgerelation",
+  "pk": 19,
+  "fields": {
+    "word": 11,
+    "user": 3,
+    "knowledge_assessment": "0"
+  }
+},
+{
+  "model": "english.worduserknowledgerelation",
+  "pk": 20,
+  "fields": {
+    "word": 10,
+    "user": 3,
+    "knowledge_assessment": "0"
+  }
+},
+{
+  "model": "english.worduserknowledgerelation",
+  "pk": 21,
+  "fields": {
+    "word": 1,
+    "user": 3,
+    "knowledge_assessment": "0"
+  }
+},
+{
+  "model": "english.worduserknowledgerelation",
+  "pk": 22,
+  "fields": {
+    "word": 12,
+    "user": 3,
+    "knowledge_assessment": "0"
+  }
+},
+{
+  "model": "english.worduserknowledgerelation",
+  "pk": 23,
+  "fields": {
+    "word": 13,
+    "user": 3,
+    "knowledge_assessment": "0"
+  }
+},
+{
+  "model": "english.worduserknowledgerelation",
+  "pk": 24,
+  "fields": {
+    "word": 14,
+    "user": 3,
+    "knowledge_assessment": "0"
+  }
+},
+{
+  "model": "english.worduserknowledgerelation",
+  "pk": 25,
+  "fields": {
+    "word": 20,
+    "user": 3,
+    "knowledge_assessment": "0"
+  }
+},
+{
   "model": "english.wordsfavoritesmodel",
   "pk": 1,
   "fields": {
@@ -706,7 +769,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$600000$srmfo4GRjuRiwpiIlNxOQn$9RggKk4CFT1IHq56Zcxj/q24+UhGDUTmX1kudCoim74=",
-    "last_login": "2024-05-03T18:32:00.811Z",
+    "last_login": "2024-05-04T06:42:02.402Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "",
@@ -744,7 +807,7 @@
   "pk": 3,
   "fields": {
     "password": "pbkdf2_sha256$600000$T8xwAC7aw6dgjKkwYSSrnN$bAoeI9N5yRR3mrP8I12cWRIGquqVK0T6XKsddX9EFwM=",
-    "last_login": "2024-04-07T03:10:34.714Z",
+    "last_login": "2024-05-04T17:12:01.331Z",
     "is_superuser": false,
     "username": "user3",
     "first_name": "",
