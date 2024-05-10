@@ -173,7 +173,9 @@ class CheckLoginPermissionMixin(
     LoginRequiredMixin,
     AddMessageToFormSubmissionMixin,
 ):
-    """"""
+    """Verify that the current user is authenticated. If not, display a message
+    and redirect to the login page.
+    """
 
 
 class PermissionProtectDeleteView(
