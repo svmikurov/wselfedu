@@ -45,6 +45,7 @@ class LookupParams:
             self._category_lookup_param,
             self._source_lookup_param,
             self._knowledge_lookup_param,
+            self._word_count_lookup_param,
             self._date_start_lookup_param,
             self._date_end_lookup_param,
         )
@@ -107,6 +108,16 @@ class LookupParams:
         else:
             param = Q()
 
+        return param
+
+    @property
+    def _word_count_lookup_param(self):
+        """Lookup parameter by word count."""
+        lookup_value = self.form_data.get('word_count', [])
+        if 'OW' in lookup_value or 'CB' in lookup_value:
+            lookup_value += ['NC']
+        lookup_field = 'word_count__in'
+        param = Q(**{lookup_field: lookup_value}) if lookup_value else Q()
         return param
 
     @property
