@@ -20,6 +20,8 @@ class TestMixin:
     @classmethod
     def setUpTestData(cls):
         """Set up data."""
+        if not cls.user_id:
+            raise AttributeError('Set the logged `user_id` attribute value')
         cls.user = UserModel.objects.get(pk=cls.user_id)
 
     def get_user_auth_response(
@@ -27,11 +29,20 @@ class TestMixin:
             user: UserModel = None,
             url: str = None,
     ) -> HttpResponse:
-        """Return response with logged user."""
+        """Return response with logged user.
+
+        Parameters:
+        -----------
+        user : `UserModel`
+            User for login (default is class attribute value).
+        url : `str`
+            Page url (default is class attribute value).
+        """
+        if not self.url:
+            raise AttributeError('Set the `url` attribute value')
         user = user or self.user
         url = url or self.url
-        if user:
-            self.client.force_login(user)
+        self.client.force_login(user)
         return self.client.get(url)
 
     def set_session(self, **data) -> None:
