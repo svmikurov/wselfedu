@@ -1,4 +1,5 @@
 import pytest
+from django.contrib.auth.models import AnonymousUser
 from django.test import TestCase
 from django.urls import reverse_lazy
 
@@ -33,3 +34,11 @@ class TestEnglishTranslateExercisePage(TestMixin, TestCase):
         response = self.get_user_auth_response()
         self.flash_message_test(response, msg)
         self.assertEqual(response.status_code, 302)
+
+    def test_page_get_status_redirect_anonymous(self):
+        """Test get method redirect status anonymous."""
+        msg = 'Для доступа необходимо войти в приложение'
+        expected_url = reverse_lazy('users:login')
+        response = self.client.get(self.url)
+        self.assertRedirects(response, expected_url, 302)
+        self.flash_message_test(response, msg)
