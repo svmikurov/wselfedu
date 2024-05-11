@@ -22,7 +22,7 @@ from task.tasks import EnglishTranslateExercise
 class EnglishTranslateChoiceView(CheckLoginPermissionMixin, TemplateView):
     """English translate choice View.
 
-    Notes:
+    Notes
     -----
     Task conditions may be:
         ``task_conditions`` = {
@@ -71,9 +71,11 @@ class EnglishTranslateExerciseView(CheckLoginPermissionMixin, View):
     template_name = 'task/english/english_translate_demo.html'
     msg_key_error = 'Не задан таймаут или порядок перевода слов'
     msg_no_words = 'По заданным условиям слов не найдено'
-    redirect_no_words = reverse_lazy('task:english_translate_choice')
+    redirect_no_words = {
+        'redirect_no_words': reverse_lazy('task:english_translate_choice'),
+    }
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         """Display an exercise page to translate an English word."""
         task_conditions = request.session['task_conditions']
         task = EnglishTranslateExercise(**task_conditions)
@@ -105,25 +107,16 @@ class EnglishTranslateExerciseView(CheckLoginPermissionMixin, View):
         except ValueError:
             messages.error(request, self.msg_no_words)
             return JsonResponse(
-                data={
-                    'redirect_no_words': self.redirect_no_words,
-                },
+                data=self.redirect_no_words,
                 status=412,
             )
         else:
             return JsonResponse(
                 data={
-                    'redirect_no_words': self.redirect_no_words,
-                    'question_text': task.question_text,
-                    'answer_text': task.answer_text,
-                    'timeout': task.timeout,
-                    'word_count': task.word_count,
-                    'knowledge': task.knowledge,
-                    'knowledge_url': task.knowledge_url,
-                    'favorites_status': task.favorites_status,
-                    'favorites_url': task.favorites_url,
-                    'google_translate_word_link': task.google_translate_word_link,
+                    **self.redirect_no_words,
+                    **task.task_data,
                 },
+                status=200,
             )
 
 
