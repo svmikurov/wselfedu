@@ -655,15 +655,6 @@
 },
 {
   "model": "english.worduserknowledgerelation",
-  "pk": 19,
-  "fields": {
-    "word": 11,
-    "user": 3,
-    "knowledge_assessment": "0"
-  }
-},
-{
-  "model": "english.worduserknowledgerelation",
   "pk": 20,
   "fields": {
     "word": 10,
@@ -676,42 +667,6 @@
   "pk": 21,
   "fields": {
     "word": 1,
-    "user": 3,
-    "knowledge_assessment": "0"
-  }
-},
-{
-  "model": "english.worduserknowledgerelation",
-  "pk": 22,
-  "fields": {
-    "word": 12,
-    "user": 3,
-    "knowledge_assessment": "0"
-  }
-},
-{
-  "model": "english.worduserknowledgerelation",
-  "pk": 23,
-  "fields": {
-    "word": 13,
-    "user": 3,
-    "knowledge_assessment": "0"
-  }
-},
-{
-  "model": "english.worduserknowledgerelation",
-  "pk": 24,
-  "fields": {
-    "word": 14,
-    "user": 3,
-    "knowledge_assessment": "0"
-  }
-},
-{
-  "model": "english.worduserknowledgerelation",
-  "pk": 25,
-  "fields": {
-    "word": 20,
     "user": 3,
     "knowledge_assessment": "0"
   }

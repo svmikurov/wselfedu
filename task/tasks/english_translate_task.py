@@ -10,21 +10,16 @@ from task.services import LookupParams
 class EnglishTranslateExercise:
     """English word translate exercise class."""
 
-    def __init__(
-            self,
-            *,
-            timeout,
-            language_order,
-            **lookup_conditions,
-    ):
+    def __init__(self, **lookup_conditions):
         self._user_id = lookup_conditions.get('user_id')
-        self._language_order = language_order
+        self._language_order = lookup_conditions.pop('language_order')
+        self.timeout = lookup_conditions.pop('timeout')
         self._lookup_conditions = lookup_conditions
-        self._word = None
+        self._word_ids = None
         self._word_id = None
+        self._word = None
         self.question_text = None
         self.answer_text = None
-        self.timeout = timeout
         self.word_count = None
         self.favorites_url = None
         self.favorites_status = None
@@ -34,13 +29,8 @@ class EnglishTranslateExercise:
 
     def create_task(self) -> None:
         """Create task."""
-        word_ids = self._get_word_ids()
-        if not word_ids:
-            return
-
-        self.word_count = len(word_ids)
-        self._word_id = self._get_random_word_id(word_ids)
-
+        self._word_ids = self._get_word_ids()
+        self._word_id = self._get_random_word_id(self._word_ids)
         self._set_task_solution()
         self._set_task_data()
 
@@ -51,10 +41,29 @@ class EnglishTranslateExercise:
         return lookup_params.params
 
     def _get_word_ids(self) -> list[int]:
-        """Make query to database by user lookup params."""
+        """Make query to database by user conditions of the exercise.
+
+        Arguments
+        ---------
+        _lookup_params : `tuple[Q]`
+            User conditions of the exercise.
+
+        Returns
+        -------
+        word_ids : `list[int]`
+            List of id words that satisfy the conditions of the exercise.
+
+        Raises
+        ------
+        ValueError
+            Raised if no words that satisfy the conditions of the exercise.
+        """
         word_ids = WordModel.objects.filter(
             *self._lookup_params,
         ).values_list('id', flat=True)
+
+        if not word_ids:
+            raise ValueError('No words found to the specified conditions')
         return word_ids
 
     @staticmethod
@@ -85,6 +94,7 @@ class EnglishTranslateExercise:
 
     def _set_task_data(self) -> None:
         """Get data for task rendering."""
+        self.word_count = len(self._word_ids)
         self.favorites_status = self._word.favorites_status
         self.favorites_url = reverse_lazy(
             'task:word_favorites_view_ajax',
