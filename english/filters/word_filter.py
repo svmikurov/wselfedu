@@ -81,14 +81,14 @@ class WordsFilter(django_filters.FilterSet):
         label='Только избранные слова',
     )
 
-    @classmethod
-    def filter_word_by_any_translation(cls, queryset, name, value):
+    @staticmethod
+    def filter_word_by_any_translation(queryset, name, value):
         return queryset.filter(
             Q(words_eng__icontains=value) | Q(words_rus__icontains=value)
         )
 
-    @classmethod
-    def get_user_favorite_words(cls, queryset, name, value):
+    @staticmethod
+    def get_user_favorite_words(queryset, name, value):
         """Filter words by 'favorites' field."""
         if value:
             queryset = queryset.filter(
@@ -97,8 +97,8 @@ class WordsFilter(django_filters.FilterSet):
             )
         return queryset
 
-    @classmethod
-    def get_filtered_study_stage(cls, queryset, name, value):
+    @staticmethod
+    def get_filtered_study_stage(queryset, name, value):
         """Filter words by study stage (knowledge_assessment)."""
         study = WORD_STUDY_ASSESSMENTS.get(value)
         qs = queryset.filter(
@@ -108,8 +108,8 @@ class WordsFilter(django_filters.FilterSet):
         )
         return qs
 
-    @classmethod
-    def get_filter_fields(cls):
+    @staticmethod
+    def get_filter_fields():
         return (
             'search_word',
             'filtered_category',

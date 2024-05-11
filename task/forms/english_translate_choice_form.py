@@ -45,22 +45,6 @@ DEFAULT_CREATE_CHOICE_VALUE = 0
 DEFAULT_TIMEOUT = 5
 
 
-def create_choices(model, user_id):
-    """Create human-readable choice by model and user_id."""
-    model_name = model._meta.verbose_name
-    default_choice = (DEFAULT_CREATE_CHOICE_VALUE, model_name)
-    choices = [default_choice]
-
-    # Populate a list of choices.
-    queryset = model.objects.filter(user_id=user_id)
-    for instance in queryset:
-        model_value, human_readable_name = instance.pk, str(instance)
-        choice = (model_value, human_readable_name)
-        choices.append(choice)
-
-    return choices
-
-
 class EnglishTranslateChoiceForm(forms.Form):
     """English word translation conditions choice form."""
 
@@ -74,7 +58,7 @@ class EnglishTranslateChoiceForm(forms.Form):
         user_id = kwargs.pop('request').user.id
         super(EnglishTranslateChoiceForm, self).__init__(*args, **kwargs)
         for field, model in self.MODEL_FIELDS.items():
-            self.fields[field].choices = create_choices(model, user_id)
+            self.fields[field].choices = self._create_choices(model, user_id)
 
     favorites = forms.BooleanField(
         required=False,
@@ -126,9 +110,38 @@ class EnglishTranslateChoiceForm(forms.Form):
         label='Время на ответ (сек)'
     )
 
+    def clean(self):
+        """Convert `str` to `int` form values."""
+        cleaned_data = super().clean()
+        cleaned_data['category'] = self._to_int(cleaned_data, 'category')
+        cleaned_data['source'] = self._to_int(cleaned_data, 'source')
+        return cleaned_data
+
+    @staticmethod
+    def _to_int(cleaned_data, field_name):
+        """Convert `str` to `int` field value."""
+        field_value = cleaned_data.get(field_name)
+        return int(field_value) if field_value else field_value
+
+    @staticmethod
+    def _create_choices(model, user_id):
+        """Create human-readable choice by model and user_id."""
+        model_name = model._meta.verbose_name
+        default_choice = (DEFAULT_CREATE_CHOICE_VALUE, model_name)
+        choices = [default_choice]
+
+        # Populate a list of choices.
+        queryset = model.objects.filter(user_id=user_id)
+        for instance in queryset:
+            model_value, human_readable_name = instance.pk, str(instance)
+            choice = (model_value, human_readable_name)
+            choices.append(choice)
+
+        return choices
+
     @property
     def helper(self):
-        """Create form."""
+        """Structure the form."""
         helper = FormHelper()
         helper.form_method = 'post'
 

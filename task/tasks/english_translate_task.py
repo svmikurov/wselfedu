@@ -1,96 +1,123 @@
 from random import choice, shuffle
 
+from django.db.models import Q, F
 from django.urls import reverse_lazy
 
-from english.services import (
-    get_words_for_study,
-    create_lookup_params,
-    get_knowledge_assessment,
-    is_word_in_favorites,
-)
+from english.models import WordModel
+from task.services import LookupParams
 
 
 class EnglishTranslateExercise:
     """English word translate exercise class."""
 
-    success_task = None
-    _words = None
-    _word_id = None
-    word_count = None
-    question_text = None
-    answer_text = None
-    favorites_url = None
-    favorites_status = None
-    knowledge = None
-    knowledge_url = None
-
-    def __init__(
-            self,
-            *,
-            user_id,
-            timeout,
-            language_order,
-            **lookup_conditions,
-    ):
-        self._user_id = user_id
-        self.timeout = timeout
-        self._language_order = language_order
+    def __init__(self, **lookup_conditions):
+        self._user_id = lookup_conditions.get('user_id')
+        self._language_order = lookup_conditions.pop('language_order')
+        self.timeout = lookup_conditions.pop('timeout')
         self._lookup_conditions = lookup_conditions
-        # Create task
-        self._create_task()
+        self._word_ids = None
+        self._word_id = None
+        self._word = None
+        self.question_text = None
+        self.answer_text = None
+        self.word_count = None
+        self.favorites_url = None
+        self.favorites_status = None
+        self.knowledge = None
+        self.knowledge_url = None
+        self.google_translate_word_link = None
 
-    def _create_task(self):
-        self._set_words()
-        if not self._words:
-            return
+    def create_task(self) -> None:
+        """Create task."""
+        self._word_ids = self._get_word_ids()
+        self._word_id = self._get_random_word_id(self._word_ids)
         self._set_task_solution()
         self._set_task_data()
-        setattr(self, 'success_task', True)
 
     @property
-    def _lookup_params(self):
-        return create_lookup_params(self._lookup_conditions, self._user_id)
+    def _lookup_params(self) -> tuple[Q]:
+        """Word lookup parameters for task."""
+        lookup_params = LookupParams(self._lookup_conditions)
+        return lookup_params.params
 
-    def _set_words(self, ):
-        words = get_words_for_study(self._lookup_params, self._user_id)
-        setattr(self, '_words', words)
+    def _get_word_ids(self) -> list[int]:
+        """Make query to database by user conditions of the exercise.
 
-    def _set_task_solution(self):
+        Arguments
+        ---------
+        _lookup_params : `tuple[Q]`
+            User conditions of the exercise.
+
+        Returns
+        -------
+        word_ids : `list[int]`
+            List of id words that satisfy the conditions of the exercise.
+
+        Raises
+        ------
+        ValueError
+            Raised if no words that satisfy the conditions of the exercise.
+        """
+        word_ids = WordModel.objects.filter(
+            *self._lookup_params,
+        ).values_list('id', flat=True)
+
+        if not word_ids:
+            raise ValueError('No words found to the specified conditions')
+        return word_ids
+
+    @staticmethod
+    def _get_random_word_id(word_ids) -> int:
+        """Get random word for task."""
+        return choice(word_ids)
+
+    def _set_task_solution(self) -> None:
         """Create and set question and answer text."""
-        random_word = choice(self._words)
-        word_translations = self._apply_language_order(
-            random_word,
-            self._language_order,
+        self._word: WordModel = self._get_word()
+        self.question_text, self.answer_text = self._word_translation_order
+
+    def _get_word(self) -> WordModel:
+        """Get word for task."""
+        word = WordModel.objects.annotate(
+            favorites_status=Q(
+                wordsfavoritesmodel__user_id=self._user_id,
+                wordsfavoritesmodel__word_id=self._word_id,
+            ),
+        ).annotate(
+            assessment_value=F(
+                'worduserknowledgerelation__knowledge_assessment',
+            ),
+        ).get(
+            pk=self._word_id,
         )
+        return word
 
-        setattr(self, '_word_id', random_word.id)
-        self.question_text, self.answer_text = word_translations
-
-    def _set_task_data(self):
-        favorites_status = is_word_in_favorites(self._user_id, self._word_id)
-        knowledge = get_knowledge_assessment(self._word_id, self._user_id)
-        favorites_url = reverse_lazy(
+    def _set_task_data(self) -> None:
+        """Get data for task rendering."""
+        self.word_count = len(self._word_ids)
+        self.favorites_status = self._word.favorites_status
+        self.favorites_url = reverse_lazy(
             'task:word_favorites_view_ajax',
             kwargs={'word_id': self._word_id},
         )
-        knowledge_url = reverse_lazy(
+        self.knowledge = self._word.assessment_value
+        self.knowledge_url = reverse_lazy(
             'task:knowledge_assessment',
             kwargs={'word_id': self._word_id},
         )
-        setattr(self, 'word_count', self._words.count())
-        setattr(self, 'favorites_url', favorites_url)
-        setattr(self, 'favorites_status', favorites_status)
-        setattr(self, 'knowledge', knowledge)
-        setattr(self, 'knowledge_url', knowledge_url)
+        self.google_translate_word_link = (
+            f'https://translate.google.com/?hl=ru&sl=auto&tl=ru&text='
+            f'{self._word.words_eng}&op=translate'
+        )
 
-    @staticmethod
-    def _apply_language_order(word, language_order):
-        """Return order of languages by user choice."""
-        word_translations = [word.words_eng, word.words_rus]
-        if language_order == 'EN':
+    @property
+    def _word_translation_order(self) -> list[str]:
+        """Translations of words in order of user choice."""
+        word_translations = [self._word.words_eng, self._word.words_rus]
+        if self._language_order == 'EN':
             pass
-        elif language_order == 'RU':
+        elif self._language_order == 'RU':
             word_translations = word_translations[::-1]
-        elif language_order == 'RN':
+        elif self._language_order == 'RN':
             shuffle(word_translations)
         return word_translations

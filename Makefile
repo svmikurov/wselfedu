@@ -1,5 +1,5 @@
 MANAGE := poetry run python manage.py
-TEST_JUST := english.tests.django_tests.test_analytic_queries.TestFavoritesQuery.test_study_favorites_user_count_qs
+TEST_JUST := task.tests.django_tests.test_lookup_params
 
 start:
 	@$(MANAGE) runserver 0.0.0.0:8000
@@ -8,7 +8,7 @@ lint:
 	poetry run flake8
 
 create-fixtures:
-	@$(MANAGE) dumpdata --exclude auth --exclude contenttypes --exclude admin --exclude sessions --indent 2 > english/tests/fixtures/wse-fixtures-.json
+	@$(MANAGE) dumpdata --exclude auth --exclude contenttypes --exclude admin --exclude sessions --indent 2 > task/tests/fixtures/wse-fixtures-.json
 
 test:
 	poetry run coverage run --source='.' manage.py test
