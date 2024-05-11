@@ -75,34 +75,42 @@ class EnglishTranslateExerciseView(CheckLoginPermissionMixin, View):
 
     def get(self, request, *args, **kwargs):
         """Display an exercise page to translate an English word."""
+        task_conditions = request.session['task_conditions']
+        task = EnglishTranslateExercise(**task_conditions)
+
         try:
-            task_conditions = request.session['task_conditions']
-            task = EnglishTranslateExercise(**task_conditions)
+            task.create_task()
         except KeyError:
             messages.error(request, self.msg_key_error)
             return redirect(self.redirect_no_words)
-
-        task.create_task()
-        if task.word_count == 0:
+        except ValueError:
             messages.error(request, self.msg_no_words)
             return redirect(self.redirect_no_words)
-
-        # If the task is created, display the task page
-        context = {
-            'title': {
-                'title_name': 'Изучаем слова',
-                'url_name': 'task:english_translate_choice',
-            },
-        }
-        return render(request, self.template_name, context)
+        else:
+            context = {
+                'title': {
+                    'title_name': 'Изучаем слова',
+                    'url_name': 'task:english_translate_choice',
+                },
+            }
+            return render(request, self.template_name, context)
 
     def post(self, request):
         """Get new word for English word translate exercise page."""
         task_conditions = request.session['task_conditions']
         task = EnglishTranslateExercise(**task_conditions)
-        task.create_task()
 
-        if task.word_count > 0:
+        try:
+            task.create_task()
+        except ValueError:
+            messages.error(request, self.msg_no_words)
+            return JsonResponse(
+                data={
+                    'redirect_no_words': self.redirect_no_words,
+                },
+                status=412,
+            )
+        else:
             return JsonResponse(
                 data={
                     'redirect_no_words': self.redirect_no_words,
@@ -116,14 +124,6 @@ class EnglishTranslateExerciseView(CheckLoginPermissionMixin, View):
                     'favorites_url': task.favorites_url,
                     'google_translate_word_link': task.google_translate_word_link,
                 },
-            )
-        else:
-            messages.error(request, self.msg_no_words)
-            return JsonResponse(
-                data={
-                    'redirect_no_words': self.redirect_no_words,
-                },
-                status=412,
             )
 
 
