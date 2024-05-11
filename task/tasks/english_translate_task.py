@@ -1,4 +1,5 @@
 from random import choice, shuffle
+from typing import Any
 
 from django.db.models import Q, F
 from django.urls import reverse_lazy
@@ -30,7 +31,7 @@ class EnglishTranslateExercise:
     def create_task(self) -> None:
         """Create task."""
         self._word_ids = self._get_word_ids()
-        self._word_id = self._get_random_word_id(self._word_ids)
+        self._word_id = self._get_random_word_id()
         self._set_task_solution()
         self._set_task_data()
 
@@ -66,10 +67,9 @@ class EnglishTranslateExercise:
             raise ValueError('No words found to the specified conditions')
         return word_ids
 
-    @staticmethod
-    def _get_random_word_id(word_ids) -> int:
+    def _get_random_word_id(self) -> int:
         """Get random word for task."""
-        return choice(word_ids)
+        return choice(self._word_ids)
 
     def _set_task_solution(self) -> None:
         """Create and set question and answer text."""
@@ -121,3 +121,18 @@ class EnglishTranslateExercise:
         elif self._language_order == 'RN':
             shuffle(word_translations)
         return word_translations
+
+    @property
+    def task_data(self) -> dict[str, Any]:
+        """Dictionary with task data."""
+        return {
+            'question_text': self.question_text,
+            'answer_text': self.answer_text,
+            'timeout': self.timeout,
+            'word_count': self.word_count,
+            'knowledge': self.knowledge,
+            'knowledge_url': self.knowledge_url,
+            'favorites_status': self.favorites_status,
+            'favorites_url': self.favorites_url,
+            'google_translate_word_link': self.google_translate_word_link,
+        }
