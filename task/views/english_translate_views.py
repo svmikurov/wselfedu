@@ -90,7 +90,7 @@ class EnglishTranslateExerciseView(CheckLoginPermissionMixin, View):
             context = {
                 'title': {
                     'title_name': 'Изучаем слова',
-                    'url_name': 'task:english_translate_choice',
+                    'title_url': 'task:english_translate_choice',
                 },
             }
             return render(request, self.template_name, context)
