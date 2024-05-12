@@ -1,3 +1,6 @@
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit, Layout, Field, Row, Column, \
+    ButtonHolder, Button, Reset
 from django.db.models import F, Q
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView
@@ -40,6 +43,12 @@ class WordCreateView(CheckLoginPermissionMixin, CreateView):
         'additional_user_navigation': additional_user_navigation,
     }
 
+    def get_form(self, form_class=None):
+        """Apply crispy form helper for form."""
+        form = super().get_form()
+        crispy_form = WordForm.apply_crispy_helper(form)
+        return crispy_form
+
     def form_valid(self, form):
         """Add the current user to the form."""
         form.instance.user = self.request.user
@@ -60,6 +69,12 @@ class WordUpdateView(CheckObjectPermissionMixin, UpdateView):
         'title': 'Изменить слово',
         'btn_name': 'Изменить',
     }
+
+    def get_form(self, form_class=None):
+        """Apply crispy form helper for form."""
+        form = super().get_form()
+        crispy_form = WordForm.apply_crispy_helper(form)
+        return crispy_form
 
 
 class WordDeleteView(CheckObjectPermissionMixin, PermissionProtectDeleteView):
