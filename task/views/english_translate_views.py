@@ -89,13 +89,7 @@ class EnglishTranslateExerciseView(CheckLoginPermissionMixin, View):
             messages.error(request, self.msg_no_words)
             return redirect(self.redirect_no_words)
         else:
-            context = {
-                'title': {
-                    'title_name': 'Изучаем слова',
-                    'title_url': 'task:english_translate_choice',
-                },
-            }
-            return render(request, self.template_name, context)
+            return render(request, self.template_name)
 
     def post(self, request):
         """Get new word for English word translate exercise page."""

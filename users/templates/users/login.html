@@ -3,7 +3,7 @@
 
 {% block content %}
 <!--======== User Login Content =======-->
-{% include 'components/title.html' %}
+<div class="card-title h3 ps-3 pb-3">{{ title }}</div>
 <div class="row row-cols-1 cols-sm-2 row-cols-md-3 row-cols-lg-4">
   <form class ="" method="post">
     {% csrf_token %}

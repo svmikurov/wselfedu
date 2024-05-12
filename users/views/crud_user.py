@@ -88,6 +88,9 @@ class UsersListView(
     model = UserModel
     template_name = USER_LIST_TEMPLATE
     context_object_name = 'users'
+    extra_context = {
+        'title': 'Список пользователей',
+    }
 
 
 class UserDetailView(AccountOwnershipMixin, DetailView):

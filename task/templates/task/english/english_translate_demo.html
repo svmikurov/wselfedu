@@ -3,7 +3,11 @@
 
 {% block content %}
   {% include 'components/additional_word_navigation.html' %}
-  {% include 'components/title.html' %}
+
+  <!-- Block Title -->
+  <div class="card-title h3 ps-3 pb-3">
+    <a class="text-decoration-none" href="{% url 'task:english_translate_choice' %}">{% block title %}Изучаем слова{% endblock %}</a>
+  </div><!-- End Block Title -->
 
   <!-- Display Task Info -->
   <div class="pb-2">
