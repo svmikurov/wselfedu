@@ -19,7 +19,7 @@ from english.services.word_knowledge_assessment import (
 )
 from english.tasks.study_words import create_task
 
-TITLE = {'title_name': 'Изучаем слова', 'url_name': 'english:word_choice'}
+TITLE = {'title_name': 'Изучаем слова', 'title_url': 'english:word_choice'}
 """Заголовок страниц упражнения Изучаем слова (`dict`)
 
 Содержит имя заголовка и ссылку на страницу выбора слов для упражнения.
