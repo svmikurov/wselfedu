@@ -22,6 +22,7 @@ class EnglishTranslateExercise:
         self.question_text = None
         self.answer_text = None
         self.word_count = None
+        self.word_href = None
         self.favorites_url = None
         self.favorites_status = None
         self.knowledge = None
@@ -34,6 +35,7 @@ class EnglishTranslateExercise:
         self._word_id = self._get_random_word_id()
         self._set_task_solution()
         self._set_task_data()
+        print(f'self.task_data: {self.task_data}')
 
     @property
     def _lookup_params(self) -> tuple[Q]:
@@ -92,6 +94,18 @@ class EnglishTranslateExercise:
         )
         return word
 
+    @property
+    def _word_translation_order(self) -> list[str]:
+        """Translations of words in order of user choice."""
+        word_translations = [self._word.words_eng, self._word.words_rus]
+        if self._language_order == 'EN':
+            pass
+        elif self._language_order == 'RU':
+            word_translations = word_translations[::-1]
+        elif self._language_order == 'RN':
+            shuffle(word_translations)
+        return word_translations
+
     def _set_task_data(self) -> None:
         """Get data for task rendering."""
         self.word_count = len(self._word_ids)
@@ -109,18 +123,9 @@ class EnglishTranslateExercise:
             f'https://translate.google.com/?hl=ru&sl=auto&tl=ru&text='
             f'{self._word.words_eng}&op=translate'
         )
-
-    @property
-    def _word_translation_order(self) -> list[str]:
-        """Translations of words in order of user choice."""
-        word_translations = [self._word.words_eng, self._word.words_rus]
-        if self._language_order == 'EN':
-            pass
-        elif self._language_order == 'RU':
-            word_translations = word_translations[::-1]
-        elif self._language_order == 'RN':
-            shuffle(word_translations)
-        return word_translations
+        self.word_href = reverse_lazy(
+            'english:words_update', kwargs={'pk': self._word_id}
+        )
 
     @property
     def task_data(self) -> dict[str, Any]:
@@ -135,4 +140,5 @@ class EnglishTranslateExercise:
             'favorites_status': self.favorites_status,
             'favorites_url': self.favorites_url,
             'google_translate_word_link': self.google_translate_word_link,
+            'word_href': self.word_href,
         }
