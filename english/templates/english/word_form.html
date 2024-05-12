@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load django_bootstrap5 %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 <!--======= Additional navigation =======-->
@@ -17,11 +17,7 @@
 <!--======= Word Form =======-->
 <div class="row cols-sm-1 row-cols-md-2 row-cols-lg-2">
   <form method="post">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    {% bootstrap_button btn_name button_type='submit' button_class='btn-outline-success btn-sm' %}
-    {% bootstrap_button button_type="reset" button_class='btn-outline-danger btn-sm' content="Cancel" %}
-    {% include 'components/back_btn.html' %}
+    {% crispy form %}
   </form>
 </div><!-- End Word Form -->
 {% endblock %}
