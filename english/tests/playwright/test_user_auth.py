@@ -4,16 +4,10 @@ from urllib.parse import urljoin
 import pytest
 from playwright.sync_api import expect
 
-REGISTRATION_PATH = 'users/registration/'
 LOGIN_PATH = 'users/login/'
 
 TEST_USER_NAME = os.getenv('TEST_USER_NAME')
 TEST_PASSWORD = os.getenv('TEST_PASSWORD')
-
-
-@pytest.mark.skip
-def test_user_registration():
-    ...
 
 
 @pytest.mark.django_db()

@@ -4,10 +4,10 @@ from urllib.parse import urljoin
 import pytest
 from playwright.sync_api import Page, expect, Response
 
-PAGE_ELEMENTS = [
+PAGE_ELEMENTS: list[dict] = [
     {'locator': 'button',
      'name': 'Изучаем слова',
-     'path': 'english/words-choice/'},
+     'path': 'task/english-translate-choice/'},
     {'locator': 'button',
      'name': 'Добавить слово',
      'path': 'english/word/create/'},

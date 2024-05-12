@@ -4,8 +4,9 @@ from urllib.parse import urljoin
 import pytest
 from django.core.management import call_command
 from dotenv import load_dotenv
-from playwright.sync_api import Page, expect, sync_playwright, \
-    APIRequestContext, BrowserContext
+from playwright.sync_api import (
+    Page, expect, sync_playwright, APIRequestContext, BrowserContext
+)
 
 from config import settings
 
@@ -17,7 +18,6 @@ TEST_DB_NAME = 'db-wse-pytest.sqlite3'
 FIXTURE_PATH = 'english/tests/fixtures/wse-fixtures-4.json'
 COOKIES_PATH = 'english/tests/playwright/.auth/cookies.json'
 STATE_PATH = 'english/tests/playwright/.auth/user02_state.json'
-BASE_URL = '127.0.0.1:8000'
 AUTH_PATH = 'users/login/'
 
 TEST_USER_NAME = os.getenv('TEST_USER_NAME')

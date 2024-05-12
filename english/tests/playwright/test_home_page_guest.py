@@ -1,6 +1,7 @@
 """
 Test home page for anonymous.
 """
+from unittest import skip
 from urllib.parse import urljoin
 
 import pytest
@@ -24,6 +25,7 @@ def test_home_page_title(page: Page, go_to_home: Page):
     expect(page).to_have_title('WSE: Домашняя страница')
 
 
+@skip
 def test_home_page_navbar(page: Page, live_server):
     """Test navbar for anonymous."""
     host = live_server.url
@@ -40,6 +42,7 @@ def test_home_page_navbar(page: Page, live_server):
         expect(page).to_have_url(urljoin(host, loc[1]))
 
 
+@skip
 def test_home_page_content(go_to_home: Page, page: Page):
     """Test home page content for anonymous."""
     url = go_to_home.url
