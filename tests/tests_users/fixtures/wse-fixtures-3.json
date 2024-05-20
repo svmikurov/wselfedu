@@ -1,0 +1,78 @@
+[
+{
+  "model": "users.usermodel",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$srmfo4GRjuRiwpiIlNxOQn$9RggKk4CFT1IHq56Zcxj/q24+UhGDUTmX1kudCoim74=",
+    "last_login": "2024-03-04T22:18:56.854Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2024-03-04T22:18:03.771Z",
+    "updated_at": "2024-03-04T22:18:04.459Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.usermodel",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$JWxA9xt7472Hn9HUiw1Qnt$7OJWuC77ul7dECxm9KstvYa8TUJAAvF7Q2c1XqFxC5s=",
+    "last_login": "2024-03-04T22:19:53.786Z",
+    "is_superuser": false,
+    "username": "guest",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2024-03-04T22:19:44.921Z",
+    "updated_at": "2024-03-04T22:19:45.715Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.usermodel",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$T8xwAC7aw6dgjKkwYSSrnN$bAoeI9N5yRR3mrP8I12cWRIGquqVK0T6XKsddX9EFwM=",
+    "last_login": "2024-03-11T20:11:13.531Z",
+    "is_superuser": false,
+    "username": "user3",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2024-03-04T22:20:06.877Z",
+    "updated_at": "2024-03-04T22:20:07.659Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.usermodel",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$FThsMNVQenD3cE37bgs530$eYVD/jNNgM7x7B1vCWZ7rJBo7Fu5cKjoUGxN9079dE8=",
+    "last_login": "2024-03-04T22:32:35.447Z",
+    "is_superuser": false,
+    "username": "user4",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2024-03-04T22:20:34.301Z",
+    "updated_at": "2024-03-04T22:20:35.040Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]

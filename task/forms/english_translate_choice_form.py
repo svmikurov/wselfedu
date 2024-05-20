@@ -96,18 +96,18 @@ class EnglishTranslateChoiceForm(forms.Form):
         initial=DEFAULT_WORD_COUNT,
         required=False,
         widget=forms.CheckboxSelectMultiple(),
-        label='',
+        label='Слово, длина выражения',
     )
     knowledge_assessment = forms.MultipleChoiceField(
         choices=KNOWLEDGE_ASSESSMENT,
         initial=DEFAULT_KNOWLEDGE_ASSESSMENT,
         required=False,
         widget=forms.CheckboxSelectMultiple(),
-        label='',
+        label='Этап изучения слов',
     )
     timeout = forms.IntegerField(
         initial=DEFAULT_TIMEOUT,
-        label='Время на ответ (сек)'
+        label='Время на ответ (сек)',
     )
 
     def clean(self):
@@ -147,27 +147,30 @@ class EnglishTranslateChoiceForm(forms.Form):
 
         helper.layout = Layout(
             Row(
-                Column('favorites', css_class='col-6'),
-                Column('language_order', css_class='col-6'),
+                Column('favorites', css_class='col-6',
+                       data_testid='favorites'),
+                Column('language_order', css_class='col-6',
+                       data_testid='language_order'),
             ),
             Row(
                 Column('category', css_class='col-6'),
                 Column('source', css_class='col-6'),
             ),
-            HTML('<label class="h6">Период добавления слова</label>'),
             Row(
+                HTML('<label class="h6">Период добавления слова</label>'),
                 Column('period_start_date', css_class='col-6'),
                 Column('period_end_date', css_class='col-6'),
+                data_testid='word_addition_period',
             ),
-            HTML('<label class="h6">Этап изучения слов</label>'),
-            InlineCheckboxes('knowledge_assessment'),
+            InlineCheckboxes('knowledge_assessment',
+                             data_testid='knowledge_assessment'),
 
-            Submit('submit', 'Начать', css_class='btn-sm'),
+            Submit('submit', 'Начать', css_class='btn-sm',
+                   data_testid='submit'),
 
             HTML('<p class="h6 pt-3">Дополнительные опции</p>'),
             Field('timeout', css_class="form-group col-6 w-25"),
-            HTML('<label class="h6">Слово, длина выражения</label>'),
-            InlineCheckboxes('word_count'),
+            InlineCheckboxes('word_count', data_testid='word_count'),
         )
 
         return helper

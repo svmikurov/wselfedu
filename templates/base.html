@@ -1,5 +1,5 @@
-{% load static %}
 {% load django_bootstrap5 %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,27 +7,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  {% bootstrap_css %}
-  {% bootstrap_javascript %}
+  <title>{% block title %}{% endblock %}</title>
+  {% if IS_TEST != 'true' %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+  {% endif %}
 </head>
 
 <body>
   <header>
+    <!--======= Navigation =======-->
     {% include 'components/navbar.html' %}
+    <!-- End Navigation -->
   </header>
+
   <main class="container pt-1">
-    <div class="row cols-sm-6 row-cols-md-2 row-cols-lg-4">
+    <!--======= Django Messages =======-->
+    <div class="">
       {% bootstrap_messages %}
-    </div>
-    <div class="card-body pt-2">
-      {% block content %}
-      {% endblock %}
-    </div>
+    </div><!-- End Django Messages -->
+
+    <!--======= Content =======-->
+    <div class="pt-2">
+      {% block content %}{% endblock %}
+    </div><!-- End Content -->
   </main>
+
+  <!--======= Scripts =======-->
   <!-- Load jquery -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"
           integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
           crossorigin="anonymous"></script><!-- End Load jquery -->
-  {% block script %}{% endblock %}
+  {% block script %}{% endblock %}<!-- End Scripts -->
 </body>
 </html>

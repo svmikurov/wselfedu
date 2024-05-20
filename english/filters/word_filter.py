@@ -41,7 +41,7 @@ class WordsFilter(django_filters.FilterSet):
 
     search_word = django_filters.CharFilter(
         method='filter_word_by_any_translation',
-        field_name='words_eng',
+        field_name='word_eng',
         lookup_expr='icontains',
         label='',
         widget=TextInput(attrs={'placeholder': 'Поиск по слову'}),
@@ -84,7 +84,7 @@ class WordsFilter(django_filters.FilterSet):
     @staticmethod
     def filter_word_by_any_translation(queryset, name, value):
         return queryset.filter(
-            Q(words_eng__icontains=value) | Q(words_rus__icontains=value)
+            Q(word_eng__icontains=value) | Q(word_rus__icontains=value)
         )
 
     @staticmethod

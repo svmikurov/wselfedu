@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}{{ title }}{% endblock %}
+
 {% block content %}
   <!--======= Header =======-->
   <div class="pb-2">
@@ -37,8 +39,8 @@
       <tbody>
       {% for word in words %}
         <tr>
-          <td><a href="{% url 'english:words_detail' word.pk %}">{{ word.words_eng }}</a></td>
-          <td>{{ word.words_rus }}</td>
+          <td><a href="{% url 'english:words_detail' word.pk %}">{{ word.word_eng }}</a></td>
+          <td>{{ word.word_rus }}</td>
           <td>{{ word.get_word_count_display }}</td>
           <td>{% if word.assessment %}{{ word.assessment }}{% else %}-{% endif %}</td>
           <td>{% if word.category %}{{ word.category }}{% else %}-{% endif %}</td>
@@ -58,7 +60,7 @@
 
     </table><!-- End Words Table -->
     {% include 'components/pagination.html' %}
-    {% include 'components/back_btn.html' %}
+    {% include 'components/btn_back.html' %}
   </div>
 {% endblock %}
 

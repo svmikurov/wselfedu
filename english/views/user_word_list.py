@@ -1,14 +1,12 @@
 from django.db.models import F, Q
 from django_filters.views import FilterView
 
-from contrib_app.mixins import (
-    CheckUserPkForOwnershipAccountMixin,
-)
+from contrib.mixins_views import CheckObjectOwnershipMixin
 from english.models import WordModel
 
 
 class UserWordListView(
-    CheckUserPkForOwnershipAccountMixin,
+    CheckObjectOwnershipMixin,
     FilterView,
 ):
     """Users word list view."""

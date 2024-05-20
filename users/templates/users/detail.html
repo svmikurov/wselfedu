@@ -1,13 +1,9 @@
 {% extends 'base.html' %}
 
-{% block title %}
-  {% if title.title_name %}{{ title.title_name }}{% else %}{{ title }}{% endif %}
-{% endblock %}
-
 {% block content %}
 <!--======= Account Content =======-->
 <div>
-  {% include 'components/title.html' %}
+  {% include 'components/title.html' with title='Личный кабинет' %}
 
   <div class="py-2">
     {% if user.is_superuser %}
@@ -15,14 +11,11 @@
     {% endif %}
   </div>
 
-  <div class="py-2"><a class="" href="{% url 'english:users_words' user.pk %}">К списку изучаемых слов</a></div>
-  <div class="py-2"><a class="" href="{% url 'english:word_information' user.pk %}">Информация по изучаемым словам</a></div>
-
   <!-- Update / Delete User -->
   <div class="pt-3">
     <a href="{% url 'users:update' object.pk %}" class="btn btn-outline-primary btn-sm m-1" type="button">Обновить</a>
     <a href="{% url 'users:delete' object.pk %}" class="btn btn-outline-danger btn-sm m-1" type="button">Удалить</a>
-    {% include 'components/back_btn.html' %}
+    {% include 'components/btn_back.html' %}
   </div><!-- End Update / Delete User -->
 
 </div><!-- End Account Content -->

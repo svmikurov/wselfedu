@@ -18,7 +18,7 @@
       {% csrf_token %}
       {{ form|crispy }}
       <input id="solution_submit" type="submit" role="button" class="btn btn-outline-primary btn-sm" value="Ответить"/>
-      {% include 'components/back_btn.html' %}
+      {% include 'components/btn_back.html' %}
     </form>
   </div><!-- End Solution -->
 {% endblock %}

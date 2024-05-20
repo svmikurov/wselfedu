@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% include 'components/title.html' with title='Список пользователей' %}
+<!--====== Users list ======-->
 <table>
   <thead>
     <tr>
@@ -18,5 +20,5 @@
     </tr>
   {% endfor %}
   </tbody>
-</table>
+</table><!-- End Users list -->
 {% endblock %}

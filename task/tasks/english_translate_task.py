@@ -100,20 +100,20 @@ class EnglishTranslateExercise:
             'task:word_favorites_view_ajax',
             kwargs={'word_id': self._word_id},
         )
-        self.knowledge = self._word.assessment_value
+        self.knowledge = self._word.assessment_value or 0
         self.knowledge_url = reverse_lazy(
             'task:knowledge_assessment',
             kwargs={'word_id': self._word_id},
         )
         self.google_translate_word_link = (
             f'https://translate.google.com/?hl=ru&sl=auto&tl=ru&text='
-            f'{self._word.words_eng}&op=translate'
+            f'{self._word.word_eng}&op=translate'
         )
 
     @property
     def _word_translation_order(self) -> list[str]:
         """Translations of words in order of user choice."""
-        word_translations = [self._word.words_eng, self._word.words_rus]
+        word_translations = [self._word.word_eng, self._word.word_rus]
         if self._language_order == 'EN':
             pass
         elif self._language_order == 'RU':

@@ -1,8 +1,8 @@
-from users.views.auth import (
+from users.views.auth_views import (
     UserLoginView,
     UserLogoutView,
 )
-from users.views.crud_user import (
+from users.views.crud_user_views import (
     CreateUserView,
     UpdateUserView,
     DeleteUserView,

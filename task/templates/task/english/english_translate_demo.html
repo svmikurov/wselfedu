@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}{{ title }}{% endblock %}
+
 {% block content %}
   {% include 'components/additional_word_navigation.html' %}
   {% include 'components/title.html' %}
@@ -11,7 +13,7 @@
     <p id="word_count" class="" style="display: inline"></p>
   </div><!-- End Display Task Info -->
 
-  <!-- Button Row -->
+  <!-- Button Rows -->
   <div>
     <!-- Button word favorites status change -->
     <div class="" style="display: inline-block;">

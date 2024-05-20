@@ -1,11 +1,9 @@
-from english.views.account_word import (
-    AnalysisWordUserView,
+from english.views.english_views import (
+    update_words_knowledge_assessment_view,
+    update_words_favorites_status_view_ajax,
 )
 from english.views.user_word_list import (
     UserWordListView,
-)
-from english.views.home import (
-    HomeEnglishView,
 )
 from english.views.crud_categories import (
     CategoryCreateView,
@@ -27,10 +25,4 @@ from english.views.crud_sources import (
     SourceDeleteView,
     SourceListView,
     SourceDetailView
-)
-from english.views.word_task_view import (
-    WordChoiceView,
-    WordStudyView,
-    update_words_favorites_status_view_ajax,
-    update_words_knowledge_assessment_view,
 )

@@ -76,7 +76,8 @@ class MathCalculationChoiceForm(forms.Form):
         helper.layout = Layout(
             Row(
                 Column(
-                    Field('calculation_type', css_class="w-50"),
+                    Field('calculation_type', css_class="w-50",
+                          data_testid='calculation_type'),
                 ),
                 Column(
                     Field('timeout', css_class="w-25"),

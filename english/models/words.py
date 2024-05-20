@@ -27,12 +27,12 @@ class WordModel(models.Model):
         on_delete=models.CASCADE,
         related_name='user_word',
     )
-    words_eng = models.CharField(
+    word_eng = models.CharField(
         max_length=75,
         verbose_name='Слово на английском',
         help_text='Не более 75 символов.',
     )
-    words_rus = models.CharField(
+    word_rus = models.CharField(
         max_length=75,
         verbose_name='Слово на русском',
         help_text='Не более 75 символов.',
@@ -84,7 +84,7 @@ class WordModel(models.Model):
         ordering = ['pk']
 
     def __str__(self):
-        return self.words_eng
+        return self.word_eng
 
 
 class WordUserKnowledgeRelation(models.Model):
