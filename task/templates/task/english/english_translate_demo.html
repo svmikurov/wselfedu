@@ -5,7 +5,10 @@
 
 {% block content %}
   {% include 'components/additional_word_navigation.html' %}
-  {% include 'components/title.html' %}
+
+  <a href="{% url 'task:english_translate_choice' %}">
+    {% include 'components/title.html' %}
+  </a>
 
   <!-- Display Task Info -->
   <div class="pb-2">
