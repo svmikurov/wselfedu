@@ -6,7 +6,7 @@
   <a href="{% url 'english:words_create' %}" class="btn btn-outline-dark btn-sm" role="button"
     >Добавить слово
   </a>
-  <a href="https://translate.google.com/?hl=ru&sl=auto&tl=ru&text={{word.words_eng}}&op=translate" class="btn btn-outline-dark btn-sm" role="button"
+  <a href="https://translate.google.com/?hl=ru&sl=auto&tl=ru&text={{word.word_eng}}&op=translate" class="btn btn-outline-dark btn-sm" role="button"
     >Google
   </a>
 </div><!-- End Additional Navigation -->
@@ -30,7 +30,7 @@
       {% for word in words %}
         <tr>
           <td class="text-table-primary">{{ word.pk }}</td>
-          <td><a href="{% url 'english:words_detail' word.pk %}">{{ word.words_eng }}</a></td>
+          <td><a href="{% url 'english:words_detail' word.pk %}">{{ word.word_eng }}</a></td>
           <td class="align-middle">{{ word.words_rus }}</td>
           <td class="text-center align-middle">{% if word.assessment %}{{ word.assessment }}{% endif %}</td>
           <td class="align-middle">{% if word.source %}{{ word.source }}{% endif %}</td>
@@ -50,5 +50,5 @@
     </tbody>
   </table>
 </div>
-{% include 'components/back_btn.html' %}
+{% include 'components/btn_back.html' %}
 {% endblock %}

@@ -3,9 +3,9 @@ from django.views.generic import CreateView, ListView, UpdateView, DetailView
 
 from english.forms.source import SourceForm
 from english.models import SourceModel
-from contrib_app.mixins import (
+from contrib.mixins_views import (
     CheckLoginPermissionMixin,
-    CheckObjectPermissionMixin,
+    CheckUserOwnershipMixin,
     PermissionProtectDeleteView,
 )
 
@@ -38,7 +38,7 @@ class SourceCreateView(CheckLoginPermissionMixin, CreateView):
         return super().form_valid(form)
 
 
-class SourceUpdateView(CheckObjectPermissionMixin, UpdateView):
+class SourceUpdateView(CheckUserOwnershipMixin, UpdateView):
     """Update source view."""
 
     model = SourceModel
@@ -76,7 +76,7 @@ class SourceListView(CheckLoginPermissionMixin, ListView):
     template_name = SOURCE_LIST_TEMPLATE
     paginate_by = PAGINATE_NUMBER
     extra_context = {
-        'title': 'Источники для изучения слов',
+        'title': 'Источники',
     }
 
     def get_queryset(self):
@@ -87,7 +87,7 @@ class SourceListView(CheckLoginPermissionMixin, ListView):
         return queryset
 
 
-class SourceDetailView(CheckObjectPermissionMixin, DetailView):
+class SourceDetailView(CheckUserOwnershipMixin, DetailView):
     """Detail source view."""
 
     model = SourceModel

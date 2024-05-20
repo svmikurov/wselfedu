@@ -7,7 +7,7 @@ from django.views import View
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
 
-from contrib_app.mixins import (
+from contrib.mixins_views import (
     CheckLoginPermissionMixin,
 )
 from english.services import (
@@ -40,7 +40,7 @@ class EnglishTranslateChoiceView(CheckLoginPermissionMixin, TemplateView):
     """
 
     template_name = 'task/english/english_translate_choice.html'
-    TITLE = 'Выберите условия задания'
+    TITLE = 'Упражнение "Изучаем слова"'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
@@ -84,12 +84,13 @@ class EnglishTranslateExerciseView(CheckLoginPermissionMixin, View):
             task.create_task()
         except KeyError:
             messages.error(request, self.msg_key_error)
-            return redirect(self.redirect_no_words)
+            return redirect(reverse_lazy('task:english_translate_choice'))
         except ValueError:
             messages.error(request, self.msg_no_words)
-            return redirect(self.redirect_no_words)
+            return redirect(reverse_lazy('task:english_translate_choice'))
         else:
-            return render(request, self.template_name)
+            context = {'title': 'Упражнение "Изучаем слова"'}
+            return render(request, self.template_name, context)
 
     def post(self, request):
         """Get new word for English word translate exercise page."""

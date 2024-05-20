@@ -5,11 +5,10 @@ from django.views.generic import CreateView, DetailView, UpdateView
 from english.filters import WordsFilter
 from english.forms import WordForm
 from english.models import WordModel
-from contrib_app.mixins import (
+from contrib.mixins_views import (
     CheckLoginPermissionMixin,
-    CheckObjectPermissionMixin,
     PermissionProtectDeleteView,
-    ReuseSchemaQueryFilterView,
+    ReuseSchemaQueryFilterView, CheckUserOwnershipMixin,
 )
 
 CREATE_WORD_PATH = 'english:words_create'
@@ -35,7 +34,7 @@ class WordCreateView(CheckLoginPermissionMixin, CreateView):
         'Словарь': WORD_LIST_TEMPLATE
     }
     extra_context = {
-        'title': 'Добавить слово',
+        'title': 'Добавить слово в словарь',
         'btn_name': 'Добавить',
         'additional_user_navigation': additional_user_navigation,
     }
@@ -53,7 +52,7 @@ class WordCreateView(CheckLoginPermissionMixin, CreateView):
         return super().form_valid(form)
 
 
-class WordUpdateView(CheckObjectPermissionMixin, UpdateView):
+class WordUpdateView(CheckUserOwnershipMixin, UpdateView):
     """Update word view."""
 
     model = WordModel
@@ -74,7 +73,7 @@ class WordUpdateView(CheckObjectPermissionMixin, UpdateView):
         return crispy_form
 
 
-class WordDeleteView(CheckObjectPermissionMixin, PermissionProtectDeleteView):
+class WordDeleteView(PermissionProtectDeleteView):
     """Delete word view."""
 
     model = WordModel
@@ -126,7 +125,7 @@ class WordListView(ReuseSchemaQueryFilterView):
         return queryset
 
 
-class WordDetailView(CheckObjectPermissionMixin, DetailView):
+class WordDetailView(CheckUserOwnershipMixin, DetailView):
     """Detail word view."""
 
     model = WordModel

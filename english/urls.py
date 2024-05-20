@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic import TemplateView
 
 from english import views
 
@@ -7,7 +8,7 @@ urlpatterns = [
     path(
         # Show list of registrations users.
         '',
-        views.HomeEnglishView.as_view(),
+        TemplateView.as_view(template_name='english/home.html'),
         name='home',
     ),
     # --======= Account ======--
@@ -17,19 +18,6 @@ urlpatterns = [
         name='users_words',
     ),
     # -- End Account --
-    # --======= Task word study =======--
-    # Отображение параметров для выборки слов на задание.
-    path(
-        'words-choice/',
-        views.WordChoiceView.as_view(),
-        name='word_choice',
-    ),
-    # Создание задания и отображение с помощью ajax.
-    path(
-        'word-study-ajax/',
-        views.WordStudyView.as_view(),
-        name='word_study_ajax',
-    ),
     # Добавление оценки слова.
     path(
         'knowledge-assessment/<int:word_id>/',
@@ -120,11 +108,5 @@ urlpatterns = [
         'sources/<int:pk>/detail/',
         views.SourceDetailView.as_view(),
         name='source_detail'
-    ),
-    # --======= Analysis =======--
-    path(
-        '<int:pk>/word-information/',
-        views.AnalysisWordUserView.as_view(),
-        name='word_information'
     ),
 ]

@@ -1,13 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}{{ title }}{% endblock %}
+
 {% block content %}
   {% include 'components/additional_word_navigation.html' %}
-
-  <!-- Block Title -->
-  <div class="card-title h3 ps-3 pb-3">
-    <a class="text-decoration-none" href="{% url 'task:english_translate_choice' %}">{% block title %}Изучаем слова{% endblock %}</a>
-  </div><!-- End Block Title -->
+  {% include 'components/title.html' %}
 
   <!-- Display Task Info -->
   <div class="pb-2">
@@ -15,7 +13,7 @@
     <p id="word_count" class="" style="display: inline"></p>
   </div><!-- End Display Task Info -->
 
-  <!-- Button Row -->
+  <!-- Button Rows -->
   <div>
     <!-- Button word favorites status change -->
     <div class="" style="display: inline-block;">
@@ -51,9 +49,7 @@
   <div class="pt-2">
     <h6 class="mb-3">Вопрос:</h6>
     <h4 style="line-height: 1.4">
-      <a id="word_href" href="#">
-        <mark id="question_text"></mark>
-      </a>
+      <mark id="question_text"></mark>
     </h4>
 
     <h6 class="mb-3">Ответ:</h6>

@@ -15,7 +15,7 @@ urlpatterns = [
         views.UserLogoutView.as_view(),
         name='logout',
     ),  # <!-- End Auth users -->
-    # <!--======== Users account editions =======-->
+    # <!--======== CRUD Users =======-->
     path(
         'registration/',
         views.CreateUserView.as_view(),
@@ -41,5 +41,5 @@ urlpatterns = [
         views.UserDetailView.as_view(),
         name='detail',
     ),
-    # <!-- End Users account editions -->
+    # <!-- End CRUD Users -->
 ]

@@ -10,7 +10,7 @@
   <a href="{% url 'english:words_create' %}" class="btn btn-outline-dark btn-sm" role="button"
     >Добавить слово
   </a>
-  <a href="https://translate.google.com/?hl=ru&sl=auto&tl=ru&text={{word.words_eng}}&op=translate" class="btn btn-outline-dark btn-sm" role="button"
+  <a href="https://translate.google.com/?hl=ru&sl=auto&tl=ru&text={{word.word_eng}}&op=translate" class="btn btn-outline-dark btn-sm" role="button"
     >Google
   </a>
 </div><!-- End Additional Navigation -->
@@ -18,7 +18,7 @@
 <div class="">{% include 'components/title.html' %}</div>
 
 <!--======= Word fields Table =======-->
-<h5>Слово: {{ word.words_eng }}</h5>
+<h5>Слово: {{ word.word_eng }}</h5>
 
 <table>
   <thead>
@@ -67,6 +67,6 @@
      role="button"
   >Удалить
   </a>
-  {% include 'components/back_btn.html' %}
+  {% include 'components/btn_back.html' %}
 </div><!-- End Buttons -->
 {% endblock %}

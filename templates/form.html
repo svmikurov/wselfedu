@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
 
+{% block title %}{{ title }}{% endblock %}
+
 {% block content %}
 <!--======= Form Content =======-->
 {% include 'components/title.html' %}
@@ -9,8 +11,8 @@
     {% csrf_token %}
     {% bootstrap_form form %}
     {% bootstrap_button btn_name button_type='submit' button_class='btn-outline-success btn-sm' %}
-    {% bootstrap_button button_type="reset" button_class='btn-outline-danger btn-sm' content="Cancel" %}
-    {% include 'components/back_btn.html' %}
+    {% bootstrap_button button_type="reset" button_class='btn-outline-danger btn-sm' content="Сбросить" %}
+    {% include 'components/btn_back.html' %}
   </form>
 </div><!-- End Form Content -->
 {% endblock %}

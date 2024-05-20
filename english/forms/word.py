@@ -13,8 +13,8 @@ class WordForm(ModelForm):
     class Meta:
         model = WordModel
         fields = (
-            'words_eng',
-            'words_rus',
+            'word_eng',
+            'word_rus',
             'category',
             'source',
             'word_count',
@@ -25,8 +25,8 @@ class WordForm(ModelForm):
         """Apply crispy form helper for specified WordModel form."""
         form.helper = FormHelper()
         form.helper.layout = Layout(
-            Field("words_eng", autofocus=True),
-            Field("words_rus"),
+            Field("word_eng", autofocus=True),
+            Field("word_rus"),
             Row(
                 Column("category", css_class="col-6"),
                 Column("source", css_class="col-6"),

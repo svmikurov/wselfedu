@@ -1,0 +1,48 @@
+name: Python CI
+
+on:
+  - push
+  - pull_request
+
+env:
+  SECRET_KEY: ${{ secrets.SECRET_KEY }}
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+
+    steps:
+        # Clone the repository
+      - uses: actions/checkout@v3
+        # Set up Python
+      - uses: actions/setup-python@v4
+        with:
+            python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install poetry
+          poetry install --no-root
+
+      - name: Install Playwright Browsers
+        run: |
+          pip install pytest-playwright
+          playwright install --with-deps
+      
+      - name: Run linter
+        run: make lint
+
+      - name: Run Django tests
+        run: make test
+
+#      - name: Run Playwright tests
+#        run: pytest -s --browser chromium --browser firefox --browser webkit --tracing retain-on-failure
+#
+#      - uses: actions/upload-artifact@v2
+#        if: always()
+#        with:
+#          name: test-results
+#          path: test-results/
+#          retention-days: 30

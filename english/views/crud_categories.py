@@ -3,9 +3,9 @@ from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
 from english.forms import CategoryForm
 from english.models import CategoryModel
-from contrib_app.mixins import (
+from contrib.mixins_views import (
     CheckLoginPermissionMixin,
-    CheckObjectPermissionMixin,
+    CheckUserOwnershipMixin,
     PermissionProtectDeleteView,
 )
 
@@ -39,7 +39,7 @@ class CategoryCreateView(CheckLoginPermissionMixin, CreateView):
         return super().form_valid(form)
 
 
-class CategoryUpdateView(CheckObjectPermissionMixin, UpdateView):
+class CategoryUpdateView(CheckUserOwnershipMixin, UpdateView):
     """Create category view."""
 
     model = CategoryModel
@@ -53,7 +53,9 @@ class CategoryUpdateView(CheckObjectPermissionMixin, UpdateView):
     }
 
 
-class CategoryDeleteView(PermissionProtectDeleteView):
+class CategoryDeleteView(
+    PermissionProtectDeleteView,
+):
     """Delete category view."""
 
     model = CategoryModel
@@ -77,7 +79,7 @@ class CategoryListView(CheckLoginPermissionMixin, ListView):
     context_object_name = 'categories'
     paginate_by = PAGINATE_NUMBER
     extra_context = {
-        'title': 'Список категорий слов',
+        'title': 'Категории',
     }
 
     def get_queryset(self):
@@ -89,7 +91,7 @@ class CategoryListView(CheckLoginPermissionMixin, ListView):
         return queryset
 
 
-class CategoryDetailView(CheckObjectPermissionMixin, DetailView):
+class CategoryDetailView(CheckUserOwnershipMixin, DetailView):
     """Category detail view."""
 
     model = CategoryModel
