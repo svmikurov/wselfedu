@@ -16,6 +16,12 @@ test:
 just-test:
 	@$(MANAGE) test $(TEST_JUST)
 
+
+coverage:
+	coverage run --source='.' ./manage.py test .
+	coverage report
+	coverage html
+
 check: lint test
 
 dry:
