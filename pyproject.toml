@@ -15,6 +15,7 @@ django-crispy-forms = "^2.1"
 django-jsonview = "^2.0.0"
 crispy-bootstrap5 = "^2024.2"
 django-extensions = "^3.2.3"
+requests = "^2.32.2"
 
 
 [tool.poetry.group.dev.dependencies]
