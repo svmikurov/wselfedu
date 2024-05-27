@@ -1,3 +1,5 @@
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F, Q
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView
@@ -9,6 +11,7 @@ from contrib.mixins_views import (
     CheckLoginPermissionMixin,
     PermissionProtectDeleteView,
     ReuseSchemaQueryFilterView, CheckUserOwnershipMixin,
+    HandleNoPermissionMixin,
 )
 
 CREATE_WORD_PATH = 'english:words_create'
@@ -22,7 +25,7 @@ WORD_LIST_TEMPLATE = 'english/word_list.html'
 PAGINATE_NUMBER = 20
 
 
-class WordCreateView(CheckLoginPermissionMixin, CreateView):
+class WordCreateView(HandleNoPermissionMixin, LoginRequiredMixin, CreateView):
     """Create word view."""
 
     form_class = WordForm
@@ -48,8 +51,11 @@ class WordCreateView(CheckLoginPermissionMixin, CreateView):
     def form_valid(self, form):
         """Add the current user to the form."""
         form.instance.user = self.request.user
+        added_word = form.cleaned_data['word_eng']
+        messages.success(self.request, f'Добавлено слово "{added_word}"')
         form.save()
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        return response
 
 
 class WordUpdateView(CheckUserOwnershipMixin, UpdateView):
