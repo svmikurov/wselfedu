@@ -8,9 +8,9 @@ from english.filters import WordsFilter
 from english.forms import WordForm
 from english.models import WordModel
 from contrib.mixins_views import (
-    CheckLoginPermissionMixin,
     PermissionProtectDeleteView,
-    ReuseSchemaQueryFilterView, CheckUserOwnershipMixin,
+    ReuseSchemaQueryFilterView,
+    CheckUserOwnershipMixin,
     HandleNoPermissionMixin,
 )
 
