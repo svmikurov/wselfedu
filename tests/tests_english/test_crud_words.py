@@ -17,7 +17,6 @@ WORD_LIST_PATH = 'english:word_list'
 NO_PERMISSION_MSG = 'Для доступа необходимо войти в приложение'
 NO_PERMISSION_URL = reverse('users:login')
 
-SUCCESS_CREATE_WORD_MSG = 'Слово добавлено'
 SUCCESS_DELETE_WORD_MSG = 'Слово удалено'
 SUCCESS_UPDATE_WORD_MSG = 'Слово изменено'
 
@@ -54,7 +53,7 @@ class TestCreateWordView(TestCase):
         response = self.client.post(self.url, self.create_data)
 
         self.assertRedirects(response, self.success_url, 302)
-        flash_message_test(response, SUCCESS_CREATE_WORD_MSG)
+        flash_message_test(response, 'Добавлено слово "new word"')
         assert WordModel.objects.filter(word_eng='new word').exists()
 
     def test_post_method_create_word_by_anonymous(self):

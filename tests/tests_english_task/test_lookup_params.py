@@ -9,7 +9,7 @@ from task.services import LookupParams
 class LookupParamsTest(TestCase):
     """Test get Word Queryset by user parameters."""
 
-    fixtures = ['task/tests/fixtures/wse-fixtures-4.json']
+    fixtures = ['tests/tests_english_task/fixtures/wse-fixtures-4.json']
 
     @classmethod
     def setUp(cls):

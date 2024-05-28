@@ -14,7 +14,7 @@ class TestEnglishTranslateChoicePage(TestMixin, TestCase):
 class TestEnglishTranslateExercisePage(TestMixin, TestCase):
     """English word translate exercise test."""
 
-    fixtures = ['task/tests/fixtures/wse-fixtures-4.json']
+    fixtures = ['tests/tests_english_task/fixtures/wse-fixtures-4.json']
 
     user_id = 3
     url = reverse_lazy('task:english_translate_demo')
