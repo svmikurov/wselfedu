@@ -35,7 +35,7 @@ class WordForm(ModelForm):
             ButtonHolder(
                 Submit(
                     name="Save",
-                    value="Добавить",
+                    value="Сохранить",
                     css_class="btn-success btn-sm",
                     style="width:108px",
                 ),
