@@ -13,10 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-        # Clone the repository
-      - uses: actions/checkout@v3
-        # Set up Python
-      - uses: actions/setup-python@v4
+      - name: Clone the repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
             python-version: '3.10'
 
@@ -26,16 +27,8 @@ jobs:
           pip install poetry
           poetry install --no-root
 
-      - name: Install Playwright Browsers
-        run: |
-          pip install pytest-playwright
-          playwright install --with-deps
-      
       - name: Run linter
         run: make lint
-
-      - name: Run Django tests
-        run: make test
 
         # Run pytest via: make test-coverage.
         # Publishing code test on Code Climate.
@@ -45,5 +38,5 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
-          coverageCommand: make coverage
+          coverageCommand: make test-coverage
           debug: true

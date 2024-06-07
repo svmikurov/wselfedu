@@ -16,13 +16,18 @@ test:
 just-test:
 	@$(MANAGE) test $(TEST_JUST)
 
+test-pytest:
+	poetry run pytest
 
 coverage:
 	coverage run --source='.' ./manage.py test .
 	coverage report
 	coverage html
 
-check: lint test
+test-coverage:
+	poetry run pytest --cov='.' --cov-report xml
+
+check: lint test-pytest
 
 dry:
 	@$(MANAGE) makemigrations --dry-run
