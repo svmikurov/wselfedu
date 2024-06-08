@@ -9,7 +9,20 @@ from task.services import LookupParams
 
 
 class EnglishTranslateExercise:
-    """English word translate exercise class."""
+    """English word translate exercise class.
+
+    Parameters
+    ----------
+    lookup_conditions : `dict`
+
+    Attributes
+    ----------
+    _lookup_params : `tuple[Q]`
+        User conditions of the exercise.
+    word_id : `int`
+        ID of the word that is displayed to the user in the task.
+
+    """
 
     def __init__(self, **lookup_conditions):
         self._user_id = lookup_conditions.get('user_id')
@@ -17,7 +30,7 @@ class EnglishTranslateExercise:
         self.timeout = lookup_conditions.pop('timeout')
         self._lookup_conditions = lookup_conditions
         self._word_ids = None
-        self._word_id = None
+        self.word_id = None
         self._word = None
         self.question_text = None
         self.answer_text = None
@@ -31,7 +44,7 @@ class EnglishTranslateExercise:
     def create_task(self) -> None:
         """Create task."""
         self._word_ids = self._get_word_ids()
-        self._word_id = self._get_random_word_id()
+        self.word_id = self._get_random_word_id()
         self._set_task_solution()
         self._set_task_data()
 
@@ -43,11 +56,6 @@ class EnglishTranslateExercise:
 
     def _get_word_ids(self) -> list[int]:
         """Make query to database by user conditions of the exercise.
-
-        Arguments
-        ---------
-        _lookup_params : `tuple[Q]`
-            User conditions of the exercise.
 
         Returns
         -------
@@ -81,14 +89,14 @@ class EnglishTranslateExercise:
         word = WordModel.objects.annotate(
             favorites_status=Q(
                 wordsfavoritesmodel__user_id=self._user_id,
-                wordsfavoritesmodel__word_id=self._word_id,
+                wordsfavoritesmodel__word_id=self.word_id,
             ),
         ).annotate(
             assessment_value=F(
                 'worduserknowledgerelation__knowledge_assessment',
             ),
         ).get(
-            pk=self._word_id,
+            pk=self.word_id,
         )
         return word
 
@@ -98,12 +106,12 @@ class EnglishTranslateExercise:
         self.favorites_status = self._word.favorites_status
         self.favorites_url = reverse_lazy(
             'task:word_favorites_view_ajax',
-            kwargs={'word_id': self._word_id},
+            kwargs={'word_id': self.word_id},
         )
         self.knowledge = self._word.assessment_value or 0
         self.knowledge_url = reverse_lazy(
             'task:knowledge_assessment',
-            kwargs={'word_id': self._word_id},
+            kwargs={'word_id': self.word_id},
         )
         self.google_translate_word_link = (
             f'https://translate.google.com/?hl=ru&sl=auto&tl=ru&text='

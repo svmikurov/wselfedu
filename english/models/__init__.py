@@ -7,3 +7,6 @@ from english.models.words import (
     WordUserKnowledgeRelation,
     WordsFavoritesModel,
 )
+from english.models.word_analytic import (
+    WordLearningStories,
+)
