@@ -22,4 +22,4 @@ myapp.log
 db*
 
 docs/build/
-dcos/source/generated/
+docs/source/generated/
