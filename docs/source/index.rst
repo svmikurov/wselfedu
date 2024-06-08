@@ -15,7 +15,7 @@ Welcome to wselfedu's documentation!
    how_to_guid
    reference
    explanation
-
+   api
 
 Indices and tables
 ==================

@@ -7,6 +7,7 @@ Installation
 .. code-block:: console
 
    (.venv) $ git clone git@github.com:svmikurov/wselfedu.git
+   (.venv) $ cd wselfedu
    (.venv) $ pip install poetry
    (.venv) $ poetry shell
    (.venv) $ poetry install

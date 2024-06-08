@@ -6,8 +6,15 @@ from english.models import WordModel
 class WordLearningStories(models.Model):
     """Word learning stories model.
 
+    Attributes
+    ----------
+    word : `models.OneToOneField`
+        Word id, relate ``WordModel``.
+    display_count : `models.PositiveSmallIntegerField`
+        The count of displaying specific word to user.
+
     Stores information about the user's word learning.
-    Related to :model:`english.WordModel`
+    Related to `english.WordModel`
     """
 
     word = models.OneToOneField(
@@ -20,11 +27,3 @@ class WordLearningStories(models.Model):
         default=0,
         help_text='The number of times the word was displayed to the user.'
     )
-
-    @classmethod
-    def add_display_fact(cls, word_id):
-        """Add a display fact to the display statics."""
-        even = cls(word_id=word_id)
-        print(f'{even = }')
-        # even.update(display_count=F('display_count') + 1)
-        # return even
