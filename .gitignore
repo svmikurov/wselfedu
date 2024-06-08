@@ -20,3 +20,6 @@ myapp.log
 *.db
 *.sqlite3
 db*
+
+docs/build/
+dcos/source/generated/
