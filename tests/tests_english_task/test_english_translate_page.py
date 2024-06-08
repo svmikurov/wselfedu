@@ -4,14 +4,14 @@ import pytest
 from django.test import TestCase
 from django.urls import reverse_lazy
 
-from contrib.mixins_tests import TestMixin
+from contrib.mixins_tests import TestAuthMixin
 
 
-class TestEnglishTranslateChoicePage(TestMixin, TestCase):
+class TestAuthEnglishTranslateChoicePage(TestAuthMixin, TestCase):
     """English word translate condition choice test."""
 
 
-class TestEnglishTranslateExercisePage(TestMixin, TestCase):
+class TestAuthEnglishTranslateExercisePage(TestAuthMixin, TestCase):
     """English word translate exercise test."""
 
     fixtures = ['tests/tests_english_task/fixtures/wse-fixtures-4.json']

@@ -10,3 +10,6 @@ Web app for learning English words and multiplication tables.
 When learning an English word, the application provides four levels of knowledge 
 of the word. The level of knowledge of a word is determined by the user's actions.
 Word knowledge level: study, repeat, check, know.
+
+Read the [documentation](http://localhost:63342/wselfedu/docs/build/html/index.html) (local only)  
+Read the [documentation](https://svmikurov.github.io/wselfedu/) on GitHub

@@ -1,6 +1,6 @@
-from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F, Q
+from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView
 
@@ -19,7 +19,6 @@ WORD_LIST_PATH = 'english:word_list'
 
 DELETE_WORD_TEMPLATE = 'delete.html'
 DETAIL_WORD_TEMPLATE = 'english/word_detail.html'
-WORD_FORM_TEMPLATE = 'english/word_form.html'
 WORD_LIST_TEMPLATE = 'english/word_list.html'
 
 PAGINATE_NUMBER = 20
@@ -29,16 +28,15 @@ class WordCreateView(HandleNoPermissionMixin, LoginRequiredMixin, CreateView):
     """Create word view."""
 
     form_class = WordForm
-    template_name = WORD_FORM_TEMPLATE
+    template_name = 'english/word_add_form.html'
     success_url = reverse_lazy(CREATE_WORD_PATH)
-    success_message = 'Слово добавлено'
+    success_message = None
 
     additional_user_navigation = {
         'Словарь': WORD_LIST_TEMPLATE
     }
     extra_context = {
         'title': 'Добавить слово в словарь',
-        'btn_name': 'Добавить',
         'additional_user_navigation': additional_user_navigation,
     }
 
@@ -52,10 +50,26 @@ class WordCreateView(HandleNoPermissionMixin, LoginRequiredMixin, CreateView):
         """Add the current user to the form."""
         form.instance.user = self.request.user
         added_word = form.cleaned_data['word_eng']
-        messages.success(self.request, f'Добавлено слово "{added_word}"')
+        success_message = f'Добавлено слово "{added_word}"'
+        setattr(WordCreateView, 'success_message', success_message)
         form.save()
         response = super().form_valid(form)
         return response
+
+    def render_to_response(self, context, **response_kwargs):
+        """Return JsonResponse if `XMLHttpRequest` request."""
+        is_ajax = self.request \
+                      .headers.get('X-requested-With') == 'XMLHttpRequest'
+        if is_ajax:
+            return JsonResponse(
+                data={'success_message': self.success_message},
+                status=201,
+            )
+        else:
+            return super(WordCreateView, self).render_to_response(
+                context,
+                **response_kwargs,
+            )
 
 
 class WordUpdateView(CheckUserOwnershipMixin, UpdateView):
@@ -63,7 +77,7 @@ class WordUpdateView(CheckUserOwnershipMixin, UpdateView):
 
     model = WordModel
     form_class = WordForm
-    template_name = WORD_FORM_TEMPLATE
+    template_name = 'english/word_form.html'
     success_url = reverse_lazy(WORD_LIST_PATH)
     success_message = 'Слово изменено'
     context_object_name = 'word'

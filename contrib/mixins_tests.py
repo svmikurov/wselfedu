@@ -67,6 +67,22 @@ class UserAuthTestMixin:
 class TestMixin:
     """Test mixin."""
 
+    def set_session(self, **data) -> None:
+        """Save data to session."""
+        session = self.client.session
+        for key, value in data.items():
+            session[key] = value
+        session.save()
+
+    @staticmethod
+    def assertMessage(response, expected_message):
+        """Test displaying Django message."""
+        return flash_message_test(response, expected_message)
+
+
+class TestAuthMixin(TestMixin):
+    """Test mixin."""
+
     user_id = None
     url = None
 
@@ -97,15 +113,3 @@ class TestMixin:
         url = url or self.url
         self.client.force_login(user)
         return self.client.get(url)
-
-    def set_session(self, **data) -> None:
-        """Save data to session."""
-        session = self.client.session
-        for key, value in data.items():
-            session[key] = value
-        session.save()
-
-    @staticmethod
-    def assertMessage(response, expected_message):
-        """Test displaying Django message."""
-        return flash_message_test(response, expected_message)

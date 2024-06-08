@@ -7,6 +7,7 @@ from django.views import View
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
 
+from english.analytics.english_analytics import collect_statistics
 from contrib.mixins_views import (
     CheckLoginPermissionMixin,
 )
@@ -106,6 +107,7 @@ class EnglishTranslateExerciseView(CheckLoginPermissionMixin, View):
                 status=412,
             )
         else:
+            collect_statistics(task=task)
             return JsonResponse(
                 data={
                     **self.redirect_no_words,
