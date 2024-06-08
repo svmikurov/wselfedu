@@ -1,44 +1,12 @@
-asgiref==3.8.1 ; python_version >= "3.10" and python_version < "4.0" \
-    --hash=sha256:3e1e3ecc849832fe52ccf2cb6686b7a55f82bb1d6aee72a58826471390335e47 \
-    --hash=sha256:c343bd80a0bec947a9860adb4c432ffa7db769836c64238fc34bdc3fec84d590
-crispy-bootstrap5==2024.2 ; python_version >= "3.10" and python_version < "4.0" \
-    --hash=sha256:3867e320920a6ef156e94f9e0f06a80344c453e1b3bd96cd9dc0522ae9e9afb8 \
-    --hash=sha256:7d1fa40c6faf472e30e85c72551a3d2c9eedbf0abfff920683315e4e6f670f2b
-django-bootstrap5==24.2 ; python_version >= "3.10" and python_version < "4.0" \
-    --hash=sha256:6a5d83e9ff1952f7c07c54cebcb76c85f09787b8b57eeb4ec07554cd583acc64 \
-    --hash=sha256:a3cee2b3d45745210c5b898af2917f310f44df746269fe09a93be28a0adc2a4b
-django-crispy-forms==2.1 ; python_version >= "3.10" and python_version < "4.0" \
-    --hash=sha256:4d7ec431933ad4d4b5c5a6de4a584d24613c347db9ac168723c9aaf63af4bb96 \
-    --hash=sha256:d592044771412ae1bd539cc377203aa61d4eebe77fcbc07fbc8f12d3746d4f6b
-django-extensions==3.2.3 ; python_version >= "3.10" and python_version < "4.0" \
-    --hash=sha256:44d27919d04e23b3f40231c4ab7af4e61ce832ef46d610cc650d53e68328410a \
-    --hash=sha256:9600b7562f79a92cbf1fde6403c04fee314608fefbb595502e34383ae8203401
-django-filter==24.2 ; python_version >= "3.10" and python_version < "4.0" \
-    --hash=sha256:48e5fc1da3ccd6ca0d5f9bb550973518ce977a4edde9d2a8a154a7f4f0b9f96e \
-    --hash=sha256:df2ee9857e18d38bed203c8745f62a803fa0f31688c9fe6f8e868120b1848e48
-django-jsonview==2.0.0 ; python_version >= "3.10" and python_version < "4.0" \
-    --hash=sha256:1871983f6c7ab0bec1bad3249b06ce64c47d3bed57cd190f87e5acaf65722ebb \
-    --hash=sha256:77345393f8e8bb3279b9ba9fb2db687adfa74d41feab972521545d47103d321b
-django==4.2 ; python_version >= "3.10" and python_version < "4.0" \
-    --hash=sha256:ad33ed68db9398f5dfb33282704925bce044bef4261cd4fb59e4e7f9ae505a78 \
-    --hash=sha256:c36e2ab12824e2ac36afa8b2515a70c53c7742f0d6eaefa7311ec379558db997
-python-dotenv==1.0.1 ; python_version >= "3.10" and python_version < "4.0" \
-    --hash=sha256:e324ee90a023d808f1959c46bcbc04446a10ced277783dc6ee09987c37ec10ca \
-    --hash=sha256:f7b63ef50f1b690dddf550d03497b66d609393b40b564ed0d674909a68ebf16a
-sqlparse==0.5.0 ; python_version >= "3.10" and python_version < "4.0" \
-    --hash=sha256:714d0a4932c059d16189f58ef5411ec2287a4360f17cdd0edd2d09d4c5087c93 \
-    --hash=sha256:c204494cd97479d0e39f28c93d46c0b2d5959c7b9ab904762ea6c7af211c8663
-typing-extensions==4.11.0 ; python_version >= "3.10" and python_version < "3.11" \
-    --hash=sha256:83f085bd5ca59c80295fc2a82ab5dac679cbe02b9f33f7d83af68e241bea51b0 \
-    --hash=sha256:c1f94d72897edaf4ce775bb7558d5b79d8126906a14ea5ed1635921406c0387a
-tzdata==2024.1 ; python_version >= "3.10" and python_version < "4.0" and sys_platform == "win32" \
-    --hash=sha256:2674120f8d891909751c38abcdfd386ac0a5a1127954fbc332af6b5ceae07efd \
-    --hash=sha256:9068bc196136463f5245e51efda838afa15aaeca9903f49050dfa2679db4d252
-
-Django~=4.2
-django-crispy-forms~=2.1
-pytest~=8.2.0
-django-jsonview~=2.0.0
-requests~=2.32.2
-python-dotenv~=1.0.1
-django-filter~=24.2
+asgiref==3.8.1 ; python_version >= "3.10" and python_version < "4.0"
+crispy-bootstrap5==2024.2 ; python_version >= "3.10" and python_version < "4.0"
+django-bootstrap5==24.2 ; python_version >= "3.10" and python_version < "4.0"
+django-crispy-forms==2.1 ; python_version >= "3.10" and python_version < "4.0"
+django-extensions==3.2.3 ; python_version >= "3.10" and python_version < "4.0"
+django-filter==24.2 ; python_version >= "3.10" and python_version < "4.0"
+django-jsonview==2.0.0 ; python_version >= "3.10" and python_version < "4.0"
+django==4.2 ; python_version >= "3.10" and python_version < "4.0"
+python-dotenv==1.0.1 ; python_version >= "3.10" and python_version < "4.0"
+sqlparse==0.5.0 ; python_version >= "3.10" and python_version < "4.0"
+typing-extensions==4.11.0 ; python_version >= "3.10" and python_version < "3.11"
+tzdata==2024.1 ; python_version >= "3.10" and python_version < "4.0" and sys_platform == "win32"
