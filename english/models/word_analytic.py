@@ -27,3 +27,7 @@ class WordLearningStories(models.Model):
         default=0,
         help_text='The number of times the word was displayed to the user.'
     )
+
+    def __str__(self):
+        """Represent an instance as a string."""
+        return self.word
