@@ -6,15 +6,15 @@ from english.models import WordModel
 class WordLearningStories(models.Model):
     """Word learning stories model.
 
-    Attributes
-    ----------
-    word : `models.OneToOneField`
-        Word id, relate ``WordModel``.
-    display_count : `models.PositiveSmallIntegerField`
-        The count of displaying specific word to user.
-
     Stores information about the user's word learning.
     Related to `english.WordModel`
+
+    Attributes
+    ----------
+    word : `OneToOneField`
+        Word id, relate ``WordModel``.
+    display_count : `PositiveSmallIntegerField`
+        The count of displaying specific word to user.
     """
 
     word = models.OneToOneField(
