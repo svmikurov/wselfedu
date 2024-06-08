@@ -133,7 +133,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 if os.getenv('ENVIRONMENT') == 'beget':
-    STATIC_URL = '/public_html/static/'
     STATIC_ROOT = os.path.join(BASE_DIR, 'public_html/static')
 
 STATICFILES_DIRS = [
