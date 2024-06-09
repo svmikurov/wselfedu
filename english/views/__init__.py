@@ -2,6 +2,11 @@ from english.views.english_views import (
     update_words_knowledge_assessment_view,
     update_words_favorites_status_view_ajax,
 )
+from english.views.settings_views import (
+    EnglishTaskSettingsView,
+    CreateEnglishTaskSettingsView,
+    UpdateEnglishTaskSettingsView,
+)
 from english.views.user_word_list import (
     UserWordListView,
 )

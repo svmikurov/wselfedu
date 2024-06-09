@@ -18,6 +18,18 @@ urlpatterns = [
         name='users_words',
     ),
     # -- End Account --
+    # --======= English task settings =======--
+    path(
+        '<int:pk>/create-task-settings/',
+        views.CreateEnglishTaskSettingsView.as_view(),
+        name='create_task_settings',
+    ),
+    path(
+        '<int:pk>/update-task-settings/',
+        views.UpdateEnglishTaskSettingsView.as_view(),
+        name='update_task_settings',
+    ),
+    # -- End English task settings --
     # Добавление оценки слова.
     path(
         'knowledge-assessment/<int:word_id>/',
