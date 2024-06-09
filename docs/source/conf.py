@@ -34,6 +34,7 @@ conf_py_path = "/docs/source/"   # with leading and trailing slash
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
+    'sphinx.ext.napoleon',
     'sphinx.ext.duration',
     # https://www.sphinx-doc.org/en/master/tutorial/describing-code.html#including-doctests-in-your-documentation
     'sphinx.ext.doctest',
@@ -44,6 +45,17 @@ extensions = [
     # https://myst-parser.readthedocs.io/en/v0.17.1/index.html
     'myst_parser',
 ]
+
+napoleon_google_docstring = True
+napoleon_numpy_docstring = True
+napoleon_use_ivar = False
+napoleon_use_param = True
+napoleon_type_aliases = {
+    'UserModel': 'users.models.UserModel',
+    'CategoryModel': 'english.models.CategoryModel',
+    'SourceModel': 'english.models.SourceModel',
+    'EnglishTaskSettings': 'task.settings.EnglishTaskSettings',
+}
 
 templates_path = ['_templates']
 exclude_patterns = []
