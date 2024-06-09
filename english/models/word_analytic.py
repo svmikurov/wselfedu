@@ -31,3 +31,8 @@ class WordLearningStories(models.Model):
     def __str__(self):
         """Represent an instance as a string."""
         return self.word
+
+    class Meta:
+        verbose_name = 'История изучения слов'
+        verbose_name_plural = 'История изучения слов'
+        ordering = ['display_count']
