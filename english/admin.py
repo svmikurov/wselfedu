@@ -1,8 +1,9 @@
 from django.contrib import admin
 
-from english.models import WordLearningStories
+from english.models import WordLearningStories, WordModel
 
 
+@admin.register(WordLearningStories)
 class WordLearningStoriesAdmin(admin.ModelAdmin):
     """Representation of a ``WordLearningStoriesAdmin`` model in the
     admin interface.
@@ -20,4 +21,7 @@ class WordLearningStoriesAdmin(admin.ModelAdmin):
     ordering = ['-display_count']
 
 
-admin.site.register(WordLearningStories, WordLearningStoriesAdmin)
+@admin.register(WordModel)
+class WordModelAdmin(admin.ModelAdmin):
+    exclude = ['user']
+    list_display = ['word_eng', 'word_rus', 'source', 'category']
