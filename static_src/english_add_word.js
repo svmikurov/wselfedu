@@ -12,6 +12,7 @@ $(document).ready(function () {
                 $('#message').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>');
                 $('#id_word_eng').val('');
                 $('#id_word_rus').val('');
+                $('#id_word_eng').focus();
             }
         })
     })
