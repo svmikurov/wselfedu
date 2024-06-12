@@ -27,7 +27,11 @@ coverage:
 test-coverage:
 	poetry run pytest --cov='.' --cov-report xml
 
-check: lint test-pytest
+
+selfcheck:
+	poetry check
+
+check: lint selfcheck test-pytest
 
 dry:
 	@$(MANAGE) makemigrations --dry-run
