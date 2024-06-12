@@ -21,6 +21,8 @@ class EnglishTranslateExercise:
         User conditions of the exercise.
     word_id : `int`
         ID of the word that is displayed to the user in the task.
+    word_detail_link : `str`
+        Link to display detailed information about a word.
 
     """
 
@@ -117,6 +119,10 @@ class EnglishTranslateExercise:
             f'https://translate.google.com/?hl=ru&sl=auto&tl=ru&text='
             f'{self._word.word_eng}&op=translate'
         )
+        self.word_detail_link = reverse_lazy(
+            'english:words_detail',
+            kwargs={'pk': self.word_id},
+        )
 
     @property
     def _word_translation_order(self) -> list[str]:
@@ -143,4 +149,5 @@ class EnglishTranslateExercise:
             'favorites_status': self.favorites_status,
             'favorites_url': self.favorites_url,
             'google_translate_word_link': self.google_translate_word_link,
+            'word_detail_link': self.word_detail_link,
         }
