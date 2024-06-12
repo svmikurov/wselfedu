@@ -92,47 +92,60 @@ class EnglishTaskSettings(models.Model):
     language_order = models.CharField(
         choices=LANGUAGE_ORDER,
         default=DEFAULT_LANGUAGE_ORDER,
-        max_length=2
+        max_length=2,
+        verbose_name='Порядок перевода'
     )
     timeout = models.PositiveSmallIntegerField(
         default=DEFAULT_TIMEOUT,
+        verbose_name='Таймаут',
     )
     favorites = models.BooleanField(
         default=False,
+        verbose_name='Избранное',
     )
     category = models.ForeignKey(
         CategoryModel,
         models.SET_NULL,
         blank=True,
         null=True,
+        verbose_name='Категория',
     )
     source = models.ForeignKey(
         SourceModel,
         models.SET_NULL,
         blank=True,
         null=True,
+        verbose_name='Источник',
     )
     knowledge = models.CharField(
         choices=KNOWLEDGE_ASSESSMENT,
         default=DEFAULT_KNOWLEDGE_ASSESSMENT,
         max_length=1,
+        verbose_name='Уровень знания',
     )
     word_count = models.CharField(
         choices=WORD_COUNT,
         default=DEFAULT_WORD_COUNT,
         max_length=2,
+        verbose_name='Длина выражения',
     )
     date_start = models.CharField(
         choices=EDGE_PERIODS,
         default=DEFAULT_START_PERIOD,
         max_length=2,
+        verbose_name='Добавлено после',
     )
     date_end = models.CharField(
         choices=EDGE_PERIODS[:-1],
         default=DEFAULT_END_PERIOD,
         max_length=2,
+        verbose_name='Добавлено до',
     )
 
     def __str__(self):
         """Represent an instance as a string."""
-        return f'{self.user} settings'
+        return f'{self.user} настройки'
+
+    class Meta:
+        verbose_name = 'Настройки "Изучаем слова"'
+        verbose_name_plural = 'Настройки "Изучаем слова"'
