@@ -149,5 +149,5 @@ class EnglishTranslateExercise:
             'favorites_status': self.favorites_status,
             'favorites_url': self.favorites_url,
             'google_translate_word_link': self.google_translate_word_link,
-            'word_update_link': self.word_detail_link,
+            'word_detail_link': self.word_detail_link,
         }
