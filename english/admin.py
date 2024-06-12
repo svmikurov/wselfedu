@@ -24,4 +24,10 @@ class WordLearningStoriesAdmin(admin.ModelAdmin):
 @admin.register(WordModel)
 class WordModelAdmin(admin.ModelAdmin):
     exclude = ['user']
-    list_display = ['word_eng', 'word_rus', 'source', 'category']
+    list_display = [
+        'word_eng',
+        'word_rus',
+        'created_at',
+        'source',
+        'category',
+    ]

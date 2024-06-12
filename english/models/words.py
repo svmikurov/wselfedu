@@ -72,8 +72,14 @@ class WordModel(models.Model):
         blank=True,
         related_name='word_favorites',
     )
-    created_at = models.DateTimeField(default=timezone.now)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(
+        default=timezone.now,
+        verbose_name='Добавлено',
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Изменено',
+    )
 
     class Meta:
         verbose_name = 'Англо-русский словарь'
