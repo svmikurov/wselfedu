@@ -35,6 +35,7 @@ function getDemoTask () {
         success: function (data) {
             clearTaskTimers();
             // Set question and answer task text
+            $('#question').attr("href", data.word_detail_link)
             $('#question_text').text(data.question_text);
             $('#answer_text').hide();
             $('#stub').show();
