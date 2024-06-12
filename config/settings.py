@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'english.apps.EnglishConfig',
     'task.apps.TaskConfig',
+    'glossary.apps.GlossaryConfig',
 ]
 
 MIDDLEWARE = [
