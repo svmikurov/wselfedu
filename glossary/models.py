@@ -2,8 +2,8 @@ from django.db import models
 
 
 class GlossaryCategory(models.Model):
-    category = models.CharField(max_length=25)
-    email = models.EmailField(max_length=250, blank=True)
+    category = models.CharField(max_length=50)
+    email = models.URLField(blank=True)
     created_at = models.DateField(auto_created=True, verbose_name='Добавлено')
 
     class Meta:
