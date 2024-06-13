@@ -16,17 +16,20 @@ class GlossaryCategory(models.Model):
 
 class Glossary(models.Model):
 
-    term = models.CharField(max_length=25, verbose_name='Термин')
+    term = models.CharField(
+        max_length=50,
+        verbose_name='Термин',
+    )
     translate = models.CharField(
-        max_length=25, blank=True,
+        max_length=50, blank=True,
         verbose_name='Перевод',
     )
     definition = models.CharField(
         max_length=250, blank=True,
         verbose_name='Определение',
     )
-    interpretation = models.CharField(
-        max_length=250, blank=True,
+    interpretation = models.TextField(
+        blank=True,
         verbose_name='Толкование',
     )
     category = models.ForeignKey(
