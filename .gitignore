@@ -11,6 +11,8 @@ sql_study/
 
 .coverage
 .env
+.env.dev
+.env.prod
 branch.py
 /wse-fixtures.json
 coverage.xml
