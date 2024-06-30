@@ -4,7 +4,7 @@ htmlcov/
 static/
 
 .env
-.env.potgres
+.env.postgres
 .coverage
 coverage.xml
 
