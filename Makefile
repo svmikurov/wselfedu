@@ -29,3 +29,8 @@ pytest:
 	@$(APP) pytest
 
 check: lint pytest
+
+pull:
+	git pull
+
+update: down pull up
