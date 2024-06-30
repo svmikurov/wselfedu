@@ -16,6 +16,7 @@ Welcome to wselfedu's documentation!
    reference
    explanation
    api
+   changelog
 
 Indices and tables
 ==================
