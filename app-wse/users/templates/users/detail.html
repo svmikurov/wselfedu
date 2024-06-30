@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!--======= Account Content =======-->
+<div>
+  {% include 'components/title.html' with title='Личный кабинет' %}
+
+  <div class="py-2">
+    {% if user.is_superuser %}
+      <a href="{% url 'users:list' %}">Список других пользователей</a>
+    {% endif %}
+  </div>
+
+  <div>
+    <a href="{% url 'english:create_task_settings' user.id %}">Создай Настройки упражнения "Изучаем слова"</a><br>
+    <a href="{% url 'english:update_task_settings' user.id %}">Измени Настройки упражнения "Изучаем слова"</a>
+  </div>
+
+  <!-- Update / Delete User -->
+  <div class="pt-3">
+    <a href="{% url 'users:update' object.pk %}" class="btn btn-outline-primary btn-sm m-1" type="button">Обновить</a>
+    <a href="{% url 'users:delete' object.pk %}" class="btn btn-outline-danger btn-sm m-1" type="button">Удалить</a>
+    {% include 'components/btn_back.html' %}
+  </div><!-- End Update / Delete User -->
+
+</div><!-- End Account Content -->
+{% endblock %}

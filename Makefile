@@ -1,47 +1,31 @@
-MANAGE := poetry run python manage.py
-TEST_JUST := task.tests.django_tests.test_lookup_params
+APP := docker compose exec app-wse
+MANAGE := @$(APP) python manage.py
 
-start:
-	@$(MANAGE) runserver
+up:
+	docker compose up -d --build
 
-lint:
-	poetry run flake8
-
-create-fixtures:
-	@$(MANAGE) dumpdata --exclude auth --exclude contenttypes --exclude admin --exclude sessions --indent 2 > task/tests/fixtures/wse-fixtures-.json
-
-test:
-	@$(MANAGE) test
-
-just-test:
-	@$(MANAGE) test $(TEST_JUST)
-
-test-pytest:
-	poetry run pytest
-
-coverage:
-	coverage run --source='.' ./manage.py test .
-	coverage report
-	coverage html
-
-test-coverage:
-	poetry run pytest --cov='.' --cov-report xml
-
-
-selfcheck:
-	poetry check
-
-check: lint selfcheck test-pytest
-
-dry:
-	@$(MANAGE) makemigrations --dry-run
-
-mmigrate:
-	@$(MANAGE) makemigrations
+down:
+	docker compose down
 
 migrate:
 	@$(MANAGE) migrate
 
-.PHONY: static
-static:
+collectstatic:
 	@$(MANAGE) collectstatic
+
+loaddata:
+	@$(MANAGE) loaddata db-wse-sweb.json
+
+dumpdata:
+	@$(MANAGE) dumpdata --exclude auth.permission --exclude contenttypes --indent 2 > db-wse-sweb.json
+
+test:
+	@$(MANAGE) test
+
+lint:
+	@$(APP) flake8
+
+pytest:
+	@$(APP) pytest
+
+check: lint pytest
