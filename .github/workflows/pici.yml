@@ -7,6 +7,17 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: wse_user
+          POSTGRES_PASSWORD: wse_pass
+          POSTGRES_DB: wse_db
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     steps:
       - name: Clone the repository
         uses: actions/checkout@v3
@@ -29,7 +40,10 @@ jobs:
 
       - name: Run tests
         working-directory: ./app-wse
-        run: make test
+        run: |
+          mv .env.example .env
+          make migrate
+          make test
 
 #        # Run pytest via: make test-coverage.
 #        # Publishing code test on Code Climate.
