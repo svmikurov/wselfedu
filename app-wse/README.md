@@ -1,6 +1,4 @@
 [![Python CI](https://github.com/svmikurov/wselfedu/actions/workflows/pici.yml/badge.svg)](https://github.com/svmikurov/wselfedu/actions/workflows/pici.yml)
-<a href="https://codeclimate.com/github/svmikurov/wselfedu/maintainability"><img src="https://api.codeclimate.com/v1/badges/deac7e731dca030bad93/maintainability" /></a>
-<a href="https://codeclimate.com/github/svmikurov/wselfedu/test_coverage"><img src="https://api.codeclimate.com/v1/badges/deac7e731dca030bad93/test_coverage" /></a>
 
 # Web Self Eduction
 
@@ -13,3 +11,11 @@ Word knowledge level: study, repeat, check, know.
 
 Read the [documentation](http://localhost:63342/wselfedu/app-wse/docs/build/html/index.html) (local only)  
 Read the [documentation](https://svmikurov.github.io/wselfedu/) on GitHub
+
+## Install
+Create the database and database user before running the migration.
+```
+$ sudo -u postgres psql
+postgres=# CREATE USER wse_user CREATEDB LOGIN PASSWORD 'wse_pass';
+postgres=# CREATE DATABASE wse_db WITH OWNER wse_user;
+```

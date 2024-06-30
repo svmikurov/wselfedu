@@ -2,14 +2,9 @@ name: Python CI
 
 on:
   - push
-  - pull_request
-
-env:
-  SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
 jobs:
   test:
-    timeout-minutes: 60
     runs-on: ubuntu-latest
 
     steps:
@@ -22,21 +17,27 @@ jobs:
             python-version: '3.10'
 
       - name: Install dependencies
+        working-directory: ./app-wse
         run: |
           pip install --upgrade pip
           pip install poetry
           poetry install --no-root
 
       - name: Run linter
+        working-directory: ./app-wse
         run: make lint
 
-        # Run pytest via: make test-coverage.
-        # Publishing code test on Code Climate.
-      - name: Test & publish code coverage
-        uses: paambaati/codeclimate-action@v3.2.0
-        if: github.ref_name == 'development'
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-        with:
-          coverageCommand: make test-coverage
-          debug: true
+      - name: Run tests
+        working-directory: ./app-wse
+        run: make test
+
+#        # Run pytest via: make test-coverage.
+#        # Publishing code test on Code Climate.
+#      - name: Test & publish code coverage
+#        uses: paambaati/codeclimate-action@v3.2.0
+#        if: github.ref_name == 'development'
+#        env:
+#          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+#        with:
+#          coverageCommand: make test-coverage
+#          debug: true
