@@ -1,25 +1,13 @@
 .idea/
-.ipynb_checkpoints/
 .venv/
-.auth/
 __pycache__/
-dev_local/
-draft/
 htmlcov/
 static/
-sql_study/
 
 .coverage
 .env
-.env.dev
-.env.prod
-branch.py
-/wse-fixtures.json
 coverage.xml
-service_tools/temp.py
-myapp.log
 
-*.db
 *.sqlite3
 db*
 

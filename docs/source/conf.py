@@ -56,7 +56,7 @@ extensions = [
 #     'CategoryModel': 'english.models.CategoryModel',
 #     'SourceModel': 'english.models.SourceModel',
 #     'EnglishTaskSettings': 'task.settings.EnglishTaskSettings',
-#     'WordLearningStories': 'english.models.word_analytic.WordLearningStories',
+#     'WordLearningStories': 'english.models.word_analytic.WordLearningStories',    # noqa: E501
 # }
 
 templates_path = ['_templates']

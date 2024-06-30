@@ -87,7 +87,7 @@ class TestWordsKnowledgeAssessment(TestCase):
     @skip
     def test_max_knowledge_assessment(self):
         """
-        Test to increase the maximum level of user assessment of word knowledge.
+        Test to increase the maximum level of user assessment of word knowledge.    # noqa: E501
         """
         self.client.force_login(self.user)
         self.client.post(self.max_assessment_url, self.assessment_up)

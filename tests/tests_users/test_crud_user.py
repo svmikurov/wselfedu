@@ -68,7 +68,7 @@ class TestUpdateUserView(UserAuthTestMixin, TestCase):
     def test_post_method_update_user_by_another_user(self):
         """Test to permission denied update user for another user."""
         response = self.get_auth_response(
-            self.url, self.another_user, method='post', **self.update_user_data,
+            self.url, self.another_user, method='post', **self.update_user_data,    # noqa: E501
         )
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         self.assertMessage(response, NO_PERMISSION_MSG)
@@ -169,7 +169,7 @@ class TestUserDetailView(UserAuthTestMixin, TestCase):
         self.assertMessage(response, NO_PERMISSION_MSG)
 
     def test_show_user_detail_to_anonymous(self):
-        """Test permission denied to display user details for anonymous user."""
+        """Test permission denied to display user details for anonymous user."""    # noqa: E501
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         self.assertMessage(response, NO_PERMISSION_MSG)

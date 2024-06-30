@@ -34,7 +34,7 @@ class TestPagination(TestCase):
             WordModel.objects.create(
                 user=self.user,
                 word_eng=f'word_not_filtered_by_category_{number}',
-                category=CategoryModel.objects.get(pk=self.another_category_id),
+                category=CategoryModel.objects.get(pk=self.another_category_id),    # noqa: E501
             )
 
     def test_to_filter_paginated_page(self):
