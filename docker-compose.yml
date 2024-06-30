@@ -5,12 +5,13 @@ services:
       context: ./app-wse
     volumes:
       - ./app-wse:/app-wse
-    ports:
-      - 8000:8000
+      - ./volumes/static:/app-wse/static
+    expose:
+      - 8000
     env_file:
       - ./app-wse/.env
     command:
-      python manage.py runserver 0.0.0.0:8000
+      gunicorn config.wsgi:application --bind 0.0.0.0:8000
     depends_on:
       - db-wse-postgres
 
@@ -21,5 +22,16 @@ services:
     env_file:
       - ./app-wse/.env.postgres
 
+  web-server:
+    build:
+      context: ./nginx
+    volumes:
+      - ./volumes/static:/static
+    ports:
+      - 80:80
+    depends_on:
+      - app-wse
+
 volumes:
   db-wse:
+  static:

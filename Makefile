@@ -10,6 +10,9 @@ down:
 migrate:
 	@$(MANAGE) migrate
 
+collectstatic:
+	@$(MANAGE) collectstatic
+
 loaddata:
 	@$(MANAGE) loaddata db-wse-sweb.json
 
