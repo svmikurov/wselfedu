@@ -3,8 +3,9 @@ __pycache__/
 htmlcov/
 static/
 
-.coverage
 .env
+.env.potgres
+.coverage
 coverage.xml
 
 *.sqlite3

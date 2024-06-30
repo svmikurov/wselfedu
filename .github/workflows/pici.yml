@@ -1,57 +1,26 @@
 name: Python CI
 
-on:
-  - push
+on: [ push ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:latest
-        env:
-          POSTGRES_USER: wse_user
-          POSTGRES_PASSWORD: wse_pass
-          POSTGRES_DB: wse_db
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
       - name: Clone the repository
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-            python-version: '3.10'
-
-      - name: Install dependencies
-        working-directory: ./app-wse
+      - name: Set environment variables
+        working-directory: app-wse
         run: |
-          pip install --upgrade pip
-          pip install poetry
-          poetry install --no-root
+          mv .env.example           .env
+          mv .env.postgres.example  .env.postgres
+
+      - name: Up Docker
+        run: make up
 
       - name: Run linter
-        working-directory: ./app-wse
         run: make lint
 
       - name: Run tests
-        working-directory: ./app-wse
-        run: |
-          mv .env.example .env
-          make migrate
-          make test
-
-#        # Run pytest via: make test-coverage.
-#        # Publishing code test on Code Climate.
-#      - name: Test & publish code coverage
-#        uses: paambaati/codeclimate-action@v3.2.0
-#        if: github.ref_name == 'development'
-#        env:
-#          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-#        with:
-#          coverageCommand: make test-coverage
-#          debug: true
+        run: make test
