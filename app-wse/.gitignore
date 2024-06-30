@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+htmlcov/
+static/
+
+.coverage
+.env
+coverage.xml
+
+*.sqlite3
+db*
+
+docs/build/
+docs/source/generated/
