@@ -1,0 +1,30 @@
+users.forms
+===========
+
+.. automodule:: users.forms
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      UserRegistrationForm
+      UserUpdateForm
+   
+   
+
+   
+   
+   
+
+
+

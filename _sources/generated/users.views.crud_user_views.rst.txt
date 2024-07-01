@@ -1,0 +1,33 @@
+users.views.crud\_user\_views
+=============================
+
+.. automodule:: users.views.crud_user_views
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      CreateUserView
+      DeleteUserView
+      UpdateUserView
+      UserDetailView
+      UsersListView
+   
+   
+
+   
+   
+   
+
+
+

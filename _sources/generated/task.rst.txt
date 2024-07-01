@@ -1,0 +1,39 @@
+﻿task
+====
+
+.. automodule:: task
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   task.admin
+   task.apps
+   task.forms
+   task.migrations
+   task.models
+   task.services
+   task.tasks
+   task.urls
+   task.views
+

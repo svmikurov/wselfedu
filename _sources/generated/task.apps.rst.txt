@@ -1,0 +1,29 @@
+task.apps
+=========
+
+.. automodule:: task.apps
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      TaskConfig
+   
+   
+
+   
+   
+   
+
+
+

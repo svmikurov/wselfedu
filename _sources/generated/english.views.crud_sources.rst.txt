@@ -1,0 +1,33 @@
+english.views.crud\_sources
+===========================
+
+.. automodule:: english.views.crud_sources
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      SourceCreateView
+      SourceDeleteView
+      SourceDetailView
+      SourceListView
+      SourceUpdateView
+   
+   
+
+   
+   
+   
+
+
+

@@ -1,0 +1,36 @@
+english.filters.word\_filter
+============================
+
+.. automodule:: english.filters.word_filter
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      category_by_current_user
+      source_by_current_user
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      WordsFilter
+   
+   
+
+   
+   
+   
+
+
+

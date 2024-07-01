@@ -1,0 +1,29 @@
+task.models.task\_settings
+==========================
+
+.. automodule:: task.models.task_settings
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      EnglishTaskSettings
+   
+   
+
+   
+   
+   
+
+
+

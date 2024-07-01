@@ -1,0 +1,29 @@
+task.tasks.math\_calculate\_task
+================================
+
+.. automodule:: task.tasks.math_calculate_task
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      CalculationExercise
+   
+   
+
+   
+   
+   
+
+
+

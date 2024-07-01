@@ -1,0 +1,37 @@
+task.views.english\_translate\_views
+====================================
+
+.. automodule:: task.views.english_translate_views
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      update_words_favorites_status_view_ajax
+      update_words_knowledge_assessment_view
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      EnglishTranslateChoiceView
+      EnglishTranslateExerciseView
+   
+   
+
+   
+   
+   
+
+
+

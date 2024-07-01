@@ -1,0 +1,29 @@
+task.admin
+==========
+
+.. automodule:: task.admin
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      EnglishTaskSettingsAdmin
+   
+   
+
+   
+   
+   
+
+
+

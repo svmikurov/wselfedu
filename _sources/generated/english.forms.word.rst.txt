@@ -1,0 +1,29 @@
+english.forms.word
+==================
+
+.. automodule:: english.forms.word
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      WordForm
+   
+   
+
+   
+   
+   
+
+
+

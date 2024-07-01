@@ -1,0 +1,29 @@
+english.analytics.english\_analytics
+====================================
+
+.. automodule:: english.analytics.english_analytics
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      collect_statistics
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

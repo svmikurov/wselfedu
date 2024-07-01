@@ -1,0 +1,37 @@
+﻿users
+=====
+
+.. automodule:: users
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   users.admin
+   users.apps
+   users.forms
+   users.migrations
+   users.models
+   users.urls
+   users.views
+

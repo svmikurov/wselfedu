@@ -1,0 +1,40 @@
+﻿english
+=======
+
+.. automodule:: english
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   english.admin
+   english.analytics
+   english.apps
+   english.filters
+   english.forms
+   english.migrations
+   english.models
+   english.services
+   english.urls
+   english.views
+

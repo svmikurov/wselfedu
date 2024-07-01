@@ -1,0 +1,29 @@
+task.tasks.base\_subject
+========================
+
+.. automodule:: task.tasks.base_subject
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      BaseSubject
+   
+   
+
+   
+   
+   
+
+
+

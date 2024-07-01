@@ -1,0 +1,31 @@
+english.models.words
+====================
+
+.. automodule:: english.models.words
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      WordModel
+      WordUserKnowledgeRelation
+      WordsFavoritesModel
+   
+   
+
+   
+   
+   
+
+
+

@@ -1,0 +1,30 @@
+english.admin
+=============
+
+.. automodule:: english.admin
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      WordLearningStoriesAdmin
+      WordModelAdmin
+   
+   
+
+   
+   
+   
+
+
+

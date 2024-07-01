@@ -1,0 +1,36 @@
+english.views
+=============
+
+.. automodule:: english.views
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   english.views.crud_categories
+   english.views.crud_sources
+   english.views.crud_word
+   english.views.english_views
+   english.views.settings_views
+   english.views.user_word_list
+

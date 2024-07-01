@@ -1,0 +1,33 @@
+english.services
+================
+
+.. automodule:: english.services
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   english.services.serve_query
+   english.services.word_favorites
+   english.services.word_knowledge_assessment
+

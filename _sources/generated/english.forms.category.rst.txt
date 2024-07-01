@@ -1,0 +1,29 @@
+english.forms.category
+======================
+
+.. automodule:: english.forms.category
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      CategoryForm
+   
+   
+
+   
+   
+   
+
+
+

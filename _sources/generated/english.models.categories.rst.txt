@@ -1,0 +1,29 @@
+english.models.categories
+=========================
+
+.. automodule:: english.models.categories
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      CategoryModel
+   
+   
+
+   
+   
+   
+
+
+

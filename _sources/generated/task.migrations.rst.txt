@@ -1,0 +1,32 @@
+task.migrations
+===============
+
+.. automodule:: task.migrations
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   task.migrations.0001_initial
+   task.migrations.0002_alter_englishtasksettings_options
+

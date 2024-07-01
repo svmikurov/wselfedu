@@ -1,0 +1,34 @@
+english.forms
+=============
+
+.. automodule:: english.forms
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   english.forms.category
+   english.forms.source
+   english.forms.word
+   english.forms.word_choice_form
+

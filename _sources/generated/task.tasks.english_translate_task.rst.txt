@@ -1,0 +1,29 @@
+task.tasks.english\_translate\_task
+===================================
+
+.. automodule:: task.tasks.english_translate_task
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      EnglishTranslateExercise
+   
+   
+
+   
+   
+   
+
+
+

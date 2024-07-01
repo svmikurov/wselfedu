@@ -1,0 +1,32 @@
+users.views
+===========
+
+.. automodule:: users.views
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   users.views.auth_views
+   users.views.crud_user_views
+

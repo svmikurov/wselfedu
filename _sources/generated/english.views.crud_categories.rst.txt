@@ -1,0 +1,33 @@
+english.views.crud\_categories
+==============================
+
+.. automodule:: english.views.crud_categories
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      CategoryCreateView
+      CategoryDeleteView
+      CategoryDetailView
+      CategoryListView
+      CategoryUpdateView
+   
+   
+
+   
+   
+   
+
+
+

@@ -1,0 +1,29 @@
+english.models.sources
+======================
+
+.. automodule:: english.models.sources
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      SourceModel
+   
+   
+
+   
+   
+   
+
+
+

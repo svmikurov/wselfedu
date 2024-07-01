@@ -1,0 +1,29 @@
+task.forms.math\_calculate\_choice\_form
+========================================
+
+.. automodule:: task.forms.math_calculate_choice_form
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      MathCalculationChoiceForm
+   
+   
+
+   
+   
+   
+
+
+

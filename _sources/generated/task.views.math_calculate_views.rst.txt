@@ -1,0 +1,37 @@
+task.views.math\_calculate\_views
+=================================
+
+.. automodule:: task.views.math_calculate_views
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      render_task
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      MathCalculateChoiceView
+      MathCalculateDemoView
+      MathCalculateSolutionView
+   
+   
+
+   
+   
+   
+
+
+

@@ -1,0 +1,29 @@
+english.models.word\_analytic
+=============================
+
+.. automodule:: english.models.word_analytic
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      WordLearningStories
+   
+   
+
+   
+   
+   
+
+
+

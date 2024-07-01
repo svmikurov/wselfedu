@@ -1,0 +1,30 @@
+english.services.word\_favorites
+================================
+
+.. automodule:: english.services.word_favorites
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      is_word_in_favorites
+      update_word_favorites_status
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

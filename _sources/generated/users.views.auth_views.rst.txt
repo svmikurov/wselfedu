@@ -1,0 +1,30 @@
+users.views.auth\_views
+=======================
+
+.. automodule:: users.views.auth_views
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      UserLoginView
+      UserLogoutView
+   
+   
+
+   
+   
+   
+
+
+

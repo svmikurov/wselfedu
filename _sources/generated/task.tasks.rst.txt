@@ -1,0 +1,34 @@
+task.tasks
+==========
+
+.. automodule:: task.tasks
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   task.tasks.base_subject
+   task.tasks.english_translate_task
+   task.tasks.math_calculate_task
+   task.tasks.task
+

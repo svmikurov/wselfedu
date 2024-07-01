@@ -1,0 +1,35 @@
+english.forms.word\_choice\_form
+================================
+
+.. automodule:: english.forms.word_choice_form
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      create_choices
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      WordChoiceHelperForm
+   
+   
+
+   
+   
+   
+
+
+

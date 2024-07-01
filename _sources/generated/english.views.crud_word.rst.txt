@@ -1,0 +1,33 @@
+english.views.crud\_word
+========================
+
+.. automodule:: english.views.crud_word
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      WordCreateView
+      WordDeleteView
+      WordDetailView
+      WordListView
+      WordUpdateView
+   
+   
+
+   
+   
+   
+
+
+

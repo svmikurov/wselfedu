@@ -1,0 +1,31 @@
+task.models
+===========
+
+.. automodule:: task.models
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   task.models.task_settings
+

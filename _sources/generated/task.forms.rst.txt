@@ -1,0 +1,33 @@
+task.forms
+==========
+
+.. automodule:: task.forms
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   task.forms.english_translate_choice_form
+   task.forms.math_calculate_choice_form
+   task.forms.user_input_form
+

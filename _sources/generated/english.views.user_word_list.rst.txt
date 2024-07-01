@@ -1,0 +1,29 @@
+english.views.user\_word\_list
+==============================
+
+.. automodule:: english.views.user_word_list
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      UserWordListView
+   
+   
+
+   
+   
+   
+
+
+

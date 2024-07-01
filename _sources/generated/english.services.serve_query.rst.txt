@@ -1,0 +1,33 @@
+english.services.serve\_query
+=============================
+
+.. automodule:: english.services.serve_query
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      collect_params
+      create_lookup_params
+      get_date_value
+      get_random_query_from_queryset
+      get_words_for_study
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

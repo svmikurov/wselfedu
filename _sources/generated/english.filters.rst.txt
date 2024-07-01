@@ -1,0 +1,31 @@
+english.filters
+===============
+
+.. automodule:: english.filters
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   english.filters.word_filter
+

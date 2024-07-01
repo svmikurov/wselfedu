@@ -1,0 +1,29 @@
+english.forms.source
+====================
+
+.. automodule:: english.forms.source
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      SourceForm
+   
+   
+
+   
+   
+   
+
+
+

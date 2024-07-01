@@ -1,0 +1,29 @@
+task.migrations.0002\_alter\_englishtasksettings\_options
+=========================================================
+
+.. automodule:: task.migrations.0002_alter_englishtasksettings_options
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Migration
+   
+   
+
+   
+   
+   
+
+
+

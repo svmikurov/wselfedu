@@ -1,0 +1,29 @@
+english.apps
+============
+
+.. automodule:: english.apps
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      EnglishConfig
+   
+   
+
+   
+   
+   
+
+
+

@@ -1,0 +1,37 @@
+english.services.word\_knowledge\_assessment
+============================================
+
+.. automodule:: english.services.word_knowledge_assessment
+
+   
+   
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      MAX_KNOWLEDGE_ASSESSMENT
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      get_knowledge_assessment
+      get_numeric_value
+      update_word_knowledge_assessment
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

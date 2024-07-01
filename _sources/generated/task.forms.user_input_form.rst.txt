@@ -1,0 +1,29 @@
+task.forms.user\_input\_form
+============================
+
+.. automodule:: task.forms.user_input_form
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      NumberInputForm
+   
+   
+
+   
+   
+   
+
+
+

@@ -1,0 +1,29 @@
+task.forms.english\_translate\_choice\_form
+===========================================
+
+.. automodule:: task.forms.english_translate_choice_form
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      EnglishTranslateChoiceForm
+   
+   
+
+   
+   
+   
+
+
+

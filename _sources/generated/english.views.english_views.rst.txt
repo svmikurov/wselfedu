@@ -1,0 +1,30 @@
+english.views.english\_views
+============================
+
+.. automodule:: english.views.english_views
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      update_words_favorites_status_view_ajax
+      update_words_knowledge_assessment_view
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

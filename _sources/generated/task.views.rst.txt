@@ -1,0 +1,32 @@
+task.views
+==========
+
+.. automodule:: task.views
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   task.views.english_translate_views
+   task.views.math_calculate_views
+
