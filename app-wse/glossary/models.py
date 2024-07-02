@@ -37,7 +37,7 @@ class Glossary(models.Model):
         blank=True, null=True,
         verbose_name='Категория',
     )
-    created_at = models.DateField(auto_created=True, verbose_name='Добавлено')
+    created_at = models.DateField(auto_now_add=True, verbose_name='Добавлено')
 
     class Meta:
         verbose_name = 'Глоссарий'
