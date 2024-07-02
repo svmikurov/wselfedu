@@ -6,7 +6,7 @@ from glossary.models import Glossary, GlossaryCategory
 
 @admin.register(Glossary)
 class GlossaryAdmin(admin.ModelAdmin):
-    list_display = ['term', 'definition']
+    list_display = ['term', 'definition', 'category']
     exclude = ['created_at']
 
     def get_form(self, request, obj=None, **kwargs):
