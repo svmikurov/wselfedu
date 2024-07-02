@@ -20,6 +20,9 @@ update: down pull up
 
 
 # Django
+makemigrations:
+	@$(MANAGE) makemigrations
+
 migrate:
 	@$(MANAGE) migrate
 
