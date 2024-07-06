@@ -1,6 +1,8 @@
-name: Python CI
+name: Django tests
 
-on: [ push ]
+on:
+  push:
+  workflow_dispatch:
 
 jobs:
   test:
@@ -18,9 +20,6 @@ jobs:
 
       - name: Up Docker
         run: make up
-
-      - name: Run linter
-        run: make lint
 
       - name: Run tests
         run: make test
