@@ -28,6 +28,9 @@ collectstatic:
 loaddata:
 	@$(MANAGE) loaddata db-wse-sweb.json
 
+load-fixture:
+	@$(MANAGE) loaddata tests/fixtures/wse-db-fixture-users.json
+
 dumpdata:
 	@$(MANAGE) dumpdata --exclude auth.permission --exclude contenttypes --indent 2 > db-wse-sweb.json
 
