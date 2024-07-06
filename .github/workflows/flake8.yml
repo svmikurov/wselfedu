@@ -4,6 +4,7 @@ run-name: flake8
 on:
   push:
     paths: [ "**.py" ]
+  workflow_dispatch:
 
 jobs:
   flake8:
