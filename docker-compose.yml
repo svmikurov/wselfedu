@@ -1,11 +1,14 @@
 services:
 
   app-wse:
-    build:
-      context: ./app-wse
+    container_name: app-wse
+    image: app-wse
     volumes:
       - ./app-wse:/app-wse
-      - ./volumes/static:/app-wse/static
+      - ./static:/app-wse/static
+    build:
+      context: ./app-wse
+      dockerfile: Dockerfile
     expose:
       - 8000
     env_file:
@@ -13,25 +16,31 @@ services:
     command:
       gunicorn config.wsgi:application --bind 0.0.0.0:8000
     depends_on:
-      - db-wse-postgres
+      - db-postgres-wse
 
-  db-wse-postgres:
-    image: postgres:15
+  db-postgres-wse:
+    container_name: db-postgres-wse
+    image: db-postgres-wse
     volumes:
-      - ./volumes/db-wse:/var/lib/postgresql/data
+      - ./postgres_data:/var/lib/postgresql/data
+    build:
+      context: ./app-wse
+      dockerfile: Dockerfile.postgres
     env_file:
       - ./app-wse/.env.postgres
 
-  web-server:
+  server-wse:
+    container_name: server-wse
+    image: server-wse
     build:
       context: ./nginx
     volumes:
-      - ./volumes/static:/static
+      - ./static:/static
     ports:
       - 80:80
     depends_on:
       - app-wse
 
 volumes:
-  db-wse:
+  postgres_data:
   static:

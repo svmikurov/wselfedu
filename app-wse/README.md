@@ -1,4 +1,4 @@
-[![Python CI](https://github.com/svmikurov/wselfedu/actions/workflows/pici.yml/badge.svg)](https://github.com/svmikurov/wselfedu/actions/workflows/pici.yml)
+[![Python CI](https://github.com/svmikurov/wselfedu/actions/workflows/pici.yml/badge.svg)](https://github.com/svmikurov/wselfedu/actions/workflows/pici.yml)  
 
 # Web Self Eduction
 

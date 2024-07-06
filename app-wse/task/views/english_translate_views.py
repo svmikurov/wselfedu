@@ -41,11 +41,9 @@ class EnglishTranslateChoiceView(CheckLoginPermissionMixin, TemplateView):
     """
 
     template_name = 'task/english/english_translate_choice.html'
-    TITLE = 'Упражнение "Изучаем слова"'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['title'] = self.TITLE
         context['form'] = EnglishTranslateChoiceForm(request=self.request)
         return context
 
@@ -56,13 +54,9 @@ class EnglishTranslateChoiceView(CheckLoginPermissionMixin, TemplateView):
             task_conditions = form.clean()
             task_conditions['user_id'] = request.user.id
             request.session['task_conditions'] = task_conditions
-
             return redirect(reverse_lazy('task:english_translate_demo'))
 
-        context = {
-            'title': self.TITLE,
-            'form': EnglishTranslateChoiceForm(request=self.request),
-        }
+        context = {'form': EnglishTranslateChoiceForm(request=self.request)}
         return render(request, self.template_name, context)
 
 
@@ -90,8 +84,7 @@ class EnglishTranslateExerciseView(CheckLoginPermissionMixin, View):
             messages.error(request, self.msg_no_words)
             return redirect(reverse_lazy('task:english_translate_choice'))
         else:
-            context = {'title': 'Упражнение "Изучаем слова"'}
-            return render(request, self.template_name, context)
+            return render(request, self.template_name)
 
     def post(self, request):
         """Get new word for English word translate exercise page."""

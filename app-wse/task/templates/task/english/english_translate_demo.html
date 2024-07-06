@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}Учим слова{% endblock %}
 
 {% block content %}
   {% include 'components/additional_word_navigation.html' %}
 
-  <a href="{% url 'task:english_translate_choice' %}">
-    {% include 'components/title.html' %}
+  <a href="{% url 'task:english_translate_choice' %}"
+     style="text-decoration: none;"
+  >{% include 'components/title.html' with title='Учим слова' %}
   </a>
 
   <!-- Display Task Info -->

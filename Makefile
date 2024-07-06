@@ -1,11 +1,23 @@
 APP := docker compose exec app-wse
 MANAGE := @$(APP) python manage.py
 
+
+# Git
+pull:
+	git pull
+
+
+# Docker
 up:
-	docker compose up -d --build
+	docker compose up -d
 
 down:
 	docker compose down
+
+
+# Django
+makemigrations:
+	@$(MANAGE) makemigrations
 
 migrate:
 	@$(MANAGE) migrate
@@ -19,11 +31,13 @@ loaddata:
 dumpdata:
 	@$(MANAGE) dumpdata --exclude auth.permission --exclude contenttypes --indent 2 > db-wse-sweb.json
 
-test:
-	@$(MANAGE) test
 
+# Tests
 lint:
 	@$(APP) flake8
+
+test:
+	@$(MANAGE) test
 
 pytest:
 	@$(APP) pytest
