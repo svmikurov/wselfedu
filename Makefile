@@ -9,14 +9,10 @@ pull:
 
 # Docker
 up:
-	docker compose up -d --build
+	docker compose up -d
 
 down:
 	docker compose down
-
-restart: down up
-
-update: down pull up
 
 
 # Django
