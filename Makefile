@@ -23,7 +23,7 @@ migrate:
 	@$(MANAGE) migrate
 
 collectstatic:
-	@$(MANAGE) collectstatic
+	@$(MANAGE) collectstatic --noinput
 
 loaddata:
 	@$(MANAGE) loaddata db-wse-sweb.json
