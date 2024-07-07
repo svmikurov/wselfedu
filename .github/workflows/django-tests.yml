@@ -2,6 +2,11 @@ name: Django tests
 
 on:
   push:
+    paths-ignore: [
+      '**.md', '**/.env.**' '**/.gitignore', '**/.dockerignore',
+      '**/Makefile', '**/**.lock', '**/**.toml', '**/**.yml',
+      'docs/**',
+    ]
   workflow_dispatch:
 
 jobs:
