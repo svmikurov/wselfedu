@@ -8,7 +8,7 @@
       <div class="navbar-nav">
         <ul data-testid="navbar-list" class="navbar-nav">
           {% if user.is_authenticated %}
-            <li class="nav-item"><a id="user-nav" class="nav-link" href="{% url 'users:detail' user.pk %}" tabindex="-1" aria-disabled="true"> Личный кабинет</a></li>
+            <li class="nav-item"><a id="user-nav" data-testid="account-link" class="nav-link" href="{% url 'users:detail' user.pk %}" tabindex="-1" aria-disabled="true">Личный кабинет</a></li>
             <li class="nav-item"><a id="english-nav" href="{% url 'english:home' %}" class="nav-link">Английский язык</a></li>
             <li class="nav-item"><a id="math-nav" href="{% url 'task:math_calculate_choice' %}" class="nav-link">Математика</a></li>
             <li class="nav-item"><a id="logout-nav" class="nav-link" href="{% url 'users:logout' %}">Выйти</a></li>
