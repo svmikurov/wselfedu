@@ -10,8 +10,8 @@ Welcome to wselfedu's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   tutorial/index
    usage
-   tutorial
    how_to_guid
    reference
    explanation

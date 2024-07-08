@@ -2,10 +2,11 @@ name: Django tests
 
 on:
   push:
+    branches: [ 'main', 'development' ]
     paths-ignore: [
-      '**.md', '**/.env.**' '**/.gitignore', '**/.dockerignore',
+      '**.md', '**.rst', '**/.env.**', '**/.gitignore', '**/.dockerignore',
       '**/Makefile', '**/**.lock', '**/**.toml', '**/**.yml',
-      'docs/**',
+      'app-wse/docs/**', 'nginx/**'
     ]
   workflow_dispatch:
 

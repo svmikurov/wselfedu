@@ -3,11 +3,11 @@ run-name: Playwright test
 
 on:
   push:
-    branches:
-      - main
+    branches: [ 'main', 'development' ]
     paths-ignore: [
-      '**.md', '.gitignore', '.dockerignore', '**/sphinx.yml', 'docs/**',
-      'Makefile', '**.lock', '**.toml'
+      '**.md', '**.rst', '**/.env.**', '**/.gitignore', '**/.dockerignore',
+      '**/Makefile', '**/**.lock', '**/**.toml', '**/**.yml',
+      'app-wse/docs/**', 'nginx/**'
     ]
   workflow_dispatch:
 
