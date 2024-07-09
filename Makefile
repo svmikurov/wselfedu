@@ -46,3 +46,8 @@ pytest:
 	@$(APP) pytest
 
 check: lint pytest
+
+
+# PostgreSQL
+connect:
+	docker compose exec db-postgres-wse psql --username=wse_user --dbname=wse_db
