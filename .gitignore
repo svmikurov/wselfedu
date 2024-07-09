@@ -1,6 +1,5 @@
 db*
 
 .idea/
-volumes/
 postgres_data/
 static/
