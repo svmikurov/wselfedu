@@ -5,4 +5,5 @@
    :maxdepth: 2
 
    user
-   word
+   index_word
+   index_exercise
