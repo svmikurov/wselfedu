@@ -28,6 +28,8 @@ services:
       dockerfile: Dockerfile.postgres
     env_file:
       - ./app-wse/.env.postgres
+    ports:
+      - 6543:5432
 
   server-wse:
     container_name: server-wse
