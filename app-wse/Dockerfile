@@ -1,6 +1,12 @@
-FROM python:3.10.12-slim
+FROM python:3.10.12-alpine
 WORKDIR /app-wse
-COPY requirements.txt ./requirements.txt
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
+
+RUN apk add postgresql-client build-base postgresql-dev
+
+COPY requirements.txt ./app-wse/requirements.txt
+RUN pip install -r ./app-wse/requirements.txt
+
+#RUN adduser --disabled-password service-user
+#USER service-user
+
 COPY . ./app-wse
