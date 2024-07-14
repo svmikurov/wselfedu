@@ -1,5 +1,5 @@
 name: Playwright
-run-name: Playwright test
+run-name: Playwright
 
 on:
   push:
@@ -12,40 +12,21 @@ on:
   workflow_dispatch:
 
 jobs:
-  testing-app-changes-event:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout wselfedu app
-        uses: actions/checkout@v4
+      - name: Clone the repository
+        uses: actions/checkout@v3
 
-      - name: Start wselfedu app
+      - name: Set environment variables
+        working-directory: app-wse
         run: |
-          cp app-wse/.env.example           app-wse/.env
-          cp app-wse/.env.postgres.example  app-wse/.env.postgres
-          docker compose up -d
-          sleep 5s
-          make migrate
-          make collectstatic
+          mv .env.example           .env
+          mv .env.postgres.example  .env.postgres
 
-      - name: Load fixture
-        run: >
-          docker compose exec app-wse python manage.py
-          loaddata tests/fixtures/wse-db-fixture-users.json
+      - name: Up Docker
+        run: make up
 
-      - name: Checkout third party repo testing app
-        uses: actions/checkout@v4
-        with:
-          repository: svmikurov/wselfedu-plw
-          path: ./tests
-
-      - name: Start testing app
-        working-directory: ./tests
-        run: |
-          mv .env.example .env
-          docker build -t plw-test .
-
-      - name: Run web app tests by a Playwright
-        working-directory: ./tests
-        run: |
-          docker run --network=host plw-test
+      - name: Run tests
+        run: make plw

@@ -1,4 +1,5 @@
 name: Django tests
+run-name: Django tests
 
 on:
   push:
