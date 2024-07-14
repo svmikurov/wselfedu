@@ -36,7 +36,7 @@ class TestCreateUserPage(PageTestCase):
 class TestLogitPage(PageTestCase):
     """Login page test."""
 
-    fixtures = ['tests_e2e/fixtures/db-wse-login-fixture.json']
+    fixtures = ['tests_e2e/fixtures/fixture-db-wse-login.json']
 
     def test_login_page(self):
         """Test login page."""
