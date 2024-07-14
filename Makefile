@@ -2,12 +2,10 @@ APP := docker compose exec app-wse
 MANAGE := @$(APP) python manage.py
 
 
-# Git
-pull:
-	git pull
-
-
 # Docker
+build:
+	docker compose build
+
 up:
 	docker compose up -d
 
@@ -28,9 +26,6 @@ collectstatic:
 loaddata:
 	@$(MANAGE) loaddata db-wse-sweb.json
 
-load-fixture:
-	@$(MANAGE) loaddata tests/fixtures/wse-db-fixture-users.json
-
 dumpdata:
 	@$(MANAGE) dumpdata --exclude auth.permission --exclude contenttypes --indent 2 > db-wse-sweb.json
 
@@ -40,12 +35,12 @@ lint:
 	@$(APP) flake8
 
 test:
-	@$(MANAGE) test
+	@$(APP) pytest tests/
 
-pytest:
-	@$(APP) pytest
+plw:
+	@$(APP) pytest tests_e2e/
 
-check: lint pytest
+check: lint test plw
 
 
 # PostgreSQL
