@@ -42,6 +42,9 @@ plw:
 
 check: lint test plw
 
+get-state:
+	@$(APP) sh -c "pytest tests_e2e/auth/get_auth_state.py"
+
 
 # PostgreSQL
 connect:

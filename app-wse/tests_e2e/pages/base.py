@@ -1,3 +1,6 @@
+import os
+
+from dotenv import load_dotenv
 from playwright.sync_api import Page, expect
 
 

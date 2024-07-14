@@ -1,10 +1,17 @@
 """
 User pages module.
 """
+import os
 
+from dotenv import load_dotenv
 from playwright.sync_api import Page
 
 from tests_e2e.pages.base import TestPage
+
+load_dotenv()
+
+USER_NAME = os.getenv('TEST_USER_NAME')
+USER_PASS = os.getenv('TEST_USER_PASS')
 
 
 class CreateUserPage(TestPage):
@@ -89,3 +96,36 @@ class LoginPage(TestPage):
         self.username_input.fill(username)
         self.password_input.fill(password)
         self.submit_button.click()
+
+
+class DeleteUserPage(TestPage):
+    """Class representing the delete user page."""
+
+    title = 'Удаление пользователя'
+
+    def __init__(self, page: Page):
+        super().__init__(page)
+        self.account_link = page.get_by_test_id("account-link")
+        self.delete_button = page.get_by_role("link", name="Удалить")
+        self.confirm_button = page.get_by_role("button", name="Удалить")
+
+    def delete_user(self):
+        """Delete user."""
+        self.delete_button.click()
+        self.confirm_button.click()
+
+
+def authorize_the_page(page: Page, host: str) -> None:
+    """Authorize the page.
+
+    Parameters
+    __________
+    page : `Page`
+        Playwright page for authorize.
+    host : `str`
+        Host or Django ``live_server_url``.
+    """
+    login_page = LoginPage(page)
+    login_page.navigate(f"{host}{login_page.path}")
+    login_page.login(USER_NAME, USER_PASS)
+    expect(login_page.page).to_have_title(HomePage.title)

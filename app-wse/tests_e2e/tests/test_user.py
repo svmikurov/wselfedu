@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from playwright.sync_api import expect
 
 from tests_e2e.pages.home import HomePage
-from tests_e2e.pages.user import CreateUserPage, LoginPage
+from tests_e2e.pages.user import CreateUserPage, LoginPage, DeleteUserPage
 from tests_e2e.tests.base import PageTestCase
 from users.models import UserModel
 
@@ -36,7 +36,7 @@ class TestCreateUserPage(PageTestCase):
 class TestLogitPage(PageTestCase):
     """Login page test."""
 
-    fixtures = ['tests_e2e/fixtures/fixture-db-wse-login.json']
+    fixtures = ['tests_e2e/fixtures/fixture-db-wse-user.json']
 
     def test_login_page(self):
         """Test login page."""
@@ -48,3 +48,25 @@ class TestLogitPage(PageTestCase):
 
         # redirect to home page after successful login
         expect(login_page.page).to_have_title(HomePage.title)
+
+
+class TestDeleteUserPage(PageTestCase):
+    """Test delete user page class."""
+
+    fixtures = ['tests_e2e/fixtures/fixture-db-wse-user.json']
+
+    def test_delete_user_page(self) -> None:
+        login_page = LoginPage(self.page)
+        url = f"{self.live_server_url}{login_page.path}"
+        login_page.navigate(url)
+        login_page.login(USER_NAME, USER_PASS)
+        expect(login_page.page).to_have_title(HomePage.title)
+
+        delete_page = DeleteUserPage(self.page)
+        page_path = delete_page.account_link.get_attribute('href')
+        delete_page.navigate(f'{self.live_server_url}{page_path}')
+        delete_page.delete_user()
+
+        # redirect to login page after successful registration
+        expect(delete_page.page).to_have_title(LoginPage.title)
+        assert not UserModel.objects.filter(username=USER_NAME).exists()
