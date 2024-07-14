@@ -14,7 +14,6 @@ class EnglishTaskSettingsView(DetailView):
         """"""
         pk = self.kwargs.get('pk')
         obj = EnglishTaskSettings.objects.get(user=pk)
-        print(f'{obj = }')
         return obj
 
 
