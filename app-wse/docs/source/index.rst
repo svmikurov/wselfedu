@@ -15,6 +15,7 @@ Welcome to wselfedu's documentation!
    how_to_guid
    reference
    explanation
+   tests_e2e/index
    api
    changelog
 

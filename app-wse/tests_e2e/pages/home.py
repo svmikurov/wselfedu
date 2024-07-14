@@ -1,15 +1,13 @@
 from playwright.sync_api import Page
 
+from tests_e2e.pages.base import TestPage
 
-class HomePage:
+
+class HomePage(TestPage):
     """The home page representation class."""
 
     title = 'Домашняя страница'
 
     def __init__(self, page: Page):
-        self.page = page
+        super().__init__(page)
         self.path = ''
-
-    def navigate(self, host):
-        """Navigate to page."""
-        self.page.goto(host + self.path)
