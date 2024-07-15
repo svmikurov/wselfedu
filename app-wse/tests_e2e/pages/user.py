@@ -4,9 +4,10 @@ User pages module.
 import os
 
 from dotenv import load_dotenv
-from playwright.sync_api import Page
+from playwright.sync_api import Page, expect
 
 from tests_e2e.pages.base import TestPage
+from tests_e2e.pages.home import HomePage
 
 load_dotenv()
 
