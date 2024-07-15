@@ -4,7 +4,8 @@ from dotenv import load_dotenv
 from playwright.sync_api import expect
 
 from tests_e2e.pages.home import HomePage
-from tests_e2e.pages.user import CreateUserPage, LoginPage, DeleteUserPage
+from tests_e2e.pages.user import CreateUserPage, LoginPage, DeleteUserPage, \
+    authorize_the_page
 from tests_e2e.tests.base import PageTestCase
 from users.models import UserModel
 
@@ -56,11 +57,7 @@ class TestDeleteUserPage(PageTestCase):
     fixtures = ['tests_e2e/fixtures/fixture-db-wse-user.json']
 
     def test_delete_user_page(self) -> None:
-        login_page = LoginPage(self.page)
-        url = f"{self.live_server_url}{login_page.path}"
-        login_page.navigate(url)
-        login_page.login(USER_NAME, USER_PASS)
-        expect(login_page.page).to_have_title(HomePage.title)
+        authorize_the_page(self.page, self.live_server_url)
 
         delete_page = DeleteUserPage(self.page)
         page_path = delete_page.account_link.get_attribute('href')
