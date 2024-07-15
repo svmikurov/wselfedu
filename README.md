@@ -15,7 +15,7 @@
 
 ### [Руководство](https://svmikurov.github.io/wselfedu/tutorial/index.html#wselfedu-tutorial) по приложению, на русском языке, познакомит с возможностями и структурой приложения.
 
-### [Начать пользоваться приложением](http://77.222.53.52)
+### [Начать пользоваться приложением](http://wselfedu.online)
 
 ### [Documentation using Sphinx](https://svmikurov.github.io/wselfedu/)
 
