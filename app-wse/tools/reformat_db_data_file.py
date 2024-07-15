@@ -1,5 +1,5 @@
 """
-Изменить имя полей WordModel words_eng, words_rus to word_eng, word_rus
+Change field name WordModel words_eng, words_rus to word_eng, word_rus
 """
 
 import json

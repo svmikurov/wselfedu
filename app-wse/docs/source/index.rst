@@ -13,6 +13,7 @@ Welcome to wselfedu's documentation!
    tutorial/index
    usage
    how_to_guid
+   packages
    reference
    explanation
    tests_e2e/index
