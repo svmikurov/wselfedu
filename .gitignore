@@ -3,3 +3,4 @@ db*
 .idea/
 postgres_data/
 static/
+staticfiles/
