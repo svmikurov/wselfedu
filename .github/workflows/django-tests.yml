@@ -26,7 +26,11 @@ jobs:
           mv .env.postgres.example  .env.postgres
 
       - name: Up Docker
-        run: make up
+        run: |
+          make up
+          sleep 5s
+          make migrate
+          make collectstatic
 
       - name: Run tests
         run: make test
