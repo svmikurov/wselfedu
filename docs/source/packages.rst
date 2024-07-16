@@ -13,6 +13,12 @@ Package ``contrib``
 
 .. automodule:: contrib.__init__
 
+Directory /docker
+=================
+
+Contains docker files. Each directory represents a service and contains
+its configurations.
+
 Directory /docs
 ================
 
@@ -27,6 +33,11 @@ Package ``glossary``
 ====================
 
 .. automodule:: glossary.__init__
+
+Directory /postgres_data
+========================
+
+Docker PostgreSQL database value.
 
 Directory /static
 ==================

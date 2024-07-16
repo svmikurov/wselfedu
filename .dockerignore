@@ -1,0 +1,7 @@
+.github/
+.venv/
+postgres_data/
+static/
+
+.coverage
+.gitignore

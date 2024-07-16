@@ -1,16 +1,17 @@
-APP := docker compose exec app-wse
+DEV_FILE := docker compose -f docker-compose.dev.yml
+APP := @$(DEV_FILE) exec wse-project
 MANAGE := @$(APP) python manage.py
 
 
 # Docker
 build:
-	docker compose build
+	@$(DEV_FILE) build
 
 up:
-	docker compose up -d
+	@$(DEV_FILE) up -d
 
 down:
-	docker compose down
+	@$(DEV_FILE) down
 
 
 # Django
@@ -48,4 +49,4 @@ get-state:
 
 # PostgreSQL
 connect:
-	docker compose exec db-postgres-wse psql --username=wse_user --dbname=wse_db
+	@$(DEV_FILE) exec wse-db-postgres psql --username=wse_user --dbname=wse_db

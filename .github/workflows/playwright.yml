@@ -5,9 +5,9 @@ on:
   push:
     branches: [ 'main', 'development' ]
     paths-ignore: [
-      '**.md', '**.rst', '**/.env.**', '**/.gitignore', '**/.dockerignore',
-      '**/Makefile', '**/**.lock', '**/**.toml', '**/**.yml',
-      'app-wse/docs/**', 'nginx/**'
+      '**.md', '**.rst', '.env.**', '**.lock', '**.toml', '**/**.yml',
+      '.gitignore', '**/**.dockerignore', 'Makefile', 'nginx.conf',
+      'setup.cfg', 'docs/**',
     ]
   workflow_dispatch:
 
@@ -20,13 +20,16 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set environment variables
-        working-directory: app-wse
         run: |
           mv .env.example           .env
           mv .env.postgres.example  .env.postgres
 
       - name: Up Docker
-        run: make up
+        run: |
+          make up
+          sleep 5s
+          make migrate
+          make collectstatic
 
       - name: Run tests
         run: make plw

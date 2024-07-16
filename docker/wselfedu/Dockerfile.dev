@@ -1,6 +1,8 @@
+# syntax=docker/dockerfile:1.7-labs
+
 FROM python:3.12-bookworm
 
-WORKDIR /app-wse
+WORKDIR /wselfedu
 
 RUN pip install --upgrade pip && \
     pip install playwright && \
@@ -8,10 +10,12 @@ RUN pip install --upgrade pip && \
     playwright install && \
     playwright install-deps
 
-COPY requirements.txt ./app-wse/requirements.txt
-RUN pip install -r ./app-wse/requirements.txt
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+COPY requirements.dev.txt requirements.dev.txt
+RUN pip install -r requirements.dev.txt
 
 #RUN adduser --disabled-password app-user
 #USER app-user
 
-COPY . ./app-wse
+COPY . .

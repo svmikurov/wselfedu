@@ -1,0 +1,49 @@
+services:
+
+  wse-project:
+    container_name: wse-project
+    image: wse-project
+    volumes:
+      - ./:/wselfedu
+      - ./static:/static
+    build:
+      context: ./
+      dockerfile: ./docker/wselfedu/Dockerfile.dev
+    expose:
+      - 8000
+    env_file:
+      - .env
+    command:
+      gunicorn config.wsgi:application --bind 0.0.0.0:8000
+    depends_on:
+      - wse-db-postgres
+
+  wse-db-postgres:
+    container_name: wse-db-postgres
+    image: wse-db-postgres
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    build:
+      context: ./
+      dockerfile: ./docker/postgres/Dockerfile
+    env_file:
+      - .env.postgres
+    ports:
+      - 6543:5432
+
+  wse-server:
+    container_name: wse-server
+    image: wse-server
+    build:
+      context: ./
+      dockerfile: ./docker/nginx/Dockerfile
+    volumes:
+      - ./static:/static
+    ports:
+      - 80:80
+    depends_on:
+      - wse-project
+
+volumes:
+  postgres_data:
+  static:
