@@ -44,5 +44,6 @@ services:
       - app-wse
 
 volumes:
+  app-wse:
   postgres_data:
-  staticfiles:
+  static:
