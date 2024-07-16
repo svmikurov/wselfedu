@@ -19,7 +19,6 @@ EDGE_PERIODS = {
 class LookupParams:
     """Lookup parameters class.
 
-
     Attributes:
     -----------
     params : `tuple[Q]`
@@ -153,8 +152,8 @@ class LookupParams:
 
     @staticmethod
     def _to_numeric(assessments, string_values):
-        """Convert a literal representation of an assessment into a list of
-        numeric values.
+        """Convert a literal representation of an assessment into a list
+        of numeric values.
         """
         numeric_values = []
         for assessment in string_values:
