@@ -13,6 +13,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
     '77.222.53.52',
+    'wselfedu.online',
 ]
 
 INSTALLED_APPS = [
