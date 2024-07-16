@@ -14,15 +14,16 @@ class EnglishTranslateExercise:
     Parameters
     ----------
     lookup_conditions : `dict`
+        The user conditions exercise
 
     Attributes
     ----------
-    _lookup_params : `tuple[Q]`
-        User conditions of the exercise.
-    word_id : `int`
-        ID of the word that is displayed to the user in the task.
-    word_detail_link : `str`
-        Link to display detailed information about a word.
+        _lookup_params : `tuple[Q]`
+            User conditions of the exercise.
+        word_id : `int`
+            ID of the word that is displayed to the user in the task.
+        word_detail_link : `str`
+            Link to display detailed information about a word.
 
     """
 

@@ -1,6 +1,12 @@
+"""
+This module contains views for word study task.
+"""
+
+from typing import Dict
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -27,7 +33,7 @@ class EnglishTranslateChoiceView(CheckLoginPermissionMixin, TemplateView):
     -----
     Task conditions may be:
         ``task_conditions`` = {
-            'favorites': True,
+            'favorites': `True`,
             'language_order': 'RN',
             'category': 0,
             'source': 0,
@@ -42,12 +48,21 @@ class EnglishTranslateChoiceView(CheckLoginPermissionMixin, TemplateView):
 
     template_name = 'task/english/english_translate_choice.html'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs: object) -> Dict[str, object]:
+        """Add english word translation conditions choice form to page
+        context."""
         context = super().get_context_data()
         context['form'] = EnglishTranslateChoiceForm(request=self.request)
         return context
 
-    def post(self, request):
+    def post(self, request: HttpRequest) -> HttpResponse:
+        """Get user task condition.
+
+        If the user task condition is valid, it is saved in the session
+        and the user is redirected to learn the English word, returning
+        an English word translation conditions selection form for the
+        user to fill out, otherwise.
+        """
         form = EnglishTranslateChoiceForm(request.POST, request=request)
 
         if form.is_valid():

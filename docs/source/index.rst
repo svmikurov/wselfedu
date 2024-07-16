@@ -8,14 +8,17 @@ Welcome to wselfedu's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Tutorial:
 
    tutorial/index
    usage
-   how_to_guid
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Development
+
    packages
-   reference
-   explanation
+   development/tasks
    tests_e2e/index
    api
    changelog
