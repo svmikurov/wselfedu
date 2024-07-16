@@ -32,9 +32,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Build HTML
-        working-directory: ./app-wse
-        run: |
-          sphinx-build docs/source/ docs/build/html
+        working-directory: ./app-wse/docs
+        run: make html
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
