@@ -43,9 +43,5 @@ urlpatterns = [
         views.update_words_knowledge_assessment_view,
         name='knowledge_assessment'
     ),
-    path(
-        'words-favorites-view-ajax/<int:word_id>/',
-        views.update_words_favorites_status_view_ajax,
-        name='word_favorites_view_ajax',
-    ),  # -- End English Tasks --
+    # -- End English Tasks --
 ]

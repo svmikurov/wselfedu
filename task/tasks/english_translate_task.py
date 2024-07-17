@@ -108,7 +108,7 @@ class EnglishTranslateExercise:
         self.word_count = len(self._word_ids)
         self.favorites_status = self._word.favorites_status
         self.favorites_url = reverse_lazy(
-            'task:word_favorites_view_ajax',
+            'english:word_favorites_view_ajax',
             kwargs={'word_id': self.word_id},
         )
         self.knowledge = self._word.assessment_value or 0

@@ -1,5 +1,7 @@
+from typing import Dict
+
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpRequest, HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
@@ -34,15 +36,37 @@ def update_words_knowledge_assessment_view(request, **kwargs):
 
 @require_POST
 @login_required
-def update_words_favorites_status_view_ajax(request, **kwargs):
-    """Обнови статус слова, избранное ли оно."""
+def update_words_favorites_status_view_ajax(
+        request: HttpRequest,
+        **kwargs: Dict[str, object],
+) -> HttpResponse:
+    """Update the status of a word, is it favorite.
+
+    This view receives a request from Ajax when the user wants to
+    update the status of a word.
+
+    Parameters
+    ----------
+    request : `HttpRequest`
+        Http request.
+    kwargs : `Dict[str, object]`
+        The keyword argument that contains the ``word_id`` of the word
+        whose status should be updated.
+
+    Return
+    ------
+    response : `JsonResponse`
+        Response with current favorite word status.
+    """
     word_id = kwargs['word_id']
     user_id = request.user.pk
     favorites_status = update_word_favorites_status(word_id, user_id)
 
-    return JsonResponse(
+    # this view gets a request from Ajax
+    response = JsonResponse(
         data={
             'favorites_status': favorites_status,
         },
         status=201,
     )
+    return response

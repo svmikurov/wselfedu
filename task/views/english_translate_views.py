@@ -20,7 +20,6 @@ from contrib.mixins_views import (
 from english.services import (
     get_knowledge_assessment,
     update_word_knowledge_assessment,
-    update_word_favorites_status,
 )
 from task.forms import EnglishTranslateChoiceForm
 from task.tasks import EnglishTranslateExercise
@@ -85,8 +84,8 @@ class EnglishTranslateExerciseView(CheckLoginPermissionMixin, View):
         'redirect_no_words': reverse_lazy('task:english_translate_choice'),
     }
 
-    def get(self, request):
-        """Display an exercise page to translate an English word."""
+    def get(self, request: HttpRequest) -> HttpResponse:
+        """Display an exercise page to translate a word."""
         task_conditions = request.session['task_conditions']
         task = EnglishTranslateExercise(**task_conditions)
 
@@ -101,7 +100,7 @@ class EnglishTranslateExerciseView(CheckLoginPermissionMixin, View):
         else:
             return render(request, self.template_name)
 
-    def post(self, request):
+    def post(self, request: HttpRequest) -> HttpResponse:
         """Get new word for English word translate exercise page."""
         task_conditions = request.session['task_conditions']
         task = EnglishTranslateExercise(**task_conditions)
@@ -127,7 +126,10 @@ class EnglishTranslateExerciseView(CheckLoginPermissionMixin, View):
 
 @require_POST
 @login_required
-def update_words_knowledge_assessment_view(request, **kwargs):
+def update_words_knowledge_assessment_view(
+        request: HttpRequest,
+        **kwargs: object,
+) -> HttpResponse:
     """"""
     assessment = request.POST['assessment']
     word_pk = kwargs['word_id']
@@ -139,19 +141,3 @@ def update_words_knowledge_assessment_view(request, **kwargs):
         update_word_knowledge_assessment(word_pk, user_pk, new_assessment)
 
     return JsonResponse({}, status=201)
-
-
-@require_POST
-@login_required
-def update_words_favorites_status_view_ajax(request, **kwargs):
-    """Обнови статус слова, избранное ли оно."""
-    word_id = kwargs['word_id']
-    user_id = request.user.pk
-    favorites_status = update_word_favorites_status(word_id, user_id)
-
-    return JsonResponse(
-        data={
-            'favorites_status': favorites_status,
-        },
-        status=201,
-    )
