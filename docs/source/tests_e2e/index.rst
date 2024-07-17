@@ -8,3 +8,4 @@ Projects Playwright test uses Page Object Model.
 
    pages/index
    tests/index
+   fixtures
