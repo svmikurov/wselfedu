@@ -37,7 +37,7 @@ class TestCreateUserPage(PageTestCase):
 class TestLogitPage(PageTestCase):
     """Login page test."""
 
-    fixtures = ['tests_e2e/fixtures/fixture-db-wse-user.json']
+    fixtures = ['tests_e2e/fixtures/fixture-db-user.json']
 
     def test_login_page(self):
         """Test login page."""
@@ -54,7 +54,7 @@ class TestLogitPage(PageTestCase):
 class TestDeleteUserPage(PageTestCase):
     """Test delete user page class."""
 
-    fixtures = ['tests_e2e/fixtures/fixture-db-wse-user.json']
+    fixtures = ['tests_e2e/fixtures/fixture-db-user.json']
 
     def test_delete_user_page(self) -> None:
         authorize_the_page(self.page, self.live_server_url)
