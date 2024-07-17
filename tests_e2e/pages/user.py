@@ -12,7 +12,11 @@ from tests_e2e.pages.home import HomePage
 load_dotenv()
 
 USER_NAME = os.getenv('TEST_USER_NAME')
+"""Username, typically used by default in tests and fixtures.
+"""
 USER_PASS = os.getenv('TEST_USER_PASS')
+"""User password, typically used by default in tests and fixtures.
+"""
 
 
 class CreateUserPage(TestPage):
@@ -41,7 +45,7 @@ class CreateUserPage(TestPage):
     """ Page title.
     """
 
-    def __init__(self, page: Page):
+    def __init__(self, page: Page) -> None:
         super().__init__(page)
         self.path = '/users/registration/'
         self.user_name_input = page.get_by_placeholder('Имя пользователя')
@@ -104,13 +108,13 @@ class DeleteUserPage(TestPage):
 
     title = 'Удаление пользователя'
 
-    def __init__(self, page: Page):
+    def __init__(self, page: Page) -> None:
         super().__init__(page)
         self.account_link = page.get_by_test_id("account-link")
         self.delete_button = page.get_by_role("link", name="Удалить")
         self.confirm_button = page.get_by_role("button", name="Удалить")
 
-    def delete_user(self):
+    def delete_user(self) -> None:
         """Delete user."""
         self.delete_button.click()
         self.confirm_button.click()
@@ -119,12 +123,22 @@ class DeleteUserPage(TestPage):
 def authorize_the_page(page: Page, host: str) -> None:
     """Authorize the page.
 
+    Authorizes the user on the login page by filling out the login
+    form. If no user is specified, authorizes the default user,
+    typically used by default in tests and fixtures.
+
     Parameters
     __________
     page : `Page`
         Playwright page for authorize.
     host : `str`
         Host or Django ``live_server_url``.
+    user_name : `str` | `None`
+        The username (username commonly used in tests and fixtures, by
+        default)
+    user_pass : `str` | `None`
+        The user password (username password commonly used in tests and
+        fixtures, by default)
     """
     login_page = LoginPage(page)
     login_page.navigate(f"{host}{login_page.path}")
