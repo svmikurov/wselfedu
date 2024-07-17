@@ -120,7 +120,12 @@ class DeleteUserPage(TestPage):
         self.confirm_button.click()
 
 
-def authorize_the_page(page: Page, host: str) -> None:
+def authorize_the_page(
+        page: Page,
+        host: str,
+        user_name: str | None = None,
+        user_pass: str | None = None,
+) -> None:
     """Authorize the page.
 
     Authorizes the user on the login page by filling out the login
@@ -142,5 +147,10 @@ def authorize_the_page(page: Page, host: str) -> None:
     """
     login_page = LoginPage(page)
     login_page.navigate(f"{host}{login_page.path}")
-    login_page.login(USER_NAME, USER_PASS)
+    login_page.login(
+        user_name or USER_NAME,
+        user_pass or USER_PASS,
+    )
+    # after successful authentication the user is redirected to the
+    # home page
     expect(login_page.page).to_have_title(HomePage.title)
