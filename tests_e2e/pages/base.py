@@ -7,7 +7,8 @@ class BasePage:
     host: str
     path: str
 
-    def __init__(self, page: Page):
+    def __init__(self, page: Page) -> None:
+        """Page constructor."""
         self.page = page
 
     @property
@@ -15,16 +16,30 @@ class BasePage:
         """Page url."""
         return self.host + self.path
 
-    def navigate(self, url=None) -> None:
+    def navigate(
+            self,
+            *,
+            host: str | None = None,
+            url: str | None = None,
+    ) -> None:
         """Navigate to page.
 
         Parameters
         ----------
-        url : `str`, optional
+        host : `str` | None, optional
+            The page host for navigate (page host specified in the
+            class representing the page, by default).
+            Used to create the page URL.
+        url : `str` | None, optional
             The page url for navigate (page url specified in the class
-            representing the page, by default)
+            representing the page, by default).
         """
-        page_url = url or self.url
+        if url:
+            page_url = url
+        elif host:
+            page_url = host + self.path
+        else:
+            page_url = self.url
         self.page.goto(page_url)
 
 
@@ -34,13 +49,13 @@ class BaseTests:
     page: Page
     title: str
 
-    def test_title(self, expected_title=None):
+    def test_title(self, expected_title: str | None = None) -> None:
         """Test page title.
 
         Parameters
         ----------
-        expected_title : `str`, optional
-            Expected page title (The value of the ``title`` attribute
+        expected_title : `str` | None, optional
+            Expected page title (the value of the ``title`` attribute
             of the class representing the page, by default)
         """
         title = expected_title or self.title

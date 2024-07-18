@@ -46,6 +46,7 @@ class CreateUserPage(TestPage):
     """
 
     def __init__(self, page: Page) -> None:
+        """Page constructor."""
         super().__init__(page)
         self.path = '/users/registration/'
         self.user_name_input = page.get_by_placeholder('Имя пользователя')
@@ -87,7 +88,7 @@ class LoginPage(TestPage):
         self.submit_button = page.get_by_test_id("login-button")
 
     def login(self, username: str, password: str) -> None:
-        """Test login.
+        """Login.
 
         Fills out the user login form. Clicks on the submit form button.
 
@@ -109,6 +110,7 @@ class DeleteUserPage(TestPage):
     title = 'Удаление пользователя'
 
     def __init__(self, page: Page) -> None:
+        """Page constructor."""
         super().__init__(page)
         self.account_link = page.get_by_test_id("account-link")
         self.delete_button = page.get_by_role("link", name="Удалить")
@@ -138,19 +140,20 @@ def authorize_the_page(
         Playwright page for authorize.
     host : `str`
         Host or Django ``live_server_url``.
-    user_name : `str` | `None`
+    user_name : `str` | None
         The username (username commonly used in tests and fixtures, by
         default)
-    user_pass : `str` | `None`
+    user_pass : `str` | None
         The user password (username password commonly used in tests and
         fixtures, by default)
     """
     login_page = LoginPage(page)
-    login_page.navigate(f"{host}{login_page.path}")
-    login_page.login(
-        user_name or USER_NAME,
-        user_pass or USER_PASS,
-    )
+    user = user_name or USER_NAME
+    password = user_pass or USER_PASS
+
+    login_page.navigate(url=f"{host}{login_page.path}")
+    login_page.login(user, password)
+
     # after successful authentication the user is redirected to the
     # home page
     expect(login_page.page).to_have_title(HomePage.title)
