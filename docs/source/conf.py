@@ -45,6 +45,8 @@ extensions = [
     'sphinx.ext.autosummary',
     # https://myst-parser.readthedocs.io/en/v0.17.1/index.html
     'myst_parser',
+    # https://sphinx-tabs.readthedocs.io/en/latest/
+    'sphinx_tabs.tabs',
 ]
 
 # napoleon_google_docstring = True
