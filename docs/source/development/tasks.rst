@@ -18,5 +18,3 @@ task.views.english_translate_views module
 .. autoclass:: task.views.english_translate_views.EnglishTranslateExerciseView
 
 .. autofunction:: task.views.english_translate_views.update_words_knowledge_assessment_view
-
-.. autofunction:: task.views.english_translate_views.update_words_favorites_status_view_ajax

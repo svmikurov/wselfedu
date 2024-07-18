@@ -1,7 +1,8 @@
 Tests
 =====
 
-Projects Playwright test uses Page Object Model.
+.. automodule:: tests_e2e.__init__
+   :no-index:
 
 .. toctree::
    :maxdepth: 2
