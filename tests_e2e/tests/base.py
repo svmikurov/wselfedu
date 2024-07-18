@@ -14,6 +14,8 @@ from playwright.sync_api import sync_playwright
 load_dotenv()
 
 ENVIRONMENT = os.getenv('ENVIRONMENT')
+"""The current environment name (`str`).
+"""
 
 
 class PageFixtureTestCase(StaticLiveServerTestCase):
@@ -79,9 +81,9 @@ pom_test_classes = {
 Each is used in its own testing environment.
 """
 pom_test_class = pom_test_classes.get(ENVIRONMENT, 'development')
-"""Current representation of the test environment base class.
+"""Current representation of the test environment base class (`str`).
 """
 
 
-class POMBaseTest(pom_test_class):
+class POMBaseTest(PageFixtureTestCase):
     """Base class for testing Page Object Model instance page."""

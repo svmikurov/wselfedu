@@ -17,8 +17,14 @@ from tests_e2e.tests.base import POMBaseTest
 load_dotenv()
 
 USER_NAME = os.getenv('TEST_USER_NAME')
+"""Username, typically used by default in tests and fixtures.
+"""
 USER_PASS = os.getenv('TEST_USER_PASS')
+"""User password, typically used by default in tests and fixtures.
+"""
 STATE_PATH = 'tests_e2e/auth/state.json'
+"""Path to saved storage state.
+"""
 
 
 class TestGetAuthState(POMBaseTest):

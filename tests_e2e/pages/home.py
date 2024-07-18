@@ -11,6 +11,8 @@ class HomePage(TestPage):
     """The home page representation class."""
 
     title = 'Домашняя страница'
+    """The Home page title.
+    """
 
     def __init__(self, page: Page) -> None:
         """Home page constructor."""

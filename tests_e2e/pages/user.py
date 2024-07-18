@@ -43,7 +43,7 @@ class CreateUserPage(TestPage):
     """
 
     title = 'Регистрация пользователя'
-    """ Page title.
+    """Create page title.
     """
 
     def __init__(self, page: Page) -> None:
@@ -80,6 +80,8 @@ class LoginPage(TestPage):
     """Class representing the login page."""
 
     title = 'Вход в приложение'
+    """Page title.
+    """
 
     def __init__(self, page: Page) -> None:
         """Login page constructor."""
@@ -110,6 +112,8 @@ class DeleteUserPage(TestPage):
     """Class representing the delete user page."""
 
     title = 'Удаление пользователя'
+    """Page title.
+    """
 
     def __init__(self, page: Page) -> None:
         """User delete page constructor."""

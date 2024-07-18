@@ -7,3 +7,4 @@ Tests
    base
    home
    user
+   exercises

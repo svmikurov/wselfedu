@@ -22,8 +22,3 @@ Welcome to wselfedu's documentation!
    tests_e2e/index
    api
    changelog
-
-.. toctree::
-   :caption: Sphinx study examples
-
-   sphinx-examples/index

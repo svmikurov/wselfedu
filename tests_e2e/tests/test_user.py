@@ -16,9 +16,18 @@ from users.models import UserModel
 load_dotenv()
 
 CREATE_USER_NAME = 'Playwright'
+"""Temporary username (`str`).
+"""
 CREATE_USER_PASS = '1q2s3d4r'
+"""Temporary username password (`str`).
+"""
 USER_NAME = os.getenv('TEST_USER_NAME')
+"""Username, typically used by default in tests and fixtures (`str`).
+"""
 USER_PASS = os.getenv('TEST_USER_PASS')
+"""User password, typically used by default in tests and fixtures
+(`str`).
+"""
 
 
 class TestCreateUserPage(POMBaseTest):

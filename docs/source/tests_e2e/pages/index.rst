@@ -9,3 +9,4 @@ Pages
    base
    home
    user
+   exercises
