@@ -130,8 +130,8 @@ class WordListView(ReuseSchemaQueryFilterView):
             # Filter all words of a specific user.
             user=user
         ).annotate(
-            # Assign `True` if there is a relationship between user and word
-            # in the WordsFavoritesModel, otherwise assign `None`.
+            # Assign `True` if there is a relationship between user and
+            # word in the WordsFavoritesModel, otherwise assign None.
             favorites_anat=Q(
                 Q(wordsfavoritesmodel__user=F('user'))
                 & Q(wordsfavoritesmodel__word=F('pk'))
