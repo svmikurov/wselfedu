@@ -24,7 +24,7 @@ class TestCreateUserPage(PageTestCase):
         """Test create user page."""
         create_user_page = CreateUserPage(self.page)
         url = f"{self.live_server_url}{create_user_page.path}"
-        create_user_page.navigate(url)
+        create_user_page.navigate(url=url)
         create_user_page.test_title()
         create_user_page.create_user(CREATE_USER_NAME, CREATE_USER_PASS)
 
@@ -42,8 +42,7 @@ class TestLogitPage(PageTestCase):
     def test_login_page(self):
         """Test login page."""
         login_page = LoginPage(self.page)
-        url = f"{self.live_server_url}{login_page.path}"
-        login_page.navigate(url)
+        login_page.navigate(url=f"{self.live_server_url}{login_page.path}")
         login_page.test_title()
         login_page.login(USER_NAME, USER_PASS)
 
@@ -61,7 +60,7 @@ class TestDeleteUserPage(PageTestCase):
 
         delete_page = DeleteUserPage(self.page)
         page_path = delete_page.account_link.get_attribute('href')
-        delete_page.navigate(f'{self.live_server_url}{page_path}')
+        delete_page.navigate(url=f'{self.live_server_url}{page_path}')
         delete_page.delete_user()
 
         # redirect to login page after successful registration

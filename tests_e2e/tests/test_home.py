@@ -8,6 +8,5 @@ class TestHomePage(PageTestCase):
     def test_home_page(self):
         """Test home page title."""
         home_page = HomePage(self.page)
-        url = f"{self.live_server_url}{home_page.path}"
-        home_page.navigate(url)
+        home_page.navigate(url=f"{self.live_server_url}{home_page.path}")
         home_page.test_title(HomePage.title)

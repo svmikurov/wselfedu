@@ -1,5 +1,7 @@
 import os
+from typing import Generator
 
+import pytest
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from playwright.sync_api import sync_playwright
 
@@ -7,19 +9,25 @@ from playwright.sync_api import sync_playwright
 class PageTestCase(StaticLiveServerTestCase):
     """Test with Playwright page class.
 
-    Example:
-    --------
-    from tests_e2e.pages.home import HomePage
+    The page fixture is set in the test class scope.
 
-    class TestHomePage(PageTestCase):
+    Example
+    -------
+    Use to get a page:
 
-        def test_home_page(self):
-            home_page = HomePage(self.page)
+        class TestHomePage(PageTestCase):
+
+            def test_home_page(self):
+                home_page = HomePage(self.page)
     """
 
     @classmethod
-    def setUpClass(cls):
-        """Start Playwright page."""
+    def setUpClass(cls) -> None:
+        """Start Playwright page.
+
+        Sets ``DJANGO_ALLOW_ASYNC_UNSAFE`` to `true`, which allows
+        Django to use async at class scope.
+        """
         os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
         super().setUpClass()
         cls.playwright = sync_playwright().start()
@@ -27,8 +35,47 @@ class PageTestCase(StaticLiveServerTestCase):
         cls.page = cls.browser.new_page()
 
     @classmethod
-    def tearDownClass(cls):
+    def tearDownClass(cls) -> None:
         """Stop Playwright page."""
         super().tearDownClass()
         cls.browser.close()
         cls.playwright.stop()
+
+
+class PageFixtureTestCase(StaticLiveServerTestCase):
+    """Test with Playwright Pytest page fixture class.
+
+    The page fixture is set in the test function scope.
+
+    Example
+    -------
+    Use to get an authorized page:
+
+        class TestPage(PageFixtureTestCase):
+
+            fixtures = ['tests_e2e/fixtures/fixture-db-user']
+
+            def setUp(self):
+                authorize_the_page(self.page, self.live_server_url)
+                self.page.goto(self.live_server_url)
+    """
+
+    @pytest.fixture(autouse=True)
+    def run_around_tests(self) -> Generator[None, None, None]:
+        """Get new Playwright Pytest page fixture."""
+        self.playwright = sync_playwright().start()
+        self.browser = self.playwright.chromium.launch()
+        self.page = self.browser.new_page()
+        yield
+        self.browser.close()
+        self.playwright.stop()
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        """Allow Django to use async in class scope.
+
+        Sets ``DJANGO_ALLOW_ASYNC_UNSAFE`` to `true`, which allows
+        Django to use async at class scope.
+        """
+        os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
+        super().setUpClass()
