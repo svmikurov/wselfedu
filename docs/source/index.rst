@@ -23,9 +23,7 @@ Welcome to wselfedu's documentation!
    api
    changelog
 
-Indices and tables
-==================
+.. toctree::
+   :caption: Sphinx study examples
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   sphinx-examples/index
