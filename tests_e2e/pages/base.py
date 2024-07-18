@@ -1,3 +1,7 @@
+"""
+The Page Object Model page base class module.
+"""
+
 from playwright.sync_api import Page, expect
 
 
@@ -8,7 +12,7 @@ class BasePage:
     path: str
 
     def __init__(self, page: Page) -> None:
-        """Page constructor."""
+        """Base page constructor."""
         self.page = page
 
     @property

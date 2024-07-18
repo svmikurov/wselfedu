@@ -1,3 +1,7 @@
+"""
+The word choice for word study exercise page representation module.
+"""
+
 from playwright.sync_api import Page
 
 from tests_e2e.pages.base import TestPage
@@ -29,7 +33,7 @@ class WordChoiceExercisePage(TestPage):
     """
 
     def __init__(self, page: Page) -> None:
-        """Page constructor."""
+        """Word choice exercise page constructor."""
         super().__init__(page)
         self.path = '/task/english-translate-choice'
         self.timeout_input = page.get_by_label('Время на ответ (сек)*')

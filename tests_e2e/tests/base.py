@@ -1,3 +1,7 @@
+"""
+The Page Object Model test base class module.
+"""
+
 import os
 from typing import Generator
 from unittest import TestCase
@@ -52,7 +56,7 @@ class PageFixtureTestCase(StaticLiveServerTestCase):
         super().setUpClass()
 
     @property
-    def site_host(self):
+    def site_host(self) -> str:
         """Page host schema."""
         return self.live_server_url
 
@@ -62,7 +66,7 @@ class StageTestCase(TestCase):
     environment."""
 
     @property
-    def site_host(self):
+    def site_host(self) -> str:
         """Page host schema."""
         return os.getenv('HOST')
 
@@ -71,7 +75,7 @@ pom_test_classes = {
     'development': PageFixtureTestCase,
     'stage': StageTestCase,
 }
-"""Base classes for the derived class POMBaseTest (`dict`).
+"""Base classes bunch for the derived class POMBaseTest (`dict`).
 Each is used in its own testing environment.
 """
 pom_test_class = pom_test_classes.get(ENVIRONMENT, 'development')

@@ -10,3 +10,4 @@ Tests
    pages/index
    tests/index
    fixtures
+   storage_state

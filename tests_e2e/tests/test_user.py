@@ -1,3 +1,7 @@
+"""
+The user pages representation test module.
+"""
+
 import os
 
 from dotenv import load_dotenv
@@ -20,7 +24,7 @@ USER_PASS = os.getenv('TEST_USER_PASS')
 class TestCreateUserPage(POMBaseTest):
     """Create user page test class."""
 
-    def test_create_user_page(self):
+    def test_create_user_page(self) -> None:
         """Test create user page."""
         create_user_page = CreateUserPage(self.page)
         url = f"{self.live_server_url}{create_user_page.path}"
@@ -39,7 +43,7 @@ class TestLogitPage(POMBaseTest):
 
     fixtures = ['tests_e2e/fixtures/fixture-db-user.json']
 
-    def test_login_page(self):
+    def test_login_page(self) -> None:
         """Test login page."""
         login_page = LoginPage(self.page)
         login_page.navigate(url=f"{self.live_server_url}{login_page.path}")
@@ -56,6 +60,7 @@ class TestDeleteUserPage(POMBaseTest):
     fixtures = ['tests_e2e/fixtures/fixture-db-user.json']
 
     def test_delete_user_page(self) -> None:
+        """Test delete user page."""
         authorize_the_page(self.page, self.live_server_url)
 
         delete_page = DeleteUserPage(self.page)

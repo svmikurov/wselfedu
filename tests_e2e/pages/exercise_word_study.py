@@ -1,3 +1,7 @@
+"""
+The word study exercise page representation module.
+"""
+
 from playwright.sync_api import Page
 
 from tests_e2e.pages.base import TestPage
@@ -38,7 +42,7 @@ class WordStudyExercisePage(TestPage):
     """
 
     def __init__(self, page: Page) -> None:
-        """Page constructor."""
+        """Word study exercise page constructor."""
         super().__init__(page)
         self.path = '/task/english-translate-demo'
         self.question_locator = page.get_by_text('Вопрос:')

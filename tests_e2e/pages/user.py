@@ -1,6 +1,7 @@
 """
-User pages module.
+The user pages representation module.
 """
+
 import os
 
 from dotenv import load_dotenv
@@ -46,7 +47,7 @@ class CreateUserPage(TestPage):
     """
 
     def __init__(self, page: Page) -> None:
-        """Page constructor."""
+        """Create page constructor."""
         super().__init__(page)
         self.path = '/users/registration/'
         self.user_name_input = page.get_by_placeholder('Имя пользователя')
@@ -81,6 +82,7 @@ class LoginPage(TestPage):
     title = 'Вход в приложение'
 
     def __init__(self, page: Page) -> None:
+        """Login page constructor."""
         super().__init__(page)
         self.path = '/users/login'
         self.username_input = page.get_by_placeholder("Имя пользователя")
@@ -110,7 +112,7 @@ class DeleteUserPage(TestPage):
     title = 'Удаление пользователя'
 
     def __init__(self, page: Page) -> None:
-        """Page constructor."""
+        """User delete page constructor."""
         super().__init__(page)
         self.account_link = page.get_by_test_id("account-link")
         self.delete_button = page.get_by_role("link", name="Удалить")
