@@ -1,49 +1,20 @@
 import os
 from typing import Generator
+from unittest import TestCase
 
 import pytest
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from dotenv import load_dotenv
 from playwright.sync_api import sync_playwright
 
+load_dotenv()
 
-class PageTestCase(StaticLiveServerTestCase):
-    """Test with Playwright page class.
-
-    The page fixture is set in the test class scope.
-
-    Example
-    -------
-    Use to get a page:
-
-        class TestHomePage(PageTestCase):
-
-            def test_home_page(self):
-                home_page = HomePage(self.page)
-    """
-
-    @classmethod
-    def setUpClass(cls) -> None:
-        """Start Playwright page.
-
-        Sets ``DJANGO_ALLOW_ASYNC_UNSAFE`` to `true`, which allows
-        Django to use async at class scope.
-        """
-        os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
-        super().setUpClass()
-        cls.playwright = sync_playwright().start()
-        cls.browser = cls.playwright.chromium.launch()
-        cls.page = cls.browser.new_page()
-
-    @classmethod
-    def tearDownClass(cls) -> None:
-        """Stop Playwright page."""
-        super().tearDownClass()
-        cls.browser.close()
-        cls.playwright.stop()
+ENVIRONMENT = os.getenv('ENVIRONMENT')
 
 
 class PageFixtureTestCase(StaticLiveServerTestCase):
-    """Test with Playwright Pytest page fixture class.
+    """Test with Playwright Pytest page fixture class
+     using StaticLiveServerTestCase.
 
     The page fixture is set in the test function scope.
 
@@ -79,3 +50,34 @@ class PageFixtureTestCase(StaticLiveServerTestCase):
         """
         os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
         super().setUpClass()
+
+    @property
+    def site_host(self):
+        """Page host schema."""
+        return self.live_server_url
+
+
+class StageTestCase(TestCase):
+    """Test class using Playwright Pytest page fixture in Stage
+    environment."""
+
+    @property
+    def site_host(self):
+        """Page host schema."""
+        return os.getenv('HOST')
+
+
+pom_test_classes = {
+    'development': PageFixtureTestCase,
+    'stage': StageTestCase,
+}
+"""Base classes for the derived class POMBaseTest (`dict`).
+Each is used in its own testing environment.
+"""
+pom_test_class = pom_test_classes.get(ENVIRONMENT, 'development')
+"""Current representation of the test environment base class.
+"""
+
+
+class POMBaseTest(pom_test_class):
+    """Base class for testing Page Object Model instance page."""

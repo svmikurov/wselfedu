@@ -6,7 +6,7 @@ from playwright.sync_api import expect
 from tests_e2e.pages.home import HomePage
 from tests_e2e.pages.user import CreateUserPage, LoginPage, DeleteUserPage, \
     authorize_the_page
-from tests_e2e.tests.base import PageTestCase
+from tests_e2e.tests.base import POMBaseTest
 from users.models import UserModel
 
 load_dotenv()
@@ -17,7 +17,7 @@ USER_NAME = os.getenv('TEST_USER_NAME')
 USER_PASS = os.getenv('TEST_USER_PASS')
 
 
-class TestCreateUserPage(PageTestCase):
+class TestCreateUserPage(POMBaseTest):
     """Create user page test class."""
 
     def test_create_user_page(self):
@@ -34,7 +34,7 @@ class TestCreateUserPage(PageTestCase):
         assert UserModel.objects.filter(username=CREATE_USER_NAME).exists()
 
 
-class TestLogitPage(PageTestCase):
+class TestLogitPage(POMBaseTest):
     """Login page test."""
 
     fixtures = ['tests_e2e/fixtures/fixture-db-user.json']
@@ -50,7 +50,7 @@ class TestLogitPage(PageTestCase):
         expect(login_page.page).to_have_title(HomePage.title)
 
 
-class TestDeleteUserPage(PageTestCase):
+class TestDeleteUserPage(POMBaseTest):
     """Test delete user page class."""
 
     fixtures = ['tests_e2e/fixtures/fixture-db-user.json']
