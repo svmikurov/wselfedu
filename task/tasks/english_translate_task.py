@@ -1,5 +1,20 @@
+"""
+The English word translate exercise module.
+
+Before beginning a word study exercise, the user defines criteria for
+filtering words to study and the order in which they are displayed
+during the exercise. These criteria are collected in a
+``lookup_conditions``.
+
+``EnglishTranslateExercise`` class takes ``lookup_conditions`` as a
+parameter when creating an instance of the class. Class contains the
+necessary methods to satisfy these requirements.
+
+The ``task_data`` class property contains all the necessary information
+to display the word study exercise to the user.
+"""
+
 from random import choice, shuffle
-from typing import Any
 
 from django.db.models import Q, F
 from django.urls import reverse_lazy
@@ -14,35 +29,68 @@ class EnglishTranslateExercise:
     Parameters
     ----------
     lookup_conditions : `dict`
-        The user conditions exercise
-
-    Attributes
-    ----------
-        _lookup_params : `tuple[Q]`
-            User conditions of the exercise.
-        word_id : `int`
-            ID of the word that is displayed to the user in the task.
-        word_detail_link : `str`
-            Link to display detailed information about a word.
-
+        The user exercise conditions.
     """
 
-    def __init__(self, **lookup_conditions):
+    # attributes that are assigned a value during initialization
+    _user_id = None
+    """Current user id (None | `int`).
+    """
+    _language_order = None
+    """The order in which language translations of words are displayed
+    (None | `str`).
+    """
+    timeout = None
+    """Time value to display word without translate, sec (None | `int`).
+    """
+    _lookup_conditions = None
+    """The user exercise conditions (None | 'dict').
+    """
+
+    # attributes that are assigned a value when calling class methods
+    _word_ids = None
+    """Identifiers of words that satisfy the conditions of the exercise
+    (None | list[int]).
+    """
+    word_id = None
+    """ID of the word rendered to the user in the exercise
+    (None | `int`).
+    """
+    question_text = None
+    """The word to be translated in the exercise (None | `str`).
+    """
+    answer_text = None
+    """Translation of the word in the exercise (None | `str`).
+    """
+    word_count = None
+    """A synonym for the length of a verbal expression (None | `str`).
+    """
+    favorites_url = None
+    """URL to call favorite word status update (None | `str`).
+    """
+    favorites_status = None
+    """The status of word is it favorite (None | `bool`)
+    """
+    knowledge = None
+    """The user word knowledge assessment (None | `int`)
+    """
+    knowledge_url = None
+    """URL to call word knowledge assessment update (None | `str`).
+    """
+    google_translate_word_link = None
+    """URL to translate the current word on the Google Translate page.
+    (None | `str`).
+    """
+    word_detail_link = None
+    """Link to display detailed information about a word (None | `str`).
+    """
+
+    def __init__(self, **lookup_conditions: dict) -> None:
+        """Exercise constructor."""
         self._user_id = lookup_conditions.get('user_id')
         self._language_order = lookup_conditions.pop('language_order')
         self.timeout = lookup_conditions.pop('timeout')
         self._lookup_conditions = lookup_conditions
-        self._word_ids = None
-        self.word_id = None
-        self._word = None
-        self.question_text = None
-        self.answer_text = None
-        self.word_count = None
-        self.favorites_url = None
-        self.favorites_status = None
-        self.knowledge = None
-        self.knowledge_url = None
-        self.google_translate_word_link = None
 
     def create_task(self) -> None:
         """Create task."""
@@ -53,7 +101,10 @@ class EnglishTranslateExercise:
 
     @property
     def _lookup_params(self) -> tuple[Q]:
-        """Word lookup parameters for task."""
+        """Word lookup parameters for task (read-only).
+
+        User conditions of the exercise.
+        """
         lookup_params = LookupParams(self._lookup_conditions)
         return lookup_params.params
 
@@ -63,7 +114,7 @@ class EnglishTranslateExercise:
         Returns
         -------
         word_ids : `list[int]`
-            List of id words that satisfy the conditions of the exercise.
+            List of id word ids that satisfy the conditions of the exercise.
 
         Raises
         ------
@@ -104,7 +155,7 @@ class EnglishTranslateExercise:
         return word
 
     def _set_task_data(self) -> None:
-        """Get data for task rendering."""
+        """Set data for task rendering."""
         self.word_count = len(self._word_ids)
         self.favorites_status = self._word.favorites_status
         self.favorites_url = reverse_lazy(
@@ -127,7 +178,9 @@ class EnglishTranslateExercise:
 
     @property
     def _word_translation_order(self) -> list[str]:
-        """Translations of words in order of user choice."""
+        """Translations of words in order of user choice
+        (`list[str]`, read-only).
+        """
         word_translations = [self._word.word_eng, self._word.word_rus]
         if self._language_order == 'EN':
             pass
@@ -138,8 +191,10 @@ class EnglishTranslateExercise:
         return word_translations
 
     @property
-    def task_data(self) -> dict[str, Any]:
-        """Dictionary with task data."""
+    def task_data(self) -> dict[str, str | int]:
+        """Task data to render to the user.
+        (`dict[str, str | int]`, reade-only).
+        """
         return {
             'question_text': self.question_text,
             'answer_text': self.answer_text,

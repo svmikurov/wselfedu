@@ -8,10 +8,16 @@ from tests_e2e.pages.base import TestPage
 
 
 class HomePage(TestPage):
-    """The home page representation class."""
+    """The home page representation class.
+
+    Parameters
+    ----------
+    page : `Page`
+        Playwright page instance.
+    """
 
     title = 'Домашняя страница'
-    """The Home page title.
+    """The Home page title (`str`).
     """
 
     def __init__(self, page: Page) -> None:

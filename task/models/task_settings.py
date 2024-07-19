@@ -18,7 +18,7 @@ class EnglishTaskSettings(models.Model):
     user : `UserModel`
         User that setting model stored.
     language_order : `str`
-        The order in which translations of words are displayed.
+        The order in which language translations of words are displayed.
 
         Could be:
             - first the question is in English, then the answer is in
@@ -28,7 +28,7 @@ class EnglishTaskSettings(models.Model):
             - random order.
 
     timeout : `int`
-        Show the learning word tome.
+        Show the learning word time, sec.
     favorites : `bool`
         Wil be display only favorites words if `True`, all otherwise.
     category : `CategoryModel`
@@ -40,7 +40,7 @@ class EnglishTaskSettings(models.Model):
     knowledge : `str`
         Current knowledge word level.
     word_count : `str`
-        The number of words.
+        Length of verbal expression.
     date_start : `str`
         Start edge period for choice added words.
     date_end : `str`
