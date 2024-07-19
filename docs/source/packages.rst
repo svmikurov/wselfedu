@@ -70,11 +70,6 @@ Package ``tests_e2e``
 
 .. automodule:: tests_e2e.__init__
 
-Package ``tools``
-=================
-
-.. automodule:: tools.__init__
-
 Package ``users``
 =================
 

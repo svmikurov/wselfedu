@@ -100,7 +100,7 @@ class EnglishTranslateExerciseView(CheckLoginPermissionMixin, View):
         else:
             return render(request, self.template_name)
 
-    def post(self, request: HttpRequest) -> HttpResponse:
+    def post(self, request: HttpRequest) -> JsonResponse:
         """Get new word for English word translate exercise page."""
         task_conditions = request.session['task_conditions']
         task = EnglishTranslateExercise(**task_conditions)
@@ -129,8 +129,22 @@ class EnglishTranslateExerciseView(CheckLoginPermissionMixin, View):
 def update_words_knowledge_assessment_view(
         request: HttpRequest,
         **kwargs: object,
-) -> HttpResponse:
-    """"""
+) -> JsonResponse:
+    """Update user word knowledge assessment view.
+
+    Parameters
+    ----------
+    request : `HttpRequest`
+        Request to update user word knowledge assessment.
+    **kwargs : `object`
+        - ``word_id``: ID of the word whose rating will be updated
+          (`str`).
+
+    Returns
+    -------
+    `JsonResponse`
+        Response without data, with status 201.
+    """
     assessment = request.POST['assessment']
     word_pk = kwargs['word_id']
     user_pk = request.user.pk

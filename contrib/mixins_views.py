@@ -1,6 +1,10 @@
+from typing import Callable, Dict
+
 from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.db.models import ProtectedError
+from django.forms import Form
+from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView
@@ -14,12 +18,14 @@ class FormMessageMixin:
     success_message = 'Успех!'
     error_message = 'Ошибка!'
 
-    def form_valid(self, form):
+    def form_valid(self, form: Form) -> HttpResponse:
+        """Add success message to valid form."""
         response = super().form_valid(form)
         messages.success(self.request, self.success_message)
         return response
 
-    def form_invalid(self, form):
+    def form_invalid(self, form: Form) -> HttpResponse:
+        """Add error message to invalid form."""
         response = super().form_invalid(form)
         messages.error(self.request, self.error_message)
         return response
@@ -28,20 +34,16 @@ class FormMessageMixin:
 class HandleNoPermissionMixin:
     """Add a redirect url and a message, if the user doesn't have
     permission to perform an action.
-
-    Attributes
-    ----------
-    message_no_permission : `str`
-        Tell the user if they don't have permission.
-
-    url_no_permission : `str`
-        URL to redirect the user if they don't have permission.
     """
 
     message_no_permission = 'Для доступа необходимо войти в приложение'
+    """Tell the user if they don't have permission (`str`).
+    """
     url_no_permission = reverse_lazy('users:login')
+    """URL to redirect the user if they don't have permission (`str``).
+    """
 
-    def handle_no_permission(self):
+    def handle_no_permission(self) -> HttpResponseRedirect:
         messages.error(self.request, self.message_no_permission)
         return redirect(self.url_no_permission)
 
@@ -53,13 +55,13 @@ class CheckUserOwnershipMixin(
 ):
     """Checking user ownership of an object."""
 
-    def check_ownership(self):
+    def check_ownership(self) -> bool:
         """Check if the user is the owner of the object."""
         current_user = self.request.user
         specified_user = self.get_object().user
         return current_user == specified_user
 
-    def get_test_func(self):
+    def get_test_func(self) -> Callable:
         """Return the test result.
 
         This is an interface UserPassesTestMixin method override."""
@@ -72,13 +74,13 @@ class CheckObjectOwnershipMixin(
 ):
     """Checking user ownership of an object."""
 
-    def check_ownership(self):
+    def check_ownership(self) -> bool:
         """Check if the user is the owner of the object."""
         current_user = self.request.user
         specified_user = self.get_object()
         return current_user == specified_user
 
-    def get_test_func(self):
+    def get_test_func(self) -> Callable:
         """Return the test result.
 
         This is an interface UserPassesTestMixin method override."""
@@ -88,14 +90,14 @@ class CheckObjectOwnershipMixin(
 class CheckAdminMixin(HandleNoPermissionMixin, UserPassesTestMixin):
     """Check current user for admin permissions."""
 
-    def check_admin(self):
+    def check_admin(self) -> bool:
         if self.request.user.is_superuser:
             return True
         else:
             self.message_no_permission = 'Нужны права администратора'
             return False
 
-    def get_test_func(self):
+    def get_test_func(self) -> Callable:
         """Return the test result.
 
         This is an interface UserPassesTestMixin method override."""
@@ -111,7 +113,12 @@ class ObjectDeleteErrorMixin:
     protected_message = ('Невозможно удалить этот объект, так как он '
                          'используется в другом месте приложения')
 
-    def post(self, request, *args, **kwargs):
+    def post(
+            self,
+            request: HttpRequest,
+            *args: object,
+            **kwargs: object,
+    ) -> HttpResponse:
         try:
             return super().post(request, *args, **kwargs)
         except ProtectedError:
@@ -144,11 +151,11 @@ class ReuseSchemaFilterQueryMixin(MultipleObjectMixin):
 
     Example
     -------
-        <a href="?{{ reused_query }}&page={{ page_obj.next_page_number }}">next page</a>    # Noqa: E501
+    <a href="?{{reused_query}}&page={{page_obj.next_page_number}}">next page</a>
     """
 
     @staticmethod
-    def get_schema_query(request, keys):
+    def get_schema_query(request: HttpRequest, keys: tuple[str, ...]) -> str:
         """Get schema query by specific keys in request."""
         querydict = request.GET
         queries = []
@@ -157,12 +164,24 @@ class ReuseSchemaFilterQueryMixin(MultipleObjectMixin):
                 queries.append('='.join((key, value)))
         return '&'.join(queries)
 
-    def get_context_data(self, **kwargs):
-        """Add schema filter query to context."""
+    def get_context_data(self, **kwargs: object) -> Dict[str, object]:
+        """Insert the ``reused_query`` into the context dict.
+
+        Parameters
+        ----------
+        **kwargs : object
+            Context data.
+
+        Returns
+        -------
+        context : Dict[str, object]
+            Template context with
+        """
         context = super().get_context_data(**kwargs)
         filter_fields = self.filterset_class.get_filter_fields()
         context['reused_query'] = self.get_schema_query(
-            self.request, filter_fields,
+            self.request,
+            filter_fields,
         )
         return context
 

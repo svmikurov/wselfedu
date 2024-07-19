@@ -1,5 +1,3 @@
-from typing import Any
-
 from django.contrib.messages import get_messages
 from django.http import HttpResponse
 
@@ -30,16 +28,17 @@ class UserAuthTestMixin:
             url: str = None,
             user: UserModel = None,
             method: str = 'get',
-            **kwargs: Any,
+            **kwargs: object,
     ) -> HttpResponse:
         """Return response with logged user.
 
         Parameters
         ----------
-        user : `UserModel`
-            User for login (default is class attribute value).
         url : `str`
             Page url (default is class attribute value).
+        user : `UserModel`
+            User for login (default is class attribute value).
+        method : `str`
         """
         user = user or self.user
         url = url or self.url
@@ -59,7 +58,7 @@ class UserAuthTestMixin:
         session.save()
 
     @staticmethod
-    def assertMessage(response, expected_message):
+    def assertMessage(response, expected_message):      # noqa: N802
         """Test displaying Django message."""
         return flash_message_test(response, expected_message)
 

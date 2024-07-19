@@ -1,7 +1,7 @@
 from typing import Dict
 
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, HttpRequest, HttpResponse
+from django.http import JsonResponse, HttpRequest
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
@@ -14,13 +14,24 @@ from english.services import (
 
 
 @login_required
-def update_words_knowledge_assessment_view(request, **kwargs):
-    """Изменяет в модели WordUserKnowledgeRelation значение поля
-       knowledge_assessment (самооценки пользователем знания слова),
-       если, во время выполнения пользователем задания, изменении самооценки
-       и оставит ее значение в установленных пределах.
-       Минимальное значение самооценки равно MIN_KNOWLEDGE_ASSESSMENT,
-       максимальное равно MAX_KNOWLEDGE_ASSESSMENT.
+def update_word_knowledge_assessment_view(
+        request: HttpRequest,
+        **kwargs: object,
+) -> JsonResponse:
+    """Update user word knowledge assessment view.
+
+    Parameters
+    ----------
+    request : `HttpRequest`
+        Request to update user word knowledge assessment.
+    **kwargs : `object`
+        - ``word_id``: ID of the word whose rating will be updated
+          (`str`).
+
+    Returns
+    -------
+    `JsonResponse`
+        Response with status 201.
     """
     action = request.POST['action']
     word_pk = kwargs['word_id']
@@ -39,7 +50,7 @@ def update_words_knowledge_assessment_view(request, **kwargs):
 def update_words_favorites_status_view_ajax(
         request: HttpRequest,
         **kwargs: Dict[str, object],
-) -> HttpResponse:
+) -> JsonResponse:
     """Update the status of a word, is it favorite.
 
     This view receives a request from Ajax when the user wants to

@@ -40,7 +40,6 @@ class TestWordStudyExercisePage(POMBaseTest):
         """Test change word favorite status button."""
         word_study_page = WordStudyExercisePage(self.page)
         # The word is not in favorites, by default
-        word_study_page.pause_button.click()
         expect(word_study_page.add_to_favorite_button).to_be_visible()
         # Click the "Add to Favorites" button to make the word a
         # favorite

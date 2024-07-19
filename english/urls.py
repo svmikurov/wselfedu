@@ -33,7 +33,7 @@ urlpatterns = [
     # Добавление оценки слова.
     path(
         'knowledge-assessment/<int:word_id>/',
-        views.update_words_knowledge_assessment_view,
+        views.update_word_knowledge_assessment_view,
         name='knowledge_assessment'
     ),
     path(

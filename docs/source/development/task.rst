@@ -47,7 +47,28 @@ English translate view
    :no-index:
 
 .. autoclass:: task.views.english_translate_views.EnglishTranslateChoiceView
+   :members:
 
 .. autoclass:: task.views.english_translate_views.EnglishTranslateExerciseView
+   :members:
 
 .. autofunction:: task.views.english_translate_views.update_words_knowledge_assessment_view
+
+
+Mixins
+======
+
+.. automodule:: contrib.__init__
+   :no-index:
+
+Views mixins
+------------
+
+.. automodule:: contrib.mixins_views
+   :members:
+
+Test mixins
+-----------
+
+.. automodule:: contrib.mixins_tests
+   :members:
