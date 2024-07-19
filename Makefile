@@ -18,6 +18,9 @@ down:
 makemigrations:
 	@$(MANAGE) makemigrations
 
+dry-run:
+	@$(MANAGE) makemigrations --dry-run
+
 migrate:
 	@$(MANAGE) migrate
 
