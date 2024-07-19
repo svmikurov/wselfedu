@@ -1,19 +1,46 @@
+"""
+The mathematical calculate exercise module.
+"""
+
 import operator
 from random import randint
 
 
 class CalculationExercise:
-    """Calculation exercise class with two operands."""
+    """Calculation exercise class with two operands.
+
+    Parameters
+    ----------
+    calculation_type : `str`
+        The symbolic representation of mathematical operator of task.
+    min_value : `int`
+        Minimum value of operands.
+    max_value : `int`
+        Maximum value of operands.
+    timeout : `int`
+        Time value to display a math task before displaying the result,
+        sec (None | `int`).
+    """
 
     _OPS = {
         '+': operator.add,
         '-': operator.sub,
         '*': operator.mul,
     }
+    """The symbolic representation of mathematical operators
+    (Dict[`str`, object]).
+    """
     question_text = None
+    """Еhe text representation of a mathematical expression to render to
+    the user(`str`).
+    """
     answer_text = None
+    """The text representation of the result of calculating
+    a mathematical expression (`str`).
+    """
 
     def __init__(self, *, calculation_type, min_value, max_value, timeout):
+        """Calculation exercise constructor."""
         self.timeout = timeout
         # Create task
         self._set_task_solution(calculation_type, min_value, max_value)
