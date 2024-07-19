@@ -32,24 +32,35 @@ class CalculationExercise:
     """
     question_text = None
     """Еhe text representation of a mathematical expression to render to
-    the user(`str`).
+    the user(None | `str`).
     """
     answer_text = None
     """The text representation of the result of calculating
-    a mathematical expression (`str`).
+    a mathematical expression (None | `str`).
     """
 
-    def __init__(self, *, calculation_type, min_value, max_value, timeout):
+    def __init__(
+            self,
+            *,
+            calculation_type: str,
+            min_value: int,
+            max_value: int,
+            timeout: int
+    ) -> None:
         """Calculation exercise constructor."""
         self.timeout = timeout
         # Create task
         self._set_task_solution(calculation_type, min_value, max_value)
 
-    def _set_task_solution(self, calculation_type, *value_range):
+    def _set_task_solution(
+            self,
+            calculation_type,
+            *value_range,
+    ) -> None:
         """Create and set question text with answer text.
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         calculation_type : `str`
             The symbolic representation of the calculation type, can be
             '+', '-' or '*' operator.

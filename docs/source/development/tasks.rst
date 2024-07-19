@@ -17,6 +17,16 @@ English translate task
    :members:
    :private-members:
 
+English translate task the database queries
+-------------------------------------------
+
+.. automodule:: task.queries.lookup_params
+   :no-index:
+
+.. autoclass:: task.queries.lookup_params.LookupParams
+   :members:
+   :private-members:
+
 Mathematical calculate exercise
 -------------------------------
 

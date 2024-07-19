@@ -20,7 +20,7 @@ from django.db.models import Q, F
 from django.urls import reverse_lazy
 
 from english.models import WordModel
-from task.services import LookupParams
+from task.queries import LookupParams
 
 
 class EnglishTranslateExercise:
@@ -63,7 +63,8 @@ class EnglishTranslateExercise:
     """Translation of the word in the exercise (None | `str`).
     """
     word_count = None
-    """A synonym for the length of a verbal expression (None | `str`).
+    """A synonym for the length of a verbal expression
+    (None | `list[str]`).
     """
     favorites_url = None
     """URL to call favorite word status update (None | `str`).
@@ -72,13 +73,13 @@ class EnglishTranslateExercise:
     """The status of word is it favorite (None | `bool`)
     """
     knowledge = None
-    """The user word knowledge assessment (None | `int`)
+    """The user word knowledge assessment (None | `list[str]`)
     """
     knowledge_url = None
     """URL to call word knowledge assessment update (None | `str`).
     """
     google_translate_word_link = None
-    """URL to translate the current word on the Google Translate page.
+    """URL to translate the current word on the Google Translate page
     (None | `str`).
     """
     word_detail_link = None
@@ -100,7 +101,7 @@ class EnglishTranslateExercise:
         self._set_task_data()
 
     @property
-    def _lookup_params(self) -> tuple[Q]:
+    def _lookup_params(self) -> tuple[Q, ...]:
         """Word lookup parameters for task (read-only).
 
         User conditions of the exercise.

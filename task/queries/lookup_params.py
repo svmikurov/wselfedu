@@ -1,3 +1,7 @@
+"""
+Database query module for English word translation exercises.
+"""
+
 import datetime
 
 from django.db.models import F, Q
@@ -14,15 +18,23 @@ EDGE_PERIODS = {
     'M6': {'weeks': 26},
     'M9': {'weeks': 40},
 }
+"""The choice representation of periods.
+"""
 
 
 class LookupParams:
     """Lookup parameters class.
 
-    Attributes:
-    -----------
-    params : `tuple[Q]`
-        Lookup parameters for use it at queryset method filter():
+    Parameters
+    ----------
+    lookup_conditions : `dict`
+        The user exercise conditions.
+
+    Examples
+    --------
+    lookup_params = LookupParams(lookup_conditions)
+    params: `tuple[Q, ...]` = lookup_params.params
+    query = Model.objects.filter(*params)
     """
 
     ASSESSMENTS = {
@@ -31,13 +43,17 @@ class LookupParams:
         'E': [9, 10],
         'K': [11],
     }
+    """A literal representation of an assessment
+    (dict[str, list[int]]).
+    """
 
-    def __init__(self, form_data):
-        self.form_data = form_data
+    def __init__(self, lookup_conditions: dict) -> None:
+        """Lookup parameters constructor."""
+        self.lookup_conditions = lookup_conditions
 
     @property
-    def params(self):
-        """lookup parameters."""
+    def params(self) -> tuple[Q, ...]:
+        """Lookup parameters (`tuple[Q, ...]`, read-only)."""
         params = (
             self._user_lookup_param,
             self._favorites_lookup_param,
@@ -51,42 +67,43 @@ class LookupParams:
         return params
 
     @property
-    def _user_lookup_param(self):
-        """Lookup parameter by user."""
-        lookup_value = self.form_data.get('user_id')
+    def _user_lookup_param(self) -> Q:
+        """Lookup parameter by user (`Q`, read-only)."""
+        lookup_value = self.lookup_conditions.get('user_id')
         lookup_field = 'user'
         param = Q(**{lookup_field: lookup_value}) if lookup_value else Q()
         return param
 
     @property
-    def _favorites_lookup_param(self):
-        """Lookup parameter by favorite status."""
-        field_value = self.form_data.get('favorites')
-        lookup_value = self.form_data.get('user_id')
+    def _favorites_lookup_param(self) -> Q:
+        """Lookup parameter by favorite status (`Q`, read-only)."""
+        field_value = self.lookup_conditions.get('favorites')
+        lookup_value = self.lookup_conditions.get('user_id')
         lookup_field = 'wordsfavoritesmodel__user_id'
         param = Q(**{lookup_field: lookup_value}) if field_value else Q()
         return param
 
     @property
-    def _category_lookup_param(self):
-        """Lookup parameter by category."""
-        lookup_value = self.form_data.get('category')
+    def _category_lookup_param(self) -> Q:
+        """Lookup parameter by category (`Q`, read-only)."""
+        lookup_value = self.lookup_conditions.get('category')
         lookup_field = 'category_id'
         param = Q(**{lookup_field: lookup_value}) if lookup_value else Q()
         return param
 
     @property
-    def _source_lookup_param(self):
-        """Lookup parameter by source."""
-        lookup_value = self.form_data.get('source')
+    def _source_lookup_param(self) -> Q:
+        """Lookup parameter by source (`Q`, read-only)."""
+        lookup_value = self.lookup_conditions.get('source')
         lookup_field = 'source_id'
         param = Q(**{lookup_field: lookup_value}) if lookup_value else Q()
         return param
 
     @property
-    def _knowledge_lookup_param(self):
-        """Lookup parameter by user knowledge assessment."""
-        form_value = self.form_data.get('knowledge_assessment', {})
+    def _knowledge_lookup_param(self) -> Q:
+        """Lookup parameter by user knowledge assessment
+        (`Q`, read-only)."""
+        form_value = self.lookup_conditions.get('knowledge_assessment', [])
         lookup_value = self._to_numeric(self.ASSESSMENTS, form_value)
         lookup_field = 'worduserknowledgerelation__knowledge_assessment__in'
 
@@ -110,9 +127,9 @@ class LookupParams:
         return param
 
     @property
-    def _word_count_lookup_param(self):
-        """Lookup parameter by word count."""
-        lookup_value = self.form_data.get('word_count', [])
+    def _word_count_lookup_param(self) -> Q:
+        """Lookup parameter by word count (`Q`, read-only)."""
+        lookup_value = self.lookup_conditions.get('word_count', [])
         if 'OW' in lookup_value or 'CB' in lookup_value:
             lookup_value += ['NC']
         lookup_field = 'word_count__in'
@@ -120,8 +137,8 @@ class LookupParams:
         return param
 
     @property
-    def _date_start_lookup_param(self):
-        """Lookup parameter by word added date."""
+    def _date_start_lookup_param(self) -> Q:
+        """Lookup parameter by word added date (`Q`, read-only)."""
         period_date = 'period_start_date'
         format_time = '%Y-%m-%d 00:00:00+00:00'
         lookup_value = self._get_date_value(period_date, format_time)
@@ -130,8 +147,8 @@ class LookupParams:
         return param
 
     @property
-    def _date_end_lookup_param(self):
-        """Lookup parameter by word added date."""
+    def _date_end_lookup_param(self) -> Q:
+        """Lookup parameter by word added date (`Q`, read-only)."""
         period_date = 'period_end_date'
         format_time = '%Y-%m-%d 23:59:59+00:00'
         lookup_value = self._get_date_value(period_date, format_time)
@@ -142,7 +159,7 @@ class LookupParams:
     def _get_date_value(self, period_date: str, format_time: str) -> str:
         """Get lookup date value."""
         day_today = datetime.datetime.now(tz=datetime.timezone.utc)
-        period = self.form_data.get(period_date)
+        period = self.lookup_conditions.get(period_date)
         period_delta = datetime.timedelta(**EDGE_PERIODS.get(period, {}))
         end_period = day_today - period_delta
 
@@ -151,7 +168,7 @@ class LookupParams:
         return date_value
 
     @staticmethod
-    def _to_numeric(assessments, string_values):
+    def _to_numeric(assessments: dict, string_values: list) -> list[int]:
         """Convert a literal representation of an assessment into a list
         of numeric values.
         """

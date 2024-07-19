@@ -34,8 +34,8 @@ class UserAuthTestMixin:
     ) -> HttpResponse:
         """Return response with logged user.
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         user : `UserModel`
             User for login (default is class attribute value).
         url : `str`
@@ -100,8 +100,8 @@ class TestAuthMixin(TestMixin):
     ) -> HttpResponse:
         """Return response with logged user.
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         user : `UserModel`
             User for login (default is class attribute value).
         url : `str`

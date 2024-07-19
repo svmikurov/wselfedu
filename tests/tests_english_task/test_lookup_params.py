@@ -3,7 +3,7 @@ from datetime import datetime, timezone, timedelta
 from django.test import TestCase
 
 from english.models import WordModel
-from task.services import LookupParams
+from task.queries import LookupParams
 
 
 class LookupParamsTest(TestCase):

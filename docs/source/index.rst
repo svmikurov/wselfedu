@@ -19,7 +19,6 @@ Welcome to wselfedu's documentation!
 
    packages
    development/tasks
-   development/views
    tests_e2e/index
    api
    changelog

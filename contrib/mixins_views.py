@@ -141,7 +141,8 @@ class ReuseSchemaFilterQueryMixin(MultipleObjectMixin):
     """Reuses previous url schema filter query with pagination.
 
     Adds ``reused_query`` to the URL scheme query.
-    Example:
+
+    Example
     -------
         <a href="?{{ reused_query }}&page={{ page_obj.next_page_number }}">next page</a>    # Noqa: E501
     """
