@@ -30,8 +30,13 @@ class LookupParams:
         'E': [9, 10],
         'K': [11],
     }
-    """A literal representation of an assessment
-    (dict[str, list[int]]).
+    """A literal representation of an knowledge assessment
+    (`dict[str, list[int]]`).
+
+    key : `str`
+        A literal representation of an knowledge assessment.
+    value : `int`
+        A digital range representation of an knowledge assessment.
     """
 
     def __init__(self, lookup_conditions: dict) -> None:
