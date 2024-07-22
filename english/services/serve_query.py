@@ -13,6 +13,7 @@ from english.models import WordModel, WordUserKnowledgeRelation
 from english.services.word_knowledge_assessment import get_numeric_value
 
 EDGE_PERIODS_TERMS = {
+    'DT': {'days': 0},
     'D3': {'days': 3},
     'W1': {'weeks': 1},
     'W2': {'weeks': 2},
