@@ -49,7 +49,7 @@ class UserAuthTestCase(TestCase):
         @classmethod
         def setUpTestData(cls):
             super().setUpTestData()
-            cls.url = reverse(
+            cls.path_schema = reverse(
                 'users:update',
                 kwargs={'pk': cls.user.id},
             )
@@ -65,7 +65,7 @@ class UserAuthTestCase(TestCase):
 
         def test_update_user(self):
             response = self.get_auth_response(
-                path_schema=self.url,
+                path_schema=self.path_schema,
                 method='post',
                 **self.update_user_data,
             )
