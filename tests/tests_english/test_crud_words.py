@@ -4,7 +4,7 @@ from django.db.models import F
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from contrib.mixins_tests import flash_message_test
+from contrib.expanded_test import flash_message_test
 from english.models import WordModel
 from users.models import UserModel
 
