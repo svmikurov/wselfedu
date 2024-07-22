@@ -1,5 +1,4 @@
-django-debug-toolbar==4.3.0
-requests==2.32.2
+django-stubs[compatible-mypy]==5.0.2
 sphinx==7.3.7
 sphinx-rtd-theme==2.0.0
 sphinx-tabs==3.4.5
