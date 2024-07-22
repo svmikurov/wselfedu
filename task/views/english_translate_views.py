@@ -17,7 +17,7 @@ from english.analytics.english_analytics import collect_statistics
 from contrib.mixins_views import (
     CheckLoginPermissionMixin,
 )
-from english.services import (
+from english.orm_queries import (
     get_knowledge_assessment,
     update_word_knowledge_assessment,
 )

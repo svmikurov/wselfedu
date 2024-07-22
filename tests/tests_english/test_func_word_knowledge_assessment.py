@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.urls import reverse_lazy
 
 from english.models import WordModel, WordUserKnowledgeRelation
-from english.services import (
+from english.orm_queries import (
     get_knowledge_assessment,
 )
 from users.models import UserModel

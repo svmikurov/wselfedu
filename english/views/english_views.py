@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
 
-from english.services import (
+from english.orm_queries import (
     update_word_favorites_status,
     update_word_knowledge_assessment,
     get_knowledge_assessment,
