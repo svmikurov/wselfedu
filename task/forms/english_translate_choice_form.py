@@ -11,7 +11,7 @@ LANGUAGE_ORDER = [
     ('EN', 'Перевод с английского языка'),
     ('RU', 'Перевод на английский язык'),
 ]
-EDGE_PERIODS = [
+EDGE_PERIODS_ALIASES = [
     ('DT', 'Сегодня'),
     ('D3', 'Три дня назад'),
     ('W1', 'Неделя назад'),
@@ -24,6 +24,9 @@ EDGE_PERIODS = [
     ('M9', 'Девять месяцев назад'),
     ('NC', 'Добавлено'),
 ]
+"""Edge period aliases at word adding for study
+(`list[tuple[str, str]]`).
+"""
 DEFAULT_START_PERIOD = ('NC', 'Добавлено')
 DEFAULT_END_PERIOD = ('DT', 'Сегодня')
 WORD_COUNT = (
@@ -80,13 +83,13 @@ class EnglishTranslateChoiceForm(forms.Form):
         label='',
     )
     period_start_date = forms.ChoiceField(
-        choices=EDGE_PERIODS,
+        choices=EDGE_PERIODS_ALIASES,
         initial=DEFAULT_START_PERIOD,
         required=False,
         label='',
     )
     period_end_date = forms.ChoiceField(
-        choices=EDGE_PERIODS[:-1],
+        choices=EDGE_PERIODS_ALIASES[:-1],
         initial=DEFAULT_END_PERIOD,
         required=False,
         label='',

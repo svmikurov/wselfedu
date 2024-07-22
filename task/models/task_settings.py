@@ -5,6 +5,7 @@ User task settings modul.
 from django.db import models
 
 from english.models import CategoryModel, SourceModel
+from task.forms.english_translate_choice_form import EDGE_PERIODS_ALIASES
 from users.models import UserModel
 
 
@@ -51,19 +52,6 @@ class EnglishTaskSettings(models.Model):
         ('RN', 'Перевод в случайном порядке'),
         ('EN', 'Перевод с английского языка'),
         ('RU', 'Перевод на английский язык'),
-    ]
-    EDGE_PERIODS = [
-        ('DT', 'Сегодня'),
-        ('D3', 'Три дня назад'),
-        ('W1', 'Неделя назад'),
-        ('W2', 'Две недели назад'),
-        ('W3', 'Три недели назад'),
-        ('W4', 'Четыре недели назад'),
-        ('W7', 'Семь недель назад'),
-        ('M3', 'Три месяца назад'),
-        ('M6', 'Шесть месяцев назад'),
-        ('M9', 'Девять месяцев назад'),
-        ('NC', 'Добавлено'),
     ]
     DEFAULT_START_PERIOD = ('NC', 'Добавлено')
     DEFAULT_END_PERIOD = ('DT', 'Сегодня')
@@ -130,13 +118,13 @@ class EnglishTaskSettings(models.Model):
         verbose_name='Длина выражения',
     )
     date_start = models.CharField(
-        choices=EDGE_PERIODS,
+        choices=EDGE_PERIODS_ALIASES,
         default=DEFAULT_START_PERIOD,
         max_length=2,
         verbose_name='Добавлено после',
     )
     date_end = models.CharField(
-        choices=EDGE_PERIODS[:-1],
+        choices=EDGE_PERIODS_ALIASES[:-1],
         default=DEFAULT_END_PERIOD,
         max_length=2,
         verbose_name='Добавлено до',

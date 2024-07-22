@@ -6,20 +6,7 @@ import datetime
 
 from django.db.models import F, Q
 
-EDGE_PERIODS = {
-    'DT': {'days': 0},
-    'D3': {'days': 3},
-    'W1': {'weeks': 1},
-    'W2': {'weeks': 2},
-    'W3': {'weeks': 3},
-    'W4': {'weeks': 4},
-    'W7': {'weeks': 7},
-    'M3': {'weeks': 13},
-    'M6': {'weeks': 26},
-    'M9': {'weeks': 40},
-}
-"""The choice representation of periods.
-"""
+from english.services.serve_query import EDGE_PERIODS_TERMS
 
 
 class LookupParams:
@@ -160,11 +147,11 @@ class LookupParams:
         """Get lookup date value."""
         day_today = datetime.datetime.now(tz=datetime.timezone.utc)
         period = self.lookup_conditions.get(period_date)
-        period_delta = datetime.timedelta(**EDGE_PERIODS.get(period, {}))
+        period_delta = datetime.timedelta(**EDGE_PERIODS_TERMS.get(period, {}))
         end_period = day_today - period_delta
 
         lookup_value = end_period.strftime(format_time)
-        date_value = lookup_value if period in EDGE_PERIODS else ''
+        date_value = lookup_value if period in EDGE_PERIODS_TERMS else ''
         return date_value
 
     @staticmethod

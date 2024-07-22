@@ -15,7 +15,7 @@ from django.utils import timezone
 from english.models import WordModel, WordUserKnowledgeRelation
 from english.services.word_knowledge_assessment import get_numeric_value
 
-EDGE_PERIODS = {
+EDGE_PERIODS_TERMS = {
     'D3': {'days': 3},
     'W1': {'weeks': 1},
     'W2': {'weeks': 2},
@@ -26,6 +26,18 @@ EDGE_PERIODS = {
     'M6': {'weeks': 26},
     'M9': {'weeks': 40},
 }
+"""The term representation of period aliases at word adding for study
+(`dict[str, dict[str, int]]`).
+
+key : `str`
+    Period alias at word adding for study.
+value : `dict[str, int]]`
+    Period of time at word adding for study.
+        key : `str`
+            The ``datetime.timedelta`` function argument name.
+        value : `int`
+            The ``datetime.timedelta`` function argument value.
+"""
 
 
 def get_date_value(form_value: str) -> date:
@@ -44,7 +56,7 @@ def get_date_value(form_value: str) -> date:
     elif form_value == 'NC':
         model_date = begin_date_period
     else:
-        model_date = day_today - timedelta(**EDGE_PERIODS[form_value])
+        model_date = day_today - timedelta(**EDGE_PERIODS_TERMS[form_value])
 
     return model_date
 
