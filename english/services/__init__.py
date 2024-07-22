@@ -1,10 +1,3 @@
-from english.services.serve_query import (
-    create_lookup_params,
-    collect_params,
-    get_date_value,
-    get_random_query_from_queryset,
-    get_words_for_study,
-)
 from english.services.word_knowledge_assessment import (
     get_numeric_value,
     get_knowledge_assessment,

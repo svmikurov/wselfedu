@@ -6,7 +6,30 @@ import datetime
 
 from django.db.models import F, Q
 
-from english.services.serve_query import EDGE_PERIODS_TERMS
+EDGE_PERIODS_TERMS = {
+    'DT': {'days': 0},
+    'D3': {'days': 3},
+    'W1': {'weeks': 1},
+    'W2': {'weeks': 2},
+    'W3': {'weeks': 3},
+    'W4': {'weeks': 4},
+    'W7': {'weeks': 7},
+    'M3': {'weeks': 13},
+    'M6': {'weeks': 26},
+    'M9': {'weeks': 40},
+}
+"""The term representation of period aliases at word adding for study
+(`dict[str, dict[str, int]]`).
+
+key : `str`
+    Period alias at word adding for study.
+value : `dict[str, int]]`
+    Period of time at word adding for study.
+        key : `str`
+            The ``datetime.timedelta`` function argument name.
+        value : `int`
+            The ``datetime.timedelta`` function argument value.
+"""
 
 
 class LookupParams:
