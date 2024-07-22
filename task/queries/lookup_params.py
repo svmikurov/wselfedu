@@ -6,6 +6,8 @@ import datetime
 
 from django.db.models import F, Q
 
+from english.orm_queries.word_knowledge_assessment import WORD_STUDY_ASSESSMENTS
+
 EDGE_PERIODS_TERMS = {
     'DT': {'days': 0},
     'D3': {'days': 3},
@@ -45,21 +47,6 @@ class LookupParams:
     lookup_params = LookupParams(lookup_conditions)
     params: `tuple[Q, ...]` = lookup_params.params
     query = Model.objects.filter(*params)
-    """
-
-    ASSESSMENTS = {
-        'S': [0, 1, 2, 3, 4, 5, 6],
-        'R': [7, 8],
-        'E': [9, 10],
-        'K': [11],
-    }
-    """A literal representation of an knowledge assessment
-    (`dict[str, list[int]]`).
-
-    key : `str`
-        A literal representation of an knowledge assessment.
-    value : `int`
-        A digital range representation of an knowledge assessment.
     """
 
     def __init__(self, lookup_conditions: dict) -> None:
@@ -119,7 +106,7 @@ class LookupParams:
         """Lookup parameter by user knowledge assessment
         (`Q`, read-only)."""
         form_value = self.lookup_conditions.get('knowledge_assessment', [])
-        lookup_value = self._to_numeric(self.ASSESSMENTS, form_value)
+        lookup_value = self._to_numeric(WORD_STUDY_ASSESSMENTS, form_value)
         lookup_field = 'worduserknowledgerelation__knowledge_assessment__in'
 
         words_with_assessment = Q(**{lookup_field: lookup_value})

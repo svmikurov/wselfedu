@@ -24,6 +24,19 @@ WORD_STUDY_ASSESSMENTS = {
     'E': [*range(MAX_REPETITION_VALUE + 1, MAX_EXAMINATION_VALUE + 1)],
     'K': [MAX_KNOWLEDGE_ASSESSMENT],
 }
+"""A literal representation of an knowledge assessment
+(`dict[str, list[int]]`).
+
+key : `str`
+    A literal representation of an knowledge assessment.
+    Where:
+        'S' - is a word in the process of studied;
+        'R' - word in process of repetition;
+        'E' - is a word in the process of examination;
+        'K' - the word has been studied.
+value : `int`
+    A digital range representation of an knowledge assessment.
+"""
 
 
 def get_knowledge_assessment(word_id, user_id):
