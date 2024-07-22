@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse_lazy, reverse
 
-from contrib.mixins_tests import flash_message_test, UserAuthTestCase
+from contrib.expanded_test import flash_message_test, UserAuthTestCase
 from users.models import UserModel
 
 NO_PERMISSION_MSG = 'Для доступа необходимо войти в приложение'

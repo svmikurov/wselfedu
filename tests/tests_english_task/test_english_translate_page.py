@@ -3,7 +3,7 @@ from unittest import skip
 import pytest
 from django.urls import reverse_lazy
 
-from contrib.mixins_tests import UserAuthTestCase
+from contrib.expanded_test import UserAuthTestCase
 
 
 class TestAuthEnglishTranslateExercisePage(UserAuthTestCase):

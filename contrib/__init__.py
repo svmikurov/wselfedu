@@ -1,3 +1,3 @@
 """
-Django's tests and views mixins package.
+Django tests extension and views mixins package.
 """

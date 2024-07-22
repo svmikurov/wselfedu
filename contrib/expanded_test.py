@@ -1,7 +1,7 @@
 """
-Django class test mixins module.
+Django tests extension module.
 """
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 from django.contrib.messages import get_messages
 from django.db.models import Model
@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
 
 def flash_message_test(
-        response: TestHttpResponse,
+        response: 'TestHttpResponse',
         expected_message: str,
 ) -> None:
     """Test displaying Django message.
@@ -36,7 +36,7 @@ def flash_message_test(
 class UserAuthTestCase(TestCase):
     """Authorized page test class.
 
-    Add this class to derived test class.
+    Inherit your test class from this.
 
     Extends the django.test.TestCase class by adding a user, a method
     to get an authorized response, a method to add data to a session,
@@ -49,7 +49,7 @@ class UserAuthTestCase(TestCase):
         @classmethod
         def setUpTestData(cls):
             super().setUpTestData()
-            cls.url = reverse(
+            cls.path_schema = reverse(
                 'users:update',
                 kwargs={'pk': cls.user.id},
             )
@@ -65,7 +65,7 @@ class UserAuthTestCase(TestCase):
 
         def test_update_user(self):
             response = self.get_auth_response(
-                path_schema=self.url,
+                path_schema=self.path_schema,
                 method='post',
                 **self.update_user_data,
             )
@@ -98,7 +98,7 @@ class UserAuthTestCase(TestCase):
             user: Model | None = None,
             method: str = 'get',
             **kwargs: object,
-    ) -> TestHttpResponse:
+    ) -> 'TestHttpResponse':
         """Get response with logged user.
 
         Parameters
@@ -150,7 +150,7 @@ class UserAuthTestCase(TestCase):
 
     @staticmethod
     def assertMessage(
-            response: TestHttpResponse,
+            response: 'TestHttpResponse',
             expected_message: str,
     ) -> None:
         """Test displaying Django message.
