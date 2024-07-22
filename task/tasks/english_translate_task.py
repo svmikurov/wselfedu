@@ -104,13 +104,13 @@ class EnglishTranslateExercise:
     def _lookup_params(self) -> tuple[Q, ...]:
         """Word lookup parameters for task (read-only).
 
-        User conditions of the exercise.
+        Lookup params by user conditions of the exercise.
         """
         lookup_params = LookupParams(self._lookup_conditions)
         return lookup_params.params
 
     def _get_word_ids(self) -> list[int]:
-        """Make query to database by user conditions of the exercise.
+        """Get word ids by user conditions of the exercise.
 
         Returns
         -------

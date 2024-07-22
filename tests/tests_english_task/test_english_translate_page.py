@@ -1,17 +1,12 @@
 from unittest import skip
 
 import pytest
-from django.test import TestCase
 from django.urls import reverse_lazy
 
-from contrib.mixins_tests import TestAuthMixin
+from contrib.mixins_tests import UserAuthTestCase
 
 
-class TestAuthEnglishTranslateChoicePage(TestAuthMixin, TestCase):
-    """English word translate condition choice test."""
-
-
-class TestAuthEnglishTranslateExercisePage(TestAuthMixin, TestCase):
+class TestAuthEnglishTranslateExercisePage(UserAuthTestCase):
     """English word translate exercise test."""
 
     fixtures = ['tests/tests_english_task/fixtures/wse-fixtures-4.json']
@@ -25,7 +20,7 @@ class TestAuthEnglishTranslateExercisePage(TestAuthMixin, TestCase):
         """Test get method success status."""
         task_conditions = {'timeout': 1, 'language_order': 'EN'}
         self.set_session(**{'task_conditions': task_conditions})
-        response = self.get_user_auth_response()
+        response = self.get_auth_response()
         self.assertEqual(response.status_code, 200)
 
     @skip
@@ -33,7 +28,7 @@ class TestAuthEnglishTranslateExercisePage(TestAuthMixin, TestCase):
     def test_page_get_status_invalid_task_conditions(self):
         """Test get method redirect status for invalid task conditions."""
         msg = 'Не задан таймаут или порядок перевода слов'
-        response = self.get_user_auth_response()
+        response = self.get_auth_response()
         self.assertMessage(response, msg)
         self.assertEqual(response.status_code, 302)
 

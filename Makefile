@@ -50,8 +50,7 @@ get-state:
 	@$(APP) sh -c "pytest tests_e2e/auth/get_auth_state.py"
 
 test-just:
-	@$(APP) pytest tests_e2e/tests/test_exercise_word_study.py
-
+	@$(APP) pytest tests/tests_english_task/test_english_analytic.py
 
 # PostgreSQL
 connect:

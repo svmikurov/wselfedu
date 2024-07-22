@@ -2,10 +2,10 @@ from django.contrib import auth
 from django.test import TestCase
 from django.urls import reverse_lazy
 
-from contrib.mixins_tests import UserAuthTestMixin
+from contrib.mixins_tests import UserAuthTestCase
 
 
-class TestAuthUser(UserAuthTestMixin, TestCase):
+class TestAuthUser(UserAuthTestCase):
     """Auth user test."""
 
     @classmethod
@@ -33,7 +33,7 @@ class TestAuthUser(UserAuthTestMixin, TestCase):
 
     def test_logout(self):
         """Test logout."""
-        response = self.get_auth_response(url=self.logout_url, method='post')
+        response = self.get_auth_response(self.logout_url, method='post')
         user = auth.get_user(self.client)
 
         self.assertRedirects(response, self.redirect_url, 302)

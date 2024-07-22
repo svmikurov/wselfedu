@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse_lazy, reverse
 
-from contrib.mixins_tests import flash_message_test, UserAuthTestMixin
+from contrib.mixins_tests import flash_message_test, UserAuthTestCase
 from users.models import UserModel
 
 NO_PERMISSION_MSG = 'Для доступа необходимо войти в приложение'
@@ -36,7 +36,7 @@ class TestCreateUserView(TestCase):
         assert UserModel.objects.filter(username='new_user').exists()
 
 
-class TestUpdateUserView(UserAuthTestMixin, TestCase):
+class TestUpdateUserView(UserAuthTestCase):
     """Update user view test."""
 
     @classmethod
@@ -59,7 +59,7 @@ class TestUpdateUserView(UserAuthTestMixin, TestCase):
     def test_post_method_update_user_by_user(self):
         """Test update user by user, POST method page status 302."""
         response = self.get_auth_response(
-            url=self.url, method='post', **self.update_user_data,
+            path_schema=self.url, method='post', **self.update_user_data,
         )
         self.assertRedirects(response, SUCCESS_REDIRECT_PATH, 302)
         self.assertMessage(response, 'Пользователь обновлен')
@@ -82,7 +82,7 @@ class TestUpdateUserView(UserAuthTestMixin, TestCase):
         assert not UserModel.objects.filter(username='update_user').exists()
 
 
-class TestDeleteUserView(UserAuthTestMixin, TestCase):
+class TestDeleteUserView(UserAuthTestCase):
     """Delete user view test."""
 
     @classmethod
@@ -94,12 +94,12 @@ class TestDeleteUserView(UserAuthTestMixin, TestCase):
 
     def test_get_method_delete_user_by_user(self):
         """Test delete user by user, GET method page status 200."""
-        response = self.get_auth_response(url=self.url)
+        response = self.get_auth_response(path_schema=self.url)
         self.assertTrue(response.status_code, 200)
 
     def test_post_method_delete_user_by_user(self):
         """Test delete user by user, POST method page status 302."""
-        response = self.get_auth_response(url=self.url, method='post')
+        response = self.get_auth_response(path_schema=self.url, method='post')
         self.assertRedirects(response, SUCCESS_REDIRECT_PATH, 302)
         self.assertMessage(response, 'Пользователь удален')
         self.assertFalse(UserModel.objects.filter(pk=self.user.id).exists())
@@ -119,7 +119,7 @@ class TestDeleteUserView(UserAuthTestMixin, TestCase):
         self.assertTrue(UserModel.objects.filter(pk=self.user.id).exists())
 
 
-class TestUserListView(UserAuthTestMixin, TestCase):
+class TestUserListView(UserAuthTestCase):
     """List user view test."""
 
     @classmethod
@@ -131,12 +131,12 @@ class TestUserListView(UserAuthTestMixin, TestCase):
 
     def test_show_user_list_to_admin(self):
         """Test display user list to admin, page status 200."""
-        response = self.get_auth_response(user=self.admin, url=self.url)
+        response = self.get_auth_response(user=self.admin, path_schema=self.url)
         self.assertEqual(response.status_code, 200)
 
     def test_show_user_list_to_user(self):
         """Test display user list to logged-in user, page status 302."""
-        response = self.get_auth_response(user=self.user, url=self.url)
+        response = self.get_auth_response(user=self.user, path_schema=self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         self.assertMessage(response, 'Нужны права администратора')
 
@@ -147,7 +147,7 @@ class TestUserListView(UserAuthTestMixin, TestCase):
         self.assertMessage(response, 'Нужны права администратора')
 
 
-class TestUserDetailView(UserAuthTestMixin, TestCase):
+class TestUserDetailView(UserAuthTestCase):
     """User detail view test."""
 
     @classmethod
@@ -159,7 +159,7 @@ class TestUserDetailView(UserAuthTestMixin, TestCase):
 
     def test_show_user_detail_to_user(self):
         """Test show user detail to user, page status 200."""
-        response = self.get_auth_response(url=self.url)
+        response = self.get_auth_response(path_schema=self.url)
         self.assertEqual(response.status_code, 200)
 
     def test_show_user_detail_to_another_user(self):
