@@ -13,5 +13,5 @@ static/
 coverage.xml
 state.json
 
-db*
+db*.json
 *.sqlite3
