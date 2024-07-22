@@ -20,7 +20,7 @@ from django.db.models import Q, F
 from django.urls import reverse_lazy
 
 from english.models import WordModel
-from task.queries import LookupParams
+from task.orm_queries import LookupParams
 
 
 class EnglishTranslateExercise:

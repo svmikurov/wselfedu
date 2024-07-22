@@ -1,5 +1,5 @@
 """
-The module of favorite words queries using Django ORM.
+The module of favorite words orm_queries using Django ORM.
 """
 
 from english.models import WordsFavoritesModel, WordModel
