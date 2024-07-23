@@ -9,3 +9,13 @@ from users.views.crud_user_views import (
     UsersListView,
     UserDetailView,
 )
+
+__all__ = [
+    'UserLoginView',
+    'UserLogoutView',
+    'CreateUserView',
+    'UpdateUserView',
+    'DeleteUserView',
+    'UsersListView',
+    'UserDetailView',
+]

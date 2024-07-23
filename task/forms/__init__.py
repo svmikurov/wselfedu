@@ -3,3 +3,9 @@ from task.forms.user_input_form import NumberInputForm
 from task.forms.english_translate_choice_form import (
     EnglishTranslateChoiceForm,
 )
+
+__all__ = [
+    'MathCalculationChoiceForm',
+    'NumberInputForm',
+    'EnglishTranslateChoiceForm',
+]

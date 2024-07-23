@@ -31,3 +31,27 @@ from english.views.crud_sources import (
     SourceListView,
     SourceDetailView
 )
+
+__all__ = [
+    'update_word_knowledge_assessment_view',
+    'update_words_favorites_status_view_ajax',
+    'EnglishTaskSettingsView',
+    'CreateEnglishTaskSettingsView',
+    'UpdateEnglishTaskSettingsView',
+    'UserWordListView',
+    'CategoryCreateView',
+    'CategoryListView',
+    'CategoryUpdateView',
+    'CategoryDeleteView',
+    'CategoryDetailView',
+    'WordCreateView',
+    'WordListView',
+    'WordDetailView',
+    'WordUpdateView',
+    'WordDeleteView',
+    'SourceCreateView',
+    'SourceUpdateView',
+    'SourceDeleteView',
+    'SourceListView',
+    'SourceDetailView',
+]

@@ -10,3 +10,12 @@ from english.models.words import (
 from english.models.word_analytic import (
     WordLearningStories,
 )
+
+__all__ = [
+    'CategoryModel',
+    'SourceModel',
+    'WordModel',
+    'WordUserKnowledgeRelation',
+    'WordsFavoritesModel',
+    'WordLearningStories',
+]
