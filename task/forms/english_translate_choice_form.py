@@ -1,10 +1,9 @@
+from crispy_forms.bootstrap import InlineCheckboxes
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import HTML, Column, Field, Layout, Row, Submit
 from django import forms
 
 from english.models import CategoryModel, SourceModel
-
-from crispy_forms.bootstrap import InlineCheckboxes
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, HTML, Row, Column, Field
 
 LANGUAGE_ORDER = [
     ('RN', 'Перевод в случайном порядке'),
