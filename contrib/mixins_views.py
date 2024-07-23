@@ -1,3 +1,7 @@
+"""
+Django views mixins.
+"""
+
 from typing import Callable, Dict
 
 from django.contrib import messages
@@ -16,16 +20,42 @@ class FormMessageMixin:
     """Add a flash message at form submission."""
 
     success_message = 'Успех!'
+    """Success action message text (`str`).
+    """
     error_message = 'Ошибка!'
+    """Error action message text (`str`).
+    """
 
     def form_valid(self, form: Form) -> HttpResponse:
-        """Add success message to valid form."""
+        """Add success message to valid form.
+
+        Parameters
+        ----------
+        form : `django.forms.Form`
+            Django form instance.
+
+        Returns
+        -------
+        response : `HttpResponse`
+            An HTTP response.
+        """
         response = super().form_valid(form)
         messages.success(self.request, self.success_message)
         return response
 
     def form_invalid(self, form: Form) -> HttpResponse:
-        """Add error message to invalid form."""
+        """Add error message to invalid form.
+
+        Parameters
+        ----------
+        form : `django.forms.Form`
+            Django form instance.
+
+        Returns
+        -------
+        response : `HttpResponse`
+            An HTTP response.
+        """
         response = super().form_invalid(form)
         messages.error(self.request, self.error_message)
         return response
@@ -37,10 +67,10 @@ class HandleNoPermissionMixin:
     """
 
     message_no_permission = 'Для доступа необходимо войти в приложение'
-    """Tell the user if they don't have permission (`str`).
+    """Message no permission (`str`).
     """
     url_no_permission = reverse_lazy('users:login')
-    """URL to redirect the user if they don't have permission (`str``).
+    """Path schema for redirecting a user without permissions (`str`).
     """
 
     def handle_no_permission(self) -> HttpResponseRedirect:
@@ -56,7 +86,14 @@ class CheckUserOwnershipMixin(
     """Checking user ownership of an object."""
 
     def check_ownership(self) -> bool:
-        """Check if the user is the owner of the object."""
+        """Check if the user is the owner of the object.
+
+        Returns
+        -------
+        `bool`
+            Return the `True` if the user is the owner of the object,
+            otherwise return the `False`.
+        """
         current_user = self.request.user
         specified_user = self.get_object().user
         return current_user == specified_user
@@ -151,7 +188,9 @@ class ReuseSchemaFilterQueryMixin(MultipleObjectMixin):
 
     Example
     -------
-    <a href="?{{reused_query}}&page={{page_obj.next_page_number}}">next page</a>
+    .. code-block::
+
+       <a href="?{{reused_query}}&page={{page_obj.next_page_number}}">next page</a>     # noqa: E501
     """
 
     @staticmethod

@@ -44,9 +44,11 @@ class LookupParams:
 
     Examples
     --------
-    lookup_params = LookupParams(lookup_conditions)
-    params: `tuple[Q, ...]` = lookup_params.params
-    query = Model.objects.filter(*params)
+    .. code-block:: python
+
+        lookup_params = LookupParams(lookup_conditions)
+        params: tuple[Q, ...] = lookup_params.params
+        query = Model.objects.filter(*params)
     """
 
     def __init__(self, lookup_conditions: dict) -> None:

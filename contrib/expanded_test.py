@@ -44,36 +44,38 @@ class UserAuthTestCase(TestCase):
 
     Examples
     --------
-    class TestUpdateUserView(UserAuthTestMixin):
+    .. code-block:: python
 
-        @classmethod
-        def setUpTestData(cls):
-            super().setUpTestData()
-            cls.path_schema = reverse(
-                'users:update',
-                kwargs={'pk': cls.user.id},
-            )
-            cls.update_user_data = {
-                'username': 'update_user',
-                'password1': '1q2s3d4r',
-                'password2': '1q2s3d4r',
-            }
+        class TestUpdateUserView(UserAuthTestMixin):
 
-        def test_is_auth_response(self):
-            response = self.get_auth_response()
-            self.assertEqual(response.wsgi_request.user, self.user)
+            @classmethod
+            def setUpTestData(cls):
+                super().setUpTestData()
+                cls.path_schema = reverse(
+                    'users:update',
+                    kwargs={'pk': cls.user.id},
+                )
+                cls.update_user_data = {
+                    'username': 'update_user',
+                    'password1': '1q2s3d4r',
+                    'password2': '1q2s3d4r',
+                }
 
-        def test_update_user(self):
-            response = self.get_auth_response(
-                path_schema=self.path_schema,
-                method='post',
-                **self.update_user_data,
-            )
-            self.assertRedirects(
-                response, SUCCESS_REDIRECT_PATH, 302,
-            )
-            assert (UserModel.objects.filter(
-                username='update_user').exists())
+            def test_is_auth_response(self):
+                response = self.get_auth_response()
+                self.assertEqual(response.wsgi_request.user, self.user)
+
+            def test_update_user(self):
+                response = self.get_auth_response(
+                    path_schema=self.path_schema,
+                    method='post',
+                    **self.update_user_data,
+                )
+                self.assertRedirects(
+                    response, SUCCESS_REDIRECT_PATH, 302,
+                )
+                assert (UserModel.objects.filter(
+                    username='update_user').exists())
     """
 
     path_schema = '/'

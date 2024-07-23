@@ -30,19 +30,20 @@ class EnglishTranslateChoiceView(CheckLoginPermissionMixin, TemplateView):
 
     Notes
     -----
-    Task conditions may be:
-        ``task_conditions`` = {
-            'favorites': `True`,
-            'language_order': 'RN',
-            'category': 0,
-            'source': 0,
-            'period_start_date': 'NC',
-            'period_end_date': 'DT',
-            'word_count': ['OW', 'CB'],
-            'knowledge_assessment': ['S'],
-            'timeout': 5,
-            'user_id': 1,
-        }
+    Task conditions may be
+
+    ``task_conditions`` = {
+        'favorites': `True`,
+        'language_order': 'RN',
+        'category': 0,
+        'source': 0,
+        'period_start_date': 'NC',
+        'period_end_date': 'DT',
+        'word_count': ['OW', 'CB'],
+        'knowledge_assessment': ['S'],
+        'timeout': 5,
+        'user_id': 1,
+    }
     """
 
     template_name = 'task/english/english_translate_choice.html'
@@ -136,7 +137,7 @@ def update_words_knowledge_assessment_view(
     ----------
     request : `HttpRequest`
         Request to update user word knowledge assessment.
-    **kwargs : `object`
+    kwargs : object
         - ``word_id``: ID of the word whose rating will be updated
           (`str`).
 
