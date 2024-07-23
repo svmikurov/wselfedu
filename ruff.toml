@@ -1,0 +1,12 @@
+# Configuring Ruff
+# https://docs.astral.sh/ruff/configuration/
+
+[lint]
+preview = true  # checks will include unstable rules and fixes
+select = [
+    "B",   # flake8-bugbear
+    "E",   # pycodestyle
+    "F",   # pyflakes
+    "I",   # isort
+    "W",   # pycodestyle
+]
