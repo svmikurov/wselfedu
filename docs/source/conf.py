@@ -52,18 +52,6 @@ extensions = [
 # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#confval-autodoc_member_order
 autodoc_member_order = 'bysource'
 
-# napoleon_google_docstring = True
-# napoleon_numpy_docstring = False
-# napoleon_use_ivar = False
-# napoleon_use_param = True
-# napoleon_type_aliases = {
-#     'UserModel': 'users.models.UserModel',
-#     'CategoryModel': 'english.models.CategoryModel',
-#     'SourceModel': 'english.models.SourceModel',
-#     'EnglishTaskSettings': 'task.settings.EnglishTaskSettings',
-#     'WordLearningStories': 'english.models.word_analytic.WordLearningStories',    # noqa: E501
-# }
-
 templates_path = ['_templates']
 exclude_patterns = []
 
