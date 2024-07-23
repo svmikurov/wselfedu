@@ -38,13 +38,16 @@ dumpdata:
 lint:
 	@$(APP) flake8
 
+ruff:
+	ruff check
+
 test:
 	@$(APP) pytest tests/
 
 plw:
 	@$(APP) pytest tests_e2e/
 
-check: lint test plw
+check: lint ruff test plw
 
 get-state:
 	@$(APP) sh -c "pytest tests_e2e/auth/get_auth_state.py"
