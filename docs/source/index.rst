@@ -18,7 +18,7 @@ Welcome to wselfedu's documentation!
    :caption: Development
 
    packages
-   development/task
-   tests_e2e/index
+   task
+   code_testing/index
    api
    changelog

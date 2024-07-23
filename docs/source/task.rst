@@ -1,6 +1,3 @@
-Task package
-************
-
 Tasks
 =====
 
@@ -20,10 +17,10 @@ English translate task
 English translate task the database queries
 -------------------------------------------
 
-.. automodule:: task.queries.lookup_params
+.. automodule:: task.orm_queries.lookup_params
    :no-index:
 
-.. autoclass:: task.queries.lookup_params.LookupParams
+.. autoclass:: task.orm_queries.lookup_params.LookupParams
    :members:
    :private-members:
 
@@ -55,8 +52,8 @@ English translate view
 .. autofunction:: task.views.english_translate_views.update_words_knowledge_assessment_view
 
 
-Mixins
-======
+Extensions
+==========
 
 .. automodule:: contrib.__init__
    :no-index:
@@ -67,8 +64,8 @@ Views mixins
 .. automodule:: contrib.mixins_views
    :members:
 
-Test mixins
------------
+Django tests extension
+----------------------
 
-.. automodule:: contrib.mixins_tests
+.. automodule:: contrib.expanded_test
    :members:

@@ -25,7 +25,7 @@ copyright = '2024, Sergei Mikurov'
 author = 'Sergei Mikurov'
 release = '1.0'
 
-# -- GitHub Settings ---------------------------------------------------------
+# -- GitHub information --------------------------------------------------------
 github_user = "svmikurov"
 github_repo_name = "wselfedu"
 github_version = "main"
@@ -68,13 +68,12 @@ html_static_path = ['_static']
 
 # -- Settings for sphinx_rtd_theme -------------------------------------------
 if html_theme == 'sphinx_rtd_theme':
-    # Uncomment if you are using a html_theme = 'sphinx_rtd_theme'
-
-    # To add a link to page code on GitHup.
+    # To add a link at current page code on GitHup.
     html_context.update({
         "display_github": True,
         "github_user": github_user,
-        "github_repo": github_repo_name or basename(dirname(realpath(__file__))),
+        "github_repo":
+            github_repo_name or basename(dirname(realpath(__file__))),
         "github_version": github_version,
         "conf_py_path": conf_py_path,
     })
