@@ -23,5 +23,7 @@ Welcome to wselfedu's documentation!
    :maxdepth: 1
    :caption: Info
 
-   packages
-   changelog
+   info/packages
+   info/changelog
+   info/sources
+
