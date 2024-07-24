@@ -12,6 +12,7 @@ Git
 `Commit Message Guidelines <https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines>`_:
     * `Commit message format type <https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#type>`_
 
+GitHub Gist `Commit Message Format <https://gist.github.com/develar/273e2eb938792cf5f86451fbac2bcd51#commit-message-format>`_
 
 Sphinx
 ^^^^^^
