@@ -1,12 +1,11 @@
-Руководство по wselfedu (Tutorial)
-##################################
-
-
-
+Руководство по wselfedu
+=======================
 
 .. toctree::
    :maxdepth: 2
 
+   overview
    user
-   index_word
-   index_exercise
+   word
+   word_dict
+   exercise

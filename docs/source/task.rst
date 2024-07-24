@@ -1,9 +1,6 @@
 Tasks
 =====
 
-.. automodule:: task.__init__
-   :no-index:
-
 English translate task
 ----------------------
 
@@ -67,5 +64,5 @@ Views mixins
 Django tests extension
 ----------------------
 
-.. automodule:: contrib.expanded_test
+.. automodule:: contrib.tests_extension
    :members:
