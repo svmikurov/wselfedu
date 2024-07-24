@@ -7,6 +7,6 @@ Code testing
    linters/index
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 3
 
    tests_e2e/index

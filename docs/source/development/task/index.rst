@@ -3,7 +3,7 @@ Tasks
 
 .. toctree::
    :maxdepth: 2
-   :caption: Development:
+   :caption: Task development.
 
    init
    tasks/index
