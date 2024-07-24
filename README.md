@@ -13,6 +13,8 @@
 
 ## Мой помощник в изучении английских слов
 
+This convention dovetails with [SemVar](https://semver.org/) (I try to do it).
+
 ### [Руководство](https://svmikurov.github.io/wselfedu/tutorial/index.html#wselfedu-tutorial) по приложению, на русском языке, познакомит с возможностями и структурой приложения.
 
 ### [Начать пользоваться приложением](http://wselfedu.online)
