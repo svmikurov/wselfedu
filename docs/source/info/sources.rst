@@ -9,12 +9,21 @@ Git
 
 `Conventional Commits <https://www.conventionalcommits.org/en/v1.0.0/>`_
 
+`Commit Message Guidelines <https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines>`_:
+    * `Commit message format type <https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#type>`_
+
+
 Sphinx
 ^^^^^^
 
 `Sphinx-doc <https://www.sphinx-doc.org/en/master/>`_ /
 `Read the Docs <https://docs.readthedocs.io/en/stable/intro/getting-started-with-sphinx.html>`_ /
 `Alabaster theme <https://alabaster.readthedocs.io/en/latest/>`_
+
+Semantic Versioning
+^^^^^^^^^^^^^^^^^^^
+
+`Semantic Versioning 2.0.0 <https://semver.org/>`_
 
 Sources of examples
 ===================
