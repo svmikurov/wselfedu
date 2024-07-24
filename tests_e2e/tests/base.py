@@ -73,17 +73,5 @@ class StageTestCase(TestCase):
         return os.getenv('HOST')
 
 
-pom_test_classes = {
-    'development': PageFixtureTestCase,
-    'stage': StageTestCase,
-}
-"""Base classes bunch for the derived class POMBaseTest (`dict`).
-Each is used in its own testing environment.
-"""
-pom_test_class = pom_test_classes.get(ENVIRONMENT, 'development')
-"""Current representation of the test environment base class (`str`).
-"""
-
-
 class POMBaseTest(PageFixtureTestCase):
     """Base class for testing Page Object Model instance page."""
