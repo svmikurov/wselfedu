@@ -5,10 +5,10 @@ Django views mixins.
 from typing import Callable, Dict
 
 from django.contrib import messages
-from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import ProtectedError
 from django.forms import Form
-from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView
@@ -190,7 +190,9 @@ class ReuseSchemaFilterQueryMixin(MultipleObjectMixin):
     -------
     .. code-block::
 
-       <a href="?{{reused_query}}&page={{page_obj.next_page_number}}">next page</a>     # noqa: E501
+       <a href="?{{reused_query}}&page={{page_obj.next_page_number}}">next page</a>
+
+    .. # noqa: E501
     """
 
     @staticmethod

@@ -10,8 +10,7 @@ from django.test import TestCase
 from users.models import UserModel
 
 if TYPE_CHECKING:
-    from django.test.client import (_MonkeyPatchedWSGIResponse
-                                    as TestHttpResponse)
+    from django.test.client import _MonkeyPatchedWSGIResponse as TestHttpResponse
 
 
 def flash_message_test(

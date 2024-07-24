@@ -1,6 +1,17 @@
 # Configuring Ruff
 # https://docs.astral.sh/ruff/configuration/
 
+exclude = [
+    ".github/*",
+    ".idea/*",
+    ".venv/*",
+    "docker/*",
+    "postgres_data/*",
+    "templates/*",
+    ".env*",
+    "*/migrations/*",
+]
+
 [lint]
 preview = true  # checks will include unstable rules and fixes
 select = [
