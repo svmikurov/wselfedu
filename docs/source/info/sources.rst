@@ -37,7 +37,19 @@ Zulip
 Zulip project's development `documentation <https://zulip.readthedocs.io/en/latest/index.html>`_.
 
 Here are some links:
-`Git guide <https://zulip.readthedocs.io/en/latest/git/index.html>`_ /
-`Code testing <https://zulip.readthedocs.io/en/latest/testing/index.html>`_
+
+    * `Git guide <https://zulip.readthedocs.io/en/latest/git/index.html>`_
+    * `Code testing <https://zulip.readthedocs.io/en/latest/testing/index.html>`_
 
 The documentation uses the Markdown markup language.
+
+LSST DM
+^^^^^^^
+
+`LSST DM Developer Guide <https://developer.lsst.io/>`_
+
+Here are some links:
+
+    - `Documenting Python APIs with Docstrings <https://developer.lsst.io/v/DM-15183/python/numpydoc.html#documenting-python-apis-with-docstrings>`_
+
+The documentation uses the reStructuredText markup language.
