@@ -1,13 +1,13 @@
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, UpdateView, DetailView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
-from english.forms.source import SourceForm
-from english.models import SourceModel
 from contrib.mixins_views import (
     CheckLoginPermissionMixin,
     CheckUserOwnershipMixin,
     PermissionProtectDeleteView,
 )
+from english.forms.source import SourceForm
+from english.models import SourceModel
 
 SOURCE_LIST_PATH = 'english:source_list'
 

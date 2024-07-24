@@ -2,7 +2,7 @@
 The module of favorite words orm_queries using Django ORM.
 """
 
-from english.models import WordsFavoritesModel, WordModel
+from english.models import WordModel, WordsFavoritesModel
 from users.models import UserModel
 
 

@@ -2,7 +2,7 @@ Views
 =====
 
 .. toctree::
-   :no-index:
+   :maxdepth: 2
 
    english-word-study
    mathem

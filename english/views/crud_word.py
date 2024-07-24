@@ -4,15 +4,15 @@ from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView
 
+from contrib.mixins_views import (
+    CheckUserOwnershipMixin,
+    HandleNoPermissionMixin,
+    PermissionProtectDeleteView,
+    ReuseSchemaQueryFilterView,
+)
 from english.filters import WordsFilter
 from english.forms import WordForm
 from english.models import WordModel
-from contrib.mixins_views import (
-    PermissionProtectDeleteView,
-    ReuseSchemaQueryFilterView,
-    CheckUserOwnershipMixin,
-    HandleNoPermissionMixin,
-)
 
 CREATE_WORD_PATH = 'english:words_create'
 WORD_LIST_PATH = 'english:word_list'
@@ -51,7 +51,7 @@ class WordCreateView(HandleNoPermissionMixin, LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         added_word = form.cleaned_data['word_eng']
         success_message = f'Добавлено слово "{added_word}"'
-        setattr(WordCreateView, 'success_message', success_message)
+        WordCreateView.success_message = success_message
         form.save()
         response = super().form_valid(form)
         return response

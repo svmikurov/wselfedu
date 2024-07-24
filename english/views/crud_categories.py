@@ -1,13 +1,13 @@
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DetailView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
-from english.forms import CategoryForm
-from english.models import CategoryModel
 from contrib.mixins_views import (
     CheckLoginPermissionMixin,
     CheckUserOwnershipMixin,
     PermissionProtectDeleteView,
 )
+from english.forms import CategoryForm
+from english.models import CategoryModel
 
 CREATE_CATEGORY_PATH = 'english:categories_create'
 CATEGORY_LIST_PATH = 'english:category_list'

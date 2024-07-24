@@ -8,9 +8,10 @@
 
 
 import os
-from os.path import basename, dirname, realpath
 import pathlib
 import sys
+from os.path import basename, dirname, realpath
+
 import django
 
 sys.path.insert(0, pathlib.Path(__file__).parents[2].resolve().as_posix())

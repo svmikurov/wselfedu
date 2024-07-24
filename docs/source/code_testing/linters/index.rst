@@ -1,12 +1,8 @@
 Linters
 =======
 
-flake8
-------
+.. toctree::
+   :maxdepth: 1
 
-ruff
-----
-
-`Tutorial <https://docs.astral.sh/ruff/tutorial/#tutorial>`_
-
-`The settings by default <https://docs.astral.sh/ruff/configuration/>`_
+   flake8
+   ruff

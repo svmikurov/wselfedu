@@ -44,7 +44,7 @@ def get_knowledge_assessment(word_id, user_id):
        При создании оценки, оценка рана "0".
     """
     if user_id and word_id:
-        knowledge_assessment_obj, is_create = (
+        knowledge_assessment_obj, _ = (
             WordUserKnowledgeRelation.objects.get_or_create(
                 word_id=word_id,
                 user_id=user_id,

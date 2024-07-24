@@ -1,6 +1,6 @@
 import django_filters
 from django import forms
-from django.db.models import Q, F
+from django.db.models import F, Q
 from django.forms import TextInput
 
 from english.models import (

@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, CreateView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView
 
 from task.models import EnglishTaskSettings
 

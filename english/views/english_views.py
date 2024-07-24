@@ -1,15 +1,15 @@
 from typing import Dict
 
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, HttpRequest
+from django.http import HttpRequest, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
 
 from english.orm_queries import (
+    get_knowledge_assessment,
     update_word_favorites_status,
     update_word_knowledge_assessment,
-    get_knowledge_assessment,
 )
 
 
