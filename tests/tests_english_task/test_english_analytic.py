@@ -5,7 +5,7 @@ Data is collected from the “Learning words” exercise.
 
 from django.urls import reverse_lazy
 
-from contrib.expanded_test import UserAuthTestCase
+from contrib.tests_extension import UserAuthTestCase
 from english.models import WordLearningStories, WordModel
 
 

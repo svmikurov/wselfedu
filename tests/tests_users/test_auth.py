@@ -1,7 +1,7 @@
 from django.contrib import auth
 from django.urls import reverse_lazy
 
-from contrib.expanded_test import UserAuthTestCase
+from contrib.tests_extension import UserAuthTestCase
 
 
 class TestAuthUser(UserAuthTestCase):

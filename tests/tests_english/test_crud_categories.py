@@ -1,7 +1,7 @@
 from django.test import Client, TestCase
 from django.urls import reverse_lazy, reverse
 
-from contrib.expanded_test import flash_message_test
+from contrib.tests_extension import flash_message_test
 from english.models import CategoryModel
 from users.models import UserModel
 
