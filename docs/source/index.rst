@@ -27,6 +27,13 @@ Welcome to wselfedu's documentation!
 
    code_testing/index
 
+.. Changelog
+
+.. toctree::
+   :maxdepth: 2
+
+   changelog/changelog
+
 .. Info
 
 .. toctree::
