@@ -7,7 +7,8 @@ from english.models import (
     CategoryModel,
     SourceModel,
 )
-from english.orm_queries.word_knowledge_assessment import WORD_STUDY_ASSESSMENTS
+from english.orm_queries.word_knowledge_assessment \
+    import WORD_STUDY_ASSESSMENTS
 
 
 def category_by_current_user(request):

@@ -131,7 +131,9 @@ class TestUserListView(UserAuthTestCase):
 
     def test_show_user_list_to_admin(self):
         """Test display user list to admin, page status 200."""
-        response = self.get_auth_response(user=self.admin, path_schema=self.url)
+        response = self.get_auth_response(
+            user=self.admin, path_schema=self.url,
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_show_user_list_to_user(self):

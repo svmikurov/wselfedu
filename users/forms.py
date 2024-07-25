@@ -13,7 +13,10 @@ class UserRegistrationForm(UserCreationForm):
         self.add_attr_for_field('password1', {'data-testid': 'password1'})
         self.add_attr_for_field('password2', {'data-testid': 'password2'})
 
-    def add_attr_for_field(self, field_name: str, data: dict[str, str]) -> None:
+    def add_attr_for_field(
+            self, field_name: str,
+            data: dict[str, str],
+    ) -> None:
         """Add attr with value to html representation field."""
         self.fields[field_name].widget.attrs.update(**data)
 
