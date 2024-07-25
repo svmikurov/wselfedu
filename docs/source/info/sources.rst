@@ -1,6 +1,8 @@
+*******
 Sources
 *******
 
+=======
 Sources
 =======
 
@@ -21,11 +23,16 @@ Sphinx
 `Read the Docs <https://docs.readthedocs.io/en/stable/intro/getting-started-with-sphinx.html>`_ /
 `Alabaster theme <https://alabaster.readthedocs.io/en/latest/>`_
 
+    * `directives <https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#directives>`_
+
+`reStructuredText Markup <https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#quick-syntax-overview>`_
+
 Semantic Versioning
 ^^^^^^^^^^^^^^^^^^^
 
 `Semantic Versioning 2.0.0 <https://semver.org/>`_
 
+===================
 Sources of examples
 ===================
 

@@ -26,12 +26,12 @@ copyright = '2024, Sergei Mikurov'
 author = 'Sergei Mikurov'
 release = '1.0'
 
-# -- GitHub information --------------------------------------------------------
+# -- GitHub information -------------------------------------------------------
 github_user = "svmikurov"
 github_repo_name = "wselfedu"
 github_version = "main"
 
-# # -- Settings for Django -----------------------------------------------------
+# # -- Settings for Django ----------------------------------------------------
 os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings'
 django.setup()
 

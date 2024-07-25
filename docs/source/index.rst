@@ -6,24 +6,31 @@
 Welcome to wselfedu's documentation!
 ====================================
 
+.. Tutorial
+
 .. toctree::
    :maxdepth: 3
-   :caption: Tutorial:
 
    tutorial/index
 
+.. Development
+
 .. toctree::
    :maxdepth: 3
-   :caption: Development
 
    development/index
+
+.. Test
+
+.. toctree::
+   :maxdepth: 3
+
    code_testing/index
+
+.. Info
 
 .. toctree::
    :maxdepth: 1
-   :caption: Info
 
-   info/packages
-   info/changelog
-   info/sources
+   info/index
 
