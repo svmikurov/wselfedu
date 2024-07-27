@@ -1,10 +1,8 @@
-.. wselfedu documentation master file, created by
-   sphinx-quickstart on Sat Jun  8 23:49:44 2024.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
+====================================
 Welcome to wselfedu's documentation!
 ====================================
+
+.. Below is the toctree.
 
 .. Tutorial
 
@@ -17,27 +15,38 @@ Welcome to wselfedu's documentation!
 
 .. toctree::
    :maxdepth: 3
+   :hidden:
 
    development/index
 
-.. Test
+.. Testing
 
 .. toctree::
    :maxdepth: 3
+   :hidden:
 
-   code_testing/index
+   testing/index
+
+.. DevOps
+
+.. toctree::
+   :maxdepth: 3
+   :hidden:
+
+   devops/index
 
 .. Changelog
 
 .. toctree::
    :maxdepth: 2
+   :hidden:
 
    changelog/changelog
 
-.. Info
+.. Sources
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
+   :hidden:
 
-   info/index
-
+   sources/index

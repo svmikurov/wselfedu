@@ -9,3 +9,7 @@ Development
    english/index
    task/index
 
+.. toctree::
+   :maxdepth: 1
+
+   packages

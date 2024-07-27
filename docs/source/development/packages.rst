@@ -13,14 +13,14 @@ Package ``contrib``
 
 .. automodule:: contrib.__init__
 
-Directory /docker
------------------
+Directory ``/docker``
+---------------------
 
 Contains docker files. Each directory represents a service and contains
 its configurations.
 
-Directory /docs
----------------
+Directory ``/docs``
+-------------------
 
 Sphinx Documentation Directory.
 
@@ -34,18 +34,18 @@ Package ``glossary``
 
 .. automodule:: glossary.__init__
 
-Directory /postgres_data
-------------------------
+Directory ``/postgres_data``
+----------------------------
 
 Docker PostgreSQL database value.
 
-Directory /static
------------------
+Directory ``/static``
+---------------------
 
 Django project static files directory.
 
-Directory /static_src
----------------------
+Directory ``/static_src``
+-------------------------
 
 Django project static files directory for development.
 Uses in development when ``DEBUG`` is `True`.
@@ -55,8 +55,8 @@ Package ``task``
 
 .. automodule:: task.__init__
 
-Directory /templates
---------------------
+Directory ``/templates``
+------------------------
 
 Django html templates directory.
 

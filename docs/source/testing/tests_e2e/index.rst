@@ -1,5 +1,6 @@
-Tests
-=====
+===============
+Browser testing
+===============
 
 .. automodule:: tests_e2e.__init__
    :no-index:

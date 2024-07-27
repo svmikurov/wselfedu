@@ -61,13 +61,12 @@ exclude_patterns = []
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
+html_static_path = ['_static']
 
+# -- Theme -------------------------------------------------------------------
 # html_theme = 'sphinx_rtd_theme'
 html_theme = 'alabaster'
 
-html_static_path = ['_static']
-
-# -- Settings for sphinx_rtd_theme -------------------------------------------
 if html_theme == 'sphinx_rtd_theme':
     # To add a link at current page code on GitHup.
     html_context.update({
