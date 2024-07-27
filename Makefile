@@ -1,17 +1,24 @@
-DEV_FILE := docker compose -f docker-compose.dev.yml
-APP := @$(DEV_FILE) exec wse-project
+include .env
+
+ifeq (${ENVIRONMENT}, development)
+	COMPOSE := docker compose -f docker-compose.dev.yml
+else ifeq (${ENVIRONMENT}, production)
+	COMPOSE := docker compose -f docker-compose.prod.yml
+endif
+
+APP := @$(COMPOSE) exec wse-project
 MANAGE := @$(APP) python manage.py
 
 
 # Docker
 build:
-	@$(DEV_FILE) build
+	@$(COMPOSE) build
 
 up:
-	@$(DEV_FILE) up -d
+	@$(COMPOSE) up -d
 
 down:
-	@$(DEV_FILE) down
+	@$(COMPOSE) down
 
 
 # Django
@@ -57,4 +64,4 @@ test-just:
 
 # PostgreSQL
 connect:
-	@$(DEV_FILE) exec wse-db-postgres psql --username=wse_user --dbname=wse_db
+	@$(COMPOSE) exec wse-db-postgres psql --username=wse_user --dbname=wse_db

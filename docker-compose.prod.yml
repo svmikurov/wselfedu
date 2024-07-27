@@ -1,14 +1,14 @@
 services:
 
   wse-project:
-    container_name: wse-project-dev
-    image: wse-project-dev
+    container_name: wse-project-prod
+    image: wse-project-prod
     volumes:
       - ./:/wselfedu
       - ./static:/static
     build:
       context: ./
-      dockerfile: docker/project/Dockerfile.dev
+      dockerfile: docker/project/Dockerfile.prod
     expose:
       - 8000
     env_file:
