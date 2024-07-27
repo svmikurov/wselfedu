@@ -51,6 +51,9 @@ extensions = [
     'myst_parser',
     # https://sphinx-tabs.readthedocs.io/en/latest/
     'sphinx_tabs.tabs',
+    # Add copy button from block
+    # https://sphinx-copybutton.readthedocs.io/en/latest/#sphinx-copybutton
+    'sphinx_copybutton',
 ]
 
 # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#confval-autodoc_member_order
