@@ -2,4 +2,7 @@
 Sources
 #######
 
-.. include:: sources.rst
+.. toctree::
+   :maxdepth: 2
+
+   sources

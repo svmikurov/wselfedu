@@ -11,14 +11,23 @@ Docker services
 .. toctree::
    :maxdepth: 2
 
-   docker/project
-   docker/postgres
-   docker/nginx
+   Project <docker/project>
+   Postgres <docker/postgres>
+   NGINX <docker/nginx>
 
 **************
 Docker compose
 **************
 
-.. note::
+.. toctree::
+   :maxdepth: 2
 
-   Documentation is awaiting completion.
+   Development <docker_compose/dev>
+   Production <docker_compose/prod>
+
+.. Docker console
+
+.. toctree::
+   :maxdepth: 2
+
+   console/console

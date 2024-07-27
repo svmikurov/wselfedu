@@ -1,5 +1,5 @@
-Git
-^^^
+Git source
+^^^^^^^^^^
 
 `Conventional Commits <https://www.conventionalcommits.org/en/v1.0.0/>`_
 
@@ -8,19 +8,23 @@ Git
 
 GitHub Gist `Commit Message Format <https://gist.github.com/develar/273e2eb938792cf5f86451fbac2bcd51#commit-message-format>`_
 
-Sphinx
-^^^^^^
+Sphinx source
+^^^^^^^^^^^^^
 
-`Sphinx-doc <https://www.sphinx-doc.org/en/master/>`_ /
-`Read the Docs <https://docs.readthedocs.io/en/stable/intro/getting-started-with-sphinx.html>`_ /
+`Sphinx-doc <https://www.sphinx-doc.org/en/master/>`_
+* `directives <https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#directives>`_
+
 `Alabaster theme <https://alabaster.readthedocs.io/en/latest/>`_
-
-    * `directives <https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#directives>`_
 
 `reStructuredText Markup <https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#quick-syntax-overview>`_
 
-Semantic Versioning
-^^^^^^^^^^^^^^^^^^^
+Third party tutorials:
+
+    * `Read the Docs <https://docs.readthedocs.io/en/stable/intro/getting-started-with-sphinx.html>`_
+    * `sublime-and-sphinx-guide <https://sublime-and-sphinx-guide.readthedocs.io/en/latest/index.html>`_
+
+Semantic Versioning source
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 `Semantic Versioning 2.0.0 <https://semver.org/>`_
 
@@ -30,8 +34,8 @@ Sources of examples
 
 Sources of examples to improve development.
 
-Zulip
-^^^^^
+Zulip source
+^^^^^^^^^^^^
 
 Zulip project's development `documentation <https://zulip.readthedocs.io/en/latest/index.html>`_.
 
@@ -42,8 +46,8 @@ Here are some links:
 
 The documentation uses the Markdown markup language.
 
-LSST DM
-^^^^^^^
+LSST DM source
+^^^^^^^^^^^^^^
 
 `LSST DM Developer Guide <https://developer.lsst.io/>`_
 
