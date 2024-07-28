@@ -61,19 +61,53 @@ Value ``POSTGRES_DB`` is ``POSTGRES_NAME`` value.
    POSTGRES_USER=
    POSTGRES_PASSWORD=
 
-Build and run application:
+Build and Up Docker:
 
 .. code-block:: console
    :caption: bash:
 
-   make up
+    make up
 
-Make migrate:
+Make migrations:
 
 .. code-block:: console
    :caption: bash:
 
    make migrate
+
+Temporary comment out ``username`` in Dockerfile.prod and run application:
+
+.. note::
+
+   Comment out ``username`` is a temporary and will be fixed.
+
+.. code-block:: console
+   :caption: bash:
+
+   make down
+
+.. code-block:: console
+   :caption: bash:
+
+   nano ./docker/project/Dockerfile.prod
+
+.. code-block:: console
+   :caption: ./docker/project/Dockerfile.prod
+
+   ...
+   #RUN adduser --disabled-password app-user
+   #USER app-user
+   ...
+
+.. code-block:: console
+   :caption: bash:
+
+   make build
+
+.. code-block:: console
+   :caption: bash:
+
+   make up
 
 Make collectstatic:
 
@@ -83,10 +117,6 @@ Make collectstatic:
    make collectstatic
 
 Uncomment ``username`` in Dockerfile.prod and rebuild:
-
-.. note::
-
-   Comment out ``username`` is a temporary and will be fixed.
 
 .. code-block:: console
    :caption: bash:
