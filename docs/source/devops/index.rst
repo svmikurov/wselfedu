@@ -4,6 +4,17 @@ DevOps
 
 .. include:: overview.rst
 
+******
+Deploy
+******
+
+
+.. toctree::
+   :maxdepth: 2
+
+   Development <deploy/dev>
+   Production <deploy/prod>
+
 ***************
 Docker services
 ***************
@@ -25,9 +36,11 @@ Docker compose
    Development <docker_compose/dev>
    Production <docker_compose/prod>
 
-.. Docker console
+**************
+Docker console
+**************
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    console/console

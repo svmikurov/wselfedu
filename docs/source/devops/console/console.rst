@@ -1,7 +1,3 @@
-==============
-Docker console
-==============
-
 .. _run_stop_app:
 
 Run and stop application
@@ -56,7 +52,7 @@ Remove image
 
 Remove all dangling images. If -a is specified, also remove all images
 not referenced by any container
-(`docker builder prune <https://docs.docker.com/reference/cli/docker/image/prune/>`_).::
+(`docker image prune <https://docs.docker.com/reference/cli/docker/image/prune/>`_).::
 
     docker image prune -a
 
@@ -82,8 +78,17 @@ Removes all stopped containers
 
     docker container prune
 
+To delete all containers including its volumes use::
+
+    docker rm -vf $(docker ps -aq)
+
 Local Volumes
 ^^^^^^^^^^^^^
 
 Build Cache
 ^^^^^^^^^^^
+
+Remove build cache
+(`docker builder prune <https://docs.docker.com/reference/cli/docker/builder/prune/>`_)::
+
+    docker builder prune
