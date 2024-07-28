@@ -56,6 +56,10 @@ not referenced by any container
 
     docker image prune -a
 
+or::
+
+    docker rmi -f $(docker images -aq)
+
 Containers
 ^^^^^^^^^^
 
