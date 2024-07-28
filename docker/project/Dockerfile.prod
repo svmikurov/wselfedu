@@ -5,7 +5,7 @@ WORKDIR /wselfedu
 COPY requirements.txt ./wselfedu/requirements.txt
 RUN pip install -r ./wselfedu/requirements.txt
 
-#RUN adduser --disabled-password app-user
-#USER app-user
+RUN adduser --disabled-password app-user
+USER app-user
 
 COPY . ./wselfedu
