@@ -26,9 +26,9 @@ Add .env and .env.postgres:
    cp .env.example .env && \
    cp .env.postgres.example .env.postgres
 
-Add to ``.env`` and ``.env.postgres`` values to replace the empty values
-in the example below, or leave the default values.
-Value POSTGRES_DB is POSTGRES_NAME value.
+In the ``.env`` and ``.env.postgres`` files fill the empty values
+of example below or leave the default values.
+Value ``POSTGRES_DB`` is ``POSTGRES_NAME`` value.
 
 .. code-block:: console
    :caption: bash:
@@ -75,14 +75,48 @@ Make migrations:
 
    make migrate
 
-Make collectstatic
+Temporary comment out ``username`` in Dockerfile.prod and run application:
+
+.. note::
+
+   Comment out ``username`` is a temporary and will be fixed.
+
+.. code-block:: console
+   :caption: bash:
+
+   make down
+
+.. code-block:: console
+   :caption: bash:
+
+   nano ./docker/project/Dockerfile.prod
+
+.. code-block:: console
+   :caption: ./docker/project/Dockerfile.prod
+
+   ...
+   #RUN adduser --disabled-password app-user
+   #USER app-user
+   ...
+
+.. code-block:: console
+   :caption: bash:
+
+   make build
+
+.. code-block:: console
+   :caption: bash:
+
+   make up
+
+Make collectstatic:
 
 .. code-block:: console
    :caption: bash:
 
    make collectstatic
 
-Uncomment ``username`` in Dockerfile.prod and run application:
+Uncomment ``username`` in Dockerfile.prod and rebuild:
 
 .. code-block:: console
    :caption: bash:
