@@ -1,5 +1,6 @@
-from tests_e2e.pages.mathem.math_calculate_choice import \
-    MathCalculateChoicePage
+from tests_e2e.pages.mathem.math_calculate_choice import (
+    MathCalculateChoicePage,
+)
 from tests_e2e.pages.user import authorize_the_page
 from tests_e2e.tests.base import POMBaseTest
 
