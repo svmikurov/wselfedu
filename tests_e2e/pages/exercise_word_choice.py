@@ -4,10 +4,10 @@ The word choice for word study exercise page representation module.
 
 from playwright.sync_api import Page
 
-from tests_e2e.pages.base import TestPage
+from tests_e2e.pages.base import POMPage
 
 
-class WordChoiceExercisePage(TestPage):
+class WordChoiceExercisePage(POMPage):
     """The word choice for word study exercise page representation
     class.
 

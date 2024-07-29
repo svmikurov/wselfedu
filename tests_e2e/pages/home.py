@@ -4,10 +4,10 @@ The home page representation module.
 
 from playwright.sync_api import Page
 
-from tests_e2e.pages.base import TestPage
+from tests_e2e.pages.base import POMPage
 
 
-class HomePage(TestPage):
+class HomePage(POMPage):
     """The home page representation class.
 
     Parameters

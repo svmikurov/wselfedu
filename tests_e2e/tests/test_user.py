@@ -8,8 +8,12 @@ from dotenv import load_dotenv
 from playwright.sync_api import expect
 
 from tests_e2e.pages.home import HomePage
-from tests_e2e.pages.user import CreateUserPage, LoginPage, DeleteUserPage, \
-    authorize_the_page
+from tests_e2e.pages.user import (
+    CreateUserPage,
+    DeleteUserPage,
+    LoginPage,
+    authorize_the_page,
+)
 from tests_e2e.tests.base import POMBaseTest
 from users.models import UserModel
 
