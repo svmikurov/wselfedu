@@ -8,8 +8,8 @@ from playwright.sync_api import Page, expect
 class BasePage:
     """Base class representing the page."""
 
-    host: str
-    path: str
+    path = None
+    host = None
 
     def __init__(self, page: Page) -> None:
         """Base page constructor."""
@@ -50,8 +50,8 @@ class BasePage:
 class BaseTests:
     """Common page tests class."""
 
-    page: Page
-    title: str
+    page = None
+    title = None
 
     def test_title(self, expected_title: str | None = None) -> None:
         """Test page title.
