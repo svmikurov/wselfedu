@@ -1,13 +1,12 @@
 """
 The user pages representation module.
 """
-
 import os
 
 from dotenv import load_dotenv
 from playwright.sync_api import Page, expect
 
-from tests_e2e.pages.base import TestPage
+from tests_e2e.pages.base import POMPage
 from tests_e2e.pages.home import HomePage
 
 load_dotenv()
@@ -20,7 +19,7 @@ USER_PASS = os.getenv('TEST_USER_PASS')
 """
 
 
-class CreateUserPage(TestPage):
+class CreateUserPage(POMPage):
     """Class representing the user registration page.
 
     Parameters
@@ -76,7 +75,7 @@ class CreateUserPage(TestPage):
         self.submit_button.click()
 
 
-class LoginPage(TestPage):
+class LoginPage(POMPage):
     """Class representing the login page."""
 
     title = 'Вход в приложение'
@@ -108,7 +107,7 @@ class LoginPage(TestPage):
         self.submit_button.click()
 
 
-class DeleteUserPage(TestPage):
+class DeleteUserPage(POMPage):
     """Class representing the delete user page."""
 
     title = 'Удаление пользователя'

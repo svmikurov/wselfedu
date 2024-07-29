@@ -66,5 +66,5 @@ class BaseTests:
         expect(self.page).to_have_title(title)
 
 
-class TestPage(BasePage, BaseTests):
-    """Base class representing the testing page with general tests."""
+class POMPage(BasePage, BaseTests):
+    """Class representing the testing page with general tests."""
