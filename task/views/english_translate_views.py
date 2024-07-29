@@ -6,17 +6,17 @@ from typing import Dict
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, HttpRequest, HttpResponse
-from django.shortcuts import render, redirect
+from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
 
-from english.analytics.english_analytics import collect_statistics
 from contrib.mixins_views import (
     CheckLoginPermissionMixin,
 )
+from english.analytics.english_analytics import collect_statistics
 from english.orm_queries import (
     get_knowledge_assessment,
     update_word_knowledge_assessment,
@@ -128,8 +128,8 @@ class EnglishTranslateExerciseView(CheckLoginPermissionMixin, View):
 @require_POST
 @login_required
 def update_words_knowledge_assessment_view(
-        request: HttpRequest,
-        **kwargs: object,
+    request: HttpRequest,
+    **kwargs: object,
 ) -> JsonResponse:
     """Update user word knowledge assessment view.
 

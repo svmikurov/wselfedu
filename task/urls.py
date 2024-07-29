@@ -5,6 +5,11 @@ from task import views
 app_name = 'task'
 
 urlpatterns = [
+    path(
+        'index/',
+        views.IndexTaskView.as_view(),
+        name='index',
+    ),
     # --======= Math Tasks =======--
     path(
         'math-calculate-choice/',
