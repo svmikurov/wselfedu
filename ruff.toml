@@ -26,3 +26,6 @@ select = [
 [lint.flake8-quotes]
 inline-quotes = "single"
 multiline-quotes = "single"
+
+[format]
+quote-style = "single"
