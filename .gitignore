@@ -4,6 +4,8 @@ __pycache__/
 docs/build/
 docs/source/generated/
 htmlcov/
+postgres_data/
+static/
 
 .env
 .env.postgres
