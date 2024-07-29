@@ -1,4 +1,5 @@
 include .env
+include .env.postgres
 
 ifeq (${ENVIRONMENT}, development)
 	COMPOSE := docker compose -f docker-compose.dev.yml
@@ -19,6 +20,13 @@ up:
 
 down:
 	@$(COMPOSE) down
+
+docker-clean:
+	@$(COMPOSE) down && \
+	docker image prune -a -f && \
+	docker volume prune -a -f && \
+	docker builder prune -a -f && \
+	docker system df
 
 
 # Django
@@ -64,4 +72,4 @@ test-just:
 
 # PostgreSQL
 connect:
-	@$(COMPOSE) exec wse-db-postgres psql --username=wse_user --dbname=wse_db
+	@$(COMPOSE) exec wse-db-postgres psql --username=POSTGRES_USER --dbname=POSTGRES_DB

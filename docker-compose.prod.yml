@@ -4,11 +4,11 @@ services:
     container_name: wse-project-prod
     image: wse-project-prod
     volumes:
-      - ./:/wselfedu
-      - ./static:/static
+      - .:/wselfedu
+      - static_volume:/wselfedu/static
     build:
-      context: ./
-      dockerfile: docker/project/Dockerfile.prod
+      context: .
+      dockerfile: ./docker/project/Dockerfile.prod
     expose:
       - 8000
     env_file:
@@ -22,9 +22,9 @@ services:
     container_name: wse-db-postgres
     image: wse-db-postgres
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     build:
-      context: ./
+      context: .
       dockerfile: ./docker/postgres/Dockerfile
     env_file:
       - .env.postgres
@@ -35,10 +35,10 @@ services:
     container_name: wse-server
     image: wse-server
     build:
-      context: ./
+      context: .
       dockerfile: ./docker/nginx/Dockerfile
     volumes:
-      - ./static:/static
+      - static_volume:/wselfedu/static
     ports:
       - 80:80
     depends_on:
@@ -46,4 +46,4 @@ services:
 
 volumes:
   postgres_data:
-  static:
+  static_volume:

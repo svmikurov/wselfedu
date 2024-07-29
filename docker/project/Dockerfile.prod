@@ -1,11 +1,14 @@
 FROM python:3.12-bookworm
 
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install -r /tmp/requirements.txt
+
 WORKDIR /wselfedu
 
-COPY requirements.txt ./wselfedu/requirements.txt
-RUN pip install -r ./wselfedu/requirements.txt
+RUN mkdir -p /wselfedu/static
 
-#RUN adduser --disabled-password app-user
-#USER app-user
+RUN adduser --disabled-password app-user
+RUN chown -R app-user /wselfedu/static
+USER app-user
 
-COPY . ./wselfedu
+COPY . .

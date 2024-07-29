@@ -2,20 +2,17 @@
 
 FROM python:3.12-bookworm
 
-WORKDIR /wselfedu
-
 RUN pip install --upgrade pip && \
     pip install playwright && \
     pip install pytest-playwright==0.5.0 && \
     playwright install && \
     playwright install-deps
 
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
-COPY requirements.dev.txt requirements.dev.txt
-RUN pip install -r requirements.dev.txt
+COPY requirements.txt /tmp/requirements.txt
+COPY requirements.dev.txt /tmp/requirements.dev.txt
+RUN pip install -r /tmp/requirements.txt
+RUN pip install -r /tmp/requirements.dev.txt
 
-#RUN adduser --disabled-password app-user
-#USER app-user
+WORKDIR /wselfedu
 
 COPY . .
