@@ -21,6 +21,8 @@ up:
 down:
 	@$(COMPOSE) down
 
+restart: down build up
+
 docker-clean:
 	@$(COMPOSE) down && \
 	docker image prune -a -f && \
@@ -68,8 +70,8 @@ get-state:
 	@$(APP) sh -c "pytest tests_e2e/auth/get_auth_state.py"
 
 test-just:
-	@$(APP) pytest tests/tests_english_task/test_english_analytic.py
+	@$(APP) pytest $(TEST_JUST)
 
 # PostgreSQL
 connect:
-	@$(COMPOSE) exec wse-db-postgres psql --username=POSTGRES_USER --dbname=POSTGRES_DB
+	@$(COMPOSE) exec wse-db-postgres psql --username=$(POSTGRES_USER) --dbname=$(POSTGRES_DB)

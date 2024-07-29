@@ -4,10 +4,10 @@ The word choice for word study exercise page representation module.
 
 from playwright.sync_api import Page
 
-from tests_e2e.pages.base import TestPage
+from tests_e2e.pages.base import POMPage
 
 
-class WordChoiceExercisePage(TestPage):
+class WordChoiceExercisePage(POMPage):
     """The word choice for word study exercise page representation
     class.
 
@@ -41,9 +41,9 @@ class WordChoiceExercisePage(TestPage):
         self.submit_button = page.get_by_test_id('submit')
 
     def choice_word(
-            self,
-            question_language: str,
-            task_timeout: str = '1',
+        self,
+        question_language: str,
+        task_timeout: str = '1',
     ) -> None:
         """Make choice words for study.
 

@@ -8,8 +8,8 @@ from playwright.sync_api import Page, expect
 class BasePage:
     """Base class representing the page."""
 
-    host: str
-    path: str
+    path = None
+    host = None
 
     def __init__(self, page: Page) -> None:
         """Base page constructor."""
@@ -21,10 +21,10 @@ class BasePage:
         return self.host + self.path
 
     def navigate(
-            self,
-            *,
-            host: str | None = None,
-            url: str | None = None,
+        self,
+        *,
+        host: str | None = None,
+        url: str | None = None,
     ) -> None:
         """Navigate to page.
 
@@ -50,8 +50,8 @@ class BasePage:
 class BaseTests:
     """Common page tests class."""
 
-    page: Page
-    title: str
+    page = None
+    title = None
 
     def test_title(self, expected_title: str | None = None) -> None:
         """Test page title.
@@ -66,5 +66,5 @@ class BaseTests:
         expect(self.page).to_have_title(title)
 
 
-class TestPage(BasePage, BaseTests):
-    """Base class representing the testing page with general tests."""
+class POMPage(BasePage, BaseTests):
+    """Class representing the testing page with general tests."""

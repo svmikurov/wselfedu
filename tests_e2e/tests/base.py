@@ -20,7 +20,7 @@ ENVIRONMENT = os.getenv('ENVIRONMENT')
 
 class PageFixtureTestCase(StaticLiveServerTestCase):
     """Test with Playwright Pytest page fixture class
-     using StaticLiveServerTestCase.
+    using StaticLiveServerTestCase.
 
     The page fixture is set in the test function scope.
 
@@ -54,7 +54,7 @@ class PageFixtureTestCase(StaticLiveServerTestCase):
         Sets ``DJANGO_ALLOW_ASYNC_UNSAFE`` to `true`, which allows
         Django to use async at class scope.
         """
-        os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
+        os.environ['DJANGO_ALLOW_ASYNC_UNSAFE'] = 'true'
         super().setUpClass()
 
     @property
