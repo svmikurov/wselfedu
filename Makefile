@@ -21,6 +21,8 @@ up:
 down:
 	@$(COMPOSE) down
 
+restart: down build up
+
 docker-clean:
 	@$(COMPOSE) down && \
 	docker image prune -a -f && \
