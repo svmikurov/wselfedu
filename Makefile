@@ -72,4 +72,4 @@ test-just:
 
 # PostgreSQL
 connect:
-	@$(COMPOSE) exec wse-db-postgres psql --username=POSTGRES_USER --dbname=POSTGRES_DB
+	@$(COMPOSE) exec wse-db-postgres psql --username=$(POSTGRES_USER) --dbname=$(POSTGRES_DB)
