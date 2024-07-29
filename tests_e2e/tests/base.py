@@ -20,7 +20,7 @@ ENVIRONMENT = os.getenv('ENVIRONMENT')
 
 class PageFixtureTestCase(StaticLiveServerTestCase):
     """Test with Playwright Pytest page fixture class
-     using StaticLiveServerTestCase.
+    using StaticLiveServerTestCase.
 
     The page fixture is set in the test function scope.
 
