@@ -21,10 +21,10 @@ class BasePage:
         return self.host + self.path
 
     def navigate(
-            self,
-            *,
-            host: str | None = None,
-            url: str | None = None,
+        self,
+        *,
+        host: str | None = None,
+        url: str | None = None,
     ) -> None:
         """Navigate to page.
 

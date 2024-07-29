@@ -2,6 +2,7 @@
 Module for presenting a page for selecting conditions for performing
 a mathematical calculation exercise.
 """
+
 from playwright.sync_api import Page
 
 from tests_e2e.pages.base import POMPage
@@ -10,7 +11,7 @@ from tests_e2e.pages.base import POMPage
 class MathCalculateChoicePage(POMPage):
     """Mathematical calculation conditions page class."""
 
-    title = "Условия задания"
+    title = 'Условия задания'
     """Mathematical calculation conditions page title.
     """
 
@@ -21,19 +22,19 @@ class MathCalculateChoicePage(POMPage):
         self.path = '/task/math-calculate-choice/'
         self.calculation_choice = self.page.get_by_test_id('calculation_type')
         self.time_input = self.page.get_by_label('Время на ответ (сек)*')
-        self.min_operand_input = self.page.get_by_label("Минимальное число*")
-        self.max_operand_input = self.page.get_by_label("Максимальное число*")
-        self.input_answer_choice = self.page.get_by_label("С вводом ответа")
+        self.min_operand_input = self.page.get_by_label('Минимальное число*')
+        self.max_operand_input = self.page.get_by_label('Максимальное число*')
+        self.input_answer_choice = self.page.get_by_label('С вводом ответа')
         self.submit_button = self.page.get_by_role('button', name='Начать')
 
     def choose_calculation_conditions(
-            self,
-            *,
-            calculation: str | None = None,
-            time_answer: str | None = None,
-            min_value: str | None = None,
-            max_value: str | None = None,
-            input_answer_choice: bool = False,
+        self,
+        *,
+        calculation: str | None = None,
+        time_answer: str | None = None,
+        min_value: str | None = None,
+        max_value: str | None = None,
+        input_answer_choice: bool = False,
     ) -> None:
         """Choose calculation conditions.
 

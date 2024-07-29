@@ -1,6 +1,7 @@
 """
 The user pages representation module.
 """
+
 import os
 
 from dotenv import load_dotenv
@@ -53,7 +54,8 @@ class CreateUserPage(POMPage):
         self.password1_input = page.get_by_placeholder('Пароль')
         self.password2_input = page.get_by_placeholder('Подтверждение пароля')
         self.submit_button = page.get_by_role(
-            'button', name='Зарегистрироваться',
+            'button',
+            name='Зарегистрироваться',
         )
 
     def create_user(self, user_name: str, user_pass: str) -> None:
@@ -86,9 +88,9 @@ class LoginPage(POMPage):
         """Login page constructor."""
         super().__init__(page)
         self.path = '/users/login'
-        self.username_input = page.get_by_placeholder("Имя пользователя")
-        self.password_input = page.get_by_placeholder("Пароль")
-        self.submit_button = page.get_by_test_id("login-button")
+        self.username_input = page.get_by_placeholder('Имя пользователя')
+        self.password_input = page.get_by_placeholder('Пароль')
+        self.submit_button = page.get_by_test_id('login-button')
 
     def login(self, username: str, password: str) -> None:
         """Login.
@@ -117,9 +119,9 @@ class DeleteUserPage(POMPage):
     def __init__(self, page: Page) -> None:
         """User delete page constructor."""
         super().__init__(page)
-        self.account_link = page.get_by_test_id("account-link")
-        self.delete_button = page.get_by_role("link", name="Удалить")
-        self.confirm_button = page.get_by_role("button", name="Удалить")
+        self.account_link = page.get_by_test_id('account-link')
+        self.delete_button = page.get_by_role('link', name='Удалить')
+        self.confirm_button = page.get_by_role('button', name='Удалить')
 
     def delete_user(self) -> None:
         """Delete user."""
@@ -128,10 +130,10 @@ class DeleteUserPage(POMPage):
 
 
 def authorize_the_page(
-        page: Page,
-        host: str,
-        user_name: str | None = None,
-        user_pass: str | None = None,
+    page: Page,
+    host: str,
+    user_name: str | None = None,
+    user_pass: str | None = None,
 ) -> None:
     """Authorize the page.
 
@@ -156,7 +158,7 @@ def authorize_the_page(
     user = user_name or USER_NAME
     password = user_pass or USER_PASS
 
-    login_page.navigate(url=f"{host}{login_page.path}")
+    login_page.navigate(url=f'{host}{login_page.path}')
     login_page.login(user, password)
 
     # after successful authentication the user is redirected to the

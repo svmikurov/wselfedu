@@ -54,7 +54,7 @@ class PageFixtureTestCase(StaticLiveServerTestCase):
         Sets ``DJANGO_ALLOW_ASYNC_UNSAFE`` to `true`, which allows
         Django to use async at class scope.
         """
-        os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
+        os.environ['DJANGO_ALLOW_ASYNC_UNSAFE'] = 'true'
         super().setUpClass()
 
     @property

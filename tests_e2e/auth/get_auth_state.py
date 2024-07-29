@@ -35,7 +35,7 @@ class TestGetAuthState(POMBaseTest):
     def test_get_auth_state(self) -> None:
         """Get auth state."""
         login_page = LoginPage(self.page)
-        login_page.navigate(url=f"{self.site_host}{login_page.path}")
+        login_page.navigate(url=f'{self.site_host}{login_page.path}')
         login_page.test_title()
         login_page.login(USER_NAME, USER_PASS)
         login_page.test_title(expected_title=HomePage.title)

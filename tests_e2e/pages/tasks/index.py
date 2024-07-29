@@ -1,6 +1,7 @@
 """
 The all tasks page representation module.
 """
+
 from playwright.sync_api import Page
 
 from tests_e2e.pages.base import POMPage

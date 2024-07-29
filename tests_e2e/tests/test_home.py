@@ -1,6 +1,7 @@
 """
 The home page representation test module.
 """
+
 from playwright.sync_api import expect
 
 from tests_e2e.pages.home import HomePage
@@ -13,7 +14,7 @@ class TestHomePage(POMBaseTest):
 
     def setUp(self) -> None:
         self.home_page = HomePage(self.page)
-        url = f"{self.site_host}{self.home_page.path}"
+        url = f'{self.site_host}{self.home_page.path}'
         self.home_page.navigate(url=url)
 
     def test_home_page(self) -> None:

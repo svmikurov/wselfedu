@@ -1,6 +1,7 @@
 """
 Task index page module.
 """
+
 from playwright.sync_api import expect
 
 from tests_e2e.pages.tasks.index import IndexTaskPage

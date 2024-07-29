@@ -2,6 +2,7 @@
 Module for presenting a page this mathematical calculation exercise
 with answer input.
 """
+
 from playwright.sync_api import Page
 
 from tests_e2e.pages.base import POMPage

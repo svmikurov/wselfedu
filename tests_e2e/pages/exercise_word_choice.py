@@ -41,9 +41,9 @@ class WordChoiceExercisePage(POMPage):
         self.submit_button = page.get_by_test_id('submit')
 
     def choice_word(
-            self,
-            question_language: str,
-            task_timeout: str = '1',
+        self,
+        question_language: str,
+        task_timeout: str = '1',
     ) -> None:
         """Make choice words for study.
 
