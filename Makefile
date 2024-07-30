@@ -63,7 +63,7 @@ test:
 plw:
 	@$(APP) pytest tests_e2e/
 
-check: lint test plw
+check: lint restart test plw
 
 get-state:
 	@$(APP) sh -c "pytest tests_e2e/auth/get_auth_state.py"
