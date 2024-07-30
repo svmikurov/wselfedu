@@ -5,6 +5,13 @@ The mathematical calculate exercise module.
 import operator
 from random import randint
 
+MATH_CALCULATION_TYPE = (
+    ('add', ''),
+    ('sub', ''),
+    ('mul', ''),
+    ('div', ''),
+)
+
 
 class CalculationExercise:
     """Calculation exercise class with two operands.
@@ -40,12 +47,12 @@ class CalculationExercise:
     """
 
     def __init__(
-            self,
-            *,
-            calculation_type: str,
-            min_value: int,
-            max_value: int,
-            timeout: int
+        self,
+        *,
+        calculation_type: str,
+        min_value: int,
+        max_value: int,
+        timeout: int,
     ) -> None:
         """Calculation exercise constructor."""
         self.timeout = timeout
@@ -53,9 +60,9 @@ class CalculationExercise:
         self._set_task_solution(calculation_type, min_value, max_value)
 
     def _set_task_solution(
-            self,
-            calculation_type,
-            *value_range,
+        self,
+        calculation_type,
+        *value_range,
     ) -> None:
         """Create and set question text with answer text.
 
@@ -69,8 +76,8 @@ class CalculationExercise:
         """
         first_operand = randint(*value_range)
         second_operand = randint(*value_range)
-        question = f"{first_operand} {calculation_type} {second_operand}"
+        question = f'{first_operand} {calculation_type} {second_operand}'
         answer = self._OPS[calculation_type](first_operand, second_operand)
 
-        setattr(self, 'question_text', question)
-        setattr(self, 'answer_text', str(answer))
+        self.question_text = question
+        self.answer_text = str(answer)
