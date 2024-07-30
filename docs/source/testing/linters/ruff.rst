@@ -22,12 +22,21 @@ ruff
 
 .. code-block:: console
 
+   ruff check path/ --select B010
+
+.. code-block:: console
+
+   ruff check path/ --select B010 --fix
+
+.. code-block:: console
+
    ruff format --diff
 
 .. code-block:: console
 
    ruff format
 
+Display lint rule by code (`ruff rules <https://docs.astral.sh/ruff/rules/#rules>`_):
 
 .. code-block:: console
 
