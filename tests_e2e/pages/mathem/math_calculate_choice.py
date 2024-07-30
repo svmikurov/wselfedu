@@ -2,6 +2,7 @@
 Module for presenting a page for selecting conditions for performing
 a mathematical calculation exercise.
 """
+import datetime
 
 from playwright.sync_api import Page
 
@@ -58,9 +59,10 @@ class MathCalculateChoicePage(POMPage):
         if time_answer:
             self.time_input.fill(time_answer)
         if min_value:
-            self.min_operand_input.fill(max_value)
+            self.min_operand_input.fill(min_value)
         if max_value:
-            self.max_operand_input.fill(min_value)
+            self.max_operand_input.fill(max_value)
         if input_answer_choice:
             self.input_answer_choice.click()
+        self.page.screenshot(path=f'screenshot_{datetime.datetime.now()}.png')
         self.submit_button.click()
