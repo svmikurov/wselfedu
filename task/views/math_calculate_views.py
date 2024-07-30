@@ -36,7 +36,14 @@ class MathCalculateChoiceView(TemplateView):
 
 
 class MathCalculateDemoView(View):
-    """Math calculation demonstration view."""
+    """Math calculation demonstration view.
+
+    The user is shown a mathematical expression as a question. The user
+    calculates the mathematical expression. After a timeout, the user
+    is shown the result of the mathematical expression. The user
+    compares his calculation with the result of the mathematical
+    expression displayed on the page.
+    """
 
     template_name = 'task/mathem/math_calculate_demo.html'
 

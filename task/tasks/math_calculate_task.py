@@ -7,12 +7,6 @@ from random import randint
 class CalculationExercise:
     """Calculation exercise class with two operands.
 
-    The user is shown a mathematical expression as a question. The user
-    calculates the mathematical expression. After a timeout, the user
-    is shown the result of the mathematical expression. The user
-    compares his calculation with the result of the mathematical
-    expression displayed on the page.
-
     Parameters
     ----------
     calculation_type : `str`
@@ -27,21 +21,26 @@ class CalculationExercise:
 
     """
 
-    _OPS = {
+    _OPS = {                    # noqa: RUF012
         '+': operator.add,
         '-': operator.sub,
         '*': operator.mul,
     }
-    """The symbolic representation of mathematical operators
-    (Dict[`str`, object]).
+    """Task calculate operators (Dict[`str`, object]).
+
+    The symbolic representation of mathematical operators.
     """
     question_text = None
-    """The text representation of a mathematical expression to render to
-    the user (None | `str`).
+    """The task question text (None | `str`).
+
+    The text representation of a mathematical expression to render to
+    the user.
     """
     answer_text = None
-    """The text representation of the result of calculating
-    a mathematical expression (None | `str`).
+    """The task answer text (None | `str`).
+
+    The text representation of the result of calculating a mathematical
+    expression.
     """
 
     def __init__(
