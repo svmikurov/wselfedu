@@ -1,6 +1,4 @@
-"""
-The mathematical calculate exercise module.
-"""
+"""The mathematical calculate exercise module."""
 
 import operator
 from random import randint
@@ -8,6 +6,12 @@ from random import randint
 
 class CalculationExercise:
     """Calculation exercise class with two operands.
+
+    The user is shown a mathematical expression as a question. The user
+    calculates the mathematical expression. After a timeout, the user
+    is shown the result of the mathematical expression. The user
+    compares his calculation with the result of the mathematical
+    expression displayed on the page.
 
     Parameters
     ----------
@@ -20,6 +24,7 @@ class CalculationExercise:
     timeout : `int`
         Time value to display a math task before displaying the result,
         sec (None | `int`).
+
     """
 
     _OPS = {
@@ -31,8 +36,8 @@ class CalculationExercise:
     (Dict[`str`, object]).
     """
     question_text = None
-    """Еhe text representation of a mathematical expression to render to
-    the user(None | `str`).
+    """The text representation of a mathematical expression to render to
+    the user (None | `str`).
     """
     answer_text = None
     """The text representation of the result of calculating
@@ -40,22 +45,22 @@ class CalculationExercise:
     """
 
     def __init__(
-            self,
-            *,
-            calculation_type: str,
-            min_value: int,
-            max_value: int,
-            timeout: int
+        self,
+        *,
+        calculation_type: str,
+        min_value: int,
+        max_value: int,
+        timeout: int,
     ) -> None:
-        """Calculation exercise constructor."""
+        """Construct the calculation exercise."""
         self.timeout = timeout
         # Create task
         self._set_task_solution(calculation_type, min_value, max_value)
 
     def _set_task_solution(
-            self,
-            calculation_type,
-            *value_range,
+        self,
+        calculation_type: str,
+        *value_range: tuple,
     ) -> None:
         """Create and set question text with answer text.
 
@@ -66,11 +71,12 @@ class CalculationExercise:
             '+', '-' or '*' operator.
         values_range : `tuple`
             Range of values, contains two element, its start and end values.
+
         """
         first_operand = randint(*value_range)
         second_operand = randint(*value_range)
-        question = f"{first_operand} {calculation_type} {second_operand}"
+        question = f'{first_operand} {calculation_type} {second_operand}'
         answer = self._OPS[calculation_type](first_operand, second_operand)
 
-        setattr(self, 'question_text', question)
-        setattr(self, 'answer_text', str(answer))
+        self.question_text = question
+        self.answer_text = str(answer)
