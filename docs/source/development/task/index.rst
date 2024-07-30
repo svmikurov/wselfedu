@@ -1,3 +1,4 @@
+=====
 Tasks
 =====
 
@@ -8,3 +9,4 @@ Tasks
    init
    tasks/index
    views/index
+   model/index
