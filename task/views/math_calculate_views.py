@@ -1,9 +1,8 @@
-from django.http import JsonResponse
+from django.http import HttpRequest, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView
-from jsonview.decorators import json_view
 
 from task.forms import MathCalculationChoiceForm, NumberInputForm
 from task.tasks.math_calculate_task import CalculationExercise
@@ -99,14 +98,35 @@ class MathCalculateSolutionView(TemplateView):
         return JsonResponse(data={}, status=200)
 
 
-@json_view
-def render_task(request):
-    """Send task data to page."""
-    task_conditions = request.session['task_conditions']
+def render_task(request: HttpRequest) -> JsonResponse:
+    """Send question text to page.
+
+    Gets the task creation conditions from the session.
+    Create new ``task`` instance, save ``answer_text`` in session,
+    render new ``question_text`` to user via json response.
+
+    Parameters
+    ----------
+    request : `HttpRequest`
+        Request to receive new text of the question.
+
+
+    Return
+    ------
+    `JsonResponse`
+        Json response with new question text.
+
+    """
+    task_conditions = request.session.get('task_conditions')
+    if not task_conditions:
+        redirect(reverse_lazy('task:math_calculate_choice'))
     task = CalculationExercise(**task_conditions)
     request.session['answer_text'] = task.answer_text
-    data = {
-        'success': True,
-        'question_text': task.question_text,
-    }
-    return data
+
+    return JsonResponse(
+        data={
+            'success': True,
+            'question_text': task.question_text,
+        },
+        status=200,
+    )
