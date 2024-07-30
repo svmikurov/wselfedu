@@ -1,5 +1,4 @@
 include .env
-include .env.postgres
 
 ifeq (${ENVIRONMENT}, development)
 	COMPOSE := docker compose -f docker-compose.dev.yml
@@ -74,4 +73,4 @@ test-just:
 
 # PostgreSQL
 connect:
-	@$(COMPOSE) exec wse-db-postgres psql --username=$(POSTGRES_USER) --dbname=$(POSTGRES_DB)
+	@$(COMPOSE) exec wse-db-postgres psql --username=$(POSTGRES_USER) --dbname=$(POSTGRES_NAME)
