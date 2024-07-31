@@ -30,7 +30,15 @@ urlpatterns = [
         'render-calculate-task/',
         views.render_task,
         name='render_calculate_task',
-    ),  # -- End Math Tasks --
+    ),
+    # --=== Points Exercises ===--
+    path(
+        'math-set-table-mult-points/',
+        views.SetMultiplicationTableExerciseView.as_view(),
+        name='math_set_table_mult_points',
+    ),
+    #
+    # -- End Math Tasks --
     #
     # --======= English Tasks =======--
     path(

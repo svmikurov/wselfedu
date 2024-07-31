@@ -14,6 +14,16 @@
   </div>
 
   <div>
+    <h2>Упражнения на получение баллов</h2>
+      <ul class="list-unstyled">
+        <li class="py-1"><a href="{% url 'task:math_set_table_mult_points' %}"
+                            class="btn btn-outline-primary btn-sm"
+                            role="button"
+                            style="width: 250px;">Таблица умножения</a></li>
+      </ul>
+  </div>
+
+  <div>
     {% if user.is_superuser %}
       <a href="{% url 'english:create_task_settings' user.id %}">Создай Настройки упражнения "Изучаем слова"</a><br>
       <a href="{% url 'english:update_task_settings' user.id %}">Измени Настройки упражнения "Изучаем слова"</a>

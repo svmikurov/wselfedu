@@ -10,6 +10,7 @@ from task.views.math_calculate_views import (
     MathCalculateSolutionView,
     render_task,
 )
+from task.views.set_points_tasks import SetMultiplicationTableExerciseView
 
 __all__ = [
     'MathCalculateChoiceView',
@@ -20,4 +21,5 @@ __all__ = [
     'EnglishTranslateExerciseView',
     'update_words_knowledge_assessment_view',
     'IndexTaskView',
+    'SetMultiplicationTableExerciseView',
 ]
