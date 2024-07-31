@@ -24,4 +24,3 @@ class HomePage(POMPage):
         """Home page constructor."""
         super().__init__(page)
         self.path = ''
-        self.all_tasks_btn = page.get_by_role('button', name='Все упражнения')
