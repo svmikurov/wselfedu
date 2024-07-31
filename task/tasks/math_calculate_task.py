@@ -6,12 +6,15 @@ import operator
 from random import randint
 
 MATH_CALCULATION_TYPE = (
-    ('add', ''),
-    ('sub', ''),
-    ('mul', ''),
-    ('div', ''),
+    ('add', 'Сложение'),
+    ('sub', 'Вычитание'),
+    ('mul', 'Умножение'),
+    ('div', 'Деление'),
 )
+"""Mathematical exercise type choice.
 
+Use in choices, note: max_length=10.
+"""
 
 class CalculationExercise:
     """Calculation exercise class with two operands.
