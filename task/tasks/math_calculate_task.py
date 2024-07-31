@@ -16,6 +16,7 @@ MATH_CALCULATION_TYPE = (
 Use in choices, note: max_length=10.
 """
 
+
 class CalculationExercise:
     """Calculation exercise class with two operands.
 
