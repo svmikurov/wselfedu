@@ -127,3 +127,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 # End Bootstrap
+
+
+# Django’s cache framework
+# https://docs.djangoproject.com/en/5.0/topics/cache/#django-s-cache-framework
+# Redis
+# https://docs.djangoproject.com/en/5.0/topics/cache/#redis
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://redis:6379',
+    }
+}
