@@ -20,7 +20,7 @@ up:
 down:
 	@$(COMPOSE) down
 
-restart: down build up
+restart: lint down build up
 
 docker-clean:
 	@$(COMPOSE) down && \
@@ -63,7 +63,7 @@ test:
 plw:
 	@$(APP) pytest tests_e2e/
 
-check: lint restart test plw
+check: restart test plw
 
 get-state:
 	@$(APP) sh -c "pytest tests_e2e/auth/get_auth_state.py"
