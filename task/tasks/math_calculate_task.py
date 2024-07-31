@@ -24,7 +24,7 @@ class CalculationExercise:
         Minimum value of operands.
     max_value : `int`
         Maximum value of operands.
-    timeout : `int`
+    timeout : `int` | None
         Time value to display a math task before displaying the result,
         sec (None | `int`).
     """
@@ -52,7 +52,7 @@ class CalculationExercise:
         calculation_type: str,
         min_value: int,
         max_value: int,
-        timeout: int,
+        timeout: int | None = None,
     ) -> None:
         """Calculation exercise constructor."""
         self.timeout = timeout
@@ -72,7 +72,7 @@ class CalculationExercise:
             The symbolic representation of the calculation type, can be
             '+', '-' or '*' operator.
         values_range : `tuple`
-            Range of values, contains two element, its start and end values.
+            Range of values, contains two element, min and max values.
         """
         first_operand = randint(*value_range)
         second_operand = randint(*value_range)

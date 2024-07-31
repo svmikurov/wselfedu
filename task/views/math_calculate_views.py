@@ -60,7 +60,15 @@ class MathCalculateDemoView(View):
 
 
 class MathCalculateSolutionView(TemplateView):
-    """Math tasks requiring answering view."""
+    """Calculate exercise view with input of a solution and scoring.
+
+    The ``get`` method rendering to the page where the exercise will be
+    performed.
+    The page contains a form for entering the user's solution.
+
+    On the user side, a post-request is generated via Ajax to receive
+    the task.
+    """
 
     template_name = 'task/mathem/math_calculate_solution.html'
 
