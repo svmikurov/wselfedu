@@ -26,7 +26,7 @@ class TestMathCalculateChoicePage(POMBaseTest):
         """Test choose calculation conditions."""
         self.choice_page.test_title()
         self.choice_page.choose_calculation_conditions(
-            calculation='+',
+            calculation='add',
             time_answer='1',
             min_value='5',
             max_value='6',
@@ -40,7 +40,7 @@ class TestMathCalculateChoicePage(POMBaseTest):
         """Test choose calculation conditions with answer input."""
         self.choice_page.test_title()
         self.choice_page.choose_calculation_conditions(
-            calculation='+',
+            calculation='add',
             time_answer='1',
             min_value='5',
             max_value='6',

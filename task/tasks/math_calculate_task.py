@@ -34,12 +34,20 @@ class CalculationExercise:
     """
 
     _OPS = {
-        '+': operator.add,
-        '-': operator.sub,
-        '*': operator.mul,
+        'add': operator.add,
+        'sub': operator.sub,
+        'mul': operator.mul,
     }
-    """The symbolic representation of mathematical operators
-    (Dict[`str`, object]).
+    """Alias representation of mathematical operators
+    (`Dict[str, object]`).
+    """
+    _OP_SIGNS = {
+        'add': '+',
+        'sub': '-',
+        'mul': '*',
+    }
+    """Alias representation of mathematical sign
+    (`Dict[str, str]`).
     """
     question_text = None
     """Еhe text representation of a mathematical expression to render to
@@ -73,8 +81,8 @@ class CalculationExercise:
         Parameters
         ----------
         calculation_type : `str`
-            The symbolic representation of the calculation type, can be
-            '+', '-' or '*' operator.
+            Alias representation of the calculation type, can be
+            'add', 'sub' or 'mul' operator.
         values_range : `tuple`
             Range of values, contains two element, min and max values.
         """

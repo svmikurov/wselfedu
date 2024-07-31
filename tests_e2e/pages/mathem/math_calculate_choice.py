@@ -42,7 +42,7 @@ class MathCalculateChoicePage(POMPage):
         Parameters
         ----------
         calculation : `str` | None
-            Choice of mathematical operation, may be: '*', '+', '-'.
+            Choice of mathematical operation, may be: 'mul', 'add', 'sub'.
         time_answer: `str` | None
             Task display time.
         min_value: `str` | None
@@ -54,7 +54,7 @@ class MathCalculateChoicePage(POMPage):
             otherwise only show the question then answer.
         """
         if calculation:
-            assert calculation in ('*', '+', '-')
+            assert calculation in ('mul', 'add', 'sub')
             self.calculation_choice.select_option(calculation)
         if time_answer:
             self.time_input.fill(time_answer)

@@ -18,7 +18,7 @@ class SetMultiplicationTableExerciseView(RedirectView):
     ) -> HttpResponseBase:
         """Save task conditions in session."""
         task_conditions = {
-            'calculation_type': '*',
+            'calculation_type': 'mul',
             'min_value': 2,
             'max_value': 9,
         }
