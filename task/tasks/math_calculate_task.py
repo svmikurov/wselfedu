@@ -5,6 +5,8 @@ The mathematical calculate exercise module.
 import operator
 from random import randint
 
+from task.task_mng import TaskManager
+
 MATH_CALCULATION_TYPE = (
     ('add', 'Сложение'),
     ('sub', 'Вычитание'),
@@ -22,8 +24,10 @@ class CalculationExercise:
 
     Parameters
     ----------
+    user_id : `int`
+        User performing the exercise.
     calculation_type : `str`
-        The symbolic representation of mathematical operator of task.
+        Alias representation of mathematical operator of task.
     min_value : `int`
         Minimum value of operands.
     max_value : `int`
@@ -61,13 +65,16 @@ class CalculationExercise:
     def __init__(
         self,
         *,
+        user_id: int | None = None,
         calculation_type: str,
         min_value: int,
         max_value: int,
         timeout: int | None = None,
     ) -> None:
         """Calculation exercise constructor."""
+        self.user_id = user_id
         self.timeout = timeout
+        self.calculation_type = calculation_type
         # Create task
         self._set_task_solution(calculation_type, min_value, max_value)
 
@@ -88,8 +95,27 @@ class CalculationExercise:
         """
         first_operand = randint(*value_range)
         second_operand = randint(*value_range)
-        question = f'{first_operand} {calculation_type} {second_operand}'
+        math_sign = self._OP_SIGNS.get(calculation_type)
+
+        question = f'{first_operand} {math_sign} {second_operand}'
         answer = self._OPS[calculation_type](first_operand, second_operand)
+
+        # The history of exercises performed by the logged-in user is
+        # stored.
+        # The time of exercise creation is saved in the database after
+        # the user provides an answer, before that it is stored in the
+        # cache
+        if self.user_id:
+            self._cache_task_creation_time()
 
         self.question_text = question
         self.answer_text = str(answer)
+
+    def _cache_task_creation_time(self):
+        """Store in cache the date and time of task creation
+        for a specific user."""
+        task_mng = TaskManager()
+        task_mng.cache_task_creation_time(
+            user_id=self.user_id,
+            exercise_type=self.calculation_type,
+        )
