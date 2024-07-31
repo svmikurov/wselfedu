@@ -8,6 +8,7 @@ Development
    users/index
    english/index
    task/index
+   points/index
 
 .. toctree::
    :maxdepth: 1
