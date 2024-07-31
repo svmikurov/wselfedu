@@ -76,6 +76,7 @@ class MathCalculateSolutionView(TemplateView):
         """Add form to context."""
         context = super().get_context_data()
         context['form'] = NumberInputForm()
+        context['title'] = 'Вычисления с вводом ответа'
         return context
 
     def post(self, request):
