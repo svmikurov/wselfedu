@@ -6,7 +6,12 @@ from django.views.generic import RedirectView
 
 
 class SetMultiplicationTableExerciseView(RedirectView):
-    """Setup initial data for multiplication table exercises view."""
+    """Setup initial data for multiplication table exercises view.
+
+    Saves to session the ``task_conditions``.
+
+    Redirect to ``MathCalculateSolutionView``.
+    """
 
     url = reverse_lazy('task:math_calculate_solution')
 
