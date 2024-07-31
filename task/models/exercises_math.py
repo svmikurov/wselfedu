@@ -24,19 +24,19 @@ class MathematicalExercise(models.Model):
     )
     """Type of mathematical calculation.
     """
-    first_operand = models.SmallIntegerField()
+    first_operand = models.PositiveSmallIntegerField()
     """First operand of the expression.
     """
-    second_operand = models.SmallIntegerField()
+    second_operand = models.PositiveSmallIntegerField()
     """Second operand of the expression.
     """
-    user_solution = models.SmallIntegerField()
+    user_solution = models.PositiveSmallIntegerField()
     """User task solution.
     """
     is_correctly = models.BooleanField(blank=True, null=True)
     """Marking the user's solution to the task as correct.
     """
-    solution_time = models.TimeField()
+    solution_time = models.PositiveSmallIntegerField()
     """Time spent by the user to solve the task.
     """
     created_at = models.DateTimeField(auto_now_add=True)

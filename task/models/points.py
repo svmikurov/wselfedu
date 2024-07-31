@@ -1,5 +1,5 @@
 """User points story."""
-
+from django.core.exceptions import ValidationError
 from django.db import models
 
 from task.models.exercises_math import MathematicalExercise
@@ -17,16 +17,19 @@ class Points(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     """User owner of points.
     """
-    task = models.ForeignKey(MathematicalExercise, on_delete=models.CASCADE)
+    task = models.OneToOneField(
+        MathematicalExercise,
+        on_delete=models.CASCADE,
+    )
     """The task for which points were awarded.
     """
-    receipt = models.SmallIntegerField()
+    award = models.PositiveSmallIntegerField(blank=True, null=True)
     """Amount of points awarded.
     """
-    write_off = models.SmallIntegerField()
+    write_off = models.PositiveSmallIntegerField(blank=True, null=True)
     """Amount of points written off.
     """
-    balance = models.SmallIntegerField()
+    balance = models.PositiveSmallIntegerField(default=0)
     """Current balance of points.
     """
     guardianship = models.ForeignKey(
@@ -40,3 +43,25 @@ class Points(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     """Date and time of creation of the record in the table.
     """
+
+    def clean(self) -> None:
+        """Validate the condition of adding entry.
+
+        In one entry you can fill only one of the two fields,
+        either ``award`` or ``write_off``.
+
+        Raises
+        ------
+        ValidationError
+            Raised if both fields ``award`` and ``write_off`` are added
+            or if both fields ``award`` and ``write_off`` is ``null``.
+        """
+        super().clean()
+        if self.award and self.write_off:
+            raise ValidationError(
+                "Only 'award' or 'write_off' field, not both",
+            )
+        elif not self.award and not self.write_off:
+            raise ValidationError(
+                "Fill 'award' or 'write_off' field.",
+            )
