@@ -21,8 +21,8 @@ jobs:
 
       - name: Set environment variables
         run: |
-          mv .env.example           .env
-          mv .env.postgres.example  .env.postgres
+          mv .env_vars/.env.example           .env_vars/.env
+          mv .env_vars/.env.postgres.example  .env_vars/.env.postgres
 
       - name: Up Docker
         run: |

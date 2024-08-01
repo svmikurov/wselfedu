@@ -1,4 +1,5 @@
-include .env
+include .env_vars/.env
+include .env_vars/.env.wse
 
 ifeq (${ENVIRONMENT}, development)
 	COMPOSE := docker compose -f docker-compose.dev.yml

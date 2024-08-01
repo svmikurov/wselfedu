@@ -11,7 +11,7 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from dotenv import load_dotenv
 from playwright.sync_api import sync_playwright
 
-load_dotenv()
+load_dotenv('./env_vars/.env')
 
 ENVIRONMENT = os.getenv('ENVIRONMENT')
 """The current environment name (`str`).

@@ -10,6 +10,7 @@ tests_e2e/screenshots/
 
 .env
 .env.postgres
+.env.wse
 .coverage
 coverage.xml
 state.json

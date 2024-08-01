@@ -17,7 +17,7 @@ from tests_e2e.pages.user import (
 from tests_e2e.tests.base import POMBaseTest
 from users.models import UserModel
 
-load_dotenv()
+load_dotenv('./env_vars/.env.wse')
 
 CREATE_USER_NAME = 'Playwright'
 """Temporary username (`str`).
