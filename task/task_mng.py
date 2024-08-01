@@ -1,15 +1,21 @@
 """Task manager module."""
-
+import logging
+import os
 from datetime import timezone, datetime
 
 from django.core.cache import cache
 from django.forms import Form
 from django.http import HttpRequest
+from dotenv import load_dotenv
 
-CACHE_STORAGE_TIME = 300
+load_dotenv('.env_vars/.env.wse')
+
+CACHE_STORAGE_TIME = int(os.getenv('CACHE_STORAGE_TIME'))
 """The number of seconds the value should be stored in the cache
 (`int`).
 """
+
+logging.info(CACHE_STORAGE_TIME)
 
 MATH_CALCULATION_TYPE = ('add', 'sub', 'mul', 'div')
 
