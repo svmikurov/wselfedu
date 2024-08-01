@@ -21,6 +21,9 @@ Use in choices, note: max_length=10.
 class CalculationExercise:
     """Calculation exercise class with two operands.
 
+    Stores in cache the date and time of task creation for a specific
+    user.
+
     Parameters
     ----------
     user_id : `int`
