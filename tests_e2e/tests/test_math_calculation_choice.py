@@ -2,7 +2,7 @@ from unittest import skip
 
 from playwright.sync_api import expect
 
-from tests_e2e.pages.mathem.math_calculate_choice import (
+from tests_e2e.pages.math_calculate_choice import (
     MathCalculateChoicePage,
 )
 from tests_e2e.pages.user import authorize_the_page
