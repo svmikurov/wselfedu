@@ -5,6 +5,7 @@ from django.views import View
 from django.views.generic import TemplateView
 
 from task.forms import MathCalculationChoiceForm, NumberInputForm
+from task.task_mng import TaskManager
 from task.tasks.math_calculate_task import CalculationExercise
 
 
@@ -62,47 +63,41 @@ class MathCalculateDemoView(View):
 class MathCalculateSolutionView(TemplateView):
     """Calculate exercise view with input of a solution and scoring.
 
-    The ``get`` method rendering to the page where the exercise will be
-    performed.
+    The ``get`` method renders the page for the exercise.
     The page contains a form for entering the user's solution.
 
     On the user side, a post-request is generated via Ajax to receive
     the task.
+
+    The ``post`` method accepts a user response for validation and
+    returns a JSON response with an evaluate.
     """
 
     template_name = 'task/mathem/math_calculate_solution.html'
 
     def get_context_data(self, **kwargs):
-        """Add form to context."""
+        """Add form with title to context."""
         context = super().get_context_data()
         context['form'] = NumberInputForm()
         context['title'] = 'Вычисления с вводом ответа'
         return context
 
     def post(self, request):
-        """Send task data to page and check user answer."""
+        """Accept user's answer for verification."""
         form = NumberInputForm(request.POST)
-        answer_text = request.session.get('answer_text')
 
         if form.is_valid():
-            user_solution = str(form.cleaned_data.get('user_solution'))
+            task_mgr = TaskManager(request=request, form=form)
+            is_correct_solution = task_mgr.check_user_solution()
+            msg = 'Верно!' if is_correct_solution else 'Неверно!'
 
-            if user_solution == answer_text:
-                return JsonResponse(
-                    data={
-                        'msg': 'Верно!',
-                        'is_correct_solution': True,
-                    },
-                    status=200,
-                )
-            else:
-                return JsonResponse(
-                    data={
-                        'msg': 'Неверно!',
-                        'is_correct_solution': False,
-                    },
-                    status=200,
-                )
+            return JsonResponse(
+                data={
+                    'msg': msg,
+                    'is_correct_solution': is_correct_solution,
+                },
+                status=200,
+            )
 
         return JsonResponse(data={}, status=200)
 
@@ -130,9 +125,9 @@ def render_task(request: HttpRequest) -> JsonResponse:
     if not task_conditions:
         redirect(reverse_lazy('task:math_calculate_choice'))
 
+    user_id = request.user.id
     # A new task is created when the class CalculationExercise
     # is initialized.
-    user_id = request.user.id
     task = CalculationExercise(user_id=user_id, **task_conditions)
     request.session['answer_text'] = task.answer_text
 
