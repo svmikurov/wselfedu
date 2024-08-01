@@ -30,6 +30,12 @@ jobs:
           pip install -r requirements.txt
           pip install -r requirements.dev.txt
 
+      - name: Set environment variables
+        run: |
+          mv .env_vars/.env.example           .env_vars/.env
+          mv .env_vars/.env.wse.example       .env_vars/.env.wse
+          mv .env_vars/.env.postgres.example  .env_vars/.env.postgres
+
       - name: Build HTML
         working-directory: ./docs
         run: make html
