@@ -1,4 +1,5 @@
 """Task manager module."""
+
 import logging
 import os
 from datetime import timezone, datetime
@@ -22,6 +23,10 @@ MATH_CALCULATION_TYPE = ('add', 'sub', 'mul', 'div')
 
 class TaskManager:
     """Task manager class.
+    """
+
+    user_id: int | None = None
+    """Current user id (`int | None`).
     """
 
     def __init__(
