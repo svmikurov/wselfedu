@@ -1,6 +1,7 @@
 """
 The Page Object Model page base class module.
 """
+import os
 
 from playwright.sync_api import Page, expect
 
@@ -50,8 +51,15 @@ class BasePage:
 class BaseTests:
     """Common page tests class."""
 
-    page = None
-    title = None
+    page: Page | None = None
+    """Playwright Pyrest page fixture (`Page | None`).
+    """
+    title: str | None = None
+    """Page title (`str | None`).
+    """
+    scn_path = f'tests_e2e/screenshots{os.path.dirname(__file__)}'
+    """Path to save page screenshot (`str`).
+    """
 
     def test_title(self, expected_title: str | None = None) -> None:
         """Test page title.
@@ -64,6 +72,10 @@ class BaseTests:
         """
         title = expected_title or self.title
         expect(self.page).to_have_title(title)
+
+    def take_scn(self) -> None:
+        """Take a screenshot."""
+        self.page.screenshot()
 
 
 class POMPage(BasePage, BaseTests):
