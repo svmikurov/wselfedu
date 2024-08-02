@@ -135,6 +135,7 @@ def render_task(request: HttpRequest) -> JsonResponse:
         data={
             'success': True,
             'question_text': task.question_text,
+            'balance': get_points_balance(user_id),
         },
         status=200,
     )
