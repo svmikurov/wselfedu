@@ -4,7 +4,7 @@ The mathematical calculate exercise module.
 import operator
 from random import randint
 
-from task.task_mng import TaskManager
+from contrib.cache import set_cache_task_creation_time
 
 MATH_CALCULATION_TYPE = (
     ('add', 'Сложение'),
@@ -116,8 +116,7 @@ class CalculationExercise:
     def _cache_task_creation_time(self) -> None:
         """Store in cache the date and time of task creation
         for a specific user."""
-        task_mng = TaskManager()
-        task_mng.set_cache_task_creation_time(
+        set_cache_task_creation_time(
             user_id=self.user_id,
             exercise_type=self.calculation_type,
         )

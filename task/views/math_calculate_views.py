@@ -5,8 +5,9 @@ from django.views import View
 from django.views.generic import TemplateView
 
 from task.forms import MathCalculationChoiceForm, NumberInputForm
-from task.task_mng import TaskManager
-from task.tasks.math_calculate_task import CalculationExercise
+from task.points import get_points_balance
+from task.task_mng import CalculationExerciseCheck
+from task.tasks.calculation_exersice import CalculationExercise
 
 
 class MathCalculateChoiceView(TemplateView):
@@ -87,8 +88,8 @@ class MathCalculateSolutionView(TemplateView):
         form = NumberInputForm(request.POST)
 
         if form.is_valid():
-            task_mgr = TaskManager(request=request, form=form)
-            is_correct_solution = task_mgr.check_user_solution()
+            task_mgr = CalculationExerciseCheck(request=request, form=form)
+            is_correct_solution: bool = task_mgr.check_and_save_user_solution()
             msg = 'Верно!' if is_correct_solution else 'Неверно!'
 
             return JsonResponse(
@@ -129,6 +130,8 @@ def render_task(request: HttpRequest) -> JsonResponse:
     # A new task is created when the class CalculationExercise
     # is initialized.
     task = CalculationExercise(user_id=user_id, **task_conditions)
+    request.session['calculation_type'] = task.calculation_type
+    request.session['question_text'] = task.question_text
     request.session['answer_text'] = task.answer_text
 
     return JsonResponse(

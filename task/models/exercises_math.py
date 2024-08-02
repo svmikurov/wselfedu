@@ -2,7 +2,7 @@
 
 from django.db import models
 
-from task.tasks.math_calculate_task import MATH_CALCULATION_TYPE
+from task.tasks.calculation_exersice import MATH_CALCULATION_TYPE
 from users.models import UserModel
 
 

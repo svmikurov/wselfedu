@@ -1,29 +1,17 @@
-"""Task manager module."""
-
-import logging
-import os
-from datetime import timezone, datetime
-
-from django.core.cache import cache
 from django.forms import Form
 from django.http import HttpRequest
-from dotenv import load_dotenv
 
-load_dotenv('.env_vars/.env.wse')
-
-CACHE_STORAGE_TIME = int(os.getenv('CACHE_STORAGE_TIME'))
-"""The number of seconds the value should be stored in the cache
-(`int`).
-"""
-
-logging.info(CACHE_STORAGE_TIME)
-
-MATH_CALCULATION_TYPE = ('add', 'sub', 'mul', 'div')
+from task.models import Points
+from task.models.exercises_math import MathematicalExercise
+from task.points import get_points_balance
+from users.models import UserModel
 
 
-class TaskManager:
-    """Task manager class.
+class CalculationExerciseCheck:
+    """Calculation exercise check class.
     """
+
+    MATH_CALCULATION_TYPE = ('add', 'sub', 'mul', 'div')
 
     user_id: int | None = None
     """Current user id (`int | None`).
@@ -32,57 +20,99 @@ class TaskManager:
     def __init__(
         self,
         *,
-        request: HttpRequest | None = None,
-        form: Form | None = None,
+        request: HttpRequest,
+        form: Form,
     ) -> None:
+        """Construct check calculation exercise."""
         self.request = request
         self.form = form
+        self.user_id: int = request.user.id
+        self.question_text: str = request.session.get('question_text')
+        self.answer_text: str = request.session.get('answer_text')
+        self.calculation_type: str = request.session.get('calculation_type')
+        self.first_operand: int = int(self.question_text.split()[0])
+        self.second_operand: int = int(self.question_text.split()[-1])
+        self.user_solution: str = str(form.cleaned_data.get('user_solution'))
+        self.is_correct_answer: bool | None = None
+        # self.solution_time = get_cache_task_creation_time(
+        #     self.user_id,
+        #     self.calculation_type,
+        # )
+        self.task_id: int | None = None
+
+    @property
+    def solution_time(self):
+        """Time for user to solve the task (reade-only)."""
+        # Temporary solution_time is fixed number.
+        return 3
 
     def check_user_to_reward(self) -> bool:
+        """Check if points should be awarded to the user."""
+        if not self.user_id:
+            return False
         return True
 
+    def save_task_to_db(self) -> None:
+        """Save task conditions and user solution to database."""
+        user = UserModel.objects.get(pk=self.user_id)
+        task_query = MathematicalExercise.objects.create(
+            user=user,
+            calculation_type=self.calculation_type,
+            first_operand=self.first_operand,
+            second_operand=self.second_operand,
+            user_solution=self.user_solution,
+            is_correctly=self.is_correct_answer,
+            solution_time=self.solution_time,
+        )
+        task_query.save()
+        task_id = task_query.pk
+        self.task_id = task_id
+
+    @property
+    def award(self) -> int:
+        """The number of points as a reward for success task solution
+        (`int`, read-only).
+        """
+        # Temporary number_points is fixed number.
+        number_points = 40
+        return number_points
+
     def accrue_reward(self) -> None:
-        return None
+        """Award points to the user for solving the problem correctly.
+        """
+        user = UserModel.objects.get(pk=self.user_id)
+        task = MathematicalExercise.objects.get(pk=self.task_id)
+        balance = get_points_balance(self.user_id)
 
-    def check_user_solution(self) -> bool:
-        """"""
-        answer_text = self.request.session.get('answer_text')
-        user_solution = str(self.form.cleaned_data.get('user_solution'))
-        is_correct_answer = answer_text == user_solution
+        query = Points.objects.create(
+            user=user,
+            task=task,
+            award=self.award,
+            balance=balance + self.award,
+        )
+        query.save()
 
-        # The logged in user may be awarded points for completing the
+    def check_and_save_user_solution(self) -> bool:
+        """Check and save the user task with its solution."""
+        try:
+            assert self.calculation_type in self.MATH_CALCULATION_TYPE
+            self.is_correct_answer = self.answer_text == self.user_solution
+            if self.user_id:
+                self.save_task_to_db()
+        except AssertionError:
+            raise AttributeError(
+                f'This class only checks the following calculations: '
+                f'{self.MATH_CALCULATION_TYPE}'
+            )
+
+        # The logged-in user may be awarded points for completing the
         # task correctly.
         # Points are awarded only to those users who have a guardian.
         # The user is limited by the amount of reward per day.
-        should_user_be_rewarded = self.check_user_to_reward()
-        if should_user_be_rewarded:
-            self.accrue_reward()
+        if self.is_correct_answer:
+            should_user_be_rewarded = self.check_user_to_reward()
+            if should_user_be_rewarded:
+                # Points are not accumulated temporarily.
+                self.accrue_reward()
 
-        return is_correct_answer
-
-    @staticmethod
-    def time_cache_key(user_id: int, exercise_type: str) -> str:
-        """Key to get start time exercise from cache."""
-        cache_key = f'user_{user_id}_exc_{exercise_type}_start_time'
-        return cache_key
-
-    def set_cache_task_creation_time(
-        self,
-        user_id: int,
-        exercise_type: str,
-    ) -> None:
-        """Store in cache the date and time of task creation
-        for a specific user."""
-        key = self.time_cache_key(user_id, exercise_type)
-        data_time_now = datetime.now(tz=timezone.utc)
-        cache.set(key, data_time_now, CACHE_STORAGE_TIME)
-
-    def get_cache_task_creation_time(
-        self,
-        user_id: int,
-        exercise_type: str,
-    ) -> object:
-        """Get from cache the date and time of task creation
-        for a specific user."""
-        key = self.time_cache_key(user_id, exercise_type)
-        return cache.get(key)
+        return self.is_correct_answer
