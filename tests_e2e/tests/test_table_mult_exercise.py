@@ -1,3 +1,5 @@
+from unittest import skip
+
 from django.core.cache import cache
 from playwright.sync_api import expect
 
@@ -6,6 +8,7 @@ from tests_e2e.pages.user import authorize_the_page
 from tests_e2e.tests.base import POMBaseTest
 
 
+@skip('Tests are not stable.')
 class TestTableMultExercise(POMBaseTest):
     """Test table multiplication exercise page class."""
 

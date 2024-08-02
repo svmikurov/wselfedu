@@ -10,7 +10,7 @@ from playwright.sync_api import Page, expect
 from tests_e2e.pages.base import POMPage
 from tests_e2e.pages.home import HomePage
 
-load_dotenv('./env_vars/.env.wse')
+load_dotenv('./.env_vars/.env.wse')
 
 USER_NAME = os.getenv('TEST_USER_NAME')
 """Username, typically used by default in tests and fixtures.

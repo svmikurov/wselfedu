@@ -6,4 +6,3 @@ Points
    :maxdepth: 2
 
    points
-   points_mng

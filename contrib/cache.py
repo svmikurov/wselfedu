@@ -1,12 +1,8 @@
-import os
 from datetime import datetime, timezone
 
 from django.core.cache import cache
-from dotenv import load_dotenv
 
-load_dotenv('.env_vars/.env.wse')
-
-CACHE_STORAGE_TIME = int(os.getenv('CACHE_STORAGE_TIME'))
+CACHE_STORAGE_TIME = 10
 """The number of seconds the value should be stored in the cache
 (`int`).
 """

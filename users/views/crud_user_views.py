@@ -1,7 +1,6 @@
 from django.views.generic import (
     CreateView,
     DeleteView,
-    DetailView,
     ListView,
     UpdateView,
 )
@@ -71,10 +70,3 @@ class UsersListView(CheckAdminMixin, ListView):
     template_name = 'users/list.html'
     model = UserModel
     context_object_name = 'users'
-
-
-class UserDetailView(CheckObjectOwnershipMixin, DetailView):
-    """User detail view."""
-
-    template_name = 'users/detail.html'
-    model = UserModel

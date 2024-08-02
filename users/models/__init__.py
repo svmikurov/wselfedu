@@ -1,7 +1,8 @@
 from users.models.user import UserModel
-from users.models.guardianship import Guardianship
+from users.models.mentorship import Mentorship, MentorshipRequest
 
 __all__ = (
     'UserModel',
-    'Guardianship',
+    'Mentorship',
+    'MentorshipRequest',
 )

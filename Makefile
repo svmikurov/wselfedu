@@ -12,6 +12,11 @@ MANAGE := @$(APP) python manage.py
 
 
 # Docker
+update:
+	@$(COMPOSE) down wse-project && \
+	$(COMPOSE) up wse-project -d
+
+
 build:
 	@$(COMPOSE) build
 
@@ -52,6 +57,10 @@ dumpdata:
 
 shell:
 	@$(MANAGE) shell
+
+flush:
+	@$(MANAGE) flush
+
 
 # Tests
 lint:

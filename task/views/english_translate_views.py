@@ -32,18 +32,20 @@ class EnglishTranslateChoiceView(CheckLoginPermissionMixin, TemplateView):
     -----
     Task conditions may be
 
-    ``task_conditions`` = {
-        'favorites': `True`,
-        'language_order': 'RN',
-        'category': 0,
-        'source': 0,
-        'period_start_date': 'NC',
-        'period_end_date': 'DT',
-        'word_count': ['OW', 'CB'],
-        'knowledge_assessment': ['S'],
-        'timeout': 5,
-        'user_id': 1,
-    }
+    .. code-block: python
+
+        ``task_conditions`` = {
+            'favorites': `True`,
+            'language_order': 'RN',
+            'category': 0,
+            'source': 0,
+            'period_start_date': 'NC',
+            'period_end_date': 'DT',
+            'word_count': ['OW', 'CB'],
+            'knowledge_assessment': ['S'],
+            'timeout': 5,
+            'user_id': 1,
+        }
     """
 
     template_name = 'task/english/english_translate_choice.html'

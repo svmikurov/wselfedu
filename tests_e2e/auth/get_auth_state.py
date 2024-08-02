@@ -16,7 +16,7 @@ from tests_e2e.pages.home import HomePage
 from tests_e2e.pages.user import LoginPage
 from tests_e2e.tests.base import POMBaseTest
 
-load_dotenv('./env_vars/.env.wse')
+load_dotenv('./.env_vars/.env.wse')
 
 USER_NAME = os.getenv('TEST_USER_NAME')
 """Username, typically used by default in tests and fixtures.

@@ -120,7 +120,7 @@ class CalculationExerciseCheck:
 
         # The logged-in user may be awarded points for completing the
         # task correctly.
-        # Points are awarded only to those users who have a guardian.
+        # Points are awarded only to those users who have a mentor.
         # The user is limited by the amount of reward per day.
         if self.is_correct_answer:
             should_user_be_rewarded = self.check_user_to_reward()
