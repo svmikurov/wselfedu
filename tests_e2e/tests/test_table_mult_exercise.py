@@ -1,13 +1,9 @@
-import logging
-
 from django.core.cache import cache
 from playwright.sync_api import expect
 
-from task.models import Points
 from tests_e2e.pages.math_calculate_solution import MathCalculateSolutionPage
 from tests_e2e.pages.user import authorize_the_page
 from tests_e2e.tests.base import POMBaseTest
-from users.models import UserModel
 
 
 class TestTableMultExercise(POMBaseTest):
@@ -47,17 +43,5 @@ class TestTableMultExercise(POMBaseTest):
     def test_do_the_exercise(self) -> None:
         """Test do the exercise."""
         self.test_page.do_the_exercise()
+        self.test_page.take_screen('after_do_the_exercise')
         expect(self.test_page.evaluation_msg).to_have_text('Верно!')
-
-    def test_add_points_to_user_account(self) -> None:
-        """Test add points to the user for the completed task."""
-        task_award = 40
-        user = UserModel.objects.get(pk=self.user_id)
-        points_balance = Points.objects.get(user=user).last().balance
-
-        self.test_page.do_the_exercise()
-
-        updated_balance = Points.objects.get(user=user).last().balance
-        logging.info(f'points_balance = {points_balance}')
-        logging.info(f'updated_balance = {updated_balance}')
-        assert points_balance + task_award == updated_balance

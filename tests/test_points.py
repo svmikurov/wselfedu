@@ -2,8 +2,8 @@
 
 from django.test import TestCase
 
-from task.models import MathematicalExercise, Points
-from task.points_mng import PointsManager
+from task.models import Points, MathematicalExercise
+from task.points import PointsManager
 from users.models import UserModel
 
 

@@ -36,5 +36,8 @@ class MathCalculateSolutionPage(POMPage):
         first_operand, _, second_operand = question_text.split()
         task_solution = str(int(first_operand) * int(second_operand))
 
+        self.page.screenshot(path=f'{self.scn_path}/before_input.png')
         self.answer_input.fill(task_solution)
+        self.page.screenshot(path=f'{self.scn_path}/after_input.png')
         self.submit_btn.click()
+        self.page.screenshot(path=f'{self.scn_path}/after_click.png')
