@@ -1,10 +1,20 @@
+import os
+
 from django.forms import Form
 from django.http import HttpRequest
+from dotenv import load_dotenv
 
 from task.models import Points
 from task.models.exercises_math import MathematicalExercise
 from task.points import get_points_balance
 from users.models import UserModel
+
+load_dotenv('.env_vars/.env.wse')
+
+MAX_POINTS_BALANCE = int(os.getenv('MAX_POINTS_BALANCE'))
+"""The maximum allowed accumulation of points on the user's balance.
+(`int`)
+"""
 
 
 class CalculationExerciseCheck:
@@ -50,7 +60,10 @@ class CalculationExerciseCheck:
         """Check if points should be awarded to the user."""
         if not self.user_id:
             return False
-        return True
+        elif get_points_balance(self.user_id) >= MAX_POINTS_BALANCE:
+            return False
+        else:
+            return True
 
     def save_task_to_db(self) -> None:
         """Save task conditions and user solution to database."""
