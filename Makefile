@@ -50,6 +50,8 @@ loaddata:
 dumpdata:
 	@$(MANAGE) dumpdata --exclude auth.permission --exclude contenttypes --indent 2 > db-wse-sweb.json
 
+shell:
+	@$(MANAGE) shell
 
 # Tests
 lint:
