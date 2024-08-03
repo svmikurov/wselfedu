@@ -17,8 +17,10 @@ NO_PERMISSION_URL = reverse('users:login')
 SUCCESS_CREATE_SOURCE_MSG = 'Источник слов добавлен'
 SUCCESS_UPDATE_SOURCE_MSG = 'Источник слов изменен'
 SUCCESS_DELETE_SOURCE_MSG = 'Источник слов удален'
-PROTECT_DELETE_SOURCE_MSG = ('Невозможно удалить этот объект, так как он '
-                             'используется в другом месте приложения')
+PROTECT_DELETE_SOURCE_MSG = (
+    'Невозможно удалить этот объект, так как он '
+    'используется в другом месте приложения'
+)
 
 
 class TestCreateSourceView(TestCase):
@@ -117,10 +119,12 @@ class TestDeleteSourceView(TestCase):
         self.user = UserModel.objects.get(pk=user_id)
         self.another_user = UserModel.objects.get(pk=another_user_id)
         self.url = reverse(
-            DELETE_SOURCE_PATH, kwargs={'pk': self.user_source_id},
+            DELETE_SOURCE_PATH,
+            kwargs={'pk': self.user_source_id},
         )
         self.protected_url = reverse(
-            DELETE_SOURCE_PATH, kwargs={'pk': self.user_protected_source_id},
+            DELETE_SOURCE_PATH,
+            kwargs={'pk': self.user_protected_source_id},
         )
         self.success_url = reverse(SOURCE_LIST_PATH)
         self.protected_redirect = reverse(SOURCE_LIST_PATH)
@@ -187,7 +191,7 @@ class TestSourceListView(TestCase):
 
         # Assert by user id, that `sources` contains
         # only the user's sources.
-        sources = response.context["sources"]
+        sources = response.context['sources']
         user_ids = set(sources.values_list('user', flat=True))
         self.assertTrue(*user_ids, self.user_id)
 

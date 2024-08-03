@@ -45,6 +45,7 @@ class Mentorship(models.Model):
 
 class MentorshipRequest(models.Model):
     """Request from a student to a mentor for mentorship."""
+
     from_user = models.ForeignKey(
         UserModel,
         related_name='from_user',

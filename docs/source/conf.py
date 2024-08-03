@@ -15,7 +15,7 @@ from os.path import basename, dirname, realpath
 import django
 
 sys.path.insert(0, pathlib.Path(__file__).parents[2].resolve().as_posix())
-conf_py_path = "/docs/source/"  # with leading and trailing slash
+conf_py_path = '/docs/source/'  # with leading and trailing slash
 html_context = {}
 
 # -- Project information -----------------------------------------------
@@ -27,9 +27,9 @@ author = 'Sergei Mikurov'
 release = '1.0'
 
 # -- GitHub information ------------------------------------------------
-github_user = "svmikurov"
-github_repo_name = "wselfedu"
-github_version = "main"
+github_user = 'svmikurov'
+github_repo_name = 'wselfedu'
+github_version = 'main'
 
 # # -- Settings for Django ---------------------------------------------
 os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings'
@@ -72,11 +72,13 @@ html_theme = 'alabaster'
 
 if html_theme == 'sphinx_rtd_theme':
     # To add a link at current page code on GitHup.
-    html_context.update({
-        "display_github": True,
-        "github_user": github_user,
-        "github_repo":
-            github_repo_name or basename(dirname(realpath(__file__))),
-        "github_version": github_version,
-        "conf_py_path": conf_py_path,
-    })
+    html_context.update(
+        {
+            'display_github': True,
+            'github_user': github_user,
+            'github_repo': github_repo_name
+            or basename(dirname(realpath(__file__))),
+            'github_version': github_version,
+            'conf_py_path': conf_py_path,
+        }
+    )

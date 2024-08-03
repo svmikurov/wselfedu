@@ -15,8 +15,8 @@ if TYPE_CHECKING:
 
 
 def flash_message_test(
-        response: 'TestHttpResponse',
-        expected_message: str,
+    response: 'TestHttpResponse',
+    expected_message: str,
 ) -> None:
     """Test displaying Django message.
 
@@ -124,7 +124,7 @@ class UserAuthTestCase(TestCase):
 
         if not path_schema:
             raise AttributeError('Set the `url` attribute value')
-        self.client.force_login(user)       # type: ignore[arg-type]
+        self.client.force_login(user)  # type: ignore[arg-type]
 
         if method == 'post':
             return self.client.post(path_schema, kwargs)

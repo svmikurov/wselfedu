@@ -8,8 +8,7 @@ from users.models import UserModel
 
 
 class TestAddPoint(TestCase):
-    """Test add points to Points DB table class.
-    """
+    """Test add points to Points DB table class."""
 
     user_id = 1
 

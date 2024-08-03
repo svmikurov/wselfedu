@@ -2,6 +2,7 @@
 Module for presenting a page for selecting conditions for performing
 a mathematical calculation exercise.
 """
+
 import datetime
 
 from playwright.sync_api import Page

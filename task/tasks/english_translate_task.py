@@ -143,17 +143,21 @@ class EnglishTranslateExercise:
 
     def _get_word(self) -> WordModel:
         """Get word for task."""
-        word = WordModel.objects.annotate(
-            favorites_status=Q(
-                wordsfavoritesmodel__user_id=self._user_id,
-                wordsfavoritesmodel__word_id=self.word_id,
-            ),
-        ).annotate(
-            assessment_value=F(
-                'worduserknowledgerelation__knowledge_assessment',
-            ),
-        ).get(
-            pk=self.word_id,
+        word = (
+            WordModel.objects.annotate(
+                favorites_status=Q(
+                    wordsfavoritesmodel__user_id=self._user_id,
+                    wordsfavoritesmodel__word_id=self.word_id,
+                ),
+            )
+            .annotate(
+                assessment_value=F(
+                    'worduserknowledgerelation__knowledge_assessment',
+                ),
+            )
+            .get(
+                pk=self.word_id,
+            )
         )
         return word
 

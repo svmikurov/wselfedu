@@ -1,5 +1,5 @@
-"""This module contains views with initial data for exercises.
-"""
+"""This module contains views with initial data for exercises."""
+
 from django.http import HttpRequest, HttpResponseBase
 from django.urls import reverse_lazy
 from django.views.generic import RedirectView

@@ -1,6 +1,7 @@
 """
 The mathematical calculate exercise module.
 """
+
 import operator
 from random import randint
 

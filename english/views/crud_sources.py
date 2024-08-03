@@ -60,8 +60,10 @@ class SourceDeleteView(PermissionProtectDeleteView):
     success_url = reverse_lazy(SOURCE_LIST_PATH)
     success_message = 'Источник слов удален'
     protected_redirect_url = reverse_lazy(SOURCE_LIST_PATH)
-    protected_message = ('Невозможно удалить этот объект, так как он '
-                         'используется в другом месте приложения')
+    protected_message = (
+        'Невозможно удалить этот объект, так как он '
+        'используется в другом месте приложения'
+    )
     extra_context = {
         'title': 'Удаление источника слов',
         'btn_name': 'Удалить',
@@ -80,10 +82,7 @@ class SourceListView(CheckLoginPermissionMixin, ListView):
     }
 
     def get_queryset(self):
-        queryset = super().get_queryset(
-        ).filter(
-            user=self.request.user.id
-        )
+        queryset = super().get_queryset().filter(user=self.request.user.id)
         return queryset
 
 

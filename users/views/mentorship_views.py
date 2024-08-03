@@ -26,8 +26,8 @@ class InputMentorView(CheckLoginPermissionMixin, TemplateView):
 @require_POST
 @login_required
 def send_mentorship_request(
-        request: HttpRequest,
-        **kwargs: object,
+    request: HttpRequest,
+    **kwargs: object,
 ) -> HttpResponse:
     """Send request to create a mentorship view."""
     from_user = request.user
@@ -37,8 +37,7 @@ def send_mentorship_request(
         to_user = UserModel.objects.get(username=mentor_name)
         if from_user == to_user:
             messages.warning(
-                request,
-                'Пользователь не может стать своим наставником.'
+                request, 'Пользователь не может стать своим наставником.'
             )
             return redirect_to_account(request)
     except UserModel.DoesNotExist:
@@ -55,8 +54,7 @@ def send_mentorship_request(
 
     if created:
         messages.success(
-            request,
-            f'Заявка на добавление ментора отправлена {mentor_name}.'
+            request, f'Заявка на добавление ментора отправлена {mentor_name}.'
         )
     else:
         messages.warning(
@@ -70,8 +68,8 @@ def send_mentorship_request(
 @require_POST
 @login_required
 def accept_mentorship_request(
-        request: HttpRequest,
-        request_pk: int,
+    request: HttpRequest,
+    request_pk: int,
 ) -> HttpResponse:
     """Accept mentorship view."""
     mentorship_request = MentorshipRequest.objects.get(pk=request_pk)

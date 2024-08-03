@@ -25,7 +25,7 @@ class WordLearningStories(models.Model):
     )
     display_count = models.PositiveSmallIntegerField(
         default=0,
-        help_text='The number of times the word was displayed to the user.'
+        help_text='The number of times the word was displayed to the user.',
     )
 
     def __str__(self):

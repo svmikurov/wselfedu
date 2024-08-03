@@ -9,8 +9,8 @@ class TestRedis(TestCase):
 
     def setUp(self):
         """Add cache to Redis."""
-        cache.set("my_key", "hello, world!", 30)
+        cache.set('my_key', 'hello, world!', 30)
 
     def test_get_cache(self):
         """Get cache from Redis."""
-        assert cache.get("my_key") == "hello, world!"
+        assert cache.get('my_key') == 'hello, world!'

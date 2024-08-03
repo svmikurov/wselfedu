@@ -66,11 +66,10 @@ def update_word_knowledge_assessment(word_pk, user_pk, new_assessment):
     Update the user's word knowledge score in the database, within the
     acceptable range.
     """
-    if (MIN_KNOWLEDGE_ASSESSMENT
-            <= new_assessment
-            <= MAX_KNOWLEDGE_ASSESSMENT):
+    if MIN_KNOWLEDGE_ASSESSMENT <= new_assessment <= MAX_KNOWLEDGE_ASSESSMENT:
         WordUserKnowledgeRelation.objects.filter(
-            word_id=word_pk, user_id=user_pk,
+            word_id=word_pk,
+            user_id=user_pk,
         ).update(knowledge_assessment=new_assessment)
 
 

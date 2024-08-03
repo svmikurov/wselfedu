@@ -9,8 +9,10 @@ class NumberInputForm(forms.Form):
     user_solution = forms.DecimalField(
         max_digits=MAX_DIGITS,
         label='',
-        widget=forms.NumberInput(attrs={
-            'autofocus': True,
-            'style': 'font-size: 32px; width: 110px',
-        }),
+        widget=forms.NumberInput(
+            attrs={
+                'autofocus': True,
+                'style': 'font-size: 32px; width: 110px',
+            }
+        ),
     )

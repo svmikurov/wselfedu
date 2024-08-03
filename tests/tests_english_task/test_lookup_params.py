@@ -127,8 +127,6 @@ class LookupParamsTest(TestCase):
     def query_database(form_data):
         """Make a query to the database by form data."""
         lookup_params = LookupParams(form_data).params
-        queryset = WordModel.objects.filter(
-            *lookup_params
-        )
+        queryset = WordModel.objects.filter(*lookup_params)
         queryset = queryset.values_list('id', flat=True)
         return queryset

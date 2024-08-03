@@ -32,9 +32,9 @@ class TestMathCalculateChoicePage(POMBaseTest):
             max_value='6',
             input_answer_choice=False,
         )
-        expect(
-            self.page.locator('#question_text')
-        ).to_contain_text('5 + 6', timeout=20000)
+        expect(self.page.locator('#question_text')).to_contain_text(
+            '5 + 6', timeout=20000
+        )
 
     def test_choose_calculation_conditions_with_answer_input(self) -> None:
         """Test choose calculation conditions with answer input."""
@@ -46,6 +46,6 @@ class TestMathCalculateChoicePage(POMBaseTest):
             max_value='6',
             input_answer_choice=True,
         )
-        expect(
-            self.page.locator('#question_text')
-        ).to_contain_text('5 + 6', timeout=20000)
+        expect(self.page.locator('#question_text')).to_contain_text(
+            '5 + 6', timeout=20000
+        )

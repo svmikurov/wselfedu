@@ -35,10 +35,10 @@ class WordsFilter(django_filters.FilterSet):
         ('NC', 'Не указано'),
     )
     WORD_STUDY_STAGE = (
-        ('S', 'Изучаю'),        # study
-        ('R', 'Повторяю'),      # repeat
-        ('E', 'Проверяю'),      # examination
-        ('K', 'Знаю'),          # know
+        ('S', 'Изучаю'),  # study
+        ('R', 'Повторяю'),  # repeat
+        ('E', 'Проверяю'),  # examination
+        ('K', 'Знаю'),  # know
     )
 
     search_word = django_filters.CharFilter(

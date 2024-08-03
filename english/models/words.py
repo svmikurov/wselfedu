@@ -40,14 +40,16 @@ class WordModel(models.Model):
     source = models.ForeignKey(
         SourceModel,
         on_delete=models.PROTECT,
-        null=True, blank=True,
+        null=True,
+        blank=True,
         related_name='get_source',
         verbose_name='Источник',
     )
     category = models.ForeignKey(
         CategoryModel,
         on_delete=models.SET_NULL,
-        null=True, blank=True,
+        null=True,
+        blank=True,
         verbose_name='Категория',
     )
     # https://docs.djangoproject.com/en/4.2/ref/models/fields/#choices
@@ -63,7 +65,7 @@ class WordModel(models.Model):
         UserModel,
         through='WordUserKnowledgeRelation',
         blank=True,
-        related_name='word_knowledge'
+        related_name='word_knowledge',
     )
     # Does it word favorites for show?
     favorites = models.ManyToManyField(
@@ -92,7 +94,10 @@ class WordModel(models.Model):
 
 class WordUserKnowledgeRelation(models.Model):
     word = models.ForeignKey(WordModel, on_delete=models.CASCADE)
-    user = models.ForeignKey(UserModel, on_delete=models.CASCADE,)
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.CASCADE,
+    )
     knowledge_assessment = models.DecimalField(
         max_digits=2,
         decimal_places=0,

@@ -48,8 +48,7 @@ class TestCreateCategoryView(TestCase):
         assert CategoryModel.objects.filter(name='new category').exists()
 
     def test_post_create_category_by_anonymous(self):
-        """Test the permission to create a category for an anonymous.
-        """
+        """Test the permission to create a category for an anonymous."""
         response = self.client.post(self.url, self.create_data)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
@@ -89,21 +88,23 @@ class TestUpdateCategoryView(TestCase):
         assert CategoryModel.objects.filter(name='updated category').exists()
 
     def test_post_method_update_category_by_another_user(self):
-        """Test permission to update a category for an another user.
-        """
+        """Test permission to update a category for an another user."""
         self.client.force_login(self.another_user)
         response = self.client.post(self.url, self.update_data)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
-        assert not CategoryModel.objects.filter(name='updated category').exists()   # Noqa: E501
+        assert not CategoryModel.objects.filter(
+            name='updated category'
+        ).exists()  # Noqa: E501
 
     def test_post_update_category_by_anonymous(self):
-        """Test the permission to update a category for an anonymous.
-        """
+        """Test the permission to update a category for an anonymous."""
         response = self.client.post(self.url, self.update_data)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
-        assert not CategoryModel.objects.filter(name='updated category').exists()   # Noqa: E501
+        assert not CategoryModel.objects.filter(
+            name='updated category'
+        ).exists()  # Noqa: E501
 
 
 class TestDeleteCategoryView(TestCase):
@@ -120,8 +121,7 @@ class TestDeleteCategoryView(TestCase):
         self.user = UserModel.objects.get(pk=user_id)
         self.another_user = UserModel.objects.get(pk=another_user_id)
         self.url = reverse(
-            DELETE_CATEGORY_PATH,
-            kwargs={'pk': self.user_category_id}
+            DELETE_CATEGORY_PATH, kwargs={'pk': self.user_category_id}
         )
         self.protected_url = reverse(
             DELETE_CATEGORY_PATH,
@@ -147,8 +147,7 @@ class TestDeleteCategoryView(TestCase):
         ).exists()
 
     def test_post_method_delete_category_by_another_user(self):
-        """Test the permission to delete a category for an another user.
-        """
+        """Test delete a category for an another user."""
         self.client.force_login(self.another_user)
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
@@ -156,8 +155,7 @@ class TestDeleteCategoryView(TestCase):
         assert CategoryModel.objects.filter(pk=self.user_category_id).exists()
 
     def test_post_method_delete_category_by_anonymous(self):
-        """Test the permission to delete a category for an anonymous.
-        """
+        """Test the permission to delete a category for an anonymous."""
         response = self.client.post(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
@@ -186,13 +184,12 @@ class TestCategoryListView(TestCase):
 
         # Assert by user id, that `category` contains only the user's
         # categories.
-        sources = response.context["categories"]
+        sources = response.context['categories']
         user_ids = set(sources.values_list('user', flat=True))
         self.assertTrue(*user_ids, self.user_id)
 
     def test_show_category_list_to_anonymous(self):
-        """Test permission to display a category list for an anonymous.
-        """
+        """Test to display a category list for an anonymous."""
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)

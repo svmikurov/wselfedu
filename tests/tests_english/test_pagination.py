@@ -28,13 +28,17 @@ class TestPagination(TestCase):
             WordModel.objects.create(
                 user=self.user,
                 word_eng=f'word_filtered_by_category_{number}',
-                category=CategoryModel.objects.get(pk=self.filtered_category_id),   # Noqa: E501
+                category=CategoryModel.objects.get(
+                    pk=self.filtered_category_id
+                ),  # Noqa: E501
             )
         for number in range(word_count):
             WordModel.objects.create(
                 user=self.user,
                 word_eng=f'word_not_filtered_by_category_{number}',
-                category=CategoryModel.objects.get(pk=self.another_category_id),    # noqa: E501
+                category=CategoryModel.objects.get(
+                    pk=self.another_category_id
+                ),  # noqa: E501
             )
 
     def test_to_filter_paginated_page(self):
@@ -44,7 +48,7 @@ class TestPagination(TestCase):
 
         schema_query = f'?page=1&filtered_category={self.filtered_category_id}'
         page1_response = self.client.get(self.url + schema_query)
-        object_list = page1_response.context["object_list"]
+        object_list = page1_response.context['object_list']
         categories = set(object_list.values_list('category', flat=True))
 
         assert len(object_list) == PAGINATE_NUMBER
@@ -53,7 +57,7 @@ class TestPagination(TestCase):
 
         schema_query = f'?page=2&filtered_category={self.filtered_category_id}'
         page2_response = self.client.get(self.url + schema_query)
-        object_list = page2_response.context["object_list"]
+        object_list = page2_response.context['object_list']
         categories = set(object_list.values_list('category', flat=True))
 
         assert len(object_list) == PAGINATE_NUMBER

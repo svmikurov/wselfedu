@@ -56,8 +56,10 @@ class DeleteUserView(
     success_url = reverse_lazy('users:login')
     success_message = 'Пользователь удален'
     protected_redirect_url = reverse_lazy('home')
-    protected_message = ('Невозможно удалить этот объект, так как он '
-                         'используется в другом месте приложения')
+    protected_message = (
+        'Невозможно удалить этот объект, так как он '
+        'используется в другом месте приложения'
+    )
     extra_context = {
         'title': 'Удаление пользователя',
         'btn_name': 'Удалить',

@@ -18,8 +18,7 @@ MAX_POINTS_BALANCE = int(os.getenv('MAX_POINTS_BALANCE'))
 
 
 class CalculationExerciseCheck:
-    """Calculation exercise check class.
-    """
+    """Calculation exercise check class."""
 
     MATH_CALCULATION_TYPE = ('add', 'sub', 'mul', 'div')
 
@@ -91,8 +90,7 @@ class CalculationExerciseCheck:
         return number_points
 
     def accrue_reward(self) -> None:
-        """Award points to the user for solving the problem correctly.
-        """
+        """Award points to the user for solving the task correctly."""
         user = UserModel.objects.get(pk=self.user_id)
         task = MathematicalExercise.objects.get(pk=self.task_id)
         balance = get_points_balance(self.user_id)

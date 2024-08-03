@@ -26,22 +26,28 @@ class TestRequestSendMentorship(TestCase):
 
         self.client.post(
             self.url_send_mentorship_request,
-            data={'input_mentor_name': self.mentor.username}
+            data={'input_mentor_name': self.mentor.username},
         )
-        assert MentorshipRequest.objects.filter(
-            from_user=self.student,
-            to_user=self.mentor,
-        ).exists() is True
+        assert (
+            MentorshipRequest.objects.filter(
+                from_user=self.student,
+                to_user=self.mentor,
+            ).exists()
+            is True
+        )
 
     def test_send_twice_mentorship_request(self):
         """Test send request twice to the same user."""
         self.test_send_mentorship_request()
         self.test_send_mentorship_request()
 
-        assert MentorshipRequest.objects.filter(
-            from_user=self.student,
-            to_user=self.mentor,
-        ).count() == 1
+        assert (
+            MentorshipRequest.objects.filter(
+                from_user=self.student,
+                to_user=self.mentor,
+            ).count()
+            == 1
+        )
 
 
 class AcceptRequestToMentorship(TestCase):
@@ -57,7 +63,8 @@ class AcceptRequestToMentorship(TestCase):
     def test_accept_mentorship_request(self):
         """Test accept mentorship request."""
         mentor_request = MentorshipRequest.objects.create(
-            from_user=self.student, to_user=self.mentor,
+            from_user=self.student,
+            to_user=self.mentor,
         )
         url_accept_mentorship_request = reverse_lazy(
             'users:accept_mentorship_request',
@@ -67,6 +74,10 @@ class AcceptRequestToMentorship(TestCase):
 
         self.client.post(url_accept_mentorship_request)
 
-        assert Mentorship.objects.filter(
-            mentor=self.mentor, student=self.student,
-        ).exists() is True
+        assert (
+            Mentorship.objects.filter(
+                mentor=self.mentor,
+                student=self.student,
+            ).exists()
+            is True
+        )

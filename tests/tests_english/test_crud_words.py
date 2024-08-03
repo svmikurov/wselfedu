@@ -31,7 +31,9 @@ class TestCreateWordView(TestCase):
         self.client: Client = Client()
         user_id = 3
         another_user_id = 4
-        self.user = UserModel.objects.get(pk=user_id,)
+        self.user = UserModel.objects.get(
+            pk=user_id,
+        )
         self.another_user = UserModel.objects.get(id=another_user_id)
         self.create_data = {
             'word_eng': 'new word',
@@ -190,13 +192,12 @@ class TestWordListView(TestCase):
 
         self.assertEqual(response.status_code, 200)
         # assert by user id, that `words` contains only the user's words
-        words = response.context["words"]
+        words = response.context['words']
         user_ids = set(words.values_list('user', flat=True))
         self.assertTrue(*user_ids, self.user_id)
 
     def test_show_list_word_to_anonymous(self):
-        """Test permission to display a word list for an anonymous.
-        """
+        """Test permission to display a word list for an anonymous."""
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)

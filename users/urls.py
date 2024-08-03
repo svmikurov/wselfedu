@@ -71,7 +71,6 @@ urlpatterns = [
         views.delete_mentorship_request_to_mentor,
         name='delete_mentorship_request_to_mentor',
     ),
-
     path(
         'delete-mentorship-mentor/<int:mentorship_pk>/',
         views.delete_mentorship_mentor,

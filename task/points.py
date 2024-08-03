@@ -7,9 +7,13 @@ from users.models import UserModel
 def get_points_balance(user_id):
     """Get user points balance."""
     try:
-        balance = Points.objects.filter(
-            user=UserModel.objects.get(pk=user_id),
-        ).last().balance
+        balance = (
+            Points.objects.filter(
+                user=UserModel.objects.get(pk=user_id),
+            )
+            .last()
+            .balance
+        )
     except AttributeError:
         balance = 0
     except UserModel.DoesNotExist:
@@ -18,8 +22,7 @@ def get_points_balance(user_id):
 
 
 class PointsManager:
-    """Points manager class.
-    """
+    """Points manager class."""
 
     @staticmethod
     def get_number_points(user_id: int) -> int:

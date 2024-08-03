@@ -31,7 +31,7 @@ class MathCalculateSolutionPage(POMPage):
         """Do the exercise."""
         self.question_text.wait_for(state='visible')
 
-        sleep(2)    # Time to complete the task
+        sleep(2)  # Time to complete the task
         question_text = self.question_text.inner_text()
         first_operand, _, second_operand = question_text.split()
         task_solution = str(int(first_operand) * int(second_operand))

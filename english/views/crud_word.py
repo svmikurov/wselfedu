@@ -32,9 +32,7 @@ class WordCreateView(HandleNoPermissionMixin, LoginRequiredMixin, CreateView):
     success_url = reverse_lazy(CREATE_WORD_PATH)
     success_message = None
 
-    additional_user_navigation = {
-        'Словарь': WORD_LIST_TEMPLATE
-    }
+    additional_user_navigation = {'Словарь': WORD_LIST_TEMPLATE}
     extra_context = {
         'title': 'Добавить слово в словарь',
         'additional_user_navigation': additional_user_navigation,
@@ -58,8 +56,9 @@ class WordCreateView(HandleNoPermissionMixin, LoginRequiredMixin, CreateView):
 
     def render_to_response(self, context, **response_kwargs):
         """Return JsonResponse if `XMLHttpRequest` request."""
-        is_ajax = self.request \
-                      .headers.get('X-requested-With') == 'XMLHttpRequest'
+        is_ajax = (
+            self.request.headers.get('X-requested-With') == 'XMLHttpRequest'
+        )
         if is_ajax:
             return JsonResponse(
                 data={'success_message': self.success_message},
@@ -122,25 +121,35 @@ class WordListView(ReuseSchemaQueryFilterView):
         """Get queryset to specific user."""
         user = self.request.user
 
-        queryset = super(WordListView, self).get_queryset(
-        ).select_related(
-            'category',
-            'source',
-        ).filter(
-            # Filter all words of a specific user.
-            user=user
-        ).annotate(
-            # Assign `True` if there is a relationship between user and
-            # word in the WordsFavoritesModel, otherwise assign None.
-            favorites_anat=Q(
-                Q(wordsfavoritesmodel__user=F('user'))
-                & Q(wordsfavoritesmodel__word=F('pk'))
+        queryset = (
+            super(WordListView, self)
+            .get_queryset()
+            .select_related(
+                'category',
+                'source',
             )
-        ).annotate(
-            # Add to query `knowledge_assessment` value.
-            assessment=F('worduserknowledgerelation__knowledge_assessment'),
-        ).order_by(
-            '-pk',
+            .filter(
+                # Filter all words of a specific user.
+                user=user
+            )
+            .annotate(
+                # Assign `True` if there is a relationship between
+                # user and word in the WordsFavoritesModel, otherwise
+                # assign None.
+                favorites_anat=Q(
+                    Q(wordsfavoritesmodel__user=F('user'))
+                    & Q(wordsfavoritesmodel__word=F('pk'))
+                )
+            )
+            .annotate(
+                # Add to query `knowledge_assessment` value.
+                assessment=F(
+                    'worduserknowledgerelation__knowledge_assessment'
+                ),
+            )
+            .order_by(
+                '-pk',
+            )
         )
         return queryset
 

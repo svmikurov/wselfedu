@@ -8,7 +8,6 @@ from english.orm_queries import (
 
 
 class TestWordsFavorites(TestCase):
-
     fixtures = ['tests/tests_english/fixtures/wse-fixtures.json']
 
     def setUp(self):
@@ -21,9 +20,11 @@ class TestWordsFavorites(TestCase):
 
     def test_is_word_in_favorites(self):
         """Протестируй is_word_in_favorites()."""
-        self.assertTrue(is_word_in_favorites(
-            self.user_id_in_favorites, self.word_id_in_favorites
-        ))
+        self.assertTrue(
+            is_word_in_favorites(
+                self.user_id_in_favorites, self.word_id_in_favorites
+            )
+        )
 
     def test_update_words_favorites_status(self):
         """Протестируй изменение статуса избранного слова."""

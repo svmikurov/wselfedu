@@ -54,8 +54,10 @@ class MathCalculationChoiceForm(forms.Form):
 
         if min_value is not None:
             if min_value >= max_value:
-                msg = ('Минимальное число должно быть '
-                       'меньше максимального числа')
+                msg = (
+                    'Минимальное число должно быть '
+                    'меньше максимального числа'
+                )
                 messages.error(self.request, msg)
                 raise ValidationError('min_value must be less than max_value')
 
@@ -76,19 +78,22 @@ class MathCalculationChoiceForm(forms.Form):
         helper.layout = Layout(
             Row(
                 Column(
-                    Field('calculation_type', css_class="w-50",
-                          data_testid='calculation_type'),
+                    Field(
+                        'calculation_type',
+                        css_class='w-50',
+                        data_testid='calculation_type',
+                    ),
                 ),
                 Column(
-                    Field('timeout', css_class="w-25"),
-                )
+                    Field('timeout', css_class='w-25'),
+                ),
             ),
             Row(
                 Column(
-                    Field('min_value', css_class="w-25"),
+                    Field('min_value', css_class='w-25'),
                 ),
                 Column(
-                    Field('max_value', css_class="w-25"),
+                    Field('max_value', css_class='w-25'),
                 ),
             ),
             Field('with_solution'),

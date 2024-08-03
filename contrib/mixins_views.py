@@ -146,15 +146,18 @@ class ObjectDeleteErrorMixin:
 
     Apply redirect url and message when raise ProtectedError.
     """
+
     protected_redirect_url = 'home'
-    protected_message = ('Невозможно удалить этот объект, так как он '
-                         'используется в другом месте приложения')
+    protected_message = (
+        'Невозможно удалить этот объект, так как он '
+        'используется в другом месте приложения'
+    )
 
     def post(
-            self,
-            request: HttpRequest,
-            *args: object,
-            **kwargs: object,
+        self,
+        request: HttpRequest,
+        *args: object,
+        **kwargs: object,
     ) -> HttpResponse:
         try:
             return super().post(request, *args, **kwargs)
