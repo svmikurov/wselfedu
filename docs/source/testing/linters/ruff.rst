@@ -35,7 +35,22 @@ ruff
 Rule
 """"
 
+Select rule to check
+
+.. code-block:: console
+
+   ruff check path/ --select I001
+
 .. code-block:: console
 
    ruff rule F821
 
+Error suppression
+"""""""""""""""""
+
+`Error suppression <https://docs.astral.sh/ruff/linter/#error-suppression>`_
+
+.. code-block:: console
+   :caption: example:
+
+   # ruff: noqa: F841

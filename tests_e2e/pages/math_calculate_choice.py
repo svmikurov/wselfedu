@@ -42,7 +42,8 @@ class MathCalculateChoicePage(POMPage):
         Parameters
         ----------
         calculation : `str` | None
-            Choice of mathematical operation, may be: 'mul', 'add', 'sub'.
+            Choice of mathematical operation, may be: 'mul', 'add',
+            'sub'.
         time_answer: `str` | None
             Task display time.
         min_value: `str` | None

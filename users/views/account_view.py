@@ -2,7 +2,7 @@ from django.db.models import F
 from django.views.generic import DetailView
 
 from contrib.mixins_views import CheckObjectOwnershipMixin
-from users.models import UserModel, Mentorship, MentorshipRequest
+from users.models import Mentorship, MentorshipRequest, UserModel
 
 
 class UserDetailView(CheckObjectOwnershipMixin, DetailView):

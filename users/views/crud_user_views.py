@@ -1,18 +1,18 @@
+from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
     DeleteView,
     ListView,
     UpdateView,
 )
-from django.urls import reverse_lazy
 
 from contrib.mixins_views import (
+    CheckAdminMixin,
     CheckObjectOwnershipMixin,
     FormMessageMixin,
     ObjectDeleteErrorMixin,
-    CheckAdminMixin,
 )
-from users.forms import UserUpdateForm, UserRegistrationForm
+from users.forms import UserRegistrationForm, UserUpdateForm
 from users.models import UserModel
 
 

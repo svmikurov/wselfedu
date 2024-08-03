@@ -112,11 +112,11 @@ class CalculationExerciseCheck:
             self.is_correct_answer = self.answer_text == self.user_solution
             if self.user_id:
                 self.save_task_to_db()
-        except AssertionError:
+        except AssertionError as exc:
             raise AttributeError(
                 f'This class only checks the following calculations: '
                 f'{self.MATH_CALCULATION_TYPE}'
-            )
+            ) from exc
 
         # The logged-in user may be awarded points for completing the
         # task correctly.

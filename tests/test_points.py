@@ -2,7 +2,7 @@
 
 from django.test import TestCase
 
-from task.models import Points, MathematicalExercise
+from task.models import MathematicalExercise, Points
 from task.points import PointsManager
 from users.models import UserModel
 

@@ -3,7 +3,7 @@
 from django.test import TestCase
 from django.urls import reverse_lazy
 
-from users.models import UserModel, Mentorship, MentorshipRequest
+from users.models import Mentorship, MentorshipRequest, UserModel
 
 
 class TestRequestSendMentorship(TestCase):

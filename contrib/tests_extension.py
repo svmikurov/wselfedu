@@ -1,6 +1,5 @@
-"""
-Django tests extension module.
-"""
+"""Django tests extension module."""
+
 from typing import TYPE_CHECKING
 
 from django.contrib.messages import get_messages
@@ -10,7 +9,9 @@ from django.test import TestCase
 from users.models import UserModel
 
 if TYPE_CHECKING:
-    from django.test.client import _MonkeyPatchedWSGIResponse as TestHttpResponse   # noqa: E501
+    from django.test.client import (
+        _MonkeyPatchedWSGIResponse as TestHttpResponse,
+    )
 
 
 def flash_message_test(

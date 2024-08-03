@@ -57,8 +57,8 @@ class WordModel(models.Model):
         default=NOT_CHOICES,
         verbose_name='Количество слов',
     )
-    # A field that displays how the user rates his knowledge of this word
-    # Оценка пользователем уровня знания слова
+    # A field that displays how the user rates his knowledge of this
+    # word
     knowledge_assessment = models.ManyToManyField(
         UserModel,
         through='WordUserKnowledgeRelation',

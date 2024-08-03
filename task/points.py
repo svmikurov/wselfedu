@@ -1,6 +1,6 @@
 """Points manager modul."""
 
-from task.models import Points, MathematicalExercise
+from task.models import MathematicalExercise, Points
 from users.models import UserModel
 
 

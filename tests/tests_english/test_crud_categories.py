@@ -1,5 +1,5 @@
 from django.test import Client, TestCase
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse, reverse_lazy
 
 from contrib.tests_extension import flash_message_test
 from english.models import CategoryModel
@@ -33,15 +33,13 @@ class TestCreateCategoryView(TestCase):
         self.url = reverse_lazy(CREATE_CATEGORY_PATH)
 
     def test_get_create_category_by_user(self):
-        """Test create category by logged-in user, GET method page status 200.
-        """
+        """Test create category by logged-in user200."""
         self.client.force_login(self.user)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
     def test_post_create_category_by_user(self):
-        """Test create category by logged-in user, POST method page status 302.
-        """
+        """Test create category by logged-in user."""
         self.client.force_login(self.user)
         response = self.client.post(self.url, self.create_data)
 
@@ -50,7 +48,8 @@ class TestCreateCategoryView(TestCase):
         assert CategoryModel.objects.filter(name='new category').exists()
 
     def test_post_create_category_by_anonymous(self):
-        """Test the permission denied to create a category for an anonymous."""
+        """Test the permission to create a category for an anonymous.
+        """
         response = self.client.post(self.url, self.create_data)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
@@ -76,15 +75,13 @@ class TestUpdateCategoryView(TestCase):
         self.success_url = reverse_lazy(CATEGORY_LIST_PATH)
 
     def test_get_method_update_category_by_user(self):
-        """Test update category by logged-in user, GET method page status 200.
-        """
+        """Test update category by logged-in user."""
         self.client.force_login(self.user)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
     def test_post_method_update_category_by_user(self):
-        """Test update category by logged-in user, POST method page status 302.
-        """
+        """Test update category by logged-in user."""
         self.client.force_login(self.user)
         response = self.client.post(self.url, self.update_data)
         self.assertRedirects(response, self.success_url, 302)
@@ -92,7 +89,7 @@ class TestUpdateCategoryView(TestCase):
         assert CategoryModel.objects.filter(name='updated category').exists()
 
     def test_post_method_update_category_by_another_user(self):
-        """Test the permission denied to update a category for an another user.
+        """Test permission to update a category for an another user.
         """
         self.client.force_login(self.another_user)
         response = self.client.post(self.url, self.update_data)
@@ -101,7 +98,7 @@ class TestUpdateCategoryView(TestCase):
         assert not CategoryModel.objects.filter(name='updated category').exists()   # Noqa: E501
 
     def test_post_update_category_by_anonymous(self):
-        """Test the permission denied to update a category for an anonymous.
+        """Test the permission to update a category for an anonymous.
         """
         response = self.client.post(self.url, self.update_data)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
@@ -134,15 +131,13 @@ class TestDeleteCategoryView(TestCase):
         self.protected_redirect = reverse(CATEGORY_LIST_PATH)
 
     def test_get_method_delete_category_by_user(self):
-        """Test delete category by logged-in user, GET method page status 200.
-        """
+        """Test delete category by logged-in user."""
         self.client.force_login(self.user)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
     def test_post_method_delete_category_by_user(self):
-        """Test delete category by logged-in user, POST method page status 302.
-        """
+        """Test delete category by logged-in user."""
         self.client.force_login(self.user)
         response = self.client.post(self.url)
         self.assertRedirects(response, self.success_url, 302)
@@ -152,7 +147,7 @@ class TestDeleteCategoryView(TestCase):
         ).exists()
 
     def test_post_method_delete_category_by_another_user(self):
-        """Test the permission denied to delete a category for an another user.
+        """Test the permission to delete a category for an another user.
         """
         self.client.force_login(self.another_user)
         response = self.client.get(self.url)
@@ -161,7 +156,8 @@ class TestDeleteCategoryView(TestCase):
         assert CategoryModel.objects.filter(pk=self.user_category_id).exists()
 
     def test_post_method_delete_category_by_anonymous(self):
-        """Test the permission denied to delete a category for an anonymous."""
+        """Test the permission to delete a category for an anonymous.
+        """
         response = self.client.post(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
@@ -181,9 +177,7 @@ class TestCategoryListView(TestCase):
         self.url = reverse(CATEGORY_LIST_PATH)
 
     def test_show_specific_category_list_to_specific_user(self):
-        """
-        Test display specific category list to specific user, page status 200.
-        """
+        """Test display specific category list to specific user."""
         self.client.force_login(self.user)
         response = self.client.get(self.url)
 
@@ -197,8 +191,7 @@ class TestCategoryListView(TestCase):
         self.assertTrue(*user_ids, self.user_id)
 
     def test_show_category_list_to_anonymous(self):
-        """
-        Test the permission denied to display a category list for an anonymous.
+        """Test permission to display a category list for an anonymous.
         """
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
@@ -218,7 +211,9 @@ class TestCategoryDetailView(TestCase):
         another_user_id = 4
         self.user = UserModel.objects.get(pk=user_id)
         self.another_user = UserModel.objects.get(pk=another_user_id)
-        self.url = reverse(DETAIL_CATEGORY_PATH, kwargs={'pk': user_category_id})   # Noqa: E501
+        self.url = reverse(
+            DETAIL_CATEGORY_PATH, kwargs={'pk': user_category_id}
+        )
 
     def test_show_category_detail_to_user(self):
         """Test show category detail to user, page status 200."""
@@ -228,7 +223,7 @@ class TestCategoryDetailView(TestCase):
 
     def test_show_category_detail_to_another_user(self):
         """
-        Test the permission denied to display a category detail for another
+        Test the permission to display a category detail for another
         user.
         """
         self.client.force_login(self.another_user)
@@ -238,7 +233,7 @@ class TestCategoryDetailView(TestCase):
 
     def test_show_category_detail_to_anonymous(self):
         """
-        Test the permission denied to display category details for anonymous.
+        Test the permission to display category details for anonymous.
         """
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)

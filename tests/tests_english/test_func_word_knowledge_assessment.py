@@ -11,12 +11,12 @@ from users.models import UserModel
 
 MIN_KNOWLEDGE_ASSESSMENT = 0
 MAX_KNOWLEDGE_ASSESSMENT = 11
-"""Минимальная и максимальная оценки пользователь уровня знания слова."""
+"""Minimum and maximum user ratings of the word knowledge level."""
 
 
 class TestWordsKnowledgeAssessment(TestCase):
-    """Test of updating in the database of user assessment of word knowledge.
-    """
+    """Test of updating in the database of user assessment
+    of word knowledge."""
 
     fixtures = ['tests/tests_english/fixtures/wse-fixtures.json']
 
@@ -74,9 +74,8 @@ class TestWordsKnowledgeAssessment(TestCase):
 
     @skip
     def test_min_knowledge_assessment(self):
-        """
-        Test to reduce the minimum level of user assessment of word knowledge.
-        """
+        """Test to reduce the minimum level of user assessment
+        of word knowledge."""
         self.client.force_login(self.user)
         self.client.post(self.min_assessment_url, self.assessment_down)
         given_assessment = get_knowledge_assessment(
@@ -87,8 +86,8 @@ class TestWordsKnowledgeAssessment(TestCase):
     @skip
     def test_max_knowledge_assessment(self):
         """
-        Test to increase the maximum level of user assessment of word knowledge.    # noqa: E501
-        """
+        Test to increase the maximum level of user assessment
+        of word knowledge."""
         self.client.force_login(self.user)
         self.client.post(self.max_assessment_url, self.assessment_up)
         given_assessment = get_knowledge_assessment(

@@ -26,7 +26,8 @@ class TestAuthEnglishTranslateExercisePage(UserAuthTestCase):
     @skip
     @pytest.mark.filterwarnings("ignore")
     def test_page_get_status_invalid_task_conditions(self):
-        """Test get method redirect status for invalid task conditions."""
+        """Test get method redirect status for invalid task conditions.
+        """
         msg = 'Не задан таймаут или порядок перевода слов'
         response = self.get_auth_response()
         self.assertMessage(response, msg)

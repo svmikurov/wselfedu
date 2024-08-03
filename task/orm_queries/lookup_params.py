@@ -6,8 +6,9 @@ import datetime
 
 from django.db.models import F, Q
 
-from english.orm_queries.word_knowledge_assessment \
-    import WORD_STUDY_ASSESSMENTS
+from english.orm_queries.word_knowledge_assessment import (
+    WORD_STUDY_ASSESSMENTS,
+)
 
 EDGE_PERIODS_TERMS = {
     'DT': {'days': 0},

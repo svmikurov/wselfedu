@@ -1,7 +1,7 @@
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from english.models import WordModel, CategoryModel
+from english.models import CategoryModel, WordModel
 from users.models import UserModel
 
 WORD_LIST_PATH = 'english:word_list'
@@ -38,7 +38,7 @@ class TestPagination(TestCase):
             )
 
     def test_to_filter_paginated_page(self):
-        """Test that the next page is also shown filtered by category words."""
+        """Test next page is also shown filtered by category words."""
         expected_category_variety = 1
         self.client.force_login(self.user)
 

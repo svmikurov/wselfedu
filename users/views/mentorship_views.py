@@ -9,7 +9,7 @@ from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
 
 from contrib.mixins_views import CheckLoginPermissionMixin
-from users.models import UserModel, MentorshipRequest, Mentorship
+from users.models import Mentorship, MentorshipRequest, UserModel
 
 
 def redirect_to_account(request):
@@ -48,7 +48,7 @@ def send_mentorship_request(
         )
         return redirect_to_account(request)
 
-    mentorship_request, created = MentorshipRequest.objects.get_or_create(
+    _, created = MentorshipRequest.objects.get_or_create(
         from_user=from_user,
         to_user=to_user,
     )
