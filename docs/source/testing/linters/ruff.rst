@@ -28,11 +28,14 @@ ruff
 
    ruff format
 
+.. code-block:: console
+
+   ruff check --watch
+
+Rule
+""""
 
 .. code-block:: console
 
    ruff rule F821
 
-.. code-block:: console
-
-   ruff check --watch
