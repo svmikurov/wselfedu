@@ -36,12 +36,29 @@ ruff
 
    ruff format
 
-Display lint rule by code (`ruff rules <https://docs.astral.sh/ruff/rules/#rules>`_):
+.. code-block:: console
+
+   ruff check --watch
+
+Rule
+""""
+
+Select rule to check
+
+.. code-block:: console
+
+   ruff check path/ --select I001
 
 .. code-block:: console
 
    ruff rule F821
 
-.. code-block:: console
+Error suppression
+"""""""""""""""""
 
-   ruff check --watch
+`Error suppression <https://docs.astral.sh/ruff/linter/#error-suppression>`_
+
+.. code-block:: console
+   :caption: example:
+
+   # ruff: noqa: F841

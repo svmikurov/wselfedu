@@ -1,3 +1,0 @@
-"""
-Test tasks page module.
-"""

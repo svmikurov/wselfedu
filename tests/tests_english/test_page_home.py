@@ -7,10 +7,6 @@ from django.urls import reverse_lazy
 class HomePageTest(TestCase):
     """Home page view test."""
 
-    @classmethod
-    def setUpTestData(cls):
-        """Set up test data."""
-
     def test_home_page_view(self):
         """Test English home page 200 status."""
         response = self.client.get(reverse_lazy('english:home'))

@@ -1,6 +1,5 @@
-"""
-Django tests extension module.
-"""
+"""Django tests extension module."""
+
 from typing import TYPE_CHECKING
 
 from django.contrib.messages import get_messages
@@ -10,12 +9,14 @@ from django.test import TestCase
 from users.models import UserModel
 
 if TYPE_CHECKING:
-    from django.test.client import _MonkeyPatchedWSGIResponse as TestHttpResponse   # noqa: E501
+    from django.test.client import (
+        _MonkeyPatchedWSGIResponse as TestHttpResponse,
+    )
 
 
 def flash_message_test(
-        response: 'TestHttpResponse',
-        expected_message: str,
+    response: 'TestHttpResponse',
+    expected_message: str,
 ) -> None:
     """Test displaying Django message.
 
@@ -94,11 +95,11 @@ class UserAuthTestCase(TestCase):
         )
 
     def get_auth_response(
-            self,
-            path_schema: str | None = None,
-            user: Model | None = None,
-            method: str = 'get',
-            **kwargs: object,
+        self,
+        path_schema: str | None = None,
+        user: Model | None = None,
+        method: str = 'get',
+        **kwargs: object,
     ) -> 'TestHttpResponse':
         """Get response with logged user.
 
@@ -123,7 +124,7 @@ class UserAuthTestCase(TestCase):
 
         if not path_schema:
             raise AttributeError('Set the `url` attribute value')
-        self.client.force_login(user)       # type: ignore[arg-type]
+        self.client.force_login(user)  # type: ignore[arg-type]
 
         if method == 'post':
             return self.client.post(path_schema, kwargs)
@@ -151,8 +152,8 @@ class UserAuthTestCase(TestCase):
 
     @staticmethod
     def assertMessage(
-            response: 'TestHttpResponse',
-            expected_message: str,
+        response: 'TestHttpResponse',
+        expected_message: str,
     ) -> None:
         """Test displaying Django message.
 

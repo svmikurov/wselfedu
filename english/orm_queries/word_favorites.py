@@ -23,14 +23,15 @@ def is_word_in_favorites(user_id: int | str, word_id: int | str) -> bool:
         the `False`.
     """
     is_favorites = WordsFavoritesModel.objects.filter(
-        user=user_id, word=word_id,
+        user=user_id,
+        word=word_id,
     ).exists()
     return is_favorites
 
 
 def update_word_favorites_status(
-        word_id: int | str,
-        user_id: int | str,
+    word_id: int | str,
+    user_id: int | str,
 ) -> bool:
     """Update the favorite status of the word.
 

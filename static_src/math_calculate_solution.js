@@ -29,6 +29,7 @@ function getNextTask () {
         dataType: 'json',
         success: function (data) {
             $('#question_text').text(data.question_text);
+            $('#balance').text(data.balance);
         },
     });
 };

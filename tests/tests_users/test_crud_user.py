@@ -1,7 +1,7 @@
 from django.test import TestCase
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse, reverse_lazy
 
-from contrib.tests_extension import flash_message_test, UserAuthTestCase
+from contrib.tests_extension import UserAuthTestCase, flash_message_test
 from users.models import UserModel
 
 NO_PERMISSION_MSG = 'Для доступа необходимо войти в приложение'
@@ -59,16 +59,21 @@ class TestUpdateUserView(UserAuthTestCase):
     def test_post_method_update_user_by_user(self):
         """Test update user by user, POST method page status 302."""
         response = self.get_auth_response(
-            path_schema=self.url, method='post', **self.update_user_data,
+            path_schema=self.url,
+            method='post',
+            **self.update_user_data,
         )
         self.assertRedirects(response, SUCCESS_REDIRECT_PATH, 302)
         self.assertMessage(response, 'Пользователь обновлен')
-        assert (UserModel.objects.filter(username='update_user').exists())
+        assert UserModel.objects.filter(username='update_user').exists()
 
     def test_post_method_update_user_by_another_user(self):
         """Test to permission denied update user for another user."""
         response = self.get_auth_response(
-            self.url, self.another_user, method='post', **self.update_user_data,    # noqa: E501
+            self.url,
+            self.another_user,
+            method='post',
+            **self.update_user_data,
         )
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         self.assertMessage(response, NO_PERMISSION_MSG)
@@ -105,14 +110,14 @@ class TestDeleteUserView(UserAuthTestCase):
         self.assertFalse(UserModel.objects.filter(pk=self.user.id).exists())
 
     def test_post_method_delete_user_by_another_user(self):
-        """Tes delete user by another user, POST method page status 302."""
+        """Tes delete user by another user."""
         response = self.get_auth_response(self.url, self.another_user)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         self.assertMessage(response, NO_PERMISSION_MSG)
         self.assertTrue(UserModel.objects.filter(pk=self.user.id).exists())
 
     def test_post_method_delete_user_by_anonymous(self):
-        """Test delete user by anonymous, POST method page status 302."""
+        """Test delete user by anonymous."""
         response = self.client.post(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         self.assertMessage(response, NO_PERMISSION_MSG)
@@ -132,7 +137,8 @@ class TestUserListView(UserAuthTestCase):
     def test_show_user_list_to_admin(self):
         """Test display user list to admin, page status 200."""
         response = self.get_auth_response(
-            user=self.admin, path_schema=self.url,
+            user=self.admin,
+            path_schema=self.url,
         )
         self.assertEqual(response.status_code, 200)
 
@@ -165,13 +171,13 @@ class TestUserDetailView(UserAuthTestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_show_user_detail_to_another_user(self):
-        """Test permission denied to display a user detail for another user."""
+        """Test permission to display for another user."""
         response = self.get_auth_response(self.url, self.another_user)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         self.assertMessage(response, NO_PERMISSION_MSG)
 
     def test_show_user_detail_to_anonymous(self):
-        """Test permission denied to display user details for anonymous user."""    # noqa: E501
+        """Test permission to display for anonymous user."""
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         self.assertMessage(response, NO_PERMISSION_MSG)

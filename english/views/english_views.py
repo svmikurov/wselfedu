@@ -15,8 +15,8 @@ from english.orm_queries import (
 
 @login_required
 def update_word_knowledge_assessment_view(
-        request: HttpRequest,
-        **kwargs: object,
+    request: HttpRequest,
+    **kwargs: object,
 ) -> JsonResponse:
     """Update user word knowledge assessment view.
 
@@ -48,8 +48,8 @@ def update_word_knowledge_assessment_view(
 @require_POST
 @login_required
 def update_words_favorites_status_view_ajax(
-        request: HttpRequest,
-        **kwargs: Dict[str, object],
+    request: HttpRequest,
+    **kwargs: Dict[str, object],
 ) -> JsonResponse:
     """Update the status of a word, is it favorite.
 

@@ -63,8 +63,10 @@ class CategoryDeleteView(
     success_url = reverse_lazy(CATEGORY_LIST_PATH)
     success_message = 'Категория слов удалена'
     protected_redirect_url = reverse_lazy(CATEGORY_LIST_PATH)
-    protected_message = ('Невозможно удалить этот объект, так как он '
-                         'используется в другом месте приложения')
+    protected_message = (
+        'Невозможно удалить этот объект, так как он '
+        'используется в другом месте приложения'
+    )
     extra_context = {
         'title': 'Удаление категории',
         'btn_name': 'Удалить',
@@ -84,10 +86,7 @@ class CategoryListView(CheckLoginPermissionMixin, ListView):
 
     def get_queryset(self):
         """Get queryset to specific user."""
-        queryset = super().get_queryset(
-        ).filter(
-            user=self.request.user.pk
-        )
+        queryset = super().get_queryset().filter(user=self.request.user.pk)
         return queryset
 
 
@@ -97,6 +96,4 @@ class CategoryDetailView(CheckUserOwnershipMixin, DetailView):
     model = CategoryModel
     template_name = DETAIL_CATEGORY_TEMPLATE
     context_object_name = 'category'
-    extra_context = {
-        'title': 'Обзор категории слов'
-    }
+    extra_context = {'title': 'Обзор категории слов'}

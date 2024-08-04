@@ -50,8 +50,15 @@ class BasePage:
 class BaseTests:
     """Common page tests class."""
 
-    page = None
-    title = None
+    page: Page | None = None
+    """Playwright Pyrest page fixture (`Page | None`).
+    """
+    title: str | None = None
+    """Page title (`str | None`).
+    """
+    scn_path = 'tests_e2e/screenshots/'
+    """Path to save page screenshot (`str`).
+    """
 
     def test_title(self, expected_title: str | None = None) -> None:
         """Test page title.
@@ -64,6 +71,11 @@ class BaseTests:
         """
         title = expected_title or self.title
         expect(self.page).to_have_title(title)
+
+    def take_screen(self, file_name: str) -> None:
+        """Take a page screenshot."""
+        path = f'{self.scn_path}{file_name}.png'
+        self.page.screenshot(path=path)
 
 
 class POMPage(BasePage, BaseTests):

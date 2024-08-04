@@ -7,8 +7,9 @@ from english.models import (
     CategoryModel,
     SourceModel,
 )
-from english.orm_queries.word_knowledge_assessment \
-    import WORD_STUDY_ASSESSMENTS
+from english.orm_queries.word_knowledge_assessment import (
+    WORD_STUDY_ASSESSMENTS,
+)
 
 
 def category_by_current_user(request):
@@ -34,10 +35,10 @@ class WordsFilter(django_filters.FilterSet):
         ('NC', 'Не указано'),
     )
     WORD_STUDY_STAGE = (
-        ('S', 'Изучаю'),        # study
-        ('R', 'Повторяю'),      # repeat
-        ('E', 'Проверяю'),      # examination
-        ('K', 'Знаю'),          # know
+        ('S', 'Изучаю'),  # study
+        ('R', 'Повторяю'),  # repeat
+        ('E', 'Проверяю'),  # examination
+        ('K', 'Знаю'),  # know
     )
 
     search_word = django_filters.CharFilter(

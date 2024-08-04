@@ -16,7 +16,7 @@ to display the word study exercise to the user.
 
 from random import choice, shuffle
 
-from django.db.models import Q, F
+from django.db.models import F, Q
 from django.urls import reverse_lazy
 
 from english.models import WordModel
@@ -115,12 +115,14 @@ class EnglishTranslateExercise:
         Returns
         -------
         word_ids : `list[int]`
-            List of id word ids that satisfy the conditions of the exercise.
+            List of id word ids that satisfy the conditions of the
+            exercise.
 
         Raises
         ------
         ValueError
-            Raised if no words that satisfy the conditions of the exercise.
+            Raised if no words that satisfy the conditions of the
+            exercise.
         """
         word_ids = WordModel.objects.filter(
             *self._lookup_params,
@@ -141,17 +143,21 @@ class EnglishTranslateExercise:
 
     def _get_word(self) -> WordModel:
         """Get word for task."""
-        word = WordModel.objects.annotate(
-            favorites_status=Q(
-                wordsfavoritesmodel__user_id=self._user_id,
-                wordsfavoritesmodel__word_id=self.word_id,
-            ),
-        ).annotate(
-            assessment_value=F(
-                'worduserknowledgerelation__knowledge_assessment',
-            ),
-        ).get(
-            pk=self.word_id,
+        word = (
+            WordModel.objects.annotate(
+                favorites_status=Q(
+                    wordsfavoritesmodel__user_id=self._user_id,
+                    wordsfavoritesmodel__word_id=self.word_id,
+                ),
+            )
+            .annotate(
+                assessment_value=F(
+                    'worduserknowledgerelation__knowledge_assessment',
+                ),
+            )
+            .get(
+                pk=self.word_id,
+            )
         )
         return word
 

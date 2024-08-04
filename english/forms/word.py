@@ -32,32 +32,32 @@ class WordForm(ModelForm):
         """Apply crispy form helper for specified WordModel form."""
         form.helper = FormHelper()
         form.helper.layout = Layout(
-            Field("word_eng", autofocus=True),
-            Field("word_rus"),
+            Field('word_eng', autofocus=True),
+            Field('word_rus'),
             Row(
-                Column("category", css_class="col-6"),
-                Column("source", css_class="col-6"),
+                Column('category', css_class='col-6'),
+                Column('source', css_class='col-6'),
             ),
             Field('word_count'),
             ButtonHolder(
                 Submit(
-                    name="Save",
-                    value="Сохранить",
-                    css_class="btn-success btn-sm",
-                    style="width:108px",
+                    name='Save',
+                    value='Сохранить',
+                    css_class='btn-success btn-sm',
+                    style='width:108px',
                 ),
                 Reset(
-                    name="Reset This Form",
-                    value="Сбросить",
-                    css_class="btn-danger btn-sm",
-                    style="width:108px",
+                    name='Reset This Form',
+                    value='Сбросить',
+                    css_class='btn-danger btn-sm',
+                    style='width:108px',
                 ),
                 Button(
-                    name="Back",
-                    value="Назад",
-                    css_class="btn-primary btn-sm",
-                    style="width:108px",
-                    onclick="history.back();",
+                    name='Back',
+                    value='Назад',
+                    css_class='btn-primary btn-sm',
+                    style='width:108px',
+                    onclick='history.back();',
                 ),
             ),
         )

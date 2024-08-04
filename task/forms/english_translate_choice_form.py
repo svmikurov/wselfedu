@@ -35,10 +35,10 @@ WORD_COUNT = (
     ('ST', 'Предложение'),
 )
 KNOWLEDGE_ASSESSMENT = (
-    ('S', 'Изучаю'),        # study
-    ('R', 'Повторяю'),      # repeat
-    ('E', 'Проверяю'),      # examination
-    ('K', 'Знаю'),          # know
+    ('S', 'Изучаю'),  # study
+    ('R', 'Повторяю'),  # repeat
+    ('E', 'Проверяю'),  # examination
+    ('K', 'Знаю'),  # know
 )
 DEFAULT_LANGUAGE_ORDER = LANGUAGE_ORDER[0]
 DEFAULT_KNOWLEDGE_ASSESSMENT = 'S'
@@ -149,10 +149,14 @@ class EnglishTranslateChoiceForm(forms.Form):
 
         helper.layout = Layout(
             Row(
-                Column('favorites', css_class='col-6',
-                       data_testid='favorites'),
-                Column('language_order', css_class='col-6',
-                       data_testid='language_order'),
+                Column(
+                    'favorites', css_class='col-6', data_testid='favorites'
+                ),
+                Column(
+                    'language_order',
+                    css_class='col-6',
+                    data_testid='language_order',
+                ),
             ),
             Row(
                 Column('category', css_class='col-6'),
@@ -164,14 +168,14 @@ class EnglishTranslateChoiceForm(forms.Form):
                 Column('period_end_date', css_class='col-6'),
                 data_testid='word_addition_period',
             ),
-            InlineCheckboxes('knowledge_assessment',
-                             data_testid='knowledge_assessment'),
-
-            Submit('submit', 'Начать', css_class='btn-sm',
-                   data_testid='submit'),
-
+            InlineCheckboxes(
+                'knowledge_assessment', data_testid='knowledge_assessment'
+            ),
+            Submit(
+                'submit', 'Начать', css_class='btn-sm', data_testid='submit'
+            ),
             HTML('<p class="h6 pt-3">Дополнительные опции</p>'),
-            Field('timeout', css_class="form-group col-6 w-25"),
+            Field('timeout', css_class='form-group col-6 w-25'),
             InlineCheckboxes('word_count', data_testid='word_count'),
         )
 

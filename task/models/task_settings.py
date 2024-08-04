@@ -81,7 +81,7 @@ class EnglishTaskSettings(models.Model):
         choices=LANGUAGE_ORDER,
         default=DEFAULT_LANGUAGE_ORDER,
         max_length=2,
-        verbose_name='Порядок перевода'
+        verbose_name='Порядок перевода',
     )
     timeout = models.PositiveSmallIntegerField(
         default=DEFAULT_TIMEOUT,

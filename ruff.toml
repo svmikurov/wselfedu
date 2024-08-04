@@ -83,3 +83,6 @@ inline-quotes = "single"
 
 [format]
 quote-style = "single"
+
+[lint.pycodestyle]
+max-doc-length = 72

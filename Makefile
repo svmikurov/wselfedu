@@ -1,5 +1,5 @@
-include .env
-include .env.postgres
+include .env_vars/.env
+include .env_vars/.env.wse
 
 ifeq (${ENVIRONMENT}, development)
 	COMPOSE := docker compose -f docker-compose.dev.yml
@@ -12,6 +12,11 @@ MANAGE := @$(APP) python manage.py
 
 
 # Docker
+update:
+	@$(COMPOSE) down wse-project && \
+	$(COMPOSE) up wse-project -d
+
+
 build:
 	@$(COMPOSE) build
 
@@ -21,7 +26,7 @@ up:
 down:
 	@$(COMPOSE) down
 
-restart: down build up
+restart: lint down build up
 
 docker-clean:
 	@$(COMPOSE) down && \
@@ -50,6 +55,12 @@ loaddata:
 dumpdata:
 	@$(MANAGE) dumpdata --exclude auth.permission --exclude contenttypes --indent 2 > db-wse-sweb.json
 
+shell:
+	@$(MANAGE) shell
+
+flush:
+	@$(MANAGE) flush
+
 
 # Tests
 lint:
@@ -64,7 +75,7 @@ test:
 plw:
 	@$(APP) pytest tests_e2e/
 
-check: lint test plw
+check: restart test plw
 
 get-state:
 	@$(APP) sh -c "pytest tests_e2e/auth/get_auth_state.py"
@@ -74,4 +85,4 @@ test-just:
 
 # PostgreSQL
 connect:
-	@$(COMPOSE) exec wse-db-postgres psql --username=$(POSTGRES_USER) --dbname=$(POSTGRES_DB)
+	@$(COMPOSE) exec wse-db-postgres psql --username=$(POSTGRES_USER) --dbname=$(POSTGRES_NAME)

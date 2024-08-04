@@ -1,12 +1,16 @@
-"""Модуль для оценки пользователем и учета уровня знания слов в приложении.
+"""A module for user assessment and accounting of the level of
+knowledge of words in the application.
 
-Модуль содержит функции запросов в базу данных для добавления, обновления и
-извлечения уровня знания слов, оцененным пользователем.
-Оценка знания имеет ограниченный диапазон, содержащий интервалы.
-Каждый интервал используется выборкой слов для отображения на странице
-пользователя приложения.
-У каждого пользователя свои оценки слов, данные им и доступные только ему.
-Приложение содержит следующие интервалы: изучение, повторение, проверка.
+The module contains functions for querying the database for adding,
+updating and retrieving the level of knowledge of words assessed by
+the user.
+The knowledge assessment has a limited range containing intervals.
+Each interval is used by the selection of words for display on the
+page of the user of the application.
+Each user has his own assessments of words, given by him and available
+only to him.
+The application contains the following intervals: study, repetition,
+verification, know.
 """
 
 from english.models import WordUserKnowledgeRelation
@@ -40,8 +44,10 @@ value : `int`
 
 
 def get_knowledge_assessment(word_id, user_id):
-    """Получи или создай в базе данных оценку пользователем знание слова.
-       При создании оценки, оценка рана "0".
+    """Get or create a user rating of word knowledge.
+
+    Get or create a user rating of word knowledge in the database.
+    When creating a rating, the rating is set to "0".
     """
     if user_id and word_id:
         knowledge_assessment_obj, _ = (
@@ -55,21 +61,24 @@ def get_knowledge_assessment(word_id, user_id):
 
 
 def update_word_knowledge_assessment(word_pk, user_pk, new_assessment):
-    """Обнови в базе данных оценку знания слова пользователем, в пределах
-       допустимого диапазона.
+    """Update the user's word knowledge score.
+
+    Update the user's word knowledge score in the database, within the
+    acceptable range.
     """
-    if (MIN_KNOWLEDGE_ASSESSMENT
-            <= new_assessment
-            <= MAX_KNOWLEDGE_ASSESSMENT):
+    if MIN_KNOWLEDGE_ASSESSMENT <= new_assessment <= MAX_KNOWLEDGE_ASSESSMENT:
         WordUserKnowledgeRelation.objects.filter(
-            word_id=word_pk, user_id=user_pk,
+            word_id=word_pk,
+            user_id=user_pk,
         ).update(knowledge_assessment=new_assessment)
 
 
-def get_numeric_value(knowledge_assessments):
-    """Преобразуй строковое представление уровня знания в диапазон чисел
-     этого уровня.
-     """
+def get_numeric_value(knowledge_assessments: str) -> list[int]:
+    """Convert a string representation of a knowledge level.
+
+    Convert a string representation of a knowledge level into a range of
+    numbers for that level.
+    """
     value = []
     for assessment in WORD_STUDY_ASSESSMENTS:
         if assessment in knowledge_assessments:

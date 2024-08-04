@@ -6,8 +6,9 @@ import datetime
 
 from django.db.models import F, Q
 
-from english.orm_queries.word_knowledge_assessment \
-    import WORD_STUDY_ASSESSMENTS
+from english.orm_queries.word_knowledge_assessment import (
+    WORD_STUDY_ASSESSMENTS,
+)
 
 EDGE_PERIODS_TERMS = {
     'DT': {'days': 0},
@@ -113,12 +114,9 @@ class LookupParams:
         lookup_field = 'worduserknowledgerelation__knowledge_assessment__in'
 
         words_with_assessment = Q(**{lookup_field: lookup_value})
-        words_without_assessment = (
-            Q(user_id=F('user'))
-            & ~Q(
-                worduserknowledgerelation__user_id=F('user'),
-                worduserknowledgerelation__word_id=F('pk'),
-            )
+        words_without_assessment = Q(user_id=F('user')) & ~Q(
+            worduserknowledgerelation__user_id=F('user'),
+            worduserknowledgerelation__word_id=F('pk'),
         )
 
         if lookup_value:

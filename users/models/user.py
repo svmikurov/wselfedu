@@ -1,6 +1,4 @@
-"""
-The users app models module.
-"""
+"""The users app models module."""
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models

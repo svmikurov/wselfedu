@@ -42,4 +42,44 @@ urlpatterns = [
         name='detail',
     ),
     # <!-- End CRUD Users -->
+    #
+    # --======= Mentorship =======--
+    # Request to mentor name input page form.
+    path(
+        'send-mentorship-request/',
+        views.InputMentorView.as_view(),
+        name='send_mentorship_request',
+    ),
+    # Request from mentor name input page form.
+    path(
+        'send-mentorship-request/<int:user_pk>/',
+        views.send_mentorship_request,
+        name='send_mentorship_request',
+    ),
+    path(
+        'accept-mentorship-request/<int:request_pk>/',
+        views.accept_mentorship_request,
+        name='accept_mentorship_request',
+    ),
+    path(
+        'delete-mentorship-request-from-student/<int:request_pk>/',
+        views.delete_mentorship_request_from_student,
+        name='delete_mentorship_request_from_student',
+    ),
+    path(
+        'delete-mentorship-request-to-mentor/<int:request_pk>/',
+        views.delete_mentorship_request_to_mentor,
+        name='delete_mentorship_request_to_mentor',
+    ),
+    path(
+        'delete-mentorship-mentor/<int:mentorship_pk>/',
+        views.delete_mentorship_mentor,
+        name='delete_mentorship_mentor',
+    ),
+    path(
+        'delete-mentorship-student/<int:mentorship_pk>/',
+        views.delete_mentorship_student,
+        name='delete_mentorship_student',
+    ),
+    # -- EndMentorship --
 ]

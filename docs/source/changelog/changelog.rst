@@ -11,6 +11,17 @@ Improvements
 Pages
 """""
 
+or
+
+Added
+"""""
+
+Changed
+"""""""
+
+Fixed
+"""""
+
 * Added Task index page.
 
 v0.2.0 (2024-07-30)

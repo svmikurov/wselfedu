@@ -146,15 +146,18 @@ class ObjectDeleteErrorMixin:
 
     Apply redirect url and message when raise ProtectedError.
     """
+
     protected_redirect_url = 'home'
-    protected_message = ('Невозможно удалить этот объект, так как он '
-                         'используется в другом месте приложения')
+    protected_message = (
+        'Невозможно удалить этот объект, так как он '
+        'используется в другом месте приложения'
+    )
 
     def post(
-            self,
-            request: HttpRequest,
-            *args: object,
-            **kwargs: object,
+        self,
+        request: HttpRequest,
+        *args: object,
+        **kwargs: object,
     ) -> HttpResponse:
         try:
             return super().post(request, *args, **kwargs)
@@ -168,9 +171,8 @@ class CheckLoginPermissionMixin(
     FormMessageMixin,
     LoginRequiredMixin,
 ):
-    """Verify that the current user is authenticated. If not, display a message
-    and redirect to the login page.
-    """
+    """Verify that the current user is authenticated. If not, display
+    a message and redirect to the login page."""
 
 
 class PermissionProtectDeleteView(
@@ -190,7 +192,9 @@ class ReuseSchemaFilterQueryMixin(MultipleObjectMixin):
     -------
     .. code-block::
 
-       <a href="?{{reused_query}}&page={{page_obj.next_page_number}}">next page</a>
+       <a href="?{{reused_query}}&page={{page_obj.next_page_number}}">
+         next page
+       </a>
 
     .. # noqa: E501
     """
