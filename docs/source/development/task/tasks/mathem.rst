@@ -5,7 +5,8 @@ Mathematics
 
 .. automodule:: task.tasks.calculation_exersice
    :members:
+   :no-index:
 
-.. autoclass:: task.tasks.math_calculate_task.CalculationExercise
+.. autoclass:: task.tasks.calculation_exersice.CalculationExercise
    :members:
    :private-members:
