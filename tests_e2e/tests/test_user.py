@@ -1,6 +1,4 @@
-"""
-The user pages representation test module.
-"""
+"""The user pages representation test module."""
 
 import os
 
