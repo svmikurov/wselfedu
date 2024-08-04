@@ -75,7 +75,7 @@ test:
 plw:
 	@$(APP) pytest tests_e2e/
 
-check: restart test plw
+check: ruff down build up test plw
 
 get-state:
 	@$(APP) sh -c "pytest tests_e2e/auth/get_auth_state.py"
