@@ -8,7 +8,6 @@ from tests_e2e.pages.user import authorize_the_page
 from tests_e2e.tests.base import POMBaseTest
 
 
-@skip('Tests are not stable.')
 class TestTableMultExercise(POMBaseTest):
     """Test table multiplication exercise page class."""
 
@@ -37,6 +36,7 @@ class TestTableMultExercise(POMBaseTest):
         """Test table mult exercise title."""
         self.test_page.test_title()
 
+    @skip('Test is not stable.')
     def test_cache_time_start_exercise(self) -> None:
         """Test note in cache time start exercise."""
         self.test_page.question_text.wait_for(state='visible')
