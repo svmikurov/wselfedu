@@ -12,7 +12,7 @@ class NavbarPageComponent(POMPage):
         """Construct navbar representation."""
         super().__init__(page)
         self.tutorial_link = self.page.get_by_text('Справочник пользователя')
-        self.toggle_btn = self.page.get_by_label("Toggle navigation")
+        self.toggle_btn = self.page.get_by_label('Toggle navigation')
 
     def expand_menu(self):
         """Expand the menu."""

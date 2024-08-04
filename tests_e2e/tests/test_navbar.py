@@ -1,4 +1,5 @@
 """Test navbar module."""
+
 from playwright.sync_api import expect
 
 from tests_e2e.pages.home import HomePage
