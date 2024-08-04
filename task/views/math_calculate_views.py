@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 
 from task.forms import MathCalculationChoiceForm, NumberInputForm
 from task.points import get_points_balance
-from task.task_mng import CalculationExerciseCheck
+from task.tasks.calculation_exersice_check import CalculationExerciseCheck
 from task.tasks.calculation_exersice import CalculationExercise
 
 
