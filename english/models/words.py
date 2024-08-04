@@ -26,7 +26,19 @@ class WordModel(models.Model):
         UserModel,
         on_delete=models.CASCADE,
         related_name='user_word',
+        verbose_name='Пользователь, который изучает слово',
     )
+    """User who studies the word.
+    """
+    mentor = models.ForeignKey(
+        UserModel,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='mentor_word',
+        verbose_name='Наставник, который добавил слово.',
+    )
+    """User who added the word.
+    """
     word_eng = models.CharField(
         max_length=75,
         verbose_name='Слово на английском',
