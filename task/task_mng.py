@@ -11,7 +11,7 @@ from users.models import UserModel
 
 load_dotenv('.env_vars/.env.wse')
 
-POINTS_FOR_THE_TASK = int(os.getenv('MAX_POINTS_BALANCE'))
+POINTS_FOR_THE_TASK = int(os.getenv('POINTS_FOR_THE_TASK'))
 """The number of points awarded for a correctly completed task,
 by default (`int`).
 """
