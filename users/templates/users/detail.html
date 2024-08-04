@@ -6,6 +6,7 @@
 <!--======= Account Content =======-->
 <div>
   {% include 'components/title.html' with title='Личный кабинет' %}
+  <h6>Имя пользователя: {{ user }}</h6>
 
   <div class="py-2">
     {% if user.is_superuser %}
