@@ -11,6 +11,10 @@ from users.models import UserModel
 
 load_dotenv('.env_vars/.env.wse')
 
+POINTS_FOR_THE_TASK = int(os.getenv('MAX_POINTS_BALANCE'))
+"""The number of points awarded for a correctly completed task,
+by default (`int`).
+"""
 MAX_POINTS_BALANCE = int(os.getenv('MAX_POINTS_BALANCE'))
 """The maximum allowed accumulation of points on the user's balance.
 (`int`)
@@ -86,7 +90,7 @@ class CalculationExerciseCheck:
         (`int`, read-only).
         """
         # Temporary number_points is fixed number.
-        number_points = 40
+        number_points = POINTS_FOR_THE_TASK
         return number_points
 
     def accrue_reward(self) -> None:
