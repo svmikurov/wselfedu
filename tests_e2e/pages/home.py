@@ -20,7 +20,8 @@ class HomePage(POMPage):
     """The Home page title (`str`).
     """
 
-    def __init__(self, page: Page) -> None:
+    def __init__(self, page: Page, host: str | None = None) -> None:
         """Home page constructor."""
         super().__init__(page)
         self.path = ''
+        self.host = host
