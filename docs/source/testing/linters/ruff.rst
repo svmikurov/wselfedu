@@ -40,6 +40,11 @@ ruff
 
    ruff check --watch
 
+Rules
+"""""
+
+`Rules <https://docs.astral.sh/ruff/rules/>`_
+
 Rule
 """"
 

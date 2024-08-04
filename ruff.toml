@@ -16,15 +16,15 @@ line-length = 79
 [lint]
 preview = true  # checks will include unstable rules and fixes
 select = [
-    # pycodestyle: https://pypi.org/project/pycodestyle/
+    # TODO: fix 'ruff check --select D'
+#    "D",    # pydocstyle: https://pypi.org/project/pydocstyle/
     "B",    # flake8-bugbear: https://pypi.org/project/flake8-bugbear/
-    "E",    # pycodestyle: Error
+    "E",    # pycodestyle: Error; pycodestyle: https://pypi.org/project/pycodestyle/
     "F",    # pyflakes: https://pypi.org/project/pyflakes/
     "I",    # isort: https://pypi.org/project/isort/
     "W",    # pycodestyle: Warning
-#    "C90",  # mccabe: https://pypi.org/project/mccabe/
-#    "N",    # pep8-naming: https://pypi.org/project/pep8-naming/
-#    "D",    # pydocstyle: https://pypi.org/project/pydocstyle/
+    "C90",  # mccabe: https://pypi.org/project/mccabe/
+    "N",    # pep8-naming: https://pypi.org/project/pep8-naming/
 #    "UP",   # pyupgrade: https://pypi.org/project/pyupgrade/
 #    "YTT",  # flake8-2020: https://pypi.org/project/flake8-2020/
 #    "ANN",  # flake8-annotations: https://pypi.org/project/flake8-annotations/
@@ -50,7 +50,7 @@ select = [
 #    "T20",
 #    "PYI",
 #    "PT",   # flake8-pytest-style
-#    "Q",    # flake8-quotes
+    "Q",    # flake8-quotes: https://pypi.org/project/flake8-quotes/
 #    "RSE",  # flake8-raise
 #    "RET",  # flake8-return
 #    "SLF",  # flake8-self
@@ -61,7 +61,7 @@ select = [
 #    "INT",  # flake8-gettext
 #    "ARG",  # flake8-unused-arguments
 #    "PTH",  # flake8-use-pathlib
-#    "TD",   # flake8-todos
+    "TD",   # flake8-todos: https://github.com/orsinium-labs/flake8-todos/
 #    "FIX",
 #    "ERA",
 #    "PD",

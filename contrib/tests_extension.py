@@ -151,7 +151,7 @@ class UserAuthTestCase(TestCase):
         session.save()
 
     @staticmethod
-    def assertMessage(
+    def assertMessage(  # noqa: N802
         response: 'TestHttpResponse',
         expected_message: str,
     ) -> None:
