@@ -183,6 +183,36 @@ class PermissionProtectDeleteView(
     """Preventing deletion of a protected object view."""
 
 
+class DeleteWithProfileRedirectView(
+    HandleNoPermissionMixin,
+    UserPassesTestMixin,
+    FormMessageMixin,
+    LoginRequiredMixin,
+    DeleteView,
+):
+    """Delete mentorship view."""
+
+    template_name = 'delete.html'
+    success_url = None
+    protected_redirect_url = reverse_lazy('home')
+
+    def setup(self, request, *args, **kwargs) -> None:
+        """Set success url."""
+        super().setup(request, *args, **kwargs)
+        self.success_url = reverse_lazy(
+            'users:detail',
+            kwargs={'pk': self.request.user.pk},
+        )
+
+    def check_permission(self) -> bool:
+        """Override this method to check permission."""
+        return False
+
+    def get_test_func(self) -> Callable:
+        """Use check_permission method."""
+        return self.check_permission
+
+
 class ReuseSchemaFilterQueryMixin(MultipleObjectMixin):
     """Reuses previous url schema filter query with pagination.
 
