@@ -2,6 +2,7 @@ from django.urls import path
 from django.views.generic import TemplateView
 
 from english import views
+from english.urls.mentor_urls import mentor_urls
 
 app_name = 'english'
 urlpatterns = [
@@ -117,3 +118,7 @@ urlpatterns = [
         name='source_detail',
     ),
 ]
+
+urlpatterns.extend(
+    mentor_urls,
+)
