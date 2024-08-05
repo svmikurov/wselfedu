@@ -36,9 +36,10 @@ class UserDetailView(CheckObjectOwnershipMixin, DetailView):
                 mentor=self.request.user,
             )
             .annotate(
+                student_pk=F('student__pk'),
                 student_name=F('student__username'),
             )
-            .values('id', 'student_name')
+            .values('id', 'student_pk', 'student_name')
         )
 
         mentorship_mentors = (

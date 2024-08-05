@@ -26,9 +26,13 @@
     {% for mentorship in mentorship_students %}
       <li>
         {{ mentorship.student_name }}
-        <form action="{% url 'users:delete_mentorship_student' mentorship.id %}"
+        <form action="{% url 'users:add_exercise' mentorship.student_pk %}"
               method="post" style="display: inline">{% csrf_token %}
-          <input value="Отозвать" type="submit" name="add" class="btn btn-outline-primary btn-sm m-1">
+          <input value="Добавить задание" type="submit" name="add" class="btn btn-outline-primary btn-sm m-1">
+        </form>
+        <form action="{% url 'users:delete_mentorship_by_student' mentorship.id %}"
+              method="post" style="display: inline">{% csrf_token %}
+          <input value="Отказаться" type="submit" name="add" class="btn btn-outline-primary btn-sm m-1">
         </form>
       </li>
     {% endfor %}
@@ -62,7 +66,7 @@
               method="post" style="display: inline">{% csrf_token %}
           <input value="Принять" type="submit" name="add" class="btn btn-outline-primary btn-sm m-1">
         </form>
-        <form action="{% url 'users:delete_mentorship_request_from_student' request.request_pk %}"
+        <form action="{% url 'users:delete_mentorship_request_by_mentor' request.request_pk %}"
               method="post" style="display: inline">{% csrf_token %}
           <input value="Отклонить" type="submit" name="add" class="btn btn-outline-primary btn-sm m-1">
         </form>
