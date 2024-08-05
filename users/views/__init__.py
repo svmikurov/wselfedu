@@ -1,4 +1,3 @@
-from users.views.account_view import UserDetailView
 from users.views.auth_views import (
     UserLoginView,
     UserLogoutView,
@@ -18,6 +17,7 @@ from users.views.mentorship_views import (
     delete_mentorship_student,
     send_mentorship_request,
 )
+from users.views.profile_view import UserDetailView
 
 __all__ = (
     'UserLoginView',
