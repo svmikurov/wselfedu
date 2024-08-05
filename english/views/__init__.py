@@ -1,3 +1,4 @@
+# ruff: noqa: I001
 from english.views.crud_categories import (
     CategoryCreateView,
     CategoryDeleteView,

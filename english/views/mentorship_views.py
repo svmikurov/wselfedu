@@ -1,4 +1,5 @@
 """Mentors views module."""
+
 from django.views.generic import CreateView
 
 from english.views import WordCreateView
