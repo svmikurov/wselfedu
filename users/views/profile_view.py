@@ -8,7 +8,7 @@ from users.models import Mentorship, MentorshipRequest, UserModel
 class UserDetailView(CheckObjectOwnershipMixin, DetailView):
     """User detail view."""
 
-    template_name = 'users/detail.html'
+    template_name = 'users/profile.html'
     model = UserModel
 
     def get_context_data(self, **kwargs):
