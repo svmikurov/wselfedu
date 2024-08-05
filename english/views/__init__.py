@@ -31,6 +31,9 @@ from english.views.settings_views import (
 from english.views.user_word_list import (
     UserWordListView,
 )
+from english.views.mentorship_views import (
+    AddWordByMentorToStudentView,
+)
 
 __all__ = [
     'update_word_knowledge_assessment_view',
@@ -54,4 +57,5 @@ __all__ = [
     'SourceDeleteView',
     'SourceListView',
     'SourceDetailView',
+    'AddWordByMentorToStudentView',
 ]
