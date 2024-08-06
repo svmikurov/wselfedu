@@ -1,3 +1,5 @@
+"""Package of views of the Users application."""
+
 # ruff: noqa: I001
 from users.views.auth_views import (
     UserLoginView,
@@ -18,6 +20,7 @@ from users.views.mentorship_views import (
     DeleteMentorshipByStudentView,
     send_mentorship_request,
     AddExerciseDataView,
+    AddWordByMentorToStudentViewRedirect,
 )
 from users.views.profile_view import UserDetailView
 
@@ -37,4 +40,5 @@ __all__ = (
     'DeleteMentorshipByMentorView',
     'DeleteMentorshipByStudentView',
     'AddExerciseDataView',
+    'AddWordByMentorToStudentViewRedirect',
 )

@@ -1,3 +1,5 @@
+"""User application form module."""
+
 from django.contrib.auth.forms import UserCreationForm
 
 from users.models import UserModel
@@ -22,6 +24,8 @@ class UserRegistrationForm(UserCreationForm):
         self.fields[field_name].widget.attrs.update(**data)
 
     class Meta:
+        """Set model features."""
+
         model = UserModel
         fields = ('username', 'password1', 'password2')
 
@@ -30,7 +34,7 @@ class UserUpdateForm(UserRegistrationForm):
     """User update form."""
 
     def clean_username(self):
-        """Enabling update data existing user.
+        """Allow updating existing user data.
 
         Override disables user uniqueness check.
         """

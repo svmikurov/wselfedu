@@ -1,3 +1,5 @@
+"""User profile views module."""
+
 from django.db.models import F
 from django.views.generic import DetailView
 
