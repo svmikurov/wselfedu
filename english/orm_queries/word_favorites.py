@@ -1,6 +1,4 @@
-"""
-The module of favorite words orm_queries using Django ORM.
-"""
+"""The module of favorite words orm_queries using Django ORM."""
 
 from english.models import WordModel, WordsFavoritesModel
 from users.models import UserModel
@@ -21,6 +19,7 @@ def is_word_in_favorites(user_id: int | str, word_id: int | str) -> bool:
     is_favorites : `bool`
         Return the `True` if the word is the favorites, otherwise return
         the `False`.
+
     """
     is_favorites = WordsFavoritesModel.objects.filter(
         user=user_id,
@@ -47,6 +46,7 @@ def update_word_favorites_status(
     favorites_status : `bool`
         Return the `True` if the word is the favorites, otherwise return
         the `False`.
+
     """
     favorites_status = is_word_in_favorites(user_id, word_id)
     if favorites_status:

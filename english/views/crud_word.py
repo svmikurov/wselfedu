@@ -1,3 +1,5 @@
+"""CRUD English word module."""
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F, Q
 from django.http import JsonResponse

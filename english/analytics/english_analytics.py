@@ -1,3 +1,5 @@
+"""English word study app analytic module."""
+
 from django.db.models import F
 
 from english.models import WordLearningStories, WordModel
@@ -13,6 +15,7 @@ def collect_statistics(task) -> None:
     ----------
     task : `english.EnglishTranslateExercise`
         Contain task data.
+
     """
     story, _ = WordLearningStories.objects.get_or_create(
         word=WordModel.objects.get(id=task.word_id)

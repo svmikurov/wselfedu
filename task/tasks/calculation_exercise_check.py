@@ -1,3 +1,5 @@
+"""The calculation exercise check module."""
+
 import os
 
 from django.forms import Form
@@ -88,7 +90,7 @@ class CalculationExerciseCheck:
     def award(self) -> int:
         """The number of points as a reward for success task solution
         (`int`, read-only).
-        """
+        """     # noqa:  D205
         # Temporary number_points is fixed number.
         number_points = POINTS_FOR_THE_TASK
         return number_points

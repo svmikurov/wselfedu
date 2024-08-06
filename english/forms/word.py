@@ -1,3 +1,5 @@
+"""Word form module."""
+
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (
     Button,
@@ -18,6 +20,8 @@ class WordForm(ModelForm):
     """Form for adding and updating a word."""
 
     class Meta:
+        """Word model fields."""
+
         model = WordModel
         fields = (
             'word_eng',

@@ -1,3 +1,5 @@
+"""Mentor urls module."""
+
 from django.urls import path
 
 from english import views

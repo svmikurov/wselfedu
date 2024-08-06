@@ -3,10 +3,10 @@ Mathematics
 
 .. _calculate_task:
 
-.. automodule:: task.tasks.calculation_exersice
+.. automodule:: task.tasks.calculation_exercise
    :members:
    :no-index:
 
-.. autoclass:: task.tasks.calculation_exersice.CalculationExercise
+.. autoclass:: task.tasks.calculation_exercise.CalculationExercise
    :members:
    :private-members:

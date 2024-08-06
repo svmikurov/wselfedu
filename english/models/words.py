@@ -1,3 +1,5 @@
+"""English-Russian dictionary module."""
+
 from django.db import models
 from django.utils import timezone
 
@@ -96,15 +98,20 @@ class WordModel(models.Model):
     )
 
     class Meta:
+        """Set model features."""
+
         verbose_name = 'Англо-русский словарь'
         verbose_name_plural = 'Англо-русский словарь'
         ordering = ['pk']
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """Provide the informal string representation of an object."""
         return self.word_eng
 
 
 class WordUserKnowledgeRelation(models.Model):
+    """User's assessment of word knowledge."""
+
     word = models.ForeignKey(WordModel, on_delete=models.CASCADE)
     user = models.ForeignKey(
         UserModel,
@@ -117,11 +124,14 @@ class WordUserKnowledgeRelation(models.Model):
     )
 
     class Meta:
+        """Set model features."""
+
         unique_together = [['word', 'user']]
         verbose_name = 'Оценка пользователем знания слова'
         verbose_name_plural = 'Оценки пользователем знания слова'
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """Provide the informal string representation of an object."""
         return self.knowledge_assessment
 
 
@@ -132,9 +142,12 @@ class WordsFavoritesModel(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
 
     class Meta:
+        """Set model features."""
+
         unique_together = [['word', 'user']]
         verbose_name = 'Избранное слово'
         verbose_name_plural = 'Избранные слова'
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """Provide the informal string representation of an object."""
         return f'Слово {self.word} избрано {self.user}'

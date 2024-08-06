@@ -1,3 +1,5 @@
+"""Word learning stories module."""
+
 from django.db import models
 
 from english.models import WordModel
@@ -15,6 +17,7 @@ class WordLearningStories(models.Model):
         Word id, relate ``WordModel``.
     display_count : `PositiveSmallIntegerField`
         The count of displaying specific word to user.
+
     """
 
     word = models.OneToOneField(
@@ -28,11 +31,13 @@ class WordLearningStories(models.Model):
         help_text='The number of times the word was displayed to the user.',
     )
 
-    def __str__(self):
-        """Represent an instance as a string."""
+    def __str__(self) -> str:
+        """Provide the informal string representation of an object."""
         return self.word
 
     class Meta:
+        """Set model features."""
+
         verbose_name = 'История изучения слов'
         verbose_name_plural = 'История изучения слов'
         ordering = ['display_count']

@@ -1,3 +1,5 @@
+"""CRUD word sources views module."""
+
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
@@ -82,6 +84,7 @@ class SourceListView(CheckLoginPermissionMixin, ListView):
     }
 
     def get_queryset(self):
+        """Return the `QuerySet` to look up the object."""
         queryset = super().get_queryset().filter(user=self.request.user.id)
         return queryset
 

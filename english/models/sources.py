@@ -1,9 +1,13 @@
+"""Word study source module."""
+
 from django.db import models
 
 from users.models import UserModel
 
 
 class SourceModel(models.Model):
+    """Word study source model."""
+
     name = models.CharField(
         max_length=50,
         verbose_name='Источник',
@@ -29,9 +33,12 @@ class SourceModel(models.Model):
     updated_at = models.DateField(auto_now=True)
 
     class Meta:
+        """Set model features."""
+
         verbose_name = 'Источник'
         verbose_name_plural = 'Источники'
         ordering = ['name']
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """Provide the informal string representation of an object."""
         return self.name

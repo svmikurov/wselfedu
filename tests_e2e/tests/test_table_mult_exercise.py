@@ -25,15 +25,16 @@ class TestTableMultExercise(POMBaseTest):
         authorize_the_page(self.page, self.host)
 
         self.test_page = MathCalculateSolutionPage(self.page)
-        self.test_page.navigate(host=self.host)
 
         # To set task conditions for bonus exercise need go to
         # '/task/math-set-table-mult-points/'
-        url_set_conditions = f'{self.host}/task/math-set-table-mult-points/'
-        self.test_page.navigate(url=url_set_conditions)
+        self.url_set_conditions = (
+            f'{self.host}/task/math-set-table-mult-points/'
+        )
 
     def test_title(self) -> None:
         """Test table mult exercise title."""
+        self.test_page.page.goto(self.url_set_conditions)
         self.test_page.test_title()
 
     @skip('Test is not stable.')
@@ -45,6 +46,7 @@ class TestTableMultExercise(POMBaseTest):
 
     def test_do_the_exercise(self) -> None:
         """Test do the exercise."""
+        self.test_page.page.goto(self.url_set_conditions)
         self.test_page.do_the_exercise()
         self.test_page.take_screen('after_do_the_exercise')
         expect(self.test_page.evaluation_msg).to_have_text('Верно!')

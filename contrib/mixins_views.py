@@ -1,6 +1,4 @@
-"""
-Django views mixins.
-"""
+"""Django views mixins."""
 
 from typing import Callable, Dict
 
@@ -38,6 +36,7 @@ class FormMessageMixin:
         -------
         response : `HttpResponse`
             An HTTP response.
+
         """
         response = super().form_valid(form)
         messages.success(self.request, self.success_message)
@@ -55,6 +54,7 @@ class FormMessageMixin:
         -------
         response : `HttpResponse`
             An HTTP response.
+
         """
         response = super().form_invalid(form)
         messages.error(self.request, self.error_message)
@@ -62,8 +62,9 @@ class FormMessageMixin:
 
 
 class HandleNoPermissionMixin:
-    """Add a redirect url and a message, if the user doesn't have
-    permission to perform an action.
+    """Add a redirect url and a message.
+
+    If the user doesn't have permission to perform an action.
     """
 
     message_no_permission = 'Для доступа необходимо войти в приложение'
@@ -74,6 +75,7 @@ class HandleNoPermissionMixin:
     """
 
     def handle_no_permission(self) -> HttpResponseRedirect:
+        """Add message no permission."""
         messages.error(self.request, self.message_no_permission)
         return redirect(self.url_no_permission)
 
@@ -93,6 +95,7 @@ class CheckUserOwnershipMixin(
         `bool`
             Return the `True` if the user is the owner of the object,
             otherwise return the `False`.
+
         """
         current_user = self.request.user
         specified_user = self.get_object().user
@@ -101,7 +104,8 @@ class CheckUserOwnershipMixin(
     def get_test_func(self) -> Callable:
         """Return the test result.
 
-        This is an interface UserPassesTestMixin method override."""
+        This is an interface UserPassesTestMixin method override.
+        """
         return self.check_ownership
 
 
@@ -120,7 +124,8 @@ class CheckObjectOwnershipMixin(
     def get_test_func(self) -> Callable:
         """Return the test result.
 
-        This is an interface UserPassesTestMixin method override."""
+        This is an interface UserPassesTestMixin method override.
+        """
         return self.check_ownership
 
 
@@ -128,6 +133,7 @@ class CheckAdminMixin(HandleNoPermissionMixin, UserPassesTestMixin):
     """Check current user for admin permissions."""
 
     def check_admin(self) -> bool:
+        """Check current user for admin permissions."""
         if self.request.user.is_superuser:
             return True
         else:
@@ -137,7 +143,8 @@ class CheckAdminMixin(HandleNoPermissionMixin, UserPassesTestMixin):
     def get_test_func(self) -> Callable:
         """Return the test result.
 
-        This is an interface UserPassesTestMixin method override."""
+        This is an interface UserPassesTestMixin method override.
+        """
         return self.check_admin
 
 
@@ -159,6 +166,7 @@ class ObjectDeleteErrorMixin:
         *args: object,
         **kwargs: object,
     ) -> HttpResponse:
+        """Add message if delete is protected."""
         try:
             return super().post(request, *args, **kwargs)
         except ProtectedError:
@@ -171,8 +179,10 @@ class CheckLoginPermissionMixin(
     FormMessageMixin,
     LoginRequiredMixin,
 ):
-    """Verify that the current user is authenticated. If not, display
-    a message and redirect to the login page."""
+    """Verify that the current user is authenticated.
+
+    If not, display a message and redirect to the login page.
+    """
 
 
 class PermissionProtectDeleteView(
@@ -218,8 +228,8 @@ class ReuseSchemaFilterQueryMixin(MultipleObjectMixin):
 
     Adds ``reused_query`` to the URL scheme query.
 
-    Example
-    -------
+    Examples
+    --------
     .. code-block::
 
        <a href="?{{reused_query}}&page={{page_obj.next_page_number}}">
@@ -227,6 +237,7 @@ class ReuseSchemaFilterQueryMixin(MultipleObjectMixin):
        </a>
 
     .. # noqa: E501
+
     """
 
     @staticmethod
@@ -251,6 +262,7 @@ class ReuseSchemaFilterQueryMixin(MultipleObjectMixin):
         -------
         context : Dict[str, object]
             Template context with
+
         """
         context = super().get_context_data(**kwargs)
         filter_fields = self.filterset_class.get_filter_fields()

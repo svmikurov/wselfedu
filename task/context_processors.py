@@ -19,6 +19,7 @@ def add_points_balance(request: HttpRequest) -> dict:
         Template context dictionary with fields:
 
         - ``balance``: current user points balance (`int`).
+
     """
     user_id = request.user.id
     balance = get_points_balance(user_id)

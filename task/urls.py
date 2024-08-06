@@ -1,3 +1,5 @@
+"""Task app urls module."""
+
 from django.urls import path
 
 from task import views

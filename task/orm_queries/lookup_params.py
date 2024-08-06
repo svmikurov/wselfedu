@@ -1,6 +1,4 @@
-"""
-Database query module for English word translation exercises.
-"""
+"""Database query module for English word translation exercises."""
 
 import datetime
 
@@ -51,6 +49,7 @@ class LookupParams:
         lookup_params = LookupParams(lookup_conditions)
         params: tuple[Q, ...] = lookup_params.params
         query = Model.objects.filter(*params)
+
     """
 
     def __init__(self, lookup_conditions: dict) -> None:
@@ -107,8 +106,7 @@ class LookupParams:
 
     @property
     def _knowledge_lookup_param(self) -> Q:
-        """Lookup parameter by user knowledge assessment
-        (`Q`, read-only)."""
+        """Lookup parameter by user assessment (`Q`, read-only)."""
         form_value = self.lookup_conditions.get('knowledge_assessment', [])
         lookup_value = self._to_numeric(WORD_STUDY_ASSESSMENTS, form_value)
         lookup_field = 'worduserknowledgerelation__knowledge_assessment__in'
@@ -172,7 +170,9 @@ class LookupParams:
 
     @staticmethod
     def _to_numeric(assessments: dict, string_values: list) -> list[int]:
-        """Convert a literal representation of an assessment into a list
+        """Convert a literal representation of an assessment.
+
+        Convert a literal representation of an assessment into a list
         of numeric values.
         """
         numeric_values = []

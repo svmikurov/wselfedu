@@ -1,4 +1,4 @@
-"""This module contains views with initial data for exercises."""
+"""Views with initial data for exercises module."""
 
 from django.http import HttpRequest, HttpResponseBase
 from django.urls import reverse_lazy

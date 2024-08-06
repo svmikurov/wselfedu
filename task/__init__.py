@@ -1,5 +1,4 @@
-"""
-Self-education exercise app package.
+"""Self-education exercise app package.
 
 There are two approaches to performing exercises:
 

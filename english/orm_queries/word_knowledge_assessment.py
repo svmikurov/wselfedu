@@ -1,5 +1,6 @@
-"""A module for user assessment and accounting of the level of
-knowledge of words in the application.
+"""A module for user word assessment knowledge accounting.
+
+Accounting of the level of knowledge of words in the application.
 
 The module contains functions for querying the database for adding,
 updating and retrieving the level of knowledge of words assessed by

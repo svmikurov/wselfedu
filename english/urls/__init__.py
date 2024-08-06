@@ -1,3 +1,5 @@
+"""English word urls package."""
+
 from english.urls.urls import app_name, urlpatterns
 
 __all__ = (

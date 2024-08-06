@@ -1,3 +1,5 @@
+"""User word list view module."""
+
 from django.db.models import F, Q
 from django_filters.views import FilterView
 

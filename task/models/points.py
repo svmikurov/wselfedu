@@ -56,6 +56,7 @@ class Points(models.Model):
         ValidationError
             Raised if both fields ``award`` and ``write_off`` are added
             or if both fields ``award`` and ``write_off`` is ``null``.
+
         """
         super().clean()
         if self.award and self.write_off:

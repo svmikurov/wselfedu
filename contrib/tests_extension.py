@@ -26,6 +26,7 @@ def flash_message_test(
         Test http response.
     expected_message : `str`
         Expected message in response.
+
     """
     number_of_message = 1
     current_message = get_messages(response.wsgi_request)
@@ -76,6 +77,7 @@ class UserAuthTestCase(TestCase):
                 )
                 assert (UserModel.objects.filter(
                     username='update_user').exists())
+
     """
 
     path_schema = '/'
@@ -118,6 +120,7 @@ class UserAuthTestCase(TestCase):
         -------
         `TestHttpResponse`
             Test http response.
+
         """
         user = user or self.user
         path_schema = path_schema or self.path_schema
@@ -144,6 +147,7 @@ class UserAuthTestCase(TestCase):
             task_conditions = {'timeout': 1, 'language_order': 'EN'}
             self.set_session(**{'task_conditions': task_conditions})
             ...
+
         """
         session = self.client.session
         for key, value in data.items():
@@ -171,5 +175,6 @@ class UserAuthTestCase(TestCase):
             user = auth.get_user(self.client)
             ...
             self.assertMessage(response, 'Message text')
+
         """
         return flash_message_test(response, expected_message)
