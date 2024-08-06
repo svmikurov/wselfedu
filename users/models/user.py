@@ -13,11 +13,13 @@ class UserModel(AbstractUser):
     """
 
     class Meta:
+        """Set model features."""
+
         verbose_name = 'Пользователи'
         verbose_name_plural = 'Пользователи'
 
     def __str__(self) -> str:
-        """Represent an instance as a string."""
+        """Provide the informal string representation of an object."""
         return self.username
 
     def get_absolute_url(self) -> str:

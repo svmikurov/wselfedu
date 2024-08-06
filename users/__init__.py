@@ -1,3 +1,1 @@
-"""
-The project users application.
-"""
+"""The project users application package."""

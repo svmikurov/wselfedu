@@ -1,10 +1,10 @@
-"""The Task application configuration module."""
+"""Configuration module of the Task application."""
 
 from django.apps import AppConfig
 
 
 class TaskConfig(AppConfig):
-    """The Task application configuration."""
+    """Configuration of the Task application."""
 
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'task'

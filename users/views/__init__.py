@@ -1,3 +1,5 @@
+"""Package of views of the Users application."""
+
 # ruff: noqa: I001
 from users.views.auth_views import (
     UserLoginView,
