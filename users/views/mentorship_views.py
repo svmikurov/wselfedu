@@ -6,13 +6,30 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
-from django.views.generic import TemplateView
+from django.views.generic import (
+    RedirectView,
+    TemplateView,
+)
 
 from contrib.mixins_views import (
     CheckLoginPermissionMixin,
     DeleteWithProfileRedirectView,
 )
 from users.models import Mentorship, MentorshipRequest, UserModel
+
+
+class AddWordByMentorToStudentViewRedirect(RedirectView):
+    """Redirect with added data in session view."""
+
+    url = reverse_lazy('english:mentor_adds_words_for_student_study')
+    """Url to redirect.
+    """
+
+    def get(self, request, *args, **kwargs):
+        """Add student id to session."""
+        request.session['student'] = kwargs.get('student')
+        response = super().get(request, *args, **kwargs)
+        return response
 
 
 def redirect_to_profile(request):
