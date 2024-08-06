@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 
 from django.contrib.messages import get_messages
 from django.db.models import Model
+from django.http import HttpResponse
 from django.test import TestCase
 
 from users.models import UserModel
@@ -15,14 +16,14 @@ if TYPE_CHECKING:
 
 
 def flash_message_test(
-    response: 'TestHttpResponse',
+    response: HttpResponse | TestHttpResponse,
     expected_message: str,
 ) -> None:
     """Test displaying Django message.
 
     Parameters
     ----------
-    response : `TestHttpResponse`
+    response : `HttpResponse` or `TestHttpResponse`
         Test http response.
     expected_message : `str`
         Expected message in response.
