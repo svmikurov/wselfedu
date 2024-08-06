@@ -1,3 +1,5 @@
+"""CRUD word category views module."""
+
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 

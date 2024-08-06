@@ -1,5 +1,4 @@
-"""
-Dictionary of any terms and their interpretations application package.
+"""Dictionary of any terms and their interpretations app package.
 
 The application is available only to a user with administrator rights.
 The application is only accessible through the Django admin interface.

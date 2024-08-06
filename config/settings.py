@@ -1,3 +1,5 @@
+"""Django settings module."""
+
 import os
 from pathlib import Path
 
@@ -152,12 +154,5 @@ LOGGING = {
     'root': {
         'handlers': ['console'],
         'level': 'INFO',
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
-            'propagate': False,
-        },
     },
 }

@@ -1,5 +1,4 @@
-"""
-The English word translate exercise module.
+"""The English word translate exercise module.
 
 Before beginning a word study exercise, the user defines criteria for
 filtering words to study and the order in which they are displayed
@@ -30,6 +29,7 @@ class EnglishTranslateExercise:
     ----------
     lookup_conditions : `dict`
         The user exercise conditions.
+
     """
 
     # attributes that are assigned a value during initialization
@@ -123,6 +123,7 @@ class EnglishTranslateExercise:
         ValueError
             Raised if no words that satisfy the conditions of the
             exercise.
+
         """
         word_ids = WordModel.objects.filter(
             *self._lookup_params,
@@ -187,7 +188,7 @@ class EnglishTranslateExercise:
     def _word_translation_order(self) -> list[str]:
         """Translations of words in order of user choice
         (`list[str]`, read-only).
-        """
+        """     # noqa:  D205
         word_translations = [self._word.word_eng, self._word.word_rus]
         if self._language_order == 'EN':
             pass
@@ -199,9 +200,9 @@ class EnglishTranslateExercise:
 
     @property
     def task_data(self) -> dict[str, str | int]:
-        """Task data to render to the user.
+        """Task data to render to the user
         (`dict[str, str | int]`, reade-only).
-        """
+        """     # noqa:  D205
         return {
             'question_text': self.question_text,
             'answer_text': self.answer_text,

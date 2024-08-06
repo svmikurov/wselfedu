@@ -1,3 +1,5 @@
+"""Representation of model in the admin interface."""
+
 from django.contrib import admin
 
 from english.models import WordLearningStories, WordModel
@@ -5,8 +7,7 @@ from english.models import WordLearningStories, WordModel
 
 @admin.register(WordLearningStories)
 class WordLearningStoriesAdmin(admin.ModelAdmin):
-    """Representation of a ``WordLearningStoriesAdmin`` model in the
-    admin interface.
+    """Representation of model in the admin interface.
 
     Attributes
     ----------
@@ -15,6 +16,7 @@ class WordLearningStoriesAdmin(admin.ModelAdmin):
     ordering : `list[str]`
         Sorting by model field (descending ``list_display``, by
         default).
+
     """
 
     list_display = ['word', 'display_count']
@@ -23,6 +25,8 @@ class WordLearningStoriesAdmin(admin.ModelAdmin):
 
 @admin.register(WordModel)
 class WordModelAdmin(admin.ModelAdmin):
+    """Representation of WordModel in admin interface."""
+
     exclude = ['user']
     list_display = [
         'word_eng',

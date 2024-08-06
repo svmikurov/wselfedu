@@ -8,7 +8,7 @@ from users.models import Mentorship, MentorshipRequest, UserModel
 class UserDetailView(CheckObjectOwnershipMixin, DetailView):
     """User detail view."""
 
-    template_name = 'users/detail.html'
+    template_name = 'users/profile.html'
     model = UserModel
 
     def get_context_data(self, **kwargs):
@@ -36,9 +36,10 @@ class UserDetailView(CheckObjectOwnershipMixin, DetailView):
                 mentor=self.request.user,
             )
             .annotate(
+                student_pk=F('student__pk'),
                 student_name=F('student__username'),
             )
-            .values('id', 'student_name')
+            .values('id', 'student_pk', 'student_name')
         )
 
         mentorship_mentors = (

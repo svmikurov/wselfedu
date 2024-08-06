@@ -1,9 +1,13 @@
+"""Word category module."""
+
 from django.db import models
 
 from users.models import UserModel
 
 
 class CategoryModel(models.Model):
+    """Word category model."""
+
     name = models.CharField(
         max_length=30,
         verbose_name='Наименование категории',
@@ -25,9 +29,12 @@ class CategoryModel(models.Model):
     updated_at = models.DateField(auto_now=True)
 
     class Meta:
+        """Set model features."""
+
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
         ordering = ['name']
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """Provide the informal string representation of an object."""
         return self.name

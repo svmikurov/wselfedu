@@ -17,7 +17,7 @@ line-length = 79
 preview = true  # checks will include unstable rules and fixes
 select = [
     # TODO: fix 'ruff check --select D'
-#    "D",    # pydocstyle: https://pypi.org/project/pydocstyle/
+    "D",    # pydocstyle: https://pypi.org/project/pydocstyle/
     "B",    # flake8-bugbear: https://pypi.org/project/flake8-bugbear/
     "E",    # pycodestyle: Error; pycodestyle: https://pypi.org/project/pycodestyle/
     "F",    # pyflakes: https://pypi.org/project/pyflakes/
@@ -76,6 +76,11 @@ select = [
 #    "FURB",
 #    #"DOC",  # pydoclint
 #    "RUF",  # Ruff-specific rules
+]
+ignore = [
+    'D203',     # 1 blank line required before class docstring
+    'D211',     # No blank lines allowed before class docstring
+    'D213',     # Multi-line docstring summary should start at the second line
 ]
 
 [lint.flake8-quotes]

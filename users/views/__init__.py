@@ -1,4 +1,4 @@
-from users.views.account_view import UserDetailView
+# ruff: noqa: I001
 from users.views.auth_views import (
     UserLoginView,
     UserLogoutView,
@@ -12,12 +12,14 @@ from users.views.crud_user_views import (
 from users.views.mentorship_views import (
     InputMentorView,
     accept_mentorship_request,
-    delete_mentorship_mentor,
-    delete_mentorship_request_from_student,
-    delete_mentorship_request_to_mentor,
-    delete_mentorship_student,
+    DeleteMentorshipRequestByMentorView,
+    DeleteMentorshipRequestByStudentView,
+    DeleteMentorshipByMentorView,
+    DeleteMentorshipByStudentView,
     send_mentorship_request,
+    AddExerciseDataView,
 )
+from users.views.profile_view import UserDetailView
 
 __all__ = (
     'UserLoginView',
@@ -30,8 +32,9 @@ __all__ = (
     'InputMentorView',
     'accept_mentorship_request',
     'send_mentorship_request',
-    'delete_mentorship_request_from_student',
-    'delete_mentorship_request_to_mentor',
-    'delete_mentorship_mentor',
-    'delete_mentorship_student',
+    'DeleteMentorshipRequestByMentorView',
+    'DeleteMentorshipRequestByStudentView',
+    'DeleteMentorshipByMentorView',
+    'DeleteMentorshipByStudentView',
+    'AddExerciseDataView',
 )

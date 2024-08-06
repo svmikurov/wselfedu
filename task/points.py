@@ -39,6 +39,7 @@ class PointsManager:
         ------
         number_points : `int`
             The number of points as a reward for success task solution.
+
         """
         # Temporary number_points is fixed number
         number_points = 40

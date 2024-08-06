@@ -1,3 +1,8 @@
+Django
+^^^^^^
+
+`Classy Class-Based Views <https://ccbv.co.uk/>`_
+
 Git source
 ^^^^^^^^^^
 

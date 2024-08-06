@@ -1,3 +1,5 @@
+"""Calculate exercise conditions choice form."""
+
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Column, Field, Layout, Row, Submit
 from django import forms

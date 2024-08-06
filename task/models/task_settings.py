@@ -1,6 +1,4 @@
-"""
-User task settings modul.
-"""
+"""User task settings modul."""
 
 from django.db import models
 
@@ -46,6 +44,7 @@ class EnglishTaskSettings(models.Model):
         Start edge period for choice added words.
     date_end : `str`
         Start edge period for choice added words.
+
     """
 
     LANGUAGE_ORDER = [
@@ -135,5 +134,7 @@ class EnglishTaskSettings(models.Model):
         return f'{self.user} настройки'
 
     class Meta:
+        """Set model features."""
+
         verbose_name = 'Настройки "Изучаем слова"'
         verbose_name_plural = 'Настройки "Изучаем слова"'

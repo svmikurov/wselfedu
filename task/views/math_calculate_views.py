@@ -1,3 +1,5 @@
+"""Calculate exercise views."""
+
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
@@ -6,8 +8,8 @@ from django.views.generic import TemplateView
 
 from task.forms import MathCalculationChoiceForm, NumberInputForm
 from task.points import get_points_balance
-from task.tasks.calculation_exersice import CalculationExercise
-from task.tasks.calculation_exersice_check import CalculationExerciseCheck
+from task.tasks.calculation_exercise import CalculationExercise
+from task.tasks.calculation_exercise_check import CalculationExerciseCheck
 
 
 class MathCalculateChoiceView(TemplateView):
@@ -17,6 +19,7 @@ class MathCalculateChoiceView(TemplateView):
     form = MathCalculationChoiceForm
 
     def get(self, request, *args, **kwargs):
+        """Check form view."""
         form = self.form(request.GET, request=request)
 
         if form.is_valid():

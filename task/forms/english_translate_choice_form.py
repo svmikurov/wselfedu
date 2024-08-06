@@ -1,3 +1,5 @@
+"""English translate conditions choice module."""
+
 from crispy_forms.bootstrap import InlineCheckboxes
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Column, Field, Layout, Row, Submit

@@ -1,3 +1,5 @@
+"""Word filter module."""
+
 import django_filters
 from django import forms
 from django.db.models import F, Q
@@ -13,12 +15,14 @@ from english.orm_queries.word_knowledge_assessment import (
 
 
 def category_by_current_user(request):
+    """Return only user categories."""
     if request is None:
         return CategoryModel.objects.none()
     return CategoryModel.objects.filter(user=request.user)
 
 
 def source_by_current_user(request):
+    """Return only users sources."""
     if request is None:
         return SourceModel.objects.none()
     return SourceModel.objects.filter(user=request.user)
@@ -85,6 +89,7 @@ class WordsFilter(django_filters.FilterSet):
 
     @staticmethod
     def filter_word_by_any_translation(queryset, name, value):
+        """Find a word in English or Russian."""
         return queryset.filter(
             Q(word_eng__icontains=value) | Q(word_rus__icontains=value)
         )
@@ -112,6 +117,7 @@ class WordsFilter(django_filters.FilterSet):
 
     @staticmethod
     def get_filter_fields():
+        """Get filter fields."""
         return (
             'search_word',
             'filtered_category',

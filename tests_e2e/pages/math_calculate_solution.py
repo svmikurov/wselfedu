@@ -16,11 +16,12 @@ class MathCalculateSolutionPage(POMPage):
     """Page title (`str`).
     """
 
-    def __init__(self, page: Page) -> None:
+    def __init__(self, page: Page, host: str | None = None) -> None:
         """Mathematical calculation solution page constructor."""
         super().__init__(page)
         self.path = '/task/math-calculate-solution'
         self.page = page
+        self.host = host
         self.question_text = page.locator('#question_text')
         self.answer_input = page.locator('#id_user_solution')
         self.submit_btn = page.get_by_role('button', name='Ответить')
@@ -36,8 +37,5 @@ class MathCalculateSolutionPage(POMPage):
         first_operand, _, second_operand = question_text.split()
         task_solution = str(int(first_operand) * int(second_operand))
 
-        self.page.screenshot(path=f'{self.scn_path}/before_input.png')
         self.answer_input.fill(task_solution)
-        self.page.screenshot(path=f'{self.scn_path}/after_input.png')
         self.submit_btn.click()
-        self.page.screenshot(path=f'{self.scn_path}/after_click.png')

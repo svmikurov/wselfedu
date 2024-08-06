@@ -1,3 +1,5 @@
+"""Task app views module."""
+
 from task.views.english_translate_views import (
     EnglishTranslateChoiceView,
     EnglishTranslateExerciseView,

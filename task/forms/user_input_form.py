@@ -1,3 +1,5 @@
+"""Calculate exercise form input module."""
+
 from django import forms
 
 
