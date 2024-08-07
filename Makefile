@@ -26,7 +26,7 @@ up:
 down:
 	@$(COMPOSE) down
 
-restart: lint down build up
+restart: ruff down build up
 
 docker-clean:
 	@$(COMPOSE) down && \
