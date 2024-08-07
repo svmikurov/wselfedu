@@ -1,5 +1,4 @@
 """The user pages representation module."""
-
 import os
 
 from dotenv import load_dotenv

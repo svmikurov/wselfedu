@@ -7,6 +7,7 @@ See Also
 """  # noqa: E501
 
 import os
+from urllib.parse import urljoin
 
 from dotenv import load_dotenv
 
@@ -33,7 +34,8 @@ class TestGetAuthState(POMTest):
     def test_get_auth_state(self) -> None:
         """Get auth state."""
         login_page = LoginPage(self.page)
-        login_page.navigate(url=f'{self.site_host}{login_page.path}')
+        url = urljoin(self.live_server_url, login_page.path)
+        login_page.navigate(url=url)
         login_page.test_title()
         login_page.login(USER_NAME, USER_PASS)
         login_page.test_title(expected_title=HomePage.title)
