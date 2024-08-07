@@ -22,7 +22,7 @@ class TestProfile(POMTest):
         authorize_the_page(self.page, self.host)
         self.user_id = UserModel.objects.get(username='test-user').pk
         self.profile = ProfilePage(self.page)
-        self.url = f'{self.host}/users/{self.user_id}/account'
+        self.path = f'/users/{self.user_id}/account'
 
     @skip
     def test_mult_table_page(self) -> None:

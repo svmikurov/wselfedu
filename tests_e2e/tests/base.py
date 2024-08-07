@@ -2,6 +2,7 @@
 
 import os
 from typing import Generator
+from urllib.parse import urljoin
 
 import pytest
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
@@ -24,6 +25,14 @@ class PageFixtureTestCase(StaticLiveServerTestCase):
     The page fixture is set in the test function scope.
     """
 
+    path = '/'
+    """Page path schema (`str`, ``root`` by-default).
+    """
+    # host can be set to Django live_server_url or real server
+    page_host = None
+    """Host of the page being tested (`Optional[str]`).
+    """
+
     @pytest.fixture(autouse=True)
     def run_around_tests(self) -> Generator[None, None, None]:
         """Get new Playwright Pytest page fixture."""
@@ -43,6 +52,12 @@ class PageFixtureTestCase(StaticLiveServerTestCase):
         """
         os.environ['DJANGO_ALLOW_ASYNC_UNSAFE'] = 'true'
         super().setUpClass()
+        cls.page_host = str(cls.live_server_url)
+
+    @property
+    def url(self) -> str:
+        """Testing page url (`str`, reade-only)."""
+        return urljoin(self.page_host, self.path)
 
 
 class UserMixin:
@@ -77,7 +92,7 @@ class UserMixin:
     page: Page
     """Playwright page instance fixture (`Page`).
     """
-    host: str
+    page_host: str
     """Host of the page being tested (`str`).
     """
 
@@ -92,7 +107,7 @@ class UserMixin:
         """Authorize the testing page instance."""
         authorize_the_page(
             page=self.page,
-            host=self.host,
+            host=self.page_host,
             user_name=username,
             user_pass='1q2s3d4r',
         )
