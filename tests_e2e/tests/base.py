@@ -56,12 +56,13 @@ class POMTest(PageFixtureTestCase):
 
     .. code-block:: python
 
+       from tests_e2e.pages.user import authorize_the_page
+
        class TestPage(POMTest):
 
           fixtures = ['tests_e2e/fixtures/fixture-db-user']
 
           def setUp(self):
               authorize_the_page(self.page, self.live_server_url)
-              self.page.goto(self.live_server_url)
 
     """
