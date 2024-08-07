@@ -18,6 +18,9 @@ class MentorshipTestMixin(TestCase):
         cls.student = UserModel.objects.create(username='student')
         cls.mentor = UserModel.objects.create(username='mentor')
         cls.other_user = UserModel.objects.create(username='other_user')
+        cls.success_redirect_url = reverse_lazy(
+            'users:mentorship_profile', kwargs={'pk': cls.student.pk}
+        )
 
     @property
     def is_exists_mentorship_request(self) -> bool:
@@ -79,6 +82,7 @@ class TestSendMentorshipRequestView(MentorshipTestMixin, TestCase):
             to_user=self.mentor,
         ).count()
         assert mentorship_request == 1
+        self.assertRedirects(response, self.success_redirect_url, 302)
 
     def test_send_mentorship_request_to_non_existent_user(self) -> None:
         """Send request to mentorship to non-existent user."""
@@ -90,6 +94,19 @@ class TestSendMentorshipRequestView(MentorshipTestMixin, TestCase):
         )
         assert self.is_exists_mentorship_request is False
         assert str(*get_messages(response.wsgi_request)) == msg
+        self.assertRedirects(response, self.success_redirect_url, 302)
+
+    def test_send_mentorship_request_to_mentor(self) -> None:
+        """Send request the mentorship to mentor."""
+        Mentorship.objects.create(mentor=self.mentor, student=self.student)
+        msg = 'Запрашиваемый пользователь уже ваш наставник'
+        self.client.force_login(self.student)
+        response = self.client.post(
+            self.url_send_mentorship_request, self.request_mentor_data
+        )
+        assert self.is_exists_mentorship_request is False
+        assert str(*get_messages(response.wsgi_request)) == msg
+        self.assertRedirects(response, self.success_redirect_url, 302)
 
     def test_send_mentorship_request_by_mentor(self) -> None:
         """Send request to mentorship by mentor."""
@@ -132,6 +149,7 @@ class TestDeleteMentorshipRequestView(MentorshipTestMixin, TestCase):
 
         assert self.is_exists_mentorship_request is False
         flash_message_test(response, msg)
+        self.assertRedirects(response, self.success_redirect_url, 302)
 
     def test_delete_mentorship_request_by_mentor(self) -> None:
         """Test delete by mentor the mentorship request."""
@@ -182,6 +200,7 @@ class TestDeleteMentorshipView(MentorshipTestMixin, TestCase):
 
         assert self.is_exists_mentorship is False
         assert str(*get_messages(response.wsgi_request)) == msg
+        self.assertRedirects(response, self.success_redirect_url, 302)
 
     def test_delete_mentorship_by_mentor(self) -> None:
         """Test delete mentorship by mentor."""
@@ -228,11 +247,15 @@ class AcceptRequestToMentorship(MentorshipTestMixin, TestCase):
     def test_accept_mentorship_request_by_mentor(self):
         """Test access mentorship request by mentor."""
         msg = 'Вы стали наставником student'
+        success_redirect_url = reverse_lazy(
+            'users:mentorship_profile', kwargs={'pk': self.mentor.pk}
+        )
         self.client.force_login(self.mentor)
         response = self.client.post(self.url_accept_mentorship_request)
 
         assert self.is_exists_mentorship is True
         assert str(*get_messages(response.wsgi_request)) == msg
+        self.assertRedirects(response, success_redirect_url, 302)
 
     def test_accept_mentorship_request_by_student(self) -> None:
         """Test access mentorship request by mentor."""
