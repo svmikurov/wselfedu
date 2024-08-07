@@ -70,13 +70,13 @@ def send_mentorship_request(
         to_user = UserModel.objects.get(username=mentor_name)
         if from_user == to_user:
             messages.warning(
-                request, 'Пользователь не может стать своим наставником.'
+                request, 'Пользователь не может стать своим наставником'
             )
             return redirect_to_profile(request)
     except UserModel.DoesNotExist:
         messages.warning(
             request,
-            f'Пользователь с именем {mentor_name} не зарегистрирован.',
+            f'Пользователь с именем {mentor_name} не зарегистрирован',
         )
         return redirect_to_profile(request)
 
@@ -87,12 +87,12 @@ def send_mentorship_request(
 
     if created:
         messages.success(
-            request, f'Заявка на добавление ментора отправлена {mentor_name}.'
+            request, f'Заявка на добавление ментора отправлена {mentor_name}'
         )
     else:
         messages.warning(
             request,
-            f'Заявка на добавление ментора уже была отправлена {mentor_name}.',
+            f'Заявка на добавление ментора уже была отправлена {mentor_name}',
         )
 
     return redirect_to_profile(request)
@@ -120,43 +120,29 @@ def accept_mentorship_request(
     return redirect_to_profile(request)
 
 
-class DeleteMentorshipRequestByMentorView(DeleteWithProfileRedirectView):
+class DeleteMentorshipRequestView(DeleteWithProfileRedirectView):
     """Delete mentorship request by mentor view."""
 
     model = MentorshipRequest
     success_message = 'Запрос удален'
-    protected_message = 'Вы не можете удалить запрос'
 
     def check_permission(self) -> bool:
         """Check mentor permission."""
-        return self.request.user == self.get_object().to_user
+        [mentorship_users] = MentorshipRequest.objects.filter(
+            pk=self.get_object().pk
+        ).values_list('to_user', 'from_user')
+        return self.request.user.pk in mentorship_users
 
 
-class DeleteMentorshipRequestByStudentView(
-    DeleteMentorshipRequestByMentorView,
-):
-    """Delete mentorship request by student view."""
-
-    def check_permission(self) -> bool:
-        """Check student permission."""
-        return self.request.user == self.get_object().from_user
-
-
-class DeleteMentorshipByMentorView(DeleteWithProfileRedirectView):
-    """Delete mentorship by mentor view."""
+class DeleteMentorshipView(DeleteWithProfileRedirectView):
+    """Delete mentorship by student view."""
 
     model = Mentorship
     success_message = 'Наставничество удалено'
-    protected_message = 'Вы не можете удалить наставничество'
 
     def check_permission(self) -> bool:
         """Check mentor permission."""
-        return self.request.user == self.get_object().mentor
-
-
-class DeleteMentorshipByStudentView(DeleteMentorshipByMentorView):
-    """Delete mentorship by student view."""
-
-    def check_permission(self) -> bool:
-        """Check mentor permission."""
-        return self.request.user == self.get_object().student
+        [mentorship_users] = Mentorship.objects.filter(
+            pk=self.get_object().pk
+        ).values_list('student', 'mentor')
+        return self.request.user.pk in mentorship_users

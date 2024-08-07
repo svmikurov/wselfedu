@@ -14,13 +14,11 @@ from users.views.crud_user_views import (
 from users.views.mentorship_views import (
     InputMentorView,
     accept_mentorship_request,
-    DeleteMentorshipRequestByMentorView,
-    DeleteMentorshipRequestByStudentView,
-    DeleteMentorshipByMentorView,
-    DeleteMentorshipByStudentView,
     send_mentorship_request,
     AddExerciseDataView,
     AddWordByMentorToStudentViewRedirect,
+    DeleteMentorshipRequestView,
+    DeleteMentorshipView,
 )
 from users.views.profile_view import UserDetailView
 
@@ -35,10 +33,8 @@ __all__ = (
     'InputMentorView',
     'accept_mentorship_request',
     'send_mentorship_request',
-    'DeleteMentorshipRequestByMentorView',
-    'DeleteMentorshipRequestByStudentView',
-    'DeleteMentorshipByMentorView',
-    'DeleteMentorshipByStudentView',
+    'DeleteMentorshipRequestView',
+    'DeleteMentorshipView',
     'AddExerciseDataView',
     'AddWordByMentorToStudentViewRedirect',
 )

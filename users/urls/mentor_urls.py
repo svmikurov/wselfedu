@@ -24,25 +24,14 @@ mentor_urls = [
         name='accept_mentorship_request',
     ),
     path(
-        'delete-mentorship-request-by-mentor/<int:pk>/',
-        views.DeleteMentorshipRequestByMentorView.as_view(),
-        name='delete_mentorship_request_by_mentor',
+        'delete-mentorship-request/<int:pk>/',
+        views.DeleteMentorshipRequestView.as_view(),
+        name='delete_mentorship_request',
     ),
     path(
-        'delete-mentorship-request-by-student/<int:pk>/',
-        views.DeleteMentorshipRequestByStudentView.as_view(),
-        name='delete_mentorship_request_by_student',
-    ),
-    path(
-        'delete-mentorship-mentor/<int:pk>/',
-        views.DeleteMentorshipByMentorView.as_view(),
-        name='delete_mentorship_by_mentor',
-    ),
-    # Delete mentorship by mentor.
-    path(
-        'delete-mentorship-student/<int:pk>/',
-        views.DeleteMentorshipByStudentView.as_view(),
-        name='delete_mentorship_by_student',
+        'delete-mentorship/<int:pk>/',
+        views.DeleteMentorshipView.as_view(),
+        name='delete_mentorship',
     ),
     # -- EndMentorship --
     # --======= Mentor management =======--

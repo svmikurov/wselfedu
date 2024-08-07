@@ -210,8 +210,7 @@ class DeleteWithProfileRedirectView(
         """Set success url."""
         super().setup(request, *args, **kwargs)
         self.success_url = reverse_lazy(
-            'users:detail',
-            kwargs={'pk': self.request.user.pk},
+            'users:detail', kwargs={'pk': self.request.user.pk}
         )
 
     def check_permission(self) -> bool:
@@ -235,8 +234,6 @@ class ReuseSchemaFilterQueryMixin(MultipleObjectMixin):
        <a href="?{{reused_query}}&page={{page_obj.next_page_number}}">
          next page
        </a>
-
-    .. # noqa: E501
 
     """
 

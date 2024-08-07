@@ -6,7 +6,7 @@
     {% for mentorship in mentorship_mentors %}
       <li>
         {{ mentorship.mentor_name }}
-        <form action="{% url 'users:delete_mentorship_mentor' mentorship.id %}"
+        <form action="{% url 'users:delete_mentorship_by_student' mentorship.id %}"
               method="post" style="display: inline">{% csrf_token %}
           <input value="Отказаться" type="submit" name="add" class="btn btn-outline-primary btn-sm m-1">
         </form>
@@ -30,7 +30,7 @@
               method="post" style="display: inline">{% csrf_token %}
           <input value="Добавить задание" type="submit" name="add" class="btn btn-outline-primary btn-sm m-1">
         </form>
-        <form action="{% url 'users:delete_mentorship_by_student' mentorship.id %}"
+        <form action="{% url 'users:delete_mentorship' mentorship.id %}"
               method="post" style="display: inline">{% csrf_token %}
           <input value="Отказаться" type="submit" name="add" class="btn btn-outline-primary btn-sm m-1">
         </form>
@@ -47,7 +47,7 @@
       {% for request in mentorship_request_mentors %}
         <li class="py-1">
           К {{ request.mentor_name }}
-          <form action="{% url 'users:delete_mentorship_request_to_mentor' request.request_pk %}"
+          <form action="{% url 'users:delete_mentorship_request' request.request_pk %}"
                 method="post" style="display: inline">{% csrf_token %}
             <input value="Отозвать" type="submit" name="add" class="btn btn-outline-primary btn-sm m-1">
           </form>
@@ -66,7 +66,7 @@
               method="post" style="display: inline">{% csrf_token %}
           <input value="Принять" type="submit" name="add" class="btn btn-outline-primary btn-sm m-1">
         </form>
-        <form action="{% url 'users:delete_mentorship_request_by_mentor' request.request_pk %}"
+        <form action="{% url 'users:delete_mentorship_request' request.request_pk %}"
               method="post" style="display: inline">{% csrf_token %}
           <input value="Отклонить" type="submit" name="add" class="btn btn-outline-primary btn-sm m-1">
         </form>
