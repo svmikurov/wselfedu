@@ -6,7 +6,7 @@ from task.points import get_points_balance
 from users.models import Mentorship
 
 
-def add_student_user_data(request: HttpRequest) -> dict:
+def add_student_user_data(request: HttpRequest) -> dict[str, float | str]:
     """Add student user data to template context.
 
     Adds if user has mentor.
@@ -22,7 +22,7 @@ def add_student_user_data(request: HttpRequest) -> dict:
     context : `dict`
         Template context dictionary, may hase fields:
 
-        - ``balance``: current user points balance (`int`).
+        - ``balance``: current user points balance (`float` | `str`).
 
     """
     context = {}
@@ -30,6 +30,7 @@ def add_student_user_data(request: HttpRequest) -> dict:
     user_has_mentor = Mentorship.objects.filter(student=user_id).exists()
 
     if user_has_mentor:
-        context.update(balance=get_points_balance(user_id))
+        balance = get_points_balance(user_id) / 100
+        context.update(balance=balance or '-')
 
     return context
