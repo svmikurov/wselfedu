@@ -44,10 +44,58 @@ class PageFixtureTestCase(StaticLiveServerTestCase):
         os.environ['DJANGO_ALLOW_ASYNC_UNSAFE'] = 'true'
         super().setUpClass()
 
-    @property
-    def site_host(self) -> str:
-        """Page host schema."""
-        return self.live_server_url
+
+class UserMixin:
+    """Use user in tests methods with mixin.
+
+    Examples
+    --------
+
+    .. code-block:: python
+
+        class TestMentorshipProfilePage(UserMixin, POMTest):
+
+        @classmethod
+        def setUpClass(cls) -> None:
+            super().setUpClass()
+            cls.host = str(cls.live_server_url)
+            cls.student = cls.create_user(username='student')
+
+        def setUp(self) -> None:
+            super().setUp()
+            self.test_page = MentorshipProfilePage(self.page, self.host)
+            self.path = f'/users/mentorship/{self.student.pk}'
+            self.url = urljoin(self.host, self.path)
+
+        def test_(self) -> None:
+            self.authorize_test_page(username='student')
+            self.test_page.navigate(url=self.url)
+            ...
+
+    """
+
+    page: Page
+    """Playwright page instance fixture (`Page`).
+    """
+    host: str
+    """Host of the page being tested (`str`).
+    """
+
+    @staticmethod
+    def create_user(username: str) -> UserModel:
+        """Create user."""
+        return UserModel.objects.create_user(
+            username=username, password='1q2s3d4r'
+        )
+
+    def authorize_test_page(self, username: str) -> None:
+        """Authorize the testing page instance."""
+        authorize_the_page(
+            page=self.page,
+            host=self.host,
+            user_name=username,
+            user_pass='1q2s3d4r',
+        )
 
 
 class POMTest(PageFixtureTestCase):
