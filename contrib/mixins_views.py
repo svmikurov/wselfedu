@@ -235,7 +235,7 @@ class DeleteWithProfileRedirectView(
         """Set success url."""
         super().setup(request, *args, **kwargs)
         self.success_url = reverse_lazy(
-            'users:detail', kwargs={'pk': self.request.user.pk}
+            'users:mentorship_profile', kwargs={'pk': self.request.user.pk}
         )
 
     def check_permission(self) -> bool:

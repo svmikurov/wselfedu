@@ -1,11 +1,15 @@
-"""Mentor urls."""
+"""Mentorship urls."""
 
 from django.urls import path
 
 from users import views
 
 mentor_urls = [
-    # --======= Mentorship =======--
+    path(
+        'mentorship/<int:pk>/',
+        views.MentorshipView.as_view(),
+        name='mentorship_profile',
+    ),
     # Request to mentor name input page form.
     path(
         'send-mentorship-request/',
