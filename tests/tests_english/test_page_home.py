@@ -1,3 +1,5 @@
+"""Test home page module."""
+
 from http import HTTPStatus
 
 from django.test import TestCase

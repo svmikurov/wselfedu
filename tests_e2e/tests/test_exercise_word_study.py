@@ -1,6 +1,4 @@
-"""
-The word study exercise page representation test module.
-"""
+"""The word study exercise page representation test module."""
 
 import pytest
 from playwright.sync_api import expect

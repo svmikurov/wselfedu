@@ -1,6 +1,4 @@
-"""Module for presenting a page this mathematical calculation exercise
-with answer input.
-"""
+"""Mathematical calculation exercise with answer input page."""
 
 from time import sleep
 

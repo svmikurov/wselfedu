@@ -1,3 +1,5 @@
+"""Test sources CRUD module."""
+
 from django.test import Client, TestCase
 from django.urls import reverse, reverse_lazy
 
@@ -196,9 +198,7 @@ class TestSourceListView(TestCase):
         self.assertTrue(*user_ids, self.user_id)
 
     def test_show_source_list_to_anonymous(self):
-        """
-        Test the permission to display a source list for an anonymous.
-        """
+        """Test display a source list for an anonymous."""
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
@@ -226,18 +226,14 @@ class TestSourceDetailView(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_show_source_detail_to_another_user(self):
-        """
-        Test permission to display a source detail for another user.
-        """
+        """Test display a source detail for another user."""
         self.client.force_login(self.another_user)
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
 
     def test_show_source_detail_to_anonymous(self):
-        """
-        Test the permission to display source details for an anonymous.
-        """
+        """Test display source details for an anonymous."""
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)

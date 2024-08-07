@@ -1,3 +1,5 @@
+"""Test favorites word processing module."""
+
 from django.test import TestCase
 
 from english.models import WordsFavoritesModel
@@ -8,9 +10,12 @@ from english.orm_queries import (
 
 
 class TestWordsFavorites(TestCase):
+    """Test favorites word processing class."""
+
     fixtures = ['tests/tests_english/fixtures/wse-fixtures.json']
 
     def setUp(self):
+        """Set up test data."""
         # Атрибуты создания связи об избранном слове.
         self.user_id = 1
         self.word_id = 2

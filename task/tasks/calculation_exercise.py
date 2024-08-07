@@ -80,7 +80,7 @@ class CalculationExercise:
         # Create task
         self._set_task_solution(calculation_type, min_value, max_value)
 
-    def _set_task_solution(     # noqa: D417
+    def _set_task_solution(  # noqa: D417
         self,
         calculation_type: str,
         *value_range: tuple,

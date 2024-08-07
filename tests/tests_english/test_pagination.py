@@ -1,3 +1,5 @@
+"""Test english word pagination module."""
+
 from django.test import Client, TestCase
 from django.urls import reverse
 

@@ -1,7 +1,4 @@
-"""
-Module for presenting a page this mathematical demo calculation
-exercise.
-"""
+"""Mathematical demo calculation exercise page."""
 
 from playwright.sync_api import Page
 

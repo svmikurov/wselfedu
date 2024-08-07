@@ -1,5 +1,5 @@
-"""
-This module tests data collection for analytical purposes.
+"""Test data collection for analytical purposes.
+
 Data is collected from the “Learning words” exercise.
 """
 

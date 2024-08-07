@@ -1,3 +1,5 @@
+"""Test auth user module."""
+
 from django.contrib import auth
 from django.urls import reverse_lazy
 

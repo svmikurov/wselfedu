@@ -1,3 +1,1 @@
-"""
-This package contains tests the Page Object Model instance page.
-"""
+"""Page Object Model of page instances package."""

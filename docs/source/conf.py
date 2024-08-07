@@ -1,11 +1,10 @@
-# Configuration file for the Sphinx documentation builder.
-#
+"""Configuration file for the Sphinx documentation builder."""
+
 # For the full list of built-in configuration values, see the
 # documentation: https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 # -- Including doctests in documentation -------------------------------
 # https://www.sphinx-doc.org/en/master/tutorial/describing-code.html#including-doctests-in-your-documentation
-
 
 import os
 import pathlib

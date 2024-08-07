@@ -188,7 +188,7 @@ class EnglishTranslateExercise:
     def _word_translation_order(self) -> list[str]:
         """Translations of words in order of user choice
         (`list[str]`, read-only).
-        """     # noqa:  D205
+        """  # noqa:  D205
         word_translations = [self._word.word_eng, self._word.word_rus]
         if self._language_order == 'EN':
             pass
@@ -202,7 +202,7 @@ class EnglishTranslateExercise:
     def task_data(self) -> dict[str, str | int]:
         """Task data to render to the user
         (`dict[str, str | int]`, reade-only).
-        """     # noqa:  D205
+        """  # noqa:  D205
         return {
             'question_text': self.question_text,
             'answer_text': self.answer_text,

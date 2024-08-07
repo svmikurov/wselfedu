@@ -16,15 +16,14 @@ line-length = 79
 [lint]
 preview = true  # checks will include unstable rules and fixes
 select = [
-    # TODO: fix 'ruff check --select D'
+    "F",    # pyflakes: https://pypi.org/project/pyflakes/
+    "E",    # pycodestyle: Error; pycodestyle: https://pypi.org/project/pycodestyle/
+    "W",    # pycodestyle: Warning
+    "I",    # isort: https://pypi.org/project/isort/
+    "N",    # pep8-naming: https://pypi.org/project/pep8-naming/
     "D",    # pydocstyle: https://pypi.org/project/pydocstyle/
     "B",    # flake8-bugbear: https://pypi.org/project/flake8-bugbear/
-    "E",    # pycodestyle: Error; pycodestyle: https://pypi.org/project/pycodestyle/
-    "F",    # pyflakes: https://pypi.org/project/pyflakes/
-    "I",    # isort: https://pypi.org/project/isort/
-    "W",    # pycodestyle: Warning
     "C90",  # mccabe: https://pypi.org/project/mccabe/
-    "N",    # pep8-naming: https://pypi.org/project/pep8-naming/
 #    "UP",   # pyupgrade: https://pypi.org/project/pyupgrade/
 #    "YTT",  # flake8-2020: https://pypi.org/project/flake8-2020/
 #    "ANN",  # flake8-annotations: https://pypi.org/project/flake8-annotations/

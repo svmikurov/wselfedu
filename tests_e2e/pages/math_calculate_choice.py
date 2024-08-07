@@ -1,7 +1,4 @@
-"""
-Module for presenting a page for selecting conditions for performing
-a mathematical calculation exercise.
-"""
+"""Select condition for mathematical calculation exercise page."""
 
 import datetime
 
@@ -54,6 +51,7 @@ class MathCalculateChoicePage(POMPage):
         input_answer_choice: `bool`
             Executing a task with entering an answer if `True`
             otherwise only show the question then answer.
+
         """
         if calculation:
             assert calculation in ('mul', 'add', 'sub')

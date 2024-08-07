@@ -1,10 +1,7 @@
-"""
-The Page Object Model test base class module.
-"""
+"""The Page Object Model test base class module."""
 
 import os
 from typing import Generator
-from unittest import TestCase
 
 import pytest
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
@@ -19,12 +16,11 @@ ENVIRONMENT = os.getenv('ENVIRONMENT')
 
 
 class PageFixtureTestCase(StaticLiveServerTestCase):
-    """Test with Playwright Pytest page fixture class
-    using StaticLiveServerTestCase.
+    """Use Playwright page fixture with StaticLiveServerTestCase.
 
     The page fixture is set in the test function scope.
 
-    Example
+    Example:
     -------
     Use to get an authorized page:
 
@@ -35,6 +31,7 @@ class PageFixtureTestCase(StaticLiveServerTestCase):
             def setUp(self):
                 authorize_the_page(self.page, self.live_server_url)
                 self.page.goto(self.live_server_url)
+
     """
 
     @pytest.fixture(autouse=True)
@@ -61,16 +58,6 @@ class PageFixtureTestCase(StaticLiveServerTestCase):
     def site_host(self) -> str:
         """Page host schema."""
         return self.live_server_url
-
-
-class StageTestCase(TestCase):
-    """Test class using Playwright Pytest page fixture in Stage
-    environment."""
-
-    @property
-    def site_host(self) -> str:
-        """Page host schema."""
-        return os.getenv('HOST')
 
 
 class POMBaseTest(PageFixtureTestCase):

@@ -1,3 +1,5 @@
+"""Tes categories CRUD module."""
+
 from django.test import Client, TestCase
 from django.urls import reverse, reverse_lazy
 
@@ -219,19 +221,14 @@ class TestCategoryDetailView(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_show_category_detail_to_another_user(self):
-        """
-        Test the permission to display a category detail for another
-        user.
-        """
+        """Test display a category detail for another."""
         self.client.force_login(self.another_user)
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
 
     def test_show_category_detail_to_anonymous(self):
-        """
-        Test the permission to display category details for anonymous.
-        """
+        """Test display category details for anonymous."""
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)

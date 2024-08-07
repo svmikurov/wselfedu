@@ -1,3 +1,5 @@
+"""Test word CRUD module."""
+
 from unittest import skip
 
 from django.db.models import F
@@ -296,6 +298,7 @@ class WordListPageFilter(TestCase):
         self.assertNotIn(another_user_category, html)
 
     def test_checkbox_favorite_words(self):
+        """Test checkbox favorites word."""
         self.client.force_login(self.user)
         response = self.client.get(self.url, {'only_favorite_words': True})
 

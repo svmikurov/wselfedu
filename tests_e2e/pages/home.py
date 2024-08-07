@@ -1,6 +1,4 @@
-"""
-The home page representation module.
-"""
+"""The home page representation module."""
 
 from playwright.sync_api import Page
 
@@ -14,6 +12,7 @@ class HomePage(POMPage):
     ----------
     page : `Page`
         Playwright page instance.
+
     """
 
     title = 'Домашняя страница'

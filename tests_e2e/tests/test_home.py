@@ -8,6 +8,7 @@ class TestHomePage(POMBaseTest):
     """Test home page class."""
 
     def setUp(self) -> None:
+        """Set up test data."""
         self.home_page = HomePage(self.page)
         url = f'{self.site_host}{self.home_page.path}'
         self.home_page.navigate(url=url)

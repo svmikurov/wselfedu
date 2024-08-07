@@ -1,12 +1,10 @@
-"""
-Save storage state for Playwright tests module.
+"""Save storage state for Playwright tests module.
 
-See also:
----------
-    * Playwright: `reusing signed in state <https://playwright.dev/python/docs/auth#reusing-signed-in-state>`_
+See Also
+--------
+   * Playwright: `reusing signed in state <https://playwright.dev/python/docs/auth#reusing-signed-in-state>`_
 
-.. # noqa: E501
-"""
+"""  # noqa: E501
 
 import os
 

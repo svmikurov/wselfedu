@@ -1,3 +1,5 @@
+"""E2E test mathematical calculation conditions choice page module."""
+
 from unittest import skip
 
 from playwright.sync_api import expect

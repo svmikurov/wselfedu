@@ -1,3 +1,5 @@
+"""Test lookup params for word study task."""
+
 from datetime import datetime, timedelta, timezone
 
 from django.test import TestCase

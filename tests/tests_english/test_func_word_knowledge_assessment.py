@@ -1,3 +1,5 @@
+"""Test word knowledge processing module."""
+
 from unittest import skip
 
 from django.test import TestCase
@@ -15,12 +17,12 @@ MAX_KNOWLEDGE_ASSESSMENT = 11
 
 
 class TestWordsKnowledgeAssessment(TestCase):
-    """Test of updating in the database of user assessment
-    of word knowledge."""
+    """Test of updating in the database of user assessment."""
 
     fixtures = ['tests/tests_english/fixtures/wse-fixtures.json']
 
     def setUp(self):
+        """Set up test data."""
         self.user = UserModel.objects.get(pk=2)
         self.word_min_assessment = WordModel.objects.get(pk=6)  # 0
         self.word_max_assessment = WordModel.objects.get(pk=5)  # 11
@@ -79,8 +81,7 @@ class TestWordsKnowledgeAssessment(TestCase):
 
     @skip
     def test_min_knowledge_assessment(self):
-        """Test to reduce the minimum level of user assessment
-        of word knowledge."""
+        """Test to reduce the minimum level of user assessment."""
         self.client.force_login(self.user)
         self.client.post(self.min_assessment_url, self.assessment_down)
         given_assessment = get_knowledge_assessment(
@@ -91,9 +92,7 @@ class TestWordsKnowledgeAssessment(TestCase):
 
     @skip
     def test_max_knowledge_assessment(self):
-        """
-        Test to increase the maximum level of user assessment
-        of word knowledge."""
+        """Test to increase the maximum level of user assessment."""
         self.client.force_login(self.user)
         self.client.post(self.max_assessment_url, self.assessment_up)
         given_assessment = get_knowledge_assessment(

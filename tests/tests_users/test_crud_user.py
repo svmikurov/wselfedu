@@ -1,3 +1,5 @@
+"""Test crude user."""
+
 from django.test import TestCase
 from django.urls import reverse, reverse_lazy
 

@@ -13,7 +13,7 @@ class TestNavbarPageComponent(POMBaseTest):
     fixtures = ['tests_e2e/fixtures/fixture-db-user.json']
 
     def setUp(self):
-        """Setup test data."""
+        """Set up test data."""
         super().setUp()
         host = str(self.live_server_url)
         self.home_page = HomePage(self.page, host=host)

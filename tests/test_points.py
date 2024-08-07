@@ -14,7 +14,7 @@ class TestAddPoint(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        """Setup test data."""
+        """Set up test data."""
         cls.user1 = UserModel.objects.create(
             username='user1',
         )

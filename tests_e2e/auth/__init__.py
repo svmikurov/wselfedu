@@ -1,3 +1,1 @@
-"""
-Storage state for Playwright tests package.
-"""
+"""Storage state for Playwright tests package."""

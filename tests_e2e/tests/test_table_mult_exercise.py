@@ -1,3 +1,5 @@
+"""E2E test table multiplication exercise page module."""
+
 from unittest import skip
 
 from django.core.cache import cache

@@ -1,8 +1,10 @@
+"""E2E test profile page module."""
+
 from unittest import skip
 
 from playwright.sync_api import expect
 
-from tests_e2e.pages.account import AccountPage
+from tests_e2e.pages.account import ProfilePage
 from tests_e2e.pages.math_calculate_solution import MathCalculateSolutionPage
 from tests_e2e.pages.user import authorize_the_page
 from tests_e2e.tests.base import POMBaseTest
@@ -15,10 +17,11 @@ class TestProfile(POMBaseTest):
     fixtures = ['tests_e2e/fixtures/fixture-db-user.json']
 
     def setUp(self):
+        """Set up page data."""
         self.host = str(self.live_server_url)
         authorize_the_page(self.page, self.host)
         self.user_id = UserModel.objects.get(username='test-user').pk
-        self.profile = AccountPage(self.page)
+        self.profile = ProfilePage(self.page)
         self.url = f'{self.host}/users/{self.user_id}/account'
 
     @skip

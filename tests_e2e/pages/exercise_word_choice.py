@@ -1,6 +1,4 @@
-"""
-The word choice for word study exercise page representation module.
-"""
+"""The word choice for word study exercise page representation."""
 
 from playwright.sync_api import Page
 
@@ -8,8 +6,7 @@ from tests_e2e.pages.base import POMPage
 
 
 class WordChoiceExercisePage(POMPage):
-    """The word choice for word study exercise page representation
-    class.
+    """The word choice for word study exercise page representation.
 
     Parameters
     ----------
@@ -17,7 +14,7 @@ class WordChoiceExercisePage(POMPage):
         Playwright page instance.
 
     Attributes
-    -----------
+    ----------
     path : `str`
         It page path schema.
     timeout_input : `Locator`
@@ -26,6 +23,7 @@ class WordChoiceExercisePage(POMPage):
         The question word language display choice locator.
     submit_button : 'Locator'
         The submit button locator.
+
     """
 
     title = 'Выбор слов для изучения'
@@ -54,6 +52,7 @@ class WordChoiceExercisePage(POMPage):
         task_timeout : `str`, optional
             Time value to display word without translate, sec (the
             default is 1 sec).
+
         """
         self.timeout_input.fill(task_timeout)
         self.language_order.select_option(question_language)

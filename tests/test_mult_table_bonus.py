@@ -10,7 +10,7 @@ class TestMultTableForBonus(TestCase):
     """Test task manager class."""
 
     def setUp(self):
-        """Setup test data."""
+        """Set up test data."""
         self.user = UserModel.objects.create(username='user')
 
     def test_start_table_mult_exercise(self):
