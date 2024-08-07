@@ -1,4 +1,5 @@
 """The home page representation test module."""
+
 from urllib.parse import urljoin
 
 from tests_e2e.pages.home import HomePage
