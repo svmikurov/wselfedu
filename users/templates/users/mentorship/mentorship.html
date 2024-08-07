@@ -12,7 +12,7 @@
     {% for mentorship in mentorship_mentors %}
       <li>
         {{ mentorship.mentor_name }}
-        <form action="{% url 'users:delete_mentorship' user.pk %}"
+        <form action="{% url 'users:delete_mentorship' mentorship.id %}"
               method="post" style="display: inline">{% csrf_token %}
           <input value="Отказаться"
                  type="submit"
