@@ -90,6 +90,8 @@ class CheckUserOwnershipMixin(
     def check_ownership(self) -> bool:
         """Check if the user is the owner of the object.
 
+        Checks by ``get_object().user`` attribute.
+
         Returns
         -------
         `bool`
@@ -113,10 +115,20 @@ class CheckObjectOwnershipMixin(
     HandleNoPermissionMixin,
     UserPassesTestMixin,
 ):
-    """Checking user ownership of an object."""
+    """Checking user ownership of account."""
 
     def check_ownership(self) -> bool:
-        """Check if the user is the owner of the object."""
+        """Check if the user is the owner of account.
+
+        Checks by ``get_object()`` method.
+
+        Returns
+        -------
+        `bool`
+            Return the `True` if the user is the owner of account,
+            otherwise return the `False`.
+
+        """
         current_user = self.request.user
         specified_user = self.get_object()
         return current_user == specified_user
