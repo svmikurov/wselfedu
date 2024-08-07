@@ -121,12 +121,25 @@ class CheckObjectOwnershipMixin(
         """Check if the user is the owner of account.
 
         Checks by ``get_object()`` method.
+        Use with ``DetailView`` class.
 
-        Returns
-        -------
+        Return
+        ------
         `bool`
             Return the `True` if the user is the owner of account,
             otherwise return the `False`.
+
+        Example
+        -------
+        Use where user verification of account ownership is needed.
+
+        .. code-block: python
+
+           class OwnershipNeededView(
+               CheckObjectOwnershipMixin,
+               DetailView,
+           ):
+               model = UserModel
 
         """
         current_user = self.request.user
