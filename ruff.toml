@@ -26,7 +26,7 @@ select = [
     "C90",  # mccabe: https://pypi.org/project/mccabe/
 #    "UP",   # pyupgrade: https://pypi.org/project/pyupgrade/
 #    "YTT",  # flake8-2020: https://pypi.org/project/flake8-2020/
-#    "ANN",  # flake8-annotations: https://pypi.org/project/flake8-annotations/
+    "ANN",  # flake8-annotations: https://pypi.org/project/flake8-annotations/
 #    "S",    # flake8-bandit: https://pypi.org/project/flake8-bandit/
 #    "BLE",  # flake8-blind-except: https://pypi.org/project/flake8-blind-except/
 #    "FBT",  # flake8-boolean-trap: https://pypi.org/project/flake8-boolean-trap/
