@@ -3,10 +3,14 @@
 from django.http import HttpRequest
 
 from task.points import get_points_balance
+from users.models import Mentorship
 
 
-def add_points_balance(request: HttpRequest) -> dict:
-    """Add user points balance to template context.
+def add_student_user_data(request: HttpRequest) -> dict:
+    """Add student user data to template context.
+
+    Adds if user has mentor.
+    Adds user points balance to template context.
 
     Parameters
     ----------
@@ -16,14 +20,16 @@ def add_points_balance(request: HttpRequest) -> dict:
     Return
     ------
     context : `dict`
-        Template context dictionary with fields:
+        Template context dictionary, may hase fields:
 
         - ``balance``: current user points balance (`int`).
 
     """
+    context = {}
     user_id = request.user.id
-    balance = get_points_balance(user_id)
-    context = {
-        'balance': balance,
-    }
+    user_has_mentor = Mentorship.objects.filter(student=user_id).exists()
+
+    if user_has_mentor:
+        context.update(balance=get_points_balance(user_id))
+
     return context

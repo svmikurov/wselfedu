@@ -1,6 +1,6 @@
 <nav id="nav" class="navbar navbar-expand-sm navbar-dark bg-dark">
   <div class="container-fluid">
-    {% if user.is_authenticated %}
+    {% if balance %}
       <a class="navbar-brand" href="{% url 'home' %}">
         * WSE * Баланс: <span id="balance">{{ balance }}</span> *
       </a>
