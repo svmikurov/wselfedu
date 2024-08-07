@@ -19,19 +19,6 @@ class PageFixtureTestCase(StaticLiveServerTestCase):
     """Use Playwright page fixture with StaticLiveServerTestCase.
 
     The page fixture is set in the test function scope.
-
-    Example:
-    -------
-    Use to get an authorized page:
-
-        class TestPage(PageFixtureTestCase):
-
-            fixtures = ['tests_e2e/fixtures/fixture-db-user']
-
-            def setUp(self):
-                authorize_the_page(self.page, self.live_server_url)
-                self.page.goto(self.live_server_url)
-
     """
 
     @pytest.fixture(autouse=True)
@@ -60,5 +47,21 @@ class PageFixtureTestCase(StaticLiveServerTestCase):
         return self.live_server_url
 
 
-class POMBaseTest(PageFixtureTestCase):
-    """Base class for testing Page Object Model instance page."""
+class POMTest(PageFixtureTestCase):
+    """Base class for testing Page Object Model instance page.
+
+    Example
+    -------
+    Use to get an authorized page:
+
+    .. code-block:: python
+
+       class TestPage(POMTest):
+
+          fixtures = ['tests_e2e/fixtures/fixture-db-user']
+
+          def setUp(self):
+              authorize_the_page(self.page, self.live_server_url)
+              self.page.goto(self.live_server_url)
+
+    """

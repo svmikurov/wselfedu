@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 
 from tests_e2e.pages.home import HomePage
 from tests_e2e.pages.user import LoginPage
-from tests_e2e.tests.base import POMBaseTest
+from tests_e2e.tests.base import POMTest
 
 load_dotenv('./.env_vars/.env.wse')
 
@@ -27,7 +27,7 @@ STATE_PATH = 'tests_e2e/auth/state.json'
 """
 
 
-class TestGetAuthState(POMBaseTest):
+class TestGetAuthState(POMTest):
     """Get auth state class."""
 
     def test_get_auth_state(self) -> None:

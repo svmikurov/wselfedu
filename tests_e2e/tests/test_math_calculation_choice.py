@@ -8,11 +8,11 @@ from tests_e2e.pages.math_calculate_choice import (
     MathCalculateChoicePage,
 )
 from tests_e2e.pages.user import authorize_the_page
-from tests_e2e.tests.base import POMBaseTest
+from tests_e2e.tests.base import POMTest
 
 
 @skip('Tests are not stable. The expected page uses ajax.')
-class TestMathCalculateChoicePage(POMBaseTest):
+class TestMathCalculateChoicePage(POMTest):
     """Mathematical calculation conditions page test class."""
 
     fixtures = ['tests_e2e/fixtures/fixture-db-user']

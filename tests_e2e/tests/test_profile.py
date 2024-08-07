@@ -7,11 +7,11 @@ from playwright.sync_api import expect
 from tests_e2e.pages.account import ProfilePage
 from tests_e2e.pages.math_calculate_solution import MathCalculateSolutionPage
 from tests_e2e.pages.user import authorize_the_page
-from tests_e2e.tests.base import POMBaseTest
+from tests_e2e.tests.base import POMTest
 from users.models import UserModel
 
 
-class TestProfile(POMBaseTest):
+class TestProfile(POMTest):
     """Test account page."""
 
     fixtures = ['tests_e2e/fixtures/fixture-db-user.json']

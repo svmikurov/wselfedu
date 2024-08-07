@@ -1,10 +1,10 @@
 """The home page representation test module."""
 
 from tests_e2e.pages.home import HomePage
-from tests_e2e.tests.base import POMBaseTest
+from tests_e2e.tests.base import POMTest
 
 
-class TestHomePage(POMBaseTest):
+class TestHomePage(POMTest):
     """Test home page class."""
 
     def setUp(self) -> None:

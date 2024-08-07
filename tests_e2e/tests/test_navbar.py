@@ -4,10 +4,10 @@ from playwright.sync_api import expect
 
 from tests_e2e.pages.home import HomePage
 from tests_e2e.pages.navbar import NavbarPageComponent
-from tests_e2e.tests.base import POMBaseTest
+from tests_e2e.tests.base import POMTest
 
 
-class TestNavbarPageComponent(POMBaseTest):
+class TestNavbarPageComponent(POMTest):
     """Test navbar page component."""
 
     fixtures = ['tests_e2e/fixtures/fixture-db-user.json']

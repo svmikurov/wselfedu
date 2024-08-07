@@ -12,7 +12,7 @@ from tests_e2e.pages.user import (
     LoginPage,
     authorize_the_page,
 )
-from tests_e2e.tests.base import POMBaseTest
+from tests_e2e.tests.base import POMTest
 from users.models import UserModel
 
 load_dotenv('./.env_vars/.env.wse')
@@ -32,7 +32,7 @@ USER_PASS = os.getenv('TEST_USER_PASS')
 """
 
 
-class TestCreateUserPage(POMBaseTest):
+class TestCreateUserPage(POMTest):
     """Create user page test class."""
 
     def test_create_user_page(self) -> None:
@@ -49,7 +49,7 @@ class TestCreateUserPage(POMBaseTest):
         assert UserModel.objects.filter(username=CREATE_USER_NAME).exists()
 
 
-class TestLogitPage(POMBaseTest):
+class TestLogitPage(POMTest):
     """Login page test."""
 
     fixtures = ['tests_e2e/fixtures/fixture-db-user.json']
@@ -65,7 +65,7 @@ class TestLogitPage(POMBaseTest):
         expect(login_page.page).to_have_title(HomePage.title)
 
 
-class TestDeleteUserPage(POMBaseTest):
+class TestDeleteUserPage(POMTest):
     """Test delete user page class."""
 
     fixtures = ['tests_e2e/fixtures/fixture-db-user.json']
