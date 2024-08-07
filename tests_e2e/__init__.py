@@ -8,4 +8,4 @@ See also:
     * `playwright-python-tutorial <https://github.com/mxschmitt/playwright-python-tutorial.git>`_
     * `python-django-playwright <https://github.com/mxschmitt/python-django-playwright.git>`_
     * `playwright-python-docker-example <https://github.com/mxschmitt/playwright-python-docker-example.git>`_
-"""
+"""     # noqa: E501
