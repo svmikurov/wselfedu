@@ -3,7 +3,9 @@
 import django_filters
 from django import forms
 from django.db.models import F, Q
+from django.db.models.query import QuerySet
 from django.forms import TextInput
+from django.http import HttpRequest
 
 from english.models import (
     CategoryModel,
@@ -14,14 +16,14 @@ from english.orm_queries.word_knowledge_assessment import (
 )
 
 
-def category_by_current_user(request):
+def category_by_current_user(request: HttpRequest) -> QuerySet:
     """Return only user categories."""
     if request is None:
         return CategoryModel.objects.none()
     return CategoryModel.objects.filter(user=request.user)
 
 
-def source_by_current_user(request):
+def source_by_current_user(request: HttpRequest) -> QuerySet:
     """Return only users sources."""
     if request is None:
         return SourceModel.objects.none()
@@ -88,14 +90,22 @@ class WordsFilter(django_filters.FilterSet):
     )
 
     @staticmethod
-    def filter_word_by_any_translation(queryset, name, value):
+    def filter_word_by_any_translation(
+        queryset: QuerySet,
+        name: object,
+        value: object,
+    ) -> QuerySet:
         """Find a word in English or Russian."""
         return queryset.filter(
             Q(word_eng__icontains=value) | Q(word_rus__icontains=value)
         )
 
     @staticmethod
-    def get_user_favorite_words(queryset, name, value):
+    def get_user_favorite_words(
+        queryset: QuerySet,
+        name: object,
+        value: object,
+    ) -> QuerySet:
         """Filter words by 'favorites' field."""
         if value:
             queryset = queryset.filter(
@@ -105,7 +115,11 @@ class WordsFilter(django_filters.FilterSet):
         return queryset
 
     @staticmethod
-    def get_filtered_study_stage(queryset, name, value):
+    def get_filtered_study_stage(
+        queryset: QuerySet,
+        name: object,
+        value: object,
+    ) -> QuerySet:
         """Filter words by study stage (knowledge_assessment)."""
         study = WORD_STUDY_ASSESSMENTS.get(value)
         qs = queryset.filter(
@@ -116,7 +130,7 @@ class WordsFilter(django_filters.FilterSet):
         return qs
 
     @staticmethod
-    def get_filter_fields():
+    def get_filter_fields() -> tuple[str, ...]:
         """Get filter fields."""
         return (
             'search_word',

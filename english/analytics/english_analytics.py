@@ -3,9 +3,10 @@
 from django.db.models import F
 
 from english.models import WordLearningStories, WordModel
+from task.tasks import EnglishTranslateExercise
 
 
-def collect_statistics(task) -> None:
+def collect_statistics(task: EnglishTranslateExercise) -> None:
     """Add word display to statistics.
 
     Count word display at ``display_count`` fild of
@@ -13,7 +14,7 @@ def collect_statistics(task) -> None:
 
     Parameters
     ----------
-    task : `english.EnglishTranslateExercise`
+    task : `EnglishTranslateExercise`
         Contain task data.
 
     """

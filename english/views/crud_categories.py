@@ -1,5 +1,10 @@
 """CRUD word category views module."""
 
+from typing import Type
+
+from django.db.models.query import QuerySet
+from django.forms import Form
+from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
@@ -34,7 +39,7 @@ class CategoryCreateView(CheckLoginPermissionMixin, CreateView):
         'btn_name': 'Добавить',
     }
 
-    def form_valid(self, form):
+    def form_valid(self, form: Type[Form]) -> HttpResponse:
         """Add the current user to the form."""
         form.instance.user = self.request.user
         form.save()
@@ -86,7 +91,7 @@ class CategoryListView(CheckLoginPermissionMixin, ListView):
         'title': 'Категории',
     }
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet:
         """Get queryset to specific user."""
         queryset = super().get_queryset().filter(user=self.request.user.pk)
         return queryset

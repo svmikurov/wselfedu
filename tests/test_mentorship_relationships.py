@@ -233,7 +233,7 @@ class AcceptRequestToMentorship(MentorshipTestMixin, TestCase):
     """Test accept the request to mentorship."""
 
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
         """Add users to database."""
         super().setUpClass()
         cls.mentor_request = MentorshipRequest.objects.create(
@@ -244,7 +244,7 @@ class AcceptRequestToMentorship(MentorshipTestMixin, TestCase):
             kwargs={'request_pk': cls.mentor_request.pk},
         )
 
-    def test_accept_mentorship_request_by_mentor(self):
+    def test_accept_mentorship_request_by_mentor(self) -> None:
         """Test access mentorship request by mentor."""
         msg = 'Вы стали наставником student'
         success_redirect_url = reverse_lazy(

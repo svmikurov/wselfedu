@@ -30,7 +30,7 @@ class TestCreateSourceView(TestCase):
 
     fixtures = ['tests/tests_english/fixtures/wse-fixtures-3.json']
 
-    def setUp(self):
+    def setUp(self) -> None:
         """Set up data."""
         self.client: Client = Client()
         user_id = 3
@@ -38,13 +38,13 @@ class TestCreateSourceView(TestCase):
         self.create_data = {'name': 'new source'}
         self.url = reverse_lazy(CREATE_SOURCE_PATH)
 
-    def test_get_method_create_source_by_user(self):
+    def test_get_method_create_source_by_user(self) -> None:
         """Test create source by logged-in user."""
         self.client.force_login(self.user)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
-    def test_post_method_create_source_by_user(self):
+    def test_post_method_create_source_by_user(self) -> None:
         """Test create source by logged-in user."""
         self.client.force_login(self.user)
         response = self.client.post(self.url, self.create_data)
@@ -53,7 +53,7 @@ class TestCreateSourceView(TestCase):
         flash_message_test(response, SUCCESS_CREATE_SOURCE_MSG)
         assert SourceModel.objects.filter(name='new source').exists()
 
-    def test_post_method_create_source_by_anonymous(self):
+    def test_post_method_create_source_by_anonymous(self) -> None:
         """Test the permission to create source for an anonymous."""
         response = self.client.post(self.url, self.create_data)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
@@ -66,7 +66,7 @@ class TestUpdateSourceView(TestCase):
 
     fixtures = ['tests/tests_english/fixtures/wse-fixtures-3.json']
 
-    def setUp(self):
+    def setUp(self) -> None:
         """Set up data."""
         user_id = 3
         user_source_id = 1
@@ -77,13 +77,13 @@ class TestUpdateSourceView(TestCase):
         self.url = reverse(UPDATE_SOURCE_PATH, kwargs={'pk': user_source_id})
         self.success_url = reverse_lazy(SOURCE_LIST_PATH)
 
-    def test_get_method_update_source_by_user(self):
+    def test_get_method_update_source_by_user(self) -> None:
         """Test update source by logged-in user."""
         self.client.force_login(self.user)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
-    def test_post_method_update_source_by_user(self):
+    def test_post_method_update_source_by_user(self) -> None:
         """Test update source by logged-in user."""
         self.client.force_login(self.user)
         response = self.client.post(self.url, self.update_data)
@@ -91,7 +91,7 @@ class TestUpdateSourceView(TestCase):
         flash_message_test(response, SUCCESS_UPDATE_SOURCE_MSG)
         assert SourceModel.objects.filter(name='updated source').exists()
 
-    def test_post_method_update_source_by_another_user(self):
+    def test_post_method_update_source_by_another_user(self) -> None:
         """Test the permission to update source for an another user."""
         self.client.force_login(self.another_user)
         response = self.client.post(self.url, self.update_data)
@@ -99,7 +99,7 @@ class TestUpdateSourceView(TestCase):
         flash_message_test(response, NO_PERMISSION_MSG)
         assert not SourceModel.objects.filter(name='updated source').exists()
 
-    def test_post_method_update_source_by_anonymous(self):
+    def test_post_method_update_source_by_anonymous(self) -> None:
         """Test the permission to update source for an anonymous."""
         response = self.client.post(self.url, self.update_data)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
@@ -112,7 +112,7 @@ class TestDeleteSourceView(TestCase):
 
     fixtures = ['tests/tests_english/fixtures/wse-fixtures-3.json']
 
-    def setUp(self):
+    def setUp(self) -> None:
         """Set up data."""
         user_id = 3
         self.user_source_id = 5
@@ -131,13 +131,13 @@ class TestDeleteSourceView(TestCase):
         self.success_url = reverse(SOURCE_LIST_PATH)
         self.protected_redirect = reverse(SOURCE_LIST_PATH)
 
-    def test_get_method_delete_source_by_user(self):
+    def test_get_method_delete_source_by_user(self) -> None:
         """Test delete source by logged-in user."""
         self.client.force_login(self.user)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
-    def test_post_method_delete_source_by_user(self):
+    def test_post_method_delete_source_by_user(self) -> None:
         """Test delete source by logged-in user."""
         self.client.force_login(self.user)
         response = self.client.post(self.url)
@@ -145,7 +145,7 @@ class TestDeleteSourceView(TestCase):
         flash_message_test(response, SUCCESS_DELETE_SOURCE_MSG)
         assert not SourceModel.objects.filter(pk=self.user_source_id).exists()
 
-    def test_post_method_delete_source_by_another_user(self):
+    def test_post_method_delete_source_by_another_user(self) -> None:
         """Test the permission to delete source for another user."""
         self.client.force_login(self.another_user)
         response = self.client.get(self.url)
@@ -153,14 +153,14 @@ class TestDeleteSourceView(TestCase):
         flash_message_test(response, NO_PERMISSION_MSG)
         assert SourceModel.objects.filter(pk=self.user_source_id).exists()
 
-    def test_post_method_delete_source_by_anonymous(self):
+    def test_post_method_delete_source_by_anonymous(self) -> None:
         """Test the permission to delete source for an anonymous."""
         response = self.client.post(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
         assert SourceModel.objects.filter(pk=self.user_source_id).exists()
 
-    def test_delete_protected_source(self):
+    def test_delete_protected_source(self) -> None:
         """Test delete protected source."""
         self.client.force_login(self.user)
         response = self.client.post(self.protected_url)
@@ -176,14 +176,14 @@ class TestSourceListView(TestCase):
 
     fixtures = ['tests/tests_english/fixtures/wse-fixtures-3.json']
 
-    def setUp(self):
+    def setUp(self) -> None:
         """Set up data."""
         self.client: Client = Client()
         self.user_id = 3
         self.user = UserModel.objects.get(pk=self.user_id)
         self.url = reverse(SOURCE_LIST_PATH)
 
-    def test_show_source_list_to_specific_user(self):
+    def test_show_source_list_to_specific_user(self) -> None:
         """Test display specific source list to specific user."""
         self.client.force_login(self.user)
         response = self.client.get(self.url)
@@ -197,7 +197,7 @@ class TestSourceListView(TestCase):
         user_ids = set(sources.values_list('user', flat=True))
         self.assertTrue(*user_ids, self.user_id)
 
-    def test_show_source_list_to_anonymous(self):
+    def test_show_source_list_to_anonymous(self) -> None:
         """Test display a source list for an anonymous."""
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
@@ -209,7 +209,7 @@ class TestSourceDetailView(TestCase):
 
     fixtures = ['tests/tests_english/fixtures/wse-fixtures-3.json']
 
-    def setUp(self):
+    def setUp(self) -> None:
         """Set up data."""
         self.client: Client = Client()
         user_id = 3
@@ -219,20 +219,20 @@ class TestSourceDetailView(TestCase):
         self.another_user = UserModel.objects.get(pk=another_user_id)
         self.url = reverse(DETAIL_SOURCE_PATH, kwargs={'pk': user_source_id})
 
-    def test_show_source_detail_to_user(self):
+    def test_show_source_detail_to_user(self) -> None:
         """Test show source detail to user, page status 200."""
         self.client.force_login(self.user)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
-    def test_show_source_detail_to_another_user(self):
+    def test_show_source_detail_to_another_user(self) -> None:
         """Test display a source detail for another user."""
         self.client.force_login(self.another_user)
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)
         flash_message_test(response, NO_PERMISSION_MSG)
 
-    def test_show_source_detail_to_anonymous(self):
+    def test_show_source_detail_to_anonymous(self) -> None:
         """Test display source details for an anonymous."""
         response = self.client.get(self.url)
         self.assertRedirects(response, NO_PERMISSION_URL, 302)

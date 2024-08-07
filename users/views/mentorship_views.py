@@ -3,7 +3,12 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import F
-from django.http import HttpRequest, HttpResponse
+from django.http import (
+    HttpRequest,
+    HttpResponse,
+    HttpResponseBase,
+    HttpResponseRedirect,
+)
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
@@ -27,7 +32,7 @@ class MentorshipView(CheckObjectOwnershipMixin, DetailView):
     model = UserModel
     template_name = 'users/mentorship/mentorship.html'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs: object) -> dict[str, object]:
         """Add data to context."""
         mentorship_request_mentors = (
             MentorshipRequest.objects.filter(from_user=self.request.user)
@@ -81,14 +86,21 @@ class AddWordByMentorToStudentViewRedirect(RedirectView):
     """Url to redirect.
     """
 
-    def get(self, request, *args, **kwargs):
+    def get(
+        self,
+        request: HttpRequest,
+        *args: object,
+        **kwargs: object,
+    ) -> HttpResponseBase:
         """Add student id to session."""
         request.session['student'] = kwargs.get('student')
         response = super().get(request, *args, **kwargs)
         return response
 
 
-def redirect_to_mentorship_profile(request):
+def redirect_to_mentorship_profile(
+    request: HttpRequest,
+) -> HttpResponseRedirect:
     """Redirect to profile page."""
     url = reverse_lazy(
         'users:mentorship_profile', kwargs={'pk': request.user.id}
@@ -107,7 +119,12 @@ class AddExerciseDataView(TemplateView):
 
     template_name = 'users/mentorship/add_data.html'
 
-    def get(self, request, *args, **kwargs):
+    def get(
+        self,
+        request: HttpRequest,
+        *args: object,
+        **kwargs: object,
+    ) -> HttpResponse:
         """Add student id to session."""
         request.session['student_id'] = kwargs['student_id']
         response = super().get(request, *args, **kwargs)

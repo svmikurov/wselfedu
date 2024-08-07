@@ -231,7 +231,12 @@ class DeleteWithProfileRedirectView(
     success_url = None
     protected_redirect_url = reverse_lazy('home')
 
-    def setup(self, request, *args, **kwargs) -> None:
+    def setup(
+        self,
+        request: HttpRequest,
+        *args: object,
+        **kwargs: object,
+    ) -> None:
         """Set success url."""
         super().setup(request, *args, **kwargs)
         self.success_url = reverse_lazy(

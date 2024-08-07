@@ -44,7 +44,7 @@ value : `int`
 """
 
 
-def get_knowledge_assessment(word_id, user_id):
+def get_knowledge_assessment(word_id: int, user_id: int) -> None:
     """Get or create a user rating of word knowledge.
 
     Get or create a user rating of word knowledge in the database.
@@ -61,7 +61,11 @@ def get_knowledge_assessment(word_id, user_id):
         return knowledge_assessment
 
 
-def update_word_knowledge_assessment(word_pk, user_pk, new_assessment):
+def update_word_knowledge_assessment(
+    word_pk: int,
+    user_pk: int,
+    new_assessment: int,
+) -> None:
     """Update the user's word knowledge score.
 
     Update the user's word knowledge score in the database, within the

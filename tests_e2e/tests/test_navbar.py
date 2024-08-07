@@ -12,14 +12,14 @@ class TestNavbarPageComponent(POMTest):
 
     fixtures = ['tests_e2e/fixtures/fixture-db-user.json']
 
-    def setUp(self):
+    def setUp(self) -> None:
         """Set up test data."""
         super().setUp()
         host = str(self.live_server_url)
         self.home_page = HomePage(self.page, host=host)
         self.navbar = NavbarPageComponent(self.page)
 
-    def test_tutorial_link(self):
+    def test_tutorial_link(self) -> None:
         """Test tutorial link."""
         self.home_page.navigate()
         self.navbar.expand_menu()

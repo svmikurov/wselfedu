@@ -129,7 +129,7 @@ class EnglishTaskSettings(models.Model):
         verbose_name='Добавлено до',
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Represent an instance as a string."""
         return f'{self.user} настройки'
 

@@ -1,6 +1,7 @@
 """Select condition for mathematical calculation exercise page."""
 
 import datetime
+from typing import Optional
 
 from playwright.sync_api import Page
 
@@ -14,7 +15,7 @@ class MathCalculateChoicePage(POMPage):
     """Mathematical calculation conditions page title.
     """
 
-    def __init__(self, page: Page, host=None) -> None:
+    def __init__(self, page: Page, host: Optional[str] = None) -> None:
         """Mathematical calculation conditions page constructor."""
         super().__init__(page)
         self.host = host

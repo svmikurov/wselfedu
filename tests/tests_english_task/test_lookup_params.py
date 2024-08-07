@@ -2,6 +2,7 @@
 
 from datetime import datetime, timedelta, timezone
 
+from django.db.models.query import QuerySet
 from django.test import TestCase
 
 from english.models import WordModel
@@ -14,40 +15,40 @@ class LookupParamsTest(TestCase):
     fixtures = ['tests/tests_english_task/fixtures/wse-fixtures-4.json']
 
     @classmethod
-    def setUp(cls):
+    def setUp(cls) -> None:
         """Set up database data."""
 
-    def test_lookup_by_user_id(self):
+    def test_lookup_by_user_id(self) -> None:
         """Test filter words by user."""
         form_data = {'user_id': 3}
         queryset = self.query_database(form_data)
         self.assertQuerySetEqual(queryset, [*range(1, 11)])
 
-    def test_lookup_by_category(self):
+    def test_lookup_by_category(self) -> None:
         """Test filter words by category."""
         form_data = {'category': 4}
         queryset = self.query_database(form_data)
         self.assertQuerySetEqual(queryset, [4])
 
-    def test_lookup_by_source(self):
+    def test_lookup_by_source(self) -> None:
         """Test filter words by source."""
         form_data = {'source': 3}
         queryset = self.query_database(form_data)
         self.assertQuerySetEqual(queryset, [4])
 
-    def test_lookup_by_favorites_true(self):
+    def test_lookup_by_favorites_true(self) -> None:
         """Test filter words by only favorite words is `True`."""
         form_data = {'user_id': 3, 'favorites': True}
         queryset = self.query_database(form_data)
         self.assertQuerySetEqual(queryset, [3, 7])
 
-    def test_lookup_by_favorites_false(self):
+    def test_lookup_by_favorites_false(self) -> None:
         """Test filter words by only favorite words is `False`."""
         form_data = {'user_id': 3, 'favorites': False}
         queryset = self.query_database(form_data)
         self.assertQuerySetEqual(queryset, [*range(1, 11)])
 
-    def test_lookup_by_knowledge_assessment(self):
+    def test_lookup_by_knowledge_assessment(self) -> None:
         """Test filter words by word knowledge assessment."""
         form_data = {'user_id': 3, 'knowledge_assessment': []}
         queryset = self.query_database(form_data)
@@ -65,7 +66,7 @@ class LookupParamsTest(TestCase):
         queryset = self.query_database(form_data)
         self.assertQuerySetEqual(queryset, [5, 6, 9])
 
-    def test_lookup_by_word_count(self):
+    def test_lookup_by_word_count(self) -> None:
         """Test filter words by word count."""
         # no choice
         form_data = {'user_id': 3, 'word_count': []}
@@ -82,7 +83,7 @@ class LookupParamsTest(TestCase):
         queryset = self.query_database(form_data)
         self.assertQuerySetEqual(queryset, [5])
 
-    def test_lookup_by_date(self):
+    def test_lookup_by_date(self) -> None:
         """Test filter words by word added date."""
         # test no choice start period
         today = datetime.now(tz=timezone.utc)
@@ -126,9 +127,9 @@ class LookupParamsTest(TestCase):
         self.assertQuerySetEqual(queryset, [2])
 
     @staticmethod
-    def query_database(form_data):
+    def query_database(form_data: dict['str', object]) -> QuerySet:
         """Make a query to the database by form data."""
         lookup_params = LookupParams(form_data).params
         queryset = WordModel.objects.filter(*lookup_params)
-        queryset = queryset.values_list('id', flat=True)
-        return queryset
+        ids = queryset.values_list('id', flat=True)
+        return ids

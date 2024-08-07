@@ -15,7 +15,7 @@ class TestPagination(TestCase):
 
     fixtures = ['tests/tests_english/fixtures/wse-fixtures-3.json']
 
-    def setUp(self):
+    def setUp(self) -> None:
         """Set up data."""
         self.client: Client = Client()
         user_id = 3
@@ -43,7 +43,7 @@ class TestPagination(TestCase):
                 ),  # noqa: E501
             )
 
-    def test_to_filter_paginated_page(self):
+    def test_to_filter_paginated_page(self) -> None:
         """Test next page is also shown filtered by category words."""
         expected_category_variety = 1
         self.client.force_login(self.user)

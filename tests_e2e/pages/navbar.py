@@ -14,7 +14,7 @@ class NavbarPageComponent(POMPage):
         self.tutorial_link = self.page.get_by_text('Справочник пользователя')
         self.toggle_btn = self.page.get_by_label('Toggle navigation')
 
-    def expand_menu(self):
+    def expand_menu(self) -> None:
         """Expand the menu."""
         if self.toggle_btn.is_visible():
             self.toggle_btn.click()

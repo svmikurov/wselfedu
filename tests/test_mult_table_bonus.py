@@ -9,11 +9,11 @@ from users.models import UserModel
 class TestMultTableForBonus(TestCase):
     """Test task manager class."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         """Set up test data."""
         self.user = UserModel.objects.create(username='user')
 
-    def test_start_table_mult_exercise(self):
+    def test_start_table_mult_exercise(self) -> None:
         """Test redirect to exercise."""
         url_start_exercise = reverse_lazy('task:math_set_table_mult_points')
         redirect_url = reverse_lazy('task:math_calculate_solution')

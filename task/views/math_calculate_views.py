@@ -1,6 +1,11 @@
 """Calculate exercise views."""
 
-from django.http import HttpRequest, JsonResponse
+from django.http import (
+    HttpRequest,
+    HttpResponse,
+    HttpResponseRedirect,
+    JsonResponse,
+)
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
@@ -18,7 +23,12 @@ class MathCalculateChoiceView(TemplateView):
     template_name = 'task/mathem/math_calculate_choice.html'
     form = MathCalculationChoiceForm
 
-    def get(self, request, *args, **kwargs):
+    def get(
+        self,
+        request: HttpRequest,
+        *args: object,
+        **kwargs: object,
+    ) -> HttpResponseRedirect | HttpResponse:
         """Check form view."""
         form = self.form(request.GET, request=request)
 
@@ -51,7 +61,7 @@ class MathCalculateDemoView(View):
 
     template_name = 'task/mathem/math_calculate_demo.html'
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: HttpRequest) -> JsonResponse | HttpResponse:
         """Render the task page and update tasks later on the page."""
         task_conditions = request.session['task_conditions']
         task = CalculationExercise(**task_conditions)
@@ -86,14 +96,14 @@ class MathCalculateSolutionView(TemplateView):
 
     template_name = 'task/mathem/math_calculate_solution.html'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs: object) -> dict[str, object]:
         """Add form with title to context."""
         context = super().get_context_data()
         context['form'] = NumberInputForm()
         context['title'] = 'Вычисления с вводом ответа'
         return context
 
-    def post(self, request):
+    def post(self, request: HttpRequest) -> JsonResponse:
         """Accept user's answer for verification."""
         form = NumberInputForm(request.POST)
 

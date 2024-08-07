@@ -1,6 +1,7 @@
 """User word list view module."""
 
 from django.db.models import F, Q
+from django.db.models.query import QuerySet
 from django_filters.views import FilterView
 
 from contrib.mixins_views import CheckObjectOwnershipMixin
@@ -20,7 +21,7 @@ class UserWordListView(
         'title': 'Изучаемые слова',
     }
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet:
         """Get user word list with relations."""
         user_favorites = WordModel.objects.filter(
             wordsfavoritesmodel__word_id=F('pk'),

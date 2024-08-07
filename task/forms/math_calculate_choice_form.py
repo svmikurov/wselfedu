@@ -1,5 +1,7 @@
 """Calculate exercise conditions choice form."""
 
+from typing import Any
+
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Column, Field, Layout, Row, Submit
 from django import forms
@@ -42,12 +44,12 @@ class MathCalculationChoiceForm(forms.Form):
         label='С вводом ответа',
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Add attribute ``request`` for rendering messages at page."""
         self.request = kwargs.pop('request')
         super(MathCalculationChoiceForm, self).__init__(*args, **kwargs)
 
-    def clean(self):
+    def clean(self) -> dict[str, Any]:
         """Validate the entered by form task conditions."""
         cleaned_data = super().clean()
         min_value = cleaned_data.get('min_value')
@@ -71,7 +73,7 @@ class MathCalculationChoiceForm(forms.Form):
         return cleaned_data
 
     @property
-    def helper(self):
+    def helper(self) -> FormHelper:
         """Django-crispy-form helper."""
         helper = FormHelper()
         helper.form_method = 'GET'

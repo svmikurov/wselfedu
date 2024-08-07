@@ -4,6 +4,7 @@ from crispy_forms.bootstrap import InlineCheckboxes
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Column, Field, Layout, Row, Submit
 from django import forms
+from django.db import models
 
 from english.models import CategoryModel, SourceModel
 
@@ -57,7 +58,7 @@ class EnglishTranslateChoiceForm(forms.Form):
         'source': SourceModel,
     }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: object, **kwargs: dict[str, object]) -> None:
         """Init user's model instances at form fields."""
         user_id = kwargs.pop('request').user.id
         super(EnglishTranslateChoiceForm, self).__init__(*args, **kwargs)
@@ -114,7 +115,7 @@ class EnglishTranslateChoiceForm(forms.Form):
         label='Время на ответ (сек)',
     )
 
-    def clean(self):
+    def clean(self) -> dict[str, int]:
         """Convert `str` to `int` form values."""
         cleaned_data = super().clean()
         cleaned_data['category'] = self._to_int(cleaned_data, 'category')
@@ -122,13 +123,16 @@ class EnglishTranslateChoiceForm(forms.Form):
         return cleaned_data
 
     @staticmethod
-    def _to_int(cleaned_data, field_name):
+    def _to_int(cleaned_data: dict[str, str], field_name: str) -> int:
         """Convert `str` to `int` field value."""
         field_value = cleaned_data.get(field_name)
         return int(field_value) if field_value else field_value
 
     @staticmethod
-    def _create_choices(model, user_id):
+    def _create_choices(
+        model: models.Model,
+        user_id: id,
+    ) -> list[tuple[int, str]]:
         """Create human-readable choice by model and user_id."""
         model_name = model._meta.verbose_name
         default_choice = (DEFAULT_CREATE_CHOICE_VALUE, model_name)
@@ -144,7 +148,7 @@ class EnglishTranslateChoiceForm(forms.Form):
         return choices
 
     @property
-    def helper(self):
+    def helper(self) -> FormHelper:
         """Structure the form."""
         helper = FormHelper()
         helper.form_method = 'post'

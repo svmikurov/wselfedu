@@ -18,6 +18,6 @@ class ProfilePage(POMPage):
             name='Таблица умножения',
         )
 
-    def start_study_mult_table(self):
+    def start_study_mult_table(self) -> None:
         """Start study the multiplication table."""
         self.mult_table_btn.click()

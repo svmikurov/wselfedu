@@ -21,7 +21,7 @@ class TestWordsKnowledgeAssessment(TestCase):
 
     fixtures = ['tests/tests_english/fixtures/wse-fixtures.json']
 
-    def setUp(self):
+    def setUp(self) -> None:
         """Set up test data."""
         self.user = UserModel.objects.get(pk=2)
         self.word_min_assessment = WordModel.objects.get(pk=6)  # 0
@@ -49,7 +49,7 @@ class TestWordsKnowledgeAssessment(TestCase):
         )
         self.redirect_url = reverse_lazy('english:word_study_question')
 
-    def test_add_knowledge_assessment(self):
+    def test_add_knowledge_assessment(self) -> None:
         """Test get or create knowledge_assessment."""
         new_word_pk = WordModel.objects.create(**self.new_word_data).pk
         self.assertFalse(
@@ -65,7 +65,7 @@ class TestWordsKnowledgeAssessment(TestCase):
         )
 
     @skip
-    def test_update_knowledge_assessment(self):
+    def test_update_knowledge_assessment(self) -> None:
         """Test of user's change in word knowledge assessment."""
         self.client.force_login(self.user)
         self.client.get(reverse_lazy('english:word_choice'))
@@ -80,7 +80,7 @@ class TestWordsKnowledgeAssessment(TestCase):
         self.assertEqual(updated_assessment, self.expected_updated_assessment)
 
     @skip
-    def test_min_knowledge_assessment(self):
+    def test_min_knowledge_assessment(self) -> None:
         """Test to reduce the minimum level of user assessment."""
         self.client.force_login(self.user)
         self.client.post(self.min_assessment_url, self.assessment_down)
@@ -91,7 +91,7 @@ class TestWordsKnowledgeAssessment(TestCase):
         self.assertEqual(given_assessment, MIN_KNOWLEDGE_ASSESSMENT)
 
     @skip
-    def test_max_knowledge_assessment(self):
+    def test_max_knowledge_assessment(self) -> None:
         """Test to increase the maximum level of user assessment."""
         self.client.force_login(self.user)
         self.client.post(self.max_assessment_url, self.assessment_up)

@@ -8,7 +8,7 @@ from users.models import UserModel
 class UserRegistrationForm(UserCreationForm):
     """User registration form."""
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Add data-testid attr value to html tags."""
         super().__init__(*args, **kwargs)
         self.add_attr_for_field('username', {'data-testid': 'username'})
@@ -33,7 +33,7 @@ class UserRegistrationForm(UserCreationForm):
 class UserUpdateForm(UserRegistrationForm):
     """User update form."""
 
-    def clean_username(self):
+    def clean_username(self) -> str:
         """Allow updating existing user data.
 
         Override disables user uniqueness check.

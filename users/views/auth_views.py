@@ -1,5 +1,7 @@
 """Views module authentication user."""
 
+from typing import Optional
+
 from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
@@ -21,7 +23,7 @@ class UserLogoutView(FormMessageMixin, LogoutView):
     next_page = reverse_lazy('home')
     success_message = 'Вы вышли из приложения'
 
-    def get_default_redirect_url(self):
+    def get_default_redirect_url(self) -> Optional[str]:
         """Add success django message."""
         messages.info(self.request, self.success_message)
         return super().get_default_redirect_url()

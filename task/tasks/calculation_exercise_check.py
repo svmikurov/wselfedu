@@ -56,7 +56,7 @@ class CalculationExerciseCheck:
         self.task_id: int | None = None
 
     @property
-    def solution_time(self):
+    def solution_time(self) -> int:
         """Time for user to solve the task (reade-only)."""
         # Temporary solution_time is fixed number.
         return 3

@@ -4,7 +4,7 @@ from task.models import MathematicalExercise, Points
 from users.models import UserModel
 
 
-def get_points_balance(user_id):
+def get_points_balance(user_id: int) -> int:
     """Get user points balance."""
     try:
         balance = (

@@ -1,5 +1,7 @@
 """Word form module."""
 
+from typing import Type
+
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (
     Button,
@@ -11,7 +13,7 @@ from crispy_forms.layout import (
     Row,
     Submit,
 )
-from django.forms import ModelForm
+from django.forms import Form, ModelForm
 
 from english.models import WordModel
 
@@ -32,7 +34,7 @@ class WordForm(ModelForm):
         )
 
     @staticmethod
-    def apply_crispy_helper(form):
+    def apply_crispy_helper(form: Type[Form]) -> FormHelper:
         """Apply crispy form helper for specified WordModel form."""
         form.helper = FormHelper()
         form.helper.layout = Layout(
