@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Base page classes &#8212; wselfedu 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=12dfc556" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="HomePage" href="home.html" />
+    <link rel="prev" title="Pages" href="index.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-tests_e2e.pages.base">
+<span id="base-page-classes"></span><h1>Base page classes<a class="headerlink" href="#module-tests_e2e.pages.base" title="Link to this heading">¶</a></h1>
+<p>The Page Object Model page base class module.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="tests_e2e.pages.base.BasePage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests_e2e.pages.base.</span></span><span class="sig-name descname"><span class="pre">BasePage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Page</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests_e2e.pages.base.BasePage" title="Link to this definition">¶</a></dt>
+<dd><p>Base class representing the page.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="tests_e2e.pages.base.BasePage.url">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#tests_e2e.pages.base.BasePage.url" title="Link to this definition">¶</a></dt>
+<dd><p>Page url.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests_e2e.pages.base.BasePage.navigate">
+<span class="sig-name descname"><span class="pre">navigate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#tests_e2e.pages.base.BasePage.navigate" title="Link to this definition">¶</a></dt>
+<dd><p>Navigate to page.</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h2>
+<dl>
+<dt>host<span class="classifier"><cite>str</cite> | None, optional</span></dt><dd><p>The page host for navigate (page host specified in the
+class representing the page, by default).
+Used to create the page URL.</p>
+</dd>
+<dt>url<span class="classifier"><cite>str</cite> | None, optional</span></dt><dd><p>The page url for navigate (page url specified in the class
+representing the page, by default).</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tests_e2e.pages.base.BaseTests">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests_e2e.pages.base.</span></span><span class="sig-name descname"><span class="pre">BaseTests</span></span><a class="headerlink" href="#tests_e2e.pages.base.BaseTests" title="Link to this definition">¶</a></dt>
+<dd><p>Common page tests class.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tests_e2e.pages.base.BaseTests.page">
+<span class="sig-name descname"><span class="pre">page</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Page</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#tests_e2e.pages.base.BaseTests.page" title="Link to this definition">¶</a></dt>
+<dd><p>Playwright Pyrest page fixture (<cite>Page | None</cite>).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tests_e2e.pages.base.BaseTests.title">
+<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#tests_e2e.pages.base.BaseTests.title" title="Link to this definition">¶</a></dt>
+<dd><p>Page title (<cite>str | None</cite>).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tests_e2e.pages.base.BaseTests.scn_path">
+<span class="sig-name descname"><span class="pre">scn_path</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'tests_e2e/screenshots/'</span></em><a class="headerlink" href="#tests_e2e.pages.base.BaseTests.scn_path" title="Link to this definition">¶</a></dt>
+<dd><p>Path to save page screenshot (<cite>str</cite>).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests_e2e.pages.base.BaseTests.test_title">
+<span class="sig-name descname"><span class="pre">test_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expected_title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#tests_e2e.pages.base.BaseTests.test_title" title="Link to this definition">¶</a></dt>
+<dd><p>Test page title.</p>
+<section id="id1">
+<h2>Parameters<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<dl>
+<dt>expected_title<span class="classifier"><cite>str</cite> | None, optional</span></dt><dd><p>Expected page title (the value of the <code class="docutils literal notranslate"><span class="pre">title</span></code> attribute
+of the class representing the page, by default)</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests_e2e.pages.base.BaseTests.take_screen">
+<span class="sig-name descname"><span class="pre">take_screen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#tests_e2e.pages.base.BaseTests.take_screen" title="Link to this definition">¶</a></dt>
+<dd><p>Take a page screenshot.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tests_e2e.pages.base.POMPage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests_e2e.pages.base.</span></span><span class="sig-name descname"><span class="pre">POMPage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Page</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests_e2e.pages.base.POMPage" title="Link to this definition">¶</a></dt>
+<dd><p>Class representing the testing page with general tests.</p>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">wselfedu</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Справочник пользователя (Tutorial reference)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../development/index.html">Development</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Testing</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../linters/index.html">Linters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../unittests/index.html">Unittests</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Browser testing</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#see-also">See Also</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Pages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tests/index.html">Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fixtures.html">Fixtures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../storage_state.html">Authentication</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../devops/index.html">DevOps</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog/changelog.html">Changelog</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../sources/index.html">Sources</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Testing</a><ul>
+  <li><a href="../index.html">Browser testing</a><ul>
+  <li><a href="index.html">Pages</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Pages</a></li>
+      <li>Next: <a href="home.html" title="next chapter">HomePage</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Sergei Mikurov.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../../../_sources/testing/tests_e2e/pages/base.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

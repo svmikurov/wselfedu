@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Exercises &#8212; wselfedu 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=12dfc556" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Tests" href="../tests/index.html" />
+    <link rel="prev" title="User pages" href="user.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-tests_e2e.pages.exercise_word_choice">
+<span id="exercises"></span><h1>Exercises<a class="headerlink" href="#module-tests_e2e.pages.exercise_word_choice" title="Link to this heading">¶</a></h1>
+<p>The word choice for word study exercise page representation.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="tests_e2e.pages.exercise_word_choice.WordChoiceExercisePage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests_e2e.pages.exercise_word_choice.</span></span><span class="sig-name descname"><span class="pre">WordChoiceExercisePage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Page</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests_e2e.pages.exercise_word_choice.WordChoiceExercisePage" title="Link to this definition">¶</a></dt>
+<dd><p>The word choice for word study exercise page representation.</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h2>
+<dl>
+<dt>page<span class="classifier"><cite>Page</cite></span></dt><dd><p>Playwright page instance.</p>
+</dd>
+</dl>
+</section>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading">¶</a></h2>
+<dl>
+<dt>path<span class="classifier"><cite>str</cite></span></dt><dd><p>It page path schema.</p>
+</dd>
+<dt>timeout_input<span class="classifier"><cite>Locator</cite></span></dt><dd><p>The time for question display fild input locator.</p>
+</dd>
+<dt>language_order<span class="classifier"><cite>Locator</cite></span></dt><dd><p>The question word language display choice locator.</p>
+</dd>
+<dt>submit_button<span class="classifier">‘Locator’</span></dt><dd><p>The submit button locator.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tests_e2e.pages.exercise_word_choice.WordChoiceExercisePage.title">
+<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Выбор</span> <span class="pre">слов</span> <span class="pre">для</span> <span class="pre">изучения'</span></em><a class="headerlink" href="#tests_e2e.pages.exercise_word_choice.WordChoiceExercisePage.title" title="Link to this definition">¶</a></dt>
+<dd><p>The page title.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tests_e2e.pages.exercise_word_choice.WordChoiceExercisePage.choice_word">
+<span class="sig-name descname"><span class="pre">choice_word</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">question_language</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'1'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#tests_e2e.pages.exercise_word_choice.WordChoiceExercisePage.choice_word" title="Link to this definition">¶</a></dt>
+<dd><p>Make choice words for study.</p>
+<section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+<dl>
+<dt>question_language<span class="classifier"><cite>str</cite></span></dt><dd><p>Choice value to display word`s language for translate.</p>
+</dd>
+<dt>task_timeout<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>Time value to display word without translate, sec (the
+default is 1 sec).</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<p id="module-tests_e2e.pages.exercise_word_study">The word study exercise page representation module.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="tests_e2e.pages.exercise_word_study.WordStudyExercisePage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests_e2e.pages.exercise_word_study.</span></span><span class="sig-name descname"><span class="pre">WordStudyExercisePage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">page</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Page</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tests_e2e.pages.exercise_word_study.WordStudyExercisePage" title="Link to this definition">¶</a></dt>
+<dd><p>The word study exercise page representation class.</p>
+<section id="id2">
+<h2>Parameters<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<dl>
+<dt>page<span class="classifier"><cite>Page</cite></span></dt><dd><p>Playwright page instance.</p>
+</dd>
+</dl>
+</section>
+<section id="id3">
+<h2>Attributes<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<dl>
+<dt>path<span class="classifier"><cite>str</cite></span></dt><dd><p>The page path schema.</p>
+</dd>
+<dt>question_locator<span class="classifier"><cite>Locator</cite></span></dt><dd><p>The question word display locator.</p>
+</dd>
+<dt>answer_locator<span class="classifier"><cite>Locator</cite></span></dt><dd><p>The answer word display locator.</p>
+</dd>
+<dt>next_button<span class="classifier"><cite>Locator</cite></span></dt><dd><p>The next exersice step button locator.</p>
+</dd>
+<dt>know_button<span class="classifier"><cite>Locator</cite></span></dt><dd><p>The “Know” button locator.</p>
+</dd>
+<dt>not_know_button<span class="classifier"><cite>Locator</cite></span></dt><dd><p>The “Don`t know” button locator.</p>
+</dd>
+<dt>add_to_favorite_button<span class="classifier"><cite>Locator</cite></span></dt><dd><p>The “Add to favorite” button locator.</p>
+</dd>
+<dt>remove_from_favorite_button<span class="classifier"><cite>Locator</cite></span></dt><dd><p>The “Remove from favorite” button locator.</p>
+</dd>
+<dt>word_knowledge_indicator<span class="classifier"><cite>Locator</cite></span></dt><dd><p>The word knowledge assessment value locator.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tests_e2e.pages.exercise_word_study.WordStudyExercisePage.title">
+<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Учим</span> <span class="pre">слова'</span></em><a class="headerlink" href="#tests_e2e.pages.exercise_word_study.WordStudyExercisePage.title" title="Link to this definition">¶</a></dt>
+<dd><p>Page title.</p>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">wselfedu</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Справочник пользователя (Tutorial reference)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../development/index.html">Development</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Testing</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../linters/index.html">Linters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../unittests/index.html">Unittests</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Browser testing</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#see-also">See Also</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Pages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tests/index.html">Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fixtures.html">Fixtures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../storage_state.html">Authentication</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../devops/index.html">DevOps</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog/changelog.html">Changelog</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../sources/index.html">Sources</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Testing</a><ul>
+  <li><a href="../index.html">Browser testing</a><ul>
+  <li><a href="index.html">Pages</a><ul>
+      <li>Previous: <a href="user.html" title="previous chapter">User pages</a></li>
+      <li>Next: <a href="../tests/index.html" title="next chapter">Tests</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Sergei Mikurov.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../../../_sources/testing/tests_e2e/pages/exercises.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

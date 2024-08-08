@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Run and stop application &#8212; wselfedu 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=a5c4661c" />
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Changelog" href="../../changelog/changelog.html" />
+    <link rel="prev" title="Production docker compose" href="../docker_compose/prod.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="run-and-stop-application">
+<span id="run-stop-app"></span><h1>Run and stop application<a class="headerlink" href="#run-and-stop-application" title="Link to this heading">¶</a></h1>
+<p>Run application:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">up</span>
+</pre></div>
+</div>
+<p>Stop application:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">down</span>
+</pre></div>
+</div>
+</section>
+<section id="docker-console-commands">
+<h1>Docker console commands<a class="headerlink" href="#docker-console-commands" title="Link to this heading">¶</a></h1>
+<p>See
+<a class="reference external" href="https://docs.docker.com/reference/">all docker compose</a> commands.</p>
+<section id="docker-system-info">
+<h2>Docker system info<a class="headerlink" href="#docker-system-info" title="Link to this heading">¶</a></h2>
+<p>To display information regarding the amount of disk space used by the
+Docker daemon
+(<a class="reference external" href="https://docs.docker.com/reference/cli/docker/system/df/">source</a>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">system</span> <span class="n">df</span>
+</pre></div>
+</div>
+<p>stdout:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TYPE</span>            <span class="n">TOTAL</span>     <span class="n">ACTIVE</span>    <span class="n">SIZE</span>      <span class="n">RECLAIMABLE</span>
+<span class="n">Images</span>          <span class="mi">4</span>         <span class="mi">3</span>         <span class="mf">4.083</span><span class="n">GB</span>   <span class="mf">425.4</span><span class="n">MB</span> <span class="p">(</span><span class="mi">10</span><span class="o">%</span><span class="p">)</span>
+<span class="n">Containers</span>      <span class="mi">3</span>         <span class="mi">3</span>         <span class="mf">364.9</span><span class="n">kB</span>   <span class="mi">0</span><span class="n">B</span> <span class="p">(</span><span class="mi">0</span><span class="o">%</span><span class="p">)</span>
+<span class="n">Local</span> <span class="n">Volumes</span>   <span class="mi">0</span>         <span class="mi">0</span>         <span class="mi">0</span><span class="n">B</span>        <span class="mi">0</span><span class="n">B</span>
+<span class="n">Build</span> <span class="n">Cache</span>     <span class="mi">95</span>        <span class="mi">0</span>         <span class="mf">187.5</span><span class="n">MB</span>   <span class="mf">187.5</span><span class="n">MB</span>
+</pre></div>
+</div>
+</section>
+<section id="images">
+<h2>Images<a class="headerlink" href="#images" title="Link to this heading">¶</a></h2>
+<p>List of all images:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">image</span> <span class="n">ls</span>
+</pre></div>
+</div>
+<p>or:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">images</span>
+</pre></div>
+</div>
+<p>Remove image
+(<a class="reference external" href="https://docs.docker.com/reference/cli/docker/compose/rm/">docker compose rm</a>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">compose</span> <span class="n">rm</span> <span class="p">[</span><span class="n">OPTIONS</span><span class="p">]</span> <span class="p">[</span><span class="n">SERVICE</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Remove all dangling images. If -a is specified, also remove all images
+not referenced by any container
+(<a class="reference external" href="https://docs.docker.com/reference/cli/docker/image/prune/">docker image prune</a>).:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">image</span> <span class="n">prune</span> <span class="o">-</span><span class="n">a</span>
+</pre></div>
+</div>
+<p>or:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>docker rmi -f $(docker images -aq)
+</pre></div>
+</div>
+</section>
+<section id="containers">
+<h2>Containers<a class="headerlink" href="#containers" title="Link to this heading">¶</a></h2>
+<p>List of all containers:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">ps</span> <span class="o">-</span><span class="n">a</span>
+</pre></div>
+</div>
+<p>Stop container
+(<a class="reference external" href="https://docs.docker.com/reference/cli/docker/container/stop/">docker container stop</a>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">container</span> <span class="n">stop</span> <span class="p">[</span><span class="n">OPTIONS</span><span class="p">]</span> <span class="n">CONTAINER</span> <span class="p">[</span><span class="n">CONTAINER</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Remove container
+(<a class="reference external" href="https://docs.docker.com/reference/cli/docker/container/rm/">docker container rm</a>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">container</span> <span class="n">rm</span> <span class="p">[</span><span class="n">OPTIONS</span><span class="p">]</span> <span class="n">CONTAINER</span> <span class="p">[</span><span class="n">CONTAINER</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Removes all stopped containers
+(<a class="reference external" href="https://docs.docker.com/reference/cli/docker/container/prune/">docker container prune</a>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">container</span> <span class="n">prune</span>
+</pre></div>
+</div>
+<p>To delete all containers including its volumes use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>docker rm -vf $(docker ps -aq)
+</pre></div>
+</div>
+</section>
+<section id="local-volumes">
+<h2>Local Volumes<a class="headerlink" href="#local-volumes" title="Link to this heading">¶</a></h2>
+</section>
+<section id="build-cache">
+<h2>Build Cache<a class="headerlink" href="#build-cache" title="Link to this heading">¶</a></h2>
+<p>Remove build cache
+(<a class="reference external" href="https://docs.docker.com/reference/cli/docker/builder/prune/">docker builder prune</a>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">builder</span> <span class="n">prune</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">wselfedu</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Справочник пользователя (Tutorial reference)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../development/index.html">Development</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../testing/index.html">Testing</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">DevOps</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#deploy">Deploy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#docker-services">Docker services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#docker-compose">Docker compose</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#docker-console">Docker console</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Run and stop application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#docker-console-commands">Docker console commands</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/changelog.html">Changelog</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sources/index.html">Sources</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">DevOps</a><ul>
+      <li>Previous: <a href="../docker_compose/prod.html" title="previous chapter">Production docker compose</a></li>
+      <li>Next: <a href="../../changelog/changelog.html" title="next chapter">Changelog</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Sergei Mikurov.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../../_sources/devops/console/console.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
