@@ -25,8 +25,8 @@ class PageFixtureTestCase(StaticLiveServerTestCase):
     The page fixture is set in the test function scope.
     """
 
-    path = '/'
-    """Page path schema (`str`, ``root`` by-default).
+    page_path = '/'
+    """Page path schema, root by default (`str`).
     """
     # host can be set to Django live_server_url or real server
     page_host = None
@@ -55,9 +55,9 @@ class PageFixtureTestCase(StaticLiveServerTestCase):
         cls.page_host = str(cls.live_server_url)
 
     @property
-    def url(self) -> str:
+    def page_url(self) -> str:
         """Testing page url (`str`, reade-only)."""
-        return urljoin(self.page_host, self.path)
+        return urljoin(self.page_host, self.page_path)
 
 
 class UserMixin:
@@ -73,14 +73,12 @@ class UserMixin:
         @classmethod
         def setUpClass(cls) -> None:
             super().setUpClass()
-            cls.host = str(cls.live_server_url)
             cls.student = cls.create_user(username='student')
 
         def setUp(self) -> None:
             super().setUp()
             self.test_page = MentorshipProfilePage(self.page, self.host)
-            self.path = f'/users/mentorship/{self.student.pk}'
-            self.url = urljoin(self.host, self.path)
+            self.page_path = f'/users/mentorship/{self.student.pk}'
 
         def test_(self) -> None:
             self.authorize_test_page(username='student')
