@@ -34,3 +34,7 @@ jobs:
 
       - name: Run tests
         run: make plw
+
+      # sometimes tests fail when the page doesn't load
+      - name: Re-run failed tests
+        run: make plw-lf
