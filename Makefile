@@ -75,7 +75,10 @@ test:
 plw:
 	@$(APP) pytest tests_e2e/
 
-check: ruff lint down build up test plw
+plw-lf:
+	@$(APP) pytest tests_e2e/ --lf
+
+check: ruff down build up test plw
 
 get-state:
 	@$(APP) sh -c "pytest tests_e2e/auth/get_auth_state.py"
