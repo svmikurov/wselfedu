@@ -1,5 +1,5 @@
 """Mathematical calculation exercise with answer input page."""
-
+import logging
 from time import sleep
 
 from playwright.sync_api import Page
@@ -32,8 +32,10 @@ class MathCalculateSolutionPage(POMPage):
 
         sleep(2)  # Time to complete the task
         question_text = self.question_text.inner_text()
-        first_operand, _, second_operand = question_text.split()
-        task_solution = str(int(first_operand) * int(second_operand))
 
-        self.answer_input.fill(task_solution)
+        # first_operand, _, second_operand = question_text.split()
+        # task_solution = int(first_operand) * second_operand)
+        task_solution = self.page.evaluate(question_text)
+
+        self.answer_input.fill(str(task_solution))
         self.submit_btn.click()
