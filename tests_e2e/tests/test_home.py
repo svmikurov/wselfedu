@@ -1,9 +1,7 @@
 """The home page representation test module."""
 
-from urllib.parse import urljoin
-
-from tests_e2e.pages.home import HomePage
 from tests_e2e.tests.base import POMTest
+from tests_plw.pages.home import HomePage
 
 
 class TestHomePage(POMTest):
@@ -12,8 +10,7 @@ class TestHomePage(POMTest):
     def setUp(self) -> None:
         """Set up test data."""
         self.home_page = HomePage(self.page)
-        url = urljoin(self.live_server_url, self.home_page.path)
-        self.home_page.navigate(url=url)
+        self.home_page.navigate(page_url=self.page_url)
 
     def test_home_page(self) -> None:
         """Test home page title."""

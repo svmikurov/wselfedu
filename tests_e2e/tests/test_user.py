@@ -5,7 +5,6 @@ import os
 from dotenv import load_dotenv
 from playwright.sync_api import expect
 
-from tests_e2e.pages.home import HomePage
 from tests_e2e.pages.user import (
     CreateUserPage,
     DeleteUserPage,
@@ -13,6 +12,7 @@ from tests_e2e.pages.user import (
     authorize_the_page,
 )
 from tests_e2e.tests.base import POMTest
+from tests_plw.pages.home import HomePage
 from users.models import UserModel
 
 load_dotenv('./.env_vars/.env.wse')

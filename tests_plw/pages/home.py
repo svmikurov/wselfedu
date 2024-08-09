@@ -2,7 +2,7 @@
 
 from playwright.sync_api import Page
 
-from tests_e2e.pages.base import POMPage
+from tests_plw.pages.base import POMPage
 
 
 class HomePage(POMPage):
@@ -11,7 +11,7 @@ class HomePage(POMPage):
     Parameters
     ----------
     page : `Page`
-        Playwright page instance.
+        Playwright Pytest page fixture.
 
     """
 
@@ -19,8 +19,7 @@ class HomePage(POMPage):
     """The Home page title (`str`).
     """
 
-    def __init__(self, page: Page, host: str | None = None) -> None:
-        """Home page constructor."""
+    def __init__(self, page: Page) -> None:
+        """Construct the page."""
         super().__init__(page)
-        self.path = ''
-        self.host = host
+        self.path = '/'

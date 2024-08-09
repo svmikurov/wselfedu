@@ -143,9 +143,6 @@ def render_task(request: HttpRequest) -> JsonResponse:
 
     """
     task_conditions = request.session.get('task_conditions')
-    if not task_conditions:
-        redirect(reverse_lazy('task:math_calculate_choice'))
-
     user_id = request.user.id
     # A new task is created when the class CalculationExercise
     # is initialized.

@@ -4,24 +4,26 @@
 
 {% block content %}
 <!--==== Mentorship ====-->
-<div data-testid="mentors">
-  <h1>Наставничество</h1>
-  <!-- Mentors -->
-  <h5>Ваши наставники:</h5>
-  <ul class="list-unstyled">
-    {% for mentorship in mentorship_mentors %}
-    <li>
-      {{ mentorship.mentor_name }}
-      <form action="{% url 'users:delete_mentorship' mentorship.id %}"
-            method="post" style="display: inline">{% csrf_token %}
-        <input value="Отказаться"
-               type="submit"
-               name="add"
-               class="btn btn-outline-primary btn-sm m-1">
-      </form>
-    </li>
-    {% endfor %}
-  </ul>
+<div>
+  <div data-testid="mentors">
+    <h1>Наставничество</h1>
+    <!-- Mentors -->
+    <h5>Ваши наставники:</h5>
+    <ul class="list-unstyled">
+      {% for mentorship in mentorship_mentors %}
+      <li>
+        {{ mentorship.mentor_name }}
+        <form action="{% url 'users:delete_mentorship' mentorship.id %}"
+              method="post" style="display: inline">{% csrf_token %}
+          <input value="Отказаться"
+                 type="submit"
+                 name="add"
+                 class="btn btn-outline-primary btn-sm m-1">
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
   <!-- Add Mentor Form -->
   <div>
     <form action="{% url 'users:send_mentorship_request' user.pk %}"
@@ -40,7 +42,7 @@
   <!-- End Mentors -->
 
   <!-- Students -->
-  <div>
+  <div data-testid="students">
     {% if mentorship_students %}
     <h5>Вы являетесь наставником пользователей:</h5>
     <ul class="list-unstyled">
@@ -68,8 +70,8 @@
   </div>
   <!-- End Students -->
 
-  <!-- Send Mentorship Request -->
-  <div>
+  <!-- Sent Mentorship Request -->
+  <div data-testid="sent_requests">
     {% if mentorship_request_mentors %}
     <h5>Отправлены заявки на наставничество:</h5>
     <ul class="list-unstyled">
@@ -90,7 +92,7 @@
   </div><!-- End Send Mentorship Request -->
 
   <!-- Got Mentorship Request -->
-  <div>
+  <div data-testid="got_requests">
     {% if mentorship_request_students %}
     <h5>Получены заявки на наставничество:</h5>
     <ul class="list-unstyled">
