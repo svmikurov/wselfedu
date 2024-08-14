@@ -11,3 +11,4 @@ POM Tests
    test_home
    test_profile
    test_mentorship
+   test_table_mult_exercise

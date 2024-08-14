@@ -12,4 +12,4 @@ POM Pages
    profile
    login
    mentorship
-   math_calculate_solution
+   math_calculate_exercise
