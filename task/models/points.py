@@ -21,6 +21,7 @@ class Points(models.Model):
     task = models.OneToOneField(
         MathematicalExercise,
         on_delete=models.CASCADE,
+        null=True,
     )
     """The task for which points were awarded.
     """
