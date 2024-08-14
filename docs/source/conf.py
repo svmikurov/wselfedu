@@ -76,7 +76,8 @@ html_static_path = ['_static']
 
 # -- Theme -------------------------------------------------------------
 # html_theme = 'sphinx_rtd_theme'
-html_theme = 'alabaster'
+# html_theme = 'alabaster'
+html_theme = 'furo'
 
 if html_theme == 'sphinx_rtd_theme':
     # To add a link at current page code on GitHup.
