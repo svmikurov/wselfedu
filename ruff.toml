@@ -11,6 +11,7 @@ exclude = [
     ".env*",
     "*/migrations/*",
 ]
+line-length = 79
 
 [lint]
 preview = true  # checks will include unstable rules and fixes
@@ -21,3 +22,13 @@ select = [
     "I",   # isort
     "W",   # pycodestyle
 ]
+
+[lint.flake8-quotes]
+inline-quotes = "single"
+multiline-quotes = "single"
+
+[format]
+quote-style = "single"
+
+[lint.pycodestyle]
+max-doc-length = 72

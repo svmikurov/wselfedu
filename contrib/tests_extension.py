@@ -94,11 +94,11 @@ class UserAuthTestCase(TestCase):
         )
 
     def get_auth_response(
-            self,
-            path_schema: str | None = None,
-            user: Model | None = None,
-            method: str = 'get',
-            **kwargs: object,
+        self,
+        path_schema: str | None = None,
+        user: Model | None = None,
+        method: str = 'get',
+        **kwargs: object,
     ) -> 'TestHttpResponse':
         """Get response with logged user.
 
@@ -151,8 +151,8 @@ class UserAuthTestCase(TestCase):
 
     @staticmethod
     def assertMessage(
-            response: 'TestHttpResponse',
-            expected_message: str,
+        response: 'TestHttpResponse',
+        expected_message: str,
     ) -> None:
         """Test displaying Django message.
 

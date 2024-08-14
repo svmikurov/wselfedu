@@ -4,9 +4,13 @@ __pycache__/
 docs/build/
 docs/source/generated/
 htmlcov/
+postgres_data/
+static/
+tests_e2e/screenshots/
 
 .env
 .env.postgres
+.env.wse
 .coverage
 coverage.xml
 state.json

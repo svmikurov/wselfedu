@@ -9,5 +9,5 @@ Base page classes
 .. autoclass:: tests_e2e.pages.base.BaseTests
    :members:
 
-.. autoclass:: tests_e2e.pages.base.TestPage
+.. autoclass:: tests_e2e.pages.base.POMPage
    :members:

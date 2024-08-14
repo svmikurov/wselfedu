@@ -11,7 +11,7 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from dotenv import load_dotenv
 from playwright.sync_api import sync_playwright
 
-load_dotenv()
+load_dotenv('./env_vars/.env')
 
 ENVIRONMENT = os.getenv('ENVIRONMENT')
 """The current environment name (`str`).
@@ -20,7 +20,7 @@ ENVIRONMENT = os.getenv('ENVIRONMENT')
 
 class PageFixtureTestCase(StaticLiveServerTestCase):
     """Test with Playwright Pytest page fixture class
-     using StaticLiveServerTestCase.
+    using StaticLiveServerTestCase.
 
     The page fixture is set in the test function scope.
 
@@ -54,7 +54,7 @@ class PageFixtureTestCase(StaticLiveServerTestCase):
         Sets ``DJANGO_ALLOW_ASYNC_UNSAFE`` to `true`, which allows
         Django to use async at class scope.
         """
-        os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
+        os.environ['DJANGO_ALLOW_ASYNC_UNSAFE'] = 'true'
         super().setUpClass()
 
     @property

@@ -4,10 +4,10 @@ The word study exercise page representation module.
 
 from playwright.sync_api import Page
 
-from tests_e2e.pages.base import TestPage
+from tests_e2e.pages.base import POMPage
 
 
-class WordStudyExercisePage(TestPage):
+class WordStudyExercisePage(POMPage):
     """The word study exercise page representation class.
 
     Parameters

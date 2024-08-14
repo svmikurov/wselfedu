@@ -5,6 +5,11 @@ from task import views
 app_name = 'task'
 
 urlpatterns = [
+    path(
+        'index/',
+        views.IndexTaskView.as_view(),
+        name='index',
+    ),
     # --======= Math Tasks =======--
     path(
         'math-calculate-choice/',
@@ -25,7 +30,15 @@ urlpatterns = [
         'render-calculate-task/',
         views.render_task,
         name='render_calculate_task',
-    ),  # -- End Math Tasks --
+    ),
+    # --=== Points Exercises ===--
+    path(
+        'math-set-table-mult-points/',
+        views.SetMultiplicationTableExerciseView.as_view(),
+        name='math_set_table_mult_points',
+    ),
+    #
+    # -- End Math Tasks --
     #
     # --======= English Tasks =======--
     path(

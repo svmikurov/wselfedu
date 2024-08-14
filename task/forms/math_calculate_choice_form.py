@@ -9,9 +9,9 @@ class MathCalculationChoiceForm(forms.Form):
     """Form for choosing the conditions of a mathematical task."""
 
     CALCULATION_TYPES = (
-        ('+', 'Сложение'),
-        ('-', 'Вычитание'),
-        ('*', 'Умножение'),
+        ('add', 'Сложение'),
+        ('sub', 'Вычитание'),
+        ('mul', 'Умножение'),
     )
     DEFAULT_TIMEOUT = 2
     DEFAULT_CALCULATION_TYPE_INDEX = 2

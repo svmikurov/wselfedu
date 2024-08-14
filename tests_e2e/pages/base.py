@@ -8,8 +8,8 @@ from playwright.sync_api import Page, expect
 class BasePage:
     """Base class representing the page."""
 
-    host: str
-    path: str
+    path = None
+    host = None
 
     def __init__(self, page: Page) -> None:
         """Base page constructor."""
@@ -21,10 +21,10 @@ class BasePage:
         return self.host + self.path
 
     def navigate(
-            self,
-            *,
-            host: str | None = None,
-            url: str | None = None,
+        self,
+        *,
+        host: str | None = None,
+        url: str | None = None,
     ) -> None:
         """Navigate to page.
 
@@ -50,8 +50,15 @@ class BasePage:
 class BaseTests:
     """Common page tests class."""
 
-    page: Page
-    title: str
+    page: Page | None = None
+    """Playwright Pyrest page fixture (`Page | None`).
+    """
+    title: str | None = None
+    """Page title (`str | None`).
+    """
+    scn_path = 'tests_e2e/screenshots/'
+    """Path to save page screenshot (`str`).
+    """
 
     def test_title(self, expected_title: str | None = None) -> None:
         """Test page title.
@@ -65,6 +72,11 @@ class BaseTests:
         title = expected_title or self.title
         expect(self.page).to_have_title(title)
 
+    def take_screen(self, file_name: str) -> None:
+        """Take a page screenshot."""
+        path = f'{self.scn_path}{file_name}.png'
+        self.page.screenshot(path=path)
 
-class TestPage(BasePage, BaseTests):
-    """Base class representing the testing page with general tests."""
+
+class POMPage(BasePage, BaseTests):
+    """Class representing the testing page with general tests."""

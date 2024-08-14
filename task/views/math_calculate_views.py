@@ -1,12 +1,13 @@
-from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.http import HttpRequest, JsonResponse
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView
-from jsonview.decorators import json_view
 
 from task.forms import MathCalculationChoiceForm, NumberInputForm
-from task.tasks.math_calculate_task import CalculationExercise
+from task.points import get_points_balance
+from task.task_mng import CalculationExerciseCheck
+from task.tasks.calculation_exersice import CalculationExercise
 
 
 class MathCalculateChoiceView(TemplateView):
@@ -61,52 +62,83 @@ class MathCalculateDemoView(View):
 
 
 class MathCalculateSolutionView(TemplateView):
-    """Math tasks requiring answering view."""
+    """Calculate exercise view with input of a solution and scoring.
+
+    The ``get`` method renders the page for the exercise.
+    The page contains a form for entering the user's solution.
+
+    On the user side, a post-request is generated via Ajax to receive
+    the task.
+
+    The ``post`` method accepts a user response for validation and
+    returns a JSON response with an evaluate.
+    """
 
     template_name = 'task/mathem/math_calculate_solution.html'
 
     def get_context_data(self, **kwargs):
-        """Add form to context."""
+        """Add form with title to context."""
         context = super().get_context_data()
         context['form'] = NumberInputForm()
+        context['title'] = 'Вычисления с вводом ответа'
         return context
 
     def post(self, request):
-        """Send task data to page and check user answer."""
+        """Accept user's answer for verification."""
         form = NumberInputForm(request.POST)
-        answer_text = request.session.get('answer_text')
 
         if form.is_valid():
-            user_solution = str(form.cleaned_data.get('user_solution'))
+            task_mgr = CalculationExerciseCheck(request=request, form=form)
+            is_correct_solution: bool = task_mgr.check_and_save_user_solution()
+            msg = 'Верно!' if is_correct_solution else 'Неверно!'
 
-            if user_solution == answer_text:
-                return JsonResponse(
-                    data={
-                        'msg': 'Верно!',
-                        'is_correct_solution': True,
-                    },
-                    status=200,
-                )
-            else:
-                return JsonResponse(
-                    data={
-                        'msg': 'Неверно!',
-                        'is_correct_solution': False,
-                    },
-                    status=200,
-                )
+            return JsonResponse(
+                data={
+                    'msg': msg,
+                    'is_correct_solution': is_correct_solution,
+                },
+                status=200,
+            )
 
         return JsonResponse(data={}, status=200)
 
 
-@json_view
-def render_task(request):
-    """Send task data to page."""
-    task_conditions = request.session['task_conditions']
-    task = CalculationExercise(**task_conditions)
+def render_task(request: HttpRequest) -> JsonResponse:
+    """Send question text to page.
+
+    Gets the task creation conditions from the session.
+    Create new ``task`` instance, save ``answer_text`` in session,
+    render new ``question_text`` to user via json response.
+
+    Parameters
+    ----------
+    request : `HttpRequest`
+        Request to receive new text of the question.
+
+
+    Return
+    ------
+    `JsonResponse`
+        Json response with new question text.
+
+    """
+    task_conditions = request.session.get('task_conditions')
+    if not task_conditions:
+        redirect(reverse_lazy('task:math_calculate_choice'))
+
+    user_id = request.user.id
+    # A new task is created when the class CalculationExercise
+    # is initialized.
+    task = CalculationExercise(user_id=user_id, **task_conditions)
+    request.session['calculation_type'] = task.calculation_type
+    request.session['question_text'] = task.question_text
     request.session['answer_text'] = task.answer_text
-    data = {
-        'success': True,
-        'question_text': task.question_text,
-    }
-    return data
+
+    return JsonResponse(
+        data={
+            'success': True,
+            'question_text': task.question_text,
+            'balance': get_points_balance(user_id),
+        },
+        status=200,
+    )

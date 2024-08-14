@@ -7,10 +7,10 @@ import os
 from dotenv import load_dotenv
 from playwright.sync_api import Page, expect
 
-from tests_e2e.pages.base import TestPage
+from tests_e2e.pages.base import POMPage
 from tests_e2e.pages.home import HomePage
 
-load_dotenv()
+load_dotenv('./env_vars/.env.wse')
 
 USER_NAME = os.getenv('TEST_USER_NAME')
 """Username, typically used by default in tests and fixtures.
@@ -20,7 +20,7 @@ USER_PASS = os.getenv('TEST_USER_PASS')
 """
 
 
-class CreateUserPage(TestPage):
+class CreateUserPage(POMPage):
     """Class representing the user registration page.
 
     Parameters
@@ -54,7 +54,8 @@ class CreateUserPage(TestPage):
         self.password1_input = page.get_by_placeholder('Пароль')
         self.password2_input = page.get_by_placeholder('Подтверждение пароля')
         self.submit_button = page.get_by_role(
-            'button', name='Зарегистрироваться',
+            'button',
+            name='Зарегистрироваться',
         )
 
     def create_user(self, user_name: str, user_pass: str) -> None:
@@ -76,7 +77,7 @@ class CreateUserPage(TestPage):
         self.submit_button.click()
 
 
-class LoginPage(TestPage):
+class LoginPage(POMPage):
     """Class representing the login page."""
 
     title = 'Вход в приложение'
@@ -87,9 +88,9 @@ class LoginPage(TestPage):
         """Login page constructor."""
         super().__init__(page)
         self.path = '/users/login'
-        self.username_input = page.get_by_placeholder("Имя пользователя")
-        self.password_input = page.get_by_placeholder("Пароль")
-        self.submit_button = page.get_by_test_id("login-button")
+        self.username_input = page.get_by_placeholder('Имя пользователя')
+        self.password_input = page.get_by_placeholder('Пароль')
+        self.submit_button = page.get_by_test_id('login-button')
 
     def login(self, username: str, password: str) -> None:
         """Login.
@@ -108,7 +109,7 @@ class LoginPage(TestPage):
         self.submit_button.click()
 
 
-class DeleteUserPage(TestPage):
+class DeleteUserPage(POMPage):
     """Class representing the delete user page."""
 
     title = 'Удаление пользователя'
@@ -118,9 +119,9 @@ class DeleteUserPage(TestPage):
     def __init__(self, page: Page) -> None:
         """User delete page constructor."""
         super().__init__(page)
-        self.account_link = page.get_by_test_id("account-link")
-        self.delete_button = page.get_by_role("link", name="Удалить")
-        self.confirm_button = page.get_by_role("button", name="Удалить")
+        self.account_link = page.get_by_test_id('account-link')
+        self.delete_button = page.get_by_role('link', name='Удалить')
+        self.confirm_button = page.get_by_role('button', name='Удалить')
 
     def delete_user(self) -> None:
         """Delete user."""
@@ -129,10 +130,10 @@ class DeleteUserPage(TestPage):
 
 
 def authorize_the_page(
-        page: Page,
-        host: str,
-        user_name: str | None = None,
-        user_pass: str | None = None,
+    page: Page,
+    host: str,
+    user_name: str | None = None,
+    user_pass: str | None = None,
 ) -> None:
     """Authorize the page.
 
@@ -157,7 +158,7 @@ def authorize_the_page(
     user = user_name or USER_NAME
     password = user_pass or USER_PASS
 
-    login_page.navigate(url=f"{host}{login_page.path}")
+    login_page.navigate(url=f'{host}{login_page.path}')
     login_page.login(user, password)
 
     # after successful authentication the user is redirected to the

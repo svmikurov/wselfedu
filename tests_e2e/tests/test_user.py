@@ -8,12 +8,16 @@ from dotenv import load_dotenv
 from playwright.sync_api import expect
 
 from tests_e2e.pages.home import HomePage
-from tests_e2e.pages.user import CreateUserPage, LoginPage, DeleteUserPage, \
-    authorize_the_page
+from tests_e2e.pages.user import (
+    CreateUserPage,
+    DeleteUserPage,
+    LoginPage,
+    authorize_the_page,
+)
 from tests_e2e.tests.base import POMBaseTest
 from users.models import UserModel
 
-load_dotenv()
+load_dotenv('./env_vars/.env.wse')
 
 CREATE_USER_NAME = 'Playwright'
 """Temporary username (`str`).
@@ -36,7 +40,7 @@ class TestCreateUserPage(POMBaseTest):
     def test_create_user_page(self) -> None:
         """Test create user page."""
         create_user_page = CreateUserPage(self.page)
-        url = f"{self.live_server_url}{create_user_page.path}"
+        url = f'{self.live_server_url}{create_user_page.path}'
         create_user_page.navigate(url=url)
         create_user_page.test_title()
         create_user_page.create_user(CREATE_USER_NAME, CREATE_USER_PASS)
@@ -55,7 +59,7 @@ class TestLogitPage(POMBaseTest):
     def test_login_page(self) -> None:
         """Test login page."""
         login_page = LoginPage(self.page)
-        login_page.navigate(url=f"{self.live_server_url}{login_page.path}")
+        login_page.navigate(url=f'{self.live_server_url}{login_page.path}')
         login_page.test_title()
         login_page.login(USER_NAME, USER_PASS)
 

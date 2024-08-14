@@ -8,3 +8,4 @@ crispy-bootstrap5==2024.2
 psycopg2-binary==2.9.9
 gunicorn==22.0.0
 python-dotenv==1.0.1
+redis[hiredis]==5.0.8

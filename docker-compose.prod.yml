@@ -12,11 +12,12 @@ services:
     expose:
       - 8000
     env_file:
-      - .env
+      - .env_vars/.env
     command:
       gunicorn config.wsgi:application --bind 0.0.0.0:8000
     depends_on:
       - wse-db-postgres
+      - wse-redis
 
   wse-db-postgres:
     container_name: wse-db-postgres
@@ -27,7 +28,7 @@ services:
       context: .
       dockerfile: ./docker/postgres/Dockerfile
     env_file:
-      - .env.postgres
+      - .env_vars/.env.postgres
     ports:
       - 6543:5432
 
@@ -43,6 +44,14 @@ services:
       - 80:80
     depends_on:
       - wse-project
+
+  wse-redis:
+    container_name: wse-redis
+    image: wse-redis
+    build:
+      context: .
+      dockerfile: ./docker/redis/Dockerfile
+    hostname: redis
 
 volumes:
   postgres_data:

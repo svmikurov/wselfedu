@@ -16,7 +16,7 @@ from tests_e2e.pages.home import HomePage
 from tests_e2e.pages.user import LoginPage
 from tests_e2e.tests.base import POMBaseTest
 
-load_dotenv()
+load_dotenv('./env_vars/.env.wse')
 
 USER_NAME = os.getenv('TEST_USER_NAME')
 """Username, typically used by default in tests and fixtures.
@@ -35,7 +35,7 @@ class TestGetAuthState(POMBaseTest):
     def test_get_auth_state(self) -> None:
         """Get auth state."""
         login_page = LoginPage(self.page)
-        login_page.navigate(url=f"{self.site_host}{login_page.path}")
+        login_page.navigate(url=f'{self.site_host}{login_page.path}')
         login_page.test_title()
         login_page.login(USER_NAME, USER_PASS)
         login_page.test_title(expected_title=HomePage.title)
