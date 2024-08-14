@@ -1,3 +1,5 @@
+"""Task app forms module."""
+
 from task.forms.english_translate_choice_form import (
     EnglishTranslateChoiceForm,
 )

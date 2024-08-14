@@ -2,7 +2,7 @@
 
 from django.db import models
 
-from task.tasks.calculation_exersice import MATH_CALCULATION_TYPE
+from task.tasks.calculation_exercise import MATH_CALCULATION_TYPE
 from users.models import UserModel
 
 
@@ -24,13 +24,13 @@ class MathematicalExercise(models.Model):
     )
     """Type of mathematical calculation.
     """
-    first_operand = models.PositiveSmallIntegerField()
+    first_operand = models.SmallIntegerField()
     """First operand of the expression.
     """
-    second_operand = models.PositiveSmallIntegerField()
+    second_operand = models.SmallIntegerField()
     """Second operand of the expression.
     """
-    user_solution = models.PositiveSmallIntegerField()
+    user_solution = models.SmallIntegerField()
     """User task solution.
     """
     is_correctly = models.BooleanField(blank=True, null=True)

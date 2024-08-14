@@ -2,20 +2,19 @@
 
 from django.test import TestCase
 
-from task.models import Points, MathematicalExercise
+from task.models import MathematicalExercise, Points
 from task.points import PointsManager
 from users.models import UserModel
 
 
 class TestAddPoint(TestCase):
-    """Test add points to Points DB table class.
-    """
+    """Test add points to Points DB table class."""
 
     user_id = 1
 
     @classmethod
-    def setUpTestData(cls):
-        """Setup test data."""
+    def setUpTestData(cls) -> None:
+        """Set up test data."""
         cls.user1 = UserModel.objects.create(
             username='user1',
         )
@@ -53,7 +52,7 @@ class TestAddPoint(TestCase):
         )
         super().setUpTestData()
 
-    def test_add_points(self):
+    def test_add_points(self) -> None:
         """Test add points to database."""
         points_mng = PointsManager()
         points_mng._add_points(user_id=self.user1_id, task_id=1)
@@ -65,7 +64,7 @@ class TestAddPoint(TestCase):
         balance = Points.objects.filter(user=self.user1).last().balance
         assert balance == 80
 
-    def test_add_points_to_any_users(self):
+    def test_add_points_to_any_users(self) -> None:
         """Test adding points for multiple users."""
         points_mng = PointsManager()
         points_mng._add_points(user_id=self.user1_id, task_id=1)

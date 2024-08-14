@@ -6,6 +6,7 @@
 <!--======= Account Content =======-->
 <div>
   {% include 'components/title.html' with title='Личный кабинет' %}
+  <h6>Имя пользователя: {{ user }}</h6>
 
   <div class="py-2">
     {% if user.is_superuser %}
@@ -23,7 +24,10 @@
       </ul>
   </div>
 
+  <h2><a href="{% url 'users:mentorship_profile' user.pk %}">Наставничество</a></h2>
+
   <div>
+    <h2>Настройка</h2>
     {% if user.is_superuser %}
       <a href="{% url 'english:create_task_settings' user.id %}">Создай Настройки упражнения "Изучаем слова"</a><br>
       <a href="{% url 'english:update_task_settings' user.id %}">Измени Настройки упражнения "Изучаем слова"</a>

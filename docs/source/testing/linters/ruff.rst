@@ -22,17 +22,48 @@ ruff
 
 .. code-block:: console
 
+   ruff check path/ --select B010
+
+.. code-block:: console
+
+   ruff check path/ --select B010 --fix
+
+.. code-block:: console
+
    ruff format --diff
 
 .. code-block:: console
 
    ruff format
 
+.. code-block:: console
+
+   ruff check --watch
+
+Rules
+"""""
+
+`Rules <https://docs.astral.sh/ruff/rules/>`_
+
+Rule
+""""
+
+Select rule to check
+
+.. code-block:: console
+
+   ruff check path/ --select I001
 
 .. code-block:: console
 
    ruff rule F821
 
-.. code-block:: console
+Error suppression
+"""""""""""""""""
 
-   ruff check --watch
+`Error suppression <https://docs.astral.sh/ruff/linter/#error-suppression>`_
+
+.. code-block:: console
+   :caption: example:
+
+   # ruff: noqa: F841

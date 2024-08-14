@@ -1,7 +1,10 @@
+"""English word urls module."""
+
 from django.urls import path
 from django.views.generic import TemplateView
 
 from english import views
+from english.urls.mentor_urls import mentor_urls
 
 app_name = 'english'
 urlpatterns = [
@@ -34,7 +37,7 @@ urlpatterns = [
     path(
         'knowledge-assessment/<int:word_id>/',
         views.update_word_knowledge_assessment_view,
-        name='knowledge_assessment'
+        name='knowledge_assessment',
     ),
     path(
         'words-favorites-view-ajax/<int:word_id>/',
@@ -42,7 +45,6 @@ urlpatterns = [
         name='word_favorites_view_ajax',
     ),
     # -- End Task study words --
-
     # --======= Word =======--
     path(
         'word/list/',
@@ -54,10 +56,11 @@ urlpatterns = [
         views.WordCreateView.as_view(),
         name='words_create',
     ),
-    path('word/<int:pk>/detail/',
-         views.WordDetailView.as_view(),
-         name='words_detail'
-         ),
+    path(
+        'word/<int:pk>/detail/',
+        views.WordDetailView.as_view(),
+        name='words_detail',
+    ),
     path(
         'word/<int:pk>/update/',
         views.WordUpdateView.as_view(),
@@ -68,57 +71,56 @@ urlpatterns = [
         views.WordDeleteView.as_view(),
         name='words_delete',
     ),
-
     # --======= Categories =======--
     path(
         'categories/list/',
         views.CategoryListView.as_view(),
-        name='category_list'
+        name='category_list',
     ),
     path(
         'categories/create/',
         views.CategoryCreateView.as_view(),
-        name='categories_create'
+        name='categories_create',
     ),
     path(
         'categories/<int:pk>/update/',
         views.CategoryUpdateView.as_view(),
-        name='categories_update'
+        name='categories_update',
     ),
     path(
         'categories/<int:pk>/delete/',
         views.CategoryDeleteView.as_view(),
-        name='categories_delete'
+        name='categories_delete',
     ),
     path(
         'categories/<int:pk>/detail/',
         views.CategoryDetailView.as_view(),
-        name='categories_detail'
+        name='categories_detail',
     ),
     # --======= Sources =======--
     path(
         'sources/create/',
         views.SourceCreateView.as_view(),
-        name='source_create'
+        name='source_create',
     ),
     path(
         'sources/<int:pk>/update/',
         views.SourceUpdateView.as_view(),
-        name='source_update'
+        name='source_update',
     ),
     path(
         'sources/<int:pk>/delete/',
         views.SourceDeleteView.as_view(),
-        name='source_delete'
+        name='source_delete',
     ),
-    path(
-        'sources/list/',
-        views.SourceListView.as_view(),
-        name='source_list'
-    ),
+    path('sources/list/', views.SourceListView.as_view(), name='source_list'),
     path(
         'sources/<int:pk>/detail/',
         views.SourceDetailView.as_view(),
-        name='source_detail'
+        name='source_detail',
     ),
 ]
+
+urlpatterns.extend(
+    mentor_urls,
+)

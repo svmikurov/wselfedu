@@ -1,3 +1,1 @@
-"""
-This package contain Django project settings.
-"""
+"""Django project settings package."""

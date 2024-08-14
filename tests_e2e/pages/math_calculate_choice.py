@@ -1,8 +1,7 @@
-"""
-Module for presenting a page for selecting conditions for performing
-a mathematical calculation exercise.
-"""
+"""Select condition for mathematical calculation exercise page."""
+
 import datetime
+from typing import Optional
 
 from playwright.sync_api import Page
 
@@ -16,7 +15,7 @@ class MathCalculateChoicePage(POMPage):
     """Mathematical calculation conditions page title.
     """
 
-    def __init__(self, page: Page, host=None) -> None:
+    def __init__(self, page: Page, host: Optional[str] = None) -> None:
         """Mathematical calculation conditions page constructor."""
         super().__init__(page)
         self.host = host
@@ -42,7 +41,8 @@ class MathCalculateChoicePage(POMPage):
         Parameters
         ----------
         calculation : `str` | None
-            Choice of mathematical operation, may be: 'mul', 'add', 'sub'.
+            Choice of mathematical operation, may be: 'mul', 'add',
+            'sub'.
         time_answer: `str` | None
             Task display time.
         min_value: `str` | None
@@ -52,6 +52,7 @@ class MathCalculateChoicePage(POMPage):
         input_answer_choice: `bool`
             Executing a task with entering an answer if `True`
             otherwise only show the question then answer.
+
         """
         if calculation:
             assert calculation in ('mul', 'add', 'sub')

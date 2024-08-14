@@ -1,6 +1,9 @@
+"""User app urls module."""
+
 from django.urls import path
 
 from users import views
+from users.urls.mentor_urls import mentor_urls
 
 app_name = 'users'
 urlpatterns = [
@@ -43,3 +46,7 @@ urlpatterns = [
     ),
     # <!-- End CRUD Users -->
 ]
+
+urlpatterns.extend(
+    mentor_urls,
+)

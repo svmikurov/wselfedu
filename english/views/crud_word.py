@@ -1,6 +1,13 @@
+"""CRUD English word module."""
+
+from typing import Dict, Type
+
+from crispy_forms.helper import FormHelper
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import models
 from django.db.models import F, Q
-from django.http import JsonResponse
+from django.forms import Form
+from django.http import HttpResponse, JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView
 
@@ -32,21 +39,19 @@ class WordCreateView(HandleNoPermissionMixin, LoginRequiredMixin, CreateView):
     success_url = reverse_lazy(CREATE_WORD_PATH)
     success_message = None
 
-    additional_user_navigation = {
-        'Словарь': WORD_LIST_TEMPLATE
-    }
+    additional_user_navigation = {'Словарь': WORD_LIST_TEMPLATE}
     extra_context = {
         'title': 'Добавить слово в словарь',
         'additional_user_navigation': additional_user_navigation,
     }
 
-    def get_form(self, form_class=None):
+    def get_form(self, form_class: Type[Form] = None) -> FormHelper:
         """Apply crispy form helper for form."""
         form = super().get_form()
         crispy_form = WordForm.apply_crispy_helper(form)
         return crispy_form
 
-    def form_valid(self, form):
+    def form_valid(self, form: Type[Form]) -> HttpResponse:
         """Add the current user to the form."""
         form.instance.user = self.request.user
         added_word = form.cleaned_data['word_eng']
@@ -56,10 +61,15 @@ class WordCreateView(HandleNoPermissionMixin, LoginRequiredMixin, CreateView):
         response = super().form_valid(form)
         return response
 
-    def render_to_response(self, context, **response_kwargs):
+    def render_to_response(
+        self,
+        context: Dict[str, object],
+        **response_kwargs: object,
+    ) -> JsonResponse | HttpResponse:
         """Return JsonResponse if `XMLHttpRequest` request."""
-        is_ajax = self.request \
-                      .headers.get('X-requested-With') == 'XMLHttpRequest'
+        is_ajax = (
+            self.request.headers.get('X-requested-With') == 'XMLHttpRequest'
+        )
         if is_ajax:
             return JsonResponse(
                 data={'success_message': self.success_message},
@@ -86,7 +96,7 @@ class WordUpdateView(CheckUserOwnershipMixin, UpdateView):
         'btn_name': 'Изменить',
     }
 
-    def get_form(self, form_class=None):
+    def get_form(self, form_class: Type[Form] = None) -> FormHelper:
         """Apply crispy form helper for form."""
         form = super().get_form()
         crispy_form = WordForm.apply_crispy_helper(form)
@@ -118,29 +128,39 @@ class WordListView(ReuseSchemaQueryFilterView):
         'title': 'Список слов',
     }
 
-    def get_queryset(self):
+    def get_queryset(self) -> models.query.QuerySet:
         """Get queryset to specific user."""
         user = self.request.user
 
-        queryset = super(WordListView, self).get_queryset(
-        ).select_related(
-            'category',
-            'source',
-        ).filter(
-            # Filter all words of a specific user.
-            user=user
-        ).annotate(
-            # Assign `True` if there is a relationship between user and
-            # word in the WordsFavoritesModel, otherwise assign None.
-            favorites_anat=Q(
-                Q(wordsfavoritesmodel__user=F('user'))
-                & Q(wordsfavoritesmodel__word=F('pk'))
+        queryset = (
+            super(WordListView, self)
+            .get_queryset()
+            .select_related(
+                'category',
+                'source',
             )
-        ).annotate(
-            # Add to query `knowledge_assessment` value.
-            assessment=F('worduserknowledgerelation__knowledge_assessment'),
-        ).order_by(
-            '-pk',
+            .filter(
+                # Filter all words of a specific user.
+                user=user
+            )
+            .annotate(
+                # Assign `True` if there is a relationship between
+                # user and word in the WordsFavoritesModel, otherwise
+                # assign None.
+                favorites_anat=Q(
+                    Q(wordsfavoritesmodel__user=F('user'))
+                    & Q(wordsfavoritesmodel__word=F('pk'))
+                )
+            )
+            .annotate(
+                # Add to query `knowledge_assessment` value.
+                assessment=F(
+                    'worduserknowledgerelation__knowledge_assessment'
+                ),
+            )
+            .order_by(
+                '-pk',
+            )
         )
         return queryset
 

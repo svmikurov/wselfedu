@@ -7,10 +7,10 @@ from django.test import TestCase
 class TestRedis(TestCase):
     """Test Redis cache."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         """Add cache to Redis."""
-        cache.set("my_key", "hello, world!", 30)
+        cache.set('my_key', 'hello, world!', 30)
 
-    def test_get_cache(self):
+    def test_get_cache(self) -> None:
         """Get cache from Redis."""
-        assert cache.get("my_key") == "hello, world!"
+        assert cache.get('my_key') == 'hello, world!'

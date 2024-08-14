@@ -1,6 +1,4 @@
-"""
-Django views mixins.
-"""
+"""Django views mixins."""
 
 from typing import Callable, Dict
 
@@ -38,6 +36,7 @@ class FormMessageMixin:
         -------
         response : `HttpResponse`
             An HTTP response.
+
         """
         response = super().form_valid(form)
         messages.success(self.request, self.success_message)
@@ -55,6 +54,7 @@ class FormMessageMixin:
         -------
         response : `HttpResponse`
             An HTTP response.
+
         """
         response = super().form_invalid(form)
         messages.error(self.request, self.error_message)
@@ -62,8 +62,9 @@ class FormMessageMixin:
 
 
 class HandleNoPermissionMixin:
-    """Add a redirect url and a message, if the user doesn't have
-    permission to perform an action.
+    """Add a redirect url and a message.
+
+    If the user doesn't have permission to perform an action.
     """
 
     message_no_permission = 'Для доступа необходимо войти в приложение'
@@ -74,6 +75,7 @@ class HandleNoPermissionMixin:
     """
 
     def handle_no_permission(self) -> HttpResponseRedirect:
+        """Add message no permission."""
         messages.error(self.request, self.message_no_permission)
         return redirect(self.url_no_permission)
 
@@ -88,11 +90,14 @@ class CheckUserOwnershipMixin(
     def check_ownership(self) -> bool:
         """Check if the user is the owner of the object.
 
+        Checks by ``get_object().user`` attribute.
+
         Returns
         -------
         `bool`
             Return the `True` if the user is the owner of the object,
             otherwise return the `False`.
+
         """
         current_user = self.request.user
         specified_user = self.get_object().user
@@ -101,7 +106,8 @@ class CheckUserOwnershipMixin(
     def get_test_func(self) -> Callable:
         """Return the test result.
 
-        This is an interface UserPassesTestMixin method override."""
+        This is an interface UserPassesTestMixin method override.
+        """
         return self.check_ownership
 
 
@@ -109,10 +115,33 @@ class CheckObjectOwnershipMixin(
     HandleNoPermissionMixin,
     UserPassesTestMixin,
 ):
-    """Checking user ownership of an object."""
+    """Checking user ownership of account."""
 
     def check_ownership(self) -> bool:
-        """Check if the user is the owner of the object."""
+        """Check if the user is the owner of account.
+
+        Checks by ``get_object()`` method.
+        Use with ``DetailView`` class.
+
+        Return
+        ------
+        `bool`
+            Return the `True` if the user is the owner of account,
+            otherwise return the `False`.
+
+        Example
+        -------
+        Use where user verification of account ownership is needed.
+
+        .. code-block: python
+
+           class OwnershipNeededView(
+               CheckObjectOwnershipMixin,
+               DetailView,
+           ):
+               model = UserModel
+
+        """
         current_user = self.request.user
         specified_user = self.get_object()
         return current_user == specified_user
@@ -120,7 +149,8 @@ class CheckObjectOwnershipMixin(
     def get_test_func(self) -> Callable:
         """Return the test result.
 
-        This is an interface UserPassesTestMixin method override."""
+        This is an interface UserPassesTestMixin method override.
+        """
         return self.check_ownership
 
 
@@ -128,6 +158,7 @@ class CheckAdminMixin(HandleNoPermissionMixin, UserPassesTestMixin):
     """Check current user for admin permissions."""
 
     def check_admin(self) -> bool:
+        """Check current user for admin permissions."""
         if self.request.user.is_superuser:
             return True
         else:
@@ -137,7 +168,8 @@ class CheckAdminMixin(HandleNoPermissionMixin, UserPassesTestMixin):
     def get_test_func(self) -> Callable:
         """Return the test result.
 
-        This is an interface UserPassesTestMixin method override."""
+        This is an interface UserPassesTestMixin method override.
+        """
         return self.check_admin
 
 
@@ -146,16 +178,20 @@ class ObjectDeleteErrorMixin:
 
     Apply redirect url and message when raise ProtectedError.
     """
+
     protected_redirect_url = 'home'
-    protected_message = ('Невозможно удалить этот объект, так как он '
-                         'используется в другом месте приложения')
+    protected_message = (
+        'Невозможно удалить этот объект, так как он '
+        'используется в другом месте приложения'
+    )
 
     def post(
-            self,
-            request: HttpRequest,
-            *args: object,
-            **kwargs: object,
+        self,
+        request: HttpRequest,
+        *args: object,
+        **kwargs: object,
     ) -> HttpResponse:
+        """Add message if delete is protected."""
         try:
             return super().post(request, *args, **kwargs)
         except ProtectedError:
@@ -168,8 +204,9 @@ class CheckLoginPermissionMixin(
     FormMessageMixin,
     LoginRequiredMixin,
 ):
-    """Verify that the current user is authenticated. If not, display a message
-    and redirect to the login page.
+    """Verify that the current user is authenticated.
+
+    If not, display a message and redirect to the login page.
     """
 
 
@@ -181,18 +218,53 @@ class PermissionProtectDeleteView(
     """Preventing deletion of a protected object view."""
 
 
+class DeleteWithProfileRedirectView(
+    HandleNoPermissionMixin,
+    UserPassesTestMixin,
+    FormMessageMixin,
+    LoginRequiredMixin,
+    DeleteView,
+):
+    """Delete mentorship view."""
+
+    template_name = 'delete.html'
+    success_url = None
+    protected_redirect_url = reverse_lazy('home')
+
+    def setup(
+        self,
+        request: HttpRequest,
+        *args: object,
+        **kwargs: object,
+    ) -> None:
+        """Set success url."""
+        super().setup(request, *args, **kwargs)
+        self.success_url = reverse_lazy(
+            'users:mentorship_profile', kwargs={'pk': self.request.user.pk}
+        )
+
+    def check_permission(self) -> bool:
+        """Override this method to check permission."""
+        return False
+
+    def get_test_func(self) -> Callable:
+        """Use check_permission method."""
+        return self.check_permission
+
+
 class ReuseSchemaFilterQueryMixin(MultipleObjectMixin):
     """Reuses previous url schema filter query with pagination.
 
     Adds ``reused_query`` to the URL scheme query.
 
-    Example
-    -------
+    Examples
+    --------
     .. code-block::
 
-       <a href="?{{reused_query}}&page={{page_obj.next_page_number}}">next page</a>
+       <a href="?{{reused_query}}&page={{page_obj.next_page_number}}">
+         next page
+       </a>
 
-    .. # noqa: E501
     """
 
     @staticmethod
@@ -217,6 +289,7 @@ class ReuseSchemaFilterQueryMixin(MultipleObjectMixin):
         -------
         context : Dict[str, object]
             Template context with
+
         """
         context = super().get_context_data(**kwargs)
         filter_fields = self.filterset_class.get_filter_fields()

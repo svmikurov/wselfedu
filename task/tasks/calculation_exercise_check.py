@@ -1,3 +1,5 @@
+"""The calculation exercise check module."""
+
 import os
 
 from django.forms import Form
@@ -11,6 +13,10 @@ from users.models import UserModel
 
 load_dotenv('.env_vars/.env.wse')
 
+POINTS_FOR_THE_TASK = int(os.getenv('POINTS_FOR_THE_TASK'))
+"""The number of points awarded for a correctly completed task,
+by default (`int`).
+"""
 MAX_POINTS_BALANCE = int(os.getenv('MAX_POINTS_BALANCE'))
 """The maximum allowed accumulation of points on the user's balance.
 (`int`)
@@ -18,8 +24,7 @@ MAX_POINTS_BALANCE = int(os.getenv('MAX_POINTS_BALANCE'))
 
 
 class CalculationExerciseCheck:
-    """Calculation exercise check class.
-    """
+    """Calculation exercise check class."""
 
     MATH_CALCULATION_TYPE = ('add', 'sub', 'mul', 'div')
 
@@ -51,7 +56,7 @@ class CalculationExerciseCheck:
         self.task_id: int | None = None
 
     @property
-    def solution_time(self):
+    def solution_time(self) -> int:
         """Time for user to solve the task (reade-only)."""
         # Temporary solution_time is fixed number.
         return 3
@@ -85,14 +90,13 @@ class CalculationExerciseCheck:
     def award(self) -> int:
         """The number of points as a reward for success task solution
         (`int`, read-only).
-        """
+        """  # noqa:  D205
         # Temporary number_points is fixed number.
-        number_points = 40
+        number_points = POINTS_FOR_THE_TASK
         return number_points
 
     def accrue_reward(self) -> None:
-        """Award points to the user for solving the problem correctly.
-        """
+        """Award points to the user for solving the task correctly."""
         user = UserModel.objects.get(pk=self.user_id)
         task = MathematicalExercise.objects.get(pk=self.task_id)
         balance = get_points_balance(self.user_id)
@@ -112,15 +116,15 @@ class CalculationExerciseCheck:
             self.is_correct_answer = self.answer_text == self.user_solution
             if self.user_id:
                 self.save_task_to_db()
-        except AssertionError:
+        except AssertionError as exc:
             raise AttributeError(
                 f'This class only checks the following calculations: '
                 f'{self.MATH_CALCULATION_TYPE}'
-            )
+            ) from exc
 
         # The logged-in user may be awarded points for completing the
         # task correctly.
-        # Points are awarded only to those users who have a guardian.
+        # Points are awarded only to those users who have a mentor.
         # The user is limited by the amount of reward per day.
         if self.is_correct_answer:
             should_user_be_rewarded = self.check_user_to_reward()

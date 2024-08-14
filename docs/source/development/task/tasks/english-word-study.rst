@@ -2,7 +2,7 @@
 English word study
 ==================
 
-.. automodule:: task.tasks.english_translate_task
+.. automodule:: task.tasks.english_translate_exercise_study
    :members:
 
 

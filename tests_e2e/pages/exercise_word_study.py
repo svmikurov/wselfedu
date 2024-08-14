@@ -1,6 +1,4 @@
-"""
-The word study exercise page representation module.
-"""
+"""The word study exercise page representation module."""
 
 from playwright.sync_api import Page
 
@@ -35,6 +33,7 @@ class WordStudyExercisePage(POMPage):
         The "Remove from favorite" button locator.
     word_knowledge_indicator : `Locator`
         The word knowledge assessment value locator.
+
     """
 
     title = 'Учим слова'

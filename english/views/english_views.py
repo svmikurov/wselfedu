@@ -1,7 +1,9 @@
+"""User words study data views module."""
+
 from typing import Dict
 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpRequest, JsonResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
@@ -15,9 +17,9 @@ from english.orm_queries import (
 
 @login_required
 def update_word_knowledge_assessment_view(
-        request: HttpRequest,
-        **kwargs: object,
-) -> JsonResponse:
+    request: HttpRequest,
+    **kwargs: object,
+) -> HttpResponse:
     """Update user word knowledge assessment view.
 
     Parameters
@@ -32,6 +34,7 @@ def update_word_knowledge_assessment_view(
     -------
     `JsonResponse`
         Response with status 201.
+
     """
     action = request.POST['action']
     word_pk = kwargs['word_id']
@@ -48,8 +51,8 @@ def update_word_knowledge_assessment_view(
 @require_POST
 @login_required
 def update_words_favorites_status_view_ajax(
-        request: HttpRequest,
-        **kwargs: Dict[str, object],
+    request: HttpRequest,
+    **kwargs: Dict[str, object],
 ) -> JsonResponse:
     """Update the status of a word, is it favorite.
 
@@ -68,6 +71,7 @@ def update_words_favorites_status_view_ajax(
     ------
     response : `JsonResponse`
         Response with current favorite word status.
+
     """
     word_id = kwargs['word_id']
     user_id = request.user.pk

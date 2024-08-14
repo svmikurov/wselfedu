@@ -1,6 +1,4 @@
-"""
-The word study exercise page representation test module.
-"""
+"""The word study exercise page representation test module."""
 
 import pytest
 from playwright.sync_api import expect
@@ -8,10 +6,10 @@ from playwright.sync_api import expect
 from tests_e2e.pages.exercise_word_choice import WordChoiceExercisePage
 from tests_e2e.pages.exercise_word_study import WordStudyExercisePage
 from tests_e2e.pages.user import authorize_the_page
-from tests_e2e.tests.base import POMBaseTest
+from tests_e2e.tests.base import POMTest
 
 
-class TestWordStudyExercisePage(POMBaseTest):
+class TestWordStudyExercisePage(POMTest):
     """The word study exercise page test class."""
 
     fixtures = ['tests_e2e/fixtures/fixture-db-exercise-word-study']

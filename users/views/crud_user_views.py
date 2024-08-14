@@ -1,19 +1,20 @@
+"""Views module CRUD user."""
+
+from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
     DeleteView,
-    DetailView,
     ListView,
     UpdateView,
 )
-from django.urls import reverse_lazy
 
 from contrib.mixins_views import (
+    CheckAdminMixin,
     CheckObjectOwnershipMixin,
     FormMessageMixin,
     ObjectDeleteErrorMixin,
-    CheckAdminMixin,
 )
-from users.forms import UserUpdateForm, UserRegistrationForm
+from users.forms import UserRegistrationForm, UserUpdateForm
 from users.models import UserModel
 
 
@@ -57,8 +58,10 @@ class DeleteUserView(
     success_url = reverse_lazy('users:login')
     success_message = 'Пользователь удален'
     protected_redirect_url = reverse_lazy('home')
-    protected_message = ('Невозможно удалить этот объект, так как он '
-                         'используется в другом месте приложения')
+    protected_message = (
+        'Невозможно удалить этот объект, так как он '
+        'используется в другом месте приложения'
+    )
     extra_context = {
         'title': 'Удаление пользователя',
         'btn_name': 'Удалить',
@@ -71,10 +74,3 @@ class UsersListView(CheckAdminMixin, ListView):
     template_name = 'users/list.html'
     model = UserModel
     context_object_name = 'users'
-
-
-class UserDetailView(CheckObjectOwnershipMixin, DetailView):
-    """User detail view."""
-
-    template_name = 'users/detail.html'
-    model = UserModel

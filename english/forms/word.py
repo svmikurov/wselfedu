@@ -1,3 +1,7 @@
+"""Word form module."""
+
+from typing import Type
+
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (
     Button,
@@ -9,7 +13,7 @@ from crispy_forms.layout import (
     Row,
     Submit,
 )
-from django.forms import ModelForm
+from django.forms import Form, ModelForm
 
 from english.models import WordModel
 
@@ -18,6 +22,8 @@ class WordForm(ModelForm):
     """Form for adding and updating a word."""
 
     class Meta:
+        """Word model fields."""
+
         model = WordModel
         fields = (
             'word_eng',
@@ -28,36 +34,36 @@ class WordForm(ModelForm):
         )
 
     @staticmethod
-    def apply_crispy_helper(form):
+    def apply_crispy_helper(form: Type[Form]) -> FormHelper:
         """Apply crispy form helper for specified WordModel form."""
         form.helper = FormHelper()
         form.helper.layout = Layout(
-            Field("word_eng", autofocus=True),
-            Field("word_rus"),
+            Field('word_eng', autofocus=True),
+            Field('word_rus'),
             Row(
-                Column("category", css_class="col-6"),
-                Column("source", css_class="col-6"),
+                Column('category', css_class='col-6'),
+                Column('source', css_class='col-6'),
             ),
             Field('word_count'),
             ButtonHolder(
                 Submit(
-                    name="Save",
-                    value="Сохранить",
-                    css_class="btn-success btn-sm",
-                    style="width:108px",
+                    name='Save',
+                    value='Сохранить',
+                    css_class='btn-success btn-sm',
+                    style='width:108px',
                 ),
                 Reset(
-                    name="Reset This Form",
-                    value="Сбросить",
-                    css_class="btn-danger btn-sm",
-                    style="width:108px",
+                    name='Reset This Form',
+                    value='Сбросить',
+                    css_class='btn-danger btn-sm',
+                    style='width:108px',
                 ),
                 Button(
-                    name="Back",
-                    value="Назад",
-                    css_class="btn-primary btn-sm",
-                    style="width:108px",
-                    onclick="history.back();",
+                    name='Back',
+                    value='Назад',
+                    css_class='btn-primary btn-sm',
+                    style='width:108px',
+                    onclick='history.back();',
                 ),
             ),
         )

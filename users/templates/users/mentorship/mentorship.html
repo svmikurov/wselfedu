@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block title %}Наставничество{% endblock %}
+
+{% block content %}
+<!--==== Mentorship ====-->
+<div>
+  <div data-testid="mentors">
+    <h1>Наставничество</h1>
+    <!-- Mentors -->
+    <h5>Ваши наставники:</h5>
+    <ul class="list-unstyled">
+      {% for mentorship in mentorship_mentors %}
+      <li>
+        {{ mentorship.mentor_name }}
+        <form action="{% url 'users:delete_mentorship' mentorship.id %}"
+              method="post" style="display: inline">{% csrf_token %}
+          <input value="Отказаться"
+                 type="submit"
+                 name="add"
+                 class="btn btn-outline-primary btn-sm m-1">
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <!-- Add Mentor Form -->
+  <div>
+    <form action="{% url 'users:send_mentorship_request' user.pk %}"
+          method="post">
+      {% csrf_token %}
+      <label for="input_mentor_name">Добавить наставника</label>
+      <input type="text"
+             id="input_mentor_name"
+             name="input_mentor_name"
+             placeholder="Введите имя наставника">
+      <input type="submit"
+             value="Добавить"
+             class="btn btn-outline-primary btn-sm m-1">
+    </form>
+  </div><!-- Add Mentor Form -->
+  <!-- End Mentors -->
+
+  <!-- Students -->
+  <div data-testid="students">
+    {% if mentorship_students %}
+    <h5>Вы являетесь наставником пользователей:</h5>
+    <ul class="list-unstyled">
+      {% for mentorship in mentorship_students %}
+      <li>
+        {{ mentorship.student_name }}
+        <form action="{% url 'users:add_exercise' mentorship.student_pk %}"
+              method="post" style="display: inline">{% csrf_token %}
+          <input value="Добавить задание"
+                 type="submit"
+                 name="add"
+                 class="btn btn-outline-primary btn-sm m-1">
+        </form>
+        <form action="{% url 'users:delete_mentorship' mentorship.id %}"
+              method="post" style="display: inline">{% csrf_token %}
+          <input value="Отказаться"
+                 type="submit"
+                 name="add"
+                 class="btn btn-outline-primary btn-sm m-1">
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+  <!-- End Students -->
+
+  <!-- Sent Mentorship Request -->
+  <div data-testid="sent_requests">
+    {% if mentorship_request_mentors %}
+    <h5>Отправлены заявки на наставничество:</h5>
+    <ul class="list-unstyled">
+      {% for request in mentorship_request_mentors %}
+      <li class="py-1">
+        К {{ request.mentor_name }}
+        <form action="{% url 'users:delete_mentorship_request' request.request_pk %}"
+              method="post" style="display: inline">{% csrf_token %}
+          <input value="Отозвать"
+                 type="submit"
+                 name="add"
+                 class="btn btn-outline-primary btn-sm m-1">
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div><!-- End Send Mentorship Request -->
+
+  <!-- Got Mentorship Request -->
+  <div data-testid="got_requests">
+    {% if mentorship_request_students %}
+    <h5>Получены заявки на наставничество:</h5>
+    <ul class="list-unstyled">
+      {% for request in mentorship_request_students %}
+      <li class="py-1">
+        От {{ request.student_name }}
+        <form action="{% url 'users:accept_mentorship_request' request.request_pk %}"
+              method="post" style="display: inline">{% csrf_token %}
+          <input value="Принять"
+                 type="submit"
+                 name="add"
+                 class="btn btn-outline-primary btn-sm m-1">
+        </form>
+        <form action="{% url 'users:delete_mentorship_request' request.request_pk %}"
+              method="post" style="display: inline">{% csrf_token %}
+          <input value="Отклонить"
+                 type="submit"
+                 name="add"
+                 class="btn btn-outline-primary btn-sm m-1">
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div><!-- End Got Mentorship Request -->
+</div>
+<!-- End Mentorship -->
+{% endblock %}

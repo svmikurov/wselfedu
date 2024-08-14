@@ -1,6 +1,4 @@
-"""
-This module contains views for word study task.
-"""
+"""Views for word study task module."""
 
 from typing import Dict
 
@@ -32,25 +30,27 @@ class EnglishTranslateChoiceView(CheckLoginPermissionMixin, TemplateView):
     -----
     Task conditions may be
 
-    ``task_conditions`` = {
-        'favorites': `True`,
-        'language_order': 'RN',
-        'category': 0,
-        'source': 0,
-        'period_start_date': 'NC',
-        'period_end_date': 'DT',
-        'word_count': ['OW', 'CB'],
-        'knowledge_assessment': ['S'],
-        'timeout': 5,
-        'user_id': 1,
-    }
+    .. code-block: python
+
+        ``task_conditions`` = {
+            'favorites': `True`,
+            'language_order': 'RN',
+            'category': 0,
+            'source': 0,
+            'period_start_date': 'NC',
+            'period_end_date': 'DT',
+            'word_count': ['OW', 'CB'],
+            'knowledge_assessment': ['S'],
+            'timeout': 5,
+            'user_id': 1,
+        }
+
     """
 
     template_name = 'task/english/english_translate_choice.html'
 
     def get_context_data(self, **kwargs: object) -> Dict[str, object]:
-        """Add english word translation conditions choice form to page
-        context."""
+        """Add english word translation conditions choice form."""
         context = super().get_context_data()
         context['form'] = EnglishTranslateChoiceForm(request=self.request)
         return context
@@ -145,6 +145,7 @@ def update_words_knowledge_assessment_view(
     -------
     `JsonResponse`
         Response without data, with status 201.
+
     """
     assessment = request.POST['assessment']
     word_pk = kwargs['word_id']

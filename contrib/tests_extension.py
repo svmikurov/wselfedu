@@ -1,6 +1,5 @@
-"""
-Django tests extension module.
-"""
+"""Django tests extension module."""
+
 from typing import TYPE_CHECKING
 
 from django.contrib.messages import get_messages
@@ -10,12 +9,14 @@ from django.test import TestCase
 from users.models import UserModel
 
 if TYPE_CHECKING:
-    from django.test.client import _MonkeyPatchedWSGIResponse as TestHttpResponse   # noqa: E501
+    from django.test.client import (
+        _MonkeyPatchedWSGIResponse as TestHttpResponse,
+    )
 
 
 def flash_message_test(
-        response: 'TestHttpResponse',
-        expected_message: str,
+    response: 'TestHttpResponse',
+    expected_message: str,
 ) -> None:
     """Test displaying Django message.
 
@@ -25,6 +26,7 @@ def flash_message_test(
         Test http response.
     expected_message : `str`
         Expected message in response.
+
     """
     number_of_message = 1
     current_message = get_messages(response.wsgi_request)
@@ -75,6 +77,7 @@ class UserAuthTestCase(TestCase):
                 )
                 assert (UserModel.objects.filter(
                     username='update_user').exists())
+
     """
 
     path_schema = '/'
@@ -117,13 +120,14 @@ class UserAuthTestCase(TestCase):
         -------
         `TestHttpResponse`
             Test http response.
+
         """
         user = user or self.user
         path_schema = path_schema or self.path_schema
 
         if not path_schema:
             raise AttributeError('Set the `url` attribute value')
-        self.client.force_login(user)       # type: ignore[arg-type]
+        self.client.force_login(user)  # type: ignore[arg-type]
 
         if method == 'post':
             return self.client.post(path_schema, kwargs)
@@ -143,6 +147,7 @@ class UserAuthTestCase(TestCase):
             task_conditions = {'timeout': 1, 'language_order': 'EN'}
             self.set_session(**{'task_conditions': task_conditions})
             ...
+
         """
         session = self.client.session
         for key, value in data.items():
@@ -150,7 +155,7 @@ class UserAuthTestCase(TestCase):
         session.save()
 
     @staticmethod
-    def assertMessage(
+    def assertMessage(  # noqa: N802
         response: 'TestHttpResponse',
         expected_message: str,
     ) -> None:
@@ -170,5 +175,6 @@ class UserAuthTestCase(TestCase):
             user = auth.get_user(self.client)
             ...
             self.assertMessage(response, 'Message text')
+
         """
         return flash_message_test(response, expected_message)

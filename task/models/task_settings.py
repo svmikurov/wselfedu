@@ -1,6 +1,4 @@
-"""
-User task settings modul.
-"""
+"""User task settings modul."""
 
 from django.db import models
 
@@ -46,6 +44,7 @@ class EnglishTaskSettings(models.Model):
         Start edge period for choice added words.
     date_end : `str`
         Start edge period for choice added words.
+
     """
 
     LANGUAGE_ORDER = [
@@ -81,7 +80,7 @@ class EnglishTaskSettings(models.Model):
         choices=LANGUAGE_ORDER,
         default=DEFAULT_LANGUAGE_ORDER,
         max_length=2,
-        verbose_name='Порядок перевода'
+        verbose_name='Порядок перевода',
     )
     timeout = models.PositiveSmallIntegerField(
         default=DEFAULT_TIMEOUT,
@@ -130,10 +129,12 @@ class EnglishTaskSettings(models.Model):
         verbose_name='Добавлено до',
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Represent an instance as a string."""
         return f'{self.user} настройки'
 
     class Meta:
+        """Set model features."""
+
         verbose_name = 'Настройки "Изучаем слова"'
         verbose_name_plural = 'Настройки "Изучаем слова"'

@@ -1,6 +1,4 @@
-"""
-The Page Object Model page base class module.
-"""
+"""The Page Object Model page base class module."""
 
 from playwright.sync_api import Page, expect
 
@@ -12,7 +10,7 @@ class BasePage:
     host = None
 
     def __init__(self, page: Page) -> None:
-        """Base page constructor."""
+        """Construct base page."""
         self.page = page
 
     @property
@@ -37,6 +35,7 @@ class BasePage:
         url : `str` | None, optional
             The page url for navigate (page url specified in the class
             representing the page, by default).
+
         """
         if url:
             page_url = url
@@ -68,6 +67,7 @@ class BaseTests:
         expected_title : `str` | None, optional
             Expected page title (the value of the ``title`` attribute
             of the class representing the page, by default)
+
         """
         title = expected_title or self.title
         expect(self.page).to_have_title(title)

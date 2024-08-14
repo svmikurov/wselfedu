@@ -1,7 +1,10 @@
+"""English translate conditions choice module."""
+
 from crispy_forms.bootstrap import InlineCheckboxes
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Column, Field, Layout, Row, Submit
 from django import forms
+from django.db import models
 
 from english.models import CategoryModel, SourceModel
 
@@ -35,10 +38,10 @@ WORD_COUNT = (
     ('ST', 'Предложение'),
 )
 KNOWLEDGE_ASSESSMENT = (
-    ('S', 'Изучаю'),        # study
-    ('R', 'Повторяю'),      # repeat
-    ('E', 'Проверяю'),      # examination
-    ('K', 'Знаю'),          # know
+    ('S', 'Изучаю'),  # study
+    ('R', 'Повторяю'),  # repeat
+    ('E', 'Проверяю'),  # examination
+    ('K', 'Знаю'),  # know
 )
 DEFAULT_LANGUAGE_ORDER = LANGUAGE_ORDER[0]
 DEFAULT_KNOWLEDGE_ASSESSMENT = 'S'
@@ -55,7 +58,7 @@ class EnglishTranslateChoiceForm(forms.Form):
         'source': SourceModel,
     }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: object, **kwargs: dict[str, object]) -> None:
         """Init user's model instances at form fields."""
         user_id = kwargs.pop('request').user.id
         super(EnglishTranslateChoiceForm, self).__init__(*args, **kwargs)
@@ -112,7 +115,7 @@ class EnglishTranslateChoiceForm(forms.Form):
         label='Время на ответ (сек)',
     )
 
-    def clean(self):
+    def clean(self) -> dict[str, int]:
         """Convert `str` to `int` form values."""
         cleaned_data = super().clean()
         cleaned_data['category'] = self._to_int(cleaned_data, 'category')
@@ -120,13 +123,16 @@ class EnglishTranslateChoiceForm(forms.Form):
         return cleaned_data
 
     @staticmethod
-    def _to_int(cleaned_data, field_name):
+    def _to_int(cleaned_data: dict[str, str], field_name: str) -> int:
         """Convert `str` to `int` field value."""
         field_value = cleaned_data.get(field_name)
         return int(field_value) if field_value else field_value
 
     @staticmethod
-    def _create_choices(model, user_id):
+    def _create_choices(
+        model: models.Model,
+        user_id: id,
+    ) -> list[tuple[int, str]]:
         """Create human-readable choice by model and user_id."""
         model_name = model._meta.verbose_name
         default_choice = (DEFAULT_CREATE_CHOICE_VALUE, model_name)
@@ -142,17 +148,21 @@ class EnglishTranslateChoiceForm(forms.Form):
         return choices
 
     @property
-    def helper(self):
+    def helper(self) -> FormHelper:
         """Structure the form."""
         helper = FormHelper()
         helper.form_method = 'post'
 
         helper.layout = Layout(
             Row(
-                Column('favorites', css_class='col-6',
-                       data_testid='favorites'),
-                Column('language_order', css_class='col-6',
-                       data_testid='language_order'),
+                Column(
+                    'favorites', css_class='col-6', data_testid='favorites'
+                ),
+                Column(
+                    'language_order',
+                    css_class='col-6',
+                    data_testid='language_order',
+                ),
             ),
             Row(
                 Column('category', css_class='col-6'),
@@ -164,14 +174,14 @@ class EnglishTranslateChoiceForm(forms.Form):
                 Column('period_end_date', css_class='col-6'),
                 data_testid='word_addition_period',
             ),
-            InlineCheckboxes('knowledge_assessment',
-                             data_testid='knowledge_assessment'),
-
-            Submit('submit', 'Начать', css_class='btn-sm',
-                   data_testid='submit'),
-
+            InlineCheckboxes(
+                'knowledge_assessment', data_testid='knowledge_assessment'
+            ),
+            Submit(
+                'submit', 'Начать', css_class='btn-sm', data_testid='submit'
+            ),
             HTML('<p class="h6 pt-3">Дополнительные опции</p>'),
-            Field('timeout', css_class="form-group col-6 w-25"),
+            Field('timeout', css_class='form-group col-6 w-25'),
             InlineCheckboxes('word_count', data_testid='word_count'),
         )
 

@@ -1,3 +1,1 @@
-"""
-Django Pytest tests.
-"""
+"""Django Pytest tests."""

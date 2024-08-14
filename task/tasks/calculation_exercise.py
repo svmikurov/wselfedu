@@ -1,6 +1,5 @@
-"""
-The mathematical calculate exercise module.
-"""
+"""The mathematical calculate exercise module."""
+
 import operator
 from random import randint
 
@@ -37,6 +36,7 @@ class CalculationExercise:
     timeout : `int` | None
         Time value to display a math task before displaying the result,
         sec (None | `int`).
+
     """
 
     _OPS = {
@@ -73,17 +73,17 @@ class CalculationExercise:
         max_value: int,
         timeout: int | None = None,
     ) -> None:
-        """Calculation exercise constructor."""
+        """Construct calculation exercise."""
         self.user_id = user_id
         self.timeout = timeout
         self.calculation_type = calculation_type
         # Create task
         self._set_task_solution(calculation_type, min_value, max_value)
 
-    def _set_task_solution(
+    def _set_task_solution(  # noqa: D417
         self,
-        calculation_type,
-        *value_range,
+        calculation_type: str,
+        *value_range: tuple,
     ) -> None:
         """Create and set question text with answer text.
 
@@ -94,6 +94,7 @@ class CalculationExercise:
             'add', 'sub' or 'mul' operator.
         values_range : `tuple`
             Range of values, contains two element, min and max values.
+
         """
         first_operand = randint(*value_range)
         second_operand = randint(*value_range)
@@ -114,8 +115,7 @@ class CalculationExercise:
         self.answer_text = str(answer)
 
     def _cache_task_creation_time(self) -> None:
-        """Store in cache the date and time of task creation
-        for a specific user."""
+        """Store in cache the date and time of task creation."""
         set_cache_task_creation_time(
             user_id=self.user_id,
             exercise_type=self.calculation_type,

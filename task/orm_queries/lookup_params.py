@@ -1,13 +1,12 @@
-"""
-Database query module for English word translation exercises.
-"""
+"""Database query module for English word translation exercises."""
 
 import datetime
 
 from django.db.models import F, Q
 
-from english.orm_queries.word_knowledge_assessment \
-    import WORD_STUDY_ASSESSMENTS
+from english.orm_queries.word_knowledge_assessment import (
+    WORD_STUDY_ASSESSMENTS,
+)
 
 EDGE_PERIODS_TERMS = {
     'DT': {'days': 0},
@@ -50,6 +49,7 @@ class LookupParams:
         lookup_params = LookupParams(lookup_conditions)
         params: tuple[Q, ...] = lookup_params.params
         query = Model.objects.filter(*params)
+
     """
 
     def __init__(self, lookup_conditions: dict) -> None:
@@ -106,19 +106,15 @@ class LookupParams:
 
     @property
     def _knowledge_lookup_param(self) -> Q:
-        """Lookup parameter by user knowledge assessment
-        (`Q`, read-only)."""
+        """Lookup parameter by user assessment (`Q`, read-only)."""
         form_value = self.lookup_conditions.get('knowledge_assessment', [])
         lookup_value = self._to_numeric(WORD_STUDY_ASSESSMENTS, form_value)
         lookup_field = 'worduserknowledgerelation__knowledge_assessment__in'
 
         words_with_assessment = Q(**{lookup_field: lookup_value})
-        words_without_assessment = (
-            Q(user_id=F('user'))
-            & ~Q(
-                worduserknowledgerelation__user_id=F('user'),
-                worduserknowledgerelation__word_id=F('pk'),
-            )
+        words_without_assessment = Q(user_id=F('user')) & ~Q(
+            worduserknowledgerelation__user_id=F('user'),
+            worduserknowledgerelation__word_id=F('pk'),
         )
 
         if lookup_value:
@@ -174,7 +170,9 @@ class LookupParams:
 
     @staticmethod
     def _to_numeric(assessments: dict, string_values: list) -> list[int]:
-        """Convert a literal representation of an assessment into a list
+        """Convert a literal representation of an assessment.
+
+        Convert a literal representation of an assessment into a list
         of numeric values.
         """
         numeric_values = []

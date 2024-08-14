@@ -12,6 +12,11 @@ MANAGE := @$(APP) python manage.py
 
 
 # Docker
+update:
+	@$(COMPOSE) down wse-project && \
+	$(COMPOSE) up wse-project -d
+
+
 build:
 	@$(COMPOSE) build
 
@@ -21,7 +26,7 @@ up:
 down:
 	@$(COMPOSE) down
 
-restart: lint down build up
+restart: ruff down build up
 
 docker-clean:
 	@$(COMPOSE) down && \
@@ -53,12 +58,16 @@ dumpdata:
 shell:
 	@$(MANAGE) shell
 
+flush:
+	@$(MANAGE) flush
+
+
 # Tests
 lint:
 	@$(APP) flake8
 
 ruff:
-	ruff check
+	ruff check && ruff format --diff
 
 test:
 	@$(APP) pytest tests/
@@ -66,7 +75,10 @@ test:
 plw:
 	@$(APP) pytest tests_e2e/
 
-check: restart test plw
+plw-lf:
+	@$(APP) pytest tests_e2e/ --lf
+
+check: ruff down build up test plw
 
 get-state:
 	@$(APP) sh -c "pytest tests_e2e/auth/get_auth_state.py"

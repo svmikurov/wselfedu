@@ -3,9 +3,10 @@ Mathematics
 
 .. _calculate_task:
 
-.. automodule:: task.tasks.math_calculate_task
+.. automodule:: task.tasks.calculation_exercise
    :members:
+   :no-index:
 
-.. note::
-
-   Documentation is awaiting completion.
+.. autoclass:: task.tasks.calculation_exercise.CalculationExercise
+   :members:
+   :private-members:

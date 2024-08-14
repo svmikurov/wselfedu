@@ -1,4 +1,11 @@
-from django.http import HttpRequest, JsonResponse
+"""Calculate exercise views."""
+
+from django.http import (
+    HttpRequest,
+    HttpResponse,
+    HttpResponseRedirect,
+    JsonResponse,
+)
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
@@ -6,8 +13,8 @@ from django.views.generic import TemplateView
 
 from task.forms import MathCalculationChoiceForm, NumberInputForm
 from task.points import get_points_balance
-from task.task_mng import CalculationExerciseCheck
-from task.tasks.calculation_exersice import CalculationExercise
+from task.tasks.calculation_exercise import CalculationExercise
+from task.tasks.calculation_exercise_check import CalculationExerciseCheck
 
 
 class MathCalculateChoiceView(TemplateView):
@@ -16,7 +23,13 @@ class MathCalculateChoiceView(TemplateView):
     template_name = 'task/mathem/math_calculate_choice.html'
     form = MathCalculationChoiceForm
 
-    def get(self, request, *args, **kwargs):
+    def get(
+        self,
+        request: HttpRequest,
+        *args: object,
+        **kwargs: object,
+    ) -> HttpResponseRedirect | HttpResponse:
+        """Check form view."""
         form = self.form(request.GET, request=request)
 
         if form.is_valid():
@@ -37,11 +50,18 @@ class MathCalculateChoiceView(TemplateView):
 
 
 class MathCalculateDemoView(View):
-    """Math calculation demonstration view."""
+    """Math calculation demonstration view.
+
+    The user is shown a mathematical expression as a question. The user
+    calculates the mathematical expression. After a timeout, the user
+    is shown the result of the mathematical expression. The user
+    compares his calculation with the result of the mathematical
+    expression displayed on the page.
+    """
 
     template_name = 'task/mathem/math_calculate_demo.html'
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: HttpRequest) -> JsonResponse | HttpResponse:
         """Render the task page and update tasks later on the page."""
         task_conditions = request.session['task_conditions']
         task = CalculationExercise(**task_conditions)
@@ -76,14 +96,14 @@ class MathCalculateSolutionView(TemplateView):
 
     template_name = 'task/mathem/math_calculate_solution.html'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs: object) -> dict[str, object]:
         """Add form with title to context."""
         context = super().get_context_data()
         context['form'] = NumberInputForm()
         context['title'] = 'Вычисления с вводом ответа'
         return context
 
-    def post(self, request):
+    def post(self, request: HttpRequest) -> JsonResponse:
         """Accept user's answer for verification."""
         form = NumberInputForm(request.POST)
 
@@ -123,9 +143,6 @@ def render_task(request: HttpRequest) -> JsonResponse:
 
     """
     task_conditions = request.session.get('task_conditions')
-    if not task_conditions:
-        redirect(reverse_lazy('task:math_calculate_choice'))
-
     user_id = request.user.id
     # A new task is created when the class CalculationExercise
     # is initialized.

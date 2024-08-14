@@ -1,3 +1,6 @@
+"""English task settings module."""
+
+from django.db.models import Model
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView
 
@@ -10,14 +13,16 @@ class EnglishTaskSettingsView(DetailView):
     model = EnglishTaskSettings
     template_name = 'english/tasks/task_settings.html'
 
-    def get_object(self, **kwargs):
-        """"""
+    def get_object(self, **kwargs: object) -> Model:
+        """Return the object the view is displaying."""
         pk = self.kwargs.get('pk')
         obj = EnglishTaskSettings.objects.get(user=pk)
         return obj
 
 
 class CreateEnglishTaskSettingsView(CreateView):
+    """Create English task settings view."""
+
     model = EnglishTaskSettings
     template_name = 'english/tasks/create_task_settings.html'
     fields = '__all__'
@@ -25,6 +30,8 @@ class CreateEnglishTaskSettingsView(CreateView):
 
 
 class UpdateEnglishTaskSettingsView(UpdateView):
+    """Update English task settings view."""
+
     model = EnglishTaskSettings
     template_name = 'english/tasks/update_task_settings.html'
     fields = '__all__'

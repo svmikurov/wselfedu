@@ -1,3 +1,10 @@
+"""CRUD word category views module."""
+
+from typing import Type
+
+from django.db.models.query import QuerySet
+from django.forms import Form
+from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
@@ -32,7 +39,7 @@ class CategoryCreateView(CheckLoginPermissionMixin, CreateView):
         'btn_name': 'Добавить',
     }
 
-    def form_valid(self, form):
+    def form_valid(self, form: Type[Form]) -> HttpResponse:
         """Add the current user to the form."""
         form.instance.user = self.request.user
         form.save()
@@ -63,8 +70,10 @@ class CategoryDeleteView(
     success_url = reverse_lazy(CATEGORY_LIST_PATH)
     success_message = 'Категория слов удалена'
     protected_redirect_url = reverse_lazy(CATEGORY_LIST_PATH)
-    protected_message = ('Невозможно удалить этот объект, так как он '
-                         'используется в другом месте приложения')
+    protected_message = (
+        'Невозможно удалить этот объект, так как он '
+        'используется в другом месте приложения'
+    )
     extra_context = {
         'title': 'Удаление категории',
         'btn_name': 'Удалить',
@@ -82,12 +91,9 @@ class CategoryListView(CheckLoginPermissionMixin, ListView):
         'title': 'Категории',
     }
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet:
         """Get queryset to specific user."""
-        queryset = super().get_queryset(
-        ).filter(
-            user=self.request.user.pk
-        )
+        queryset = super().get_queryset().filter(user=self.request.user.pk)
         return queryset
 
 
@@ -97,6 +103,4 @@ class CategoryDetailView(CheckUserOwnershipMixin, DetailView):
     model = CategoryModel
     template_name = DETAIL_CATEGORY_TEMPLATE
     context_object_name = 'category'
-    extra_context = {
-        'title': 'Обзор категории слов'
-    }
+    extra_context = {'title': 'Обзор категории слов'}

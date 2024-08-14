@@ -1,3 +1,1 @@
-"""
-English word dictionary application package.
-"""
+"""English word dictionary application package."""

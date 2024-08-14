@@ -8,6 +8,3 @@ User models
 
 .. autoclass::  users.models.UserModel
    :members:
-
-.. autoclass::  users.models.Guardianship
-   :members:

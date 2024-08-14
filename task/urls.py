@@ -1,3 +1,5 @@
+"""Task app urls module."""
+
 from django.urls import path
 
 from task import views
@@ -54,7 +56,7 @@ urlpatterns = [
     path(
         'knowledge-assessment/<int:word_id>/',
         views.update_words_knowledge_assessment_view,
-        name='knowledge_assessment'
+        name='knowledge_assessment',
     ),
     # -- End English Tasks --
 ]

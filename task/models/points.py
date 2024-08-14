@@ -1,9 +1,10 @@
 """User points story."""
+
 from django.core.exceptions import ValidationError
 from django.db import models
 
 from task.models.exercises_math import MathematicalExercise
-from users.models import Guardianship, UserModel
+from users.models import Mentorship, UserModel
 
 
 class Points(models.Model):
@@ -32,8 +33,8 @@ class Points(models.Model):
     balance = models.PositiveSmallIntegerField(default=0)
     """Current balance of points.
     """
-    guardianship = models.ForeignKey(
-        Guardianship,
+    mentorship = models.ForeignKey(
+        Mentorship,
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
@@ -55,6 +56,7 @@ class Points(models.Model):
         ValidationError
             Raised if both fields ``award`` and ``write_off`` are added
             or if both fields ``award`` and ``write_off`` is ``null``.
+
         """
         super().clean()
         if self.award and self.write_off:

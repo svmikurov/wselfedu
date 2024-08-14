@@ -1,3 +1,10 @@
+"""CRUD word sources views module."""
+
+from typing import Type
+
+from django.db import models
+from django.forms import Form
+from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
@@ -31,7 +38,7 @@ class SourceCreateView(CheckLoginPermissionMixin, CreateView):
         'btn_name': 'Добавить',
     }
 
-    def form_valid(self, form):
+    def form_valid(self, form: Type[Form]) -> HttpResponse:
         """Add the current user to the form."""
         form.instance.user = self.request.user
         form.save()
@@ -60,8 +67,10 @@ class SourceDeleteView(PermissionProtectDeleteView):
     success_url = reverse_lazy(SOURCE_LIST_PATH)
     success_message = 'Источник слов удален'
     protected_redirect_url = reverse_lazy(SOURCE_LIST_PATH)
-    protected_message = ('Невозможно удалить этот объект, так как он '
-                         'используется в другом месте приложения')
+    protected_message = (
+        'Невозможно удалить этот объект, так как он '
+        'используется в другом месте приложения'
+    )
     extra_context = {
         'title': 'Удаление источника слов',
         'btn_name': 'Удалить',
@@ -79,11 +88,9 @@ class SourceListView(CheckLoginPermissionMixin, ListView):
         'title': 'Источники',
     }
 
-    def get_queryset(self):
-        queryset = super().get_queryset(
-        ).filter(
-            user=self.request.user.id
-        )
+    def get_queryset(self) -> models.query.QuerySet:
+        """Return the `QuerySet` to look up the object."""
+        queryset = super().get_queryset().filter(user=self.request.user.id)
         return queryset
 
 

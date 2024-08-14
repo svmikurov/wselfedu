@@ -1,6 +1,4 @@
-"""
-The user pages representation module.
-"""
+"""The user pages representation module."""
 
 import os
 
@@ -8,9 +6,9 @@ from dotenv import load_dotenv
 from playwright.sync_api import Page, expect
 
 from tests_e2e.pages.base import POMPage
-from tests_e2e.pages.home import HomePage
+from tests_plw.pages.home import HomePage
 
-load_dotenv('./env_vars/.env.wse')
+load_dotenv('./.env_vars/.env.wse')
 
 USER_NAME = os.getenv('TEST_USER_NAME')
 """Username, typically used by default in tests and fixtures.
@@ -40,6 +38,7 @@ class CreateUserPage(POMPage):
         Confirm password field input locator.
     submit_button : `Locator`
         Submit button locator.
+
     """
 
     title = 'Регистрация пользователя'
@@ -70,6 +69,7 @@ class CreateUserPage(POMPage):
             Login of the registered user.
         user_pass : `str`
             Password of the registered user.
+
         """
         self.user_name_input.fill(user_name)
         self.password1_input.fill(user_pass)
@@ -103,6 +103,7 @@ class LoginPage(POMPage):
             Username for login.
         password : `str`
             Password for login.
+
         """
         self.username_input.fill(username)
         self.password_input.fill(password)
@@ -142,7 +143,7 @@ def authorize_the_page(
     typically used by default in tests and fixtures.
 
     Parameters
-    __________
+    ----------
     page : `Page`
         Playwright page for authorize.
     host : `str`
@@ -153,6 +154,7 @@ def authorize_the_page(
     user_pass : `str` | None
         The user password (username password commonly used in tests and
         fixtures, by default)
+
     """
     login_page = LoginPage(page)
     user = user_name or USER_NAME

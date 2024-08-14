@@ -1,5 +1,4 @@
-"""
-The page with exercises.
+"""The page with exercises.
 
 Contain available exercises.
 """

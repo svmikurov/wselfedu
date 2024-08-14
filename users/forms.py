@@ -1,3 +1,5 @@
+"""User application form module."""
+
 from django.contrib.auth.forms import UserCreationForm
 
 from users.models import UserModel
@@ -6,7 +8,7 @@ from users.models import UserModel
 class UserRegistrationForm(UserCreationForm):
     """User registration form."""
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Add data-testid attr value to html tags."""
         super().__init__(*args, **kwargs)
         self.add_attr_for_field('username', {'data-testid': 'username'})
@@ -14,13 +16,16 @@ class UserRegistrationForm(UserCreationForm):
         self.add_attr_for_field('password2', {'data-testid': 'password2'})
 
     def add_attr_for_field(
-            self, field_name: str,
-            data: dict[str, str],
+        self,
+        field_name: str,
+        data: dict[str, str],
     ) -> None:
         """Add attr with value to html representation field."""
         self.fields[field_name].widget.attrs.update(**data)
 
     class Meta:
+        """Set model features."""
+
         model = UserModel
         fields = ('username', 'password1', 'password2')
 
@@ -28,9 +33,9 @@ class UserRegistrationForm(UserCreationForm):
 class UserUpdateForm(UserRegistrationForm):
     """User update form."""
 
-    def clean_username(self):
-        """Enabling update data existing user.
+    def clean_username(self) -> str:
+        """Allow updating existing user data.
 
         Override disables user uniqueness check.
         """
-        return self.cleaned_data.get("username")
+        return self.cleaned_data.get('username')
