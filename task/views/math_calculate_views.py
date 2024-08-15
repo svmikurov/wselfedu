@@ -150,12 +150,13 @@ def render_task(request: HttpRequest) -> JsonResponse:
     request.session['calculation_type'] = task.calculation_type
     request.session['question_text'] = task.question_text
     request.session['answer_text'] = task.answer_text
+    balance_in_hundredths = get_points_balance(user_id) / 100
 
     return JsonResponse(
         data={
             'success': True,
             'question_text': task.question_text,
-            'balance': get_points_balance(user_id),
+            'balance': balance_in_hundredths,
         },
         status=200,
     )
