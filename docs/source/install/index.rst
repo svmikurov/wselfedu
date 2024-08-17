@@ -1,30 +1,25 @@
-#################
-Production deploy
-#################
-
-.. _production_deploy:
-
-Clone repo:
+#######
+Install
+#######
 
 .. code-block:: console
-   :caption: bash:
+   :caption: Clone repo:
 
    git clone git@github.com:svmikurov/wselfedu.git
 
-Go to project:
-
 .. code-block:: console
-   :caption: bash:
+   :caption: Go to project:
 
    cd wselfedu/
 
-Add .env and .env.postgres:
+Add environments:
 
 .. code-block:: console
-   :caption: bash:
+   :caption: Copy :
 
-   cp .env.example .env && \
-   cp .env.postgres.example .env.postgres
+   cp .env_vars/.env.example           .env_vars/.env && \
+   cp .env_vars/.env.postgres.example  .env_vars/.env.postgres && \
+   cp .env_vars/.env.wse.example       .env_vars/.env.wse
 
 In the ``.env`` and ``.env.postgres`` files fill the empty values
 of example below or leave the default values.
@@ -82,4 +77,16 @@ Make collectstatic:
 
    make collectstatic
 
-This is all.
+Run tests:
+
+.. code-block:: console
+   :caption: bash:
+
+   make check
+
+Possible problems:
+
+.. code-block:: console
+   :caption: If you already have TCP port 0.0.0.0:80 occupied, you can free it
+
+   systemctl stop apache2

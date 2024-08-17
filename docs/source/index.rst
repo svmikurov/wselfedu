@@ -27,13 +27,13 @@ Welcome to wselfedu's documentation!
 
    testing/index
 
-.. DevOps
+.. Install
 
 .. toctree::
    :maxdepth: 3
    :hidden:
 
-   devops/index
+   install/index
 
 .. Changelog
 
