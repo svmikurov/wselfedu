@@ -1,5 +1,6 @@
 .idea/
 .venv/
+.venv_wse/
 __pycache__/
 docs/build/
 docs/source/generated/

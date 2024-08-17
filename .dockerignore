@@ -1,5 +1,6 @@
 .github/
 .venv/
+.venv_wse/
 postgres_data/
 static/
 
