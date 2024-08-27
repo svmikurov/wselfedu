@@ -42,11 +42,3 @@ Welcome to wselfedu's documentation!
    :hidden:
 
    changelog/changelog
-
-.. Sources
-
-.. toctree::
-   :maxdepth: 2
-   :hidden:
-
-   sources/index
