@@ -2,33 +2,28 @@
 Changelog
 #########
 
-v0.3.0 (2024-today)
--------------------
+
+v0.4.0 (2024-today)
+===================
 
 Improvements
-^^^^^^^^^^^^
+------------
 
-Pages
-"""""
 
-or
+v0.3.0 (2024-08-26)
+===================
 
-Added
-"""""
-
-Changed
-"""""""
-
-Fixed
-"""""
+Improvements
+------------
 
 * Added Task index page.
+* ...
 
 v0.2.0 (2024-07-30)
--------------------
+===================
 
 Improvements
-^^^^^^^^^^^^
+------------
 
 * Added Docker.
 * Added PostgreSQL.
@@ -36,6 +31,7 @@ Improvements
 * The project is deployed on VPS of provider "SpaceWeb".
 
 v0.1.0 (2023-12-15)
--------------------
+===================
+
 * The project is deployed on "Beget" provider hosting.
 * Start project
