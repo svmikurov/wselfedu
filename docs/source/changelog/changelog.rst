@@ -9,6 +9,7 @@ v0.4.0 (2024-today)
 Improvements
 ------------
 
+* Add Django REST framework
 
 v0.3.0 (2024-08-26)
 ===================

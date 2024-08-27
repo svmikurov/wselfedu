@@ -19,8 +19,10 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 from django.views.generic import TemplateView
+
+from english import views_drf
 
 urlpatterns = [
     path('admin/doc/', include('django.contrib.admindocs.urls')),
@@ -30,3 +32,22 @@ urlpatterns = [
     path('english/', include('english.urls')),
     path('task/', include('task.urls')),
 ]
+
+drf_urlpatterns = [
+    # Session auth
+    path('api/v1/drf-auth/', include('rest_framework.urls')),
+    # Token auth
+    path('api/v1/auth/', include('djoser.urls')),
+    re_path(r'^auth/', include('djoser.urls.authtoken')),
+    # End Auth
+    path(
+        'api/v1/word/',
+        views_drf.WordListCreateAPIView.as_view(),
+    ),
+    path(
+        'api/v1/word/<int:pk>/',
+        views_drf.WordRetrieveUpdateDestroyAPIView.as_view(),
+    ),
+]
+
+urlpatterns += drf_urlpatterns

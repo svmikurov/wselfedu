@@ -33,6 +33,9 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'django_filters',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
     # added apps
     'users.apps.UsersConfig',
     'english.apps.EnglishConfig',
@@ -143,6 +146,8 @@ CACHES = {
     }
 }
 
+
+# Logging
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -155,4 +160,23 @@ LOGGING = {
         'handlers': ['console'],
         'level': 'INFO',
     },
+}  # End Logging
+
+
+# Django REST framework
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',  # noqa: E501
+    'PAGE_SIZE': 5,  # Ebd Pagination
 }
