@@ -7,7 +7,7 @@ docs/source/generated/
 htmlcov/
 postgres_data/
 static/
-tests_e2e/screenshots/
+*/screenshots/
 
 .env
 .env.postgres
