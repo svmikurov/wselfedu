@@ -1,4 +1,5 @@
 """Django REST framework views."""
+
 from django.db.models import Model
 from django.db.models.query import QuerySet
 from rest_framework import generics, permissions
