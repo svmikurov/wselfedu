@@ -19,7 +19,7 @@ class IsOwner(permissions.BasePermission):
         view: APIView,
         obj: Model,
     ) -> bool:
-        """Hase user object permission."""
+        """Has current user the permission to the model instance."""
         return obj.user == request.user
 
 
@@ -27,7 +27,7 @@ class WordListCreateAPIView(generics.ListCreateAPIView):
     """Create and List Word API view."""
 
     serializer_class = WordSerializer
-    permission_classes = [IsOwner]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self) -> QuerySet:
         """Filter words by current user."""
