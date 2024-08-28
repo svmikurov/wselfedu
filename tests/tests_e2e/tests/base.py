@@ -9,7 +9,7 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from dotenv import load_dotenv
 from playwright.sync_api import Page, sync_playwright
 
-from tests_e2e.pages.user import authorize_the_page
+from tests.tests_e2e.pages.user import authorize_the_page
 from users.models import UserModel
 
 load_dotenv('./.env_vars/.env')

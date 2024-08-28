@@ -5,13 +5,13 @@ import os
 from dotenv import load_dotenv
 from playwright.sync_api import expect
 
-from tests_e2e.pages.user import (
+from tests.tests_e2e.pages.user import (
     CreateUserPage,
     DeleteUserPage,
     LoginPage,
     authorize_the_page,
 )
-from tests_e2e.tests.base import POMTest
+from tests.tests_e2e.tests.base import POMTest
 from tests_plw.pages.home import HomePage
 from users.models import UserModel
 
@@ -52,7 +52,7 @@ class TestCreateUserPage(POMTest):
 class TestLogitPage(POMTest):
     """Login page test."""
 
-    fixtures = ['tests_e2e/fixtures/fixture-db-user.json']
+    fixtures = ['tests/tests_e2e/fixtures/fixture-db-user.json']
 
     def test_login_page(self) -> None:
         """Test login page."""
@@ -68,7 +68,7 @@ class TestLogitPage(POMTest):
 class TestDeleteUserPage(POMTest):
     """Test delete user page class."""
 
-    fixtures = ['tests_e2e/fixtures/fixture-db-user.json']
+    fixtures = ['tests/tests_e2e/fixtures/fixture-db-user.json']
 
     def test_delete_user_page(self) -> None:
         """Test delete user page."""

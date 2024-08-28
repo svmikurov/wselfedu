@@ -5,15 +5,17 @@ from unittest import skip
 from django.core.cache import cache
 from playwright.sync_api import expect
 
-from tests_e2e.pages.math_calculate_solution import MathCalculateSolutionPage
-from tests_e2e.pages.user import authorize_the_page
-from tests_e2e.tests.base import POMTest
+from tests.tests_e2e.pages.math_calculate_solution import (
+    MathCalculateSolutionPage,
+)
+from tests.tests_e2e.pages.user import authorize_the_page
+from tests.tests_e2e.tests.base import POMTest
 
 
 class TestTableMultExercise(POMTest):
     """Test table multiplication exercise page class."""
 
-    fixtures = ['tests_e2e/fixtures/fixture-db-exercise-word-study']
+    fixtures = ['tests/tests_e2e/fixtures/fixture-db-exercise-word-study']
     user_id = 1
 
     def setUp(self) -> None:

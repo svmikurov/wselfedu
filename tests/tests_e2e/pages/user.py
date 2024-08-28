@@ -5,7 +5,7 @@ import os
 from dotenv import load_dotenv
 from playwright.sync_api import Page, expect
 
-from tests_e2e.pages.base import POMPage
+from tests.tests_e2e.pages.base import POMPage
 from tests_plw.pages.home import HomePage
 
 load_dotenv('./.env_vars/.env.wse')

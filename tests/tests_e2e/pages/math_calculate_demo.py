@@ -2,7 +2,7 @@
 
 from playwright.sync_api import Page
 
-from tests_e2e.pages.base import POMPage
+from tests.tests_e2e.pages.base import POMPage
 
 
 class MathCalculateDemoPage(POMPage):
