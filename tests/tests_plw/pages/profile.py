@@ -2,7 +2,7 @@
 
 from playwright.sync_api import Page
 
-from tests_plw.pages.base import POMPage
+from tests.tests_plw.pages.base import POMPage
 
 
 class ProfilePage(POMPage):

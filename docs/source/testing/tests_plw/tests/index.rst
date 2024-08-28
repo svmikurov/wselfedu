@@ -2,7 +2,7 @@
 POM Tests
 =========
 
-.. automodule:: tests_plw.tests.__init__
+.. automodule:: tests.tests_plw.tests.__init__
 
 .. toctree::
    :maxdepth: 1

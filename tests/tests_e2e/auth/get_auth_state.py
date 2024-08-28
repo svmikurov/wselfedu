@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 
 from tests.tests_e2e.pages.user import LoginPage
 from tests.tests_e2e.tests.base import POMTest
-from tests_plw.pages.home import HomePage
+from tests.tests_plw.pages.home import HomePage
 
 load_dotenv('./.env_vars/.env.wse')
 

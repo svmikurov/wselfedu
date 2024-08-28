@@ -29,8 +29,8 @@ Test authorized page.
 
 from playwright.sync_api import expect
 
-from tests_plw.pages.mentorship import MentorshipProfilePage
-from tests_plw.tests.base import POMTest
+from tests.tests_plw.pages.mentorship import MentorshipProfilePage
+from tests.tests_plw.tests.base import POMTest
 from users.models import Mentorship, MentorshipRequest
 
 

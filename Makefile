@@ -73,10 +73,10 @@ test:
 	@$(APP) pytest tests/
 
 plw:
-	@$(APP) pytest tests_e2e/
+	@$(APP) pytest tests/tests_e2e/
 
 plw-lf:
-	@$(APP) pytest tests_e2e/ --lf
+	@$(APP) pytest tests/tests_e2e/ --lf
 
 check: ruff down build up test plw
 
