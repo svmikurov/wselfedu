@@ -30,8 +30,12 @@ class WordListCreateAPIView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self) -> QuerySet:
-        """Filter words by current user."""
+        """Filter words by current user for response."""
         return WordModel.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer: WordSerializer) -> None:
+        """Add current user to created model instants."""
+        serializer.save(user=self.request.user)
 
 
 class WordRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
