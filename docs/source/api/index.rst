@@ -1,8 +1,9 @@
-#############
-API Reference
-#############
+##################
+REST API Reference
+##################
 
 .. toctree::
    :maxdepth: 2
 
-   base
+   user
+   word
