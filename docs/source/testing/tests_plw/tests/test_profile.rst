@@ -2,7 +2,7 @@
 Test Profile page
 =================
 
-.. automodule:: tests_plw.tests.test_profile
+.. automodule:: tests.tests_plw.tests.test_profile
 
-.. autoclass:: tests_plw.tests.test_profile.TestProfile
+.. autoclass:: tests.tests_plw.tests.test_profile.TestProfile
    :members:

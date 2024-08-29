@@ -10,3 +10,4 @@ flake8-docstrings==1.7.0
 pytest==8.2.0
 pytest-cov==5.0.0
 pytest-django==4.8.0
+markdown==3.7

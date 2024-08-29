@@ -1,12 +1,13 @@
 .idea/
 .venv/
+.venv_wse/
 __pycache__/
 docs/build/
 docs/source/generated/
 htmlcov/
 postgres_data/
 static/
-tests_e2e/screenshots/
+*/screenshots/
 
 .env
 .env.postgres

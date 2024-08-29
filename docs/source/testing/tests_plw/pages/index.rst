@@ -2,7 +2,7 @@
 POM Pages
 =========
 
-.. automodule:: tests_plw.pages.__init__
+.. automodule:: tests.tests_plw.pages.__init__
 
 .. toctree::
    :maxdepth: 1

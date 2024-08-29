@@ -68,7 +68,7 @@ Package ``tests``
 Package ``tests_e2e``
 ---------------------
 
-.. automodule:: tests_e2e.__init__
+.. automodule:: tests.tests_e2e.__init__
 
 Package ``users``
 -----------------

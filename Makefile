@@ -26,7 +26,9 @@ up:
 down:
 	@$(COMPOSE) down
 
-restart: ruff down build up
+restart: ruff down up
+
+rebuild: ruff down build up
 
 docker-clean:
 	@$(COMPOSE) down && \
@@ -73,10 +75,10 @@ test:
 	@$(APP) pytest tests/
 
 plw:
-	@$(APP) pytest tests_e2e/
+	@$(APP) pytest tests/tests_e2e/
 
 plw-lf:
-	@$(APP) pytest tests_e2e/ --lf
+	@$(APP) pytest tests/tests_e2e/ --lf
 
 check: ruff down build up test plw
 
