@@ -29,10 +29,10 @@ Word List, Create endpoints
 |                      |                            |  * previous                   |
 |                      |                            |  * results                    |
 +----------------------+----------------------------+-------------------------------+
-| POST                 | * word_eng                 | HTTP_200_OK                   |
-|                      | * word_eng                 |  * id                         |
+| POST                 | * word_eng                 | HTTP_201_CREATED              |
+|                      | * word_rus                 |  * id                         |
 |                      |                            |  * word_eng                   |
-|                      |                            |  * word_eng                   |
+|                      |                            |  * word_rus                   |
 |                      |                            |                               |
 |                      |                            | HTTP_400_BAD_REQUEST          |
 |                      |                            |  * {required fild}            |

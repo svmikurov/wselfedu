@@ -95,6 +95,7 @@ You need to obtain user authentication token and add it to the headers.
 +======================+============================+===============================+
 | GET                  | --                         | HTTP_200_OK                   |
 |                      |                            |  * email                      |
+|                      |                            |  * id                         |
 |                      |                            |  * username                   |
 |                      |                            | HTTP_404_Not Found            |
 |                      |                            |  * detail                     |
