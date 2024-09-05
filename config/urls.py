@@ -23,6 +23,7 @@ from django.urls import include, path, re_path
 from django.views.generic import TemplateView
 
 from english import views_drf
+from glossary.views_drf import GlossaryListAPIView
 
 urlpatterns = [
     path('admin/doc/', include('django.contrib.admindocs.urls')),
@@ -48,6 +49,11 @@ drf_urlpatterns = [
     path(
         'api/v1/word/<int:pk>/',
         views_drf.WordRetrieveUpdateDestroyAPIView.as_view(),
+    ),
+    # Glossary
+    path(
+        'api/v1/glossary/',
+        GlossaryListAPIView.as_view(),
     ),
 ]
 
