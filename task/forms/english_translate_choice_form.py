@@ -13,7 +13,7 @@ LANGUAGE_ORDER = [
     ('EN', 'Перевод с английского языка'),
     ('RU', 'Перевод на английский язык'),
 ]
-EDGE_PERIODS_ALIASES = [
+EDGE_PERIOD_ALIASES = [
     ('DT', 'Сегодня'),
     ('D3', 'Три дня назад'),
     ('W1', 'Неделя назад'),
@@ -85,13 +85,13 @@ class EnglishTranslateChoiceForm(forms.Form):
         label='',
     )
     period_start_date = forms.ChoiceField(
-        choices=EDGE_PERIODS_ALIASES,
+        choices=EDGE_PERIOD_ALIASES,
         initial=DEFAULT_START_PERIOD,
         required=False,
         label='',
     )
     period_end_date = forms.ChoiceField(
-        choices=EDGE_PERIODS_ALIASES[:-1],
+        choices=EDGE_PERIOD_ALIASES[:-1],
         initial=DEFAULT_END_PERIOD,
         required=False,
         label='',

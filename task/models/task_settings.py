@@ -3,7 +3,7 @@
 from django.db import models
 
 from english.models import CategoryModel, SourceModel
-from task.forms.english_translate_choice_form import EDGE_PERIODS_ALIASES
+from task.forms.english_translate_choice_form import EDGE_PERIOD_ALIASES
 from users.models import UserModel
 
 
@@ -117,13 +117,13 @@ class EnglishTaskSettings(models.Model):
         verbose_name='Длина выражения',
     )
     date_start = models.CharField(
-        choices=EDGE_PERIODS_ALIASES,
+        choices=EDGE_PERIOD_ALIASES,
         default=DEFAULT_START_PERIOD,
         max_length=2,
         verbose_name='Добавлено после',
     )
     date_end = models.CharField(
-        choices=EDGE_PERIODS_ALIASES[:-1],
+        choices=EDGE_PERIOD_ALIASES[:-1],
         default=DEFAULT_END_PERIOD,
         max_length=2,
         verbose_name='Добавлено до',
