@@ -7,3 +7,4 @@ REST API Reference
 
    user
    word
+   glossary
