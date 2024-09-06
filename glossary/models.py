@@ -2,6 +2,11 @@
 
 from django.db import models
 
+from english.models import CategoryModel
+from task.forms.english_translate_choice_form import EDGE_PERIOD_ALIASES, \
+    KNOWLEDGE_ASSESSMENT
+from users.models import UserModel
+
 
 class GlossaryCategory(models.Model):
     """Glossary category model class."""
@@ -60,3 +65,13 @@ class Glossary(models.Model):
     def __str__(self) -> str:
         """Provide the informal string representation of an object."""
         return self.term
+
+
+class GlossaryExerciseSettings(models.Model):
+    """Glossary exercise settings story model."""
+
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    period_start_date = models.CharField(choices=EDGE_PERIOD_ALIASES)
+    period_end_date = models.CharField(choices=EDGE_PERIOD_ALIASES)
+    category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE)
+    progres = models.CharField(choices=KNOWLEDGE_ASSESSMENT)
