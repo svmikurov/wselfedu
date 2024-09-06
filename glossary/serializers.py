@@ -12,4 +12,4 @@ class GlossarySerializer(serializers.ModelSerializer):
         """Construct the serializer."""
 
         model = Glossary
-        fields = ['id', 'term']
+        fields = '__all__'
