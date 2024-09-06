@@ -7,7 +7,11 @@ from django.contrib import admin
 from django.forms import Form
 from django.http import HttpRequest
 
-from glossary.models import Glossary, GlossaryCategory
+from glossary.models import (
+    Glossary,
+    GlossaryCategory,
+    GlossaryExerciseSettings,
+)
 
 
 @admin.register(Glossary)
@@ -35,3 +39,8 @@ class GlossaryCategoryAdmin(admin.ModelAdmin):
     """Representation of model in the admin interface."""
 
     exclude = ['created_at']
+
+
+@admin.register(GlossaryExerciseSettings)
+class GlossaryExerciseSettingsAdmin(admin.ModelAdmin):
+    """Representation of model in the admin interface."""

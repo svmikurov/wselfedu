@@ -3,8 +3,10 @@
 from django.db import models
 
 from english.models import CategoryModel
-from task.forms.english_translate_choice_form import EDGE_PERIOD_ALIASES, \
-    KNOWLEDGE_ASSESSMENT
+from task.forms.english_translate_choice_form import (
+    EDGE_PERIOD_ALIASES,
+    KNOWLEDGE_ASSESSMENT,
+)
 from users.models import UserModel
 
 

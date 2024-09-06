@@ -1,6 +1,6 @@
 """REST views."""
 
-from rest_framework import generics, permissions
+from rest_framework import generics
 
 from glossary.models import Glossary
 from glossary.serializers import GlossarySerializer
@@ -11,4 +11,3 @@ class GlossaryListAPIView(generics.ListCreateAPIView):
 
     queryset = Glossary.objects.all()
     serializer_class = GlossarySerializer
-    # permission_classes = [permissions.IsAuthenticated]

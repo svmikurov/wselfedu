@@ -24,6 +24,6 @@ class GlossaryExercise:
                 'term': '',
                 'definition': '',
                 'category': '',
-            }
+            },
         }
         return results
