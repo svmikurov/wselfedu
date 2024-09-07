@@ -3,13 +3,14 @@
 from django.http import (
     HttpRequest,
     HttpResponse,
+    HttpResponseBase,
     HttpResponseRedirect,
     JsonResponse,
 )
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import RedirectView, TemplateView
 
 from task.forms import MathCalculationChoiceForm, NumberInputForm
 from task.points import get_points_balance
@@ -160,3 +161,30 @@ def render_task(request: HttpRequest) -> JsonResponse:
         },
         status=200,
     )
+
+
+class SetMultiplicationTableExerciseView(RedirectView):
+    """Setup initial data for multiplication table exercises view.
+
+    Saves to session the ``task_conditions``.
+
+    Redirect to ``MathCalculateSolutionView``.
+    """
+
+    url = reverse_lazy('task:math_calculate_solution')
+
+    def get(
+        self,
+        request: HttpRequest,
+        *args: object,
+        **kwargs: object,
+    ) -> HttpResponseBase:
+        """Save task conditions in session."""
+        task_conditions = {
+            'calculation_type': 'mul',
+            'min_value': 2,
+            'max_value': 9,
+        }
+        request.session['task_conditions'] = task_conditions
+        response = super().get(request, *args, **kwargs)
+        return response
