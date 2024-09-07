@@ -2,7 +2,6 @@
 
 from django.db import models
 
-from english.models import CategoryModel
 from task.forms.english_translate_choice_form import (
     EDGE_PERIOD_ALIASES,
     KNOWLEDGE_ASSESSMENT,
@@ -15,7 +14,7 @@ class GlossaryCategory(models.Model):
 
     category = models.CharField(max_length=50)
     url = models.URLField(blank=True)
-    created_at = models.DateField(auto_created=True, verbose_name='Добавлено')
+    created_at = models.DateField(auto_now_add=True, verbose_name='Добавлено')
 
     class Meta:
         """Set model features."""
@@ -69,11 +68,34 @@ class Glossary(models.Model):
         return self.term
 
 
-class GlossaryExerciseSettings(models.Model):
+class GlossaryExerciseParameters(models.Model):
     """Glossary exercise settings story model."""
 
-    user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    period_start_date = models.CharField(choices=EDGE_PERIOD_ALIASES)
-    period_end_date = models.CharField(choices=EDGE_PERIOD_ALIASES)
-    category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE)
-    progres = models.CharField(choices=KNOWLEDGE_ASSESSMENT)
+    START_INDEX = 0
+    END_INDEX = -1
+    DEFAULT_PERIOD_START = EDGE_PERIOD_ALIASES[END_INDEX]
+    DEFAULT_PERIOD_END = EDGE_PERIOD_ALIASES[START_INDEX]
+
+    user = models.OneToOneField(UserModel, on_delete=models.CASCADE)
+    period_start_date = models.CharField(
+        choices=EDGE_PERIOD_ALIASES, default=DEFAULT_PERIOD_START
+    )
+    period_end_date = models.CharField(
+        choices=EDGE_PERIOD_ALIASES, default=DEFAULT_PERIOD_END
+    )
+    category = models.ForeignKey(
+        GlossaryCategory, on_delete=models.CASCADE, blank=True, null=True
+    )
+    progres = models.CharField(
+        choices=KNOWLEDGE_ASSESSMENT, default=KNOWLEDGE_ASSESSMENT[START_INDEX]
+    )
+
+    class Meta:
+        """Set model features."""
+
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Настройки изучения терминов пользователей'
+
+    def __str__(self) -> str:
+        """Provide the informal string representation of an object."""
+        return str(self.user)
