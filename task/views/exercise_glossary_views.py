@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.request import Request
 from rest_framework.response import Response
 
+from config.consts import EDGE_PERIOD_ITEMS, DEFAULT_GLOSSARY_PARAMS
 from glossary.models import GlossaryExerciseParameters
 from task.serializers import GlossaryExerciseParametersSerializer
 
@@ -28,11 +29,19 @@ def glossary_exercise_parameters(
 ) -> JsonResponse | HttpResponse:
     """Glossary exercise api view."""
     user = request.user
-    try:
-        parameters = GlossaryExerciseParameters.objects.get(user=user)
-    except GlossaryExerciseParameters.DoesNotExist:
-        return HttpResponse(status=404)
 
     if request.method == 'GET':
-        serializer = GlossaryExerciseParametersSerializer(parameters)
-        return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+        try:
+            user_params = GlossaryExerciseParameters.objects.get(user=user)
+        except GlossaryExerciseParameters.DoesNotExist:
+            parameters = DEFAULT_GLOSSARY_PARAMS
+        else:
+            serializer = GlossaryExerciseParametersSerializer(user_params)
+            parameters = serializer.data
+
+        response_data = {
+            'edge_period_items': EDGE_PERIOD_ITEMS,
+            'parameters': parameters,
+        }
+
+        return JsonResponse(response_data, status=status.HTTP_200_OK)
