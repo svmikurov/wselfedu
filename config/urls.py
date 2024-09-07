@@ -24,6 +24,8 @@ from django.views.generic import TemplateView
 
 from english import views_drf
 from glossary.views_drf import GlossaryListAPIView
+from task.views import glossary_exercise
+from task.views.exercise_glossary_views import glossary_exercise_parameters
 
 urlpatterns = [
     path('admin/doc/', include('django.contrib.admindocs.urls')),
@@ -54,6 +56,14 @@ drf_urlpatterns = [
     path(
         'api/v1/glossary/',
         GlossaryListAPIView.as_view(),
+    ),
+    path(
+        'api/v1/glossary/exercise/',
+        glossary_exercise,
+    ),
+    path(
+        'api/v1/glossary/exercise/parameters/',
+        glossary_exercise_parameters,
     ),
 ]
 
