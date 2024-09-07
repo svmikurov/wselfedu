@@ -1,6 +1,7 @@
 """REST views."""
 
 from rest_framework import generics
+from rest_framework.views import APIView
 
 from glossary.models import Glossary
 from glossary.serializers import GlossarySerializer
@@ -11,3 +12,7 @@ class GlossaryListAPIView(generics.ListCreateAPIView):
 
     queryset = Glossary.objects.all()
     serializer_class = GlossarySerializer
+
+
+class GlossaryExerciseSettingsAPIView(APIView):
+    """Glossary Exercise Settings view."""
