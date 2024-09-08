@@ -26,9 +26,9 @@ Glossary Exercise endpoint
 +-----------+---------------------------+-------------------------------+
 | Method    | Request                   | Response                      |
 +===========+===========================+===============================+
-| GET       |                           |                               |
-+-----------+---------------------------+-------------------------------+
-| POST      |                           |                               |
+| POST      | * params                  |                               |
+|           | * action                  |                               |
+|           | * term_id                 |                               |
 +-----------+---------------------------+-------------------------------+
 
 Glossary Exercise Parameters endpoint
@@ -40,45 +40,45 @@ Add or update user Glossary Exercise Parameters.
 
    api/v1/glossary/exercise/parameters/
 
-+-----------+---------------------------+-------------------------------+
-| Method    | Request                   | Response                      |
-+===========+===========================+===============================+
-| GET       | --                        | HTTP_200_OK                   |
-|           |                           |  * edge_period_items          |
-|           |                           |                               |
-|           |                           |    - alias                    |
-|           |                           |    - humanly                  |
-|           |                           |                               |
-|           |                           |  * categories                 |
-|           |                           |                               |
-|           |                           |    - id                       |
-|           |                           |    - name                     |
-|           |                           |    - url                      |
-|           |                           |    - created_at               |
-|           |                           |    - user                     |
-|           |                           |                               |
-|           |                           |  * parameters                 |
-|           |                           |                               |
-|           |                           |    - period_start_date        |
-|           |                           |    - period_end_date          |
-|           |                           |    - category                 |
-|           |                           |    - progres                  |
-|           |                           |                               |
-|           |                           |  * progres                    |
-|           |                           |                               |
-|           |                           |    - alias                    |
-|           |                           |    - humanly                  |
-+-----------+---------------------------+-------------------------------+
-| POST      | * period_start_date       | HTTP_200_OK                   |
-|           | * period_end_date         |  * period_start_date          |
-|           | * category                |  * period_end_date            |
-|           | * progres                 |  * category                   |
-|           |                           |  * progres                    |
-|           |                           |                               |
-|           |                           | HTTP_201_CREATED              |
-|           |                           |  * period_start_date          |
-|           |                           |  * period_end_date            |
-|           |                           |  * category                   |
-|           |                           |  * progres                    |
-|           |                           |                               |
-+-----------+---------------------------+-------------------------------+
++-----------+-----------------------------------+-------------------------------+
+| Method    | Request                           | Response                      |
++===========+===================================+===============================+
+| GET       | --                                | HTTP_200_OK                   |
+|           |                                   |  * edge_period_items          |
+|           |                                   |                               |
+|           |                                   |    - alias                    |
+|           |                                   |    - humanly                  |
+|           |                                   |                               |
+|           |                                   |  * categories                 |
+|           |                                   |                               |
+|           |                                   |    - id                       |
+|           |                                   |    - name                     |
+|           |                                   |    - url                      |
+|           |                                   |    - created_at               |
+|           |                                   |    - user                     |
+|           |                                   |                               |
+|           |                                   |  * parameters                 |
+|           |                                   |                               |
+|           |                                   |    - period_start_date        |
+|           |                                   |    - period_end_date          |
+|           |                                   |    - category                 |
+|           |                                   |    - progres                  |
+|           |                                   |                               |
+|           |                                   |  * progres                    |
+|           |                                   |                               |
+|           |                                   |    - alias                    |
+|           |                                   |    - humanly                  |
++-----------+-----------------------------------+-------------------------------+
+| POST      | * period_start_date (optional)    | HTTP_200_OK                   |
+|           | * period_end_date (optional)      |  * period_start_date          |
+|           | * category (optional)             |  * period_end_date            |
+|           | * progres (optional)              |  * category                   |
+|           |                                   |  * progres                    |
+|           |                                   |                               |
+|           |                                   | HTTP_201_CREATED              |
+|           |                                   |  * period_start_date          |
+|           |                                   |  * period_end_date            |
+|           |                                   |  * category                   |
+|           |                                   |  * progres                    |
+|           |                                   |                               |
++-----------+-----------------------------------+-------------------------------+
