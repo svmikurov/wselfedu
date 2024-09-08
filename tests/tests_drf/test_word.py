@@ -12,7 +12,7 @@ from users.models import UserModel
 class TestWordList(APITestCase):
     """Test word list api view."""
 
-    fixtures = ['tests/tests_drf/fixtures/words.json']
+    fixtures = ['tests/tests_drf/fixtures/glossaries.json']
 
     def setUp(self) -> None:
         """Set up data."""
