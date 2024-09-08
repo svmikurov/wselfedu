@@ -14,7 +14,6 @@ class GlossaryExercise:
     @property
     def data(self) -> dict:
         """Exercise data."""
-        # Return task data or condition
         results = {
             'errors': [
                 'Нет терминов, соответствующих условиям задачи',
