@@ -12,7 +12,8 @@ from users.models import UserModel
 class GlossaryCategory(models.Model):
     """Glossary category model class."""
 
-    category = models.CharField(max_length=50)
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
     url = models.URLField(blank=True)
     created_at = models.DateField(auto_now_add=True, verbose_name='Добавлено')
 
@@ -24,7 +25,7 @@ class GlossaryCategory(models.Model):
 
     def __str__(self) -> str:
         """Provide the informal string representation of an object."""
-        return self.category
+        return self.name
 
 
 class Glossary(models.Model):
@@ -68,26 +69,36 @@ class Glossary(models.Model):
         return self.term
 
 
-class GlossaryExerciseParameters(models.Model):
-    """Glossary exercise settings story model."""
+class GlossaryExerciseParams(models.Model):
+    """Glossary exercise settings story model.
 
-    START_INDEX = 0
-    END_INDEX = -1
-    DEFAULT_PERIOD_START = EDGE_PERIOD_ALIASES[END_INDEX]
-    DEFAULT_PERIOD_END = EDGE_PERIOD_ALIASES[START_INDEX]
+    Story default user parameters to select wth terms in exercise:
+        - User - student;
+        - Start and End periods of adding a term;
+        - term Category;
+        - Progres of term study, as knowledge assessment.
+    """
+
+    DEFAULT_START_PERIOD_INDEX = 0
+    DEFAULT_END_PERIOD_INDEX = -1
+    DEFAULT_PROGRES_INDEX = 0
+    ALIAS_INDEX = 0
+    DEFAULT_PERIOD_START = EDGE_PERIOD_ALIASES[DEFAULT_START_PERIOD_INDEX]
+    DEFAULT_PERIOD_END = EDGE_PERIOD_ALIASES[DEFAULT_END_PERIOD_INDEX]
 
     user = models.OneToOneField(UserModel, on_delete=models.CASCADE)
     period_start_date = models.CharField(
-        choices=EDGE_PERIOD_ALIASES, default=DEFAULT_PERIOD_START
+        choices=EDGE_PERIOD_ALIASES, default=DEFAULT_PERIOD_START[ALIAS_INDEX]
     )
     period_end_date = models.CharField(
-        choices=EDGE_PERIOD_ALIASES, default=DEFAULT_PERIOD_END
+        choices=EDGE_PERIOD_ALIASES, default=DEFAULT_PERIOD_END[ALIAS_INDEX]
     )
     category = models.ForeignKey(
         GlossaryCategory, on_delete=models.CASCADE, blank=True, null=True
     )
     progres = models.CharField(
-        choices=KNOWLEDGE_ASSESSMENT, default=KNOWLEDGE_ASSESSMENT[START_INDEX]
+        choices=KNOWLEDGE_ASSESSMENT,
+        default=KNOWLEDGE_ASSESSMENT[DEFAULT_PROGRES_INDEX][ALIAS_INDEX],
     )
 
     class Meta:

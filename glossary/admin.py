@@ -10,7 +10,7 @@ from django.http import HttpRequest
 from glossary.models import (
     Glossary,
     GlossaryCategory,
-    GlossaryExerciseParameters,
+    GlossaryExerciseParams,
 )
 
 
@@ -41,6 +41,6 @@ class GlossaryCategoryAdmin(admin.ModelAdmin):
     exclude = ['created_at']
 
 
-@admin.register(GlossaryExerciseParameters)
+@admin.register(GlossaryExerciseParams)
 class GlossaryExerciseSettingsAdmin(admin.ModelAdmin):
     """Representation of model in the admin interface."""

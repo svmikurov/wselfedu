@@ -1,5 +1,9 @@
 """Constants."""
 
+GET = 'GET'
+POST = 'POST'
+
+
 ALIAS = 'alias'
 HUMANLY = 'humanly'
 
@@ -16,8 +20,15 @@ EDGE_PERIOD_ITEMS = [
     {ALIAS: 'M9', HUMANLY: 'Девять месяцев назад'},
     {ALIAS: 'NC', HUMANLY: 'Добавлено'},
 ]
+PROGRES_STAGES = [
+    {ALIAS: 'S', HUMANLY: 'Изучаю'},
+    {ALIAS: 'R', HUMANLY: 'Повторяю'},
+    {ALIAS: 'E', HUMANLY: 'Проверяю'},
+    {ALIAS: 'K', HUMANLY: 'Знаю'},
+]
 
 CATEGORY = 'category'
+CATEGORIES = 'categories'
 PERIOD_START_DATE = 'period_start_date'
 PERIOD_END_DATE = 'period_end_date'
 DEFAULT_PERIOD_START_INDEX = -1

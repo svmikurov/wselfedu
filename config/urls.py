@@ -56,14 +56,17 @@ drf_urlpatterns = [
     path(
         'api/v1/glossary/',
         GlossaryListAPIView.as_view(),
+        name='api_glossary',
     ),
     path(
         'api/v1/glossary/exercise/',
         glossary_exercise,
+        name='api_glossary_exercise',
     ),
     path(
         'api/v1/glossary/exercise/parameters/',
         glossary_exercise_parameters,
+        name='api_glossary_exercise_parameters',
     ),
 ]
 
