@@ -15,14 +15,13 @@ class GlossaryExercise:
     def data(self) -> dict:
         """Exercise data."""
         results = {
-            'errors': [
-                'Нет терминов, соответствующих условиям задачи',
-            ],
-            'task': {
-                'term_id': '',
-                'term': '',
-                'definition': '',
-                'category': '',
-            },
+            'term_id': '',
+            'term': '',
+            'definition': '',
+            'category': '',
         }
         return results
+
+    @property
+    def errors(self) -> object:
+        return False

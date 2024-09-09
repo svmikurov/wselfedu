@@ -17,7 +17,10 @@ from config.consts import (
     POST,
     PROGRES_STAGES,
 )
-from glossary.models import GlossaryCategory, GlossaryExerciseParams
+from glossary.models import (
+    GlossaryCategory,
+    GlossaryExerciseParams,
+)
 from task.serializers import (
     GlossaryCategorySerializer,
     GlossaryExerciseParamsSerializer,
@@ -34,12 +37,12 @@ def glossary_exercise(request: Request) -> JsonResponse:
 
     task = GlossaryExercise(data.params).create_task()
 
-    if task.success:
-        logging.info(f'Task created | {task.data = }')
-        return JsonResponse(task.data, status=status.HTTP_200_OK)
+    if task.errors:
+        logging.info(f'Unable to create task | {task.errors = }')
+        return JsonResponse(task.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    logging.info(f'Unable to create task | {task.errors = }')
-    return JsonResponse(task.errors, status=status.HTTP_400_BAD_REQUEST)
+    logging.info(f'Task created | {task.data = }')
+    return JsonResponse(task.data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET', 'POST'])
