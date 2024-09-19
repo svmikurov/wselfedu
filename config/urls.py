@@ -46,11 +46,12 @@ drf_urlpatterns = [
     path(
         'api/v1/word/',
         views_drf.WordListCreateAPIView.as_view(),
-        name='api-word',
+        name='api-words',
     ),
     path(
         'api/v1/word/<int:pk>/',
         views_drf.WordRetrieveUpdateDestroyAPIView.as_view(),
+        name='api-word',
     ),
     # Glossary
     path(
