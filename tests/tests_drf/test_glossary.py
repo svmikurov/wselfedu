@@ -9,6 +9,65 @@ from glossary.models import GlossaryExerciseParams
 from users.models import UserModel
 
 
+class TestGetGlossaryExerciseParams(APITestCase):
+    """Test get Glossary Exercise Params."""
+
+    fixtures = ['tests/tests_drf/fixtures/glossaries.json']
+
+    def setUp(self) -> None:
+        """Set up data."""
+        self.api_client = APIClient()
+        self.user = UserModel.objects.get(username='user1')
+        self.url = reverse('api_glossary_exercise_parameters')
+
+    def test_get_glossary_exercise_params(self) -> None:
+        """Get glossary exercise params."""
+        expect = {
+            'edge_period_items': [
+                {'alias': 'DT', 'humanly': 'Сегодня'},
+                {'alias': 'D3', 'humanly': 'Три дня назад'},
+                {'alias': 'W1', 'humanly': 'Неделя назад'},
+                {'alias': 'W2', 'humanly': 'Две недели назад'},
+                {'alias': 'W3', 'humanly': 'Три недели назад'},
+                {'alias': 'W4', 'humanly': 'Четыре недели назад'},
+                {'alias': 'W7', 'humanly': 'Семь недель назад'},
+                {'alias': 'M3', 'humanly': 'Три месяца назад'},
+                {'alias': 'M6', 'humanly': 'Шесть месяцев назад'},
+                {'alias': 'M9', 'humanly': 'Девять месяцев назад'},
+                {'alias': 'NC', 'humanly': 'Добавлено'}
+            ],
+            'categories': [
+                {'id': 1,
+                 'name': 'GitHub Actions',
+                 'url': '',
+                 'created_at': '2024-09-07',
+                 'user': 1},
+                {'id': 2,
+                 'name': 'PostgreSQL',
+                 'url': '',
+                 'created_at': '2024-09-07',
+                 'user': 1}
+            ],
+            'parameters': {
+                'period_start_date': 'NC',
+                'period_end_date': 'DT',
+                'category': 1,
+                'progres': 'S'
+            },
+            'progres': [
+                {'alias': 'S', 'humanly': 'Изучаю'},
+                {'alias': 'R', 'humanly': 'Повторяю'},
+                {'alias': 'E', 'humanly': 'Проверяю'},
+                {'alias': 'K', 'humanly': 'Знаю'}
+            ]
+        }
+        self.api_client.force_authenticate(user=self.user)
+        response = self.api_client.get(self.url)
+
+        assert response.status_code == status.HTTP_200_OK
+        assert response.json() == expect
+
+
 class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
     """Test update or create glossary exersice user default params."""
 
