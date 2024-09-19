@@ -1,29 +1,5 @@
 [
 {
-  "model": "sessions.session",
-  "pk": "tpqa7d7pfgk5g5devmu1xcxb6cmgjt71",
-  "fields": {
-    "session_data": ".eJxVjEEOwiAQRe_C2hCgMiMu3XuGZhgGqRpISrsy3l2bdKHb_977LzXSupRx7TKPU1JnZdXhd4vED6kbSHeqt6a51WWeot4UvdOury3J87K7fweFevnWzpAPR0kJwAdjncNgkCGA98Im0okgGUARzhiGTBDjYDOyZUAjyOr9Ac1UN90:1snKp9:g8jdHCdhwyfrxDVpeYv0nAdwwljaiq-JEE5aEuWhQ-o",
-    "expire_date": "2024-09-22T16:31:39.414Z"
-  }
-},
-{
-  "model": "authtoken.token",
-  "pk": "105a38f4148ac406d09df8ae0b515f65a180b781",
-  "fields": {
-    "user": 1,
-    "created": "2024-09-08T16:23:18.934Z"
-  }
-},
-{
-  "model": "authtoken.token",
-  "pk": "2c797585d59bcdf074c41fbaa74e251d3ea5e4c0",
-  "fields": {
-    "user": 2,
-    "created": "2024-09-08T16:23:27.728Z"
-  }
-},
-{
   "model": "users.usermodel",
   "pk": 1,
   "fields": {
