@@ -2,6 +2,7 @@
 
 from django.db import models
 
+from config.consts import TERM, USER
 from task.forms.english_translate_choice_form import (
     EDGE_PERIOD_ALIASES,
     KNOWLEDGE_ASSESSMENT,
@@ -67,6 +68,36 @@ class Glossary(models.Model):
     def __str__(self) -> str:
         """Provide the informal string representation of an object."""
         return self.term
+
+
+class GlossaryProgress(models.Model):
+    """Glossary terms study progres."""
+
+    term = models.ForeignKey(
+        Glossary,
+        on_delete=models.CASCADE,
+    )
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.CASCADE,
+    )
+    progres = models.DecimalField(
+        max_digits=2,
+        decimal_places=0,
+        default=0,
+    )
+    """Numerical representation of study progress.
+    """
+
+    class Meta:
+        """Model options."""
+
+        unique_together = [[USER, TERM]]
+        verbose_name = 'Прогресс'
+
+    def __str__(self) -> str:
+        """Provide the informal string representation of an object."""
+        return self.progres
 
 
 class GlossaryExerciseParams(models.Model):
