@@ -23,7 +23,10 @@ from django.urls import include, path, re_path
 from django.views.generic import TemplateView
 
 from english import views_drf
-from glossary.views_drf import GlossaryListAPIView
+from glossary.views_drf import (
+    GlossaryListAPIView,
+    update_term_study_progres,
+)
 from task.views import glossary_exercise
 from task.views.exercise_glossary_views import glossary_exercise_parameters
 
@@ -58,6 +61,11 @@ drf_urlpatterns = [
         'api/v1/glossary/',
         GlossaryListAPIView.as_view(),
         name='api_glossary',
+    ),
+    path(
+        'api/v1/glossary/term/progres/',
+        update_term_study_progres,
+        name='api_glossary_term_progres',
     ),
     path(
         'api/v1/glossary/exercise/',
