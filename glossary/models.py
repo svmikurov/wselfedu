@@ -121,15 +121,23 @@ class GlossaryExerciseParams(models.Model):
     DEFAULT_PERIOD_START = EDGE_PERIOD_ALIASES[DEFAULT_START_PERIOD_INDEX]
     DEFAULT_PERIOD_END = EDGE_PERIOD_ALIASES[DEFAULT_END_PERIOD_INDEX]
 
-    user = models.OneToOneField(UserModel, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        UserModel,
+        on_delete=models.CASCADE,
+    )
     period_start_date = models.CharField(
-        choices=EDGE_PERIOD_ALIASES, default=DEFAULT_PERIOD_START[ALIAS_INDEX]
+        choices=EDGE_PERIOD_ALIASES,
+        default=DEFAULT_PERIOD_START[ALIAS_INDEX],
     )
     period_end_date = models.CharField(
-        choices=EDGE_PERIOD_ALIASES, default=DEFAULT_PERIOD_END[ALIAS_INDEX]
+        choices=EDGE_PERIOD_ALIASES,
+        default=DEFAULT_PERIOD_END[ALIAS_INDEX],
     )
     category = models.ForeignKey(
-        GlossaryCategory, on_delete=models.CASCADE, blank=True, null=True
+        GlossaryCategory,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
     )
     progres = models.CharField(
         choices=KNOWLEDGE_ASSESSMENT,

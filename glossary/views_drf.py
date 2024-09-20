@@ -1,4 +1,6 @@
-"""REST views."""
+"""Glossary views."""
+
+import logging
 
 from django.http import HttpRequest, HttpResponse
 from rest_framework import generics, permissions, status
@@ -25,10 +27,18 @@ class GlossaryListAPIView(generics.ListCreateAPIView):
     serializer_class = GlossarySerializer
 
 
+class GlossaryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    """Retrieve, update and destroy Glossary API view."""
+
+    queryset = Glossary.objects.all()
+    serializer_class = GlossarySerializer
+
+
 @api_view([POST])
 @permission_classes((permissions.AllowAny,))
 def update_term_study_progres(request: HttpRequest) -> HttpResponse:
     """Update term study progres."""
+    logging.info('get request')
     user = request.user
     payload = JSONParser().parse(request)
     term_pk = payload.get(ID)
@@ -38,7 +48,7 @@ def update_term_study_progres(request: HttpRequest) -> HttpResponse:
     except Glossary.DoesNotExist:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
     else:
-        # Only owner have access to her term.
+        # Only owner have access to his term.
         if user != term.user:
             return HttpResponse(status=status.HTTP_403_FORBIDDEN)
 
