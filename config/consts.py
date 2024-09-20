@@ -29,11 +29,14 @@ DEFAULT_PERIOD_START_INDEX = -1
 DEFAULT_PERIOD_END_INDEX = 0
 DEFAULT_CATEGORY = None
 
-INCREMENT_STEP = 1   # the step value does not change
+INCREMENT_STEP = 1  # the step value does not change
 DECREMENT_STEP = -1  # the step value does not change
 
 TERM_PROGRES_MIN = 0
 TERM_PROGRES_MAX = 11
+WORD_PROGRES_MIN = 0
+WORD_PROGRES_MAX = 11
+
 
 ########################################################################
 # Collections

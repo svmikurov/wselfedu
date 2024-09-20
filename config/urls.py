@@ -22,13 +22,19 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 from django.views.generic import TemplateView
 
-from english import views_drf
+from english.views_drf import (
+    WordDetailAPIView,
+    WordListCreateAPIView,
+)
 from glossary.views_drf import (
+    GlossaryDetailAPIView,
     GlossaryListAPIView,
     update_term_study_progres,
 )
 from task.views import glossary_exercise
-from task.views.exercise_glossary_views import glossary_exercise_parameters
+from task.views.exercise_glossary_views import (
+    glossary_exercise_parameters,
+)
 
 urlpatterns = [
     path('admin/doc/', include('django.contrib.admindocs.urls')),
@@ -44,26 +50,31 @@ drf_urlpatterns = [
     path('api/v1/drf-auth/', include('rest_framework.urls')),
     # Token auth
     path('api/v1/auth/', include('djoser.urls')),
-    re_path(r'^auth/', include('djoser.urls.authtoken')),
-    # End Auth
-    path(
-        'api/v1/word/',
-        views_drf.WordListCreateAPIView.as_view(),
-        name='api-words',
-    ),
+    re_path(r'^auth/', include('djoser.urls.authtoken')),  # End Auth
+    # Word
     path(
         'api/v1/word/<int:pk>/',
-        views_drf.WordRetrieveUpdateDestroyAPIView.as_view(),
+        WordDetailAPIView.as_view(),
         name='api-word',
     ),
+    path(
+        'api/v1/word/',
+        WordListCreateAPIView.as_view(),
+        name='api-words',
+    ),
     # Glossary
+    path(
+        'api/v1/glossary/<int:pk>/',
+        GlossaryDetailAPIView.as_view(),
+        name='api_term',
+    ),
     path(
         'api/v1/glossary/',
         GlossaryListAPIView.as_view(),
         name='api_glossary',
     ),
     path(
-        'api/v1/glossary/term/progres/',
+        'api/v1/glossary/progres/',
         update_term_study_progres,
         name='api_glossary_term_progres',
     ),
