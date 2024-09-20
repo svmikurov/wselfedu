@@ -1,16 +1,132 @@
-"""Test glossary api."""
+"""Test Glossary exercise api.
 
+Test:
+    TODO: ...
+    - update progres on: increment, decrement, min, max, forbidden, TODO: get;
+    - render task on: status, TODO: ...;
+    - render params on: status, create, update, TODO: forbidden;
+"""
+
+from django.db.models import Q
 from django.forms.models import model_to_dict
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
-from glossary.models import GlossaryExerciseParams
+from config.consts import (
+    DECREMENT_STEP,
+    INCREMENT_STEP,
+    TERM_PROGRES_MAX,
+    TERM_PROGRES_MIN,
+)
+from glossary.models import Glossary, GlossaryExerciseParams, GlossaryProgress
 from users.models import UserModel
 
 
+class TestUpdateProgres(APITestCase):
+    """Test update Glossary progres."""
+
+    fixtures = ['tests/tests_drf/fixtures/glossaries.json']
+
+    def setUp(self) -> None:
+        """Set up data."""
+        self.api_client = APIClient()
+        self.user1 = UserModel.objects.get(username='user1')
+        self.user2 = UserModel.objects.get(username='user2')
+        self.url = reverse('api_glossary_term_progres')
+        self.term_pk = 1
+
+    def query_term(self, progres: int | None = None) -> GlossaryProgress:
+        """Update or create term."""
+        obj, _ = GlossaryProgress.objects.update_or_create(
+            term=Glossary.objects.get(pk=self.term_pk),
+            user=self.user1,
+            progres=progres or Q(),
+        )
+        return obj
+
+    def test_know_before_max(self) -> None:
+        """Test mark as know Term before max value."""
+        payload = {'action': 'know', 'id': self.term_pk}
+
+        self.api_client.force_authenticate(self.user1)
+        r = self.api_client.post(path=self.url, data=payload, format='json')
+        term_progres = self.query_term().progres
+
+        assert term_progres == TERM_PROGRES_MIN + INCREMENT_STEP
+        assert r.status_code == status.HTTP_200_OK
+
+    def test_know_on_max(self) -> None:
+        """Test know term on max value."""
+        self.query_term(progres=TERM_PROGRES_MAX)
+        payload = {'action': 'know', 'id': self.term_pk}
+
+        self.api_client.force_authenticate(self.user1)
+        r = self.api_client.post(path=self.url, data=payload, format='json')
+        term_progres = self.query_term().progres
+
+        assert r.status_code == status.HTTP_200_OK
+        assert term_progres == TERM_PROGRES_MAX
+
+    def test_not_know_before_min(self) -> None:
+        """Test not know term before min value."""
+        self.query_term(progres=TERM_PROGRES_MAX)
+        payload = {'action': 'not_know', 'id': self.term_pk}
+
+        self.api_client.force_authenticate(self.user1)
+        r = self.api_client.post(path=self.url, data=payload, format='json')
+        term_progres = self.query_term().progres
+
+        assert r.status_code == status.HTTP_200_OK
+        assert term_progres == TERM_PROGRES_MAX + DECREMENT_STEP
+
+    def test_not_know_on_min(self) -> None:
+        """Test not know term on min value or has not progres."""
+        payload = {'action': 'not_know', 'id': self.term_pk}
+
+        self.api_client.force_authenticate(self.user1)
+        r = self.api_client.post(path=self.url, data=payload, format='json')
+        term_progres = self.query_term().progres
+
+        assert r.status_code == status.HTTP_200_OK
+        assert term_progres == TERM_PROGRES_MIN
+
+    def test_forbidden(self) -> None:
+        """Test access to term progres for not owner."""
+        payload = {'action': 'know', 'id': self.term_pk}
+
+        self.api_client.force_authenticate(self.user2)
+        r = self.api_client.post(path=self.url, data=payload, format='json')
+
+        assert r.status_code == status.HTTP_403_FORBIDDEN
+        assert not GlossaryProgress.objects.filter(
+            term=Glossary.objects.get(pk=self.term_pk)
+        ).exists()
+
+
+class TestGlossaryTask(APITestCase):
+    """Test render task data."""
+
+    fixtures = ['tests/tests_drf/fixtures/glossaries.json']
+
+    def setUp(self) -> None:
+        """Set up data."""
+        self.api_client = APIClient()
+        self.user = UserModel.objects.get(username='user1')
+        self.url = reverse('api_glossary_exercise')
+
+    def test_render_task(self) -> None:
+        """Test render exercise."""
+        expect = ('term_id', 'question_text', 'answer_text')
+        self.api_client.force_authenticate(user=self.user)
+        response = self.api_client.get(self.url)
+
+        assert response.status_code == status.HTTP_200_OK
+        assert tuple(response.json()) == expect
+
+
 class TestGetGlossaryExerciseParams(APITestCase):
-    """Test get Glossary Exercise Params."""
+    """Test render Glossary exercise params."""
 
     fixtures = ['tests/tests_drf/fixtures/glossaries.json']
 
@@ -20,8 +136,8 @@ class TestGetGlossaryExerciseParams(APITestCase):
         self.user = UserModel.objects.get(username='user1')
         self.url = reverse('api_glossary_exercise_parameters')
 
-    def test_get_glossary_exercise_params(self) -> None:
-        """Get glossary exercise params."""
+    def test_render_glossary_exercise_params(self) -> None:
+        """Test render glossary exercise params."""
         expect = {
             'edge_period_items': [
                 {'alias': 'DT', 'humanly': 'Сегодня'},
@@ -34,32 +150,36 @@ class TestGetGlossaryExerciseParams(APITestCase):
                 {'alias': 'M3', 'humanly': 'Три месяца назад'},
                 {'alias': 'M6', 'humanly': 'Шесть месяцев назад'},
                 {'alias': 'M9', 'humanly': 'Девять месяцев назад'},
-                {'alias': 'NC', 'humanly': 'Добавлено'}
+                {'alias': 'NC', 'humanly': 'Добавлено'},
             ],
             'categories': [
-                {'id': 1,
-                 'name': 'GitHub Actions',
-                 'url': '',
-                 'created_at': '2024-09-07',
-                 'user': 1},
-                {'id': 2,
-                 'name': 'PostgreSQL',
-                 'url': '',
-                 'created_at': '2024-09-07',
-                 'user': 1}
+                {
+                    'id': 1,
+                    'name': 'GitHub Actions',
+                    'url': '',
+                    'created_at': '2024-09-07',
+                    'user': 1,
+                },
+                {
+                    'id': 2,
+                    'name': 'PostgreSQL',
+                    'url': '',
+                    'created_at': '2024-09-07',
+                    'user': 1,
+                },
             ],
             'parameters': {
                 'period_start_date': 'NC',
                 'period_end_date': 'DT',
                 'category': 1,
-                'progres': 'S'
+                'progres': 'S',
             },
             'progres': [
                 {'alias': 'S', 'humanly': 'Изучаю'},
                 {'alias': 'R', 'humanly': 'Повторяю'},
                 {'alias': 'E', 'humanly': 'Проверяю'},
-                {'alias': 'K', 'humanly': 'Знаю'}
-            ]
+                {'alias': 'K', 'humanly': 'Знаю'},
+            ],
         }
         self.api_client.force_authenticate(user=self.user)
         response = self.api_client.get(self.url)
@@ -69,7 +189,7 @@ class TestGetGlossaryExerciseParams(APITestCase):
 
 
 class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
-    """Test update or create glossary exersice user default params."""
+    """Test update or create user params for Glossary exersice."""
 
     fixtures = ['tests/tests_drf/fixtures/glossaries.json']
 

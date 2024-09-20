@@ -61,6 +61,7 @@
   "model": "glossary.glossary",
   "pk": 1,
   "fields": {
+    "user": 1,
     "term": "runner",
     "translate": "",
     "definition": "сервер, на котором выполняются рабочие процессы при их активации",
@@ -73,6 +74,7 @@
   "model": "glossary.glossary",
   "pk": 2,
   "fields": {
+    "user": 1,
     "term": "action",
     "translate": "",
     "definition": "пользовательское приложение для платформы GitHub Actions, которое выполняет сложную, но часто повторяющуюся задачу",
@@ -85,6 +87,7 @@
   "model": "glossary.glossary",
   "pk": 3,
   "fields": {
+    "user": 1,
     "term": "job",
     "translate": "",
     "definition": "набор шагов в рабочем процессе, который выполняется в том же средстве выполнения",
@@ -97,6 +100,7 @@
   "model": "glossary.glossary",
   "pk": 4,
   "fields": {
+    "user": 1,
     "term": "event",
     "translate": "",
     "definition": "определенное действие в репозитории, которое активирует выполнение рабочего процесса",
@@ -109,6 +113,7 @@
   "model": "glossary.glossary",
   "pk": 5,
   "fields": {
+    "user": 1,
     "term": "workflow",
     "translate": "",
     "definition": "настраиваемый автоматизированный процесс, который будет выполнять одно или несколько заданий",
@@ -121,6 +126,7 @@
   "model": "glossary.glossary",
   "pk": 6,
   "fields": {
+    "user": 1,
     "term": "pgAdmin",
     "translate": "",
     "definition": "is a web-based graphic user interface (GUI) for interacting with the PostgreSQL server.",
@@ -133,6 +139,7 @@
   "model": "glossary.glossary",
   "pk": 7,
   "fields": {
+    "user": 1,
     "term": "psql",
     "translate": "",
     "definition": "a terminal-based utility to connect to the PostgreSQL",
