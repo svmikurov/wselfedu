@@ -1,11 +1,9 @@
 """Glossary exercise view."""
 
-import logging
-
+from django.forms import model_to_dict
 from django.http import HttpResponse, JsonResponse
 from rest_framework import permissions, status
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.parsers import JSONParser
 from rest_framework.request import Request
 from rest_framework.response import Response
 
@@ -28,24 +26,17 @@ from task.serializers import (
 from task.tasks.glossary_exercise import GlossaryExercise
 
 
-@api_view(['POST'])
+@api_view([GET])
 @permission_classes((permissions.AllowAny,))
-def glossary_exercise(request: Request) -> JsonResponse:
+def glossary_exercise(request: Request) -> JsonResponse | HttpResponse:
     """Render the Glossary exercise."""
-    data = JSONParser().parse(request)
-    logging.info(f'Get request | {data = }')
-
-    task = GlossaryExercise(data.params).create_task()
-
-    if task.errors:
-        logging.info(f'Unable to create task | {task.errors = }')
-        return JsonResponse(task.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    logging.info(f'Task created | {task.data = }')
-    return JsonResponse(task.data, status=status.HTTP_200_OK)
+    query = GlossaryExerciseParams.objects.get(user=request.user)
+    exercise_params = model_to_dict(query)
+    task_data = GlossaryExercise(exercise_params).task_data
+    return JsonResponse(task_data, status=status.HTTP_200_OK)
 
 
-@api_view(['GET', 'POST'])
+@api_view([GET, POST])
 @permission_classes((permissions.AllowAny,))
 def glossary_exercise_parameters(
     request: Request,
