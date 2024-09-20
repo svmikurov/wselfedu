@@ -2,7 +2,8 @@
 
 Test:
     TODO: ...
-    - update progres on: increment, decrement, min, max, forbidden, TODO: get;
+    - update progres on: increment, decrement, min, max, forbidden,
+      TODO: get;
     - render task on: status, TODO: ...;
     - render params on: status, create, update, TODO: forbidden;
 """
@@ -117,7 +118,7 @@ class TestGlossaryTask(APITestCase):
 
     def test_render_task(self) -> None:
         """Test render exercise."""
-        expect = ('term_id', 'question_text', 'answer_text')
+        expect = ('id', 'question_text', 'answer_text')
         self.api_client.force_authenticate(user=self.user)
         response = self.api_client.get(self.url)
 

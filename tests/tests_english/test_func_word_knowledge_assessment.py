@@ -1,23 +1,20 @@
-"""Test word knowledge processing module."""
+"""Test word study progres."""
 
 from unittest import skip
 
 from django.test import TestCase
 from django.urls import reverse_lazy
 
+from config.consts import WORD_PROGRES_MAX, WORD_PROGRES_MIN
 from english.models import WordModel, WordUserKnowledgeRelation
 from english.orm_queries import (
     get_knowledge_assessment,
 )
 from users.models import UserModel
 
-MIN_KNOWLEDGE_ASSESSMENT = 0
-MAX_KNOWLEDGE_ASSESSMENT = 11
-"""Minimum and maximum user ratings of the word knowledge level."""
 
-
-class TestWordsKnowledgeAssessment(TestCase):
-    """Test of updating in the database of user assessment."""
+class TestUpdateProgres(TestCase):
+    """Test update Word study progres."""
 
     fixtures = ['tests/tests_english/fixtures/wse-fixtures.json']
 
@@ -65,19 +62,14 @@ class TestWordsKnowledgeAssessment(TestCase):
         )
 
     @skip
-    def test_update_knowledge_assessment(self) -> None:
-        """Test of user's change in word knowledge assessment."""
+    def test_know_before_max(self) -> None:
+        """Test mark as know Word before max value."""
+        word_id = ...
+        url = reverse_lazy('english:word_choice')
+        payload = {'action': 'know', 'id': word_id}
+
         self.client.force_login(self.user)
-        self.client.get(reverse_lazy('english:word_choice'))
-
-        self.client.post(self.middle_assessment_url, self.assessment_down)
-
-        updated_assessment = get_knowledge_assessment(
-            self.word_middle_assessment.pk,
-            self.user.pk,
-        )
-
-        self.assertEqual(updated_assessment, self.expected_updated_assessment)
+        self.client.post(url, payload)
 
     @skip
     def test_min_knowledge_assessment(self) -> None:
@@ -88,7 +80,7 @@ class TestWordsKnowledgeAssessment(TestCase):
             self.word_min_assessment.pk,
             self.user.pk,
         )
-        self.assertEqual(given_assessment, MIN_KNOWLEDGE_ASSESSMENT)
+        self.assertEqual(given_assessment, WORD_PROGRES_MIN)
 
     @skip
     def test_max_knowledge_assessment(self) -> None:
@@ -99,4 +91,4 @@ class TestWordsKnowledgeAssessment(TestCase):
             self.word_max_assessment.pk,
             self.user.pk,
         )
-        self.assertEqual(given_assessment, MAX_KNOWLEDGE_ASSESSMENT)
+        self.assertEqual(given_assessment, WORD_PROGRES_MAX)
