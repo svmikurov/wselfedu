@@ -32,6 +32,10 @@ class GlossaryCategory(models.Model):
 class Glossary(models.Model):
     """Glossary model class."""
 
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.CASCADE,
+    )
     term = models.CharField(
         max_length=50,
         verbose_name='Термин',
