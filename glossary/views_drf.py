@@ -1,8 +1,20 @@
 """REST views."""
 
-from rest_framework import generics
+from django.http import HttpRequest, HttpResponse
+from rest_framework import generics, permissions, status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.parsers import JSONParser
 
-from glossary.models import Glossary
+from config.consts import (
+    ACTION,
+    ID,
+    POST,
+    PROGRES,
+    PROGRES_STEPS,
+    TERM_PROGRES_MAX,
+    TERM_PROGRES_MIN,
+)
+from glossary.models import Glossary, GlossaryProgress
 from glossary.serializers import GlossarySerializer
 
 
@@ -11,3 +23,32 @@ class GlossaryListAPIView(generics.ListCreateAPIView):
 
     queryset = Glossary.objects.all()
     serializer_class = GlossarySerializer
+
+
+@api_view([POST])
+@permission_classes((permissions.AllowAny,))
+def update_term_study_progres(request: HttpRequest) -> HttpResponse:
+    """Update term study progres."""
+    user = request.user
+    payload = JSONParser().parse(request)
+    term_pk = payload.get(ID)
+
+    try:
+        term = Glossary.objects.get(pk=term_pk)
+    except Glossary.DoesNotExist:
+        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+    else:
+        # Only owner have access to her term.
+        if user != term.user:
+            return HttpResponse(status=status.HTTP_403_FORBIDDEN)
+
+    obj, _ = GlossaryProgress.objects.get_or_create(term=term, user=user)
+    action = payload.get(ACTION)
+    progres_delta = PROGRES_STEPS.get(action)
+    updated_progres = obj.progres + progres_delta
+
+    if TERM_PROGRES_MIN <= updated_progres <= TERM_PROGRES_MAX:
+        obj.progres = updated_progres
+        obj.save(update_fields=[PROGRES])
+
+    return HttpResponse(status=status.HTTP_200_OK)

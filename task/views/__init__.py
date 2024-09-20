@@ -1,5 +1,6 @@
 """Task app views."""
 
+from glossary.views_drf import update_term_study_progres
 from task.views.english_translate_views import (
     EnglishTranslateChoiceView,
     EnglishTranslateExerciseView,
@@ -26,6 +27,7 @@ __all__ = [
     'EnglishTranslateExerciseView',
     'update_words_knowledge_assessment_view',
     # Glossary
+    'update_term_study_progres',
     'glossary_exercise',
     'glossary_exercise_parameters',
     # Mathematical
