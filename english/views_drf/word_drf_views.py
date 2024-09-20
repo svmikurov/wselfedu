@@ -38,7 +38,7 @@ class WordListCreateAPIView(generics.ListCreateAPIView):
         serializer.save(user=self.request.user)
 
 
-class WordRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+class WordDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     """Retrieve, Update and Destroy Word API View."""
 
     queryset = WordModel.objects.all()
