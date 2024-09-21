@@ -1,7 +1,4 @@
-"""Glossary exercise.
-
-Specific for rest api requests.
-"""
+"""Glossary exercise."""
 
 from random import choice
 
@@ -23,21 +20,7 @@ class GlossaryExercise:
 
     @staticmethod
     def _get_item_ids() -> list[int]:
-        """Get term ids by user conditions of the exercise.
-
-        Returns
-        -------
-        term_ids : `list[int]`
-            List of id term ids that satisfy the conditions of the
-            exercise.
-
-        Raises
-        ------
-        ValueError
-            Raised if no terms that satisfy the conditions of the
-            exercise.
-
-        """
+        """Get term ids by user conditions of the exercise."""
         item_ids = Glossary.objects.all().values_list('id', flat=True)
         return item_ids
 

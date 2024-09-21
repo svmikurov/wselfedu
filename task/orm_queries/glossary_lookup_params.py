@@ -21,33 +21,35 @@ EDGE_PERIODS_TERMS = {
 """The term representation of period aliases at word adding for study
 (`dict[str, dict[str, int]]`).
 
-key : `str`
-    Period alias at word adding for study.
-value : `dict[str, int]]`
-    Period of time at word adding for study.
-        key : `str`
-            The ``datetime.timedelta`` function argument name.
-        value : `int`
-            The ``datetime.timedelta`` function argument value.
+Include fields:
+    ``key`` : `str`
+        Period alias at word adding for study.
+    ``value`` : `dict[str, int]]`
+        Period of time at word adding for study.
+            ``key`` : `str`
+                The ``datetime.timedelta`` function argument name.
+            ``value`` : `int`
+                The ``datetime.timedelta`` function argument value.
 """
 
 
 class GlossaryExerciseLookupParams:
     """Glossary exercise lookup parameters.
 
-    Lookup parameters
-    -----------------
-    lookup_params : `dict[str, str | int]`
-        Lookup parameters of term query for Glossary exercise.
+    Parameters
+    ----------
+    lookup_conditions : `dict[str, str | int]`
+        Lookup conditions of term query for Glossary exercise.
 
-        - ``'id'`` : `int`
-            Params id in ``GlossaryExerciseParams``
-        - ``'user'`` : `int`
-        - ``'progres'`` : `str` (db choice)
-        - ``'category'`` : `int`
-        - ``'period_start_date'`` : `str`
-
-        - ``'period_end_date'`` : `str` (db choice)
+        Include fields:
+            - ``'id'`` : `int`
+                Parameter ``id`` stored in
+                :obj:`glossary.models.GlossaryExerciseParams`
+            - ``'user'`` : `int`
+            - ``'progres'`` : `str` (db choice)
+            - ``'category'`` : `int`
+            - ``'period_start_date'`` : `str` (db choice)
+            - ``'period_end_date'`` : `str` (db choice)
 
     """
 
@@ -57,7 +59,7 @@ class GlossaryExerciseLookupParams:
 
     @property
     def params(self) -> tuple[Q, ...]:
-        """Glossary exercise lookup params."""
+        """Glossary exercise lookup parameters."""
         params = (
             self.user,
             self.period_start_date,
@@ -67,6 +69,7 @@ class GlossaryExerciseLookupParams:
         )
         return params
 
+    @property
     def user(self) -> Q:
         """User lookup (`Q`, read-only)."""
         lookup_value = self.lookup_conditions.get('user_id')
@@ -76,7 +79,7 @@ class GlossaryExerciseLookupParams:
 
     @property
     def period_start_date(self) -> Q:
-        """Lookup parameter by user (`Q`, read-only)."""
+        """Start period of adding terms to glossary (`Q`, read-only)."""
         period_date = 'period_start_date'
         format_time = '%Y-%m-%d 00:00:00+00:00'
         lookup_value = self._get_date_value(period_date, format_time)
@@ -86,7 +89,7 @@ class GlossaryExerciseLookupParams:
 
     @property
     def period_end_date(self) -> Q:
-        """Lookup parameter by word added date (`Q`, read-only)."""
+        """End period of adding terms to glossary (`Q`, read-only)."""
         period_date = 'period_end_date'
         format_time = '%Y-%m-%d 23:59:59+00:00'
         lookup_value = self._get_date_value(period_date, format_time)
@@ -104,7 +107,7 @@ class GlossaryExerciseLookupParams:
 
     @property
     def progres(self) -> Q:
-        """Lookup parameter by user assessment (`Q`, read-only)."""
+        """Lookup parameter by study progres (`Q`, read-only)."""
         form_value = self.lookup_conditions.get('knowledge_assessment', [])
         lookup_value = self._to_numeric(PROGRES_STAGE_ALIASES, form_value)
         lookup_field = 'worduserknowledgerelation__knowledge_assessment__in'
