@@ -1,6 +1,6 @@
-##################
-REST API Reference
-##################
+========
+REST API
+========
 
 .. toctree::
    :maxdepth: 2

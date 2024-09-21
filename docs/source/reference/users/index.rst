@@ -1,6 +1,6 @@
-=====
-Users
-=====
+=========
+Users app
+=========
 
 .. toctree::
    :maxdepth: 2

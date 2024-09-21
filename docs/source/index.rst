@@ -11,8 +11,8 @@ Welcome to wselfedu's documentation!
    :maxdepth: 3
    :hidden:
 
-   development/index
-   api/index
+   reference/index
+   rest_api/index
    testing/index
    install/index
    changelog/changelog
