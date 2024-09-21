@@ -32,8 +32,24 @@ value : `dict[str, int]]`
 """
 
 
-class GlossaryExerciseQuery:
-    """Glossary exercise query."""
+class GlossaryExerciseLookupParams:
+    """Glossary exercise lookup parameters.
+
+    Lookup parameters
+    -----------------
+    lookup_params : `dict[str, str | int]`
+        Lookup parameters of term query for Glossary exercise.
+
+        - ``'id'`` : `int`
+            Params id in ``GlossaryExerciseParams``
+        - ``'user'`` : `int`
+        - ``'progres'`` : `str` (db choice)
+        - ``'category'`` : `int`
+        - ``'period_start_date'`` : `str`
+
+        - ``'period_end_date'`` : `str` (db choice)
+
+    """
 
     def __init__(self, lookup_conditions: dict) -> None:
         """Construct the query."""
@@ -42,13 +58,14 @@ class GlossaryExerciseQuery:
     @property
     def params(self) -> tuple[Q, ...]:
         """Glossary exercise lookup params."""
-        return (
+        params = (
             self.user,
             self.period_start_date,
             self.period_end_date,
             self.category,
             self.progres,
         )
+        return params
 
     def user(self) -> Q:
         """User lookup (`Q`, read-only)."""
