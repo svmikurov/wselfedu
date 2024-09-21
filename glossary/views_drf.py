@@ -13,8 +13,8 @@ from config.consts import (
     POST,
     PROGRES,
     PROGRES_STEPS,
-    TERM_PROGRES_MAX,
-    TERM_PROGRES_MIN,
+    PROGRES_MAX,
+    PROGRES_MIN,
 )
 from glossary.models import Glossary, GlossaryProgress
 from glossary.serializers import GlossarySerializer
@@ -57,7 +57,7 @@ def update_term_study_progres(request: HttpRequest) -> HttpResponse:
     progres_delta = PROGRES_STEPS.get(action)
     updated_progres = obj.progres + progres_delta
 
-    if TERM_PROGRES_MIN <= updated_progres <= TERM_PROGRES_MAX:
+    if PROGRES_MIN <= updated_progres <= PROGRES_MAX:
         obj.progres = updated_progres
         obj.save(update_fields=[PROGRES])
 

@@ -17,8 +17,8 @@ from rest_framework.test import APIClient, APITestCase
 from config.consts import (
     DECREMENT_STEP,
     INCREMENT_STEP,
-    TERM_PROGRES_MAX,
-    TERM_PROGRES_MIN,
+    PROGRES_MAX,
+    PROGRES_MIN,
 )
 from glossary.models import Glossary, GlossaryExerciseParams, GlossaryProgress
 from users.models import UserModel
@@ -54,12 +54,12 @@ class TestUpdateProgres(APITestCase):
         r = self.api_client.post(path=self.url, data=payload, format='json')
         term_progres = self.query_term().progres
 
-        assert term_progres == TERM_PROGRES_MIN + INCREMENT_STEP
+        assert term_progres == PROGRES_MIN + INCREMENT_STEP
         assert r.status_code == status.HTTP_200_OK
 
     def test_know_on_max(self) -> None:
         """Test know term on max value."""
-        self.query_term(progres=TERM_PROGRES_MAX)
+        self.query_term(progres=PROGRES_MAX)
         payload = {'action': 'know', 'id': self.term_pk}
 
         self.api_client.force_authenticate(self.user1)
@@ -67,11 +67,11 @@ class TestUpdateProgres(APITestCase):
         term_progres = self.query_term().progres
 
         assert r.status_code == status.HTTP_200_OK
-        assert term_progres == TERM_PROGRES_MAX
+        assert term_progres == PROGRES_MAX
 
     def test_not_know_before_min(self) -> None:
         """Test not know term before min value."""
-        self.query_term(progres=TERM_PROGRES_MAX)
+        self.query_term(progres=PROGRES_MAX)
         payload = {'action': 'not_know', 'id': self.term_pk}
 
         self.api_client.force_authenticate(self.user1)
@@ -79,7 +79,7 @@ class TestUpdateProgres(APITestCase):
         term_progres = self.query_term().progres
 
         assert r.status_code == status.HTTP_200_OK
-        assert term_progres == TERM_PROGRES_MAX + DECREMENT_STEP
+        assert term_progres == PROGRES_MAX + DECREMENT_STEP
 
     def test_not_know_on_min(self) -> None:
         """Test not know term on min value or has not progres."""
@@ -90,7 +90,7 @@ class TestUpdateProgres(APITestCase):
         term_progres = self.query_term().progres
 
         assert r.status_code == status.HTTP_200_OK
-        assert term_progres == TERM_PROGRES_MIN
+        assert term_progres == PROGRES_MIN
 
     def test_forbidden(self) -> None:
         """Test access to term progres for not owner."""

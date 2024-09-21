@@ -32,8 +32,6 @@ DEFAULT_CATEGORY = None
 INCREMENT_STEP = 1  # the step value does not change
 DECREMENT_STEP = -1  # the step value does not change
 
-TERM_PROGRES_MIN = 0
-TERM_PROGRES_MAX = 11
 WORD_PROGRES_MIN = 0
 WORD_PROGRES_MAX = 11
 
@@ -80,3 +78,37 @@ PROGRES_STAGES = [
 ]
 """Study progres stages, for choice (`dict[str, str]`).
 """
+
+########################################################################
+# Study progres.
+########################################################################
+
+PROGRES_MIN = 0
+PROGRES_STUDY_MAX = 6
+PROGRES_REPETITION_MAX = 7
+PROGRES_EXAMINATION_MAX = 10
+PROGRES_MAX = 11
+
+PROGRES_STAGE_ALIASES = {
+    'S': [*range(PROGRES_MIN, PROGRES_STUDY_MAX + 1)],
+    'R': [*range(PROGRES_STUDY_MAX + 1, PROGRES_REPETITION_MAX + 1)],
+    'E': [*range(PROGRES_REPETITION_MAX + 1, PROGRES_EXAMINATION_MAX + 1)],
+    'K': [PROGRES_MAX],
+}
+"""A literal representation of an knowledge assessment
+(`dict[str, list[int]]`).
+
+key : `str`
+    A literal representation of an knowledge assessment.
+    Where:
+        'S' - is a word in the process of studied;
+        'R' - word in process of repetition;
+        'E' - is a word in the process of examination;
+        'K' - the word has been studied.
+value : `int`
+    A digital range representation of an knowledge assessment.
+"""
+
+########################################################################
+#
+########################################################################

@@ -18,6 +18,9 @@ class GlossaryExercise:
         self.exercise_params = exercise_params
         self.model: Model = Glossary
 
+    def get_lookup_params(self):
+        ...
+
     @staticmethod
     def _get_item_ids() -> list[int]:
         """Get term ids by user conditions of the exercise.
