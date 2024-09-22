@@ -5,7 +5,7 @@ from unittest import skip
 from django.test import TestCase
 from django.urls import reverse_lazy
 
-from config.consts import WORD_PROGRES_MAX, WORD_PROGRES_MIN
+from config.constants import WORD_PROGRES_MAX, WORD_PROGRES_MIN
 from english.models import WordModel, WordUserKnowledgeRelation
 from english.orm_queries import (
     get_knowledge_assessment,

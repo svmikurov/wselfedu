@@ -45,6 +45,9 @@ DEFAULT_GLOSSARY_PARAMS = {
     PERIOD_END_DATE: DEFAULT_PERIOD_END_INDEX,
     CATEGORY: DEFAULT_CATEGORY,
 }
+"""Default choice for Glossary exercise lookup conditions
+(`dict[str, int | None]`)
+"""
 
 PROGRES_STEPS = {
     KNOW: INCREMENT_STEP,
@@ -52,10 +55,22 @@ PROGRES_STEPS = {
 }
 
 ########################################################################
-# Collections for Model choices
+# Model choices
 ########################################################################
-
-EDGE_PERIOD_ITEMS = [
+EDGE_PERIODS = [
+    ('DT', 'Сегодня'),
+    ('D3', 'Три дня назад'),
+    ('W1', 'Неделя назад'),
+    ('W2', 'Две недели назад'),
+    ('W3', 'Три недели назад'),
+    ('W4', 'Четыре недели назад'),
+    ('W7', 'Семь недель назад'),
+    ('M3', 'Три месяца назад'),
+    ('M6', 'Шесть месяцев назад'),
+    ('M9', 'Девять месяцев назад'),
+    ('NC', 'Добавлено'),
+]
+EDGE_PERIOD_ALIASES = [
     {ALIAS: 'DT', HUMANLY: 'Сегодня'},
     {ALIAS: 'D3', HUMANLY: 'Три дня назад'},
     {ALIAS: 'W1', HUMANLY: 'Неделя назад'},
@@ -68,47 +83,75 @@ EDGE_PERIOD_ITEMS = [
     {ALIAS: 'M9', HUMANLY: 'Девять месяцев назад'},
     {ALIAS: 'NC', HUMANLY: 'Добавлено'},
 ]
-"""Edge periods, for choice (`dict[str, str]`).
+"""Edge period aliases at word adding for choice
+('alias', 'representation'), (`list[tuple[str, str]]`).
 """
-PROGRES_STAGES = [
+DEFAULT_START_PERIOD = 'NC'
+DEFAULT_END_PERIOD = 'DT'
+
+########################################################################
+# Study progres.
+########################################################################
+PROGRES_CHOICES = (
+    ('S', 'Изучаю'),  # study
+    ('R', 'Повторяю'),  # repeat
+    ('E', 'Проверяю'),  # examination
+    ('K', 'Знаю'),  # know
+)
+PROGRES_STAGE_ALIASES = [
     {ALIAS: 'S', HUMANLY: 'Изучаю'},
     {ALIAS: 'R', HUMANLY: 'Повторяю'},
     {ALIAS: 'E', HUMANLY: 'Проверяю'},
     {ALIAS: 'K', HUMANLY: 'Знаю'},
 ]
-"""Study progres stages, for choice (`dict[str, str]`).
+"""A literal representation of an knowledge assessment
+(`dict[str, list[int]]`).
+
+Include fields:
+    ``key`` : `str`
+        A literal representation of an knowledge assessment.
+        Where:
+        'S' - is a word in the process of studied;
+        'R' - word in process of repetition;
+        'E' - is a word in the process of examination;
+        'K' - the word has been studied.
+    ``value`` : `int`
+        A digital range representation of an knowledge assessment.
 """
-
-########################################################################
-# Study progres.
-########################################################################
-
+DEFAULT_PROGRES = 'S'
 PROGRES_MIN = 0
 PROGRES_STUDY_MAX = 6
 PROGRES_REPETITION_MAX = 7
 PROGRES_EXAMINATION_MAX = 10
 PROGRES_MAX = 11
-
-PROGRES_STAGE_ALIASES = {
+PROGRES_STAGE_EDGES = {
     'S': [*range(PROGRES_MIN, PROGRES_STUDY_MAX + 1)],
     'R': [*range(PROGRES_STUDY_MAX + 1, PROGRES_REPETITION_MAX + 1)],
     'E': [*range(PROGRES_REPETITION_MAX + 1, PROGRES_EXAMINATION_MAX + 1)],
     'K': [PROGRES_MAX],
 }
-"""A literal representation of an knowledge assessment
-(`dict[str, list[int]]`).
-
-key : `str`
-    A literal representation of an knowledge assessment.
-    Where:
-        'S' - is a word in the process of studied;
-        'R' - word in process of repetition;
-        'E' - is a word in the process of examination;
-        'K' - the word has been studied.
-value : `int`
-    A digital range representation of an knowledge assessment.
-"""
 
 ########################################################################
-#
+# English application
 ########################################################################
+
+LANGUAGE_ORDER = [
+    ('RN', 'Перевод в случайном порядке'),
+    ('EN', 'Перевод с английского языка'),
+    ('RU', 'Перевод на английский язык'),
+]
+DEFAULT_LANGUAGE_ORDER = LANGUAGE_ORDER[0]
+WORD_COUNT = (
+    ('OW', 'Слово'),
+    ('CB', 'Словосочетание'),
+    ('PS', 'Часть предложения'),
+    ('ST', 'Предложение'),
+)
+DEFAULT_WORD_COUNT = ('OW', 'CB')
+DEFAULT_CREATE_CHOICE_VALUE = 0
+DEFAULT_TIMEOUT = 5
+
+# DEFAULT_START_PERIOD_INDEX = -1
+# DEFAULT_END_PERIOD_ALIAS = 0
+# DEFAULT_PROGRES_INDEX = 0
+# ALIAS_INDEX = 0

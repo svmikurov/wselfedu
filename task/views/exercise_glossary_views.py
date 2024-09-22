@@ -7,13 +7,13 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from config.consts import (
+from config.constants import (
     CATEGORIES,
     DEFAULT_GLOSSARY_PARAMS,
-    EDGE_PERIOD_ITEMS,
+    EDGE_PERIOD_ALIASES,
     GET,
     POST,
-    PROGRES_STAGES,
+    PROGRES_STAGE_ALIASES,
 )
 from glossary.models import (
     GlossaryCategory,
@@ -32,8 +32,8 @@ def glossary_exercise(request: Request) -> JsonResponse | HttpResponse:
     """Render the Glossary exercise."""
     query = GlossaryExerciseParams.objects.get(user=request.user)
     exercise_params = model_to_dict(query)
-    task_data = GlossaryExercise(exercise_params).task_data
-    return JsonResponse(task_data, status=status.HTTP_200_OK)
+    exercise = GlossaryExercise(exercise_params).task_data
+    return JsonResponse(exercise, status=status.HTTP_200_OK)
 
 
 @api_view([GET, POST])
@@ -41,17 +41,29 @@ def glossary_exercise(request: Request) -> JsonResponse | HttpResponse:
 def glossary_exercise_parameters(
     request: Request,
 ) -> JsonResponse | HttpResponse:
-    """Glossary exercise api view."""
+    """Glossary exercise parameters view.
+
+    GET
+    ---
+    View sends a response with ``exercise_params``:
+        - ``lookup_conditions``
+        - ``exercise_choices``
+
+    POST
+    ----
+    The view updates the ``lookup_conditions`` in data base.
+
+    """
     user = request.user
 
     if request.method == GET:
         try:
             user_params = GlossaryExerciseParams.objects.get(user=user)
         except GlossaryExerciseParams.DoesNotExist:
-            parameters = DEFAULT_GLOSSARY_PARAMS
+            lookup_conditions = DEFAULT_GLOSSARY_PARAMS
         else:
             serializer = GlossaryExerciseParamsSerializer(user_params)
-            parameters = serializer.data
+            lookup_conditions = serializer.data
 
         try:
             user_cats = GlossaryCategory.objects.filter(user=user)
@@ -61,14 +73,16 @@ def glossary_exercise_parameters(
             serializer = GlossaryCategorySerializer(user_cats, many=True)
             categories = serializer.data
 
-        response_data = {
-            'edge_period_items': EDGE_PERIOD_ITEMS,
-            CATEGORIES: categories,
-            'parameters': parameters,
-            'progres': PROGRES_STAGES,
+        exercise_params = {
+            'lookup_conditions': lookup_conditions,
+            'exercise_choices': {
+                'edge_period_items': EDGE_PERIOD_ALIASES,
+                CATEGORIES: categories,
+                'progres': PROGRES_STAGE_ALIASES,
+            },
         }
 
-        return JsonResponse(response_data, status=status.HTTP_200_OK)
+        return JsonResponse(exercise_params, status=status.HTTP_200_OK)
 
     if request.method == POST:
         serializer = GlossaryExerciseParamsSerializer(data=request.data)

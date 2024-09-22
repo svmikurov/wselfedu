@@ -6,6 +6,6 @@ Task app: exercises
    :maxdepth: 2
 
    English exercise <english-word-study>
-   Glossary exercise <glossary>
+   Glossary exercise <glossary/index>
    Mathematical exercise <mathem>
    Points <points/index>

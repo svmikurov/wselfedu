@@ -8,7 +8,7 @@ Welcome to wselfedu's documentation!
    tutorial/index
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 4
    :hidden:
 
    reference/index

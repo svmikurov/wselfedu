@@ -7,14 +7,14 @@ from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.parsers import JSONParser
 
-from config.consts import (
+from config.constants import (
     ACTION,
     ID,
     POST,
     PROGRES,
-    PROGRES_STEPS,
     PROGRES_MAX,
     PROGRES_MIN,
+    PROGRES_STEPS,
 )
 from glossary.models import Glossary, GlossaryProgress
 from glossary.serializers import GlossarySerializer

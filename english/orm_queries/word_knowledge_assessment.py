@@ -16,15 +16,15 @@ verification, know.
 
 from english.models import WordUserKnowledgeRelation
 
-MIN_KNOWLEDGE_ASSESSMENT = 0
+MIN_PROGRES = 0
 MAX_STUDYING_VALUE = 6
 MAX_REPETITION_VALUE = 8
 MAX_EXAMINATION_VALUE = 10
 MAX_KNOWLEDGE_ASSESSMENT = 11
 """Значения оценки уровня знания слова пользователем
 """
-WORD_STUDY_ASSESSMENTS = {
-    'S': [*range(MIN_KNOWLEDGE_ASSESSMENT, MAX_STUDYING_VALUE + 1)],
+PROGRES_STAGE_EDGES = {
+    'S': [*range(MIN_PROGRES, MAX_STUDYING_VALUE + 1)],
     'R': [*range(MAX_STUDYING_VALUE + 1, MAX_REPETITION_VALUE + 1)],
     'E': [*range(MAX_REPETITION_VALUE + 1, MAX_EXAMINATION_VALUE + 1)],
     'K': [MAX_KNOWLEDGE_ASSESSMENT],
@@ -71,7 +71,7 @@ def update_word_knowledge_assessment(
     Update the user's word knowledge score in the database, within the
     acceptable range.
     """
-    if MIN_KNOWLEDGE_ASSESSMENT <= new_assessment <= MAX_KNOWLEDGE_ASSESSMENT:
+    if MIN_PROGRES <= new_assessment <= MAX_KNOWLEDGE_ASSESSMENT:
         WordUserKnowledgeRelation.objects.filter(
             word_id=word_pk,
             user_id=user_pk,
@@ -85,7 +85,7 @@ def get_numeric_value(knowledge_assessments: str) -> list[int]:
     numbers for that level.
     """
     value = []
-    for assessment in WORD_STUDY_ASSESSMENTS:
+    for assessment in PROGRES_STAGE_EDGES:
         if assessment in knowledge_assessments:
-            value += WORD_STUDY_ASSESSMENTS[assessment]
+            value += PROGRES_STAGE_EDGES[assessment]
     return value

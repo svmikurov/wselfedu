@@ -10,6 +10,6 @@ Reference
    glossary/index
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    Tasks app <tasks/index>

@@ -2,11 +2,7 @@
 
 from django.db import models
 
-from config.consts import TERM, USER
-from task.forms.english_translate_choice_form import (
-    EDGE_PERIOD_ALIASES,
-    KNOWLEDGE_ASSESSMENT,
-)
+from config import constants as const
 from users.models import UserModel
 
 
@@ -96,7 +92,7 @@ class GlossaryProgress(models.Model):
     class Meta:
         """Model options."""
 
-        unique_together = [[USER, TERM]]
+        unique_together = [[const.USER, const.TERM]]
         verbose_name = 'Прогресс'
 
     def __str__(self) -> str:
@@ -112,26 +108,38 @@ class GlossaryExerciseParams(models.Model):
         - Start and End periods of adding a term;
         - term Category;
         - Progres of term study, as knowledge assessment.
+
+    :cvar user: A user whose parameters are stored.
+    :vartype user: UserModel
+    :cvar period_start_date: A beginning of the period of adding a term
+     to the glossary, :obj:`~config.constants.EDGE_PERIODS`.
+    :vartype period_start_date: list(tuple[str, str])
+    :cvar period_end_date: An end of the period of adding a term
+     to the glossary, :obj:`~config.constants.EDGE_PERIODS`.
+    :vartype period_end_date: list(tuple[str, str])
+    :cvar category: A term category.
+    :vartype category: GlossaryCategory
+    :cvar progres: A term progres,
+     :obj:`~task.forms.english_translate_choice_form.py.PROGRES_CHOICES`.
+    :vartype progres: tuple[tuple[str, str]]
     """
 
     DEFAULT_START_PERIOD_INDEX = 0
     DEFAULT_END_PERIOD_INDEX = -1
     DEFAULT_PROGRES_INDEX = 0
     ALIAS_INDEX = 0
-    DEFAULT_PERIOD_START = EDGE_PERIOD_ALIASES[DEFAULT_START_PERIOD_INDEX]
-    DEFAULT_PERIOD_END = EDGE_PERIOD_ALIASES[DEFAULT_END_PERIOD_INDEX]
 
     user = models.OneToOneField(
         UserModel,
         on_delete=models.CASCADE,
     )
     period_start_date = models.CharField(
-        choices=EDGE_PERIOD_ALIASES,
-        default=DEFAULT_PERIOD_START[ALIAS_INDEX],
+        choices=const.EDGE_PERIODS,
+        default=const.DEFAULT_START_PERIOD,
     )
     period_end_date = models.CharField(
-        choices=EDGE_PERIOD_ALIASES,
-        default=DEFAULT_PERIOD_END[ALIAS_INDEX],
+        choices=const.EDGE_PERIODS,
+        default=const.DEFAULT_END_PERIOD,
     )
     category = models.ForeignKey(
         GlossaryCategory,
@@ -140,8 +148,8 @@ class GlossaryExerciseParams(models.Model):
         null=True,
     )
     progres = models.CharField(
-        choices=KNOWLEDGE_ASSESSMENT,
-        default=KNOWLEDGE_ASSESSMENT[DEFAULT_PROGRES_INDEX][ALIAS_INDEX],
+        choices=const.PROGRES_CHOICES,
+        default=const.DEFAULT_PROGRES,
     )
 
     class Meta:

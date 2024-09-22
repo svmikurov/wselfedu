@@ -2,9 +2,9 @@
 
 import datetime
 
-from django.db.models import Q, F
+from django.db.models import F, Q
 
-from config.consts import PROGRES_STAGE_ALIASES
+from config.constants import PROGRES_STAGE_EDGES
 
 EDGE_PERIODS_TERMS = {
     'DT': {'days': 0},
@@ -50,6 +50,16 @@ class GlossaryExerciseLookupParams:
             - ``'category'`` : `int`
             - ``'period_start_date'`` : `str` (db choice)
             - ``'period_end_date'`` : `str` (db choice)
+
+    Note
+    ----
+    Class attributes can contain:
+        lookup_field : `str`
+            Model field name to lookup.
+        lookup_value : `str`
+            Model field value to lookup.
+        param : `Q`
+            Query filter to filter a field by value.
 
     """
 
@@ -109,7 +119,7 @@ class GlossaryExerciseLookupParams:
     def progres(self) -> Q:
         """Lookup parameter by study progres (`Q`, read-only)."""
         form_value = self.lookup_conditions.get('knowledge_assessment', [])
-        lookup_value = self._to_numeric(PROGRES_STAGE_ALIASES, form_value)
+        lookup_value = self._to_numeric(PROGRES_STAGE_EDGES, form_value)
         lookup_field = 'worduserknowledgerelation__knowledge_assessment__in'
 
         words_with_assessment = Q(**{lookup_field: lookup_value})

@@ -6,48 +6,8 @@ from crispy_forms.layout import HTML, Column, Field, Layout, Row, Submit
 from django import forms
 from django.db import models
 
+from config import constants as const
 from english.models import CategoryModel, SourceModel
-
-LANGUAGE_ORDER = [
-    ('RN', 'Перевод в случайном порядке'),
-    ('EN', 'Перевод с английского языка'),
-    ('RU', 'Перевод на английский язык'),
-]
-EDGE_PERIOD_ALIASES = [
-    ('DT', 'Сегодня'),
-    ('D3', 'Три дня назад'),
-    ('W1', 'Неделя назад'),
-    ('W2', 'Две недели назад'),
-    ('W3', 'Три недели назад'),
-    ('W4', 'Четыре недели назад'),
-    ('W7', 'Семь недель назад'),
-    ('M3', 'Три месяца назад'),
-    ('M6', 'Шесть месяцев назад'),
-    ('M9', 'Девять месяцев назад'),
-    ('NC', 'Добавлено'),
-]
-"""Edge period aliases at word adding for study
-(`list[tuple[str, str]]`).
-"""
-DEFAULT_START_PERIOD = ('NC', 'Добавлено')
-DEFAULT_END_PERIOD = ('DT', 'Сегодня')
-WORD_COUNT = (
-    ('OW', 'Слово'),
-    ('CB', 'Словосочетание'),
-    ('PS', 'Часть предложения'),
-    ('ST', 'Предложение'),
-)
-KNOWLEDGE_ASSESSMENT = (
-    ('S', 'Изучаю'),  # study
-    ('R', 'Повторяю'),  # repeat
-    ('E', 'Проверяю'),  # examination
-    ('K', 'Знаю'),  # know
-)
-DEFAULT_LANGUAGE_ORDER = LANGUAGE_ORDER[0]
-DEFAULT_KNOWLEDGE_ASSESSMENT = 'S'
-DEFAULT_WORD_COUNT = ('OW', 'CB')
-DEFAULT_CREATE_CHOICE_VALUE = 0
-DEFAULT_TIMEOUT = 5
 
 
 class EnglishTranslateChoiceForm(forms.Form):
@@ -69,49 +29,49 @@ class EnglishTranslateChoiceForm(forms.Form):
         required=False,
     )
     language_order = forms.ChoiceField(
-        choices=LANGUAGE_ORDER,
-        initial=DEFAULT_LANGUAGE_ORDER,
+        choices=const.LANGUAGE_ORDER,
+        initial=const.DEFAULT_LANGUAGE_ORDER,
         required=False,
         label='',
     )
     category = forms.TypedChoiceField(
-        initial=DEFAULT_CREATE_CHOICE_VALUE,
+        initial=const.DEFAULT_CREATE_CHOICE_VALUE,
         required=False,
         label='',
     )
     source = forms.TypedChoiceField(
-        initial=DEFAULT_CREATE_CHOICE_VALUE,
+        initial=const.DEFAULT_CREATE_CHOICE_VALUE,
         required=False,
         label='',
     )
     period_start_date = forms.ChoiceField(
-        choices=EDGE_PERIOD_ALIASES,
-        initial=DEFAULT_START_PERIOD,
+        choices=const.EDGE_PERIOD_ALIASES,
+        initial=const.DEFAULT_START_PERIOD,
         required=False,
         label='',
     )
     period_end_date = forms.ChoiceField(
-        choices=EDGE_PERIOD_ALIASES[:-1],
-        initial=DEFAULT_END_PERIOD,
+        choices=const.EDGE_PERIOD_ALIASES[:-1],
+        initial=const.DEFAULT_END_PERIOD,
         required=False,
         label='',
     )
     word_count = forms.MultipleChoiceField(
-        choices=WORD_COUNT,
-        initial=DEFAULT_WORD_COUNT,
+        choices=const.WORD_COUNT,
+        initial=const.DEFAULT_WORD_COUNT,
         required=False,
         widget=forms.CheckboxSelectMultiple(),
         label='Слово, длина выражения',
     )
     knowledge_assessment = forms.MultipleChoiceField(
-        choices=KNOWLEDGE_ASSESSMENT,
-        initial=DEFAULT_KNOWLEDGE_ASSESSMENT,
+        choices=const.PROGRES_STAGE_ALIASES,
+        initial=const.DEFAULT_PROGRES,
         required=False,
         widget=forms.CheckboxSelectMultiple(),
         label='Этап изучения слов',
     )
     timeout = forms.IntegerField(
-        initial=DEFAULT_TIMEOUT,
+        initial=const.DEFAULT_TIMEOUT,
         label='Время на ответ (сек)',
     )
 
@@ -135,7 +95,7 @@ class EnglishTranslateChoiceForm(forms.Form):
     ) -> list[tuple[int, str]]:
         """Create human-readable choice by model and user_id."""
         model_name = model._meta.verbose_name
-        default_choice = (DEFAULT_CREATE_CHOICE_VALUE, model_name)
+        default_choice = (const.DEFAULT_CREATE_CHOICE_VALUE, model_name)
         choices = [default_choice]
 
         # Populate a list of choices.
