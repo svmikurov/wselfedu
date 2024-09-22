@@ -72,7 +72,7 @@ ruff:
 	ruff check && ruff format --diff
 
 test:
-	@$(APP) pytest tests/
+	@$(APP) pytest tests/ --ignore=tests/tests_e2e --ignore=tests/tests_plw
 
 plw:
 	@$(APP) pytest tests/tests_e2e/
