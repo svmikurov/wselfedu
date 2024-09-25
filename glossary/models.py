@@ -112,10 +112,10 @@ class GlossaryExerciseParams(models.Model):
     :cvar user: A user whose parameters are stored.
     :vartype user: UserModel
     :cvar period_start_date: A beginning of the period of adding a term
-     to the glossary, :obj:`~config.constants.EDGE_PERIODS`.
+     to the glossary, :obj:`~config.constants.EDGE_PERIOD_CHOICES`.
     :vartype period_start_date: list(tuple[str, str])
     :cvar period_end_date: An end of the period of adding a term
-     to the glossary, :obj:`~config.constants.EDGE_PERIODS`.
+     to the glossary, :obj:`~config.constants.EDGE_PERIOD_CHOICES`.
     :vartype period_end_date: list(tuple[str, str])
     :cvar category: A term category.
     :vartype category: GlossaryCategory
