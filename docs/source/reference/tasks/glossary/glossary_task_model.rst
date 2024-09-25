@@ -5,11 +5,11 @@ Database queries (The Model MVC)
 Constants
 ---------
 
-.. autodata:: task.orm_queries.glossary_lookup_params.EDGE_PERIODS_TERMS
+.. autodata:: task.orm_queries.glossary_lookup_params.EDGE_PERIOD_TERMS
 
 .. autodata:: config.constants.DEFAULT_GLOSSARY_PARAMS
 
-.. autodata:: config.constants.EDGE_PERIODS
+.. autodata:: config.constants.EDGE_PERIOD_CHOICES
 
 .. autodata:: config.constants.PROGRES_CHOICES
 

@@ -61,7 +61,7 @@ Build and Up Docker:
 .. code-block:: console
    :caption: bash:
 
-    make build up
+   make build up
 
 Make migrations:
 
@@ -77,6 +77,25 @@ Make collectstatic:
 
    make collectstatic
 
+Create superuser
+
+.. code-block:: console
+   :caption: bash:
+
+   make createsuperuser
+
+
+Development
+===========
+
+   nano .env_vars/.env
+
+.. code-block:: console
+   :caption: .env_vars/.env
+
+   DEBUG=1
+   ENVIRONMENT=development
+
 Run tests:
 
 .. code-block:: console
@@ -84,7 +103,9 @@ Run tests:
 
    make check
 
-Possible problems:
+
+Possible problems
+=================
 
 .. code-block:: console
    :caption: If you already have TCP port 0.0.0.0:80 occupied, you can free it
