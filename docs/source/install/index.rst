@@ -28,10 +28,10 @@ Value ``POSTGRES_DB`` is ``POSTGRES_NAME`` value.
 .. code-block:: console
    :caption: bash:
 
-   nano .env
+   nano .env_vars/.env
 
 .. code-block:: console
-   :caption: .env
+   :caption: .env_vars/.env
 
    SECRET_KEY=
    DEBUG=0
@@ -47,10 +47,10 @@ Value ``POSTGRES_DB`` is ``POSTGRES_NAME`` value.
 .. code-block:: console
    :caption: bash:
 
-   nano .env.postgres
+   nano .env_vars/.env.postgres
 
 .. code-block:: console
-   :caption: .env.postgres
+   :caption: .env_vars/.env.postgres
 
    POSTGRES_DB=
    POSTGRES_USER=
