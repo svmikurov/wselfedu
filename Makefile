@@ -51,6 +51,9 @@ migrate:
 collectstatic:
 	@$(MANAGE) collectstatic --noinput
 
+createsuperuser:
+	@$(MANAGE) createsuperuser
+
 loaddata:
 	@$(MANAGE) loaddata db-wse-sweb.json
 
@@ -69,7 +72,7 @@ lint:
 	@$(APP) flake8
 
 ruff:
-	ruff check && ruff format --diff
+	@$(APP) ruff check
 
 test:
 	@$(APP) pytest tests/ --ignore=tests/tests_e2e --ignore=tests/tests_plw
