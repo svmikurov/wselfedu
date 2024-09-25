@@ -6,7 +6,7 @@ from django.db.models import F, Q
 
 from config.constants import PROGRES_STAGE_EDGES
 
-EDGE_PERIODS_TERMS = {
+EDGE_PERIOD_TERMS = {
     'DT': {'days': 0},
     'D3': {'days': 3},
     'W1': {'weeks': 1},
@@ -142,11 +142,11 @@ class GlossaryExerciseLookupParams:
         """Get lookup date value."""
         day_today = datetime.datetime.now(tz=datetime.timezone.utc)
         period = self.lookup_conditions.get(period_date)
-        period_delta = datetime.timedelta(**EDGE_PERIODS_TERMS.get(period, {}))
+        period_delta = datetime.timedelta(**EDGE_PERIOD_TERMS.get(period, {}))
         end_period = day_today - period_delta
 
         lookup_value = end_period.strftime(format_time)
-        date_value = lookup_value if period in EDGE_PERIODS_TERMS else ''
+        date_value = lookup_value if period in EDGE_PERIOD_TERMS else ''
         return date_value
 
     @staticmethod
