@@ -44,7 +44,7 @@ class BaseTestMixin:
     title = None
     """Page title (`Optional[str]`).
     """
-    screenshot_dir = 'tests/tests_plw/screenshots/'
+    screenshot_dir = 'tests_plw/screenshots/'
     """Path to save page screenshot (`str`).
     """
 

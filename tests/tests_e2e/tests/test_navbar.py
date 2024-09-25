@@ -4,7 +4,7 @@ from playwright.sync_api import expect
 
 from tests.tests_e2e.pages.navbar import NavbarPageComponent
 from tests.tests_e2e.tests.base import POMTest
-from tests.tests_plw.pages.home import HomePage
+from tests_plw.pages.home import HomePage
 
 
 class TestNavbarPageComponent(POMTest):

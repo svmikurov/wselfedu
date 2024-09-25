@@ -12,7 +12,7 @@ from tests.tests_e2e.pages.user import (
     authorize_the_page,
 )
 from tests.tests_e2e.tests.base import POMTest
-from tests.tests_plw.pages.home import HomePage
+from tests_plw.pages.home import HomePage
 from users.models import UserModel
 
 load_dotenv('./.env_vars/.env.wse')

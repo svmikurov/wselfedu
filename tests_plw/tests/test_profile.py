@@ -7,11 +7,11 @@ page representation class.
 
 from playwright.sync_api import expect
 
-from tests.tests_plw.pages.math_calculate_exercise import (
+from tests_plw.pages.math_calculate_exercise import (
     MathCalculateExercisePage,
 )
-from tests.tests_plw.pages.profile import ProfilePage
-from tests.tests_plw.tests.base import POMTest
+from tests_plw.pages.profile import ProfilePage
+from tests_plw.tests.base import POMTest
 
 
 class TestProfile(POMTest):

@@ -1,7 +1,5 @@
 """Glossary views."""
 
-import logging
-
 from django.http import HttpRequest, HttpResponse
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
@@ -38,7 +36,6 @@ class GlossaryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 @permission_classes((permissions.AllowAny,))
 def update_term_study_progres(request: HttpRequest) -> HttpResponse:
     """Update term study progres."""
-    logging.info('get request')
     user = request.user
     payload = JSONParser().parse(request)
     term_pk = payload.get(ID)

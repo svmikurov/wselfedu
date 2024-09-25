@@ -2,7 +2,7 @@
 Browser testing
 ***************
 
-.. automodule:: tests.tests_plw.__init__
+.. automodule:: tests_plw.__init__
 
 .. toctree::
    :maxdepth: 2

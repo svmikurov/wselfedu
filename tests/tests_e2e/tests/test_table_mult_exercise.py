@@ -52,5 +52,4 @@ class TestTableMultExercise(POMTest):
         """Test do the exercise."""
         self.test_page.page.goto(self.url_set_conditions)
         self.test_page.do_the_exercise()
-        self.test_page.take_screen('after_do_the_exercise')
         expect(self.test_page.evaluation_msg).to_have_text('Верно!')

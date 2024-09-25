@@ -2,6 +2,8 @@
 
 from playwright.sync_api import Page, expect
 
+SCREEN_PATH = 'tests_plw/screenshots/'
+
 
 class BasePage:
     """Base class representing the page."""
@@ -55,7 +57,7 @@ class BaseTests:
     title: str | None = None
     """Page title (`str | None`).
     """
-    scn_path = 'tests_e2e/screenshots/'
+
     """Path to save page screenshot (`str`).
     """
 
@@ -74,7 +76,7 @@ class BaseTests:
 
     def take_screen(self, file_name: str) -> None:
         """Take a page screenshot."""
-        path = f'{self.scn_path}{file_name}.png'
+        path = f'{SCREEN_PATH}{file_name}.png'
         self.page.screenshot(path=path)
 
 

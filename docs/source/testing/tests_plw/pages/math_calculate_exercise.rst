@@ -2,13 +2,13 @@
 Mathematical calculation exercise page
 ======================================
 
-.. automodule:: tests.tests_plw.pages.math_calculate_exercise
+.. automodule:: tests_plw.pages.math_calculate_exercise
 
-.. autoclass:: tests.tests_plw.pages.math_calculate_exercise.MathCalculateExercisePage
+.. autoclass:: tests_plw.pages.math_calculate_exercise.MathCalculateExercisePage
    :members:
 
 Page elements
 -------------
 
-.. literalinclude:: ../../../../../tests/tests_plw/pages/math_calculate_exercise.py
+.. literalinclude:: ../../../../../tests_plw/pages/math_calculate_exercise.py
    :pyobject: MathCalculateExercisePage.__init__

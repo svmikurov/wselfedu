@@ -8,8 +8,8 @@ import pytest
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from playwright.sync_api import Page, expect, sync_playwright
 
-from tests.tests_plw.pages.home import HomePage
-from tests.tests_plw.pages.login import LoginPage
+from tests_plw.pages.home import HomePage
+from tests_plw.pages.login import LoginPage
 from users.models import UserModel
 
 
