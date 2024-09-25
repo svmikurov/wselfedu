@@ -12,4 +12,4 @@ Reference
 .. toctree::
    :maxdepth: 3
 
-   Tasks app <tasks/index>
+   Tasks app <task/index>
