@@ -134,11 +134,11 @@ class GlossaryExerciseParams(models.Model):
         on_delete=models.CASCADE,
     )
     period_start_date = models.CharField(
-        choices=const.EDGE_PERIODS,
+        choices=const.EDGE_PERIOD_CHOICES,
         default=const.DEFAULT_START_PERIOD,
     )
     period_end_date = models.CharField(
-        choices=const.EDGE_PERIODS,
+        choices=const.EDGE_PERIOD_CHOICES,
         default=const.DEFAULT_END_PERIOD,
     )
     category = models.ForeignKey(

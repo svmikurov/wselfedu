@@ -117,13 +117,13 @@ class EnglishTaskSettings(models.Model):
         verbose_name='Длина выражения',
     )
     date_start = models.CharField(
-        choices=const.EDGE_PERIOD_ALIASES,
+        choices=const.EDGE_PERIOD_CHOICES,
         default=DEFAULT_START_PERIOD,
         max_length=2,
         verbose_name='Добавлено после',
     )
     date_end = models.CharField(
-        choices=const.EDGE_PERIOD_ALIASES[:-1],
+        choices=const.EDGE_PERIOD_CHOICES,
         default=DEFAULT_END_PERIOD,
         max_length=2,
         verbose_name='Добавлено до',
