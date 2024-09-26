@@ -1,1 +1,1 @@
-"""The page representations package of Page Object Model testing."""
+"""The page representations of Page Object Model testing."""

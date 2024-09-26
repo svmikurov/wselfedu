@@ -1,6 +1,6 @@
-"""Base page class for inherit.
+"""Base POM page.
 
-Inherit your page classes from POMPage.
+Inherit your test page representation classes from POMPage.
 
 .. _pom_page_example:
 
@@ -34,7 +34,7 @@ Example
 
 from typing import Optional
 
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page, Response, expect
 
 SCREENSHOT_DIR = 'tests_plw/screenshots/'
 """Path to save page screenshot (`str`).
@@ -50,17 +50,24 @@ class BasePage:
     title = None
     """Page title (`Optional[str]`).
     """
+    path: Optional[str]
+    """Url schema path to page (`Optional[str]`).
+    """
 
     def __init__(self, page: Page) -> None:
         """Construct the page."""
         self.page = page
+        self.path = None
 
-    def navigate(self, page_url: str) -> None:
+    def navigate(self, page_url: str) -> Response:
         """Navigate to page.
 
         :param str page_url: The page url for navigate.
+        :return: Returns the main resource response.
+        :rtype: Response
         """
-        self.page.goto(page_url)
+        response = self.page.goto(page_url)
+        return response
 
 
 class BaseTestMixin:
@@ -69,7 +76,7 @@ class BaseTestMixin:
     page: Page
     """Playwright Pytest page fixture (`Page`)
     """
-    title = None
+    title: Optional[str]
     """Page title (`Optional[str]`).
     """
 

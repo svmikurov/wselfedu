@@ -11,6 +11,7 @@ Module Constant:
 
 POMPage attribute:
     - :py:attr:`title <BasePage.title>` (optionally)
+    - :py:attr:`path <BasePage.path>` (optionally)
 
 POMPage methods:
     - :py:meth:`navigate <BasePage.navigate>`
