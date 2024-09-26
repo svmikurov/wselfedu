@@ -67,6 +67,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # added
+                'config.context_processor.pass_var_to_template',
                 'task.context_processors.add_student_user_data',
             ],
         },
