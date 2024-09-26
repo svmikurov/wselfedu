@@ -72,7 +72,7 @@ lint:
 	@$(APP) flake8
 
 ruff:
-	@$(APP) ruff check
+	@$(APP) ruff check && ruff format --diff
 
 test:
 	@$(APP) pytest tests/ --ignore=tests/tests_e2e --ignore=tests/tests_plw
