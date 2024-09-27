@@ -1,5 +1,13 @@
 """Test English exercise conditions choice page."""
+import logging
+import re
+from http import HTTPStatus
+from unittest import skip
+from urllib.parse import urlparse
 
+from playwright.sync_api import expect
+
+import config.constants as const
 from tests_plw.pages.english_exercise_conditions import (
     EnglishExerciseConditionsChoicePage,
 )
@@ -14,10 +22,17 @@ class TestEnglishExerciseConditionsChoicePage(POMTest):
         super().setUp()
         self.test_page = EnglishExerciseConditionsChoicePage(self.page)
         self.page_path = self.test_page.path
-        self.user = self.create_user()
-        self.authorize_test_page(user=self.user)
-
-    def test_status(self) -> None:
-        """Test http status."""
+        self.authorize_test_page()
         self.response = self.test_page.navigate(page_url=self.page_url)
-        assert self.response.status == 200
+
+    def test_http_status(self) -> None:
+        """Test http status."""
+        response_path = urlparse(self.response.url).path
+        assert response_path == self.page_path
+        assert self.response.status == HTTPStatus.OK
+
+    def test_default_exercise_conditions(self) -> None:
+        """Test default exercise conditions."""
+        page = self.test_page
+        expect(page.favorites_choice).not_to_be_checked()
+        expect(page.language_order_choice).to_have_value('RN')

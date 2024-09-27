@@ -7,6 +7,7 @@ Usage
 Inherit your test classes from POMTest.
 
 .. code-block:: python
+   :caption: Test default user profile page:
 
     from tests_plw.tests.base import POMTest
 
@@ -15,9 +16,8 @@ Inherit your test classes from POMTest.
     def setUp(self) -> None:
         super().setUp()
         self.test_page = PageClass(self.page)
-        self.user = self.create_user(username='User')
-        self.authorize_test_page(user=self.user)
-        self.page_path = f'/users/profile/{self.user.pk}'
+        self.authorize_test_page()
+        self.page_path = self.test_page.path.format(self.user.pk)
         self.test_page.navigate(page_url=self.page_url)
 
     def test_odo_ne(self) -> None:
@@ -34,35 +34,40 @@ Create test page instance::
 
     self.test_page = PageClass(self.page)
 
-Create a user if necessary::
+Authorize the default user::
 
-    self.user = self.create_user(username='User')
-
-Authorize the user::
-
-    self.authorize_test_page(user=self.user)
+    self.authorize_test_page()
 
 Specify the path to the page::
 
-    self.page_path = f'/users/profile/{self.user.pk}'
+    self.page_path = self.test_page.path.format(self.user.pk)
 
-Navigate to page, use page instance method
+Navigate to page, uses page instance method
 :py:meth:`navigate <tests_plw.pages.base.BasePage.navigate>`::
 
     self.test_page.navigate(page_url=self.page_url)
 
-Content
--------
+Brief overview
+--------------
 
 .. automodule:: tests_plw.tests.base
 
-POMTest attribute:
-    - :py:attr:`user <UserMixin.user>` (optionally)
-    - :py:attr:`page_path <BaseTest.page_path>`
+POMTest :ref:`testing/tests_plw/tests/base:Fixture`:
+    - :py:attr:`BaseTest.page <BaseTest.page>`
+    - :py:meth:`BaseTest.run_around_tests <BaseTest.run_around_tests>`
 
-POMTest methods:
-    - :py:meth:`create_user <UserMixin.create_user>`
-    - :py:meth:`authorize_test_page <UserMixin.authorize_test_page>`
+POMTest class derived attributes:
+    - :py:attr:`BaseTest.page_url <BaseTest.page_url>`
+    - :py:attr:`BaseTest.page_host <BaseTest.page_host>`
+    - :py:attr:`BaseTest.page_path <BaseTest.page_path>`
+    - :py:attr:`UserMixin.user <UserMixin.user>` (optionally)
+    - :py:attr:`UserMixin.username <UserMixin.username>`
+    - :py:attr:`UserMixin.password <UserMixin.password>`
+
+POMTest class derived methods:
+    - :py:meth:`BaseTest.setUpClass <BaseTest.setUpClass>`
+    - :py:meth:`UserMixin.create_user <UserMixin.create_user>`
+    - :py:meth:`UserMixin.authorize_test_page <UserMixin.authorize_test_page>`
 
 .. seealso::
 
