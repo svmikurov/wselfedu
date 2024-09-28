@@ -1,7 +1,6 @@
 """Test English exercise conditions choice page."""
 
 from http import HTTPStatus
-from unittest import skip
 from urllib.parse import urlparse
 
 from playwright.sync_api import expect
