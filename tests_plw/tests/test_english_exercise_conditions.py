@@ -23,7 +23,6 @@ class TestEnglishExerciseConditionsChoicePage(POMTest):
         self.authorize_test_page()
         self.response = self.test_page.navigate(page_url=self.page_url)
 
-    @skip
     def test_http_status(self) -> None:
         """Test http status."""
         response_path = urlparse(self.response.url).path
