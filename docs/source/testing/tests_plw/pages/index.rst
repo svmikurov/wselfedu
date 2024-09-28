@@ -13,4 +13,3 @@ POM Pages
    login
    mentorship
    math_calculate_exercise
-   english_exercise_conditions

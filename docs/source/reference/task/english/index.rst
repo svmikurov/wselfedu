@@ -9,3 +9,4 @@ English exercise
    rest
    controller
    models
+   ../../../testing/english_exercise_conditions
