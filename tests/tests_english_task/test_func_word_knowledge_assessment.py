@@ -5,7 +5,7 @@ from unittest import skip
 from django.test import TestCase
 from django.urls import reverse_lazy
 
-from config.constants import WORD_PROGRES_MAX, WORD_PROGRES_MIN
+from config.constants import PROGRES_MAX, PROGRES_MIN
 from english.models import WordModel, WordUserKnowledgeRelation
 from english.orm_queries import (
     get_knowledge_assessment,
@@ -80,7 +80,7 @@ class TestUpdateProgres(TestCase):
             self.word_min_assessment.pk,
             self.user.pk,
         )
-        self.assertEqual(given_assessment, WORD_PROGRES_MIN)
+        self.assertEqual(given_assessment, PROGRES_MIN)
 
     @skip
     def test_max_knowledge_assessment(self) -> None:
@@ -91,4 +91,4 @@ class TestUpdateProgres(TestCase):
             self.word_max_assessment.pk,
             self.user.pk,
         )
-        self.assertEqual(given_assessment, WORD_PROGRES_MAX)
+        self.assertEqual(given_assessment, PROGRES_MAX)

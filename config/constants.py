@@ -29,9 +29,6 @@ DEFAULT_CATEGORY = None
 INCREMENT_STEP = 1  # the step value does not change
 DECREMENT_STEP = -1  # the step value does not change
 
-WORD_PROGRES_MIN = 0
-WORD_PROGRES_MAX = 11
-
 ########################################################################
 # Collections
 ########################################################################
@@ -43,14 +40,13 @@ DEFAULT_GLOSSARY_PARAMS = {
 """Default choice for Glossary exercise lookup conditions
 (`dict[str, int | None]`)
 """
-PROGRES_STEPS = {
-    KNOW: INCREMENT_STEP,
-    NOT_KNOW: DECREMENT_STEP,
-}
 
 ########################################################################
 # Edge date periods
 ########################################################################
+DEFAULT_START_PERIOD = 'NC'
+DEFAULT_END_PERIOD = 'DT'
+
 EDGE_PERIOD_CHOICES = [
     ('DT', 'Сегодня'),
     ('D3', 'Три дня назад'),
@@ -78,10 +74,8 @@ EDGE_PERIOD_ALIASES = [
     {ALIAS: 'NC', HUMANLY: 'Добавлено'},
 ]
 """Edge period aliases at word adding for choice
-('alias', 'representation'), (`list[tuple[str, str]]`).
+(`list[dict[str, str]]`).
 """
-DEFAULT_START_PERIOD = 'NC'
-DEFAULT_END_PERIOD = 'DT'
 
 ########################################################################
 # Study progres
@@ -91,6 +85,7 @@ PROGRES_STUDY_MAX = 6
 PROGRES_REPETITION_MAX = 7
 PROGRES_EXAMINATION_MAX = 10
 PROGRES_MAX = 11
+DEFAULT_PROGRES = 'S'
 
 PROGRES_CHOICES = (
     ('S', 'Изучаю'),  # study
@@ -98,7 +93,6 @@ PROGRES_CHOICES = (
     ('E', 'Проверяю'),  # examination
     ('K', 'Знаю'),  # know
 )
-DEFAULT_PROGRES = 'S'
 PROGRES_ALIASES = [
     {ALIAS: 'S', HUMANLY: 'Изучаю'},
     {ALIAS: 'R', HUMANLY: 'Повторяю'},
@@ -125,6 +119,10 @@ Include fields:
     ``value`` : `int`
         A digital range representation of an knowledge assessment.
 """
+PROGRES_STEPS = {
+    KNOW: INCREMENT_STEP,
+    NOT_KNOW: DECREMENT_STEP,
+}
 
 ########################################################################
 # Other English choices
@@ -135,13 +133,14 @@ LANGUAGE_ORDER = [
     ('RU', 'Перевод на английский язык'),
 ]
 DEFAULT_LANGUAGE_ORDER = LANGUAGE_ORDER[0]
+
+DEFAULT_WORD_COUNT = ('OW', 'CB')
 WORD_COUNT = (
     ('OW', 'Слово'),
     ('CB', 'Словосочетание'),
     ('PS', 'Часть предложения'),
     ('ST', 'Предложение'),
 )
-DEFAULT_WORD_COUNT = ('OW', 'CB')
 
 DEFAULT_CREATE_CHOICE_VALUE = 0
 DEFAULT_TIMEOUT = 5
