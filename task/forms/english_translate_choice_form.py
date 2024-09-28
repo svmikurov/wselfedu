@@ -18,7 +18,7 @@ class EnglishTranslateChoiceForm(forms.Form):
         'source': SourceModel,
     }
 
-    def __init__(self, *args: object, **kwargs: dict[str, object]) -> None:
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Init user's model instances at form fields."""
         user_id = kwargs.pop('request').user.id
         super(EnglishTranslateChoiceForm, self).__init__(*args, **kwargs)
@@ -45,13 +45,13 @@ class EnglishTranslateChoiceForm(forms.Form):
         label='',
     )
     period_start_date = forms.ChoiceField(
-        choices=const.EDGE_PERIOD_ALIASES,
+        choices=const.EDGE_PERIOD_CHOICES,
         initial=const.DEFAULT_START_PERIOD,
         required=False,
         label='',
     )
     period_end_date = forms.ChoiceField(
-        choices=const.EDGE_PERIOD_ALIASES[:-1],
+        choices=const.EDGE_PERIOD_CHOICES[:-1],
         initial=const.DEFAULT_END_PERIOD,
         required=False,
         label='',
@@ -64,7 +64,7 @@ class EnglishTranslateChoiceForm(forms.Form):
         label='Слово, длина выражения',
     )
     knowledge_assessment = forms.MultipleChoiceField(
-        choices=const.PROGRES_STAGE_ALIASES,
+        choices=const.PROGRES_CHOICES,
         initial=const.DEFAULT_PROGRES,
         required=False,
         widget=forms.CheckboxSelectMultiple(),
