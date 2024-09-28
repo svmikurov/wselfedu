@@ -4,7 +4,7 @@ import datetime
 
 from django.db.models import F, Q
 
-from config.constants import PROGRES_STAGE_EDGES
+from config.constants import PROGRES_EDGES
 
 EDGE_PERIOD_TERMS = {
     'DT': {'days': 0},
@@ -119,7 +119,7 @@ class GlossaryExerciseLookupParams:
     def progres(self) -> Q:
         """Lookup parameter by study progres (`Q`, read-only)."""
         form_value = self.lookup_conditions.get('knowledge_assessment', [])
-        lookup_value = self._to_numeric(PROGRES_STAGE_EDGES, form_value)
+        lookup_value = self._to_numeric(PROGRES_EDGES, form_value)
         lookup_field = 'worduserknowledgerelation__knowledge_assessment__in'
 
         words_with_assessment = Q(**{lookup_field: lookup_value})
