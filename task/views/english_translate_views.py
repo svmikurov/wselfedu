@@ -1,5 +1,6 @@
 """Views for word study task module."""
 
+from http import HTTPStatus
 from typing import Dict
 
 from django.contrib import messages
@@ -137,7 +138,7 @@ class EnglishTranslateExerciseView(CheckLoginPermissionMixin, View):
 def update_words_knowledge_assessment_view(
     request: HttpRequest,
     **kwargs: object,
-) -> JsonResponse:
+) -> JsonResponse | HttpResponse:
     """Update user word knowledge assessment view.
 
     :param HttpRequest request: Request to update user word knowledge
@@ -150,13 +151,26 @@ def update_words_knowledge_assessment_view(
     :return: Response without data, with status 201.
     :rtype: JsonResponse
     """
+    user = request.user
     assessment = request.POST['assessment']
     word_pk = kwargs['word_id']
-    user_pk = request.user.pk
 
+    try:
+        word = WordModel.objects.get(pk=word_pk)
+    except WordModel.DoesNotExist:
+        return HttpResponse(status=HTTPStatus.BAD_REQUEST)
+    else:
+        # Only owner have access to his word.
+        if user != word.user:
+            return HttpResponse(status=HTTPStatus.FORBIDDEN)
+
+    obj, _ = WordUserKnowledgeRelation.objects.get_or_create(
+        word=word, user=user
+    )
     if assessment in {'+1', '-1'}:
-        old_assessment = get_knowledge_assessment(word_pk, user_pk)
-        new_assessment = old_assessment + int(assessment)
-        update_word_knowledge_assessment(word_pk, user_pk, new_assessment)
+        updated_assessment = obj.knowledge_assessment + int(assessment)
+        if PROGRES_MIN <= updated_assessment <= PROGRES_MAX:
+            obj.knowledge_assessment = updated_assessment
+            obj.save(update_fields=['knowledge_assessment'])
 
-    return JsonResponse({}, status=201)
+    return JsonResponse({}, status=HTTPStatus.CREATED)
