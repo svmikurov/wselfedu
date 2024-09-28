@@ -1,6 +1,5 @@
-================================
-Database queries (The Model MVC)
-================================
+Glossary exercise models
+========================
 
 Constants
 ---------

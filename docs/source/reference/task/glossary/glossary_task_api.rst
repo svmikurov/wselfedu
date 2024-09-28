@@ -1,6 +1,5 @@
-=======================
-API View (The View MVC)
-=======================
+Glossary exercise rest views
+============================
 
 Glossary exercise DRF view
 --------------------------

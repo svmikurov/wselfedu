@@ -1,6 +1,5 @@
-========
-Overview
-========
+Glossary exercise overview
+==========================
 
 Применяется паттерн MVC (Model-View-Controller).
 

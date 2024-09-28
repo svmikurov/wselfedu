@@ -1,6 +1,5 @@
-===============================
-Task logic (The Controller MVC)
-===============================
+Glossary exercise controller
+============================
 
 .. autoclass:: task.tasks.glossary_exercise.GlossaryExercise
    :members:
