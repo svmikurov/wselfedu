@@ -1,6 +1,7 @@
 """Glossary exercise view."""
 
-from django.forms import model_to_dict
+from http import HTTPStatus
+
 from django.http import HttpResponse, JsonResponse
 from rest_framework import permissions, status
 from rest_framework.decorators import api_view, permission_classes
@@ -82,7 +83,7 @@ def glossary_exercise_parameters(
             },
         }
 
-        return JsonResponse(exercise_params, status=status.HTTP_200_OK)
+        return JsonResponse(exercise_params, status=HTTPStatus.OK)
 
     if request.method == POST:
         serializer = GlossaryExerciseParamsSerializer(data=request.data)
@@ -92,6 +93,6 @@ def glossary_exercise_parameters(
 
             if not serializer.is_created:
                 return Response(serializer.data)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=HTTPStatus.CREATED)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=HTTPStatus.BAD_REQUEST)
