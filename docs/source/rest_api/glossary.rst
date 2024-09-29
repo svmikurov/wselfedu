@@ -26,9 +26,12 @@ Glossary Exercise endpoint
 +-----------+---------------------------+-------------------------------+
 | Method    | Request                   | Response                      |
 +===========+===========================+===============================+
-| POST      | * params                  |                               |
-|           | * action                  |                               |
-|           | * term_id                 |                               |
+| POST      | - lookup_conditions:      |                               |
+|           |                           |                               |
+|           |   * period_start_date     |                               |
+|           |   * period_end_date       |                               |
+|           |   * category              |                               |
+|           |   * progres               |                               |
 +-----------+---------------------------+-------------------------------+
 
 Glossary Exercise Parameters endpoint
@@ -44,30 +47,33 @@ Add or update user Glossary Exercise Parameters.
 | Method    | Request                           | Response                      |
 +===========+===================================+===============================+
 | GET       | --                                | HTTP_200_OK                   |
-|           |                                   |  * edge_period_items          |
+|           |                                   |  - lookup_conditions:         |
 |           |                                   |                               |
-|           |                                   |    - alias                    |
-|           |                                   |    - humanly                  |
+|           |                                   |    * period_start_date        |
+|           |                                   |    * period_end_date          |
+|           |                                   |    * category                 |
+|           |                                   |    * progres                  |
 |           |                                   |                               |
-|           |                                   |  * categories                 |
+|           |                                   |  - exercise_choices:          |
 |           |                                   |                               |
-|           |                                   |    - id                       |
-|           |                                   |    - name                     |
-|           |                                   |    - url                      |
-|           |                                   |    - created_at               |
-|           |                                   |    - user                     |
+|           |                                   |    - edge_period_items:       |
 |           |                                   |                               |
-|           |                                   |  * parameters                 |
+|           |                                   |      * alias                  |
+|           |                                   |      * humanly                |
 |           |                                   |                               |
-|           |                                   |    - period_start_date        |
-|           |                                   |    - period_end_date          |
-|           |                                   |    - category                 |
-|           |                                   |    - progres                  |
+|           |                                   |    - categories:              |
 |           |                                   |                               |
-|           |                                   |  * progres                    |
+|           |                                   |      * id                     |
+|           |                                   |      * name                   |
+|           |                                   |      * url                    |
+|           |                                   |      * created_at             |
+|           |                                   |      * user                   |
 |           |                                   |                               |
-|           |                                   |    - alias                    |
-|           |                                   |    - humanly                  |
+|           |                                   |    - progres:                 |
+|           |                                   |                               |
+|           |                                   |      * alias                  |
+|           |                                   |      * humanly                |
+|           |                                   |                               |
 +-----------+-----------------------------------+-------------------------------+
 | POST      | * period_start_date (optional)    | HTTP_200_OK                   |
 |           | * period_end_date (optional)      |  * period_start_date          |
@@ -80,5 +86,8 @@ Add or update user Glossary Exercise Parameters.
 |           |                                   |  * period_end_date            |
 |           |                                   |  * category                   |
 |           |                                   |  * progres                    |
+|           |                                   |                               |
+|           |                                   | HTTP_400_BAD_REQUEST          |
+|           |                                   |  * {required fild}            |
 |           |                                   |                               |
 +-----------+-----------------------------------+-------------------------------+

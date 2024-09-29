@@ -101,28 +101,7 @@ class GlossaryProgress(models.Model):
 
 
 class GlossaryExerciseParams(models.Model):
-    """Glossary exercise settings story model.
-
-    Story default user parameters to select wth terms in exercise:
-        - User - student;
-        - Start and End periods of adding a term;
-        - term Category;
-        - Progres of term study, as knowledge assessment.
-
-    :cvar user: A user whose parameters are stored.
-    :vartype user: UserModel
-    :cvar period_start_date: A beginning of the period of adding a term
-     to the glossary, :obj:`~config.constants.EDGE_PERIOD_CHOICES`.
-    :vartype period_start_date: list(tuple[str, str])
-    :cvar period_end_date: An end of the period of adding a term
-     to the glossary, :obj:`~config.constants.EDGE_PERIOD_CHOICES`.
-    :vartype period_end_date: list(tuple[str, str])
-    :cvar category: A term category.
-    :vartype category: GlossaryCategory
-    :cvar progres: A term progres,
-     :obj:`~task.forms.english_translate_choice_form.py.PROGRES_CHOICES`.
-    :vartype progres: tuple[tuple[str, str]]
-    """
+    """User default settings for selecting terms in an exercise."""
 
     DEFAULT_START_PERIOD_INDEX = 0
     DEFAULT_END_PERIOD_INDEX = -1
@@ -133,24 +112,40 @@ class GlossaryExerciseParams(models.Model):
         UserModel,
         on_delete=models.CASCADE,
     )
+    """User, (`UserModel`).
+    """
     period_start_date = models.CharField(
         choices=const.EDGE_PERIOD_CHOICES,
         default=const.DEFAULT_START_PERIOD,
     )
+    """A beginning of the period of adding a term to the glossary,
+    :obj:`~config.constants.EDGE_PERIOD_CHOICES`
+    (`list(tuple[str, str])`).
+    """
     period_end_date = models.CharField(
         choices=const.EDGE_PERIOD_CHOICES,
         default=const.DEFAULT_END_PERIOD,
     )
+    """An end of the period of adding a term to the glossary,
+    :obj:`~config.constants.EDGE_PERIOD_CHOICES`
+    (`list(tuple[str, str])`).
+    """
     category = models.ForeignKey(
         GlossaryCategory,
         on_delete=models.CASCADE,
         blank=True,
         null=True,
     )
+    """A term category (`GlossaryCategory`).
+    """
     progres = models.CharField(
         choices=const.PROGRES_CHOICES,
         default=const.DEFAULT_PROGRES,
     )
+    """A term progres,
+    :obj:`~task.forms.english_translate_choice_form.py.PROGRES_CHOICES`
+    (`tuple[tuple[str, str]]`).
+    """
 
     class Meta:
         """Set model features."""

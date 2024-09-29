@@ -99,6 +99,8 @@ PROGRES_ALIASES = [
     {ALIAS: 'E', HUMANLY: 'Проверяю'},
     {ALIAS: 'K', HUMANLY: 'Знаю'},
 ]
+"""Progres aliases (`list[dict[str, str]]`).
+"""
 PROGRES_EDGES = {
     'S': [*range(PROGRES_MIN, PROGRES_STUDY_MAX + 1)],
     'R': [*range(PROGRES_STUDY_MAX + 1, PROGRES_REPETITION_MAX + 1)],

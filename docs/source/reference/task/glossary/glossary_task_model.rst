@@ -7,6 +7,7 @@ Constants
 .. autodata:: task.orm_queries.glossary_lookup_params.EDGE_PERIOD_TERMS
 
 .. autodata:: config.constants.DEFAULT_GLOSSARY_PARAMS
+   :no-index:
 
 .. autodata:: config.constants.EDGE_PERIOD_CHOICES
 

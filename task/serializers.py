@@ -30,6 +30,7 @@ class GlossaryExerciseParamsSerializer(serializers.ModelSerializer):
             user=validated_data.get('user'),
             defaults=validated_data,
         )
+        # HTTP status is 201 if created, otherwise 200.
         if created:
             self.is_created = True
         return params

@@ -13,3 +13,8 @@ Reference
    :maxdepth: 3
 
    Tasks app <task/index>
+
+.. toctree::
+   :maxdepth: 1
+
+   constants
