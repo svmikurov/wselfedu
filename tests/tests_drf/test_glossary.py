@@ -122,7 +122,7 @@ class TestGlossaryTask(APITestCase):
         """Test render exercise."""
         expect = ('id', 'question_text', 'answer_text')
         self.api_client.force_authenticate(user=self.user)
-        response = self.api_client.get(self.url)
+        response = self.api_client.post(self.url)
 
         assert response.status_code == status.HTTP_200_OK
         assert tuple(response.json()) == expect

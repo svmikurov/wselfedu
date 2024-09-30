@@ -30,14 +30,16 @@ from task.serializers import (
 from task.tasks.glossary_exercise import GlossaryExercise
 
 
-@api_view([GET])
+@api_view([POST])
 @permission_classes((permissions.AllowAny,))
 def glossary_exercise(request: Request) -> JsonResponse | HttpResponse:
     """Render the Glossary exercise."""
-    query = GlossaryExerciseParams.objects.get(user=request.user)
-    exercise_params = model_to_dict(query)
-    exercise = GlossaryExercise(exercise_params).task_data
-    return JsonResponse(exercise, status=status.HTTP_200_OK)
+    serializer = GlossaryExerciseParamsSerializer(data=request.data)
+    if serializer.is_valid():
+        lookup_conditions = serializer.data
+        exercise = GlossaryExercise(lookup_conditions).task_data
+        return JsonResponse(exercise, status=HTTP_200_OK)
+    return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
 @api_view([GET, POST])
