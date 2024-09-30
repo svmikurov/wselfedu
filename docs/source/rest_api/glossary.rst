@@ -90,3 +90,22 @@ Add or update user Glossary Exercise Parameters.
 |           |                                 | HTTP_400_BAD_REQUEST          |
 |           |                                 |  * {fild}                     |
 +-----------+---------------------------------+-------------------------------+
+
+Glossary progress endpoint
+--------------------------
+
+.. code-block::
+
+   api/v1/glossary/progress/
+
++-----------+---------------------------------+-------------------------------+
+| Method    | Request                         | Response                      |
++===========+=================================+===============================+
+| POST      | * action                        |                               |
+|           | * id                            |                               |
++-----------+---------------------------------+-------------------------------+
+
+Where:
+    - ``'action'`` -- ``'know'`` or ``'not_know'``, user assessment of
+      knowledge of the term;
+    - ``'id'`` -- term ID.

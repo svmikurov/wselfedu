@@ -65,12 +65,14 @@ Glossary exercise overview
       и передает ему ``lookup_conditions``;
     * представление через свойство ``task_data`` экземпляра получает данные задачи и отправляет их пользователю,
       see: :ref:`Glossary Exercise endpoint Response <rest_api/glossary:Glossary Exercise endpoint>`.
-- пользователь асинхронно:
-    * отмечает ``"знаю"`` / ``"не знаю"`` значение термина (необязательно), оправляя запрос на ...;
+- пользователь:
+    * отмечает ``"знаю"`` / ``"не знаю"`` значение термина (необязательно), оправляя запрос на
+      :ref:`POST request progress <rest_api/glossary:Glossary progress endpoint>`;
     * отправляет запрос на новое задание
       (:ref:`POST request exercise <rest_api/glossary:Glossary Exercise endpoint>`).
 - сервер:
-    * представление ... сохраняет обновленный прогресс изучения в базе данных;
+    * представление :py:meth:`~glossary.views_drf.update_term_study_progres`
+      сохраняет обновленный прогресс изучения в базе данных;
     * возвращает новое задание.
 - в цикле выполнения упражнения:
     * пользователь отправляет запрос ``"знаю"`` / ``"не знаю"`` (необязательно);
