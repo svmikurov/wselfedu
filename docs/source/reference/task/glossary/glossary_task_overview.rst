@@ -1,8 +1,6 @@
 Glossary exercise overview
 ==========================
 
-Применяется паттерн MVC (Model-View-Controller).
-
 Используемые переменные:
 ------------------------
 
@@ -21,8 +19,11 @@ Glossary exercise overview
     see also:
       - :py:data:`~config.constants.EDGE_PERIOD_ALIASES`
       - :py:data:`~config.constants.PROGRES_ALIASES`
+      - Glossary exercise parameters :ref:`endpoint <rest_api/glossary:Glossary Exercise Parameters endpoint>`
+        on GET request method response.
 
     .. code-block:: python
+       :caption: payload:
 
        exercise_params = {
             'lookup_conditions': lookup_conditions,
@@ -39,49 +40,40 @@ Glossary exercise overview
 Цикл упражнения:
 ----------------
 
-1. Глоссарий
-^^^^^^^^^^^^
-
 Пользователь наполняет коллекцию терминов глоссария.
-
-2. Выборка
-^^^^^^^^^^
 
 Пользователь выбирает условия фильтрации терминов для изучения, при
 выполнении упражнения, что в включает в себя цепочку событий:
 
 - пользователь:
-    * отправляет запрос
-      (:ref:`GET request path <rest_api/glossary:Glossary Exercise Parameters endpoint>`)
-      на получение параметров по умолчанию;
+    * отправляет запрос (:ref:`GET request params <rest_api/glossary:Glossary Exercise Parameters endpoint>`)
+      на получение параметров упражнения по умолчанию;
 - сервер, представление :py:meth:`~task.views.exercise_glossary_views.glossary_exercise_parameters`:
-    * извлекает ``lookup_conditions`` из базы данных, model
-      :py:class:`~glossary.models.GlossaryExerciseParams`;
+    * извлекает ``lookup_conditions`` из базы данных, model :py:class:`~glossary.models.GlossaryExerciseParams`;
     * отправляет пользователю `exercise_params`_:
 - пользователь:
-    * отправляет запрос
-      (:ref:`POST request path <rest_api/glossary:Glossary Exercise Parameters endpoint>`)
+    * отправляет запрос (:ref:`POST request params <rest_api/glossary:Glossary Exercise Parameters endpoint>`)
       на сохранение измененного ``lookup_conditions`` (необязательно);
-    * отправляет запрос
-      (:ref:`POST request path <rest_api/glossary:Glossary Exercise endpoint>`)
-      на выполнение упражнения с неизмененными/измененными параметрами ``lookup_conditions``.
+- сервер, представление :py:meth:`~task.views.exercise_glossary_views.glossary_exercise_parameters`:
+    * выполняет запрос на сохранение измененных параметров ``lookup_conditions`` (необязательно);
+- пользователь:
+    * отправляет запрос (:ref:`POST request exercise <rest_api/glossary:Glossary Exercise endpoint>`)
+      на выполнение упражнения, передает неизмененные/измененные параметры ``lookup_conditions``
+      для текущего упражнения.
+- сервер, представление :py:meth:`~task.views.exercise_glossary_views.glossary_exercise`:
+    * создает ``exercise`` - экземпляр :py:class:`~task.tasks.glossary_exercise.GlossaryExercise`
+      и передает ему ``lookup_conditions``;
+    * представление через свойство ``task_data`` экземпляра получает данные задачи и отправляет их пользователю,
+      see: :ref:`Glossary Exercise endpoint Response <rest_api/glossary:Glossary Exercise endpoint>`.
+- пользователь асинхронно:
+    * отмечает ``"знаю"`` / ``"не знаю"`` значение термина (необязательно), оправляя запрос на ...;
+    * отправляет запрос на новое задание
+      (:ref:`POST request exercise <rest_api/glossary:Glossary Exercise endpoint>`).
 - сервер:
-    * представление
-      :py:meth:`~task.views.exercise_glossary_views.glossary_exercise_parameters`
-      выполняет запрос на сохранение измененных параметров ``lookup_conditions`` (необязательно);
-    * представление создает ``exercise`` - экземпляр
-      :py:class:`~task.tasks.glossary_exercise.GlossaryExercise`
-      (контроллера) и передает ему ``lookup_conditions``;
-    * представление через свойство ``task_data`` экземпляра получает
-      данные задачи и отправляет их пользователю.
-- ...
-
-.. todo:
-
-   - обработка ответа пользователя
-        - следующая задача
-        - знаю / не знаю
-        - ``lookup_conditions`` - приходят от клиента
-
-   Думаю этого будет пока достаточно, потом надо подключить редис,
-   для интернет версии.
+    * представление ... сохраняет обновленный прогресс изучения в базе данных;
+    * возвращает новое задание.
+- в цикле выполнения упражнения:
+    * пользователь отправляет запрос ``"знаю"`` / ``"не знаю"`` (необязательно);
+    * пользователь отправляет запрос на новое задание;
+    * сервер обновляет прогресс изучения термина (необязательно);
+    * возвращает новое задание.

@@ -17,7 +17,7 @@ class GlossaryExercise:
 
     @staticmethod
     def _get_item_ids() -> list[int]:
-        """Get term ids by user conditions of the exercise."""
+        """Get item ids by user lookup conditions."""
         item_ids = Glossary.objects.all().values_list('id', flat=True)
         return item_ids
 
