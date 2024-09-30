@@ -4,36 +4,24 @@ import datetime
 
 from django.db.models import F, Q
 
-from config.constants import PROGRES_EDGES
-
-EDGE_PERIOD_TERMS = {
-    'DT': {'days': 0},
-    'D3': {'days': 3},
-    'W1': {'weeks': 1},
-    'W2': {'weeks': 2},
-    'W3': {'weeks': 3},
-    'W4': {'weeks': 4},
-    'W7': {'weeks': 7},
-    'M3': {'weeks': 13},
-    'M6': {'weeks': 26},
-    'M9': {'weeks': 40},
-}
-"""The term representation of period aliases at word adding for study
-(`dict[str, dict[str, int]]`).
-
-Include fields:
-    ``key`` : `str`
-        Period alias at word adding for study.
-    ``value`` : `dict[str, int]]`
-        Period of time at word adding for study.
-            ``key`` : `str`
-                The ``datetime.timedelta`` function argument name.
-            ``value`` : `int`
-                The ``datetime.timedelta`` function argument value.
-"""
+from config.constants import EDGE_PERIOD_ARGS, PROGRES_EDGES
 
 
-class GlossaryExerciseLookupParams:
+class GlossaryLookupParams:
+    """Glossary exercise lookup parameters."""
+
+    def __init__(self, lookup_conditions: dict) -> None:
+        """Construct params."""
+        self._lookup_conditions = lookup_conditions
+
+    @property
+    def params(self) -> tuple[Q, ...]:
+        """Glossary exercise lookup parameters."""
+        params = ()
+        return params
+
+
+class GlossaryExerciseLookupParamsSkip:
     """Glossary exercise lookup parameters.
 
     Parameters
@@ -142,11 +130,11 @@ class GlossaryExerciseLookupParams:
         """Get lookup date value."""
         day_today = datetime.datetime.now(tz=datetime.timezone.utc)
         period = self.lookup_conditions.get(period_date)
-        period_delta = datetime.timedelta(**EDGE_PERIOD_TERMS.get(period, {}))
+        period_delta = datetime.timedelta(**EDGE_PERIOD_ARGS.get(period, {}))
         end_period = day_today - period_delta
 
         lookup_value = end_period.strftime(format_time)
-        date_value = lookup_value if period in EDGE_PERIOD_TERMS else ''
+        date_value = lookup_value if period in EDGE_PERIOD_ARGS else ''
         return date_value
 
     @staticmethod
