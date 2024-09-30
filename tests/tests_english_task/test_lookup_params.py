@@ -127,7 +127,7 @@ class LookupParamsTest(TestCase):
         self.assertQuerySetEqual(queryset, [2])
 
     @staticmethod
-    def query_database(form_data: dict['str', object]) -> QuerySet:
+    def query_database(form_data: dict[str, object]) -> QuerySet:
         """Make a query to the database by form data."""
         lookup_params = LookupParams(form_data).params
         queryset = WordModel.objects.filter(*lookup_params)

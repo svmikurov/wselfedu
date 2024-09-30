@@ -57,13 +57,25 @@ class Glossary(models.Model):
         null=True,
         verbose_name='Категория',
     )
-    created_at = models.DateField(auto_now_add=True, verbose_name='Добавлено')
+    progress = models.DecimalField(
+        max_digits=2,
+        decimal_places=0,
+        default=0,
+    )
+    """Numerical representation of study progress.
+    """
+    created_at = models.DateField(
+        auto_now_add=True,
+        verbose_name='Добавлено',
+    )
 
     class Meta:
         """Set model features."""
 
         verbose_name = 'Глоссарий'
         verbose_name_plural = 'Глоссарий'
+        # To compare queryset with ordered value.
+        ordering = ['pk']
 
     def __str__(self) -> str:
         """Provide the informal string representation of an object."""

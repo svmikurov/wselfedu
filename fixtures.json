@@ -1,0 +1,191 @@
+[
+{
+  "model": "users.usermodel",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$5NGP7GbAgN8Gr1jUzteyfV$LzO6ZJxjqxjwKw9jeuP1NlQ7jlmCsW9KSvosgqtLoGc=",
+    "last_login": "2024-09-30T15:06:36.546Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2024-09-30T10:03:29.151Z",
+    "updated_at": "2024-09-30T10:03:29.839Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.usermodel",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$gmAdZLLu8PZJr1YbDj1sSA$n1ZHmclo6CganeHQmies6kFc8DYl0M/3KG7paKHpB9M=",
+    "last_login": "2024-09-30T10:48:34.487Z",
+    "is_superuser": false,
+    "username": "user2",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2024-09-30T10:04:34.741Z",
+    "updated_at": "2024-09-30T10:04:35.535Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.usermodel",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$uMxMxJ3VLHp8Im8bj94jy9$Li8sSTdhy1BvFAMKs9i+0zZojyh9lL6vq1Emd4kjOkM=",
+    "last_login": "2024-09-30T10:48:03.228Z",
+    "is_superuser": false,
+    "username": "user3",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2024-09-30T10:09:56.135Z",
+    "updated_at": "2024-09-30T10:09:57.091Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "glossary.glossarycategory",
+  "pk": 1,
+  "fields": {
+    "user": 2,
+    "name": "category1",
+    "url": "",
+    "created_at": "2024-09-30"
+  }
+},
+{
+  "model": "glossary.glossarycategory",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "name": "category2",
+    "url": "",
+    "created_at": "2024-09-30"
+  }
+},
+{
+  "model": "glossary.glossary",
+  "pk": 1,
+  "fields": {
+    "user": 2,
+    "term": "term2-1",
+    "translate": "",
+    "definition": "",
+    "interpretation": "interpretation2-1",
+    "category": null,
+    "progres": "0",
+    "created_at": "2024-09-20"
+  }
+},
+{
+  "model": "glossary.glossary",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "term": "term2-2",
+    "translate": "",
+    "definition": "",
+    "interpretation": "interpretation2-2",
+    "category": 1,
+    "progres": "0",
+    "created_at": "2024-09-20"
+  }
+},
+{
+  "model": "glossary.glossary",
+  "pk": 3,
+  "fields": {
+    "user": 2,
+    "term": "term2-3",
+    "translate": "",
+    "definition": "",
+    "interpretation": "interpretation2-3",
+    "category": 2,
+    "progres": "0",
+    "created_at": "2024-09-20"
+  }
+},
+{
+  "model": "glossary.glossary",
+  "pk": 4,
+  "fields": {
+    "user": 2,
+    "term": "term2-4",
+    "translate": "",
+    "definition": "",
+    "interpretation": "interpretation2-4",
+    "category": null,
+    "progres": "0",
+    "created_at": "2024-09-30"
+  }
+},
+{
+  "model": "glossary.glossary",
+  "pk": 5,
+  "fields": {
+    "user": 2,
+    "term": "term2-5",
+    "translate": "",
+    "definition": "",
+    "interpretation": "interpretation2-5",
+    "category": null,
+    "progres": "0",
+    "created_at": "2024-09-30"
+  }
+},
+{
+  "model": "glossary.glossary",
+  "pk": 6,
+  "fields": {
+    "user": 3,
+    "term": "term3-1",
+    "translate": "",
+    "definition": "",
+    "interpretation": "interpretation3-1",
+    "category": null,
+    "progres": "0",
+    "created_at": "2024-09-20"
+  }
+},
+{
+  "model": "glossary.glossary",
+  "pk": 7,
+  "fields": {
+    "user": 3,
+    "term": "term3-2",
+    "translate": "",
+    "definition": "",
+    "interpretation": "interpretation3-2",
+    "category": null,
+    "progres": "0",
+    "created_at": "2024-09-20"
+  }
+},
+{
+  "model": "glossary.glossary",
+  "pk": 8,
+  "fields": {
+    "user": 3,
+    "term": "term3-3",
+    "translate": "",
+    "definition": "",
+    "interpretation": "interpretation3-3",
+    "category": null,
+    "progres": "0",
+    "created_at": "2024-09-20"
+  }
+}
+]

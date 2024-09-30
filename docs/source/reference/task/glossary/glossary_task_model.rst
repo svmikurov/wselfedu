@@ -4,7 +4,7 @@ Glossary exercise models
 Constants
 ---------
 
-.. autodata:: task.orm_queries.glossary_lookup_params.EDGE_PERIOD_TERMS
+.. autodata:: config.constants.EDGE_PERIOD_ARGS
 
 .. autodata:: config.constants.DEFAULT_GLOSSARY_PARAMS
    :no-index:
@@ -13,12 +13,11 @@ Constants
 
 .. autodata:: config.constants.PROGRES_CHOICES
 
-Query class
------------
+Queries
+-------
 
-.. autoclass:: task.orm_queries.glossary_lookup_params.GlossaryExerciseLookupParams
+.. automodule:: task.orm_queries.glossary_lookup_params
    :members:
-   :private-members:
 
 The search for terms to complete the task is carried out according to
 the criteria contained in the dictionary ``lookup_params``.

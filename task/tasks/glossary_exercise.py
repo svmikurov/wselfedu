@@ -2,18 +2,25 @@
 
 from random import choice
 
-from django.db.models import Model
+from django.db.models import Model, Q
 
 from glossary.models import Glossary
+from task.orm_queries.glossary_lookup_params import GlossaryLookupParams
 
 
 class GlossaryExercise:
     """Glossary exercise."""
 
-    def __init__(self, exercise_params: dict) -> None:
+    def __init__(self, lookup_conditions: dict) -> None:
         """Construct the exercise."""
-        self.exercise_params = exercise_params
+        self._lookup_conditions = lookup_conditions
         self.model: Model = Glossary
+
+    @property
+    def _lookup_params(self) -> tuple[Q, ...]:
+        """Encapsulated filters to lookup in query."""
+        lookup_params = GlossaryLookupParams(self._lookup_conditions)
+        return lookup_params.params
 
     @staticmethod
     def _get_item_ids() -> list[int]:
