@@ -17,7 +17,7 @@ from config.constants import (
     EDGE_PERIOD_ALIASES,
     GET,
     POST,
-    PROGRES_ALIASES,
+    PROGRESS_ALIASES,
 )
 from glossary.models import (
     GlossaryCategory,
@@ -84,7 +84,7 @@ def glossary_exercise_parameters(
             'exercise_choices': {
                 'edge_period_items': EDGE_PERIOD_ALIASES,
                 CATEGORIES: categories,
-                'progres': PROGRES_ALIASES,
+                'progress': PROGRESS_ALIASES,
             },
         }
 

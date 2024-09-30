@@ -12,7 +12,7 @@ from english.models import (
     SourceModel,
 )
 from english.orm_queries.word_knowledge_assessment import (
-    PROGRES_STAGE_EDGES,
+    PROGRESS_STAGE_EDGES,
 )
 
 
@@ -121,7 +121,7 @@ class WordsFilter(django_filters.FilterSet):
         value: object,
     ) -> QuerySet:
         """Filter words by study stage (knowledge_assessment)."""
-        study = PROGRES_STAGE_EDGES.get(value)
+        study = PROGRESS_STAGE_EDGES.get(value)
         qs = queryset.filter(
             worduserknowledgerelation__user_id=F('user'),
             worduserknowledgerelation__word_id=F('pk'),

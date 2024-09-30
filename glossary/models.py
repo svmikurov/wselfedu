@@ -81,7 +81,7 @@ class GlossaryProgress(models.Model):
         UserModel,
         on_delete=models.CASCADE,
     )
-    progres = models.DecimalField(
+    progress = models.DecimalField(
         max_digits=2,
         decimal_places=0,
         default=0,
@@ -138,9 +138,9 @@ class GlossaryExerciseParams(models.Model):
     )
     """A term category (`GlossaryCategory`).
     """
-    progres = models.CharField(
-        choices=const.PROGRES_CHOICES,
-        default=const.DEFAULT_PROGRES,
+    progress = models.CharField(
+        choices=const.PROGRESS_CHOICES,
+        default=const.DEFAULT_PROGRESS,
     )
     """A term progres,
     :obj:`~task.forms.english_translate_choice_form.py.PROGRES_CHOICES`

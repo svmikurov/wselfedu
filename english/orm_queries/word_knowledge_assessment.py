@@ -23,7 +23,7 @@ MAX_EXAMINATION_VALUE = 10
 MAX_KNOWLEDGE_ASSESSMENT = 11
 """Значения оценки уровня знания слова пользователем
 """
-PROGRES_STAGE_EDGES = {
+PROGRESS_STAGE_EDGES = {
     'S': [*range(MIN_PROGRES, MAX_STUDYING_VALUE + 1)],
     'R': [*range(MAX_STUDYING_VALUE + 1, MAX_REPETITION_VALUE + 1)],
     'E': [*range(MAX_REPETITION_VALUE + 1, MAX_EXAMINATION_VALUE + 1)],
@@ -85,7 +85,7 @@ def get_numeric_value(knowledge_assessments: str) -> list[int]:
     numbers for that level.
     """
     value = []
-    for assessment in PROGRES_STAGE_EDGES:
+    for assessment in PROGRESS_STAGE_EDGES:
         if assessment in knowledge_assessments:
-            value += PROGRES_STAGE_EDGES[assessment]
+            value += PROGRESS_STAGE_EDGES[assessment]
     return value

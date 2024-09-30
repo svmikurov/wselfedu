@@ -29,7 +29,7 @@ from english.views_drf import (
 from glossary.views_drf import (
     GlossaryDetailAPIView,
     GlossaryListAPIView,
-    update_term_study_progres,
+    update_term_study_progress,
 )
 from task.views import glossary_exercise
 from task.views.exercise_glossary_views import (
@@ -74,9 +74,9 @@ drf_urlpatterns = [
         name='api_glossary',
     ),
     path(
-        'api/v1/glossary/progres/',
-        update_term_study_progres,
-        name='api_glossary_term_progres',
+        'api/v1/glossary/progress/',
+        update_term_study_progress,
+        name='api_glossary_term_progress',
     ),
     path(
         'api/v1/glossary/exercise/',

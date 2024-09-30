@@ -12,7 +12,7 @@ from django.views import View
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
 
-from config.constants import PROGRES_MAX, PROGRES_MIN
+from config.constants import PROGRESS_MAX, PROGRESS_MIN
 from contrib.mixins_views import (
     CheckLoginPermissionMixin,
 )
@@ -169,7 +169,7 @@ def update_words_knowledge_assessment_view(
     )
     if assessment in {'+1', '-1'}:
         updated_assessment = obj.knowledge_assessment + int(assessment)
-        if PROGRES_MIN <= updated_assessment <= PROGRES_MAX:
+        if PROGRESS_MIN <= updated_assessment <= PROGRESS_MAX:
             obj.knowledge_assessment = updated_assessment
             obj.save(update_fields=['knowledge_assessment'])
 

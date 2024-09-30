@@ -9,10 +9,10 @@ from config.constants import (
     ACTION,
     ID,
     POST,
-    PROGRES,
-    PROGRES_MAX,
-    PROGRES_MIN,
     PROGRES_STEPS,
+    PROGRESS,
+    PROGRESS_MAX,
+    PROGRESS_MIN,
 )
 from glossary.models import Glossary, GlossaryProgress
 from glossary.serializers import GlossarySerializer
@@ -34,7 +34,7 @@ class GlossaryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 @api_view([POST])
 @permission_classes((permissions.AllowAny,))
-def update_term_study_progres(request: HttpRequest) -> HttpResponse:
+def update_term_study_progress(request: HttpRequest) -> HttpResponse:
     """Update term study progres."""
     user = request.user
     payload = JSONParser().parse(request)
@@ -52,10 +52,10 @@ def update_term_study_progres(request: HttpRequest) -> HttpResponse:
     obj, _ = GlossaryProgress.objects.get_or_create(term=term, user=user)
     action = payload.get(ACTION)
     progres_delta = PROGRES_STEPS.get(action)
-    updated_progres = obj.progres + progres_delta
+    updated_progres = obj.progress + progres_delta
 
-    if PROGRES_MIN <= updated_progres <= PROGRES_MAX:
-        obj.progres = updated_progres
-        obj.save(update_fields=[PROGRES])
+    if PROGRESS_MIN <= updated_progres <= PROGRESS_MAX:
+        obj.progress = updated_progres
+        obj.save(update_fields=[PROGRESS])
 
     return HttpResponse(status=status.HTTP_200_OK)

@@ -19,15 +19,15 @@ from rest_framework.test import APIClient, APITestCase
 from config.constants import (
     DECREMENT_STEP,
     INCREMENT_STEP,
-    PROGRES_MAX,
-    PROGRES_MIN,
+    PROGRESS_MAX,
+    PROGRESS_MIN,
 )
 from glossary.models import Glossary, GlossaryExerciseParams, GlossaryProgress
 from users.models import UserModel
 
 
-class TestUpdateProgres(APITestCase):
-    """Test update Glossary progres."""
+class TestUpdateProgress(APITestCase):
+    """Test update Glossary progress."""
 
     fixtures = ['tests/tests_drf/fixtures/glossaries.json']
 
@@ -36,15 +36,15 @@ class TestUpdateProgres(APITestCase):
         self.api_client = APIClient()
         self.user1 = UserModel.objects.get(username='user1')
         self.user2 = UserModel.objects.get(username='user2')
-        self.url = reverse('api_glossary_term_progres')
+        self.url = reverse('api_glossary_term_progress')
         self.term_pk = 1
 
-    def query_term(self, progres: int | None = None) -> GlossaryProgress:
+    def query_term(self, progress: int | None = None) -> GlossaryProgress:
         """Update or create term."""
         obj, _ = GlossaryProgress.objects.update_or_create(
             term=Glossary.objects.get(pk=self.term_pk),
             user=self.user1,
-            progres=progres or Q(),
+            progress=progress or Q(),
         )
         return obj
 
@@ -54,48 +54,48 @@ class TestUpdateProgres(APITestCase):
 
         self.api_client.force_authenticate(self.user1)
         r = self.api_client.post(path=self.url, data=payload, format='json')
-        term_progres = self.query_term().progres
+        term_progress = self.query_term().progress
 
-        assert term_progres == PROGRES_MIN + INCREMENT_STEP
+        assert term_progress == PROGRESS_MIN + INCREMENT_STEP
         assert r.status_code == status.HTTP_200_OK
 
     def test_know_on_max(self) -> None:
         """Test know term on max value."""
-        self.query_term(progres=PROGRES_MAX)
+        self.query_term(progress=PROGRESS_MAX)
         payload = {'action': 'know', 'id': self.term_pk}
 
         self.api_client.force_authenticate(self.user1)
         r = self.api_client.post(path=self.url, data=payload, format='json')
-        term_progres = self.query_term().progres
+        term_progress = self.query_term().progress
 
         assert r.status_code == status.HTTP_200_OK
-        assert term_progres == PROGRES_MAX
+        assert term_progress == PROGRESS_MAX
 
     def test_not_know_before_min(self) -> None:
         """Test not know term before min value."""
-        self.query_term(progres=PROGRES_MAX)
+        self.query_term(progress=PROGRESS_MAX)
         payload = {'action': 'not_know', 'id': self.term_pk}
 
         self.api_client.force_authenticate(self.user1)
         r = self.api_client.post(path=self.url, data=payload, format='json')
-        term_progres = self.query_term().progres
+        term_progress = self.query_term().progress
 
         assert r.status_code == status.HTTP_200_OK
-        assert term_progres == PROGRES_MAX + DECREMENT_STEP
+        assert term_progress == PROGRESS_MAX + DECREMENT_STEP
 
     def test_not_know_on_min(self) -> None:
-        """Test not know term on min value or has not progres."""
+        """Test not know term on min value or has not progress."""
         payload = {'action': 'not_know', 'id': self.term_pk}
 
         self.api_client.force_authenticate(self.user1)
         r = self.api_client.post(path=self.url, data=payload, format='json')
-        term_progres = self.query_term().progres
+        term_progress = self.query_term().progress
 
         assert r.status_code == status.HTTP_200_OK
-        assert term_progres == PROGRES_MIN
+        assert term_progress == PROGRESS_MIN
 
     def test_forbidden(self) -> None:
-        """Test access to term progres for not owner."""
+        """Test access to term progress for not owner."""
         payload = {'action': 'know', 'id': self.term_pk}
 
         self.api_client.force_authenticate(self.user2)
@@ -146,7 +146,7 @@ class TestGetGlossaryExerciseParams(APITestCase):
                 'category': 1,
                 'period_end_date': 'DT',
                 'period_start_date': 'NC',
-                'progres': 'S',
+                'progress': 'S',
             },
             'exercise_choices': {
                 'categories': [
@@ -178,7 +178,7 @@ class TestGetGlossaryExerciseParams(APITestCase):
                     {'alias': 'M9', 'humanly': 'Девять месяцев назад'},
                     {'alias': 'NC', 'humanly': 'Добавлено'},
                 ],
-                'progres': [
+                'progress': [
                     {'alias': 'S', 'humanly': 'Изучаю'},
                     {'alias': 'R', 'humanly': 'Повторяю'},
                     {'alias': 'E', 'humanly': 'Проверяю'},
@@ -211,7 +211,7 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'period_start_date': 'W3',
             'period_end_date': 'W1',
             'category': 1,
-            'progres': 'K',
+            'progress': 'K',
         }
         self.api_client.force_authenticate(user=self.user1)
         response = self.api_client.post(self.url, request_data, format='json')
@@ -232,7 +232,7 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'period_start_date': 'W2',
             'period_end_date': 'W1',
             'category': 1,
-            'progres': 'S',
+            'progress': 'S',
         }
         self.api_client.force_authenticate(user=self.user1)
         response = self.api_client.post(self.url, request_data, format='json')
@@ -246,7 +246,7 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'period_start_date': 'NC',
             'period_end_date': 'DT',
             'category': None,
-            'progres': 'S',
+            'progress': 'S',
         }
         self.api_client.force_authenticate(user=self.user2)
         response = self.api_client.post(self.url)
@@ -260,7 +260,7 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'period_start_date': 'W3',
             'period_end_date': 'W1',
             'category': 1,
-            'progres': 'K',
+            'progress': 'K',
         }
         self.api_client.force_authenticate(user=self.user2)
         response = self.api_client.post(self.url, request_data, format='json')
@@ -281,7 +281,7 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'period_start_date': 'W2',
             'period_end_date': 'NC',
             'category': None,
-            'progres': 'S',
+            'progress': 'S',
         }
         self.api_client.force_authenticate(user=self.user2)
         response = self.api_client.post(self.url, request_data, format='json')

@@ -64,8 +64,8 @@ class EnglishTranslateChoiceForm(forms.Form):
         label='Слово, длина выражения',
     )
     knowledge_assessment = forms.MultipleChoiceField(
-        choices=const.PROGRES_CHOICES,
-        initial=const.DEFAULT_PROGRES,
+        choices=const.PROGRESS_CHOICES,
+        initial=const.DEFAULT_PROGRESS,
         required=False,
         widget=forms.CheckboxSelectMultiple(),
         label='Этап изучения слов',

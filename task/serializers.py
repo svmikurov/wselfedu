@@ -21,7 +21,7 @@ class GlossaryExerciseParamsSerializer(serializers.ModelSerializer):
             'period_start_date',
             'period_end_date',
             'category',
-            'progres',
+            'progress',
         ]
 
     def create(self, validated_data: dict) -> GlossaryExerciseParams:

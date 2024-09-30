@@ -5,7 +5,7 @@ import datetime
 from django.db.models import F, Q
 
 from english.orm_queries.word_knowledge_assessment import (
-    PROGRES_STAGE_EDGES,
+    PROGRESS_STAGE_EDGES,
 )
 
 EDGE_PERIOD_TERMS = {
@@ -108,7 +108,7 @@ class LookupParams:
     def _knowledge_lookup_param(self) -> Q:
         """Lookup parameter by user assessment (`Q`, read-only)."""
         form_value = self.lookup_conditions.get('knowledge_assessment', [])
-        lookup_value = self._to_numeric(PROGRES_STAGE_EDGES, form_value)
+        lookup_value = self._to_numeric(PROGRESS_STAGE_EDGES, form_value)
         lookup_field = 'worduserknowledgerelation__knowledge_assessment__in'
 
         words_with_assessment = Q(**{lookup_field: lookup_value})

@@ -26,7 +26,7 @@ CATEGORIES = 'categories'
 PERIOD_START_DATE = 'period_start_date'
 PERIOD_END_DATE = 'period_end_date'
 POST = 'POST'
-PROGRES = 'progres'
+PROGRESS = 'progress'
 ID = 'id'
 KNOW = 'know'
 NOT_KNOW = 'not_know'
@@ -117,22 +117,22 @@ Include fields:
 """
 
 ########################################################################
-# Study progres
+# Study progress
 ########################################################################
-PROGRES_MIN = 0
-PROGRES_STUDY_MAX = 6
-PROGRES_REPETITION_MAX = 7
-PROGRES_EXAMINATION_MAX = 10
-PROGRES_MAX = 11
-DEFAULT_PROGRES = 'S'
+PROGRESS_MIN = 0
+PROGRESS_STUDY_MAX = 6
+PROGRESS_REPETITION_MAX = 7
+PROGRESS_EXAMINATION_MAX = 10
+PROGRESS_MAX = 11
+DEFAULT_PROGRESS = 'S'
 
-PROGRES_CHOICES = (
+PROGRESS_CHOICES = (
     ('S', 'Изучаю'),  # study
     ('R', 'Повторяю'),  # repeat
     ('E', 'Проверяю'),  # examination
     ('K', 'Знаю'),  # know
 )
-PROGRES_ALIASES = [
+PROGRESS_ALIASES = [
     {ALIAS: 'S', HUMANLY: 'Изучаю'},
     {ALIAS: 'R', HUMANLY: 'Повторяю'},
     {ALIAS: 'E', HUMANLY: 'Проверяю'},
@@ -140,11 +140,11 @@ PROGRES_ALIASES = [
 ]
 """Progres aliases (`list[dict[str, str]]`).
 """
-PROGRES_EDGES = {
-    'S': [*range(PROGRES_MIN, PROGRES_STUDY_MAX + 1)],
-    'R': [*range(PROGRES_STUDY_MAX + 1, PROGRES_REPETITION_MAX + 1)],
-    'E': [*range(PROGRES_REPETITION_MAX + 1, PROGRES_EXAMINATION_MAX + 1)],
-    'K': [PROGRES_MAX],
+PROGRESS_EDGES = {
+    'S': [*range(PROGRESS_MIN, PROGRESS_STUDY_MAX + 1)],
+    'R': [*range(PROGRESS_STUDY_MAX + 1, PROGRESS_REPETITION_MAX + 1)],
+    'E': [*range(PROGRESS_REPETITION_MAX + 1, PROGRESS_EXAMINATION_MAX + 1)],
+    'K': [PROGRESS_MAX],
 }
 """A literal representation of an knowledge assessment
 (`dict[str, list[int]]`).

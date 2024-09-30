@@ -63,7 +63,7 @@ class GlossaryExerciseLookupParamsSkip:
             self.period_start_date,
             self.period_end_date,
             self.category,
-            self.progres,
+            self.progress,
         )
         return params
 

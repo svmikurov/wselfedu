@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 import redis
 from django.core.cache import cache
 
-from config.constants import REDIS_PARAMS, CACHE_STORAGE_TIME
+from config.constants import CACHE_STORAGE_TIME, REDIS_PARAMS
 
 
 def set_cache_dict(name: str, mapping: dict) -> None:
