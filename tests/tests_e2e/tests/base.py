@@ -51,6 +51,7 @@ class PageFixtureTestCase(StaticLiveServerTestCase):
         Django to use async at class scope.
         """
         os.environ['DJANGO_ALLOW_ASYNC_UNSAFE'] = 'true'
+        os.environ['IS_TEST'] = 'true'
         super().setUpClass()
         cls.page_host = str(cls.live_server_url)
 
