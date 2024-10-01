@@ -44,14 +44,14 @@ class TestEnglishExerciseConditionsChoicePage(POMTest):
         expect(page.start_period_choice).to_have_value('NC')
         expect(page.end_period_choice).to_have_value('DT')
         # Study progress checkboxes.
-        expect(page.study_progres_label).to_be_visible()
-        expect(page.repeat_progres_label).to_be_visible()
-        expect(page.repeat_progres_label).to_be_visible()
-        expect(page.examination_progres_label).to_be_visible()
-        expect(page.study_progres_choice).to_be_checked()
-        expect(page.repeat_progres_choice).not_to_be_checked()
-        expect(page.examination_progres_choice).not_to_be_checked()
-        expect(page.know_progres_choice).not_to_be_checked()
+        expect(page.study_progress_label).to_be_visible()
+        expect(page.repeat_progress_label).to_be_visible()
+        expect(page.repeat_progress_label).to_be_visible()
+        expect(page.examination_progress_label).to_be_visible()
+        expect(page.study_progress_choice).to_be_checked()
+        expect(page.repeat_progress_choice).not_to_be_checked()
+        expect(page.examination_progress_choice).not_to_be_checked()
+        expect(page.know_progress_choice).not_to_be_checked()
         # Answer timeout choice.
         expect(page.timeout_choice).to_have_value('5')
         # Word length checkboxes.

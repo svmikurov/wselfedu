@@ -13,19 +13,20 @@ class GlossaryExercise:
 
     def __init__(self, lookup_conditions: dict) -> None:
         """Construct the exercise."""
-        self._lookup_conditions = lookup_conditions
+        self.lookup_conditions = lookup_conditions
         self.model: Model = Glossary
 
     @property
     def _lookup_params(self) -> tuple[Q, ...]:
         """Encapsulated filters to lookup in query."""
-        lookup_params = GlossaryLookupParams(self._lookup_conditions)
+        lookup_params = GlossaryLookupParams(self.lookup_conditions)
         return lookup_params.params
 
-    @staticmethod
-    def _get_item_ids() -> list[int]:
+    def _get_item_ids(self) -> list[int]:
         """Get item ids by user lookup conditions."""
-        item_ids = Glossary.objects.all().values_list('id', flat=True)
+        item_ids = Glossary.objects.filter(
+            *self._lookup_params
+        ).values_list('id', flat=True)  # fmt: skip
         return item_ids
 
     @staticmethod

@@ -1,5 +1,5 @@
-Glossary exercise rest views
-============================
+Glossary exercise views
+=======================
 
 Glossary exercise DRF view
 --------------------------

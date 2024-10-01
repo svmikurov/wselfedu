@@ -1,41 +1,46 @@
 Glossary exercise overview
 ==========================
 
-Используемые переменные:
-------------------------
+Variables used
+--------------
 
-- ``lookup_conditions`` : `dict` - словарь условий пользователя для
-  формирования задания, хранится в базе данных (необязательно),
-  модель :obj:`~glossary.models.GlossaryExerciseParams`;
-- ``exercise_choices`` : `dict` - словарь возможного выбора для условий:
-    - для фильтрации по датам - :py:data:`~config.constants.EDGE_PERIOD_CHOICES`;
-    - для фильтрации по прогрессу изучения - :py:data:`~config.constants.PROGRES_CHOICES`;
-    - для фильтрации по категории :obj:`~glossary.models.GlossaryCategory`;
-    - имеет значения по умолчанию :py:data:`~config.constants.DEFAULT_GLOSSARY_PARAMS`.
+.. glossary::
 
-.. _exercise_params:
+   lookup_conditions
+      ``lookup_conditions`` : `dict` - словарь условий пользователя для
+      формирования задания, хранится в базе данных (необязательно),
+      модель :obj:`~glossary.models.GlossaryExerciseParams`;
 
-- ``exercise_params`` : `dict` - json response сервера с параметрами упражнения:
-    see also:
-      - :py:data:`~config.constants.EDGE_PERIOD_ALIASES`
-      - :py:data:`~config.constants.PROGRES_ALIASES`
-      - Glossary exercise parameters :ref:`endpoint <rest_api/glossary:Glossary Exercise Parameters endpoint>`
-        on GET request method response.
+   exercise_choices
+      ``exercise_choices`` : `dict` - словарь возможного выбора для условий:
+      - для фильтрации по датам - :py:data:`~config.constants.EDGE_PERIOD_CHOICES`;
+      - для фильтрации по прогрессу изучения - :py:data:`~config.constants.PROGRESS_CHOICES`;
+      - для фильтрации по категории :obj:`~glossary.models.GlossaryCategory`;
+      - имеет значения по умолчанию :py:data:`~config.constants.DEFAULT_GLOSSARY_PARAMS`.
 
-    .. code-block:: python
-       :caption: payload:
+   exercise_params
+      ``exercise_params`` : `dict` - json response сервера с параметрами упражнения.
 
-       exercise_params = {
-            'lookup_conditions': lookup_conditions,
-            'exercise_choices': {
-                'edge_period_items': EDGE_PERIOD_ALIASES,
-                'categories': categories,
-                'progres': PROGRES_ALIASES,
-            },
-       }
+      see also:
+         - :py:data:`~config.constants.EDGE_PERIOD_ALIASES`
+         - :py:data:`~config.constants.PROGRESS_ALIASES`
+         - Glossary exercise parameters :ref:`endpoint <rest_api/glossary:Glossary Exercise Parameters endpoint>`
+           on GET request method response.
 
-- ``lookup_parameters`` : `tuple[Q, ...]` - кортеж инкапсулированых фильтров запроса к модели,
-  формируется контролером при выполнении задания.
+      .. code-block:: python
+
+         exercise_params = {
+             'lookup_conditions': lookup_conditions,
+             'exercise_choices': {
+                 'edge_period_items': EDGE_PERIOD_ALIASES,
+                 'categories': categories,
+                 'progress': PROGRESS_ALIASES,
+             },
+         }
+
+   lookup_parameters
+      ``lookup_parameters`` : `tuple[Q, ...]` - кортеж инкапсулированых фильтров запроса к модели,
+      формируется контролером при выполнении задания.
 
 Цикл упражнения:
 ----------------
@@ -50,7 +55,7 @@ Glossary exercise overview
       на получение параметров упражнения по умолчанию;
 - сервер, представление :py:meth:`~task.views.exercise_glossary_views.glossary_exercise_parameters`:
     * извлекает ``lookup_conditions`` из базы данных, model :py:class:`~glossary.models.GlossaryExerciseParams`;
-    * отправляет пользователю `exercise_params`_:
+    * отправляет пользователю :term:`exercise_params`:
 - пользователь:
     * отправляет запрос (:ref:`POST request params <rest_api/glossary:Glossary Exercise Parameters endpoint>`)
       на сохранение измененного ``lookup_conditions`` (необязательно);

@@ -28,16 +28,16 @@ class EnglishExerciseConditionsChoicePage(POMPage):
         self.start_period_choice = page.locator('#id_period_start_date')
         self.end_period_choice = page.locator('#id_period_end_date')
         # Study progress checkboxes.
-        self.study_progres_label = page.get_by_label('Изучаю')
-        self.repeat_progres_label = page.get_by_label('Повторяю')
-        self.repeat_progres_label = page.get_by_label('Проверяю')
-        self.examination_progres_label = page.get_by_label('Знаю')
-        self.study_progres_choice = page.locator('#id_knowledge_assessment_0')
-        self.repeat_progres_choice = page.locator('#id_knowledge_assessment_1')
-        self.examination_progres_choice = page.locator(
+        self.study_progress_label = page.get_by_label('Изучаю')
+        self.repeat_progress_label = page.get_by_label('Повторяю')
+        self.repeat_progress_label = page.get_by_label('Проверяю')
+        self.examination_progress_label = page.get_by_label('Знаю')
+        self.study_progress_choice = page.locator('#id_knowledge_assessment_0')
+        self.repeat_progress_choice = page.locator('#id_knowledge_assessment_1')  # noqa: E501 # fmt: skip
+        self.examination_progress_choice = page.locator(
             '#id_knowledge_assessment_2'
         )
-        self.know_progres_choice = page.locator('#id_knowledge_assessment_3')
+        self.know_progress_choice = page.locator('#id_knowledge_assessment_3')
         # Answer timeout
         self.timeout_choice = page.get_by_label('Время на ответ (сек)*')
         # Word length checkboxes.

@@ -82,36 +82,6 @@ class Glossary(models.Model):
         return self.term
 
 
-class GlossaryProgress(models.Model):
-    """Glossary terms study progres."""
-
-    term = models.ForeignKey(
-        Glossary,
-        on_delete=models.CASCADE,
-    )
-    user = models.ForeignKey(
-        UserModel,
-        on_delete=models.CASCADE,
-    )
-    progress = models.DecimalField(
-        max_digits=2,
-        decimal_places=0,
-        default=0,
-    )
-    """Numerical representation of study progress.
-    """
-
-    class Meta:
-        """Model options."""
-
-        unique_together = [[const.USER, const.TERM]]
-        verbose_name = 'Прогресс'
-
-    def __str__(self) -> str:
-        """Provide the informal string representation of an object."""
-        return self.progres
-
-
 class GlossaryExerciseParams(models.Model):
     """User default settings for selecting terms in an exercise."""
 
@@ -155,7 +125,7 @@ class GlossaryExerciseParams(models.Model):
         default=const.DEFAULT_PROGRESS,
     )
     """A term progres,
-    :obj:`~task.forms.english_translate_choice_form.py.PROGRES_CHOICES`
+    :obj:`~task.forms.english_translate_choice_form.py.PROGRESS_CHOICES`
     (`tuple[tuple[str, str]]`).
     """
 

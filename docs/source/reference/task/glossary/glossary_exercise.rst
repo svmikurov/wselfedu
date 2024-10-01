@@ -1,5 +1,5 @@
-Glossary exercise controller
-============================
+Glossary exercise
+=================
 
 .. autoclass:: task.tasks.glossary_exercise.GlossaryExercise
    :members:

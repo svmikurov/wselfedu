@@ -35,9 +35,16 @@ from task.tasks.glossary_exercise import GlossaryExercise
 def glossary_exercise(request: Request) -> JsonResponse | HttpResponse:
     """Render the Glossary exercise."""
     serializer = GlossaryExerciseParamsSerializer(data=request.data)
+
     if serializer.is_valid():
         lookup_conditions = serializer.data
-        exercise = GlossaryExercise(lookup_conditions).task_data
+        lookup_conditions['user_id'] = request.user.id
+        try:
+            exercise = GlossaryExercise(lookup_conditions).task_data
+        except IndexError:
+            error = {'error': 'По заданным условиям задание не сформировано'}
+            return JsonResponse(error, status=HTTP_400_BAD_REQUEST)
+
         return JsonResponse(exercise, status=HTTP_200_OK)
     return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 

@@ -14,7 +14,7 @@ from config.constants import (
     PROGRESS_MAX,
     PROGRESS_MIN,
 )
-from glossary.models import Glossary, GlossaryProgress
+from glossary.models import Glossary
 from glossary.serializers import GlossarySerializer
 
 
@@ -49,13 +49,12 @@ def update_term_study_progress(request: HttpRequest) -> HttpResponse:
         if user != term.user:
             return HttpResponse(status=status.HTTP_403_FORBIDDEN)
 
-    obj, _ = GlossaryProgress.objects.get_or_create(term=term, user=user)
     action = payload.get(ACTION)
-    progres_delta = PROGRES_STEPS.get(action)
-    updated_progres = obj.progress + progres_delta
+    progress_delta = PROGRES_STEPS.get(action)
+    updated_progress = term.progress + progress_delta
 
-    if PROGRESS_MIN <= updated_progres <= PROGRESS_MAX:
-        obj.progress = updated_progres
-        obj.save(update_fields=[PROGRESS])
+    if PROGRESS_MIN <= updated_progress <= PROGRESS_MAX:
+        term.progress = updated_progress
+        term.save(update_fields=[PROGRESS])
 
     return HttpResponse(status=status.HTTP_200_OK)

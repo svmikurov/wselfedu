@@ -1,8 +1,4 @@
-"""Test GlossaryLookupParams class.
-
-Test query to database using ``GlossaryLookupParams`` class and
-``lookup_params`` of user.
-"""
+"""Test the GlossaryLookupParams class."""
 
 from datetime import datetime, timedelta, timezone
 
@@ -14,31 +10,37 @@ from task.orm_queries.glossary_lookup_params import GlossaryLookupParams
 
 
 class TestLookupParams(TestCase):
-    """Test GlossaryLookupParams class."""
+    """Test filter by lookup conditions.
+
+    Test the query to database using
+    :obj:`task.orm_queries.glossary_lookup_params.GlossaryLookupParams`
+    class and :term:`lookup_conditions` of user.
+    """
 
     fixtures = ['tests/tests_glossary/fixtures-terms.json']
 
     @staticmethod
     def query_database(lookup_conditions: dict[str, object]) -> QuerySet:
-        """Make a query to the database by lookup conditions."""
+        """Make a query to the database by test filter."""
         lookup_params = GlossaryLookupParams(lookup_conditions).params
         queryset = Glossary.objects.filter(*lookup_params)
         ids = queryset.values_list('id', flat=True)
         return ids
 
     def test_lookup_by_user_id(self) -> None:
-        """Test filter by user."""
+        """Test filter terms by user."""
         lookup_conditions = {'user_id': 2}
         queryset = self.query_database(lookup_conditions)
         self.assertQuerySetEqual(queryset, [1, 2, 3, 4, 5])
 
     def test_lookup_by_date(self) -> None:
         """Test filter terms by term added date."""
-        # For user_id=2
-        # Set adding term dates:
+        # For user_id=2 set adding term dates:
         # term with id=1 set added today
         # term with id=2 set added 3 weeks ago
         # term with id=3 set added 7 weeks ago
+        # term with id=4 set added 13 weeks ago
+        # term with id=5 set added 40 weeks ago
         today = datetime.now(tz=timezone.utc)
         manager = Glossary.objects
         manager.filter(pk=1).update(created_at=today)
@@ -83,13 +85,13 @@ class TestLookupParams(TestCase):
         self.assertQuerySetEqual(queryset, [2])
 
     def test_lookup_by_category(self) -> None:
-        """Test filter words by category."""
+        """Test filter terms by category."""
         lookup_conditions = {'category': 2}
         queryset = self.query_database(lookup_conditions)
         self.assertQuerySetEqual(queryset, [3])
 
     def test_lookup_by_progress(self) -> None:
-        """Test filter words by progress."""
+        """Test filter terms by progress."""
         lookup_conditions = {'user_id': 2, 'progress': []}
         queryset = self.query_database(lookup_conditions)
         self.assertQuerySetEqual(queryset, [1, 2, 3, 4, 5])
