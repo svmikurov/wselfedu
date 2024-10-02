@@ -15,6 +15,7 @@ static/
 .coverage
 coverage.xml
 state.json
+fixtures.json
 
 db*.json
 *.sqlite3
