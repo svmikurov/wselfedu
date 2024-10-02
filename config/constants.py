@@ -36,24 +36,8 @@ TERM = 'term'
 ########################################################################
 # Variables
 ########################################################################
-DEFAULT_PERIOD_START_INDEX = -1
-DEFAULT_PERIOD_END_INDEX = 0
-DEFAULT_CATEGORY = None
-
 INCREMENT_STEP = 1  # the step value does not change
 DECREMENT_STEP = -1  # the step value does not change
-
-########################################################################
-# Collections
-########################################################################
-DEFAULT_GLOSSARY_PARAMS = {
-    PERIOD_START_DATE: DEFAULT_PERIOD_START_INDEX,
-    PERIOD_END_DATE: DEFAULT_PERIOD_END_INDEX,
-    CATEGORY: DEFAULT_CATEGORY,
-}
-"""Default choice for Glossary exercise lookup conditions
-(`dict[str, int | None]`)
-"""
 
 ########################################################################
 # Edge date periods
@@ -185,3 +169,18 @@ WORD_COUNT = (
 
 DEFAULT_CREATE_CHOICE_VALUE = 0
 DEFAULT_TIMEOUT = 5
+
+########################################################################
+# Collections
+########################################################################
+DEFAULT_CATEGORY = None
+
+DEFAULT_GLOSSARY_PARAMS = {
+    PERIOD_START_DATE: DEFAULT_START_PERIOD,
+    PERIOD_END_DATE: DEFAULT_END_PERIOD,
+    CATEGORY: DEFAULT_CATEGORY,
+    PROGRESS: DEFAULT_PROGRESS,
+}
+"""Default choice for Glossary exercise lookup conditions
+(`dict[str, int | None]`)
+"""
