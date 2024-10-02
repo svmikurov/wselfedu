@@ -32,7 +32,7 @@ from glossary.views_drf import (
     update_term_study_progress,
 )
 from task.views import glossary_exercise
-from task.views.exercise_glossary_views import (
+from task.views.glossary_exercise_drf_views import (
     glossary_exercise_parameters,
 )
 

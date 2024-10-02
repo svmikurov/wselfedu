@@ -4,9 +4,9 @@ Glossary exercise views
 Glossary exercise DRF view
 --------------------------
 
-.. autofunction:: task.views.exercise_glossary_views.glossary_exercise
+.. autofunction:: task.views.glossary_exercise_drf_views.glossary_exercise
 
 Glossary exercise parameters DRF view
 -------------------------------------
 
-.. autofunction:: task.views.exercise_glossary_views.glossary_exercise_parameters
+.. autofunction:: task.views.glossary_exercise_drf_views.glossary_exercise_parameters

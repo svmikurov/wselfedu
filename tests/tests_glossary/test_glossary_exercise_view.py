@@ -11,7 +11,8 @@ from users.models import UserModel
 class TestGlossaryExerciseView(APITestCase):
     """Test the Glossary exercise view.
 
-    Test :py:meth:`task.views.exercise_glossary_views.glossary_exercise`
+    Test
+    :py:meth:`task.views.glossary_exercise_drf_views.glossary_exercise`
     """
 
     def setUp(self) -> None:

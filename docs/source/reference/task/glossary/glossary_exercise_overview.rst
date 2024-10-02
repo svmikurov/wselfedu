@@ -53,19 +53,19 @@ Variables used
 - пользователь:
     * отправляет запрос (:ref:`GET request params <rest_api/glossary:Glossary Exercise Parameters endpoint>`)
       на получение параметров упражнения по умолчанию;
-- сервер, представление :py:meth:`~task.views.exercise_glossary_views.glossary_exercise_parameters`:
+- сервер, представление :py:meth:`~task.views.glossary_exercise_drf_views.glossary_exercise_parameters`:
     * извлекает ``lookup_conditions`` из базы данных, model :py:class:`~glossary.models.GlossaryExerciseParams`;
     * отправляет пользователю :term:`exercise_params`:
 - пользователь:
     * отправляет запрос (:ref:`POST request params <rest_api/glossary:Glossary Exercise Parameters endpoint>`)
       на сохранение измененного ``lookup_conditions`` (необязательно);
-- сервер, представление :py:meth:`~task.views.exercise_glossary_views.glossary_exercise_parameters`:
+- сервер, представление :py:meth:`~task.views.glossary_exercise_drf_views.glossary_exercise_parameters`:
     * выполняет запрос на сохранение измененных параметров ``lookup_conditions`` (необязательно);
 - пользователь:
     * отправляет запрос (:ref:`POST request exercise <rest_api/glossary:Glossary Exercise endpoint>`)
       на выполнение упражнения, передает неизмененные/измененные параметры ``lookup_conditions``
       для текущего упражнения.
-- сервер, представление :py:meth:`~task.views.exercise_glossary_views.glossary_exercise`:
+- сервер, представление :py:meth:`~task.views.glossary_exercise_drf_views.glossary_exercise`:
     * создает ``exercise`` - экземпляр :py:class:`~task.tasks.glossary_exercise.GlossaryExercise`
       и передает ему ``lookup_conditions``;
     * представление через свойство ``task_data`` экземпляра получает данные задачи и отправляет их пользователю,

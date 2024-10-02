@@ -6,7 +6,7 @@ from task.views.english_exercise_views import (
     EnglishTranslateExerciseView,
     update_words_knowledge_assessment_view,
 )
-from task.views.exercise_glossary_views import (
+from task.views.glossary_exercise_drf_views import (
     glossary_exercise,
     glossary_exercise_parameters,
 )
