@@ -85,11 +85,6 @@ class Glossary(models.Model):
 class GlossaryExerciseParams(models.Model):
     """User default settings for selecting terms in an exercise."""
 
-    DEFAULT_START_PERIOD_INDEX = 0
-    DEFAULT_END_PERIOD_INDEX = -1
-    DEFAULT_PROGRES_INDEX = 0
-    ALIAS_INDEX = 0
-
     user = models.OneToOneField(
         UserModel,
         on_delete=models.CASCADE,
