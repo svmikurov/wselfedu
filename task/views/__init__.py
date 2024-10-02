@@ -1,7 +1,7 @@
 """Task app views."""
 
 from glossary.views_drf import update_term_study_progress
-from task.views.english_translate_views import (
+from task.views.english_exercise_views import (
     EnglishTranslateChoiceView,
     EnglishTranslateExerciseView,
     update_words_knowledge_assessment_view,
