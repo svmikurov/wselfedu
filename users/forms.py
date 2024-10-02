@@ -1,33 +1,34 @@
-"""User application form module."""
+"""User application forms."""
 
 from django.contrib.auth.forms import UserCreationForm
 
-from users.models import UserModel
+from config.constants import DATA_TESTID, USERNAME
+from users.models import UserApp
 
 
 class UserRegistrationForm(UserCreationForm):
     """User registration form."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
-        """Add data-testid attr value to html tags."""
+        """Add "data-testid" attr value to html tags of form."""
         super().__init__(*args, **kwargs)
-        self.add_attr_for_field('username', {'data-testid': 'username'})
-        self.add_attr_for_field('password1', {'data-testid': 'password1'})
-        self.add_attr_for_field('password2', {'data-testid': 'password2'})
+        self.add_attr_for_field(USERNAME, {DATA_TESTID: USERNAME})
+        self.add_attr_for_field('password1', {DATA_TESTID: 'password1'})
+        self.add_attr_for_field('password2', {DATA_TESTID: 'password2'})
 
     def add_attr_for_field(
         self,
         field_name: str,
         data: dict[str, str],
     ) -> None:
-        """Add attr with value to html representation field."""
+        """Add attr with value to html tags of form."""
         self.fields[field_name].widget.attrs.update(**data)
 
     class Meta:
         """Set model features."""
 
-        model = UserModel
-        fields = ('username', 'password1', 'password2')
+        model = UserApp
+        fields = (USERNAME, 'password1', 'password2')
 
 
 class UserUpdateForm(UserRegistrationForm):
@@ -38,4 +39,4 @@ class UserUpdateForm(UserRegistrationForm):
 
         Override disables user uniqueness check.
         """
-        return self.cleaned_data.get('username')
+        return self.cleaned_data.get(USERNAME)

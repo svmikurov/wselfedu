@@ -1,0 +1,115 @@
+[
+{
+  "model": "users.userapp",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$5gmkWFNLi3dTcjESxNWdGv$ffesOfKovD4x/khpCILOR6LjpTLokroT1MQowVDHUg4=",
+    "last_login": "2024-08-28T07:11:54.437Z",
+    "is_superuser": false,
+    "username": "user1",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2024-08-28T07:11:26.820Z",
+    "updated_at": "2024-08-28T07:11:27.623Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.userapp",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$1awEwt0NVggTHT2lFmvdAA$6n5RBXagY4DcFK6IzAvx5Ms40636zLLvxTEiszku47k=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user2",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2024-08-28T07:11:44.263Z",
+    "updated_at": "2024-08-28T07:11:45.449Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "foreign.word",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "mentor": null,
+    "foreign_word": "red",
+    "russian_word": "красный",
+    "source": null,
+    "category": null,
+    "word_count": "NC",
+    "created_at": "2024-08-28T07:12:16.968Z",
+    "updated_at": "2024-08-28T07:12:16.977Z"
+  }
+},
+{
+  "model": "foreign.word",
+  "pk": 2,
+  "fields": {
+    "user": 1,
+    "mentor": null,
+    "foreign_word": "white",
+    "russian_word": "белый",
+    "source": null,
+    "category": null,
+    "word_count": "NC",
+    "created_at": "2024-08-28T07:12:25.844Z",
+    "updated_at": "2024-08-28T07:12:25.850Z"
+  }
+},
+{
+  "model": "foreign.word",
+  "pk": 3,
+  "fields": {
+    "user": 1,
+    "mentor": null,
+    "foreign_word": "green",
+    "russian_word": "зеленый",
+    "source": null,
+    "category": null,
+    "word_count": "NC",
+    "created_at": "2024-08-28T07:12:35.469Z",
+    "updated_at": "2024-08-28T07:12:35.475Z"
+  }
+},
+{
+  "model": "foreign.word",
+  "pk": 4,
+  "fields": {
+    "user": 1,
+    "mentor": null,
+    "foreign_word": "blue",
+    "russian_word": "синий",
+    "source": null,
+    "category": null,
+    "word_count": "NC",
+    "created_at": "2024-08-28T07:12:45.183Z",
+    "updated_at": "2024-08-28T07:12:45.189Z"
+  }
+},
+{
+  "model": "foreign.word",
+  "pk": 5,
+  "fields": {
+    "user": 1,
+    "mentor": null,
+    "foreign_word": "black",
+    "russian_word": "черный",
+    "source": null,
+    "category": null,
+    "word_count": "NC",
+    "created_at": "2024-08-28T07:12:54.715Z",
+    "updated_at": "2024-08-28T07:12:54.723Z"
+  }
+}
+]

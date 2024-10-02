@@ -1,4 +1,4 @@
-"""The Glossary application configuration module."""
+"""The Glossary application configuration."""
 
 from django.apps import AppConfig
 

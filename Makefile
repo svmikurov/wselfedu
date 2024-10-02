@@ -78,13 +78,13 @@ ruff:
 	@$(APP) ruff check && ruff format --diff
 
 test:
-	@$(APP) pytest tests/ --ignore=tests/tests_e2e --ignore=tests/tests_plw
+	@$(APP) pytest --ignore=tests_e2e/ --ignore=tests_plw/
 
 plw:
-	@$(APP) pytest tests/tests_e2e/
+	@$(APP) pytest tests_e2e/ tests_plw/
 
 plw-lf:
-	@$(APP) pytest tests/tests_e2e/ --lf
+	@$(APP) pytest tests_e2e/ --lf
 
 check: ruff down build up test plw
 

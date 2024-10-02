@@ -1,1 +1,1 @@
-"""Django Pytest tests."""
+"""Django project tests."""

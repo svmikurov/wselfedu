@@ -139,7 +139,7 @@ class CheckObjectOwnershipMixin(
                CheckObjectOwnershipMixin,
                DetailView,
            ):
-               model = UserModel
+               model = UserApp
 
         """
         current_user = self.request.user

@@ -6,7 +6,7 @@ from django.contrib.messages import get_messages
 from django.db.models import Model
 from django.test import TestCase
 
-from users.models import UserModel
+from users.models import UserApp
 
 if TYPE_CHECKING:
     from django.test.client import (
@@ -75,12 +75,13 @@ class UserAuthTestCase(TestCase):
                 self.assertRedirects(
                     response, SUCCESS_REDIRECT_PATH, 302,
                 )
-                assert (UserModel.objects.filter(
-                    username='update_user').exists())
+                assert UserApp.objects.filter(
+                    username='update_user'
+                ).exists()
 
     """
 
-    path_schema = '/'
+    url = '/'
     """Page path schema (`str`).
     """
     user = None
@@ -91,7 +92,7 @@ class UserAuthTestCase(TestCase):
     def setUpTestData(cls) -> None:
         """Add user to database."""
         super().setUpTestData()
-        cls.user = UserModel.objects.create_user(
+        cls.user = UserApp.objects.create_user(
             username='user',
             password='1q2s3d4r',
         )
@@ -123,7 +124,7 @@ class UserAuthTestCase(TestCase):
 
         """
         user = user or self.user
-        path_schema = path_schema or self.path_schema
+        path_schema = path_schema or self.url
 
         if not path_schema:
             raise AttributeError('Set the `url` attribute value')

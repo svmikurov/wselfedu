@@ -22,7 +22,7 @@ const csrftoken = getCookie('csrftoken');
 
 function getNextTask () {
     $.ajax({
-        url: "/task/render-calculate-task/",
+        url: "/math/render-calculate-task/",
         method: 'get',
         data: $(this).serialize(),
         headers: {'X-CSRFToken': csrftoken},

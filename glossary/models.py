@@ -2,14 +2,21 @@
 
 from django.db import models
 
-from config import constants as const
-from users.models import UserModel
+from config.constants import (
+    DEFAULT_PROGRESS,
+    EDGE_PERIOD_CHOICES,
+    NOT_CHOICES,
+    PK,
+    PROGRESS_CHOICES,
+    TODAY,
+)
+from users.models import UserApp
 
 
 class GlossaryCategory(models.Model):
     """Glossary category model class."""
 
-    user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserApp, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     url = models.URLField(blank=True)
     created_at = models.DateField(auto_now_add=True, verbose_name='Добавлено')
@@ -29,7 +36,7 @@ class Glossary(models.Model):
     """Glossary model class."""
 
     user = models.ForeignKey(
-        UserModel,
+        UserApp,
         on_delete=models.CASCADE,
     )
     term = models.CharField(
@@ -75,33 +82,33 @@ class Glossary(models.Model):
         verbose_name = 'Глоссарий'
         verbose_name_plural = 'Глоссарий'
         # To compare queryset with ordered value.
-        ordering = ['pk']
+        ordering = [PK]
 
     def __str__(self) -> str:
         """Provide the informal string representation of an object."""
         return self.term
 
 
-class GlossaryExerciseParams(models.Model):
+class GlossaryParams(models.Model):
     """User default settings for selecting terms in an exercise."""
 
     user = models.OneToOneField(
-        UserModel,
+        UserApp,
         on_delete=models.CASCADE,
     )
-    """User, (`UserModel`).
+    """User, (`UserApp`).
     """
     period_start_date = models.CharField(
-        choices=const.EDGE_PERIOD_CHOICES,
-        default=const.DEFAULT_START_PERIOD,
+        choices=EDGE_PERIOD_CHOICES,
+        default=NOT_CHOICES,
     )
     """A beginning of the period of adding a term to the glossary,
     :obj:`~config.constants.EDGE_PERIOD_CHOICES`
     (`list(tuple[str, str])`).
     """
     period_end_date = models.CharField(
-        choices=const.EDGE_PERIOD_CHOICES,
-        default=const.DEFAULT_END_PERIOD,
+        choices=EDGE_PERIOD_CHOICES,
+        default=TODAY,
     )
     """An end of the period of adding a term to the glossary,
     :obj:`~config.constants.EDGE_PERIOD_CHOICES`
@@ -116,8 +123,8 @@ class GlossaryExerciseParams(models.Model):
     """A term category (`GlossaryCategory`).
     """
     progress = models.CharField(
-        choices=const.PROGRESS_CHOICES,
-        default=const.DEFAULT_PROGRESS,
+        choices=PROGRESS_CHOICES,
+        default=DEFAULT_PROGRESS,
     )
     """A term progres,
     :obj:`~task.forms.english_translate_choice_form.py.PROGRESS_CHOICES`

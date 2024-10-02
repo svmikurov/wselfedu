@@ -1,21 +1,16 @@
-=========
 Reference
 =========
 
+* :doc:`Users app <users/index>`
+* :doc:`Learning foreign words app <foreign/index>`
+* :doc:`Glossary app <glossary/index>`
+* :doc:`Mathematics app <mathematics/index>`
+
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 3
+   :hidden:
 
    users/index
-   english/index
+   foreign/index
    glossary/index
-
-.. toctree::
-   :maxdepth: 2
-
-   Tasks app <task/index>
-
-.. toctree::
-   :maxdepth: 1
-
-   constants
-   cache
+   mathematics/index

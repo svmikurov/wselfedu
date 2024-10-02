@@ -22,18 +22,18 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 from django.views.generic import TemplateView
 
-from english.views_drf import (
+from foreign.views.drf import (
     WordDetailAPIView,
     WordListCreateAPIView,
 )
-from glossary.views_drf import (
-    GlossaryDetailAPIView,
-    GlossaryListAPIView,
+from glossary.views.exercise import (
+    glossary_exercise,
+    glossary_exercise_parameters,
     update_term_study_progress,
 )
-from task.views import glossary_exercise
-from task.views.exercise_glossary_views import (
-    glossary_exercise_parameters,
+from glossary.views.glossary import (
+    GlossaryDetailAPIView,
+    GlossaryListAPIView,
 )
 
 urlpatterns = [
@@ -41,8 +41,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('users/', include('users.urls')),
-    path('english/', include('english.urls')),
-    path('task/', include('task.urls')),
+    path('foreign/', include('foreign.urls')),
+    path('math/', include('mathematics.urls')),
 ]
 
 drf_urlpatterns = [

@@ -7,10 +7,11 @@ from django.contrib import admin
 from django.forms import Form
 from django.http import HttpRequest
 
+from config.constants import CATEGORY, CREATED_AT, DEFINITION, TERM
 from glossary.models import (
     Glossary,
     GlossaryCategory,
-    GlossaryExerciseParams,
+    GlossaryParams,
 )
 
 
@@ -18,8 +19,8 @@ from glossary.models import (
 class GlossaryAdmin(admin.ModelAdmin):
     """Representation of model in the admin interface."""
 
-    list_display = ['term', 'definition', 'category']
-    exclude = ['created_at']
+    list_display = [TERM, DEFINITION, CATEGORY]
+    exclude = [CREATED_AT]
 
     def get_form(
         self,
@@ -29,7 +30,7 @@ class GlossaryAdmin(admin.ModelAdmin):
     ) -> Form:
         """Set Textarea widget for ``definition`` field."""
         kwargs['widgets'] = {
-            'definition': forms.Textarea,
+            DEFINITION: forms.Textarea,
         }
         return super().get_form(request, obj, **kwargs)
 
@@ -38,9 +39,9 @@ class GlossaryAdmin(admin.ModelAdmin):
 class GlossaryCategoryAdmin(admin.ModelAdmin):
     """Representation of model in the admin interface."""
 
-    exclude = ['created_at']
+    exclude = [CREATED_AT]
 
 
-@admin.register(GlossaryExerciseParams)
+@admin.register(GlossaryParams)
 class GlossaryExerciseSettingsAdmin(admin.ModelAdmin):
     """Representation of model in the admin interface."""

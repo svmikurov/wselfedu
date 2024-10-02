@@ -1,15 +1,22 @@
-============
 Glossary app
 ============
 
-Models
-------
+.. toctree::
+   :maxdepth: 2
 
-.. automodule:: glossary.models
-   :members:
+   Overview <exercise_overview>
+   DRF views <views/index>
+   Models <models>
 
-Views DRF
----------
+.. toctree::
+   :maxdepth: 1
 
-.. automodule:: glossary.views_drf
-   :members:
+   Admin <admin>
+   ORM queries <queries>
+   Serializers <serializers>
+   Exercise <exercise>
+
+.. toctree::
+   :maxdepth: 3
+
+   Tests <tests/index>

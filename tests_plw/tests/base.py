@@ -18,9 +18,10 @@ import pytest
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from playwright.sync_api import Page, expect, sync_playwright
 
+from config.constants import IS_TEST
 from tests_plw.pages.home import HomePage
 from tests_plw.pages.login import LoginPage
-from users.models import UserModel
+from users.models import UserApp
 
 
 class BaseTest(StaticLiveServerTestCase):
@@ -57,7 +58,7 @@ class BaseTest(StaticLiveServerTestCase):
         bootstrap into the page template to speed up tests.
         """
         os.environ['DJANGO_ALLOW_ASYNC_UNSAFE'] = 'true'
-        os.environ['IS_TEST'] = 'true'
+        os.environ[IS_TEST] = 'true'
         super().setUpClass()
 
     @property
@@ -78,8 +79,8 @@ class BaseTest(StaticLiveServerTestCase):
 class UserMixin:
     """Testing page user mixin."""
 
-    user: Optional[UserModel] = None
-    """User by default (`Optional[UserModel]`).
+    user: Optional[UserApp] = None
+    """User by default (`Optional[UserApp]`).
     """
     username = 'user'
     """Username, by default (`str`).
@@ -92,7 +93,7 @@ class UserMixin:
     page_host: str
     page_path: str
 
-    def create_user(self, username: str | None = None) -> UserModel:
+    def create_user(self, username: str | None = None) -> UserApp:
         """Create user.
 
         All created users have a single
@@ -100,17 +101,17 @@ class UserMixin:
 
         :param str username: Username, "user" by default.
         :return: User instance.
-        :rtype: UserModel
+        :rtype: UserApp
         """
-        return UserModel.objects.create_user(
+        return UserApp.objects.create_user(
             username=username or self.username,
             password=self.password,
         )
 
-    def authorize_test_page(self, user: Optional[UserModel] = None) -> None:
+    def authorize_test_page(self, user: Optional[UserApp] = None) -> None:
         """Authorize the testing page instance.
 
-        :param UserModel user: The instance of the Django UserModel
+        :param UserApp user: The instance of the Django UserApp
          under which the system is logged in,
          :py:attr:`self.user <UserMixin.user>` by default.
         """

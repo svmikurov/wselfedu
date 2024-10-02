@@ -1,10 +1,15 @@
-===========
-User models
-===========
+Users app models
+================
 
-.. automodule:: users.models
+.. autoclass:: users.models.user.UserApp
+   :members:
+   :special-members:
 
-.. _UserModel:
+.. autoclass:: users.models.mentorship.Mentorship
+   :members:
 
-.. autoclass::  users.models.UserModel
+.. autoclass:: users.models.mentorship.MentorshipRequest
+   :members:
+
+.. autoclass:: users.models.points.Points
    :members:

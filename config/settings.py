@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     'djoser',
     # added apps
     'users.apps.UsersConfig',
-    'english.apps.EnglishConfig',
-    'task.apps.TaskConfig',
+    'foreign.apps.ForeignConfig',
+    'mathematics.apps.MathematicsConfig',
     'glossary.apps.GlossaryConfig',
 ]
 
@@ -69,7 +69,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 # added
                 'config.context_processor.pass_var_to_template',
-                'task.context_processors.add_student_user_data',
+                'users.context_processors.add_student_user_data',
             ],
         },
     },
@@ -88,7 +88,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'users.UserModel'
+AUTH_USER_MODEL = 'users.UserApp'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

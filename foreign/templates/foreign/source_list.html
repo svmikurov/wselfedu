@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<!--======= Additional Navigation =======-->
+<div class="pb-2">
+  <a href="{% url 'foreign:source_create' %}" class="btn btn-outline-dark btn-sm" role="button">Добавить источник</a>
+</div><!-- End Additional Navigation -->
+
+{% include 'components/title.html' %}
+
+<!--======= Sources Table =======-->
+<div class="table-responsive">
+  <table class="table table-hover">
+
+    <thead>
+      <tr>
+        <th>Источник</th>
+        <th>Url</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+    {% for source in sources %}
+      <tr>
+        <td><a href="{% url 'foreign:source_detail' source.pk %}">{{ source.name }}</a></td>
+        <td>{% if source.url %}<a href="{{ source.url }}" target="_blank">{{ source.url }}</a>{% endif %}</td>
+        <td class="text-nowrap">
+          <a href="{% url 'foreign:source_update' source.pk %}" class="px-4">{% include 'icons/pencil.svg' %}</a>
+          <a href="{% url 'foreign:source_delete' source.pk %}">{% include 'icons/basket.svg' %}</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div><!-- End Sources Table -->
+
+<!--======= Navigation Buttons =======-->
+{% include 'components/btn_back.html' %}<!-- End Navigation Buttons -->
+{% endblock %}
