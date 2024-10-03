@@ -4,6 +4,7 @@ from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.urls import reverse_lazy
 
+from config.constants import MENTOR, PK, STUDENT
 from contrib.tests_extension import flash_message_test
 from users.models import Mentorship, MentorshipRequest, UserModel
 
@@ -15,11 +16,11 @@ class MentorshipTestMixin(TestCase):
     def setUpClass(cls) -> None:
         """Set up test data."""
         super().setUpClass()
-        cls.student = UserModel.objects.create(username='student')
-        cls.mentor = UserModel.objects.create(username='mentor')
+        cls.student = UserModel.objects.create(username=STUDENT)
+        cls.mentor = UserModel.objects.create(username=MENTOR)
         cls.other_user = UserModel.objects.create(username='other_user')
         cls.success_redirect_url = reverse_lazy(
-            'users:mentorship_profile', kwargs={'pk': cls.student.pk}
+            'users:mentorship_profile', kwargs={PK: cls.student.pk}
         )
 
     @property
@@ -138,7 +139,7 @@ class TestDeleteMentorshipRequestView(MentorshipTestMixin, TestCase):
         )
         cls.delete_url = reverse_lazy(
             'users:delete_mentorship_request',
-            kwargs={'pk': cls.mentorship_request.pk},
+            kwargs={PK: cls.mentorship_request.pk},
         )
 
     def test_delete_mentorship_request_by_student(self) -> None:
@@ -189,7 +190,7 @@ class TestDeleteMentorshipView(MentorshipTestMixin, TestCase):
             student=cls.student, mentor=cls.mentor
         )
         cls.delete_mentorship_url = reverse_lazy(
-            'users:delete_mentorship', kwargs={'pk': cls.mentorship.pk}
+            'users:delete_mentorship', kwargs={PK: cls.mentorship.pk}
         )
 
     def test_delete_mentorship_by_student(self) -> None:
@@ -248,7 +249,7 @@ class AcceptRequestToMentorship(MentorshipTestMixin, TestCase):
         """Test access mentorship request by mentor."""
         msg = 'Вы стали наставником student'
         success_redirect_url = reverse_lazy(
-            'users:mentorship_profile', kwargs={'pk': self.mentor.pk}
+            'users:mentorship_profile', kwargs={PK: self.mentor.pk}
         )
         self.client.force_login(self.mentor)
         response = self.client.post(self.url_accept_mentorship_request)

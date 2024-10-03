@@ -2,6 +2,7 @@
 
 from rest_framework import serializers
 
+from config.constants import FOREIGN_WORD, ID, RUSSIAN_WORD
 from english.models import WordModel
 
 
@@ -12,4 +13,4 @@ class WordSerializer(serializers.ModelSerializer):
         """Construct serializer."""
 
         model = WordModel
-        fields = ['id', 'word_eng', 'word_rus']
+        fields = [ID, FOREIGN_WORD, RUSSIAN_WORD]

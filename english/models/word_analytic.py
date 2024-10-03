@@ -2,6 +2,7 @@
 
 from django.db import models
 
+from config.constants import DISPLAY_COUNT
 from english.models import WordModel
 
 
@@ -40,4 +41,4 @@ class WordLearningStories(models.Model):
 
         verbose_name = 'История изучения слов'
         verbose_name_plural = 'История изучения слов'
-        ordering = ['display_count']
+        ordering = [DISPLAY_COUNT]

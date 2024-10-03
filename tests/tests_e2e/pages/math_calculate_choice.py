@@ -5,6 +5,7 @@ from typing import Optional
 
 from playwright.sync_api import Page
 
+from config.constants import ADDITION, BUTTON, MULTIPLICATION, SUBSTRUCTION
 from tests.tests_e2e.pages.base import POMPage
 
 
@@ -25,7 +26,7 @@ class MathCalculateChoicePage(POMPage):
         self.min_operand_input = self.page.get_by_label('Минимальное число*')
         self.max_operand_input = self.page.get_by_label('Максимальное число*')
         self.input_answer_choice = self.page.get_by_label('С вводом ответа')
-        self.submit_button = self.page.get_by_role('button', name='Начать')
+        self.submit_button = self.page.get_by_role(BUTTON, name='Начать')
 
     def choose_calculation_conditions(
         self,
@@ -55,7 +56,7 @@ class MathCalculateChoicePage(POMPage):
 
         """
         if calculation:
-            assert calculation in ('mul', 'add', 'sub')
+            assert calculation in (MULTIPLICATION, ADDITION, SUBSTRUCTION)
             self.calculation_choice.select_option(calculation)
         if time_answer:
             self.time_input.fill(time_answer)

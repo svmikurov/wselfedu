@@ -4,6 +4,7 @@ from django.db.models import F, Q
 from django.db.models.query import QuerySet
 from django_filters.views import FilterView
 
+from config.constants import PK, PROGRESS, SOURCE, TITLE, WORDS
 from contrib.mixins_views import CheckObjectOwnershipMixin
 from english.models import WordModel
 
@@ -14,45 +15,36 @@ class UserWordListView(
 ):
     """Users word list view."""
 
-    template_name = 'english/user_word_list.html'
+    template_name = 'foreign/user_word_list.html'
     model = WordModel
-    context_object_name = 'words'
+    context_object_name = WORDS
     extra_context = {
-        'title': 'Изучаемые слова',
+        TITLE: 'Изучаемые слова',
     }
 
     def get_queryset(self) -> QuerySet:
         """Get user word list with relations."""
+        user = self.request.user
         user_favorites = WordModel.objects.filter(
-            wordsfavoritesmodel__word_id=F('pk'),
-            wordsfavoritesmodel__user_id=self.request.user,
-        ).values('pk')
+            wordsfavoritesmodel__word_id=F(PK),
+            wordsfavoritesmodel__user_id=user,
+        ).values(PK)
 
         queryset = (
             super()
             .get_queryset()
-            .select_related(
-                'source',
-            )
-            .prefetch_related(
-                'knowledge_assessment',
-            )
-            .filter(user=self.request.user)
+            .select_related(SOURCE)
+            .prefetch_related(PROGRESS)
+            .filter(user=user)
+            # `worduserknowledgerelation__user_id__isnull=True`
+            # allows to a create query using LEFT JOIN
             .filter(
-                # `worduserknowledgerelation__user_id__isnull=True`
-                # allows to a create query using LEFT JOIN
                 Q(worduserknowledgerelation__user_id__isnull=True)
-                | Q(worduserknowledgerelation__user_id=self.request.user.pk)
+                | Q(worduserknowledgerelation__user_id=user.pk)
             )
-            .annotate(
-                assessment=F(
-                    'worduserknowledgerelation__knowledge_assessment'
-                ),
-            )
-            .annotate(
-                # if `favorite` is `True` then word is favorites
-                favorite=Q(pk__in=user_favorites)
-            )
+            .annotate(assessment=F('worduserknowledgerelation__progress'))
+            # if `favorite` is `True` then word is favorites
+            .annotate(favorite=Q(pk__in=user_favorites))
         )
 
         return queryset

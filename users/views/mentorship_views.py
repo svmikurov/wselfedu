@@ -18,6 +18,7 @@ from django.views.generic import (
     TemplateView,
 )
 
+from config.constants import ID, MENTOR, PK, STUDENT
 from contrib.mixins_views import (
     CheckLoginPermissionMixin,
     CheckObjectOwnershipMixin,
@@ -37,7 +38,7 @@ class MentorshipView(CheckObjectOwnershipMixin, DetailView):
         mentorship_request_mentors = (
             MentorshipRequest.objects.filter(from_user=self.request.user)
             .annotate(
-                request_pk=F('pk'),
+                request_pk=F(PK),
                 mentor_name=F('to_user__username'),
             )
             .values('request_pk', 'mentor_name')
@@ -46,7 +47,7 @@ class MentorshipView(CheckObjectOwnershipMixin, DetailView):
         mentorship_request_students = (
             MentorshipRequest.objects.filter(to_user=self.request.user)
             .annotate(
-                request_pk=F('pk'),
+                request_pk=F(PK),
                 student_name=F('from_user__username'),
             )
             .values('request_pk', 'student_name')
@@ -60,7 +61,7 @@ class MentorshipView(CheckObjectOwnershipMixin, DetailView):
                 student_pk=F('student__pk'),
                 student_name=F('student__username'),
             )
-            .values('id', 'student_pk', 'student_name')
+            .values(ID, 'student_pk', 'student_name')
         )
 
         mentorship_mentors = (
@@ -68,7 +69,7 @@ class MentorshipView(CheckObjectOwnershipMixin, DetailView):
                 student=self.request.user,
             )
             .annotate(mentor_name=F('mentor__username'))
-            .values('id', 'mentor_name')
+            .values(ID, 'mentor_name')
         )
 
         context = super().get_context_data()
@@ -82,7 +83,7 @@ class MentorshipView(CheckObjectOwnershipMixin, DetailView):
 class AddWordByMentorToStudentViewRedirect(RedirectView):
     """Redirect with added data in session view."""
 
-    url = reverse_lazy('english:mentor_adds_words_for_student_study')
+    url = reverse_lazy('foreign:mentor_adds_words_for_student_study')
     """Url to redirect.
     """
 
@@ -93,7 +94,7 @@ class AddWordByMentorToStudentViewRedirect(RedirectView):
         **kwargs: object,
     ) -> HttpResponseBase:
         """Add student id to session."""
-        request.session['student'] = kwargs.get('student')
+        request.session[STUDENT] = kwargs.get(STUDENT)
         response = super().get(request, *args, **kwargs)
         return response
 
@@ -103,7 +104,7 @@ def redirect_to_mentorship_profile(
 ) -> HttpResponseRedirect:
     """Redirect to profile page."""
     url = reverse_lazy(
-        'users:mentorship_profile', kwargs={'pk': request.user.id}
+        'users:mentorship_profile', kwargs={PK: request.user.id}
     )
     return redirect(url)
 
@@ -229,5 +230,5 @@ class DeleteMentorshipView(DeleteWithProfileRedirectView):
         """Check mentor permission."""
         [mentorship_users] = Mentorship.objects.filter(
             pk=self.get_object().pk
-        ).values_list('student', 'mentor')
+        ).values_list(STUDENT, MENTOR)
         return self.request.user.pk in mentorship_users

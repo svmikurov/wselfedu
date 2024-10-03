@@ -29,6 +29,7 @@ Test authorized page.
 
 from playwright.sync_api import expect
 
+from config.constants import MENTOR, STUDENT
 from tests_plw.pages.mentorship import MentorshipProfilePage
 from tests_plw.tests.base import POMTest
 from users.models import Mentorship, MentorshipRequest
@@ -37,8 +38,8 @@ from users.models import Mentorship, MentorshipRequest
 class MentorshipProfilePageTest(POMTest):
     """Test mentorship profile page."""
 
-    student_name = 'student'
-    mentor_name = 'mentor'
+    student_name = STUDENT
+    mentor_name = MENTOR
 
     def setUp(self) -> None:
         """Set up page data."""

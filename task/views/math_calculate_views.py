@@ -12,10 +12,27 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import RedirectView, TemplateView
 
-from task.forms import MathCalculationChoiceForm, NumberInputForm
+from config.constants import (
+    ANSWER_TEXT,
+    CALCULATION_TYPE,
+    FORM,
+    MAX_VALUE,
+    MIN_VALUE,
+    MULTIPLICATION,
+    QUESTION_TEXT,
+    TASK_CONDITIONS,
+    TIMEOUT,
+    TITLE,
+)
+from task.forms import (
+    MathCalculationChoiceForm,
+    NumberInputForm,
+)
 from task.points import get_points_balance
-from task.tasks.calculation_exercise import CalculationExercise
-from task.tasks.calculation_exercise_check import CalculationExerciseCheck
+from task.tasks import (
+    CalculationExercise,
+    CalculationExerciseCheck,
+)
 
 
 class MathCalculateChoiceView(TemplateView):
@@ -36,7 +53,7 @@ class MathCalculateChoiceView(TemplateView):
         if form.is_valid():
             task_conditions = form.clean()
             with_solution = task_conditions.pop('with_solution')
-            request.session['task_conditions'] = task_conditions
+            request.session[TASK_CONDITIONS] = task_conditions
 
             if with_solution:
                 return redirect(reverse_lazy('task:math_calculate_solution'))
@@ -44,8 +61,8 @@ class MathCalculateChoiceView(TemplateView):
                 return redirect(reverse_lazy('task:math_calculate_demo'))
 
         context = {
-            'title': 'Условия задания',
-            'form': self.form(request=request),
+            TITLE: 'Условия задания',
+            FORM: self.form(request=request),
         }
         return render(request, self.template_name, context)
 
@@ -70,14 +87,14 @@ class MathCalculateDemoView(View):
         is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
         if is_ajax:
             data = {
-                'question_text': task.question_text,
-                'answer_text': task.answer_text,
-                'timeout': task.timeout,
+                QUESTION_TEXT: task.question_text,
+                ANSWER_TEXT: task.answer_text,
+                TIMEOUT: task.timeout,
             }
             return JsonResponse(data=data, status=200)
 
         context = {
-            'title': 'Задание на вычисление',
+            TITLE: 'Задание на вычисление',
         }
         return render(request, self.template_name, context)
 
@@ -100,8 +117,8 @@ class MathCalculateSolutionView(TemplateView):
     def get_context_data(self, **kwargs: object) -> dict[str, object]:
         """Add form with title to context."""
         context = super().get_context_data()
-        context['form'] = NumberInputForm()
-        context['title'] = 'Вычисления с вводом ответа'
+        context[FORM] = NumberInputForm()
+        context[TITLE] = 'Вычисления с вводом ответа'
         return context
 
     def post(self, request: HttpRequest) -> JsonResponse:
@@ -143,20 +160,20 @@ def render_task(request: HttpRequest) -> JsonResponse:
         Json response with new question text.
 
     """
-    task_conditions = request.session.get('task_conditions')
+    task_conditions = request.session.get(TASK_CONDITIONS)
     user_id = request.user.id
     # A new task is created when the class CalculationExercise
     # is initialized.
     task = CalculationExercise(user_id=user_id, **task_conditions)
-    request.session['calculation_type'] = task.calculation_type
-    request.session['question_text'] = task.question_text
-    request.session['answer_text'] = task.answer_text
+    request.session[CALCULATION_TYPE] = task.calculation_type
+    request.session[QUESTION_TEXT] = task.question_text
+    request.session[ANSWER_TEXT] = task.answer_text
     balance_in_hundredths = get_points_balance(user_id) / 100
 
     return JsonResponse(
         data={
             'success': True,
-            'question_text': task.question_text,
+            QUESTION_TEXT: task.question_text,
             'balance': balance_in_hundredths,
         },
         status=200,
@@ -181,10 +198,10 @@ class SetMultiplicationTableExerciseView(RedirectView):
     ) -> HttpResponseBase:
         """Save task conditions in session."""
         task_conditions = {
-            'calculation_type': 'mul',
-            'min_value': 2,
-            'max_value': 9,
+            CALCULATION_TYPE: MULTIPLICATION,
+            MIN_VALUE: 2,
+            MAX_VALUE: 9,
         }
-        request.session['task_conditions'] = task_conditions
+        request.session[TASK_CONDITIONS] = task_conditions
         response = super().get(request, *args, **kwargs)
         return response

@@ -2,6 +2,7 @@
 
 from django.contrib import admin
 
+from config.constants import PK, USERNAME
 from users.models import Mentorship, MentorshipRequest, UserModel
 
 
@@ -9,9 +10,9 @@ from users.models import Mentorship, MentorshipRequest, UserModel
 class UserAdmin(admin.ModelAdmin):
     """Representation of model in the admin interface."""
 
-    list_display = ['pk', 'username', 'is_staff', 'date_joined']
+    list_display = [PK, USERNAME, 'is_staff', 'date_joined']
     ordering = ['date_joined']
-    list_display_links = ['username']
+    list_display_links = [USERNAME]
 
 
 @admin.register(Mentorship)

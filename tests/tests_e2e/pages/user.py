@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv
 from playwright.sync_api import Page, expect
 
+from config.constants import BUTTON, LINK
 from tests.tests_e2e.pages.base import POMPage
 from tests_plw.pages.home import HomePage
 
@@ -121,8 +122,8 @@ class DeleteUserPage(POMPage):
         """User delete page constructor."""
         super().__init__(page)
         self.account_link = page.get_by_test_id('account-link')
-        self.delete_button = page.get_by_role('link', name='Удалить')
-        self.confirm_button = page.get_by_role('button', name='Удалить')
+        self.delete_button = page.get_by_role(LINK, name='Удалить')
+        self.confirm_button = page.get_by_role(BUTTON, name='Удалить')
 
     def delete_user(self) -> None:
         """Delete user."""

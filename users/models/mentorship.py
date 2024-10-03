@@ -2,6 +2,7 @@
 
 from django.db import models
 
+from config.constants import MENTOR, STUDENT
 from users.models import UserModel
 
 
@@ -23,22 +24,22 @@ class Mentorship(models.Model):
     mentor = models.ForeignKey(
         UserModel,
         on_delete=models.CASCADE,
-        related_name='mentor',
+        related_name=MENTOR,
     )
-    """The mentor user.
+    """The mentor user (`UserModel`).
     """
     student = models.ForeignKey(
         UserModel,
         on_delete=models.CASCADE,
-        related_name='student',
+        related_name=STUDENT,
     )
-    """The student user.
+    """The student user (`UserModel`).
     """
 
     class Meta:
         """Meta class."""
 
-        unique_together = ['mentor', 'student']
+        unique_together = [MENTOR, STUDENT]
         """The mentor-student relationship must be unique.
         """
 
@@ -51,12 +52,12 @@ class MentorshipRequest(models.Model):
         related_name='from_user',
         on_delete=models.CASCADE,
     )
-    """The student user.
+    """The student user (`UserModel`).
     """
     to_user = models.ForeignKey(
         UserModel,
         related_name='to_user',
         on_delete=models.CASCADE,
     )
-    """The mentor user.
+    """The mentor user (`UserModel`).
     """

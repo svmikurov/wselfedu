@@ -8,15 +8,16 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
 
+from config.constants import ACTION, WORD_ID
 from english.orm_queries import (
-    get_knowledge_assessment,
+    get_progress,
+    update_progress,
     update_word_favorites_status,
-    update_word_knowledge_assessment,
 )
 
 
 @login_required
-def update_word_knowledge_assessment_view(
+def update_word_progress_view(
     request: HttpRequest,
     **kwargs: object,
 ) -> HttpResponse:
@@ -36,16 +37,16 @@ def update_word_knowledge_assessment_view(
         Response with status 201.
 
     """
-    action = request.POST['action']
-    word_pk = kwargs['word_id']
+    action = request.POST[ACTION]
+    word_pk = kwargs[WORD_ID]
     user_pk = request.user.pk
 
     if action in {'+1', '-1'}:
-        old_assessment = get_knowledge_assessment(word_pk, user_pk)
+        old_assessment = get_progress(word_pk, user_pk)
         new_assessment = old_assessment + int(action)
-        update_word_knowledge_assessment(word_pk, user_pk, new_assessment)
+        update_progress(word_pk, user_pk, new_assessment)
 
-    return redirect(reverse_lazy('english:word_study_ajax'))
+    return redirect(reverse_lazy('foreign:word_study_ajax'))
 
 
 @require_POST
@@ -73,7 +74,7 @@ def update_words_favorites_status_view_ajax(
         Response with current favorite word status.
 
     """
-    word_id = kwargs['word_id']
+    word_id = kwargs[WORD_ID]
     user_id = request.user.pk
     favorites_status = update_word_favorites_status(word_id, user_id)
 

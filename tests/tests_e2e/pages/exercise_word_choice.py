@@ -2,6 +2,7 @@
 
 from playwright.sync_api import Page
 
+from config.constants import SUBMIT
 from tests.tests_e2e.pages.base import POMPage
 
 
@@ -33,10 +34,10 @@ class WordChoiceExercisePage(POMPage):
     def __init__(self, page: Page) -> None:
         """Word choice exercise page constructor."""
         super().__init__(page)
-        self.path = '/task/english-translate-choice'
+        self.path = '/task/foreign-translate-choice'
         self.timeout_input = page.get_by_label('Время на ответ (сек)*')
         self.language_order = page.locator('#id_language_order')
-        self.submit_button = page.get_by_test_id('submit')
+        self.submit_button = page.get_by_test_id(SUBMIT)
 
     def choice_word(
         self,

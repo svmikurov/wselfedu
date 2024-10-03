@@ -2,6 +2,7 @@
 
 from playwright.sync_api import Page
 
+from config.constants import BUTTON
 from tests.tests_e2e.pages.base import POMPage
 
 
@@ -43,13 +44,13 @@ class WordStudyExercisePage(POMPage):
     def __init__(self, page: Page) -> None:
         """Word study exercise page constructor."""
         super().__init__(page)
-        self.path = '/task/english-translate-demo'
+        self.path = '/task/foreign-translate-demo'
         self.question_locator = page.get_by_text('Вопрос:')
         self.answer_locator = page.get_by_text('Ответ:')
-        self.pause_button = page.get_by_role('button', name='Пауза')
-        self.next_button = page.get_by_role('button', name='Далее')
-        self.know_button = page.get_by_role('button', name='Знаю', exact=True)
-        self.not_know_button = page.get_by_role('button', name='Не знаю')
+        self.pause_button = page.get_by_role(BUTTON, name='Пауза')
+        self.next_button = page.get_by_role(BUTTON, name='Далее')
+        self.know_button = page.get_by_role(BUTTON, name='Знаю', exact=True)
+        self.not_know_button = page.get_by_role(BUTTON, name='Не знаю')
         self.add_to_favorite_button = self.page.get_by_text(
             'Добавить в избранные',
         )

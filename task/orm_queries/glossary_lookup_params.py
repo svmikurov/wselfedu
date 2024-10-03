@@ -4,8 +4,15 @@ import datetime
 
 from django.db.models import Q
 
-from config.constants import EDGE_PERIOD_ARGS
-from english.orm_queries.word_knowledge_assessment import PROGRESS_STAGE_EDGES
+from config.constants import (
+    CATEGORY,
+    EDGE_PERIOD_ARGS,
+    PERIOD_END_DATE,
+    PERIOD_START_DATE,
+    PROGRESS,
+    USER_ID,
+)
+from english.orm_queries.word_progress import PROGRESS_STAGE_EDGES
 
 
 class GlossaryLookupParams:
@@ -50,15 +57,15 @@ class GlossaryLookupParams:
     @property
     def user(self) -> Q:
         """Condition to filter by user (`Q`, read-only)."""
-        lookup_value = self.lookup_conditions.get('user_id')
-        lookup_field = 'user_id'
+        lookup_value = self.lookup_conditions.get(USER_ID)
+        lookup_field = USER_ID
         param = Q(**{lookup_field: lookup_value}) if lookup_value else Q()
         return param
 
     @property
     def period_start_date(self) -> Q:
         """Start period of adding terms to glossary (`Q`, read-only)."""
-        period_date = 'period_start_date'
+        period_date = PERIOD_START_DATE
         format_date = '%Y-%m-%d'
         lookup_value = self._get_date_value(period_date, format_date)
         lookup_field = 'created_at__gte'
@@ -68,7 +75,7 @@ class GlossaryLookupParams:
     @property
     def period_end_date(self) -> Q:
         """End period of adding terms to glossary (`Q`, read-only)."""
-        period_date = 'period_end_date'
+        period_date = PERIOD_END_DATE
         format_date = '%Y-%m-%d'
         lookup_value = self._get_date_value(period_date, format_date)
         lookup_field = 'created_at__lte'
@@ -89,7 +96,7 @@ class GlossaryLookupParams:
     @property
     def category(self) -> Q:
         """Lookup parameter by category (`Q`, read-only)."""
-        lookup_value = self.lookup_conditions.get('category')
+        lookup_value = self.lookup_conditions.get(CATEGORY)
         lookup_field = 'category_id'
         param = Q(**{lookup_field: lookup_value}) if lookup_value else Q()
         return param
@@ -97,7 +104,7 @@ class GlossaryLookupParams:
     @property
     def progress(self) -> Q:
         """Lookup parameter by study progress (`Q`, read-only)."""
-        lookup_aliases = self.lookup_conditions.get('progress', [])
+        lookup_aliases = self.lookup_conditions.get(PROGRESS, [])
         lookup_value = self._to_numeric(PROGRESS_STAGE_EDGES, lookup_aliases)
         lookup_field = 'progress__in'
         param = Q(**{lookup_field: lookup_value}) if lookup_value else Q()

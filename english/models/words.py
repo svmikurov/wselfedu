@@ -1,28 +1,16 @@
-"""English-Russian dictionary module."""
+"""Foreign words translate dictionary."""
 
 from django.db import models
 from django.utils import timezone
 
+from config.constants import NOT_CHOICES, PK, USER, WORD, WORD_COUNT_CHOICE
 from english.models.categories import CategoryModel
 from english.models.sources import SourceModel
 from users.models import UserModel
 
 
 class WordModel(models.Model):
-    """English-Russian dictionary."""
-
-    NOT_CHOICES = 'NC'
-    ONE_WORD = 'OW'
-    COMBINATION = 'CB'
-    PART_SENTENCE = 'PS'
-    SENTENCE = 'ST'
-    WORD_COUNT = [
-        ('NC', 'Любое количество слов'),
-        ('OW', 'Слово'),
-        ('CB', 'Словосочетание'),
-        ('PS', 'Часть предложения'),
-        ('ST', 'Предложение'),
-    ]
+    """Foreign word translate dictionary."""
 
     user = models.ForeignKey(
         UserModel,
@@ -41,12 +29,12 @@ class WordModel(models.Model):
     )
     """User who added the word.
     """
-    word_eng = models.CharField(
+    foreign_word = models.CharField(
         max_length=75,
-        verbose_name='Слово на английском',
+        verbose_name='Иностранное слово',
         help_text='Не более 75 символов.',
     )
-    word_rus = models.CharField(
+    russian_word = models.CharField(
         max_length=75,
         verbose_name='Слово на русском',
         help_text='Не более 75 символов.',
@@ -69,13 +57,13 @@ class WordModel(models.Model):
     # https://docs.djangoproject.com/en/4.2/ref/models/fields/#choices
     word_count = models.CharField(
         max_length=2,
-        choices=WORD_COUNT,
+        choices=WORD_COUNT_CHOICE,
         default=NOT_CHOICES,
         verbose_name='Количество слов',
     )
     # A field that displays how the user rates his knowledge of this
     # word
-    knowledge_assessment = models.ManyToManyField(
+    progress = models.ManyToManyField(
         UserModel,
         through='WordUserKnowledgeRelation',
         blank=True,
@@ -100,13 +88,13 @@ class WordModel(models.Model):
     class Meta:
         """Set model features."""
 
-        verbose_name = 'Англо-русский словарь'
-        verbose_name_plural = 'Англо-русский словарь'
-        ordering = ['pk']
+        verbose_name = 'Словарь иностранных слов'
+        verbose_name_plural = 'Словарь иностранных слов'
+        ordering = [PK]
 
     def __str__(self) -> str:
         """Provide the informal string representation of an object."""
-        return self.word_eng
+        return self.foreign_word
 
 
 class WordUserKnowledgeRelation(models.Model):
@@ -117,7 +105,7 @@ class WordUserKnowledgeRelation(models.Model):
         UserModel,
         on_delete=models.CASCADE,
     )
-    knowledge_assessment = models.DecimalField(
+    progress = models.DecimalField(
         max_digits=2,
         decimal_places=0,
         default=0,
@@ -126,13 +114,13 @@ class WordUserKnowledgeRelation(models.Model):
     class Meta:
         """Set model features."""
 
-        unique_together = [['word', 'user']]
+        unique_together = [[WORD, USER]]
         verbose_name = 'Оценка пользователем знания слова'
         verbose_name_plural = 'Оценки пользователем знания слова'
 
     def __str__(self) -> str:
         """Provide the informal string representation of an object."""
-        return self.knowledge_assessment
+        return self.progress
 
 
 class WordsFavoritesModel(models.Model):
@@ -144,7 +132,7 @@ class WordsFavoritesModel(models.Model):
     class Meta:
         """Set model features."""
 
-        unique_together = [['word', 'user']]
+        unique_together = [[WORD, USER]]
         verbose_name = 'Избранное слово'
         verbose_name_plural = 'Избранные слова'
 

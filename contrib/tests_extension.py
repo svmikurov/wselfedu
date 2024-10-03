@@ -80,7 +80,7 @@ class UserAuthTestCase(TestCase):
 
     """
 
-    path_schema = '/'
+    url = '/'
     """Page path schema (`str`).
     """
     user = None
@@ -123,7 +123,7 @@ class UserAuthTestCase(TestCase):
 
         """
         user = user or self.user
-        path_schema = path_schema or self.path_schema
+        path_schema = path_schema or self.url
 
         if not path_schema:
             raise AttributeError('Set the `url` attribute value')

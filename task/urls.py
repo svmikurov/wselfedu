@@ -39,24 +39,22 @@ urlpatterns = [
         views.SetMultiplicationTableExerciseView.as_view(),
         name='math_set_table_mult_points',
     ),
-    #
     # -- End Math Tasks --
-    #
-    # --======= English Tasks =======--
+    # --======= Foreign Tasks =======--
     path(
-        'english-translate-choice/',
-        views.EnglishTranslateChoiceView.as_view(),
-        name='english_translate_choice',
+        'foreign-translate-choice/',
+        views.ForeignWordTranslateChoiceView.as_view(),
+        name='foreign_translate_choice',
     ),
     path(
-        'english-translate-demo/',
-        views.EnglishTranslateExerciseView.as_view(),
-        name='english_translate_demo',
+        'foreign-translate-demo/',
+        views.ForeignTranslateExerciseView.as_view(),
+        name='foreign_translate_demo',
     ),
     path(
-        'knowledge-assessment/<int:word_id>/',
-        views.update_words_knowledge_assessment_view,
-        name='knowledge_assessment',
+        'progress/<int:word_id>/',
+        views.update_word_progress_view,
+        name='progress',
     ),
-    # -- End English Tasks --
+    # -- End Foreign Tasks --
 ]

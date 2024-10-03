@@ -9,6 +9,7 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from dotenv import load_dotenv
 from playwright.sync_api import Page, sync_playwright
 
+from config.constants import IS_TEST
 from tests.tests_e2e.pages.user import authorize_the_page
 from users.models import UserModel
 
@@ -51,7 +52,7 @@ class PageFixtureTestCase(StaticLiveServerTestCase):
         Django to use async at class scope.
         """
         os.environ['DJANGO_ALLOW_ASYNC_UNSAFE'] = 'true'
-        os.environ['IS_TEST'] = 'true'
+        os.environ[IS_TEST] = 'true'
         super().setUpClass()
         cls.page_host = str(cls.live_server_url)
 

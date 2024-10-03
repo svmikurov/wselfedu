@@ -2,6 +2,7 @@
 
 from django.db import models
 
+from config.constants import NAME
 from users.models import UserModel
 
 
@@ -37,7 +38,7 @@ class SourceModel(models.Model):
 
         verbose_name = 'Источник'
         verbose_name_plural = 'Источники'
-        ordering = ['name']
+        ordering = [NAME]
 
     def __str__(self) -> str:
         """Provide the informal string representation of an object."""

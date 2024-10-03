@@ -8,15 +8,23 @@ from django import forms
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 
+from config.constants import (
+    BTN_SM,
+    CALCULATION_TYPE,
+    CALCULATION_TYPES,
+    GET,
+    MAX_VALUE,
+    MIN_VALUE,
+    SUBMIT,
+    TIMEOUT,
+    W_25,
+    W_50,
+)
+
 
 class MathCalculationChoiceForm(forms.Form):
     """Form for choosing the conditions of a mathematical task."""
 
-    CALCULATION_TYPES = (
-        ('add', 'Сложение'),
-        ('sub', 'Вычитание'),
-        ('mul', 'Умножение'),
-    )
     DEFAULT_TIMEOUT = 2
     DEFAULT_CALCULATION_TYPE_INDEX = 2
     DEFAULT_MIN_VALUE = 2
@@ -52,9 +60,9 @@ class MathCalculationChoiceForm(forms.Form):
     def clean(self) -> dict[str, Any]:
         """Validate the entered by form task conditions."""
         cleaned_data = super().clean()
-        min_value = cleaned_data.get('min_value')
-        max_value = cleaned_data.get('max_value')
-        timeout = cleaned_data.get('timeout')
+        min_value = cleaned_data.get(MIN_VALUE)
+        max_value = cleaned_data.get(MAX_VALUE)
+        timeout = cleaned_data.get(TIMEOUT)
 
         if min_value is not None:
             if min_value >= max_value:
@@ -76,32 +84,32 @@ class MathCalculationChoiceForm(forms.Form):
     def helper(self) -> FormHelper:
         """Django-crispy-form helper."""
         helper = FormHelper()
-        helper.form_method = 'GET'
+        helper.form_method = GET
         helper.form_id = 'math_calculate_choice'
 
         helper.layout = Layout(
             Row(
                 Column(
                     Field(
-                        'calculation_type',
-                        css_class='w-50',
-                        data_testid='calculation_type',
+                        CALCULATION_TYPE,
+                        css_class=W_50,
+                        data_testid=CALCULATION_TYPE,
                     ),
                 ),
                 Column(
-                    Field('timeout', css_class='w-25'),
+                    Field(TIMEOUT, css_class=W_25),
                 ),
             ),
             Row(
                 Column(
-                    Field('min_value', css_class='w-25'),
+                    Field(MIN_VALUE, css_class=W_25),
                 ),
                 Column(
-                    Field('max_value', css_class='w-25'),
+                    Field(MAX_VALUE, css_class=W_25),
                 ),
             ),
             Field('with_solution'),
-            Submit('submit', 'Начать', css_class='btn-sm'),
+            Submit(SUBMIT, 'Начать', css_class=BTN_SM),
         )
 
         return helper

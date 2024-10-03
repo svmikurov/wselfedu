@@ -1,11 +1,19 @@
 """Task modules."""
 
-from task.tasks.calculation_exercise import CalculationExercise
-from task.tasks.english_translate_exercise_study import (
-    EnglishTranslateExercise,
+from task.models import (
+    ForeignExerciseSettings,
+    Points,
 )
+from task.tasks.calculation_exercise import (
+    CalculationExercise,
+    CalculationExerciseCheck,
+)
+from task.tasks.foreign_exercise import ForeignWordTranslateExercise
 
 __all__ = [
     'CalculationExercise',
-    'EnglishTranslateExercise',
+    'CalculationExerciseCheck',
+    'ForeignExerciseSettings',
+    'ForeignWordTranslateExercise',
+    'Points',
 ]

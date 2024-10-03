@@ -1,4 +1,4 @@
-"""English models package."""
+"""Foreign words dictionary models."""
 
 # ruff: noqa: I001 - if fix then a circular import
 from english.models.categories import CategoryModel

@@ -6,7 +6,7 @@ Reference
    :maxdepth: 1
 
    users/index
-   english/index
+   foreign/index
    glossary/index
 
 .. toctree::

@@ -3,6 +3,7 @@
 from django.test import TestCase
 from django.urls import reverse, reverse_lazy
 
+from config.constants import PK, USERNAME
 from contrib.tests_extension import UserAuthTestCase, flash_message_test
 from users.models import UserModel
 
@@ -20,7 +21,7 @@ class TestCreateUserView(TestCase):
         cls.url = reverse('users:create')
         cls.redirect_url = reverse_lazy(SUCCESS_REDIRECT_PATH)
         cls.create_user_data = {
-            'username': 'new_user',
+            USERNAME: 'new_user',
             'password1': '1q2s3d4r',
             'password2': '1q2s3d4r',
         }
@@ -48,7 +49,7 @@ class TestUpdateUserView(UserAuthTestCase):
         cls.another_user = UserModel.objects.create(username='another_user')
         cls.url = reverse('users:update', kwargs={'pk': cls.user.id})
         cls.update_user_data = {
-            'username': 'update_user',
+            USERNAME: 'update_user',
             'password1': '1q2s3d4r',
             'password2': '1q2s3d4r',
         }
@@ -97,7 +98,7 @@ class TestDeleteUserView(UserAuthTestCase):
         """Set up test data."""
         super().setUpTestData()
         cls.another_user = UserModel.objects.create(username='another_user')
-        cls.url = reverse('users:delete', kwargs={'pk': cls.user.id})
+        cls.url = reverse('users:delete', kwargs={PK: cls.user.id})
 
     def test_get_method_delete_user_by_user(self) -> None:
         """Test delete user by user, GET method page status 200."""
@@ -165,7 +166,7 @@ class TestUserDetailView(UserAuthTestCase):
         """Set up test data."""
         super().setUpTestData()
         cls.another_user = UserModel.objects.create(username='another_user')
-        cls.url = reverse('users:detail', kwargs={'pk': cls.user.id})
+        cls.url = reverse('users:detail', kwargs={PK: cls.user.id})
 
     def test_show_user_detail_to_user(self) -> None:
         """Test show user detail to user, page status 200."""

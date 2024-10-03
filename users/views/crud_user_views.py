@@ -8,6 +8,13 @@ from django.views.generic import (
     UpdateView,
 )
 
+from config.constants import (
+    BTN_NAME,
+    DELETE_TEMPLATE,
+    FORM_TEMPLATE,
+    HOME,
+    TITLE,
+)
 from contrib.mixins_views import (
     CheckAdminMixin,
     CheckObjectOwnershipMixin,
@@ -22,12 +29,12 @@ class CreateUserView(FormMessageMixin, CreateView):
     """Create user view."""
 
     form_class = UserRegistrationForm
-    template_name = 'form.html'
+    template_name = FORM_TEMPLATE
     success_url = reverse_lazy('users:login')
     success_message = 'Пользователь создан'
     extra_context = {
-        'title': 'Регистрация пользователя',
-        'btn_name': 'Зарегистрироваться',
+        TITLE: 'Регистрация пользователя',
+        BTN_NAME: 'Зарегистрироваться',
     }
 
 
@@ -36,12 +43,12 @@ class UpdateUserView(CheckObjectOwnershipMixin, FormMessageMixin, UpdateView):
 
     model = UserModel
     form_class = UserUpdateForm
-    template_name = 'form.html'
+    template_name = FORM_TEMPLATE
     success_url = reverse_lazy('users:login')
     success_message = 'Пользователь обновлен'
     extra_context = {
-        'title': 'Обновление пользовательских данных',
-        'btn_name': 'Обновить',
+        TITLE: 'Обновление пользовательских данных',
+        BTN_NAME: 'Обновить',
     }
 
 
@@ -53,18 +60,18 @@ class DeleteUserView(
 ):
     """Delete user view."""
 
-    template_name = 'delete.html'
+    template_name = DELETE_TEMPLATE
     model = UserModel
     success_url = reverse_lazy('users:login')
     success_message = 'Пользователь удален'
-    protected_redirect_url = reverse_lazy('home')
+    protected_redirect_url = reverse_lazy(HOME)
     protected_message = (
         'Невозможно удалить этот объект, так как он '
         'используется в другом месте приложения'
     )
     extra_context = {
-        'title': 'Удаление пользователя',
-        'btn_name': 'Удалить',
+        TITLE: 'Удаление пользователя',
+        BTN_NAME: 'Удалить',
     }
 
 

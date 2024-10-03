@@ -22,7 +22,7 @@ class TestWordStudyExercisePage(POMTest):
         authorize_the_page(self.page, self.live_server_url)
         word_choice_page = WordChoiceExercisePage(self.page)
         word_choice_page.navigate(host=self.live_server_url)
-        word_choice_page.choice_word(question_language='EN')
+        word_choice_page.choice_word(question_language='TR')
 
     def test_word_visible(self) -> None:
         """Test the display of the words being studied on page."""
@@ -51,12 +51,12 @@ class TestWordStudyExercisePage(POMTest):
     def test_knowledge_buttons(self) -> None:
         """Test user`s word knowledge assessment change buttons."""
         word_study_page = WordStudyExercisePage(self.page)
-        default_knowledge_assessment = '0'
+        default_progress = '0'
         assessment_step = '1'
 
         # word has`t assessment by default
         expect(word_study_page.word_knowledge_indicator).to_contain_text(
-            default_knowledge_assessment,
+            default_progress,
         )
         # clicking on the "Know" button increases the assessment
         # by one step
@@ -68,7 +68,7 @@ class TestWordStudyExercisePage(POMTest):
         # by one step
         word_study_page.not_know_button.click()
         expect(word_study_page.word_knowledge_indicator).to_contain_text(
-            default_knowledge_assessment,
+            default_progress,
         )
 
     @pytest.mark.skip('Add test code')

@@ -1,4 +1,4 @@
-"""English word urls module."""
+"""Foreign word urls."""
 
 from django.urls import path
 from django.views.generic import TemplateView
@@ -6,12 +6,12 @@ from django.views.generic import TemplateView
 from english import views
 from english.urls.mentor_urls import mentor_urls
 
-app_name = 'english'
+app_name = 'foreign'
 urlpatterns = [
     path(
         # Show list of registrations users.
         '',
-        TemplateView.as_view(template_name='english/home.html'),
+        TemplateView.as_view(template_name='foreign/home.html'),
         name='home',
     ),
     # --======= Account ======--
@@ -21,30 +21,28 @@ urlpatterns = [
         name='users_words',
     ),
     # -- End Account --
-    # --======= English task settings =======--
+    # --======= Learning foreign word exercise settings =======--
     path(
         '<int:pk>/create-task-settings/',
-        views.CreateEnglishTaskSettingsView.as_view(),
+        views.CreateForeignTaskSettingsView.as_view(),
         name='create_task_settings',
     ),
     path(
         '<int:pk>/update-task-settings/',
-        views.UpdateEnglishTaskSettingsView.as_view(),
+        views.UpdateForeignTaskSettingsView.as_view(),
         name='update_task_settings',
     ),
-    # -- End English task settings --
-    # Добавление оценки слова.
     path(
-        'knowledge-assessment/<int:word_id>/',
-        views.update_word_knowledge_assessment_view,
-        name='knowledge_assessment',
+        'progress/<int:word_id>/',
+        views.update_word_progress_view,
+        name='progress',
     ),
     path(
         'words-favorites-view-ajax/<int:word_id>/',
         views.update_words_favorites_status_view_ajax,
         name='word_favorites_view_ajax',
     ),
-    # -- End Task study words --
+    # -- End Learning foreign word exercise settings --
     # --======= Word =======--
     path(
         'word/list/',

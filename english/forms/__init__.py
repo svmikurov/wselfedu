@@ -1,4 +1,4 @@
-"""English forms package."""
+"""Foreign words forms package."""
 
 from english.forms.category import CategoryForm
 from english.forms.source import SourceForm

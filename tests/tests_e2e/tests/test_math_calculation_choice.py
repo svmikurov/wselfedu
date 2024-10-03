@@ -4,6 +4,7 @@ from unittest import skip
 
 from playwright.sync_api import expect
 
+from config.constants import ADDITION
 from tests.tests_e2e.pages.math_calculate_choice import (
     MathCalculateChoicePage,
 )
@@ -28,7 +29,7 @@ class TestMathCalculateChoicePage(POMTest):
         """Test choose calculation conditions."""
         self.choice_page.test_title()
         self.choice_page.choose_calculation_conditions(
-            calculation='add',
+            calculation=ADDITION,
             time_answer='1',
             min_value='5',
             max_value='6',
@@ -42,7 +43,7 @@ class TestMathCalculateChoicePage(POMTest):
         """Test choose calculation conditions with answer input."""
         self.choice_page.test_title()
         self.choice_page.choose_calculation_conditions(
-            calculation='add',
+            calculation=ADDITION,
             time_answer='1',
             min_value='5',
             max_value='6',

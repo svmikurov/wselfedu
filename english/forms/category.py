@@ -2,6 +2,7 @@
 
 from django.forms import ModelForm
 
+from config.constants import NAME
 from english.models import CategoryModel
 
 
@@ -12,4 +13,4 @@ class CategoryForm(ModelForm):
         """Add model with specific fields."""
 
         model = CategoryModel
-        fields = ('name',)
+        fields = (NAME,)

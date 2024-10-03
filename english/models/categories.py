@@ -2,6 +2,7 @@
 
 from django.db import models
 
+from config.constants import NAME
 from users.models import UserModel
 
 
@@ -33,7 +34,7 @@ class CategoryModel(models.Model):
 
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
-        ordering = ['name']
+        ordering = [NAME]
 
     def __str__(self) -> str:
         """Provide the informal string representation of an object."""

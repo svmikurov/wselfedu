@@ -23,8 +23,8 @@
   "pk": 1,
   "fields": {
     "user": 1,
-    "word_eng": "test word",
-    "word_rus": "тестовое слово",
+    "foreign_word": "test word",
+    "russian_word": "тестовое слово",
     "source": null,
     "category": null,
     "word_count": "NC",

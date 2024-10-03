@@ -3,12 +3,23 @@
 from django.db import models
 
 from config import constants as const
+from config.constants import (
+    DEFAULT_LANGUAGE_ORDER,
+    DEFAULT_PROGRESS,
+    DEFAULT_TIMEOUT,
+    DEFAULT_WORD_COUNT,
+    LANGUAGE_ORDER_CHOICE,
+    NOT_CHOICES,
+    PROGRESS_CHOICES,
+    TODAY,
+    WORD_COUNT_CHOICE,
+)
 from english.models import CategoryModel, SourceModel
 from users.models import UserModel
 
 
-class EnglishTaskSettings(models.Model):
-    """English learning task user settings model.
+class ForeignExerciseSettings(models.Model):
+    """Foreign words learning exercise user settings model.
 
     Including contains lookup parameters words for learning them.
 
@@ -20,10 +31,10 @@ class EnglishTaskSettings(models.Model):
         The order in which language translations of words are displayed.
 
         Could be:
-            - first the question is in English, then the answer is in
+            - first the question is in Foreign, then the answer is in
               Russian;
             - first the question is in Russian, then the answer is in
-              English;
+              Foreign;
             - random order.
 
     timeout : `int`
@@ -47,37 +58,12 @@ class EnglishTaskSettings(models.Model):
 
     """
 
-    LANGUAGE_ORDER = [
-        ('RN', 'Перевод в случайном порядке'),
-        ('EN', 'Перевод с английского языка'),
-        ('RU', 'Перевод на английский язык'),
-    ]
-    DEFAULT_START_PERIOD = ('NC', 'Добавлено')
-    DEFAULT_END_PERIOD = ('DT', 'Сегодня')
-    WORD_COUNT = (
-        ('OW', 'Слово'),
-        ('CB', 'Словосочетание'),
-        ('PS', 'Часть предложения'),
-        ('ST', 'Предложение'),
-    )
-    KNOWLEDGE_ASSESSMENT = (
-        ('S', 'Изучаю'),  # study
-        ('R', 'Повторяю'),  # repeat
-        ('E', 'Проверяю'),  # examination
-        ('K', 'Знаю'),  # know
-    )
-    DEFAULT_LANGUAGE_ORDER = LANGUAGE_ORDER[0]
-    DEFAULT_KNOWLEDGE_ASSESSMENT = 'S'
-    DEFAULT_WORD_COUNT = ('OW', 'CB')
-    DEFAULT_CREATE_CHOICE_VALUE = 0
-    DEFAULT_TIMEOUT = 5
-
     user = models.OneToOneField(
         UserModel,
         on_delete=models.CASCADE,
     )
     language_order = models.CharField(
-        choices=LANGUAGE_ORDER,
+        choices=LANGUAGE_ORDER_CHOICE,
         default=DEFAULT_LANGUAGE_ORDER,
         max_length=2,
         verbose_name='Порядок перевода',
@@ -105,26 +91,26 @@ class EnglishTaskSettings(models.Model):
         verbose_name='Источник',
     )
     knowledge = models.CharField(
-        choices=KNOWLEDGE_ASSESSMENT,
-        default=DEFAULT_KNOWLEDGE_ASSESSMENT,
+        choices=PROGRESS_CHOICES,
+        default=DEFAULT_PROGRESS,
         max_length=1,
         verbose_name='Уровень знания',
     )
     word_count = models.CharField(
-        choices=WORD_COUNT,
+        choices=WORD_COUNT_CHOICE,
         default=DEFAULT_WORD_COUNT,
         max_length=2,
         verbose_name='Длина выражения',
     )
     date_start = models.CharField(
         choices=const.EDGE_PERIOD_CHOICES,
-        default=DEFAULT_START_PERIOD,
+        default=NOT_CHOICES,
         max_length=2,
         verbose_name='Добавлено после',
     )
     date_end = models.CharField(
         choices=const.EDGE_PERIOD_CHOICES,
-        default=DEFAULT_END_PERIOD,
+        default=TODAY,
         max_length=2,
         verbose_name='Добавлено до',
     )

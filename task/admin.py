@@ -2,11 +2,11 @@
 
 from django.contrib import admin
 
-from task.models import EnglishTaskSettings
+from task.models import ForeignExerciseSettings
 
 
-@admin.register(EnglishTaskSettings)
-class EnglishTaskSettingsAdmin(admin.ModelAdmin):
+@admin.register(ForeignExerciseSettings)
+class ForeignTaskSettingsAdmin(admin.ModelAdmin):
     """Representation of model in the admin interface."""
 
     list_display = [

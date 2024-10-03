@@ -8,6 +8,18 @@ from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
+from config.constants import (
+    BTN_NAME,
+    CATEGORIES,
+    CATEGORY,
+    CATEGORY_LIST_PATH,
+    CATEGORY_LIST_TEMPLATE,
+    DELETE_TEMPLATE,
+    DETAIL_CATEGORY_TEMPLATE,
+    FORM_TEMPLATE,
+    PAGINATE_NUMBER,
+    TITLE,
+)
 from contrib.mixins_views import (
     CheckLoginPermissionMixin,
     CheckUserOwnershipMixin,
@@ -16,27 +28,17 @@ from contrib.mixins_views import (
 from english.forms import CategoryForm
 from english.models import CategoryModel
 
-CREATE_CATEGORY_PATH = 'english:categories_create'
-CATEGORY_LIST_PATH = 'english:category_list'
-
-DELETE_CATEGORY_TEMPLATE = 'delete.html'
-DETAIL_CATEGORY_TEMPLATE = 'english/category_detail.html'
-CATEGORY_FORM_TEMPLATE = 'form.html'
-CATEGORY_LIST_TEMPLATE = 'english/category_list.html'
-
-PAGINATE_NUMBER = 20
-
 
 class CategoryCreateView(CheckLoginPermissionMixin, CreateView):
     """Create category view."""
 
     form_class = CategoryForm
-    template_name = CATEGORY_FORM_TEMPLATE
+    template_name = FORM_TEMPLATE
     success_url = reverse_lazy(CATEGORY_LIST_PATH)
     success_message = 'Категория слов добавлена'
     extra_context = {
-        'title': 'Добавить категорию',
-        'btn_name': 'Добавить',
+        TITLE: 'Добавить категорию',
+        BTN_NAME: 'Добавить',
     }
 
     def form_valid(self, form: Type[Form]) -> HttpResponse:
@@ -51,12 +53,12 @@ class CategoryUpdateView(CheckUserOwnershipMixin, UpdateView):
 
     model = CategoryModel
     form_class = CategoryForm
-    template_name = CATEGORY_FORM_TEMPLATE
+    template_name = FORM_TEMPLATE
     success_url = reverse_lazy(CATEGORY_LIST_PATH)
     success_message = 'Категория слов изменена'
     extra_context = {
-        'title': 'Изменить категорию',
-        'btn_name': 'Изменить',
+        TITLE: 'Изменить категорию',
+        BTN_NAME: 'Изменить',
     }
 
 
@@ -66,7 +68,7 @@ class CategoryDeleteView(
     """Delete category view."""
 
     model = CategoryModel
-    template_name = DELETE_CATEGORY_TEMPLATE
+    template_name = DELETE_TEMPLATE
     success_url = reverse_lazy(CATEGORY_LIST_PATH)
     success_message = 'Категория слов удалена'
     protected_redirect_url = reverse_lazy(CATEGORY_LIST_PATH)
@@ -75,8 +77,8 @@ class CategoryDeleteView(
         'используется в другом месте приложения'
     )
     extra_context = {
-        'title': 'Удаление категории',
-        'btn_name': 'Удалить',
+        TITLE: 'Удаление категории',
+        BTN_NAME: 'Удалить',
     }
 
 
@@ -85,10 +87,10 @@ class CategoryListView(CheckLoginPermissionMixin, ListView):
 
     model = CategoryModel
     template_name = CATEGORY_LIST_TEMPLATE
-    context_object_name = 'categories'
+    context_object_name = CATEGORIES
     paginate_by = PAGINATE_NUMBER
     extra_context = {
-        'title': 'Категории',
+        TITLE: 'Категории',
     }
 
     def get_queryset(self) -> QuerySet:
@@ -102,5 +104,7 @@ class CategoryDetailView(CheckUserOwnershipMixin, DetailView):
 
     model = CategoryModel
     template_name = DETAIL_CATEGORY_TEMPLATE
-    context_object_name = 'category'
-    extra_context = {'title': 'Обзор категории слов'}
+    context_object_name = CATEGORY
+    extra_context = {
+        TITLE: 'Обзор категории слов',
+    }

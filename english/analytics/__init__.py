@@ -1,1 +1,1 @@
-"""English word study app analytic package."""
+"""Foreign word study app analytic package."""

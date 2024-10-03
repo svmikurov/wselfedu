@@ -2,6 +2,7 @@
 
 from playwright.sync_api import Page
 
+from config.constants import BTN_BACK, BUTTON
 from tests.tests_e2e.pages.base import POMPage
 
 
@@ -17,5 +18,5 @@ class MathCalculateDemoPage(POMPage):
         self.page = page
         self.question_text = page.locator('#question_text')
         self.answer_text = page.locator('#answer_text')
-        self.next_button = page.get_by_role('button', name='Далее')
-        self.back_button = page.get_by_test_id('btn-back')
+        self.next_button = page.get_by_role(BUTTON, name='Далее')
+        self.back_button = page.get_by_test_id(BTN_BACK)

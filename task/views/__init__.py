@@ -1,10 +1,10 @@
 """Task app views."""
 
 from glossary.views_drf import update_term_study_progress
-from task.views.english_exercise_views import (
-    EnglishTranslateChoiceView,
-    EnglishTranslateExerciseView,
-    update_words_knowledge_assessment_view,
+from task.views.foreign_exercise_views import (
+    ForeignTranslateExerciseView,
+    ForeignWordTranslateChoiceView,
+    update_word_progress_view,
 )
 from task.views.glossary_exercise_drf_views import (
     glossary_exercise,
@@ -22,10 +22,10 @@ from task.views.math_calculate_views import (
 __all__ = [
     # Task Index
     'IndexTaskView',
-    # English
-    'EnglishTranslateChoiceView',
-    'EnglishTranslateExerciseView',
-    'update_words_knowledge_assessment_view',
+    # Foreign
+    'ForeignWordTranslateChoiceView',
+    'ForeignTranslateExerciseView',
+    'update_word_progress_view',
     # Glossary
     'update_term_study_progress',
     'glossary_exercise',

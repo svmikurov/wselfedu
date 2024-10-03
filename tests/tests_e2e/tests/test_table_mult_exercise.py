@@ -5,6 +5,7 @@ from unittest import skip
 from django.core.cache import cache
 from playwright.sync_api import expect
 
+from config.constants import VISIBLE
 from tests.tests_e2e.pages.math_calculate_solution import (
     MathCalculateSolutionPage,
 )
@@ -41,10 +42,10 @@ class TestTableMultExercise(POMTest):
         self.test_page.page.goto(self.url_set_conditions)
         self.test_page.test_title()
 
-    @skip('Test is not stable.')
+    @skip('TODO: Fix the bad test.')
     def test_cache_time_start_exercise(self) -> None:
         """Test note in cache time start exercise."""
-        self.test_page.question_text.wait_for(state='visible')
+        self.test_page.question_text.wait_for(state=VISIBLE)
         key_name = 'user_1_exc_mul_start_time'
         assert cache.get(key_name)
 

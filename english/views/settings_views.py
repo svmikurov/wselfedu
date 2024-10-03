@@ -1,38 +1,39 @@
-"""English task settings module."""
+"""Learning foreign words task settings module."""
 
 from django.db.models import Model
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView
 
-from task.models import EnglishTaskSettings
+from config.constants import HOME, PK
+from task.models import ForeignExerciseSettings
 
 
-class EnglishTaskSettingsView(DetailView):
-    """Display user's english task settings view."""
+class ForeignTaskSettingsView(DetailView):
+    """Display user's learning foreign words exercise settings view."""
 
-    model = EnglishTaskSettings
-    template_name = 'english/tasks/task_settings.html'
+    model = ForeignExerciseSettings
+    template_name = 'foreign/tasks/task_settings.html'
 
     def get_object(self, **kwargs: object) -> Model:
         """Return the object the view is displaying."""
-        pk = self.kwargs.get('pk')
-        obj = EnglishTaskSettings.objects.get(user=pk)
+        pk = self.kwargs.get(PK)
+        obj = ForeignExerciseSettings.objects.get(user=pk)
         return obj
 
 
-class CreateEnglishTaskSettingsView(CreateView):
-    """Create English task settings view."""
+class CreateForeignTaskSettingsView(CreateView):
+    """Create Foreign task settings view."""
 
-    model = EnglishTaskSettings
-    template_name = 'english/tasks/create_task_settings.html'
+    model = ForeignExerciseSettings
+    template_name = 'foreign/tasks/create_task_settings.html'
     fields = '__all__'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy(HOME)
 
 
-class UpdateEnglishTaskSettingsView(UpdateView):
-    """Update English task settings view."""
+class UpdateForeignTaskSettingsView(UpdateView):
+    """Update Foreign task settings view."""
 
-    model = EnglishTaskSettings
-    template_name = 'english/tasks/update_task_settings.html'
+    model = ForeignExerciseSettings
+    template_name = 'foreign/tasks/update_task_settings.html'
     fields = '__all__'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy(HOME)

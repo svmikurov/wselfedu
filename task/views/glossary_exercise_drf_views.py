@@ -15,9 +15,15 @@ from config.constants import (
     CATEGORIES,
     DEFAULT_GLOSSARY_PARAMS,
     EDGE_PERIOD_ALIASES,
+    EDGE_PERIOD_ITEMS,
+    ERROR,
+    EXERCISE_CHOICES,
     GET,
+    LOOKUP_CONDITIONS,
     POST,
+    PROGRESS,
     PROGRESS_ALIASES,
+    USER_ID,
 )
 from glossary.models import (
     GlossaryCategory,
@@ -38,11 +44,11 @@ def glossary_exercise(request: Request) -> JsonResponse | HttpResponse:
 
     if serializer.is_valid():
         lookup_conditions = serializer.data
-        lookup_conditions['user_id'] = request.user.id
+        lookup_conditions[USER_ID] = request.user.id
         try:
             exercise = GlossaryExercise(lookup_conditions).task_data
         except IndexError:
-            error = {'error': 'По заданным условиям задание не сформировано'}
+            error = {ERROR: 'По заданным условиям задание не сформировано'}
             return JsonResponse(error, status=HTTP_400_BAD_REQUEST)
 
         return JsonResponse(exercise, status=HTTP_200_OK)
@@ -87,11 +93,11 @@ def glossary_exercise_parameters(
             categories = serializer.data
 
         exercise_params = {
-            'lookup_conditions': lookup_conditions,
-            'exercise_choices': {
-                'edge_period_items': EDGE_PERIOD_ALIASES,
+            LOOKUP_CONDITIONS: lookup_conditions,
+            EXERCISE_CHOICES: {
+                EDGE_PERIOD_ITEMS: EDGE_PERIOD_ALIASES,
                 CATEGORIES: categories,
-                'progress': PROGRESS_ALIASES,
+                PROGRESS: PROGRESS_ALIASES,
             },
         }
 

@@ -4,6 +4,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse_lazy
 
+from config.constants import PK
+
 
 class UserModel(AbstractUser):
     """User model."""
@@ -24,4 +26,4 @@ class UserModel(AbstractUser):
 
     def get_absolute_url(self) -> str:
         """Return the url of an instance."""
-        return reverse_lazy('users:detail', kwargs={'pk': self.pk})
+        return reverse_lazy('users:detail', kwargs={PK: self.pk})

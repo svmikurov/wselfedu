@@ -1,4 +1,4 @@
-"""English app views."""
+"""Foreign words dictionary app views."""
 
 # ruff: noqa: I001
 from english.views.crud_categories import (
@@ -23,13 +23,13 @@ from english.views.crud_word import (
     WordUpdateView,
 )
 from english.views.english_views import (
-    update_word_knowledge_assessment_view,
+    update_word_progress_view,
     update_words_favorites_status_view_ajax,
 )
 from english.views.settings_views import (
-    CreateEnglishTaskSettingsView,
-    EnglishTaskSettingsView,
-    UpdateEnglishTaskSettingsView,
+    CreateForeignTaskSettingsView,
+    ForeignTaskSettingsView,
+    UpdateForeignTaskSettingsView,
 )
 from english.views.user_word_list import (
     UserWordListView,
@@ -39,11 +39,11 @@ from english.views.mentorship_views import (
 )
 
 __all__ = [
-    'update_word_knowledge_assessment_view',
+    'update_word_progress_view',
     'update_words_favorites_status_view_ajax',
-    'EnglishTaskSettingsView',
-    'CreateEnglishTaskSettingsView',
-    'UpdateEnglishTaskSettingsView',
+    'ForeignTaskSettingsView',
+    'CreateForeignTaskSettingsView',
+    'UpdateForeignTaskSettingsView',
     'UserWordListView',
     'CategoryCreateView',
     'CategoryListView',

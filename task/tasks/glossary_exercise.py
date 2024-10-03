@@ -4,6 +4,7 @@ from random import choice
 
 from django.db.models import Model, Q
 
+from config.constants import ANSWER_TEXT, ID, QUESTION_TEXT
 from glossary.models import Glossary
 from task.orm_queries.glossary_lookup_params import GlossaryLookupParams
 
@@ -26,7 +27,7 @@ class GlossaryExercise:
         """Get item ids by user lookup conditions."""
         item_ids = Glossary.objects.filter(
             *self._lookup_params
-        ).values_list('id', flat=True)  # fmt: skip
+        ).values_list(ID, flat=True)  # fmt: skip
         return item_ids
 
     @staticmethod
@@ -51,8 +52,8 @@ class GlossaryExercise:
         """Task data (`dict`, reqe-only)."""
         item = self.create_exercise_task()
         results = {
-            'id': item.pk,
-            'question_text': item.term,
-            'answer_text': item.definition,
+            ID: item.pk,
+            QUESTION_TEXT: item.term,
+            ANSWER_TEXT: item.definition,
         }
         return results

@@ -1,4 +1,4 @@
-"""English word urls package."""
+"""Foreign word urls."""
 
 from english.urls.urls import app_name, urlpatterns
 

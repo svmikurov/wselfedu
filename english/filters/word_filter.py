@@ -7,11 +7,23 @@ from django.db.models.query import QuerySet
 from django.forms import TextInput
 from django.http import HttpRequest
 
+from config.constants import (
+    CATEGORY,
+    EXACT,
+    FOREIGN_WORD,
+    ICONTAINS,
+    PK,
+    PROGRESS_CHOICES,
+    SOURCE,
+    USER,
+    WORD_COUNT,
+    WORD_COUNT_CHOICE,
+)
 from english.models import (
     CategoryModel,
     SourceModel,
 )
-from english.orm_queries.word_knowledge_assessment import (
+from english.orm_queries.word_progress import (
     PROGRESS_STAGE_EDGES,
 )
 
@@ -33,50 +45,36 @@ def source_by_current_user(request: HttpRequest) -> QuerySet:
 class WordsFilter(django_filters.FilterSet):
     """Word filter."""
 
-    WORD_COUNT = (
-        ('OW', 'Слово'),
-        ('CB', 'Словосочетание'),
-        ('PS', 'Часть предложения'),
-        ('ST', 'Предложение'),
-        ('NC', 'Не указано'),
-    )
-    WORD_STUDY_STAGE = (
-        ('S', 'Изучаю'),  # study
-        ('R', 'Повторяю'),  # repeat
-        ('E', 'Проверяю'),  # examination
-        ('K', 'Знаю'),  # know
-    )
-
     search_word = django_filters.CharFilter(
         method='filter_word_by_any_translation',
-        field_name='word_eng',
+        field_name=FOREIGN_WORD,
         lookup_expr='icontains',
         label='',
         widget=TextInput(attrs={'placeholder': 'Поиск по слову'}),
     )
     filtered_category = django_filters.ModelChoiceFilter(
         queryset=category_by_current_user,
-        field_name='category',
-        lookup_expr='exact',
+        field_name=CATEGORY,
+        lookup_expr=EXACT,
         label='',
         empty_label='Категория',
     )
     filtered_source = django_filters.ModelChoiceFilter(
         queryset=source_by_current_user,
-        field_name='source',
-        lookup_expr='exact',
+        field_name=SOURCE,
+        lookup_expr=EXACT,
         label='',
         empty_label='Источник',
     )
     filtered_word_count = django_filters.ChoiceFilter(
-        choices=WORD_COUNT,
-        field_name='word_count',
-        lookup_expr='icontains',
+        choices=WORD_COUNT_CHOICE,
+        field_name=WORD_COUNT,
+        lookup_expr=ICONTAINS,
         label='',
         empty_label='Любое кол-во слов',
     )
     filtered_study_stage = django_filters.ChoiceFilter(
-        choices=WORD_STUDY_STAGE,
+        choices=PROGRESS_CHOICES,
         method='get_filtered_study_stage',
         label='',
         empty_label='Стадия изучения слова',
@@ -95,9 +93,9 @@ class WordsFilter(django_filters.FilterSet):
         name: object,
         value: object,
     ) -> QuerySet:
-        """Find a word in English or Russian."""
+        """Find a word in foreign or russian."""
         return queryset.filter(
-            Q(word_eng__icontains=value) | Q(word_rus__icontains=value)
+            Q(foreign_word__icontains=value) | Q(russian_word__icontains=value)
         )
 
     @staticmethod
@@ -109,8 +107,8 @@ class WordsFilter(django_filters.FilterSet):
         """Filter words by 'favorites' field."""
         if value:
             queryset = queryset.filter(
-                wordsfavoritesmodel__word=F('pk'),
-                wordsfavoritesmodel__user=F('user'),
+                wordsfavoritesmodel__word=F(PK),
+                wordsfavoritesmodel__user=F(USER),
             )
         return queryset
 
@@ -120,12 +118,12 @@ class WordsFilter(django_filters.FilterSet):
         name: object,
         value: object,
     ) -> QuerySet:
-        """Filter words by study stage (knowledge_assessment)."""
+        """Filter words by study stage (progress)."""
         study = PROGRESS_STAGE_EDGES.get(value)
         qs = queryset.filter(
-            worduserknowledgerelation__user_id=F('user'),
-            worduserknowledgerelation__word_id=F('pk'),
-            worduserknowledgerelation__knowledge_assessment__in=study,
+            worduserknowledgerelation__user_id=F(USER),
+            worduserknowledgerelation__word_id=F(PK),
+            worduserknowledgerelation__progress__in=study,
         )
         return qs
 

@@ -3,6 +3,7 @@
 from django.contrib import auth
 from django.urls import reverse_lazy
 
+from config.constants import HOME, PASSWORD, USER, USERNAME
 from contrib.tests_extension import UserAuthTestCase
 
 
@@ -15,8 +16,8 @@ class TestAuthUser(UserAuthTestCase):
         super().setUpClass()
         cls.login_url = reverse_lazy('users:login')
         cls.logout_url = reverse_lazy('users:logout')
-        cls.redirect_url = reverse_lazy('home')
-        cls.user_data = {'username': 'user', 'password': '1q2s3d4r'}
+        cls.redirect_url = reverse_lazy(HOME)
+        cls.user_data = {USERNAME: USER, PASSWORD: '1q2s3d4r'}
 
     def test_login_get_method(self) -> None:
         """Test login get method."""

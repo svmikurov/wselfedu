@@ -1,4 +1,4 @@
-"""CRUD English word module."""
+"""CRUD Foreign words."""
 
 from typing import Dict, Type
 
@@ -11,6 +11,23 @@ from django.http import HttpResponse, JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView
 
+from config.constants import (
+    BTN_NAME,
+    CATEGORY,
+    CREATE_WORD_PATH,
+    DELETE_TEMPLATE,
+    DETAIL_WORD_TEMPLATE,
+    FOREIGN_WORD,
+    PAGINATE_NUMBER,
+    PK,
+    SOURCE,
+    TITLE,
+    USER,
+    WORD,
+    WORD_LIST_PATH,
+    WORD_LIST_TEMPLATE,
+    WORDS,
+)
 from contrib.mixins_views import (
     CheckUserOwnershipMixin,
     HandleNoPermissionMixin,
@@ -21,27 +38,18 @@ from english.filters import WordsFilter
 from english.forms import WordForm
 from english.models import WordModel
 
-CREATE_WORD_PATH = 'english:words_create'
-WORD_LIST_PATH = 'english:word_list'
-
-DELETE_WORD_TEMPLATE = 'delete.html'
-DETAIL_WORD_TEMPLATE = 'english/word_detail.html'
-WORD_LIST_TEMPLATE = 'english/word_list.html'
-
-PAGINATE_NUMBER = 20
-
 
 class WordCreateView(HandleNoPermissionMixin, LoginRequiredMixin, CreateView):
     """Create word view."""
 
     form_class = WordForm
-    template_name = 'english/word_add_form.html'
+    template_name = 'foreign/word_add_form.html'
     success_url = reverse_lazy(CREATE_WORD_PATH)
     success_message = None
 
     additional_user_navigation = {'Словарь': WORD_LIST_TEMPLATE}
     extra_context = {
-        'title': 'Добавить слово в словарь',
+        TITLE: 'Добавить слово в словарь',
         'additional_user_navigation': additional_user_navigation,
     }
 
@@ -54,7 +62,7 @@ class WordCreateView(HandleNoPermissionMixin, LoginRequiredMixin, CreateView):
     def form_valid(self, form: Type[Form]) -> HttpResponse:
         """Add the current user to the form."""
         form.instance.user = self.request.user
-        added_word = form.cleaned_data['word_eng']
+        added_word = form.cleaned_data[FOREIGN_WORD]
         success_message = f'Добавлено слово "{added_word}"'
         WordCreateView.success_message = success_message
         form.save()
@@ -87,13 +95,13 @@ class WordUpdateView(CheckUserOwnershipMixin, UpdateView):
 
     model = WordModel
     form_class = WordForm
-    template_name = 'english/word_form.html'
+    template_name = 'foreign/word_form.html'
     success_url = reverse_lazy(WORD_LIST_PATH)
     success_message = 'Слово изменено'
-    context_object_name = 'word'
+    context_object_name = WORD
     extra_context = {
-        'title': 'Изменить слово',
-        'btn_name': 'Изменить',
+        TITLE: 'Изменить слово',
+        BTN_NAME: 'Изменить',
     }
 
     def get_form(self, form_class: Type[Form] = None) -> FormHelper:
@@ -107,12 +115,12 @@ class WordDeleteView(PermissionProtectDeleteView):
     """Delete word view."""
 
     model = WordModel
-    template_name = DELETE_WORD_TEMPLATE
+    template_name = DELETE_TEMPLATE
     success_url = reverse_lazy(WORD_LIST_PATH)
     success_message = 'Слово удалено'
     extra_context = {
-        'title': 'Удаление слова',
-        'btn_name': 'Удалить',
+        TITLE: 'Удаление слова',
+        BTN_NAME: 'Удалить',
     }
 
 
@@ -122,10 +130,10 @@ class WordListView(ReuseSchemaQueryFilterView):
     model = WordModel
     filterset_class = WordsFilter
     template_name = WORD_LIST_TEMPLATE
-    context_object_name = 'words'
+    context_object_name = WORDS
     paginate_by = PAGINATE_NUMBER
     extra_context = {
-        'title': 'Список слов',
+        TITLE: 'Список слов',
     }
 
     def get_queryset(self) -> models.query.QuerySet:
@@ -135,32 +143,19 @@ class WordListView(ReuseSchemaQueryFilterView):
         queryset = (
             super(WordListView, self)
             .get_queryset()
-            .select_related(
-                'category',
-                'source',
-            )
-            .filter(
-                # Filter all words of a specific user.
-                user=user
-            )
+            .select_related(CATEGORY, SOURCE)
+            .filter(user=user)
             .annotate(
                 # Assign `True` if there is a relationship between
                 # user and word in the WordsFavoritesModel, otherwise
                 # assign None.
                 favorites_anat=Q(
-                    Q(wordsfavoritesmodel__user=F('user'))
-                    & Q(wordsfavoritesmodel__word=F('pk'))
+                    Q(wordsfavoritesmodel__user=F(USER))
+                    & Q(wordsfavoritesmodel__word=F(PK))
                 )
             )
-            .annotate(
-                # Add to query `knowledge_assessment` value.
-                assessment=F(
-                    'worduserknowledgerelation__knowledge_assessment'
-                ),
-            )
-            .order_by(
-                '-pk',
-            )
+            .annotate(assessment=F('worduserknowledgerelation__progress'))
+            .order_by('-pk')
         )
         return queryset
 
@@ -170,7 +165,7 @@ class WordDetailView(CheckUserOwnershipMixin, DetailView):
 
     model = WordModel
     template_name = DETAIL_WORD_TEMPLATE
-    context_object_name = 'word'
+    context_object_name = WORD
     extra_context = {
-        'title': 'Обзор слова',
+        TITLE: 'Обзор слова',
     }

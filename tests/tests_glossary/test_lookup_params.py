@@ -5,6 +5,22 @@ from datetime import datetime, timedelta, timezone
 from django.db.models import QuerySet
 from django.test import TestCase
 
+from config.constants import (
+    CATEGORY,
+    ID,
+    LEARNED,
+    NOT_CHOICES,
+    PERIOD_END_DATE,
+    PERIOD_START_DATE,
+    PROGRESS,
+    REPEAT,
+    STUDY,
+    TODAY,
+    USER_ID,
+    WEEKS_AGO_2,
+    WEEKS_AGO_3,
+    WEEKS_AGO_4,
+)
 from glossary.models import Glossary
 from task.orm_queries.glossary_lookup_params import GlossaryLookupParams
 
@@ -24,12 +40,12 @@ class TestLookupParams(TestCase):
         """Make a query to the database by test filter."""
         lookup_params = GlossaryLookupParams(lookup_conditions).params
         queryset = Glossary.objects.filter(*lookup_params)
-        ids = queryset.values_list('id', flat=True)
+        ids = queryset.values_list(ID, flat=True)
         return ids
 
     def test_lookup_by_user_id(self) -> None:
         """Test filter terms by user."""
-        lookup_conditions = {'user_id': 2}
+        lookup_conditions = {USER_ID: 2}
         queryset = self.query_database(lookup_conditions)
         self.assertQuerySetEqual(queryset, [1, 2, 3, 4, 5])
 
@@ -50,60 +66,60 @@ class TestLookupParams(TestCase):
         manager.filter(pk=5).update(created_at=(today - timedelta(weeks=40)))
 
         # test no choice start period
-        lookup_conditions = {'user_id': 2, 'period_start_date': 'NC'}
+        lookup_conditions = {USER_ID: 2, PERIOD_START_DATE: NOT_CHOICES}
         queryset = self.query_database(lookup_conditions)
         self.assertQuerySetEqual(queryset, [1, 2, 3, 4, 5])
 
         # test choice 'today' start period
-        lookup_conditions = {'user_id': 2, 'period_start_date': 'DT'}
+        lookup_conditions = {USER_ID: 2, PERIOD_START_DATE: TODAY}
         queryset = self.query_database(lookup_conditions)
         self.assertQuerySetEqual(queryset, [1])
 
         # test choice '3 week ago' start period
-        lookup_conditions = {'user_id': 2, 'period_start_date': 'W3'}
+        lookup_conditions = {USER_ID: 2, PERIOD_START_DATE: WEEKS_AGO_3}
         queryset = self.query_database(lookup_conditions)
         self.assertQuerySetEqual(queryset, [1, 2])
 
         # test choice 'today' end period
-        lookup_conditions = {'user_id': 2, 'period_end_date': 'DT'}
+        lookup_conditions = {USER_ID: 2, PERIOD_END_DATE: TODAY}
         queryset = self.query_database(lookup_conditions)
         self.assertQuerySetEqual(queryset, [1, 2, 3, 4, 5])
 
         # test choice '3 week ago' end period
-        lookup_conditions = {'user_id': 2, 'period_end_date': 'W3'}
+        lookup_conditions = {USER_ID: 2, PERIOD_END_DATE: WEEKS_AGO_3}
         queryset = self.query_database(lookup_conditions)
         self.assertQuerySetEqual(queryset, [2, 3, 4, 5])
 
         # test choice '4 week ago' start period
         # with choice '2 week ago' end period
         lookup_conditions = {
-            'user_id': 2,
-            'period_start_date': 'W4',
-            'period_end_date': 'W2',
+            USER_ID: 2,
+            PERIOD_START_DATE: WEEKS_AGO_4,
+            PERIOD_END_DATE: WEEKS_AGO_2,
         }
         queryset = self.query_database(lookup_conditions)
         self.assertQuerySetEqual(queryset, [2])
 
     def test_lookup_by_category(self) -> None:
         """Test filter terms by category."""
-        lookup_conditions = {'category': 2}
+        lookup_conditions = {CATEGORY: 2}
         queryset = self.query_database(lookup_conditions)
         self.assertQuerySetEqual(queryset, [3])
 
     def test_lookup_by_progress(self) -> None:
         """Test filter terms by progress."""
-        lookup_conditions = {'user_id': 2, 'progress': []}
+        lookup_conditions = {USER_ID: 2, PROGRESS: []}
         queryset = self.query_database(lookup_conditions)
         self.assertQuerySetEqual(queryset, [1, 2, 3, 4, 5])
 
-        lookup_conditions = {'user_id': 2, 'progress': ['S']}
+        lookup_conditions = {USER_ID: 2, PROGRESS: [STUDY]}
         queryset = self.query_database(lookup_conditions)
         self.assertQuerySetEqual(queryset, [1, 2])
 
-        lookup_conditions = {'user_id': 2, 'progress': ['S', 'R']}
+        lookup_conditions = {USER_ID: 2, PROGRESS: [STUDY, REPEAT]}
         queryset = self.query_database(lookup_conditions)
         self.assertQuerySetEqual(queryset, [1, 2, 3])
 
-        lookup_conditions = {'user_id': 2, 'progress': ['R', 'K']}
+        lookup_conditions = {USER_ID: 2, PROGRESS: [REPEAT, LEARNED]}
         queryset = self.query_database(lookup_conditions)
         self.assertQuerySetEqual(queryset, [3, 5])

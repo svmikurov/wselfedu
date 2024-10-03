@@ -52,7 +52,7 @@ class Migration(migrations.Migration):
             name='WordModel',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('word_eng', models.CharField(help_text='Не более 75 символов.', max_length=75, verbose_name='Слово на английском')),
+                ('word_eng', models.CharField(help_text='Не более 75 символов.', max_length=75, verbose_name='Слово на иностранном')),
                 ('word_rus', models.CharField(help_text='Не более 75 символов.', max_length=75, verbose_name='Слово на русском')),
                 ('word_count', models.CharField(choices=[('NC', 'Любое количество слов'), ('OW', 'Слово'), ('CB', 'Словосочетание'), ('PS', 'Часть предложения'), ('ST', 'Предложение')], default='NC', max_length=2, verbose_name='Количество слов')),
                 ('created_at', models.DateTimeField(default=django.utils.timezone.now, verbose_name='Добавлено')),

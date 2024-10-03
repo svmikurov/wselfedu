@@ -2,6 +2,7 @@
 
 from django.test import TestCase
 
+from config.constants import MULTIPLICATION
 from task.models import MathematicalExercise, Points
 from task.points import PointsManager
 from users.models import UserModel
@@ -25,7 +26,7 @@ class TestAddPoint(TestCase):
         cls.user2_id = cls.user2.pk
         cls.task = MathematicalExercise.objects.create(
             user=cls.user1,
-            calculation_type='mul',
+            calculation_type=MULTIPLICATION,
             first_operand=2,
             second_operand=3,
             user_solution=6,
@@ -34,7 +35,7 @@ class TestAddPoint(TestCase):
         )
         cls.task = MathematicalExercise.objects.create(
             user=cls.user1,
-            calculation_type='mul',
+            calculation_type=MULTIPLICATION,
             first_operand=3,
             second_operand=3,
             user_solution=9,
@@ -43,7 +44,7 @@ class TestAddPoint(TestCase):
         )
         cls.task = MathematicalExercise.objects.create(
             user=cls.user2,
-            calculation_type='mul',
+            calculation_type=MULTIPLICATION,
             first_operand=4,
             second_operand=3,
             user_solution=12,

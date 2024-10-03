@@ -4,6 +4,7 @@ from time import sleep
 
 from playwright.sync_api import Page
 
+from config.constants import VISIBLE
 from tests_plw.pages.base import POMPage
 
 
@@ -27,7 +28,7 @@ class MathCalculateExercisePage(POMPage):
 
     def do_the_exercise(self) -> None:
         """Do the exercise."""
-        self.question_text.wait_for(state='visible')
+        self.question_text.wait_for(state=VISIBLE)
 
         sleep(2)  # Time to complete the task
         question_text = self.question_text.inner_text()

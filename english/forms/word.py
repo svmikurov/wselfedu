@@ -15,6 +15,14 @@ from crispy_forms.layout import (
 )
 from django.forms import Form, ModelForm
 
+from config.constants import (
+    CATEGORY,
+    COL_6,
+    FOREIGN_WORD,
+    RUSSIAN_WORD,
+    SOURCE,
+    WORD_COUNT,
+)
 from english.models import WordModel
 
 
@@ -26,11 +34,11 @@ class WordForm(ModelForm):
 
         model = WordModel
         fields = (
-            'word_eng',
-            'word_rus',
-            'category',
-            'source',
-            'word_count',
+            FOREIGN_WORD,
+            RUSSIAN_WORD,
+            CATEGORY,
+            SOURCE,
+            WORD_COUNT,
         )
 
     @staticmethod
@@ -38,13 +46,13 @@ class WordForm(ModelForm):
         """Apply crispy form helper for specified WordModel form."""
         form.helper = FormHelper()
         form.helper.layout = Layout(
-            Field('word_eng', autofocus=True),
-            Field('word_rus'),
+            Field(FOREIGN_WORD, autofocus=True),
+            Field(RUSSIAN_WORD),
             Row(
-                Column('category', css_class='col-6'),
-                Column('source', css_class='col-6'),
+                Column(CATEGORY, css_class=COL_6),
+                Column(SOURCE, css_class=COL_6),
             ),
-            Field('word_count'),
+            Field(WORD_COUNT),
             ButtonHolder(
                 Submit(
                     name='Save',

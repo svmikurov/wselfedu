@@ -3,6 +3,7 @@
 from django.test import TestCase
 from django.urls import reverse_lazy
 
+from config.constants import MENTOR, PK, STUDENT
 from users.models import Mentorship, UserModel
 
 
@@ -13,14 +14,14 @@ class TestMentorshipPage(TestCase):
     def setUpClass(cls) -> None:
         """Set up tes data."""
         super().setUpClass()
-        cls.student = UserModel.objects.create(username='student')
-        cls.mentor = UserModel.objects.create(username='mentor')
+        cls.student = UserModel.objects.create(username=STUDENT)
+        cls.mentor = UserModel.objects.create(username=MENTOR)
         cls.other_user = UserModel.objects.create(username='other_user')
         cls.mentorship = Mentorship.objects.create(
             student=cls.student, mentor=cls.mentor
         )
         cls.mentorship_profile_url = reverse_lazy(
-            'users:mentorship_profile', kwargs={'pk': cls.student.pk}
+            'users:mentorship_profile', kwargs={PK: cls.student.pk}
         )
 
     def test_student_access(self) -> None:

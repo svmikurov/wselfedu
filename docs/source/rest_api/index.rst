@@ -1,4 +1,3 @@
-========
 REST API
 ========
 
@@ -6,5 +5,5 @@ REST API
    :maxdepth: 2
 
    user
-   word
+   foreign
    glossary
