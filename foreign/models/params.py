@@ -18,7 +18,7 @@ from foreign.models import WordCategory, WordSource
 from users.models import UserApp
 
 
-class WordParams(models.Model):
+class TranslateParams(models.Model):
     """Foreign words learning exercise user parameters.
 
     Including contains lookup parameters words for learning them.

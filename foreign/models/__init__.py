@@ -8,7 +8,7 @@ from foreign.models.word import (
 )
 from foreign.models.category import WordCategory
 from foreign.models.source import WordSource
-from foreign.models.params import WordParams
+from foreign.models.params import TranslateParams
 from foreign.models.analytics import (
     WordAnalytics,
 )
@@ -18,7 +18,7 @@ __all__ = [
     'WordAnalytics',
     'WordCategory',
     'WordFavorites',
-    'WordParams',
+    'TranslateParams',
     'WordProgress',
     'WordSource',
 ]
