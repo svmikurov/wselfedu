@@ -1,5 +1,7 @@
 """Profile page module."""
 
+from time import sleep
+
 from playwright.sync_api import Page
 
 from tests_plw.pages.base import POMPage
@@ -22,3 +24,5 @@ class ProfilePage(POMPage):
     def start_study_mult_table(self) -> None:
         """Start study the multiplication table."""
         self.mult_table_btn.click()
+        # Waiting for a request from Ajax
+        sleep(1)

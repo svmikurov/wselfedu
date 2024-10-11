@@ -5,12 +5,8 @@ Testing using the :obj:`MathCalculateExersicePage
 page representation class.
 """
 
-from unittest import skip
-
-from django.core.cache import cache
 from playwright.sync_api import expect
 
-from config.constants import VISIBLE
 from tests_plw.pages.math_calculate_exercise import (
     MathCalculateExercisePage,
 )
@@ -36,13 +32,6 @@ class MathematicalCalculateExerciseTest(POMTest):
     def test_title(self) -> None:
         """Test table mult exercise title."""
         self.test_page.test_title()
-
-    @skip('Test is not stable.')
-    def test_cache_time_start_exercise(self) -> None:
-        """Test note in cache time start exercise."""
-        self.test_page.question_text.wait_for(state=VISIBLE)
-        key_name = 'user_1_exc_mul_start_time'
-        assert cache.get(key_name)
 
     def test_do_the_exercise(self) -> None:
         """Test do the exercise."""

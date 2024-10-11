@@ -49,7 +49,7 @@ class TestCreateUserPage(POMTest):
         assert UserApp.objects.filter(username=CREATE_USER_NAME).exists()
 
 
-class TestLogitPage(POMTest):
+class TestLoginPage(POMTest):
     """Login page test."""
 
     fixtures = ['tests_e2e/fixtures/fixture-db-user.json']

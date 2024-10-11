@@ -17,17 +17,12 @@ from tests_plw.tests.base import POMTest
 class TestProfile(POMTest):
     """Test profile page."""
 
-    username = 'test-user'
-    """Current username (`str`.)
-    """
-
     def setUp(self) -> None:
         """Set up page data."""
         super().setUp()
-        self.user = self.create_user(username=self.username)
+        self.authorize_test_page()
         self.test_page = ProfilePage(self.page)
         self.page_path = f'/users/{self.user.pk}/account'
-        self.authorize_test_page(user=self.user)
         self.test_page.navigate(page_url=self.page_url)
 
     def test_mult_table_page_btn(self) -> None:
