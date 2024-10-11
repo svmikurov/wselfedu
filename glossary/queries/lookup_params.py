@@ -1,8 +1,10 @@
 """Glossary exercise lookup parameters to database query."""
 
-import datetime
+from datetime import datetime, timedelta
 
+from django.conf import settings
 from django.db.models import Q
+from zoneinfo import ZoneInfo
 
 from config.constants import (
     CATEGORY,
@@ -66,9 +68,7 @@ class GlossaryLookupParams:
     @property
     def period_start_date(self) -> Q:
         """Start period of adding terms to glossary (`Q`, read-only)."""
-        period_date = PERIOD_START_DATE
-        format_date = '%Y-%m-%d'
-        lookup_value = self._get_date_value(period_date, format_date)
+        lookup_value = self._get_date_value(PERIOD_START_DATE)
         lookup_field = 'created_at__gte'
         param = get_q(lookup_field, lookup_value)
         return param
@@ -76,21 +76,19 @@ class GlossaryLookupParams:
     @property
     def period_end_date(self) -> Q:
         """End period of adding terms to glossary (`Q`, read-only)."""
-        period_date = PERIOD_END_DATE
-        format_date = '%Y-%m-%d'
-        lookup_value = self._get_date_value(period_date, format_date)
+        lookup_value = self._get_date_value(PERIOD_END_DATE)
         lookup_field = 'created_at__lte'
         param = get_q(lookup_field, lookup_value)
         return param
 
-    def _get_date_value(self, period_date: str, format_time: str) -> str:
+    def _get_date_value(self, period_date: str) -> str:
         """Get lookup date value."""
-        day_today = datetime.datetime.now(tz=datetime.timezone.utc)
+        today = datetime.now(tz=ZoneInfo(settings.TIME_ZONE))
         period = self.lookup_conditions.get(period_date)
-        period_delta = datetime.timedelta(**EDGE_PERIOD_ARGS.get(period, {}))
-        end_period = day_today - period_delta
+        period_delta = timedelta(**EDGE_PERIOD_ARGS.get(period, {}))
+        end_period = today - period_delta
 
-        lookup_value = end_period.strftime(format_time)
+        lookup_value = end_period.strftime('%Y-%m-%d')
         date_value = lookup_value if period in EDGE_PERIOD_ARGS else ''
         return date_value
 

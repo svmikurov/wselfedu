@@ -1,9 +1,11 @@
 """Test the GlossaryLookupParams class."""
 
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 
+from django.conf import settings
 from django.db.models import QuerySet
 from django.test import TestCase
+from zoneinfo import ZoneInfo
 
 from config.constants import (
     CATEGORY,
@@ -57,7 +59,7 @@ class TestLookupParams(TestCase):
         # term with id=3 set added 7 weeks ago
         # term with id=4 set added 13 weeks ago
         # term with id=5 set added 40 weeks ago
-        today = datetime.now(tz=timezone.utc)
+        today = datetime.now(tz=ZoneInfo(settings.TIME_ZONE))
         manager = Glossary.objects
         manager.filter(pk=1).update(created_at=today)
         manager.filter(pk=2).update(created_at=(today - timedelta(weeks=3)))
