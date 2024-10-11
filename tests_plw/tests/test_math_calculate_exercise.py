@@ -27,7 +27,6 @@ class MathematicalCalculateExerciseTest(POMTest):
         """
         super().setUp()
         self.test_page = MathCalculateExercisePage(self.page)
-        self.create_user()
         self.authorize_test_page()
         # To set task conditions for bonus exercise need go to
         # '/math/math-set-table-mult-points/'
