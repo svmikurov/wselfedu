@@ -322,6 +322,8 @@ CATEGORY_LIST_TEMPLATE = 'foreign/category_list.html'
 SOURCE_LIST_TEMPLATE = 'foreign/source_list.html'
 WORD_LIST_TEMPLATE = 'foreign/word_list.html'
 
+DEFAULT_TRANSLATE_PARAMS = {}
+
 ########################################################################
 # Mathematical operation
 ########################################################################
