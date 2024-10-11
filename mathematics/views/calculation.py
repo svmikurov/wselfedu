@@ -79,7 +79,7 @@ class MathCalculateDemoView(View):
 
     def get(self, request: HttpRequest) -> JsonResponse | HttpResponse:
         """Render the task page and update tasks later on the page."""
-        task_conditions = request.session['task_conditions']
+        task_conditions = request.session[TASK_CONDITIONS]
         task = CalculationExercise(**task_conditions)
 
         is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
@@ -124,8 +124,8 @@ class MathCalculateSolutionView(TemplateView):
         form = NumberInputForm(request.POST)
 
         if form.is_valid():
-            task_mgr = CalculationExerciseCheck(request=request, form=form)
-            is_correct_solution: bool = task_mgr.check_and_save_user_solution()
+            task_check = CalculationExerciseCheck(request=request, form=form)
+            is_correct_solution = task_check.check_and_save_user_solution()
             msg = 'Верно!' if is_correct_solution else 'Неверно!'
 
             return JsonResponse(
