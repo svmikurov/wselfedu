@@ -12,7 +12,7 @@ from config.constants import (
     USER,
     WORD,
 )
-from foreign.models import Word, WordAnalytics, WordParams
+from foreign.models import TranslateParams, Word, WordAnalytics
 
 
 @admin.register(WordAnalytics)
@@ -43,7 +43,7 @@ class WordAdmin(admin.ModelAdmin):
     """
 
 
-@admin.register(WordParams)
+@admin.register(TranslateParams)
 class WordParamsAdmin(admin.ModelAdmin):
     """Representation of WordParams in the admin interface."""
 
