@@ -1,5 +1,8 @@
 """Django REST framework views package."""
 
+from foreign.views.drf.exercise import (
+    exercise_parameters,
+)
 from foreign.views.drf.word import (
     WordDetailAPIView,
     WordListCreateAPIView,
@@ -8,4 +11,5 @@ from foreign.views.drf.word import (
 __all__ = (
     'WordDetailAPIView',
     'WordListCreateAPIView',
+    'exercise_parameters',
 )

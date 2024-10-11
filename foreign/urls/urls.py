@@ -129,7 +129,7 @@ exercise_paths = [
         update_word_progress_view,
         name='progress',
     ),
-    # Exercise settings.
+    # Exercise parameters.
     path(
         '<int:pk>/create-task-settings/',
         views.CreateForeignTaskSettingsView.as_view(),

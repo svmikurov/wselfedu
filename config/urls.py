@@ -22,20 +22,6 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 from django.views.generic import TemplateView
 
-from foreign.views.drf import (
-    WordDetailAPIView,
-    WordListCreateAPIView,
-)
-from glossary.views.exercise import (
-    glossary_exercise,
-    glossary_exercise_parameters,
-    update_term_study_progress,
-)
-from glossary.views.glossary import (
-    GlossaryDetailAPIView,
-    GlossaryListAPIView,
-)
-
 urlpatterns = [
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
@@ -43,51 +29,9 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('foreign/', include('foreign.urls')),
     path('math/', include('mathematics.urls')),
-]
-
-drf_urlpatterns = [
-    # Session auth
     path('api/v1/drf-auth/', include('rest_framework.urls')),
-    # Token auth
     path('api/v1/auth/', include('djoser.urls')),
-    re_path(r'^auth/', include('djoser.urls.authtoken')),  # End Auth
-    # Word
-    path(
-        'api/v1/word/<int:pk>/',
-        WordDetailAPIView.as_view(),
-        name='api-word',
-    ),
-    path(
-        'api/v1/word/',
-        WordListCreateAPIView.as_view(),
-        name='api-words',
-    ),
-    # Glossary
-    path(
-        'api/v1/glossary/<int:pk>/',
-        GlossaryDetailAPIView.as_view(),
-        name='api_term',
-    ),
-    path(
-        'api/v1/glossary/',
-        GlossaryListAPIView.as_view(),
-        name='api_glossary',
-    ),
-    path(
-        'api/v1/glossary/progress/',
-        update_term_study_progress,
-        name='api_glossary_term_progress',
-    ),
-    path(
-        'api/v1/glossary/exercise/',
-        glossary_exercise,
-        name='api_glossary_exercise',
-    ),
-    path(
-        'api/v1/glossary/exercise/parameters/',
-        glossary_exercise_parameters,
-        name='api_glossary_exercise_parameters',
-    ),
+    re_path(r'^auth/', include('djoser.urls.authtoken')),
+    path('api/v1/foreign/', include('foreign.urls.urls_rest')),
+    path('api/v1/glossary/', include('glossary.urls.urls_rest')),
 ]
-
-urlpatterns += drf_urlpatterns

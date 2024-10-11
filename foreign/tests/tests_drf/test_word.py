@@ -53,7 +53,7 @@ class TestRetrieveWord(APITestCase):
     def test_word_permission_for_owner(self) -> None:
         """Test word permission for owner."""
         self.api_client.force_authenticate(user=self.user1)
-        response = self.api_client.get('/api/v1/word/1/')
+        response = self.api_client.get('/api/v1/foreign/1/')
         assert response.status_code == status.HTTP_200_OK
 
     def test_word_permission_for_other_user(self) -> None:
