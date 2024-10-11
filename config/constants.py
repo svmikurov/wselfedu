@@ -273,7 +273,7 @@ WORD_COUNT_CHOICE = (
 ########################################################################
 
 DEFAULT_CATEGORY = None
-DEFAULT_GLOSSARY_PARAMS = {
+DEFAULT_LOOKUP_CONDITIONS = {
     PERIOD_START_DATE: NOT_CHOICES,
     PERIOD_END_DATE: TODAY,
     CATEGORY: DEFAULT_CATEGORY,
@@ -321,8 +321,6 @@ DETAIL_WORD_TEMPLATE = 'foreign/word_detail.html'
 CATEGORY_LIST_TEMPLATE = 'foreign/category_list.html'
 SOURCE_LIST_TEMPLATE = 'foreign/source_list.html'
 WORD_LIST_TEMPLATE = 'foreign/word_list.html'
-
-DEFAULT_TRANSLATE_PARAMS = {}
 
 ########################################################################
 # Mathematical operation

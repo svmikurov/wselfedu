@@ -15,7 +15,7 @@ from rest_framework.status import (
 from config.constants import (
     ACTION,
     CATEGORIES,
-    DEFAULT_GLOSSARY_PARAMS,
+    DEFAULT_LOOKUP_CONDITIONS,
     EDGE_PERIOD_ALIASES,
     EDGE_PERIOD_ITEMS,
     ERROR,
@@ -88,7 +88,7 @@ def glossary_exercise_parameters(
         try:
             user_params = GlossaryParams.objects.get(user=user)
         except GlossaryParams.DoesNotExist:
-            lookup_conditions = DEFAULT_GLOSSARY_PARAMS
+            lookup_conditions = DEFAULT_LOOKUP_CONDITIONS
         else:
             serializer = GlossaryParamsSerializer(user_params)
             lookup_conditions = serializer.data
