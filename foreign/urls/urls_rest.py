@@ -2,7 +2,7 @@
 
 from django.urls import path
 
-from foreign.views.drf import (
+from foreign.views.rest import (
     WordDetailAPIView,
     WordListCreateAPIView,
     exercise_parameters,
