@@ -9,32 +9,32 @@ from glossary.views.exercise import (
 )
 from glossary.views.glossary import (
     GlossaryDetailAPIView,
-    GlossaryListAPIView,
+    GlossaryListCreateAPIView,
 )
 
 urlpatterns = [
     path(
-        'api/v1/glossary/<int:pk>/',
+        '',
+        GlossaryListCreateAPIView.as_view(),
+        name='api_glossary',
+    ),
+    path(
+        '<int:pk>/',
         GlossaryDetailAPIView.as_view(),
         name='api_term',
     ),
     path(
-        'api/v1/glossary/',
-        GlossaryListAPIView.as_view(),
-        name='api_glossary',
-    ),
-    path(
-        'api/v1/glossary/progress/',
+        'progress/',
         update_term_study_progress,
         name='api_glossary_term_progress',
     ),
     path(
-        'api/v1/glossary/exercise/',
+        'exercise/',
         glossary_exercise,
         name='api_glossary_exercise',
     ),
     path(
-        'api/v1/glossary/exercise/parameters/',
+        'params/',
         glossary_exercise_parameters,
         name='api_glossary_exercise_parameters',
     ),

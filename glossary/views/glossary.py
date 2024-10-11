@@ -6,7 +6,7 @@ from glossary.models import Glossary
 from glossary.serializers import GlossarySerializer
 
 
-class GlossaryListAPIView(generics.ListCreateAPIView):
+class GlossaryListCreateAPIView(generics.ListCreateAPIView):
     """Create and List Glossary API view."""
 
     queryset = Glossary.objects.all()
