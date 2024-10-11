@@ -4,7 +4,6 @@ from django.urls import path
 from django.views.generic import TemplateView
 
 from foreign import views
-from foreign.urls.mentor_urls import mentor_paths
 from foreign.views import (
     ForeignTranslateExerciseView,
     ForeignWordTranslateChoiceView,
@@ -15,41 +14,13 @@ app_name = 'foreign'
 
 urlpatterns = [
     path(
-        # Show list of registrations users.
         '',
         TemplateView.as_view(template_name='foreign/home.html'),
         name='home',
     ),
-    # --======= Account ======--
-    path(
-        'user/<int:pk>/word-list/',
-        views.WordListView.as_view(),
-        name='users_words',
-    ),
-    # -- End Account --
-    # --======= Learning foreign word exercise settings =======--
-    path(
-        '<int:pk>/create-task-settings/',
-        views.CreateForeignTaskSettingsView.as_view(),
-        name='create_task_settings',
-    ),
-    path(
-        '<int:pk>/update-task-settings/',
-        views.UpdateForeignTaskSettingsView.as_view(),
-        name='update_task_settings',
-    ),
-    path(
-        'progress/<int:word_id>/',
-        views.update_word_progress_view,
-        name='progress',
-    ),
-    path(
-        'words-favorites-view-ajax/<int:word_id>/',
-        views.update_words_favorites_status_view_ajax,
-        name='word_favorites_view_ajax',
-    ),
-    # -- End Learning foreign word exercise settings --
-    # --======= Word =======--
+]
+
+word_paths = [
     path(
         'word/list/',
         views.WordListView.as_view(),
@@ -75,7 +46,9 @@ urlpatterns = [
         views.WordDeleteView.as_view(),
         name='words_delete',
     ),
-    # --======= Categories =======--
+]
+
+category_paths = [
     path(
         'categories/list/',
         views.CategoryListView.as_view(),
@@ -101,7 +74,9 @@ urlpatterns = [
         views.CategoryDetailView.as_view(),
         name='categories_detail',
     ),
-    # --======= Sources =======--
+]
+
+source_paths = [
     path(
         'sources/create/',
         views.SourceCreateView.as_view(),
@@ -117,7 +92,11 @@ urlpatterns = [
         views.SourceDeleteView.as_view(),
         name='source_delete',
     ),
-    path('sources/list/', views.SourceListView.as_view(), name='source_list'),
+    path(
+        'sources/list/',
+        views.SourceListView.as_view(),
+        name='source_list',
+    ),
     path(
         'sources/<int:pk>/detail/',
         views.SourceDetailView.as_view(),
@@ -125,7 +104,16 @@ urlpatterns = [
     ),
 ]
 
+mentor_paths = [
+    path(
+        'mentor-adds-words-for-student-study',
+        views.AddWordByMentorToStudentView.as_view(),
+        name='mentor_adds_words_for_student_study',
+    ),
+]
+
 exercise_paths = [
+    # Exercise.
     path(
         'foreign-translate-choice/',
         ForeignWordTranslateChoiceView.as_view(),
@@ -141,7 +129,31 @@ exercise_paths = [
         update_word_progress_view,
         name='progress',
     ),
+    # Exercise settings.
+    path(
+        '<int:pk>/create-task-settings/',
+        views.CreateForeignTaskSettingsView.as_view(),
+        name='create_task_settings',
+    ),
+    path(
+        '<int:pk>/update-task-settings/',
+        views.UpdateForeignTaskSettingsView.as_view(),
+        name='update_task_settings',
+    ),
+    path(
+        'progress/<int:word_id>/',
+        views.update_word_progress_view,
+        name='progress',
+    ),
+    path(
+        'words-favorites-view-ajax/<int:word_id>/',
+        views.update_words_favorites_status_view_ajax,
+        name='word_favorites_view_ajax',
+    ),
 ]
 
+urlpatterns += word_paths
+urlpatterns += category_paths
+urlpatterns += source_paths
 urlpatterns += mentor_paths
 urlpatterns += exercise_paths
