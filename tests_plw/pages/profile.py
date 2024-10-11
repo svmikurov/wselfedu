@@ -25,4 +25,4 @@ class ProfilePage(POMPage):
         """Start study the multiplication table."""
         self.mult_table_btn.click()
         # Waiting for a request from Ajax
-        sleep(1)
+        sleep(2)
