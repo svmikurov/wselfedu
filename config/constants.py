@@ -135,6 +135,8 @@ EDGE_PERIOD_CHOICES = [
     (MONTHS_AGO_9, 'Девять месяцев назад'),
     (NOT_CHOICES, 'Добавлено'),
 ]
+"""Edge period choices.
+"""
 EDGE_PERIOD_ALIASES = [
     {ALIAS: TODAY, HUMANLY: 'Сегодня'},
     {ALIAS: DAYS_AGO_3, HUMANLY: 'Три дня назад'},
@@ -192,14 +194,18 @@ REPEAT = 'R'
 EXAMINATION = 'E'
 LEARNED = 'K'
 
-DEFAULT_PROGRESS = 'S'
-
 PROGRESS_CHOICES = (
     (STUDY, 'Изучаю'),  # study
     (REPEAT, 'Повторяю'),  # repeat
     (EXAMINATION, 'Проверяю'),  # examination
     (LEARNED, 'Знаю'),  # know
 )
+"""Progress study items choices (`tuple[tuple[str, str]]`).
+"""
+DEFAULT_PROGRESS = 'S'
+"""Default progress choice (`str`).
+"""
+
 PROGRESS_ALIASES = [
     {ALIAS: STUDY, HUMANLY: 'Изучаю'},
     {ALIAS: REPEAT, HUMANLY: 'Повторяю'},

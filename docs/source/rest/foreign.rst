@@ -69,3 +69,54 @@ Word Retrieve, Update, Destroy endpoints
 | DELETE    |                               | HTTP_204_NO_CONTENT           |
 +-----------+-------------------------------+-------------------------------+
 
+Exercise params
+---------------
+
+.. code-block::
+
+   /api/v1/foreign/params/
+
++-----------+-------------------------------+-------------------------------+
+| Method    | Request                       | Response                      |
++===========+===============================+===============================+
+| GET       | --                            | HTTP_200_OK                   |
+|           |                               |  * lookup_conditions:         |
+|           |                               |      * period_start_date      |
+|           |                               |      * period_end_date        |
+|           |                               |      * category               |
+|           |                               |      * progress               |
+|           |                               |  * exercise_choices:          |
+|           |                               |      * edge_period_items:     |
+|           |                               |          * alias              |
+|           |                               |          * humanly            |
+|           |                               |  * categories:                |
+|           |                               |      * {}                     |
+|           |                               |  * progress:                  |
+|           |                               |      * alias                  |
+|           |                               |      * humanly                |
++-----------+-------------------------------+-------------------------------+
+| POST      | --                            | HTTP_201_OK                   |
++-----------+-------------------------------+-------------------------------+
+
+The :py:func:`foreign.views.rest.exercise.exercise_parameters` view.
+Saves the POST payload to :py:class:`foreign.models.params.TranslateParams`, see it fields.
+
+See also: :term:`lookup_conditions`, :term:`exercise_choices`.
+
+Exercise
+--------
+
+.. code-block::
+
+   /api/v1/foreign/exercise/
+
++-----------+-------------------------------+-------------------------------+
+| Method    | Request                       | Response                      |
++===========+===============================+===============================+
+|           | --                            | HTTP_200_OK                   |
+|           |                               |  *                            |
+|           |                               |  *                            |
+|           |                               |  *                            |
++-----------+-------------------------------+-------------------------------+
+
+The :py:func:`foreign.views.rest.exercise.translate_exercise` view.

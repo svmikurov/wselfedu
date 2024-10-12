@@ -127,7 +127,7 @@ class GlossaryParams(models.Model):
         default=DEFAULT_PROGRESS,
     )
     """A term progres,
-    :obj:`~task.forms.english_translate_choice_form.py.PROGRESS_CHOICES`
+    :py:data:`~config.constants.PROGRESS_CHOICES`
     (`tuple[tuple[str, str]]`).
     """
 

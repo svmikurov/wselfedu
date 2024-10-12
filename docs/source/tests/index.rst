@@ -5,4 +5,5 @@ Testing
    :maxdepth: 2
 
    tests
+   foreign
    tests_plw

@@ -10,7 +10,7 @@ Foreign app models
 .. autoclass:: foreign.models.source.WordSource
    :members:
 
-.. autoclass:: foreign.models.params.WordParams
+.. autoclass:: foreign.models.params.TranslateParams
    :members:
 
 .. autoclass:: foreign.models.analytics.WordAnalytics

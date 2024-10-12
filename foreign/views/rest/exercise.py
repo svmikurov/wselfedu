@@ -30,7 +30,7 @@ from config.constants import (
     TIMEOUT,
     USER_ID,
 )
-from foreign.exercise.translate import TranslateExercise
+from foreign.exercise.translate import TranslateExerciseGUI
 from foreign.models import (
     TranslateParams,
     WordCategory,
@@ -47,13 +47,15 @@ from foreign.serializers import (
 def exercise_parameters(request: Request) -> JsonResponse | HttpResponse:
     """Render the Translate word exercise params the DRF view.
 
-    GET method
-    ----------
-    View renders a response with ``exercise_params``.
+    **GET method:**
+      Render the :term:`exercise_params`.
 
-    Fields:
-    - :term:`lookup_conditions`
-    - :term:`exercise_choices`
+      Fields:
+        - :term:`lookup_conditions`
+        - :term:`exercise_choices`
+
+    **POST method:**
+      Save ``lookup_conditions``.
     """
     user = request.user
 
@@ -107,8 +109,9 @@ def translate_exercise(request: Request) -> JsonResponse | HttpResponse:
         lookup_conditions[USER_ID] = request.user.id
         lookup_conditions[TIMEOUT] = DEFAULT_TIMEOUT
         lookup_conditions[LANGUAGE_ORDER] = DEFAULT_LANGUAGE_ORDER
+
         try:
-            exercise = TranslateExercise(lookup_conditions).task_data
+            exercise = TranslateExerciseGUI(lookup_conditions).task_data
         except IndexError:
             detail = {'detail': 'По заданным условиям задание не сформировано'}
             return JsonResponse(detail, status=HTTP_204_NO_CONTENT)

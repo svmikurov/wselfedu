@@ -14,3 +14,4 @@ Reference
    foreign/index
    glossary/index
    mathematics/index
+   constants

@@ -5,5 +5,5 @@ REST API
    :maxdepth: 2
 
    user
-   foreign
-   glossary
+   Foreign words <foreign>
+   Glossary <glossary>

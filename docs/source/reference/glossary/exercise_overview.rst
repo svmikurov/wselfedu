@@ -7,19 +7,17 @@ Variables used
 .. glossary::
 
    lookup_conditions
-      ``lookup_conditions`` : `dict` - словарь условий пользователя для
-      формирования задания, хранится в базе данных (необязательно),
-      модель :obj:`~glossary.models.GlossaryExerciseParams`;
+     (`dict`) словарь условий пользователя для формирования задания, хранится в базе данных
+     (необязательно), модель :obj:`~glossary.models.GlossaryParams`;
 
    exercise_choices
-      ``exercise_choices`` : `dict` - словарь возможного выбора для условий:
-      - для фильтрации по датам - :py:data:`~config.constants.EDGE_PERIOD_CHOICES`;
-      - для фильтрации по прогрессу изучения - :py:data:`~config.constants.PROGRESS_CHOICES`;
-      - для фильтрации по категории :obj:`~glossary.models.GlossaryCategory`;
-      - имеет значения по умолчанию :py:data:`~config.constants.DEFAULT_GLOSSARY_PARAMS`.
+     (`dict`) словарь возможного выбора для условий:
+        - для фильтрации по датам - :py:data:`~config.constants.EDGE_PERIOD_CHOICES`;
+        - для фильтрации по прогрессу изучения - :py:data:`~config.constants.PROGRESS_CHOICES`;
+        - для фильтрации по категории :obj:`~glossary.models.GlossaryCategory`;
 
    exercise_params
-      ``exercise_params`` : `dict` - json response сервера с параметрами упражнения.
+     (`dict`) json response сервера с параметрами упражнения.
 
       see also:
          - :py:data:`~config.constants.EDGE_PERIOD_ALIASES`
@@ -39,8 +37,8 @@ Variables used
          }
 
    lookup_parameters
-      ``lookup_parameters`` : `tuple[Q, ...]` - кортеж инкапсулированых фильтров запроса к модели,
-      формируется контролером при выполнении задания.
+     `tuple[Q, ...]` - кортеж инкапсулированых фильтров запроса к модели,
+     формируется контролером при выполнении задания.
 
 Цикл упражнения:
 ----------------
@@ -53,21 +51,21 @@ Variables used
 - пользователь:
     * отправляет запрос (:ref:`GET request params <rest/glossary:Glossary Exercise Parameters endpoint>`)
       на получение параметров упражнения по умолчанию;
-- сервер, представление :py:meth:`~task.views.glossary_exercise_drf_views.glossary_exercise_parameters`:
-    * извлекает ``lookup_conditions`` из базы данных, model :py:class:`~glossary.models.GlossaryExerciseParams`;
+- сервер, представление :py:meth:`~glossary.views.exercise.glossary_exercise_parameters`:
+    * извлекает :term:`lookup_conditions` из базы данных, model :py:class:`~glossary.models.GlossaryParams`;
     * отправляет пользователю :term:`exercise_params`:
 - пользователь:
     * отправляет запрос (:ref:`POST request params <rest/glossary:Glossary Exercise Parameters endpoint>`)
-      на сохранение измененного ``lookup_conditions`` (необязательно);
-- сервер, представление :py:meth:`~task.views.glossary_exercise_drf_views.glossary_exercise_parameters`:
-    * выполняет запрос на сохранение измененных параметров ``lookup_conditions`` (необязательно);
+      на сохранение измененного :term:`lookup_conditions` (необязательно);
+- сервер, представление :py:meth:`~glossary.views.exercise.glossary_exercise_parameters`:
+    * выполняет запрос на сохранение измененных параметров :term:`lookup_conditions` (необязательно);
 - пользователь:
     * отправляет запрос (:ref:`POST request exercise <rest/glossary:Glossary Exercise endpoint>`)
-      на выполнение упражнения, передает неизмененные/измененные параметры ``lookup_conditions``
+      на выполнение упражнения, передает неизмененные/измененные параметры :term:`lookup_conditions`
       для текущего упражнения.
-- сервер, представление :py:meth:`~task.views.glossary_exercise_drf_views.glossary_exercise`:
-    * создает ``exercise`` - экземпляр :py:class:`~task.tasks.glossary_exercise.GlossaryExercise`
-      и передает ему ``lookup_conditions``;
+- сервер, представление :py:meth:`~glossary.views.exercise.glossary_exercise`:
+    * создает ``exercise`` - экземпляр :py:class:`~glossary.exercise.question.GlossaryExerciseGUI`
+      и передает ему :term:`lookup_conditions`;
     * представление через свойство ``task_data`` экземпляра получает данные задачи и отправляет их пользователю,
       see: :ref:`Glossary Exercise endpoint Response <rest/glossary:Glossary Exercise endpoint>`.
 - пользователь:
@@ -76,7 +74,7 @@ Variables used
     * отправляет запрос на новое задание
       (:ref:`POST request exercise <rest/glossary:Glossary Exercise endpoint>`).
 - сервер:
-    * представление :py:meth:`~glossary.views_drf.update_term_study_progres`
+    * представление :py:meth:`~glossary.views.exercise.update_term_study_progress`
       сохраняет обновленный прогресс изучения в базе данных;
     * возвращает новое задание.
 - в цикле выполнения упражнения:
