@@ -1,9 +1,11 @@
 """Test lookup params for word study task."""
 
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 
+from django.conf import settings
 from django.db.models.query import QuerySet
 from django.test import TestCase
+from zoneinfo import ZoneInfo
 
 from config.constants import (
     CATEGORY,
@@ -28,7 +30,7 @@ from config.constants import (
     WORD_COUNT,
 )
 from foreign.models import Word
-from foreign.queries.lookup_params import LookupParams
+from foreign.queries.lookup_params import WordLookupParams
 
 
 class LookupParamsTest(TestCase):
@@ -108,7 +110,7 @@ class LookupParamsTest(TestCase):
     def test_lookup_by_date(self) -> None:
         """Test filter words by word added date."""
         # test no choice start period
-        today = datetime.now(tz=timezone.utc)
+        today = datetime.now(tz=ZoneInfo(settings.TIME_ZONE))
         manager = Word.objects
         manager.filter(pk=1).update(created_at=today)
         manager.filter(pk=2).update(created_at=(today - timedelta(weeks=3)))
@@ -151,7 +153,7 @@ class LookupParamsTest(TestCase):
     @staticmethod
     def query_database(form_data: dict[str, object]) -> QuerySet:
         """Make a query to the database by form data."""
-        lookup_params = LookupParams(form_data).params
+        lookup_params = WordLookupParams(form_data).params
         queryset = Word.objects.filter(*lookup_params)
         ids = queryset.values_list(ID, flat=True)
         return ids

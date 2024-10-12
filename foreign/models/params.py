@@ -94,7 +94,7 @@ class TranslateParams(models.Model):
     )
     """Length of verbal expression.
     """
-    date_start = models.CharField(
+    period_start_date = models.CharField(
         choices=const.EDGE_PERIOD_CHOICES,
         default=NOT_CHOICES,
         max_length=2,
@@ -102,7 +102,7 @@ class TranslateParams(models.Model):
     )
     """Start edge period for choice added words.
     """
-    date_end = models.CharField(
+    period_end_date = models.CharField(
         choices=const.EDGE_PERIOD_CHOICES,
         default=TODAY,
         max_length=2,

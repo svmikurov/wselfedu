@@ -32,7 +32,7 @@ from config.constants import (
     USER_ID,
 )
 from glossary.exercise.question import (
-    GlossaryExercise,
+    GlossaryExerciseGUI,
 )
 from glossary.models import (
     Glossary,
@@ -55,7 +55,7 @@ def glossary_exercise(request: Request) -> JsonResponse | HttpResponse:
         lookup_conditions = serializer.data
         lookup_conditions[USER_ID] = request.user.id
         try:
-            exercise = GlossaryExercise(lookup_conditions).task_data
+            exercise = GlossaryExerciseGUI(lookup_conditions).task_data
         except IndexError:
             error = {ERROR: 'По заданным условиям задание не сформировано'}
             return JsonResponse(error, status=HTTP_400_BAD_REQUEST)

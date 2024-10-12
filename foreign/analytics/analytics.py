@@ -16,7 +16,7 @@ def collect_statistics(task: TranslateExercise) -> None:
     :params TranslateExercise task: Task data.
     """
     story, _ = WordAnalytics.objects.get_or_create(
-        word=Word.objects.get(id=task.word_id)
+        word=Word.objects.get(id=task.item.pk)
     )
     story.display_count = F(DISPLAY_COUNT) + 1
     story.save()

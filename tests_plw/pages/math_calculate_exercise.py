@@ -35,3 +35,4 @@ class MathCalculateExercisePage(POMPage):
         task_solution = self.page.evaluate(question_text)
         self.answer_input.fill(str(task_solution))
         self.submit_btn.click()
+        sleep(2)

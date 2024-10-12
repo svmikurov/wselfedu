@@ -1,11 +1,12 @@
 """Database query module for Foreign word translation exercises."""
 
-import datetime
+from datetime import datetime, timedelta
 
+from django.conf import settings
 from django.db.models import F, Q
+from zoneinfo import ZoneInfo
 
 from config.constants import (
-    CATEGORY,
     COMBINATION,
     EDGE_PERIOD_ARGS,
     FAVORITES,
@@ -15,18 +16,18 @@ from config.constants import (
     PERIOD_START_DATE,
     PK,
     PROGRESS,
-    SOURCE,
     STUDY,
     USER,
     USER_ID,
     WORD_COUNT,
 )
+from contrib.queries import LookupParams, get_q
 from foreign.queries.progress import (
     PROGRESS_STAGE_EDGES,
 )
 
 
-class LookupParams:
+class WordLookupParams(LookupParams):
     """Lookup parameters class.
 
     :param dict lookup_conditions: The user exercise conditions.
@@ -43,33 +44,25 @@ class LookupParams:
 
     def __init__(self, lookup_conditions: dict) -> None:
         """Lookup parameters constructor."""
-        self.lookup_conditions = lookup_conditions
+        super().__init__(lookup_conditions)
 
     @property
     def params(self) -> tuple[Q, ...]:
         """Lookup parameters (`tuple[Q, ...]`, read-only)."""
         params = (
-            self._user_lookup_param,
-            self._favorites_lookup_param,
-            self._category_lookup_param,
-            self._source_lookup_param,
-            self._knowledge_lookup_param,
-            self._word_count_lookup_param,
-            self._date_start_lookup_param,
-            self._date_end_lookup_param,
+            self.user,
+            self.category,
+            self.source,
+            self.word_date_end,
+            self.word_date_start,
+            self.word_favorites,
+            self.word_progress,
+            self.word_count,
         )
         return params
 
     @property
-    def _user_lookup_param(self) -> Q:
-        """Lookup parameter by user (`Q`, read-only)."""
-        lookup_value = self.lookup_conditions.get(USER_ID)
-        lookup_field = USER
-        param = Q(**{lookup_field: lookup_value}) if lookup_value else Q()
-        return param
-
-    @property
-    def _favorites_lookup_param(self) -> Q:
+    def word_favorites(self) -> Q:
         """Lookup parameter by favorite status (`Q`, read-only)."""
         field_value = self.lookup_conditions.get(FAVORITES)
         lookup_value = self.lookup_conditions.get(USER_ID)
@@ -78,23 +71,7 @@ class LookupParams:
         return param
 
     @property
-    def _category_lookup_param(self) -> Q:
-        """Lookup parameter by category (`Q`, read-only)."""
-        lookup_value = self.lookup_conditions.get(CATEGORY)
-        lookup_field = 'category_id'
-        param = Q(**{lookup_field: lookup_value}) if lookup_value else Q()
-        return param
-
-    @property
-    def _source_lookup_param(self) -> Q:
-        """Lookup parameter by source (`Q`, read-only)."""
-        lookup_value = self.lookup_conditions.get(SOURCE)
-        lookup_field = 'source_id'
-        param = Q(**{lookup_field: lookup_value}) if lookup_value else Q()
-        return param
-
-    @property
-    def _knowledge_lookup_param(self) -> Q:
+    def word_progress(self) -> Q:
         """Lookup parameter by user assessment (`Q`, read-only)."""
         form_value = self.lookup_conditions.get(PROGRESS, [])
         lookup_value = self._to_numeric(PROGRESS_STAGE_EDGES, form_value)
@@ -117,54 +94,40 @@ class LookupParams:
         return param
 
     @property
-    def _word_count_lookup_param(self) -> Q:
+    def word_count(self) -> Q:
         """Lookup parameter by word count (`Q`, read-only)."""
         lookup_value = self.lookup_conditions.get(WORD_COUNT, [])
         if ONE_WORD in lookup_value or COMBINATION in lookup_value:
             lookup_value += [NOT_CHOICES]
         lookup_field = 'word_count__in'
-        param = Q(**{lookup_field: lookup_value}) if lookup_value else Q()
+        param = get_q(lookup_field, lookup_value)
         return param
 
     @property
-    def _date_start_lookup_param(self) -> Q:
+    def word_date_start(self) -> Q:
         """Lookup parameter by word added date (`Q`, read-only)."""
-        period_date = PERIOD_START_DATE
         format_time = '%Y-%m-%d 00:00:00+00:00'
-        lookup_value = self._get_date_value(period_date, format_time)
+        lookup_value = self.get_date_value(PERIOD_START_DATE, format_time)
         lookup_field = 'created_at__gte'
-        param = Q(**{lookup_field: lookup_value}) if lookup_value else Q()
+        param = get_q(lookup_field, lookup_value)
         return param
 
     @property
-    def _date_end_lookup_param(self) -> Q:
+    def word_date_end(self) -> Q:
         """Lookup parameter by word added date (`Q`, read-only)."""
-        period_date = PERIOD_END_DATE
         format_time = '%Y-%m-%d 23:59:59+00:00'
-        lookup_value = self._get_date_value(period_date, format_time)
+        lookup_value = self.get_date_value(PERIOD_END_DATE, format_time)
         lookup_field = 'created_at__lte'
-        param = Q(**{lookup_field: lookup_value}) if lookup_value else Q()
+        param = get_q(lookup_field, lookup_value)
         return param
 
-    def _get_date_value(self, period_date: str, format_time: str) -> str:
+    def get_date_value(self, period_date: str, format_time: str) -> str:
         """Get lookup date value."""
-        day_today = datetime.datetime.now(tz=datetime.timezone.utc)
+        today = datetime.now(tz=ZoneInfo(settings.TIME_ZONE))
         period = self.lookup_conditions.get(period_date)
-        period_delta = datetime.timedelta(**EDGE_PERIOD_ARGS.get(period, {}))
-        end_period = day_today - period_delta
+        period_delta = timedelta(**EDGE_PERIOD_ARGS.get(period, {}))
+        end_period = today - period_delta
 
         lookup_value = end_period.strftime(format_time)
         date_value = lookup_value if period in EDGE_PERIOD_ARGS else ''
         return date_value
-
-    @staticmethod
-    def _to_numeric(assessments: dict, string_values: list) -> list[int]:
-        """Convert a literal representation of an assessment.
-
-        Convert a literal representation of an assessment into a list
-        of numeric values.
-        """
-        numeric_values = []
-        for assessment in string_values:
-            numeric_values += assessments.get(assessment, [])
-        return numeric_values

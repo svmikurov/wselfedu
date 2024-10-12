@@ -1,7 +1,6 @@
 """Foreign words translate dictionary."""
 
 from django.db import models
-from django.utils import timezone
 
 from config.constants import NOT_CHOICES, PK, USER, WORD, WORD_COUNT_CHOICE
 from foreign.models.category import WordCategory
@@ -77,7 +76,7 @@ class Word(models.Model):
         related_name='word_favorites',
     )
     created_at = models.DateTimeField(
-        default=timezone.now,
+        auto_now_add=True,
         verbose_name='Добавлено',
     )
     updated_at = models.DateTimeField(
@@ -101,15 +100,8 @@ class WordProgress(models.Model):
     """User's assessment of word knowledge."""
 
     word = models.ForeignKey(Word, on_delete=models.CASCADE)
-    user = models.ForeignKey(
-        UserApp,
-        on_delete=models.CASCADE,
-    )
-    progress = models.DecimalField(
-        max_digits=2,
-        decimal_places=0,
-        default=0,
-    )
+    user = models.ForeignKey(UserApp, on_delete=models.CASCADE)
+    progress = models.DecimalField(max_digits=2, decimal_places=0, default=0)
 
     class Meta:
         """Set model features."""

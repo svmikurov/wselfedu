@@ -56,8 +56,8 @@ class WordParamsAdmin(admin.ModelAdmin):
         'source',
         'progress',
         'word_count',
-        'date_start',
-        'date_end',
+        'period_start_date',
+        'period_end_date',
     ]
     """Fields to display.
     """

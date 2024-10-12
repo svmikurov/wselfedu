@@ -106,7 +106,7 @@ class ForeignTranslateExerciseView(CheckLoginPermissionMixin, View):
     def get(self, request: HttpRequest) -> HttpResponse:
         """Display an exercise page to translate a word."""
         task_conditions = request.session[TASK_CONDITIONS]
-        task = TranslateExercise(**task_conditions)
+        task = TranslateExercise(task_conditions)
 
         try:
             task.create_task()
@@ -122,10 +122,10 @@ class ForeignTranslateExerciseView(CheckLoginPermissionMixin, View):
     def post(self, request: HttpRequest) -> JsonResponse:
         """Render the task."""
         task_conditions = request.session[TASK_CONDITIONS]
-        task = TranslateExercise(**task_conditions)
+        task = TranslateExercise(task_conditions)
 
         try:
-            task.create_task()
+            task_data = task.task_data
         except ValueError:
             messages.error(request, self.msg_no_words)
             return JsonResponse(
@@ -137,7 +137,7 @@ class ForeignTranslateExerciseView(CheckLoginPermissionMixin, View):
             return JsonResponse(
                 data={
                     **self.redirect_no_words,
-                    **task.task_data,
+                    **task_data,
                 },
                 status=200,
             )

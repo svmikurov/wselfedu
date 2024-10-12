@@ -13,15 +13,14 @@ The ``task_data`` class property contains all the necessary information
 to display the word study exercise to the user.
 """
 
-from random import choice, shuffle
+from random import shuffle
 
-from django.db.models import F, Q
+from django.db.models import F
 from django.urls import reverse_lazy
 
 from config.constants import (
     ANSWER_TEXT,
     FROM_RUSSIAN,
-    ID,
     LANGUAGE_ORDER,
     PK,
     PROGRESS,
@@ -33,198 +32,82 @@ from config.constants import (
     WORD_COUNT,
     WORD_ID,
 )
-from foreign.models import Word
-from foreign.queries.lookup_params import LookupParams
+from contrib.exercise import Exercise
+from foreign.models import Word, WordFavorites
+from foreign.queries.lookup_params import WordLookupParams
 
 
-class TranslateExercise:
-    """Foreign word translate exercise class.
+class TranslateExerciseGUI(Exercise):
+    """Foreign word translate GUI app exercise."""
 
-    Parameters
-    ----------
-    lookup_conditions : `dict`
-        The user exercise conditions.
+    model = Word
+    lookup_params = WordLookupParams
 
-    """
-
-    # attributes that are assigned a value during initialization
-    _user_id = None
-    """Current user id (None | `int`).
-    """
-    _language_order = None
-    """The order in which language translations of words are displayed
-    (None | `str`).
-    """
-    timeout = None
-    """Time value to display word without translate, sec (None | `int`).
-    """
-    _lookup_conditions = None
-    """The user exercise conditions (None | 'dict').
-    """
-
-    # attributes that are assigned a value when calling class methods
-    _word_ids = None
-    """Identifiers of words that satisfy the conditions of the exercise
-    (None | list[int]).
-    """
-    word_id = None
-    """ID of the word rendered to the user in the exercise
-    (None | `int`).
-    """
-    question_text = None
-    """The word to be translated in the exercise (None | `str`).
-    """
-    answer_text = None
-    """Translation of the word in the exercise (None | `str`).
-    """
-    word_count = None
-    """A synonym for the length of a verbal expression
-    (None | `list[str]`).
-    """
-    favorites_url = None
-    """URL to call favorite word status update (None | `str`).
-    """
-    favorites_status = None
-    """The status of word is it favorite (None | `bool`)
-    """
-    knowledge = None
-    """The user word knowledge assessment (None | `list[str]`)
-    """
-    knowledge_url = None
-    """URL to call word knowledge assessment update (None | `str`).
-    """
-    google_translate_word_link = None
-    """URL to translate the current word on the Google Translate page
-    (None | `str`).
-    """
-    word_detail_link = None
-    """Link to display detailed information about a word (None | `str`).
-    """
-
-    def __init__(self, **lookup_conditions: dict) -> None:
+    def __init__(self, lookup_conditions: dict) -> None:
         """Exercise constructor."""
-        self._user_id = lookup_conditions.get(USER_ID)
-        self._language_order = lookup_conditions.pop(LANGUAGE_ORDER)
-        self.timeout = lookup_conditions.pop(TIMEOUT)
-        self._lookup_conditions = lookup_conditions
+        self.language_order = lookup_conditions.pop(LANGUAGE_ORDER)
+        super().__init__(lookup_conditions)
 
     def create_task(self) -> None:
         """Create task."""
-        self._word_ids = self._get_word_ids()
-        self.word_id = self._get_random_word_id()
-        self._set_task_solution()
-        self._set_task_data()
+        super().create_task()
+        self.question_text, self.answer_text = self._word_translation_order()
 
-    @property
-    def _lookup_params(self) -> tuple[Q, ...]:
-        """Word lookup parameters for task (read-only).
-
-        Lookup params by user conditions of the exercise.
-        """
-        lookup_params = LookupParams(self._lookup_conditions)
-        return lookup_params.params
-
-    def _get_word_ids(self) -> list[int]:
-        """Get word ids by user conditions of the exercise.
-
-        Returns
-        -------
-        word_ids : `list[int]`
-            List of id word ids that satisfy the conditions of the
-            exercise.
-
-        Raises
-        ------
-        ValueError
-            Raised if no words that satisfy the conditions of the
-            exercise.
-
-        """
-        word_ids = Word.objects.filter(
-            *self._lookup_params,
-        ).values_list(ID, flat=True)
-
-        if not word_ids:
-            raise ValueError('No words found to the specified conditions')
-        return word_ids
-
-    def _get_random_word_id(self) -> int:
-        """Get random word for task."""
-        return choice(self._word_ids)
-
-    def _set_task_solution(self) -> None:
-        """Create and set question and answer text."""
-        self._word: Word = self._get_word()
-        self.question_text, self.answer_text = self._word_translation_order
-
-    def _get_word(self) -> Word:
-        """Get word for task."""
-        word = (
-            Word.objects.annotate(
-                favorites_status=Q(
-                    wordfavorites__user_id=self._user_id,
-                    wordfavorites__word_id=self.word_id,
-                ),
-            )
-            .annotate(
-                assessment_value=F('wordprogress__progress'),
-            )
-            .get(
-                pk=self.word_id,
-            )
-        )
-        return word
-
-    def _set_task_data(self) -> None:
-        """Set data for task rendering."""
-        self.word_count = len(self._word_ids)
-        self.favorites_status = self._word.favorites_status
-        self.favorites_url = reverse_lazy(
-            'foreign:word_favorites_view_ajax',
-            kwargs={WORD_ID: self.word_id},
-        )
-        self.knowledge = self._word.assessment_value or 0
-        self.knowledge_url = reverse_lazy(
-            'foreign:progress',
-            kwargs={WORD_ID: self.word_id},
-        )
-        self.google_translate_word_link = (
-            f'https://translate.google.com/?hl=ru&sl=auto&tl=ru&text='
-            f'{self._word.foreign_word}&op=translate'
-        )
-        self.word_detail_link = reverse_lazy(
-            'foreign:words_detail',
-            kwargs={PK: self.word_id},
-        )
-
-    @property
     def _word_translation_order(self) -> list[str]:
-        """Translations of words in order of user choice
+        """Get translation of words in order of user choice
         (`list[str]`, read-only).
         """  # noqa:  D205
-        word_translations = [self._word.foreign_word, self._word.russian_word]
-        if self._language_order == TO_RUSSIAN:
+        word_translations = [self.item.foreign_word, self.item.russian_word]
+        if self.language_order == TO_RUSSIAN:
             pass
-        elif self._language_order == FROM_RUSSIAN:
+        elif self.language_order == FROM_RUSSIAN:
             word_translations = word_translations[::-1]
-        elif self._language_order == RANDOM:
+        elif self.language_order == RANDOM:
             shuffle(word_translations)
         return word_translations
+
+
+class TranslateExercise(TranslateExerciseGUI):
+    """Foreign word translate exercise class."""
+
+    def __init__(self, lookup_conditions: dict) -> None:
+        """Exercise constructor."""
+        self._user_id = lookup_conditions.get(USER_ID)
+        self.timeout = lookup_conditions.pop(TIMEOUT)
+        super().__init__(lookup_conditions)
 
     @property
     def task_data(self) -> dict[str, str | int]:
         """Task data to render to the user
         (`dict[str, str | int]`, reade-only).
         """  # noqa:  D205
+        self.create_task()
         return {
+            WORD_ID: self.item.pk,
             QUESTION_TEXT: self.question_text,
             ANSWER_TEXT: self.answer_text,
             TIMEOUT: self.timeout,
-            WORD_COUNT: self.word_count,
-            PROGRESS: self.knowledge,
-            'knowledge_url': self.knowledge_url,
-            'favorites_status': self.favorites_status,
-            'favorites_url': self.favorites_url,
-            'google_translate_word_link': self.google_translate_word_link,
-            'word_detail_link': self.word_detail_link,
-        }
+            WORD_COUNT: len(self.item_ids),
+            PROGRESS: Word.objects.annotate(
+                progress_value=F('wordprogress__progress'),
+            ).get(pk=self.item.pk).progress_value or 0,
+            'knowledge_url': reverse_lazy(
+                'foreign:progress',
+                kwargs={WORD_ID: self.item.pk},
+            ),
+            'favorites_status': WordFavorites.objects.filter(
+                word=self.item, user=self.item.user
+            ).exists(),
+            'favorites_url': reverse_lazy(
+                'foreign:word_favorites_view_ajax',
+                kwargs={WORD_ID: self.item.pk},
+            ),
+            'google_translate_word_link': (
+                f'https://translate.google.com/?hl=ru&sl=auto&tl=ru&text='
+                f'{self.item.foreign_word}&op=translate'
+            ),
+            'word_detail_link': reverse_lazy(
+                'foreign:words_detail',
+                kwargs={PK: self.item.id},
+            ),
+        }  # fmt: skip

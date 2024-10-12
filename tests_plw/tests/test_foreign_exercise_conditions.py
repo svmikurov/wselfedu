@@ -5,7 +5,7 @@ from urllib.parse import urlparse
 
 from playwright.sync_api import expect
 
-from config.constants import NOT_CHOICES, RANDOM, TODAY
+from config.constants import NOT_CHOICES, TO_RUSSIAN, TODAY
 from tests_plw.pages.foreign_exercise_conditions import (
     ForeignExerciseConditionsChoicePage,
 )
@@ -36,7 +36,7 @@ class TestForeignWordsExerciseConditionsChoicePage(POMTest):
         # Favorites word checkbox.
         expect(page.favorites_choice).not_to_be_checked()
         # Translate order choice.
-        expect(page.language_order_choice).to_have_value(RANDOM)
+        expect(page.language_order_choice).to_have_value(TO_RUSSIAN)
         # Word category choice.
         expect(page.category_choice).to_have_value('0')
         # Word source choice.

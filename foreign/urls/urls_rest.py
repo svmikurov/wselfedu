@@ -7,6 +7,7 @@ from foreign.views.rest import (
     WordListCreateAPIView,
     exercise_parameters,
 )
+from foreign.views.rest.exercise import translate_exercise
 
 urlpatterns = [
     # Words.
@@ -22,7 +23,11 @@ urlpatterns = [
     ),
     # Exercise.
     path(
-        'exercise/params/',
+        'params/',
         exercise_parameters,
+    ),
+    path(
+        'exercise/',
+        translate_exercise,
     ),
 ]
