@@ -26,7 +26,7 @@ class TestUpdateProgressView(APITestCase):
     view.
     """
 
-    fixtures = ['glossary/tests/fixtures/fixtures-terms.json']
+    fixtures = ['tests/fixtures/users.json', 'tests/fixtures/terms.json']
 
     def setUp(self) -> None:
         """Set up test data."""

@@ -29,7 +29,7 @@ from users.models import UserApp
 class TestUpdateProgres(TestCase):
     """Test update Word study progres."""
 
-    fixtures = ['foreign/tests/fixtures/wse-fixtures.json']
+    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
     def setUp(self) -> None:
         """Set up test data."""
@@ -73,14 +73,16 @@ class TestUpdateProgres(TestCase):
     @skip
     def test_know_before_max(self) -> None:
         """Test mark as know Word before max value."""
-        word_id = ...
-        url = reverse_lazy('foreign:word_choice')
+        word_id = 3
+        url = reverse_lazy('foreign:progress')
         payload = {ACTION: KNOW, ID: word_id}
 
+        progress_before = WordProgress.objects.get(word_id=word_id)
         self.client.force_login(self.user)
         self.client.post(url, payload)
+        progress_after = WordProgress.objects.get(word_id=word_id)
+        assert bool(progress_after == progress_before + 1)
 
-    @skip
     def test_min_progress(self) -> None:
         """Test to reduce the minimum level of user assessment."""
         self.client.force_login(self.user)

@@ -58,7 +58,7 @@ loaddata:
 	@$(MANAGE) loaddata db-wse-sweb.json
 
 loaddata-fixtures:
-	@$(MANAGE) loaddata fixtures.json
+	@$(MANAGE) loaddata tests/fixtures/*
 
 dumpdata:
 	@$(MANAGE) dumpdata --exclude auth.permission --exclude contenttypes --indent 2 > db-wse-sweb.json

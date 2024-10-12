@@ -14,7 +14,7 @@ PAGINATE_NUMBER = 20
 class TestPagination(TestCase):
     """Test pagination."""
 
-    fixtures = ['foreign/tests/fixtures/wse-fixtures-3.json']
+    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
     def setUp(self) -> None:
         """Set up data."""

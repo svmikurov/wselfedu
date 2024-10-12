@@ -29,7 +29,7 @@ SUCCESS_DELETE_CATEGORY_MSG = 'Категория слов удалена'
 class TestCreateCategoryView(TestCase):
     """Test create category view."""
 
-    fixtures = ['foreign/tests/fixtures/wse-fixtures-3.json']
+    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
     def setUp(self) -> None:
         """Set up data."""
@@ -65,7 +65,7 @@ class TestCreateCategoryView(TestCase):
 class TestUpdateCategoryView(TestCase):
     """Test update category view."""
 
-    fixtures = ['foreign/tests/fixtures/wse-fixtures-3.json']
+    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
     def setUp(self) -> None:
         """Set up data."""
@@ -115,7 +115,7 @@ class TestUpdateCategoryView(TestCase):
 class TestDeleteCategoryView(TestCase):
     """Test delete category view."""
 
-    fixtures = ['foreign/tests/fixtures/wse-fixtures-3.json']
+    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
     def setUp(self) -> None:
         """Set up data."""
@@ -170,7 +170,7 @@ class TestDeleteCategoryView(TestCase):
 class TestCategoryListView(TestCase):
     """Test category list view."""
 
-    fixtures = ['foreign/tests/fixtures/wse-fixtures-3.json']
+    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
     def setUp(self) -> None:
         """Set up data."""
@@ -203,7 +203,7 @@ class TestCategoryListView(TestCase):
 class TestCategoryDetailView(TestCase):
     """Test source detail view."""
 
-    fixtures = ['foreign/tests/fixtures/wse-fixtures-3.json']
+    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
     def setUp(self) -> None:
         """Set up data."""

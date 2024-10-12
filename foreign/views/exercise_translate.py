@@ -162,7 +162,7 @@ def update_word_progress_view(
     :rtype: JsonResponse
     """
     user = request.user
-    assessment = request.POST[ASSESSMENT]
+    assessment = request.POST.get(ASSESSMENT)
     word_pk = kwargs[WORD_ID]
 
     try:

@@ -266,7 +266,7 @@
     "russian_word": "слово_п3_с3",
     "source": 1,
     "category": 2,
-    "word_count": "NC",
+    "word_count": "CB",
     "created_at": "2024-03-04T22:30:02.077Z",
     "updated_at": "2024-03-04T22:30:02.094Z"
   }
@@ -280,7 +280,7 @@
     "russian_word": "слово_п3_с4",
     "source": 3,
     "category": 4,
-    "word_count": "NC",
+    "word_count": "PS",
     "created_at": "2024-03-04T22:30:25.602Z",
     "updated_at": "2024-03-04T22:30:25.614Z"
   }
@@ -294,7 +294,7 @@
     "russian_word": "слово_п3_с5",
     "source": null,
     "category": null,
-    "word_count": "NC",
+    "word_count": "ST",
     "created_at": "2024-03-04T22:30:41.963Z",
     "updated_at": "2024-03-04T22:30:41.972Z"
   }
@@ -320,7 +320,7 @@
     "user": 3,
     "foreign_word": "word_u3_w7",
     "russian_word": "слово_п3_с7",
-    "source": null,
+    "source": 4,
     "category": 1,
     "word_count": "NC",
     "created_at": "2024-03-04T22:31:23.793Z",
@@ -654,6 +654,24 @@
   }
 },
 {
+  "model": "foreign.wordprogress",
+  "pk": 20,
+  "fields": {
+    "word": 10,
+    "user": 3,
+    "progress": "0"
+  }
+},
+{
+  "model": "foreign.wordprogress",
+  "pk": 21,
+  "fields": {
+    "word": 1,
+    "user": 3,
+    "progress": "0"
+  }
+},
+{
   "model": "foreign.wordfavorites",
   "pk": 1,
   "fields": {
@@ -665,7 +683,39 @@
   "model": "foreign.wordfavorites",
   "pk": 2,
   "fields": {
-    "word": 2,
+    "word": 13,
+    "user": 4
+  }
+},
+{
+  "model": "foreign.wordfavorites",
+  "pk": 3,
+  "fields": {
+    "word": 18,
+    "user": 4
+  }
+},
+{
+  "model": "foreign.wordfavorites",
+  "pk": 4,
+  "fields": {
+    "word": 7,
+    "user": 3
+  }
+},
+{
+  "model": "foreign.wordfavorites",
+  "pk": 5,
+  "fields": {
+    "word": 17,
+    "user": 4
+  }
+},
+{
+  "model": "foreign.wordfavorites",
+  "pk": 6,
+  "fields": {
+    "word": 11,
     "user": 4
   }
 },
@@ -673,8 +723,8 @@
   "model": "users.userapp",
   "pk": 1,
   "fields": {
-    "password": "pbkdf2_sha256$600000$srmfo4GRjuRiwpiIlNxOQn$9RggKk4CFT1IHq56Zcxj/q24+UhGDUTmX1kudCoim74=",
-    "last_login": "2024-03-04T22:18:56.854Z",
+    "password": "pbkdf2_sha256$600000$8zbQkBWunKKI6ImZYvnqqe$ogpymuLu9lVCytt56Fo1CaH1d4hMmmChy8nLO7aufms=",
+    "last_login": "2024-10-11T18:46:45.744Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "",
@@ -682,8 +732,8 @@
     "email": "",
     "is_staff": true,
     "is_active": true,
-    "date_joined": "2024-03-04T22:18:03.771Z",
-    "updated_at": "2024-03-04T22:18:04.459Z",
+    "date_joined": "2024-10-11T18:45:18.790Z",
+    "updated_at": "2024-10-11T18:45:19.547Z",
     "groups": [],
     "user_permissions": []
   }
@@ -692,17 +742,17 @@
   "model": "users.userapp",
   "pk": 2,
   "fields": {
-    "password": "pbkdf2_sha256$600000$JWxA9xt7472Hn9HUiw1Qnt$7OJWuC77ul7dECxm9KstvYa8TUJAAvF7Q2c1XqFxC5s=",
-    "last_login": "2024-03-04T22:19:53.786Z",
+    "password": "pbkdf2_sha256$600000$I5jNor68v4i3vF3l5ksQrY$XlMZzw/PLD27xTd7HdzW4UWNjABBHjO26W5I6H5rTqg=",
+    "last_login": "2024-10-11T18:58:16.296Z",
     "is_superuser": false,
-    "username": "guest",
+    "username": "user2",
     "first_name": "",
     "last_name": "",
     "email": "",
     "is_staff": false,
     "is_active": true,
-    "date_joined": "2024-03-04T22:19:44.921Z",
-    "updated_at": "2024-03-04T22:19:45.715Z",
+    "date_joined": "2024-10-11T18:45:44.005Z",
+    "updated_at": "2024-10-11T18:45:44.802Z",
     "groups": [],
     "user_permissions": []
   }
@@ -711,8 +761,8 @@
   "model": "users.userapp",
   "pk": 3,
   "fields": {
-    "password": "pbkdf2_sha256$600000$T8xwAC7aw6dgjKkwYSSrnN$bAoeI9N5yRR3mrP8I12cWRIGquqVK0T6XKsddX9EFwM=",
-    "last_login": "2024-03-11T20:11:13.531Z",
+    "password": "pbkdf2_sha256$600000$5SiGB3cn68EIp4tjZjnwHc$NbxhjvO1g276Q7GicH//T+Njnkc3AeJCkVxmQaeQZls=",
+    "last_login": "2024-10-11T18:46:59.293Z",
     "is_superuser": false,
     "username": "user3",
     "first_name": "",
@@ -720,8 +770,8 @@
     "email": "",
     "is_staff": false,
     "is_active": true,
-    "date_joined": "2024-03-04T22:20:06.877Z",
-    "updated_at": "2024-03-04T22:20:07.659Z",
+    "date_joined": "2024-10-11T18:46:19.335Z",
+    "updated_at": "2024-10-11T18:46:20.145Z",
     "groups": [],
     "user_permissions": []
   }

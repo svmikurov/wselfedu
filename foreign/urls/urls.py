@@ -113,7 +113,6 @@ mentor_paths = [
 ]
 
 exercise_paths = [
-    # Exercise.
     path(
         'foreign-translate-choice/',
         ForeignWordTranslateChoiceView.as_view(),
@@ -129,7 +128,6 @@ exercise_paths = [
         update_word_progress_view,
         name='progress',
     ),
-    # Exercise parameters.
     path(
         '<int:pk>/create-task-settings/',
         views.CreateForeignTaskSettingsView.as_view(),
@@ -139,11 +137,6 @@ exercise_paths = [
         '<int:pk>/update-task-settings/',
         views.UpdateForeignTaskSettingsView.as_view(),
         name='update_task_settings',
-    ),
-    path(
-        'progress/<int:word_id>/',
-        views.update_word_progress_view,
-        name='progress',
     ),
     path(
         'words-favorites-view-ajax/<int:word_id>/',

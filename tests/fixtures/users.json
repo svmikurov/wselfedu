@@ -1,40 +1,16 @@
 [
 {
-  "model": "authtoken.token",
-  "pk": "168845ba9b9cfc0577e86cecb5ebab7c905e2dbf",
-  "fields": {
-    "user": 1,
-    "created": "2024-10-11T18:46:45.740Z"
-  }
-},
-{
-  "model": "authtoken.token",
-  "pk": "558544a8ee388af534012ab83529fe6642755f12",
-  "fields": {
-    "user": 2,
-    "created": "2024-10-11T18:46:54.286Z"
-  }
-},
-{
-  "model": "authtoken.token",
-  "pk": "9f3cd0b65d0705aa75452456ab063700d22a294f",
-  "fields": {
-    "user": 3,
-    "created": "2024-10-11T18:46:59.288Z"
-  }
-},
-{
   "model": "users.userapp",
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$600000$8zbQkBWunKKI6ImZYvnqqe$ogpymuLu9lVCytt56Fo1CaH1d4hMmmChy8nLO7aufms=",
     "last_login": "2024-10-11T18:46:45.744Z",
-    "is_superuser": false,
+    "is_superuser": true,
     "username": "admin",
     "first_name": "",
     "last_name": "",
     "email": "",
-    "is_staff": false,
+    "is_staff": true,
     "is_active": true,
     "date_joined": "2024-10-11T18:45:18.790Z",
     "updated_at": "2024-10-11T18:45:19.547Z",
@@ -78,6 +54,49 @@
     "updated_at": "2024-10-11T18:46:20.145Z",
     "groups": [],
     "user_permissions": []
+  }
+},
+{
+  "model": "users.userapp",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$FThsMNVQenD3cE37bgs530$eYVD/jNNgM7x7B1vCWZ7rJBo7Fu5cKjoUGxN9079dE8=",
+    "last_login": "2024-03-04T22:32:35.447Z",
+    "is_superuser": false,
+    "username": "user4",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2024-03-04T22:20:34.301Z",
+    "updated_at": "2024-03-04T22:20:35.040Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "authtoken.token",
+  "pk": "168845ba9b9cfc0577e86cecb5ebab7c905e2dbf",
+  "fields": {
+    "user": 1,
+    "created": "2024-10-11T18:46:45.740Z"
+  }
+},
+{
+  "model": "authtoken.token",
+  "pk": "558544a8ee388af534012ab83529fe6642755f12",
+  "fields": {
+    "user": 2,
+    "created": "2024-10-11T18:46:54.286Z"
+  }
+},
+{
+  "model": "authtoken.token",
+  "pk": "9f3cd0b65d0705aa75452456ab063700d22a294f",
+  "fields": {
+    "user": 3,
+    "created": "2024-10-11T18:46:59.288Z"
   }
 }
 ]

@@ -36,7 +36,7 @@ from foreign.queries.lookup_params import WordLookupParams
 class LookupParamsTest(TestCase):
     """Test get Word Queryset by user parameters."""
 
-    fixtures = ['foreign/tests/fixtures/wse-fixtures-4.json']
+    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
     @classmethod
     def setUp(cls) -> None:

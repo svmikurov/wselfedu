@@ -17,7 +17,7 @@ from contrib.tests_extension import UserAuthTestCase
 class TestAuthForeignTranslateExercisePage(UserAuthTestCase):
     """Foreign word translate exercise test."""
 
-    fixtures = ['foreign/tests/fixtures/wse-fixtures-4.json']
+    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
     user_id = 3
     url = reverse_lazy('foreign:foreign_translate_demo')

@@ -11,14 +11,14 @@ from users.models import UserApp
 class TestWordList(APITestCase):
     """Test word list api view."""
 
-    fixtures = ['foreign/tests/fixtures/words.json']
+    fixtures = ['tests/fixtures/words.json', 'tests/fixtures/users.json']
 
     def setUp(self) -> None:
         """Set up data."""
         self.api_client = APIClient()
         self.url = reverse('api-words')
-        self.user1 = UserApp.objects.get(username='user1')
-        self.user2 = UserApp.objects.get(username='user2')
+        self.user1 = UserApp.objects.get(username='user2')
+        self.user2 = UserApp.objects.get(username='user3')
 
     def test_words_permission_for_owner(self) -> None:
         """Test words permission for owner."""
@@ -41,14 +41,14 @@ class TestWordList(APITestCase):
 class TestRetrieveWord(APITestCase):
     """Test word list api view."""
 
-    fixtures = ['foreign/tests/fixtures/words.json']
+    fixtures = ['tests/fixtures/words.json', 'tests/fixtures/users.json']
 
     def setUp(self) -> None:
         """Set up data."""
         self.api_client = APIClient()
         self.url = reverse('api-word', kwargs={PK: 1})
-        self.user1 = UserApp.objects.get(username='user1')
-        self.user2 = UserApp.objects.get(username='user2')
+        self.user1 = UserApp.objects.get(username='user2')
+        self.user2 = UserApp.objects.get(username='user3')
 
     def test_word_permission_for_owner(self) -> None:
         """Test word permission for owner."""

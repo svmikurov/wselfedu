@@ -37,7 +37,7 @@ SUCCESS_UPDATE_WORD_MSG = 'Слово изменено'
 class TestCreateWordView(TestCase):
     """Test create word view."""
 
-    fixtures = ['foreign/tests/fixtures/wse-fixtures-3.json']
+    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
     def setUp(self) -> None:
         """Set up data."""
@@ -90,7 +90,7 @@ class TestCreateWordView(TestCase):
 class TestUpdateWordView(TestCase):
     """Test update word view."""
 
-    fixtures = ['foreign/tests/fixtures/wse-fixtures-3.json']
+    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
     def setUp(self) -> None:
         """Set up data."""
@@ -141,7 +141,7 @@ class TestUpdateWordView(TestCase):
 class TestDeleteWordView(TestCase):
     """Test delete word view."""
 
-    fixtures = ['foreign/tests/fixtures/wse-fixtures-3.json']
+    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
     def setUp(self) -> None:
         """Set up data."""
@@ -187,7 +187,7 @@ class TestDeleteWordView(TestCase):
 class TestWordListView(TestCase):
     """Test word list view."""
 
-    fixtures = ['foreign/tests/fixtures/wse-fixtures-3.json']
+    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
     def setUp(self) -> None:
         """Set up data."""
@@ -219,7 +219,7 @@ class TestWordListView(TestCase):
 class TestWordObjectList(TestCase):
     """Test to word list page object list."""
 
-    fixtures = ['foreign/tests/fixtures/wse-fixtures-3.json']
+    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
     def setUp(self) -> None:
         """Set up data."""
@@ -285,7 +285,7 @@ class TestWordObjectList(TestCase):
 class WordListPageFilter(TestCase):
     """Test filters word at word list word page."""
 
-    fixtures = ['foreign/tests/fixtures/wse-fixtures-3.json']
+    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
     def setUp(self) -> None:
         """Set up data."""
@@ -318,7 +318,10 @@ class WordListPageFilter(TestCase):
             wordfavorites__word=F(PK),
             wordfavorites__user=self.user_id,
         )
-        self.assertQuerySetEqual(objects_list, user_favorite_words)
+        self.assertQuerySetEqual(
+            objects_list,
+            user_favorite_words.order_by('-foreign_word'),
+        )
 
     def test_filter_word_list_by_word(self) -> None:
         """Test filtering the word list by text containing the word."""
@@ -352,7 +355,7 @@ class WordListPageFilter(TestCase):
 class TestWordDetailView(TestCase):
     """Test word detail view."""
 
-    fixtures = ['foreign/tests/fixtures/wse-fixtures-3.json']
+    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
     def setUp(self) -> None:
         """Set up data."""

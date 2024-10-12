@@ -33,7 +33,7 @@ PROTECT_DELETE_SOURCE_MSG = (
 class TestCreateSourceView(TestCase):
     """Test create source view."""
 
-    fixtures = ['foreign/tests/fixtures/wse-fixtures-3.json']
+    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
     def setUp(self) -> None:
         """Set up data."""
@@ -69,7 +69,7 @@ class TestCreateSourceView(TestCase):
 class TestUpdateSourceView(TestCase):
     """Test update source view."""
 
-    fixtures = ['foreign/tests/fixtures/wse-fixtures-3.json']
+    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
     def setUp(self) -> None:
         """Set up data."""
@@ -115,7 +115,7 @@ class TestUpdateSourceView(TestCase):
 class TestDeleteSourceView(TestCase):
     """Test delete source view."""
 
-    fixtures = ['foreign/tests/fixtures/wse-fixtures-3.json']
+    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
     def setUp(self) -> None:
         """Set up data."""
@@ -179,7 +179,7 @@ class TestDeleteSourceView(TestCase):
 class TestSourceListView(TestCase):
     """Test source list view."""
 
-    fixtures = ['foreign/tests/fixtures/wse-fixtures-3.json']
+    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
     def setUp(self) -> None:
         """Set up data."""
@@ -212,7 +212,7 @@ class TestSourceListView(TestCase):
 class TestSourceDetailView(TestCase):
     """Test source detail view."""
 
-    fixtures = ['foreign/tests/fixtures/wse-fixtures-3.json']
+    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
     def setUp(self) -> None:
         """Set up data."""

@@ -35,7 +35,7 @@ class TestLookupParams(TestCase):
     class and :term:`lookup_conditions` of user.
     """
 
-    fixtures = ['glossary/tests/fixtures/fixtures-terms.json']
+    fixtures = ['tests/fixtures/users.json', 'tests/fixtures/terms.json']
 
     @staticmethod
     def query_database(lookup_conditions: dict[str, object]) -> QuerySet:
