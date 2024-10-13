@@ -2,7 +2,6 @@
 
 from datetime import datetime, timedelta
 
-from django.conf import settings
 from django.db.models import F, Q
 from zoneinfo import ZoneInfo
 
@@ -123,7 +122,7 @@ class WordLookupParams(LookupParams):
 
     def get_date_value(self, period_date: str, format_time: str) -> str:
         """Get lookup date value."""
-        today = datetime.now(tz=ZoneInfo(settings.TIME_ZONE))
+        today = datetime.now(tz=ZoneInfo('UTC'))
         period = self.lookup_conditions.get(period_date)
         period_delta = timedelta(**EDGE_PERIOD_ARGS.get(period, {}))
         end_period = today - period_delta
