@@ -1,5 +1,6 @@
 """User task settings modul."""
 
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 from config import constants as const
@@ -12,7 +13,6 @@ from config.constants import (
     NOT_CHOICES,
     PROGRESS_CHOICES,
     TODAY,
-    WORD_COUNT_CHOICE,
 )
 from foreign.models import WordCategory, WordSource
 from users.models import UserApp
@@ -86,10 +86,9 @@ class TranslateParams(models.Model):
     )
     """Current word learning progress level.
     """
-    word_count = models.CharField(
-        choices=WORD_COUNT_CHOICE,
+    word_count = ArrayField(
+        models.CharField(max_length=16),
         default=DEFAULT_WORD_COUNT,
-        max_length=2,
         verbose_name='Длина выражения',
     )
     """Length of verbal expression.
