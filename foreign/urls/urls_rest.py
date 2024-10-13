@@ -9,25 +9,13 @@ from foreign.views.rest import (
 )
 from foreign.views.rest.exercise import translate_exercise
 
+app_name = 'rest_foreign'
+
 urlpatterns = [
     # Words.
-    path(
-        '',
-        WordListCreateAPIView.as_view(),
-        name='api-words',
-    ),
-    path(
-        '<int:pk>/',
-        WordDetailAPIView.as_view(),
-        name='api-word',
-    ),
+    path('', WordListCreateAPIView.as_view(), name='words'),
+    path('<int:pk>/', WordDetailAPIView.as_view(), name='word'),
     # Exercise.
-    path(
-        'params/',
-        exercise_parameters,
-    ),
-    path(
-        'exercise/',
-        translate_exercise,
-    ),
+    path('params/', exercise_parameters, name='params'),
+    path('exercise/', translate_exercise, name='exercise'),
 ]
