@@ -24,6 +24,7 @@ from config.constants import (
     GET,
     LANGUAGE_ORDER,
     LOOKUP_CONDITIONS,
+    NO_SELECTION,
     POST,
     PROGRESS,
     PROGRESS_ALIASES,
@@ -72,6 +73,7 @@ def exercise_parameters(request: Request) -> JsonResponse | HttpResponse:
         except WordCategory.DoesNotExist:
             queryset = WordCategory.objects.none()
         categories = WordCategorySerializer(queryset, many=True).data
+        categories.append(NO_SELECTION)
 
         exercise_params = {
             LOOKUP_CONDITIONS: lookup_conditions,

@@ -5,5 +5,5 @@ Testing
    :maxdepth: 2
 
    tests
-   foreign
+   Foreign app <foreign>
    tests_plw

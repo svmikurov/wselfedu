@@ -1,5 +1,6 @@
 """Foreign app serializers."""
 
+from django.db.models import Model
 from rest_framework import serializers
 
 from config.constants import (
@@ -23,6 +24,8 @@ class WordSerializer(serializers.ModelSerializer):
 
         model = Word
         fields = [ID, FOREIGN_WORD, RUSSIAN_WORD]
+        """Fields (`list[str]`).
+        """
 
 
 class TranslateParamsSerializer(serializers.ModelSerializer):
@@ -43,6 +46,8 @@ class TranslateParamsSerializer(serializers.ModelSerializer):
             CATEGORY,
             PROGRESS,
         ]
+        """Fields (`list[str]`).
+        """
 
     def create(self, validated_data: dict) -> TranslateParams:
         """Update or create the user glossary exercise parameters."""
@@ -59,8 +64,22 @@ class TranslateParamsSerializer(serializers.ModelSerializer):
 class WordCategorySerializer(serializers.ModelSerializer):
     """Foreign word Category serializer."""
 
+    alias = serializers.SerializerMethodField()
+    """Field alias pk (`int`).
+    """
+    humanly = serializers.CharField(source='name')
+    """Field alias pk (`str`).
+    """
+
     class Meta:
         """Setup serializer."""
 
         model = WordCategory
-        fields = '__all__'
+        fields = ['alias', 'humanly']
+        """Fields (`list[str]`).
+        """
+
+    @classmethod
+    def get_alias(cls, obj: Model) -> int:
+        """Add alias as name of pk field."""
+        return obj.pk

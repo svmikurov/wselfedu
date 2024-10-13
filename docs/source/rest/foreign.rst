@@ -89,11 +89,12 @@ Exercise params
 |           |                               |      * edge_period_items:     |
 |           |                               |          * alias              |
 |           |                               |          * humanly            |
-|           |                               |  * categories:                |
-|           |                               |      * {}                     |
-|           |                               |  * progress:                  |
-|           |                               |      * alias                  |
-|           |                               |      * humanly                |
+|           |                               |      * categories:            |
+|           |                               |          * alias              |
+|           |                               |          * humanly            |
+|           |                               |      * progress:              |
+|           |                               |          * alias              |
+|           |                               |          * humanly            |
 +-----------+-------------------------------+-------------------------------+
 | POST      | --                            | HTTP_201_OK                   |
 +-----------+-------------------------------+-------------------------------+

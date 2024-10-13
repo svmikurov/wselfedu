@@ -16,7 +16,7 @@ from users.models import UserApp
 class RenderParamsTest(APITestCase):
     """Render translate foreign words exercise the user params test."""
 
-    fixtures = ['tests/fixtures/users.json']
+    fixtures = ['tests/fixtures/users.json', 'tests/fixtures/foreign.json']
 
     def setUp(self) -> None:
         """Set up test data."""
@@ -76,4 +76,20 @@ class RenderParamsTest(APITestCase):
         response = self.api_client.post(self.url, data=payload, format='json')
         assert response.status_code == HTTP_201_CREATED
 
-    # def test_rename_model_field(self):
+    def test_rename_model_field(self) -> None:
+        """Test the render category field names."""
+        self.api_client.force_authenticate(user=self.user)
+        response = self.api_client.get(self.url)
+        fields = response.json()['exercise_choices']['categories'].pop().keys()
+        assert ['alias', 'humanly'] == list(fields)
+
+    def test_add_no_selection(self) -> None:
+        """Test the add no selection to category list."""
+        self.api_client.force_authenticate(self.user)
+        response = self.api_client.get(self.url)
+        categories = response.json()['exercise_choices']['categories']
+        no_selection = {
+            'alias': None,
+            'humanly': 'Не выбрано',
+        }
+        assert no_selection in categories
