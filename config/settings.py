@@ -183,5 +183,7 @@ REST_FRAMEWORK = {
     # Pagination
     # https://www.django-rest-framework.org/api-guide/pagination/#setting-the-pagination-style
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',  # noqa: E501
-    'PAGE_SIZE': 20,  # Ebd Pagination
+    'PAGE_SIZE': 10,  # Ebd Pagination
 }
+
+FIXTURE_DIRS = ['tests/fixtures/']
