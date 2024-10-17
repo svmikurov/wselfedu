@@ -13,6 +13,15 @@ class GlossaryListCreateAPIView(generics.ListCreateAPIView):
 
     queryset = Glossary.objects.all()
     serializer_class = GlossarySerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self) -> QuerySet:
+        """Filter queryset by current user for response."""
+        return Glossary.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer: GlossarySerializer) -> None:
+        """Add current user to created model instants."""
+        serializer.save(user=self.request.user)
 
 
 class GlossaryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -20,3 +29,4 @@ class GlossaryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Glossary.objects.all()
     serializer_class = GlossarySerializer
+    permission_classes = [IsOwner]
