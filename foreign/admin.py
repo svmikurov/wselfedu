@@ -38,9 +38,11 @@ class WordAdmin(admin.ModelAdmin):
         CREATED_AT,
         SOURCE,
         CATEGORY,
-    ]
+    ]  # fmt: skip
     """Fields to display.
     """
+
+    date_hierarchy = 'created_at'
 
 
 @admin.register(TranslateParams)
