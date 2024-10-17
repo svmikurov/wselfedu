@@ -20,7 +20,7 @@ class TestGlossaryExerciseView(APITestCase):
         """Set up test data."""
         self.api_client = APIClient()
         self.user = UserApp.objects.create_user(username=USER)
-        self.url = reverse('api_glossary_exercise')
+        self.url = reverse('glossary_rest:exercise')
 
     def test_http_status_200(self) -> None:
         """Test http status 200."""

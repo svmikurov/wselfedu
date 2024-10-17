@@ -33,13 +33,13 @@ from users.models import UserApp
 class TestGlossaryTask(APITestCase):
     """Test render task data."""
 
-    fixtures = ['glossary/tests/tests_drf/fixtures/glossaries.json']
+    fixtures = ['glossary/tests/tests_rest/fixtures/glossaries.json']
 
     def setUp(self) -> None:
         """Set up data."""
         self.api_client = APIClient()
         self.user = UserApp.objects.get(username='user1')
-        self.url = reverse('api_glossary_exercise')
+        self.url = reverse('glossary_rest:exercise')
 
     def test_render_task(self) -> None:
         """Test render exercise."""
@@ -54,13 +54,13 @@ class TestGlossaryTask(APITestCase):
 class TestGetGlossaryExerciseParams(APITestCase):
     """Test render Glossary exercise params."""
 
-    fixtures = ['glossary/tests/tests_drf/fixtures/glossaries.json']
+    fixtures = ['glossary/tests/tests_rest/fixtures/glossaries.json']
 
     def setUp(self) -> None:
         """Set up data."""
         self.api_client = APIClient()
         self.user = UserApp.objects.get(username='user1')
-        self.url = reverse('api_glossary_exercise_parameters')
+        self.url = reverse('glossary_rest:params')
 
     def test_render_glossary_exercise_params(self) -> None:
         """Test render glossary exercise params."""
@@ -119,14 +119,14 @@ class TestGetGlossaryExerciseParams(APITestCase):
 class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
     """Test update or create user params for Glossary exersice."""
 
-    fixtures = ['glossary/tests/tests_drf/fixtures/glossaries.json']
+    fixtures = ['glossary/tests/tests_rest/fixtures/glossaries.json']
 
     def setUp(self) -> None:
         """Set up data."""
         self.api_client = APIClient()
         self.user1 = UserApp.objects.get(username='user1')
         self.user2 = UserApp.objects.get(username='user2')
-        self.url = reverse('api_glossary_exercise_parameters')
+        self.url = reverse('glossary_rest:params')
 
     def test_update_params(self) -> None:
         """Test update the user exercise specific parameters."""

@@ -1,5 +1,6 @@
 """Translate word exercise user parameters."""
 
+from django.forms import model_to_dict
 from django.urls import reverse
 from rest_framework.status import (
     HTTP_200_OK,
@@ -9,7 +10,7 @@ from rest_framework.status import (
 from rest_framework.test import APIClient, APITestCase
 
 from config.constants import LEARNED, STUDY, WEEK_AGO, WEEKS_AGO_3
-from foreign.models import WordCategory
+from foreign.models import TranslateParams, WordCategory
 from users.models import UserApp
 
 
@@ -21,11 +22,11 @@ class RenderParamsTest(APITestCase):
     def setUp(self) -> None:
         """Set up test data."""
         self.api_client = APIClient()
-        self.url = reverse('rest_foreign:params')
+        self.url = reverse('foreign_rest:params')
         self.user = UserApp.objects.get(pk=3)
 
-    def test_get_request(self) -> None:
-        """Test the GET request method."""
+    def test_get_params(self) -> None:
+        """Test request to get params."""
         self.api_client.force_authenticate(user=self.user)
         response = self.api_client.get(self.url)
         payload = response.json()
@@ -36,11 +37,9 @@ class RenderParamsTest(APITestCase):
             'edge_period_items', 'categories', 'progress'
         ]  # fmt: skip
 
-    def test_post_request(self) -> None:
-        """Test the POST request method."""
-        # Create category instants
+    def test_save_params(self) -> None:
+        """Test request to save params."""
         cat_pk = WordCategory.objects.create(name='cat', user=self.user).pk
-
         self.api_client.force_authenticate(user=self.user)
         payload = {
             'period_start_date': WEEKS_AGO_3,
@@ -49,15 +48,17 @@ class RenderParamsTest(APITestCase):
             'progress': LEARNED,
         }
         response = self.api_client.post(self.url, data=payload, format='json')
+        queryset = TranslateParams.objects.get(user=self.user)
 
         assert response.status_code == HTTP_201_CREATED
+        assert payload.items() <= model_to_dict(queryset).items()
 
     def test_post_request_empty_payload(self) -> None:
         """Test the POST request method without payload."""
         self.api_client.force_authenticate(user=self.user)
         payload = {}
         response = self.api_client.post(self.url, data=payload, format='json')
-        # Adda default params
+        # Adds default params
         assert response.status_code == HTTP_201_CREATED
 
     def test_post_request_validation_error(self) -> None:

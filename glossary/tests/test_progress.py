@@ -33,7 +33,7 @@ class TestUpdateProgressView(APITestCase):
         self.api_client = APIClient()
         self.user2 = UserApp.objects.get(username='user2')
         self.user3 = UserApp.objects.get(username='user3')
-        self.url = reverse('api_glossary_term_progress')
+        self.url = reverse('glossary_rest:progress')
         self.term_pk = 1
 
     def test_know_before_max(self) -> None:

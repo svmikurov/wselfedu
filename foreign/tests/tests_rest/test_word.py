@@ -16,7 +16,7 @@ class TestWordList(APITestCase):
     def setUp(self) -> None:
         """Set up data."""
         self.api_client = APIClient()
-        self.url = reverse('rest_foreign:words')
+        self.url = reverse('foreign_rest:words')
         self.user1 = UserApp.objects.get(username='user2')
         self.user2 = UserApp.objects.get(username='user3')
 
@@ -46,7 +46,7 @@ class TestRetrieveWord(APITestCase):
     def setUp(self) -> None:
         """Set up data."""
         self.api_client = APIClient()
-        self.url = reverse('rest_foreign:word', kwargs={PK: 1})
+        self.url = reverse('foreign_rest:word', kwargs={PK: 1})
         self.user1 = UserApp.objects.get(username='user2')
         self.user2 = UserApp.objects.get(username='user3')
 
