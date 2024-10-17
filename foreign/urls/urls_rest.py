@@ -9,7 +9,7 @@ from foreign.views.rest import (
 )
 from foreign.views.rest.exercise import translate_exercise
 
-app_name = 'rest_foreign'
+app_name = 'foreign_rest'
 
 urlpatterns = [
     # Words.

@@ -46,7 +46,7 @@ from foreign.serializers import (
 @api_view([GET, POST])
 @permission_classes((permissions.IsAuthenticated,))
 def exercise_parameters(request: Request) -> JsonResponse | HttpResponse:
-    """Render the Translate word exercise params the DRF view.
+    """Render or save the Translate word exercise params.
 
     **GET method:**
       Render the :term:`exercise_params`.

@@ -15,7 +15,7 @@ from config.constants import (
     HOME,
     TITLE,
 )
-from contrib.mixins_views import (
+from contrib.views import (
     CheckAdminMixin,
     CheckObjectOwnershipMixin,
     FormMessageMixin,

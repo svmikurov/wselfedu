@@ -28,7 +28,7 @@ from config.constants import (
     WORD_LIST_TEMPLATE,
     WORDS,
 )
-from contrib.mixins_views import (
+from contrib.views import (
     CheckUserOwnershipMixin,
     HandleNoPermissionMixin,
     PermissionProtectDeleteView,

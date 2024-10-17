@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 
-from config.constants import (
+from config.constants import (  # noqa: F401
     CATEGORY,
     CREATED_AT,
     DISPLAY_COUNT,

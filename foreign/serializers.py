@@ -20,7 +20,7 @@ class WordSerializer(serializers.ModelSerializer):
     """Word serializer."""
 
     class Meta:
-        """Construct serializer."""
+        """Serializer settings."""
 
         model = Word
         fields = [ID, FOREIGN_WORD, RUSSIAN_WORD]
@@ -37,7 +37,7 @@ class TranslateParamsSerializer(serializers.ModelSerializer):
         self.is_created = False
 
     class Meta:
-        """Construct serializer."""
+        """Serializer settings."""
 
         model = TranslateParams
         fields = [
@@ -72,7 +72,7 @@ class WordCategorySerializer(serializers.ModelSerializer):
     """
 
     class Meta:
-        """Setup serializer."""
+        """Serializer settings."""
 
         model = WordCategory
         fields = ['alias', 'humanly']

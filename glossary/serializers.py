@@ -20,10 +20,10 @@ class GlossarySerializer(serializers.ModelSerializer):
     """Glossary serializer."""
 
     class Meta:
-        """Construct the serializer."""
+        """Serializer settings."""
 
         model = Glossary
-        fields = '__all__'
+        fields = ['id', 'term', 'definition']
 
 
 class GlossaryParamsSerializer(serializers.ModelSerializer):
@@ -35,7 +35,7 @@ class GlossaryParamsSerializer(serializers.ModelSerializer):
         self.is_created = False
 
     class Meta:
-        """Setup serializer."""
+        """Serializer settings."""
 
         model = GlossaryParams
         fields = [
@@ -61,7 +61,7 @@ class GlossaryCategorySerializer(serializers.ModelSerializer):
     """Glossary Category serializer."""
 
     class Meta:
-        """Setup serializer."""
+        """Serializer settings."""
 
         model = GlossaryCategory
         fields = '__all__'

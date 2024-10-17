@@ -7,7 +7,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 
 from config.constants import HOME
-from contrib.mixins_views import FormMessageMixin
+from contrib.views import FormMessageMixin
 
 
 class UserLoginView(FormMessageMixin, LoginView):

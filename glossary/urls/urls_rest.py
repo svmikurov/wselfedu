@@ -12,30 +12,14 @@ from glossary.views.glossary import (
     GlossaryListCreateAPIView,
 )
 
+app_name = 'glossary_rest'
+
 urlpatterns = [
-    path(
-        '',
-        GlossaryListCreateAPIView.as_view(),
-        name='api_glossary',
-    ),
-    path(
-        '<int:pk>/',
-        GlossaryDetailAPIView.as_view(),
-        name='api_term',
-    ),
-    path(
-        'progress/',
-        update_term_study_progress,
-        name='api_glossary_term_progress',
-    ),
-    path(
-        'exercise/',
-        glossary_exercise,
-        name='api_glossary_exercise',
-    ),
-    path(
-        'params/',
-        glossary_exercise_parameters,
-        name='api_glossary_exercise_parameters',
-    ),
+    # Terms
+    path('', GlossaryListCreateAPIView.as_view(), name='terms'),
+    path('<int:pk>/', GlossaryDetailAPIView.as_view(), name='term'),
+    # Exercise
+    path('progress/', update_term_study_progress, name='progress'),
+    path('exercise/', glossary_exercise, name='exercise'),
+    path('params/', glossary_exercise_parameters, name='params'),
 ]

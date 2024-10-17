@@ -1,7 +1,9 @@
 """Glossary views."""
 
-from rest_framework import generics
+from django.db.models import QuerySet
+from rest_framework import generics, permissions
 
+from contrib.views_rest import IsOwner
 from glossary.models import Glossary
 from glossary.serializers import GlossarySerializer
 

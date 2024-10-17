@@ -22,7 +22,7 @@ from config.constants import (
     USER_ID,
     WORD_ID,
 )
-from contrib.mixins_views import (
+from contrib.views import (
     CheckLoginPermissionMixin,
 )
 from foreign.analytics.analytics import collect_statistics

@@ -20,7 +20,7 @@ from config.constants import (
     SOURCES,
     TITLE,
 )
-from contrib.mixins_views import (
+from contrib.views import (
     CheckLoginPermissionMixin,
     CheckUserOwnershipMixin,
     PermissionProtectDeleteView,

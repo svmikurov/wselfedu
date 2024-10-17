@@ -5,7 +5,7 @@ from django.db.models.query import QuerySet
 from django_filters.views import FilterView
 
 from config.constants import PK, PROGRESS, SOURCE, TITLE, WORDS
-from contrib.mixins_views import CheckObjectOwnershipMixin
+from contrib.views import CheckObjectOwnershipMixin
 from foreign.models import Word
 
 

@@ -19,7 +19,7 @@ from django.views.generic import (
 )
 
 from config.constants import ID, MENTOR, PK, STUDENT
-from contrib.mixins_views import (
+from contrib.views import (
     CheckLoginPermissionMixin,
     CheckObjectOwnershipMixin,
     DeleteWithProfileRedirectView,
