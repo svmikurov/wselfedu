@@ -7,3 +7,4 @@ Testing
    tests
    Foreign app <foreign>
    tests_plw
+   issues
