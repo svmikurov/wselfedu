@@ -22,6 +22,7 @@ class Word(models.Model):
     mentor = models.ForeignKey(
         UserApp,
         on_delete=models.SET_NULL,
+        blank=True,
         null=True,
         related_name='mentor_word',
         verbose_name='Наставник, который добавил слово.',
