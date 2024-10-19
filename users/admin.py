@@ -11,7 +11,7 @@ class UserAdmin(admin.ModelAdmin):
     """Representation of Users model."""
 
     list_display = [PK, USERNAME, 'is_staff', 'date_joined']
-    ordering = ['date_joined']
+    ordering = [USERNAME]
     list_display_links = [USERNAME]
 
 

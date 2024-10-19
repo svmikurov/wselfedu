@@ -7,12 +7,21 @@ from config.constants import (  # noqa: F401
     CREATED_AT,
     DISPLAY_COUNT,
     FOREIGN_WORD,
+    ID,
+    MENTOR,
+    NAME,
     RUSSIAN_WORD,
     SOURCE,
     USER,
     WORD,
 )
-from foreign.models import TranslateParams, Word, WordAnalytics
+from foreign.models import (
+    TranslateParams,
+    Word,
+    WordAnalytics,
+    WordCategory,
+    WordSource,
+)
 
 
 @admin.register(WordAnalytics)
@@ -31,18 +40,52 @@ class WordAnalyticsAdmin(admin.ModelAdmin):
 class WordAdmin(admin.ModelAdmin):
     """Representation of WordModel in admin interface."""
 
-    exclude = [USER]
+    exclude = [MENTOR]
     list_display = [
+        ID,
         FOREIGN_WORD,
         RUSSIAN_WORD,
         CREATED_AT,
-        SOURCE,
         CATEGORY,
+        USER,
     ]  # fmt: skip
     """Fields to display.
     """
-
+    ordering = [
+        USER,
+        ID,
+    ]
     date_hierarchy = 'created_at'
+
+
+@admin.register(WordCategory)
+class WordCategoryAdmin(admin.ModelAdmin):
+    """Representation of WordCategory in admin interface."""
+
+    list_display = [
+        ID,
+        NAME,
+        USER,
+    ]
+    ordering = [
+        USER,
+        ID,
+    ]
+
+
+@admin.register(WordSource)
+class WordSourceAdmin(admin.ModelAdmin):
+    """Representation of WordSource in admin interface."""
+
+    list_display = [
+        ID,
+        NAME,
+        USER,
+    ]
+    ordering = [
+        USER,
+        ID,
+    ]
 
 
 @admin.register(TranslateParams)
