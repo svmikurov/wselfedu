@@ -2,8 +2,9 @@
 
 import json
 
-READE_FILE_PATH = 'db-wse-sweb-reade.json'
+READE_FILE_PATH = 'db-wse-sweb-2024-10-20.json'
 WRIGHT_FILE_PATH = 'db-wse-sweb.json'
+DEFAULT_USER_ID = 1
 
 
 def reade_json_file(file_path: str) -> list[dict]:
@@ -19,39 +20,55 @@ def wright_json_file(file_path: str, data: list[dict]) -> None:
         json.dump(data, file, ensure_ascii=False, indent=4)
 
 
-def update_file_data(file_data: list[dict]) -> list[dict]:
-    """Update word data."""
-    for node in file_data:
-        sub_node = node['fields']
+def delete_node(data: list[dict]) -> list[dict]:
+    """Remove unnecessary nodes."""
+    renamed_nodes = {
+        'users.usermodel': 'users.userapp',
+        'english.categorymodel': 'foreign.wordcategory',
+        'english.sourcemodel': 'foreign.wordsource',
+        'english.wordmodel': 'foreign.word',
+        'english.worduserknowledgerelation': 'foreign.wordprogress',
+        'english.wordsfavoritesmodel': 'foreign.wordfavorites',
+        'english.wordlearningstories': 'foreign.wordanalytics',
+        'task.mathematicalexercise': 'mathematics.mathematicsanalytic',
+        'task.points': 'users.points',
+    }
+    unnecessary_nodes = [
+        'admin.logentry',
+        'sessions.session',
+    ]
+    updated_list = []
 
-        if node.get('model') == 'glossary.glossarycategory':
-            sub_node['name'] = sub_node.pop('category')
-            sub_node['user_id'] = 1
+    for node in data:
+        fields: dict = node['fields']
 
-        if node.get('model') == 'glossary.glossary':
-            sub_node['user_id'] = 1
+        if node['model'] not in unnecessary_nodes:
+            updated_list.append(node)
 
-        if node.get('model') == 'english.wordmodel':
-            sub_node['foreign_word'] = sub_node.pop('word_eng')
-            sub_node['russian_word'] = sub_node.pop('word_rus')
-            try:
-                sub_node['progress'] = sub_node.pop('knowledge_assessment')
-            except KeyError:
-                pass
+        if node['model'] in renamed_nodes:
+            node['model'] = renamed_nodes[node['model']]
 
-        if node.get('model') == 'english.wordprogress':
-            sub_node['progress'] = sub_node.pop('knowledge_assessment')
+        if node['model'] == 'foreign.wordprogress':
+            fields = fields.pop('knowledge_assessment')
 
-        if node['model'] == 'english.categorymodel':
-            node['model'] = 'english.wordcategory'
+        if node['model'] == 'glossary.glossarycategory':
+            fields['name'] = fields.pop('category')
+            fields['user_id'] = DEFAULT_USER_ID
 
-    return file_data
+        if node['model'] == 'glossary.glossary':
+            fields['user_id'] = DEFAULT_USER_ID
+
+        elif node['model'] == 'foreign.word':
+            fields['foreign_word'] = fields.pop('word_eng')
+            fields['russian_word'] = fields.pop('word_rus')
+
+    return updated_list
 
 
 def main() -> None:
     """Run script."""
     data = reade_json_file(READE_FILE_PATH)
-    updated_data = update_file_data(data)
+    updated_data = delete_node(data)
     wright_json_file(WRIGHT_FILE_PATH, updated_data)
 
 
