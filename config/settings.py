@@ -10,6 +10,7 @@ load_dotenv('./.env_vars/.env')
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG')
+PAGINATION_SIZE = int(os.getenv('PAGINATION_SIZE', 20))
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
@@ -183,7 +184,7 @@ REST_FRAMEWORK = {
     # Pagination
     # https://www.django-rest-framework.org/api-guide/pagination/#setting-the-pagination-style
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',  # noqa: E501
-    'PAGE_SIZE': 5,  # End Pagination
+    'PAGE_SIZE': PAGINATION_SIZE,  # End Pagination
 }
 
 FIXTURE_DIRS = ['tests/fixtures/']
