@@ -22,6 +22,6 @@ Test Django REST framework
 Test exercise DRF
 """""""""""""""""
 
-.. automodule:: glossary.tests.tests_drf.test_exercise
+.. automodule:: glossary.tests.tests_rest.test_exercise
    :members:
 

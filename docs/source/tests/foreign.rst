@@ -8,7 +8,7 @@ Test exercise
 Drf tests
 ---------
 
-.. automodule:: foreign.tests.tests_drf.test_params
+.. automodule:: foreign.tests.tests_rest.test_params
    :members:
 
 Test foreign word
@@ -17,5 +17,5 @@ Test foreign word
 Drf tests
 ---------
 
-.. automodule:: foreign.tests.tests_drf.test_word
+.. automodule:: foreign.tests.tests_rest.test_word
    :members:
