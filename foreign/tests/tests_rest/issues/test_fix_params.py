@@ -15,7 +15,6 @@
     # renders only 'word_u3_w10' word
 """
 
-import logging
 from unittest import skip
 
 from django.db.models import QuerySet
@@ -50,13 +49,10 @@ class RenderSameTaskTest(APITestCase):
         self.api_client.force_authenticate(self.user)
         response = self.api_client.post(self.url, self.params, format='json')
         payload = response.json()  # noqa: F841
-        logging.info(f'{payload = }')
 
+    @skip
     def test_params_to_word_lookup_params(self) -> None:
         """Test params."""
-        # self.params['']
-        words = self.query_database(self.params)
-        logging.info(f'>>> {words = }')
 
     @staticmethod
     def query_database(data: dict[str, object]) -> QuerySet:
