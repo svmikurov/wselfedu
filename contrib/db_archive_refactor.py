@@ -20,8 +20,8 @@ def wright_json_file(file_path: str, data: list[dict]) -> None:
         json.dump(data, file, ensure_ascii=False, indent=4)
 
 
-def delete_node(data: list[dict]) -> list[dict]:
-    """Remove unnecessary nodes."""
+def rename_node_fields(data: list[dict]) -> list[dict]:
+    """Rename node fields."""
     renamed_nodes = {
         'users.usermodel': 'users.userapp',
         'english.categorymodel': 'foreign.wordcategory',
@@ -55,7 +55,7 @@ def delete_node(data: list[dict]) -> list[dict]:
             fields['name'] = fields.pop('category')
             fields['user_id'] = DEFAULT_USER_ID
 
-        if node['model'] == 'glossary.glossary':
+        elif node['model'] == 'glossary.glossary':
             fields['user_id'] = DEFAULT_USER_ID
 
         elif node['model'] == 'foreign.word':
@@ -68,7 +68,7 @@ def delete_node(data: list[dict]) -> list[dict]:
 def main() -> None:
     """Run script."""
     data = reade_json_file(READE_FILE_PATH)
-    updated_data = delete_node(data)
+    updated_data = rename_node_fields(data)
     wright_json_file(WRIGHT_FILE_PATH, updated_data)
 
 
