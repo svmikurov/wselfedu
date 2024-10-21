@@ -86,13 +86,7 @@ test:
 plw:
 	@$(APP) pytest tests_plw/
 
-plw-lf:
-	@$(APP) pytest tests_e2e/ --lf
-
 check: ruff down build up test plw
-
-get-state:
-	@$(APP) sh -c "pytest tests_e2e/auth/get_auth_state.py"
 
 test-just:
 	@$(APP) pytest $(TEST_JUST)
