@@ -11,7 +11,7 @@ $(document).ready(function () {
                 $('#message').html(data.success_message);
                 $('#message').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>');
                 $('#id_foreign_word').val('');
-                $('#id_russian_word').val('');
+                $('#id_native_word').val('');
                 $('#id_foreign_word').focus();
             }
         })

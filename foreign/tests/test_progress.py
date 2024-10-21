@@ -10,9 +10,9 @@ from config.constants import (
     FOREIGN_WORD,
     ID,
     KNOW,
+    NATIVE_WORD,
     PROGRESS_MAX,
     PROGRESS_MIN,
-    RUSSIAN_WORD,
     USER,
     WORD_ID,
 )
@@ -41,7 +41,7 @@ class TestUpdateProgres(TestCase):
         self.new_word_data = {
             USER: UserApp.objects.get(pk=1),
             FOREIGN_WORD: 'test',
-            RUSSIAN_WORD: 'тест',
+            NATIVE_WORD: 'тест',
         }
 
         self.assessment_up = {ACTION: '+1'}

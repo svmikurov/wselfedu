@@ -19,7 +19,7 @@ from config.constants import (
     CATEGORY,
     COL_6,
     FOREIGN_WORD,
-    RUSSIAN_WORD,
+    NATIVE_WORD,
     SOURCE,
     WORD_COUNT,
 )
@@ -35,7 +35,7 @@ class WordForm(ModelForm):
         model = Word
         fields = (
             FOREIGN_WORD,
-            RUSSIAN_WORD,
+            NATIVE_WORD,
             CATEGORY,
             SOURCE,
             WORD_COUNT,
@@ -47,7 +47,7 @@ class WordForm(ModelForm):
         form.helper = FormHelper()
         form.helper.layout = Layout(
             Field(FOREIGN_WORD, autofocus=True),
-            Field(RUSSIAN_WORD),
+            Field(NATIVE_WORD),
             Row(
                 Column(CATEGORY, css_class=COL_6),
                 Column(SOURCE, css_class=COL_6),

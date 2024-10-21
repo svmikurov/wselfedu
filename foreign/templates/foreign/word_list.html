@@ -40,7 +40,7 @@
       {% for word in words %}
         <tr>
           <td><a href="{% url 'foreign:words_detail' word.pk %}">{{ word.foreign_word }}</a></td>
-          <td>{{ word.russian_word }}</td>
+          <td>{{ word.native_word }}</td>
           <td>{{ word.get_word_count_display }}</td>
           <td>{% if word.assessment %}{{ word.assessment }}{% else %}-{% endif %}</td>
           <td>{% if word.category %}{{ word.category }}{% else %}-{% endif %}</td>

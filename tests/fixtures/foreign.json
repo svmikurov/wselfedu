@@ -235,7 +235,7 @@
   "fields": {
     "user": 3,
     "foreign_word": "word_u3_w1",
-    "russian_word": "слово_п3_с1",
+    "native_word": "слово_п3_с1",
     "source": null,
     "category": null,
     "word_count": "NC",
@@ -249,7 +249,7 @@
   "fields": {
     "user": 3,
     "foreign_word": "word_u3_w2",
-    "russian_word": "слово_п3_с2",
+    "native_word": "слово_п3_с2",
     "source": null,
     "category": 1,
     "word_count": "OW",
@@ -263,7 +263,7 @@
   "fields": {
     "user": 3,
     "foreign_word": "word_u3_w3",
-    "russian_word": "слово_п3_с3",
+    "native_word": "слово_п3_с3",
     "source": 1,
     "category": 2,
     "word_count": "CB",
@@ -277,7 +277,7 @@
   "fields": {
     "user": 3,
     "foreign_word": "word_u3_w4",
-    "russian_word": "слово_п3_с4",
+    "native_word": "слово_п3_с4",
     "source": 3,
     "category": 4,
     "word_count": "PS",
@@ -291,7 +291,7 @@
   "fields": {
     "user": 3,
     "foreign_word": "word_u3_w5",
-    "russian_word": "слово_п3_с5",
+    "native_word": "слово_п3_с5",
     "source": null,
     "category": null,
     "word_count": "ST",
@@ -305,7 +305,7 @@
   "fields": {
     "user": 3,
     "foreign_word": "word_u3_w6",
-    "russian_word": "слово_п3_с6",
+    "native_word": "слово_п3_с6",
     "source": null,
     "category": null,
     "word_count": "NC",
@@ -319,7 +319,7 @@
   "fields": {
     "user": 3,
     "foreign_word": "word_u3_w7",
-    "russian_word": "слово_п3_с7",
+    "native_word": "слово_п3_с7",
     "source": 4,
     "category": 1,
     "word_count": "NC",
@@ -333,7 +333,7 @@
   "fields": {
     "user": 3,
     "foreign_word": "word_u3_w8",
-    "russian_word": "слово_п3_с8",
+    "native_word": "слово_п3_с8",
     "source": null,
     "category": null,
     "word_count": "NC",
@@ -347,7 +347,7 @@
   "fields": {
     "user": 3,
     "foreign_word": "word_u3_w9",
-    "russian_word": "слово_п3_с9",
+    "native_word": "слово_п3_с9",
     "source": null,
     "category": null,
     "word_count": "NC",
@@ -361,7 +361,7 @@
   "fields": {
     "user": 3,
     "foreign_word": "word_u3_w10",
-    "russian_word": "слово_п3_с10",
+    "native_word": "слово_п3_с10",
     "source": null,
     "category": null,
     "word_count": "NC",
@@ -375,7 +375,7 @@
   "fields": {
     "user": 4,
     "foreign_word": "word_u4_w1",
-    "russian_word": "слово_п4_с1",
+    "native_word": "слово_п4_с1",
     "source": null,
     "category": null,
     "word_count": "NC",
@@ -389,7 +389,7 @@
   "fields": {
     "user": 4,
     "foreign_word": "word_u4_w2",
-    "russian_word": "слово_п4_с2",
+    "native_word": "слово_п4_с2",
     "source": null,
     "category": null,
     "word_count": "NC",
@@ -403,7 +403,7 @@
   "fields": {
     "user": 4,
     "foreign_word": "word_u4_w3",
-    "russian_word": "слово_п4_с3",
+    "native_word": "слово_п4_с3",
     "source": null,
     "category": null,
     "word_count": "NC",
@@ -417,7 +417,7 @@
   "fields": {
     "user": 4,
     "foreign_word": "word_u4_w4",
-    "russian_word": "слово_п4_с4",
+    "native_word": "слово_п4_с4",
     "source": null,
     "category": null,
     "word_count": "NC",
@@ -431,7 +431,7 @@
   "fields": {
     "user": 4,
     "foreign_word": "word_u4_w5",
-    "russian_word": "слово_п4_с5",
+    "native_word": "слово_п4_с5",
     "source": null,
     "category": null,
     "word_count": "NC",
@@ -445,7 +445,7 @@
   "fields": {
     "user": 4,
     "foreign_word": "word_u4_w6",
-    "russian_word": "слово_п4_с6",
+    "native_word": "слово_п4_с6",
     "source": null,
     "category": null,
     "word_count": "NC",
@@ -459,7 +459,7 @@
   "fields": {
     "user": 4,
     "foreign_word": "word_u4_w7",
-    "russian_word": "слово_п4_с7",
+    "native_word": "слово_п4_с7",
     "source": null,
     "category": null,
     "word_count": "NC",
@@ -473,7 +473,7 @@
   "fields": {
     "user": 4,
     "foreign_word": "word_u4_w8",
-    "russian_word": "слово_п4_с8",
+    "native_word": "слово_п4_с8",
     "source": null,
     "category": null,
     "word_count": "NC",
@@ -487,7 +487,7 @@
   "fields": {
     "user": 4,
     "foreign_word": "word_u4_w9",
-    "russian_word": "слово_п4_с9",
+    "native_word": "слово_п4_с9",
     "source": null,
     "category": null,
     "word_count": "NC",
@@ -501,7 +501,7 @@
   "fields": {
     "user": 4,
     "foreign_word": "word_u4_w10",
-    "russian_word": "слово_п4_с10",
+    "native_word": "слово_п4_с10",
     "source": null,
     "category": null,
     "word_count": "NC",

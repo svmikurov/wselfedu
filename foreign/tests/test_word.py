@@ -12,10 +12,10 @@ from config.constants import (
     DELETE_WORD_PATH,
     DETAIL_WORD_PATH,
     FOREIGN_WORD,
+    NATIVE_WORD,
     OBJECT_LIST,
     ONE_WORD,
     PK,
-    RUSSIAN_WORD,
     SENTENCE,
     UPDATE_WORD_PATH,
     USER,
@@ -50,7 +50,7 @@ class TestCreateWordView(TestCase):
         self.another_user = UserApp.objects.get(id=another_user_id)
         self.create_data = {
             FOREIGN_WORD: 'new word',
-            RUSSIAN_WORD: 'новое слово',
+            NATIVE_WORD: 'новое слово',
             WORD_COUNT: COMBINATION,
         }
         self.url = reverse(CREATE_WORD_PATH)
@@ -102,7 +102,7 @@ class TestUpdateWordView(TestCase):
         self.another_user = UserApp.objects.get(pk=another_user_id)
         self.update_data = {
             FOREIGN_WORD: 'test',
-            RUSSIAN_WORD: 'тест',
+            NATIVE_WORD: 'тест',
             WORD_COUNT: SENTENCE,
         }
         self.url = reverse(UPDATE_WORD_PATH, kwargs={PK: user_word_id})
@@ -333,7 +333,7 @@ class WordListPageFilter(TestCase):
         self.assertContains(response, 'word_u3_w1', status_code=200)
         self.assertNotContains(response, 'word_u3_w2')
 
-        # filter by russian word
+        # filter by native word
         search_param = {'search_word': 'слово_п3_с1'}
         response = self.client.get(self.url, search_param)
         self.assertContains(response, 'слово_п3_с1', status_code=200)

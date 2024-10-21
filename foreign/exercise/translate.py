@@ -57,7 +57,7 @@ class TranslateExerciseGUI(Exercise):
         """Get translation of words in order of user choice
         (`list[str]`, read-only).
         """  # noqa:  D205
-        word_translations = [self.item.foreign_word, self.item.russian_word]
+        word_translations = [self.item.foreign_word, self.item.native_word]
         if self.language_order == TO_RUSSIAN:
             pass
         elif self.language_order == FROM_RUSSIAN:

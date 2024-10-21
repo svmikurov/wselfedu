@@ -9,9 +9,9 @@ Attributes:
     * "results"  - list of word mapping, its elements has attributes:
         - "id"       - word ID
         - "foreign_word" - word by foreign
-        - "russian_word" - word by russian
+        - "native_word" - word by native
 
-    {required fild} - "foreign_word" or "russian_word"
+    {required fild} - "foreign_word" or "native_word"
 
 Word List, Create endpoints
 ---------------------------
@@ -30,9 +30,9 @@ Word List, Create endpoints
 |           |                               |  * results                    |
 +-----------+-------------------------------+-------------------------------+
 | POST      | * foreign_word                | HTTP_201_CREATED              |
-|           | * russian_word                |  * id                         |
+|           | * native_word                 |  * id                         |
 |           |                               |  * foreign_word               |
-|           |                               |  * russian_word               |
+|           |                               |  * native_word                |
 |           |                               |                               |
 |           |                               | HTTP_400_BAD_REQUEST          |
 |           |                               |  * {required fild}            |
@@ -51,20 +51,20 @@ Word Retrieve, Update, Destroy endpoints
 | GET       | --                            | HTTP_200_OK                   |
 |           |                               |  * id                         |
 |           |                               |  * foreign_word               |
-|           |                               |  * russian_word               |
+|           |                               |  * native_word                |
 +-----------+-------------------------------+-------------------------------+
 | PUT       | * foreign_word                | HTTP_200_OK                   |
-|           | * russian_word                |  * id                         |
+|           | * native_word                 |  * id                         |
 |           |                               |  * foreign_word               |
-|           |                               |  * russian_word               |
+|           |                               |  * native_word                |
 |           |                               |                               |
 |           |                               | HTTP_400_BAD_REQUEST          |
 |           |                               |  * {required fild}            |
 +-----------+-------------------------------+-------------------------------+
 | PATCH     | * foreign_word (optionally)   | HTTP_200_OK                   |
-|           | * russian_word (optionally)   |  * id                         |
+|           | * native_word  (optionally)   |  * id                         |
 |           |                               |  * foreign_word               |
-|           |                               |  * russian_word               |
+|           |                               |  * native_word                |
 +-----------+-------------------------------+-------------------------------+
 | DELETE    |                               | HTTP_204_NO_CONTENT           |
 +-----------+-------------------------------+-------------------------------+

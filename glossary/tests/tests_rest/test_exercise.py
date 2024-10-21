@@ -74,18 +74,16 @@ class TestGetGlossaryExerciseParams(APITestCase):
             'exercise_choices': {
                 'categories': [
                     {
-                        'id': 1,
-                        'name': 'GitHub Actions',
-                        'url': '',
-                        'created_at': '2024-09-07',
-                        'user': 1,
+                        'alias': 1,
+                        'humanly': 'GitHub Actions',
                     },
                     {
-                        'id': 2,
-                        'name': 'PostgreSQL',
-                        'url': '',
-                        'created_at': '2024-09-07',
-                        'user': 1,
+                        'alias': 2,
+                        'humanly': 'PostgreSQL',
+                    },
+                    {
+                        'alias': None,
+                        'humanly': 'Не выбрано',
                     },
                 ],
                 'edge_period_items': [

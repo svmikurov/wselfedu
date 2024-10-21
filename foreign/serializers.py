@@ -7,10 +7,10 @@ from config.constants import (
     CATEGORY,
     FOREIGN_WORD,
     ID,
+    NATIVE_WORD,
     PERIOD_END_DATE,
     PERIOD_START_DATE,
     PROGRESS,
-    RUSSIAN_WORD,
     USER,
 )
 from foreign.models import TranslateParams, Word, WordCategory
@@ -23,7 +23,7 @@ class WordSerializer(serializers.ModelSerializer):
         """Serializer settings."""
 
         model = Word
-        fields = [ID, FOREIGN_WORD, RUSSIAN_WORD]
+        fields = [ID, FOREIGN_WORD, NATIVE_WORD]
         """Fields (`list[str]`).
         """
 

@@ -34,7 +34,7 @@ class Word(models.Model):
         verbose_name='Иностранное слово',
         help_text='Не более 75 символов.',
     )
-    russian_word = models.CharField(
+    native_word = models.CharField(
         max_length=75,
         verbose_name='Слово на русском',
         help_text='Не более 75 символов.',

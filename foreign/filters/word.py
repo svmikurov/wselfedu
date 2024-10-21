@@ -93,9 +93,9 @@ class WordsFilter(django_filters.FilterSet):
         name: object,
         value: object,
     ) -> QuerySet:
-        """Find a word in foreign or russian."""
+        """Find a word in foreign or native."""
         return queryset.filter(
-            Q(foreign_word__icontains=value) | Q(russian_word__icontains=value)
+            Q(foreign_word__icontains=value) | Q(native_word__icontains=value)
         )
 
     @staticmethod

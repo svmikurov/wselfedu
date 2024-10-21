@@ -60,7 +60,7 @@ def rename_node_fields(data: list[dict]) -> list[dict]:
 
         elif node['model'] == 'foreign.word':
             fields['foreign_word'] = fields.pop('word_eng')
-            fields['russian_word'] = fields.pop('word_rus')
+            fields['native_word'] = fields.pop('word_rus')
 
     return updated_list
 

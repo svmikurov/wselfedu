@@ -10,7 +10,7 @@ from config.constants import (  # noqa: F401
     ID,
     MENTOR,
     NAME,
-    RUSSIAN_WORD,
+    NATIVE_WORD,
     SOURCE,
     USER,
     WORD,
@@ -44,7 +44,7 @@ class WordAdmin(admin.ModelAdmin):
     list_display = [
         ID,
         FOREIGN_WORD,
-        RUSSIAN_WORD,
+        NATIVE_WORD,
         CREATED_AT,
         CATEGORY,
         USER,
