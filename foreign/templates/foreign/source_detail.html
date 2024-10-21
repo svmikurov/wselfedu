@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="">{% include 'components/title.html' %}</div>
+
+  <!--======= Source Name =======-->
+  <p>{{ source }}</p><!-- End Source Name -->
+
+  <!--======= Buttons =======-->
+  <div class="pt-1">
+    <a class="btn btn-outline-primary btn-sm"
+       href="{% url 'foreign:source_update' source.pk %}"
+       role="button"
+    >Изменить
+    </a>
+    <a class="btn btn-outline-danger btn-sm ms-1"
+       href="{% url 'foreign:source_delete' source.pk %}"
+       role="button"
+    >Удалить
+    </a>
+    {% include 'components/btn_back.html' %}
+  </div><!-- End Buttons -->
+{% endblock %}

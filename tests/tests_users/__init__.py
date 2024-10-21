@@ -1,1 +1,0 @@
-"""Test CRUD users package."""

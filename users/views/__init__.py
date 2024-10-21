@@ -1,17 +1,17 @@
 """Package of views of the Users application."""
 
 # ruff: noqa: I001
-from users.views.auth_views import (
+from users.views.auth import (
     UserLoginView,
     UserLogoutView,
 )
-from users.views.crud_user_views import (
+from users.views.user import (
     CreateUserView,
     DeleteUserView,
     UpdateUserView,
     UsersListView,
 )
-from users.views.mentorship_views import (
+from users.views.mentorship import (
     InputMentorView,
     accept_mentorship_request,
     send_mentorship_request,
@@ -21,7 +21,7 @@ from users.views.mentorship_views import (
     DeleteMentorshipView,
     MentorshipView,
 )
-from users.views.profile_view import UserDetailView
+from users.views.profile import UserDetailView
 
 __all__ = (
     'UserLoginView',

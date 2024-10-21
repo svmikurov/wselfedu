@@ -1,18 +1,11 @@
-====================================
 Welcome to wselfedu's documentation!
 ====================================
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
 
-   tutorial/index
-
-.. toctree::
-   :maxdepth: 3
-   :hidden:
-
-   development/index
-   api/index
-   testing/index
    install/index
+   reference/index
+   rest/index
+   tests/index
    changelog/changelog

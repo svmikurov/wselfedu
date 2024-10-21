@@ -6,6 +6,7 @@ from users import views
 from users.urls.mentor_urls import mentor_urls
 
 app_name = 'users'
+
 urlpatterns = [
     # <!--======== Auth users =======-->
     path(

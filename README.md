@@ -11,7 +11,7 @@
 [![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 [![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)](https://docs.github.com/en/actions)
 
-## Мой помощник в изучении английских слов
+## Мой помощник в изучении иностранных слов
 
 This convention dovetails with [SemVar](https://semver.org/) (I try to do it).
 
@@ -22,7 +22,7 @@ This convention dovetails with [SemVar](https://semver.org/) (I try to do it).
 ### [Documentation using Sphinx](https://svmikurov.github.io/wselfedu/)
 
 ### Моя мотивация
-* Создать приложение-помощника в изучении слов английского языка.  
+* Создать приложение-помощника в изучении иностранных слов.  
 * Получить опыт проектирования, разработки, тестирования, документирования и развертывания
   веб приложения, опыт расширения и поддержки приложения.
 
@@ -51,8 +51,8 @@ This convention dovetails with [SemVar](https://semver.org/) (I try to do it).
   Сначала отображается слово для перевода, потом добавляется перевод.  
   В рамках настоящего приложения этот процесс называется *упражнением*.  
 * Выбор порядка перевода слов:
-  * с русского на английский язык;
-  * с английского на русский язык;
+  * с русского на иностранный язык;
+  * с иностранного на русский язык;
   * случайный выбор языка для отображаемого слова.
 * Выделение *активного* и *пассивного* изучения слов.
 * *Активное* изучение слов - основано на бальной системе оценки пользователем

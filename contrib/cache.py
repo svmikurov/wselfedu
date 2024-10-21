@@ -1,13 +1,24 @@
-"""Cache story module."""
+"""Storing data on a Redis server."""
 
 from datetime import datetime, timezone
 
+import redis
 from django.core.cache import cache
 
-CACHE_STORAGE_TIME = 10
-"""The number of seconds the value should be stored in the cache
-(`int`).
-"""
+from config.constants import CACHE_STORAGE_TIME, REDIS_PARAMS
+
+
+def set_cache_dict(name: str, mapping: dict) -> None:
+    """Set the mapping to cache."""
+    conn = redis.Redis(**REDIS_PARAMS)
+    conn.hset(name, mapping=mapping)
+
+
+def get_cache_dict(name: str) -> dict:
+    """Get the mapping from cache."""
+    conn = redis.Redis(**REDIS_PARAMS)
+    mapping = conn.hgetall(name)
+    return mapping
 
 
 def time_cache_key(user_id: int, exercise_type: str) -> str:

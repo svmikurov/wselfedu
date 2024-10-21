@@ -51,11 +51,20 @@ migrate:
 collectstatic:
 	@$(MANAGE) collectstatic --noinput
 
+createsuperuser:
+	@$(MANAGE) createsuperuser
+
 loaddata:
 	@$(MANAGE) loaddata db-wse-sweb.json
 
+loaddata-fixtures:
+	@$(MANAGE) loaddata tests/fixtures/fixtures.json
+
 dumpdata:
 	@$(MANAGE) dumpdata --exclude auth.permission --exclude contenttypes --indent 2 > db-wse-sweb.json
+
+dumpdata-fixtures:
+	@$(MANAGE) dumpdata --exclude auth.permission --exclude contenttypes --exclude admin.logentry --exclude sessions.session --indent 2 > fixtures.json
 
 shell:
 	@$(MANAGE) shell
@@ -69,16 +78,16 @@ lint:
 	@$(APP) flake8
 
 ruff:
-	ruff check && ruff format --diff
+	@$(APP) ruff check && ruff format --diff
 
 test:
-	@$(APP) pytest tests/
+	@$(APP) pytest --ignore=tests_plw/
 
 plw:
-	@$(APP) pytest tests/tests_e2e/
+	@$(APP) pytest tests_plw/
 
 plw-lf:
-	@$(APP) pytest tests/tests_e2e/ --lf
+	@$(APP) pytest tests_e2e/ --lf
 
 check: ruff down build up test plw
 

@@ -10,6 +10,7 @@ load_dotenv('./.env_vars/.env')
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG')
+PAGINATION_SIZE = int(os.getenv('PAGINATION_SIZE', 20))
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
@@ -38,8 +39,8 @@ INSTALLED_APPS = [
     'djoser',
     # added apps
     'users.apps.UsersConfig',
-    'english.apps.EnglishConfig',
-    'task.apps.TaskConfig',
+    'foreign.apps.ForeignConfig',
+    'mathematics.apps.MathematicsConfig',
     'glossary.apps.GlossaryConfig',
 ]
 
@@ -67,7 +68,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'task.context_processors.add_student_user_data',
+                # added
+                'config.context_processor.pass_var_to_template',
+                'users.context_processors.add_student_user_data',
             ],
         },
     },
@@ -86,7 +89,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'users.UserModel'
+AUTH_USER_MODEL = 'users.UserApp'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -169,6 +172,7 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
+    # Permissions
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
@@ -180,5 +184,7 @@ REST_FRAMEWORK = {
     # Pagination
     # https://www.django-rest-framework.org/api-guide/pagination/#setting-the-pagination-style
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',  # noqa: E501
-    'PAGE_SIZE': 5,  # Ebd Pagination
+    'PAGE_SIZE': PAGINATION_SIZE,  # End Pagination
 }
+
+FIXTURE_DIRS = ['tests/fixtures/']
