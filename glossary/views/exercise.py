@@ -23,6 +23,7 @@ from config.constants import (
     GET,
     ID,
     LOOKUP_CONDITIONS,
+    NO_SELECTION,
     POST,
     PROGRES_STEPS,
     PROGRESS,
@@ -90,16 +91,14 @@ def glossary_exercise_parameters(
         except GlossaryParams.DoesNotExist:
             lookup_conditions = DEFAULT_LOOKUP_CONDITIONS
         else:
-            serializer = GlossaryParamsSerializer(user_params)
-            lookup_conditions = serializer.data
+            lookup_conditions = GlossaryParamsSerializer(user_params).data
 
         try:
-            user_cats = GlossaryCategory.objects.filter(user=user)
+            queryset = GlossaryCategory.objects.filter(user=user)
         except GlossaryCategory.DoesNotExist:
-            categories = None
-        else:
-            serializer = GlossaryCategorySerializer(user_cats, many=True)
-            categories = serializer.data
+            queryset = GlossaryCategory.objects.none()
+        categories = GlossaryCategorySerializer(queryset, many=True).data
+        categories.append(NO_SELECTION)
 
         exercise_params = {
             LOOKUP_CONDITIONS: lookup_conditions,

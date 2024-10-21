@@ -1,5 +1,6 @@
 """Glossary serializer."""
 
+from django.db.models import Model
 from rest_framework import serializers
 
 from config.constants import (
@@ -60,8 +61,22 @@ class GlossaryParamsSerializer(serializers.ModelSerializer):
 class GlossaryCategorySerializer(serializers.ModelSerializer):
     """Glossary Category serializer."""
 
+    alias = serializers.SerializerMethodField()
+    """Field alias pk (`int`).
+    """
+    humanly = serializers.CharField(source='name')
+    """Field alias pk (`str`).
+    """
+
     class Meta:
         """Serializer settings."""
 
         model = GlossaryCategory
-        fields = '__all__'
+        fields = ['alias', 'humanly']
+        """Fields (`list[str]`).
+        """
+
+    @classmethod
+    def get_alias(cls, obj: Model) -> int:
+        """Add alias as name of pk field."""
+        return obj.pk
