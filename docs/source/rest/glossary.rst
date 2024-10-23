@@ -101,7 +101,7 @@ Glossary progress endpoint
 +-----------+---------------------------------+-------------------------------+
 | Method    | Request                         | Response                      |
 +===========+=================================+===============================+
-| POST      | * action                        |                               |
+| POST      | * action                        | HTTP_204_OK                   |
 |           | * id                            |                               |
 +-----------+---------------------------------+-------------------------------+
 
@@ -109,3 +109,57 @@ Where:
     - ``'action'`` -- ``'know'`` or ``'not_know'``, user assessment of
       knowledge of the term;
     - ``'id'`` -- term ID.
+
+
+Category
+--------
+
+Where:
+    - ``'count'`` -- count of categories;
+    - ``'next'`` -- pagination next url;
+    - ``'previous'`` -- pagination previous url;
+    - ``'results'`` -- list of categories;
+    - ``'alias'`` -- category ID;
+    - ``'humanly'`` -- category name.
+
+.. code-block::
+
+   api/v1/glossary/category/
+
+View: :py:class:`~glossary.views.glossary.GlossaryListCreateAPIView`
+
++-----------+---------------------------------+-------------------------------+
+| Method    | Request                         | Response                      |
++===========+=================================+===============================+
+| GET       | --                              | HTTP_200_OK                   |
+|           |                                 |  * count                      |
+|           |                                 |  * next                       |
+|           |                                 |  * previous                   |
+|           |                                 |  * results:                   |
+|           |                                 |     * alias                   |
+|           |                                 |     * humanly                 |
++-----------+---------------------------------+-------------------------------+
+| POST      | * humanly                       | HTTP_201_CREATED              |
+|           |                                 |  * alias                      |
+|           |                                 |  * humanly                    |
++-----------+---------------------------------+-------------------------------+
+
+.. code-block::
+
+   api/v1/glossary/category/{id}/
+
+View: :py:class:`~glossary.views.glossary.GlossaryDetailAPIView`
+
++-----------+---------------------------------+-------------------------------+
+| Method    | Request                         | Response                      |
++===========+=================================+===============================+
+| GET       | --                              | HTTP_200_OK                   |
+|           |                                 |  * alias                      |
+|           |                                 |  * humanly                    |
++-----------+---------------------------------+-------------------------------+
+| PUT       | * humanly                       | HTTP_200_OK                   |
+|           |                                 |  * alias                      |
+|           |                                 |  * humanly                    |
++-----------+---------------------------------+-------------------------------+
+| DELETE    | --                              | HTTP_204_NO_CONTENT           |
++-----------+---------------------------------+-------------------------------+
