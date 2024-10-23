@@ -1,27 +1,28 @@
-Foreign app tests
-=================
+==================
+Glossary app tests
+==================
 
-Test Django framework
----------------------
+App
+---
 
-Test exercise
-"""""""""""""
+.. toctree::
+   :maxdepth: 1
 
-.. automodule:: glossary.tests.test_exercise
-   :members:
+   lookup_params
 
-Test lookup params
-""""""""""""""""""
+Views
+-----
 
-.. automodule:: glossary.tests.test_lookup_params
-   :members:
+.. toctree::
+   :maxdepth: 1
 
-Test Django REST framework
---------------------------
+   exercise
 
-Test exercise DRF
-"""""""""""""""""
+Views REST
+----------
 
-.. automodule:: glossary.tests.tests_rest.test_exercise
-   :members:
+.. toctree::
+   :maxdepth: 1
 
+   category_rest
+   exercise_rest
