@@ -7,7 +7,15 @@ from django.contrib import admin
 from django.forms import Form
 from django.http import HttpRequest
 
-from config.constants import CATEGORY, CREATED_AT, DEFINITION, NAME, TERM, USER
+from config.constants import (
+    CATEGORY,
+    CREATED_AT,
+    DEFINITION,
+    ID,
+    NAME,
+    TERM,
+    USER,
+)
 from glossary.models import (
     Glossary,
     GlossaryCategory,
@@ -39,7 +47,7 @@ class GlossaryAdmin(admin.ModelAdmin):
 class GlossaryCategoryAdmin(admin.ModelAdmin):
     """Representation of model in the admin interface."""
 
-    list_display = [USER, NAME]
+    list_display = [ID, USER, NAME]
     exclude = [CREATED_AT]
 
 
