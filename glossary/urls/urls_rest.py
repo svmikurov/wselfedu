@@ -8,16 +8,27 @@ from glossary.views.exercise import (
     update_term_study_progress,
 )
 from glossary.views.glossary import (
+    CategoryTermListCreateAPIView,
+    GlossaryCategoryDetailAPIView,
     GlossaryDetailAPIView,
     GlossaryListCreateAPIView,
 )
 
+# 'api/v1/glossary/
 app_name = 'glossary_rest'
 
 urlpatterns = [
     # Terms
     path('', GlossaryListCreateAPIView.as_view(), name='terms'),
     path('<int:pk>/', GlossaryDetailAPIView.as_view(), name='term'),
+    path(
+        'category/', CategoryTermListCreateAPIView.as_view(), name='category'
+    ),  # noqa: E501
+    path(
+        'category/<int:pk>/',
+        GlossaryCategoryDetailAPIView.as_view(),
+        name='category',
+    ),  # noqa: E501
     # Exercise
     path('progress/', update_term_study_progress, name='progress'),
     path('exercise/', glossary_exercise, name='exercise'),

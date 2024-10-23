@@ -4,8 +4,8 @@ from django.db.models import QuerySet
 from rest_framework import generics, permissions
 
 from contrib.views_rest import IsOwner
-from glossary.models import Glossary
-from glossary.serializers import GlossarySerializer
+from glossary.models import Glossary, GlossaryCategory
+from glossary.serializers import GlossaryCategorySerializer, GlossarySerializer
 
 
 class GlossaryListCreateAPIView(generics.ListCreateAPIView):
@@ -20,13 +20,36 @@ class GlossaryListCreateAPIView(generics.ListCreateAPIView):
         return Glossary.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer: GlossarySerializer) -> None:
-        """Add current user to created model instants."""
+        """Add current user to created model instance."""
         serializer.save(user=self.request.user)
 
 
 class GlossaryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-    """Retrieve, update and destroy Glossary API view."""
+    """Retrieve, update and destroy Glossary term API view."""
 
     queryset = Glossary.objects.all()
     serializer_class = GlossarySerializer
+    permission_classes = [IsOwner]
+
+
+class CategoryTermListCreateAPIView(generics.ListCreateAPIView):
+    """Create and list Glossary category API View."""
+
+    serializer_class = GlossaryCategorySerializer
+    permission_classes = [IsOwner]
+
+    def get_queryset(self) -> None:
+        """Get categories only for owner."""
+        return GlossaryCategory.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer: GlossaryCategorySerializer) -> None:
+        """Add current user to created model instance."""
+        serializer.save(user=self.request.user)
+
+
+class GlossaryCategoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    """Retrieve, update and destroy Glossary category API view."""
+
+    queryset = GlossaryCategory.objects.all()
+    serializer_class = GlossaryCategorySerializer
     permission_classes = [IsOwner]
