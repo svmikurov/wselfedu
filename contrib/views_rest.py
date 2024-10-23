@@ -6,7 +6,7 @@ from rest_framework.request import Request
 from rest_framework.views import APIView
 
 
-class IsOwner(permissions.BasePermission):
+class IsOwner(permissions.IsAuthenticated):
     """Permission class fo object owner."""
 
     def has_object_permission(
@@ -16,4 +16,5 @@ class IsOwner(permissions.BasePermission):
         obj: Model,
     ) -> bool:
         """Has current user the permission to the model instance."""
+        super().has_object_permission(request, view, obj)
         return obj.user == request.user
