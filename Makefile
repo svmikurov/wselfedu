@@ -64,7 +64,7 @@ dumpdata:
 	@$(MANAGE) dumpdata --exclude auth.permission --exclude contenttypes --indent 2 > db-wse-sweb.json
 
 dumpdata-fixtures:
-	@$(MANAGE) dumpdata --exclude auth.permission --exclude contenttypes --exclude admin.logentry --exclude sessions.session --indent 2 > fixtures.json
+	@$(MANAGE) dumpdata --exclude auth.permission --exclude contenttypes --exclude admin.logentry --exclude sessions.session --indent 2 > tests/fixtures/fixtures.json
 
 shell:
 	@$(MANAGE) shell
@@ -85,7 +85,6 @@ test:
 
 plw:
 	@$(APP) pytest tests_plw/
-
 check: ruff down build up test plw
 
 test-just:
