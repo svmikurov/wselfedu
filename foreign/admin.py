@@ -11,6 +11,7 @@ from config.constants import (  # noqa: F401
     MENTOR,
     NAME,
     NATIVE_WORD,
+    PROGRESS,
     SOURCE,
     USER,
     WORD,
@@ -20,6 +21,7 @@ from foreign.models import (
     Word,
     WordAnalytics,
     WordCategory,
+    WordProgress,
     WordSource,
 )
 
@@ -85,6 +87,22 @@ class WordSourceAdmin(admin.ModelAdmin):
     ordering = [
         USER,
         ID,
+    ]
+
+
+@admin.register(WordProgress)
+class WordProgressAdmin(admin.ModelAdmin):
+    """Representation of WordProgress in admin interface."""
+
+    list_display = [
+        ID,
+        WORD,
+        USER,
+        PROGRESS,
+    ]
+    ordering = [
+        USER,
+        WORD,
     ]
 
 
