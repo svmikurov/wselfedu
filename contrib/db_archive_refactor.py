@@ -49,7 +49,7 @@ def rename_node_fields(data: list[dict]) -> list[dict]:
             node['model'] = renamed_nodes[node['model']]
 
         if node['model'] == 'foreign.wordprogress':
-            fields = fields.pop('knowledge_assessment')
+            fields['progress'] = fields.pop('knowledge_assessment')
 
         if node['model'] == 'glossary.glossarycategory':
             fields['name'] = fields.pop('category')
