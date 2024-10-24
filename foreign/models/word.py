@@ -113,7 +113,7 @@ class WordProgress(models.Model):
 
     def __str__(self) -> str:
         """Provide the informal string representation of an object."""
-        return self.progress
+        return str(self.progress)
 
 
 class WordFavorites(models.Model):
