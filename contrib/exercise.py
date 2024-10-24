@@ -59,3 +59,31 @@ class Exercise:
             ANSWER_TEXT: self.answer_text,
         }
         return results
+
+
+class ExerciseData(Exercise):
+    """Task with additional data of exercise.
+
+    Adds the additionally general exercise data to render the task.
+    """
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the exercise task."""
+        super().__init__(*args, **kwargs)
+
+    @property
+    def exercise_data(self) -> dict[str, str]:
+        """Exercise data (``dact``, reade-only)."""
+        data = super().task_data
+        data['items'] = len(self.item_ids)
+        data['assessment'] = self._query_item_progress()
+        return data
+
+    def _query_item_progress(self) -> int:
+        """Query the item progress study.
+
+        :raises NotImplementedError: if the method is not overridden.
+        """
+        raise NotImplementedError(
+            'Subclasses must provide a _get_item_progress() method.'
+        )

@@ -113,7 +113,7 @@ def translate_exercise(request: Request) -> JsonResponse | HttpResponse:
         lookup_conditions[LANGUAGE_ORDER] = DEFAULT_LANGUAGE_ORDER
 
         try:
-            exercise = TranslateExerciseGUI(lookup_conditions).task_data
+            exercise = TranslateExerciseGUI(lookup_conditions).exercise_data
         except IndexError:
             detail = {'detail': 'По заданным условиям задание не сформировано'}
             return JsonResponse(detail, status=HTTP_204_NO_CONTENT)

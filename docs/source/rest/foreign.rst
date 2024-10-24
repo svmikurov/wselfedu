@@ -111,13 +111,55 @@ Exercise
 
    /api/v1/foreign/exercise/
 
-+-----------+-------------------------------+-------------------------------+
-| Method    | Request                       | Response                      |
-+===========+===============================+===============================+
-|           | --                            | HTTP_200_OK                   |
-|           |                               |  *                            |
-|           |                               |  *                            |
-|           |                               |  *                            |
-+-----------+-------------------------------+-------------------------------+
++-----------+----------------------------------+----------------------------+
+| Method    | Request                          | Response                   |
++===========+==================================+============================+
+| POST      | * period_start_date (optionally) | HTTP_200_OK                |
+|           | * period_end_date (optionally)   |  * id                      |
+|           | * category (optionally)          |  * question_text           |
+|           | * progress (optionally)          |  * answer_text             |
+|           |                                  |  * items                   |
+|           |                                  |  * assessment              |
++-----------+----------------------------------+----------------------------+
 
-The :py:func:`foreign.views.rest.exercise.translate_exercise` view.
+View: :py:func:`foreign.views.rest.exercise.translate_exercise`.
+
+Fields:
+    Request:
+        - ``period_start_date`` -- start of period of adding word to study,
+          choice alias only from :obj:`~config.constants.EDGE_PERIOD_CHOICES` (`str`);
+        - ``period_end_date`` -- end of period of adding word to study,
+          choice alias only from :obj:`~config.constants.EDGE_PERIOD_CHOICES` (`str`);
+        - ``category`` -- word category ID (`None` | `int`);
+        - ``progress`` -- progress of word study,
+          choice from :obj:`~config.constants.PROGRESS_CHOICES` (`str`);
+
+    Response:
+        - ``id`` -- word ID (`int`);
+        - ``question_text`` -- word to translate (`str`);
+        - ``answer_text`` -- translate of word (`str`);
+        - ``items`` -- count of words to choice for exercise,
+          by selected exercise parameters (`int`);
+        - ``assessment`` -- words study assessment (`int`);
+
+Example:
+
+.. code-block::
+   :caption: Request:
+
+        {
+            "period_start_date": "NC",
+            "period_end_date": "DT",
+            "progress": "S"
+        }
+
+.. code-block::
+   :caption: Response:
+
+        {
+            "id": 15,
+            "question_text": "tweezers",
+            "answer_text": "пинцет",
+            "items": 10,
+            "assessment": 7
+        }

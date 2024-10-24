@@ -32,13 +32,17 @@ from config.constants import (
     WORD_COUNT,
     WORD_ID,
 )
-from contrib.exercise import Exercise
-from foreign.models import Word, WordFavorites
+from contrib.exercise import ExerciseData
+from foreign.models import Word, WordFavorites, WordProgress
 from foreign.queries.lookup_params import WordLookupParams
+from users.models import UserApp
 
 
-class TranslateExerciseGUI(Exercise):
-    """Foreign word translate GUI app exercise."""
+class TranslateExerciseGUI(ExerciseData):
+    """Foreign word translate GUI app exercise.
+
+    GUI application exercise.
+    """
 
     model = Word
     lookup_params = WordLookupParams
@@ -66,9 +70,31 @@ class TranslateExerciseGUI(Exercise):
             shuffle(word_translations)
         return word_translations
 
+    def _query_item_progress(self) -> int:
+        """Query the word progress study assessment.
+
+        :return: Word progress study assessment.
+        :rtype: int
+        """
+        default_progress_value = 0
+        queryset = WordProgress.objects.filter(
+            user=UserApp.objects.get(pk=self.lookup_conditions['user_id']),
+            word=self.item,
+        )
+        # WordProgress model instance exist if the user assessed the
+        # level of knowledge of the word.
+        try:
+            progress = int(queryset.last().progress)
+        except AttributeError:
+            progress = default_progress_value
+        return progress
+
 
 class TranslateExercise(TranslateExerciseGUI):
-    """Foreign word translate exercise class."""
+    """Foreign word translate exercise class.
+
+    Browser application exercise.
+    """
 
     def __init__(self, lookup_conditions: dict) -> None:
         """Exercise constructor."""
