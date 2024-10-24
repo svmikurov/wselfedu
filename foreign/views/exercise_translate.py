@@ -113,7 +113,7 @@ class ForeignTranslateExerciseView(CheckLoginPermissionMixin, View):
         except KeyError:
             messages.error(request, self.msg_key_error)
             return redirect(reverse_lazy('foreign:foreign_translate_choice'))
-        except ValueError:
+        except (ValueError, IndexError):
             messages.error(request, self.msg_no_words)
             return redirect(reverse_lazy('foreign:foreign_translate_choice'))
         else:
