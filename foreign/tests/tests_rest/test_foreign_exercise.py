@@ -41,5 +41,5 @@ class TestRenderForeignExerciseDataREST(APITestCase):
         lookup_params = WordLookupParams(payload).params
         queryset = Word.objects.filter(*lookup_params)
 
-        assert response.json()['items'] == queryset.count()
+        assert response.json()['item_count'] == queryset.count()
         assert response.json()['assessment'] == 10

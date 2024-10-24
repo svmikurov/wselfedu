@@ -75,7 +75,7 @@ class ExerciseData(Exercise):
     def exercise_data(self) -> dict[str, str]:
         """Exercise data (``dact``, reade-only)."""
         data = super().task_data
-        data['items'] = len(self.item_ids)
+        data['item_count'] = len(self.item_ids)
         data['assessment'] = self._query_item_progress()
         return data
 

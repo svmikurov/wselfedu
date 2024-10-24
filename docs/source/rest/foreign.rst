@@ -138,7 +138,7 @@ Fields:
         - ``id`` -- word ID (`int`);
         - ``question_text`` -- word to translate (`str`);
         - ``answer_text`` -- translate of word (`str`);
-        - ``items`` -- count of words to choice for exercise,
+        - ``item_count`` -- count of words to choice for exercise,
           by selected exercise parameters (`int`);
         - ``assessment`` -- words study assessment (`int`);
 
