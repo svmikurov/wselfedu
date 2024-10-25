@@ -1,8 +1,7 @@
 """Translate foreign word exercise DRF views."""
 
 from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework import permissions
+from rest_framework import permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -31,6 +30,8 @@ from config.constants import (
     TIMEOUT,
     USER_ID,
 )
+from contrib.views_rest import IsOwner
+from foreign.exercise.base import WordAssessment
 from foreign.exercise.translate import TranslateExerciseGUI
 from foreign.models import (
     TranslateParams,
@@ -38,11 +39,11 @@ from foreign.models import (
 )
 from foreign.serializers import (
     TranslateParamsSerializer,
+    WordAssessmentSerializer,
     WordCategorySerializer,
 )
 
 
-@csrf_exempt
 @api_view([GET, POST])
 @permission_classes((permissions.IsAuthenticated,))
 def exercise_parameters(request: Request) -> JsonResponse | HttpResponse:
@@ -99,7 +100,6 @@ def exercise_parameters(request: Request) -> JsonResponse | HttpResponse:
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
-@csrf_exempt
 @api_view([GET, POST])
 @permission_classes((permissions.IsAuthenticated,))
 def translate_exercise(request: Request) -> JsonResponse | HttpResponse:
@@ -120,3 +120,15 @@ def translate_exercise(request: Request) -> JsonResponse | HttpResponse:
 
         return JsonResponse(exercise, status=HTTP_200_OK)
     return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+
+@api_view([POST])
+@permission_classes((IsOwner,))
+def update_word_assessment_view(request: Request) -> Response:
+    """Update word study assessment view."""
+    serializer = WordAssessmentSerializer(
+        data=request.data, context={'request': request}
+    )
+    serializer.is_valid(raise_exception=True)
+    WordAssessment(request.user, serializer.data).update()
+    return Response(status=status.HTTP_204_NO_CONTENT)

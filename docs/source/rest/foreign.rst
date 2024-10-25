@@ -163,3 +163,39 @@ Example:
             "items": 10,
             "assessment": 7
         }
+
+Assessment
+----------
+
+.. code-block::
+
+   /api/v1/foreign/assessment/
+
++-----------+-------------------------------+-------------------------------+
+| Method    | Request                       | Response                      |
++===========+===============================+===============================+
+| POST      | * item_id                     | HTTP_204_NO_CONTENT           |
+|           | * action                      |                               |
+|           |                               | HTTP_400_BAD_REQUEST          |
+|           |                               |  * {field}                    |
+|           |                               |  * {non_field_errors}         |
++-----------+-------------------------------+-------------------------------+
+
+View: :py:func:`~foreign.views.rest.exercise.update_word_assessment_view`.
+
+Serializer: :py:class:`~foreign.serializers.WordAssessmentSerializer`.
+
+Fields:
+    Request:
+        - ``item_id`` -- word ID (`int`);
+        - ``action`` -- assessment action (`str`), ``'know'`` or ``'not_know'``.
+
+Example:
+
+.. code-block::
+   :caption: Request:
+
+        {
+            "item_id": 7,
+            "action": "know",
+        }
