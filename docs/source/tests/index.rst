@@ -4,6 +4,5 @@ Testing
 .. toctree::
    :maxdepth: 2
 
-   tests
-   Foreign app <foreign>
-   issues
+   Foreign app <foreign/index>
+   Foreign app REST <foreign/rest/index>
