@@ -2,7 +2,7 @@
 
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import permissions
+from rest_framework import permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -31,13 +31,16 @@ from config.constants import (
     TIMEOUT,
     USER_ID,
 )
+from foreign.exercise.base import WordAssessment
 from foreign.exercise.translate import TranslateExerciseGUI
 from foreign.models import (
     TranslateParams,
+    Word,
     WordCategory,
 )
 from foreign.serializers import (
     TranslateParamsSerializer,
+    WordAssessmentSerializer,
     WordCategorySerializer,
 )
 
@@ -120,3 +123,32 @@ def translate_exercise(request: Request) -> JsonResponse | HttpResponse:
 
         return JsonResponse(exercise, status=HTTP_200_OK)
     return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+
+@api_view([POST])
+@permission_classes((permissions.IsAuthenticated,))
+def update_word_assessment_view(request: Request) -> Response:
+    """Update word study assessment view."""
+    serializer = WordAssessmentSerializer(data=request.data)
+    serializer.is_valid()
+    user = request.user
+
+    item_id = serializer.data['item_id']
+    try:
+        item = Word.objects.get(pk=item_id)
+    except Word.DoesNotExist:
+        data = {'item_id': 'Слово с ID={} не существует'.format(item_id)}
+        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        # Only owner have access to his word.
+        if user != item.user:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+    assessment = WordAssessment(user, item)
+    try:
+        assessment.update(serializer.data['action'])
+    except KeyError:
+        data = {'action': 'Значение может быть только "know" или "not_know'}
+        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
+
+    return Response(status=status.HTTP_204_NO_CONTENT)

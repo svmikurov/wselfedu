@@ -65,10 +65,10 @@ class WordCategorySerializer(serializers.ModelSerializer):
     """Foreign word Category serializer."""
 
     alias = serializers.SerializerMethodField()
-    """Field alias pk (`int`).
+    """Field alias of pk (`int`).
     """
     humanly = serializers.CharField(source='name')
-    """Field alias pk (`str`).
+    """Field alias of name (`str`).
     """
 
     class Meta:
@@ -83,3 +83,14 @@ class WordCategorySerializer(serializers.ModelSerializer):
     def get_alias(cls, obj: Model) -> int:
         """Add alias as name of pk field."""
         return obj.pk
+
+
+class WordAssessmentSerializer(serializers.Serializer):
+    """Word study progress serializer."""
+
+    item_id = serializers.IntegerField()
+    """Item id (`int`).
+    """
+    action = serializers.CharField(max_length=8)
+    """Assessment option, ``know`` or ``not_know`` (`str`).
+    """
