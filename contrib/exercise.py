@@ -20,6 +20,8 @@ class Exercise:
         self.item_ids = None
         self.question_text = None
         self.answer_text = None
+        self.count_first = lookup_conditions.get('count_first')
+        self.count_last = lookup_conditions.get('count_last')
 
     @property
     def _lookup_params(self) -> tuple[Q, ...]:
@@ -28,9 +30,13 @@ class Exercise:
 
     def _get_item_ids(self) -> list[int]:
         """Get item ids by user lookup conditions."""
-        item_ids = self.model.objects.filter(
-            *self._lookup_params
-        ).values_list(ID, flat=True)  # fmt: skip
+        item_ids = self.model.objects.filter(*self._lookup_params).values_list(
+            ID, flat=True
+        )
+        if self.count_first:
+            return item_ids[:self.count_first]  # fmt: skip
+        if self.count_last:
+            return item_ids[self.count_last:]  # fmt: skip
         return item_ids
 
     @staticmethod

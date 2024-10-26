@@ -1,5 +1,8 @@
 """Test render the foreign exercise data."""
 
+from http import HTTPStatus
+from unittest import skip
+
 from django.urls import reverse
 from rest_framework.test import APIClient, APITestCase
 
@@ -43,3 +46,38 @@ class TestRenderForeignExerciseDataREST(APITestCase):
 
         assert response.json()['item_count'] == queryset.count()
         assert response.json()['assessment'] == 10
+
+    def test_first_count(self) -> None:
+        """Test study first word count at exercise params."""
+        word_count_param = 33
+        word_count = 100
+        for num in range(word_count):
+            Word.objects.create(user=self.user, foreign_word=f'word_{num}')
+        payload = {
+            'count_first': word_count_param,
+        }
+        self.api_client.force_authenticate(user=self.user)
+        response = self.api_client.post(self.url, payload)
+
+        assert response.status_code == HTTPStatus.OK
+        assert response.json()['item_count'] == word_count_param
+        _, number = response.json()['question_text'].split('_')
+        assert int(number) <= word_count_param
+
+    @skip
+    def test_last_count(self) -> None:
+        """Test study first word count at exercise params."""
+        word_count_param = 33
+        word_count = 100
+        for num in range(word_count):
+            Word.objects.create(user=self.user, foreign_word=f'word_{num}')
+        payload = {
+            'count_last': word_count_param,
+        }
+        self.api_client.force_authenticate(user=self.user)
+        response = self.api_client.post(self.url, payload)
+
+        assert response.status_code == HTTPStatus.OK
+        assert response.json()['item_count'] == word_count_param
+        _, number = response.json()['question_text'].split('_')
+        assert int(number) >= word_count - word_count_param
