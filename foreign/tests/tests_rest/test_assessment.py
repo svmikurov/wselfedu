@@ -111,5 +111,5 @@ class AssessmentUpdateRESTViewTest(APITestCase):
         response = self.api_client.post(self.url, data=payload, format='json')
         query = WordProgress.objects.filter(user=self.owner, word=self.word)
 
-        assert response.status_code == HTTPStatus.FORBIDDEN
+        assert response.status_code == HTTPStatus.BAD_REQUEST
         assert not query.exists()

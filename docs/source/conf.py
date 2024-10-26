@@ -96,8 +96,10 @@ if html_theme == 'sphinx_rtd_theme':
 add_module_names = False
 autodoc_default_options = {
     'show-inheritance': True,
-    'exclude-members': 'DoesNotExist, '
-    'MultipleObjectsReturned, '
-    'setUpClass, '
-    'setUpTestData, ',
-}
+    'exclude-members':
+        'DoesNotExist, '
+        'MultipleObjectsReturned, '
+        'setUpClass, '
+        'setUpTestData, '
+        'setUp '
+}  # fmt: skip

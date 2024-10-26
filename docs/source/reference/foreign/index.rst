@@ -18,8 +18,3 @@ Learning foreign words app
    Serializers <serializers>
    Exercise <exercise>
    Analytics <analytics>
-
-.. toctree::
-   :maxdepth: 3
-
-   Tests <tests/index>

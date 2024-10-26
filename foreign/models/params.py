@@ -40,9 +40,9 @@ class TranslateParams(models.Model):
     Could be:
 
     - first the question is in Foreign, then the answer is in
-      Russian;
+      Native;
     - first the question is in Russian, then the answer is in
-      Foreign;
+      Native;
     - random order.
     """
     timeout = models.PositiveSmallIntegerField(
@@ -55,7 +55,7 @@ class TranslateParams(models.Model):
         default=False,
         verbose_name='Избранное',
     )
-    """Wil be display only favorites words if `True`, all otherwise
+    """Will be display only favorites words if `True`, all otherwise
     (`bool`).
     """
     category = models.ForeignKey(
@@ -108,6 +108,20 @@ class TranslateParams(models.Model):
         verbose_name='Добавлено до',
     )
     """Start edge period for choice added words.
+    """
+    count_first = models.PositiveSmallIntegerField(
+        blank=True,
+        default=0,
+        verbose_name='Количество первых добавленных слов',
+    )
+    """Count of first added words (`int`).
+    """
+    count_last = models.PositiveSmallIntegerField(
+        blank=True,
+        default=0,
+        verbose_name='Количество последних добавленных слов',
+    )
+    """Count of last added words (`int`).
     """
 
     def __str__(self) -> str:

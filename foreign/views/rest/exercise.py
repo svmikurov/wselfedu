@@ -7,48 +7,29 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.status import (
-    HTTP_200_OK,
     HTTP_201_CREATED,
-    HTTP_204_NO_CONTENT,
     HTTP_400_BAD_REQUEST,
 )
 
 from config.constants import (
-    CATEGORIES,
-    DEFAULT_LANGUAGE_ORDER,
-    DEFAULT_LOOKUP_CONDITIONS,
-    DEFAULT_TIMEOUT,
-    EDGE_PERIOD_ALIASES,
-    EDGE_PERIOD_ITEMS,
-    EXERCISE_CHOICES,
     GET,
-    LANGUAGE_ORDER,
-    LOOKUP_CONDITIONS,
-    NO_SELECTION,
     POST,
-    PROGRESS,
-    PROGRESS_ALIASES,
-    TIMEOUT,
-    USER_ID,
 )
+from contrib.views_rest import IsOwner
 from foreign.exercise.base import WordAssessment
 from foreign.exercise.translate import TranslateExerciseGUI
-from foreign.models import (
-    TranslateParams,
-    Word,
-    WordCategory,
-)
 from foreign.serializers import (
-    TranslateParamsSerializer,
+    ExerciseChoiceSerializer,
+    ExerciseParamSerializer,
+    ExerciseSerializer,
     WordAssessmentSerializer,
-    WordCategorySerializer,
 )
 
 
 @csrf_exempt
-@api_view([GET, POST])
-@permission_classes((permissions.IsAuthenticated,))
-def exercise_parameters(request: Request) -> JsonResponse | HttpResponse:
+@api_view(['GET', 'PUT'])
+@permission_classes((IsOwner,))
+def params_view(request: Request) -> JsonResponse | HttpResponse:
     """Render or save the Translate word exercise params.
 
     **GET method:**
@@ -61,43 +42,24 @@ def exercise_parameters(request: Request) -> JsonResponse | HttpResponse:
     **POST method:**
       Save ``lookup_conditions``.
     """
-    user = request.user
+    if request.method == 'GET':
+        serializer = ExerciseChoiceSerializer(
+            data=request.data, context={'request': request}
+        )
+        serializer.is_valid()
+        return Response(serializer.data)
 
-    if request.method == GET:
-        try:
-            queryset = TranslateParams.objects.get(user=user)
-        except TranslateParams.DoesNotExist:
-            lookup_conditions = DEFAULT_LOOKUP_CONDITIONS
-        else:
-            lookup_conditions = TranslateParamsSerializer(queryset).data
-
-        try:
-            queryset = WordCategory.objects.filter(user=user)
-        except WordCategory.DoesNotExist:
-            queryset = WordCategory.objects.none()
-        categories = WordCategorySerializer(queryset, many=True).data
-        categories.append(NO_SELECTION)
-
-        exercise_params = {
-            LOOKUP_CONDITIONS: lookup_conditions,
-            EXERCISE_CHOICES: {
-                EDGE_PERIOD_ITEMS: EDGE_PERIOD_ALIASES,
-                CATEGORIES: categories,
-                PROGRESS: PROGRESS_ALIASES,
-            },
-        }
-
-        return JsonResponse(exercise_params, status=HTTP_200_OK)
-
-    if request.method == POST:
-        serializer = TranslateParamsSerializer(data=request.data)
+    elif request.method == 'PUT':
+        serializer = ExerciseChoiceSerializer(
+            data=request.data, context={'request': request}
+        )
 
         if serializer.is_valid():
             serializer.save(user=request.user)
 
-            if not serializer.is_created:
-                return Response(serializer.data)
-            return Response(serializer.data, status=HTTP_201_CREATED)
+            if serializer.is_created:
+                return Response(serializer.data, status=HTTP_201_CREATED)
+            return Response(serializer.data)
 
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
@@ -105,50 +67,27 @@ def exercise_parameters(request: Request) -> JsonResponse | HttpResponse:
 @csrf_exempt
 @api_view([GET, POST])
 @permission_classes((permissions.IsAuthenticated,))
-def translate_exercise(request: Request) -> JsonResponse | HttpResponse:
+def exercise_view(request: Request) -> JsonResponse | HttpResponse:
     """Render the Translate foreign word exercise the DRF view."""
-    serializer = TranslateParamsSerializer(data=request.data)
-
-    if serializer.is_valid():
-        lookup_conditions = serializer.data
-        lookup_conditions[USER_ID] = request.user.id
-        lookup_conditions[TIMEOUT] = DEFAULT_TIMEOUT
-        lookup_conditions[LANGUAGE_ORDER] = DEFAULT_LANGUAGE_ORDER
-
-        try:
-            exercise = TranslateExerciseGUI(lookup_conditions).exercise_data
-        except IndexError:
-            detail = {'detail': 'По заданным условиям задание не сформировано'}
-            return JsonResponse(detail, status=HTTP_204_NO_CONTENT)
-
-        return JsonResponse(exercise, status=HTTP_200_OK)
-    return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+    # Get exercise parameters.
+    params_serializer = ExerciseParamSerializer(data=request.data)
+    params_serializer.is_valid()
+    # Create exercise task.
+    lookup_conditions = params_serializer.data
+    lookup_conditions['user_id'] = request.user.pk
+    exercise_data = TranslateExerciseGUI(lookup_conditions).exercise_data
+    # Render the task.
+    exercise_serializer = ExerciseSerializer(exercise_data)
+    return Response(data=exercise_serializer.data)
 
 
 @api_view([POST])
-@permission_classes((permissions.IsAuthenticated,))
+@permission_classes((IsOwner,))
 def update_word_assessment_view(request: Request) -> Response:
     """Update word study assessment view."""
-    serializer = WordAssessmentSerializer(data=request.data)
-    serializer.is_valid()
-    user = request.user
-
-    item_id = serializer.data['item_id']
-    try:
-        item = Word.objects.get(pk=item_id)
-    except Word.DoesNotExist:
-        data = {'item_id': 'Слово с ID={} не существует'.format(item_id)}
-        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        # Only owner have access to his word.
-        if user != item.user:
-            return Response(status=status.HTTP_403_FORBIDDEN)
-
-    assessment = WordAssessment(user, item)
-    try:
-        assessment.update(serializer.data['action'])
-    except KeyError:
-        data = {'action': 'Значение может быть только "know" или "not_know'}
-        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
-
+    serializer = WordAssessmentSerializer(
+        data=request.data, context={'request': request}
+    )
+    serializer.is_valid(raise_exception=True)
+    WordAssessment(request.user, serializer.data).update()
     return Response(status=status.HTTP_204_NO_CONTENT)

@@ -8,14 +8,15 @@ from users.models import UserApp
 class WordAssessment:
     """Assessment of item study."""
 
-    def __init__(self, user: UserApp, word: Word) -> None:
+    def __init__(self, user: UserApp, data: dict) -> None:
         """Construct the assessment."""
         self.user = user
-        self.word = word
+        self.word = Word.objects.get(pk=data['item_id'])
+        self.action = data['action']
 
-    def update(self, action: str) -> None:
+    def update(self) -> None:
         """Update item assessment."""
-        assessment_delta = PROGRES_STEPS[action]
+        assessment_delta = PROGRES_STEPS[self.action]
         progress, _ = WordProgress.objects.get_or_create(
             user=self.user, word=self.word
         )

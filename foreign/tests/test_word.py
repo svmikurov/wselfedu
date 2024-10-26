@@ -57,14 +57,14 @@ class TestCreateWordView(TestCase):
         self.success_url = self.url
 
     def test_get_method_create_word_by_user(self) -> None:
-        """Test create word by logged-in user."""
+        """Test create word by logged-in user, get method."""
         self.client.force_login(self.user)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
     @skip('TODO: update message test, now JsonResponse')
     def test_post_method_create_word_by_user(self) -> None:
-        """Test create word by logged-in user."""
+        """Test create word by logged-in user, post method."""
         self.client.force_login(self.user)
         response = self.client.post(self.url, self.create_data)
 
