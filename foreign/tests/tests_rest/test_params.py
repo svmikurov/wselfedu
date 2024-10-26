@@ -80,7 +80,7 @@ class RenderParamsTest(APITestCase):
         self.api_client.force_authenticate(user=self.user)
         # Will raise an assertion error after adding a field to the
         # serializer.
-        payload = {'word_count': STUDY}
+        payload = {'word_count': [STUDY]}
         response = self.api_client.put(self.url, data=payload, format='json')
         assert response.status_code == status.HTTP_201_CREATED
 
