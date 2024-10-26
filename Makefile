@@ -80,6 +80,9 @@ lint:
 ruff:
 	@$(APP) ruff check && ruff format --diff
 
+format:
+	@$(APP) ruff check --fix && ruff format
+
 test:
 	@$(APP) pytest --ignore=tests_plw/
 
