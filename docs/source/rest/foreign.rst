@@ -1,18 +1,6 @@
 Learning foreign words API endpoints
 ====================================
 
-Attributes:
-
-    * "count"    - foreign word count in dictionary
-    * "next"     - link to next pagination page
-    * "previous" - link to previous pagination page
-    * "results"  - list of word mapping, its elements has attributes:
-        - "id"       - word ID
-        - "foreign_word" - word by foreign
-        - "native_word" - word by native
-
-    {required fild} - "foreign_word" or "native_word"
-
 Word List, Create endpoints
 ---------------------------
 
@@ -27,7 +15,10 @@ Word List, Create endpoints
 |           |                               |  * count                      |
 |           |                               |  * next                       |
 |           |                               |  * previous                   |
-|           |                               |  * results                    |
+|           |                               |  * results:                   |
+|           |                               |     * id                      |
+|           |                               |     * foreign_word            |
+|           |                               |     * native_word             |
 +-----------+-------------------------------+-------------------------------+
 | POST      | * foreign_word                | HTTP_201_CREATED              |
 |           | * native_word                 |  * id                         |
@@ -37,6 +28,15 @@ Word List, Create endpoints
 |           |                               | HTTP_400_BAD_REQUEST          |
 |           |                               |  * {required fild}            |
 +-----------+-------------------------------+-------------------------------+
+
+Fields:
+ - ``count`` -- foreign word count in dictionary (`int`);
+ - ``next`` -- link to next pagination page (`str`);
+ - ``previous`` -- link to previous pagination page (`str`);
+ - ``results`` -- list of word mapping, its elements has attributes (`dict`);
+ - ``id`` -- word ID (`int`);
+ - ``foreign_word`` -- word by foreign (`str`);
+ - ``native_word`` -- word by native (`str`).
 
 Word Retrieve, Update, Destroy endpoints
 ----------------------------------------
@@ -69,8 +69,15 @@ Word Retrieve, Update, Destroy endpoints
 | DELETE    |                               | HTTP_204_NO_CONTENT           |
 +-----------+-------------------------------+-------------------------------+
 
+Fields:
+ - ``id`` -- word ID (`int`);
+ - ``foreign_word`` -- word by foreign (`str`);
+ - ``native_word`` -- word by native (`str`).
+
 Exercise params
 ---------------
+
+Endpoint to get or update the exercise parameters.
 
 .. code-block::
 
@@ -99,13 +106,16 @@ Exercise params
 | POST      | --                            | HTTP_201_OK                   |
 +-----------+-------------------------------+-------------------------------+
 
-The :py:func:`foreign.views.rest.exercise.exercise_parameters` view.
-Saves the POST payload to :py:class:`foreign.models.params.TranslateParams`, see it fields.
+View: :py:func:`~foreign.views.rest.exercise.params_view`.
+
+Serializer :py:class:`~foreign.serializers.ExerciseChoiceSerializer`
 
 See also: :term:`lookup_conditions`, :term:`exercise_choices`.
 
 Exercise
 --------
+
+Endpoint to get task data.
 
 .. code-block::
 
@@ -114,25 +124,43 @@ Exercise
 +-----------+----------------------------------+----------------------------+
 | Method    | Request                          | Response                   |
 +===========+==================================+============================+
-| POST      | * period_start_date (optionally) | HTTP_200_OK                |
-|           | * period_end_date (optionally)   |  * id                      |
+| POST      | * language_order (optionally)    | HTTP_200_OK                |
+|           | * favorites (optionally)         |  * id                      |
 |           | * category (optionally)          |  * question_text           |
-|           | * progress (optionally)          |  * answer_text             |
-|           |                                  |  * items                   |
-|           |                                  |  * assessment              |
+|           | * source (optionally)            |  * answer_text             |
+|           | * progress (optionally)          |  * item_count              |
+|           | * word_count (optionally)        |  * assessment              |
+|           | * period_start_date (optionally) |                            |
+|           | * period_end_date (optionally)   |                            |
+|           | * count_first (optionally)       |                            |
+|           | * count_last (optionally)        |                            |
 +-----------+----------------------------------+----------------------------+
 
-View: :py:func:`foreign.views.rest.exercise.translate_exercise`.
+View: :py:func:`~foreign.views.rest.exercise.exercise_view`.
+
+Serializer for request: :py:class:`~foreign.serializers.ExerciseParamSerializer`.
+
+Serializer for response: :py:class:`~foreign.serializers.ExerciseSerializer`.
 
 Fields:
     Request:
+        - ``language_order`` -- the order in which language translations
+          of words are displayed (`str`), choice alias only from
+          :obj:`~config.constants.LANGUAGE_ORDER_CHOICE`;
+        - ``favorites`` --will be display only favorites words if `True`,
+          all otherwise (`bool`);
+        - ``category`` -- word category ID (`int`);
+        - ``source`` -- word source ID (`int`);
+        - ``progress`` -- progress of word study, choice alias only from
+          :obj:`~config.constants.PROGRESS_CHOICES` (`str`);
+        - ``word_count`` -- length of verbal expression (`list[str]`),
+          choice alias only from :obj:`~config.constants.WORD_COUNT_CHOICE`;
         - ``period_start_date`` -- start of period of adding word to study,
           choice alias only from :obj:`~config.constants.EDGE_PERIOD_CHOICES` (`str`);
         - ``period_end_date`` -- end of period of adding word to study,
           choice alias only from :obj:`~config.constants.EDGE_PERIOD_CHOICES` (`str`);
-        - ``category`` -- word category ID (`None` | `int`);
-        - ``progress`` -- progress of word study,
-          choice from :obj:`~config.constants.PROGRESS_CHOICES` (`str`);
+        - ``count_first`` -- count of first added words (`int`);
+        - ``count_last`` -- count of last added words (`int`).
 
     Response:
         - ``id`` -- word ID (`int`);
@@ -148,9 +176,16 @@ Example:
    :caption: Request:
 
         {
+            "language_order": "TR",
+            "favorites": true,
+            "category": 2,
+            "source": 2,
+            "progress": "S",
+            "word_count": ["OW"],
             "period_start_date": "NC",
             "period_end_date": "DT",
-            "progress": "S"
+            "count_first": 100,
+            "count_last": 0,
         }
 
 .. code-block::
@@ -160,12 +195,14 @@ Example:
             "id": 15,
             "question_text": "tweezers",
             "answer_text": "пинцет",
-            "items": 10,
+            "item_count": 10,
             "assessment": 7
         }
 
 Assessment
 ----------
+
+Endpoint to update the word knowledge assessment.
 
 .. code-block::
 
@@ -186,9 +223,8 @@ View: :py:func:`~foreign.views.rest.exercise.update_word_assessment_view`.
 Serializer: :py:class:`~foreign.serializers.WordAssessmentSerializer`.
 
 Fields:
-    Request:
-        - ``item_id`` -- word ID (`int`);
-        - ``action`` -- assessment action (`str`), ``'know'`` or ``'not_know'``.
+ - ``item_id`` -- word ID (`int`);
+ - ``action`` -- assessment action (`str`), ``'know'`` or ``'not_know'``.
 
 Example:
 

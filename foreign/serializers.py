@@ -33,8 +33,8 @@ class ExerciseParamSerializer(serializers.ModelSerializer):
         """Serializer settings."""
 
         model = TranslateParams
-        fields = '__all__'
-        """Fields (`list[str]`).
+        exclude = ['user']
+        """Exclude fields (`list[str]`).
         """
 
 
@@ -50,8 +50,11 @@ class ExerciseChoiceSerializer(serializers.ModelSerializer):
         """Serializer settings."""
 
         model = TranslateParams
-        fields = '__all__'
-        """Fields (`list[str]`).
+        exclude = [
+            'user',
+            'timeout',
+        ]
+        """Exclude fields (`list[str]`).
         """
 
     def create(self, validated_data: dict) -> TranslateParams:

@@ -254,6 +254,9 @@ LANGUAGE_ORDER_CHOICE = [
     (TO_NATIVE, 'Перевод на русский язык'),
     (FROM_NATIVE, 'Перевод с русского язык'),
 ]
+"""The order in which language translations of words are displayed
+(list[tuple[str, str]]`).
+"""
 
 ########################################################################
 # Number of words in the exercise task
@@ -273,6 +276,8 @@ WORD_COUNT_CHOICE = (
     (PART_SENTENCE, 'Часть предложения'),
     (SENTENCE, 'Предложение'),
 )
+"""Length of verbal expression the choice (`tuple[tuple[str, str]]`).
+"""
 
 ########################################################################
 # Collections
