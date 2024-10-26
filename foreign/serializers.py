@@ -4,14 +4,10 @@ from django.db.models import Model
 from rest_framework import serializers
 
 from config.constants import (
-    CATEGORY,
-    FOREIGN_WORD,
-    ID,
-    NATIVE_WORD,
-    PERIOD_END_DATE,
-    PERIOD_START_DATE,
-    PROGRESS,
-    USER,
+    DEFAULT_LOOKUP_CONDITIONS,
+    EDGE_PERIOD_ALIASES,
+    NO_SELECTION,
+    PROGRESS_ALIASES,
 )
 from foreign.models import TranslateParams, Word, WordCategory
 

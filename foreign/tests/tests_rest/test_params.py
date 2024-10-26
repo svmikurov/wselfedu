@@ -2,14 +2,19 @@
 
 from django.forms import model_to_dict
 from django.urls import reverse
+from rest_framework import status
 from rest_framework.status import (
     HTTP_200_OK,
-    HTTP_201_CREATED,
     HTTP_400_BAD_REQUEST,
 )
 from rest_framework.test import APIClient, APITestCase
 
-from config.constants import LEARNED, STUDY, WEEK_AGO, WEEKS_AGO_3
+from config.constants import (
+    LEARNED,
+    STUDY,
+    WEEK_AGO,
+    WEEKS_AGO_3,
+)
 from foreign.models import TranslateParams, WordCategory
 from users.models import UserApp
 

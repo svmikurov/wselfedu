@@ -244,15 +244,15 @@ PROGRES_STEPS = {
 ########################################################################
 
 RANDOM = 'RN'
-TO_RUSSIAN = 'TR'
-FROM_RUSSIAN = 'FR'
+TO_NATIVE = 'TR'
+FROM_NATIVE = 'FR'
 
-DEFAULT_LANGUAGE_ORDER = TO_RUSSIAN
+DEFAULT_LANGUAGE_ORDER = TO_NATIVE
 
 LANGUAGE_ORDER_CHOICE = [
     (RANDOM, 'Перевод в случайном порядке'),
-    (TO_RUSSIAN, 'Перевод на русский язык'),
-    (FROM_RUSSIAN, 'Перевод с русского язык'),
+    (TO_NATIVE, 'Перевод на русский язык'),
+    (FROM_NATIVE, 'Перевод с русского язык'),
 ]
 
 ########################################################################

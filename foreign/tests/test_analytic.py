@@ -9,7 +9,7 @@ from config.constants import (
     LANGUAGE_ORDER,
     TASK_CONDITIONS,
     TIMEOUT,
-    TO_RUSSIAN,
+    TO_NATIVE,
     WORD,
 )
 from contrib.tests_extension import UserAuthTestCase
@@ -34,7 +34,7 @@ class TestCollectData(UserAuthTestCase):
 
     def test_collect_number_word_displays(self) -> None:
         """Test collect the number of word displays."""
-        task_conditions = {TIMEOUT: 1, LANGUAGE_ORDER: TO_RUSSIAN}
+        task_conditions = {TIMEOUT: 1, LANGUAGE_ORDER: TO_NATIVE}
         self.set_session(**{TASK_CONDITIONS: task_conditions})
         self.get_auth_response(self.url, method='post')
 

@@ -20,14 +20,14 @@ from django.urls import reverse_lazy
 
 from config.constants import (
     ANSWER_TEXT,
-    FROM_RUSSIAN,
-    LANGUAGE_ORDER,
+    DEFAULT_LANGUAGE_ORDER,
+    FROM_NATIVE,
     PK,
     PROGRESS,
     QUESTION_TEXT,
     RANDOM,
     TIMEOUT,
-    TO_RUSSIAN,
+    TO_NATIVE,
     USER_ID,
     WORD_COUNT,
     WORD_ID,
@@ -62,9 +62,9 @@ class TranslateExerciseGUI(ExerciseData):
         (`list[str]`, read-only).
         """  # noqa:  D205
         word_translations = [self.item.foreign_word, self.item.native_word]
-        if self.language_order == TO_RUSSIAN:
+        if self.language_order == TO_NATIVE:
             pass
-        elif self.language_order == FROM_RUSSIAN:
+        elif self.language_order == FROM_NATIVE:
             word_translations = word_translations[::-1]
         elif self.language_order == RANDOM:
             shuffle(word_translations)

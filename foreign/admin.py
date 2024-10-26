@@ -2,20 +2,6 @@
 
 from django.contrib import admin
 
-from config.constants import (  # noqa: F401
-    CATEGORY,
-    CREATED_AT,
-    DISPLAY_COUNT,
-    FOREIGN_WORD,
-    ID,
-    MENTOR,
-    NAME,
-    NATIVE_WORD,
-    PROGRESS,
-    SOURCE,
-    USER,
-    WORD,
-)
 from foreign.models import (
     TranslateParams,
     Word,
@@ -30,7 +16,7 @@ from foreign.models import (
 class WordAnalyticsAdmin(admin.ModelAdmin):
     """Representation of WordAnalytics in the admin interface."""
 
-    list_display = [WORD, DISPLAY_COUNT]
+    list_display = ['word', 'display_count']
     """Fields to display.
     """
     ordering = ['-display_count']
@@ -42,22 +28,25 @@ class WordAnalyticsAdmin(admin.ModelAdmin):
 class WordAdmin(admin.ModelAdmin):
     """Representation of WordModel in admin interface."""
 
-    exclude = [MENTOR]
     list_display = [
-        ID,
-        FOREIGN_WORD,
-        NATIVE_WORD,
-        CREATED_AT,
-        CATEGORY,
-        USER,
-    ]  # fmt: skip
-    """Fields to display.
+        'id',
+        'foreign_word',
+        'native_word',
+        'created_at',
+        'category',
+        'user',
+    ]
+    """Fields to display (`list[str]`).
     """
     ordering = [
-        USER,
-        ID,
+        'user',
+        'id',
     ]
+    """Ordering by fields (`list[str]`).
+    """
     date_hierarchy = 'created_at'
+    """Date hierarchy (`str`).
+    """
 
 
 @admin.register(WordCategory)
@@ -65,14 +54,18 @@ class WordCategoryAdmin(admin.ModelAdmin):
     """Representation of WordCategory in admin interface."""
 
     list_display = [
-        ID,
-        NAME,
-        USER,
+        'id',
+        'name',
+        'user',
     ]
+    """Fields to display (`list[str]`).
+    """
     ordering = [
-        USER,
-        ID,
+        'user',
+        'id',
     ]
+    """Ordering by fields (`list[str]`).
+    """
 
 
 @admin.register(WordSource)
@@ -80,14 +73,18 @@ class WordSourceAdmin(admin.ModelAdmin):
     """Representation of WordSource in admin interface."""
 
     list_display = [
-        ID,
-        NAME,
-        USER,
+        'id',
+        'name',
+        'user',
     ]
+    """Fields to display (`list[str]`).
+    """
     ordering = [
-        USER,
-        ID,
+        'user',
+        'id',
     ]
+    """Ordering by fields (`list[str]`).
+    """
 
 
 @admin.register(WordProgress)
@@ -95,15 +92,19 @@ class WordProgressAdmin(admin.ModelAdmin):
     """Representation of WordProgress in admin interface."""
 
     list_display = [
-        ID,
-        WORD,
-        USER,
-        PROGRESS,
+        'id',
+        'word',
+        'user',
+        'progress',
     ]
+    """Fields to display (`list[str]`).
+    """
     ordering = [
-        USER,
-        WORD,
+        'user',
+        'word',
     ]
+    """Ordering by fields (`list[str]`).
+    """
 
 
 @admin.register(TranslateParams)
