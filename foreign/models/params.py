@@ -109,6 +109,20 @@ class TranslateParams(models.Model):
     )
     """Start edge period for choice added words.
     """
+    count_first = models.PositiveSmallIntegerField(
+        blank=True,
+        default=0,
+        verbose_name='Количество первых добавленных слов',
+    )
+    """Count of first added words (`int`).
+    """
+    count_last = models.PositiveSmallIntegerField(
+        blank=True,
+        default=0,
+        verbose_name='Количество последних добавленных слов',
+    )
+    """Count of last added words (`int`).
+    """
 
     def __str__(self) -> str:
         """Represent an instance as a string."""

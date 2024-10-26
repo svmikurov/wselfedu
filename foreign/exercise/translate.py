@@ -49,7 +49,9 @@ class TranslateExerciseGUI(ExerciseData):
 
     def __init__(self, lookup_conditions: dict) -> None:
         """Exercise constructor."""
-        self.language_order = lookup_conditions.pop(LANGUAGE_ORDER)
+        self.language_order = lookup_conditions.pop(
+            'language_order', DEFAULT_LANGUAGE_ORDER
+        )
         super().__init__(lookup_conditions)
 
     def create_task(self) -> None:

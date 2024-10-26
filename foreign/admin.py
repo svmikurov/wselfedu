@@ -122,6 +122,8 @@ class WordParamsAdmin(admin.ModelAdmin):
         'word_count',
         'period_start_date',
         'period_end_date',
+        'count_first',
+        'count_last',
     ]
-    """Fields to display.
+    """Fields to display (`list[str]`).
     """

@@ -26,8 +26,8 @@ class TestRenderForeignExerciseDataREST(APITestCase):
     def test_render_word_count(self) -> None:
         """Test render the word count info in foreign exercise."""
         self.api_client.force_authenticate(self.user)
-        word = Word.objects.create(user=self.user, foreign_word='f')
-        Word.objects.create(user=self.user, foreign_word='f')
+        word = Word.objects.create(user=self.user, foreign_word='a')
+        Word.objects.create(user=self.user, foreign_word='b')
         WordProgress.objects.create(user=self.user, word=word, progress=10)
         payload = {
             'period_start_date': NOT_CHOICES,
@@ -35,7 +35,7 @@ class TestRenderForeignExerciseDataREST(APITestCase):
             'category': DEFAULT_CATEGORY,
             'progress': EXAMINATION,
         }
-        response = self.api_client.post(self.url, payload, format='json')
+        response = self.api_client.post(self.url, payload, 'json')
 
         payload['user_id'] = self.user.id
         lookup_params = WordLookupParams(payload).params

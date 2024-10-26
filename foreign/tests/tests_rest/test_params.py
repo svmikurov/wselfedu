@@ -51,36 +51,38 @@ class RenderParamsTest(APITestCase):
             'period_end_date': WEEK_AGO,
             'category': cat_pk,
             'progress': LEARNED,
+            'count_first': 33,
+            'count_last': 77,
         }
-        response = self.api_client.post(self.url, data=payload, format='json')
+        response = self.api_client.put(self.url, data=payload, format='json')
         queryset = TranslateParams.objects.get(user=self.user)
 
-        assert response.status_code == HTTP_201_CREATED
+        assert response.status_code == status.HTTP_201_CREATED
         assert payload.items() <= model_to_dict(queryset).items()
 
-    def test_post_request_empty_payload(self) -> None:
+    def test_put_request_empty_payload(self) -> None:
         """Test the POST request method without payload."""
         self.api_client.force_authenticate(user=self.user)
         payload = {}
-        response = self.api_client.post(self.url, data=payload, format='json')
+        response = self.api_client.put(self.url, data=payload, format='json')
         # Adds default params
-        assert response.status_code == HTTP_201_CREATED
+        assert response.status_code == status.HTTP_201_CREATED
 
-    def test_post_request_validation_error(self) -> None:
+    def test_put_request_validation_error(self) -> None:
         """Test the POST request with data validation error."""
         self.api_client.force_authenticate(user=self.user)
         payload = {'category': 'value'}
-        response = self.api_client.post(self.url, data=payload, format='json')
+        response = self.api_client.put(self.url, data=payload, format='json')
         assert response.status_code == HTTP_400_BAD_REQUEST
 
-    def test_post_request_array_field(self) -> None:
-        """Test the POST request with data validation error."""
+    def test_put_request_array_field(self) -> None:
+        """Test the PUT request with data validation error."""
         self.api_client.force_authenticate(user=self.user)
         # Will raise an assertion error after adding a field to the
         # serializer.
         payload = {'word_count': STUDY}
-        response = self.api_client.post(self.url, data=payload, format='json')
-        assert response.status_code == HTTP_201_CREATED
+        response = self.api_client.put(self.url, data=payload, format='json')
+        assert response.status_code == status.HTTP_201_CREATED
 
     def test_rename_model_field(self) -> None:
         """Test the render category field names."""
