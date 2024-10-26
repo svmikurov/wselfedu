@@ -7,9 +7,12 @@ from rest_framework import serializers
 
 from config.constants import (
     DEFAULT_LOOKUP_CONDITIONS,
+    DEFAULT_PROGRESS,
     EDGE_PERIOD_ALIASES,
     NO_SELECTION,
+    NOT_CHOICES,
     PROGRESS_ALIASES,
+    TODAY,
 )
 from foreign.models import TranslateParams, Word, WordCategory
 
@@ -84,6 +87,9 @@ class ExerciseChoiceSerializer(serializers.ModelSerializer):
 
         try:
             lookup_conditions = super().to_representation(instance)
+            lookup_conditions.setdefault('period_start_date', NOT_CHOICES)
+            lookup_conditions.setdefault('period_end_date', TODAY)
+            lookup_conditions.setdefault('progress', DEFAULT_PROGRESS)
         except TranslateParams.DoesNotExist:
             lookup_conditions = DEFAULT_LOOKUP_CONDITIONS
 

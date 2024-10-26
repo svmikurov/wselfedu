@@ -101,3 +101,22 @@ class RenderParamsTest(APITestCase):
             'humanly': 'Не выбрано',
         }
         assert no_selection in categories
+
+    def test_render_required_fields(self) -> None:
+        """Test render the required fields from exercise params."""
+        response_fields = {
+            'lookup_conditions': '',
+            'exercise_choices': '',
+        }
+        lookup_conditions = {
+            'period_start_date': '',
+            'period_end_date': '',
+            'category': '',
+            'progress': '',
+        }
+        self.api_client.force_authenticate(self.user)
+        response = self.api_client.get(self.url)
+        payload = response.json()
+
+        assert response_fields.keys() <= payload.keys()
+        assert lookup_conditions.keys() <= payload['lookup_conditions'].keys()
