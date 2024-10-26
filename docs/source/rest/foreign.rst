@@ -152,6 +152,29 @@ Fields:
  - ``category`` -- word category ID (`int`);
  - ``source`` -- word source ID (`int`);
 
+Example:
+
+.. code-block::
+   :caption: Request:
+
+    {
+        "language_order": "TR",
+        "timeout": 5,
+        "favorites": false,
+        "progress": "K",
+        "word_count": [
+            "OW",
+            "CB"
+        ],
+        "period_start_date": "NC",
+        "period_end_date": "DT",
+        "count_first": 0,
+        "count_last": 0,
+        "category": null,
+        "source": null
+    }
+
+
 Exercise
 --------
 

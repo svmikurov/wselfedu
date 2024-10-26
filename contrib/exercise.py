@@ -34,9 +34,9 @@ class Exercise:
             ID, flat=True
         )
         if self.count_first:
-            return item_ids[:self.count_first]  # fmt: skip
+            return item_ids.order_by('created_at')[:self.count_first]
         if self.count_last:
-            return item_ids[self.count_last:]  # fmt: skip
+            return item_ids.order_by('-created_at')[:self.count_last]
         return item_ids
 
     @staticmethod

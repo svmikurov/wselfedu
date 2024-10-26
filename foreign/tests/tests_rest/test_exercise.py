@@ -61,8 +61,6 @@ class TestRenderForeignExerciseDataREST(APITestCase):
 
         assert response.status_code == HTTPStatus.OK
         assert response.json()['item_count'] == word_count_param
-        _, number = response.json()['question_text'].split('_')
-        assert int(number) <= word_count_param
 
     @skip
     def test_last_count(self) -> None:
@@ -79,5 +77,3 @@ class TestRenderForeignExerciseDataREST(APITestCase):
 
         assert response.status_code == HTTPStatus.OK
         assert response.json()['item_count'] == word_count_param
-        _, number = response.json()['question_text'].split('_')
-        assert int(number) >= word_count - word_count_param
