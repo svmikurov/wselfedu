@@ -13,15 +13,9 @@ from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
 
 from config.constants import (
-    ASSESSMENT,
-    FORM,
     MSG_NO_TASK,
-    PROGRESS,
     PROGRESS_MAX,
     PROGRESS_MIN,
-    TASK_CONDITIONS,
-    USER_ID,
-    WORD_ID,
 )
 from contrib.views import (
     CheckLoginPermissionMixin,
@@ -65,7 +59,7 @@ class ForeignWordTranslateChoiceView(CheckLoginPermissionMixin, TemplateView):
         Adds :py:class:`~foreign.forms.foreign_translate_choice_form.ForeignTranslateChoiceForm`
         """  # noqa: E501, W505
         context = super().get_context_data()
-        context[FORM] = ForeignTranslateChoiceForm(request=self.request)
+        context['form'] = ForeignTranslateChoiceForm(request=self.request)
         return context
 
     def post(self, request: HttpRequest) -> HttpResponse:
@@ -80,11 +74,11 @@ class ForeignWordTranslateChoiceView(CheckLoginPermissionMixin, TemplateView):
 
         if form.is_valid():
             task_conditions = form.clean()
-            task_conditions[USER_ID] = request.user.id
-            request.session[TASK_CONDITIONS] = task_conditions
+            task_conditions['user_id'] = request.user.id
+            request.session['task_conditions'] = task_conditions
             return redirect(reverse_lazy('foreign:foreign_translate_demo'))
 
-        context = {FORM: ForeignTranslateChoiceForm(request=self.request)}
+        context = {'form': ForeignTranslateChoiceForm(request=self.request)}
         return render(request, self.template_name, context)
 
 
@@ -106,7 +100,7 @@ class ForeignTranslateExerciseView(CheckLoginPermissionMixin, View):
 
     def get(self, request: HttpRequest) -> HttpResponse:
         """Display an exercise page to translate a word."""
-        task_conditions = request.session[TASK_CONDITIONS]
+        task_conditions = request.session['task_conditions']
         task = TranslateExercise(task_conditions)
 
         try:
@@ -122,7 +116,7 @@ class ForeignTranslateExerciseView(CheckLoginPermissionMixin, View):
 
     def post(self, request: HttpRequest) -> JsonResponse:
         """Render the task."""
-        task_conditions = request.session[TASK_CONDITIONS]
+        task_conditions = request.session['task_conditions']
         task = TranslateExercise(task_conditions)
 
         try:
@@ -163,8 +157,8 @@ def update_word_progress_view(
     :rtype: JsonResponse
     """
     user = request.user
-    assessment = request.POST.get(ASSESSMENT)
-    word_pk = kwargs[WORD_ID]
+    assessment = request.POST.get('assessment')
+    word_pk = kwargs['word_id']
 
     try:
         word = Word.objects.get(pk=word_pk)
@@ -181,7 +175,7 @@ def update_word_progress_view(
         updated_progress = obj.progress + int(assessment)
         if PROGRESS_MIN <= updated_progress <= PROGRESS_MAX:
             obj.progress = updated_progress
-            obj.save(update_fields=[PROGRESS])
+            obj.save(update_fields=['progress'])
 
     return JsonResponse({}, status=HTTPStatus.CREATED)
 
@@ -211,7 +205,7 @@ def update_words_favorites_status_view_ajax(
         Response with current favorite word status.
 
     """
-    word_id = kwargs[WORD_ID]
+    word_id = kwargs['word_id']
     user_id = request.user.pk
     favorites_status = update_word_favorites_status(word_id, user_id)
 

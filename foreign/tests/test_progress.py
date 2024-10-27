@@ -6,15 +6,8 @@ from django.test import TestCase
 from django.urls import reverse_lazy
 
 from config.constants import (
-    ACTION,
-    FOREIGN_WORD,
-    ID,
-    KNOW,
-    NATIVE_WORD,
     PROGRESS_MAX,
     PROGRESS_MIN,
-    USER,
-    WORD_ID,
 )
 from foreign.models import (
     Word,
@@ -39,23 +32,23 @@ class TestUpdateProgres(TestCase):
         self.word_middle_assessment = Word.objects.get(pk=3)  # 7
         self.expected_updated_assessment = 6
         self.new_word_data = {
-            USER: UserApp.objects.get(pk=1),
-            FOREIGN_WORD: 'test',
-            NATIVE_WORD: 'тест',
+            'user': UserApp.objects.get(pk=1),
+            'foreign_word': 'test',
+            'native_word': 'тест',
         }
 
-        self.assessment_up = {ACTION: '+1'}
-        self.assessment_down = {ACTION: '-1'}
+        self.assessment_up = {'action': '+1'}
+        self.assessment_down = {'action': '-1'}
 
         assessment_url = 'foreign:progress'
         self.min_assessment_url = reverse_lazy(
-            assessment_url, kwargs={WORD_ID: self.word_min_assessment.pk}
+            assessment_url, kwargs={'word_id': self.word_min_assessment.pk}
         )
         self.middle_assessment_url = reverse_lazy(
-            assessment_url, kwargs={WORD_ID: self.word_middle_assessment.pk}
+            assessment_url, kwargs={'word_id': self.word_middle_assessment.pk}
         )
         self.max_assessment_url = reverse_lazy(
-            assessment_url, kwargs={WORD_ID: self.word_max_assessment.pk}
+            assessment_url, kwargs={'word_id': self.word_max_assessment.pk}
         )
         self.redirect_url = reverse_lazy('foreign:word_study_question')
 
@@ -75,7 +68,7 @@ class TestUpdateProgres(TestCase):
         """Test mark as know Word before max value."""
         word_id = 3
         url = reverse_lazy('foreign:progress')
-        payload = {ACTION: KNOW, ID: word_id}
+        payload = {'action': 'know', 'id': word_id}
 
         progress_before = WordProgress.objects.get(word_id=word_id)
         self.client.force_login(self.user)

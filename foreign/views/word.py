@@ -13,20 +13,13 @@ from django.views.generic import CreateView, DetailView, UpdateView
 
 from config.constants import (
     BTN_NAME,
-    CATEGORY,
     CREATE_WORD_PATH,
     DELETE_TEMPLATE,
     DETAIL_WORD_TEMPLATE,
-    FOREIGN_WORD,
     PAGINATE_NUMBER,
-    PK,
-    SOURCE,
     TITLE,
-    USER,
-    WORD,
     WORD_LIST_PATH,
     WORD_LIST_TEMPLATE,
-    WORDS,
 )
 from contrib.views import (
     CheckUserOwnershipMixin,
@@ -62,7 +55,7 @@ class WordCreateView(HandleNoPermissionMixin, LoginRequiredMixin, CreateView):
     def form_valid(self, form: Type[Form]) -> HttpResponse:
         """Add the current user to the form."""
         form.instance.user = self.request.user
-        added_word = form.cleaned_data[FOREIGN_WORD]
+        added_word = form.cleaned_data['foreign_word']
         success_message = f'Добавлено слово "{added_word}"'
         WordCreateView.success_message = success_message
         form.save()
@@ -98,7 +91,7 @@ class WordUpdateView(CheckUserOwnershipMixin, UpdateView):
     template_name = 'foreign/word_form.html'
     success_url = reverse_lazy(WORD_LIST_PATH)
     success_message = 'Слово изменено'
-    context_object_name = WORD
+    context_object_name = 'word'
     extra_context = {
         TITLE: 'Изменить слово',
         BTN_NAME: 'Изменить',
@@ -130,7 +123,7 @@ class WordListView(ReuseSchemaQueryFilterView):
     model = Word
     filterset_class = WordsFilter
     template_name = WORD_LIST_TEMPLATE
-    context_object_name = WORDS
+    context_object_name = 'words'
     paginate_by = PAGINATE_NUMBER
     extra_context = {
         TITLE: 'Список слов',
@@ -143,15 +136,15 @@ class WordListView(ReuseSchemaQueryFilterView):
         queryset = (
             super(WordListView, self)
             .get_queryset()
-            .select_related(CATEGORY, SOURCE)
+            .select_related('category', 'source')
             .filter(user=user)
             .annotate(
                 # Assign `True` if there is a relationship between
                 # user and word in the wordfavorites, otherwise
                 # assign None.
                 favorites_anat=Q(
-                    Q(wordfavorites__user=F(USER))
-                    & Q(wordfavorites__word=F(PK))
+                    Q(wordfavorites__user=F('user'))
+                    & Q(wordfavorites__word=F('pk'))
                 )
             )
             .annotate(assessment=F('wordprogress__progress'))
@@ -165,7 +158,7 @@ class WordDetailView(CheckUserOwnershipMixin, DetailView):
 
     model = Word
     template_name = DETAIL_WORD_TEMPLATE
-    context_object_name = WORD
+    context_object_name = 'word'
     extra_context = {
         TITLE: 'Обзор слова',
     }

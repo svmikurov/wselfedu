@@ -7,12 +7,8 @@ from config.constants import (
     CREATE_SOURCE_PATH,
     DELETE_SOURCE_PATH,
     DETAIL_SOURCE_PATH,
-    NAME,
-    PK,
     SOURCE_LIST_PATH,
-    SOURCES,
     UPDATE_SOURCE_PATH,
-    USER,
 )
 from contrib.tests_extension import flash_message_test
 from foreign.models import WordSource
@@ -40,7 +36,7 @@ class TestCreateSourceView(TestCase):
         self.client: Client = Client()
         user_id = 3
         self.user = UserApp.objects.get(pk=user_id)
-        self.create_data = {NAME: 'new source'}
+        self.create_data = {'name': 'new source'}
         self.url = reverse_lazy(CREATE_SOURCE_PATH)
 
     def test_get_method_create_source_by_user(self) -> None:
@@ -78,8 +74,8 @@ class TestUpdateSourceView(TestCase):
         another_user_id = 4
         self.user = UserApp.objects.get(pk=user_id)
         self.another_user = UserApp.objects.get(pk=another_user_id)
-        self.update_data = {NAME: 'updated source'}
-        self.url = reverse(UPDATE_SOURCE_PATH, kwargs={PK: user_source_id})
+        self.update_data = {'name': 'updated source'}
+        self.url = reverse(UPDATE_SOURCE_PATH, kwargs={'pk': user_source_id})
         self.success_url = reverse_lazy(SOURCE_LIST_PATH)
 
     def test_get_method_update_source_by_user(self) -> None:
@@ -127,11 +123,11 @@ class TestDeleteSourceView(TestCase):
         self.another_user = UserApp.objects.get(pk=another_user_id)
         self.url = reverse(
             DELETE_SOURCE_PATH,
-            kwargs={PK: self.user_source_id},
+            kwargs={'pk': self.user_source_id},
         )
         self.protected_url = reverse(
             DELETE_SOURCE_PATH,
-            kwargs={PK: self.user_protected_source_id},
+            kwargs={'pk': self.user_protected_source_id},
         )
         self.success_url = reverse(SOURCE_LIST_PATH)
         self.protected_redirect = reverse(SOURCE_LIST_PATH)
@@ -198,8 +194,8 @@ class TestSourceListView(TestCase):
 
         # Assert by user id, that `sources` contains
         # only the user's sources.
-        sources = response.context[SOURCES]
-        user_ids = set(sources.values_list(USER, flat=True))
+        sources = response.context['sources']
+        user_ids = set(sources.values_list('user', flat=True))
         self.assertTrue(*user_ids, self.user_id)
 
     def test_show_source_list_to_anonymous(self) -> None:
@@ -222,7 +218,7 @@ class TestSourceDetailView(TestCase):
         another_user_id = 4
         self.user = UserApp.objects.get(pk=user_id)
         self.another_user = UserApp.objects.get(pk=another_user_id)
-        self.url = reverse(DETAIL_SOURCE_PATH, kwargs={PK: user_source_id})
+        self.url = reverse(DETAIL_SOURCE_PATH, kwargs={'pk': user_source_id})
 
     def test_show_source_detail_to_user(self) -> None:
         """Test show source detail to user, page status 200."""

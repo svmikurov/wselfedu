@@ -11,17 +11,10 @@ from config.constants import (
     CREATE_WORD_PATH,
     DELETE_WORD_PATH,
     DETAIL_WORD_PATH,
-    FOREIGN_WORD,
-    NATIVE_WORD,
-    OBJECT_LIST,
     ONE_WORD,
-    PK,
     SENTENCE,
     UPDATE_WORD_PATH,
-    USER,
-    WORD_COUNT,
     WORD_LIST_PATH,
-    WORDS,
 )
 from contrib.tests_extension import flash_message_test
 from foreign.models import Word
@@ -49,9 +42,9 @@ class TestCreateWordView(TestCase):
         )
         self.another_user = UserApp.objects.get(id=another_user_id)
         self.create_data = {
-            FOREIGN_WORD: 'new word',
-            NATIVE_WORD: 'новое слово',
-            WORD_COUNT: COMBINATION,
+            'foreign_word': 'new word',
+            'native_word': 'новое слово',
+            'word_count': COMBINATION,
         }
         self.url = reverse(CREATE_WORD_PATH)
         self.success_url = self.url
@@ -101,11 +94,11 @@ class TestUpdateWordView(TestCase):
         self.user = UserApp.objects.get(pk=user_id)
         self.another_user = UserApp.objects.get(pk=another_user_id)
         self.update_data = {
-            FOREIGN_WORD: 'test',
-            NATIVE_WORD: 'тест',
-            WORD_COUNT: SENTENCE,
+            'foreign_word': 'test',
+            'native_word': 'тест',
+            'word_count': SENTENCE,
         }
-        self.url = reverse(UPDATE_WORD_PATH, kwargs={PK: user_word_id})
+        self.url = reverse(UPDATE_WORD_PATH, kwargs={'pk': user_word_id})
         self.success_url = reverse(WORD_LIST_PATH)
 
     def test_get_method_update_word_by_user(self) -> None:
@@ -151,7 +144,7 @@ class TestDeleteWordView(TestCase):
         another_user_id = 4
         self.user = UserApp.objects.get(pk=user_id)
         self.another_user = UserApp.objects.get(pk=another_user_id)
-        self.url = reverse(DELETE_WORD_PATH, kwargs={PK: self.word_id})
+        self.url = reverse(DELETE_WORD_PATH, kwargs={'pk': self.word_id})
         self.success_url = reverse(WORD_LIST_PATH)
 
     def test_get_method_delete_word_by_user(self) -> None:
@@ -205,8 +198,8 @@ class TestWordListView(TestCase):
 
         self.assertEqual(response.status_code, 200)
         # assert by user id, that `words` contains only the user's words
-        words = response.context[WORDS]
-        user_ids = set(words.values_list(USER, flat=True))
+        words = response.context['words']
+        user_ids = set(words.values_list('user', flat=True))
         self.assertTrue(*user_ids, self.user_id)
 
     def test_show_list_word_to_anonymous(self) -> None:
@@ -230,12 +223,12 @@ class TestWordObjectList(TestCase):
 
         client.force_login(self.user)
         self.response = client.get(url)
-        self.object_list = self.response.context[OBJECT_LIST]
+        self.object_list = self.response.context['object_list']
         self.html = self.response.content.decode()
 
     def test_context_object_name(self) -> None:
         """Test 'context_object_name'."""
-        context_object_name = WORDS
+        context_object_name = 'words'
         word_index_in_context = 0
         word_key = 'foreign_word'
         words = self.response.context[context_object_name].values()
@@ -277,7 +270,7 @@ class TestWordObjectList(TestCase):
         """Test to 'object_list' word list page contains favorite."""
         favorite_word = ('word_u3_w3', True)
         another_word = ('word_u3_w7', False)
-        words = self.object_list.values_list(FOREIGN_WORD, 'favorites_anat')
+        words = self.object_list.values_list('foreign_word', 'favorites_anat')
         assert favorite_word in words
         assert another_word not in words
 
@@ -313,9 +306,9 @@ class WordListPageFilter(TestCase):
         self.client.force_login(self.user)
         response = self.client.get(self.url, {'only_favorite_words': True})
 
-        objects_list = response.context[OBJECT_LIST]
+        objects_list = response.context['object_list']
         user_favorite_words = Word.objects.filter(
-            wordfavorites__word=F(PK),
+            wordfavorites__word=F('pk'),
             wordfavorites__user=self.user_id,
         )
         self.assertQuerySetEqual(
@@ -365,7 +358,7 @@ class TestWordDetailView(TestCase):
         another_user_id = 4
         self.user = UserApp.objects.get(pk=user_id)
         self.another_user = UserApp.objects.get(pk=another_user_id)
-        self.url = reverse(DETAIL_WORD_PATH, kwargs={PK: user_word_id})
+        self.url = reverse(DETAIL_WORD_PATH, kwargs={'pk': user_word_id})
 
     def test_show_word_detail_to_user(self) -> None:
         """Test show word detail to user, page status 200."""

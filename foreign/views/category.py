@@ -10,8 +10,6 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from config.constants import (
     BTN_NAME,
-    CATEGORIES,
-    CATEGORY,
     CATEGORY_LIST_PATH,
     CATEGORY_LIST_TEMPLATE,
     DELETE_TEMPLATE,
@@ -87,7 +85,7 @@ class CategoryListView(CheckLoginPermissionMixin, ListView):
 
     model = WordCategory
     template_name = CATEGORY_LIST_TEMPLATE
-    context_object_name = CATEGORIES
+    context_object_name = 'categories'
     paginate_by = PAGINATE_NUMBER
     extra_context = {
         TITLE: 'Категории',
@@ -104,7 +102,7 @@ class CategoryDetailView(CheckUserOwnershipMixin, DetailView):
 
     model = WordCategory
     template_name = DETAIL_CATEGORY_TEMPLATE
-    context_object_name = CATEGORY
+    context_object_name = 'category'
     extra_context = {
         TITLE: 'Обзор категории слов',
     }

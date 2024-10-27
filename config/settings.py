@@ -9,7 +9,7 @@ load_dotenv('./.env_vars/.env')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = os.getenv('DEBUG')
+DEBUG = bool(os.getenv('DEBUG'))
 ENVIRONMENT = os.getenv('ENVIRONMENT')
 PAGINATION_SIZE = int(os.getenv('PAGINATION_SIZE', 20))
 
@@ -173,16 +173,15 @@ LOGGING = {
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
+        # 'rest_framework.renderers.BrowsableAPIRenderer',
     ],
-    # Permissions
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
     ],
     # Pagination
     # https://www.django-rest-framework.org/api-guide/pagination/#setting-the-pagination-style

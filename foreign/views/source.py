@@ -14,10 +14,8 @@ from config.constants import (
     DETAIL_SOURCE_TEMPLATE,
     FORM_TEMPLATE,
     PAGINATE_NUMBER,
-    SOURCE,
     SOURCE_LIST_PATH,
     SOURCE_LIST_TEMPLATE,
-    SOURCES,
     TITLE,
 )
 from contrib.views import (
@@ -84,7 +82,7 @@ class SourceListView(CheckLoginPermissionMixin, ListView):
     """List source view."""
 
     model = WordSource
-    context_object_name = SOURCES
+    context_object_name = 'sources'
     template_name = SOURCE_LIST_TEMPLATE
     paginate_by = PAGINATE_NUMBER
     extra_context = {
@@ -102,7 +100,7 @@ class SourceDetailView(CheckUserOwnershipMixin, DetailView):
 
     model = WordSource
     template_name = DETAIL_SOURCE_TEMPLATE
-    context_object_name = SOURCE
+    context_object_name = 'source'
     extra_context = {
         TITLE: 'Обзор источника',
     }

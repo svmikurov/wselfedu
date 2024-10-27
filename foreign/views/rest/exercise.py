@@ -13,9 +13,7 @@ from rest_framework.status import (
 )
 
 from config.constants import (
-    GET,
     MSG_NO_TASK,
-    POST,
 )
 from contrib.views_rest import IsOwner
 from foreign.exercise.base import WordAssessment
@@ -67,7 +65,7 @@ def params_view(request: Request) -> JsonResponse | HttpResponse:
 
 
 @csrf_exempt
-@api_view([GET, POST])
+@api_view(['GET', 'POST'])
 @permission_classes((IsOwner,))
 def exercise_view(request: Request) -> JsonResponse | HttpResponse:
     """Render the Translate foreign word exercise the DRF view."""
@@ -87,7 +85,7 @@ def exercise_view(request: Request) -> JsonResponse | HttpResponse:
         return Response(data=exercise_serializer.data)
 
 
-@api_view([POST])
+@api_view(['POST'])
 @permission_classes((IsOwner,))
 def update_word_assessment_view(request: Request) -> Response:
     """Update word study assessment view."""

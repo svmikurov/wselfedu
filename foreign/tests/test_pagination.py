@@ -3,7 +3,6 @@
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from config.constants import CATEGORY, OBJECT_LIST
 from foreign.models import Word, WordCategory
 from users.models import UserApp
 
@@ -49,8 +48,8 @@ class TestPagination(TestCase):
 
         schema_query = f'?page=1&filtered_category={self.filtered_category_id}'
         page1_response = self.client.get(self.url + schema_query)
-        object_list = page1_response.context[OBJECT_LIST]
-        categories = set(object_list.values_list(CATEGORY, flat=True))
+        object_list = page1_response.context['object_list']
+        categories = set(object_list.values_list('category', flat=True))
 
         assert len(object_list) == PAGINATE_NUMBER
         assert len(categories) == expected_category_variety
@@ -58,8 +57,8 @@ class TestPagination(TestCase):
 
         schema_query = f'?page=2&filtered_category={self.filtered_category_id}'
         page2_response = self.client.get(self.url + schema_query)
-        object_list = page2_response.context[OBJECT_LIST]
-        categories = set(object_list.values_list(CATEGORY, flat=True))
+        object_list = page2_response.context['object_list']
+        categories = set(object_list.values_list('category', flat=True))
 
         assert len(object_list) == PAGINATE_NUMBER
         assert len(categories) == expected_category_variety

@@ -4,15 +4,11 @@ from django.test import Client, TestCase
 from django.urls import reverse, reverse_lazy
 
 from config.constants import (
-    CATEGORIES,
     CATEGORY_LIST_PATH,
     CREATE_CATEGORY_PATH,
     DELETE_CATEGORY_PATH,
     DETAIL_CATEGORY_PATH,
-    NAME,
-    PK,
     UPDATE_CATEGORY_PATH,
-    USER,
 )
 from contrib.tests_extension import flash_message_test
 from foreign.models import WordCategory
@@ -36,7 +32,7 @@ class TestCreateCategoryView(TestCase):
         self.client: Client = Client()
         user_id = 3
         self.user = UserApp.objects.get(pk=user_id)
-        self.create_data = {NAME: 'new category'}
+        self.create_data = {'name': 'new category'}
         self.url = reverse_lazy(CREATE_CATEGORY_PATH)
 
     def test_get_create_category_by_user(self) -> None:
@@ -74,8 +70,10 @@ class TestUpdateCategoryView(TestCase):
         another_user_id = 4
         self.user = UserApp.objects.get(pk=user_id)
         self.another_user = UserApp.objects.get(pk=another_user_id)
-        self.update_data = {NAME: 'updated category'}
-        self.url = reverse(UPDATE_CATEGORY_PATH, kwargs={PK: user_category_id})
+        self.update_data = {'name': 'updated category'}
+        self.url = reverse(
+            UPDATE_CATEGORY_PATH, kwargs={'pk': user_category_id}
+        )
         self.success_url = reverse_lazy(CATEGORY_LIST_PATH)
 
     def test_get_method_update_category_by_user(self) -> None:
@@ -126,11 +124,11 @@ class TestDeleteCategoryView(TestCase):
         self.user = UserApp.objects.get(pk=user_id)
         self.another_user = UserApp.objects.get(pk=another_user_id)
         self.url = reverse(
-            DELETE_CATEGORY_PATH, kwargs={PK: self.user_category_id}
+            DELETE_CATEGORY_PATH, kwargs={'pk': self.user_category_id}
         )
         self.protected_url = reverse(
             DELETE_CATEGORY_PATH,
-            kwargs={PK: self.user_protected_category_id},
+            kwargs={'pk': self.user_protected_category_id},
         )
         self.success_url = reverse(CATEGORY_LIST_PATH)
         self.protected_redirect = reverse(CATEGORY_LIST_PATH)
@@ -189,8 +187,8 @@ class TestCategoryListView(TestCase):
 
         # Assert by user id, that `category` contains only the user's
         # categories.
-        sources = response.context[CATEGORIES]
-        user_ids = set(sources.values_list(USER, flat=True))
+        sources = response.context['categories']
+        user_ids = set(sources.values_list('user', flat=True))
         self.assertTrue(*user_ids, self.user_id)
 
     def test_show_category_list_to_anonymous(self) -> None:
@@ -213,7 +211,9 @@ class TestCategoryDetailView(TestCase):
         another_user_id = 4
         self.user = UserApp.objects.get(pk=user_id)
         self.another_user = UserApp.objects.get(pk=another_user_id)
-        self.url = reverse(DETAIL_CATEGORY_PATH, kwargs={PK: user_category_id})
+        self.url = reverse(
+            DETAIL_CATEGORY_PATH, kwargs={'pk': user_category_id}
+        )
 
     def test_show_category_detail_to_user(self) -> None:
         """Test show category detail to user, page status 200."""

@@ -8,7 +8,6 @@ from django.db import models
 
 from config.constants import (
     BTN_SM,
-    CATEGORY,
     COL_6,
     DEFAULT_CREATE_CHOICE_VALUE,
     DEFAULT_LANGUAGE_ORDER,
@@ -16,20 +15,11 @@ from config.constants import (
     DEFAULT_TIMEOUT,
     DEFAULT_WORD_COUNT,
     EDGE_PERIOD_CHOICES,
-    FAVORITES,
-    LANGUAGE_ORDER,
     LANGUAGE_ORDER_CHOICE,
     NOT_CHOICES,
-    PERIOD_END_DATE,
-    PERIOD_START_DATE,
-    POST,
-    PROGRESS,
     PROGRESS_CHOICES,
-    SOURCE,
     SUBMIT,
-    TIMEOUT,
     TODAY,
-    WORD_COUNT,
     WORD_COUNT_CHOICE,
 )
 from foreign.models import WordCategory, WordSource
@@ -39,8 +29,8 @@ class ForeignTranslateChoiceForm(forms.Form):
     """Foreign word translation conditions choice form."""
 
     MODEL_FIELDS = {
-        CATEGORY: WordCategory,
-        SOURCE: WordSource,
+        'category': WordCategory,
+        'source': WordSource,
     }
 
     def __init__(self, *args: object, **kwargs: object) -> None:
@@ -103,8 +93,8 @@ class ForeignTranslateChoiceForm(forms.Form):
     def clean(self) -> dict[str, int]:
         """Convert `str` to `int` form values."""
         cleaned_data = super().clean()
-        cleaned_data[CATEGORY] = self._to_int(cleaned_data, CATEGORY)
-        cleaned_data[SOURCE] = self._to_int(cleaned_data, SOURCE)
+        cleaned_data['category'] = self._to_int(cleaned_data, 'category')
+        cleaned_data['source'] = self._to_int(cleaned_data, 'source')
         return cleaned_data
 
     @staticmethod
@@ -136,36 +126,36 @@ class ForeignTranslateChoiceForm(forms.Form):
     def helper(self) -> FormHelper:
         """Structure the form."""
         helper = FormHelper()
-        helper.form_method = POST
+        helper.form_method = 'POST'
 
         helper.layout = Layout(
             Row(
                 Column(
-                    FAVORITES,
+                    'favorites',
                     css_class=COL_6,
-                    data_testid=FAVORITES,
+                    data_testid='favorites',
                 ),
                 Column(
-                    LANGUAGE_ORDER,
+                    'language_order',
                     css_class=COL_6,
-                    data_testid=LANGUAGE_ORDER,
+                    data_testid='language_order',
                 ),
             ),
             Row(
-                Column(CATEGORY, css_class=COL_6),
-                Column(SOURCE, css_class=COL_6),
+                Column('category', css_class=COL_6),
+                Column('source', css_class=COL_6),
             ),
             Row(
                 HTML('<label class="h6">Период добавления слова</label>'),
-                Column(PERIOD_START_DATE, css_class=COL_6),
-                Column(PERIOD_END_DATE, css_class=COL_6),
+                Column('period_start_date', css_class=COL_6),
+                Column('period_end_date', css_class=COL_6),
                 data_testid='word_addition_period',
             ),
-            InlineCheckboxes(PROGRESS, data_testid=PROGRESS),
+            InlineCheckboxes('progress', data_testid='progress'),
             Submit(SUBMIT, 'Начать', css_class=BTN_SM, data_testid=SUBMIT),
             HTML('<p class="h6 pt-3">Дополнительные опции</p>'),
-            Field(TIMEOUT, css_class='form-group col-6 w-25'),
-            InlineCheckboxes(WORD_COUNT, data_testid=WORD_COUNT),
+            Field('timeout', css_class='form-group col-6 w-25'),
+            InlineCheckboxes('word_count', data_testid='word_count'),
         )
 
         return helper

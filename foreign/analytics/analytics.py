@@ -2,7 +2,6 @@
 
 from django.db.models import F
 
-from config.constants import DISPLAY_COUNT
 from foreign.exercise.translate import TranslateExercise
 from foreign.models import Word, WordAnalytics
 
@@ -18,5 +17,5 @@ def collect_statistics(task: TranslateExercise) -> None:
     story, _ = WordAnalytics.objects.get_or_create(
         word=Word.objects.get(id=task.item.pk)
     )
-    story.display_count = F(DISPLAY_COUNT) + 1
+    story.display_count = F('display_count') + 1
     story.save()

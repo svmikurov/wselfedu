@@ -4,8 +4,6 @@ import os
 
 from django.http import HttpRequest
 
-from config.constants import IS_TEST
-
 
 def pass_var_to_template(request: HttpRequest) -> dict[str, str | bool]:
     """Pass variables to the template.
@@ -21,5 +19,5 @@ def pass_var_to_template(request: HttpRequest) -> dict[str, str | bool]:
 
     """
     return {
-        IS_TEST: os.getenv(IS_TEST),
+        'IS_TEST': os.getenv('IS_TEST'),
     }

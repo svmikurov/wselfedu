@@ -36,66 +36,9 @@ CACHE_STORAGE_TIME = 10
 ########################################################################
 
 
-ACTION = 'action'
 ALIAS = 'alias'
-ANSWER_TEXT = 'answer_text'
-ASSESSMENT = 'assessment'
-CALCULATION_TYPE = 'calculation_type'
-CATEGORIES = 'categories'
-CATEGORY = 'category'
-CREATED_AT = 'created_at'
-DATA_TESTID = 'data-testid'
-DEFINITION = 'definition'
-DISPLAY_COUNT = 'display_count'
-EDGE_PERIOD_ITEMS = 'edge_period_items'
-ERROR = 'error'
-EXACT = 'exact'
-EXERCISE_CHOICES = 'exercise_choices'
-FAVORITES = 'favorites'
-FOREIGN = 'foreign'
-FOREIGN_WORD = 'foreign_word'
-FORM = 'form'
-GET = 'GET'
-HOME = 'home'
 HUMANLY = 'humanly'
-ICONTAINS = 'icontains'
-ID = 'id'
-IS_TEST = 'IS_TEST'
-JSON = 'json'
-KNOW = 'know'
-LANGUAGE_ORDER = 'language_order'
-LOOKUP_CONDITIONS = 'lookup_conditions'
-MAX_VALUE = 'max_value'
-MENTOR = 'mentor'
-MIN_VALUE = 'min_value'
-NAME = 'name'
 NOT_CHOICES = 'NC'
-NOT_KNOW = 'not_know'
-OBJECT_LIST = 'object_list'
-PASSWORD = 'password'
-PERIOD_END_DATE = 'period_end_date'
-PERIOD_START_DATE = 'period_start_date'
-PK = 'pk'
-POST = 'POST'
-PROGRESS = 'progress'
-QUESTION_TEXT = 'question_text'
-NATIVE_WORD = 'native_word'
-SOURCE = 'source'
-SOURCES = 'sources'
-STUDENT = 'student'
-TASK = 'task'
-TASK_CONDITIONS = 'task_conditions'
-TERM = 'term'
-TIMEOUT = 'timeout'
-URL = 'url'
-USER = 'user'
-USERNAME = 'username'
-USER_ID = 'user_id'
-USER_SOLUTION = 'user_solution'
-WORD = 'word'
-WORDS = 'words'
-WORD_COUNT = 'word_count'
-WORD_ID = 'word_id'
 
 ########################################################################
 # Layout constants
@@ -241,8 +184,8 @@ Include fields:
         A digital range representation of an knowledge assessment.
 """
 PROGRES_STEPS = {
-    KNOW: INCREMENT_STEP,
-    NOT_KNOW: DECREMENT_STEP,
+    'know': INCREMENT_STEP,
+    'not_know': DECREMENT_STEP,
 }
 
 ########################################################################
@@ -291,10 +234,10 @@ WORD_COUNT_CHOICE = (
 
 DEFAULT_CATEGORY = None
 DEFAULT_LOOKUP_CONDITIONS = {
-    PERIOD_START_DATE: NOT_CHOICES,
-    PERIOD_END_DATE: TODAY,
-    CATEGORY: DEFAULT_CATEGORY,
-    PROGRESS: DEFAULT_PROGRESS,
+    'period_start_date': NOT_CHOICES,
+    'period_end_date': TODAY,
+    'category': DEFAULT_CATEGORY,
+    'progress': DEFAULT_PROGRESS,
 }
 """Default choice for Glossary exercise lookup conditions
 (`dict[str, int | None]`)

@@ -18,7 +18,6 @@ import pytest
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from playwright.sync_api import Page, expect, sync_playwright
 
-from config.constants import IS_TEST
 from tests_plw.pages.home import HomePage
 from tests_plw.pages.login import LoginPage
 from users.models import UserApp
@@ -58,7 +57,7 @@ class BaseTest(StaticLiveServerTestCase):
         bootstrap into the page template to speed up tests.
         """
         os.environ['DJANGO_ALLOW_ASYNC_UNSAFE'] = 'true'
-        os.environ[IS_TEST] = 'true'
+        os.environ['IS_TEST'] = 'true'
         super().setUpClass()
 
     @property

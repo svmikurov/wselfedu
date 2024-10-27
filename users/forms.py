@@ -3,7 +3,6 @@
 from captcha.fields import CaptchaField
 from django.contrib.auth.forms import UserCreationForm
 
-from config.constants import DATA_TESTID, USERNAME
 from users.models import UserApp
 
 
@@ -15,9 +14,9 @@ class UserRegistrationForm(UserCreationForm):
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Add "data-testid" attr value to html tags of form."""
         super().__init__(*args, **kwargs)
-        self.add_attr_for_field(USERNAME, {DATA_TESTID: USERNAME})
-        self.add_attr_for_field('password1', {DATA_TESTID: 'password1'})
-        self.add_attr_for_field('password2', {DATA_TESTID: 'password2'})
+        self.add_attr_for_field('username', {'data-testid': 'username'})
+        self.add_attr_for_field('password1', {'data-testid': 'password1'})
+        self.add_attr_for_field('password2', {'data-testid': 'password2'})
 
     def add_attr_for_field(
         self,
@@ -31,7 +30,7 @@ class UserRegistrationForm(UserCreationForm):
         """Set model features."""
 
         model = UserApp
-        fields = (USERNAME, 'password1', 'password2')
+        fields = ('username', 'password1', 'password2')
 
 
 class UserUpdateForm(UserRegistrationForm):
@@ -42,4 +41,4 @@ class UserUpdateForm(UserRegistrationForm):
 
         Override disables user uniqueness check.
         """
-        return self.cleaned_data.get(USERNAME)
+        return self.cleaned_data.get('username')

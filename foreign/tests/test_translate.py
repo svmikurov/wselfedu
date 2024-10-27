@@ -6,9 +6,6 @@ import pytest
 from django.urls import reverse_lazy
 
 from config.constants import (
-    LANGUAGE_ORDER,
-    TASK_CONDITIONS,
-    TIMEOUT,
     TO_NATIVE,
 )
 from contrib.tests_extension import UserAuthTestCase
@@ -26,8 +23,8 @@ class TestAuthForeignTranslateExercisePage(UserAuthTestCase):
     # https://docs.pytest.org/en/stable/how-to/capture-warnings.html#pytest-mark-filterwarnings
     def test_page_get_status_success(self) -> None:
         """Test get method success status."""
-        task_conditions = {TIMEOUT: 1, LANGUAGE_ORDER: TO_NATIVE}
-        self.set_session(**{TASK_CONDITIONS: task_conditions})
+        task_conditions = {'timeout': 1, 'language_order': TO_NATIVE}
+        self.set_session(**{'task_conditions': task_conditions})
         response = self.get_auth_response()
         self.assertEqual(response.status_code, 200)
 

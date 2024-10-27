@@ -6,7 +6,6 @@ from config.constants import (
     DEFAULT_PROGRESS,
     EDGE_PERIOD_CHOICES,
     NOT_CHOICES,
-    PK,
     PROGRESS_CHOICES,
     TODAY,
 )
@@ -82,7 +81,7 @@ class Glossary(models.Model):
         verbose_name = 'Глоссарий'
         verbose_name_plural = 'Глоссарий'
         # To compare queryset with ordered value.
-        ordering = [PK]
+        ordering = ['pk']
 
     def __str__(self) -> str:
         """Provide the informal string representation of an object."""

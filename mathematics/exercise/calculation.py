@@ -10,13 +10,9 @@ from dotenv import load_dotenv
 
 from config.constants import (
     ADDITION,
-    ANSWER_TEXT,
-    CALCULATION_TYPE,
     DIVISION,
     MULTIPLICATION,
-    QUESTION_TEXT,
     SUBSTRUCTION,
-    USER_SOLUTION,
 )
 from contrib.cache import set_cache_task_creation_time
 from mathematics.models import MathematicsAnalytic
@@ -159,12 +155,12 @@ class CalculationExerciseCheck:
         self.request = request
         self.form = form
         self.user_id: int = request.user.id
-        self.question_text: str = request.session.get(QUESTION_TEXT)
-        self.answer_text: str = request.session.get(ANSWER_TEXT)
-        self.calculation_type: str = request.session.get(CALCULATION_TYPE)
+        self.question_text: str = request.session.get('question_text')
+        self.answer_text: str = request.session.get('answer_text')
+        self.calculation_type: str = request.session.get('calculation_type')
         self.first_operand: int = int(self.question_text.split()[0])
         self.second_operand: int = int(self.question_text.split()[-1])
-        self.user_solution: str = str(form.cleaned_data.get(USER_SOLUTION))
+        self.user_solution: str = str(form.cleaned_data.get('user_solution'))
         self.is_correct_answer: bool | None = None
         # self.solution_time = get_cache_task_creation_time(
         #     self.user_id,

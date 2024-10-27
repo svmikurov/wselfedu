@@ -13,25 +13,14 @@ from rest_framework.status import (
 )
 
 from config.constants import (
-    ACTION,
-    CATEGORIES,
     DEFAULT_LOOKUP_CONDITIONS,
     EDGE_PERIOD_ALIASES,
-    EDGE_PERIOD_ITEMS,
-    ERROR,
-    EXERCISE_CHOICES,
-    GET,
-    ID,
-    LOOKUP_CONDITIONS,
     MSG_NO_TASK,
     NO_SELECTION,
-    POST,
     PROGRES_STEPS,
-    PROGRESS,
     PROGRESS_ALIASES,
     PROGRESS_MAX,
     PROGRESS_MIN,
-    USER_ID,
 )
 from glossary.exercise.question import (
     GlossaryExerciseGUI,
@@ -47,7 +36,7 @@ from glossary.serializers import (
 )
 
 
-@api_view([POST])
+@api_view(['POST'])
 @permission_classes((permissions.AllowAny,))
 def glossary_exercise(request: Request) -> JsonResponse | HttpResponse:
     """Render the Glossary exercise."""
@@ -55,18 +44,18 @@ def glossary_exercise(request: Request) -> JsonResponse | HttpResponse:
 
     if serializer.is_valid():
         lookup_conditions = serializer.data
-        lookup_conditions[USER_ID] = request.user.id
+        lookup_conditions['user_id'] = request.user.id
         try:
             exercise = GlossaryExerciseGUI(lookup_conditions).task_data
         except IndexError:
-            error = {ERROR: MSG_NO_TASK}
+            error = {'error': MSG_NO_TASK}
             return JsonResponse(error, status=HTTP_400_BAD_REQUEST)
 
         return JsonResponse(exercise, status=HTTP_200_OK)
     return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
-@api_view([GET, POST])
+@api_view(['GET', 'POST'])
 @permission_classes((permissions.AllowAny,))
 def glossary_exercise_parameters(
     request: Request,
@@ -86,7 +75,7 @@ def glossary_exercise_parameters(
     """
     user = request.user
 
-    if request.method == GET:
+    if request.method == 'GET':
         try:
             user_params = GlossaryParams.objects.get(user=user)
         except GlossaryParams.DoesNotExist:
@@ -102,17 +91,17 @@ def glossary_exercise_parameters(
         categories.append(NO_SELECTION)
 
         exercise_params = {
-            LOOKUP_CONDITIONS: lookup_conditions,
-            EXERCISE_CHOICES: {
-                EDGE_PERIOD_ITEMS: EDGE_PERIOD_ALIASES,
-                CATEGORIES: categories,
-                PROGRESS: PROGRESS_ALIASES,
+            'lookup_conditions': lookup_conditions,
+            'exercise_choices': {
+                'edge_period_items': EDGE_PERIOD_ALIASES,
+                'categories': categories,
+                'progress': PROGRESS_ALIASES,
             },
         }
 
         return JsonResponse(exercise_params, status=HTTP_200_OK)
 
-    if request.method == POST:
+    if request.method == 'POST':
         serializer = GlossaryParamsSerializer(data=request.data)
 
         if serializer.is_valid():
@@ -125,13 +114,13 @@ def glossary_exercise_parameters(
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
-@api_view([POST])
+@api_view(['POST'])
 @permission_classes((permissions.AllowAny,))
 def update_term_study_progress(request: HttpRequest) -> HttpResponse:
     """Update term study progres."""
     user = request.user
     payload = JSONParser().parse(request)
-    term_pk = payload.get(ID)
+    term_pk = payload.get('id')
 
     try:
         term = Glossary.objects.get(pk=term_pk)
@@ -142,12 +131,12 @@ def update_term_study_progress(request: HttpRequest) -> HttpResponse:
         if user != term.user:
             return HttpResponse(status=status.HTTP_403_FORBIDDEN)
 
-    action = payload.get(ACTION)
+    action = payload.get('action')
     progress_delta = PROGRES_STEPS.get(action)
     updated_progress = term.progress + progress_delta
 
     if PROGRESS_MIN <= updated_progress <= PROGRESS_MAX:
         term.progress = updated_progress
-        term.save(update_fields=[PROGRESS])
+        term.save(update_fields=['progress'])
 
     return HttpResponse(status=status.HTTP_200_OK)

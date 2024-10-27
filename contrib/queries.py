@@ -8,15 +8,8 @@ from zoneinfo import ZoneInfo
 
 from config import settings
 from config.constants import (
-    CATEGORY,
     EDGE_PERIOD_ARGS,
-    PERIOD_END_DATE,
-    PERIOD_START_DATE,
-    PROGRESS,
     PROGRESS_STAGE_EDGES,
-    SOURCE,
-    USER,
-    USER_ID,
 )
 
 
@@ -38,15 +31,15 @@ class LookupParams(abc.ABC):
     @property
     def user(self) -> Q:
         """Condition to filter by user (`Q`, read-only)."""
-        lookup_value = self.lookup_conditions.get(USER_ID)
-        lookup_field = USER
+        lookup_value = self.lookup_conditions.get('user_id')
+        lookup_field = 'user'
         param = get_q(lookup_field, lookup_value)
         return param
 
     @property
     def period_start_date(self) -> Q:
         """Start period of adding items to database (`Q`, read-only)."""
-        lookup_value = self._get_date_value(PERIOD_START_DATE)
+        lookup_value = self._get_date_value('period_start_date')
         lookup_field = 'created_at__gte'
         param = get_q(lookup_field, lookup_value)
         return param
@@ -54,7 +47,7 @@ class LookupParams(abc.ABC):
     @property
     def period_end_date(self) -> Q:
         """End period of adding items to database (`Q`, read-only)."""
-        lookup_value = self._get_date_value(PERIOD_END_DATE)
+        lookup_value = self._get_date_value('period_end_date')
         lookup_field = 'created_at__lte'
         param = get_q(lookup_field, lookup_value)
         return param
@@ -73,7 +66,7 @@ class LookupParams(abc.ABC):
     @property
     def category(self) -> Q:
         """Lookup parameter by category (`Q`, read-only)."""
-        lookup_value = self.lookup_conditions.get(CATEGORY)
+        lookup_value = self.lookup_conditions.get('category')
         lookup_field = 'category_id'
         param = get_q(lookup_field, lookup_value)
         return param
@@ -81,7 +74,7 @@ class LookupParams(abc.ABC):
     @property
     def source(self) -> Q:
         """Lookup parameter by source (`Q`, read-only)."""
-        lookup_value = self.lookup_conditions.get(SOURCE)
+        lookup_value = self.lookup_conditions.get('source')
         lookup_field = 'source_id'
         param = get_q(lookup_field, lookup_value)
         return param
@@ -89,7 +82,7 @@ class LookupParams(abc.ABC):
     @property
     def progress(self) -> Q:
         """Lookup parameter by study progress (`Q`, read-only)."""
-        lookup_aliases = self.lookup_conditions.get(PROGRESS, [])
+        lookup_aliases = self.lookup_conditions.get('progress', [])
         lookup_value = self._to_numeric(PROGRESS_STAGE_EDGES, lookup_aliases)
         lookup_field = 'progress__in'
         param = get_q(lookup_field, lookup_value)

@@ -2,7 +2,6 @@
 
 from django.db import models
 
-from config.constants import NAME
 from users.models import UserApp
 
 
@@ -34,7 +33,7 @@ class WordCategory(models.Model):
 
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
-        ordering = [NAME]
+        ordering = ['name']
 
     def __str__(self) -> str:
         """Provide the informal string representation of an object."""

@@ -12,7 +12,6 @@ from config.constants import (
     BTN_NAME,
     DELETE_TEMPLATE,
     FORM_TEMPLATE,
-    HOME,
     TITLE,
 )
 from contrib.views import (
@@ -64,7 +63,7 @@ class DeleteUserView(
     model = UserApp
     success_url = reverse_lazy('users:login')
     success_message = 'Пользователь удален'
-    protected_redirect_url = reverse_lazy(HOME)
+    protected_redirect_url = reverse_lazy('home')
     protected_message = (
         'Невозможно удалить этот объект, так как он '
         'используется в другом месте приложения'

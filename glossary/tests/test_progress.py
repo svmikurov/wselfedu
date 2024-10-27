@@ -5,13 +5,8 @@ from rest_framework.reverse import reverse
 from rest_framework.test import APIClient, APITestCase
 
 from config.constants import (
-    ACTION,
     DECREMENT_STEP,
-    ID,
     INCREMENT_STEP,
-    JSON,
-    KNOW,
-    NOT_KNOW,
     PROGRESS_MAX,
     PROGRESS_MIN,
 )
@@ -38,10 +33,10 @@ class TestUpdateProgressView(APITestCase):
 
     def test_know_before_max(self) -> None:
         """Test the mark as know term, before max value of progress."""
-        payload = {ACTION: KNOW, ID: self.term_pk}
+        payload = {'action': 'know', 'id': self.term_pk}
 
         self.api_client.force_authenticate(self.user2)
-        r = self.api_client.post(path=self.url, data=payload, format=JSON)
+        r = self.api_client.post(path=self.url, data=payload, format='json')
         term_progress = Glossary.objects.get(pk=self.term_pk).progress
 
         assert term_progress == PROGRESS_MIN + INCREMENT_STEP
@@ -50,10 +45,10 @@ class TestUpdateProgressView(APITestCase):
     def test_know_on_max(self) -> None:
         """Test the know term, on max value of progress."""
         Glossary.objects.filter(pk=self.term_pk).update(progress=PROGRESS_MAX)
-        payload = {ACTION: KNOW, ID: self.term_pk}
+        payload = {'action': 'know', 'id': self.term_pk}
 
         self.api_client.force_authenticate(self.user2)
-        r = self.api_client.post(path=self.url, data=payload, format=JSON)
+        r = self.api_client.post(path=self.url, data=payload, format='json')
         term_progress = Glossary.objects.get(pk=self.term_pk).progress
 
         assert r.status_code == status.HTTP_200_OK
@@ -62,10 +57,10 @@ class TestUpdateProgressView(APITestCase):
     def test_not_know_before_min(self) -> None:
         """Test the not know term, before min value of progress."""
         Glossary.objects.filter(pk=self.term_pk).update(progress=PROGRESS_MAX)
-        payload = {ACTION: NOT_KNOW, ID: self.term_pk}
+        payload = {'action': 'not_know', 'id': self.term_pk}
 
         self.api_client.force_authenticate(self.user2)
-        r = self.api_client.post(path=self.url, data=payload, format=JSON)
+        r = self.api_client.post(path=self.url, data=payload, format='json')
         term_progress = Glossary.objects.get(pk=self.term_pk).progress
 
         assert r.status_code == status.HTTP_200_OK
@@ -73,10 +68,10 @@ class TestUpdateProgressView(APITestCase):
 
     def test_not_know_on_min(self) -> None:
         """Test the not know term, on min value of progress."""
-        payload = {ACTION: NOT_KNOW, ID: self.term_pk}
+        payload = {'action': 'not_know', 'id': self.term_pk}
 
         self.api_client.force_authenticate(self.user2)
-        r = self.api_client.post(path=self.url, data=payload, format=JSON)
+        r = self.api_client.post(path=self.url, data=payload, format='json')
         term_progress = Glossary.objects.get(pk=self.term_pk).progress
 
         assert r.status_code == status.HTTP_200_OK
@@ -84,10 +79,10 @@ class TestUpdateProgressView(APITestCase):
 
     def test_forbidden(self) -> None:
         """Test access to term progress for not owner."""
-        payload = {ACTION: KNOW, ID: self.term_pk}
+        payload = {'action': 'know', 'id': self.term_pk}
 
         self.api_client.force_authenticate(self.user3)
-        r = self.api_client.post(path=self.url, data=payload, format=JSON)
+        r = self.api_client.post(path=self.url, data=payload, format='json')
         term_progress = Glossary.objects.get(pk=self.term_pk).progress
 
         assert r.status_code == status.HTTP_403_FORBIDDEN

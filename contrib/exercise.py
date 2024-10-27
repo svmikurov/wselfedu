@@ -4,8 +4,6 @@ from random import choice
 
 from django.db.models import Model, Q
 
-from config.constants import ANSWER_TEXT, ID, QUESTION_TEXT
-
 
 class Exercise:
     """Base exercise."""
@@ -31,7 +29,7 @@ class Exercise:
     def _get_item_ids(self) -> list[int]:
         """Get item ids by user lookup conditions."""
         item_ids = self.model.objects.filter(*self._lookup_params).values_list(
-            ID, flat=True
+            'id', flat=True
         )
         if self.count_first:
             return item_ids.order_by('created_at')[: self.count_first]
@@ -60,9 +58,9 @@ class Exercise:
         """Task data (`dict`, reqe-only)."""
         self.create_task()
         results = {
-            ID: self.item.pk,
-            QUESTION_TEXT: self.question_text,
-            ANSWER_TEXT: self.answer_text,
+            'id': self.item.pk,
+            'question_text': self.question_text,
+            'answer_text': self.answer_text,
         }
         return results
 

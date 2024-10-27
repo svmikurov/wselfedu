@@ -15,7 +15,7 @@ class WordListCreateAPIView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self) -> QuerySet:
-        """Filter queryset by current user for response."""
+        """Filter queryset by current user."""
         return Word.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer: WordSerializer) -> None:

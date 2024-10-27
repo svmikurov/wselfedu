@@ -4,7 +4,7 @@ from django.db.models import F, Q
 from django.db.models.query import QuerySet
 from django_filters.views import FilterView
 
-from config.constants import PK, PROGRESS, SOURCE, TITLE, WORDS
+from config.constants import TITLE
 from contrib.views import CheckObjectOwnershipMixin
 from foreign.models import Word
 
@@ -17,7 +17,7 @@ class UserWordListView(
 
     template_name = 'foreign/user_word_list.html'
     model = Word
-    context_object_name = WORDS
+    context_object_name = 'words'
     extra_context = {
         TITLE: 'Изучаемые слова',
     }
@@ -26,15 +26,15 @@ class UserWordListView(
         """Get user word list with relations."""
         user = self.request.user
         user_favorites = Word.objects.filter(
-            wordfavorites__word_id=F(PK),
+            wordfavorites__word_id=F('pk'),
             wordfavorites__user_id=user,
-        ).values(PK)
+        ).values('pk')
 
         queryset = (
             super()
             .get_queryset()
-            .select_related(SOURCE)
-            .prefetch_related(PROGRESS)
+            .select_related('source')
+            .prefetch_related('progress')
             .filter(user=user)
             # `wordprogress__user_id__isnull=True`
             # allows to a create query using LEFT JOIN

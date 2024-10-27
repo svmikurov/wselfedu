@@ -4,7 +4,6 @@ from django.db.models import Model
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView
 
-from config.constants import HOME, PK
 from foreign.models import TranslateParams
 
 
@@ -16,7 +15,7 @@ class ForeignTaskSettingsView(DetailView):
 
     def get_object(self, **kwargs: object) -> Model:
         """Return the object the view is displaying."""
-        pk = self.kwargs.get(PK)
+        pk = self.kwargs.get('pk')
         obj = TranslateParams.objects.get(user=pk)
         return obj
 
@@ -27,7 +26,7 @@ class CreateForeignTaskSettingsView(CreateView):
     model = TranslateParams
     template_name = 'foreign/params/create_task_settings.html'
     fields = '__all__'
-    success_url = reverse_lazy(HOME)
+    success_url = reverse_lazy('home')
 
 
 class UpdateForeignTaskSettingsView(UpdateView):
@@ -36,4 +35,4 @@ class UpdateForeignTaskSettingsView(UpdateView):
     model = TranslateParams
     template_name = 'foreign/params/update_task_settings.html'
     fields = '__all__'
-    success_url = reverse_lazy(HOME)
+    success_url = reverse_lazy('home')

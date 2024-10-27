@@ -6,11 +6,7 @@ Data is collected from the “Learning words” exercise.
 from django.urls import reverse_lazy
 
 from config.constants import (
-    LANGUAGE_ORDER,
-    TASK_CONDITIONS,
-    TIMEOUT,
     TO_NATIVE,
-    WORD,
 )
 from contrib.tests_extension import UserAuthTestCase
 from foreign.models import Word, WordAnalytics
@@ -28,14 +24,14 @@ class TestCollectData(UserAuthTestCase):
         super().setUpTestData()
         cls.url = reverse_lazy('foreign:foreign_translate_demo')
         Word.objects.create(
-            foreign_word=WORD,
+            foreign_word='word',
             user=cls.user,
         )
 
     def test_collect_number_word_displays(self) -> None:
         """Test collect the number of word displays."""
-        task_conditions = {TIMEOUT: 1, LANGUAGE_ORDER: TO_NATIVE}
-        self.set_session(**{TASK_CONDITIONS: task_conditions})
+        task_conditions = {'timeout': 1, 'language_order': TO_NATIVE}
+        self.set_session(**{'task_conditions': task_conditions})
         self.get_auth_response(self.url, method='post')
 
         self.assertEqual(

@@ -19,18 +19,10 @@ from django.db.models import F
 from django.urls import reverse_lazy
 
 from config.constants import (
-    ANSWER_TEXT,
     DEFAULT_LANGUAGE_ORDER,
     FROM_NATIVE,
-    PK,
-    PROGRESS,
-    QUESTION_TEXT,
     RANDOM,
-    TIMEOUT,
     TO_NATIVE,
-    USER_ID,
-    WORD_COUNT,
-    WORD_ID,
 )
 from contrib.exercise import ExerciseData
 from foreign.models import Word, WordFavorites, WordProgress
@@ -100,8 +92,8 @@ class TranslateExercise(TranslateExerciseGUI):
 
     def __init__(self, lookup_conditions: dict) -> None:
         """Exercise constructor."""
-        self._user_id = lookup_conditions.get(USER_ID)
-        self.timeout = lookup_conditions.pop(TIMEOUT)
+        self._user_id = lookup_conditions.get('user_id')
+        self.timeout = lookup_conditions.pop('timeout')
         super().__init__(lookup_conditions)
 
     @property
@@ -111,24 +103,24 @@ class TranslateExercise(TranslateExerciseGUI):
         """  # noqa:  D205
         self.create_task()
         return {
-            WORD_ID: self.item.pk,
-            QUESTION_TEXT: self.question_text,
-            ANSWER_TEXT: self.answer_text,
-            TIMEOUT: self.timeout,
-            WORD_COUNT: len(self.item_ids),
-            PROGRESS: Word.objects.annotate(
+            'word_id': self.item.pk,
+            'question_text': self.question_text,
+            'answer_text': self.answer_text,
+            'timeout': self.timeout,
+            'word_count': len(self.item_ids),
+            'progress': Word.objects.annotate(
                 progress_value=F('wordprogress__progress'),
             ).get(pk=self.item.pk).progress_value or 0,
             'knowledge_url': reverse_lazy(
                 'foreign:progress',
-                kwargs={WORD_ID: self.item.pk},
+                kwargs={'word_id': self.item.pk},
             ),
             'favorites_status': WordFavorites.objects.filter(
                 word=self.item, user=self.item.user
             ).exists(),
             'favorites_url': reverse_lazy(
                 'foreign:word_favorites_view_ajax',
-                kwargs={WORD_ID: self.item.pk},
+                kwargs={'word_id': self.item.pk},
             ),
             'google_translate_word_link': (
                 f'https://translate.google.com/?hl=ru&sl=auto&tl=ru&text='
@@ -136,6 +128,6 @@ class TranslateExercise(TranslateExerciseGUI):
             ),
             'word_detail_link': reverse_lazy(
                 'foreign:words_detail',
-                kwargs={PK: self.item.id},
+                kwargs={'pk': self.item.id},
             ),
         }  # fmt: skip

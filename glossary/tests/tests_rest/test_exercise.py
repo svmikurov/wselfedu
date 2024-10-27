@@ -14,12 +14,8 @@ from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
 from config.constants import (
-    ANSWER_TEXT,
-    ID,
-    JSON,
     LEARNED,
     NOT_CHOICES,
-    QUESTION_TEXT,
     STUDY,
     TODAY,
     WEEK_AGO,
@@ -43,7 +39,7 @@ class TestGlossaryTask(APITestCase):
 
     def test_render_task(self) -> None:
         """Test render exercise."""
-        expect = (ID, QUESTION_TEXT, ANSWER_TEXT)
+        expect = ('id', 'question_text', 'answer_text')
         self.api_client.force_authenticate(user=self.user)
         response = self.api_client.post(self.url)
 
@@ -135,7 +131,7 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'progress': LEARNED,
         }
         self.api_client.force_authenticate(user=self.user1)
-        response = self.api_client.post(self.url, request_data, format=JSON)
+        response = self.api_client.post(self.url, request_data, format='json')
 
         user_params = GlossaryParams.objects.get(user=self.user1)
         user_params = model_to_dict(user_params, fields=request_data)
@@ -156,7 +152,7 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'progress': STUDY,
         }
         self.api_client.force_authenticate(user=self.user1)
-        response = self.api_client.post(self.url, request_data, format=JSON)
+        response = self.api_client.post(self.url, request_data, format='json')
         assert response.data == expect_data
         assert response.status_code == status.HTTP_200_OK
 
@@ -184,7 +180,7 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'progress': LEARNED,
         }
         self.api_client.force_authenticate(user=self.user2)
-        response = self.api_client.post(self.url, request_data, format=JSON)
+        response = self.api_client.post(self.url, request_data, format='json')
 
         user_params = GlossaryParams.objects.get(user=self.user2)
         user_params = model_to_dict(user_params, fields=request_data)
@@ -205,6 +201,6 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'progress': STUDY,
         }
         self.api_client.force_authenticate(user=self.user2)
-        response = self.api_client.post(self.url, request_data, format=JSON)
+        response = self.api_client.post(self.url, request_data, format='json')
         assert response.data == expect_data
         assert response.status_code == status.HTTP_201_CREATED
