@@ -1,4 +1,4 @@
-"""URL configuration for config project.
+"""URL configuration for wselfedu project.
 
 The `urlpatterns` list routes URLs to views. For more information please
 see: https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -34,4 +34,8 @@ urlpatterns = [
     re_path(r'^auth/', include('djoser.urls.authtoken')),
     path('api/v1/foreign/', include('foreign.urls.urls_rest')),
     path('api/v1/glossary/', include('glossary.urls.urls_rest')),
+]
+
+urlpatterns += [
+    path('captcha/', include('captcha.urls')),
 ]

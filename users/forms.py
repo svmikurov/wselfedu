@@ -1,5 +1,6 @@
 """User application forms."""
 
+from captcha.fields import CaptchaField
 from django.contrib.auth.forms import UserCreationForm
 
 from config.constants import DATA_TESTID, USERNAME
@@ -8,6 +9,8 @@ from users.models import UserApp
 
 class UserRegistrationForm(UserCreationForm):
     """User registration form."""
+
+    captcha = CaptchaField()
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Add "data-testid" attr value to html tags of form."""

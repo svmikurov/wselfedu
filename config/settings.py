@@ -10,6 +10,7 @@ load_dotenv('./.env_vars/.env')
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG')
+ENVIRONMENT = os.getenv('ENVIRONMENT')
 PAGINATION_SIZE = int(os.getenv('PAGINATION_SIZE', 20))
 
 ALLOWED_HOSTS = [
@@ -37,6 +38,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
+    # https://django-simple-captcha.readthedocs.io/en/latest/usage.html
+    'captcha',
     # added apps
     'users.apps.UsersConfig',
     'foreign.apps.ForeignConfig',
@@ -188,3 +191,10 @@ REST_FRAMEWORK = {
 }
 
 FIXTURE_DIRS = ['tests/fixtures/']
+
+
+# Captcha
+# https://django-simple-captcha.readthedocs.io/en/latest/advanced.html#captcha-test-mode
+# https://stackoverflow.com/questions/3159284/how-to-unit-test-a-form-with-a-captcha-field-in-django
+if ENVIRONMENT == 'development':
+    CAPTCHA_TEST_MODE = True

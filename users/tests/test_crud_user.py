@@ -35,6 +35,8 @@ class TestCreateUserView(TestCase):
 
     def test_post_method_create_user(self) -> None:
         """Test the http status and msg of submit the create form."""
+        self.create_user_data['captcha_0'] = 'dummy-value'
+        self.create_user_data['captcha_1'] = 'PASSED'
         response = self.client.post(self.url, self.create_user_data)
         self.assertRedirects(response, SUCCESS_REDIRECT_PATH, HTTPStatus.FOUND)
         flash_message_test(response, 'Пользователь создан')
@@ -63,6 +65,8 @@ class TestUpdateUserView(UserAuthTestCase):
 
     def test_post_method_update_user_by_user(self) -> None:
         """Test update user by owner, the http status of form submit."""
+        self.update_user_data['captcha_0'] = 'dummy-value'
+        self.update_user_data['captcha_1'] = 'PASSED'
         response = self.get_auth_response(
             path_schema=self.url,
             method='post',
