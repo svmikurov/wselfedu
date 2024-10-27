@@ -23,6 +23,7 @@ from config.constants import (
     GET,
     ID,
     LOOKUP_CONDITIONS,
+    MSG_NO_TASK,
     NO_SELECTION,
     POST,
     PROGRES_STEPS,
@@ -58,7 +59,7 @@ def glossary_exercise(request: Request) -> JsonResponse | HttpResponse:
         try:
             exercise = GlossaryExerciseGUI(lookup_conditions).task_data
         except IndexError:
-            error = {ERROR: 'По заданным условиям задание не сформировано'}
+            error = {ERROR: MSG_NO_TASK}
             return JsonResponse(error, status=HTTP_400_BAD_REQUEST)
 
         return JsonResponse(exercise, status=HTTP_200_OK)

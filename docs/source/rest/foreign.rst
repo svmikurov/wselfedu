@@ -194,8 +194,8 @@ Endpoint to get task data.
 |           | * progress (optionally)          |  * item_count              |
 |           | * word_count (optionally)        |  * assessment              |
 |           | * period_start_date (optionally) |                            |
-|           | * period_end_date (optionally)   |                            |
-|           | * count_first (optionally)       |                            |
+|           | * period_end_date (optionally)   | HTTP_204_NO_CONTENT        |
+|           | * count_first (optionally)       |  * details                 |
 |           | * count_last (optionally)        |                            |
 +-----------+----------------------------------+----------------------------+
 
@@ -204,6 +204,8 @@ View: :py:func:`~foreign.views.rest.exercise.exercise_view`.
 Serializer for request: :py:class:`~foreign.serializers.ExerciseParamSerializer`.
 
 Serializer for response: :py:class:`~foreign.serializers.ExerciseSerializer`.
+
+Returns status 204 if no words were found for study according to the given parameters.
 
 Fields:
     Request:
@@ -232,6 +234,7 @@ Fields:
         - ``item_count`` -- count of words to choice for exercise,
           by selected exercise parameters (`int`);
         - ``assessment`` -- words study assessment (`int`);
+        - ``details`` -- message (`int`).
 
 Example:
 

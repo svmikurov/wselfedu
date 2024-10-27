@@ -15,6 +15,7 @@ from django.views.generic import TemplateView
 from config.constants import (
     ASSESSMENT,
     FORM,
+    MSG_NO_TASK,
     PROGRESS,
     PROGRESS_MAX,
     PROGRESS_MIN,
@@ -96,7 +97,7 @@ class ForeignTranslateExerciseView(CheckLoginPermissionMixin, View):
     msg_key_error = 'Не все условия упражнения заданы'
     """Error message in condition ('str').
     """
-    msg_no_words = 'По заданным условиям слов не найдено'
+    msg_no_words = MSG_NO_TASK
     """Message no words found (`str`).
     """
     redirect_no_words = {

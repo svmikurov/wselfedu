@@ -1,7 +1,5 @@
 """Translate foreign word exercise DRF views."""
 
-import logging
-
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import permissions, status
@@ -16,6 +14,7 @@ from rest_framework.status import (
 
 from config.constants import (
     GET,
+    MSG_NO_TASK,
     POST,
 )
 from contrib.views_rest import IsOwner
@@ -78,11 +77,14 @@ def exercise_view(request: Request) -> JsonResponse | HttpResponse:
     # Create exercise task.
     lookup_conditions = params_serializer.data
     lookup_conditions['user_id'] = request.user.pk
-    logging.info(f'>>> {lookup_conditions = }')
-    exercise_data = TranslateExerciseGUI(lookup_conditions).exercise_data
-    # Render the task.
-    exercise_serializer = ExerciseSerializer(exercise_data)
-    return Response(data=exercise_serializer.data)
+    try:
+        exercise_data = TranslateExerciseGUI(lookup_conditions).exercise_data
+    except IndexError:
+        data = {'details': MSG_NO_TASK}
+        return Response(data=data, status=status.HTTP_204_NO_CONTENT)
+    else:
+        exercise_serializer = ExerciseSerializer(exercise_data)
+        return Response(data=exercise_serializer.data)
 
 
 @api_view([POST])
