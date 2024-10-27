@@ -20,7 +20,7 @@ class WordSerializer(serializers.ModelSerializer):
         """Serializer settings."""
 
         model = Word
-        fields = ['id', 'foreign_word', 'native_word']
+        fields = ['foreign_word', 'native_word']
         """Fields (`list[str]`).
         """
 

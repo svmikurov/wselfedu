@@ -16,7 +16,7 @@ class WordListCreateAPIView(generics.ListCreateAPIView):
 
     def get_queryset(self) -> QuerySet:
         """Filter queryset by current user."""
-        return Word.objects.filter(user=self.request.user)
+        return Word.objects.filter(user=self.request.user).order_by('-id')
 
     def perform_create(self, serializer: WordSerializer) -> None:
         """Add current user to created model instants."""
