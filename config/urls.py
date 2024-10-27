@@ -29,13 +29,12 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('foreign/', include('foreign.urls.urls')),
     path('math/', include('mathematics.urls')),
-    path('api/v1/drf-auth/', include('rest_framework.urls')),
-    path('api/v1/auth/', include('djoser.urls')),
-    re_path(r'^auth/', include('djoser.urls.authtoken')),
     path('api/v1/foreign/', include('foreign.urls.urls_rest')),
     path('api/v1/glossary/', include('glossary.urls.urls_rest')),
 ]
 
 urlpatterns += [
+    path('api/v1/auth/', include('djoser.urls')),
+    re_path(r'^auth/', include('djoser.urls.authtoken')),
     path('captcha/', include('captcha.urls')),
 ]

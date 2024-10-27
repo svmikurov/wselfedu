@@ -2,7 +2,7 @@
 
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import permissions, status
+from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -68,7 +68,7 @@ def params_view(request: Request) -> JsonResponse | HttpResponse:
 
 @csrf_exempt
 @api_view([GET, POST])
-@permission_classes((permissions.IsAuthenticated,))
+@permission_classes((IsOwner,))
 def exercise_view(request: Request) -> JsonResponse | HttpResponse:
     """Render the Translate foreign word exercise the DRF view."""
     # Get exercise parameters.

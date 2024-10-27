@@ -198,3 +198,25 @@ FIXTURE_DIRS = ['tests/fixtures/']
 # https://stackoverflow.com/questions/3159284/how-to-unit-test-a-form-with-a-captcha-field-in-django
 if ENVIRONMENT == 'development':
     CAPTCHA_TEST_MODE = True
+
+# Djoser authentication
+DJOSER = {
+    # https://djoser.readthedocs.io/en/latest/settings.html#permissions
+    'PERMISSIONS': {
+        # Admin only
+        'activation': ['rest_framework.permissions.IsAdminUser'],
+        'password_reset': ['rest_framework.permissions.IsAdminUser'],
+        'password_reset_confirm': ['rest_framework.permissions.IsAdminUser'],
+        'set_password': ['djoser.permissions.IsAdminUser'],
+        'username_reset': ['rest_framework.permissions.IsAdminUser'],
+        'username_reset_confirm': ['rest_framework.permissions.IsAdminUser'],
+        'set_username': ['djoser.permissions.IsAdminUser'],
+        'user_create': ['rest_framework.permissions.IsAdminUser'],
+        'user_delete': ['djoser.permissions.IsAdminUser'],
+        'user_list': ['djoser.permissions.IsAdminUser'],
+        # Allowed
+        'user': ['djoser.permissions.CurrentUserOrAdmin'],
+        'token_create': ['rest_framework.permissions.AllowAny'],
+        'token_destroy': ['rest_framework.permissions.IsAuthenticated'],
+    },
+}
