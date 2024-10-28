@@ -28,6 +28,7 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('users/', include('users.urls')),
     path('foreign/', include('foreign.urls.urls')),
+    path('glossary/', include('glossary.urls.urls')),
     path('math/', include('mathematics.urls')),
     path('api/v1/foreign/', include('foreign.urls.urls_rest')),
     path('api/v1/glossary/', include('glossary.urls.urls_rest')),
