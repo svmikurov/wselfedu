@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h6>Термин:</h6>
+<p>{{ term.term }}</p>
+<h6>Перевод:</h6>
+<p>{% if term.translate %}{{ term.translate }}{% else %}-{% endif %}</p>
+<h6>Определение:</h6>
+<p>{% if term.definition %}{{ term.definition }}{% else %}-{% endif %}</p>
+<h6>Толкование:</h6>
+<p>{% if term.interpretation %}{{ term.interpretation }}{% else %}-{% endif %}</p>
+<h6>Категория:</h6>
+<p>{% if term.category %}{{ term.category }}{% else %}-{% endif %}</p>
+<h6>Источник:</h6>
+<p>{% if term.source %}{{ term.source }}{% else %}-{% endif %}</p>
+<h6>Оценка знания:</h6>
+<p>{{ term.progress }}</p>
+<h6>Добавлен:</h6>
+<p>{{ term.created_at }}</p>
+{% endblock %}

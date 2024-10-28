@@ -6,8 +6,11 @@
 </div>
 
 <div>
-  <p class="h6">Словарь</p>
+  <p class="h6">Глоссарий терминов</p>
   <ul data-testid="glossary-chapters" class="list-unstyled ps-3">
-    <li class="py-1"><a href="{% url 'glossary:list' %}">Список слов</a></li>
+    <li class="py-1"><a href="{% url 'glossary:term_list' %}">Список терминов</a></li>
+    <li class="py-1"><a href="{% url 'glossary:term_create' %}">Добавить термин</a></li>
+    <li class="py-1"><a href="{% url 'glossary:category_list' %}">Категории</a></li>
+    <li class="py-1"><a href="{% url 'glossary:source_list' %}">Источники</a></li>
   </ul>
 </div>

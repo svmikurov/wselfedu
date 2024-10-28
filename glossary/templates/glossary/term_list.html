@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<!--======= Words Table =======-->
+<div class="table-responsive">
+    <table class="table table-hover">
+
+      <thead class="align-middle">
+        <tr>
+          <th>Термин</th>
+          <th>Перевод</th>
+          <th>Определение</th>
+          <th>Толкование</th>
+          <th>Категория</th>
+          <th>Источник</th>
+          <th>Добавлено</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      {% for term in terms %}
+        <tr>
+          <td><a href="{% url 'glossary:term_detail' term.pk %}">{{ term.term }}</a></td>
+          <td>{{ term.translate }}</td>
+          <td>{{ term.definition }}</td>
+          <td>{{ term.interpretation }}</td>
+          <td>{% if term.category %}{{ term.category }}{% else %}-{% endif %}</td>
+          <td>{% if term.source %}{{ term.source }}{% else %}-{% endif %}</td>
+          <td>{{ term.created_at|date:"d/m/y" }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+
+    </table><!-- End Words Table -->
+
+      {% for term in terms %}
+          <td><a href="{% url 'glossary:term_detail' term.pk %}">{{ term.term }}</a></td>
+          <td>{{ term.translate }}</td>
+          <td>{{ term.definition }}</td>
+          <td>{{ term.interpretation }}</td>
+          <td>{% if term.category %}{{ term.category }}{% else %}-{% endif %}</td>
+          <td>{% if term.source %}{{ term.source }}{% else %}-{% endif %}</td>
+          <td>{{ term.created_at|date:"d/m/y" }}</td>
+        </tr>
+      {% endfor %}
+
+</div>
+{% endblock %}

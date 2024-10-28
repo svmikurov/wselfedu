@@ -9,26 +9,16 @@ from config.constants import (
     PROGRESS_CHOICES,
     TODAY,
 )
+from contrib.models import Category, Source
 from users.models import UserApp
 
 
-class GlossaryCategory(models.Model):
-    """Glossary category model class."""
+class GlossaryCategory(Category):
+    """Model of the category of a glossary term."""
 
-    user = models.ForeignKey(UserApp, on_delete=models.CASCADE)
-    name = models.CharField(max_length=50)
-    url = models.URLField(blank=True)
-    created_at = models.DateField(auto_now_add=True, verbose_name='Добавлено')
 
-    class Meta:
-        """Set model features."""
-
-        verbose_name = 'Категория'
-        verbose_name_plural = 'Категория'
-
-    def __str__(self) -> str:
-        """Provide the informal string representation of an object."""
-        return self.name
+class TermSource(Source):
+    """Model of the source of a glossary term."""
 
 
 class Glossary(models.Model):
@@ -63,6 +53,13 @@ class Glossary(models.Model):
         null=True,
         verbose_name='Категория',
     )
+    source = models.ForeignKey(
+        TermSource,
+        models.SET_NULL,
+        blank=True,
+        null=True,
+        verbose_name='Источник',
+    )
     progress = models.DecimalField(
         max_digits=2,
         decimal_places=0,
@@ -70,9 +67,13 @@ class Glossary(models.Model):
     )
     """Numerical representation of study progress.
     """
-    created_at = models.DateField(
+    created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Добавлено',
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Изменено',
     )
 
     class Meta:
