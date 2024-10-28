@@ -17,7 +17,10 @@ class GlossarySerializer(serializers.ModelSerializer):
         """Serializer settings."""
 
         model = Glossary
-        fields = ['id', 'term', 'definition']
+        fields = [
+            'term',
+            'definition',
+        ]
 
 
 class GlossaryParamsSerializer(serializers.ModelSerializer):
