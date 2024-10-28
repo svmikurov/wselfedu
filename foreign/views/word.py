@@ -122,7 +122,7 @@ class WordListView(ReuseSchemaQueryFilterView):
 
     model = Word
     filterset_class = WordsFilter
-    template_name = WORD_LIST_TEMPLATE
+    template_name = 'foreign/word_list.html'
     context_object_name = 'words'
     paginate_by = PAGINATE_NUMBER
     extra_context = {

@@ -11,8 +11,6 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from config.constants import (
     BTN_NAME,
     CATEGORY_LIST_PATH,
-    CATEGORY_LIST_TEMPLATE,
-    DELETE_TEMPLATE,
     DETAIL_CATEGORY_TEMPLATE,
     FORM_TEMPLATE,
     PAGINATE_NUMBER,
@@ -31,9 +29,10 @@ class CategoryCreateView(CheckLoginPermissionMixin, CreateView):
     """Create category view."""
 
     form_class = CategoryForm
-    template_name = FORM_TEMPLATE
-    success_url = reverse_lazy(CATEGORY_LIST_PATH)
-    success_message = 'Категория слов добавлена'
+    success_url = reverse_lazy('foreign:category_list')
+
+    template_name = 'form.html'
+    success_message = 'Категория добавлена'
     extra_context = {
         TITLE: 'Добавить категорию',
         BTN_NAME: 'Добавить',
@@ -60,13 +59,11 @@ class CategoryUpdateView(CheckUserOwnershipMixin, UpdateView):
     }
 
 
-class CategoryDeleteView(
-    PermissionProtectDeleteView,
-):
+class CategoryDeleteView(PermissionProtectDeleteView):
     """Delete category view."""
 
     model = WordCategory
-    template_name = DELETE_TEMPLATE
+    template_name = 'delete.html'
     success_url = reverse_lazy(CATEGORY_LIST_PATH)
     success_message = 'Категория слов удалена'
     protected_redirect_url = reverse_lazy(CATEGORY_LIST_PATH)
@@ -84,7 +81,7 @@ class CategoryListView(CheckLoginPermissionMixin, ListView):
     """Category list view."""
 
     model = WordCategory
-    template_name = CATEGORY_LIST_TEMPLATE
+    template_name = 'foreign/category_list.html'
     context_object_name = 'categories'
     paginate_by = PAGINATE_NUMBER
     extra_context = {
