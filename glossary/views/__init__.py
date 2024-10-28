@@ -1,1 +1,1 @@
-"""Glossary app."""
+"""Glossary app views."""

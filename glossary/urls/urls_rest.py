@@ -2,12 +2,12 @@
 
 from django.urls import path
 
-from glossary.views.exercise import (
+from glossary.views.rest.exercise import (
     glossary_exercise,
     glossary_exercise_parameters,
     update_term_study_progress,
 )
-from glossary.views.glossary import (
+from glossary.views.rest.glossary import (
     CategoryTermListCreateAPIView,
     GlossaryCategoryDetailAPIView,
     GlossaryDetailAPIView,
