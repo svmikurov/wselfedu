@@ -2,6 +2,7 @@
 
 from django.db import models
 
+from config.constants import CALCULATION_TYPES
 from users.models import UserApp
 
 
@@ -18,7 +19,7 @@ class MathematicsAnalytic(models.Model):
     """User performing the exercise.
     """
     calculation_type = models.CharField(
-        choices='calculation_type',
+        choices=CALCULATION_TYPES,
         max_length=10,
     )
     """Type of mathematical calculation.
