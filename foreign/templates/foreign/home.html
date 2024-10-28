@@ -1,23 +1,7 @@
 {% extends 'base.html' %}
 
-{% block title %}Английский язык{% endblock %}
+{% block title %}Иностранный язык{% endblock %}
 
 {% block content %}
-{% include 'components/title.html' with title='Английский язык' %}
-<div>
-  <h5>Упражнения</h5>
-  <ul class="list-unstyled ps-3">
-     <li class="py-1"><a href="{% url 'foreign:foreign_translate_choice' %}" class="btn btn-outline-primary btn-sm" role="button">Упражнение "Изучаем слова"</a></li>
-  </ul>
-</div>
-
-<div>
-  <h5>Словарь</h5>
-  <ul data-testid="foreign-chapters" class="list-unstyled ps-3">
-    <li class="py-1"><a href="{% url 'foreign:words_create' %}" class="btn btn-outline-primary btn-sm" role="button">Добавить слово в словарь</a></li>
-    <li class="py-1"><a href="{% url 'foreign:word_list' %}" class="btn btn-outline-primary btn-sm" role="button">Список слов</a></li>
-    <li class="py-1"><a href="{% url 'foreign:category_list' %}" class="btn btn-outline-primary btn-sm" role="button">Категории</a></li>
-    <li class="py-1"><a href="{% url 'foreign:source_list' %}" class="btn btn-outline-primary btn-sm" role="button">Источники</a></li>
-  </ul>
-</div>
+{% include 'components/title.html' with title='Иностранный язык' %}
 {% endblock %}

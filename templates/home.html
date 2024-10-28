@@ -1,17 +1,7 @@
 {% extends 'base.html' %}
 
-{% block title %}Домашняя страница{% endblock %}
+{% block title %}WSE Главная{% endblock %}
 
 {% block content %}
-{% include 'components/title.html' with title='Домашняя страница' %}
-<div>
-  <ul class="list-unstyled">
-    {% if user.is_authenticated %}
-      <li class="py-1"><a href="{% url 'users:detail' user.pk %}" class="btn btn-outline-primary btn-sm" role="button" style="width: 250px;">Личный кабинет</a></li>
-    {% endif %}
-    <li class="py-1"><a href="{% url 'foreign:foreign_translate_choice' %}" class="btn btn-outline-primary btn-sm" role="button" style="width: 250px;">Упражнение "Изучаем слова"</a></li>
-    <li class="py-1"><a href="{% url 'foreign:words_create' %}" class="btn btn-outline-primary btn-sm" role="button" style="width: 250px;">Добавить слово в словарь</a></li>
-    <li class="py-1"><a href="{% url 'math:math_calculate_choice' %}" class="btn btn-outline-primary btn-sm" role="button" style="width: 250px;">Математика</a></li>
-  </ul>
-</div>
+{% include 'components/title.html' with title='Образовательный проект' %}
 {% endblock %}
