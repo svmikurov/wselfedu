@@ -4,11 +4,6 @@
   {% else %}
     <p class="h5">Личный кабинет</p>
   {% endif %}
-  <div class="ps-3">
-    <ul class = "list-unstyled">
-      <li class="ps-3">Сведения о пользователе</li>
-    </ul>
-  </div>
   <p class="h5"><a href="{% url 'foreign:home' %}">Иностранный язык</a></p>
   <div class="ps-3">{% include 'foreign/chapters.html' %}</div>
   <p class="h5"><a href="{% url 'glossary:home' %}">Глоссарий</a></p>
