@@ -14,8 +14,10 @@ from glossary.views.source import (
 )
 from glossary.views.term import (
     TermCreateView,
-    TermDitailView,
+    TermDeleteView,
+    TermDetailView,
     TermListView,
+    TermUpdateView,
 )
 
 __all__ = (
@@ -28,6 +30,8 @@ __all__ = (
     'SourceListView',
     'SourceUpdateView',
     'TermCreateView',
-    'TermDitailView',
+    'TermDeleteView',
+    'TermDetailView',
     'TermListView',
+    'TermUpdateView',
 )

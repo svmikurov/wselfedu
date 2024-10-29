@@ -24,10 +24,23 @@ urlpatterns = [
         name='term_list',
     ),
     path(
-        'term-ditail/<int:pk>/',
-        views.TermDitailView.as_view(),
+        'term-detail/<int:pk>/',
+        views.TermDetailView.as_view(),
         name='term_detail',
     ),
+    path(
+        'term-update/<int:pk>/',
+        views.TermUpdateView.as_view(),
+        name='term_update',
+    ),
+    path(
+        'term-delete/<int:pk>/',
+        views.TermDeleteView.as_view(),
+        name='term_delete',
+    ),
+]
+
+exercise_paths = [
     path(
         'params/',
         TemplateView.as_view(template_name='glossary/params.html'),
@@ -60,12 +73,12 @@ category_paths = [
 
 source_paths = [
     path(
-        '/create',
+        'create/',
         views.SourceCreateView.as_view(),
         name='source_create',
     ),
     path(
-        'source/list',
+        'source/list/',
         views.SourceListView.as_view(),
         name='source_list',
     ),
@@ -81,5 +94,6 @@ source_paths = [
     ),
 ]
 
+urlpatterns += exercise_paths
 urlpatterns += category_paths
 urlpatterns += source_paths
