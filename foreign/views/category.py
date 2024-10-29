@@ -32,7 +32,7 @@ class CategoryCreateView(CheckLoginPermissionMixin, CreateView):
     success_url = reverse_lazy('foreign:category_list')
 
     template_name = 'form.html'
-    success_message = 'Категория добавлена'
+    success_message = 'Категория слов добавлена'
     extra_context = {
         TITLE: 'Добавить категорию',
         BTN_NAME: 'Добавить',
