@@ -15,7 +15,7 @@ from glossary.forms.category import CategoryForm
 from glossary.models import GlossaryCategory
 
 
-class CategoryCreateView(CreateView):
+class CategoryCreateView(CheckLoginPermissionMixin, CreateView):
     """Create Glossary category view."""
 
     form_class = CategoryForm
