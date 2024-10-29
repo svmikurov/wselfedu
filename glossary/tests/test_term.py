@@ -1,19 +1,20 @@
 """Test CRUD term."""
 
-from django.test import Client, TestCase
+from django.test import Client
 from django.urls import reverse
 
 from contrib.tests.crud import (
-    CreateTestMixin,
-    DeleteTestMixin,
-    ListTestMixin,
-    UpdateTestMixin,
+    CreateTest,
+    DeleteTest,
+    ListTest,
+    TestData,
+    UpdateTest,
 )
 from glossary.models import Glossary
 from users.models import UserApp
 
 
-class TermTest(TestCase):
+class TermTestData(TestData):
     """Glossary term tests data."""
 
     fixtures = ['users', 'terms']
@@ -51,17 +52,17 @@ class TermTest(TestCase):
         self.url_not_owner_redirect = reverse('users:login')
 
 
-class CreateTest(CreateTestMixin, TermTest):
+class TermCreateTest(CreateTest, TermTestData):
     """Glossary term create tests."""
 
 
-class ListTest(ListTestMixin, TermTest):
+class TermListTest(ListTest, TermTestData):
     """Glossary term list tests."""
 
 
-class UpdateTest(UpdateTestMixin, TermTest):
+class TermUpdateTest(UpdateTest, TermTestData):
     """Glossary term update tests."""
 
 
-class DeleteTest(DeleteTestMixin, TermTest):
+class TermDeleteTest(DeleteTest, TermTestData):
     """Glossary term delete tests."""

@@ -1,19 +1,20 @@
 """Test CRUD category."""
 
-from django.test import Client, TestCase
+from django.test import Client
 from django.urls import reverse
 
 from contrib.tests.crud import (
-    CreateTestMixin,
-    DeleteTestMixin,
-    ListTestMixin,
-    UpdateTestMixin,
+    CreateTest,
+    DeleteTest,
+    ListTest,
+    TestData,
+    UpdateTest,
 )
 from glossary.models import GlossaryCategory
 from users.models import UserApp
 
 
-class CategoryTest(TestCase):
+class CategoryTestData(TestData):
     """Glossary category tests data."""
 
     fixtures = ['users', 'glossary/tests/fixtures/category']
@@ -51,17 +52,17 @@ class CategoryTest(TestCase):
         self.url_not_owner_redirect = reverse('users:login')
 
 
-class CreateTest(CreateTestMixin, CategoryTest):
+class CreateTest(CreateTest, CategoryTestData):
     """Glossary category create tests."""
 
 
-class ListTest(ListTestMixin, CategoryTest):
+class ListTest(ListTest, CategoryTestData):
     """Glossary category list tests."""
 
 
-class UpdateTest(UpdateTestMixin, CategoryTest):
+class UpdateTest(UpdateTest, CategoryTestData):
     """Glossary category update tests."""
 
 
-class DeleteTest(DeleteTestMixin, CategoryTest):
+class DeleteTest(DeleteTest, CategoryTestData):
     """Glossary category delete tests."""

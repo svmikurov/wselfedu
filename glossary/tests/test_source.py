@@ -1,19 +1,20 @@
 """Test CRUD source."""
 
-from django.test import Client, TestCase
+from django.test import Client
 from django.urls import reverse
 
 from contrib.tests.crud import (
-    CreateTestMixin,
-    DeleteTestMixin,
-    ListTestMixin,
-    UpdateTestMixin,
+    CreateTest,
+    DeleteTest,
+    ListTest,
+    TestData,
+    UpdateTest,
 )
 from glossary.models import TermSource
 from users.models import UserApp
 
 
-class SourceTest(TestCase):
+class SourceTestData(TestData):
     """Glossary Source tests data."""
 
     fixtures = ['users', 'glossary/tests/fixtures/source']
@@ -51,17 +52,17 @@ class SourceTest(TestCase):
         self.url_not_owner_redirect = reverse('users:login')
 
 
-class CreateTest(CreateTestMixin, SourceTest):
+class CreateTest(CreateTest, SourceTestData):
     """Glossary source create tests."""
 
 
-class ListTest(ListTestMixin, SourceTest):
+class ListTest(ListTest, SourceTestData):
     """Glossary source list tests."""
 
 
-class UpdateTest(UpdateTestMixin, SourceTest):
+class UpdateTest(UpdateTest, SourceTestData):
     """Glossary source update tests."""
 
 
-class DeleteTest(DeleteTestMixin, SourceTest):
+class DeleteTest(DeleteTest, SourceTestData):
     """Glossary source delete tests."""
