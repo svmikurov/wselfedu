@@ -5,7 +5,7 @@ from http import HTTPStatus
 from django.test import TestCase
 from django.urls import reverse, reverse_lazy
 
-from contrib.tests_extension import UserAuthTestCase, flash_message_test
+from contrib.tests.extension import UserAuthTestCase, flash_message_test
 from users.models import UserApp
 
 NO_PERMISSION_MSG = 'Для доступа необходимо войти в приложение'

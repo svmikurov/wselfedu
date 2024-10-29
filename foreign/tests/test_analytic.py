@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from config.constants import (
     TO_NATIVE,
 )
-from contrib.tests_extension import UserAuthTestCase
+from contrib.tests.extension import UserAuthTestCase
 from foreign.models import Word, WordAnalytics
 
 

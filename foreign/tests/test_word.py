@@ -16,7 +16,7 @@ from config.constants import (
     UPDATE_WORD_PATH,
     WORD_LIST_PATH,
 )
-from contrib.tests_extension import flash_message_test
+from contrib.tests.extension import flash_message_test
 from foreign.models import Word
 from users.models import UserApp
 

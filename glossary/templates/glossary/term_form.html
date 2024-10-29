@@ -1,15 +1,14 @@
 {% extends 'base.html' %}
-{% load static %}
 {% load crispy_forms_tags %}
 
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<div class="">{% include 'components/title.html' %}</div>
+{% include 'components/title.html' %}
 
 <!--======= Term Form =======-->
 <div class="">
-  <form id="term_form">
+  <form method="post">
     {% crispy form %}
   </form>
 </div><!-- End Term Form -->

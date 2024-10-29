@@ -10,7 +10,7 @@ from config.constants import (
     SOURCE_LIST_PATH,
     UPDATE_SOURCE_PATH,
 )
-from contrib.tests_extension import flash_message_test
+from contrib.tests.extension import flash_message_test
 from foreign.models import WordSource
 from users.models import UserApp
 

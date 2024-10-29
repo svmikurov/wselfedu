@@ -10,7 +10,7 @@ from config.constants import (
     DETAIL_CATEGORY_PATH,
     UPDATE_CATEGORY_PATH,
 )
-from contrib.tests_extension import flash_message_test
+from contrib.tests.extension import flash_message_test
 from foreign.models import WordCategory
 from users.models import UserApp
 

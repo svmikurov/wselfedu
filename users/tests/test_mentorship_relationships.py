@@ -6,7 +6,7 @@ from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.urls import reverse_lazy
 
-from contrib.tests_extension import flash_message_test
+from contrib.tests.extension import flash_message_test
 from users.models import Mentorship, MentorshipRequest, UserApp
 
 

@@ -3,49 +3,34 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
+{% include 'components/title.html' %}
 
 <!--======= Words Table =======-->
 <div class="table-responsive">
-    <table class="table table-hover">
+  <table class="table table-hover">
 
-      <thead class="align-middle">
-        <tr>
-          <th>Термин</th>
-          <th>Перевод</th>
-          <th>Определение</th>
-          <th>Толкование</th>
-          <th>Категория</th>
-          <th>Источник</th>
-          <th>Добавлено</th>
-        </tr>
-      </thead>
+    <thead class="align-middle">
+      <tr>
+        <th>Термин</th>
+        <th>Определение</th>
+        <th>Категория</th>
+        <th>Источник</th>
+        <th>Добавлено</th>
+      </tr>
+    </thead>
 
-      <tbody>
-      {% for term in terms %}
-        <tr>
-          <td><a href="{% url 'glossary:term_detail' term.pk %}">{{ term.term }}</a></td>
-          <td>{{ term.translate }}</td>
-          <td>{{ term.definition }}</td>
-          <td>{{ term.interpretation }}</td>
-          <td>{% if term.category %}{{ term.category }}{% else %}-{% endif %}</td>
-          <td>{% if term.source %}{{ term.source }}{% else %}-{% endif %}</td>
-          <td>{{ term.created_at|date:"d/m/y" }}</td>
-        </tr>
-      {% endfor %}
-      </tbody>
+    <tbody>
+    {% for term in terms %}
+      <tr>
+        <td><a href="{{ term.get_absolute_url }}">{{ term.term }}</a></td>
+        <td>{{ term.definition }}</td>
+        <td>{% if term.category %}{{ term.category }}{% else %}-{% endif %}</td>
+        <td>{% if term.source %}{{ term.source }}{% else %}-{% endif %}</td>
+        <td>{{ term.created_at|date:"d/m/y" }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
 
-    </table><!-- End Words Table -->
-
-      {% for term in terms %}
-          <td><a href="{% url 'glossary:term_detail' term.pk %}">{{ term.term }}</a></td>
-          <td>{{ term.translate }}</td>
-          <td>{{ term.definition }}</td>
-          <td>{{ term.interpretation }}</td>
-          <td>{% if term.category %}{{ term.category }}{% else %}-{% endif %}</td>
-          <td>{% if term.source %}{{ term.source }}{% else %}-{% endif %}</td>
-          <td>{{ term.created_at|date:"d/m/y" }}</td>
-        </tr>
-      {% endfor %}
-
+  </table><!-- End Words Table -->
 </div>
 {% endblock %}

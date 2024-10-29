@@ -1,4 +1,4 @@
-"""Test CRUD category."""
+"""Test CRUD source."""
 
 from django.test import Client, TestCase
 from django.urls import reverse
@@ -9,14 +9,14 @@ from contrib.tests.crud import (
     ListTestMixin,
     UpdateTestMixin,
 )
-from glossary.models import GlossaryCategory
+from glossary.models import TermSource
 from users.models import UserApp
 
 
-class CategoryTest(TestCase):
-    """Glossary category tests data."""
+class SourceTest(TestCase):
+    """Glossary Source tests data."""
 
-    fixtures = ['users', 'glossary/tests/fixtures/category']
+    fixtures = ['users', 'glossary/tests/fixtures/source']
 
     def setUp(self) -> None:
         """Set up the test."""
@@ -24,10 +24,10 @@ class CategoryTest(TestCase):
 
         # Items.
         self.item_pk = 1
-        self.manager = GlossaryCategory.objects
+        self.manager = TermSource.objects
         self.item = self.manager.get(pk=self.item_pk)
         self.item_data = {
-            'name': 'category',
+            'name': 'source',
         }
 
         # Users.
@@ -35,13 +35,13 @@ class CategoryTest(TestCase):
         self.not_owner = UserApp.objects.get(pk=3)
 
         # Urls.
-        self.url_create = reverse('glossary:category_create')
-        self.url_list = reverse('glossary:category_list')
+        self.url_create = reverse('glossary:source_create')
+        self.url_list = reverse('glossary:source_list')
         self.url_update = reverse(
-            'glossary:category_update', kwargs={'pk': self.item_pk}
+            'glossary:source_update', kwargs={'pk': self.item_pk}
         )
         self.url_delete = reverse(
-            'glossary:category_delete', kwargs={'pk': self.item_pk}
+            'glossary:source_delete', kwargs={'pk': self.item_pk}
         )
 
         # Redirect urls.
@@ -51,17 +51,17 @@ class CategoryTest(TestCase):
         self.url_not_owner_redirect = reverse('users:login')
 
 
-class CreateTest(CreateTestMixin, CategoryTest):
-    """Glossary category create tests."""
+class CreateTest(CreateTestMixin, SourceTest):
+    """Glossary source create tests."""
 
 
-class ListTest(ListTestMixin, CategoryTest):
-    """Glossary category list tests."""
+class ListTest(ListTestMixin, SourceTest):
+    """Glossary source list tests."""
 
 
-class UpdateTest(UpdateTestMixin, CategoryTest):
-    """Glossary category update tests."""
+class UpdateTest(UpdateTestMixin, SourceTest):
+    """Glossary source update tests."""
 
 
-class DeleteTest(DeleteTestMixin, CategoryTest):
-    """Glossary category delete tests."""
+class DeleteTest(DeleteTestMixin, SourceTest):
+    """Glossary source delete tests."""

@@ -1,0 +1,62 @@
+[
+  {
+    "model": "glossary.termsource",
+    "pk": 1,
+    "fields": {
+      "name": "source1-1",
+      "user": 2,
+      "created_at": "2024-10-29T12:00:00.000Z",
+      "updated_at": "2024-10-29T12:00:00.000Z"
+    }
+  },
+  {
+    "model": "glossary.termsource",
+    "pk": 2,
+    "fields": {
+      "name": "source1-2",
+      "user": 2,
+      "created_at": "2024-10-29T12:00:00.000Z",
+      "updated_at": "2024-10-29T12:00:00.000Z"
+    }
+  },
+  {
+    "model": "glossary.termsource",
+    "pk": 3,
+    "fields": {
+      "name": "source1-3",
+      "user": 2,
+      "created_at": "2024-10-29T12:00:00.000Z",
+      "updated_at": "2024-10-29T12:00:00.000Z"
+    }
+  },
+  {
+    "model": "glossary.termsource",
+    "pk": 4,
+    "fields": {
+      "name": "source3-1",
+      "user": 3,
+      "created_at": "2024-10-29T12:00:00.000Z",
+      "updated_at": "2024-10-29T12:00:00.000Z"
+    }
+  },
+  {
+    "model": "glossary.termsource",
+    "pk": 5,
+    "fields": {
+      "name": "source3-2",
+      "user": 3,
+      "created_at": "2024-10-29T12:00:00.000Z",
+      "updated_at": "2024-10-29T12:00:00.000Z"
+    }
+  },
+  {
+    "model": "glossary.termsource",
+    "pk": 6,
+    "fields": {
+      "name": "source3-3",
+      "user": 3,
+      "created_at": "2024-10-29T12:00:00.000Z",
+      "updated_at": "2024-10-29T12:00:00.000Z"
+    }
+  }
+]

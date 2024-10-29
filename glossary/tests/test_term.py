@@ -1,4 +1,4 @@
-"""Test CRUD category."""
+"""Test CRUD term."""
 
 from django.test import Client, TestCase
 from django.urls import reverse
@@ -9,14 +9,14 @@ from contrib.tests.crud import (
     ListTestMixin,
     UpdateTestMixin,
 )
-from glossary.models import GlossaryCategory
+from glossary.models import Glossary
 from users.models import UserApp
 
 
-class CategoryTest(TestCase):
-    """Glossary category tests data."""
+class TermTest(TestCase):
+    """Glossary term tests data."""
 
-    fixtures = ['users', 'glossary/tests/fixtures/category']
+    fixtures = ['users', 'terms']
 
     def setUp(self) -> None:
         """Set up the test."""
@@ -24,10 +24,10 @@ class CategoryTest(TestCase):
 
         # Items.
         self.item_pk = 1
-        self.manager = GlossaryCategory.objects
+        self.manager = Glossary.objects
         self.item = self.manager.get(pk=self.item_pk)
         self.item_data = {
-            'name': 'category',
+            'term': 'term',
         }
 
         # Users.
@@ -35,13 +35,13 @@ class CategoryTest(TestCase):
         self.not_owner = UserApp.objects.get(pk=3)
 
         # Urls.
-        self.url_create = reverse('glossary:category_create')
-        self.url_list = reverse('glossary:category_list')
+        self.url_create = reverse('glossary:term_create')
+        self.url_list = reverse('glossary:term_list')
         self.url_update = reverse(
-            'glossary:category_update', kwargs={'pk': self.item_pk}
+            'glossary:term_update', kwargs={'pk': self.item_pk}
         )
         self.url_delete = reverse(
-            'glossary:category_delete', kwargs={'pk': self.item_pk}
+            'glossary:term_delete', kwargs={'pk': self.item_pk}
         )
 
         # Redirect urls.
@@ -51,17 +51,17 @@ class CategoryTest(TestCase):
         self.url_not_owner_redirect = reverse('users:login')
 
 
-class CreateTest(CreateTestMixin, CategoryTest):
-    """Glossary category create tests."""
+class CreateTest(CreateTestMixin, TermTest):
+    """Glossary term create tests."""
 
 
-class ListTest(ListTestMixin, CategoryTest):
-    """Glossary category list tests."""
+class ListTest(ListTestMixin, TermTest):
+    """Glossary term list tests."""
 
 
-class UpdateTest(UpdateTestMixin, CategoryTest):
-    """Glossary category update tests."""
+class UpdateTest(UpdateTestMixin, TermTest):
+    """Glossary term update tests."""
 
 
-class DeleteTest(DeleteTestMixin, CategoryTest):
-    """Glossary category delete tests."""
+class DeleteTest(DeleteTestMixin, TermTest):
+    """Glossary term delete tests."""

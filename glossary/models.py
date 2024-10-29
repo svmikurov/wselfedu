@@ -1,6 +1,7 @@
 """Glossary model module."""
 
 from django.db import models
+from django.urls import reverse
 
 from config.constants import (
     DEFAULT_PROGRESS,
@@ -81,12 +82,15 @@ class Glossary(models.Model):
 
         verbose_name = 'Глоссарий'
         verbose_name_plural = 'Глоссарий'
-        # To compare queryset with ordered value.
         ordering = ['pk']
 
     def __str__(self) -> str:
         """Provide the informal string representation of an object."""
         return self.term
+
+    def get_absolute_url(self) -> str:
+        """Return url to term detail page."""
+        return reverse('glossary:term_detail', kwargs={'pk': self.pk})
 
 
 class GlossaryParams(models.Model):
