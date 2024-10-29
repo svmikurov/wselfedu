@@ -64,7 +64,7 @@ class TermListView(CheckLoginPermissionMixin, ListView):
         )
 
 
-class TermDetailView(DetailView):
+class TermDetailView(CheckUserOwnershipMixin, DetailView):
     """Glossary term ditail View."""
 
     model = Glossary

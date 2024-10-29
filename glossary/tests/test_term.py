@@ -6,6 +6,7 @@ from django.urls import reverse
 from contrib.tests.crud import (
     CreateTest,
     DeleteTest,
+    DetailTest,
     ListTest,
     TestData,
     UpdateTest,
@@ -32,7 +33,8 @@ class TermTestData(TestData):
         }
 
         # Users.
-        self.owner = UserApp.objects.get(pk=2)
+        self.owner_id = 2
+        self.owner = UserApp.objects.get(pk=self.owner_id)
         self.not_owner = UserApp.objects.get(pk=3)
 
         # Urls.
@@ -40,6 +42,9 @@ class TermTestData(TestData):
         self.url_list = reverse('glossary:term_list')
         self.url_update = reverse(
             'glossary:term_update', kwargs={'pk': self.item_pk}
+        )
+        self.url_detail = reverse(
+            'glossary:term_detail', kwargs={'pk': self.item_pk}
         )
         self.url_delete = reverse(
             'glossary:term_delete', kwargs={'pk': self.item_pk}
@@ -62,6 +67,10 @@ class TermListTest(ListTest, TermTestData):
 
 class TermUpdateTest(UpdateTest, TermTestData):
     """Glossary term update tests."""
+
+
+class TermDetailTest(DetailTest, TermTestData):
+    """Glossary term detail tests."""
 
 
 class TermDeleteTest(DeleteTest, TermTestData):

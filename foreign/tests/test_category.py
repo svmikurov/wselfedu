@@ -1,4 +1,4 @@
-"""Foreign word CRUD tests."""
+"""Foreign word category CRUD tests."""
 
 from django.test import Client
 from django.urls import reverse
@@ -14,18 +14,16 @@ from contrib.tests.crud import (
 from foreign.models import WordCategory
 from users.models import UserApp
 
-NO_PERMISSION_MSG = 'Для доступа необходимо войти в приложение'
-NO_PERMISSION_URL = reverse('users:login')
-
-SUCCESS_CREATE_CATEGORY_MSG = 'Категория слов добавлена'
-SUCCESS_UPDATE_CATEGORY_MSG = 'Категория слов изменена'
-SUCCESS_DELETE_CATEGORY_MSG = 'Категория слов удалена'
-
 
 class CategoryTestData(TestData):
-    """Foreign word source tests data."""
+    """Foreign word category tests data."""
 
     fixtures = ['users', 'foreign']
+
+    success_create_msg = 'Категория слов добавлена'
+    success_update_msg = 'Категория слов изменена'
+    success_delete_msg = 'Категория слов удалена'
+    no_permission_msg = 'Для доступа необходимо войти в приложение'
 
     def setUp(self) -> None:
         """Set up the test."""
@@ -65,7 +63,7 @@ class CategoryTestData(TestData):
 
 
 class CategoryCreateTest(CreateTest, CategoryTestData):
-    """Foreign word source create tests."""
+    """Foreign word category create tests."""
 
     def test_create(self) -> None:
         """Add exists category tests."""
@@ -79,16 +77,16 @@ class CategoryCreateTest(CreateTest, CategoryTestData):
 
 
 class CategoryListTest(ListTest, CategoryTestData):
-    """Foreign word source list tests."""
+    """Foreign word category list tests."""
 
 
 class CategoryUpdateTest(UpdateTest, CategoryTestData):
-    """Foreign word update tests."""
+    """Foreign word category tests."""
 
 
 class CategoryDeleteTest(DeleteTest, CategoryTestData):
-    """Foreign word source delete tests."""
+    """Foreign word category delete tests."""
 
 
 class CategoryDetailTest(DetailTest, CategoryTestData):
-    """Foreign word source delete tests."""
+    """Foreign word category delete tests."""

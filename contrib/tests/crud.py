@@ -78,6 +78,7 @@ class CreateTest(BaseTest):
         self.client.force_login(self.owner)
         response = self.client.get(self.url_create)
 
+        # Test HTTP status code.
         assert response.status_code == HTTPStatus.OK
 
     def test_create(self) -> None:
@@ -85,20 +86,24 @@ class CreateTest(BaseTest):
         self.client.force_login(self.owner)
         response = self.client.post(self.url_create, self.item_data)
 
+        # Test redirect and HTTP status code.
         self.assertRedirects(
             response, self.url_create_redirect, HTTPStatus.FOUND
         )
 
+        # Test success message.
         self.check_message(response, self.success_create_msg)
 
     def test_create_by_anonymous(self) -> None:
         """Test the item create, by anonymous."""
         response = self.client.post(self.url_create, self.item_data)
 
+        # Test redirect and HTTP status code.
         self.assertRedirects(
             response, self.url_not_owner_redirect, HTTPStatus.FOUND
         )
 
+        # Test the denied permission message.
         self.check_message(response, self.no_permission_msg)
 
 
@@ -110,6 +115,7 @@ class ListTest(BaseTest):
         self.client.force_login(self.owner)
         response = self.client.get(self.url_list)
 
+        # Test HTTP status code.
         assert response.status_code == HTTPStatus.OK
 
         # Assert by user id, that ``items`` contains only the user's
@@ -122,10 +128,12 @@ class ListTest(BaseTest):
         """Test the item list, for anonymous."""
         response = self.client.get(self.url_list)
 
+        # Test redirect and HTTP status code.
         self.assertRedirects(
             response, self.url_not_owner_redirect, HTTPStatus.FOUND
         )
 
+        # Test the denied permission message.
         self.check_message(response, self.no_permission_msg)
 
 
@@ -137,44 +145,57 @@ class UpdateTest(BaseTest):
         self.client.force_login(self.owner)
         response = self.client.get(self.url_update)
 
+        # Test HTTP status code.
         assert response.status_code == HTTPStatus.OK
 
     def test_update(self) -> None:
         """Test the item update."""
         self.client.force_login(self.owner)
         response = self.client.post(self.url_update, self.item_data)
-        item = self.manager.get(pk=self.item_pk)
 
+        # Test redirect and HTTP status code.
         self.assertRedirects(
             response, self.url_update_redirect, HTTPStatus.FOUND
         )
+
+        # The item in the database has been updated.
+        item = self.manager.get(pk=self.item_pk)
         assert self.item_data.items() <= model_to_dict(item).items()
 
+        # Test success message.
         self.check_message(response, self.success_update_msg)
 
     def test_update_by_not_owner(self) -> None:
         """Test the item update, by not owner."""
         self.client.force_login(self.not_owner)
         response = self.client.post(self.url_update, self.item_data)
-        item = self.manager.get(pk=self.item_pk)
 
+        # Test redirect and HTTP status code.
         self.assertRedirects(
             response, self.url_not_owner_redirect, HTTPStatus.FOUND
         )
+
+        # Item in the database have not updated.
+        item = self.manager.get(pk=self.item_pk)
         assert self.item_data.items() != model_to_dict(item).items()
 
+        # Test the denied permission message.
         self.check_message(response, self.no_permission_msg)
 
     def test_update_by_anonymous(self) -> None:
         """Test the item update, by anonymous."""
         response = self.client.post(self.url_update, self.item_data)
-        item = self.manager.get(pk=self.item_pk)
 
+        # Test redirect and HTTP status code.
         self.assertRedirects(
             response, self.url_not_owner_redirect, HTTPStatus.FOUND
         )
+
+        # Item in the database have not updated.
+        item = self.manager.get(pk=self.item_pk)
         assert self.item_data.items() != model_to_dict(item).items()
 
+        # Test the denied permission message.
         self.check_message(response, self.no_permission_msg)
 
 
@@ -185,6 +206,8 @@ class DeleteTest(BaseTest):
         """Test the item delete, get method."""
         self.client.force_login(self.owner)
         response = self.client.get(self.url_delete)
+
+        # Test HTTP status code.
         assert response.status_code == HTTPStatus.OK
 
     def test_delete(self) -> None:
@@ -192,11 +215,15 @@ class DeleteTest(BaseTest):
         self.client.force_login(self.owner)
         response = self.client.post(self.url_delete)
 
-        assert not self.manager.filter(pk=self.item_pk).exists()
+        # Test redirect and HTTP status code.
         self.assertRedirects(
             response, self.url_delete_redirect, HTTPStatus.FOUND
         )
 
+        # The item in the database has been deleted.
+        assert not self.manager.filter(pk=self.item_pk).exists()
+
+        # Test success message.
         self.check_message(response, self.success_delete_msg)
 
     def test_delete_not_owner(self) -> None:
@@ -204,22 +231,30 @@ class DeleteTest(BaseTest):
         self.client.force_login(self.not_owner)
         response = self.client.post(self.url_delete)
 
-        assert self.manager.filter(pk=self.item_pk).exists()
+        # Test redirect and HTTP status code.
         self.assertRedirects(
             response, self.url_not_owner_redirect, HTTPStatus.FOUND
         )
 
+        # Item in the database have not deleted.
+        assert self.manager.filter(pk=self.item_pk).exists()
+
+        # Test the denied permission message.
         self.check_message(response, self.no_permission_msg)
 
     def test_delete_anonymous(self) -> None:
         """Test the item delete, by anonymous."""
         response = self.client.post(self.url_delete)
 
-        assert self.manager.filter(pk=self.item_pk).exists()
+        # Test redirect and HTTP status code.
         self.assertRedirects(
             response, self.url_not_owner_redirect, HTTPStatus.FOUND
         )
 
+        # Item in the database have not deleted.
+        assert self.manager.filter(pk=self.item_pk).exists()
+
+        # Test the denied permission message.
         self.check_message(response, self.no_permission_msg)
 
 
@@ -230,20 +265,32 @@ class DetailTest(BaseTest):
         """Test the item detail."""
         self.client.force_login(self.owner)
         response = self.client.get(self.url_detail)
+
+        # Test HTTP status code.
         assert response.status_code == HTTPStatus.OK
 
     def test_detail_for_not_owner(self) -> None:
         """Test the item detail, for not owner."""
         self.client.force_login(self.not_owner)
         response = self.client.get(self.url_detail)
+
+        # Test redirect and HTTP status code.
         self.assertRedirects(
             response, self.url_not_owner_redirect, HTTPStatus.FOUND
         )
+
+        # Test the denied permission message.
+        self.check_message(response, self.no_permission_msg)
 
     def test_detail_for_anonymous(self) -> None:
         """Test the item detail, for anonymous."""
         self.client.force_login(self.not_owner)
         response = self.client.get(self.url_detail)
+
+        # Test redirect and HTTP status code.
         self.assertRedirects(
             response, self.url_not_owner_redirect, HTTPStatus.FOUND
         )
+
+        # Test the denied permission message.
+        self.check_message(response, self.no_permission_msg)

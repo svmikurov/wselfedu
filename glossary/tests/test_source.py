@@ -32,7 +32,8 @@ class SourceTestData(TestData):
         }
 
         # Users.
-        self.owner = UserApp.objects.get(pk=2)
+        self.owner_id = 2
+        self.owner = UserApp.objects.get(pk=self.owner_id)
         self.not_owner = UserApp.objects.get(pk=3)
 
         # Urls.
