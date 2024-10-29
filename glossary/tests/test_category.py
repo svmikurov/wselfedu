@@ -53,17 +53,17 @@ class CategoryTestData(TestData):
         self.url_not_owner_redirect = reverse('users:login')
 
 
-class CreateTest(CreateTest, CategoryTestData):
+class CategoryCreateTest(CreateTest, CategoryTestData):
     """Glossary category create tests."""
 
 
-class ListTest(ListTest, CategoryTestData):
+class CategoryListTest(ListTest, CategoryTestData):
     """Glossary category list tests."""
 
 
-class UpdateTest(UpdateTest, CategoryTestData):
+class CategoryUpdateTest(UpdateTest, CategoryTestData):
     """Glossary category update tests."""
 
 
-class DeleteTest(DeleteTest, CategoryTestData):
+class CategoryDeleteTest(DeleteTest, CategoryTestData):
     """Glossary category delete tests."""

@@ -53,17 +53,17 @@ class SourceTestData(TestData):
         self.url_not_owner_redirect = reverse('users:login')
 
 
-class CreateTest(CreateTest, SourceTestData):
+class SourceCreateTest(CreateTest, SourceTestData):
     """Glossary source create tests."""
 
 
-class ListTest(ListTest, SourceTestData):
+class SourceListTest(ListTest, SourceTestData):
     """Glossary source list tests."""
 
 
-class UpdateTest(UpdateTest, SourceTestData):
+class SourceUpdateTest(UpdateTest, SourceTestData):
     """Glossary source update tests."""
 
 
-class DeleteTest(DeleteTest, SourceTestData):
+class SourceDeleteTest(DeleteTest, SourceTestData):
     """Glossary source delete tests."""

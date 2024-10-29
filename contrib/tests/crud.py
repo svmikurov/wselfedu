@@ -184,7 +184,7 @@ class UpdateTest(BaseTest):
 
         # Item in the database have not updated.
         item = self.manager.get(pk=self.item_pk)
-        assert self.item_data.items() != model_to_dict(item).items()
+        assert not self.item_data.items() <= model_to_dict(item).items()
 
         # Test the denied permission message.
         self.check_message(response, self.no_permission_msg)
@@ -200,7 +200,7 @@ class UpdateTest(BaseTest):
 
         # Item in the database have not updated.
         item = self.manager.get(pk=self.item_pk)
-        assert self.item_data.items() != model_to_dict(item).items()
+        assert not self.item_data.items() <= model_to_dict(item).items()
 
         # Test the denied permission message.
         self.check_message(response, self.no_permission_msg)
