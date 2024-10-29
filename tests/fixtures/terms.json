@@ -5,8 +5,8 @@
   "fields": {
     "user": 2,
     "name": "category1",
-    "url": "",
-    "created_at": "2024-09-30"
+    "created_at": "2024-09-20T07:12:16.968Z",
+    "updated_at": "2024-09-20T07:12:16.968Z"
   }
 },
 {
@@ -15,8 +15,8 @@
   "fields": {
     "user": 2,
     "name": "category2",
-    "url": "",
-    "created_at": "2024-09-30"
+    "created_at": "2024-09-20T07:12:16.968Z",
+    "updated_at": "2024-09-20T07:12:16.968Z"
   }
 },
 {
