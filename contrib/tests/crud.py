@@ -26,6 +26,10 @@ class TestData(TestCase):
     success_update_msg = ''
     success_delete_msg = ''
     no_permission_msg = ''
+    delete_protected_msg = (
+        'Невозможно удалить этот объект, так как он '
+        'используется в другом месте приложения'
+    )
 
 
 class TestMixinAnnotations:
@@ -37,17 +41,19 @@ class TestMixinAnnotations:
     not_owner: UserApp
     manager: Manager
     item_pk: int
+    item_pk_delete_protected: int
     item_data: dict
 
     url_create: str
+    url_create_redirect: str
     url_list: str
     url_update: str
+    url_update_redirect: str
     url_detail: str
     url_delete: str
-    url_create_redirect: str
-    url_update_redirect: str
-    url_detail_redirect: str
     url_delete_redirect: str
+    url_delete_protected: str
+    url_delete_protected_redirect: str
     url_not_owner_redirect: str
 
 
@@ -58,6 +64,7 @@ class TestMessageMixin:
     success_update_msg: str
     success_delete_msg: str
     no_permission_msg: str
+    delete_protected_msg: str
 
     @staticmethod
     def check_message(response: 'TestHttpResponse', msg: str) -> None:
@@ -256,6 +263,26 @@ class DeleteTest(BaseTest):
 
         # Test the denied permission message.
         self.check_message(response, self.no_permission_msg)
+
+
+class DeleteProtectTest(DeleteTest):
+    """Delete protect tests."""
+
+    def test_delete_protected(self) -> None:
+        """Test the item delete protected."""
+        self.client.force_login(self.owner)
+        response = self.client.post(self.url_delete_protected)
+
+        # Test redirect and HTTP status code.
+        self.assertRedirects(
+            response, self.url_delete_protected_redirect, HTTPStatus.FOUND
+        )
+
+        # Item in the database have not deleted.
+        assert self.manager.filter(pk=self.item_pk_delete_protected).exists()
+
+        # Test the delete protected message.
+        flash_message_test(response, self.delete_protected_msg)
 
 
 class DetailTest(BaseTest):

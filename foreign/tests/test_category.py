@@ -52,7 +52,8 @@ class CategoryTestData(TestData):
             'foreign:categories_detail', kwargs={'pk': self.item_pk}
         )
         self.url_delete = reverse(
-            'foreign:categories_delete', kwargs={'pk': self.item_pk}
+            'foreign:categories_delete',
+            kwargs={'pk': self.item_pk},
         )
 
         # Redirect urls.
