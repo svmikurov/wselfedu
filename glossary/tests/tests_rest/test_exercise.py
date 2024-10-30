@@ -29,7 +29,7 @@ from users.models import UserApp
 class TestGlossaryTask(APITestCase):
     """Test render task data."""
 
-    fixtures = ['glossary/tests/tests_rest/fixtures/glossaries.json']
+    fixtures = ['glossary/tests/fixtures/glossaries']
 
     def setUp(self) -> None:
         """Set up data."""
@@ -50,7 +50,7 @@ class TestGlossaryTask(APITestCase):
 class TestGetGlossaryExerciseParams(APITestCase):
     """Test render Glossary exercise params."""
 
-    fixtures = ['glossary/tests/tests_rest/fixtures/glossaries.json']
+    fixtures = ['glossary/tests/fixtures/glossaries']
 
     def setUp(self) -> None:
         """Set up data."""
@@ -113,7 +113,7 @@ class TestGetGlossaryExerciseParams(APITestCase):
 class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
     """Test update or create user params for Glossary exersice."""
 
-    fixtures = ['glossary/tests/tests_rest/fixtures/glossaries.json']
+    fixtures = ['glossary/tests/fixtures/glossaries']
 
     def setUp(self) -> None:
         """Set up data."""
