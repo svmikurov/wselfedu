@@ -38,8 +38,11 @@ __all__ = (
     'MathPage',
     'MentorshipProfilePage',
     'ProfilePage',
+    'RegistrationPage',
     'TermCategoryPage',
     'TermCreatePage',
     'TermListPage',
     'TermSourcePage',
 )
+
+from tests_plw.pages.registration import RegistrationPage

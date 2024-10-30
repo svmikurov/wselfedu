@@ -1,6 +1,5 @@
 """Test sidebar."""
 
-from tests_plw.pages.components.sidebar import SidebarComponent
 from tests_plw.pages import (
     ForeignCategoryPage,
     ForeignCreatePage,
@@ -18,6 +17,7 @@ from tests_plw.pages import (
     TermListPage,
     TermSourcePage,
 )
+from tests_plw.pages.components.sidebar import SidebarComponent
 from tests_plw.tests.base import POMTest
 
 
