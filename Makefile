@@ -88,6 +88,10 @@ test:
 
 plw:
 	@$(APP) pytest tests_plw/
+
+codegen:
+	playwright codegen 127.0.0.1
+
 check: ruff down build up test plw
 
 test-just:
