@@ -15,7 +15,7 @@ class HomePage(POMPage):
 
     """
 
-    title = 'Домашняя страница'
+    title = 'WSE Главная'
     """The Home page title (`str`).
     """
 
