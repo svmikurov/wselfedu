@@ -181,5 +181,5 @@ class UserAuthTestCase(TestCase):
                 ...
                 self.assertMessage(response, 'Message text')
 
-        """
+        """  # noqa: W505
         return flash_message_test(response, expected_message)
