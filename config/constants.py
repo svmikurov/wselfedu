@@ -219,7 +219,7 @@ SENTENCE = 'ST'
 DEFAULT_WORD_COUNT = [ONE_WORD, COMBINATION]
 
 WORD_COUNT_CHOICE = (
-    (NOT_CHOICES, 'Любое количество слов'),
+    (NOT_CHOICES, 'Любое'),
     (ONE_WORD, 'Слово'),
     (COMBINATION, 'Словосочетание'),
     (PART_SENTENCE, 'Часть предложения'),
