@@ -1,4 +1,4 @@
-<div class="header">
+<div data-testid="sidebar" class="header">
   {% if user.is_authenticated %}
     <p class="h5"><a href="{% url 'users:detail' user.pk %}">Личный кабинет</a></p>
   {% else %}

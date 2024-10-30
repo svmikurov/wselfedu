@@ -7,7 +7,7 @@ page representation class.
 
 from playwright.sync_api import expect
 
-from tests_plw.pages.math_calculate_exercise import (
+from tests_plw.pages import (
     MathCalculateExercisePage,
 )
 from tests_plw.pages.profile import ProfilePage

@@ -42,7 +42,7 @@ class CategoryListView(CheckLoginPermissionMixin, ListView):
     template_name = 'glossary/category_list.html'
     context_object_name = 'categories'
     extra_context = {
-        'title': 'Категории',
+        'title': 'Категории терминов',
     }
 
     def get_queryset(self) -> QuerySet:

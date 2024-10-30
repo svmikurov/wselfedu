@@ -6,9 +6,7 @@ from urllib.parse import urlparse
 from playwright.sync_api import expect
 
 from config.constants import NOT_CHOICES, TO_NATIVE, TODAY
-from tests_plw.pages.foreign_exercise_conditions import (
-    ForeignExerciseConditionsChoicePage,
-)
+from tests_plw.pages import ForeignExerciseParamsPage
 from tests_plw.tests.base import POMTest
 
 
@@ -18,7 +16,7 @@ class TestForeignWordsExerciseConditionsChoicePage(POMTest):
     def setUp(self) -> None:
         """Set up test data."""
         super().setUp()
-        self.test_page = ForeignExerciseConditionsChoicePage(self.page)
+        self.test_page = ForeignExerciseParamsPage(self.page)
         self.page_path = self.test_page.path
         self.authorize_test_page()
         self.response = self.test_page.navigate(page_url=self.page_url)

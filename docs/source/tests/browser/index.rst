@@ -6,5 +6,6 @@ Browser testing
    :maxdepth: 2
 
    base/index
+   components/index
    page/index
    test/index

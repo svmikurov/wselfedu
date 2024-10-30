@@ -8,4 +8,5 @@ Welcome to wselfedu's documentation!
    reference/index
    rest/index
    tests/index
+   how-to-guides/index
    changelog/changelog

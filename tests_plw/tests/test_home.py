@@ -4,7 +4,7 @@ Testing using the :obj:`HomePage <tests_plw.pages.home.HomePage>`
 page representation class.
 """
 
-from tests_plw.pages.home import HomePage
+from tests_plw.pages import HomePage
 from tests_plw.tests.base import POMTest
 
 

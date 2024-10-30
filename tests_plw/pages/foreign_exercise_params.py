@@ -5,7 +5,7 @@ from playwright.sync_api import Page
 from tests_plw.pages.base import POMPage
 
 
-class ForeignExerciseConditionsChoicePage(POMPage):
+class ForeignExerciseParamsPage(POMPage):
     """Foreign exercise conditions choice test page."""
 
     title = 'Выбор слов для изучения'

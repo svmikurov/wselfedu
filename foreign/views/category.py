@@ -85,7 +85,7 @@ class CategoryListView(CheckLoginPermissionMixin, ListView):
     context_object_name = 'categories'
     paginate_by = PAGINATE_NUMBER
     extra_context = {
-        TITLE: 'Категории',
+        TITLE: 'Категории слов',
     }
 
     def get_queryset(self) -> QuerySet:

@@ -9,5 +9,5 @@ Pages
    login
    profile
    mentorship
-   foreign_exercise_conditions
+   foreign_exercise_params
    math_calculate_exercise
