@@ -1,12 +1,17 @@
-=================
-Foreign app tests
-=================
+=======================
+Foreign words app tests
+=======================
 
 .. toctree::
    :maxdepth: 1
 
    Home <home>
-   CRUD word <word>
-   CRUD category <category>
-   CRUD source <source>
-   Pagination <pagination>
+   Word CRUD <word>
+   Category CRUD <category>
+   Source CRUD <source>
+   List pagination <pagination>
+   Word exercise <exercise>
+   Lookup params <lookup_params>
+   Favorites <favorites>
+   Word progress <progress>
+   Analytic <analytic>

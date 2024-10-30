@@ -266,7 +266,7 @@ class DeleteTest(BaseTest):
 
 
 class DeleteProtectTest(DeleteTest):
-    """Delete protect tests."""
+    """Test to delete protected."""
 
     def test_delete_protected(self) -> None:
         """Test the item delete protected."""

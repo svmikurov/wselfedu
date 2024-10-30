@@ -74,12 +74,12 @@ class SourceCreateTest(CreateTest, SourceTestData):
     """Foreign word source create tests."""
 
     def test_create(self) -> None:
-        """Add exists source tests."""
+        """Add a test is exists source in the database."""
         super().test_create()
         assert self.manager.filter(name='new source%').exists()
 
     def test_create_by_anonymous(self) -> None:
-        """Add not exists source tests."""
+        """Add a test is no exists source in the database."""
         super().test_create_by_anonymous()
         assert not self.manager.filter(name='new source%').exists()
 

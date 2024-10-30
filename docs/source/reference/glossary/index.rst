@@ -15,8 +15,3 @@ Glossary app
    ORM queries <queries>
    Serializers <serializers>
    Exercise <exercise>
-
-.. toctree::
-   :maxdepth: 3
-
-   Tests <tests/index>

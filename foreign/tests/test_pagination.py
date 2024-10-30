@@ -1,4 +1,4 @@
-"""Test foreign words pagination module."""
+"""Test foreign words pagination."""
 
 from django.test import Client, TestCase
 from django.urls import reverse
@@ -13,7 +13,7 @@ PAGINATE_NUMBER = 20
 class TestPagination(TestCase):
     """Test pagination."""
 
-    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
+    fixtures = ['foreign', 'users']
 
     def setUp(self) -> None:
         """Set up data."""

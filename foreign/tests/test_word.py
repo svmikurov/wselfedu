@@ -72,12 +72,12 @@ class WordCreateTest(CreateTest, WordTestData):
     """Foreign word create tests."""
 
     def test_create(self) -> None:
-        """Add a test for category existence."""
+        """Add a test is exists word in the database."""
         super().test_create()
         assert self.manager.filter(foreign_word='new word%').exists()
 
     def test_create_by_anonymous(self) -> None:
-        """Add a test for category not existence."""
+        """Add a test is no exists word in the database."""
         super().test_create_by_anonymous()
         assert not self.manager.filter(foreign_word='new word%').exists()
 

@@ -1,4 +1,4 @@
-"""Test favorites word processing module."""
+"""Tests the favorites status of word."""
 
 from django.test import TestCase
 
@@ -10,9 +10,9 @@ from foreign.queries import (
 
 
 class TestWordsFavorites(TestCase):
-    """Test favorites word processing class."""
+    """Tests the favorites status of word."""
 
-    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
+    fixtures = ['foreign', 'users']
 
     def setUp(self) -> None:
         """Set up test data."""

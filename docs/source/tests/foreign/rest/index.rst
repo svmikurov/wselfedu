@@ -5,7 +5,7 @@ Foreign app tests REST
 .. toctree::
    :maxdepth: 1
 
-   CRUD word <word>
+   Word CRUD <word>
    Parameters <params>
    Exercise <exercise>
    Assessment <assessment>

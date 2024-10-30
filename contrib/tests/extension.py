@@ -144,10 +144,12 @@ class UserAuthTestCase(TestCase):
 
         Examples
         --------
-        def test(self):
-            task_conditions = {'timeout': 1, 'language_order': 'EN'}
-            self.set_session(**{'task_conditions': task_conditions})
-            ...
+        .. code-block:: python
+
+            def test(self):
+                task_conditions = {'timeout': 1, 'language_order': 'EN'}
+                self.set_session(**{'task_conditions': task_conditions})
+                ...
 
         """
         session = self.client.session
@@ -171,11 +173,13 @@ class UserAuthTestCase(TestCase):
 
         Examples
         --------
-        def test(self):
-            response = self.client.get(self.login_url, self.user_data)
-            user = auth.get_user(self.client)
-            ...
-            self.assertMessage(response, 'Message text')
+        .. code-block:: python
+
+            def test(self):
+                response = self.client.get(self.login_url, self.user_data)
+                user = auth.get_user(self.client)
+                ...
+                self.assertMessage(response, 'Message text')
 
         """
         return flash_message_test(response, expected_message)
