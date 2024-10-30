@@ -76,7 +76,10 @@ class BaseTest(StaticLiveServerTestCase):
 
 
 class UserMixin:
-    """Testing page user mixin."""
+    """Testing page user mixin.
+
+    Adds the user to tests and adds the method of user authentication.
+    """
 
     user: Optional[UserApp] = None
     """User by default (`Optional[UserApp]`).
