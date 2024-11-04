@@ -3,14 +3,8 @@
 from django.db import models
 from django.urls import reverse
 
-from config.constants import (
-    DEFAULT_PROGRESS,
-    EDGE_PERIOD_CHOICES,
-    NOT_CHOICES,
-    PROGRESS_CHOICES,
-    TODAY,
-)
 from contrib.models import Category, Source
+from contrib.models.params import ExerciseParams
 from users.models import UserApp
 
 
@@ -93,46 +87,27 @@ class Glossary(models.Model):
         return reverse('glossary:term_detail', kwargs={'pk': self.pk})
 
 
-class GlossaryParams(models.Model):
+class GlossaryParams(ExerciseParams):
     """User default settings for selecting terms in an exercise."""
 
-    user = models.OneToOneField(
-        UserApp,
-        on_delete=models.CASCADE,
-    )
-    """User, (`UserApp`).
-    """
-    period_start_date = models.CharField(
-        choices=EDGE_PERIOD_CHOICES,
-        default=NOT_CHOICES,
-    )
-    """A beginning of the period of adding a term to the glossary,
-    :obj:`~config.constants.EDGE_PERIOD_CHOICES`
-    (`list(tuple[str, str])`).
-    """
-    period_end_date = models.CharField(
-        choices=EDGE_PERIOD_CHOICES,
-        default=TODAY,
-    )
-    """An end of the period of adding a term to the glossary,
-    :obj:`~config.constants.EDGE_PERIOD_CHOICES`
-    (`list(tuple[str, str])`).
-    """
     category = models.ForeignKey(
         GlossaryCategory,
-        on_delete=models.CASCADE,
+        models.SET_NULL,
         blank=True,
         null=True,
     )
-    """A term category (`GlossaryCategory`).
+    """If a category is selected, term from the specific source will be
+    displayed.
     """
-    progress = models.CharField(
-        choices=PROGRESS_CHOICES,
-        default=DEFAULT_PROGRESS,
+    source = models.ForeignKey(
+        TermSource,
+        models.SET_NULL,
+        blank=True,
+        null=True,
+        verbose_name='Источник',
     )
-    """A term progres,
-    :py:data:`~config.constants.PROGRESS_CHOICES`
-    (`tuple[tuple[str, str]]`).
+    """If a source is selected, term from the specific source will be
+    displayed.
     """
 
     class Meta:

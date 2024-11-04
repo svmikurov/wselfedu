@@ -3,33 +3,21 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
-from config import constants as const
 from config.constants import (
     DEFAULT_LANGUAGE_ORDER,
-    DEFAULT_PROGRESS,
-    DEFAULT_TIMEOUT,
     DEFAULT_WORD_COUNT,
     LANGUAGE_ORDER_CHOICE,
-    NOT_CHOICES,
-    PROGRESS_CHOICES,
-    TODAY,
 )
+from contrib.models.params import ExerciseParams
 from foreign.models import WordCategory, WordSource
-from users.models import UserApp
 
 
-class TranslateParams(models.Model):
+class TranslateParams(ExerciseParams):
     """Foreign words learning exercise user parameters.
 
     Including contains lookup parameters words for learning them.
     """
 
-    user = models.OneToOneField(
-        UserApp,
-        on_delete=models.CASCADE,
-    )
-    """User that setting model stored (`UserApp`).
-    """
     language_order = models.CharField(
         choices=LANGUAGE_ORDER_CHOICE,
         default=DEFAULT_LANGUAGE_ORDER,
@@ -44,19 +32,6 @@ class TranslateParams(models.Model):
     - first the question is in Russian, then the answer is in
       Native;
     - random order.
-    """
-    timeout = models.PositiveSmallIntegerField(
-        default=DEFAULT_TIMEOUT,
-        verbose_name='Таймаут',
-    )
-    """Show the learning word time, sec (`int`).
-    """
-    favorites = models.BooleanField(
-        default=False,
-        verbose_name='Избранное',
-    )
-    """Will be display only favorites words if `True`, all otherwise
-    (`bool`).
     """
     category = models.ForeignKey(
         WordCategory,
@@ -78,50 +53,12 @@ class TranslateParams(models.Model):
     """If a source is selected, words from the specific source will be
     displayed.
     """
-    progress = models.CharField(
-        choices=PROGRESS_CHOICES,
-        default=DEFAULT_PROGRESS,
-        max_length=1,
-        verbose_name='Уровень знания',
-    )
-    """Current word learning progress level.
-    """
     word_count = ArrayField(
         models.CharField(max_length=16),
         default=DEFAULT_WORD_COUNT,
         verbose_name='Длина выражения',
     )
     """Length of verbal expression.
-    """
-    period_start_date = models.CharField(
-        choices=const.EDGE_PERIOD_CHOICES,
-        default=NOT_CHOICES,
-        max_length=2,
-        verbose_name='Добавлено после',
-    )
-    """Start edge period for choice added words.
-    """
-    period_end_date = models.CharField(
-        choices=const.EDGE_PERIOD_CHOICES,
-        default=TODAY,
-        max_length=2,
-        verbose_name='Добавлено до',
-    )
-    """Start edge period for choice added words.
-    """
-    count_first = models.PositiveSmallIntegerField(
-        blank=True,
-        default=0,
-        verbose_name='Количество первых добавленных слов',
-    )
-    """Count of first added words (`int`).
-    """
-    count_last = models.PositiveSmallIntegerField(
-        blank=True,
-        default=0,
-        verbose_name='Количество последних добавленных слов',
-    )
-    """Count of last added words (`int`).
     """
 
     def __str__(self) -> str:
