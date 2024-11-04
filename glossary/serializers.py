@@ -35,12 +35,12 @@ class GlossaryParamsSerializer(serializers.ModelSerializer):
         """Serializer settings."""
 
         model = GlossaryParams
-        fields = [
-            'period_start_date',
-            'period_end_date',
-            'category',
-            'progress',
+        exclude = [
+            'id',
+            'user',
         ]
+        """Exclude fields (`list[str]`).
+        """
 
     def create(self, validated_data: dict) -> GlossaryParams:
         """Update or create the user glossary exercise parameters."""

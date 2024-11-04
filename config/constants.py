@@ -233,11 +233,15 @@ WORD_COUNT_CHOICE = (
 ########################################################################
 
 DEFAULT_CATEGORY = None
+DEFAULT_SOURCE = None
 DEFAULT_LOOKUP_CONDITIONS = {
     'period_start_date': NOT_CHOICES,
     'period_end_date': TODAY,
-    'category': DEFAULT_CATEGORY,
     'progress': DEFAULT_PROGRESS,
+    'category': DEFAULT_CATEGORY,
+    'source': DEFAULT_SOURCE,
+    'count_first': 0,
+    'count_last': 0,
 }
 """Default choice for Glossary exercise lookup conditions
 (`dict[str, int | None]`)

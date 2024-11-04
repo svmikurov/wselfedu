@@ -14,6 +14,7 @@ from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
 from config.constants import (
+    DEFAULT_SOURCE,
     LEARNED,
     NOT_CHOICES,
     STUDY,
@@ -66,6 +67,11 @@ class TestGetGlossaryExerciseParams(APITestCase):
                 'period_end_date': 'DT',
                 'period_start_date': 'NC',
                 'progress': 'S',
+                'timeout': 5,
+                'favorites': False,
+                'count_first': 0,
+                'count_last': 0,
+                'source': DEFAULT_SOURCE,
             },
             'exercise_choices': {
                 'categories': [
@@ -129,6 +135,11 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'period_end_date': WEEK_AGO,
             'category': 1,
             'progress': LEARNED,
+            'timeout': 5,
+            'favorites': False,
+            'count_first': 0,
+            'count_last': 0,
+            'source': DEFAULT_SOURCE,
         }
         self.api_client.force_authenticate(user=self.user1)
         response = self.api_client.post(self.url, request_data, format='json')
@@ -150,10 +161,15 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'period_end_date': WEEK_AGO,
             'category': 1,
             'progress': STUDY,
+            'timeout': 5,
+            'favorites': False,
+            'count_first': 0,
+            'count_last': 0,
+            'source': DEFAULT_SOURCE,
         }
         self.api_client.force_authenticate(user=self.user1)
         response = self.api_client.post(self.url, request_data, format='json')
-        assert response.data == expect_data
+        assert expect_data == response.data
         assert response.status_code == status.HTTP_200_OK
 
     # @skip
@@ -164,6 +180,11 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'period_end_date': TODAY,
             'category': None,
             'progress': STUDY,
+            'timeout': 5,
+            'favorites': False,
+            'count_first': 0,
+            'count_last': 0,
+            'source': DEFAULT_SOURCE,
         }
         self.api_client.force_authenticate(user=self.user2)
         response = self.api_client.post(self.url)
@@ -178,6 +199,11 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'period_end_date': WEEK_AGO,
             'category': 1,
             'progress': LEARNED,
+            'timeout': 5,
+            'favorites': False,
+            'count_first': 0,
+            'count_last': 0,
+            'source': DEFAULT_SOURCE,
         }
         self.api_client.force_authenticate(user=self.user2)
         response = self.api_client.post(self.url, request_data, format='json')
@@ -199,6 +225,11 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'period_end_date': NOT_CHOICES,
             'category': None,
             'progress': STUDY,
+            'timeout': 5,
+            'favorites': False,
+            'count_first': 0,
+            'count_last': 0,
+            'source': DEFAULT_SOURCE,
         }
         self.api_client.force_authenticate(user=self.user2)
         response = self.api_client.post(self.url, request_data, format='json')
