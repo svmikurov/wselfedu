@@ -2,6 +2,7 @@
 
 from tests_plw.page_components.sidebar import SidebarComponent
 from tests_plw.pages import (
+    AboutPage,
     ForeignCategoryPage,
     ForeignCreatePage,
     ForeignExerciseParamsPage,
@@ -33,6 +34,11 @@ class TestSidebar(POMTest):
         """Test the profile link."""
         self.test_page.click_link_profile()
         self.test_page.test_title(ProfilePage.title)
+
+    def test_link_about(self) -> None:
+        """Test the profile link."""
+        self.test_page.click_link_about()
+        self.test_page.test_title(AboutPage.title)
 
     def test_link_foreign(self) -> None:
         """Test the foreign links."""

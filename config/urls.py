@@ -26,13 +26,14 @@ urlpatterns = [
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    path('about/', TemplateView.as_view(template_name='about.html'), name='about'),  # noqa: E501
     path('users/', include('users.urls')),
     path('foreign/', include('foreign.urls.urls')),
     path('glossary/', include('glossary.urls.urls')),
     path('math/', include('mathematics.urls')),
     path('api/v1/foreign/', include('foreign.urls.urls_rest')),
     path('api/v1/glossary/', include('glossary.urls.urls_rest')),
-]
+]  # fmt: skip
 
 urlpatterns += [
     path('api/v1/auth/', include('djoser.urls')),

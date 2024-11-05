@@ -1,11 +1,16 @@
 <div data-testid="sidebar" class="header">
 
-  <div data-testid="main-chapters" class="ps-3">
+
+  <div data-testid="user-chapters" class="ps-3">
     {% if user.is_authenticated %}
       <p class="h5"><a href="{% url 'users:detail' user.pk %}">Личный кабинет</a></p>
     {% else %}
       <p class="h5">Личный кабинет</p>
     {% endif %}
+  </div>
+
+  <div data-testid="about-chapters" class="ps-3">
+    <p class="h5"><a href="{% url 'about' %}">О проекте</a></p>
   </div>
 
   <div data-testid="foreign-chapters" class="ps-3">
