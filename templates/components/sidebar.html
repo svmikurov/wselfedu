@@ -1,13 +1,26 @@
 <div data-testid="sidebar" class="header">
-  {% if user.is_authenticated %}
-    <p class="h5"><a href="{% url 'users:detail' user.pk %}">Личный кабинет</a></p>
-  {% else %}
-    <p class="h5">Личный кабинет</p>
-  {% endif %}
-  <p class="h5"><a href="{% url 'foreign:home' %}">Иностранный язык</a></p>
-  <div class="ps-3">{% include 'foreign/chapters.html' %}</div>
-  <p class="h5"><a href="{% url 'glossary:home' %}">Глоссарий</a></p>
-  <div class="ps-3">{% include 'glossary/chapters.html' %}</div>
-  <p class="h5"><a href="{% url 'math:home' %}">Математика</a></p>
-  <div class="ps-3">{% include 'mathematics/chapters.html' %}</div>
+
+  <div data-testid="main-chapters" class="ps-3">
+    {% if user.is_authenticated %}
+      <p class="h5"><a href="{% url 'users:detail' user.pk %}">Личный кабинет</a></p>
+    {% else %}
+      <p class="h5">Личный кабинет</p>
+    {% endif %}
+  </div>
+
+  <div data-testid="foreign-chapters" class="ps-3">
+    <p class="h5"><a href="{% url 'foreign:home' %}">Иностранный язык</a></p>
+    {% include 'foreign/chapters.html' %}
+  </div>
+
+  <div data-testid="glossary-chapters" class="ps-3">
+    <p class="h5"><a href="{% url 'glossary:home' %}">Глоссарий</a></p>
+    {% include 'glossary/chapters.html' %}
+  </div>
+
+  <div data-testid="mathematics-chapters" class="ps-3">
+    <p class="h5"><a href="{% url 'math:home' %}">Математика</a></p>
+    {% include 'mathematics/chapters.html' %}
+  </div>
+
 </div>

@@ -1,5 +1,6 @@
 """Test sidebar."""
 
+from tests_plw.page_components.sidebar import SidebarComponent
 from tests_plw.pages import (
     ForeignCategoryPage,
     ForeignCreatePage,
@@ -17,7 +18,6 @@ from tests_plw.pages import (
     TermListPage,
     TermSourcePage,
 )
-from tests_plw.page_components.sidebar import SidebarComponent
 from tests_plw.tests.base import POMTest
 
 
@@ -36,7 +36,7 @@ class TestSidebar(POMTest):
 
     def test_link_foreign(self) -> None:
         """Test the foreign links."""
-        self.test_page.click_link_foreign()
+        self.test_page.click_link_foreign_main()
         self.test_page.test_title(ForeignPage.title)
 
     def test_link_foreign_exercise(self) -> None:
@@ -66,7 +66,7 @@ class TestSidebar(POMTest):
 
     def test_link_glossary(self) -> None:
         """Test the glossary link."""
-        self.test_page.click_link_glossary()
+        self.test_page.click_link_glossary_main()
         self.test_page.test_title(GlossaryPage.title)
 
     def test_link_glossary_exercise(self) -> None:
@@ -96,7 +96,7 @@ class TestSidebar(POMTest):
 
     def test_link_mathematics(self) -> None:
         """Test the mathematics link."""
-        self.test_page.click_link_math()
+        self.test_page.click_link_math_main()
         self.test_page.test_title(MathPage.title)
 
     def test_link_mathematics_exercise(self) -> None:

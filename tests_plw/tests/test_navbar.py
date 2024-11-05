@@ -3,6 +3,7 @@
 import pytest
 from playwright.sync_api import expect
 
+from tests_plw.page_components.navbar import NavbarComponent
 from tests_plw.pages import (
     ForeignPage,
     GlossaryPage,
@@ -12,7 +13,6 @@ from tests_plw.pages import (
     ProfilePage,
     RegistrationPage,
 )
-from tests_plw.page_components.navbar import NavbarComponent
 from tests_plw.tests.base import POMTest
 
 
