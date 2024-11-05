@@ -20,6 +20,7 @@ from tests_plw.pages.mathematics import MathPage
 from tests_plw.pages.mathematics_exercise import MathExercisePage
 from tests_plw.pages.mathematics_exercise_params import MathExerciseParamsPage
 from tests_plw.pages.mentorship import MentorshipProfilePage
+from tests_plw.pages.mobile import MobilePage
 from tests_plw.pages.profile import ProfilePage
 
 __all__ = (
@@ -39,6 +40,7 @@ __all__ = (
     'MathExerciseParamsPage',
     'MathPage',
     'MentorshipProfilePage',
+    'MobilePage',
     'ProfilePage',
     'RegistrationPage',
     'TermCategoryPage',

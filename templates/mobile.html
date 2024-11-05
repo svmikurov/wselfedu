@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Приложение для мобильных{% endblock %}
+
+{% block content %}
+{% include 'components/title.html' with title='Приложение для мобильных' %}
+<div>
+    <p>В настоящее время разрабатывается и тестируется версия только для ОС Андройд.</p>
+  <h1>Приложение для андроид</h1>
+    <p>При установке, приложение проверяется средства Google Play.</p>
+    <p class="h5"><a href="/media/wse-toga-0-1-0.apk" download>Скачать мобильное приложение</a></p>
+    <p>Для пользования мобильным приложение необходимо иметь учетную запись на сайте.</p>
+  <h3>Установка мобильно приложения</h3>
+    <div>
+      <p>Откройте папку со скаченным установочным файлом.</p>
+      <p>Нажмите на скаченный файл.</p>
+      <p>Установите приложение:</p>
+        <img src="{% static 'image/mobile/install/01-install.png' %}" width="200">
+        <img src="{% static 'image/mobile/install/02-installing.png' %}" width="200">
+      <p class="pt-3">Откройте приложение после проверки:</p>
+        <img src="{% static 'image/mobile/install/04-check-result.png' %}" width="200">
+        <img src="{% static 'image/mobile/install/05-app-window.png' %}" width="200">
+      </div>
+</div>
+{% endblock %}

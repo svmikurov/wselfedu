@@ -28,6 +28,9 @@ class SidebarComponent(POMPage):
         self.link_about = about_chapters.get_by_role(
             'link', name='О проекте',
         )  # fmt: skip
+        self.link_mobile = about_chapters.get_by_role(
+            'link', name='Мобильное приложение',
+        )  # fmt: skip
         # Foreign chapters.
         self.link_foreign_main = foreign_chapters.get_by_role(
             'link', name='Иностранный язык',
@@ -81,6 +84,10 @@ class SidebarComponent(POMPage):
     def click_link_about(self) -> None:
         """Click about link."""
         self.link_about.click()
+
+    def click_link_mobile(self) -> None:
+        """Click mobile link."""
+        self.link_mobile.click()
 
     def click_link_foreign_main(self) -> None:
         """Click foreign main link."""

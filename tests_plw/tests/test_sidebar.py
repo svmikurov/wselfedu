@@ -13,6 +13,7 @@ from tests_plw.pages import (
     GlossaryPage,
     MathExercisePage,
     MathPage,
+    MobilePage,
     ProfilePage,
     TermCategoryPage,
     TermCreatePage,
@@ -36,9 +37,14 @@ class TestSidebar(POMTest):
         self.test_page.test_title(ProfilePage.title)
 
     def test_link_about(self) -> None:
-        """Test the profile link."""
+        """Test the about link."""
         self.test_page.click_link_about()
         self.test_page.test_title(AboutPage.title)
+
+    def test_link_mobile(self) -> None:
+        """Test the mobile link."""
+        self.test_page.click_link_mobile()
+        self.test_page.test_title(MobilePage.title)
 
     def test_link_foreign(self) -> None:
         """Test the foreign links."""

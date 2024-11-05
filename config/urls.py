@@ -18,6 +18,8 @@ Including another URLconf
 
 """
 
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path, re_path
 from django.views.generic import TemplateView
@@ -27,6 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('about/', TemplateView.as_view(template_name='about.html'), name='about'),  # noqa: E501
+    path('mobile/', TemplateView.as_view(template_name='mobile.html'), name='mobile'),  # noqa: E501
     path('users/', include('users.urls')),
     path('foreign/', include('foreign.urls.urls')),
     path('glossary/', include('glossary.urls.urls')),
@@ -40,3 +43,5 @@ urlpatterns += [
     re_path(r'^auth/', include('djoser.urls.authtoken')),
     path('captcha/', include('captcha.urls')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
