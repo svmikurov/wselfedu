@@ -28,6 +28,9 @@ class MathCalculateExercisePage(POMPage):
 
     def do_the_exercise(self) -> None:
         """Do the exercise."""
+        self.take_screen('test_math_calculate_exercise')
+
+        #
         self.question_text.wait_for(state=VISIBLE)
 
         sleep(2)  # Time to complete the task
