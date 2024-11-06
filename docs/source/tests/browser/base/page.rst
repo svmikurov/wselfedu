@@ -1,6 +1,6 @@
-==========
-Page utils
-==========
+====
+Page
+====
 
 .. automodule:: tests_plw.pages.base
    :members:

@@ -6,7 +6,10 @@ from tests_plw.pages.base import POMPage
 
 
 class ForeignListPage(POMPage):
-    """Foreign word list, the representation of page ."""
+    """Foreign word list, the representation of page.
+
+    :param Page page: The Playwright Pytest page fixture.
+    """
 
     title = 'Список слов'
 

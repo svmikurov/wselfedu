@@ -6,7 +6,10 @@ from tests_plw.pages.base import POMPage
 
 
 class ForeignCategoryPage(POMPage):
-    """Foreign word category, the test representation of page."""
+    """Foreign word category, the test representation of page.
+
+    :param Page page: The Playwright Pytest page fixture.
+    """
 
     title = 'Категории слов'
 

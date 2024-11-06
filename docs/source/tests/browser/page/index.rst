@@ -3,11 +3,21 @@ Pages
 =====
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
+   about
+   foreign
+   foreign_category
+   foreign_create
+   foreign_exercise_params
+   foreign_list
+   foreign_source
    home
    login
-   profile
+   mathematics
+   mathematics_exercise
+   mathematics_exercise_params
    mentorship
-   foreign_exercise_params
-   math_calculate_exercise
+   mobile
+   profile
+   registration

@@ -6,7 +6,10 @@ from tests_plw.pages.base import POMPage
 
 
 class TermSourcePage(POMPage):
-    """Glossary term source, the test representation of page."""
+    """Glossary term source, the test representation of page.
+
+    :param Page page: The Playwright Pytest page fixture.
+    """
 
     title = 'Источники терминов'
 

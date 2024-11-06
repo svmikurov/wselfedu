@@ -6,7 +6,10 @@ from tests_plw.pages.base import POMPage
 
 
 class GlossaryPage(POMPage):
-    """Glossary, the test representation of page."""
+    """Glossary, the test representation of page.
+
+    :param Page page: The Playwright Pytest page fixture.
+    """
 
     title = 'Глоссарий'
 

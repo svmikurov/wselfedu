@@ -8,7 +8,7 @@ from tests_plw.pages.base import POMPage
 class AboutPage(POMPage):
     """The about page representation class.
 
-    :params `Page` page: The Playwright Pytest page fixture.
+    :param Page page: The Playwright Pytest page fixture.
     """
 
     title = 'О проекте'

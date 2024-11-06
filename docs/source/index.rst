@@ -9,4 +9,4 @@ Welcome to wselfedu's documentation!
    rest/index
    tests/index
    how-to-guides/index
-   changelog/changelog
+   about/releases

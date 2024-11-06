@@ -15,9 +15,8 @@ from tests_plw.pages.glossary_list import TermListPage
 from tests_plw.pages.glossary_source import TermSourcePage
 from tests_plw.pages.home import HomePage
 from tests_plw.pages.login import LoginPage
-from tests_plw.pages.math_calculate_exercise import MathCalculateExercisePage
 from tests_plw.pages.mathematics import MathPage
-from tests_plw.pages.mathematics_exercise import MathExercisePage
+from tests_plw.pages.mathematics_exercise import MathCalculateExercisePage
 from tests_plw.pages.mathematics_exercise_params import MathExerciseParamsPage
 from tests_plw.pages.mentorship import MentorshipProfilePage
 from tests_plw.pages.mobile import MobilePage
@@ -36,7 +35,6 @@ __all__ = (
     'HomePage',
     'LoginPage',
     'MathCalculateExercisePage',
-    'MathExercisePage',
     'MathExerciseParamsPage',
     'MathPage',
     'MentorshipProfilePage',

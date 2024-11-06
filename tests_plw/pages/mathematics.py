@@ -6,7 +6,10 @@ from tests_plw.pages.base import POMPage
 
 
 class MathPage(POMPage):
-    """Mathematics, the test representation of page."""
+    """Mathematics, the test representation of page.
+
+    :param Page page: The Playwright Pytest page fixture.
+    """
 
     title = 'Математика'
 

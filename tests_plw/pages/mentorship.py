@@ -8,11 +8,7 @@ from tests_plw.pages.base import POMPage
 class MentorshipProfilePage(POMPage):
     """Mentorship page representation class.
 
-    Parameters
-    ----------
-    page : `Page`
-        Playwright Pytest page fixture.
-
+    :param Page page: The Playwright Pytest page fixture.
     """
 
     title = 'Наставничество'

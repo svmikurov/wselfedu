@@ -6,7 +6,10 @@ from tests_plw.pages.base import POMPage
 
 
 class ForeignPage(POMPage):
-    """Foreign index page representation."""
+    """Foreign index page representation.
+
+    :param Page page: Playwright Pytest page fixture.
+    """
 
     title = 'Иностранный язык'
 

@@ -8,7 +8,10 @@ from tests_plw.pages.base import POMPage
 
 
 class ProfilePage(POMPage):
-    """Profile page class."""
+    """Profile page class.
+
+    :param Page page: The Playwright Pytest page fixture.
+    """
 
     title = 'Личный кабинет'
     """Page title (`str`).

@@ -3,8 +3,12 @@ Changelog
 #########
 
 
-v0.4.0 (2024-today)
+v0.4.0 (2024-10-06)
 ===================
+
+* Add mobile version
+* Add Glossary term chapter
+* Add Sidebar
 
 Improvements
 ------------

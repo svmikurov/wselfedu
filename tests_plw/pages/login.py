@@ -6,7 +6,10 @@ from tests_plw.pages.base import POMPage
 
 
 class LoginPage(POMPage):
-    """Class representing the login page."""
+    """Class representing the login page.
+
+    :param Page page: The Playwright Pytest page fixture.
+    """
 
     title = 'Вход в приложение'
     """Page title (`str`).

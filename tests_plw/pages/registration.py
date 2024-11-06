@@ -6,7 +6,10 @@ from tests_plw.pages.base import POMPage
 
 
 class RegistrationPage(POMPage):
-    """Registration, the test representation of page."""
+    """Registration, the test representation of page.
+
+    :param Page page: The Playwright Pytest page fixture.
+    """
 
     title = 'Регистрация пользователя'
 

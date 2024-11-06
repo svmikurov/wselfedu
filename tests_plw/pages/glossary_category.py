@@ -6,7 +6,10 @@ from tests_plw.pages.base import POMPage
 
 
 class TermCategoryPage(POMPage):
-    """Glossary term category, the test representation of page."""
+    """Glossary term category, the test representation of page.
+
+    :param Page page: The Playwright Pytest page fixture.
+    """
 
     title = 'Категории терминов'
 

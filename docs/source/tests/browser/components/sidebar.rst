@@ -2,5 +2,5 @@
 Sidebar
 =======
 
-.. automodule:: tests_plw.pages.components.sidebar
+.. automodule:: tests_plw.page_components.sidebar
    :members:

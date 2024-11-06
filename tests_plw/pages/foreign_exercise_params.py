@@ -6,7 +6,10 @@ from tests_plw.pages.base import POMPage
 
 
 class ForeignExerciseParamsPage(POMPage):
-    """Foreign exercise conditions choice test page."""
+    """Foreign exercise conditions choice test page.
+
+    :param Page page: The Playwright Pytest page fixture.
+    """
 
     title = 'Выбор слов для изучения'
 

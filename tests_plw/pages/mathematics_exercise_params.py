@@ -6,7 +6,10 @@ from tests_plw.pages.base import POMPage
 
 
 class MathExerciseParamsPage(POMPage):
-    """Mathematics exercise params, the test representation of page."""
+    """Mathematics exercise params, the test representation of page.
+
+    :param Page page: The Playwright Pytest page fixture.
+    """
 
     title = 'Условия задания'
 

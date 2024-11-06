@@ -6,7 +6,10 @@ from tests_plw.pages.base import POMPage
 
 
 class ForeignCreatePage(POMPage):
-    """Foreign word create, the representation of page ."""
+    """Foreign word create, the representation of page.
+
+    :param Page page: The Playwright Pytest page fixture.
+    """
 
     title = 'Добавить слово в словарь'
 

@@ -11,7 +11,7 @@ from tests_plw.pages import (
     ForeignSourcePage,
     GlossaryExercisePage,
     GlossaryPage,
-    MathExercisePage,
+    MathCalculateExercisePage,
     MathPage,
     MobilePage,
     ProfilePage,
@@ -114,4 +114,4 @@ class TestSidebar(POMTest):
     def test_link_mathematics_exercise(self) -> None:
         """Test the mathematics exercise link."""
         self.test_page.click_link_math_exercise()
-        self.test_page.test_title(MathExercisePage.title)
+        self.test_page.test_title(MathCalculateExercisePage.title)

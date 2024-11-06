@@ -6,7 +6,10 @@ from tests_plw.pages.base import POMPage
 
 
 class TermListPage(POMPage):
-    """Glossary term list, the test representation of page."""
+    """Glossary term list, the test representation of page.
+
+    :param Page page: The Playwright Pytest page fixture.
+    """
 
     title = 'Термины глоссария'
 
