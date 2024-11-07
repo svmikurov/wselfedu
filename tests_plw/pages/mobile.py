@@ -11,7 +11,7 @@ class MobilePage(POMPage):
     :param Page page: The Playwright Pytest page fixture.
     """
 
-    title = 'Приложение для мобильных'
+    title = 'Упражнение на мобильном'
     """The Home page title (`str`).
     """
 

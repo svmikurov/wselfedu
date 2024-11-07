@@ -8,12 +8,12 @@ from glossary.queries.lookup_params import GlossaryLookupParams
 class GlossaryExerciseGUI(Exercise):
     """Glossary GUI app exercise."""
 
+    model = Glossary
+    lookup_params = GlossaryLookupParams
+
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the exercise."""
         super().__init__(*args, **kwargs)
-
-    model = Glossary
-    lookup_params = GlossaryLookupParams
 
     def create_task(self) -> None:
         """Create task."""

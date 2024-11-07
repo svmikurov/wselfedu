@@ -14,7 +14,7 @@ class MathCalculateExercisePage(POMPage):
     :param Page page: The Playwright Pytest page fixture.
     """
 
-    title = 'Условия задания'
+    title = 'Вычисления с вводом ответа'
     """Page title (`str`).
     """
 
