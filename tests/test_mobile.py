@@ -15,7 +15,7 @@ class TestMobile(TestCase):
     def setUp(self) -> None:
         """Set up the test data."""
         self.client = Client()
-        self.url = reverse_lazy('mobile')
+        self.url = reverse_lazy('mobile_main')
 
     def test_page_status(self) -> None:
         """Test the page status."""

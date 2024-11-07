@@ -1,22 +1,4 @@
-"""URL configuration for wselfedu project.
-
-The `urlpatterns` list routes URLs to views. For more information please
-see: https://docs.djangoproject.com/en/4.2/topics/http/urls/
-
-Examples
---------
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include,
-       path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-
-"""
+"""URL configuration for wselfedu project."""
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -29,19 +11,45 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('about/', TemplateView.as_view(template_name='about.html'), name='about'),  # noqa: E501
-    path('mobile/', TemplateView.as_view(template_name='mobile.html'), name='mobile'),  # noqa: E501
     path('users/', include('users.urls')),
     path('foreign/', include('foreign.urls.urls')),
     path('glossary/', include('glossary.urls.urls')),
     path('math/', include('mathematics.urls')),
-    path('api/v1/foreign/', include('foreign.urls.urls_rest')),
-    path('api/v1/glossary/', include('glossary.urls.urls_rest')),
 ]  # fmt: skip
 
-urlpatterns += [
+# Mobile chapter urlpatterns.
+mobile_urlpatterns = [
+    path(
+        'mobile/',
+        TemplateView.as_view(template_name='mobile/main.html'),
+        name='mobile_main',
+    ),
+    path(
+        'mobile/install/',
+        TemplateView.as_view(template_name='mobile/install.html'),
+        name='mobile_install',
+    ),
+    path(
+        'mobile/exercise/',
+        TemplateView.as_view(template_name='mobile/exercise.html'),
+        name='mobile_exercise',
+    ),
+]
+
+# Django REST urlpatterns.
+rest_urlpatterns = [
+    path('api/v1/foreign/', include('foreign.urls.urls_rest')),
+    path('api/v1/glossary/', include('glossary.urls.urls_rest')),
+]
+
+# Urlpatterns of installed packages.
+packages_urlpatterns = [
     path('api/v1/auth/', include('djoser.urls')),
     re_path(r'^auth/', include('djoser.urls.authtoken')),
     path('captcha/', include('captcha.urls')),
 ]
 
+urlpatterns += mobile_urlpatterns
+urlpatterns += rest_urlpatterns
+urlpatterns += packages_urlpatterns
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load static %}
+
+{% block title %}Упражнение на мобильном{% endblock %}
+
+{% block content %}
+{% include 'components/title.html' with title='Упражнение на мобильном' %}
+<div>
+    <p>В настоящее время разрабатывается и тестируется версия только для ОС Андройд.</p>
+  <h1>Для ОС Андроид</h1>
+    <h3>Скачать мобильное приложение</h3>
+     <p class="h5"><a href="{% url 'mobile_install' %}">Инструкция</a></p>
+    <h3>Изучение иностранных слов на мобильном телефоне</h3>
+    <div>
+      <p class="h5"><a href="{% url 'mobile_exercise' %}">Инструкция</a></p>
+      <img src="{% static 'image/mobile/foreign-exercise.gif' %}" width="300">
+    </div>
+</div>
+{% endblock %}

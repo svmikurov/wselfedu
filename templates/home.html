@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}WSE Главная{% endblock %}
 
 {% block content %}
 {% include 'components/title.html' with title='Образовательный проект' %}
+<p class="h5">Мой тренер в изучении иностранных слов и терминов!</p>
+<div class="pt-3">
+  <img src="{% static 'image/mobile/foreign-exercise.gif' %}" width="300">
+</div>
 {% endblock %}
