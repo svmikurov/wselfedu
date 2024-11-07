@@ -10,6 +10,7 @@ Foreign words app tests
    Category CRUD <category>
    Source CRUD <source>
    List pagination <pagination>
+   Exercise params form <exercise_params_form>
    Word exercise <exercise>
    Lookup params <lookup_params>
    Favorites <favorites>

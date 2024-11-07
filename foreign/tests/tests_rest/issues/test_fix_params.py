@@ -40,7 +40,7 @@ class RenderSameTaskTest(APITestCase):
             'period_start_date': 'NC',
             'period_end_date': 'DT',
             'category': None,
-            'progress': 'S',
+            'progress': ['S'],
         }
 
     @skip

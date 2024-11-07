@@ -7,7 +7,7 @@
 PAGINATE_NUMBER = 20
 INCREMENT_STEP = 1  # the step value does not change
 DECREMENT_STEP = -1  # the step value does not change
-DEFAULT_CREATE_CHOICE_VALUE = 0
+DEFAULT_ZERO_VALUE = 0
 DEFAULT_TIMEOUT = 5
 
 ########################################################################
@@ -143,15 +143,15 @@ REPEAT = 'R'
 EXAMINATION = 'E'
 LEARNED = 'K'
 
-PROGRESS_CHOICES = (
+PROGRESS_CHOICES = [
     (STUDY, 'Изучаю'),  # study
     (REPEAT, 'Повторяю'),  # repeat
     (EXAMINATION, 'Проверяю'),  # examination
     (LEARNED, 'Знаю'),  # know
-)
+]
 """Progress study items choices (`tuple[tuple[str, str]]`).
 """
-DEFAULT_PROGRESS = 'S'
+DEFAULT_PROGRESS = [STUDY]
 """Default progress choice (`str`).
 """
 
@@ -218,13 +218,13 @@ SENTENCE = 'ST'
 
 DEFAULT_WORD_COUNT = [ONE_WORD, COMBINATION]
 
-WORD_COUNT_CHOICE = (
+WORD_COUNT_CHOICE = [
     (NOT_CHOICES, 'Любое'),
     (ONE_WORD, 'Слово'),
     (COMBINATION, 'Словосочетание'),
     (PART_SENTENCE, 'Часть предложения'),
     (SENTENCE, 'Предложение'),
-)
+]
 """Length of verbal expression the choice (`tuple[tuple[str, str]]`).
 """
 

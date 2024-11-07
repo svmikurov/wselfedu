@@ -1,5 +1,6 @@
 """User task settings model."""
 
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 from config import constants as const
@@ -7,7 +8,6 @@ from config.constants import (
     DEFAULT_PROGRESS,
     DEFAULT_TIMEOUT,
     NOT_CHOICES,
-    PROGRESS_CHOICES,
     TODAY,
 )
 from users.models import UserApp
@@ -38,18 +38,16 @@ class ExerciseParams(models.Model):
     """Will be display only favorites items if `True`, all otherwise
     (`bool`).
     """
-    progress = models.CharField(
-        choices=PROGRESS_CHOICES,
+    progress = ArrayField(
+        models.CharField(max_length=16),
         default=DEFAULT_PROGRESS,
-        max_length=1,
         verbose_name='Уровень знания',
     )
-    """Current item learning progress level.
+    """Current item learning progress level (`list[str]`).
     """
     period_start_date = models.CharField(
         choices=const.EDGE_PERIOD_CHOICES,
         default=NOT_CHOICES,
-        max_length=2,
         verbose_name='Добавлено после',
     )
     """A beginning of the period of adding a item to study,

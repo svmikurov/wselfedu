@@ -8,9 +8,9 @@ from foreign.views.category import (
     CategoryListView,
     CategoryUpdateView,
 )
-from foreign.views.exercise_translate import (
-    ForeignTranslateExerciseView,
-    ForeignWordTranslateChoiceView,
+from foreign.views.exercise import (
+    WordExerciseView,
+    WordExerciseParamsView,
     update_word_progress_view,
     update_words_favorites_status_view_ajax,
 )
@@ -49,8 +49,8 @@ __all__ = [
     'CategoryUpdateView',
     'CreateForeignTaskSettingsView',
     'ForeignTaskSettingsView',
-    'ForeignTranslateExerciseView',
-    'ForeignWordTranslateChoiceView',
+    'WordExerciseView',
+    'WordExerciseParamsView',
     'SourceCreateView',
     'SourceDeleteView',
     'SourceDetailView',

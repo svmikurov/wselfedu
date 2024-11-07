@@ -7,6 +7,7 @@ from config.constants import (
     DEFAULT_LANGUAGE_ORDER,
     DEFAULT_WORD_COUNT,
     LANGUAGE_ORDER_CHOICE,
+    WORD_COUNT_CHOICE,
 )
 from contrib.models.params import ExerciseParams
 from foreign.models import WordCategory, WordSource
@@ -54,7 +55,10 @@ class TranslateParams(ExerciseParams):
     displayed.
     """
     word_count = ArrayField(
-        models.CharField(max_length=16),
+        models.CharField(
+            max_length=16,
+            choices=WORD_COUNT_CHOICE[1:],
+        ),
         default=DEFAULT_WORD_COUNT,
         verbose_name='Длина выражения',
     )

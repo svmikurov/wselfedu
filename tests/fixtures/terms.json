@@ -147,7 +147,7 @@
     "period_start_date": "NC",
     "period_end_date": "DT",
     "category": 1,
-    "progress": "S"
+    "progress": ["S"]
   }
 }
 ]

@@ -4,7 +4,7 @@ Learning foreign word exercise views
 Word translate exercise view
 ----------------------------
 
-.. automodule:: foreign.views.exercise_translate
+.. automodule:: foreign.views.exercise
    :members:
 
 

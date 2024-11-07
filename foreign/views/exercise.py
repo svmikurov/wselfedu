@@ -23,11 +23,17 @@ from contrib.views import (
 from foreign.analytics.analytics import collect_statistics
 from foreign.exercise.translate import TranslateExercise
 from foreign.forms.word_choice import ForeignTranslateChoiceForm
-from foreign.models import Word, WordProgress
+from foreign.models import (
+    TranslateParams,
+    Word,
+    WordCategory,
+    WordProgress,
+    WordSource,
+)
 from foreign.queries import update_word_favorites_status
 
 
-class ForeignWordTranslateChoiceView(CheckLoginPermissionMixin, TemplateView):
+class WordExerciseParamsView(CheckLoginPermissionMixin, TemplateView):
     """Foreign word translate exercise conditions choice view.
 
     .. note::
@@ -54,7 +60,7 @@ class ForeignWordTranslateChoiceView(CheckLoginPermissionMixin, TemplateView):
     """
 
     def get_context_data(self, **kwargs: object) -> Dict[str, object]:
-        """Add a form with a choice of exercise conditions.
+        """Add a exercise params form to render.
 
         Adds :py:class:`~foreign.forms.foreign_translate_choice_form.ForeignTranslateChoiceForm`
         """  # noqa: E501, W505
@@ -71,10 +77,37 @@ class ForeignWordTranslateChoiceView(CheckLoginPermissionMixin, TemplateView):
         user to fill out, otherwise.
         """
         form = ForeignTranslateChoiceForm(request.POST, request=request)
+        user = request.user
 
         if form.is_valid():
             task_conditions = form.clean()
-            task_conditions['user_id'] = request.user.id
+            task_conditions['user_id'] = user.id
+            to_story = task_conditions.pop('save_params')
+
+            if to_story:
+                params, _ = TranslateParams.objects.get_or_create(user=user)
+                params.favorites = task_conditions['favorites']
+                params.language_order = task_conditions['language_order']
+                params.period_start_date = task_conditions['period_start_date']
+                params.period_end_date = task_conditions['period_end_date']
+                params.word_count = task_conditions['word_count']
+                params.progress = task_conditions['progress']
+                params.timeout = task_conditions['timeout']
+
+                category_id = int(task_conditions['category'])
+                if category_id:
+                    params.category = WordCategory.objects.get(pk=category_id)
+                else:
+                    params.category = None
+
+                source_id = int(task_conditions['source'])
+                if source_id:
+                    params.source = WordSource.objects.get(pk=source_id)
+                else:
+                    params.source = None
+
+                params.save()
+
             request.session['task_conditions'] = task_conditions
             return redirect(reverse_lazy('foreign:foreign_translate_demo'))
 
@@ -82,7 +115,7 @@ class ForeignWordTranslateChoiceView(CheckLoginPermissionMixin, TemplateView):
         return render(request, self.template_name, context)
 
 
-class ForeignTranslateExerciseView(CheckLoginPermissionMixin, View):
+class WordExerciseView(CheckLoginPermissionMixin, View):
     """Foreign word translate exercise view."""
 
     template_name = 'foreign/exercise/foreign_translate_demo.html'
@@ -95,7 +128,7 @@ class ForeignTranslateExerciseView(CheckLoginPermissionMixin, View):
     """Message no words found (`str`).
     """
     redirect_no_words = {
-        'redirect_no_words': reverse_lazy('foreign:foreign_translate_choice'),
+        'redirect_no_words': reverse_lazy('foreign:params'),
     }
 
     def get(self, request: HttpRequest) -> HttpResponse:
@@ -107,10 +140,10 @@ class ForeignTranslateExerciseView(CheckLoginPermissionMixin, View):
             task.create_task()
         except KeyError:
             messages.error(request, self.msg_key_error)
-            return redirect(reverse_lazy('foreign:foreign_translate_choice'))
+            return redirect(reverse_lazy('foreign:params'))
         except (ValueError, IndexError):
             messages.error(request, self.msg_no_words)
-            return redirect(reverse_lazy('foreign:foreign_translate_choice'))
+            return redirect(reverse_lazy('foreign:params'))
         else:
             return render(request, self.template_name)
 

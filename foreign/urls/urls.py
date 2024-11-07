@@ -5,8 +5,8 @@ from django.views.generic import TemplateView
 
 from foreign import views
 from foreign.views import (
-    ForeignTranslateExerciseView,
-    ForeignWordTranslateChoiceView,
+    WordExerciseParamsView,
+    WordExerciseView,
     update_word_progress_view,
 )
 
@@ -115,12 +115,12 @@ mentor_paths = [
 exercise_paths = [
     path(
         'foreign-translate-choice/',
-        ForeignWordTranslateChoiceView.as_view(),
-        name='foreign_translate_choice',
+        WordExerciseParamsView.as_view(),
+        name='params',
     ),
     path(
         'foreign-translate-demo/',
-        ForeignTranslateExerciseView.as_view(),
+        WordExerciseView.as_view(),
         name='foreign_translate_demo',
     ),
     path(
