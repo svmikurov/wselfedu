@@ -62,6 +62,10 @@ class Glossary(models.Model):
     )
     """Numerical representation of study progress.
     """
+    favorites = models.BooleanField(
+        default=False,
+        verbose_name='Избранное',
+    )
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Добавлено',

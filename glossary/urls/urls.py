@@ -49,8 +49,18 @@ exercise_paths = [
     ),
     path(
         'exercise/',
-        TemplateView.as_view(template_name='glossary/exercise/exercise.html'),
+        views.TermExerciseView.as_view(),
         name='exercise',
+    ),
+    path(
+        'terms-favorites-view-ajax/<int:term_id>/',
+        views.update_term_favorite_status_view_ajax,
+        name='term_favorites_view_ajax',
+    ),
+    path(
+        'progress/<int:term_id>/',
+        views.update_term_study_progress,
+        name='progress',
     ),
 ]
 

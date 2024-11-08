@@ -8,6 +8,9 @@ from glossary.views.category import (
 )
 from glossary.views.exercise import (
     GlossaryParamsView,
+    TermExerciseView,
+    update_term_favorite_status_view_ajax,
+    update_term_study_progress,
 )
 from glossary.views.source import (
     SourceCreateView,
@@ -36,6 +39,9 @@ __all__ = (
     'TermCreateView',
     'TermDeleteView',
     'TermDetailView',
+    'TermExerciseView',
     'TermListView',
     'TermUpdateView',
+    'update_term_study_progress',
+    'update_term_favorite_status_view_ajax',
 )

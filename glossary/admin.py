@@ -18,8 +18,13 @@ from glossary.models import (
 class GlossaryAdmin(admin.ModelAdmin):
     """Representation of model in the admin interface."""
 
-    list_display = ['term', 'definition', 'category', 'user']
-    exclude = ['created']
+    list_display = [
+        'term',
+        'progress',
+        'definition',
+        'category',
+        'user',
+    ]
 
     def get_form(
         self,
