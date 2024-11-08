@@ -4,6 +4,7 @@ from django.urls import path
 from django.views.generic import TemplateView
 
 from glossary import views
+from glossary.views import GlossaryParamsView
 
 app_name = 'glossary'
 
@@ -43,8 +44,13 @@ urlpatterns = [
 exercise_paths = [
     path(
         'params/',
-        TemplateView.as_view(template_name='glossary/params.html'),
+        GlossaryParamsView.as_view(),
         name='params',
+    ),
+    path(
+        'exercise/',
+        TemplateView.as_view(template_name='glossary/exercise/exercise.html'),
+        name='exercise',
     ),
 ]
 

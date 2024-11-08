@@ -45,3 +45,16 @@ class GlossaryCategoryAdmin(admin.ModelAdmin):
 @admin.register(GlossaryParams)
 class GlossaryExerciseSettingsAdmin(admin.ModelAdmin):
     """Representation of model in the admin interface."""
+
+    list_display = [
+        'user',
+        'category',
+        'source',
+        'timeout',
+        'favorites',
+        'progress',
+        'period_start_date',
+        'period_end_date',
+        'count_first',
+        'count_last',
+    ]

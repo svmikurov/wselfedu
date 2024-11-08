@@ -6,6 +6,9 @@ from glossary.views.category import (
     CategoryListView,
     CategoryUpdateView,
 )
+from glossary.views.exercise import (
+    GlossaryParamsView,
+)
 from glossary.views.source import (
     SourceCreateView,
     SourceDeleteView,
@@ -25,6 +28,7 @@ __all__ = (
     'CategoryDeleteView',
     'CategoryListView',
     'CategoryUpdateView',
+    'GlossaryParamsView',
     'SourceCreateView',
     'SourceDeleteView',
     'SourceListView',

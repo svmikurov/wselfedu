@@ -11,7 +11,7 @@ class GlossaryExercisePage(POMPage):
     :param Page page: The Playwright Pytest page fixture.
     """
 
-    title = 'Упражнение Глоссарий'
+    title = 'Выбор терминов для изучения'
 
     def __init__(self, page: Page) -> None:
         """Construct the page."""
