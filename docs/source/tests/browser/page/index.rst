@@ -15,8 +15,8 @@ Pages
    home
    login
    mathematics
-   mathematics_exercise
    mathematics_exercise_params
+   mathematics_exercise_mentor
    mentorship
    mobile
    profile
