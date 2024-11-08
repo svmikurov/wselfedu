@@ -2,6 +2,18 @@
 Changelog
 #########
 
+v0.4.1 (Today)
+==============
+
+* Glossary model: added favorites field.
+* TranslateParams model: added choices at word_count field.
+* ForeignTranslateChoiceForm form: added population with saved params.
+* Urls: added mobile_urlpatterns.
+* Urls: added glossary exercise urls.
+* Views: added views for glossary exercise at browser.
+* Static: move js files to js dir.
+* Added tests and updated fixtures.
+* Updated same templates.
 
 v0.4.0 (2024-10-06)
 ===================
