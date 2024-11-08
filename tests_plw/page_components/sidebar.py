@@ -36,7 +36,7 @@ class SidebarComponent(POMPage):
             'link', name='Иностранный язык',
         )  # fmt: skip
         self.link_foreign_exercise = foreign_chapters.get_by_role(
-            'link', name='Упражнение "Изучаем слова"',
+            'link', name='"Изучение слов"',
         )  # fmt: skip
         self.link_foreign_list = foreign_chapters.get_by_role(
             'link', name='Список слов',
@@ -55,7 +55,7 @@ class SidebarComponent(POMPage):
             'link', name='Глоссарий',
         )  # fmt: skip
         self.link_glossary_exercise = glossary_chapters.get_by_role(
-            'link', name='Упражнение "Изучаем термины"',
+            'link', name='"Изучение терминов"',
         )  # fmt: skip
         self.link_glossary_list = glossary_chapters.get_by_role(
             'link', name='Список терминов',
@@ -74,7 +74,7 @@ class SidebarComponent(POMPage):
             'link', name='Математика',
         )  # fmt: skip
         self.link_math_exercise = mathematics_chapters.get_by_role(
-            'link', name='Упражнение "Вычисления"',
+            'link', name='"Вычисления"',
         )  # fmt: skip
 
     def click_link_profile(self) -> None:

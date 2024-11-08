@@ -165,7 +165,7 @@ class ForeignTranslateChoiceForm(forms.Form):
                         'Начать',
                         css_class='btn-sm',
                         data_testid='submit',
-        ),
+                    )
                 ),
                 Column(
                     Field(
