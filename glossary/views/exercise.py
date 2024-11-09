@@ -22,12 +22,8 @@ from contrib.views import (
 )
 from glossary.exercise.question import GlossaryExercise
 from glossary.forms.term_choice import GlossaryParamsForm
-from glossary.models import (
-    Glossary,
-    GlossaryCategory,
-    GlossaryParams,
-    TermSource,
-)
+from glossary.models import Glossary
+from glossary.queries.exercise import save_params
 
 
 class GlossaryParamsView(CheckLoginPermissionMixin, TemplateView):
@@ -50,33 +46,11 @@ class GlossaryParamsView(CheckLoginPermissionMixin, TemplateView):
 
         if form.is_valid():
             task_conditions = form.clean()
+
+            if task_conditions.pop('save_params'):
+                save_params(user, task_conditions)
+
             task_conditions['user_id'] = user.id
-            to_story = task_conditions.pop('save_params')
-
-            if to_story:
-                params, _ = GlossaryParams.objects.get_or_create(user=user)
-                params.favorites = task_conditions['favorites']
-                params.period_start_date = task_conditions['period_start_date']
-                params.period_end_date = task_conditions['period_end_date']
-                params.progress = task_conditions['progress']
-                params.timeout = task_conditions['timeout']
-
-                category_id = int(task_conditions['category'])
-                if category_id:
-                    params.category = GlossaryCategory.objects.get(
-                        pk=category_id
-                    )
-                else:
-                    params.category = None
-
-                source_id = int(task_conditions['source'])
-                if source_id:
-                    params.source = TermSource.objects.get(pk=source_id)
-                else:
-                    params.source = None
-
-                params.save()
-
             request.session['task_conditions'] = task_conditions
             return redirect(reverse_lazy('glossary:exercise'))
 

@@ -24,13 +24,11 @@ from foreign.analytics.analytics import collect_statistics
 from foreign.exercise.translate import TranslateExercise
 from foreign.forms.word_choice import ForeignTranslateChoiceForm
 from foreign.models import (
-    TranslateParams,
     Word,
-    WordCategory,
     WordProgress,
-    WordSource,
 )
 from foreign.queries import update_word_favorites_status
+from foreign.queries.exercise import save_params
 
 
 class WordExerciseParamsView(CheckLoginPermissionMixin, TemplateView):
@@ -81,33 +79,11 @@ class WordExerciseParamsView(CheckLoginPermissionMixin, TemplateView):
 
         if form.is_valid():
             task_conditions = form.clean()
+
+            if task_conditions.pop('save_params'):
+                save_params(user, task_conditions)
+
             task_conditions['user_id'] = user.id
-            to_story = task_conditions.pop('save_params')
-
-            if to_story:
-                params, _ = TranslateParams.objects.get_or_create(user=user)
-                params.favorites = task_conditions['favorites']
-                params.language_order = task_conditions['language_order']
-                params.period_start_date = task_conditions['period_start_date']
-                params.period_end_date = task_conditions['period_end_date']
-                params.word_count = task_conditions['word_count']
-                params.progress = task_conditions['progress']
-                params.timeout = task_conditions['timeout']
-
-                category_id = int(task_conditions['category'])
-                if category_id:
-                    params.category = WordCategory.objects.get(pk=category_id)
-                else:
-                    params.category = None
-
-                source_id = int(task_conditions['source'])
-                if source_id:
-                    params.source = WordSource.objects.get(pk=source_id)
-                else:
-                    params.source = None
-
-                params.save()
-
             request.session['task_conditions'] = task_conditions
             return redirect(reverse_lazy('foreign:foreign_translate_demo'))
 
