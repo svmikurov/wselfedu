@@ -14,23 +14,25 @@ class SidebarComponent(POMPage):
         self.page = page
 
         sidebar = page.get_by_test_id('sidebar')
-        user_chapters = sidebar.get_by_test_id('user-chapters')
-        about_chapters = sidebar.get_by_test_id('about-chapters')
+        main_chapters = sidebar.get_by_test_id('main-chapters')
         foreign_chapters = sidebar.get_by_test_id('foreign-chapters')
         glossary_chapters = sidebar.get_by_test_id('glossary-chapters')
         mathematics_chapters = sidebar.get_by_test_id('mathematics-chapters')
 
-        # User chapters.
-        self.link_profile = user_chapters.get_by_role(
+        # Main chapters.
+        self.link_profile = main_chapters.get_by_role(
             'link', name='Личный кабинет',
         )  # fmt: skip
-        # About chapters.
-        self.link_about = about_chapters.get_by_role(
+        self.link_home = main_chapters.get_by_role(
+            'link', name='Личный кабинет',
+        )  # fmt: skip
+        self.link_about = main_chapters.get_by_role(
             'link', name='О проекте',
         )  # fmt: skip
-        self.link_mobile = about_chapters.get_by_role(
+        self.link_mobile = main_chapters.get_by_role(
             'link', name='Мобильное приложение',
         )  # fmt: skip
+
         # Foreign chapters.
         self.link_foreign_main = foreign_chapters.get_by_role(
             'link', name='Иностранный язык',
@@ -50,6 +52,7 @@ class SidebarComponent(POMPage):
         self.link_foreign_source = foreign_chapters.get_by_role(
             'link', name='Источники',
         )  # fmt: skip
+
         # Glossary chapters.
         self.link_glossary_main = glossary_chapters.get_by_role(
             'link', name='Глоссарий',
