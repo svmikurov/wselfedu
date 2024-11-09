@@ -10,13 +10,13 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.decorators.http import require_POST
-from django.views.generic import TemplateView
 
 from config.constants import (
     MSG_NO_TASK,
     PROGRESS_MAX,
     PROGRESS_MIN,
 )
+from contrib.views.exercise import ExerciseParamsView
 from contrib.views.general import (
     CheckLoginPermissionMixin,
 )
@@ -31,64 +31,16 @@ from foreign.queries import update_word_favorites_status
 from foreign.queries.exercise import save_params
 
 
-class WordExerciseParamsView(CheckLoginPermissionMixin, TemplateView):
-    """Foreign word translate exercise conditions choice view.
-
-    .. note::
-        Task conditions may be:
-
-        .. code-block:: python
-
-           task_conditions = {
-               'favorites': True,
-               'language_order': 'RN',
-               'category': 0,
-               'source': 0,
-               'period_start_date': 'NC',
-               'period_end_date': 'DT',
-               'word_count': ['OW', 'CB'],
-               'progress': ['S'],
-               'timeout': 5,
-               'user_id': 1,
-           }
-    """
+class ForeignExerciseParamsView(ExerciseParamsView):
+    """Foreign word exercise conditions choice view."""
 
     template_name = 'foreign/exercise/foreign_translate_choice.html'
-    """The view template path (`str`).
-    """
+    exercise_url = reverse_lazy('foreign:foreign_translate_demo')
+    form = ForeignTranslateChoiceForm
 
-    def get_context_data(self, **kwargs: object) -> Dict[str, object]:
-        """Add a exercise params form to render.
-
-        Adds :py:class:`~foreign.forms.foreign_translate_choice_form.ForeignTranslateChoiceForm`
-        """  # noqa: E501, W505
-        context = super().get_context_data()
-        context['form'] = ForeignTranslateChoiceForm(request=self.request)
-        return context
-
-    def post(self, request: HttpRequest) -> HttpResponse:
-        """Get user task condition.
-
-        If the user task condition is valid, it is saved in the session
-        and the user is redirected to learn the foreign word, returning
-        a foreign word translation conditions selection form for the
-        user to fill out, otherwise.
-        """
-        form = ForeignTranslateChoiceForm(request.POST, request=request)
-        user = request.user
-
-        if form.is_valid():
-            task_conditions = form.clean()
-
-            if task_conditions.pop('save_params'):
-                save_params(user, task_conditions)
-
-            task_conditions['user_id'] = user.id
-            request.session['task_conditions'] = task_conditions
-            return redirect(reverse_lazy('foreign:foreign_translate_demo'))
-
-        context = {'form': ForeignTranslateChoiceForm(request=self.request)}
-        return render(request, self.template_name, context)
+    def save_params(self, *args: object, **kwargs: object) -> None:
+        """Save exercise params."""
+        save_params(*args, **kwargs)
 
 
 class WordExerciseView(CheckLoginPermissionMixin, View):
