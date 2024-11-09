@@ -16,7 +16,7 @@ from config.constants import (
     PAGINATE_NUMBER,
     TITLE,
 )
-from contrib.views import (
+from contrib.views.general import (
     CheckLoginPermissionMixin,
     CheckUserOwnershipMixin,
     PermissionProtectDeleteView,

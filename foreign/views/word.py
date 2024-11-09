@@ -21,7 +21,7 @@ from config.constants import (
     WORD_LIST_PATH,
     WORD_LIST_TEMPLATE,
 )
-from contrib.views import (
+from contrib.views.general import (
     CheckUserOwnershipMixin,
     HandleNoPermissionMixin,
     PermissionProtectDeleteView,

@@ -10,7 +10,7 @@ from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
-from contrib.views import (
+from contrib.views.general import (
     CheckLoginPermissionMixin,
     CheckUserOwnershipMixin,
     HandleNoPermissionMixin,

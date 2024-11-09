@@ -17,7 +17,7 @@ from config.constants import (
     PROGRESS_MAX,
     PROGRESS_MIN,
 )
-from contrib.views import (
+from contrib.views.general import (
     CheckLoginPermissionMixin,
 )
 from foreign.analytics.analytics import collect_statistics

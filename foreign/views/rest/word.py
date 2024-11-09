@@ -3,7 +3,7 @@
 from django.db.models.query import QuerySet
 from rest_framework import generics, permissions
 
-from contrib.views_rest import IsOwner
+from contrib.views.views_rest import IsOwner
 from foreign.models import Word
 from foreign.serializers import WordSerializer
 

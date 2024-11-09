@@ -5,7 +5,7 @@ from django.db.models.query import QuerySet
 from django_filters.views import FilterView
 
 from config.constants import TITLE
-from contrib.views import CheckObjectOwnershipMixin
+from contrib.views.general import CheckObjectOwnershipMixin
 from foreign.models import Word
 
 

@@ -2,7 +2,7 @@
 
 from django.views.generic import DetailView
 
-from contrib.views import CheckObjectOwnershipMixin
+from contrib.views.general import CheckObjectOwnershipMixin
 from users.models import UserApp
 
 

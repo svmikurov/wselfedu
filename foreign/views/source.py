@@ -18,7 +18,7 @@ from config.constants import (
     SOURCE_LIST_TEMPLATE,
     TITLE,
 )
-from contrib.views import (
+from contrib.views.general import (
     CheckLoginPermissionMixin,
     CheckUserOwnershipMixin,
     PermissionProtectDeleteView,

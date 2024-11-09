@@ -15,7 +15,7 @@ from rest_framework.status import (
 from config.constants import (
     MSG_NO_TASK,
 )
-from contrib.views_rest import IsOwner
+from contrib.views.views_rest import IsOwner
 from foreign.exercise.base import WordAssessment
 from foreign.exercise.translate import TranslateExerciseGUI
 from foreign.models import TranslateParams

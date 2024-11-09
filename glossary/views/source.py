@@ -11,7 +11,7 @@ from django.views.generic import CreateView, ListView, UpdateView
 from config.constants import (
     PAGINATE_NUMBER,
 )
-from contrib.views import (
+from contrib.views.general import (
     CheckLoginPermissionMixin,
     CheckUserOwnershipMixin,
     PermissionProtectDeleteView,

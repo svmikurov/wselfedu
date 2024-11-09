@@ -18,7 +18,7 @@ from django.views.generic import (
     TemplateView,
 )
 
-from contrib.views import (
+from contrib.views.general import (
     CheckLoginPermissionMixin,
     CheckObjectOwnershipMixin,
     DeleteWithProfileRedirectView,

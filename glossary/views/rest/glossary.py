@@ -3,7 +3,7 @@
 from django.db.models import QuerySet
 from rest_framework import generics, permissions
 
-from contrib.views_rest import IsOwner
+from contrib.views.views_rest import IsOwner
 from glossary.models import Glossary, GlossaryCategory
 from glossary.serializers import GlossaryCategorySerializer, GlossarySerializer
 

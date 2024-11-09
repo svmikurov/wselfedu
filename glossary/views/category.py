@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.views.generic import CreateView, ListView, UpdateView
 from rest_framework.reverse import reverse_lazy
 
-from contrib.views import (
+from contrib.views.general import (
     CheckLoginPermissionMixin,
     CheckUserOwnershipMixin,
     PermissionProtectDeleteView,

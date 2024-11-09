@@ -14,7 +14,7 @@ from config.constants import (
     FORM_TEMPLATE,
     TITLE,
 )
-from contrib.views import (
+from contrib.views.general import (
     CheckAdminMixin,
     CheckObjectOwnershipMixin,
     FormMessageMixin,
