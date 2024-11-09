@@ -5,6 +5,8 @@ Changelog
 v0.4.1 (Today)
 ==============
 
+* Added ExerciseParamsView as base view for foreign and glossary
+  exercise params views.
 * Glossary model: added favorites field.
 * TranslateParams model: added choices at word_count field.
 * ForeignTranslateChoiceForm form: added population with saved params.
