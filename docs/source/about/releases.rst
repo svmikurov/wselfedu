@@ -5,6 +5,7 @@ Changelog
 v0.4.1 (Today)
 ==============
 
+* Added option to hide sidebar if viewport
 * Added ExerciseParamsView as base view for foreign and glossary
   exercise params views.
 * Glossary model: added favorites field.

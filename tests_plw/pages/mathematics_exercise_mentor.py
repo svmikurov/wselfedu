@@ -1,7 +1,5 @@
 """Mathematical calculation exercise with answer input page."""
 
-from time import sleep
-
 from playwright.sync_api import Page
 
 from config.constants import VISIBLE
@@ -30,14 +28,8 @@ class MathCalculateExercisePage(POMPage):
 
     def do_the_exercise(self) -> None:
         """Do the exercise."""
-        self.take_screen('test_math_calculate_exercise')
-
-        #
         self.question_text.wait_for(state=VISIBLE)
-
-        sleep(2)  # Time to complete the task
         question_text = self.question_text.inner_text()
         task_solution = self.page.evaluate(question_text)
         self.answer_input.fill(str(task_solution))
         self.submit_btn.click()
-        sleep(2)

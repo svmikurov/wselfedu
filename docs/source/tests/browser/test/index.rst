@@ -6,6 +6,7 @@ Tests
    :maxdepth: 2
 
    home
+   nav
    profile
    mentorship
    foreign_exercise_params

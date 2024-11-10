@@ -1,11 +1,14 @@
-<nav id="nav" class="navbar navbar-expand-sm navbar-dark bg-dark">
+<nav id="nav" class="navbar navbar-expand-md navbar-dark bg-dark">
   <div class="container-fluid">
+
     {% if balance %}
-      <a class="navbar-brand" href="{% url 'home' %}">
-        * WSE * Баланс: <span id="balance">{{ balance }}</span> *
-      </a>
+    <a class="navbar-brand" href="{% url 'home' %}">
+      * WSE * Баланс: <span id="balance">{{ balance }}</span> *
+    </a>
     {% else %}
-      <a class="navbar-brand" href="{% url 'home' %}">WSE</a>
+    <a class="navbar-brand" href="{% url 'home' %}">
+      WSE
+    </a>
     {% endif %}
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span id="navbar-toggler-icon" class="navbar-toggler-icon"></span>
@@ -14,53 +17,70 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <ul data-testid="navbar-list" class="navbar-nav">
+
+          <li class="nav-item dropdown" id="navbarMain">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Основное меню
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarMain">
+              {% if user.is_authenticated %}
+              <li><a class="dropdown-item" href="{% url 'users:detail' user.pk %}" id="user-nav">Личный кабинет</a></li>
+              {% endif %}
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{% url 'home' %}">На главную</a></li>
+              <li><a class="dropdown-item" href="{% url 'about' %}">О проекте</a></li>
+              <li><a class="dropdown-item" href="{% url 'mobile_main' %}">Мобильное приложение</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown" id="navbarForeign">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Иностранный язык
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarForeign">
+              <li><a class="dropdown-item" href="{% url 'foreign:params' %}">"Изучение слов"</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{% url 'foreign:home' %}">Иностранный язык</a></li>
+              <li><a class="dropdown-item" href="{% url 'foreign:word_list' %}">Список слов</a></li>
+              <li><a class="dropdown-item" href="{% url 'foreign:words_create' %}">Добавить слово в словарь</a></li>
+              <li><a class="dropdown-item" href="{% url 'foreign:category_list' %}">Категории</a></li>
+              <li><a class="dropdown-item" href="{% url 'foreign:source_list' %}">Источники</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown" id="navbarGlossary">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Глоссарий
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarGlossary">
+              <li><a class="dropdown-item" href="{% url 'glossary:params' %}">"Изучение терминов"</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{% url 'glossary:home' %}">Глоссарий</a></li>
+              <li><a class="dropdown-item" href="{% url 'glossary:term_list' %}">Список терминов</a></li>
+              <li><a class="dropdown-item" href="{% url 'glossary:term_create' %}">Добавить термин</a></li>
+              <li><a class="dropdown-item" href="{% url 'glossary:category_list' %}">Категории</a></li>
+              <li><a class="dropdown-item" href="{% url 'glossary:source_list' %}">Источники</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown" id="navbarMathematics">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Математика
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarMathematics">
+              <li><a class="dropdown-item" href="{% url 'math:math_calculate_choice' %}">"Вычисления"</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{% url 'math:home' %}">Математика</a></li>
+            </ul>
+          </li>
+
           {% if user.is_authenticated %}
-            <li class="nav-item"><a id="user-nav" href="{% url 'users:detail' user.pk %}" class="nav-link">Личный кабинет</a></li>
-          {% endif %}
-
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarForeign" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Иностранный язык
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarForeign">
-                <li><a class="dropdown-item" href="{% url 'foreign:params' %}">"Изучение слов"</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{% url 'foreign:word_list' %}">Список слов</a></li>
-                <li><a class="dropdown-item" href="{% url 'foreign:words_create' %}">Добавить слово в словарь</a></li>
-                <li><a class="dropdown-item" href="{% url 'foreign:category_list' %}">Категории</a></li>
-                <li><a class="dropdown-item" href="{% url 'foreign:source_list' %}">Источники</a></li>
-              </ul>
-            </li>
-
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarGlossary" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Глоссарий
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarGlossary">
-                <li><a class="dropdown-item" href="{% url 'glossary:params' %}">"Изучение терминов"</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{% url 'glossary:term_list' %}">Список терминов</a></li>
-                <li><a class="dropdown-item" href="{% url 'glossary:term_create' %}">Добавить термин</a></li>
-                <li><a class="dropdown-item" href="{% url 'glossary:category_list' %}">Категории</a></li>
-                <li><a class="dropdown-item" href="{% url 'glossary:source_list' %}">Источники</a></li>
-              </ul>
-            </li>
-
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarMathematics" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Математика
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarMathematics">
-                <li><a class="dropdown-item" href="{% url 'math:math_calculate_choice' %}">"Вычисления"</a></li>
-              </ul>
-            </li>
-
-          {% if user.is_authenticated %}
-            <li class="nav-item"><a id="logout-nav" class="nav-link" href="{% url 'users:logout' %}">Выйти</a></li>
+          <li class="nav-item"><a id="logout-nav" class="nav-link" href="{% url 'users:logout' %}">Выйти</a></li>
           {% else %}
-            <li class="nav-item"><a id="register-nav" class="nav-link" href="{% url 'users:create' %}">Регистрация</a></li>
-            <li class="nav-item"><a id="login-nav" class="nav-link" href="{% url 'users:login' %}">Войти</a></li>
+          <li class="nav-item"><a id="register-nav" class="nav-link" href="{% url 'users:create' %}">Регистрация</a></li>
+          <li class="nav-item"><a id="login-nav" class="nav-link" href="{% url 'users:login' %}">Войти</a></li>
           {% endif %}
+
         </ul>
       </div>
     </div>

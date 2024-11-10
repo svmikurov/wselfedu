@@ -56,6 +56,7 @@ extensions = [
     # Allow reference sections using its title
     # https://www.sphinx-doc.org/en/master/usage/extensions/autosectionlabel.html#module-sphinx.ext.autosectionlabel
     'sphinx.ext.autosectionlabel',
+    'sphinx.ext.todo',
 ]
 
 # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#confval-autodoc_member_order
@@ -103,3 +104,6 @@ autodoc_default_options = {
         'setUpTestData, '
         'setUp '
 }  # fmt: skip
+# https://www.sphinx-doc.org/en/master/usage/extensions/todo.html#configuration
+todo_include_todos = True
+todo_link_only = True

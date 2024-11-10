@@ -1,28 +1,50 @@
-<nav data-testid="sidebar" class="header">
-  <div data-testid="main-chapters" class="ps-3">
-    {% if user.is_authenticated %}
-      <p class="h5"><a href="{% url 'users:detail' user.pk %}">Личный кабинет</a></p>
-    {% else %}
-      <p class="h5">Личный кабинет</p>
-    {% endif %}
-    <p class="h5"><a href="{% url 'home' %}">На главную</a></p>
-    <p class="h5"><a href="{% url 'about' %}">О проекте</a></p>
-    <p class="h5"><a href="{% url 'mobile_main' %}">Мобильное приложение</a></p>
-  </div>
+<nav id="sidebar">
+  <ul class="list-unstyled">
 
-  <div data-testid="foreign-chapters" class="ps-3">
-    <p class="h5"><a href="{% url 'foreign:home' %}">Иностранный язык</a></p>
-    {% include 'foreign/chapters.html' %}
-  </div>
+    <li>
+      <ul class="list-unstyled" id="sidebar-main">
+        {% if user.is_authenticated %}
+        <li class="pt-1 h5"><a href="{% url 'users:detail' user.pk %}">Личный кабинет</a></li>
+        {% else %}
+        <li class="pt-1 h5"><a href="#">Личный кабинет</a></li>
+        {% endif %}
+        <li class="pt-1 h5"><a href="{% url 'home' %}">На главную</a></li>
+        <li class="pt-1 h5"><a href="{% url 'about' %}">О проекте</a></li>
+        <li class="py-1 h5"><a href="{% url 'mobile_main' %}">Мобильное приложение</a></li>
+      </ul>
+    </li>
 
-  <div data-testid="glossary-chapters" class="ps-3">
-    <p class="h5"><a href="{% url 'glossary:home' %}">Глоссарий</a></p>
-    {% include 'glossary/chapters.html' %}
-  </div>
+    <li>
+      <ul class="list-unstyled" id="sidebar-foreign">
+        <li class="py-1 h5"><a href="{% url 'foreign:home' %}">Иностранный язык</a></li>
+        <li class="py-1 ps-2"><a href="{% url 'foreign:word_list' %}">Список слов</a></li>
+        <li class="py-1 ps-2"><a href="{% url 'foreign:words_create' %}">Добавить слово в словарь</a></li>
+        <li class="py-1 ps-2"><a href="{% url 'foreign:category_list' %}">Категории</a></li>
+        <li class="py-1 ps-2"><a href="{% url 'foreign:source_list' %}">Источники</a></li>
+        <li class="py-1"><b>Упражнения:</b></li>
+        <li class="py-1 ps-2"><a href="{% url 'foreign:params' %}">"Изучение слов"</a></li>
+      </ul>
+    </li>
 
-  <div data-testid="mathematics-chapters" class="ps-3">
-    <p class="h5"><a href="{% url 'math:home' %}">Математика</a></p>
-    {% include 'mathematics/chapters.html' %}
-  </div>
+    <li>
+      <ul class="list-unstyled" id="sidebar-glossary">
+        <li class="py-1 h5"><a href="{% url 'glossary:home' %}">Глоссарий терминов</a></li>
+        <li class="py-1 ps-2"><a href="{% url 'glossary:term_list' %}">Список терминов</a></li>
+        <li class="py-1 ps-2"><a href="{% url 'glossary:term_create' %}">Добавить термин</a></li>
+        <li class="py-1 ps-2"><a href="{% url 'glossary:category_list' %}">Категории</a></li>
+        <li class="py-1 ps-2"><a href="{% url 'glossary:source_list' %}">Источники</a></li>
+        <li class="py-1"><b>Упражнения:</b></li>
+        <li class="py-1 ps-2"><a href="{% url 'glossary:params' %}">"Изучение терминов"</a></li>
+      </ul>
+    </li>
 
+    <li>
+      <ul class="list-unstyled" id="sidebar-mathematics">
+        <li class="py-1 h5"><a href="{% url 'math:home' %}">Математика</a></li>
+        <li class="py-1"><b>Упражнения:</b></li>
+        <li class="py-1 ps-2"><a href="{% url 'math:math_calculate_choice' %}">"Вычисления"</a></li>
+      </ul>
+    </li>
+
+  </ul>
 </nav>
