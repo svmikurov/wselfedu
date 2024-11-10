@@ -4,7 +4,7 @@
     <li>
       <ul class="list-unstyled" id="sidebar-main">
         {% if user.is_authenticated %}
-        <li class="pt-1 h5"><a href="{% url 'users:detail' user.pk %}">Личный кабинет</a></li>
+        <li class="pt-0 h5"><a href="{% url 'users:detail' user.pk %}">Личный кабинет</a></li>
         {% else %}
         <li class="pt-1 h5"><a href="#">Личный кабинет</a></li>
         {% endif %}
