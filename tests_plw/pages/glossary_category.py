@@ -16,4 +16,3 @@ class TermCategoryPage(POMPage):
     def __init__(self, page: Page) -> None:
         """Construct the page."""
         super().__init__(page)
-        self.page = page

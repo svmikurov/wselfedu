@@ -16,7 +16,6 @@ class ForeignExerciseParamsPage(POMPage):
     def __init__(self, page: Page) -> None:
         """Construct the page."""
         super().__init__(page)
-        self.page = page
         self.path = '/foreign/foreign-translate-choice/'
 
         # Favorites word checkbox.

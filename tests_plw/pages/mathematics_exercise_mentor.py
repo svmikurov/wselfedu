@@ -22,7 +22,6 @@ class MathCalculateExercisePage(POMPage):
         """Construct the page."""
         super().__init__(page)
         self.page_path = '/math/math-calculate-solution'
-        self.page = page
         self.question_text = page.locator('#question_text')
         self.answer_input = page.locator('#id_user_solution')
         self.submit_btn = page.get_by_role('button', name='Ответить')

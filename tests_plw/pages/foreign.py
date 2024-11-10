@@ -16,4 +16,3 @@ class ForeignPage(POMPage):
     def __init__(self, page: Page) -> None:
         """Construct the sidebar representation."""
         super().__init__(page)
-        self.page = page

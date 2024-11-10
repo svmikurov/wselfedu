@@ -18,7 +18,6 @@ class MentorshipProfilePage(POMPage):
     def __init__(self, page: Page) -> None:
         """Construct page."""
         super().__init__(page)
-        self.page = page
 
         self.mentors = page.get_by_test_id('mentors')
         self.students = page.get_by_test_id('students')
