@@ -3,13 +3,6 @@
 from django.db.models import Model
 from rest_framework import serializers
 
-from config.constants import (
-    CATEGORY,
-    PERIOD_END_DATE,
-    PERIOD_START_DATE,
-    PROGRESS,
-    USER,
-)
 from glossary.models import (
     Glossary,
     GlossaryCategory,
@@ -24,7 +17,10 @@ class GlossarySerializer(serializers.ModelSerializer):
         """Serializer settings."""
 
         model = Glossary
-        fields = ['id', 'term', 'definition']
+        fields = [
+            'term',
+            'definition',
+        ]
 
 
 class GlossaryParamsSerializer(serializers.ModelSerializer):
@@ -39,17 +35,17 @@ class GlossaryParamsSerializer(serializers.ModelSerializer):
         """Serializer settings."""
 
         model = GlossaryParams
-        fields = [
-            PERIOD_START_DATE,
-            PERIOD_END_DATE,
-            CATEGORY,
-            PROGRESS,
+        exclude = [
+            'id',
+            'user',
         ]
+        """Exclude fields (`list[str]`).
+        """
 
     def create(self, validated_data: dict) -> GlossaryParams:
         """Update or create the user glossary exercise parameters."""
         params, created = GlossaryParams.objects.update_or_create(
-            user=validated_data.get(USER),
+            user=validated_data.get('user'),
             defaults=validated_data,
         )
         # HTTP status is 201 if created, otherwise 200.

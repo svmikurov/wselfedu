@@ -8,11 +8,7 @@ from tests_plw.pages.base import POMPage
 class MentorshipProfilePage(POMPage):
     """Mentorship page representation class.
 
-    Parameters
-    ----------
-    page : `Page`
-        Playwright Pytest page fixture.
-
+    :param Page page: The Playwright Pytest page fixture.
     """
 
     title = 'Наставничество'
@@ -22,7 +18,6 @@ class MentorshipProfilePage(POMPage):
     def __init__(self, page: Page) -> None:
         """Construct page."""
         super().__init__(page)
-        self.page = page
 
         self.mentors = page.get_by_test_id('mentors')
         self.students = page.get_by_test_id('students')

@@ -14,12 +14,9 @@ from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
 from config.constants import (
-    ANSWER_TEXT,
-    ID,
-    JSON,
+    DEFAULT_SOURCE,
     LEARNED,
     NOT_CHOICES,
-    QUESTION_TEXT,
     STUDY,
     TODAY,
     WEEK_AGO,
@@ -33,7 +30,7 @@ from users.models import UserApp
 class TestGlossaryTask(APITestCase):
     """Test render task data."""
 
-    fixtures = ['glossary/tests/tests_rest/fixtures/glossaries.json']
+    fixtures = ['glossary/tests/fixtures/glossaries']
 
     def setUp(self) -> None:
         """Set up data."""
@@ -43,7 +40,7 @@ class TestGlossaryTask(APITestCase):
 
     def test_render_task(self) -> None:
         """Test render exercise."""
-        expect = (ID, QUESTION_TEXT, ANSWER_TEXT)
+        expect = ('id', 'question_text', 'answer_text')
         self.api_client.force_authenticate(user=self.user)
         response = self.api_client.post(self.url)
 
@@ -54,7 +51,7 @@ class TestGlossaryTask(APITestCase):
 class TestGetGlossaryExerciseParams(APITestCase):
     """Test render Glossary exercise params."""
 
-    fixtures = ['glossary/tests/tests_rest/fixtures/glossaries.json']
+    fixtures = ['glossary/tests/fixtures/glossaries']
 
     def setUp(self) -> None:
         """Set up data."""
@@ -69,7 +66,12 @@ class TestGetGlossaryExerciseParams(APITestCase):
                 'category': 1,
                 'period_end_date': 'DT',
                 'period_start_date': 'NC',
-                'progress': 'S',
+                'progress': [STUDY],
+                'timeout': 5,
+                'favorites': False,
+                'count_first': 0,
+                'count_last': 0,
+                'source': DEFAULT_SOURCE,
             },
             'exercise_choices': {
                 'categories': [
@@ -117,7 +119,7 @@ class TestGetGlossaryExerciseParams(APITestCase):
 class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
     """Test update or create user params for Glossary exersice."""
 
-    fixtures = ['glossary/tests/tests_rest/fixtures/glossaries.json']
+    fixtures = ['glossary/tests/fixtures/glossaries']
 
     def setUp(self) -> None:
         """Set up data."""
@@ -132,10 +134,15 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'period_start_date': WEEKS_AGO_3,
             'period_end_date': WEEK_AGO,
             'category': 1,
-            'progress': LEARNED,
+            'progress': [LEARNED],
+            'timeout': 5,
+            'favorites': False,
+            'count_first': 0,
+            'count_last': 0,
+            'source': DEFAULT_SOURCE,
         }
         self.api_client.force_authenticate(user=self.user1)
-        response = self.api_client.post(self.url, request_data, format=JSON)
+        response = self.api_client.post(self.url, request_data, format='json')
 
         user_params = GlossaryParams.objects.get(user=self.user1)
         user_params = model_to_dict(user_params, fields=request_data)
@@ -153,11 +160,16 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'period_start_date': WEEKS_AGO_2,
             'period_end_date': WEEK_AGO,
             'category': 1,
-            'progress': STUDY,
+            'progress': [STUDY],
+            'timeout': 5,
+            'favorites': False,
+            'count_first': 0,
+            'count_last': 0,
+            'source': DEFAULT_SOURCE,
         }
         self.api_client.force_authenticate(user=self.user1)
-        response = self.api_client.post(self.url, request_data, format=JSON)
-        assert response.data == expect_data
+        response = self.api_client.post(self.url, request_data, format='json')
+        assert expect_data == response.data
         assert response.status_code == status.HTTP_200_OK
 
     # @skip
@@ -167,7 +179,12 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'period_start_date': NOT_CHOICES,
             'period_end_date': TODAY,
             'category': None,
-            'progress': STUDY,
+            'progress': [STUDY],
+            'timeout': 5,
+            'favorites': False,
+            'count_first': 0,
+            'count_last': 0,
+            'source': DEFAULT_SOURCE,
         }
         self.api_client.force_authenticate(user=self.user2)
         response = self.api_client.post(self.url)
@@ -181,10 +198,15 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'period_start_date': WEEKS_AGO_3,
             'period_end_date': WEEK_AGO,
             'category': 1,
-            'progress': LEARNED,
+            'progress': [LEARNED],
+            'timeout': 5,
+            'favorites': False,
+            'count_first': 0,
+            'count_last': 0,
+            'source': DEFAULT_SOURCE,
         }
         self.api_client.force_authenticate(user=self.user2)
-        response = self.api_client.post(self.url, request_data, format=JSON)
+        response = self.api_client.post(self.url, request_data, format='json')
 
         user_params = GlossaryParams.objects.get(user=self.user2)
         user_params = model_to_dict(user_params, fields=request_data)
@@ -202,9 +224,14 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'period_start_date': WEEKS_AGO_2,
             'period_end_date': NOT_CHOICES,
             'category': None,
-            'progress': STUDY,
+            'progress': [STUDY],
+            'timeout': 5,
+            'favorites': False,
+            'count_first': 0,
+            'count_last': 0,
+            'source': DEFAULT_SOURCE,
         }
         self.api_client.force_authenticate(user=self.user2)
-        response = self.api_client.post(self.url, request_data, format=JSON)
+        response = self.api_client.post(self.url, request_data, format='json')
         assert response.data == expect_data
         assert response.status_code == status.HTTP_201_CREATED

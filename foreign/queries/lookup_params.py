@@ -8,17 +8,9 @@ from zoneinfo import ZoneInfo
 from config.constants import (
     COMBINATION,
     EDGE_PERIOD_ARGS,
-    FAVORITES,
     NOT_CHOICES,
     ONE_WORD,
-    PERIOD_END_DATE,
-    PERIOD_START_DATE,
-    PK,
-    PROGRESS,
     STUDY,
-    USER,
-    USER_ID,
-    WORD_COUNT,
 )
 from contrib.queries import LookupParams, get_q
 from foreign.queries.progress import (
@@ -63,8 +55,8 @@ class WordLookupParams(LookupParams):
     @property
     def word_favorites(self) -> Q:
         """Lookup parameter by favorite status (`Q`, read-only)."""
-        field_value = self.lookup_conditions.get(FAVORITES)
-        lookup_value = self.lookup_conditions.get(USER_ID)
+        field_value = self.lookup_conditions.get('favorites')
+        lookup_value = self.lookup_conditions.get('user_id')
         lookup_field = 'wordfavorites__user_id'
         param = Q(**{lookup_field: lookup_value}) if field_value else Q()
         return param
@@ -72,14 +64,14 @@ class WordLookupParams(LookupParams):
     @property
     def word_progress(self) -> Q:
         """Lookup parameter by user assessment (`Q`, read-only)."""
-        form_value = self.lookup_conditions.get(PROGRESS, [])
+        form_value = self.lookup_conditions.get('progress', [])
         lookup_value = self._to_numeric(PROGRESS_STAGE_EDGES, form_value)
         lookup_field = 'wordprogress__progress__in'
 
         words_with_assessment = Q(**{lookup_field: lookup_value})
-        words_without_assessment = Q(user_id=F(USER)) & ~Q(
-            wordprogress__user_id=F(USER),
-            wordprogress__word_id=F(PK),
+        words_without_assessment = Q(user_id=F('user')) & ~Q(
+            wordprogress__user_id=F('user'),
+            wordprogress__word_id=F('pk'),
         )
 
         if lookup_value:
@@ -95,7 +87,7 @@ class WordLookupParams(LookupParams):
     @property
     def word_count(self) -> Q:
         """Lookup parameter by word count (`Q`, read-only)."""
-        lookup_value = self.lookup_conditions.get(WORD_COUNT, [])
+        lookup_value = self.lookup_conditions.get('word_count', [])
         if ONE_WORD in lookup_value or COMBINATION in lookup_value:
             lookup_value += [NOT_CHOICES]
         lookup_field = 'word_count__in'
@@ -106,7 +98,7 @@ class WordLookupParams(LookupParams):
     def word_date_start(self) -> Q:
         """Lookup parameter by word added date (`Q`, read-only)."""
         format_time = '%Y-%m-%d 00:00:00+00:00'
-        lookup_value = self.get_date_value(PERIOD_START_DATE, format_time)
+        lookup_value = self.get_date_value('period_start_date', format_time)
         lookup_field = 'created_at__gte'
         param = get_q(lookup_field, lookup_value)
         return param
@@ -115,7 +107,7 @@ class WordLookupParams(LookupParams):
     def word_date_end(self) -> Q:
         """Lookup parameter by word added date (`Q`, read-only)."""
         format_time = '%Y-%m-%d 23:59:59+00:00'
-        lookup_value = self.get_date_value(PERIOD_END_DATE, format_time)
+        lookup_value = self.get_date_value('period_end_date', format_time)
         lookup_field = 'created_at__lte'
         param = get_q(lookup_field, lookup_value)
         return param

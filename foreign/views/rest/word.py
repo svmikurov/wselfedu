@@ -3,7 +3,7 @@
 from django.db.models.query import QuerySet
 from rest_framework import generics, permissions
 
-from contrib.views_rest import IsOwner
+from contrib.views.views_rest import IsOwner
 from foreign.models import Word
 from foreign.serializers import WordSerializer
 
@@ -15,8 +15,8 @@ class WordListCreateAPIView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self) -> QuerySet:
-        """Filter queryset by current user for response."""
-        return Word.objects.filter(user=self.request.user)
+        """Filter queryset by current user."""
+        return Word.objects.filter(user=self.request.user).order_by('-id')
 
     def perform_create(self, serializer: WordSerializer) -> None:
         """Add current user to created model instants."""

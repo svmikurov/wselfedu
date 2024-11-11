@@ -5,8 +5,7 @@ from http import HTTPStatus
 from django.test import TestCase
 from django.urls import reverse, reverse_lazy
 
-from config.constants import PK, USERNAME
-from contrib.tests_extension import UserAuthTestCase, flash_message_test
+from contrib.tests.extension import UserAuthTestCase, flash_message_test
 from users.models import UserApp
 
 NO_PERMISSION_MSG = 'Для доступа необходимо войти в приложение'
@@ -23,7 +22,7 @@ class TestCreateUserView(TestCase):
         cls.url = reverse('users:create')
         cls.redirect_url = reverse_lazy(SUCCESS_REDIRECT_PATH)
         cls.create_user_data = {
-            USERNAME: 'new_user',
+            'username': 'new_user',
             'password1': '1q2s3d4r',
             'password2': '1q2s3d4r',
         }
@@ -35,6 +34,8 @@ class TestCreateUserView(TestCase):
 
     def test_post_method_create_user(self) -> None:
         """Test the http status and msg of submit the create form."""
+        self.create_user_data['captcha_0'] = 'dummy-value'
+        self.create_user_data['captcha_1'] = 'PASSED'
         response = self.client.post(self.url, self.create_user_data)
         self.assertRedirects(response, SUCCESS_REDIRECT_PATH, HTTPStatus.FOUND)
         flash_message_test(response, 'Пользователь создан')
@@ -51,7 +52,7 @@ class TestUpdateUserView(UserAuthTestCase):
         cls.another_user = UserApp.objects.create(username='another_user')
         cls.url = reverse('users:update', kwargs={'pk': cls.user.id})
         cls.update_user_data = {
-            USERNAME: 'update_user',
+            'username': 'update_user',
             'password1': '1q2s3d4r',
             'password2': '1q2s3d4r',
         }
@@ -63,6 +64,8 @@ class TestUpdateUserView(UserAuthTestCase):
 
     def test_post_method_update_user_by_user(self) -> None:
         """Test update user by owner, the http status of form submit."""
+        self.update_user_data['captcha_0'] = 'dummy-value'
+        self.update_user_data['captcha_1'] = 'PASSED'
         response = self.get_auth_response(
             path_schema=self.url,
             method='post',
@@ -100,7 +103,7 @@ class TestDeleteUserView(UserAuthTestCase):
         """Set up test data."""
         super().setUpTestData()
         cls.another_user = UserApp.objects.create(username='another_user')
-        cls.url = reverse('users:delete', kwargs={PK: cls.user.id})
+        cls.url = reverse('users:delete', kwargs={'pk': cls.user.id})
 
     def test_get_method_delete_user_by_user(self) -> None:
         """Test delete user by owner, the http status of form render."""
@@ -168,7 +171,7 @@ class TestUserDetailView(UserAuthTestCase):
         """Set up test data."""
         super().setUpTestData()
         cls.another_user = UserApp.objects.create(username='another_user')
-        cls.url = reverse('users:detail', kwargs={PK: cls.user.id})
+        cls.url = reverse('users:detail', kwargs={'pk': cls.user.id})
 
     def test_show_user_detail_to_user(self) -> None:
         """Test show user detail to owner, http status 200."""

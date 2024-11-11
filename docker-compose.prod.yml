@@ -6,6 +6,7 @@ services:
     volumes:
       - .:/wselfedu
       - static_volume:/wselfedu/static
+      - media_volume:/wselfedu/media
     build:
       context: .
       dockerfile: ./docker/project/Dockerfile.prod
@@ -40,6 +41,7 @@ services:
       dockerfile: ./docker/nginx/Dockerfile
     volumes:
       - static_volume:/wselfedu/static
+      - media_volume:/wselfedu/media
     ports:
       - 80:80
     depends_on:
@@ -56,3 +58,4 @@ services:
 volumes:
   postgres_data:
   static_volume:
+  media_volume:

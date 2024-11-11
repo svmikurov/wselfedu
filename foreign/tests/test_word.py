@@ -1,4 +1,4 @@
-"""Test word CRUD module."""
+"""Foreign word CRUD tests."""
 
 from unittest import skip
 
@@ -6,236 +6,118 @@ from django.db.models import F
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from config.constants import (
-    COMBINATION,
-    CREATE_WORD_PATH,
-    DELETE_WORD_PATH,
-    DETAIL_WORD_PATH,
-    FOREIGN_WORD,
-    NATIVE_WORD,
-    OBJECT_LIST,
-    ONE_WORD,
-    PK,
-    SENTENCE,
-    UPDATE_WORD_PATH,
-    USER,
-    WORD_COUNT,
-    WORD_LIST_PATH,
-    WORDS,
+from config.constants import COMBINATION, ONE_WORD
+from contrib.tests.crud import (
+    CreateTest,
+    DeleteTest,
+    DetailTest,
+    ListTest,
+    TestData,
+    UpdateTest,
 )
-from contrib.tests_extension import flash_message_test
 from foreign.models import Word
 from users.models import UserApp
 
-NO_PERMISSION_MSG = 'Для доступа необходимо войти в приложение'
-NO_PERMISSION_URL = reverse('users:login')
 
-SUCCESS_DELETE_WORD_MSG = 'Слово удалено'
-SUCCESS_UPDATE_WORD_MSG = 'Слово изменено'
+class WordTestData(TestData):
+    """Foreign word source tests data."""
 
+    fixtures = ['users', 'foreign']
 
-class TestCreateWordView(TestCase):
-    """Test create word view."""
-
-    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
+    success_create_msg = ''
+    success_update_msg = 'Слово изменено'
+    success_delete_msg = 'Слово удалено'
+    no_permission_msg = 'Для доступа необходимо войти в приложение'
 
     def setUp(self) -> None:
-        """Set up data."""
-        self.client: Client = Client()
-        user_id = 3
-        another_user_id = 4
-        self.user = UserApp.objects.get(
-            pk=user_id,
+        """Set up the test."""
+        self.client = Client()
+
+        # Items.
+        self.item_pk = 1
+        self.manager = Word.objects
+        self.item = self.manager.get(pk=self.item_pk)
+        self.item_data = {
+            'foreign_word': 'new word%',
+            'native_word': 'новое слово',
+            'word_count': COMBINATION,
+        }
+
+        # Users.
+        self.owner_id = 3
+        self.owner = UserApp.objects.get(pk=self.owner_id)
+        self.not_owner = UserApp.objects.get(pk=4)
+
+        # Urls.
+        self.url_create = reverse('foreign:words_create')
+        self.url_list = reverse('foreign:word_list')
+        self.url_update = reverse(
+            'foreign:words_update', kwargs={'pk': self.item_pk}
         )
-        self.another_user = UserApp.objects.get(id=another_user_id)
-        self.create_data = {
-            FOREIGN_WORD: 'new word',
-            NATIVE_WORD: 'новое слово',
-            WORD_COUNT: COMBINATION,
-        }
-        self.url = reverse(CREATE_WORD_PATH)
-        self.success_url = self.url
+        self.url_detail = reverse(
+            'foreign:words_detail', kwargs={'pk': self.item_pk}
+        )
+        self.url_delete = reverse(
+            'foreign:words_delete', kwargs={'pk': self.item_pk}
+        )
 
-    def test_get_method_create_word_by_user(self) -> None:
-        """Test create word by logged-in user, get method."""
-        self.client.force_login(self.user)
-        response = self.client.get(self.url)
-        self.assertEqual(response.status_code, 200)
-
-    @skip('TODO: update message test, now JsonResponse')
-    def test_post_method_create_word_by_user(self) -> None:
-        """Test create word by logged-in user, post method."""
-        self.client.force_login(self.user)
-        response = self.client.post(self.url, self.create_data)
-
-        self.assertRedirects(response, self.success_url, 302)
-        flash_message_test(response, 'Добавлено слово "new word"')
-        assert Word.objects.filter(foreign_word='new word').exists()
-
-    def test_post_method_create_word_by_anonymous(self) -> None:
-        """Test the permission to create a word for an anonymous."""
-        response = self.client.post(self.url, self.create_data)
-        self.assertRedirects(response, NO_PERMISSION_URL, 302)
-        flash_message_test(response, NO_PERMISSION_MSG)
-        assert not Word.objects.filter(foreign_word='new word').exists()
-
-    def test_add_default_values(self) -> None:
-        """Test add default user to word model."""
-        self.client.force_login(self.user)
-        self.client.post(self.url, self.create_data)
-        added_word = Word.objects.get(foreign_word='new word')
-        assert added_word.user.username == self.user.username
+        # Redirect urls.
+        self.url_create_redirect = self.url_create
+        self.url_update_redirect = self.url_list
+        self.url_delete_redirect = self.url_list
+        self.url_not_owner_redirect = reverse('users:login')
 
 
-class TestUpdateWordView(TestCase):
-    """Test update word view."""
+class WordCreateTest(CreateTest, WordTestData):
+    """Foreign word create tests."""
 
-    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
+    def test_create(self) -> None:
+        """Add a test is exists word in the database."""
+        super().test_create()
+        assert self.manager.filter(foreign_word='new word%').exists()
 
-    def setUp(self) -> None:
-        """Set up data."""
-        self.client: Client = Client()
-        user_id = 3
-        user_word_id = 1
-        another_user_id = 4
-        self.user = UserApp.objects.get(pk=user_id)
-        self.another_user = UserApp.objects.get(pk=another_user_id)
-        self.update_data = {
-            FOREIGN_WORD: 'test',
-            NATIVE_WORD: 'тест',
-            WORD_COUNT: SENTENCE,
-        }
-        self.url = reverse(UPDATE_WORD_PATH, kwargs={PK: user_word_id})
-        self.success_url = reverse(WORD_LIST_PATH)
-
-    def test_get_method_update_word_by_user(self) -> None:
-        """Test update word by logged-in user."""
-        self.client.force_login(self.user)
-        response = self.client.get(self.url)
-        self.assertEqual(response.status_code, 200)
-
-    def test_post_method_update_word_by_user(self) -> None:
-        """Test update word by logged-in user."""
-        self.client.force_login(self.user)
-        response = self.client.post(self.url, self.update_data)
-        self.assertRedirects(response, self.success_url, 302)
-        flash_message_test(response, SUCCESS_UPDATE_WORD_MSG)
-        assert Word.objects.filter(foreign_word='test').exists()
-
-    def test_post_method_update_word_by_another_user(self) -> None:
-        """Test the permission to update a word for an anonymous."""
-        self.client.force_login(self.another_user)
-        response = self.client.post(self.url, self.update_data)
-        self.assertRedirects(response, NO_PERMISSION_URL, 302)
-        flash_message_test(response, NO_PERMISSION_MSG)
-        assert not Word.objects.filter(foreign_word='test').exists()
-
-    def test_post_method_update_word_by_anonymous(self) -> None:
-        """Test the permission to update a word for another user."""
-        response = self.client.post(self.url, self.update_data)
-        self.assertRedirects(response, NO_PERMISSION_URL, 302)
-        flash_message_test(response, NO_PERMISSION_MSG)
-        assert not Word.objects.filter(foreign_word='test').exists()
+    def test_create_by_anonymous(self) -> None:
+        """Add a test is no exists word in the database."""
+        super().test_create_by_anonymous()
+        assert not self.manager.filter(foreign_word='new word%').exists()
 
 
-class TestDeleteWordView(TestCase):
-    """Test delete word view."""
-
-    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
-
-    def setUp(self) -> None:
-        """Set up data."""
-        self.client: Client = Client()
-        user_id = 3
-        self.word_id = 1
-        another_user_id = 4
-        self.user = UserApp.objects.get(pk=user_id)
-        self.another_user = UserApp.objects.get(pk=another_user_id)
-        self.url = reverse(DELETE_WORD_PATH, kwargs={PK: self.word_id})
-        self.success_url = reverse(WORD_LIST_PATH)
-
-    def test_get_method_delete_word_by_user(self) -> None:
-        """Test delete word by logged-in user."""
-        self.client.force_login(self.user)
-        response = self.client.get(self.url)
-        self.assertEqual(response.status_code, 200)
-
-    def test_post_method_delete_word_by_user(self) -> None:
-        """Test delete word by logged-in user."""
-        self.client.force_login(self.user)
-        response = self.client.post(self.url)
-        self.assertRedirects(response, self.success_url, 302)
-        flash_message_test(response, SUCCESS_DELETE_WORD_MSG)
-        assert not Word.objects.filter(pk=self.word_id).exists()
-
-    def test_post_method_delete_word_by_another_user(self) -> None:
-        """Test the permission to delete a word for another user."""
-        self.client.force_login(self.another_user)
-        response = self.client.post(self.url)
-        self.assertRedirects(response, NO_PERMISSION_URL, 302)
-        flash_message_test(response, NO_PERMISSION_MSG)
-        assert Word.objects.filter(pk=self.word_id).exists()
-
-    def test_post_method_delete_word_by_anonymous(self) -> None:
-        """Test the permission to delete a word for an anonymous."""
-        response = self.client.post(self.url)
-        self.assertRedirects(response, NO_PERMISSION_URL, 302)
-        flash_message_test(response, NO_PERMISSION_MSG)
-        assert Word.objects.filter(pk=self.word_id).exists()
+class WordListTest(ListTest, WordTestData):
+    """Foreign word list tests."""
 
 
-class TestWordListView(TestCase):
-    """Test word list view."""
+class WordUpdateTest(UpdateTest, WordTestData):
+    """Foreign word update tests."""
 
-    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
 
-    def setUp(self) -> None:
-        """Set up data."""
-        self.client: Client = Client()
-        self.user_id = 3
-        self.another_user_id = 4
-        self.user = UserApp.objects.get(pk=self.user_id)
-        self.another_user = UserApp.objects.get(pk=self.another_user_id)
-        self.url = reverse(WORD_LIST_PATH)
+class WordDeleteTest(DeleteTest, WordTestData):
+    """Foreign word delete tests."""
 
-    def test_show_word_list_to_specific_user(self) -> None:
-        """Test display word list to specific user."""
-        self.client.force_login(self.user)
-        response = self.client.get(self.url)
 
-        self.assertEqual(response.status_code, 200)
-        # assert by user id, that `words` contains only the user's words
-        words = response.context[WORDS]
-        user_ids = set(words.values_list(USER, flat=True))
-        self.assertTrue(*user_ids, self.user_id)
-
-    def test_show_list_word_to_anonymous(self) -> None:
-        """Test permission to display a word list for an anonymous."""
-        response = self.client.get(self.url)
-        self.assertRedirects(response, NO_PERMISSION_URL, 302)
-        flash_message_test(response, NO_PERMISSION_MSG)
+class WordDetailTest(DetailTest, WordTestData):
+    """Foreign word delete tests."""
 
 
 class TestWordObjectList(TestCase):
     """Test to word list page object list."""
 
-    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
+    fixtures = ['foreign', 'users']
 
     def setUp(self) -> None:
         """Set up data."""
         client: Client = Client()
         self.user_id = 3
         self.user = UserApp.objects.get(pk=self.user_id)
-        url = reverse(WORD_LIST_PATH)
+        url = reverse('foreign:word_list')
 
         client.force_login(self.user)
         self.response = client.get(url)
-        self.object_list = self.response.context[OBJECT_LIST]
+        self.object_list = self.response.context['object_list']
         self.html = self.response.content.decode()
 
     def test_context_object_name(self) -> None:
         """Test 'context_object_name'."""
-        context_object_name = WORDS
+        context_object_name = 'words'
         word_index_in_context = 0
         word_key = 'foreign_word'
         words = self.response.context[context_object_name].values()
@@ -277,7 +159,7 @@ class TestWordObjectList(TestCase):
         """Test to 'object_list' word list page contains favorite."""
         favorite_word = ('word_u3_w3', True)
         another_word = ('word_u3_w7', False)
-        words = self.object_list.values_list(FOREIGN_WORD, 'favorites_anat')
+        words = self.object_list.values_list('foreign_word', 'favorites_anat')
         assert favorite_word in words
         assert another_word not in words
 
@@ -294,7 +176,7 @@ class WordListPageFilter(TestCase):
         self.another_user_id = 4
         self.user = UserApp.objects.get(pk=self.user_id)
         self.another_user = UserApp.objects.get(pk=self.another_user_id)
-        self.url = reverse(WORD_LIST_PATH)
+        self.url = reverse('foreign:word_list')
 
     def test_contain_filter_only_user_choices(self) -> None:
         """Test filter contain only user item."""
@@ -313,9 +195,9 @@ class WordListPageFilter(TestCase):
         self.client.force_login(self.user)
         response = self.client.get(self.url, {'only_favorite_words': True})
 
-        objects_list = response.context[OBJECT_LIST]
+        objects_list = response.context['object_list']
         user_favorite_words = Word.objects.filter(
-            wordfavorites__word=F(PK),
+            wordfavorites__word=F('pk'),
             wordfavorites__user=self.user_id,
         )
         self.assertQuerySetEqual(
@@ -350,38 +232,3 @@ class WordListPageFilter(TestCase):
     @skip('Write a test')
     def test_filter_word_list_by_length(self) -> None:
         """Test filtering the word list by length."""
-
-
-class TestWordDetailView(TestCase):
-    """Test word detail view."""
-
-    fixtures = ['tests/fixtures/foreign.json', 'tests/fixtures/users.json']
-
-    def setUp(self) -> None:
-        """Set up data."""
-        self.client: Client = Client()
-        user_id = 3
-        user_word_id = 1
-        another_user_id = 4
-        self.user = UserApp.objects.get(pk=user_id)
-        self.another_user = UserApp.objects.get(pk=another_user_id)
-        self.url = reverse(DETAIL_WORD_PATH, kwargs={PK: user_word_id})
-
-    def test_show_word_detail_to_user(self) -> None:
-        """Test show word detail to user, page status 200."""
-        self.client.force_login(self.user)
-        response = self.client.get(self.url)
-        self.assertEqual(response.status_code, 200)
-
-    def test_show_word_for_another_user(self) -> None:
-        """Test the permission to display a word for another user."""
-        self.client.force_login(self.another_user)
-        response = self.client.get(self.url)
-        self.assertRedirects(response, NO_PERMISSION_URL, 302)
-        flash_message_test(response, NO_PERMISSION_MSG)
-
-    def test_show_word_detail_to_anonymous(self) -> None:
-        """Test the permission to display a word for an anonymous."""
-        response = self.client.get(self.url)
-        self.assertRedirects(response, NO_PERMISSION_URL, 302)
-        flash_message_test(response, NO_PERMISSION_MSG)

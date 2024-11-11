@@ -4,7 +4,6 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
-from config.constants import PK
 from users.models import UserApp
 
 
@@ -46,7 +45,7 @@ class TestRetrieveWord(APITestCase):
     def setUp(self) -> None:
         """Set up data."""
         self.api_client = APIClient()
-        self.url = reverse('foreign_rest:word', kwargs={PK: 1})
+        self.url = reverse('foreign_rest:word', kwargs={'pk': 1})
         self.user1 = UserApp.objects.get(username='user2')
         self.user2 = UserApp.objects.get(username='user3')
 

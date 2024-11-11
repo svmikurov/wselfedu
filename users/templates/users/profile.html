@@ -8,38 +8,18 @@
   {% include 'components/title.html' with title='Личный кабинет' %}
   <h6>Имя пользователя: {{ user }}</h6>
 
-  <div class="py-2">
-    {% if user.is_superuser %}
-      <a href="{% url 'users:list' %}">Список других пользователей</a>
-    {% endif %}
-  </div>
-
-  <div>
-    <h2>Упражнения на получение баллов</h2>
-      <ul class="list-unstyled">
-        <li class="py-1"><a href="{% url 'math:math_set_table_mult_points' %}"
-                            class="btn btn-outline-primary btn-sm"
-                            role="button"
-                            style="width: 250px;">Таблица умножения</a></li>
-      </ul>
-  </div>
-
-  <h2><a href="{% url 'users:mentorship_profile' user.pk %}">Наставничество</a></h2>
-
-  <div>
-    <h2>Настройка</h2>
-    {% if user.is_superuser %}
-      <a href="{% url 'foreign:create_task_settings' user.id %}">Создай Настройки упражнения "Изучаем слова"</a><br>
-      <a href="{% url 'foreign:update_task_settings' user.id %}">Измени Настройки упражнения "Изучаем слова"</a>
-    {% endif %}
-  </div>
-
   <!-- Update / Delete User -->
   <div class="pt-3">
     <a href="{% url 'users:update' object.pk %}" class="btn btn-outline-primary btn-sm m-1" type="button">Изменить свои данные</a>
     <a href="{% url 'users:delete' object.pk %}" class="btn btn-outline-danger btn-sm m-1" type="button">Удалить</a>
     {% include 'components/btn_back.html' %}
   </div><!-- End Update / Delete User -->
+
+  <div class="p-3"></div>
+
+  {% if ENVIRONMENT == 'development' %}
+    {% include 'users/profile_mentorship.html' %}
+  {% endif %}
 
 </div><!-- End Account Content -->
 {% endblock %}

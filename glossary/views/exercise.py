@@ -1,152 +1,148 @@
-"""Glossary exercise view."""
+"""Views for term study.
 
+.. todo::
+   * develop the collect_statistics at TermExerciseView.
+"""
+
+from http import HTTPStatus
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse, JsonResponse
-from rest_framework import permissions, status
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.parsers import JSONParser
-from rest_framework.request import Request
-from rest_framework.response import Response
-from rest_framework.status import (
-    HTTP_200_OK,
-    HTTP_201_CREATED,
-    HTTP_400_BAD_REQUEST,
-)
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.views import View
+from django.views.decorators.http import require_POST
+from rest_framework import status
 
 from config.constants import (
-    ACTION,
-    CATEGORIES,
-    DEFAULT_LOOKUP_CONDITIONS,
-    EDGE_PERIOD_ALIASES,
-    EDGE_PERIOD_ITEMS,
-    ERROR,
-    EXERCISE_CHOICES,
-    GET,
-    ID,
-    LOOKUP_CONDITIONS,
-    NO_SELECTION,
-    POST,
-    PROGRES_STEPS,
-    PROGRESS,
-    PROGRESS_ALIASES,
+    MSG_NO_TASK,
     PROGRESS_MAX,
     PROGRESS_MIN,
-    USER_ID,
 )
-from glossary.exercise.question import (
-    GlossaryExerciseGUI,
-)
-from glossary.models import (
-    Glossary,
-    GlossaryCategory,
-    GlossaryParams,
-)
-from glossary.serializers import (
-    GlossaryCategorySerializer,
-    GlossaryParamsSerializer,
-)
+from contrib.views.exercise import ExerciseParamsView
+from contrib.views.general import CheckLoginPermissionMixin
+from glossary.exercise.question import GlossaryExercise
+from glossary.forms.term_choice import GlossaryParamsForm
+from glossary.models import Glossary
+from glossary.queries.exercise import save_params
 
 
-@api_view([POST])
-@permission_classes((permissions.AllowAny,))
-def glossary_exercise(request: Request) -> JsonResponse | HttpResponse:
-    """Render the Glossary exercise."""
-    serializer = GlossaryParamsSerializer(data=request.data)
+class GlossaryParamsView(ExerciseParamsView):
+    """Glossary term exercise conditions choice view."""
 
-    if serializer.is_valid():
-        lookup_conditions = serializer.data
-        lookup_conditions[USER_ID] = request.user.id
-        try:
-            exercise = GlossaryExerciseGUI(lookup_conditions).task_data
-        except IndexError:
-            error = {ERROR: 'По заданным условиям задание не сформировано'}
-            return JsonResponse(error, status=HTTP_400_BAD_REQUEST)
+    template_name = 'glossary/exercise/params.html'
+    exercise_url = reverse_lazy('glossary:exercise')
+    form = GlossaryParamsForm
 
-        return JsonResponse(exercise, status=HTTP_200_OK)
-    return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+    def save_params(self, *args: object, **kwargs: object) -> None:
+        """Save exercise params."""
+        save_params(*args, **kwargs)
 
 
-@api_view([GET, POST])
-@permission_classes((permissions.AllowAny,))
-def glossary_exercise_parameters(
-    request: Request,
-) -> JsonResponse | HttpResponse:
-    """Glossary exercise parameters view.
+class TermExerciseView(CheckLoginPermissionMixin, View):
+    """Glossary term study exercise view."""
 
-    GET
-    ---
-    View sends a response with ``exercise_params``:
-        - ``lookup_conditions``
-        - ``exercise_choices``
-
-    POST
-    ----
-    The view updates the ``lookup_conditions`` in data base.
-
+    template_name = 'glossary/exercise/exercise.html'
+    """The view template path (`str`).
     """
-    user = request.user
+    msg_key_error = 'Не все условия упражнения заданы'
+    """Error message in condition ('str').
+    """
+    msg_no_terms = MSG_NO_TASK
+    """Message no terms found (`str`).
+    """
+    redirect_no_terms = {
+        'redirect_no_terms': reverse_lazy('glossary:params'),
+    }
 
-    if request.method == GET:
+    def get(self, request: HttpRequest) -> HttpResponse:
+        """Render the page template for exercise."""
+        task_conditions = request.session['task_conditions']
+        task = GlossaryExercise(task_conditions)
+
         try:
-            user_params = GlossaryParams.objects.get(user=user)
-        except GlossaryParams.DoesNotExist:
-            lookup_conditions = DEFAULT_LOOKUP_CONDITIONS
+            task.create_task()
+        except KeyError:
+            messages.error(request, self.msg_key_error)
+            return redirect(reverse_lazy('glossary:params'))
+        except (ValueError, IndexError):
+            messages.error(request, self.msg_no_terms)
+            return redirect(reverse_lazy('glossary:params'))
         else:
-            lookup_conditions = GlossaryParamsSerializer(user_params).data
+            return render(request, self.template_name)
+
+    def post(self, request: HttpRequest) -> JsonResponse:
+        """Render the task."""
+        task_conditions = request.session['task_conditions']
+        task = GlossaryExercise(task_conditions)
 
         try:
-            queryset = GlossaryCategory.objects.filter(user=user)
-        except GlossaryCategory.DoesNotExist:
-            queryset = GlossaryCategory.objects.none()
-        categories = GlossaryCategorySerializer(queryset, many=True).data
-        categories.append(NO_SELECTION)
-
-        exercise_params = {
-            LOOKUP_CONDITIONS: lookup_conditions,
-            EXERCISE_CHOICES: {
-                EDGE_PERIOD_ITEMS: EDGE_PERIOD_ALIASES,
-                CATEGORIES: categories,
-                PROGRESS: PROGRESS_ALIASES,
-            },
-        }
-
-        return JsonResponse(exercise_params, status=HTTP_200_OK)
-
-    if request.method == POST:
-        serializer = GlossaryParamsSerializer(data=request.data)
-
-        if serializer.is_valid():
-            serializer.save(user=request.user)
-
-            if not serializer.is_created:
-                return Response(serializer.data)
-            return Response(serializer.data, status=HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+            task_data = task.task_data
+        except ValueError:
+            messages.error(request, self.msg_no_terms)
+            return JsonResponse(
+                data=self.redirect_no_terms,
+                status=412,
+            )
+        else:
+            # TODO: develop the collect_statistics  # noqa: TD003, TD002
+            # collect_statistics(task=task)
+            return JsonResponse(
+                data={
+                    **self.redirect_no_terms,
+                    **task_data,
+                },
+                status=200,
+            )
 
 
-@api_view([POST])
-@permission_classes((permissions.AllowAny,))
-def update_term_study_progress(request: HttpRequest) -> HttpResponse:
+@require_POST
+@login_required
+def update_term_favorite_status_view_ajax(
+    request: HttpRequest,
+    **kwargs: dict[str, object],
+) -> JsonResponse:
+    """Update the status of a term, is it favorite."""
+    term_id = kwargs['term_id']
+    term = Glossary.objects.get(pk=term_id, user=request.user)
+    term.favorites = not term.favorites
+    term.save()
+
+    # this view gets a request from Ajax
+    response = JsonResponse(
+        data={
+            'favorites_status': term.favorites,
+        },
+        status=201,
+    )
+    return response
+
+
+@require_POST
+@login_required
+def update_term_study_progress(
+    request: HttpRequest,
+    **kwargs: object,
+) -> HttpResponse:
     """Update term study progres."""
     user = request.user
-    payload = JSONParser().parse(request)
-    term_pk = payload.get(ID)
+    assessment = request.POST.get('assessment')
+    term_pk = kwargs['term_id']
 
     try:
-        term = Glossary.objects.get(pk=term_pk)
+        obj = Glossary.objects.get(pk=term_pk)
     except Glossary.DoesNotExist:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
     else:
         # Only owner have access to his term.
-        if user != term.user:
+        if user != obj.user:
             return HttpResponse(status=status.HTTP_403_FORBIDDEN)
 
-    action = payload.get(ACTION)
-    progress_delta = PROGRES_STEPS.get(action)
-    updated_progress = term.progress + progress_delta
+    if assessment in {'+1', '-1'}:
+        updated_progress = obj.progress + int(assessment)
+        if PROGRESS_MIN <= updated_progress <= PROGRESS_MAX:
+            obj.progress = updated_progress
+            obj.save(update_fields=['progress'])
 
-    if PROGRESS_MIN <= updated_progress <= PROGRESS_MAX:
-        term.progress = updated_progress
-        term.save(update_fields=[PROGRESS])
-
-    return HttpResponse(status=status.HTTP_200_OK)
+    return JsonResponse({}, status=HTTPStatus.CREATED)

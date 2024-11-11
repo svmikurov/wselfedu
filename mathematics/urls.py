@@ -1,6 +1,7 @@
 """Mathematics application urlpatterns."""
 
 from django.urls import path
+from django.views.generic import TemplateView
 
 from mathematics.views import (
     MathCalculateChoiceView,
@@ -13,6 +14,11 @@ from mathematics.views import (
 app_name = 'math'
 
 urlpatterns = [
+    path(
+        '',
+        TemplateView.as_view(template_name='mathematics/main.html'),
+        name='main',
+    ),
     path(
         'math-calculate-choice/',
         MathCalculateChoiceView.as_view(),

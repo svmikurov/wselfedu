@@ -6,13 +6,9 @@ from django.db.models import Model
 from rest_framework import serializers
 
 from config.constants import (
-    DEFAULT_LOOKUP_CONDITIONS,
-    DEFAULT_PROGRESS,
     EDGE_PERIOD_ALIASES,
     NO_SELECTION,
-    NOT_CHOICES,
     PROGRESS_ALIASES,
-    TODAY,
 )
 from foreign.models import TranslateParams, Word, WordCategory
 
@@ -36,7 +32,10 @@ class ExerciseParamSerializer(serializers.ModelSerializer):
         """Serializer settings."""
 
         model = TranslateParams
-        exclude = ['user']
+        exclude = [
+            'id',
+            'user',
+        ]
         """Exclude fields (`list[str]`).
         """
 
@@ -54,8 +53,8 @@ class ExerciseChoiceSerializer(serializers.ModelSerializer):
 
         model = TranslateParams
         exclude = [
+            'id',
             'user',
-            'timeout',
         ]
         """Exclude fields (`list[str]`).
         """
@@ -84,14 +83,7 @@ class ExerciseChoiceSerializer(serializers.ModelSerializer):
         Creates :term:`exercise_params` to response.
         """
         user = self.context.get('request').user
-
-        try:
-            lookup_conditions = super().to_representation(instance)
-            lookup_conditions.setdefault('period_start_date', NOT_CHOICES)
-            lookup_conditions.setdefault('period_end_date', TODAY)
-            lookup_conditions.setdefault('progress', DEFAULT_PROGRESS)
-        except TranslateParams.DoesNotExist:
-            lookup_conditions = DEFAULT_LOOKUP_CONDITIONS
+        lookup_conditions = super().to_representation(instance)
 
         try:
             queryset = WordCategory.objects.filter(user=user)

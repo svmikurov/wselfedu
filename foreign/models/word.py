@@ -2,7 +2,7 @@
 
 from django.db import models
 
-from config.constants import NOT_CHOICES, PK, USER, WORD, WORD_COUNT_CHOICE
+from config.constants import NOT_CHOICES, WORD_COUNT_CHOICE
 from foreign.models.category import WordCategory
 from foreign.models.source import WordSource
 from users.models import UserApp
@@ -90,7 +90,7 @@ class Word(models.Model):
 
         verbose_name = 'Словарь иностранных слов'
         verbose_name_plural = 'Словарь иностранных слов'
-        ordering = [PK]
+        ordering = ['pk']
 
     def __str__(self) -> str:
         """Provide the informal string representation of an object."""
@@ -107,7 +107,7 @@ class WordProgress(models.Model):
     class Meta:
         """Set model features."""
 
-        unique_together = [[WORD, USER]]
+        unique_together = [['word', 'user']]
         verbose_name = 'Оценка пользователем знания слова'
         verbose_name_plural = 'Оценки пользователем знания слова'
 
@@ -125,7 +125,7 @@ class WordFavorites(models.Model):
     class Meta:
         """Set model features."""
 
-        unique_together = [[WORD, USER]]
+        unique_together = [['word', 'user']]
         verbose_name = 'Избранное слово'
         verbose_name_plural = 'Избранные слова'
 

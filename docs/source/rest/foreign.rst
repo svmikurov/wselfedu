@@ -88,29 +88,92 @@ Endpoint to get or update the exercise parameters.
 +===========+===============================+===============================+
 | GET       | --                            | HTTP_200_OK                   |
 |           |                               |  * lookup_conditions:         |
-|           |                               |      * period_start_date      |
-|           |                               |      * period_end_date        |
-|           |                               |      * category               |
-|           |                               |      * progress               |
+|           |                               |     * language_order          |
+|           |                               |     * timeout                 |
+|           |                               |     * favorites               |
+|           |                               |     * progress                |
+|           |                               |     * word_count              |
+|           |                               |     * period_start_date       |
+|           |                               |     * period_end_date         |
+|           |                               |     * count_first             |
+|           |                               |     * count_last              |
+|           |                               |     * category                |
+|           |                               |     * source                  |
 |           |                               |  * exercise_choices:          |
-|           |                               |      * edge_period_items:     |
-|           |                               |          * alias              |
-|           |                               |          * humanly            |
-|           |                               |      * categories:            |
-|           |                               |          * alias              |
-|           |                               |          * humanly            |
-|           |                               |      * progress:              |
-|           |                               |          * alias              |
-|           |                               |          * humanly            |
+|           |                               |     * edge_period_items:      |
+|           |                               |        * alias                |
+|           |                               |        * humanly              |
+|           |                               |     * categories:             |
+|           |                               |        * alias                |
+|           |                               |        * humanly              |
+|           |                               |     * progress:               |
+|           |                               |        * alias                |
+|           |                               |        * humanly              |
 +-----------+-------------------------------+-------------------------------+
-| POST      | --                            | HTTP_201_OK                   |
+| PUT       | * language_order              | HTTP_201_CREATED              |
+|           | * timeout                     |  * language_order             |
+|           | * favorites                   |  * timeout                    |
+|           | * progress                    |  * favorites                  |
+|           | * word_count                  |  * progress                   |
+|           | * period_start_date           |  * word_count                 |
+|           | * period_end_date             |  * period_start_date          |
+|           | * count_first                 |  * period_end_date            |
+|           | * count_last                  |  * count_first                |
+|           | * category                    |  * count_last                 |
+|           | * source                      |  * category                   |
+|           |                               |  * source                     |
+|           |                               |                               |
+|           |                               | HTTP_204_NO_CONTENT           |
 +-----------+-------------------------------+-------------------------------+
 
 View: :py:func:`~foreign.views.rest.exercise.params_view`.
 
 Serializer :py:class:`~foreign.serializers.ExerciseChoiceSerializer`
 
-See also: :term:`lookup_conditions`, :term:`exercise_choices`.
+See: :term:`lookup_conditions`, :term:`exercise_choices`.
+
+Fields:
+ - ``language_order`` -- the order in which language translations
+   of words are displayed (`str`), choice alias only from
+   :obj:`~config.constants.LANGUAGE_ORDER_CHOICE`;
+ - ``timeout`` -- show the learning word time, sec (`int`);
+ - ``favorites`` --will be display only favorites words if `True`,
+   all otherwise (`bool`);
+ - ``progress`` -- progress of word study, choice alias only from
+   :obj:`~config.constants.PROGRESS_CHOICES` (`str`);
+ - ``word_count`` -- length of verbal expression (`list[str]`),
+   choice alias only from :obj:`~config.constants.WORD_COUNT_CHOICE`;
+ - ``period_start_date`` -- start of period of adding word to study,
+   choice alias only from :obj:`~config.constants.EDGE_PERIOD_CHOICES` (`str`);
+ - ``period_end_date`` -- end of period of adding word to study,
+   choice alias only from :obj:`~config.constants.EDGE_PERIOD_CHOICES` (`str`);
+ - ``count_first`` -- count of first added words (`int`);
+ - ``count_last`` -- count of last added words (`int`).
+ - ``category`` -- word category ID (`int`);
+ - ``source`` -- word source ID (`int`);
+
+Example:
+
+.. code-block::
+   :caption: Request:
+
+    {
+        "language_order": "TR",
+        "timeout": 5,
+        "favorites": false,
+        "progress": "K",
+        "word_count": [
+            "OW",
+            "CB"
+        ],
+        "period_start_date": "NC",
+        "period_end_date": "DT",
+        "count_first": 0,
+        "count_last": 0,
+        "category": null,
+        "source": null
+    }
+
 
 Exercise
 --------
@@ -131,8 +194,8 @@ Endpoint to get task data.
 |           | * progress (optionally)          |  * item_count              |
 |           | * word_count (optionally)        |  * assessment              |
 |           | * period_start_date (optionally) |                            |
-|           | * period_end_date (optionally)   |                            |
-|           | * count_first (optionally)       |                            |
+|           | * period_end_date (optionally)   | HTTP_204_NO_CONTENT        |
+|           | * count_first (optionally)       |  * details                 |
 |           | * count_last (optionally)        |                            |
 +-----------+----------------------------------+----------------------------+
 
@@ -141,6 +204,8 @@ View: :py:func:`~foreign.views.rest.exercise.exercise_view`.
 Serializer for request: :py:class:`~foreign.serializers.ExerciseParamSerializer`.
 
 Serializer for response: :py:class:`~foreign.serializers.ExerciseSerializer`.
+
+Returns status 204 if no words were found for study according to the given parameters.
 
 Fields:
     Request:
@@ -169,6 +234,7 @@ Fields:
         - ``item_count`` -- count of words to choice for exercise,
           by selected exercise parameters (`int`);
         - ``assessment`` -- words study assessment (`int`);
+        - ``details`` -- message (`int`).
 
 Example:
 

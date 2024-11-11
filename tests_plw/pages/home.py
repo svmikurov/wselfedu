@@ -8,14 +8,10 @@ from tests_plw.pages.base import POMPage
 class HomePage(POMPage):
     """The home page representation class.
 
-    Parameters
-    ----------
-    page : `Page`
-        Playwright Pytest page fixture.
-
+    :param Page page: Playwright Pytest page fixture.
     """
 
-    title = 'Домашняя страница'
+    title = 'WSE Главная'
     """The Home page title (`str`).
     """
 

@@ -8,15 +8,7 @@ from django.forms import TextInput
 from django.http import HttpRequest
 
 from config.constants import (
-    CATEGORY,
-    EXACT,
-    FOREIGN_WORD,
-    ICONTAINS,
-    PK,
     PROGRESS_CHOICES,
-    SOURCE,
-    USER,
-    WORD_COUNT,
     WORD_COUNT_CHOICE,
 )
 from foreign.models import (
@@ -47,29 +39,29 @@ class WordsFilter(django_filters.FilterSet):
 
     search_word = django_filters.CharFilter(
         method='filter_word_by_any_translation',
-        field_name=FOREIGN_WORD,
+        field_name='foreign_word',
         lookup_expr='icontains',
         label='',
         widget=TextInput(attrs={'placeholder': 'Поиск по слову'}),
     )
     filtered_category = django_filters.ModelChoiceFilter(
         queryset=category_by_current_user,
-        field_name=CATEGORY,
-        lookup_expr=EXACT,
+        field_name='category',
+        lookup_expr='exact',
         label='',
         empty_label='Категория',
     )
     filtered_source = django_filters.ModelChoiceFilter(
         queryset=source_by_current_user,
-        field_name=SOURCE,
-        lookup_expr=EXACT,
+        field_name='source',
+        lookup_expr='exact',
         label='',
         empty_label='Источник',
     )
     filtered_word_count = django_filters.ChoiceFilter(
         choices=WORD_COUNT_CHOICE,
-        field_name=WORD_COUNT,
-        lookup_expr=ICONTAINS,
+        field_name='word_count',
+        lookup_expr='icontains',
         label='',
         empty_label='Любое кол-во слов',
     )
@@ -107,8 +99,8 @@ class WordsFilter(django_filters.FilterSet):
         """Filter words by 'favorites' field."""
         if value:
             queryset = queryset.filter(
-                wordfavorites__word=F(PK),
-                wordfavorites__user=F(USER),
+                wordfavorites__word=F('pk'),
+                wordfavorites__user=F('user'),
             )
         return queryset
 
@@ -121,8 +113,8 @@ class WordsFilter(django_filters.FilterSet):
         """Filter words by study stage (progress)."""
         study = PROGRESS_STAGE_EDGES.get(value)
         qs = queryset.filter(
-            wordprogress__user_id=F(USER),
-            wordprogress__word_id=F(PK),
+            wordprogress__user_id=F('user'),
+            wordprogress__word_id=F('pk'),
             wordprogress__progress__in=study,
         )
         return qs

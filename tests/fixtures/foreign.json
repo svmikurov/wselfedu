@@ -5,9 +5,8 @@
   "fields": {
     "name": "category_u3_c1",
     "user": 3,
-    "description": "",
-    "created_at": "2024-03-05",
-    "updated_at": "2024-03-05"
+    "created_at": "2024-03-04T22:29:12.828Z",
+    "updated_at": "2024-03-04T22:29:12.843Z"
   }
 },
 {
@@ -16,9 +15,8 @@
   "fields": {
     "name": "category_u3_c2",
     "user": 3,
-    "description": "",
-    "created_at": "2024-03-05",
-    "updated_at": "2024-03-05"
+    "created_at": "2024-03-04T22:29:12.828Z",
+    "updated_at": "2024-03-04T22:29:12.843Z"
   }
 },
 {
@@ -27,9 +25,8 @@
   "fields": {
     "name": "category_u3_c3",
     "user": 3,
-    "description": "",
-    "created_at": "2024-03-05",
-    "updated_at": "2024-03-05"
+    "created_at": "2024-03-04T22:29:12.828Z",
+    "updated_at": "2024-03-04T22:29:12.843Z"
   }
 },
 {
@@ -38,9 +35,8 @@
   "fields": {
     "name": "category_u3_c4",
     "user": 3,
-    "description": "",
-    "created_at": "2024-03-05",
-    "updated_at": "2024-03-05"
+    "created_at": "2024-03-04T22:29:12.828Z",
+    "updated_at": "2024-03-04T22:29:12.843Z"
   }
 },
 {
@@ -49,9 +45,8 @@
   "fields": {
     "name": "category_u3_c5",
     "user": 3,
-    "description": "Не должна иметь связей.",
-    "created_at": "2024-03-05",
-    "updated_at": "2024-03-05"
+    "created_at": "2024-03-04T22:29:12.828Z",
+    "updated_at": "2024-03-04T22:29:12.843Z"
   }
 },
 {
@@ -60,9 +55,8 @@
   "fields": {
     "name": "category_u4_c1",
     "user": 4,
-    "description": "",
-    "created_at": "2024-03-05",
-    "updated_at": "2024-03-05"
+    "created_at": "2024-03-04T22:29:12.828Z",
+    "updated_at": "2024-03-04T22:29:12.843Z"
   }
 },
 {
@@ -71,9 +65,8 @@
   "fields": {
     "name": "category_u4_c2",
     "user": 4,
-    "description": "",
-    "created_at": "2024-03-05",
-    "updated_at": "2024-03-05"
+    "created_at": "2024-03-04T22:29:12.828Z",
+    "updated_at": "2024-03-04T22:29:12.843Z"
   }
 },
 {
@@ -82,9 +75,8 @@
   "fields": {
     "name": "category_u4_c3",
     "user": 4,
-    "description": "",
-    "created_at": "2024-03-05",
-    "updated_at": "2024-03-05"
+    "created_at": "2024-03-04T22:29:12.828Z",
+    "updated_at": "2024-03-04T22:29:12.843Z"
   }
 },
 {
@@ -93,9 +85,8 @@
   "fields": {
     "name": "category_u4_c4",
     "user": 4,
-    "description": "",
-    "created_at": "2024-03-05",
-    "updated_at": "2024-03-05"
+    "created_at": "2024-03-04T22:29:12.828Z",
+    "updated_at": "2024-03-04T22:29:12.843Z"
   }
 },
 {
@@ -104,9 +95,8 @@
   "fields": {
     "name": "category_u4_c5",
     "user": 4,
-    "description": "Не должна иметь связей.",
-    "created_at": "2024-03-05",
-    "updated_at": "2024-03-05"
+    "created_at": "2024-03-04T22:29:12.828Z",
+    "updated_at": "2024-03-04T22:29:12.843Z"
   }
 },
 {
@@ -117,8 +107,8 @@
     "user": 3,
     "url": null,
     "description": "",
-    "created_at": "2024-03-05",
-    "updated_at": "2024-03-05"
+    "created_at": "2024-03-04T22:29:12.828Z",
+    "updated_at": "2024-03-04T22:29:12.843Z"
   }
 },
 {
@@ -129,8 +119,8 @@
     "user": 3,
     "url": null,
     "description": "",
-    "created_at": "2024-03-05",
-    "updated_at": "2024-03-05"
+    "created_at": "2024-03-04T22:29:12.828Z",
+    "updated_at": "2024-03-04T22:29:12.843Z"
   }
 },
 {
@@ -141,8 +131,8 @@
     "user": 3,
     "url": null,
     "description": "",
-    "created_at": "2024-03-05",
-    "updated_at": "2024-03-05"
+    "created_at": "2024-03-04T22:29:12.828Z",
+    "updated_at": "2024-03-04T22:29:12.843Z"
   }
 },
 {
@@ -153,8 +143,8 @@
     "user": 3,
     "url": null,
     "description": "",
-    "created_at": "2024-03-05",
-    "updated_at": "2024-03-05"
+    "created_at": "2024-03-04T22:29:12.828Z",
+    "updated_at": "2024-03-04T22:29:12.843Z"
   }
 },
 {
@@ -165,8 +155,8 @@
     "user": 3,
     "url": null,
     "description": "Не должен иметь связей.",
-    "created_at": "2024-03-05",
-    "updated_at": "2024-03-05"
+    "created_at": "2024-03-04T22:29:12.828Z",
+    "updated_at": "2024-03-04T22:29:12.843Z"
   }
 },
 {
@@ -177,8 +167,8 @@
     "user": 4,
     "url": null,
     "description": "",
-    "created_at": "2024-03-05",
-    "updated_at": "2024-03-05"
+    "created_at": "2024-03-04T22:29:12.828Z",
+    "updated_at": "2024-03-04T22:29:12.843Z"
   }
 },
 {
@@ -189,8 +179,8 @@
     "user": 4,
     "url": null,
     "description": "",
-    "created_at": "2024-03-05",
-    "updated_at": "2024-03-05"
+    "created_at": "2024-03-04T22:29:12.828Z",
+    "updated_at": "2024-03-04T22:29:12.843Z"
   }
 },
 {
@@ -201,8 +191,8 @@
     "user": 4,
     "url": null,
     "description": "",
-    "created_at": "2024-03-05",
-    "updated_at": "2024-03-05"
+    "created_at": "2024-03-04T22:29:12.828Z",
+    "updated_at": "2024-03-04T22:29:12.843Z"
   }
 },
 {
@@ -213,8 +203,8 @@
     "user": 4,
     "url": null,
     "description": "",
-    "created_at": "2024-03-05",
-    "updated_at": "2024-03-05"
+    "created_at": "2024-03-04T22:29:12.828Z",
+    "updated_at": "2024-03-04T22:29:12.843Z"
   }
 },
 {
@@ -225,8 +215,8 @@
     "user": 4,
     "url": null,
     "description": "Не должен иметь связей.",
-    "created_at": "2024-03-05",
-    "updated_at": "2024-03-05"
+    "created_at": "2024-03-04T22:29:12.828Z",
+    "updated_at": "2024-03-04T22:29:12.843Z"
   }
 },
 {

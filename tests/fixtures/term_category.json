@@ -1,0 +1,62 @@
+[
+  {
+    "model": "glossary.glossarycategory",
+    "pk": 1,
+    "fields": {
+      "name": "category1-1",
+      "user": 2,
+      "created_at": "2024-10-29T12:00:00.000Z",
+      "updated_at": "2024-10-29T12:00:00.000Z"
+    }
+  },
+  {
+    "model": "glossary.glossarycategory",
+    "pk": 2,
+    "fields": {
+      "name": "category1-2",
+      "user": 2,
+      "created_at": "2024-10-29T12:00:00.000Z",
+      "updated_at": "2024-10-29T12:00:00.000Z"
+    }
+  },
+  {
+    "model": "glossary.glossarycategory",
+    "pk": 3,
+    "fields": {
+      "name": "category1-3",
+      "user": 2,
+      "created_at": "2024-10-29T12:00:00.000Z",
+      "updated_at": "2024-10-29T12:00:00.000Z"
+    }
+  },
+  {
+    "model": "glossary.glossarycategory",
+    "pk": 4,
+    "fields": {
+      "name": "category3-1",
+      "user": 3,
+      "created_at": "2024-10-29T12:00:00.000Z",
+      "updated_at": "2024-10-29T12:00:00.000Z"
+    }
+  },
+  {
+    "model": "glossary.glossarycategory",
+    "pk": 5,
+    "fields": {
+      "name": "category3-2",
+      "user": 3,
+      "created_at": "2024-10-29T12:00:00.000Z",
+      "updated_at": "2024-10-29T12:00:00.000Z"
+    }
+  },
+  {
+    "model": "glossary.glossarycategory",
+    "pk": 6,
+    "fields": {
+      "name": "category3-3",
+      "user": 3,
+      "created_at": "2024-10-29T12:00:00.000Z",
+      "updated_at": "2024-10-29T12:00:00.000Z"
+    }
+  }
+]

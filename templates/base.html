@@ -1,5 +1,6 @@
-{% load django_bootstrap5 %}
 {% load static %}
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,23 +16,30 @@
 </head>
 
 <body>
-  <header>
+  <header class="">
     <!--======= Navigation =======-->
     {% include 'components/navbar.html' %}
     <!-- End Navigation -->
   </header>
 
-  <main class="container pt-1">
-    <!--======= Django Messages =======-->
-    <div id="messages" class="row cols-sm-1 row-cols-md-2 row-cols-lg-2">
-      {% bootstrap_messages %}
-    </div><!-- End Django Messages -->
-
-    <!--======= Content =======-->
-    <div class="pt-2">
-      {% block content %}{% endblock %}
-    </div><!-- End Content -->
-  </main>
+  <div class="container-xl">
+    <div class="row pt-2">
+      <!--======= Sidebar =======-->
+      <aside class="col-lg-2 d-none d-lg-block">
+        {% include 'components/sidebar.html' %}
+      </aside><!-- End Sidebar -->
+      <div class="col">
+        <!--======= Django Messages =======-->
+        <section>
+          {% bootstrap_messages %}
+        </section><!-- End Django Messages -->
+        <!--======= Content =======-->
+        <main>
+          {% block content %}{% endblock %}
+        </main><!-- End Content -->
+      </div>
+    </div>
+  </div>
 
   <!--======= Scripts =======-->
   <!-- Load jquery -->

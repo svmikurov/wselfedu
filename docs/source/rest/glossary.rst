@@ -53,7 +53,10 @@ Add or update user Glossary Exercise Parameters.
 |           |                                 |    * period_start_date        |
 |           |                                 |    * period_end_date          |
 |           |                                 |    * category                 |
+|           |                                 |    * source                   |
 |           |                                 |    * progres                  |
+|           |                                 |    * count_first              |
+|           |                                 |    * count_last               |
 |           |                                 |                               |
 |           |                                 |  - exercise_choices:          |
 |           |                                 |                               |
@@ -90,6 +93,100 @@ Add or update user Glossary Exercise Parameters.
 |           |                                 | HTTP_400_BAD_REQUEST          |
 |           |                                 |  * {fild}                     |
 +-----------+---------------------------------+-------------------------------+
+
+Example, GET method::
+
+    {
+        "lookup_conditions": {
+            "period_start_date": "NC",
+            "period_end_date": "DT",
+            "progress": "S",
+            "category": null,
+            "source": null,
+            "count_first": 0,
+            "count_last": 0
+        },
+        "exercise_choices": {
+            "edge_period_items": [
+                {
+                    "alias": "DT",
+                    "humanly": "Сегодня"
+                },
+                {
+                    "alias": "D3",
+                    "humanly": "Три дня назад"
+                },
+                {
+                    "alias": "W1",
+                    "humanly": "Неделя назад"
+                },
+                {
+                    "alias": "W2",
+                    "humanly": "Две недели назад"
+                },
+                {
+                    "alias": "W3",
+                    "humanly": "Три недели назад"
+                },
+                {
+                    "alias": "W4",
+                    "humanly": "Четыре недели назад"
+                },
+                {
+                    "alias": "W7",
+                    "humanly": "Семь недель назад"
+                },
+                {
+                    "alias": "M3",
+                    "humanly": "Три месяца назад"
+                },
+                {
+                    "alias": "M6",
+                    "humanly": "Шесть месяцев назад"
+                },
+                {
+                    "alias": "M9",
+                    "humanly": "Девять месяцев назад"
+                },
+                {
+                    "alias": "NC",
+                    "humanly": "Добавлено"
+                }
+            ],
+            "categories": [
+                {
+                    "alias": 2,
+                    "humanly": "GitHub Actions"
+                },
+                {
+                    "alias": 1,
+                    "humanly": "PostgreSQL"
+                },
+                {
+                    "alias": null,
+                    "humanly": "Не выбрано"
+                }
+            ],
+            "progress": [
+                {
+                    "alias": "S",
+                    "humanly": "Изучаю"
+                },
+                {
+                    "alias": "R",
+                    "humanly": "Повторяю"
+                },
+                {
+                    "alias": "E",
+                    "humanly": "Проверяю"
+                },
+                {
+                    "alias": "K",
+                    "humanly": "Знаю"
+                }
+            ]
+        }
+    }
 
 Glossary progress endpoint
 --------------------------

@@ -20,7 +20,7 @@ def wright_json_file(file_path: str, data: list[dict]) -> None:
         json.dump(data, file, ensure_ascii=False, indent=4)
 
 
-def rename_node_fields(data: list[dict]) -> list[dict]:
+def rename_node_fields(data: list[dict]) -> list[dict]:  # noqa: C901
     """Rename node fields."""
     renamed_nodes = {
         'users.usermodel': 'users.userapp',
@@ -51,9 +51,26 @@ def rename_node_fields(data: list[dict]) -> list[dict]:
         if node['model'] == 'foreign.wordprogress':
             fields['progress'] = fields.pop('knowledge_assessment')
 
+        if node['model'] == 'foreign.wordcategory':
+            fields.pop('description')
+            fields['created_at'] += 'T00:00:00.00Z'
+            fields['updated_at'] += 'T00:00:00.00Z'
+
+        if node['model'] == 'foreign.wordsource':
+            fields['created_at'] += 'T00:00:00.00Z'
+            fields['updated_at'] += 'T00:00:00.00Z'
+
         if node['model'] == 'glossary.glossarycategory':
+            fields.pop('url')
+            fields['created_at'] += 'T00:00:00.00Z'
+            fields['updated_at'] = fields['created_at']
             fields['name'] = fields.pop('category')
-            fields['user_id'] = DEFAULT_USER_ID
+            fields['user'] = DEFAULT_USER_ID
+
+        if node['model'] == 'glossary.glossary':
+            fields['created_at'] += 'T00:00:00.00Z'
+            fields['updated_at'] = fields['created_at']
+            fields['user'] = DEFAULT_USER_ID
 
         elif node['model'] == 'glossary.glossary':
             fields['user_id'] = DEFAULT_USER_ID

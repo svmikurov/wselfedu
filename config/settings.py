@@ -9,7 +9,8 @@ load_dotenv('./.env_vars/.env')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = os.getenv('DEBUG')
+DEBUG = bool(os.getenv('DEBUG'))
+ENVIRONMENT = os.getenv('ENVIRONMENT')
 PAGINATION_SIZE = int(os.getenv('PAGINATION_SIZE', 20))
 
 ALLOWED_HOSTS = [
@@ -37,6 +38,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
+    # https://django-simple-captcha.readthedocs.io/en/latest/usage.html
+    'captcha',
     # added apps
     'users.apps.UsersConfig',
     'foreign.apps.ForeignConfig',
@@ -170,21 +173,45 @@ LOGGING = {
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
     ],
-    # Permissions
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
     ],
-    # Pagination
     # https://www.django-rest-framework.org/api-guide/pagination/#setting-the-pagination-style
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',  # noqa: E501
-    'PAGE_SIZE': PAGINATION_SIZE,  # End Pagination
+    'PAGE_SIZE': PAGINATION_SIZE,
 }
 
 FIXTURE_DIRS = ['tests/fixtures/']
+
+
+# Captcha
+# https://django-simple-captcha.readthedocs.io/en/latest/advanced.html#captcha-test-mode
+# https://stackoverflow.com/questions/3159284/how-to-unit-test-a-form-with-a-captcha-field-in-django
+if ENVIRONMENT == 'development':
+    CAPTCHA_TEST_MODE = True
+
+# Djoser authentication
+DJOSER = {
+    # https://djoser.readthedocs.io/en/latest/settings.html#permissions
+    'PERMISSIONS': {
+        # Admin only
+        'activation': ['rest_framework.permissions.IsAdminUser'],
+        'password_reset': ['rest_framework.permissions.IsAdminUser'],
+        'password_reset_confirm': ['rest_framework.permissions.IsAdminUser'],
+        'set_password': ['djoser.permissions.IsAdminUser'],
+        'username_reset': ['rest_framework.permissions.IsAdminUser'],
+        'username_reset_confirm': ['rest_framework.permissions.IsAdminUser'],
+        'set_username': ['djoser.permissions.IsAdminUser'],
+        'user_create': ['rest_framework.permissions.IsAdminUser'],
+        'user_delete': ['djoser.permissions.IsAdminUser'],
+        'user_list': ['djoser.permissions.IsAdminUser'],
+        # Allowed
+        'user': ['djoser.permissions.CurrentUserOrAdmin'],
+        'token_create': ['rest_framework.permissions.AllowAny'],
+        'token_destroy': ['rest_framework.permissions.IsAuthenticated'],
+    },
+}

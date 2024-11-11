@@ -38,7 +38,11 @@ class GlossaryListTest(APITestCase):
         """Test the glossary list permissions for owner."""
         self.api_client.force_authenticate(self.user3)
         terms = self.api_client.get(self.url).json()['results']
-        assert [term['id'] for term in terms] == [6, 7, 8]
+        assert [term['term'] for term in terms] == [
+            'term3-1',
+            'term3-2',
+            'term3-3',
+        ]
 
 
 class GlossaryCreateTest(APITestCase):

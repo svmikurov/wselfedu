@@ -2,7 +2,6 @@
 
 from django.forms import ModelForm
 
-from config.constants import NAME, URL
 from foreign.models import WordSource
 
 
@@ -13,4 +12,4 @@ class SourceForm(ModelForm):
         """Add model with specific fields."""
 
         model = WordSource
-        fields = (NAME, URL)
+        fields = ('name', 'url')

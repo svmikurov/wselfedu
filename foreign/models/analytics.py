@@ -2,7 +2,6 @@
 
 from django.db import models
 
-from config.constants import DISPLAY_COUNT
 from foreign.models import Word
 
 
@@ -36,4 +35,4 @@ class WordAnalytics(models.Model):
 
         verbose_name = 'История изучения слов'
         verbose_name_plural = 'История изучения слов'
-        ordering = [DISPLAY_COUNT]
+        ordering = ['display_count']

@@ -10,17 +10,13 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from config.constants import (
     BTN_NAME,
-    CATEGORIES,
-    CATEGORY,
     CATEGORY_LIST_PATH,
-    CATEGORY_LIST_TEMPLATE,
-    DELETE_TEMPLATE,
     DETAIL_CATEGORY_TEMPLATE,
     FORM_TEMPLATE,
     PAGINATE_NUMBER,
     TITLE,
 )
-from contrib.views import (
+from contrib.views.general import (
     CheckLoginPermissionMixin,
     CheckUserOwnershipMixin,
     PermissionProtectDeleteView,
@@ -33,8 +29,9 @@ class CategoryCreateView(CheckLoginPermissionMixin, CreateView):
     """Create category view."""
 
     form_class = CategoryForm
-    template_name = FORM_TEMPLATE
-    success_url = reverse_lazy(CATEGORY_LIST_PATH)
+    success_url = reverse_lazy('foreign:category_list')
+
+    template_name = 'form.html'
     success_message = 'Категория слов добавлена'
     extra_context = {
         TITLE: 'Добавить категорию',
@@ -62,13 +59,11 @@ class CategoryUpdateView(CheckUserOwnershipMixin, UpdateView):
     }
 
 
-class CategoryDeleteView(
-    PermissionProtectDeleteView,
-):
+class CategoryDeleteView(PermissionProtectDeleteView):
     """Delete category view."""
 
     model = WordCategory
-    template_name = DELETE_TEMPLATE
+    template_name = 'delete.html'
     success_url = reverse_lazy(CATEGORY_LIST_PATH)
     success_message = 'Категория слов удалена'
     protected_redirect_url = reverse_lazy(CATEGORY_LIST_PATH)
@@ -86,11 +81,11 @@ class CategoryListView(CheckLoginPermissionMixin, ListView):
     """Category list view."""
 
     model = WordCategory
-    template_name = CATEGORY_LIST_TEMPLATE
-    context_object_name = CATEGORIES
+    template_name = 'foreign/category_list.html'
+    context_object_name = 'categories'
     paginate_by = PAGINATE_NUMBER
     extra_context = {
-        TITLE: 'Категории',
+        TITLE: 'Категории слов',
     }
 
     def get_queryset(self) -> QuerySet:
@@ -104,7 +99,7 @@ class CategoryDetailView(CheckUserOwnershipMixin, DetailView):
 
     model = WordCategory
     template_name = DETAIL_CATEGORY_TEMPLATE
-    context_object_name = CATEGORY
+    context_object_name = 'category'
     extra_context = {
         TITLE: 'Обзор категории слов',
     }

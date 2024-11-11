@@ -11,6 +11,6 @@ class HomePageTest(TestCase):
 
     def test_home_page_view(self) -> None:
         """Test Foreign home page 200 status."""
-        response = self.client.get(reverse_lazy('foreign:home'))
+        response = self.client.get(reverse_lazy('foreign:main'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertIn('WSE', str(response.content))
