@@ -31,12 +31,15 @@ class TermForm(forms.ModelForm):
             'translate',
             'definition',
             'interpretation',
+            'url',
+            'example',
             'category',
             'source',
         ]
         widgets = {
-            'definition': forms.Textarea(attrs={'rows': 5}),
-            'interpretation': forms.Textarea(attrs={'rows': 5}),
+            'definition': forms.Textarea(attrs={'rows': 4}),
+            'interpretation': forms.Textarea(attrs={'rows': 4}),
+            'example': forms.Textarea(attrs={'rows': 4}),
         }
 
     @staticmethod
@@ -48,6 +51,8 @@ class TermForm(forms.ModelForm):
             Field('translate'),
             Field('definition'),
             Field('interpretation'),
+            Field('example'),
+            Field('url'),
             Row(
                 Column('category', css_class=COL_6),
                 Column('source', css_class=COL_6),

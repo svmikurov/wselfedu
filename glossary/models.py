@@ -41,6 +41,15 @@ class Term(models.Model):
         blank=True,
         verbose_name='Толкование',
     )
+    example = models.TextField(
+        blank=True,
+        verbose_name='Пример',
+    )
+    url = models.URLField(
+        max_length=255,
+        blank=True,
+        verbose_name='URL-адрес определения',
+    )
     category = models.ForeignKey(
         TermCategory,
         models.SET_NULL,
