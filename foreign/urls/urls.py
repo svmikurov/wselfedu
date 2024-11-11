@@ -15,8 +15,8 @@ app_name = 'foreign'
 urlpatterns = [
     path(
         '',
-        TemplateView.as_view(template_name='foreign/home.html'),
-        name='home',
+        TemplateView.as_view(template_name='foreign/main.html'),
+        name='main',
     ),
 ]
 

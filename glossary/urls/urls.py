@@ -11,8 +11,8 @@ app_name = 'glossary'
 urlpatterns = [
     path(
         '',
-        TemplateView.as_view(template_name='glossary/home.html'),
-        name='home',
+        TemplateView.as_view(template_name='glossary/main.html'),
+        name='main',
     ),
     path(
         'term-create/',

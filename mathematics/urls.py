@@ -16,8 +16,8 @@ app_name = 'math'
 urlpatterns = [
     path(
         '',
-        TemplateView.as_view(template_name='mathematics/home.html'),
-        name='home',
+        TemplateView.as_view(template_name='mathematics/main.html'),
+        name='main',
     ),
     path(
         'math-calculate-choice/',
