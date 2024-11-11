@@ -7,14 +7,16 @@
 {% block content %}
 {% include 'components/title.html' with title='Упражнение на мобильном' %}
 <div>
-    <p>В настоящее время разрабатывается и тестируется версия только для ОС Андройд.</p>
-  <h1>Для ОС Андроид</h1>
-    <h3>Скачать мобильное приложение</h3>
-     <p class="h5"><a href="{% url 'mobile_install' %}">Инструкция</a></p>
-    <h3>Изучение иностранных слов на мобильном телефоне</h3>
-    <div>
-      <p class="h5"><a href="{% url 'mobile_exercise' %}">Инструкция</a></p>
-      <img src="{% static 'image/mobile/foreign-exercise.gif' %}" width="300">
-    </div>
+  <p>В настоящее время разрабатывается и тестируется версия только для ОС Андройд.</p>
+  <h2 class="h4">Для ОС Андроид</h2>
+  <section class="pb-2">
+    <h3 class="h5">Скачать мобильное приложение</h3>
+    <a href="{% url 'mobile_install' %}">Инструкция по установке</a>
+  </section>
+  <section>
+    <h3 class="h5">Изучение иностранных слов на мобильном телефоне</h3>
+    <a href="{% url 'mobile_exercise' %}">Инструкция по упражнению</a><br>
+    <img class="pt-2" src="{% static 'image/mobile/foreign-exercise.gif' %}" width="300">
+  </section>
 </div>
 {% endblock %}
