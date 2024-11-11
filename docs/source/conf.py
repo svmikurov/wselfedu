@@ -23,7 +23,7 @@ html_context = {}
 project = 'wselfedu'
 copyright = '2024, Sergei Mikurov'
 author = 'Sergei Mikurov'
-release = '0.4.0'
+release = '0.4.2'
 
 # -- GitHub information ------------------------------------------------
 github_user = 'svmikurov'
