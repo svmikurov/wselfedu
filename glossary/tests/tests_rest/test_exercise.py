@@ -1,4 +1,4 @@
-"""Test Glossary exercise api.
+"""Test Term exercise api.
 
 - update progres: increment, decrement, min, max, forbidden,
   TODO: get;
@@ -49,7 +49,7 @@ class TestGlossaryTask(APITestCase):
 
 
 class TestGetGlossaryExerciseParams(APITestCase):
-    """Test render Glossary exercise params."""
+    """Test render Term exercise params."""
 
     fixtures = ['glossary/tests/fixtures/glossaries']
 
@@ -117,7 +117,7 @@ class TestGetGlossaryExerciseParams(APITestCase):
 
 
 class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
-    """Test update or create user params for Glossary exersice."""
+    """Test update or create user params for Term exersice."""
 
     fixtures = ['glossary/tests/fixtures/glossaries']
 

@@ -1,1 +1,1 @@
-"""Glossary app DRF views."""
+"""Term app DRF views."""

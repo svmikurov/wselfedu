@@ -15,7 +15,7 @@ from users.models import UserApp
 
 
 class SourceTestData(TestData):
-    """Glossary Source tests data."""
+    """Term Source tests data."""
 
     fixtures = ['users', 'glossary/tests/fixtures/source']
 
@@ -54,16 +54,16 @@ class SourceTestData(TestData):
 
 
 class SourceCreateTest(CreateTest, SourceTestData):
-    """Glossary source create tests."""
+    """Term source create tests."""
 
 
 class SourceListTest(ListTest, SourceTestData):
-    """Glossary source list tests."""
+    """Term source list tests."""
 
 
 class SourceUpdateTest(UpdateTest, SourceTestData):
-    """Glossary source update tests."""
+    """Term source update tests."""
 
 
 class SourceDeleteTest(DeleteTest, SourceTestData):
-    """Glossary source delete tests."""
+    """Term source delete tests."""

@@ -5,6 +5,8 @@ Changelog
 v0.4.2 (Today)
 ==============
 
+* Rename models: Glossary to Term, GlossaryCategory to TermCategory.
+
 v0.4.1 (2021-11-11)
 ===================
 

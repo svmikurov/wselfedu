@@ -1,22 +1,22 @@
-"""Glossary serializer."""
+"""Term serializer."""
 
 from django.db.models import Model
 from rest_framework import serializers
 
 from glossary.models import (
-    Glossary,
-    GlossaryCategory,
     GlossaryParams,
+    Term,
+    TermCategory,
 )
 
 
 class GlossarySerializer(serializers.ModelSerializer):
-    """Glossary serializer."""
+    """Term serializer."""
 
     class Meta:
         """Serializer settings."""
 
-        model = Glossary
+        model = Term
         fields = [
             'term',
             'definition',
@@ -24,7 +24,7 @@ class GlossarySerializer(serializers.ModelSerializer):
 
 
 class GlossaryParamsSerializer(serializers.ModelSerializer):
-    """Glossary Exercise Parameters serializer."""
+    """Term Exercise Parameters serializer."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Add is created model instance."""
@@ -55,7 +55,7 @@ class GlossaryParamsSerializer(serializers.ModelSerializer):
 
 
 class GlossaryCategorySerializer(serializers.ModelSerializer):
-    """Glossary Category serializer."""
+    """Term Category serializer."""
 
     alias = serializers.SerializerMethodField()
     """Field alias pk (`int`).
@@ -67,7 +67,7 @@ class GlossaryCategorySerializer(serializers.ModelSerializer):
     class Meta:
         """Serializer settings."""
 
-        model = GlossaryCategory
+        model = TermCategory
         fields = ['alias', 'humanly']
         """Fields (`list[str]`).
         """

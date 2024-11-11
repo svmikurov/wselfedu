@@ -1,4 +1,4 @@
-"""CRUD of Glossary term DRF views."""
+"""CRUD of Term term DRF views."""
 
 from typing import Type
 
@@ -17,11 +17,11 @@ from contrib.views.general import (
     PermissionProtectDeleteView,
 )
 from glossary.forms.term import TermForm
-from glossary.models import Glossary
+from glossary.models import Term
 
 
 class TermCreateView(HandleNoPermissionMixin, LoginRequiredMixin, CreateView):
-    """Create Glossary term view."""
+    """Create Term term view."""
 
     form_class = TermForm
     template_name = 'glossary/term_form.html'
@@ -45,9 +45,9 @@ class TermCreateView(HandleNoPermissionMixin, LoginRequiredMixin, CreateView):
 
 
 class TermListView(CheckLoginPermissionMixin, ListView):
-    """Glossary term list view."""
+    """Term term list view."""
 
-    model = Glossary
+    model = Term
     template_name = 'glossary/term_list.html'
     context_object_name = 'terms'
     extra_context = {
@@ -65,9 +65,9 @@ class TermListView(CheckLoginPermissionMixin, ListView):
 
 
 class TermDetailView(CheckUserOwnershipMixin, DetailView):
-    """Glossary term ditail View."""
+    """Term term ditail View."""
 
-    model = Glossary
+    model = Term
     template_name = 'glossary/term_detail.html'
     context_object_name = 'term'
 
@@ -75,7 +75,7 @@ class TermDetailView(CheckUserOwnershipMixin, DetailView):
 class TermUpdateView(CheckUserOwnershipMixin, UpdateView):
     """Update term view."""
 
-    model = Glossary
+    model = Term
     form_class = TermForm
     template_name = 'glossary/term_form.html'
     success_url = reverse_lazy('glossary:term_list')
@@ -96,7 +96,7 @@ class TermUpdateView(CheckUserOwnershipMixin, UpdateView):
 class TermDeleteView(PermissionProtectDeleteView):
     """Delete term view."""
 
-    model = Glossary
+    model = Term
     template_name = 'delete.html'
     success_url = reverse_lazy('glossary:term_list')
     success_message = 'Термин удален'

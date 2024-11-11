@@ -24,12 +24,12 @@ from contrib.views.exercise import ExerciseParamsView
 from contrib.views.general import CheckLoginPermissionMixin
 from glossary.exercise.question import GlossaryExercise
 from glossary.forms.term_choice import GlossaryParamsForm
-from glossary.models import Glossary
+from glossary.models import Term
 from glossary.queries.exercise import save_params
 
 
 class GlossaryParamsView(ExerciseParamsView):
-    """Glossary term exercise conditions choice view."""
+    """Term term exercise conditions choice view."""
 
     template_name = 'glossary/exercise/params.html'
     exercise_url = reverse_lazy('glossary:exercise')
@@ -41,7 +41,7 @@ class GlossaryParamsView(ExerciseParamsView):
 
 
 class TermExerciseView(CheckLoginPermissionMixin, View):
-    """Glossary term study exercise view."""
+    """Term term study exercise view."""
 
     template_name = 'glossary/exercise/exercise.html'
     """The view template path (`str`).
@@ -105,7 +105,7 @@ def update_term_favorite_status_view_ajax(
 ) -> JsonResponse:
     """Update the status of a term, is it favorite."""
     term_id = kwargs['term_id']
-    term = Glossary.objects.get(pk=term_id, user=request.user)
+    term = Term.objects.get(pk=term_id, user=request.user)
     term.favorites = not term.favorites
     term.save()
 
@@ -131,8 +131,8 @@ def update_term_study_progress(
     term_pk = kwargs['term_id']
 
     try:
-        obj = Glossary.objects.get(pk=term_pk)
-    except Glossary.DoesNotExist:
+        obj = Term.objects.get(pk=term_pk)
+    except Term.DoesNotExist:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
     else:
         # Only owner have access to his term.

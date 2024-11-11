@@ -8,13 +8,13 @@ from django.forms import Form
 from django.http import HttpRequest
 
 from glossary.models import (
-    Glossary,
-    GlossaryCategory,
     GlossaryParams,
+    Term,
+    TermCategory,
 )
 
 
-@admin.register(Glossary)
+@admin.register(Term)
 class GlossaryAdmin(admin.ModelAdmin):
     """Representation of model in the admin interface."""
 
@@ -39,7 +39,7 @@ class GlossaryAdmin(admin.ModelAdmin):
         return super().get_form(request, obj, **kwargs)
 
 
-@admin.register(GlossaryCategory)
+@admin.register(TermCategory)
 class GlossaryCategoryAdmin(admin.ModelAdmin):
     """Representation of model in the admin interface."""
 

@@ -1,4 +1,4 @@
-"""Glossary app REST urls."""
+"""Term app REST urls."""
 
 from django.urls import path
 

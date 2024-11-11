@@ -1,4 +1,4 @@
-"""Glossary exercise view."""
+"""Term exercise view."""
 
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from rest_framework import permissions, status
@@ -26,9 +26,9 @@ from glossary.exercise.question import (
     GlossaryExerciseGUI,
 )
 from glossary.models import (
-    Glossary,
-    GlossaryCategory,
     GlossaryParams,
+    Term,
+    TermCategory,
 )
 from glossary.serializers import (
     GlossaryCategorySerializer,
@@ -39,7 +39,7 @@ from glossary.serializers import (
 @api_view(['POST'])
 @permission_classes((permissions.AllowAny,))
 def glossary_exercise(request: Request) -> JsonResponse | HttpResponse:
-    """Render the Glossary exercise."""
+    """Render the Term exercise."""
     serializer = GlossaryParamsSerializer(data=request.data)
 
     if serializer.is_valid():
@@ -60,7 +60,7 @@ def glossary_exercise(request: Request) -> JsonResponse | HttpResponse:
 def glossary_exercise_parameters(
     request: Request,
 ) -> JsonResponse | HttpResponse:
-    """Glossary exercise parameters view.
+    """Term exercise parameters view.
 
     GET
     ---
@@ -84,9 +84,9 @@ def glossary_exercise_parameters(
             lookup_conditions = GlossaryParamsSerializer(user_params).data
 
         try:
-            queryset = GlossaryCategory.objects.filter(user=user)
-        except GlossaryCategory.DoesNotExist:
-            queryset = GlossaryCategory.objects.none()
+            queryset = TermCategory.objects.filter(user=user)
+        except TermCategory.DoesNotExist:
+            queryset = TermCategory.objects.none()
         categories = GlossaryCategorySerializer(queryset, many=True).data
         categories.append(NO_SELECTION)
 
@@ -123,8 +123,8 @@ def update_term_study_progress(request: HttpRequest) -> HttpResponse:
     term_pk = payload.get('id')
 
     try:
-        term = Glossary.objects.get(pk=term_pk)
-    except Glossary.DoesNotExist:
+        term = Term.objects.get(pk=term_pk)
+    except Term.DoesNotExist:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
     else:
         # Only owner have access to his term.

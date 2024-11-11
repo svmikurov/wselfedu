@@ -1,6 +1,6 @@
 [
   {
-    "model": "glossary.glossarycategory",
+    "model": "glossary.termcategory",
     "pk": 1,
     "fields": {
       "name": "category1-1",
@@ -10,7 +10,7 @@
     }
   },
   {
-    "model": "glossary.glossarycategory",
+    "model": "glossary.termcategory",
     "pk": 2,
     "fields": {
       "name": "category1-2",
@@ -20,7 +20,7 @@
     }
   },
   {
-    "model": "glossary.glossarycategory",
+    "model": "glossary.termcategory",
     "pk": 3,
     "fields": {
       "name": "category1-3",
@@ -30,7 +30,7 @@
     }
   },
   {
-    "model": "glossary.glossarycategory",
+    "model": "glossary.termcategory",
     "pk": 4,
     "fields": {
       "name": "category3-1",
@@ -40,7 +40,7 @@
     }
   },
   {
-    "model": "glossary.glossarycategory",
+    "model": "glossary.termcategory",
     "pk": 5,
     "fields": {
       "name": "category3-2",
@@ -50,7 +50,7 @@
     }
   },
   {
-    "model": "glossary.glossarycategory",
+    "model": "glossary.termcategory",
     "pk": 6,
     "fields": {
       "name": "category3-3",

@@ -27,7 +27,7 @@ class ForeignLinkMixin:
 
 
 class GlossaryLinkMixin:
-    """Glossary link target page titles."""
+    """Term link target page titles."""
 
     class_link = nav.GlossaryLink
 

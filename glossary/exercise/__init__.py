@@ -1,1 +1,1 @@
-"""Exercise of the Glossary application."""
+"""Exercise of the Term application."""

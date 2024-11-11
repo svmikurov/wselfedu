@@ -11,12 +11,12 @@ from contrib.tests.crud import (
     TestData,
     UpdateTest,
 )
-from glossary.models import Glossary
+from glossary.models import Term
 from users.models import UserApp
 
 
 class TermTestData(TestData):
-    """Glossary term tests data."""
+    """Term term tests data."""
 
     fixtures = ['users', 'terms']
 
@@ -26,7 +26,7 @@ class TermTestData(TestData):
 
         # Items.
         self.item_pk = 1
-        self.manager = Glossary.objects
+        self.manager = Term.objects
         self.item = self.manager.get(pk=self.item_pk)
         self.item_data = {
             'term': 'term',
@@ -58,20 +58,20 @@ class TermTestData(TestData):
 
 
 class TermCreateTest(CreateTest, TermTestData):
-    """Glossary term create tests."""
+    """Term term create tests."""
 
 
 class TermListTest(ListTest, TermTestData):
-    """Glossary term list tests."""
+    """Term term list tests."""
 
 
 class TermUpdateTest(UpdateTest, TermTestData):
-    """Glossary term update tests."""
+    """Term term update tests."""
 
 
 class TermDetailTest(DetailTest, TermTestData):
-    """Glossary term detail tests."""
+    """Term term detail tests."""
 
 
 class TermDeleteTest(DeleteTest, TermTestData):
-    """Glossary term delete tests."""
+    """Term term delete tests."""

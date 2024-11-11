@@ -243,7 +243,7 @@ DEFAULT_LOOKUP_CONDITIONS = {
     'count_first': 0,
     'count_last': 0,
 }
-"""Default choice for Glossary exercise lookup conditions
+"""Default choice for Term exercise lookup conditions
 (`dict[str, int | None]`)
 """
 

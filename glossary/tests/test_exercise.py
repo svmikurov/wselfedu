@@ -4,12 +4,12 @@ from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APIClient, APITestCase
 
-from glossary.models import Glossary
+from glossary.models import Term
 from users.models import UserApp
 
 
 class TestGlossaryExerciseView(APITestCase):
-    """Test the Glossary exercise view.
+    """Test the Term exercise view.
 
     Test
     :py:meth:`task.views.glossary_exercise_drf_views.glossary_exercise`
@@ -23,7 +23,7 @@ class TestGlossaryExerciseView(APITestCase):
 
     def test_http_status_200(self) -> None:
         """Test http status 200."""
-        Glossary.objects.create(user=self.user, term='term')
+        Term.objects.create(user=self.user, term='term')
         self.api_client.force_authenticate(self.user)
         r = self.api_client.post(self.url)
         assert r.status_code == status.HTTP_200_OK

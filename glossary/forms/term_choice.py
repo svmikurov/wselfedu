@@ -1,4 +1,4 @@
-"""Form to choice params for Glossary exercise.
+"""Form to choice params for Term exercise.
 
 .. todo::
    * add count first and count last param choice;
@@ -16,14 +16,14 @@ from config.constants import (
     EDGE_PERIOD_CHOICES,
     PROGRESS_CHOICES,
 )
-from glossary.models import GlossaryCategory, GlossaryParams, TermSource
+from glossary.models import GlossaryParams, TermCategory, TermSource
 
 
 class GlossaryParamsForm(forms.Form):
-    """Glossary exercise params choice form."""
+    """Term exercise params choice form."""
 
     MODEL_FIELDS = {
-        'category': GlossaryCategory,
+        'category': TermCategory,
         'source': TermSource,
     }
 

@@ -1,6 +1,6 @@
 [
 {
-  "model": "glossary.glossarycategory",
+  "model": "glossary.termcategory",
   "pk": 1,
   "fields": {
     "user": 2,
@@ -10,7 +10,7 @@
   }
 },
 {
-  "model": "glossary.glossarycategory",
+  "model": "glossary.termcategory",
   "pk": 2,
   "fields": {
     "user": 2,
@@ -20,7 +20,7 @@
   }
 },
 {
-  "model": "glossary.glossary",
+  "model": "glossary.term",
   "pk": 1,
   "fields": {
     "user": 2,
@@ -35,7 +35,7 @@
   }
 },
 {
-  "model": "glossary.glossary",
+  "model": "glossary.term",
   "pk": 2,
   "fields": {
     "user": 2,
@@ -50,7 +50,7 @@
   }
 },
 {
-  "model": "glossary.glossary",
+  "model": "glossary.term",
   "pk": 3,
   "fields": {
     "user": 2,
@@ -65,7 +65,7 @@
   }
 },
 {
-  "model": "glossary.glossary",
+  "model": "glossary.term",
   "pk": 4,
   "fields": {
     "user": 2,
@@ -80,7 +80,7 @@
   }
 },
 {
-  "model": "glossary.glossary",
+  "model": "glossary.term",
   "pk": 5,
   "fields": {
     "user": 2,
@@ -95,7 +95,7 @@
   }
 },
 {
-  "model": "glossary.glossary",
+  "model": "glossary.term",
   "pk": 6,
   "fields": {
     "user": 3,
@@ -110,7 +110,7 @@
   }
 },
 {
-  "model": "glossary.glossary",
+  "model": "glossary.term",
   "pk": 7,
   "fields": {
     "user": 3,
@@ -125,7 +125,7 @@
   }
 },
 {
-  "model": "glossary.glossary",
+  "model": "glossary.term",
   "pk": 8,
   "fields": {
     "user": 3,

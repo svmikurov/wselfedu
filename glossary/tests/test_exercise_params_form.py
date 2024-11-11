@@ -24,7 +24,7 @@ from config.constants import (
     WEEKS_AGO_2,
     WEEKS_AGO_7,
 )
-from glossary.models import GlossaryCategory, GlossaryParams, TermSource
+from glossary.models import GlossaryParams, TermCategory, TermSource
 from users.models import UserApp
 
 CATEGORY_CHOICES = [
@@ -97,7 +97,7 @@ class ExerciseParamsTest(TestCase):
         timeout_value = 7
         category_id = 3
         source_id = 2
-        category = GlossaryCategory.objects.get(pk=category_id)
+        category = TermCategory.objects.get(pk=category_id)
         source = TermSource.objects.get(pk=source_id)
 
         # Save user params to render.

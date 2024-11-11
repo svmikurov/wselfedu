@@ -1,4 +1,4 @@
-"""Glossary term category views."""
+"""Term term category views."""
 
 from django.db.models import QuerySet
 from django.forms import Form
@@ -12,11 +12,11 @@ from contrib.views.general import (
     PermissionProtectDeleteView,
 )
 from glossary.forms.category import CategoryForm
-from glossary.models import GlossaryCategory
+from glossary.models import TermCategory
 
 
 class CategoryCreateView(CheckLoginPermissionMixin, CreateView):
-    """Create Glossary category view."""
+    """Create Term category view."""
 
     form_class = CategoryForm
     success_url = reverse_lazy('glossary:category_list')
@@ -38,7 +38,7 @@ class CategoryCreateView(CheckLoginPermissionMixin, CreateView):
 class CategoryListView(CheckLoginPermissionMixin, ListView):
     """Category list view."""
 
-    model = GlossaryCategory
+    model = TermCategory
     template_name = 'glossary/category_list.html'
     context_object_name = 'categories'
     extra_context = {
@@ -54,7 +54,7 @@ class CategoryListView(CheckLoginPermissionMixin, ListView):
 class CategoryUpdateView(CheckUserOwnershipMixin, UpdateView):
     """Create category view."""
 
-    model = GlossaryCategory
+    model = TermCategory
     form_class = CategoryForm
     template_name = 'form.html'
     success_url = reverse_lazy('glossary:category_list')
@@ -68,7 +68,7 @@ class CategoryUpdateView(CheckUserOwnershipMixin, UpdateView):
 class CategoryDeleteView(PermissionProtectDeleteView):
     """Delete category view."""
 
-    model = GlossaryCategory
+    model = TermCategory
     template_name = 'delete.html'
     success_url = reverse_lazy('glossary:category_list')
     success_message = 'Категория слов удалена'

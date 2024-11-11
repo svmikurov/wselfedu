@@ -1,1 +1,1 @@
-"""Glossary tests."""
+"""Term tests."""

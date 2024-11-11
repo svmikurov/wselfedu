@@ -1,1 +1,1 @@
-"""ORM queries of the Glossary application."""
+"""ORM queries of the Term application."""

@@ -1,4 +1,4 @@
-"""Glossary app views."""
+"""Term app views."""
 
 from glossary.views.category import (
     CategoryCreateView,
