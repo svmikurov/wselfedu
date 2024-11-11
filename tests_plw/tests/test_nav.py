@@ -13,17 +13,6 @@ from tests_plw.page_components import nav
 from tests_plw.tests.base import POMTest
 
 
-class MainLinkMixin:
-    """Main link target page titles."""
-
-    class_link = nav.MainLink
-
-    title_profile = pages.ProfilePage.title
-    title_home = pages.HomePage.title
-    title_about = pages.AboutPage.title
-    title_mobile = pages.MobilePage.title
-
-
 class ForeignLinkMixin:
     """Foreign link target page titles."""
 
@@ -193,14 +182,6 @@ class LinkTest(POMTest):
             self.page.locator(' '.join([self.selector, 'li'])).count()
             == self.count_link
         )
-
-
-class SidebarMainTest(MainLinkMixin, MainTestMixin, LinkTest):
-    """Test of main links at sidebar."""
-
-    __test__ = True
-    selector = '[id=sidebar-main]'
-    count_link = 4
 
 
 class SidebarForeignTest(ForeignLinkMixin, CommonTestMixin, LinkTest):

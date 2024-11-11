@@ -11,7 +11,7 @@ class ForeignCreatePage(POMPage):
     :param Page page: The Playwright Pytest page fixture.
     """
 
-    title = 'Добавить слово в словарь'
+    title = 'Добавить слово'
 
     def __init__(self, page: Page) -> None:
         """Construct the sidebar representation."""

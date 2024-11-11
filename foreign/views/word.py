@@ -42,7 +42,7 @@ class WordCreateView(HandleNoPermissionMixin, LoginRequiredMixin, CreateView):
 
     additional_user_navigation = {'Словарь': WORD_LIST_TEMPLATE}
     extra_context = {
-        TITLE: 'Добавить слово в словарь',
+        TITLE: 'Добавить слово',
         'additional_user_navigation': additional_user_navigation,
     }
 

@@ -103,7 +103,7 @@ class ForeignLink(ClickLinkMixin, POMPage):
             'link', name='Список слов',
         )  # fmt: skip
         self.link_create = locator.get_by_role(
-            'link', name='Добавить слово в словарь',
+            'link', name='Добавить слово',
         )  # fmt: skip
         self.link_category = locator.get_by_role(
             'link', name='Категории',
