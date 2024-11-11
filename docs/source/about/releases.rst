@@ -2,8 +2,11 @@
 Changelog
 #########
 
-v0.4.1 (Today)
+v0.4.2 (Today)
 ==============
+
+v0.4.1 (2021-11-11)
+===================
 
 * Added option to hide sidebar if viewport
 * Added ExerciseParamsView as base view for foreign and glossary
