@@ -1,7 +1,7 @@
 """The page representations of Page Object Model testing."""
 
 from tests_plw.pages.about import AboutPage
-from tests_plw.pages.foreign import ForeignPage
+from tests_plw.pages.foreign import ForeignMainPage
 from tests_plw.pages.foreign_category import ForeignCategoryPage
 from tests_plw.pages.foreign_create import ForeignCreatePage
 from tests_plw.pages.foreign_exercise_params import ForeignExerciseParamsPage
@@ -30,7 +30,7 @@ __all__ = (
     'ForeignCreatePage',
     'ForeignExerciseParamsPage',
     'ForeignListPage',
-    'ForeignPage',
+    'ForeignMainPage',
     'ForeignSourcePage',
     'GlossaryExercisePage',
     'GlossaryPage',

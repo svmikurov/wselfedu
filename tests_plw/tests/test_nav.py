@@ -18,7 +18,7 @@ class ForeignLinkMixin:
 
     class_link = nav.ForeignLink
 
-    title_main = pages.ForeignPage.title
+    title_main = pages.ForeignMainPage.title
     title_exercise = pages.ForeignExerciseParamsPage.title
     title_list = pages.ForeignListPage.title
     title_create = pages.ForeignCreatePage.title
