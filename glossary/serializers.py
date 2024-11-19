@@ -10,7 +10,7 @@ from glossary.models import (
 )
 
 
-class GlossarySerializer(serializers.ModelSerializer):
+class TermSerializer(serializers.ModelSerializer):
     """Term serializer."""
 
     class Meta:
@@ -23,7 +23,7 @@ class GlossarySerializer(serializers.ModelSerializer):
         ]
 
 
-class GlossaryParamsSerializer(serializers.ModelSerializer):
+class TermParamsSerializer(serializers.ModelSerializer):
     """Term Exercise Parameters serializer."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
@@ -54,7 +54,7 @@ class GlossaryParamsSerializer(serializers.ModelSerializer):
         return params
 
 
-class GlossaryCategorySerializer(serializers.ModelSerializer):
+class TermCategorySerializer(serializers.ModelSerializer):
     """Term Category serializer."""
 
     alias = serializers.SerializerMethodField()

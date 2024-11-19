@@ -23,7 +23,6 @@ def wright_json_file(file_path: str, data: list[dict]) -> None:
 def rename_node_fields(data: list[dict]) -> list[dict]:  # noqa: C901
     """Rename node fields."""
     for node in data:
-
         if node.get('model') == 'foreign.translateparams':
             fields: dict = node['fields']
             fields['progress'] = str([fields['progress']]).replace("'", '"')

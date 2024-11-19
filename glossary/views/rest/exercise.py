@@ -31,8 +31,8 @@ from glossary.models import (
     TermCategory,
 )
 from glossary.serializers import (
-    GlossaryCategorySerializer,
-    GlossaryParamsSerializer,
+    TermCategorySerializer,
+    TermParamsSerializer,
 )
 
 
@@ -40,7 +40,7 @@ from glossary.serializers import (
 @permission_classes((permissions.AllowAny,))
 def glossary_exercise(request: Request) -> JsonResponse | HttpResponse:
     """Render the Term exercise."""
-    serializer = GlossaryParamsSerializer(data=request.data)
+    serializer = TermParamsSerializer(data=request.data)
 
     if serializer.is_valid():
         lookup_conditions = serializer.data
@@ -81,13 +81,13 @@ def glossary_exercise_parameters(
         except GlossaryParams.DoesNotExist:
             lookup_conditions = DEFAULT_LOOKUP_CONDITIONS
         else:
-            lookup_conditions = GlossaryParamsSerializer(user_params).data
+            lookup_conditions = TermParamsSerializer(user_params).data
 
         try:
             queryset = TermCategory.objects.filter(user=user)
         except TermCategory.DoesNotExist:
             queryset = TermCategory.objects.none()
-        categories = GlossaryCategorySerializer(queryset, many=True).data
+        categories = TermCategorySerializer(queryset, many=True).data
         categories.append(NO_SELECTION)
 
         exercise_params = {
@@ -102,7 +102,7 @@ def glossary_exercise_parameters(
         return JsonResponse(exercise_params, status=HTTP_200_OK)
 
     if request.method == 'POST':
-        serializer = GlossaryParamsSerializer(data=request.data)
+        serializer = TermParamsSerializer(data=request.data)
 
         if serializer.is_valid():
             serializer.save(user=request.user)
