@@ -18,6 +18,7 @@ class TermSerializer(serializers.ModelSerializer):
 
         model = Term
         fields = [
+            'id',
             'term',
             'definition',
         ]
