@@ -1,4 +1,5 @@
 """Term exercise view."""
+import logging
 
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from rest_framework import permissions, status
@@ -45,6 +46,8 @@ def glossary_exercise(request: Request) -> JsonResponse | HttpResponse:
     if serializer.is_valid():
         lookup_conditions = serializer.data
         lookup_conditions['user_id'] = request.user.id
+        logging.info(f'{request.data = }')
+        logging.info(f'{lookup_conditions = }')
         try:
             exercise = GlossaryExerciseGUI(lookup_conditions).task_data
         except IndexError:
@@ -55,7 +58,7 @@ def glossary_exercise(request: Request) -> JsonResponse | HttpResponse:
     return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'PUT'])
 @permission_classes((permissions.AllowAny,))
 def glossary_exercise_parameters(
     request: Request,
@@ -74,6 +77,7 @@ def glossary_exercise_parameters(
 
     """
     user = request.user
+    logging.info(f'>>> {request.data = }')
 
     if request.method == 'GET':
         try:
@@ -101,7 +105,7 @@ def glossary_exercise_parameters(
 
         return JsonResponse(exercise_params, status=HTTP_200_OK)
 
-    if request.method == 'POST':
+    if request.method == 'PUT':
         serializer = TermParamsSerializer(data=request.data)
 
         if serializer.is_valid():
@@ -111,6 +115,7 @@ def glossary_exercise_parameters(
                 return Response(serializer.data)
             return Response(serializer.data, status=HTTP_201_CREATED)
 
+        logging.info(f'{serializer.errors = }')
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 

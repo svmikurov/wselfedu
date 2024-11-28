@@ -4,7 +4,7 @@ Glossary app DRF views
 Glossary
 --------
 
-.. automodule:: glossary.views.rest.glossary
+.. automodule:: glossary.views.rest.term
    :members:
 
 Glossary exercise

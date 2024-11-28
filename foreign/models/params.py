@@ -25,14 +25,12 @@ class TranslateParams(ExerciseParams):
         max_length=2,
         verbose_name='Порядок перевода',
     )
-    """The order in which language translations of words are displayed.
+    """The order in which translations of words are displayed.
+    
     Could be:
-
-    - first the question is in Foreign, then the answer is in
-      Native;
-    - first the question is in Russian, then the answer is in
-      Native;
-    - random order.
+     * first the question in Foreign, then the answer in Native;
+     * first the question in Native, then the answer in Foreign;
+     * random order.
     """
     category = models.ForeignKey(
         WordCategory,
