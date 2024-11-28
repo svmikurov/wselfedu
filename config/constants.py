@@ -101,6 +101,7 @@ EDGE_PERIOD_ALIASES = [
 ]
 """Edge period aliases at word adding for choice
 (`list[dict[str, str]]`).
+**DEPRECATED** - Use ``EDGE_PERIOD_CHOICES``.
 """
 EDGE_PERIOD_ARGS = {
     TODAY: {'days': 0},
@@ -162,6 +163,7 @@ PROGRESS_ALIASES = [
     {ALIAS: LEARNED, HUMANLY: 'Знаю'},
 ]
 """Progres aliases (`list[dict[str, str]]`).
+**DEPRECATED** - Use ``PROGRESS_CHOICES``.
 """
 PROGRESS_STAGE_EDGES = {
     STUDY: [*range(PROGRESS_MIN, PROGRESS_STUDY_MAX + 1)],
@@ -211,7 +213,8 @@ LANGUAGE_ORDER_ALIAS = [
     {ALIAS: TO_NATIVE, HUMANLY: 'На родной'},
     {ALIAS: FROM_NATIVE, HUMANLY: 'С родного'},
 ]
-
+"""**DEPRECATED** - Use ``LANGUAGE_ORDER_CHOICE``.
+"""
 ########################################################################
 # Number of words in the exercise task
 ########################################################################

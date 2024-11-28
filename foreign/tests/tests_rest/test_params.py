@@ -1,5 +1,9 @@
 """Translate word exercise user parameters."""
 
+import json
+import os
+from pathlib import Path
+
 from django.forms import model_to_dict
 from django.urls import reverse
 from rest_framework import status
@@ -19,11 +23,17 @@ from config.constants import (
 from foreign.models import TranslateParams, WordCategory
 from users.models import UserApp
 
+src = Path(__file__).parent.parent.parent.parent
+fixture_path = os.path.join(src, 'tests/fixtures/response/foreign_params.json')
+
+with open(fixture_path, 'r') as fp:
+    params_response = json.load(fp)
+
 
 class RenderParamsTest(APITestCase):
     """Render translate foreign words exercise the user params test."""
 
-    fixtures = ['tests/fixtures/users.json', 'tests/fixtures/foreign.json']
+    fixtures = ['users', 'foreign']
 
     def setUp(self) -> None:
         """Set up test data."""
@@ -94,22 +104,12 @@ class RenderParamsTest(APITestCase):
         response = self.api_client.put(self.url, data=payload, format='json')
         assert response.status_code == status.HTTP_201_CREATED
 
-    def test_rename_model_field(self) -> None:
-        """Test the render category field names."""
-        self.api_client.force_authenticate(user=self.user)
-        response = self.api_client.get(self.url)
-        fields = response.json()['exercise_choices']['categories'].pop().keys()
-        assert ['alias', 'humanly'] == list(fields)
-
     def test_add_no_selection(self) -> None:
         """Test the add no selection to category list."""
         self.api_client.force_authenticate(self.user)
         response = self.api_client.get(self.url)
         categories = response.json()['exercise_choices']['categories']
-        no_selection = {
-            'alias': None,
-            'humanly': 'Не выбрано',
-        }
+        no_selection = [None, 'Не выбрано']
         assert no_selection in categories
 
     def test_render_required_fields(self) -> None:
@@ -119,10 +119,15 @@ class RenderParamsTest(APITestCase):
             'exercise_choices': '',
         }
         lookup_conditions = {
-            'period_start_date': '',
-            'period_end_date': '',
             'category': '',
+            'count_first': '',
+            'count_last': '',
+            'favorites': '',
+            'period_end_date': '',
+            'period_start_date': '',
             'progress': '',
+            'source': '',
+            'word_count': '',
         }
         self.api_client.force_authenticate(self.user)
         response = self.api_client.get(self.url)
@@ -130,3 +135,11 @@ class RenderParamsTest(APITestCase):
 
         assert response_fields.keys() <= payload.keys()
         assert lookup_conditions.keys() <= payload['lookup_conditions'].keys()
+
+    def test_params_response(self) -> None:
+        """Test foreign params json data."""
+        self.api_client.force_authenticate(self.user)
+        response = self.api_client.get(self.url)
+        payload = response.json()
+
+        assert params_response == payload

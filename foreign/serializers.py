@@ -2,14 +2,12 @@
 
 from typing import Mapping
 
-from django.db.models import Model
 from rest_framework import serializers
 
 from config.constants import (
-    EDGE_PERIOD_ALIASES,
-    LANGUAGE_ORDER_ALIAS,
-    NO_SELECTION,
-    PROGRESS_ALIASES,
+    EDGE_PERIOD_CHOICES,
+    LANGUAGE_ORDER_CHOICE,
+    PROGRESS_CHOICES,
 )
 from foreign.models import TranslateParams, Word, WordCategory
 
@@ -41,8 +39,10 @@ class ExerciseParamSerializer(serializers.ModelSerializer):
         """
 
 
-class ExerciseChoiceSerializer(serializers.ModelSerializer):
+class ParamsSerializer(serializers.ModelSerializer):
     """Choice of translate foreign word params serializer."""
+
+    no_selection = [None, 'Не выбрано']
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Add is created model instance."""
@@ -88,18 +88,19 @@ class ExerciseChoiceSerializer(serializers.ModelSerializer):
 
         try:
             queryset = WordCategory.objects.filter(user=user)
+            categories = list(queryset.values_list('id', 'name'))
         except WordCategory.DoesNotExist:
-            queryset = WordCategory.objects.none()
-        categories = WordCategorySerializer(queryset, many=True).data
-        categories.append(NO_SELECTION)
+            categories = WordCategory.objects.none()
+        else:
+            categories.append(self.no_selection)
 
         exercise_params = {
             'lookup_conditions': lookup_conditions,
             'exercise_choices': {
-                'edge_period_items': EDGE_PERIOD_ALIASES,
+                'edge_period_items': EDGE_PERIOD_CHOICES,
                 'categories': categories,
-                'progress': PROGRESS_ALIASES,
-                'orders': LANGUAGE_ORDER_ALIAS,
+                'progress': PROGRESS_CHOICES,
+                'orders': LANGUAGE_ORDER_CHOICE,
             },
         }
 
@@ -119,25 +120,11 @@ class ExerciseSerializer(serializers.Serializer):
 class WordCategorySerializer(serializers.ModelSerializer):
     """Foreign word Category serializer."""
 
-    alias = serializers.SerializerMethodField()
-    """Field alias of pk (`int`).
-    """
-    humanly = serializers.CharField(source='name')
-    """Field alias of name (`str`).
-    """
-
     class Meta:
         """Serializer settings."""
 
         model = WordCategory
-        fields = ['alias', 'humanly']
-        """Fields (`list[str]`).
-        """
-
-    @classmethod
-    def get_alias(cls, obj: Model) -> int:
-        """Add alias as name of pk field."""
-        return obj.pk
+        fields = ['id', 'name']
 
 
 class WordAssessmentSerializer(serializers.Serializer):

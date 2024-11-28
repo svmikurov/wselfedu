@@ -20,9 +20,9 @@ from foreign.exercise.base import WordAssessment
 from foreign.exercise.translate import TranslateExerciseGUI
 from foreign.models import TranslateParams
 from foreign.serializers import (
-    ExerciseChoiceSerializer,
     ExerciseParamSerializer,
     ExerciseSerializer,
+    ParamsSerializer,
     WordAssessmentSerializer,
 )
 
@@ -45,13 +45,11 @@ def params_view(request: Request) -> JsonResponse | HttpResponse:
     """
     if request.method == 'GET':
         params, _ = TranslateParams.objects.get_or_create(user=request.user)
-        serializer = ExerciseChoiceSerializer(
-            params, context={'request': request}
-        )
+        serializer = ParamsSerializer(params, context={'request': request})
         return JsonResponse(serializer.data)
 
     elif request.method == 'PUT':
-        serializer = ExerciseChoiceSerializer(
+        serializer = ParamsSerializer(
             data=request.data, context={'request': request}
         )
         if serializer.is_valid():

@@ -100,18 +100,10 @@ Endpoint to get or update the exercise parameters.
 |           |                               |     * category                |
 |           |                               |     * source                  |
 |           |                               |  * exercise_choices:          |
-|           |                               |     * edge_period_items:      |
-|           |                               |        * alias                |
-|           |                               |        * humanly              |
-|           |                               |     * categories:             |
-|           |                               |        * alias                |
-|           |                               |        * humanly              |
-|           |                               |     * progress:               |
-|           |                               |        * alias                |
-|           |                               |        * humanly              |
-|           |                               |     * orders:                 |
-|           |                               |        * alias                |
-|           |                               |        * humanly              |
+|           |                               |     * edge_period_items       |
+|           |                               |     * categories              |
+|           |                               |     * progress                |
+|           |                               |     * orders                  |
 +-----------+-------------------------------+-------------------------------+
 | PUT       | * order                       | HTTP_201_CREATED              |
 |           | * timeout                     |  * order                      |
@@ -176,35 +168,35 @@ Example:
         },
         "exercise_choices": {
             "edge_period_items": [
-                {
-                    "alias": "DT",
-                    "humanly": "Сегодня"
-                },
+                [
+                    "DT",
+                    "Сегодня"
+                ],
                 ...
             ],
             "categories": [
-                {
-                    "alias": 1,
-                    "humanly": "Color"
-                },
+                [
+                    1,
+                    "Color"
+                ],
                 ...
-                {
-                    "alias": null,
-                    "humanly": "Не выбрано"
-                }
+                [
+                    null,
+                    "Не выбрано"
+                ]
             ],
             "progress": [
-                {
-                    "alias": "S",
-                    "humanly": "Изучаю"
-                },
+                [
+                    "S",
+                    "Изучаю"
+                ],
                 ...
             ],
             "orders": [
-                {
-                    "alias": "RN",
-                    "humanly": "Случайный порядок"
-                },
+                [
+                    "RN",
+                    "Случайный порядок"
+                ],
                 ...
             ]
         }
