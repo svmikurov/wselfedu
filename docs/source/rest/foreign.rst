@@ -88,7 +88,7 @@ Endpoint to get or update the exercise parameters.
 +===========+===============================+===============================+
 | GET       | --                            | HTTP_200_OK                   |
 |           |                               |  * lookup_conditions:         |
-|           |                               |     * language_order          |
+|           |                               |     * order                   |
 |           |                               |     * timeout                 |
 |           |                               |     * favorites               |
 |           |                               |     * progress                |
@@ -110,8 +110,8 @@ Endpoint to get or update the exercise parameters.
 |           |                               |        * alias                |
 |           |                               |        * humanly              |
 +-----------+-------------------------------+-------------------------------+
-| PUT       | * language_order              | HTTP_201_CREATED              |
-|           | * timeout                     |  * language_order             |
+| PUT       | * order                       | HTTP_201_CREATED              |
+|           | * timeout                     |  * order                      |
 |           | * favorites                   |  * timeout                    |
 |           | * progress                    |  * favorites                  |
 |           | * word_count                  |  * progress                   |
@@ -133,7 +133,7 @@ Serializer :py:class:`~foreign.serializers.ExerciseChoiceSerializer`
 See: :term:`lookup_conditions`, :term:`exercise_choices`.
 
 Fields:
- - ``language_order`` -- the order in which language translations
+ - ``order`` -- the order in which language translations
    of words are displayed (`str`), choice alias only from
    :obj:`~config.constants.LANGUAGE_ORDER_CHOICE`;
  - ``timeout`` -- show the learning word time, sec (`int`);
@@ -158,7 +158,7 @@ Example:
    :caption: Request:
 
     {
-        "language_order": "TR",
+        "order": "TR",
         "timeout": 5,
         "favorites": false,
         "progress": "K",
@@ -187,7 +187,7 @@ Endpoint to get task data.
 +-----------+----------------------------------+----------------------------+
 | Method    | Request                          | Response                   |
 +===========+==================================+============================+
-| POST      | * language_order (optionally)    | HTTP_200_OK                |
+| POST      | * order (optionally)             | HTTP_200_OK                |
 |           | * favorites (optionally)         |  * id                      |
 |           | * category (optionally)          |  * question_text           |
 |           | * source (optionally)            |  * answer_text             |
@@ -209,7 +209,7 @@ Returns status 204 if no words were found for study according to the given param
 
 Fields:
     Request:
-        - ``language_order`` -- the order in which language translations
+        - ``order`` -- the order in which language translations
           of words are displayed (`str`), choice alias only from
           :obj:`~config.constants.LANGUAGE_ORDER_CHOICE`;
         - ``favorites`` --will be display only favorites words if `True`,
@@ -242,7 +242,7 @@ Example:
    :caption: Request:
 
         {
-            "language_order": "TR",
+            "order": "TR",
             "favorites": true,
             "category": 2,
             "source": 2,

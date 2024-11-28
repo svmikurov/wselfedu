@@ -19,7 +19,7 @@ class TranslateParams(ExerciseParams):
     Including contains lookup parameters words for learning them.
     """
 
-    language_order = models.CharField(
+    order = models.CharField(
         choices=LANGUAGE_ORDER_CHOICE,
         default=DEFAULT_LANGUAGE_ORDER,
         max_length=2,

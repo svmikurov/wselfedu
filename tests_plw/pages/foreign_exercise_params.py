@@ -21,7 +21,7 @@ class ForeignExerciseParamsPage(POMPage):
         # Favorites word checkbox.
         self.favorites_choice = page.get_by_label('Только избранные слова')
         # Translate order choice.
-        self.language_order_choice = page.locator('#id_language_order')
+        self.order_choice = page.locator('#id_order')
         # Word category choice.
         self.category_choice = page.locator('#id_category')
         # Word source choice.

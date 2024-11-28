@@ -90,8 +90,8 @@ class ExerciseParamsTest(TestCase):
         # Assertions about the values of fields in the rendered form.
         fields = response.context['form'].fields
         assert fields['favorites'].initial is False
-        assert fields['language_order'].choices == LANGUAGE_ORDER_CHOICE
-        assert fields['language_order'].initial == TO_NATIVE
+        assert fields['order'].choices == LANGUAGE_ORDER_CHOICE
+        assert fields['order'].initial == TO_NATIVE
         assert fields['category'].choices == CATEGORY_CHOICES
         assert fields['category'].initial == CATEGORY_INITIAL
         assert fields['source'].choices == SOURCE_CHOICES
@@ -123,7 +123,7 @@ class ExerciseParamsTest(TestCase):
             progress=[REPEAT, EXAMINATION],
             period_start_date=WEEKS_AGO_7,
             period_end_date=WEEKS_AGO_2,
-            language_order=FROM_NATIVE,
+            order=FROM_NATIVE,
             category=category,
             source=source,
             word_count=[ONE_WORD, COMBINATION],
@@ -136,7 +136,7 @@ class ExerciseParamsTest(TestCase):
         # Assertions about the values of fields in the rendered form.
         fields = response.context['form'].fields
         assert fields['favorites'].initial is True
-        assert fields['language_order'].initial == FROM_NATIVE
+        assert fields['order'].initial == FROM_NATIVE
         assert fields['category'].initial == category_id
         assert fields['source'].initial == source_id
         assert fields['period_start_date'].initial == WEEKS_AGO_7
@@ -154,7 +154,7 @@ class ExerciseParamsTest(TestCase):
         # Assertions about the values of fields in the rendered form.
         form = {
             'favorites': True,
-            'language_order': FROM_NATIVE,
+            'order': FROM_NATIVE,
             'category': category_id,
             'source': source_id,
             'period_start_date': WEEKS_AGO_7,

@@ -113,7 +113,7 @@ class WordParamsAdmin(admin.ModelAdmin):
 
     list_display = [
         'user',
-        'language_order',
+        'order',
         'timeout',
         'favorites',
         'category',

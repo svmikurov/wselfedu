@@ -33,7 +33,7 @@ class ForeignTranslateChoiceForm(forms.Form):
         required=False,
         label='Только избранные слова',
     )
-    language_order = forms.ChoiceField(
+    order = forms.ChoiceField(
         choices=LANGUAGE_ORDER_CHOICE,
         required=False,
         label='',
@@ -90,7 +90,7 @@ class ForeignTranslateChoiceForm(forms.Form):
         for field, model in self.MODEL_FIELDS.items():
             self.fields[field].choices = self._create_choices(model, user_id)
         self.fields['favorites'].initial = instance.favorites
-        self.fields['language_order'].initial = instance.language_order
+        self.fields['order'].initial = instance.order
         self.fields['period_start_date'].initial = instance.period_start_date
         self.fields['period_end_date'].initial = instance.period_end_date
         self.fields['word_count'].initial = instance.word_count
@@ -142,9 +142,9 @@ class ForeignTranslateChoiceForm(forms.Form):
                     data_testid='favorites',
                 ),
                 Column(
-                    'language_order',
+                    'order',
                     css_class='col-6',
-                    data_testid='language_order',
+                    data_testid='order',
                 ),
             ),
             Row(
