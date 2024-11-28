@@ -1,5 +1,4 @@
 """Term exercise view."""
-import logging
 
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from rest_framework import permissions, status
@@ -46,8 +45,6 @@ def glossary_exercise(request: Request) -> JsonResponse | HttpResponse:
     if serializer.is_valid():
         lookup_conditions = serializer.data
         lookup_conditions['user_id'] = request.user.id
-        logging.info(f'{request.data = }')
-        logging.info(f'{lookup_conditions = }')
         try:
             exercise = GlossaryExerciseGUI(lookup_conditions).task_data
         except IndexError:
@@ -77,7 +74,6 @@ def glossary_exercise_parameters(
 
     """
     user = request.user
-    logging.info(f'>>> {request.data = }')
 
     if request.method == 'GET':
         try:
@@ -115,7 +111,6 @@ def glossary_exercise_parameters(
                 return Response(serializer.data)
             return Response(serializer.data, status=HTTP_201_CREATED)
 
-        logging.info(f'{serializer.errors = }')
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
