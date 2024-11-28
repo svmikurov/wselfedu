@@ -7,6 +7,7 @@ from rest_framework import serializers
 
 from config.constants import (
     EDGE_PERIOD_ALIASES,
+    LANGUAGE_ORDER_ALIAS,
     NO_SELECTION,
     PROGRESS_ALIASES,
 )
@@ -98,6 +99,7 @@ class ExerciseChoiceSerializer(serializers.ModelSerializer):
                 'edge_period_items': EDGE_PERIOD_ALIASES,
                 'categories': categories,
                 'progress': PROGRESS_ALIASES,
+                'orders': LANGUAGE_ORDER_ALIAS,
             },
         }
 

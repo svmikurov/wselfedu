@@ -109,6 +109,9 @@ Endpoint to get or update the exercise parameters.
 |           |                               |     * progress:               |
 |           |                               |        * alias                |
 |           |                               |        * humanly              |
+|           |                               |     * orders:                 |
+|           |                               |        * alias                |
+|           |                               |        * humanly              |
 +-----------+-------------------------------+-------------------------------+
 | PUT       | * order                       | HTTP_201_CREATED              |
 |           | * timeout                     |  * order                      |
@@ -158,22 +161,54 @@ Example:
    :caption: Request:
 
     {
-        "order": "TR",
-        "timeout": 5,
-        "favorites": false,
-        "progress": "K",
-        "word_count": [
-            "OW",
-            "CB"
-        ],
-        "period_start_date": "NC",
-        "period_end_date": "DT",
-        "count_first": 0,
-        "count_last": 0,
-        "category": null,
-        "source": null
+        "lookup_conditions": {
+            "timeout": 5,
+            "favorites": false,
+            "progress": ["S"],
+            "period_start_date": "NC",
+            "period_end_date": "DT",
+            "count_first": 0,
+            "count_last": 90,
+            "order": "TR",
+            "word_count": ["OW", "CB"],
+            "category": null,
+            "source": null
+        },
+        "exercise_choices": {
+            "edge_period_items": [
+                {
+                    "alias": "DT",
+                    "humanly": "Сегодня"
+                },
+                ...
+            ],
+            "categories": [
+                {
+                    "alias": 1,
+                    "humanly": "Color"
+                },
+                ...
+                {
+                    "alias": null,
+                    "humanly": "Не выбрано"
+                }
+            ],
+            "progress": [
+                {
+                    "alias": "S",
+                    "humanly": "Изучаю"
+                },
+                ...
+            ],
+            "orders": [
+                {
+                    "alias": "RN",
+                    "humanly": "Случайный порядок"
+                },
+                ...
+            ]
+        }
     }
-
 
 Exercise
 --------

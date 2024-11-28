@@ -26,6 +26,7 @@ class TranslateParams(ExerciseParams):
         verbose_name='Порядок перевода',
     )
     """The order in which translations of words are displayed.
+
     Could be:
      * first the question in Foreign, then the answer in Native;
      * first the question in Native, then the answer in Foreign;

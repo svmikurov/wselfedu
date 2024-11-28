@@ -40,7 +40,7 @@ class RenderParamsTest(APITestCase):
         assert response.status_code == HTTP_200_OK
         assert list(payload) == ['lookup_conditions', 'exercise_choices']
         assert list(payload['exercise_choices']) == [
-            'edge_period_items', 'categories', 'progress'
+            'edge_period_items', 'categories', 'progress', 'orders'
         ]  # fmt: skip
 
     def test_save_params(self) -> None:

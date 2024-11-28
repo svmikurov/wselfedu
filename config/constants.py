@@ -200,12 +200,17 @@ DEFAULT_LANGUAGE_ORDER = TO_NATIVE
 
 LANGUAGE_ORDER_CHOICE = [
     (RANDOM, 'Перевод в случайном порядке'),
-    (TO_NATIVE, 'Перевод на русский язык'),
-    (FROM_NATIVE, 'Перевод с русского язык'),
+    (TO_NATIVE, 'Перевод на родной язык'),
+    (FROM_NATIVE, 'Перевод с родного язык'),
 ]
 """The order in which language translations of words are displayed
 (list[tuple[str, str]]`).
 """
+LANGUAGE_ORDER_ALIAS = [
+    {ALIAS: RANDOM, HUMANLY: 'Случайный порядок'},
+    {ALIAS: TO_NATIVE, HUMANLY: 'На родной'},
+    {ALIAS: FROM_NATIVE, HUMANLY: 'С родного'},
+]
 
 ########################################################################
 # Number of words in the exercise task

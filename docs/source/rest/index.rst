@@ -4,6 +4,6 @@ REST API
 .. toctree::
    :maxdepth: 2
 
-   user
-   Foreign words <foreign>
+   Authentication <user>
+   Foreign <foreign>
    Glossary <glossary>
