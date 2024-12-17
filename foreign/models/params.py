@@ -12,6 +12,13 @@ from config.constants import (
 from contrib.models.params import ExerciseParams
 from foreign.models import WordCategory, WordSource
 
+DEFAULT_TRANSLATE_PARAMS = {
+    'order': DEFAULT_LANGUAGE_ORDER,
+    'category': None,
+    'source': None,
+    'word_count': DEFAULT_WORD_COUNT,
+}
+
 
 class TranslateParams(ExerciseParams):
     """Foreign words learning exercise user parameters.

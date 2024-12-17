@@ -9,7 +9,9 @@ from config.constants import (
     LANGUAGE_ORDER_CHOICE,
     PROGRESS_CHOICES,
 )
+from contrib.models.params import DEFAULT_PARAMS
 from foreign.models import TranslateParams, Word, WordCategory
+from foreign.models.params import DEFAULT_TRANSLATE_PARAMS
 
 
 class WordSerializer(serializers.ModelSerializer):
@@ -95,6 +97,7 @@ class ParamsSerializer(serializers.ModelSerializer):
             categories.append(self.no_selection)
 
         exercise_params = {
+            'default_values': DEFAULT_PARAMS | DEFAULT_TRANSLATE_PARAMS,
             'lookup_conditions': lookup_conditions,
             'exercise_choices': {
                 'edge_period_items': EDGE_PERIOD_CHOICES,
