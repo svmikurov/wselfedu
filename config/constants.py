@@ -195,15 +195,15 @@ PROGRES_STEPS = {
 ########################################################################
 
 RANDOM = 'RN'
-TO_NATIVE = 'TR'
-FROM_NATIVE = 'FR'
+TO_NATIVE = 'TN'
+FROM_NATIVE = 'FN'
 
 DEFAULT_LANGUAGE_ORDER = TO_NATIVE
 
 LANGUAGE_ORDER_CHOICE = [
-    (RANDOM, 'Перевод в случайном порядке'),
-    (TO_NATIVE, 'Перевод на родной язык'),
-    (FROM_NATIVE, 'Перевод с родного язык'),
+    (RANDOM, 'Случайный порядок'),
+    (TO_NATIVE, 'На родной'),
+    (FROM_NATIVE, 'С родного'),
 ]
 """The order in which language translations of words are displayed
 (list[tuple[str, str]]`).
