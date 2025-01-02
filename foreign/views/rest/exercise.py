@@ -1,4 +1,5 @@
 """Translate foreign word exercise DRF views."""
+import logging
 
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -52,6 +53,12 @@ def params_view(request: Request) -> JsonResponse | HttpResponse:
         serializer = ParamsSerializer(
             data=request.data, context={'request': request}
         )
+
+        serializer.is_valid()
+        logging.info(request.data)
+        logging.info(serializer.errors)
+
+
         if serializer.is_valid():
             serializer.save(user=request.user)
 

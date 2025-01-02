@@ -14,10 +14,13 @@ from users.models import UserApp
 
 DEFAULT_PARAMS = {
     'timeout': DEFAULT_TIMEOUT,
+    'has_timeout': True,
     'favorites': False,
     'progress': DEFAULT_PROGRESS,
     'period_start_date': NOT_CHOICES,
     'period_end_date': TODAY,
+    'is_first': False,
+    'is_last': False,
     'count_first': 10,
     'count_last': 20,
 }
@@ -34,6 +37,9 @@ class ExerciseParams(models.Model):
         on_delete=models.CASCADE,
     )
     """User that setting model stored (`UserApp`).
+    """
+    has_timeout = models.BooleanField(default=True)
+    """Time for user answer, (`bool`).
     """
     timeout = models.PositiveSmallIntegerField(
         default=DEFAULT_PARAMS['timeout'],
