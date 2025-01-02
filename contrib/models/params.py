@@ -18,8 +18,8 @@ DEFAULT_PARAMS = {
     'progress': DEFAULT_PROGRESS,
     'period_start_date': NOT_CHOICES,
     'period_end_date': TODAY,
-    'count_first': 0,
-    'count_last': 0,
+    'count_first': 10,
+    'count_last': 20,
 }
 
 
@@ -73,6 +73,12 @@ class ExerciseParams(models.Model):
     """An end of the period of adding a item to study,
     :obj:`~config.constants.EDGE_PERIOD_CHOICES`
     (`list(tuple[str, str])`).
+    """
+    is_first = models.BooleanField(default=False)
+    """Display first added items (`bool`).
+    """
+    is_last = models.BooleanField(default=False)
+    """Display last added items (`bool`).
     """
     count_first = models.PositiveSmallIntegerField(
         default=DEFAULT_PARAMS['count_first'],
