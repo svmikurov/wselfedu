@@ -1,13 +1,10 @@
 """User task settings modul."""
 
-from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 from config.constants import (
     DEFAULT_LANGUAGE_ORDER,
-    DEFAULT_WORD_COUNT,
     LANGUAGE_ORDER_CHOICE,
-    WORD_COUNT_CHOICE,
 )
 from contrib.models.params import ExerciseParams
 from foreign.models import WordCategory, WordSource
@@ -16,7 +13,6 @@ DEFAULT_TRANSLATE_PARAMS = {
     'order': DEFAULT_LANGUAGE_ORDER,
     'category': None,
     'source': None,
-    'word_count': DEFAULT_WORD_COUNT,
 }
 
 
@@ -58,16 +54,6 @@ class TranslateParams(ExerciseParams):
     )
     """If a source is selected, words from the specific source will be
     displayed.
-    """
-    word_count = ArrayField(
-        models.CharField(
-            max_length=16,
-            choices=WORD_COUNT_CHOICE[1:],
-        ),
-        default=DEFAULT_WORD_COUNT,
-        verbose_name='Длина выражения',
-    )
-    """Length of verbal expression.
     """
 
     def __str__(self) -> str:

@@ -16,7 +16,6 @@ def save_params(user: AbstractBaseUser, task_conditions: dict) -> None:
     params.order = task_conditions['order']
     params.period_start_date = task_conditions['period_start_date']
     params.period_end_date = task_conditions['period_end_date']
-    params.word_count = task_conditions['word_count']
     params.progress = task_conditions['progress']
     params.timeout = task_conditions['timeout']
 

@@ -119,7 +119,6 @@ class WordParamsAdmin(admin.ModelAdmin):
         'category',
         'source',
         'progress',
-        'word_count',
         'period_start_date',
         'period_end_date',
         'count_first',

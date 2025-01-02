@@ -16,7 +16,6 @@ from config.constants import (
     EDGE_PERIOD_CHOICES,
     LANGUAGE_ORDER_CHOICE,
     PROGRESS_CHOICES,
-    WORD_COUNT_CHOICE,
 )
 from foreign.models import TranslateParams, WordCategory, WordSource
 
@@ -59,12 +58,6 @@ class ForeignTranslateChoiceForm(forms.Form):
         required=False,
         label='',
     )
-    word_count = forms.MultipleChoiceField(
-        choices=WORD_COUNT_CHOICE[1:],
-        required=False,
-        widget=forms.CheckboxSelectMultiple(),
-        label='Слово, длина выражения',
-    )
     progress = forms.MultipleChoiceField(
         choices=PROGRESS_CHOICES,
         required=False,
@@ -93,7 +86,6 @@ class ForeignTranslateChoiceForm(forms.Form):
         self.fields['order'].initial = instance.order
         self.fields['period_start_date'].initial = instance.period_start_date
         self.fields['period_end_date'].initial = instance.period_end_date
-        self.fields['word_count'].initial = instance.word_count
         self.fields['progress'].initial = instance.progress
         self.fields['timeout'].initial = instance.timeout
         self.fields['category'].initial = self.get_initial(instance.category)
@@ -175,7 +167,6 @@ class ForeignTranslateChoiceForm(forms.Form):
             ),
             HTML('<p class="h6 pt-3">Дополнительные опции</p>'),
             Field('timeout', css_class='form-group col-6 w-25'),
-            InlineCheckboxes('word_count', data_testid='word_count'),
         )  # fmt: skip
 
         return helper

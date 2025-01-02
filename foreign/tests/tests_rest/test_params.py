@@ -15,7 +15,6 @@ from rest_framework.test import APIClient, APITestCase
 
 from config.constants import (
     LEARNED,
-    ONE_WORD,
     STUDY,
     WEEK_AGO,
     WEEKS_AGO_3,
@@ -86,15 +85,6 @@ class RenderParamsTest(APITestCase):
         response = self.api_client.put(self.url, data=payload, format='json')
         assert response.status_code == HTTP_400_BAD_REQUEST
 
-    def test_put_request_array_field_word_count(self) -> None:
-        """Test the PUT request with data validation error."""
-        self.api_client.force_authenticate(user=self.user)
-        # Will raise an assertion error after adding a field to the
-        # serializer.
-        payload = {'word_count': [ONE_WORD]}
-        response = self.api_client.put(self.url, data=payload, format='json')
-        assert response.status_code == status.HTTP_201_CREATED
-
     def test_put_request_array_field_progress(self) -> None:
         """Test the PUT request with data validation error."""
         self.api_client.force_authenticate(user=self.user)
@@ -127,7 +117,6 @@ class RenderParamsTest(APITestCase):
             'period_start_date': '',
             'progress': '',
             'source': '',
-            'word_count': '',
         }
         self.api_client.force_authenticate(self.user)
         response = self.api_client.get(self.url)

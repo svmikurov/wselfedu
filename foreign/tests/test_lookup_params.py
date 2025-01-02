@@ -8,12 +8,9 @@ from django.test import TestCase
 from zoneinfo import ZoneInfo
 
 from config.constants import (
-    COMBINATION,
     LEARNED,
     NOT_CHOICES,
-    ONE_WORD,
     REPEAT,
-    SENTENCE,
     STUDY,
     TODAY,
     WEEKS_AGO_2,
@@ -80,23 +77,6 @@ class LookupParamsTest(TestCase):
         form_data = {'user_id': 3, 'progress': [REPEAT, LEARNED]}
         queryset = self.query_database(form_data)
         self.assertQuerySetEqual(queryset, [5, 6, 9])
-
-    def test_lookup_by_word_count(self) -> None:
-        """Test filter words by word count."""
-        # no choice
-        form_data = {'user_id': 3, 'word_count': []}
-        queryset = self.query_database(form_data)
-        self.assertQuerySetEqual(queryset, [*range(1, 11)])
-
-        # 'Слово', 'Словосочетание' in condition
-        form_data = {'user_id': 3, 'word_count': [ONE_WORD, COMBINATION]}
-        queryset = self.query_database(form_data)
-        self.assertQuerySetEqual(queryset, [1, 2, 3, 6, 7, 8, 9, 10])
-
-        # 'Предложение' in condition
-        form_data = {'user_id': 3, 'word_count': [SENTENCE]}
-        queryset = self.query_database(form_data)
-        self.assertQuerySetEqual(queryset, [5])
 
     def test_lookup_by_date(self) -> None:
         """Test filter words by word added date."""

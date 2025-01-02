@@ -15,7 +15,6 @@ from django.urls import reverse_lazy
 from config.constants import (
     COMBINATION,
     DEFAULT_TIMEOUT,
-    DEFAULT_WORD_COUNT,
     EDGE_PERIOD_CHOICES,
     EXAMINATION,
     FROM_NATIVE,
@@ -29,7 +28,6 @@ from config.constants import (
     TODAY,
     WEEKS_AGO_2,
     WEEKS_AGO_7,
-    WORD_COUNT_CHOICE,
 )
 from foreign.models import TranslateParams, WordCategory, WordSource
 from users.models import UserApp
@@ -100,8 +98,6 @@ class ExerciseParamsTest(TestCase):
         assert fields['period_start_date'].initial == NOT_CHOICES
         assert fields['period_end_date'].choices == EDGE_PERIOD_CHOICES[:-1]
         assert fields['period_end_date'].initial == TODAY
-        assert fields['word_count'].choices == WORD_COUNT_CHOICE[1:]
-        assert fields['word_count'].initial == DEFAULT_WORD_COUNT
         assert fields['progress'].choices == PROGRESS_CHOICES
         assert fields['progress'].initial == [STUDY]
         assert fields['timeout'].initial == DEFAULT_TIMEOUT
@@ -159,7 +155,6 @@ class ExerciseParamsTest(TestCase):
             'source': source_id,
             'period_start_date': WEEKS_AGO_7,
             'period_end_date': WEEKS_AGO_2,
-            'word_count': [ONE_WORD, COMBINATION],
             'progress': [REPEAT, EXAMINATION],
             'timeout': timeout_value,
             'save_params': True,

@@ -215,26 +215,6 @@ LANGUAGE_ORDER_ALIAS = [
 ]
 """**DEPRECATED** - Use ``LANGUAGE_ORDER_CHOICE``.
 """
-########################################################################
-# Number of words in the exercise task
-########################################################################
-
-ONE_WORD = 'OW'
-COMBINATION = 'CB'
-PART_SENTENCE = 'PS'
-SENTENCE = 'ST'
-
-DEFAULT_WORD_COUNT = [ONE_WORD, COMBINATION]
-
-WORD_COUNT_CHOICE = [
-    (NOT_CHOICES, 'Любое'),
-    (ONE_WORD, 'Слово'),
-    (COMBINATION, 'Словосочетание'),
-    (PART_SENTENCE, 'Часть предложения'),
-    (SENTENCE, 'Предложение'),
-]
-"""Length of verbal expression the choice (`tuple[tuple[str, str]]`).
-"""
 
 ########################################################################
 # Collections

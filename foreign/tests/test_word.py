@@ -6,7 +6,6 @@ from django.db.models import F
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from config.constants import COMBINATION, ONE_WORD
 from contrib.tests.crud import (
     CreateTest,
     DeleteTest,
@@ -40,7 +39,6 @@ class WordTestData(TestData):
         self.item_data = {
             'foreign_word': 'new word%',
             'native_word': 'новое слово',
-            'word_count': COMBINATION,
         }
 
         # Users.
@@ -140,14 +138,6 @@ class TestWordObjectList(TestCase):
         source = 'source_u3_s1'
         sources = self.object_list.values_list('source__name', flat=True)
         assert source in sources
-
-    def test_object_list_contains_word_count(self) -> None:
-        """Test to 'object_list' word list page contains word count."""
-        word_count = ONE_WORD
-        readable_word_count = '<td>Слово</td>'
-        counted = self.object_list.values_list('word_count', flat=True)
-        assert word_count in counted
-        self.assertInHTML(readable_word_count, self.html)
 
     def test_object_list_contains_assessment(self) -> None:
         """Test to 'object_list' word list page contains assessment."""

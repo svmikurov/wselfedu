@@ -92,7 +92,6 @@ Endpoint to get or update the exercise parameters.
 |           |                               |     * timeout                 |
 |           |                               |     * favorites               |
 |           |                               |     * progress                |
-|           |                               |     * word_count              |
 |           |                               |     * period_start_date       |
 |           |                               |     * period_end_date         |
 |           |                               |     * count_first             |
@@ -109,8 +108,7 @@ Endpoint to get or update the exercise parameters.
 |           | * timeout                     |  * order                      |
 |           | * favorites                   |  * timeout                    |
 |           | * progress                    |  * favorites                  |
-|           | * word_count                  |  * progress                   |
-|           | * period_start_date           |  * word_count                 |
+|           | * period_start_date           |  * progress                   |
 |           | * period_end_date             |  * period_start_date          |
 |           | * count_first                 |  * period_end_date            |
 |           | * count_last                  |  * count_first                |
@@ -136,8 +134,6 @@ Fields:
    all otherwise (`bool`);
  - ``progress`` -- progress of word study, choice alias only from
    :obj:`~config.constants.PROGRESS_CHOICES` (`str`);
- - ``word_count`` -- length of verbal expression (`list[str]`),
-   choice alias only from :obj:`~config.constants.WORD_COUNT_CHOICE`;
  - ``period_start_date`` -- start of period of adding word to study,
    choice alias only from :obj:`~config.constants.EDGE_PERIOD_CHOICES` (`str`);
  - ``period_end_date`` -- end of period of adding word to study,
@@ -162,7 +158,6 @@ Example:
             "count_first": 0,
             "count_last": 90,
             "order": "TR",
-            "word_count": ["OW", "CB"],
             "category": null,
             "source": null
         },
@@ -219,8 +214,7 @@ Endpoint to get task data.
 |           | * category (optionally)          |  * question_text           |
 |           | * source (optionally)            |  * answer_text             |
 |           | * progress (optionally)          |  * item_count              |
-|           | * word_count (optionally)        |  * assessment              |
-|           | * period_start_date (optionally) |                            |
+|           | * period_start_date (optionally) |  * assessment              |
 |           | * period_end_date (optionally)   | HTTP_204_NO_CONTENT        |
 |           | * count_first (optionally)       |  * details                 |
 |           | * count_last (optionally)        |                            |
@@ -245,8 +239,6 @@ Fields:
         - ``source`` -- word source ID (`int`);
         - ``progress`` -- progress of word study, choice alias only from
           :obj:`~config.constants.PROGRESS_CHOICES` (`str`);
-        - ``word_count`` -- length of verbal expression (`list[str]`),
-          choice alias only from :obj:`~config.constants.WORD_COUNT_CHOICE`;
         - ``period_start_date`` -- start of period of adding word to study,
           choice alias only from :obj:`~config.constants.EDGE_PERIOD_CHOICES` (`str`);
         - ``period_end_date`` -- end of period of adding word to study,
@@ -274,7 +266,6 @@ Example:
             "category": 2,
             "source": 2,
             "progress": "S",
-            "word_count": ["OW"],
             "period_start_date": "NC",
             "period_end_date": "DT",
             "count_first": 100,

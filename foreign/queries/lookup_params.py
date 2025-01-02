@@ -6,10 +6,7 @@ from django.db.models import F, Q
 from zoneinfo import ZoneInfo
 
 from config.constants import (
-    COMBINATION,
     EDGE_PERIOD_ARGS,
-    NOT_CHOICES,
-    ONE_WORD,
     STUDY,
 )
 from contrib.queries import LookupParams, get_q
@@ -48,7 +45,6 @@ class WordLookupParams(LookupParams):
             self.word_date_start,
             self.word_favorites,
             self.word_progress,
-            self.word_count,
         )
         return params
 
@@ -82,16 +78,6 @@ class WordLookupParams(LookupParams):
         else:
             param = Q()
 
-        return param
-
-    @property
-    def word_count(self) -> Q:
-        """Lookup parameter by word count (`Q`, read-only)."""
-        lookup_value = self.lookup_conditions.get('word_count', [])
-        if ONE_WORD in lookup_value or COMBINATION in lookup_value:
-            lookup_value += [NOT_CHOICES]
-        lookup_field = 'word_count__in'
-        param = get_q(lookup_field, lookup_value)
         return param
 
     @property
