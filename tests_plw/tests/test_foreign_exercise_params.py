@@ -34,7 +34,7 @@ class TestForeignWordsExerciseConditionsChoicePage(POMTest):
         # Favorites word checkbox.
         expect(page.favorites_choice).not_to_be_checked()
         # Translate order choice.
-        expect(page.language_order_choice).to_have_value(TO_NATIVE)
+        expect(page.order_choice).to_have_value(TO_NATIVE)
         # Word category choice.
         expect(page.category_choice).to_have_value('0')
         # Word source choice.

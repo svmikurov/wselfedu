@@ -1,1 +1,1 @@
-"""Glossary app forms."""
+"""Term app forms."""

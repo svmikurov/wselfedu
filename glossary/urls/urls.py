@@ -1,4 +1,4 @@
-"""Glossary app DRF urls."""
+"""Term app DRF urls."""
 
 from django.urls import path
 from django.views.generic import TemplateView

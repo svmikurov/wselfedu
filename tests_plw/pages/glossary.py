@@ -1,4 +1,4 @@
-"""Glossary, the test representation of page."""
+"""Term, the test representation of page."""
 
 from playwright.sync_api import Page
 
@@ -6,7 +6,7 @@ from tests_plw.pages.base import POMPage
 
 
 class GlossaryPage(POMPage):
-    """Glossary, the test representation of page.
+    """Term, the test representation of page.
 
     :param Page page: The Playwright Pytest page fixture.
     """

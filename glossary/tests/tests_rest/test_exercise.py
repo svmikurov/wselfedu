@@ -1,12 +1,10 @@
-"""Test Glossary exercise api.
+"""Test Term exercise api.
 
 - update progres: increment, decrement, min, max, forbidden,
   TODO: get;
 - render task: status, TODO: ...;
 - render params: status, create, update, TODO: forbidden;
 """
-
-from unittest import skip
 
 from django.forms.models import model_to_dict
 from django.urls import reverse
@@ -49,7 +47,7 @@ class TestGlossaryTask(APITestCase):
 
 
 class TestGetGlossaryExerciseParams(APITestCase):
-    """Test render Glossary exercise params."""
+    """Test render Term exercise params."""
 
     fixtures = ['glossary/tests/fixtures/glossaries']
 
@@ -117,7 +115,7 @@ class TestGetGlossaryExerciseParams(APITestCase):
 
 
 class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
-    """Test update or create user params for Glossary exersice."""
+    """Test update or create user params for Term exersice."""
 
     fixtures = ['glossary/tests/fixtures/glossaries']
 
@@ -142,7 +140,7 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'source': DEFAULT_SOURCE,
         }
         self.api_client.force_authenticate(user=self.user1)
-        response = self.api_client.post(self.url, request_data, format='json')
+        response = self.api_client.put(self.url, request_data, format='json')
 
         user_params = GlossaryParams.objects.get(user=self.user1)
         user_params = model_to_dict(user_params, fields=request_data)
@@ -168,7 +166,7 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'source': DEFAULT_SOURCE,
         }
         self.api_client.force_authenticate(user=self.user1)
-        response = self.api_client.post(self.url, request_data, format='json')
+        response = self.api_client.put(self.url, request_data, format='json')
         assert expect_data == response.data
         assert response.status_code == status.HTTP_200_OK
 
@@ -187,7 +185,7 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'source': DEFAULT_SOURCE,
         }
         self.api_client.force_authenticate(user=self.user2)
-        response = self.api_client.post(self.url)
+        response = self.api_client.put(self.url)
 
         assert response.data == default_response_data
         assert response.status_code == status.HTTP_201_CREATED
@@ -206,7 +204,7 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'source': DEFAULT_SOURCE,
         }
         self.api_client.force_authenticate(user=self.user2)
-        response = self.api_client.post(self.url, request_data, format='json')
+        response = self.api_client.put(self.url, request_data, format='json')
 
         user_params = GlossaryParams.objects.get(user=self.user2)
         user_params = model_to_dict(user_params, fields=request_data)
@@ -214,7 +212,7 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
         assert response.data == request_data
         assert response.status_code == status.HTTP_201_CREATED
 
-    @skip
+    # @skip
     def test_create_params_partially(self) -> None:
         """Test create the user exercise parameters partially."""
         request_data = {
@@ -222,7 +220,7 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
         }
         expect_data = {
             'period_start_date': WEEKS_AGO_2,
-            'period_end_date': NOT_CHOICES,
+            'period_end_date': TODAY,
             'category': None,
             'progress': [STUDY],
             'timeout': 5,
@@ -232,6 +230,6 @@ class TestUpdateOrCreateGlossaryExerciseParams(APITestCase):
             'source': DEFAULT_SOURCE,
         }
         self.api_client.force_authenticate(user=self.user2)
-        response = self.api_client.post(self.url, request_data, format='json')
+        response = self.api_client.put(self.url, request_data, format='json')
         assert response.data == expect_data
         assert response.status_code == status.HTTP_201_CREATED

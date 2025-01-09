@@ -9,7 +9,7 @@ from contrib.views.general import CheckLoginPermissionMixin
 
 
 class ExerciseParamsView(CheckLoginPermissionMixin, TemplateView):
-    """Glossary term exercise conditions choice view."""
+    """Term term exercise conditions choice view."""
 
     template_name = ''
     """The exercise params view template path (`str`).

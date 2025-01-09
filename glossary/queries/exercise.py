@@ -3,8 +3,8 @@
 from django.contrib.auth.base_user import AbstractBaseUser
 
 from glossary.models import (
-    GlossaryCategory,
     GlossaryParams,
+    TermCategory,
     TermSource,
 )
 
@@ -20,7 +20,7 @@ def save_params(user: AbstractBaseUser, task_conditions: dict) -> None:
 
     category_id = task_conditions['category']
     if category_id:
-        params.category = GlossaryCategory.objects.get(pk=category_id)
+        params.category = TermCategory.objects.get(pk=category_id)
     else:
         params.category = None
 

@@ -33,7 +33,6 @@ class WordForm(ModelForm):
             'native_word',
             'category',
             'source',
-            'word_count',
         )
 
     @staticmethod
@@ -47,7 +46,6 @@ class WordForm(ModelForm):
                 Column('category', css_class=COL_6),
                 Column('source', css_class=COL_6),
             ),
-            Field('word_count'),
             ButtonHolder(
                 Submit(
                     name='Save',

@@ -9,7 +9,6 @@ from django.http import HttpRequest
 
 from config.constants import (
     PROGRESS_CHOICES,
-    WORD_COUNT_CHOICE,
 )
 from foreign.models import (
     WordCategory,
@@ -57,13 +56,6 @@ class WordsFilter(django_filters.FilterSet):
         lookup_expr='exact',
         label='',
         empty_label='Источник',
-    )
-    filtered_word_count = django_filters.ChoiceFilter(
-        choices=WORD_COUNT_CHOICE,
-        field_name='word_count',
-        lookup_expr='icontains',
-        label='',
-        empty_label='Любое кол-во слов',
     )
     filtered_study_stage = django_filters.ChoiceFilter(
         choices=PROGRESS_CHOICES,
@@ -126,7 +118,6 @@ class WordsFilter(django_filters.FilterSet):
             'search_word',
             'filtered_category',
             'filtered_source',
-            'filtered_word_count',
             'filtered_study_stage',
             'only_favorite_words',
         )

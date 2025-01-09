@@ -10,7 +10,7 @@
         'progress': 'S',
         'user_id': 3,
         'timeout': 5,
-        'language_order': 'TR'
+        'order': 'TR'
     }
     # renders only 'word_u3_w10' word
 """

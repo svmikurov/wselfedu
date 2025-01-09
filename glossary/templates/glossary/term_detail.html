@@ -9,15 +9,30 @@
 <p>{% if term.definition %}{{ term.definition }}{% else %}-{% endif %}</p>
 <h6>Толкование:</h6>
 <p>{% if term.interpretation %}{{ term.interpretation }}{% else %}-{% endif %}</p>
-<h6>Категория:</h6>
-<p>{% if term.category %}{{ term.category }}{% else %}-{% endif %}</p>
-<h6>Источник:</h6>
-<p>{% if term.source %}{{ term.source }}{% else %}-{% endif %}</p>
-<h6>Оценка знания:</h6>
-<p>{{ term.progress }}</p>
-<h6>Добавлен:</h6>
-<p>{{ term.created_at }}</p>
-
+<h6>Пример:</h6>
+<p>{% if term.interpretation %}{{ term.example }}{% else %}-{% endif %}</p>
+<h6>url:</h6>
+<p>{% if term.interpretation %}{{ term.url }}{% else %}-{% endif %}</p>
+<div class="row">
+  <section class="col">
+    <h6>Категория:</h6>
+    <p>{% if term.category %}{{ term.category }}{% else %}-{% endif %}</p>
+  </section>
+  <section class="col">
+    <h6>Источник:</h6>
+    <p>{% if term.source %}{{ term.source }}{% else %}-{% endif %}</p>
+  </section>
+</div>
+<div class="row">
+  <section class="col">
+    <h6>Оценка знания:</h6>
+    <p>{{ term.progress }}</p>
+  </section>
+  <section class="col">
+    <h6>Добавлен:</h6>
+    <p>{{ term.created_at }}</p>
+  </section>
+</div>
 <!--======= Buttons =======-->
 <div class="pt-1">
   <a class="btn btn-outline-primary btn-sm" href="{% url 'glossary:term_update' term.pk %}" role="button"

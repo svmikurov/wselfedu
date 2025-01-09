@@ -18,7 +18,7 @@ from config.constants import (
     WEEKS_AGO_3,
     WEEKS_AGO_4,
 )
-from glossary.models import Glossary
+from glossary.models import Term
 from glossary.queries.lookup_params import GlossaryLookupParams
 
 
@@ -36,7 +36,7 @@ class TestLookupParams(TestCase):
     def query_database(lookup_conditions: dict[str, object]) -> QuerySet:
         """Make a query to the database by test filter."""
         lookup_params = GlossaryLookupParams(lookup_conditions).params
-        queryset = Glossary.objects.filter(*lookup_params)
+        queryset = Term.objects.filter(*lookup_params)
         ids = queryset.values_list('id', flat=True)
         return ids
 
@@ -56,7 +56,7 @@ class TestLookupParams(TestCase):
         # term with id=4 set added 13 weeks ago
         # term with id=5 set added 40 weeks ago
         today = datetime.now(tz=ZoneInfo(settings.TIME_ZONE))
-        manager = Glossary.objects
+        manager = Term.objects
         manager.filter(pk=1).update(created_at=today)
         manager.filter(pk=2).update(created_at=(today - timedelta(weeks=3)))
         manager.filter(pk=3).update(created_at=(today - timedelta(weeks=7)))

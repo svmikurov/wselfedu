@@ -15,7 +15,6 @@ from django.urls import reverse_lazy
 from config.constants import (
     COMBINATION,
     DEFAULT_TIMEOUT,
-    DEFAULT_WORD_COUNT,
     EDGE_PERIOD_CHOICES,
     EXAMINATION,
     FROM_NATIVE,
@@ -29,7 +28,6 @@ from config.constants import (
     TODAY,
     WEEKS_AGO_2,
     WEEKS_AGO_7,
-    WORD_COUNT_CHOICE,
 )
 from foreign.models import TranslateParams, WordCategory, WordSource
 from users.models import UserApp
@@ -90,8 +88,8 @@ class ExerciseParamsTest(TestCase):
         # Assertions about the values of fields in the rendered form.
         fields = response.context['form'].fields
         assert fields['favorites'].initial is False
-        assert fields['language_order'].choices == LANGUAGE_ORDER_CHOICE
-        assert fields['language_order'].initial == TO_NATIVE
+        assert fields['order'].choices == LANGUAGE_ORDER_CHOICE
+        assert fields['order'].initial == TO_NATIVE
         assert fields['category'].choices == CATEGORY_CHOICES
         assert fields['category'].initial == CATEGORY_INITIAL
         assert fields['source'].choices == SOURCE_CHOICES
@@ -100,8 +98,6 @@ class ExerciseParamsTest(TestCase):
         assert fields['period_start_date'].initial == NOT_CHOICES
         assert fields['period_end_date'].choices == EDGE_PERIOD_CHOICES[:-1]
         assert fields['period_end_date'].initial == TODAY
-        assert fields['word_count'].choices == WORD_COUNT_CHOICE[1:]
-        assert fields['word_count'].initial == DEFAULT_WORD_COUNT
         assert fields['progress'].choices == PROGRESS_CHOICES
         assert fields['progress'].initial == [STUDY]
         assert fields['timeout'].initial == DEFAULT_TIMEOUT
@@ -123,7 +119,7 @@ class ExerciseParamsTest(TestCase):
             progress=[REPEAT, EXAMINATION],
             period_start_date=WEEKS_AGO_7,
             period_end_date=WEEKS_AGO_2,
-            language_order=FROM_NATIVE,
+            order=FROM_NATIVE,
             category=category,
             source=source,
             word_count=[ONE_WORD, COMBINATION],
@@ -136,7 +132,7 @@ class ExerciseParamsTest(TestCase):
         # Assertions about the values of fields in the rendered form.
         fields = response.context['form'].fields
         assert fields['favorites'].initial is True
-        assert fields['language_order'].initial == FROM_NATIVE
+        assert fields['order'].initial == FROM_NATIVE
         assert fields['category'].initial == category_id
         assert fields['source'].initial == source_id
         assert fields['period_start_date'].initial == WEEKS_AGO_7
@@ -154,12 +150,11 @@ class ExerciseParamsTest(TestCase):
         # Assertions about the values of fields in the rendered form.
         form = {
             'favorites': True,
-            'language_order': FROM_NATIVE,
+            'order': FROM_NATIVE,
             'category': category_id,
             'source': source_id,
             'period_start_date': WEEKS_AGO_7,
             'period_end_date': WEEKS_AGO_2,
-            'word_count': [ONE_WORD, COMBINATION],
             'progress': [REPEAT, EXAMINATION],
             'timeout': timeout_value,
             'save_params': True,

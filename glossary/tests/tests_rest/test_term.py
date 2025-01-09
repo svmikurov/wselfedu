@@ -1,4 +1,4 @@
-"""Glossary term REST endpoints tests."""
+"""Term term REST endpoints tests."""
 
 from django.urls import reverse
 from rest_framework.status import (
@@ -12,7 +12,7 @@ from users.models import UserApp
 
 
 class GlossaryListTest(APITestCase):
-    """Glossary term list REST endpoint tests."""
+    """Term term list REST endpoint tests."""
 
     fixtures = ['users.json', 'terms.json']
 
@@ -46,7 +46,7 @@ class GlossaryListTest(APITestCase):
 
 
 class GlossaryCreateTest(APITestCase):
-    """Create Glossary term REST endpoint tests."""
+    """Create Term term REST endpoint tests."""
 
     fixtures = ['users.json']
 

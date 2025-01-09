@@ -30,7 +30,7 @@ class TestCollectData(UserAuthTestCase):
 
     def test_collect_number_word_displays(self) -> None:
         """Test collect the number of word displays."""
-        task_conditions = {'timeout': 1, 'language_order': TO_NATIVE}
+        task_conditions = {'timeout': 1, 'order': TO_NATIVE}
         self.set_session(**{'task_conditions': task_conditions})
         self.get_auth_response(self.url, method='post')
 

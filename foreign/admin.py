@@ -113,15 +113,17 @@ class WordParamsAdmin(admin.ModelAdmin):
 
     list_display = [
         'user',
-        'language_order',
+        'order',
+        'has_timeout',
         'timeout',
         'favorites',
         'category',
         'source',
         'progress',
-        'word_count',
         'period_start_date',
         'period_end_date',
+        'is_first',
+        'is_last',
         'count_first',
         'count_last',
     ]

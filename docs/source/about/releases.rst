@@ -5,6 +5,9 @@ Changelog
 v0.4.2 (Today)
 ==============
 
+* Term model: added example and url fields.
+* Rename models: Glossary to Term, GlossaryCategory to TermCategory.
+
 v0.4.1 (2021-11-11)
 ===================
 

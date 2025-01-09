@@ -1,1 +1,1 @@
-"""Glossary app urls."""
+"""Term app urls."""

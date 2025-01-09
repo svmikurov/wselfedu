@@ -1,4 +1,4 @@
-"""Glossary exercise lookup parameters to database query."""
+"""Term exercise lookup parameters to database query."""
 
 from django.db.models import Q
 
@@ -6,7 +6,7 @@ from contrib.queries import LookupParams
 
 
 class GlossaryLookupParams(LookupParams):
-    """Glossary exercise lookup parameters to database query.
+    """Term exercise lookup parameters to database query.
 
     To get lookup parameters of class instance, use property ``params``.
 
@@ -14,7 +14,7 @@ class GlossaryLookupParams(LookupParams):
     Filters the terms by user conditions to study terms.
 
     :param dict[str, str | int] lookup_conditions: Lookup conditions of
-     term query for Glossary exercise.
+     term query for Term exercise.
 
         Include fields:
             - ``'id'`` : `int`

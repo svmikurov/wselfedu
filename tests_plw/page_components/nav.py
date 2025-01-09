@@ -114,7 +114,7 @@ class ForeignLink(ClickLinkMixin, POMPage):
 
 
 class GlossaryLink(ClickLinkMixin, POMPage):
-    """Glossary navigation links.
+    """Term navigation links.
 
     :param Page page: The pytest fixture of ``page``.
     :param str selector: The selector of testing page component.

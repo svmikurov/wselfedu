@@ -10,7 +10,7 @@ from config.constants import (
     PROGRESS_MAX,
     PROGRESS_MIN,
 )
-from glossary.models import Glossary
+from glossary.models import Term
 from users.models import UserApp
 
 
@@ -37,31 +37,31 @@ class TestUpdateProgressView(APITestCase):
 
         self.api_client.force_authenticate(self.user2)
         r = self.api_client.post(path=self.url, data=payload, format='json')
-        term_progress = Glossary.objects.get(pk=self.term_pk).progress
+        term_progress = Term.objects.get(pk=self.term_pk).progress
 
         assert term_progress == PROGRESS_MIN + INCREMENT_STEP
         assert r.status_code == status.HTTP_200_OK
 
     def test_know_on_max(self) -> None:
         """Test the know term, on max value of progress."""
-        Glossary.objects.filter(pk=self.term_pk).update(progress=PROGRESS_MAX)
+        Term.objects.filter(pk=self.term_pk).update(progress=PROGRESS_MAX)
         payload = {'action': 'know', 'id': self.term_pk}
 
         self.api_client.force_authenticate(self.user2)
         r = self.api_client.post(path=self.url, data=payload, format='json')
-        term_progress = Glossary.objects.get(pk=self.term_pk).progress
+        term_progress = Term.objects.get(pk=self.term_pk).progress
 
         assert r.status_code == status.HTTP_200_OK
         assert term_progress == PROGRESS_MAX
 
     def test_not_know_before_min(self) -> None:
         """Test the not know term, before min value of progress."""
-        Glossary.objects.filter(pk=self.term_pk).update(progress=PROGRESS_MAX)
+        Term.objects.filter(pk=self.term_pk).update(progress=PROGRESS_MAX)
         payload = {'action': 'not_know', 'id': self.term_pk}
 
         self.api_client.force_authenticate(self.user2)
         r = self.api_client.post(path=self.url, data=payload, format='json')
-        term_progress = Glossary.objects.get(pk=self.term_pk).progress
+        term_progress = Term.objects.get(pk=self.term_pk).progress
 
         assert r.status_code == status.HTTP_200_OK
         assert term_progress == PROGRESS_MAX + DECREMENT_STEP
@@ -72,7 +72,7 @@ class TestUpdateProgressView(APITestCase):
 
         self.api_client.force_authenticate(self.user2)
         r = self.api_client.post(path=self.url, data=payload, format='json')
-        term_progress = Glossary.objects.get(pk=self.term_pk).progress
+        term_progress = Term.objects.get(pk=self.term_pk).progress
 
         assert r.status_code == status.HTTP_200_OK
         assert term_progress == PROGRESS_MIN
@@ -83,7 +83,7 @@ class TestUpdateProgressView(APITestCase):
 
         self.api_client.force_authenticate(self.user3)
         r = self.api_client.post(path=self.url, data=payload, format='json')
-        term_progress = Glossary.objects.get(pk=self.term_pk).progress
+        term_progress = Term.objects.get(pk=self.term_pk).progress
 
         assert r.status_code == status.HTTP_403_FORBIDDEN
         assert term_progress == PROGRESS_MIN

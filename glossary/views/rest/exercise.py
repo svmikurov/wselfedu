@@ -1,4 +1,4 @@
-"""Glossary exercise view."""
+"""Term exercise view."""
 
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from rest_framework import permissions, status
@@ -26,21 +26,21 @@ from glossary.exercise.question import (
     GlossaryExerciseGUI,
 )
 from glossary.models import (
-    Glossary,
-    GlossaryCategory,
     GlossaryParams,
+    Term,
+    TermCategory,
 )
 from glossary.serializers import (
-    GlossaryCategorySerializer,
-    GlossaryParamsSerializer,
+    TermCategorySerializer,
+    TermParamsSerializer,
 )
 
 
 @api_view(['POST'])
 @permission_classes((permissions.AllowAny,))
 def glossary_exercise(request: Request) -> JsonResponse | HttpResponse:
-    """Render the Glossary exercise."""
-    serializer = GlossaryParamsSerializer(data=request.data)
+    """Render the Term exercise."""
+    serializer = TermParamsSerializer(data=request.data)
 
     if serializer.is_valid():
         lookup_conditions = serializer.data
@@ -55,12 +55,12 @@ def glossary_exercise(request: Request) -> JsonResponse | HttpResponse:
     return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'PUT'])
 @permission_classes((permissions.AllowAny,))
 def glossary_exercise_parameters(
     request: Request,
 ) -> JsonResponse | HttpResponse:
-    """Glossary exercise parameters view.
+    """Term exercise parameters view.
 
     GET
     ---
@@ -81,13 +81,13 @@ def glossary_exercise_parameters(
         except GlossaryParams.DoesNotExist:
             lookup_conditions = DEFAULT_LOOKUP_CONDITIONS
         else:
-            lookup_conditions = GlossaryParamsSerializer(user_params).data
+            lookup_conditions = TermParamsSerializer(user_params).data
 
         try:
-            queryset = GlossaryCategory.objects.filter(user=user)
-        except GlossaryCategory.DoesNotExist:
-            queryset = GlossaryCategory.objects.none()
-        categories = GlossaryCategorySerializer(queryset, many=True).data
+            queryset = TermCategory.objects.filter(user=user)
+        except TermCategory.DoesNotExist:
+            queryset = TermCategory.objects.none()
+        categories = TermCategorySerializer(queryset, many=True).data
         categories.append(NO_SELECTION)
 
         exercise_params = {
@@ -101,8 +101,8 @@ def glossary_exercise_parameters(
 
         return JsonResponse(exercise_params, status=HTTP_200_OK)
 
-    if request.method == 'POST':
-        serializer = GlossaryParamsSerializer(data=request.data)
+    if request.method == 'PUT':
+        serializer = TermParamsSerializer(data=request.data)
 
         if serializer.is_valid():
             serializer.save(user=request.user)
@@ -123,8 +123,8 @@ def update_term_study_progress(request: HttpRequest) -> HttpResponse:
     term_pk = payload.get('id')
 
     try:
-        term = Glossary.objects.get(pk=term_pk)
-    except Glossary.DoesNotExist:
+        term = Term.objects.get(pk=term_pk)
+    except Term.DoesNotExist:
         return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
     else:
         # Only owner have access to his term.

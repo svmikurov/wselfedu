@@ -88,11 +88,10 @@ Endpoint to get or update the exercise parameters.
 +===========+===============================+===============================+
 | GET       | --                            | HTTP_200_OK                   |
 |           |                               |  * lookup_conditions:         |
-|           |                               |     * language_order          |
+|           |                               |     * order                   |
 |           |                               |     * timeout                 |
 |           |                               |     * favorites               |
 |           |                               |     * progress                |
-|           |                               |     * word_count              |
 |           |                               |     * period_start_date       |
 |           |                               |     * period_end_date         |
 |           |                               |     * count_first             |
@@ -100,22 +99,16 @@ Endpoint to get or update the exercise parameters.
 |           |                               |     * category                |
 |           |                               |     * source                  |
 |           |                               |  * exercise_choices:          |
-|           |                               |     * edge_period_items:      |
-|           |                               |        * alias                |
-|           |                               |        * humanly              |
-|           |                               |     * categories:             |
-|           |                               |        * alias                |
-|           |                               |        * humanly              |
-|           |                               |     * progress:               |
-|           |                               |        * alias                |
-|           |                               |        * humanly              |
+|           |                               |     * edge_period_items       |
+|           |                               |     * categories              |
+|           |                               |     * progress                |
+|           |                               |     * orders                  |
 +-----------+-------------------------------+-------------------------------+
-| PUT       | * language_order              | HTTP_201_CREATED              |
-|           | * timeout                     |  * language_order             |
+| PUT       | * order                       | HTTP_201_CREATED              |
+|           | * timeout                     |  * order                      |
 |           | * favorites                   |  * timeout                    |
 |           | * progress                    |  * favorites                  |
-|           | * word_count                  |  * progress                   |
-|           | * period_start_date           |  * word_count                 |
+|           | * period_start_date           |  * progress                   |
 |           | * period_end_date             |  * period_start_date          |
 |           | * count_first                 |  * period_end_date            |
 |           | * count_last                  |  * count_first                |
@@ -133,7 +126,7 @@ Serializer :py:class:`~foreign.serializers.ExerciseChoiceSerializer`
 See: :term:`lookup_conditions`, :term:`exercise_choices`.
 
 Fields:
- - ``language_order`` -- the order in which language translations
+ - ``order`` -- the order in which language translations
    of words are displayed (`str`), choice alias only from
    :obj:`~config.constants.LANGUAGE_ORDER_CHOICE`;
  - ``timeout`` -- show the learning word time, sec (`int`);
@@ -141,8 +134,6 @@ Fields:
    all otherwise (`bool`);
  - ``progress`` -- progress of word study, choice alias only from
    :obj:`~config.constants.PROGRESS_CHOICES` (`str`);
- - ``word_count`` -- length of verbal expression (`list[str]`),
-   choice alias only from :obj:`~config.constants.WORD_COUNT_CHOICE`;
  - ``period_start_date`` -- start of period of adding word to study,
    choice alias only from :obj:`~config.constants.EDGE_PERIOD_CHOICES` (`str`);
  - ``period_end_date`` -- end of period of adding word to study,
@@ -158,22 +149,53 @@ Example:
    :caption: Request:
 
     {
-        "language_order": "TR",
-        "timeout": 5,
-        "favorites": false,
-        "progress": "K",
-        "word_count": [
-            "OW",
-            "CB"
-        ],
-        "period_start_date": "NC",
-        "period_end_date": "DT",
-        "count_first": 0,
-        "count_last": 0,
-        "category": null,
-        "source": null
+        "lookup_conditions": {
+            "timeout": 5,
+            "favorites": false,
+            "progress": ["S"],
+            "period_start_date": "NC",
+            "period_end_date": "DT",
+            "count_first": 0,
+            "count_last": 90,
+            "order": "TR",
+            "category": null,
+            "source": null
+        },
+        "exercise_choices": {
+            "edge_period_items": [
+                [
+                    "DT",
+                    "Сегодня"
+                ],
+                ...
+            ],
+            "categories": [
+                [
+                    1,
+                    "Color"
+                ],
+                ...
+                [
+                    null,
+                    "Не выбрано"
+                ]
+            ],
+            "progress": [
+                [
+                    "S",
+                    "Изучаю"
+                ],
+                ...
+            ],
+            "orders": [
+                [
+                    "RN",
+                    "Случайный порядок"
+                ],
+                ...
+            ]
+        }
     }
-
 
 Exercise
 --------
@@ -187,13 +209,12 @@ Endpoint to get task data.
 +-----------+----------------------------------+----------------------------+
 | Method    | Request                          | Response                   |
 +===========+==================================+============================+
-| POST      | * language_order (optionally)    | HTTP_200_OK                |
+| POST      | * order (optionally)             | HTTP_200_OK                |
 |           | * favorites (optionally)         |  * id                      |
 |           | * category (optionally)          |  * question_text           |
 |           | * source (optionally)            |  * answer_text             |
 |           | * progress (optionally)          |  * item_count              |
-|           | * word_count (optionally)        |  * assessment              |
-|           | * period_start_date (optionally) |                            |
+|           | * period_start_date (optionally) |  * assessment              |
 |           | * period_end_date (optionally)   | HTTP_204_NO_CONTENT        |
 |           | * count_first (optionally)       |  * details                 |
 |           | * count_last (optionally)        |                            |
@@ -209,7 +230,7 @@ Returns status 204 if no words were found for study according to the given param
 
 Fields:
     Request:
-        - ``language_order`` -- the order in which language translations
+        - ``order`` -- the order in which language translations
           of words are displayed (`str`), choice alias only from
           :obj:`~config.constants.LANGUAGE_ORDER_CHOICE`;
         - ``favorites`` --will be display only favorites words if `True`,
@@ -218,8 +239,6 @@ Fields:
         - ``source`` -- word source ID (`int`);
         - ``progress`` -- progress of word study, choice alias only from
           :obj:`~config.constants.PROGRESS_CHOICES` (`str`);
-        - ``word_count`` -- length of verbal expression (`list[str]`),
-          choice alias only from :obj:`~config.constants.WORD_COUNT_CHOICE`;
         - ``period_start_date`` -- start of period of adding word to study,
           choice alias only from :obj:`~config.constants.EDGE_PERIOD_CHOICES` (`str`);
         - ``period_end_date`` -- end of period of adding word to study,
@@ -242,12 +261,11 @@ Example:
    :caption: Request:
 
         {
-            "language_order": "TR",
+            "order": "TR",
             "favorites": true,
             "category": 2,
             "source": 2,
             "progress": "S",
-            "word_count": ["OW"],
             "period_start_date": "NC",
             "period_end_date": "DT",
             "count_first": 100,

@@ -27,7 +27,6 @@
         <tr>
           <th>На иностранном языке</th>
           <th>На русском языке</th>
-          <th>Кол-во слов</th>
           <th>Оценка знания</th>
           <th>Категория</th>
           <th>Источник</th>
@@ -41,7 +40,6 @@
         <tr>
           <td><a href="{% url 'foreign:words_detail' word.pk %}">{{ word.foreign_word }}</a></td>
           <td>{{ word.native_word }}</td>
-          <td>{{ word.get_word_count_display }}</td>
           <td>{% if word.assessment %}{{ word.assessment }}{% else %}-{% endif %}</td>
           <td>{% if word.category %}{{ word.category }}{% else %}-{% endif %}</td>
           <td>{% if word.source %}{{ word.source }}{% else %}-{% endif %}</td>

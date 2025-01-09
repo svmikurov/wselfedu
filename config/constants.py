@@ -101,6 +101,7 @@ EDGE_PERIOD_ALIASES = [
 ]
 """Edge period aliases at word adding for choice
 (`list[dict[str, str]]`).
+**DEPRECATED** - Use ``EDGE_PERIOD_CHOICES``.
 """
 EDGE_PERIOD_ARGS = {
     TODAY: {'days': 0},
@@ -162,6 +163,7 @@ PROGRESS_ALIASES = [
     {ALIAS: LEARNED, HUMANLY: 'Знаю'},
 ]
 """Progres aliases (`list[dict[str, str]]`).
+**DEPRECATED** - Use ``PROGRESS_CHOICES``.
 """
 PROGRESS_STAGE_EDGES = {
     STUDY: [*range(PROGRESS_MIN, PROGRESS_STUDY_MAX + 1)],
@@ -193,39 +195,25 @@ PROGRES_STEPS = {
 ########################################################################
 
 RANDOM = 'RN'
-TO_NATIVE = 'TR'
-FROM_NATIVE = 'FR'
+TO_NATIVE = 'TN'
+FROM_NATIVE = 'FN'
 
 DEFAULT_LANGUAGE_ORDER = TO_NATIVE
 
 LANGUAGE_ORDER_CHOICE = [
-    (RANDOM, 'Перевод в случайном порядке'),
-    (TO_NATIVE, 'Перевод на русский язык'),
-    (FROM_NATIVE, 'Перевод с русского язык'),
+    (RANDOM, 'Случайный порядок'),
+    (TO_NATIVE, 'На родной'),
+    (FROM_NATIVE, 'С родного'),
 ]
 """The order in which language translations of words are displayed
 (list[tuple[str, str]]`).
 """
-
-########################################################################
-# Number of words in the exercise task
-########################################################################
-
-ONE_WORD = 'OW'
-COMBINATION = 'CB'
-PART_SENTENCE = 'PS'
-SENTENCE = 'ST'
-
-DEFAULT_WORD_COUNT = [ONE_WORD, COMBINATION]
-
-WORD_COUNT_CHOICE = [
-    (NOT_CHOICES, 'Любое'),
-    (ONE_WORD, 'Слово'),
-    (COMBINATION, 'Словосочетание'),
-    (PART_SENTENCE, 'Часть предложения'),
-    (SENTENCE, 'Предложение'),
+LANGUAGE_ORDER_ALIAS = [
+    {ALIAS: RANDOM, HUMANLY: 'Случайный порядок'},
+    {ALIAS: TO_NATIVE, HUMANLY: 'На родной'},
+    {ALIAS: FROM_NATIVE, HUMANLY: 'С родного'},
 ]
-"""Length of verbal expression the choice (`tuple[tuple[str, str]]`).
+"""**DEPRECATED** - Use ``LANGUAGE_ORDER_CHOICE``.
 """
 
 ########################################################################
@@ -243,7 +231,7 @@ DEFAULT_LOOKUP_CONDITIONS = {
     'count_first': 0,
     'count_last': 0,
 }
-"""Default choice for Glossary exercise lookup conditions
+"""Default choice for Term exercise lookup conditions
 (`dict[str, int | None]`)
 """
 

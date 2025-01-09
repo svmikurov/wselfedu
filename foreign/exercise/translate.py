@@ -41,9 +41,7 @@ class TranslateExerciseGUI(ExerciseData):
 
     def __init__(self, lookup_conditions: dict) -> None:
         """Exercise constructor."""
-        self.language_order = lookup_conditions.pop(
-            'language_order', DEFAULT_LANGUAGE_ORDER
-        )
+        self.order = lookup_conditions.pop('order', DEFAULT_LANGUAGE_ORDER)
         super().__init__(lookup_conditions)
 
     def create_task(self) -> None:
@@ -56,11 +54,11 @@ class TranslateExerciseGUI(ExerciseData):
         (`list[str]`, read-only).
         """  # noqa:  D205
         word_translations = [self.item.foreign_word, self.item.native_word]
-        if self.language_order == TO_NATIVE:
+        if self.order == TO_NATIVE:
             pass
-        elif self.language_order == FROM_NATIVE:
+        elif self.order == FROM_NATIVE:
             word_translations = word_translations[::-1]
-        elif self.language_order == RANDOM:
+        elif self.order == RANDOM:
             shuffle(word_translations)
         return word_translations
 

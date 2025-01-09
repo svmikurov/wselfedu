@@ -2,7 +2,6 @@
 
 from django.db import models
 
-from config.constants import NOT_CHOICES, WORD_COUNT_CHOICE
 from foreign.models.category import WordCategory
 from foreign.models.source import WordSource
 from users.models import UserApp
@@ -53,13 +52,6 @@ class Word(models.Model):
         null=True,
         blank=True,
         verbose_name='Категория',
-    )
-    # https://docs.djangoproject.com/en/4.2/ref/models/fields/#choices
-    word_count = models.CharField(
-        max_length=2,
-        choices=WORD_COUNT_CHOICE,
-        default=NOT_CHOICES,
-        verbose_name='Количество слов',
     )
     # A field that displays how the user rates his knowledge of this
     # word

@@ -1,4 +1,4 @@
-"""Glossary model module."""
+"""Term model module."""
 
 from django.db import models
 from django.urls import reverse
@@ -8,7 +8,7 @@ from contrib.models.params import ExerciseParams
 from users.models import UserApp
 
 
-class GlossaryCategory(Category):
+class TermCategory(Category):
     """Model of the category of a glossary term."""
 
 
@@ -16,8 +16,8 @@ class TermSource(Source):
     """Model of the source of a glossary term."""
 
 
-class Glossary(models.Model):
-    """Glossary model class."""
+class Term(models.Model):
+    """Term model class."""
 
     user = models.ForeignKey(
         UserApp,
@@ -41,8 +41,17 @@ class Glossary(models.Model):
         blank=True,
         verbose_name='Толкование',
     )
+    example = models.TextField(
+        blank=True,
+        verbose_name='Пример',
+    )
+    url = models.URLField(
+        max_length=255,
+        blank=True,
+        verbose_name='URL-адрес определения',
+    )
     category = models.ForeignKey(
-        GlossaryCategory,
+        TermCategory,
         models.SET_NULL,
         blank=True,
         null=True,
@@ -95,7 +104,7 @@ class GlossaryParams(ExerciseParams):
     """User default settings for selecting terms in an exercise."""
 
     category = models.ForeignKey(
-        GlossaryCategory,
+        TermCategory,
         models.SET_NULL,
         blank=True,
         null=True,

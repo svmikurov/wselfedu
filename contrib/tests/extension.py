@@ -147,7 +147,7 @@ class UserAuthTestCase(TestCase):
         .. code-block:: python
 
             def test(self):
-                task_conditions = {'timeout': 1, 'language_order': 'EN'}
+                task_conditions = {'timeout': 1, 'order': 'EN'}
                 self.set_session(**{'task_conditions': task_conditions})
                 ...
 

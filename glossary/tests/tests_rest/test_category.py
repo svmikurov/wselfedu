@@ -1,4 +1,4 @@
-"""Test CRUD request Glossary category.
+"""Test CRUD request Term category.
 
 Each user has their own categories.
 """
@@ -8,12 +8,12 @@ from http import HTTPStatus
 from django.urls import reverse
 from rest_framework.test import APIClient, APITestCase
 
-from glossary.models import GlossaryCategory
+from glossary.models import TermCategory
 from users.models import UserApp
 
 
 class SetUpTest(APITestCase):
-    """Setup of CRUD Glossary tests."""
+    """Setup of CRUD Term tests."""
 
     fixtures = ['users.json']
 
@@ -23,14 +23,14 @@ class SetUpTest(APITestCase):
         self.url = reverse('glossary_rest:category')
         self.user2 = UserApp.objects.get(pk=2)
         self.user3 = UserApp.objects.get(pk=3)
-        GlossaryCategory.objects.create(name='cat2-1', user=self.user2)
-        GlossaryCategory.objects.create(name='cat2-2', user=self.user2)
-        GlossaryCategory.objects.create(name='cat3', user=self.user3)
+        TermCategory.objects.create(name='cat2-1', user=self.user2)
+        TermCategory.objects.create(name='cat2-2', user=self.user2)
+        TermCategory.objects.create(name='cat3', user=self.user3)
         self.category_name = 'cat2-2'
 
 
 class TestListGlossaryCategory(SetUpTest):
-    """Test list of Glossary category."""
+    """Test list of Term category."""
 
     def test_auth_request(self) -> None:
         """Test request glossary categories by auth user."""
@@ -51,7 +51,7 @@ class TestListGlossaryCategory(SetUpTest):
 
 
 class TestCreateGlossaryCategory(SetUpTest):
-    """Test create Glossary category."""
+    """Test create Term category."""
 
     def test_create_category_by_auth_user(self) -> None:
         """Test create category by auth user."""
@@ -70,12 +70,12 @@ class TestCreateGlossaryCategory(SetUpTest):
 
 
 class RetrieveGlossaryCategoryTest(SetUpTest):
-    """Test retrieve Glossary category."""
+    """Test retrieve Term category."""
 
     def setUp(self) -> None:
         """Set up retrieve."""
         super().setUp()
-        self.category = GlossaryCategory.objects.get(name=self.category_name)
+        self.category = TermCategory.objects.get(name=self.category_name)
         self.url = self.url + f'{self.category.pk}/'
 
     def test_retrieve_category_by_owner(self) -> None:
@@ -101,12 +101,12 @@ class RetrieveGlossaryCategoryTest(SetUpTest):
 
 
 class DeleteGlossaryCategoryTest(SetUpTest):
-    """Test delete Glossary category."""
+    """Test delete Term category."""
 
     def setUp(self) -> None:
         """Set up delete."""
         super().setUp()
-        self.category = GlossaryCategory.objects.get(name=self.category_name)
+        self.category = TermCategory.objects.get(name=self.category_name)
         self.url = self.url + f'{self.category.pk}/'
 
     def test_delete_by_owner(self) -> None:
@@ -115,9 +115,7 @@ class DeleteGlossaryCategoryTest(SetUpTest):
         response = self.api_client.delete(self.url)
 
         assert response.status_code == HTTPStatus.NO_CONTENT
-        assert not GlossaryCategory.objects.filter(
-            pk=self.category.pk
-        ).exists()  # noqa: E501
+        assert not TermCategory.objects.filter(pk=self.category.pk).exists()  # noqa: E501
 
     def test_delete_another_user(self) -> None:
         """Test delete category by another user."""
@@ -125,23 +123,23 @@ class DeleteGlossaryCategoryTest(SetUpTest):
         response = self.api_client.delete(self.url)
 
         assert response.status_code == HTTPStatus.FORBIDDEN
-        assert GlossaryCategory.objects.filter(pk=self.category.pk).exists()
+        assert TermCategory.objects.filter(pk=self.category.pk).exists()
 
     def test_delete_anonymous(self) -> None:
         """Test delete category by anonymous."""
         response = self.api_client.delete(self.url)
 
         assert response.status_code == HTTPStatus.UNAUTHORIZED
-        assert GlossaryCategory.objects.filter(pk=self.category.pk).exists()
+        assert TermCategory.objects.filter(pk=self.category.pk).exists()
 
 
 class UpdateGlossaryCategoryTest(SetUpTest):
-    """Test update Glossary category."""
+    """Test update Term category."""
 
     def setUp(self) -> None:
         """Set up update."""
         super().setUp()
-        self.category = GlossaryCategory.objects.get(name=self.category_name)
+        self.category = TermCategory.objects.get(name=self.category_name)
         self.url = self.url + f'{self.category.pk}/'
         self.to_update = {'humanly': 'update'}
 
@@ -149,7 +147,7 @@ class UpdateGlossaryCategoryTest(SetUpTest):
         """Test update category by owner."""
         self.api_client.force_authenticate(self.user2)
         response = self.api_client.put(self.url, data=self.to_update)
-        category = GlossaryCategory.objects.get(pk=self.category.pk)
+        category = TermCategory.objects.get(pk=self.category.pk)
 
         assert response.status_code == HTTPStatus.OK
         assert category.name == self.to_update['humanly']
@@ -158,7 +156,7 @@ class UpdateGlossaryCategoryTest(SetUpTest):
         """Test update category by another user."""
         self.api_client.force_authenticate(self.user3)
         response = self.api_client.put(self.url, data=self.to_update)
-        category = GlossaryCategory.objects.get(pk=self.category.pk)
+        category = TermCategory.objects.get(pk=self.category.pk)
 
         assert response.status_code == HTTPStatus.FORBIDDEN
         assert category.name != self.to_update['humanly']
@@ -166,7 +164,7 @@ class UpdateGlossaryCategoryTest(SetUpTest):
     def test_update_anonymous(self) -> None:
         """Test update category by anonymous."""
         response = self.api_client.put(self.url, data=self.to_update)
-        category = GlossaryCategory.objects.get(pk=self.category.pk)
+        category = TermCategory.objects.get(pk=self.category.pk)
 
         assert response.status_code == HTTPStatus.UNAUTHORIZED
         assert category.name != self.to_update['humanly']
