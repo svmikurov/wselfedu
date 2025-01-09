@@ -2,14 +2,12 @@
 
 from random import choice
 
+import django
 from django.db.models import Model, Q
 
 
 class Exercise:
     """Base exercise."""
-
-    lookup_params = None
-    model = None
 
     def __init__(self, lookup_conditions: dict) -> None:
         """Construct the exercise."""
@@ -18,24 +16,39 @@ class Exercise:
         self.item_ids = None
         self.question_text = None
         self.answer_text = None
-        self.count_first = lookup_conditions.get('count_first')
-        self.count_last = lookup_conditions.get('count_last')
+        self.is_first = lookup_conditions.pop('is_first')
+        self.is_last = lookup_conditions.pop('is_last')
+        self.count_first = lookup_conditions.pop('count_first')
+        self.count_last = lookup_conditions.pop('count_last')
 
     @property
     def _lookup_params(self) -> tuple[Q, ...]:
         """Encapsulated filters to lookup in query."""
         return self.lookup_params(self.lookup_conditions).params
 
+    # TODO: Optimize on ORM side.
     def _get_item_ids(self) -> list[int]:
         """Get item ids by user lookup conditions."""
         item_ids = self.model.objects.filter(*self._lookup_params).values_list(
             'id', flat=True
         )
-        if self.count_first:
-            return item_ids.order_by('created_at')[: self.count_first]
-        if self.count_last:
-            return item_ids.order_by('-created_at')[: self.count_last]
-        return item_ids
+
+        if self.is_first:
+            first_items = list(item_ids.order_by('created_at')[: self.count_first])
+        else:
+            first_items = []
+        if self.is_last:
+            last_items = list(item_ids.order_by('-created_at')[: self.count_last])
+        else:
+            last_items = []
+
+        first_items.extend(last_items)
+
+        if first_items:
+            return list(set(first_items))
+        else:
+            return item_ids
+
 
     @staticmethod
     def _get_random_item_id(item_ids: list) -> int:

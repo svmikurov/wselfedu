@@ -108,10 +108,11 @@ class ParamsSerializer(serializers.ModelSerializer):
             'default_values': DEFAULT_PARAMS | DEFAULT_TRANSLATE_PARAMS,
             'lookup_conditions': lookup_conditions,
             'exercise_choices': {
-                'edge_period_items': EDGE_PERIOD_CHOICES,
-                'categories': categories,
+                'period_start_date': EDGE_PERIOD_CHOICES,
+                'period_end_date': EDGE_PERIOD_CHOICES[0:-1],
+                'category': categories,
                 'progress': PROGRESS_CHOICES,
-                'orders': LANGUAGE_ORDER_CHOICE,
+                'order': LANGUAGE_ORDER_CHOICE,
                 'source': source,
             },
         }
