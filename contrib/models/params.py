@@ -88,11 +88,15 @@ class ExerciseParams(models.Model):
     """
     count_first = models.PositiveSmallIntegerField(
         default=DEFAULT_PARAMS['count_first'],
+        blank=True,
+        null=True,
     )
     """Count of first added items (`int`).
     """
     count_last = models.PositiveSmallIntegerField(
         default=DEFAULT_PARAMS['count_last'],
+        blank=True,
+        null=True,
     )
     """Count of last added items (`int`).
     """
