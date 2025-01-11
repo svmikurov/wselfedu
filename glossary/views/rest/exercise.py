@@ -1,4 +1,5 @@
 """Term exercise view."""
+import logging
 
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from rest_framework import permissions, status
@@ -9,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
-    HTTP_400_BAD_REQUEST,
+    HTTP_400_BAD_REQUEST, HTTP_204_NO_CONTENT,
 )
 
 from config.constants import (
@@ -62,15 +63,17 @@ def glossary_params_view(
         serializer = TermParamsSerializer(params, context={'request': request})
         return JsonResponse(serializer.data)
 
-    if request.method == 'PUT':
-        serializer = TermParamsSerializer(data=request.data)
+    elif request.method == 'PUT':
+        serializer = TermParamsSerializer(
+            data=request.data, context={'request': request}
+        )
 
         if serializer.is_valid():
-            serializer.save(user=request.user)
+            serializer.save(user=user)
 
-            if not serializer.is_created:
-                return Response(serializer.data)
-            return Response(serializer.data, status=HTTP_201_CREATED)
+            if serializer.is_created:
+                return Response(serializer.data, status=HTTP_201_CREATED)
+            return Response(status=HTTP_204_NO_CONTENT)
 
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 

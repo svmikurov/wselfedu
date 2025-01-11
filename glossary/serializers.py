@@ -1,4 +1,5 @@
 """Term serializer."""
+
 from typing import Mapping
 
 from django.db.models import Model
@@ -10,7 +11,8 @@ from contrib.views.exercise import create_selection_collection
 from glossary.models import (
     GlossaryParams,
     Term,
-    TermCategory, TermSource,
+    TermCategory,
+    TermSource,
 )
 
 DEFAULT_GLOSSARY_PARAMS = {
@@ -91,6 +93,7 @@ class TermParamsSerializer(serializers.ModelSerializer):
         }
 
         return exercise_params
+
 
 class TermCategorySerializer(serializers.ModelSerializer):
     """Term Category serializer."""

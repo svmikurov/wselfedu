@@ -44,8 +44,6 @@ def foreign_params_view(request: Request) -> JsonResponse | HttpResponse:
             data=request.data, context={'request': request}
         )
 
-        serializer.is_valid()
-
         if serializer.is_valid():
             serializer.save(user=user)
 
