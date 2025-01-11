@@ -51,22 +51,10 @@ def glossary_exercise(request: Request) -> JsonResponse | HttpResponse:
 
 @api_view(['GET', 'PUT'])
 @permission_classes((permissions.AllowAny,))
-def glossary_exercise_parameters(
+def glossary_params_view(
     request: Request,
 ) -> JsonResponse | HttpResponse:
-    """Term exercise parameters view.
-
-    GET
-    ---
-    View sends a response with ``exercise_params``:
-        - ``lookup_conditions``
-        - ``exercise_choices``
-
-    POST
-    ----
-    The view updates the ``lookup_conditions`` in data base.
-
-    """
+    """Term exercise parameters view."""
     user = request.user
 
     if request.method == 'GET':

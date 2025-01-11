@@ -30,19 +30,8 @@ from foreign.serializers import (
 @csrf_exempt
 @api_view(['GET', 'PUT'])
 @permission_classes((IsOwner,))
-def params_view(request: Request) -> JsonResponse | HttpResponse:
-    """Render or save the Translate word exercise params.
-
-    **GET method:**
-      Render the :term:`exercise_params`.
-
-      Fields:
-        - :term:`lookup_conditions`
-        - :term:`exercise_choices`
-
-    **PUT method:**
-      Save ``lookup_conditions``.
-    """
+def foreign_params_view(request: Request) -> JsonResponse | HttpResponse:
+    """Render or save the Translate word exercise params."""
     user = request.user
 
     if request.method == 'GET':

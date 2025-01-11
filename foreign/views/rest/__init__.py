@@ -2,7 +2,7 @@
 
 from foreign.views.rest.exercise import (
     exercise_view,
-    params_view,
+    foreign_params_view,
     update_word_assessment_view,
 )
 from foreign.views.rest.word import (
@@ -13,7 +13,7 @@ from foreign.views.rest.word import (
 __all__ = (
     'WordDetailAPIView',
     'WordListCreateAPIView',
-    'params_view',
+    'foreign_params_view',
     'exercise_view',
     'update_word_assessment_view',
 )

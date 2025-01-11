@@ -6,7 +6,7 @@ from foreign.views.rest import (
     WordDetailAPIView,
     WordListCreateAPIView,
     exercise_view,
-    params_view,
+    foreign_params_view,
     update_word_assessment_view,
 )
 
@@ -17,7 +17,7 @@ urlpatterns = [
     path('', WordListCreateAPIView.as_view(), name='words'),
     path('<int:pk>/', WordDetailAPIView.as_view(), name='word'),
     # Exercise.
-    path('params/', params_view, name='params'),
+    path('params/', foreign_params_view, name='params'),
     path('exercise/', exercise_view, name='exercise'),
     path('assessment/', update_word_assessment_view, name='assessment'),
 ]
