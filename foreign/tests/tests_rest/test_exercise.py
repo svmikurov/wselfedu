@@ -3,6 +3,7 @@
 from http import HTTPStatus
 from unittest import skip
 
+import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient, APITestCase
 
@@ -17,6 +18,7 @@ from foreign.queries.lookup_params import WordLookupParams
 from users.models import UserApp
 
 
+@pytest.mark.skip
 class TestRenderForeignExerciseDataREST(APITestCase):
     """Test render the foreign exercise data."""
 

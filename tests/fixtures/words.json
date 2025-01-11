@@ -9,7 +9,6 @@
     "native_word": "красный",
     "source": null,
     "category": null,
-    "word_count": "NC",
     "created_at": "2024-08-28T07:12:16.968Z",
     "updated_at": "2024-08-28T07:12:16.977Z"
   }
@@ -24,7 +23,6 @@
     "native_word": "белый",
     "source": null,
     "category": null,
-    "word_count": "NC",
     "created_at": "2024-08-28T07:12:25.844Z",
     "updated_at": "2024-08-28T07:12:25.850Z"
   }
@@ -39,7 +37,6 @@
     "native_word": "зеленый",
     "source": null,
     "category": null,
-    "word_count": "NC",
     "created_at": "2024-08-28T07:12:35.469Z",
     "updated_at": "2024-08-28T07:12:35.475Z"
   }
@@ -54,7 +51,6 @@
     "native_word": "синий",
     "source": null,
     "category": null,
-    "word_count": "NC",
     "created_at": "2024-08-28T07:12:45.183Z",
     "updated_at": "2024-08-28T07:12:45.189Z"
   }
@@ -69,7 +65,6 @@
     "native_word": "черный",
     "source": null,
     "category": null,
-    "word_count": "NC",
     "created_at": "2024-08-28T07:12:54.715Z",
     "updated_at": "2024-08-28T07:12:54.723Z"
   }

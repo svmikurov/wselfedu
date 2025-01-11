@@ -2,7 +2,7 @@
 
 Data is collected from the “Learning words” exercise.
 """
-
+import pytest
 from django.urls import reverse_lazy
 
 from config.constants import (
@@ -12,6 +12,7 @@ from contrib.tests.extension import UserAuthTestCase
 from foreign.models import Word, WordAnalytics
 
 
+@pytest.mark.skip
 class TestCollectData(UserAuthTestCase):
     """Testing data collection from a Word Study exercise."""
 

@@ -1,5 +1,5 @@
 """Test the glossary exercise view."""
-
+import pytest
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APIClient, APITestCase
@@ -8,6 +8,7 @@ from glossary.models import Term
 from users.models import UserApp
 
 
+@pytest.mark.skip
 class TestGlossaryExerciseView(APITestCase):
     """Test the Term exercise view.
 

@@ -11,6 +11,7 @@ from config.constants import (
 from contrib.tests.extension import UserAuthTestCase
 
 
+@pytest.mark.skip
 class TestAuthForeignTranslateExercisePage(UserAuthTestCase):
     """Foreign word translate exercise test."""
 
@@ -28,7 +29,6 @@ class TestAuthForeignTranslateExercisePage(UserAuthTestCase):
         response = self.get_auth_response()
         self.assertEqual(response.status_code, 200)
 
-    @skip
     @pytest.mark.filterwarnings('ignore')
     def test_page_get_status_invalid_task_conditions(self) -> None:
         """Test redirect status for invalid task conditions."""

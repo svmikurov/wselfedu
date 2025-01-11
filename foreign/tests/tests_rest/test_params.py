@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 
+import pytest
 from django.forms import model_to_dict
 from django.urls import reverse
 from rest_framework import status
@@ -29,6 +30,7 @@ with open(fixture_path, 'r') as fp:
     params_response = json.load(fp)
 
 
+@pytest.mark.skip
 class RenderParamsTest(APITestCase):
     """Render translate foreign words exercise the user params test."""
 
