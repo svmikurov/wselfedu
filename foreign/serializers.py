@@ -10,6 +10,7 @@ from config.constants import (
     PROGRESS_CHOICES,
 )
 from contrib.models.params import DEFAULT_PARAMS
+from contrib.views.exercise import create_selection_collection
 from foreign.models import TranslateParams, Word, WordCategory, WordSource
 from foreign.models.params import DEFAULT_TRANSLATE_PARAMS
 
@@ -41,10 +42,8 @@ class ExerciseParamSerializer(serializers.ModelSerializer):
         """
 
 
-class ParamsSerializer(serializers.ModelSerializer):
+class WordParamsSerializer(serializers.ModelSerializer):
     """Choice of translate foreign word params serializer."""
-
-    no_selection = [None, 'Не выбрано']
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Add is created model instance."""
@@ -59,8 +58,6 @@ class ParamsSerializer(serializers.ModelSerializer):
             'id',
             'user',
         ]
-        """Exclude fields (`list[str]`).
-        """
 
     def create(self, validated_data: dict) -> TranslateParams:
         """Update or create the user glossary exercise parameters."""
@@ -81,28 +78,12 @@ class ParamsSerializer(serializers.ModelSerializer):
         return internal_data
 
     def to_representation(self, instance: object) -> object:
-        """Update the representation data.
-
-        Creates :term:`exercise_params` to response.
-        """
+        """Update the representation data."""
         user = self.context.get('request').user
         lookup_conditions = super().to_representation(instance)
 
-        try:
-            queryset = WordCategory.objects.filter(user=user)
-            categories = list(queryset.values_list('id', 'name'))
-        except WordCategory.DoesNotExist:
-            categories = WordCategory.objects.none()
-        else:
-            categories.append(self.no_selection)
-
-        try:
-            queryset = WordSource.objects.filter(user=user)
-            source = list(queryset.values_list('id', 'name'))
-        except WordSource.DoesNotExist:
-            source = WordCategory.objects.none()
-        else:
-            source.append(self.no_selection)
+        categories = create_selection_collection(WordCategory, user)
+        sources = create_selection_collection(WordSource, user)
 
         exercise_params = {
             'default_values': DEFAULT_PARAMS | DEFAULT_TRANSLATE_PARAMS,
@@ -110,10 +91,10 @@ class ParamsSerializer(serializers.ModelSerializer):
             'exercise_choices': {
                 'period_start_date': EDGE_PERIOD_CHOICES,
                 'period_end_date': EDGE_PERIOD_CHOICES[0:-1],
-                'category': categories,
                 'progress': PROGRESS_CHOICES,
+                'category': categories,
+                'source': sources,
                 'order': LANGUAGE_ORDER_CHOICE,
-                'source': source,
             },
         }
 

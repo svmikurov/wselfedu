@@ -1,5 +1,4 @@
 """Translate foreign word exercise DRF views."""
-import logging
 
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -23,8 +22,8 @@ from foreign.models import TranslateParams
 from foreign.serializers import (
     ExerciseParamSerializer,
     ExerciseSerializer,
-    ParamsSerializer,
     WordAssessmentSerializer,
+    WordParamsSerializer,
 )
 
 
@@ -44,23 +43,22 @@ def params_view(request: Request) -> JsonResponse | HttpResponse:
     **PUT method:**
       Save ``lookup_conditions``.
     """
+    user = request.user
+
     if request.method == 'GET':
-        params, _ = TranslateParams.objects.get_or_create(user=request.user)
-        serializer = ParamsSerializer(params, context={'request': request})
+        params, _ = TranslateParams.objects.get_or_create(user=user)
+        serializer = WordParamsSerializer(params, context={'request': request})
         return JsonResponse(serializer.data)
 
     elif request.method == 'PUT':
-        serializer = ParamsSerializer(
+        serializer = WordParamsSerializer(
             data=request.data, context={'request': request}
         )
 
         serializer.is_valid()
-        logging.info(request.data)
-        logging.info(serializer.errors)
-
 
         if serializer.is_valid():
-            serializer.save(user=request.user)
+            serializer.save(user=user)
 
             if serializer.is_created:
                 return Response(serializer.data, status=HTTP_201_CREATED)

@@ -21,8 +21,8 @@ DEFAULT_PARAMS = {
     'period_end_date': TODAY,
     'is_first': False,
     'is_last': False,
-    'count_first': 10,
-    'count_last': 20,
+    'count_first': 0,
+    'count_last': 0,
 }
 
 

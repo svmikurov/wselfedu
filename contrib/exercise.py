@@ -2,7 +2,6 @@
 
 from random import choice
 
-import django
 from django.db.models import Model, Q
 
 
@@ -34,11 +33,15 @@ class Exercise:
         )
 
         if self.is_first:
-            first_items = list(item_ids.order_by('created_at')[: self.count_first])
+            first_items = list(
+                item_ids.order_by('created_at')[: self.count_first]
+            )
         else:
             first_items = []
         if self.is_last:
-            last_items = list(item_ids.order_by('-created_at')[: self.count_last])
+            last_items = list(
+                item_ids.order_by('-created_at')[: self.count_last]
+            )
         else:
             last_items = []
 
@@ -48,7 +51,6 @@ class Exercise:
             return list(set(first_items))
         else:
             return item_ids
-
 
     @staticmethod
     def _get_random_item_id(item_ids: list) -> int:

@@ -5,7 +5,26 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 
+from contrib.models import Category, Source
 from contrib.views.general import CheckLoginPermissionMixin
+from users.models import UserApp
+
+NO_SELECTION = [None, 'Не выбрано']
+
+
+def create_selection_collection(
+    model: type[Category | Source],
+    user: UserApp,
+) -> list:
+    """Create collection of items for selections."""
+    try:
+        queryset = model.objects.filter(user=user)
+        items = list(queryset.values_list('id', 'name'))
+    except model.DoesNotExist:
+        items = []
+    else:
+        items.append(NO_SELECTION)
+    return items
 
 
 class ExerciseParamsView(CheckLoginPermissionMixin, TemplateView):
