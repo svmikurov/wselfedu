@@ -13,12 +13,8 @@ from rest_framework.status import (
 )
 
 from config.constants import (
-    DEFAULT_LOOKUP_CONDITIONS,
-    EDGE_PERIOD_ALIASES,
     MSG_NO_TASK,
-    NO_SELECTION,
     PROGRES_STEPS,
-    PROGRESS_ALIASES,
     PROGRESS_MAX,
     PROGRESS_MIN,
 )
@@ -28,10 +24,8 @@ from glossary.exercise.question import (
 from glossary.models import (
     GlossaryParams,
     Term,
-    TermCategory,
 )
 from glossary.serializers import (
-    TermCategorySerializer,
     TermParamsSerializer,
 )
 
@@ -76,30 +70,9 @@ def glossary_exercise_parameters(
     user = request.user
 
     if request.method == 'GET':
-        try:
-            user_params = GlossaryParams.objects.get(user=user)
-        except GlossaryParams.DoesNotExist:
-            lookup_conditions = DEFAULT_LOOKUP_CONDITIONS
-        else:
-            lookup_conditions = TermParamsSerializer(user_params).data
-
-        try:
-            queryset = TermCategory.objects.filter(user=user)
-        except TermCategory.DoesNotExist:
-            queryset = TermCategory.objects.none()
-        categories = TermCategorySerializer(queryset, many=True).data
-        categories.append(NO_SELECTION)
-
-        exercise_params = {
-            'lookup_conditions': lookup_conditions,
-            'exercise_choices': {
-                'edge_period_items': EDGE_PERIOD_ALIASES,
-                'categories': categories,
-                'progress': PROGRESS_ALIASES,
-            },
-        }
-
-        return JsonResponse(exercise_params, status=HTTP_200_OK)
+        params, _ = GlossaryParams.objects.get_or_create(user=user)
+        serializer = TermParamsSerializer(params, context={'request': request})
+        return JsonResponse(serializer.data)
 
     if request.method == 'PUT':
         serializer = TermParamsSerializer(data=request.data)
