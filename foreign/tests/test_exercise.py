@@ -1,7 +1,5 @@
 """Test the foreign word translate page."""
 
-from unittest import skip
-
 import pytest
 from django.urls import reverse_lazy
 

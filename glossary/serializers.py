@@ -35,6 +35,16 @@ class TermSerializer(serializers.ModelSerializer):
         ]
 
 
+class GlossaryExerciseParamSerializer(serializers.ModelSerializer):
+    """Parameters of translate foreign word exercise the serializer."""
+
+    class Meta:
+        """Serializer settings."""
+
+        model = GlossaryParams
+        exclude = ['id', 'user']
+
+
 class TermParamsSerializer(serializers.ModelSerializer):
     """Term Exercise Parameters serializer."""
 

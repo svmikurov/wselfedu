@@ -8,8 +8,8 @@ readme = "README.md"
 [tool.pytest.ini_options]
 # https://docs.pytest.org/en/stable/reference/customize.html#pyproject-toml
 addopts = [
-    "-vv",
-    "-s",
+#    "-vv",
+#    "-s",
     "--doctest-modules",
     "--ignore=postgres_data/",
     "--ignore=static/",

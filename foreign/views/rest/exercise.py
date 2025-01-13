@@ -20,8 +20,8 @@ from foreign.exercise.base import WordAssessment
 from foreign.exercise.translate import TranslateExerciseGUI
 from foreign.models import TranslateParams
 from foreign.serializers import (
-    ExerciseParamSerializer,
     ExerciseSerializer,
+    ForeignExerciseParamSerializer,
     WordAssessmentSerializer,
     WordParamsSerializer,
 )
@@ -57,10 +57,10 @@ def foreign_params_view(request: Request) -> JsonResponse | HttpResponse:
 @csrf_exempt
 @api_view(['GET', 'POST'])
 @permission_classes((IsOwner,))
-def exercise_view(request: Request) -> JsonResponse | HttpResponse:
+def foreign_exercise_view(request: Request) -> JsonResponse | HttpResponse:
     """Render the Translate foreign word exercise the DRF view."""
     # Get exercise parameters.
-    params_serializer = ExerciseParamSerializer(data=request.data)
+    params_serializer = ForeignExerciseParamSerializer(data=request.data)
     params_serializer.is_valid()
     # Create exercise task.
     lookup_conditions = params_serializer.data

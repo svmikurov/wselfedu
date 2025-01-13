@@ -2,12 +2,13 @@
 
 from django.urls import reverse_lazy
 
-from contrib.exercise import Exercise
+from contrib.exercise import ExerciseData
 from glossary.models import Term
 from glossary.queries.lookup_params import GlossaryLookupParams
+from users.models import UserApp
 
 
-class GlossaryExerciseGUI(Exercise):
+class GlossaryExerciseGUI(ExerciseData):
     """Term exercise to do in mobile app."""
 
     model = Term
@@ -22,6 +23,20 @@ class GlossaryExerciseGUI(Exercise):
         super().create_task()
         self.question_text = self.item.term
         self.answer_text = self.item.definition
+
+    # TODO: Refactor, move to base class.
+    def _query_item_progress(self) -> int:
+        """Query the term progress study assessment."""
+        default_progress_value = 0
+        queryset = Term.objects.filter(
+            user=UserApp.objects.get(pk=self.lookup_conditions['user_id']),
+            term=self.item,
+        )
+        try:
+            progress = int(queryset.last().progress)
+        except AttributeError:
+            progress = default_progress_value
+        return progress
 
 
 class GlossaryExercise(GlossaryExerciseGUI):

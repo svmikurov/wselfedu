@@ -2,6 +2,7 @@
 
 Data is collected from the “Learning words” exercise.
 """
+
 import pytest
 from django.urls import reverse_lazy
 

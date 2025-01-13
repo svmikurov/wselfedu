@@ -5,7 +5,6 @@
 - render task: status, TODO: ...;
 - render params: status, create, update, TODO: forbidden;
 """
-from http import HTTPStatus
 
 import pytest
 from django.forms.models import model_to_dict
@@ -77,7 +76,7 @@ class TestGetGlossaryExerciseParams(APITestCase):
                 'count_first': 0,
                 'count_last': 0,
                 'category': None,
-                'source': None
+                'source': None,
             },
             'lookup_conditions': {
                 'category': 1,

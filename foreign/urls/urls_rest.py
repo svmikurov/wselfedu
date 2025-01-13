@@ -5,7 +5,7 @@ from django.urls import path
 from foreign.views.rest import (
     WordDetailAPIView,
     WordListCreateAPIView,
-    exercise_view,
+    foreign_exercise_view,
     foreign_params_view,
     update_word_assessment_view,
 )
@@ -18,6 +18,6 @@ urlpatterns = [
     path('<int:pk>/', WordDetailAPIView.as_view(), name='word'),
     # Exercise.
     path('params/', foreign_params_view, name='params'),
-    path('exercise/', exercise_view, name='exercise'),
+    path('exercise/', foreign_exercise_view, name='exercise'),
     path('assessment/', update_word_assessment_view, name='assessment'),
 ]

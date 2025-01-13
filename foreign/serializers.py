@@ -27,19 +27,14 @@ class WordSerializer(serializers.ModelSerializer):
         """
 
 
-class ExerciseParamSerializer(serializers.ModelSerializer):
+class ForeignExerciseParamSerializer(serializers.ModelSerializer):
     """Parameters of translate foreign word exercise the serializer."""
 
     class Meta:
         """Serializer settings."""
 
         model = TranslateParams
-        exclude = [
-            'id',
-            'user',
-        ]
-        """Exclude fields (`list[str]`).
-        """
+        exclude = ['id', 'user']
 
 
 class WordParamsSerializer(serializers.ModelSerializer):

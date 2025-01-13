@@ -1,5 +1,4 @@
 """Term exercise view."""
-import logging
 
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from rest_framework import permissions, status
@@ -8,9 +7,9 @@ from rest_framework.parsers import JSONParser
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.status import (
-    HTTP_200_OK,
     HTTP_201_CREATED,
-    HTTP_400_BAD_REQUEST, HTTP_204_NO_CONTENT,
+    HTTP_204_NO_CONTENT,
+    HTTP_400_BAD_REQUEST,
 )
 
 from config.constants import (
@@ -19,6 +18,7 @@ from config.constants import (
     PROGRESS_MAX,
     PROGRESS_MIN,
 )
+from foreign.serializers import ExerciseSerializer
 from glossary.exercise.question import (
     GlossaryExerciseGUI,
 )
@@ -27,27 +27,29 @@ from glossary.models import (
     Term,
 )
 from glossary.serializers import (
+    GlossaryExerciseParamSerializer,
     TermParamsSerializer,
 )
 
 
 @api_view(['POST'])
 @permission_classes((permissions.AllowAny,))
-def glossary_exercise(request: Request) -> JsonResponse | HttpResponse:
+def glossary_exercise_view(request: Request) -> JsonResponse | HttpResponse:
     """Render the Term exercise."""
-    serializer = TermParamsSerializer(data=request.data)
-
-    if serializer.is_valid():
-        lookup_conditions = serializer.data
-        lookup_conditions['user_id'] = request.user.id
-        try:
-            exercise = GlossaryExerciseGUI(lookup_conditions).task_data
-        except IndexError:
-            error = {'error': MSG_NO_TASK}
-            return JsonResponse(error, status=HTTP_400_BAD_REQUEST)
-
-        return JsonResponse(exercise, status=HTTP_200_OK)
-    return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+    # Get exercise parameters.
+    params_serializer = GlossaryExerciseParamSerializer(data=request.data)
+    params_serializer.is_valid()
+    # Create exercise task.
+    lookup_conditions = params_serializer.data
+    lookup_conditions['user_id'] = request.user.pk
+    try:
+        exercise_data = GlossaryExerciseGUI(lookup_conditions).exercise_data
+    except IndexError:
+        data = {'details': MSG_NO_TASK}
+        return Response(data=data, status=status.HTTP_204_NO_CONTENT)
+    else:
+        exercise_serializer = ExerciseSerializer(exercise_data)
+        return Response(data=exercise_serializer.data)
 
 
 @api_view(['GET', 'PUT'])
