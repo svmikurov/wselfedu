@@ -27,8 +27,8 @@ class WordSerializer(serializers.ModelSerializer):
         """
 
 
-class ForeignExerciseParamSerializer(serializers.ModelSerializer):
-    """Parameters of translate foreign word exercise the serializer."""
+class ForeignExerciseParamsSerializer(serializers.ModelSerializer):
+    """The serializer to create foreign task."""
 
     class Meta:
         """Serializer settings."""
@@ -37,22 +37,13 @@ class ForeignExerciseParamSerializer(serializers.ModelSerializer):
         exclude = ['id', 'user']
 
 
-class WordParamsSerializer(serializers.ModelSerializer):
-    """Choice of translate foreign word params serializer."""
+class ForeignParamsSerializer(ForeignExerciseParamsSerializer):
+    """Serilizer to reade and save a foreign exercise params."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Add is created model instance."""
         super().__init__(*args, **kwargs)
         self.is_created = False
-
-    class Meta:
-        """Serializer settings."""
-
-        model = TranslateParams
-        exclude = [
-            'id',
-            'user',
-        ]
 
     def create(self, validated_data: dict) -> TranslateParams:
         """Update or create the user glossary exercise parameters."""

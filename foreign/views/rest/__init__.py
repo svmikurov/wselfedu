@@ -2,6 +2,7 @@
 
 from foreign.views.rest.exercise import (
     foreign_exercise_view,
+    foreign_selected_view,
     foreign_params_view,
     update_word_assessment_view,
 )
@@ -15,5 +16,6 @@ __all__ = (
     'WordListCreateAPIView',
     'foreign_params_view',
     'foreign_exercise_view',
+    'foreign_selected_view',
     'update_word_assessment_view',
 )
