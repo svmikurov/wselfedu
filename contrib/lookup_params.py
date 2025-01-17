@@ -24,7 +24,7 @@ class LookupParams(abc.ABC):
     def params(self) -> tuple[Q, ...]:
         """Lookup params (tuple[Q, ...], read-only).
 
-        Override to return a sequence of required condition properties.
+        Override to return a sequence of required lookup conditions.
         """
         pass
 
@@ -39,7 +39,8 @@ class LookupParams(abc.ABC):
     @property
     def period_start_date(self) -> Q:
         """Start period of adding items to database (`Q`, read-only)."""
-        lookup_value = self._get_date_value('period_start_date')
+        format_time = '%Y-%m-%d 00:00:00+00:00'
+        lookup_value = self._get_date_value('period_start_date', format_time)
         lookup_field = 'created_at__gte'
         param = get_q(lookup_field, lookup_value)
         return param
@@ -47,19 +48,20 @@ class LookupParams(abc.ABC):
     @property
     def period_end_date(self) -> Q:
         """End period of adding items to database (`Q`, read-only)."""
-        lookup_value = self._get_date_value('period_end_date')
+        format_time = '%Y-%m-%d 23:59:59+00:00'
+        lookup_value = self._get_date_value('period_end_date', format_time)
         lookup_field = 'created_at__lte'
         param = get_q(lookup_field, lookup_value)
         return param
 
-    def _get_date_value(self, period_date: str) -> str:
+    def _get_date_value(self, period_date: str, format_time: str) -> str:
         """Get lookup date value."""
-        today = datetime.now(tz=ZoneInfo(settings.TIME_ZONE))
+        today = datetime.now(tz=ZoneInfo('UTC'))
         period = self.lookup_conditions.get(period_date)
         period_delta = timedelta(**EDGE_PERIOD_ARGS.get(period, {}))
         end_period = today - period_delta
 
-        lookup_value = end_period.strftime('%Y-%m-%d')
+        lookup_value = end_period.strftime(format_time)
         date_value = lookup_value if period in EDGE_PERIOD_ARGS else ''
         return date_value
 

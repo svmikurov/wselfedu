@@ -46,7 +46,7 @@ class TestLookupParams(TestCase):
         queryset = self.query_database(lookup_conditions)
         self.assertQuerySetEqual(queryset, [1, 2, 3, 4, 5])
 
-    @skip('FIX time now')
+    # @skip('FIX time now')
     def test_lookup_by_date(self) -> None:
         """Test filter terms by term added date."""
         # For user_id=2 set adding term dates:

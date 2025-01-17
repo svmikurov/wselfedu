@@ -2,7 +2,7 @@
 
 from django.db.models import Q
 
-from contrib.queries import LookupParams
+from contrib.lookup_params import LookupParams
 
 
 class GlossaryLookupParams(LookupParams):
