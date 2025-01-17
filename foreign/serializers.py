@@ -104,6 +104,7 @@ class ExerciseSerializer(serializers.Serializer):
     answer_text = serializers.CharField()
     item_count = serializers.IntegerField()
     assessment = serializers.IntegerField()
+    favorites = serializers.BooleanField()
 
 
 class WordCategorySerializer(serializers.ModelSerializer):
