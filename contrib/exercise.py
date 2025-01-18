@@ -8,6 +8,8 @@ from django.db.models import Model, Q
 class Exercise:
     """Base exercise."""
 
+    lookup_params = None
+
     def __init__(self, lookup_conditions: dict) -> None:
         """Construct the exercise."""
         self.lookup_conditions = lookup_conditions
@@ -91,7 +93,7 @@ class ExerciseData(Exercise):
         super().__init__(*args, **kwargs)
 
     @property
-    def exercise_data(self) -> dict[str, str]:
+    def task_data(self) -> dict[str, str]:
         """Exercise data (``dact``, reade-only)."""
         data = super().task_data
         data['item_count'] = len(self.item_ids)
@@ -99,10 +101,7 @@ class ExerciseData(Exercise):
         return data
 
     def _query_item_progress(self) -> int:
-        """Query the item progress study.
-
-        :raises NotImplementedError: if the method is not overridden.
-        """
+        """Query the item progress study."""
         raise NotImplementedError(
             'Subclasses must provide a _get_item_progress() method.'
         )

@@ -89,7 +89,7 @@ def foreign_exercise_view(request: Request) -> JsonResponse | HttpResponse:
 
     # Get exercise data
     try:
-        exercise_data = TranslateExerciseGUI(lookup_conditions).exercise_data
+        exercise_data = TranslateExerciseGUI(lookup_conditions).task_data
     except IndexError:
         data = {'details': MSG_NO_TASK}
         return Response(data=data, status=status.HTTP_204_NO_CONTENT)

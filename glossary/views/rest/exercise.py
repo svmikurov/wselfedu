@@ -65,7 +65,7 @@ def glossary_exercise_view(request: Request) -> Response:
 
     # Get exercise data
     try:
-        exercise_data = GlossaryExerciseGUI(lookup_conditions).exercise_data
+        exercise_data = GlossaryExerciseGUI(lookup_conditions).task_data
     except IndexError:
         data = {'details': MSG_NO_TASK}
         return Response(data, status.HTTP_204_NO_CONTENT)
