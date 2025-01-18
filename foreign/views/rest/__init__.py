@@ -2,10 +2,10 @@
 
 from foreign.views.rest.exercise import (
     foreign_exercise_view,
-    foreign_favorites_view,
     foreign_params_view,
     foreign_selected_view,
-    update_word_assessment_view,
+    update_word_favorites_view,
+    update_word_progress_view,
 )
 from foreign.views.rest.word import (
     WordDetailAPIView,
@@ -18,6 +18,6 @@ __all__ = (
     'foreign_params_view',
     'foreign_exercise_view',
     'foreign_selected_view',
-    'update_word_assessment_view',
-    'foreign_favorites_view',
+    'update_word_progress_view',
+    'update_word_favorites_view',
 )

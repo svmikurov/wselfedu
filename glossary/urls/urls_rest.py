@@ -4,9 +4,9 @@ from django.urls import path
 
 from glossary.views.rest.exercise import (
     glossary_exercise_view,
-    glossary_favorites_view,
     glossary_params_view,
-    update_term_study_progress,
+    update_term_favorites_view,
+    update_term_progress_view,
 )
 from glossary.views.rest.term import (
     CategoryTermDetailAPIView,
@@ -32,8 +32,8 @@ urlpatterns = [
         name='category',
     ),  # noqa: E501
     # Exercise
-    path('progress/', update_term_study_progress, name='progress'),
+    path('progress/', update_term_progress_view, name='progress'),
     path('exercise/', glossary_exercise_view, name='exercise'),
-    path('favorites/', glossary_favorites_view, name='favorites'),
+    path('favorites/', update_term_favorites_view, name='favorites'),
     path('params/', glossary_params_view, name='params'),
 ]
