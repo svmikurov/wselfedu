@@ -1,16 +1,11 @@
 """Term exercise view."""
 
-from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.parsers import JSONParser
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.status import (
-    HTTP_201_CREATED,
-    HTTP_204_NO_CONTENT,
-    HTTP_400_BAD_REQUEST,
-)
 
 from config.constants import (
     MSG_NO_TASK,
@@ -38,31 +33,29 @@ from glossary.serializers import (
 @permission_classes((IsOwner,))
 def glossary_params_view(request: Request) -> JsonResponse | HttpResponse:
     """Glossary exercise parameters view."""
-    user = request.user
+    context = {'request': request}
 
     if request.method == 'GET':
-        params, _ = GlossaryParams.objects.get_or_create(user=user)
-        serializer = TermParamsSerializer(params, context={'request': request})
+        params, _ = GlossaryParams.objects.get_or_create(user=request.user)
+        serializer = TermParamsSerializer(params, context=context)
         return JsonResponse(serializer.data)
 
     elif request.method == 'PUT':
-        serializer = TermParamsSerializer(
-            data=request.data, context={'request': request}
-        )
+        serializer = TermParamsSerializer(request.data, context=context)
 
         if serializer.is_valid():
-            serializer.save(user=user)
+            serializer.save(user=request.user)
 
             if serializer.is_created:
-                return Response(serializer.data, status=HTTP_201_CREATED)
-            return Response(status=HTTP_204_NO_CONTENT)
+                return Response(serializer.data, status.HTTP_201_CREATED)
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
-        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
 @permission_classes((IsOwner,))
-def glossary_exercise_view(request: Request) -> JsonResponse | HttpResponse:
+def glossary_exercise_view(request: Request) -> Response:
     """Glossary exercise view."""
     # Get lookup conditions
     params_serializer = GlossaryExerciseParamSerializer(data=request.data)
@@ -75,32 +68,27 @@ def glossary_exercise_view(request: Request) -> JsonResponse | HttpResponse:
         exercise_data = GlossaryExerciseGUI(lookup_conditions).exercise_data
     except IndexError:
         data = {'details': MSG_NO_TASK}
-        return Response(data=data, status=status.HTTP_204_NO_CONTENT)
+        return Response(data, status.HTTP_204_NO_CONTENT)
 
     # Get favorites status
     favorites = Term.objects.get(pk=exercise_data['id']).favorites
     exercise_data['favorites'] = favorites
 
     exercise_serializer = ExerciseSerializer(exercise_data)
-    return Response(data=exercise_serializer.data)
+    return Response(exercise_serializer.data)
 
 
 @api_view(['POST'])
 @permission_classes((IsOwner,))
-def update_term_progress_view(request: HttpRequest) -> HttpResponse:
+def update_term_progress_view(request: Request) -> Response:
     """Update term study progres."""
-    user = request.user
     payload = JSONParser().parse(request)
     term_pk = payload.get('id')
 
     try:
         term = Term.objects.get(pk=term_pk)
     except Term.DoesNotExist:
-        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
-    else:
-        # Only owner have access to his term.
-        if user != term.user:
-            return HttpResponse(status=status.HTTP_403_FORBIDDEN)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
     action = payload.get('action')
     progress_delta = PROGRES_STEPS.get(action)
@@ -110,12 +98,12 @@ def update_term_progress_view(request: HttpRequest) -> HttpResponse:
         term.progress = updated_progress
         term.save(update_fields=['progress'])
 
-    return HttpResponse(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
 @permission_classes((IsOwner,))
-def update_term_favorites_view(request: Request) -> None:
+def update_term_favorites_view(request: Request) -> Response:
     """Update term favorites status view."""
     serializer = TermFavoritesSerilizer(data=request.data)
     serializer.is_valid()
@@ -125,4 +113,4 @@ def update_term_favorites_view(request: Request) -> None:
     term.favorites = not term.favorites
     term.save()
 
-    return HttpResponse(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_200_OK)

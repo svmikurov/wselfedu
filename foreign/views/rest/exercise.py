@@ -30,22 +30,18 @@ from foreign.serializers import (
 @permission_classes((IsOwner,))
 def foreign_params_view(request: Request) -> JsonResponse | HttpResponse:
     """Foreign exercise parameters view."""
-    user = request.user
+    context = {'request': request}
 
     if request.method == 'GET':
-        params, _ = TranslateParams.objects.get_or_create(user=user)
-        serializer = ForeignParamsSerializer(
-            params, context={'request': request}
-        )
+        params, _ = TranslateParams.objects.get_or_create(user=request.user)
+        serializer = ForeignParamsSerializer(params, context=context)
         return JsonResponse(serializer.data)
 
     elif request.method == 'PUT':
-        serializer = ForeignParamsSerializer(
-            data=request.data, context={'request': request}
-        )
+        serializer = ForeignParamsSerializer(request.data, context=context)
 
         if serializer.is_valid():
-            serializer.save(user=user)
+            serializer.save(user=request.user)
 
             if serializer.is_created:
                 return Response(serializer.data, status.HTTP_201_CREATED)
@@ -81,7 +77,7 @@ def foreign_selected_view(request: Request) -> Response:
 
 
 @csrf_exempt
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 @permission_classes((IsOwner,))
 def foreign_exercise_view(request: Request) -> JsonResponse | HttpResponse:
     """Foreign exercise view."""
@@ -110,9 +106,8 @@ def foreign_exercise_view(request: Request) -> JsonResponse | HttpResponse:
 @permission_classes((IsOwner,))
 def update_word_progress_view(request: Request) -> Response:
     """Update word study assessment view."""
-    serializer = WordAssessmentSerializer(
-        data=request.data, context={'request': request}
-    )
+    data = request.data
+    serializer = WordAssessmentSerializer(data, context={'request': request})
     serializer.is_valid(raise_exception=True)
     WordAssessment(request.user, serializer.data).update()
     return Response(status=status.HTTP_204_NO_CONTENT)
@@ -123,10 +118,9 @@ def update_word_progress_view(request: Request) -> Response:
 def update_word_favorites_view(request: Request) -> Response:
     """Update word favorites status view."""
     serializer = WordFavoritesSerilizer(data=request.data)
-    serializer.is_valid()
-
-    update_word_favorites_status(
-        word_id=serializer.data['id'],
-        user_id=request.user.pk,
-    )
-    return Response(status=status.HTTP_204_NO_CONTENT)
+    if serializer.is_valid():
+        update_word_favorites_status(
+            word_id=serializer.data['id'],
+            user_id=request.user.pk,
+        )
+        return Response(status=status.HTTP_204_NO_CONTENT)
