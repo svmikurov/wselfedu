@@ -2,14 +2,18 @@
 
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.request import Request
-from rest_framework.response import Response
-
-from config.constants import (
-    MSG_NO_TASK,
+from rest_framework.status import (
+    HTTP_200_OK,
+    HTTP_201_CREATED,
+    HTTP_204_NO_CONTENT,
+    HTTP_400_BAD_REQUEST,
 )
+from rest_framework.views import APIView
+
+from config.constants import MSG_NO_TASK
 from contrib.views.views_rest import IsOwner
 from foreign.exercise.base import WordAssessment
 from foreign.exercise.translate import TranslateExerciseGUI
@@ -21,11 +25,11 @@ from foreign.serializers import (
     ForeignExerciseParamsSerializer,
     ForeignParamsSerializer,
     WordAssessmentSerializer,
-    WordFavoritesSerilizer,
+    WordFavoritesSerializer,
+    WordSerializer,
 )
 
 
-@csrf_exempt
 @api_view(['GET', 'PUT'])
 @permission_classes((IsOwner,))
 def foreign_params_view(request: Request) -> JsonResponse | HttpResponse:
@@ -35,7 +39,7 @@ def foreign_params_view(request: Request) -> JsonResponse | HttpResponse:
     if request.method == 'GET':
         params, _ = TranslateParams.objects.get_or_create(user=request.user)
         serializer = ForeignParamsSerializer(params, context=context)
-        return JsonResponse(serializer.data)
+        return JsonResponse(serializer.data, status=HTTP_200_OK)
 
     elif request.method == 'PUT':
         serializer = ForeignParamsSerializer(request.data, context=context)
@@ -44,22 +48,19 @@ def foreign_params_view(request: Request) -> JsonResponse | HttpResponse:
             serializer.save(user=request.user)
 
             if serializer.is_created:
-                return Response(serializer.data, status.HTTP_201_CREATED)
-            return Response(status=status.HTTP_204_NO_CONTENT)
+                return JsonResponse(serializer.data, status=HTTP_201_CREATED)
+            return HttpResponse(status=HTTP_204_NO_CONTENT)
 
-        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+        return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
 @permission_classes((IsOwner,))
-def foreign_selected_view(request: Request) -> Response:
+def foreign_selected_view(request: Request) -> JsonResponse:
     """Render the selected words for exercise."""
-    # Get exercise parameters.
-    params_serializer = ForeignExerciseParamsSerializer(data=request.data)
-    params_serializer.is_valid()
-
-    # Create exercise task.
-    lookup_conditions = params_serializer.data
+    request_serializer = ForeignExerciseParamsSerializer(data=request.data)
+    request_serializer.is_valid()
+    lookup_conditions = request_serializer.data
     lookup_conditions['user_id'] = request.user.pk
 
     is_first = lookup_conditions.pop('is_first')  # noqa: F841
@@ -68,18 +69,19 @@ def foreign_selected_view(request: Request) -> Response:
     count_last = lookup_conditions.pop('count_last')  # noqa: F841
 
     lookup_params = WordLookupParams(lookup_conditions).params
-    queryset = Word.objects.filter(*lookup_params, user=request.user)  # noqa: F841
+    queryset = Word.objects.filter(*lookup_params, user=request.user)
 
-    # TODO: Add render items list.
-    # TODO: Add filter by first and last.
-
-    return Response(status=status.HTTP_200_OK)
+    paginator = PageNumberPagination()
+    paginator.page_size = 20
+    result = paginator.paginate_queryset(queryset, request)
+    serializer = WordSerializer(result, many=True)
+    return paginator.get_paginated_response(serializer.data)
 
 
 @csrf_exempt
 @api_view(['POST'])
 @permission_classes((IsOwner,))
-def foreign_exercise_view(request: Request) -> JsonResponse | HttpResponse:
+def foreign_exercise_view(request: Request) -> JsonResponse:
     """Foreign exercise view."""
     # Get lookup conditions
     params_serializer = ForeignExerciseParamsSerializer(data=request.data)
@@ -91,36 +93,36 @@ def foreign_exercise_view(request: Request) -> JsonResponse | HttpResponse:
     try:
         exercise_data = TranslateExerciseGUI(lookup_conditions).task_data
     except IndexError:
-        data = {'details': MSG_NO_TASK}
-        return Response(data=data, status=status.HTTP_204_NO_CONTENT)
+        details = {'details': MSG_NO_TASK}
+        return JsonResponse(details, status=HTTP_204_NO_CONTENT)
 
     # Get favorites status
     is_favorites = is_word_in_favorites(request.user.pk, exercise_data['id'])
     exercise_data['favorites'] = is_favorites
 
     exercise_serializer = ExerciseSerializer(exercise_data)
-    return Response(data=exercise_serializer.data)
+    return JsonResponse(exercise_serializer.data, status=HTTP_200_OK)
 
 
 @api_view(['POST'])
 @permission_classes((IsOwner,))
-def update_word_progress_view(request: Request) -> Response:
+def update_word_progress_view(request: Request) -> HttpResponse:
     """Update word study assessment view."""
     data = request.data
     serializer = WordAssessmentSerializer(data, context={'request': request})
     serializer.is_valid(raise_exception=True)
     WordAssessment(request.user, serializer.data).update()
-    return Response(status=status.HTTP_204_NO_CONTENT)
+    return HttpResponse(status=HTTP_204_NO_CONTENT)
 
 
 @api_view(['POST'])
 @permission_classes((IsOwner,))
-def update_word_favorites_view(request: Request) -> Response:
+def update_word_favorites_view(request: Request) -> HttpResponse:
     """Update word favorites status view."""
-    serializer = WordFavoritesSerilizer(data=request.data)
+    serializer = WordFavoritesSerializer(data=request.data)
     if serializer.is_valid():
         update_word_favorites_status(
             word_id=serializer.data['id'],
             user_id=request.user.pk,
         )
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return HttpResponse(status=HTTP_204_NO_CONTENT)

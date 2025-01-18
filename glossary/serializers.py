@@ -28,14 +28,10 @@ class TermSerializer(serializers.ModelSerializer):
         """Serializer settings."""
 
         model = Term
-        fields = [
-            'id',
-            'term',
-            'definition',
-        ]
+        fields = ['id', 'term', 'definition']
 
 
-class GlossaryExerciseParamSerializer(serializers.ModelSerializer):
+class GlossaryExerciseParamsSerializer(serializers.ModelSerializer):
     """Parameters of translate foreign word exercise the serializer."""
 
     class Meta:
@@ -129,7 +125,7 @@ class TermCategorySerializer(serializers.ModelSerializer):
         return obj.pk
 
 
-class TermFavoritesSerilizer(serializers.Serializer):
+class TermFavoritesSerializer(serializers.Serializer):
     """Update word favorites status serializer."""
 
     id = serializers.IntegerField()

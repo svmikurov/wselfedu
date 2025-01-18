@@ -18,7 +18,7 @@ from config.constants import (
     WEEKS_AGO_4,
 )
 from glossary.models import Term
-from glossary.queries.lookup_params import GlossaryLookupParams
+from glossary.queries.lookup_params import TermLookupParams
 
 
 class TestLookupParams(TestCase):
@@ -34,7 +34,7 @@ class TestLookupParams(TestCase):
     @staticmethod
     def query_database(lookup_conditions: dict[str, object]) -> QuerySet:
         """Make a query to the database by test filter."""
-        lookup_params = GlossaryLookupParams(lookup_conditions).params
+        lookup_params = TermLookupParams(lookup_conditions).params
         queryset = Term.objects.filter(*lookup_params)
         ids = queryset.values_list('id', flat=True)
         return ids

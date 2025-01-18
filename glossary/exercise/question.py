@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 
 from contrib.exercise import ExerciseData
 from glossary.models import Term
-from glossary.queries.lookup_params import GlossaryLookupParams
+from glossary.queries.lookup_params import TermLookupParams
 from users.models import UserApp
 
 
@@ -12,7 +12,7 @@ class GlossaryExerciseGUI(ExerciseData):
     """Term exercise to do in mobile app."""
 
     model = Term
-    lookup_params = GlossaryLookupParams
+    lookup_params = TermLookupParams
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the exercise."""

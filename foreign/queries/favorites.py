@@ -4,7 +4,7 @@ from foreign.models import Word, WordFavorites
 from users.models import UserApp
 
 
-def is_word_in_favorites(user_id: int, word_id: int) -> bool:
+def is_word_in_favorites(user_id: int | str, word_id: int | str) -> bool:
     """Find out if the word is the favorites."""
     is_favorites = WordFavorites.objects.filter(
         user=user_id,
@@ -13,7 +13,9 @@ def is_word_in_favorites(user_id: int, word_id: int) -> bool:
     return is_favorites
 
 
-def update_word_favorites_status(word_id: int, user_id: int) -> bool:
+def update_word_favorites_status(
+        word_id: int | str, user_id: int | str
+) -> bool:
     """Update the favorite status of the word."""
     favorites_status = is_word_in_favorites(user_id, word_id)
     if favorites_status:
