@@ -1,20 +1,17 @@
 """Translate foreign word exercise DRF views."""
-import logging
-from json import JSONDecoder
 
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import mixins, status, generics
+from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.status import (
+    HTTP_200_OK,
     HTTP_201_CREATED,
     HTTP_204_NO_CONTENT,
-    HTTP_400_BAD_REQUEST, HTTP_200_OK,
+    HTTP_400_BAD_REQUEST,
 )
-
-from foreign.queries.lookup_params import WordLookupParams
 
 from config.constants import (
     MSG_NO_TASK,
@@ -22,14 +19,17 @@ from config.constants import (
 from contrib.views.views_rest import IsOwner
 from foreign.exercise.base import WordAssessment
 from foreign.exercise.translate import TranslateExerciseGUI
-from foreign.models import TranslateParams, Word
+from foreign.models import TranslateParams, Word, WordFavorites
+from foreign.queries import update_word_favorites_status
+from foreign.queries.lookup_params import WordLookupParams
 from foreign.serializers import (
     ExerciseSerializer,
     ForeignExerciseParamsSerializer,
-    WordAssessmentSerializer,
     ForeignParamsSerializer,
-    WordSerializer,
+    WordAssessmentSerializer,
+    WordFavoritesSerilizer,
 )
+from users.models import UserApp
 
 
 @csrf_exempt
@@ -41,7 +41,9 @@ def foreign_params_view(request: Request) -> JsonResponse | HttpResponse:
 
     if request.method == 'GET':
         params, _ = TranslateParams.objects.get_or_create(user=user)
-        serializer = ForeignParamsSerializer(params, context={'request': request})
+        serializer = ForeignParamsSerializer(
+            params, context={'request': request}
+        )
         return JsonResponse(serializer.data)
 
     elif request.method == 'PUT':
@@ -71,13 +73,13 @@ def foreign_selected_view(request: Request) -> Response:
     lookup_conditions = params_serializer.data
     lookup_conditions['user_id'] = request.user.pk
 
-    is_first = lookup_conditions.pop('is_first')
-    is_last = lookup_conditions.pop('is_last')
-    count_first = lookup_conditions.pop('count_first')
-    count_last = lookup_conditions.pop('count_last')
+    is_first = lookup_conditions.pop('is_first')  # noqa: F841
+    is_last = lookup_conditions.pop('is_last')  # noqa: F841
+    count_first = lookup_conditions.pop('count_first')  # noqa: F841
+    count_last = lookup_conditions.pop('count_last')  # noqa: F841
 
     lookup_params = WordLookupParams(lookup_conditions).params
-    queryset = Word.objects.filter(user=request.user, *lookup_params)
+    queryset = Word.objects.filter(*lookup_params, user=request.user)  # noqa: F841
 
     # TODO: Add render items list.
     # TODO: Add filter by first and last.
@@ -97,14 +99,28 @@ def foreign_exercise_view(request: Request) -> JsonResponse | HttpResponse:
     # Create exercise task.
     lookup_conditions = params_serializer.data
     lookup_conditions['user_id'] = request.user.pk
+
+    # Get exercise data
     try:
         exercise_data = TranslateExerciseGUI(lookup_conditions).exercise_data
     except IndexError:
         data = {'details': MSG_NO_TASK}
         return Response(data=data, status=status.HTTP_204_NO_CONTENT)
+
+    # Get favorites status
+    try:
+        WordFavorites.objects.get(
+            user=UserApp.objects.get(pk=lookup_conditions['user_id']),
+            word=Word.objects.get(pk=exercise_data['id']),
+        )
+    except WordFavorites.DoesNotExist:
+        favorites = False
     else:
-        exercise_serializer = ExerciseSerializer(exercise_data)
-        return Response(data=exercise_serializer.data)
+        favorites = True
+
+    exercise_data['favorites'] = favorites
+    exercise_serializer = ExerciseSerializer(exercise_data)
+    return Response(data=exercise_serializer.data)
 
 
 @api_view(['POST'])
@@ -116,4 +132,18 @@ def update_word_assessment_view(request: Request) -> Response:
     )
     serializer.is_valid(raise_exception=True)
     WordAssessment(request.user, serializer.data).update()
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['POST'])
+@permission_classes((IsOwner,))
+def foreign_favorites_view(request: Request) -> Response:
+    """Update word favorites status view."""
+    serializer = WordFavoritesSerilizer(data=request.data)
+    serializer.is_valid()
+
+    update_word_favorites_status(
+        word_id=serializer.data['id'],
+        user_id=request.user.pk,
+    )
     return Response(status=status.HTTP_204_NO_CONTENT)

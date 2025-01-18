@@ -11,7 +11,12 @@ from config.constants import (
 )
 from contrib.models.params import DEFAULT_PARAMS
 from contrib.views.exercise import create_selection_collection
-from foreign.models import TranslateParams, Word, WordCategory, WordSource
+from foreign.models import (
+    TranslateParams,
+    Word,
+    WordCategory,
+    WordSource,
+)
 from foreign.models.params import DEFAULT_TRANSLATE_PARAMS
 
 
@@ -165,3 +170,9 @@ class WordAssessmentSerializer(serializers.Serializer):
                 'You can only assessment your own words'
             )
         return attrs
+
+
+class WordFavoritesSerilizer(serializers.Serializer):
+    """Word favorites status seriliazer."""
+
+    id = serializers.IntegerField()

@@ -127,3 +127,20 @@ class TermCategorySerializer(serializers.ModelSerializer):
     def get_alias(cls, obj: Model) -> int:
         """Add alias as name of pk field."""
         return obj.pk
+
+
+class TermFavoritesSerilizer(serializers.Serializer):
+    """Update word favorites status serializer."""
+
+    id = serializers.IntegerField()
+
+
+class ExerciseSerializer(serializers.Serializer):
+    """Glossary exercise serializer."""
+
+    id = serializers.IntegerField()
+    question_text = serializers.CharField()
+    answer_text = serializers.CharField()
+    item_count = serializers.IntegerField()
+    assessment = serializers.IntegerField()
+    favorites = serializers.BooleanField()

@@ -2,8 +2,9 @@
 
 from foreign.views.rest.exercise import (
     foreign_exercise_view,
-    foreign_selected_view,
+    foreign_favorites_view,
     foreign_params_view,
+    foreign_selected_view,
     update_word_assessment_view,
 )
 from foreign.views.rest.word import (
@@ -18,4 +19,5 @@ __all__ = (
     'foreign_exercise_view',
     'foreign_selected_view',
     'update_word_assessment_view',
+    'foreign_favorites_view',
 )

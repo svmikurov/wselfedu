@@ -4,6 +4,7 @@ from django.urls import path
 
 from glossary.views.rest.exercise import (
     glossary_exercise_view,
+    glossary_favorites_view,
     glossary_params_view,
     update_term_study_progress,
 )
@@ -33,5 +34,6 @@ urlpatterns = [
     # Exercise
     path('progress/', update_term_study_progress, name='progress'),
     path('exercise/', glossary_exercise_view, name='exercise'),
+    path('favorites/', glossary_favorites_view, name='favorites'),
     path('params/', glossary_params_view, name='params'),
 ]

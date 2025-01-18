@@ -76,7 +76,6 @@ class Exercise:
             'id': self.item.pk,
             'question_text': self.question_text,
             'answer_text': self.answer_text,
-            'favorites': self.item.favorites,
         }
         return results
 

@@ -1,15 +1,11 @@
 """Database query module for Foreign word translation exercises."""
 
-from datetime import datetime, timedelta
-
 from django.db.models import F, Q
-from zoneinfo import ZoneInfo
 
 from config.constants import (
-    EDGE_PERIOD_ARGS,
     STUDY,
 )
-from contrib.lookup_params import LookupParams, get_q
+from contrib.lookup_params import LookupParams
 from foreign.queries.progress import (
     PROGRESS_STAGE_EDGES,
 )

@@ -1,7 +1,7 @@
 """Term exercise view."""
 
 from django.http import HttpRequest, HttpResponse, JsonResponse
-from rest_framework import permissions, status
+from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.parsers import JSONParser
 from rest_framework.request import Request
@@ -18,7 +18,7 @@ from config.constants import (
     PROGRESS_MAX,
     PROGRESS_MIN,
 )
-from foreign.serializers import ExerciseSerializer
+from contrib.views.views_rest import IsOwner
 from glossary.exercise.question import (
     GlossaryExerciseGUI,
 )
@@ -27,13 +27,15 @@ from glossary.models import (
     Term,
 )
 from glossary.serializers import (
+    ExerciseSerializer,
     GlossaryExerciseParamSerializer,
+    TermFavoritesSerilizer,
     TermParamsSerializer,
 )
 
 
 @api_view(['POST'])
-@permission_classes((permissions.AllowAny,))
+@permission_classes((IsOwner,))
 def glossary_exercise_view(request: Request) -> JsonResponse | HttpResponse:
     """Render the Term exercise."""
     # Get exercise parameters.
@@ -42,18 +44,24 @@ def glossary_exercise_view(request: Request) -> JsonResponse | HttpResponse:
     # Create exercise task.
     lookup_conditions = params_serializer.data
     lookup_conditions['user_id'] = request.user.pk
+
+    # Get exercise data
     try:
         exercise_data = GlossaryExerciseGUI(lookup_conditions).exercise_data
     except IndexError:
         data = {'details': MSG_NO_TASK}
         return Response(data=data, status=status.HTTP_204_NO_CONTENT)
-    else:
-        exercise_serializer = ExerciseSerializer(exercise_data)
-        return Response(data=exercise_serializer.data)
+
+    # Get favorites status
+    favorites = Term.objects.get(pk=exercise_data['id']).favorites
+
+    exercise_data['favorites'] = favorites
+    exercise_serializer = ExerciseSerializer(exercise_data)
+    return Response(data=exercise_serializer.data)
 
 
 @api_view(['GET', 'PUT'])
-@permission_classes((permissions.AllowAny,))
+@permission_classes((IsOwner,))
 def glossary_params_view(
     request: Request,
 ) -> JsonResponse | HttpResponse:
@@ -81,7 +89,7 @@ def glossary_params_view(
 
 
 @api_view(['POST'])
-@permission_classes((permissions.AllowAny,))
+@permission_classes((IsOwner,))
 def update_term_study_progress(request: HttpRequest) -> HttpResponse:
     """Update term study progres."""
     user = request.user
@@ -104,5 +112,20 @@ def update_term_study_progress(request: HttpRequest) -> HttpResponse:
     if PROGRESS_MIN <= updated_progress <= PROGRESS_MAX:
         term.progress = updated_progress
         term.save(update_fields=['progress'])
+
+    return HttpResponse(status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes((IsOwner,))
+def glossary_favorites_view(request: Request) -> None:
+    """Update term favorites status view."""
+    serializer = TermFavoritesSerilizer(data=request.data)
+    serializer.is_valid()
+
+    term_id = serializer.data['id']
+    term = Term.objects.get(pk=term_id, user=request.user)
+    term.favorites = not term.favorites
+    term.save()
 
     return HttpResponse(status=status.HTTP_200_OK)

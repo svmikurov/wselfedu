@@ -6,7 +6,6 @@ from datetime import datetime, timedelta
 from django.db.models import Q
 from zoneinfo import ZoneInfo
 
-from config import settings
 from config.constants import (
     EDGE_PERIOD_ARGS,
     PROGRESS_STAGE_EDGES,

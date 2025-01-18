@@ -1,7 +1,6 @@
 """Test the GlossaryLookupParams class."""
 
 from datetime import datetime, timedelta
-from unittest import skip
 
 from django.conf import settings
 from django.db.models import QuerySet
