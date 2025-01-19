@@ -68,13 +68,22 @@ def glossary_selected_view(request: Request) -> JsonResponse:
     lookup_conditions = request_serializer.data
     lookup_conditions['user_id'] = request.user.pk
 
-    is_first = lookup_conditions.pop('is_first')  # noqa: F841
-    is_last = lookup_conditions.pop('is_last')  # noqa: F841
-    count_first = lookup_conditions.pop('count_first')  # noqa: F841
-    count_last = lookup_conditions.pop('count_last')  # noqa: F841
+    is_first = lookup_conditions.pop('is_first')
+    is_last = lookup_conditions.pop('is_last')
+    count_first = lookup_conditions.pop('count_first')
+    count_last = lookup_conditions.pop('count_last')
 
     lookup_params = TermLookupParams(lookup_conditions).params
     queryset = Term.objects.filter(*lookup_params, user=request.user)
+
+    if is_first and is_last:
+        queryset_first = queryset[:count_first]
+        queryset_last = queryset.order_by('-pk')[:count_last]
+        queryset = queryset_last.union(queryset_first).order_by('pk')
+    elif is_first:
+        queryset = queryset[:count_first]
+    elif is_last:
+        queryset = queryset.order_by('-pk')[:count_last]
 
     paginator = PageNumberPagination()
     paginator.page_size = 20
