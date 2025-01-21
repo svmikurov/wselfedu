@@ -8,8 +8,8 @@ readme = "README.md"
 [tool.pytest.ini_options]
 # https://docs.pytest.org/en/stable/reference/customize.html#pyproject-toml
 addopts = [
-    "-vv",
-    "-s",
+#    "-vv",
+#    "-s",
     "--doctest-modules",
     "--ignore=postgres_data/",
     "--ignore=static/",
@@ -48,7 +48,6 @@ select = [
     "C90",  # mccabe: https://pypi.org/project/mccabe/
     "ANN",  # flake8-annotations: https://pypi.org/project/flake8-annotations/
     "Q",    # flake8-quotes: https://pypi.org/project/flake8-quotes/
-    "TD",   # flake8-todos: https://github.com/orsinium-labs/flake8-todos/
 ]
 ignore = [
     "D203",     # 1 blank line required before class docstring

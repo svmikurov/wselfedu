@@ -1,9 +1,11 @@
 """Django REST framework views package."""
 
 from foreign.views.rest.exercise import (
-    exercise_view,
-    params_view,
-    update_word_assessment_view,
+    foreign_exercise_view,
+    foreign_params_view,
+    foreign_selected_view,
+    update_word_favorites_view,
+    update_word_progress_view,
 )
 from foreign.views.rest.word import (
     WordDetailAPIView,
@@ -13,7 +15,9 @@ from foreign.views.rest.word import (
 __all__ = (
     'WordDetailAPIView',
     'WordListCreateAPIView',
-    'params_view',
-    'exercise_view',
-    'update_word_assessment_view',
+    'foreign_params_view',
+    'foreign_exercise_view',
+    'foreign_selected_view',
+    'update_word_progress_view',
+    'update_word_favorites_view',
 )

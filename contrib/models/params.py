@@ -21,8 +21,8 @@ DEFAULT_PARAMS = {
     'period_end_date': TODAY,
     'is_first': False,
     'is_last': False,
-    'count_first': 10,
-    'count_last': 20,
+    'count_first': 0,
+    'count_last': 0,
 }
 
 
@@ -88,11 +88,15 @@ class ExerciseParams(models.Model):
     """
     count_first = models.PositiveSmallIntegerField(
         default=DEFAULT_PARAMS['count_first'],
+        blank=True,
+        null=True,
     )
     """Count of first added items (`int`).
     """
     count_last = models.PositiveSmallIntegerField(
         default=DEFAULT_PARAMS['count_last'],
+        blank=True,
+        null=True,
     )
     """Count of last added items (`int`).
     """

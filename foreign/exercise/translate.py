@@ -63,11 +63,7 @@ class TranslateExerciseGUI(ExerciseData):
         return word_translations
 
     def _query_item_progress(self) -> int:
-        """Query the word progress study assessment.
-
-        :return: Word progress study assessment.
-        :rtype: int
-        """
+        """Query the word progress study assessment."""
         default_progress_value = 0
         queryset = WordProgress.objects.filter(
             user=UserApp.objects.get(pk=self.lookup_conditions['user_id']),

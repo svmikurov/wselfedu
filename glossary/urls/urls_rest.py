@@ -1,37 +1,27 @@
-"""Term app REST urls."""
+"""Glossary app REST urls."""
 
 from django.urls import path
 
-from glossary.views.rest.exercise import (
-    glossary_exercise,
-    glossary_exercise_parameters,
-    update_term_study_progress,
-)
-from glossary.views.rest.term import (
-    CategoryTermDetailAPIView,
-    CategoryTermListCreateAPIView,
+from glossary.views.rest import (
     TermDetailAPIView,
     TermListCreateAPIView,
+    glossary_exercise_view,
+    glossary_params_view,
+    glossary_selected_view,
+    update_term_favorites_view,
+    update_term_progress_view,
 )
 
-# 'api/v1/glossary/
 app_name = 'glossary_rest'
-
 
 urlpatterns = [
     # Terms
     path('', TermListCreateAPIView.as_view(), name='terms'),
     path('<int:pk>/', TermDetailAPIView.as_view(), name='term'),
-    path(
-        'category/', CategoryTermListCreateAPIView.as_view(), name='category'
-    ),  # noqa: E501
-    path(
-        'category/<int:pk>/',
-        CategoryTermDetailAPIView.as_view(),
-        name='category',
-    ),  # noqa: E501
     # Exercise
-    path('progress/', update_term_study_progress, name='progress'),
-    path('exercise/', glossary_exercise, name='exercise'),
-    path('params/', glossary_exercise_parameters, name='params'),
+    path('params/', glossary_params_view, name='params'),
+    path('selected/', glossary_selected_view, name='selected'),
+    path('exercise/', glossary_exercise_view, name='exercise'),
+    path('favorites/', update_term_favorites_view, name='favorites'),
+    path('progress/', update_term_progress_view, name='progress'),
 ]

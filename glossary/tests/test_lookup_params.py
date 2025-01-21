@@ -1,7 +1,6 @@
 """Test the GlossaryLookupParams class."""
 
 from datetime import datetime, timedelta
-from unittest import skip
 
 from django.conf import settings
 from django.db.models import QuerySet
@@ -19,7 +18,7 @@ from config.constants import (
     WEEKS_AGO_4,
 )
 from glossary.models import Term
-from glossary.queries.lookup_params import GlossaryLookupParams
+from glossary.queries.lookup_params import TermLookupParams
 
 
 class TestLookupParams(TestCase):
@@ -35,7 +34,7 @@ class TestLookupParams(TestCase):
     @staticmethod
     def query_database(lookup_conditions: dict[str, object]) -> QuerySet:
         """Make a query to the database by test filter."""
-        lookup_params = GlossaryLookupParams(lookup_conditions).params
+        lookup_params = TermLookupParams(lookup_conditions).params
         queryset = Term.objects.filter(*lookup_params)
         ids = queryset.values_list('id', flat=True)
         return ids
@@ -46,7 +45,7 @@ class TestLookupParams(TestCase):
         queryset = self.query_database(lookup_conditions)
         self.assertQuerySetEqual(queryset, [1, 2, 3, 4, 5])
 
-    @skip('FIX time now')
+    # @skip('FIX time now')
     def test_lookup_by_date(self) -> None:
         """Test filter terms by term added date."""
         # For user_id=2 set adding term dates:

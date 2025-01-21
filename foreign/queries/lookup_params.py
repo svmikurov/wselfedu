@@ -1,15 +1,11 @@
 """Database query module for Foreign word translation exercises."""
 
-from datetime import datetime, timedelta
-
 from django.db.models import F, Q
-from zoneinfo import ZoneInfo
 
 from config.constants import (
-    EDGE_PERIOD_ARGS,
     STUDY,
 )
-from contrib.queries import LookupParams, get_q
+from contrib.lookup_params import LookupParams
 from foreign.queries.progress import (
     PROGRESS_STAGE_EDGES,
 )
@@ -41,15 +37,15 @@ class WordLookupParams(LookupParams):
             self.user,
             self.category,
             self.source,
-            self.word_date_end,
-            self.word_date_start,
-            self.word_favorites,
-            self.word_progress,
+            self.period_start_date,
+            self.period_end_date,
+            self.favorites,
+            self.progress,
         )
         return params
 
     @property
-    def word_favorites(self) -> Q:
+    def favorites(self) -> Q:
         """Lookup parameter by favorite status (`Q`, read-only)."""
         field_value = self.lookup_conditions.get('favorites')
         lookup_value = self.lookup_conditions.get('user_id')
@@ -58,7 +54,7 @@ class WordLookupParams(LookupParams):
         return param
 
     @property
-    def word_progress(self) -> Q:
+    def progress(self) -> Q:
         """Lookup parameter by user assessment (`Q`, read-only)."""
         form_value = self.lookup_conditions.get('progress', [])
         lookup_value = self._to_numeric(PROGRESS_STAGE_EDGES, form_value)
@@ -79,32 +75,3 @@ class WordLookupParams(LookupParams):
             param = Q()
 
         return param
-
-    @property
-    def word_date_start(self) -> Q:
-        """Lookup parameter by word added date (`Q`, read-only)."""
-        format_time = '%Y-%m-%d 00:00:00+00:00'
-        lookup_value = self.get_date_value('period_start_date', format_time)
-        lookup_field = 'created_at__gte'
-        param = get_q(lookup_field, lookup_value)
-        return param
-
-    @property
-    def word_date_end(self) -> Q:
-        """Lookup parameter by word added date (`Q`, read-only)."""
-        format_time = '%Y-%m-%d 23:59:59+00:00'
-        lookup_value = self.get_date_value('period_end_date', format_time)
-        lookup_field = 'created_at__lte'
-        param = get_q(lookup_field, lookup_value)
-        return param
-
-    def get_date_value(self, period_date: str, format_time: str) -> str:
-        """Get lookup date value."""
-        today = datetime.now(tz=ZoneInfo('UTC'))
-        period = self.lookup_conditions.get(period_date)
-        period_delta = timedelta(**EDGE_PERIOD_ARGS.get(period, {}))
-        end_period = today - period_delta
-
-        lookup_value = end_period.strftime(format_time)
-        date_value = lookup_value if period in EDGE_PERIOD_ARGS else ''
-        return date_value

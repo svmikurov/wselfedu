@@ -84,7 +84,7 @@ format:
 	@$(APP) ruff check --fix && ruff format
 
 test:
-	@$(APP) pytest --ignore=tests_plw/
+	@$(APP) pytest --ignore=tests_plw/ -s
 
 plw:
 	@$(APP) pytest tests_plw/

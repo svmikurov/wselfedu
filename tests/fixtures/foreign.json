@@ -228,7 +228,6 @@
     "native_word": "слово_п3_с1",
     "source": null,
     "category": null,
-    "word_count": "NC",
     "created_at": "2024-03-04T22:28:47.347Z",
     "updated_at": "2024-03-04T22:28:47.356Z"
   }
@@ -242,7 +241,6 @@
     "native_word": "слово_п3_с2",
     "source": null,
     "category": 1,
-    "word_count": "OW",
     "created_at": "2024-03-04T22:29:12.828Z",
     "updated_at": "2024-03-04T22:29:12.843Z"
   }
@@ -256,7 +254,6 @@
     "native_word": "слово_п3_с3",
     "source": 1,
     "category": 2,
-    "word_count": "CB",
     "created_at": "2024-03-04T22:30:02.077Z",
     "updated_at": "2024-03-04T22:30:02.094Z"
   }
@@ -270,7 +267,6 @@
     "native_word": "слово_п3_с4",
     "source": 3,
     "category": 4,
-    "word_count": "PS",
     "created_at": "2024-03-04T22:30:25.602Z",
     "updated_at": "2024-03-04T22:30:25.614Z"
   }
@@ -284,7 +280,6 @@
     "native_word": "слово_п3_с5",
     "source": null,
     "category": null,
-    "word_count": "ST",
     "created_at": "2024-03-04T22:30:41.963Z",
     "updated_at": "2024-03-04T22:30:41.972Z"
   }
@@ -298,7 +293,6 @@
     "native_word": "слово_п3_с6",
     "source": null,
     "category": null,
-    "word_count": "NC",
     "created_at": "2024-03-04T22:31:10.600Z",
     "updated_at": "2024-03-04T22:31:10.607Z"
   }
@@ -312,7 +306,6 @@
     "native_word": "слово_п3_с7",
     "source": 4,
     "category": 1,
-    "word_count": "NC",
     "created_at": "2024-03-04T22:31:23.793Z",
     "updated_at": "2024-03-11T13:02:03.380Z"
   }
@@ -326,7 +319,6 @@
     "native_word": "слово_п3_с8",
     "source": null,
     "category": null,
-    "word_count": "NC",
     "created_at": "2024-03-04T22:31:35.199Z",
     "updated_at": "2024-03-04T22:31:35.210Z"
   }
@@ -340,7 +332,6 @@
     "native_word": "слово_п3_с9",
     "source": null,
     "category": null,
-    "word_count": "NC",
     "created_at": "2024-03-04T22:31:48.403Z",
     "updated_at": "2024-03-04T22:31:48.415Z"
   }
@@ -354,7 +345,6 @@
     "native_word": "слово_п3_с10",
     "source": null,
     "category": null,
-    "word_count": "NC",
     "created_at": "2024-03-04T22:32:19.879Z",
     "updated_at": "2024-03-04T22:32:19.886Z"
   }
@@ -368,7 +358,6 @@
     "native_word": "слово_п4_с1",
     "source": null,
     "category": null,
-    "word_count": "NC",
     "created_at": "2024-03-04T22:35:13.716Z",
     "updated_at": "2024-03-04T22:35:13.727Z"
   }
@@ -382,7 +371,6 @@
     "native_word": "слово_п4_с2",
     "source": null,
     "category": null,
-    "word_count": "NC",
     "created_at": "2024-03-04T22:35:26.762Z",
     "updated_at": "2024-03-04T22:35:26.768Z"
   }
@@ -396,7 +384,6 @@
     "native_word": "слово_п4_с3",
     "source": null,
     "category": null,
-    "word_count": "NC",
     "created_at": "2024-03-04T22:35:52.011Z",
     "updated_at": "2024-03-04T22:35:52.019Z"
   }
@@ -410,7 +397,6 @@
     "native_word": "слово_п4_с4",
     "source": null,
     "category": null,
-    "word_count": "NC",
     "created_at": "2024-03-04T22:36:04.140Z",
     "updated_at": "2024-03-04T22:36:04.147Z"
   }
@@ -424,7 +410,6 @@
     "native_word": "слово_п4_с5",
     "source": null,
     "category": null,
-    "word_count": "NC",
     "created_at": "2024-03-04T22:36:24.290Z",
     "updated_at": "2024-03-04T22:36:24.300Z"
   }
@@ -438,7 +423,6 @@
     "native_word": "слово_п4_с6",
     "source": null,
     "category": null,
-    "word_count": "NC",
     "created_at": "2024-03-04T22:36:36.998Z",
     "updated_at": "2024-03-04T22:36:37.013Z"
   }
@@ -452,7 +436,6 @@
     "native_word": "слово_п4_с7",
     "source": null,
     "category": null,
-    "word_count": "NC",
     "created_at": "2024-03-04T22:36:47.021Z",
     "updated_at": "2024-03-04T22:36:47.033Z"
   }
@@ -466,7 +449,6 @@
     "native_word": "слово_п4_с8",
     "source": null,
     "category": null,
-    "word_count": "NC",
     "created_at": "2024-03-04T22:36:58.535Z",
     "updated_at": "2024-03-04T22:36:58.545Z"
   }
@@ -480,7 +462,6 @@
     "native_word": "слово_п4_с9",
     "source": null,
     "category": null,
-    "word_count": "NC",
     "created_at": "2024-03-04T22:37:13.701Z",
     "updated_at": "2024-03-04T22:37:13.708Z"
   }
@@ -494,7 +475,6 @@
     "native_word": "слово_п4_с10",
     "source": null,
     "category": null,
-    "word_count": "NC",
     "created_at": "2024-03-04T22:37:25.009Z",
     "updated_at": "2024-03-04T22:37:25.016Z"
   }

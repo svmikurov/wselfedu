@@ -2,12 +2,13 @@
 
 from random import choice
 
-import django
 from django.db.models import Model, Q
 
 
 class Exercise:
     """Base exercise."""
+
+    lookup_params = None
 
     def __init__(self, lookup_conditions: dict) -> None:
         """Construct the exercise."""
@@ -34,11 +35,15 @@ class Exercise:
         )
 
         if self.is_first:
-            first_items = list(item_ids.order_by('created_at')[: self.count_first])
+            first_items = list(
+                item_ids.order_by('created_at')[: self.count_first]
+            )
         else:
             first_items = []
         if self.is_last:
-            last_items = list(item_ids.order_by('-created_at')[: self.count_last])
+            last_items = list(
+                item_ids.order_by('-created_at')[: self.count_last]
+            )
         else:
             last_items = []
 
@@ -48,7 +53,6 @@ class Exercise:
             return list(set(first_items))
         else:
             return item_ids
-
 
     @staticmethod
     def _get_random_item_id(item_ids: list) -> int:
@@ -89,7 +93,7 @@ class ExerciseData(Exercise):
         super().__init__(*args, **kwargs)
 
     @property
-    def exercise_data(self) -> dict[str, str]:
+    def task_data(self) -> dict[str, str]:
         """Exercise data (``dact``, reade-only)."""
         data = super().task_data
         data['item_count'] = len(self.item_ids)
@@ -97,10 +101,7 @@ class ExerciseData(Exercise):
         return data
 
     def _query_item_progress(self) -> int:
-        """Query the item progress study.
-
-        :raises NotImplementedError: if the method is not overridden.
-        """
+        """Query the item progress study."""
         raise NotImplementedError(
             'Subclasses must provide a _get_item_progress() method.'
         )

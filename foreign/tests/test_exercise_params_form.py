@@ -13,14 +13,12 @@ from django.test import Client, TestCase
 from django.urls import reverse_lazy
 
 from config.constants import (
-    COMBINATION,
     DEFAULT_TIMEOUT,
     EDGE_PERIOD_CHOICES,
     EXAMINATION,
     FROM_NATIVE,
     LANGUAGE_ORDER_CHOICE,
     NOT_CHOICES,
-    ONE_WORD,
     PROGRESS_CHOICES,
     REPEAT,
     STUDY,
@@ -122,7 +120,6 @@ class ExerciseParamsTest(TestCase):
             order=FROM_NATIVE,
             category=category,
             source=source,
-            word_count=[ONE_WORD, COMBINATION],
         )
 
         # Request the page with form.
@@ -137,7 +134,6 @@ class ExerciseParamsTest(TestCase):
         assert fields['source'].initial == source_id
         assert fields['period_start_date'].initial == WEEKS_AGO_7
         assert fields['period_end_date'].initial == WEEKS_AGO_2
-        assert fields['word_count'].initial == [ONE_WORD, COMBINATION]
         assert fields['progress'].initial == [REPEAT, EXAMINATION]
         assert fields['timeout'].initial == timeout_value
 

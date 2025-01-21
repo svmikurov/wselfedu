@@ -53,12 +53,3 @@ class TestForeignWordsExerciseConditionsChoicePage(POMTest):
         expect(page.know_progress_choice).not_to_be_checked()
         # Answer timeout choice.
         expect(page.timeout_choice).to_have_value('5')
-        # Word length checkboxes.
-        expect(page.ow_length_label).to_be_visible()
-        expect(page.cb_length_label).to_be_visible()
-        expect(page.ps_length_label).to_be_visible()
-        expect(page.st_length_label).to_be_visible()
-        expect(page.ow_length_choice).to_be_checked()
-        expect(page.cb_length_choice).to_be_checked()
-        expect(page.ps_length_choice).not_to_be_checked()
-        expect(page.st_length_choice).not_to_be_checked()
