@@ -1,5 +1,5 @@
 """Translate foreign word exercise DRF views."""
-from django.db.models import Q
+
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
@@ -11,7 +11,6 @@ from rest_framework.status import (
     HTTP_204_NO_CONTENT,
     HTTP_400_BAD_REQUEST,
 )
-from rest_framework.views import APIView
 
 from config.constants import MSG_NO_TASK
 from contrib.views.views_rest import IsOwner
@@ -42,7 +41,8 @@ def foreign_params_view(request: Request) -> JsonResponse | HttpResponse:
         return JsonResponse(serializer.data, status=HTTP_200_OK)
 
     elif request.method == 'PUT':
-        serializer = ForeignParamsSerializer(request.data, context=context)
+        data = request.data
+        serializer = ForeignParamsSerializer(data=data, context=context)
 
         if serializer.is_valid():
             serializer.save(user=request.user)
@@ -117,8 +117,9 @@ def foreign_exercise_view(request: Request) -> JsonResponse:
 @permission_classes((IsOwner,))
 def update_word_progress_view(request: Request) -> HttpResponse:
     """Update word study assessment view."""
-    data = request.data
-    serializer = WordAssessmentSerializer(data, context={'request': request})
+    serializer = WordAssessmentSerializer(
+        data=request.data, context={'request': request}
+    )
     serializer.is_valid(raise_exception=True)
     WordAssessment(request.user, serializer.data).update()
     return HttpResponse(status=HTTP_204_NO_CONTENT)

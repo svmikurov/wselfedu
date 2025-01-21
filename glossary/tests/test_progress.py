@@ -40,7 +40,7 @@ class TestUpdateProgressView(APITestCase):
         term_progress = Term.objects.get(pk=self.term_pk).progress
 
         assert term_progress == PROGRESS_MIN + INCREMENT_STEP
-        assert r.status_code == status.HTTP_200_OK
+        assert r.status_code == status.HTTP_204_NO_CONTENT
 
     def test_know_on_max(self) -> None:
         """Test the know term, on max value of progress."""
@@ -51,7 +51,7 @@ class TestUpdateProgressView(APITestCase):
         r = self.api_client.post(path=self.url, data=payload, format='json')
         term_progress = Term.objects.get(pk=self.term_pk).progress
 
-        assert r.status_code == status.HTTP_200_OK
+        assert r.status_code == status.HTTP_204_NO_CONTENT
         assert term_progress == PROGRESS_MAX
 
     def test_not_know_before_min(self) -> None:
@@ -63,7 +63,7 @@ class TestUpdateProgressView(APITestCase):
         r = self.api_client.post(path=self.url, data=payload, format='json')
         term_progress = Term.objects.get(pk=self.term_pk).progress
 
-        assert r.status_code == status.HTTP_200_OK
+        assert r.status_code == status.HTTP_204_NO_CONTENT
         assert term_progress == PROGRESS_MAX + DECREMENT_STEP
 
     def test_not_know_on_min(self) -> None:
@@ -74,7 +74,7 @@ class TestUpdateProgressView(APITestCase):
         r = self.api_client.post(path=self.url, data=payload, format='json')
         term_progress = Term.objects.get(pk=self.term_pk).progress
 
-        assert r.status_code == status.HTTP_200_OK
+        assert r.status_code == status.HTTP_204_NO_CONTENT
         assert term_progress == PROGRESS_MIN
 
     def test_forbidden(self) -> None:

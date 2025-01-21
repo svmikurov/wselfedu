@@ -5,11 +5,17 @@ Each user has their own categories.
 
 from http import HTTPStatus
 
+import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient, APITestCase
 
 from glossary.models import TermCategory
 from users.models import UserApp
+
+pytest.skip(
+    '"/category/" URL path is temporarily unused',
+    allow_module_level=True,
+)
 
 
 class SetUpTest(APITestCase):

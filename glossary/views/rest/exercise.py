@@ -8,8 +8,9 @@ from rest_framework.request import Request
 from rest_framework.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
-    HTTP_400_BAD_REQUEST,
     HTTP_204_NO_CONTENT,
+    HTTP_400_BAD_REQUEST,
+    HTTP_403_FORBIDDEN,
 )
 
 from config.constants import (
@@ -31,7 +32,8 @@ from glossary.serializers import (
     ExerciseSerializer,
     GlossaryExerciseParamsSerializer,
     TermFavoritesSerializer,
-    TermParamsSerializer, TermSerializer,
+    TermParamsSerializer,
+    TermSerializer,
 )
 
 
@@ -47,7 +49,8 @@ def glossary_params_view(request: Request) -> JsonResponse | HttpResponse:
         return JsonResponse(serializer.data, status=HTTP_200_OK)
 
     elif request.method == 'PUT':
-        serializer = TermParamsSerializer(request.data, context=context)
+        data = request.data
+        serializer = TermParamsSerializer(data=data, context=context)
 
         if serializer.is_valid():
             serializer.save(user=request.user)
@@ -124,6 +127,10 @@ def update_term_progress_view(request: Request) -> HttpResponse:
         term = Term.objects.get(pk=term_pk)
     except Term.DoesNotExist:
         return HttpResponse(status=HTTP_400_BAD_REQUEST)
+
+    # Check permissions on object
+    if term.user != request.user:
+        return HttpResponse(status=HTTP_403_FORBIDDEN)
 
     action = payload.get('action')
     progress_delta = PROGRES_STEPS.get(action)

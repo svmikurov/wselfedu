@@ -40,8 +40,3 @@ class ForeignExerciseParamsPage(POMPage):
         self.know_progress_choice = page.locator('#id_progress_3')
         # Answer timeout
         self.timeout_choice = page.get_by_label('Время на ответ (сек)*')
-        # Word length checkboxes.
-        self.ow_length_label = page.get_by_label('Слово', exact=True)
-        self.cb_length_label = page.get_by_label('Словосочетание')
-        self.ps_length_label = page.get_by_label('Часть предложения')
-        self.st_length_label = page.get_by_label('Предложение')
