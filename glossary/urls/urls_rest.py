@@ -3,13 +3,13 @@
 from django.urls import path
 
 from glossary.views.rest import (
-    glossary_exercise_view,
-    glossary_params_view,
-    update_term_favorites_view,
-    update_term_progress_view,
-    glossary_selected_view,
     TermDetailAPIView,
     TermListCreateAPIView,
+    glossary_exercise_view,
+    glossary_params_view,
+    glossary_selected_view,
+    update_term_favorites_view,
+    update_term_progress_view,
 )
 
 app_name = 'glossary_rest'

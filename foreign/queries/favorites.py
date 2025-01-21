@@ -14,7 +14,7 @@ def is_word_in_favorites(user_id: int | str, word_id: int | str) -> bool:
 
 
 def update_word_favorites_status(
-        word_id: int | str, user_id: int | str
+    word_id: int | str, user_id: int | str
 ) -> bool:
     """Update the favorite status of the word."""
     favorites_status = is_word_in_favorites(user_id, word_id)
