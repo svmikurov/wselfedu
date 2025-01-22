@@ -17,7 +17,7 @@ class TermListCreateAPIView(generics.ListCreateAPIView):
 
     def get_queryset(self) -> QuerySet:
         """Filter queryset by current user for response."""
-        return Term.objects.filter(user=self.request.user)
+        return Term.objects.filter(user=self.request.user).order_by('-pk')
 
     def perform_create(self, serializer: TermSerializer) -> None:
         """Add current user to created model instance."""

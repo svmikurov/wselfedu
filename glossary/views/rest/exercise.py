@@ -88,6 +88,7 @@ def glossary_selected_view(request: Request) -> JsonResponse:
     elif is_last:
         queryset = queryset.order_by('-pk')[:count_last]
 
+    queryset = queryset.order_by('-pk')
     paginator = PageNumberPagination()
     paginator.page_size = 20
     result = paginator.paginate_queryset(queryset, request)
