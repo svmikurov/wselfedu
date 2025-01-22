@@ -4,7 +4,6 @@
   "pk": 1,
   "fields": {
     "user": 2,
-    "mentor": null,
     "foreign_word": "red",
     "native_word": "красный",
     "source": null,
@@ -18,7 +17,6 @@
   "pk": 2,
   "fields": {
     "user": 2,
-    "mentor": null,
     "foreign_word": "white",
     "native_word": "белый",
     "source": null,
@@ -32,7 +30,6 @@
   "pk": 3,
   "fields": {
     "user": 2,
-    "mentor": null,
     "foreign_word": "green",
     "native_word": "зеленый",
     "source": null,
@@ -46,7 +43,6 @@
   "pk": 4,
   "fields": {
     "user": 2,
-    "mentor": null,
     "foreign_word": "blue",
     "native_word": "синий",
     "source": null,
@@ -60,7 +56,6 @@
   "pk": 5,
   "fields": {
     "user": 2,
-    "mentor": null,
     "foreign_word": "black",
     "native_word": "черный",
     "source": null,
