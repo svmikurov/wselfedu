@@ -17,7 +17,7 @@ class TermListCreateAPIView(generics.ListCreateAPIView):
 
     def get_queryset(self) -> QuerySet:
         """Filter queryset by current user for response."""
-        return Term.objects.filter(user=self.request.user)
+        return Term.objects.filter(user=self.request.user).order_by('-pk')
 
     def perform_create(self, serializer: TermSerializer) -> None:
         """Add current user to created model instance."""
@@ -38,7 +38,7 @@ class CategoryTermListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = TermCategorySerializer
     permission_classes = [IsOwner]
 
-    def get_queryset(self) -> None:
+    def get_queryset(self) -> QuerySet[TermCategory, TermCategory]:
         """Get categories only for owner."""
         return TermCategory.objects.filter(user=self.request.user)
 

@@ -1,4 +1,4 @@
-"""Term term REST endpoints tests."""
+"""Term REST endpoints tests."""
 
 from django.urls import reverse
 from rest_framework.status import (
@@ -12,7 +12,7 @@ from users.models import UserApp
 
 
 class GlossaryListTest(APITestCase):
-    """Term term list REST endpoint tests."""
+    """Term list REST endpoint tests."""
 
     fixtures = ['users.json', 'terms.json']
 
@@ -39,14 +39,14 @@ class GlossaryListTest(APITestCase):
         self.api_client.force_authenticate(self.user3)
         terms = self.api_client.get(self.url).json()['results']
         assert [term['term'] for term in terms] == [
-            'term3-1',
-            'term3-2',
             'term3-3',
+            'term3-2',
+            'term3-1',
         ]
 
 
 class GlossaryCreateTest(APITestCase):
-    """Create Term term REST endpoint tests."""
+    """Create term REST endpoint tests."""
 
     fixtures = ['users.json']
 
