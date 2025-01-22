@@ -1,0 +1,35 @@
+{% extend 'base.html' %}
+
+{% block content %}
+{% include 'components/title.html' %}
+
+<form method="POST">
+  {{ form.as_p }}
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Выбрать</th>
+          <th>На иностранном</th>
+          <th>На родном</th>
+          <th>Категория</th>
+          <th>Источник</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for word in words %}
+        <tr>
+          <td><input type="checkbox" name="selected_option" value="{{ word.pk }}"></td>
+          <td>{{ word.foreign }}</td>
+          <td>{{ word.native }}</td>
+          <td>{{ word.category }}</td>
+          <td>{{ word.source }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% csrf_token %}
+
+    <input type="submit" class="btn btn-info btn-lg" name="" value="submit">
+</form>
+{% endblock %}
