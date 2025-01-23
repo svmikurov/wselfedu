@@ -47,6 +47,7 @@ urlpatterns = [
 ]
 
 mentorship_urls = [
+    # --======= Mentoring relationships =======--
     path(
         # Mentorship profile
         'mentorship/<int:pk>/',
@@ -76,7 +77,7 @@ mentorship_urls = [
     # --======= Mentor management =======--
     path(
         'add-exercise/<int:student_id>/',
-        views.AddExerciseDataView.as_view(),
+        views.AssignItemToStudentView.as_view(),
         name='add_exercise',
     ),
 ]
