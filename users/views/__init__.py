@@ -15,7 +15,6 @@ from users.views.mentorship import (
     accept_mentorship_request,
     send_mentorship_request,
     AssignItemToStudentView,
-    AddWordByMentorToStudentViewRedirect,
     DeleteMentorshipRequestView,
     DeleteMentorshipView,
     MentorshipView,
@@ -36,5 +35,4 @@ __all__ = (
     'DeleteMentorshipRequestView',
     'DeleteMentorshipView',
     'AssignItemToStudentView',
-    'AddWordByMentorToStudentViewRedirect',
 )

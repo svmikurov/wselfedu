@@ -2,22 +2,12 @@
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import F
-from django.http import (
-    HttpRequest,
-    HttpResponse,
-    HttpResponseBase,
-    HttpResponseRedirect,
-)
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
-from django.views.generic import (
-    DetailView,
-    RedirectView,
-    TemplateView,
-)
+from django.views.generic import DetailView, TemplateView
 
 from contrib.views.general import (
     CheckObjectOwnershipMixin,
@@ -25,6 +15,12 @@ from contrib.views.general import (
 )
 from contrib.views.mentorship import CheckMentorshipMixin
 from users.models import Mentorship, MentorshipRequest, UserApp
+
+
+def redirect_to_mentorship_profile(user_id: int) -> HttpResponseRedirect:
+    """Redirect to profile page."""
+    url = reverse_lazy('users:mentorship_profile', kwargs={'pk': user_id})
+    return redirect(url)
 
 
 class MentorshipView(CheckObjectOwnershipMixin, DetailView):
@@ -80,102 +76,42 @@ class MentorshipView(CheckObjectOwnershipMixin, DetailView):
         return context
 
 
-class AddWordByMentorToStudentViewRedirect(RedirectView):
-    """Redirect with added data in session view."""
-
-    url = reverse_lazy('foreign:mentor_adds_words_for_student_study')
-    """Url to redirect.
-    """
-
-    def get(
-        self,
-        request: HttpRequest,
-        *args: object,
-        **kwargs: object,
-    ) -> HttpResponseBase:
-        """Add student id to session."""
-        request.session['student'] = kwargs.get('student')
-        response = super().get(request, *args, **kwargs)
-        return response
-
-
-def redirect_to_mentorship_profile(
-    request: HttpRequest,
-) -> HttpResponseRedirect:
-    """Redirect to profile page."""
-    url = reverse_lazy(
-        'users:mentorship_profile', kwargs={'pk': request.user.id}
-    )
-    return redirect(url)
-
-
-class AddExerciseDataView(TemplateView):
-    """Add data for student study view."""
-
-    template_name = 'users/mentorship/add_data.html'
-
-    def get(
-        self,
-        request: HttpRequest,
-        *args: object,
-        **kwargs: object,
-    ) -> HttpResponse:
-        """Add student id to session."""
-        request.session['student_id'] = kwargs['student_id']
-        response = super().get(request, *args, **kwargs)
-        return response
-
-
 @require_POST
 @login_required
 def send_mentorship_request(
     request: HttpRequest,
     **kwargs: object,
 ) -> HttpResponse:
-    """Send request to create a mentorship view."""
+    """Send request to create a mentorship, the view."""
     from_user = request.user
     mentor_name = request.POST['input_mentor_name']
 
     try:
         to_user = UserApp.objects.get(username=mentor_name)
-        if from_user == to_user:
-            messages.warning(
-                request, 'Пользователь не может стать своим наставником'
-            )
-            return redirect_to_mentorship_profile(request)
-
-        to_user_is_mentor = Mentorship.objects.filter(
+    except UserApp.DoesNotExist:
+        msg = f'Пользователь с именем {mentor_name} не зарегистрирован'
+        messages.warning(request, msg)
+        return redirect_to_mentorship_profile(from_user.id)
+    else:
+        has_mentor = Mentorship.objects.filter(
             mentor=to_user, student=request.user
         ).exists()
-        if to_user_is_mentor:
-            messages.warning(
-                request, 'Запрашиваемый пользователь уже ваш наставник'
+
+        if from_user == to_user:
+            msg = 'Пользователь не может стать своим наставником'
+        elif has_mentor:
+            msg = 'Запрашиваемый пользователь уже ваш наставник'
+        else:
+            _, created = MentorshipRequest.objects.get_or_create(
+                from_user=from_user, to_user=to_user
             )
-            return redirect_to_mentorship_profile(request)
+            if created:
+                msg = f'Заявка отправлена {mentor_name}'
+            else:
+                msg = f'Заявка уже была отправлена {mentor_name}'
 
-    except UserApp.DoesNotExist:
-        messages.warning(
-            request,
-            f'Пользователь с именем {mentor_name} не зарегистрирован',
-        )
-        return redirect_to_mentorship_profile(request)
-
-    _, created = MentorshipRequest.objects.get_or_create(
-        from_user=from_user,
-        to_user=to_user,
-    )
-
-    if created:
-        messages.success(
-            request, f'Заявка на добавление ментора отправлена {mentor_name}'
-        )
-    else:
-        messages.warning(
-            request,
-            f'Заявка на добавление ментора уже была отправлена {mentor_name}',
-        )
-
-    return redirect_to_mentorship_profile(request)
+        messages.warning(request, msg)
+        return redirect_to_mentorship_profile(from_user.id)
 
 
 @require_POST
@@ -194,41 +130,39 @@ def accept_mentorship_request(
         )
         mentorship_request.delete()
         messages.success(request, f'Вы стали наставником {mentorship.student}')
-    else:
-        messages.warning(request, 'Вы не можете стать наставником')
 
-    return redirect_to_mentorship_profile(request)
+    return redirect_to_mentorship_profile(request.user.id)
 
 
 class DeleteMentorshipRequestView(DeleteWithProfileRedirectView):
-    """Delete mentorship request by mentor view."""
+    """Delete mentorship request, the view."""
 
     model = MentorshipRequest
     success_message = 'Запрос удален'
 
-    def check_permission(self) -> bool:
+    def test_func(self) -> bool:
         """Check mentor permission."""
-        [mentorship_users] = MentorshipRequest.objects.filter(
+        [mentorship_users] = self.model.objects.filter(
             pk=self.get_object().pk
         ).values_list('to_user', 'from_user')
         return self.request.user.pk in mentorship_users
 
 
 class DeleteMentorshipView(DeleteWithProfileRedirectView):
-    """Delete mentorship by student view."""
+    """Delete mentorship view."""
 
     model = Mentorship
     success_message = 'Наставничество удалено'
 
-    def check_permission(self) -> bool:
+    def test_func(self) -> bool:
         """Check mentor permission."""
-        [mentorship_users] = Mentorship.objects.filter(
+        [mentorship_users] = self.model.objects.filter(
             pk=self.get_object().pk
         ).values_list('student', 'mentor')
         return self.request.user.pk in mentorship_users
 
 
 class AssignItemToStudentView(CheckMentorshipMixin, TemplateView):
-    """Assign item to study to a student by a mentor."""
+    """Assign item to study to a student by a mentor, the view."""
 
     template_name = 'users/mentorship/assign_to_student.html'

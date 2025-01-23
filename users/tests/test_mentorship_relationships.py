@@ -55,14 +55,8 @@ class TestSendMentorshipRequestView(MentorshipTestMixin, TestCase):
     def test_send_mentorship_request_by_student(self) -> None:
         """Send request to mentorship by student."""
         self.client.force_login(self.student)
-        send_request_once_msg = (
-            f'Заявка на добавление ментора '
-            f'отправлена {self.mentor.username}'
-        )
-        send_request_twice_msg = (
-            f'Заявка на добавление ментора '
-            f'уже была отправлена {self.mentor.username}'
-        )
+        msg = f'Заявка отправлена {self.mentor.username}'
+        msg_wrong = f'Заявка уже была отправлена {self.mentor.username}'
 
         self.client.post(
             self.url_send_mentorship_request,
@@ -76,8 +70,8 @@ class TestSendMentorshipRequestView(MentorshipTestMixin, TestCase):
         storage = get_messages(response.wsgi_request)
         first_msg, second_msg = storage
 
-        assert str(first_msg) == send_request_once_msg
-        assert str(second_msg) == send_request_twice_msg
+        assert str(first_msg) == msg
+        assert str(second_msg) == msg_wrong
         # a record of request to mentorship in database is unique
         mentorship_request = MentorshipRequest.objects.filter(
             from_user=self.student,
@@ -271,21 +265,15 @@ class AcceptRequestToMentorship(MentorshipTestMixin, TestCase):
 
     def test_accept_mentorship_request_by_student(self) -> None:
         """Test access mentorship request by student."""
-        msg = 'Вы не можете стать наставником'
         self.client.force_login(self.student)
-        response = self.client.post(self.url_accept_mentorship_request)
-
+        self.client.post(self.url_accept_mentorship_request)
         assert self.is_exists_mentorship is False
-        assert str(*get_messages(response.wsgi_request)) == msg
 
     def test_accept_mentorship_request_by_other_user(self) -> None:
         """Test access mentorship request by other user."""
-        msg = 'Вы не можете стать наставником'
         self.client.force_login(self.other_user)
-        response = self.client.post(self.url_accept_mentorship_request)
-
+        self.client.post(self.url_accept_mentorship_request)
         assert self.is_exists_mentorship is False
-        assert str(*get_messages(response.wsgi_request)) == msg
 
     def test_accept_mentorship_request_by_anonymous(self) -> None:
         """Test access mentorship request by anonymous."""
