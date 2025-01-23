@@ -19,7 +19,6 @@ from django.views.generic import (
 )
 
 from contrib.views.general import (
-    CheckLoginPermissionMixin,
     CheckObjectOwnershipMixin,
     DeleteWithProfileRedirectView,
 )
@@ -106,12 +105,6 @@ def redirect_to_mentorship_profile(
         'users:mentorship_profile', kwargs={'pk': request.user.id}
     )
     return redirect(url)
-
-
-class InputMentorView(CheckLoginPermissionMixin, TemplateView):
-    """Add mentor view."""
-
-    template_name = 'users/mentorship/send_mentorship_request.html'
 
 
 class AddExerciseDataView(TemplateView):
