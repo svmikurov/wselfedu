@@ -116,14 +116,15 @@ class WordFavorites(models.Model):
 class AssignedWord(models.Model):
     """Words assigned to a student by a mentor."""
 
-    word = models.ForeignKey(
+    word = models.ManyToManyField(
         Word,
-        on_delete=models.CASCADE,
+        blank=True,
         related_name='assigned_word',
         verbose_name='Назначенное слово',
     )
-    student = models.ManyToManyField(
+    student = models.ForeignKey(
         UserApp,
+        on_delete=models.CASCADE,
         related_name='assigned_student',
         verbose_name='Назначено слово студенту',
     )

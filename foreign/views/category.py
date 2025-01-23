@@ -51,11 +51,13 @@ class CategoryUpdateView(CheckUserOwnershipMixin, UpdateView):
     model = WordCategory
     form_class = CategoryForm
     template_name = FORM_TEMPLATE
+    # template_name = 'foreign/category_form.html'
     success_url = reverse_lazy(CATEGORY_LIST_PATH)
     success_message = 'Категория слов изменена'
     extra_context = {
         TITLE: 'Изменить категорию',
         BTN_NAME: 'Изменить',
+        # 'list_form': CategoryListForm,
     }
 
 

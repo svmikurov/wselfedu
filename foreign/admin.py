@@ -10,6 +10,7 @@ from foreign.models import (
     WordProgress,
     WordSource,
 )
+from foreign.models.word import AssignedWord
 
 
 @admin.register(WordAnalytics)
@@ -105,6 +106,13 @@ class WordProgressAdmin(admin.ModelAdmin):
     ]
     """Ordering by fields (`list[str]`).
     """
+
+
+@admin.register(AssignedWord)
+class AssignedWordAdmin(admin.ModelAdmin):
+    """Representation of AssignedWord in admin interface."""
+
+    list_display = ['student']
 
 
 @admin.register(TranslateParams)

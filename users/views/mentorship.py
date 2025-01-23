@@ -1,5 +1,7 @@
 """Mentorship views."""
 
+from typing import Any
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import F
@@ -166,3 +168,9 @@ class AssignItemToStudentView(CheckMentorshipMixin, TemplateView):
     """Assign item to study to a student by a mentor, the view."""
 
     template_name = 'users/mentorship/assign_to_student.html'
+
+    def get_context_data(self, **kwargs: object) -> dict[str, Any]:
+        """Update context data."""
+        student_id = self.request.resolver_match.kwargs.get('student_id')
+        kwargs['student_id'] = student_id
+        return super().get_context_data(**kwargs)
