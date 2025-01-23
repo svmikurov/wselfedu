@@ -2,6 +2,7 @@
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import F
 from django.http import (
     HttpRequest,
@@ -22,6 +23,7 @@ from contrib.views.general import (
     CheckObjectOwnershipMixin,
     DeleteWithProfileRedirectView,
 )
+from contrib.views.mentorship import CheckMentorshipMixin
 from users.models import Mentorship, MentorshipRequest, UserApp
 
 
@@ -224,3 +226,9 @@ class DeleteMentorshipView(DeleteWithProfileRedirectView):
             pk=self.get_object().pk
         ).values_list('student', 'mentor')
         return self.request.user.pk in mentorship_users
+
+
+class AssignItemToStudentView(CheckMentorshipMixin, TemplateView):
+    """Assign item to study to a student by a mentor."""
+
+    template_name = 'users/mentorship/assign_to_student.html'
