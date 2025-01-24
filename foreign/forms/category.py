@@ -1,24 +1,14 @@
 """Category form module."""
 
+from crispy_forms.bootstrap import StrictButton
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import ButtonHolder, Field, Layout, Submit
+from crispy_forms.layout import Field, Layout, Submit
 from django import forms
-from django.forms import ModelForm
 
 from foreign.models import WordCategory
 
 
-class CategoryForm(ModelForm):
-    """Category form class."""
-
-    class Meta:
-        """Add model with specific fields."""
-
-        model = WordCategory
-        fields = ('is_active', 'name')
-
-
-class CategoryListForm(forms.Form):
+class CategoryForm(forms.ModelForm):
     """Category list form."""
 
     is_active = forms.BooleanField(
@@ -26,8 +16,14 @@ class CategoryListForm(forms.Form):
         required=False,
     )
     name = forms.CharField(
-        label='Имя категории',
+        label='Наименование категории',
     )
+
+    class Meta:
+        """Add model with specific fields."""
+
+        model = WordCategory
+        fields = ('is_active', 'name')
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the form helper."""
@@ -41,7 +37,10 @@ class CategoryListForm(forms.Form):
         self.helper.layout = Layout(
             Field('is_active'),
             Field('name'),
-            ButtonHolder(
-                Submit('submit', 'Submit', css_class='button white'),
+            Submit('submit', 'Изменить', css_class='btn btn-success'),
+            StrictButton(
+                'Назад',
+                css_class='btn btn-primary',
+                onclick='history.back();',
             ),
         )

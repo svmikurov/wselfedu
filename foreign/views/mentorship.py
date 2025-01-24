@@ -1,7 +1,5 @@
 """Mentors views module."""
 
-import logging
-
 from django.db.models import QuerySet
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect
@@ -36,8 +34,6 @@ class WordToStudentView(ListView):
 
         student = AssignedWord.objects.get(student=student_id)
         student.word.set(list_of_inputs)
-
-        logging.info(f'>>> {list_of_inputs = }')
 
         return redirect(
             reverse(
