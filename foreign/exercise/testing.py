@@ -35,10 +35,10 @@ class ItemTesting(ExerciseItems):
         """Task data (`dict`, reqe-only)."""
         self.create_task()
         fields = 'id', 'foreign_word'
-        items = self._get_items(Word, self.task_item_ids, fields)
+        choices = self._get_items_values(Word, self.task_item_ids, fields)
         results = {
             'question': self.task_item.native_word,
             'answer': self.task_item_id,
-            'choices': items,
+            'choices': choices,
         }
         return results

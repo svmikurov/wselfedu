@@ -5,7 +5,7 @@ from typing import Any, Iterable, Type
 
 from django.db.models import Model, Q
 
-from config.constants import PROGRES_STEPS, PROGRESS_MAX, PROGRESS_MIN
+from config.constants import PROGRES_STEPS, PROGRESS_MAX
 from foreign.models import Word, WordProgress
 from users.models import UserApp
 
@@ -26,15 +26,16 @@ class WordAssessment:
             user=self.user, word=self.word
         )
         updated_assessment = progress.progress + assessment_delta
+        assessment = updated_assessment if updated_assessment > 0 else 0
 
-        if PROGRESS_MIN <= updated_assessment <= PROGRESS_MAX:
-            progress.progress = updated_assessment
+        if assessment <= PROGRESS_MAX:
+            progress.progress = assessment
             progress.save(update_fields=['progress'])
 
 
 # fmt: off
 class ExerciseItems:
-    """Get exercise items methods."""
+    """Methods to get items in the exercise."""
 
     @staticmethod
     def _get_item_ids(
@@ -42,13 +43,12 @@ class ExerciseItems:
         lookup_params: Iterable[Q],
         id_field: str,
     ) -> list[int]:
-        item_ids = (
+        return list(
             model
             .objects
             .filter(*lookup_params)
             .values_list(id_field, flat=True)
         )
-        return list(item_ids)
 
     @staticmethod
     def _get_random_item_ids(
@@ -75,7 +75,7 @@ class ExerciseItems:
         return model.objects.get(pk=pk)
 
     @staticmethod
-    def _get_items(
+    def _get_items_values(
         model: Type[Model],
         item_ids: Iterable[int],
         fields: Iterable[str],
