@@ -12,7 +12,7 @@ from foreign.views.rest import (
     update_word_progress_view,
 )
 from foreign.views.rest.mentorship import (
-    foreign_assigned_main_view,
+    foreign_assignation_main_view,
     foreign_assigned_test_view,
 )
 
@@ -31,9 +31,17 @@ urlpatterns = [
 ]
 
 urlpatterns_mentorship = [
-    path('assigned/main/', foreign_assigned_main_view, name='assigned_main'),
+    path(
+        'assigned/main/',
+        foreign_assignation_main_view,
+        name='assigned_main',
+    ),
     # Assigned exercises
-    path('assigned/test/', foreign_assigned_test_view, name='assigned_test'),
+    path(
+        'assigned/test/',
+        foreign_assigned_test_view,
+        name='assigned_test',
+    ),
 ]
 
 urlpatterns += urlpatterns_mentorship

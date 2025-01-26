@@ -1,1 +1,1 @@
-""""""
+"""Foreign word mentorship serializers."""
