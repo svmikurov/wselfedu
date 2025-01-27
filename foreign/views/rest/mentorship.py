@@ -16,7 +16,6 @@ def foreign_assignation_main_view(request: HttpRequest) -> HttpResponse:
 
 
 @api_view(['GET'])
-@permission_classes((IsOwner,))
 def foreign_assigned_test_view(request: HttpRequest) -> JsonResponse:
     """Return assigned foreign word test."""
     data = ItemTesting(request.user).task_data
