@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% include 'components/title.html' %}
-
-student_id = {{ student_id }}
+{% include 'components/title.html' with title='Таблица назначенных слов' %}
 
 <form action="{% url 'foreign:word_to_student' 7 %}" method="POST">
     <table class="table table-hover">

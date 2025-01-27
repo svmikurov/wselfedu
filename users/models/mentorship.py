@@ -32,12 +32,16 @@ class Mentorship(models.Model):
     """The student user (`UserApp`).
     """
 
-    class Meta:
-        """Meta class."""
+    def __str__(self) -> str:
+        """Return string representation of model."""
+        return '"{}" is mentor of "{}"'.format(self.mentor, self.student)
 
+    class Meta:
+        """Model settings."""
+
+        verbose_name = 'Менторство'
+        verbose_name_plural = 'Менторство'
         unique_together = ['mentor', 'student']
-        """The mentor-student relationship must be unique.
-        """
 
 
 class MentorshipRequest(models.Model):
@@ -60,3 +64,13 @@ class MentorshipRequest(models.Model):
     )
     """The mentor user (`UserApp`).
     """
+
+    def __str__(self) -> str:
+        """Return string representation of model."""
+        return '"{}" sent request to "{}"'.format(self.from_user, self.to_user)
+
+    class Meta:
+        """Model settings."""
+
+        verbose_name = 'Запрос на менторство'
+        verbose_name_plural = 'Запросы на менторство'

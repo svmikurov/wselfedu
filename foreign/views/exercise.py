@@ -138,7 +138,7 @@ def update_word_progress_view(
             obj.progress = updated_progress
             obj.save(update_fields=['progress'])
 
-    return JsonResponse({}, status=HTTPStatus.CREATED)
+    return HttpResponse(status=HTTPStatus.NO_CONTENT)
 
 
 @require_POST

@@ -12,7 +12,6 @@ from config.constants import (
     BTN_NAME,
     CATEGORY_LIST_PATH,
     DETAIL_CATEGORY_TEMPLATE,
-    FORM_TEMPLATE,
     PAGINATE_NUMBER,
     TITLE,
 )
@@ -21,7 +20,7 @@ from contrib.views.general import (
     CheckUserOwnershipMixin,
     PermissionProtectDeleteView,
 )
-from foreign.forms import CategoryForm
+from foreign.forms.category import CategoryForm
 from foreign.models import WordCategory
 
 
@@ -45,12 +44,13 @@ class CategoryCreateView(CheckLoginPermissionMixin, CreateView):
         return super().form_valid(form)
 
 
+# todo: Fix list checkbox updates.
 class CategoryUpdateView(CheckUserOwnershipMixin, UpdateView):
     """Create category view."""
 
     model = WordCategory
     form_class = CategoryForm
-    template_name = FORM_TEMPLATE
+    template_name = 'foreign/category_form.html'
     success_url = reverse_lazy(CATEGORY_LIST_PATH)
     success_message = 'Категория слов изменена'
     extra_context = {

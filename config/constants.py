@@ -5,8 +5,8 @@
 ########################################################################
 
 PAGINATE_NUMBER = 20
-INCREMENT_STEP = 1  # the step value does not change
-DECREMENT_STEP = -1  # the step value does not change
+INCREMENT_STEP = 1
+DECREMENT_STEP = -3
 DEFAULT_ZERO_VALUE = 0
 DEFAULT_TIMEOUT = 5
 

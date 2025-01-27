@@ -104,11 +104,16 @@ source_paths = [
     ),
 ]
 
-mentor_paths = [
+mentorship_paths = [
     path(
-        'mentor-adds-words-for-student-study',
-        views.AddWordByMentorToStudentView.as_view(),
-        name='mentor_adds_words_for_student_study',
+        'word-to-student/<int:student_id>/',
+        views.WordToStudentView.as_view(),
+        name='word_to_student',
+    ),
+    path(
+        'word-to-student2/<int:student_id>/',
+        views.WordToStudentView2.as_view(),
+        name='word_to_student2',
     ),
 ]
 
@@ -148,5 +153,5 @@ exercise_paths = [
 urlpatterns += word_paths
 urlpatterns += category_paths
 urlpatterns += source_paths
-urlpatterns += mentor_paths
+urlpatterns += mentorship_paths
 urlpatterns += exercise_paths

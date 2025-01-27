@@ -37,20 +37,19 @@ from foreign.views.word_list import (
     UserWordListView,
 )
 from foreign.views.mentorship import (
-    AddWordByMentorToStudentView,
+    WordToStudentView,
+    WordToStudentView2,
 )
 
 __all__ = [
-    'AddWordByMentorToStudentView',
     'CategoryCreateView',
     'CategoryDeleteView',
     'CategoryDetailView',
     'CategoryListView',
     'CategoryUpdateView',
     'CreateForeignTaskSettingsView',
-    'ForeignTaskSettingsView',
-    'WordExerciseView',
     'ForeignExerciseParamsView',
+    'ForeignTaskSettingsView',
     'SourceCreateView',
     'SourceDeleteView',
     'SourceDetailView',
@@ -61,7 +60,10 @@ __all__ = [
     'WordCreateView',
     'WordDeleteView',
     'WordDetailView',
+    'WordExerciseView',
     'WordListView',
+    'WordToStudentView',
+    'WordToStudentView2',
     'WordUpdateView',
     'update_word_progress_view',
     'update_words_favorites_status_view_ajax',

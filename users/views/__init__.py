@@ -12,11 +12,9 @@ from users.views.user import (
     UsersListView,
 )
 from users.views.mentorship import (
-    InputMentorView,
     accept_mentorship_request,
     send_mentorship_request,
-    AddExerciseDataView,
-    AddWordByMentorToStudentViewRedirect,
+    AssignItemToStudentView,
     DeleteMentorshipRequestView,
     DeleteMentorshipView,
     MentorshipView,
@@ -32,11 +30,9 @@ __all__ = (
     'UsersListView',
     'UserDetailView',
     'MentorshipView',
-    'InputMentorView',
     'accept_mentorship_request',
     'send_mentorship_request',
     'DeleteMentorshipRequestView',
     'DeleteMentorshipView',
-    'AddExerciseDataView',
-    'AddWordByMentorToStudentViewRedirect',
+    'AssignItemToStudentView',
 )

@@ -1,6 +1,6 @@
 """Django views mixins."""
 
-from typing import Callable, Dict
+from typing import Dict
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -17,62 +17,30 @@ from django_filters.views import FilterView
 class FormMessageMixin:
     """Add a flash message at form submission."""
 
+    request: HttpRequest
     success_message = 'Успех!'
-    """Success action message text (`str`).
-    """
     error_message = 'Ошибка!'
-    """Error action message text (`str`).
-    """
 
     def form_valid(self, form: Form) -> HttpResponse:
-        """Add success message to valid form.
-
-        Parameters
-        ----------
-        form : `django.forms.Form`
-            Django form instance.
-
-        Returns
-        -------
-        response : `HttpResponse`
-            An HTTP response.
-
-        """
+        """Add success message to valid form."""
         response = super().form_valid(form)
         messages.success(self.request, self.success_message)
         return response
 
     def form_invalid(self, form: Form) -> HttpResponse:
-        """Add error message to invalid form.
-
-        Parameters
-        ----------
-        form : `django.forms.Form`
-            Django form instance.
-
-        Returns
-        -------
-        response : `HttpResponse`
-            An HTTP response.
-
-        """
+        """Add error message to invalid form."""
         response = super().form_invalid(form)
         messages.error(self.request, self.error_message)
         return response
 
 
 class HandleNoPermissionMixin:
-    """Add a redirect url and a message.
+    """Add a redirect url and a message."""
 
-    If the user doesn't have permission to perform an action.
-    """
+    request: HttpRequest
 
     message_no_permission = 'Для доступа необходимо войти в приложение'
-    """Message no permission (`str`).
-    """
     url_no_permission = reverse_lazy('users:login')
-    """Path schema for redirecting a user without permissions (`str`).
-    """
 
     def handle_no_permission(self) -> HttpResponseRedirect:
         """Add message no permission."""
@@ -87,28 +55,11 @@ class CheckUserOwnershipMixin(
 ):
     """Checking user ownership of an object."""
 
-    def check_ownership(self) -> bool:
-        """Check if the user is the owner of the object.
-
-        Checks by ``get_object().user`` attribute.
-
-        Returns
-        -------
-        `bool`
-            Return the `True` if the user is the owner of the object,
-            otherwise return the `False`.
-
-        """
+    def test_func(self) -> bool:
+        """Check if the user is the owner of the object."""
         current_user = self.request.user
         specified_user = self.get_object().user
         return current_user == specified_user
-
-    def get_test_func(self) -> Callable:
-        """Return the test result.
-
-        This is an interface UserPassesTestMixin method override.
-        """
-        return self.check_ownership
 
 
 class CheckObjectOwnershipMixin(
@@ -117,60 +68,23 @@ class CheckObjectOwnershipMixin(
 ):
     """Checking user ownership of account."""
 
-    def check_ownership(self) -> bool:
-        """Check if the user is the owner of account.
-
-        Checks by ``get_object()`` method.
-        Use with ``DetailView`` class.
-
-        Return
-        ------
-        `bool`
-            Return the `True` if the user is the owner of account,
-            otherwise return the `False`.
-
-        Example
-        -------
-        Use where user verification of account ownership is needed.
-
-        .. code-block: python
-
-           class OwnershipNeededView(
-               CheckObjectOwnershipMixin,
-               DetailView,
-           ):
-               model = UserApp
-
-        """
+    def test_func(self) -> bool:
+        """Check if the user is the owner of account."""
         current_user = self.request.user
         specified_user = self.get_object()
         return current_user == specified_user
-
-    def get_test_func(self) -> Callable:
-        """Return the test result.
-
-        This is an interface UserPassesTestMixin method override.
-        """
-        return self.check_ownership
 
 
 class CheckAdminMixin(HandleNoPermissionMixin, UserPassesTestMixin):
     """Check current user for admin permissions."""
 
-    def check_admin(self) -> bool:
+    def test_func(self) -> bool:
         """Check current user for admin permissions."""
         if self.request.user.is_superuser:
             return True
         else:
             self.message_no_permission = 'Нужны права администратора'
             return False
-
-    def get_test_func(self) -> Callable:
-        """Return the test result.
-
-        This is an interface UserPassesTestMixin method override.
-        """
-        return self.check_admin
 
 
 class ObjectDeleteErrorMixin:
@@ -228,28 +142,15 @@ class DeleteWithProfileRedirectView(
     """Delete mentorship view."""
 
     template_name = 'delete.html'
-    success_url = None
-    protected_redirect_url = reverse_lazy('home')
 
     def setup(
-        self,
-        request: HttpRequest,
-        *args: object,
-        **kwargs: object,
+        self, request: HttpRequest, *args: object, **kwargs: object
     ) -> None:
         """Set success url."""
         super().setup(request, *args, **kwargs)
         self.success_url = reverse_lazy(
             'users:mentorship_profile', kwargs={'pk': self.request.user.pk}
         )
-
-    def check_permission(self) -> bool:
-        """Override this method to check permission."""
-        return False
-
-    def get_test_func(self) -> Callable:
-        """Use check_permission method."""
-        return self.check_permission
 
 
 class ReuseSchemaFilterQueryMixin(MultipleObjectMixin):
@@ -278,19 +179,7 @@ class ReuseSchemaFilterQueryMixin(MultipleObjectMixin):
         return '&'.join(queries)
 
     def get_context_data(self, **kwargs: object) -> Dict[str, object]:
-        """Insert the ``reused_query`` into the context dict.
-
-        Parameters
-        ----------
-        **kwargs : object
-            Context data.
-
-        Returns
-        -------
-        context : Dict[str, object]
-            Template context with
-
-        """
+        """Insert the ``reused_query`` into the context dict."""
         context = super().get_context_data(**kwargs)
         filter_fields = self.filterset_class.get_filter_fields()
         context['reused_query'] = self.get_schema_query(

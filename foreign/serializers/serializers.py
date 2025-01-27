@@ -41,7 +41,7 @@ class ForeignExerciseParamsSerializer(serializers.ModelSerializer):
 
 
 class ForeignParamsSerializer(ForeignExerciseParamsSerializer):
-    """Serilizer to reade and save a foreign exercise params."""
+    """Serializer to reade and save a foreign exercise params."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Add is created model instance."""
