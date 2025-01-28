@@ -1,44 +1,60 @@
 """Foreign word testing exercise."""
 
+from typing import TypeVar
+
 from django.db.models import Model, Q
 
-from foreign.exercise.base import ExerciseItems
+from foreign.exercise.base import TestingItemsMixin
 from foreign.models.word import AssignedWord, Word
 from users.models import UserApp
 
+M = TypeVar('M', bound=Model)
 
-class ItemTesting(ExerciseItems):
+
+class ItemTesting(TestingItemsMixin):
     """Item testing exercise."""
 
-    _model: Model = AssignedWord
+    _assignations_model: M = AssignedWord
+    _item_model: M = Word
 
     def __init__(self, user: UserApp) -> None:
         """Construct the exercise."""
         self._user: UserApp = user
         self._item_count: int = 7
-        self.task_item: Word | None = None
-        self.task_item_id: int | None = None
-        self.task_item_ids: list[int] | None = None
+        self._task_item: M | None = None
+        self._task_item_id: int | None = None
+        self._task_item_ids: list[int] | None = None
+        self._fields: list[str] = ['id', 'foreign_word']
+        self._choices: list = []
 
     def create_task(self) -> None:
         """Create task."""
         params = (Q(student=self._user),)
-        item_ids = self._get_item_ids(self._model, params, id_field='word__pk')
-        # fmt: off
-        self.task_item_ids = self._get_random_item_ids(self._item_count, item_ids)  # noqa: E501
-        self.task_item_id = self._get_random_item_id(self.task_item_ids)
-        self.task_item = self._get_item(model=Word, pk=self.task_item_id)
-        # fmt: on
+        item_ids = self._get_item_ids(
+            self._assignations_model,
+            params,
+            id_field='word__pk',
+        )
+        self._task_item_ids = self._get_random_item_ids(
+            self._item_count,
+            item_ids,
+        )
+        self._task_item_id = self._get_random_item_id(
+            self._task_item_ids,
+        )
+        self._task_item = self._get_item(
+            model=self._item_model,
+            pk=self._task_item_id,
+        )
+        self._create_choices()
 
     @property
     def task_data(self) -> dict:
         """Task data (`dict`, reqe-only)."""
         self.create_task()
-        fields = 'id', 'foreign_word'
-        choices = self._get_items_values(Word, self.task_item_ids, fields)
         results = {
-            'question': self.task_item.native_word,
-            'answer': self.task_item_id,
-            'choices': choices,
+            'question': self._task_item.native_word,
+            'answer': self._task_item_id,
+            'choices': self._choices,
         }
         return results

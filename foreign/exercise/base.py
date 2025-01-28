@@ -1,13 +1,15 @@
 """Exercise elements."""
 
-from random import choice
-from typing import Any, Iterable, Type
+from random import choice, shuffle
+from typing import Any, Iterable, TypeVar
 
 from django.db.models import Model, Q
 
 from config.constants import PROGRES_STEPS, PROGRESS_MAX
 from foreign.models import Word, WordProgress
 from users.models import UserApp
+
+M = TypeVar('M', bound=Model)
 
 
 class WordAssessment:
@@ -34,12 +36,12 @@ class WordAssessment:
 
 
 # fmt: off
-class ExerciseItems:
-    """Methods to get items in the exercise."""
+class ExerciseItemsMixin:
+    """Methods to get items in the exercise mixin."""
 
     @staticmethod
     def _get_item_ids(
-        model: Model,
+        model: M,
         lookup_params: Iterable[Q],
         id_field: str,
     ) -> list[int]:
@@ -71,12 +73,12 @@ class ExerciseItems:
         return choice(task_ids)
 
     @staticmethod
-    def _get_item(model: Type[Model], pk: int) -> Model:
+    def _get_item(model: M, pk: int) -> Model:
         return model.objects.get(pk=pk)
 
     @staticmethod
     def _get_items_values(
-        model: Type[Model],
+        model: M,
         item_ids: Iterable[int],
         fields: Iterable[str],
     ) -> list[tuple[Any, ...]]:
@@ -87,3 +89,19 @@ class ExerciseItems:
             .values_list(*fields)
         )
 # fmt: on
+
+
+class TestingItemsMixin(ExerciseItemsMixin):
+    """Item testing exercise mixin."""
+
+    _item_model: M
+    _task_item_ids: list[int]
+    _fields: list[str]
+
+    def _create_choices(self) -> None:
+        self._choices = self._get_items_values(
+            self._item_model,
+            self._task_item_ids,
+            self._fields,
+        )
+        shuffle(self._choices)
