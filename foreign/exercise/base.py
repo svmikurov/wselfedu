@@ -9,7 +9,7 @@ from config.constants import PROGRES_STEPS, PROGRESS_MAX
 from foreign.models import Word, WordProgress
 from users.models import UserApp
 
-M = TypeVar('M', bound=Model)
+ModelT = TypeVar('ModelT', bound=Model)
 
 
 class WordAssessment:
@@ -41,7 +41,7 @@ class ExerciseItemsMixin:
 
     @staticmethod
     def _get_item_ids(
-        model: M,
+        model: ModelT,
         lookup_params: Iterable[Q],
         id_field: str,
     ) -> list[int]:
@@ -73,12 +73,12 @@ class ExerciseItemsMixin:
         return choice(task_ids)
 
     @staticmethod
-    def _get_item(model: M, pk: int) -> Model:
+    def _get_item(model: ModelT, pk: int) -> Model:
         return model.objects.get(pk=pk)
 
     @staticmethod
     def _get_items_values(
-        model: M,
+        model: ModelT,
         item_ids: Iterable[int],
         fields: Iterable[str],
     ) -> list[tuple[Any, ...]]:
@@ -94,7 +94,7 @@ class ExerciseItemsMixin:
 class TestingItemsMixin(ExerciseItemsMixin):
     """Item testing exercise mixin."""
 
-    _item_model: M
+    _item_model: ModelT
     _task_item_ids: list[int]
     _fields: list[str]
 

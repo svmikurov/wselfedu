@@ -8,20 +8,20 @@ from foreign.exercise.base import TestingItemsMixin
 from foreign.models.word import AssignedWord, Word
 from users.models import UserApp
 
-M = TypeVar('M', bound=Model)
+ModelT = TypeVar('ModelT', bound=Model)
 
 
 class ItemTesting(TestingItemsMixin):
     """Item testing exercise."""
 
-    _assignations_model: M = AssignedWord
-    _item_model: M = Word
+    _assignations_model: ModelT = AssignedWord
+    _item_model: ModelT = Word
 
     def __init__(self, user: UserApp) -> None:
         """Construct the exercise."""
         self._user: UserApp = user
         self._item_count: int = 7
-        self._task_item: M | None = None
+        self._task_item: ModelT | None = None
         self._task_item_id: int | None = None
         self._task_item_ids: list[int] | None = None
         self._fields: list[str] = ['id', 'foreign_word']
