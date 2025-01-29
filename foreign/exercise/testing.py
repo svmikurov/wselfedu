@@ -10,6 +10,8 @@ from users.models import UserApp
 
 ModelT = TypeVar('ModelT', bound=Model)
 
+CHOICE_COUNT = 5
+
 
 class ItemTesting(TestingItemsMixin):
     """Item testing exercise."""
@@ -20,7 +22,7 @@ class ItemTesting(TestingItemsMixin):
     def __init__(self, user: UserApp) -> None:
         """Construct the exercise."""
         self._user: UserApp = user
-        self._item_count: int = 7
+        self._choice_count: int = CHOICE_COUNT
         self._task_item: ModelT | None = None
         self._task_item_id: int | None = None
         self._task_item_ids: list[int] | None = None
@@ -36,7 +38,7 @@ class ItemTesting(TestingItemsMixin):
             id_field='word__pk',
         )
         self._task_item_ids = self._get_random_item_ids(
-            self._item_count,
+            self._choice_count,
             item_ids,
         )
         self._task_item_id = self._get_random_item_id(
@@ -50,7 +52,7 @@ class ItemTesting(TestingItemsMixin):
 
     @property
     def task_data(self) -> dict:
-        """Task data (`dict`, reqe-only)."""
+        """Task data (`dict`, read-only)."""
         self.create_task()
         results = {
             'question': self._task_item.native_word,
