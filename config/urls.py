@@ -14,7 +14,7 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('foreign/', include('foreign.urls.urls')),
     path('glossary/', include('glossary.urls.urls')),
-    path('math/', include('mathematics.urls')),
+    path('math/', include('mathematics.urls.urls')),
 ]  # fmt: skip
 
 # Mobile chapter urlpatterns.
@@ -40,6 +40,7 @@ mobile_urlpatterns = [
 rest_urlpatterns = [
     path('api/v1/foreign/', include('foreign.urls.urls_rest')),
     path('api/v1/glossary/', include('glossary.urls.urls_rest')),
+    path('api/v1/mathematics/', include('mathematics.urls.urls_rest')),
 ]
 
 # Urlpatterns of installed packages.

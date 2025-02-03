@@ -64,7 +64,7 @@ class CalculationExercise:
     _OP_SIGNS = {
         ADDITION: '+',
         SUBSTRUCTION: '-',
-        MULTIPLICATION: '*',
+        MULTIPLICATION: 'x',
     }
     """Alias representation of mathematical sign
     (`Dict[str, str]`).
@@ -83,8 +83,8 @@ class CalculationExercise:
         *,
         user_id: int | None = None,
         calculation_type: str,
-        min_value: int,
-        max_value: int,
+        min_value: int = 1,
+        max_value: int = 9,
         timeout: int | None = None,
     ) -> None:
         """Construct calculation exercise."""
@@ -94,28 +94,33 @@ class CalculationExercise:
         # Create task
         self._set_task_solution(calculation_type, min_value, max_value)
 
-    def _set_task_solution(  # noqa: D417
+    def _set_task_solution(
         self,
         calculation_type: str,
-        *value_range: tuple,
+        min_value: int,
+        max_value: int,
     ) -> None:
         """Create and set question text with answer text.
 
         Parameters
         ----------
         calculation_type : `str`
-            Alias representation of the calculation type, can be
-            'add', 'sub' or 'mul' operator.
-        values_range : `tuple`
-            Range of values, contains two element, min and max values.
+            Alias representation of the calculation type,
+            can be 'add', 'sub' or 'mul' operator.
+        min_value : `int`
+            Min value for calculation.
+        max_value : `int`
+            Max value for calculation.
 
         """
-        first_operand = randint(*value_range)
-        second_operand = randint(*value_range)
+        first_operand = randint(min_value, max_value)
+        second_operand = randint(min_value, max_value)
         math_sign = self._OP_SIGNS.get(calculation_type)
 
-        question = f'{first_operand} {math_sign} {second_operand}'
-        answer = self._OPS[calculation_type](first_operand, second_operand)
+        self.question_text = f'{first_operand} {math_sign} {second_operand}'
+        self.answer_text = str(
+            self._OPS[calculation_type](first_operand, second_operand)
+        )
 
         # The history of exercises performed by the logged-in user is
         # stored.
@@ -125,15 +130,20 @@ class CalculationExercise:
         if self.user_id:
             self._cache_task_creation_time()
 
-        self.question_text = question
-        self.answer_text = str(answer)
-
     def _cache_task_creation_time(self) -> None:
         """Store in cache the date and time of task creation."""
         set_cache_task_creation_time(
             user_id=self.user_id,
             exercise_type=self.calculation_type,
         )
+
+    @property
+    def data(self) -> dict[str, str]:
+        """Task data."""
+        return {
+            'question': self.question_text,
+            'answer': self.answer_text,
+        }
 
 
 class CalculationExerciseCheck:
