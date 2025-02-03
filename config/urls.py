@@ -38,6 +38,7 @@ mobile_urlpatterns = [
 
 # Django REST urlpatterns.
 rest_urlpatterns = [
+    path('api/v1/users/', include('users.urls.urls_rest')),
     path('api/v1/foreign/', include('foreign.urls.urls_rest')),
     path('api/v1/glossary/', include('glossary.urls.urls_rest')),
     path('api/v1/mathematics/', include('mathematics.urls.urls_rest')),

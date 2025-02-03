@@ -53,14 +53,14 @@ class ItemTesting(TestingItemsMixin):
         self._create_choices()
 
     @property
-    def  task_data(self) -> dict:
+    def task_data(self) -> dict:
         """Task data (`dict`, read-only)."""
         self.create_task()
         results = {
             'question': self._task_item.native_word,
             'answer': [
                 self._task_item_id,
-                ],
+            ],
             'choices': self._choices,
         }
         return results

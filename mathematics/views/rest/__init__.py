@@ -1,0 +1,1 @@
+"""Mathematics application REST views."""

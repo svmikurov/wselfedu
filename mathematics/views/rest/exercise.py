@@ -1,8 +1,5 @@
 """Mathematical exercise views."""
 
-import json
-import logging
-
 from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -24,5 +21,4 @@ def multiplication_exercise_view(request: Request) -> JsonResponse | Response:
         return JsonResponse(data=serializer.data, status=status.HTTP_200_OK)
 
     if request.method == 'POST':
-        logging.info(f'POST request to multiplication / {request.data = }')
         return Response(status=status.HTTP_200_OK)

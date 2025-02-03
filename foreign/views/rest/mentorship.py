@@ -47,8 +47,6 @@ def foreign_assigned_test_view(
         if serializer.is_valid():
             correct_answer = cache.get(cache_key)
             user_answer = request.data['answer']
-            logging.info(f'>>> {correct_answer = }')
-            logging.info(f'>>> {user_answer = }')
 
             if correct_answer == user_answer:
                 logging.info('Right!')
