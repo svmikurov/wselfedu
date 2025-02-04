@@ -42,3 +42,9 @@ class MathematicsAnalytic(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     """Date and time of task creation.
     """
+
+    class Meta:
+        """Model features."""
+
+        verbose_name = 'Решение задания пользователем'
+        verbose_name_plural = 'Решения заданий пользователем'

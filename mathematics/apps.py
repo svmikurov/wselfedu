@@ -8,3 +8,4 @@ class MathematicsConfig(AppConfig):
 
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'mathematics'
+    verbose_name = 'Математика'

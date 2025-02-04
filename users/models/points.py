@@ -15,7 +15,11 @@ class Points(models.Model):
     write-off and the balance of points at the current moment.
     """
 
-    user = models.ForeignKey(UserApp, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        UserApp,
+        on_delete=models.CASCADE,
+        verbose_name='Пользователь',
+    )
     """User owner of points (`UserApp`).
     """
     task = models.OneToOneField(
@@ -31,7 +35,10 @@ class Points(models.Model):
     write_off = models.PositiveSmallIntegerField(blank=True, null=True)
     """Amount of points written off (`int`).
     """
-    balance = models.PositiveSmallIntegerField(default=0)
+    balance = models.PositiveSmallIntegerField(
+        default=0,
+        verbose_name='Баланс',
+    )
     """Current balance of points (`int`).
     """
     mentorship = models.ForeignKey(
@@ -70,3 +77,9 @@ class Points(models.Model):
             raise ValidationError(
                 "Fill 'award' or 'write_off' field.",
             )
+
+    class Meta:
+        """Model features."""
+
+        verbose_name = 'Очки за выполненные задания'
+        verbose_name_plural = 'Очки за выполненные задания'

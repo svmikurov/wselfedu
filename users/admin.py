@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 
-from users.models import Mentorship, MentorshipRequest, UserApp
+from users.models import Mentorship, MentorshipRequest, UserApp, Points
 
 
 @admin.register(UserApp)
@@ -22,3 +22,11 @@ class MentorshipAdmin(admin.ModelAdmin):
 @admin.register(MentorshipRequest)
 class MentorshipRequestAdmin(admin.ModelAdmin):
     """Representation of MentorshipRequest model."""
+
+
+@admin.register(Points)
+class PointsAdmin(admin.ModelAdmin):
+    """Representation of Points model."""
+
+    list_display = ['user', 'balance']
+    ordering = ['-created_at']
