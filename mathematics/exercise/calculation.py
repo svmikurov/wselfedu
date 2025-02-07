@@ -32,51 +32,22 @@ MAX_POINTS_BALANCE = int(os.getenv('MAX_POINTS_BALANCE', 0))
 
 
 class CalculationExercise:
-    """Calculation exercise class with two operands.
-
-    Stores in cache the date and time of task creation for a specific
-    user.
-
-    Parameters
-    ----------
-    user_id : `int`
-        User performing the exercise.
-    calculation_type : `str`
-        Alias representation of mathematical operator of task.
-    min_value : `int`
-        Minimum value of operands.
-    max_value : `int`
-        Maximum value of operands.
-    timeout : `int` | None
-        Time value to display a math task before displaying the result,
-        sec (None | `int`).
-
-    """
+    """Calculation exercise class with two operands."""
 
     _OPS = {
         ADDITION: operator.add,
         SUBSTRUCTION: operator.sub,
         MULTIPLICATION: operator.mul,
     }
-    """Alias representation of mathematical operators
-    (`Dict[str, object]`).
-    """
+    """Alias representation of mathematical operators."""
     _OP_SIGNS = {
         ADDITION: '+',
         SUBSTRUCTION: '-',
         MULTIPLICATION: 'x',
     }
-    """Alias representation of mathematical sign
-    (`Dict[str, str]`).
-    """
+    """Alias representation of mathematical sign."""
     question_text = None
-    """Еhe text representation of a mathematical expression to render to
-    the user(None | `str`).
-    """
     answer_text = None
-    """The text representation of the result of calculating
-    a mathematical expression (None | `str`).
-    """
 
     def __init__(
         self,
@@ -92,41 +63,24 @@ class CalculationExercise:
         self.timeout = timeout
         self.calculation_type = calculation_type
         # Create task
-        self._set_task_solution(calculation_type, min_value, max_value)
+        self._create_task(calculation_type, min_value, max_value)
 
-    def _set_task_solution(
+    def _create_task(
         self,
-        calculation_type: str,
+        calc_type: str,
         min_value: int,
         max_value: int,
     ) -> None:
-        """Create and set question text with answer text.
-
-        Parameters
-        ----------
-        calculation_type : `str`
-            Alias representation of the calculation type,
-            can be 'add', 'sub' or 'mul' operator.
-        min_value : `int`
-            Min value for calculation.
-        max_value : `int`
-            Max value for calculation.
-
-        """
+        """Create a question and answer."""
         first_operand = randint(min_value, max_value)
         second_operand = randint(min_value, max_value)
-        math_sign = self._OP_SIGNS.get(calculation_type)
+        math_sign = self._OP_SIGNS.get(calc_type)
 
         self.question_text = f'{first_operand} {math_sign} {second_operand}'
         self.answer_text = str(
-            self._OPS[calculation_type](first_operand, second_operand)
+            self._OPS[calc_type](first_operand, second_operand)
         )
 
-        # The history of exercises performed by the logged-in user is
-        # stored.
-        # The time of exercise creation is saved in the database after
-        # the user provides an answer, before that it is stored in the
-        # cache
         if self.user_id:
             self._cache_task_creation_time()
 
@@ -150,17 +104,9 @@ class CalculationExerciseCheck:
     """Calculation exercise check class."""
 
     MATH_CALCULATION_TYPE = (ADDITION, SUBSTRUCTION, MULTIPLICATION, DIVISION)
-
     user_id: int | None = None
-    """Current user id (`int | None`).
-    """
 
-    def __init__(
-        self,
-        *,
-        request: HttpRequest,
-        form: Form,
-    ) -> None:
+    def __init__(self, *, request: HttpRequest, form: Form) -> None:
         """Construct check calculation exercise."""
         self.request = request
         self.form = form
@@ -172,10 +118,6 @@ class CalculationExerciseCheck:
         self.second_operand: int = int(self.question_text.split()[-1])
         self.user_solution: str = str(form.cleaned_data.get('user_solution'))
         self.is_correct_answer: bool | None = None
-        # self.solution_time = get_cache_task_creation_time(
-        #     self.user_id,
-        #     self.calculation_type,
-        # )
         self.task_id: int | None = None
 
     @property
