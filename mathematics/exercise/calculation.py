@@ -35,15 +35,15 @@ class CalculationExercise:
     """Calculation exercise class with two operands."""
 
     _OPS = {
-        ADDITION: operator.add,
-        SUBSTRUCTION: operator.sub,
-        MULTIPLICATION: operator.mul,
+        'add': operator.add,
+        'sub': operator.sub,
+        'mul': operator.mul,
     }
     """Alias representation of mathematical operators."""
     _OP_SIGNS = {
-        ADDITION: '+',
-        SUBSTRUCTION: '-',
-        MULTIPLICATION: 'x',
+        'add': '+',
+        'sub': '-',
+        'mul': 'x',
     }
     """Alias representation of mathematical sign."""
     question_text = None

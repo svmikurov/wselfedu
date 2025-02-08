@@ -11,9 +11,16 @@ from contrib.exercise.base import TaskCreator, AnswerHandler
 class ConditionsSerializer(serializers.Serializer):
     """Serializer to get exercise conditions."""
 
+    exercise_type = serializers.CharField(max_length=255)
+    min_value = serializers.IntegerField(required=False)
+    max_value = serializers.IntegerField(required=False)
+
 
 class TaskSerializer(serializers.Serializer):
     """Serializer to render task."""
+    
+    question = serializers.CharField(max_length=255)
+    answer = serializers.CharField(max_length=255)
 
 
 class AnswerSerializer(serializers.Serializer):
