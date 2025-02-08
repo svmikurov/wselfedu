@@ -3,7 +3,6 @@
 Exercise - current exercise type.
 Task - current solution (question and answer) of exercise.
 """
-
 from users.models import UserApp
 
 
@@ -43,25 +42,25 @@ class PointsTask:
         super().__init__()
 
 
-class Calculation:
-    """Exercise on calculation of two numbers."""
+class TaskCreator(CacheTask, LogicExercise):
+    """Class to create task."""
 
-    def __init__(self) -> None:
-        """Construct the calculation."""
-        super().__init__()
-
-
-class BaseExercise(CacheTask, PointsTask, LogicExercise):
-    """Base exercise class."""
-
-    def __init__(self) -> None:
+    def __init__(self, conditions: dict, user: UserApp) -> None:
         """Construct the exercise."""
         super().__init__()
 
+    @property
+    def data(self) -> dict:
+        """The task data to render to user."""
+        return {}
 
-class CalculationExercise(Calculation, BaseExercise):
-    """Calculation exercise."""
 
-    def __init__(self) -> None:
+class AnswerHandler(CacheTask, PointsTask):
+    """Class to check user answer on task, award points."""
+
+    def __init__(self, solution: dict, user: UserApp) -> None:
         """Construct the exercise."""
         super().__init__()
+
+    def handel(self) -> None:
+        """Handel the user solution."""
