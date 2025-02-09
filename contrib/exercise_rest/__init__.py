@@ -1,0 +1,1 @@
+"""Exercise refactoring temporary module."""

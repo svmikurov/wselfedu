@@ -2,7 +2,11 @@
 
 from django.urls import path
 
-from mathematics.views.rest.exercise import multiplication_exercise_view
+from mathematics.views.rest.exercise import (
+    handle_answer_view,
+    multiplication_exercise_view,
+    render_task_view,
+)
 
 app_name = 'mathematics_rest'
 
@@ -11,5 +15,15 @@ urlpatterns = [
         'multiplication/',
         multiplication_exercise_view,
         name='multiplication',
+    ),
+    path(
+        'calculations/',
+        render_task_view,
+        name='calculations',
+    ),
+    path(
+        'handel-answer/',
+        handle_answer_view,
+        name='handel_answer',
     ),
 ]

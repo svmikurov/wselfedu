@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 
-from users.models import Mentorship, MentorshipRequest, UserApp, Points
+from users.models import Mentorship, MentorshipRequest, Points, UserApp
 
 
 @admin.register(UserApp)
