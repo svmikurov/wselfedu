@@ -1,8 +1,12 @@
 """Base exercise.
 
-Exercise - current exercise type.
-Task - current solution (question and answer) of exercise.
+Exercise - exercise type.
+Task - task of Exercise.
+Question - task question.
+Answer - task answer.
+Solution - user solution of task.
 """
+
 import logging
 from abc import ABC, abstractmethod
 from functools import cached_property
@@ -11,7 +15,7 @@ from typing import Any
 import redis
 
 from config.constants import REDIS_PARAMS
-from mathematics.exercise import CalcExercise
+from mathematics.exercise import SOLUTION_MODELS
 from users.models import UserApp
 
 
@@ -104,17 +108,32 @@ class AnswerHandler(Cache, PointsTask):
         """Construct the exercise."""
         super().__init__(user)
         self._solution = user_solution
-        self._answer = self._solution['answer']
         self._user = user
+        self._is_correctly: bool | None = None
 
     def _check_user_answer(self) -> bool:
-        return CalcExercise.check_answer(*self.cached.values(), self._answer)
+        return self.cached['answer'] == self._solution['answer']
 
     def handel(self) -> None:
         """Handel the user solution."""
-        is_correct = self._check_user_answer()
-        logging.info(f'>>> {is_correct = }')
+        self._is_correctly = self._check_user_answer()
+        self._save_user_solution()
 
     @cached_property
-    def cached(self):
+    def cached(self) -> dict:
+        """Data from cache."""
         return self._from_cache()
+
+    def _save_user_solution(self) -> None:
+        """Save to database a user task solution."""
+        model = SOLUTION_MODELS[self.cached['exercise']]
+        data = {
+            'user': self._user,
+            'calculation_type': self.cached['exercise'],
+            'first_operand': self.cached['operand1'],
+            'second_operand': self.cached['operand2'],
+            'user_solution': self._solution['answer'],
+            'is_correctly': self._is_correctly,
+            # 'solution_time': None,
+        }
+        model.objects.create(**data)

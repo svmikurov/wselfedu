@@ -37,8 +37,3 @@ class BaseExercise(ABC):
     def cache_data(self) -> dict[str, Any]:
         """Cache a task data."""
         pass
-
-    @abstractmethod
-    def check_answer(self, *args: object) -> bool:
-        """Check the answer."""
-        pass

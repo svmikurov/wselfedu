@@ -36,7 +36,7 @@ class MathematicsAnalytic(models.Model):
     is_correctly = models.BooleanField(blank=True, null=True)
     """Marking the user's solution to the task as correct.
     """
-    solution_time = models.PositiveSmallIntegerField()
+    solution_time = models.PositiveSmallIntegerField(blank=True, null=True)
     """Time spent by the user to solve the task.
     """
     created_at = models.DateTimeField(auto_now_add=True)

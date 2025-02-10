@@ -284,9 +284,9 @@ MULTIPLICATION = 'mul'
 DIVISION = 'div'
 
 CALCULATION_TYPES = (
-    (ADDITION, 'Сложение'),
-    (SUBSTRUCTION, 'Вычитание'),
-    (MULTIPLICATION, 'Умножение'),
+    ('add', 'Сложение'),
+    ('sub', 'Вычитание'),
+    ('mul', 'Умножение'),
     # (DIVISION, 'Деление'),  # Temporary not used
 )
 """Mathematical exercise type choice.

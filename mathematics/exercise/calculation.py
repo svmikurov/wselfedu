@@ -57,50 +57,49 @@ class CalcExercise(BaseExercise):
         max_value: int = 9,
     ) -> None:
         """Construct calculation exercise."""
-        self._calc_type = calc_type
-        self._min_value = min_value
-        self._max_value = max_value
+        self._calc_type: str = calc_type
+        self._min_value: int = min_value
+        self._max_value: int = max_value
         self._operand1: int | None = None
         self._operand2: int | None = None
-        self._question_text: str | None = None
-        self._answer_text: str | None = None
+        self._question: str | None = None
+        self._answer: int | None = None
 
     def create_task(self) -> None:
         """Create a task."""
         self._operand1 = randint(self._min_value, self._max_value)
         self._operand2 = randint(self._min_value, self._max_value)
-        math_sign = self._OP_SIGNS.get(self._calc_type)
+        task_data = (self._calc_type, self._operand1, self._operand2)
 
-        self._question_text = f'{self._operand1} {math_sign} {self._operand2}'
-        self._answer_text = str(
-            self._get_answer(self._calc_type, self._operand1, self._operand2)
-        )
+        self._question = self._create_question(*task_data)
+        self._answer = self._create_answer(*task_data)
 
     @classmethod
-    def _get_answer(cls, calc_type: str, operand1: int, operand2: int) -> int:
-        return cls._OPS[calc_type](operand1, operand2)
+    def _create_question(cls, calc: str, operand1: int, operand2: int) -> str:
+        math_sign = cls._OP_SIGNS.get(calc)
+        return f'{operand1} {math_sign} {operand2}'
+
+    @classmethod
+    def _create_answer(cls, calc: str, operand1: int, operand2: int) -> int:
+        return cls._OPS[calc](operand1, operand2)
 
     @property
-    def task_data(self) -> dict[str, str]:
+    def task_data(self) -> dict[str, str | int]:
         """Task data to render."""
         return {
-            'question': self._question_text,
-            'answer': self._answer_text,
+            'question': self._question,
+            'answer': self._answer,
         }
 
     @property
     def cache_data(self) -> dict[str, Any]:
         """Task data to cache."""
         return {
-            'calc_type': self._calc_type,
+            'exercise': self._calc_type,
             'operand1': self._operand1,
             'operand2': self._operand2,
+            'answer': self._answer,
         }
-
-    @classmethod
-    def check_answer(cls, calc: str, op1: str, op2: str, answer: str) -> bool:
-        """Check user answer. """
-        return answer == str(cls._get_answer(calc, int(op1), int(op2)))
 
 
 class CalcExerciseBrowser:

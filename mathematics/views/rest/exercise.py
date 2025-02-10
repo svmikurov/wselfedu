@@ -9,10 +9,8 @@ from rest_framework.response import Response
 from contrib.exercise_rest.base import AnswerHandler, TaskCreator
 from contrib.serializers.task import AnswerSerializer, TaskSerializer
 from mathematics.exercise import EXERCISES
-from mathematics.exercise.calculation import CalcExerciseBrowser
 from mathematics.serializers.exercise import (
     ConditionsSerializer,
-    CalcSerializer,
 )
 from users.models import UserApp
 
@@ -26,8 +24,8 @@ def get_task(exercise_conditions: dict, user: UserApp) -> TaskCreator:
     return task
 
 
-def handel_user_answer(user_solution: dict, user: UserApp) -> None:
-    """Handel th user answer."""
+def handel_user_solution(user_solution: dict, user: UserApp) -> None:
+    """Handel th user task solution."""
     AnswerHandler(user_solution, user).handel()
 
 
@@ -50,7 +48,7 @@ def handle_answer_view(request: Request) -> Response:
     """Handel the user answer."""
     serializer = AnswerSerializer(data=request.data)
     if serializer.is_valid():
-        handel_user_answer(serializer.data, request.user)
+        handel_user_solution(serializer.data, request.user)
         return Response(status=status.HTTP_204_NO_CONTENT)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
