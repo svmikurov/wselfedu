@@ -1,10 +1,80 @@
 """User points story."""
 
 from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator
 from django.db import models
 
 from mathematics.models import MathematicsAnalytic
 from users.models import Mentorship, UserApp
+
+
+class UserAccount(models.Model):
+    """User point account model."""
+
+    user = models.OneToOneField(
+        UserApp,
+        on_delete=models.CASCADE,
+        related_name='account',
+        verbose_name='Пользователь',
+    )
+    balance = models.PositiveSmallIntegerField(
+        default=0,
+        verbose_name='Баланс',
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата создания',
+    )
+
+    def add_award(self, amount: int) -> None:
+        """Add award to user account."""
+        self.balance += amount
+        self.save()
+
+    def write_off(self, amount: int) -> None:
+        """Write-off user award."""
+        if self.balance < amount:
+            raise ValueError('Not enough points')
+        self.balance -= amount
+        self.save()
+
+
+class Transaction(models.Model):
+    """Transaction model."""
+
+    class TransactionType(models.TextChoices):
+        """Transaction type choices."""
+
+        AWARD = ('award', 'Вознаграждение')
+        WRITEOFF = ('writeoff', 'Списание')
+
+    account = models.ForeignKey(
+        UserAccount,
+        on_delete=models.CASCADE,
+        related_name='transactions',
+        verbose_name='Счет',
+    )
+    amount = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1)]
+    )
+    transaction_type = models.CharField(
+        max_length=20,
+        choices=TransactionType.choices,
+        verbose_name='Тип операции',
+    )
+    timestamp = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата и время',
+    )
+
+    class Meta:
+        """Set up transaction."""
+
+        ordering = ['-timestamp']
+        indexes = [
+            models.Index(fields=['timestamp']),
+            models.Index(fields=['transaction_type']),
+        ]
 
 
 class Points(models.Model):

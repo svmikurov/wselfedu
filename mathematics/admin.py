@@ -11,6 +11,5 @@ class MathematicsAnalyticAdmin(admin.ModelAdmin):
 
     list_display = ['user', 'is_correctly', 'created_at']
     readonly_fields = [
-        field.name
-        for field in MathematicsAnalytic._meta.fields
+        field.name for field in MathematicsAnalytic._meta.fields
     ]

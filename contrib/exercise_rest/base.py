@@ -7,7 +7,6 @@ Answer - task answer.
 Solution - user solution of task.
 """
 
-import logging
 from abc import ABC, abstractmethod
 from functools import cached_property
 from typing import Any
@@ -16,7 +15,8 @@ import redis
 
 from config.constants import REDIS_PARAMS
 from mathematics.exercise import SOLUTION_MODELS
-from users.models import UserApp
+from mathematics.models import MathematicsAnalytic
+from users.models import Points, UserApp
 
 
 class BaseExercise(ABC):
@@ -110,6 +110,10 @@ class AnswerHandler(Cache, PointsTask):
         self._solution = user_solution
         self._user = user
         self._is_correctly: bool | None = None
+        # TODO: Fix annotation, the choice of the task model
+        #       is carried out programmatically.
+        self._task: MathematicsAnalytic | None = None
+        self._points = 5
 
     def _check_user_answer(self) -> bool:
         return self.cached['answer'] == self._solution['answer']
@@ -118,6 +122,8 @@ class AnswerHandler(Cache, PointsTask):
         """Handel the user solution."""
         self._is_correctly = self._check_user_answer()
         self._save_user_solution()
+        if self._is_correctly:
+            self._award_points()
 
     @cached_property
     def cached(self) -> dict:
@@ -136,4 +142,13 @@ class AnswerHandler(Cache, PointsTask):
             'is_correctly': self._is_correctly,
             # 'solution_time': None,
         }
-        model.objects.create(**data)
+        self._task = model.objects.create(**data)
+
+    def _award_points(self) -> None:
+        """Award point to user balance."""
+        data = {
+            'user': self._user,
+            'task': self._task,
+            'award': self._points,
+        }
+        Points.objects.create(**data)

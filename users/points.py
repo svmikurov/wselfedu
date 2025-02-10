@@ -40,7 +40,7 @@ class PointsManager:
         return number_points
 
     @classmethod
-    def _add_points(
+    def add_points(
         cls,
         *,
         user_id: int,
