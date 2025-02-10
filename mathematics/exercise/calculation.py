@@ -33,7 +33,7 @@ MAX_POINTS_BALANCE = int(os.getenv('MAX_POINTS_BALANCE', 0))
 """
 
 
-class CalculationExerciseREST(BaseExercise):
+class CalcExercise(BaseExercise):
     """Calculation exercise with two operands."""
 
     _OPS = {
@@ -73,8 +73,12 @@ class CalculationExerciseREST(BaseExercise):
 
         self._question_text = f'{self._operand1} {math_sign} {self._operand2}'
         self._answer_text = str(
-            self._OPS[self._calc_type](self._operand1, self._operand2)
+            self._get_answer(self._calc_type, self._operand1, self._operand2)
         )
+
+    @classmethod
+    def _get_answer(cls, calc_type: str, operand1: int, operand2: int) -> int:
+        return cls._OPS[calc_type](operand1, operand2)
 
     @property
     def task_data(self) -> dict[str, str]:
@@ -93,9 +97,14 @@ class CalculationExerciseREST(BaseExercise):
             'operand2': self._operand2,
         }
 
+    @classmethod
+    def check_answer(cls, calc: str, op1: str, op2: str, answer: str) -> bool:
+        """Check user answer. """
+        return answer == str(cls._get_answer(calc, int(op1), int(op2)))
 
-class CalculationExercise:
-    """Calculation exercise class with two operands."""
+
+class CalcExerciseBrowser:
+    """Calculation exercise class with two operands for browser."""
 
     _OPS = {
         'add': operator.add,

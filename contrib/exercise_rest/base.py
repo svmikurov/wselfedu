@@ -3,13 +3,15 @@
 Exercise - current exercise type.
 Task - current solution (question and answer) of exercise.
 """
-
+import logging
 from abc import ABC, abstractmethod
+from functools import cached_property
 from typing import Any
 
 import redis
 
 from config.constants import REDIS_PARAMS
+from mathematics.exercise import CalcExercise
 from users.models import UserApp
 
 
@@ -57,6 +59,10 @@ class Cache:
         mapping = conn.hgetall(self._name)
         return mapping
 
+    def _del_data(self) -> None:
+        """Delete data from cache."""
+        pass
+
 
 class PointsTask:
     """Award a points in exercise."""
@@ -94,12 +100,21 @@ class TaskCreator(Cache):
 class AnswerHandler(Cache, PointsTask):
     """Class to check user answer on task, award points."""
 
-    def __init__(self, solution: dict, user: UserApp) -> None:
+    def __init__(self, user_solution: dict, user: UserApp) -> None:
         """Construct the exercise."""
-        super().__init__()
-        self._solution = solution
+        super().__init__(user)
+        self._solution = user_solution
+        self._answer = self._solution['answer']
         self._user = user
+
+    def _check_user_answer(self) -> bool:
+        return CalcExercise.check_answer(*self.cached.values(), self._answer)
 
     def handel(self) -> None:
         """Handel the user solution."""
-        pass
+        is_correct = self._check_user_answer()
+        logging.info(f'>>> {is_correct = }')
+
+    @cached_property
+    def cached(self):
+        return self._from_cache()

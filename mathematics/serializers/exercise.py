@@ -6,7 +6,7 @@ from contrib.exercise_rest.base import BaseExercise
 from mathematics.exercise import EXERCISES
 
 
-class MultiplicationSerializer(serializers.Serializer):
+class CalcSerializer(serializers.Serializer):
     """Multiplication exercise serializer."""
 
     question = serializers.CharField(max_length=255)

@@ -4,18 +4,12 @@ from django.urls import path
 
 from mathematics.views.rest.exercise import (
     handle_answer_view,
-    multiplication_exercise_view,
     render_task_view,
 )
 
 app_name = 'mathematics_rest'
 
 urlpatterns = [
-    path(
-        'multiplication/',
-        multiplication_exercise_view,
-        name='multiplication',
-    ),
     path(
         'calculations/',
         render_task_view,

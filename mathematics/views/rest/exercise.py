@@ -9,10 +9,10 @@ from rest_framework.response import Response
 from contrib.exercise_rest.base import AnswerHandler, TaskCreator
 from contrib.serializers.task import AnswerSerializer, TaskSerializer
 from mathematics.exercise import EXERCISES
-from mathematics.exercise.calculation import CalculationExercise
+from mathematics.exercise.calculation import CalcExerciseBrowser
 from mathematics.serializers.exercise import (
     ConditionsSerializer,
-    MultiplicationSerializer,
+    CalcSerializer,
 )
 from users.models import UserApp
 
@@ -26,28 +26,9 @@ def get_task(exercise_conditions: dict, user: UserApp) -> TaskCreator:
     return task
 
 
-def handel_user_answer(user_answer: dict, user: UserApp) -> None:
+def handel_user_answer(user_solution: dict, user: UserApp) -> None:
     """Handel th user answer."""
-    AnswerHandler(user_answer, user).handel()
-
-
-@api_view(['GET', 'POST'])
-@permission_classes((AllowAny,))
-def multiplication_exercise_view(request: Request) -> Response:
-    """Multiplication exercise view."""
-    # To get task.
-    if request.method == 'GET':
-        task = CalculationExercise(calculation_type='mul')
-        serializer = MultiplicationSerializer(task.data)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    # To save answer and points.
-    if request.method == 'POST':
-        return Response(status=status.HTTP_200_OK)
-
-
-########################################################################
-# Refactor task
+    AnswerHandler(user_solution, user).handel()
 
 
 @api_view(['POST'])

@@ -1,9 +1,9 @@
 """Mathematics app exercise."""
 
-from mathematics.exercise.calculation import CalculationExerciseREST
+from mathematics.exercise.calculation import CalcExercise
 
 EXERCISES = {
-    'add': CalculationExerciseREST,
-    'sub': CalculationExerciseREST,
-    'mul': CalculationExerciseREST,
+    'add': CalcExercise,
+    'sub': CalcExercise,
+    'mul': CalcExercise,
 }

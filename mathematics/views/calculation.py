@@ -17,7 +17,7 @@ from config.constants import (
     TITLE,
 )
 from mathematics.exercise.calculation import (
-    CalculationExercise,
+    CalcExerciseBrowser,
     CalculationExerciseCheck,
 )
 from mathematics.forms.calculate_choice import CalculationChoiceForm
@@ -72,7 +72,7 @@ class MathCalculateDemoView(View):
     def get(self, request: HttpRequest) -> JsonResponse | HttpResponse:
         """Render the task page and update tasks later on the page."""
         task_conditions = request.session['task_conditions']
-        task = CalculationExercise(**task_conditions)
+        task = CalcExerciseBrowser(**task_conditions)
 
         is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
         if is_ajax:
@@ -154,7 +154,7 @@ def render_task(request: HttpRequest) -> JsonResponse:
     user_id = request.user.id
     # A new task is created when the class CalculationExercise
     # is initialized.
-    task = CalculationExercise(user_id=user_id, **task_conditions)
+    task = CalcExerciseBrowser(user_id=user_id, **task_conditions)
     request.session['calculation_type'] = task.calculation_type
     request.session['question_text'] = task.question_text
     request.session['answer_text'] = task.answer_text
