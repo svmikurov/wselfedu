@@ -68,14 +68,6 @@ class Cache:
         pass
 
 
-class PointsTask:
-    """Award a points in exercise."""
-
-    def __init__(self) -> None:
-        """Construct the points."""
-        super().__init__()
-
-
 class TaskCreator(Cache):
     """Class to create task."""
 
@@ -101,7 +93,7 @@ class TaskCreator(Cache):
         return data
 
 
-class AnswerHandler(Cache, PointsTask):
+class AnswerHandler(Cache):
     """Class to check user answer on task, award points."""
 
     def __init__(self, user_solution: dict, user: UserApp) -> None:
@@ -109,28 +101,27 @@ class AnswerHandler(Cache, PointsTask):
         super().__init__(user)
         self._solution = user_solution
         self._user = user
-        self._is_correctly: bool | None = None
+        self._solution_is_correct: bool | None = None
         # TODO: Fix annotation, the choice of the task model
         #       is carried out programmatically.
         self._task: MathematicsAnalytic | None = None
         self._points = 5
 
-    def _check_user_answer(self) -> bool:
-        return self.cached['answer'] == self._solution['answer']
-
     def handel(self) -> None:
         """Handel the user solution."""
-        self._is_correctly = self._check_user_answer()
-        self._save_user_solution()
-        if self._is_correctly:
-            self._award_points()
+        self._check_solution()
+        self._save_solution()
+        if self._solution_is_correct:
+            self._add_award_points()
+        else:
+            self._add_penalty_points()
 
-    @cached_property
-    def cached(self) -> dict:
-        """Data from cache."""
-        return self._from_cache()
+    def _check_solution(self) -> None:
+        self._solution_is_correct = (
+            self.cached['answer'] == self._solution['answer']
+        )
 
-    def _save_user_solution(self) -> None:
+    def _save_solution(self) -> None:
         """Save to database a user task solution."""
         model = SOLUTION_MODELS[self.cached['exercise']]
         data = {
@@ -139,12 +130,12 @@ class AnswerHandler(Cache, PointsTask):
             'first_operand': self.cached['operand1'],
             'second_operand': self.cached['operand2'],
             'user_solution': self._solution['answer'],
-            'is_correctly': self._is_correctly,
+            'is_correctly': self._solution_is_correct,
             # 'solution_time': None,
         }
         self._task = model.objects.create(**data)
 
-    def _award_points(self) -> None:
+    def _add_award_points(self) -> None:
         """Award point to user balance."""
         data = {
             'user': self._user,
@@ -152,3 +143,11 @@ class AnswerHandler(Cache, PointsTask):
             'award': self._points,
         }
         Points.objects.create(**data)
+
+    def _add_penalty_points(self) -> None:
+        pass
+
+    @cached_property
+    def cached(self) -> dict:
+        """Data from cache."""
+        return self._from_cache()
