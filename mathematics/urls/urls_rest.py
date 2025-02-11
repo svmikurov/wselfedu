@@ -2,7 +2,7 @@
 
 from django.urls import path
 
-from mathematics.views.rest.exercise import (
+from mathematics.rest.exercise import (
     handle_answer_view,
     render_task_view,
 )
