@@ -8,7 +8,7 @@ from mathematics.models import MathematicsAnalytic
 from users.models import Mentorship, UserApp
 
 
-class UserAccount(models.Model):
+class UserPoint(models.Model):
     """User point account model."""
 
     user = models.OneToOneField(
@@ -39,7 +39,7 @@ class UserAccount(models.Model):
         self.save()
 
 
-class Transaction(models.Model):
+class PointTransaction(models.Model):
     """Transaction model."""
 
     class TransactionType(models.TextChoices):
@@ -49,7 +49,7 @@ class Transaction(models.Model):
         WRITEOFF = ('writeoff', 'Списание')
 
     account = models.ForeignKey(
-        UserAccount,
+        UserPoint,
         on_delete=models.CASCADE,
         related_name='transactions',
         verbose_name='Счет',
