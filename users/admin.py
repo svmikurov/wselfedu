@@ -3,6 +3,7 @@
 from django.contrib import admin
 
 from users.models import Mentorship, MentorshipRequest, Points, UserApp
+from users.models.points import UserPoint, PointTransaction
 
 
 @admin.register(UserApp)
@@ -30,3 +31,18 @@ class PointsAdmin(admin.ModelAdmin):
 
     list_display = ['user', 'balance']
     ordering = ['-created_at']
+
+
+@admin.register(UserPoint)
+class UserAccountAdmin(admin.ModelAdmin):
+    """Representation of user account model."""
+
+    list_display = ['user', 'balance']
+
+
+@admin.register(PointTransaction)
+class PointTransactionAdmin(admin.ModelAdmin):
+    """Representation of user account model."""
+
+    list_display = ['account', 'amount', 'transaction_type', 'timestamp']
+    ordering = ['-timestamp']
