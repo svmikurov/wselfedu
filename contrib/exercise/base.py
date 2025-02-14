@@ -3,20 +3,22 @@
 Exercise - exercise type.
 Task - task of Exercise.
 Question - task question.
-Answer - task answer.
-Solution - user solution of task.
+Answer - user answer.
+Solution - solution of task.
 """
-
+import logging
 from abc import ABC, abstractmethod
 from functools import cached_property
 from typing import Any
 
 import redis
+from django.core.exceptions import ValidationError
 
 from config.constants import REDIS_PARAMS
 from mathematics.exercise import SOLUTION_MODELS
 from mathematics.models import MathematicsAnalytic
 from users.models import Points, UserApp
+from users.models.points import UserPoint
 
 
 class BaseExercise(ABC):
@@ -43,8 +45,6 @@ class BaseExercise(ABC):
 class Cache:
     """Caching of data."""
 
-    _user: UserApp
-
     def __init__(self, user: UserApp) -> None:
         """Construct the cache."""
         super().__init__()
@@ -60,12 +60,8 @@ class Cache:
     def _from_cache(self) -> dict:
         """Get data from cache."""
         conn = redis.Redis(**REDIS_PARAMS)
-        mapping = conn.hgetall(self._name)
-        return mapping
-
-    def _del_data(self) -> None:
-        """Delete data from cache."""
-        pass
+        data = conn.hgetall(self._name)
+        return data
 
 
 class TaskCreator(Cache):
@@ -96,12 +92,13 @@ class TaskCreator(Cache):
 class AnswerHandler(Cache):
     """Class to check user answer on task, award points."""
 
-    def __init__(self, user_solution: dict, user: UserApp) -> None:
+    def __init__(self, answer: dict, user: UserApp) -> None:
         """Construct the exercise."""
         super().__init__(user)
-        self._solution = user_solution
+        self._answer = answer
+
         self._user = user
-        self._solution_is_correct: bool | None = None
+        self._answer_is_correct: bool | None = None
         # TODO: Fix annotation, the choice of the task model
         #       is carried out programmatically.
         self._task: MathematicsAnalytic | None = None
@@ -109,19 +106,19 @@ class AnswerHandler(Cache):
 
     def handel(self) -> None:
         """Handel the user solution."""
-        self._check_solution()
-        self._save_solution()
-        if self._solution_is_correct:
+        self._check_answer()
+        self._save_answer()
+        if self._answer_is_correct:
             self._add_award_points()
         else:
             self._add_penalty_points()
 
-    def _check_solution(self) -> None:
-        self._solution_is_correct = (
-            self.cached['answer'] == self._solution['answer']
+    def _check_answer(self) -> None:
+        self._answer_is_correct = (
+            self.cached['solution'] == self._answer['answer']
         )
 
-    def _save_solution(self) -> None:
+    def _save_answer(self) -> None:
         """Save to database a user task solution."""
         model = SOLUTION_MODELS[self.cached['exercise']]
         data = {
@@ -129,20 +126,20 @@ class AnswerHandler(Cache):
             'calculation_type': self.cached['exercise'],
             'first_operand': self.cached['operand1'],
             'second_operand': self.cached['operand2'],
-            'user_solution': self._solution['answer'],
-            'is_correctly': self._solution_is_correct,
+            'user_solution': self._answer['answer'],
+            'is_correctly': self._answer_is_correct,
             # 'solution_time': None,
         }
         self._task = model.objects.create(**data)
 
     def _add_award_points(self) -> None:
         """Award point to user balance."""
-        data = {
-            'user': self._user,
-            'task': self._task,
-            'award': self._points,
-        }
-        Points.objects.create(**data)
+        point, _ = UserPoint.objects.get_or_create(user=self._user)
+        try:
+            point.add_award(self._points)
+        except ValidationError as e:
+            print(e)
+
 
     def _add_penalty_points(self) -> None:
         pass
@@ -151,3 +148,8 @@ class AnswerHandler(Cache):
     def cached(self) -> dict:
         """Data from cache."""
         return self._from_cache()
+
+
+def handel_answer(answer: dict, user: UserApp) -> None:
+    """Handel the user answer."""
+    AnswerHandler(answer, user).handel()

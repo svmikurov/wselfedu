@@ -7,7 +7,7 @@ class TaskSerializer(serializers.Serializer):
     """Task serializer."""
 
     question = serializers.CharField(max_length=255)
-    answer = serializers.CharField(max_length=255)
+    solution = serializers.CharField(max_length=255)
 
 
 class AnswerSerializer(serializers.Serializer):

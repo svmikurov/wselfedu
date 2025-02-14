@@ -2,7 +2,7 @@
 
 from django.urls import reverse_lazy
 
-from contrib.exercise import ExerciseData
+from contrib.exercise_web import ExerciseData
 from glossary.models import Term
 from glossary.queries.lookup_params import TermLookupParams
 from users.models import UserApp

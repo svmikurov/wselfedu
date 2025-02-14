@@ -2,7 +2,7 @@
 
 from rest_framework import serializers
 
-from contrib.exercise_rest.base import BaseExercise
+from contrib.exercise.base import BaseExercise
 from mathematics.exercise import EXERCISES
 
 
@@ -10,7 +10,7 @@ class CalcSerializer(serializers.Serializer):
     """Multiplication exercise serializer."""
 
     question = serializers.CharField(max_length=255)
-    answer = serializers.CharField(max_length=255)
+    solution = serializers.CharField(max_length=255)
 
 
 class ConditionsSerializer(serializers.Serializer):

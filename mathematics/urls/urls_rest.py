@@ -2,9 +2,9 @@
 
 from django.urls import path
 
-from mathematics.rest.exercise import (
-    handle_answer_view,
-    render_task_view,
+from mathematics.views_rest.exercise import (
+    render_task,
+    handle_answer,
 )
 
 app_name = 'mathematics_rest'
@@ -12,12 +12,12 @@ app_name = 'mathematics_rest'
 urlpatterns = [
     path(
         'calculations/',
-        render_task_view,
+        render_task,
         name='calculations',
     ),
     path(
         'handel-answer/',
-        handle_answer_view,
+        handle_answer,
         name='handel_answer',
     ),
 ]

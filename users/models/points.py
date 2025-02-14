@@ -2,7 +2,7 @@
 
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
-from django.db import models
+from django.db import models, transaction
 
 from mathematics.models import MathematicsAnalytic
 from users.models import Mentorship, UserApp
@@ -28,15 +28,38 @@ class UserPoint(models.Model):
 
     def add_award(self, amount: int) -> None:
         """Add award to user account."""
-        self.balance += amount
-        self.save()
+        if amount <= 0:
+            raise ValidationError("Award amount must be positive")
+
+        with transaction.atomic():
+            account = UserPoint.objects.select_for_update().get(pk=self.pk)
+            account.balance += amount
+            account.save()
+
+            PointTransaction.objects.create(
+                account=account,
+                amount=amount,
+                transaction_type=PointTransaction.TransactionType.AWARD
+            )
 
     def write_off(self, amount: int) -> None:
         """Write-off user award."""
-        if self.balance < amount:
+        if amount <= 0:
+            raise ValidationError("Write-off amount must be positive")
+
+        elif self.balance < amount:
             raise ValueError('Not enough points')
-        self.balance -= amount
-        self.save()
+
+        with transaction.atomic():
+            account = UserPoint.objects.select_for_update().get(pk=self.pk)
+            account.balance -= amount
+            account.save()
+
+            PointTransaction.objects.create(
+                account=account,
+                amount=amount,
+                transaction_type=PointTransaction.TransactionType.WRITEOFF
+            )
 
 
 class PointTransaction(models.Model):

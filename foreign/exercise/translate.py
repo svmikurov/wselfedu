@@ -24,7 +24,7 @@ from config.constants import (
     RANDOM,
     TO_NATIVE,
 )
-from contrib.exercise import ExerciseData
+from contrib.exercise_web import ExerciseData
 from foreign.models import Word, WordFavorites, WordProgress
 from foreign.queries.lookup_params import WordLookupParams
 from users.models import UserApp

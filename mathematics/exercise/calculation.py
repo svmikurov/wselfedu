@@ -16,7 +16,7 @@ from config.constants import (
     SUBSTRUCTION,
 )
 from contrib.cache import set_cache_task_creation_time
-from contrib.exercise_rest.calculations import BaseExercise
+from contrib.exercise.calculations import BaseExercise
 from mathematics.models import MathematicsAnalytic
 from users.models import Points, UserApp
 from users.points import get_points_balance
@@ -88,7 +88,7 @@ class CalcExercise(BaseExercise):
         """Task data to render."""
         return {
             'question': self._question,
-            'answer': self._answer,
+            'solution': self._answer,
         }
 
     @property
@@ -98,7 +98,7 @@ class CalcExercise(BaseExercise):
             'exercise': self._calc_type,
             'operand1': self._operand1,
             'operand2': self._operand2,
-            'answer': self._answer,
+            'solution': self._answer,
         }
 
 
