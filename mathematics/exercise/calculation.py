@@ -16,10 +16,11 @@ from config.constants import (
     SUBSTRUCTION,
 )
 from contrib.cache import set_cache_task_creation_time
+from contrib.exercise.base import AnswerHandler
 from contrib.exercise.calculations import BaseExercise
 from mathematics.models import MathematicsAnalytic
-from users.models import Points, UserApp
-from users.points import get_points_balance
+from users.models import UserApp
+from users.models.points import get_points_balance, UserAccount
 
 load_dotenv('.env_vars/.env.wse')
 
@@ -231,20 +232,6 @@ class CalculationExerciseCheck:
         number_points = POINTS_FOR_THE_TASK
         return number_points
 
-    def accrue_reward(self) -> None:
-        """Award points to the user for solving the task correctly."""
-        user = UserApp.objects.get(pk=self.user_id)
-        task = MathematicsAnalytic.objects.get(pk=self.task_id)
-        balance = get_points_balance(self.user_id)
-
-        query = Points.objects.create(
-            user=user,
-            task=task,
-            award=self.award,
-            balance=balance + self.award,
-        )
-        query.save()
-
     def check_and_save_user_solution(self) -> bool:
         """Check and save the user task with its solution."""
         try:
@@ -266,6 +253,6 @@ class CalculationExerciseCheck:
             should_user_be_rewarded = self.check_user_to_reward()
             if should_user_be_rewarded:
                 # Points are not accumulated temporarily.
-                self.accrue_reward()
+                pass
 
         return self.is_correct_answer

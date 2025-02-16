@@ -8,7 +8,3 @@ EXERCISES = {
     'sub': CalcExercise,
     'mul': CalcExercise,
 }
-
-SOLUTION_MODELS = {
-    'mul': MathematicsAnalytic,
-}

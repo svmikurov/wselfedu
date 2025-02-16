@@ -2,8 +2,8 @@
 
 from django.contrib import admin
 
-from users.models import Mentorship, MentorshipRequest, Points, UserApp
-from users.models.points import UserPoint, PointTransaction
+from users.models import Mentorship, MentorshipRequest, UserApp
+from users.models.points import Transaction, UserAccount
 
 
 @admin.register(UserApp)
@@ -25,22 +25,14 @@ class MentorshipRequestAdmin(admin.ModelAdmin):
     """Representation of MentorshipRequest model."""
 
 
-@admin.register(Points)
-class PointsAdmin(admin.ModelAdmin):
-    """Representation of Points model."""
-
-    list_display = ['user', 'balance']
-    ordering = ['-created_at']
-
-
-@admin.register(UserPoint)
+@admin.register(UserAccount)
 class UserAccountAdmin(admin.ModelAdmin):
     """Representation of user account model."""
 
     list_display = ['user', 'balance']
 
 
-@admin.register(PointTransaction)
+@admin.register(Transaction)
 class PointTransactionAdmin(admin.ModelAdmin):
     """Representation of user account model."""
 

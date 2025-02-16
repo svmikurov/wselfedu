@@ -6,7 +6,7 @@ Question - task question.
 Answer - user answer.
 Solution - solution of task.
 """
-import logging
+
 from abc import ABC, abstractmethod
 from functools import cached_property
 from typing import Any
@@ -15,10 +15,13 @@ import redis
 from django.core.exceptions import ValidationError
 
 from config.constants import REDIS_PARAMS
-from mathematics.exercise import SOLUTION_MODELS
 from mathematics.models import MathematicsAnalytic
-from users.models import Points, UserApp
-from users.models.points import UserPoint
+from users.models import UserApp
+from users.models.points import UserAccount
+
+SAVE_ANSWER_MODELS = {
+    'mul': MathematicsAnalytic,
+}
 
 
 class BaseExercise(ABC):
@@ -108,10 +111,10 @@ class AnswerHandler(Cache):
         """Handel the user solution."""
         self._check_answer()
         self._save_answer()
-        if self._answer_is_correct:
-            self._add_award_points()
+        if self._answer_is_correct and self.has_award:
+            self._add_award()
         else:
-            self._add_penalty_points()
+            self._add_penalty()
 
     def _check_answer(self) -> None:
         self._answer_is_correct = (
@@ -120,7 +123,7 @@ class AnswerHandler(Cache):
 
     def _save_answer(self) -> None:
         """Save to database a user task solution."""
-        model = SOLUTION_MODELS[self.cached['exercise']]
+        model = SAVE_ANSWER_MODELS[self.cached['exercise']]
         data = {
             'user': self._user,
             'calculation_type': self.cached['exercise'],
@@ -132,16 +135,20 @@ class AnswerHandler(Cache):
         }
         self._task = model.objects.create(**data)
 
-    def _add_award_points(self) -> None:
-        """Award point to user balance."""
-        point, _ = UserPoint.objects.get_or_create(user=self._user)
+    @property
+    def has_award(self) -> bool:
+        """Has user award."""
+        return True
+
+    def _add_award(self) -> None:
+        """Add award point to user account."""
+        account, _ = UserAccount.objects.get_or_create(user=self._user)
         try:
-            point.add_award(self._points)
+            account.add_award(self._points)
         except ValidationError as e:
             print(e)
 
-
-    def _add_penalty_points(self) -> None:
+    def _add_penalty(self) -> None:
         pass
 
     @cached_property

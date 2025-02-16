@@ -22,7 +22,7 @@ from mathematics.exercise.calculation import (
 )
 from mathematics.forms.calculate_choice import CalculationChoiceForm
 from mathematics.forms.number_input import NumberInputForm
-from users.points import get_points_balance
+from users.models.points import get_points_balance
 
 
 class MathCalculateChoiceView(TemplateView):

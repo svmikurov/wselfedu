@@ -1,5 +1,4 @@
 """Mathematical exercise views."""
-import logging
 
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -7,7 +6,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from contrib.exercise.base import AnswerHandler, TaskCreator, handel_answer
+from contrib.exercise.base import TaskCreator, handel_answer
 from contrib.serializers.task import AnswerSerializer, TaskSerializer
 from mathematics.exercise import EXERCISES
 from mathematics.serializers.exercise import (
@@ -36,7 +35,7 @@ def render_task(request: Request) -> Response:
         task_data = TaskSerializer(task.data).data
         return Response(task_data, status=status.HTTP_200_OK)
     else:
-        Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])

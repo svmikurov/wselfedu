@@ -3,8 +3,8 @@
 from django.urls import path
 
 from mathematics.views_rest.exercise import (
-    render_task,
     handle_answer,
+    render_task,
 )
 
 app_name = 'mathematics_rest'

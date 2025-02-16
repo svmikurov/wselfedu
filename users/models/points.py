@@ -1,14 +1,13 @@
-"""User points story."""
+"""User points."""
 
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models, transaction
 
-from mathematics.models import MathematicsAnalytic
-from users.models import Mentorship, UserApp
+from users.models import UserApp
 
 
-class UserPoint(models.Model):
+class UserAccount(models.Model):
     """User point account model."""
 
     user = models.OneToOneField(
@@ -29,50 +28,50 @@ class UserPoint(models.Model):
     def add_award(self, amount: int) -> None:
         """Add award to user account."""
         if amount <= 0:
-            raise ValidationError("Award amount must be positive")
+            raise ValidationError('Award amount must be positive')
 
         with transaction.atomic():
-            account = UserPoint.objects.select_for_update().get(pk=self.pk)
+            account = UserAccount.objects.select_for_update().get(pk=self.pk)
             account.balance += amount
             account.save()
 
-            PointTransaction.objects.create(
+            Transaction.objects.create(
                 account=account,
                 amount=amount,
-                transaction_type=PointTransaction.TransactionType.AWARD
+                transaction_type=Transaction.TransactionType.AWARD,
             )
 
     def write_off(self, amount: int) -> None:
         """Write-off user award."""
         if amount <= 0:
-            raise ValidationError("Write-off amount must be positive")
+            raise ValidationError('Write-off amount must be positive')
 
         elif self.balance < amount:
             raise ValueError('Not enough points')
 
         with transaction.atomic():
-            account = UserPoint.objects.select_for_update().get(pk=self.pk)
+            account = UserAccount.objects.select_for_update().get(pk=self.pk)
             account.balance -= amount
             account.save()
 
-            PointTransaction.objects.create(
+            Transaction.objects.create(
                 account=account,
                 amount=amount,
-                transaction_type=PointTransaction.TransactionType.WRITEOFF
+                transaction_type=Transaction.TransactionType.WRITEOFF,
             )
 
 
-class PointTransaction(models.Model):
+class Transaction(models.Model):
     """Transaction model."""
 
     class TransactionType(models.TextChoices):
         """Transaction type choices."""
 
-        AWARD = ('award', 'Вознаграждение')
-        WRITEOFF = ('writeoff', 'Списание')
+        AWARD = 'award', 'Вознаграждение'
+        WRITEOFF = 'writeoff', 'Списание'
 
     account = models.ForeignKey(
-        UserPoint,
+        UserAccount,
         on_delete=models.CASCADE,
         related_name='transactions',
         verbose_name='Счет',
@@ -100,79 +99,12 @@ class PointTransaction(models.Model):
         ]
 
 
-class Points(models.Model):
-    """User points model.
-
-    For the correct execution of the exercise, the user receives points.
-    This model stores the history of the user's points, their receipt,
-    write-off and the balance of points at the current moment.
-    """
-
-    user = models.ForeignKey(
-        UserApp,
-        on_delete=models.CASCADE,
-        verbose_name='Пользователь',
-    )
-    """User owner of points (`UserApp`).
-    """
-    task = models.OneToOneField(
-        MathematicsAnalytic,
-        on_delete=models.CASCADE,
-        null=True,
-    )
-    """The task for which points were awarded (`MathematicsAnalytic`).
-    """
-    award = models.PositiveSmallIntegerField(blank=True, null=True)
-    """Amount of points awarded (`int`).
-    """
-    write_off = models.PositiveSmallIntegerField(blank=True, null=True)
-    """Amount of points written off (`int`).
-    """
-    balance = models.PositiveSmallIntegerField(
-        default=0,
-        verbose_name='Баланс',
-    )
-    """Current balance of points (`int`).
-    """
-    mentorship = models.ForeignKey(
-        Mentorship,
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-    )
-    """Mentorship by virtue of which points are written off
-    (`Mentorship`).
-    """
-    created_at = models.DateTimeField(auto_now_add=True)
-    """Date and time of creation of the record in the table
-    (`DateTimeField`).
-    """
-
-    def clean(self) -> None:
-        """Validate the condition of adding entry.
-
-        In one entry you can fill only one of the two fields,
-        either ``award`` or ``write_off``.
-
-        Raises
-        ------
-        ValidationError
-            Raised if both fields ``award`` and ``write_off`` are added
-            or if both fields ``award`` and ``write_off`` is ``null``.
-
-        """
-        super().clean()
-        if self.award and self.write_off:
-            raise ValidationError(
-                "Only 'award' or 'write_off' field, not both",
-            )
-        elif not self.award and not self.write_off:
-            raise ValidationError(
-                "Fill 'award' or 'write_off' field.",
-            )
-
-    class Meta:
-        """Model features."""
-
-        verbose_name = 'Очки за выполненные задания'
-        verbose_name_plural = 'Очки за выполненные задания'
+def get_points_balance(user_id: int) -> int:
+    """Get user points balance."""
+    try:
+        balance = UserAccount.objects.get(user=user_id).balance
+    except AttributeError:
+        balance = 0
+    except UserApp.DoesNotExist:
+        balance = 0
+    return balance
