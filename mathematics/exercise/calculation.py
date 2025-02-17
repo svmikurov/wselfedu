@@ -1,13 +1,11 @@
 """The mathematical calculate exercise module."""
 
 import operator
-import os
+from functools import cached_property
 from random import randint
-from typing import Any
 
 from django.forms import Form
 from django.http import HttpRequest
-from dotenv import load_dotenv
 
 from config.constants import (
     ADDITION,
@@ -16,25 +14,11 @@ from config.constants import (
     SUBSTRUCTION,
 )
 from contrib.cache import set_cache_task_creation_time
-from contrib.exercise.base import AnswerHandler
-from contrib.exercise.calculations import BaseExercise
-from mathematics.models import MathematicsAnalytic
+from mathematics.models import MathematicsTasks
 from users.models import UserApp
-from users.models.points import get_points_balance, UserAccount
-
-load_dotenv('.env_vars/.env.wse')
-
-POINTS_FOR_THE_TASK = int(os.getenv('POINTS_FOR_THE_TASK', 0))
-"""The number of points awarded for a correctly completed task,
-by default (`int`).
-"""
-MAX_POINTS_BALANCE = int(os.getenv('MAX_POINTS_BALANCE', 0))
-"""The maximum allowed accumulation of points on the user's balance.
-(`int`)
-"""
 
 
-class CalcExercise(BaseExercise):
+class CalcExercise:
     """Calculation exercise with two operands."""
 
     _OPS = {
@@ -52,54 +36,58 @@ class CalcExercise(BaseExercise):
 
     def __init__(
         self,
-        calc_type: str,
+        exercise: str,
         *,
         min_value: int = 1,
         max_value: int = 9,
     ) -> None:
         """Construct calculation exercise."""
-        self._calc_type: str = calc_type
+        self._exercise: str = exercise
         self._min_value: int = min_value
         self._max_value: int = max_value
         self._operand1: int | None = None
         self._operand2: int | None = None
         self._question: str | None = None
-        self._answer: int | None = None
+        self._solution: int | None = None
 
     def create_task(self) -> None:
         """Create a task."""
         self._operand1 = randint(self._min_value, self._max_value)
         self._operand2 = randint(self._min_value, self._max_value)
-        task_data = (self._calc_type, self._operand1, self._operand2)
+        task_data = self._exercise, self._operand1, self._operand2
 
         self._question = self._create_question(*task_data)
-        self._answer = self._create_answer(*task_data)
+        self._solution = self._create_solution(*task_data)
 
     @classmethod
-    def _create_question(cls, calc: str, operand1: int, operand2: int) -> str:
-        math_sign = cls._OP_SIGNS.get(calc)
+    def _create_question(
+        cls, exercise_type: str, operand1: int, operand2: int
+    ) -> str:
+        math_sign = cls._OP_SIGNS.get(exercise_type)
         return f'{operand1} {math_sign} {operand2}'
 
     @classmethod
-    def _create_answer(cls, calc: str, operand1: int, operand2: int) -> int:
-        return cls._OPS[calc](operand1, operand2)
+    def _create_solution(
+        cls, exercise_type: str, operand1: int, operand2: int
+    ) -> int:
+        return cls._OPS[exercise_type](operand1, operand2)
 
     @property
-    def task_data(self) -> dict[str, str | int]:
+    def data_to_render(self) -> dict:
         """Task data to render."""
         return {
             'question': self._question,
-            'solution': self._answer,
+            'solution': self._solution,
         }
 
-    @property
-    def cache_data(self) -> dict[str, Any]:
+    @cached_property
+    def data_to_cache(self) -> dict:
         """Task data to cache."""
         return {
-            'exercise': self._calc_type,
+            'exercise': self._exercise,
             'operand1': self._operand1,
             'operand2': self._operand2,
-            'solution': self._answer,
+            'solution': self._solution,
         }
 
 
@@ -160,16 +148,16 @@ class CalcExerciseBrowser:
         """Store in cache the date and time of task creation."""
         set_cache_task_creation_time(
             user_id=self.user_id,
-            exercise_type=self.calculation_type,
+            exercise=self.calculation_type,
         )
 
-    @property
-    def data(self) -> dict[str, str]:
-        """Task data."""
-        return {
-            'question': self.question_text,
-            'answer': self.answer_text,
-        }
+    # @property
+    # def data(self) -> dict[str, str]:
+    #     """Task data."""
+    #     return {
+    #         'question': self.question_text,
+    #         'answer': self.answer_text,
+    #     }
 
 
 class CalculationExerciseCheck:
@@ -200,17 +188,12 @@ class CalculationExerciseCheck:
 
     def check_user_to_reward(self) -> bool:
         """Check if points should be awarded to the user."""
-        if not self.user_id:
-            return False
-        elif get_points_balance(self.user_id) >= MAX_POINTS_BALANCE:
-            return False
-        else:
-            return True
+        pass
 
     def save_task_to_db(self) -> None:
         """Save task conditions and user solution to database."""
         user = UserApp.objects.get(pk=self.user_id)
-        task_query = MathematicsAnalytic.objects.create(
+        task_query = MathematicsTasks.objects.create(
             user=user,
             calculation_type=self.calculation_type,
             first_operand=self.first_operand,
@@ -228,9 +211,7 @@ class CalculationExerciseCheck:
         """The number of points as a reward for success task solution
         (`int`, read-only).
         """  # noqa:  D205
-        # Temporary number_points is fixed number.
-        number_points = POINTS_FOR_THE_TASK
-        return number_points
+        pass
 
     def check_and_save_user_solution(self) -> bool:
         """Check and save the user task with its solution."""

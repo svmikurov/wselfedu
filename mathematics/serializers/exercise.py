@@ -16,13 +16,13 @@ class CalcSerializer(serializers.Serializer):
 class ConditionsSerializer(serializers.Serializer):
     """Exercise conditions serializer."""
 
-    exercise_type = serializers.CharField(max_length=255)
+    exercise = serializers.CharField(max_length=255)
     min_value = serializers.IntegerField(required=False)
     max_value = serializers.IntegerField(required=False)
 
     @classmethod
-    def validate_exercise_type(cls, exercise: BaseExercise) -> BaseExercise:
-        """Validate if exercise type exists."""
+    def validate_exercise(cls, exercise: BaseExercise) -> BaseExercise:
+        """Validate if exercise exists."""
         if exercise not in EXERCISES:
             raise serializers.ValidationError(
                 f'Exercise {exercise} not exists'

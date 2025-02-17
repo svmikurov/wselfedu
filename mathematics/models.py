@@ -1,47 +1,34 @@
-"""Mathematical exercises model module."""
+"""Mathematics tasks."""
 
 from django.db import models
 
 from config.constants import CALCULATION_TYPES
 from users.models import UserApp
+from users.models.points import Transaction
 
 
-class MathematicsAnalytic(models.Model):
-    """Mathematical exercises model.
-
-    Stores tasks and user solutions for all mathematical exercises.
-    The exercise contains two operands.
-    The model stores only mathematical calculation
-    :ref:`Mathematics exercise <reference/mathematics/exercise:Mathematics exercise>`.
-    """  # noqa: E501, W505
+class MathematicsTasks(models.Model):
+    """Mathematics tasks."""
 
     user = models.ForeignKey(UserApp, on_delete=models.CASCADE)
-    """User performing the exercise.
-    """
-    calculation_type = models.CharField(
+    exercise = models.CharField(
         choices=CALCULATION_TYPES,
         max_length=10,
     )
-    """Type of mathematical calculation.
-    """
-    first_operand = models.SmallIntegerField()
-    """First operand of the expression.
-    """
-    second_operand = models.SmallIntegerField()
-    """Second operand of the expression.
-    """
-    user_solution = models.SmallIntegerField()
-    """User task solution.
-    """
+    operand1 = models.SmallIntegerField()
+    operand2 = models.SmallIntegerField()
+    answer = models.SmallIntegerField()
     is_correctly = models.BooleanField(blank=True, null=True)
-    """Marking the user's solution to the task as correct.
-    """
-    solution_time = models.PositiveSmallIntegerField(blank=True, null=True)
-    """Time spent by the user to solve the task.
-    """
+    time = models.PositiveSmallIntegerField(blank=True, null=True)
+    transaction = models.ForeignKey(
+        Transaction,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        verbose_name='Начисление очков',
+        related_name='math',
+    )
     created_at = models.DateTimeField(auto_now_add=True)
-    """Date and time of task creation.
-    """
 
     class Meta:
         """Model features."""

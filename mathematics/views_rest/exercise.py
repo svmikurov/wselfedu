@@ -6,22 +6,9 @@ from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from contrib.exercise.base import TaskCreator, handel_answer
+from contrib.exercise.base import create_task, handel_answer
 from contrib.serializers.task import AnswerSerializer, TaskSerializer
-from mathematics.exercise import EXERCISES
-from mathematics.serializers.exercise import (
-    ConditionsSerializer,
-)
-from users.models import UserApp
-
-
-def get_task(exercise_conditions: dict, user: UserApp) -> TaskCreator:
-    """Get task."""
-    exercise_type = exercise_conditions.pop('exercise_type')
-    exercise_class = EXERCISES[exercise_type]
-    exercise = exercise_class(exercise_type)
-    task = TaskCreator(exercise, user)
-    return task
+from mathematics.serializers.exercise import ConditionsSerializer
 
 
 @api_view(['POST'])
@@ -31,8 +18,8 @@ def render_task(request: Request) -> Response:
     serializer = ConditionsSerializer(data=request.data)
 
     if serializer.is_valid():
-        task = get_task(serializer.data, request.user)
-        task_data = TaskSerializer(task.data).data
+        task = create_task(serializer.data, request.user)
+        task_data = TaskSerializer(task.data_to_render).data
         return Response(task_data, status=status.HTTP_200_OK)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

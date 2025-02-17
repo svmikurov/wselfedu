@@ -2,8 +2,7 @@
 
 from django.http import HttpRequest
 
-from users.models import Mentorship
-from users.points import get_points_balance
+# from users.models import Mentorship
 
 
 def add_student_user_data(request: HttpRequest) -> dict[str, float | str]:
@@ -19,12 +18,12 @@ def add_student_user_data(request: HttpRequest) -> dict[str, float | str]:
      - ``balance``: current user points balance (`float` | `str`).
     """
     context = {}
-    user_id = request.user.id
-    user_has_mentor = Mentorship.objects.filter(student=user_id).exists()
-    number_order = 100
+    # user_id = request.user.id
+    # user_has_mentor = Mentorship.objects.filter(student=user_id).exists()
+    # number_order = 100
 
-    if user_has_mentor:
-        balance = get_points_balance(user_id) / number_order
-        context.update(balance=balance or '-')
+    # if user_has_mentor:
+    #     balance = get_points_balance(user_id) / number_order
+    #     context.update(balance=balance or '-')
 
     return context

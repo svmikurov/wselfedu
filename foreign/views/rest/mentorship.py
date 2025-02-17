@@ -1,7 +1,6 @@
 """Foreign words mentorship views."""
 
 import json
-import logging
 
 from django.core.cache import cache
 from django.http import HttpResponse, JsonResponse
@@ -49,15 +48,12 @@ def foreign_assigned_test_view(
             user_answer = request.data['answer']
 
             if correct_answer == user_answer:
-                logging.info('Right!')
                 return HttpResponse(
                     status=status.HTTP_204_NO_CONTENT,
                 )
             else:
-                logging.info('Wrong!')
                 return HttpResponse(
                     status=status.HTTP_205_RESET_CONTENT,
                 )
 
-    logging.info('Bad request!')
     return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
