@@ -25,7 +25,7 @@ class CalculationChoiceForm(forms.Form):
     DEFAULT_MIN_VALUE = 2
     DEFAULT_MAX_VALUE = 9
 
-    calculation_type = forms.ChoiceField(
+    exercise = forms.ChoiceField(
         choices=CALCULATION_TYPES,
         initial=CALCULATION_TYPES[DEFAULT_CALCULATION_TYPE_INDEX],
         label='Вид вычисления',
@@ -86,7 +86,7 @@ class CalculationChoiceForm(forms.Form):
             Row(
                 Column(
                     Field(
-                        'calculation_type',
+                        'exercise',
                         css_class=W_50,
                         data_testid='calculation_type',
                     ),

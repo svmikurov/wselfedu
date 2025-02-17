@@ -12,14 +12,8 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import RedirectView, TemplateView
 
-from config.constants import (
-    MULTIPLICATION,
-    TITLE,
-)
-from mathematics.exercise.calculation import (
-    CalcExerciseBrowser,
-    CalculationExerciseCheck,
-)
+from contrib.exercise.base import create_task, handel_answer
+from mathematics.exercise.calculation import CalcExerciseBrowser
 from mathematics.forms.calculate_choice import CalculationChoiceForm
 from mathematics.forms.number_input import NumberInputForm
 from users.models.points import get_points_balance
@@ -51,7 +45,7 @@ class MathCalculateChoiceView(TemplateView):
                 return redirect(reverse_lazy('math:math_calculate_demo'))
 
         context = {
-            TITLE: 'Условия задания',
+            'title': 'Условия задания',
             'form': self.form(request=request),
         }
         return render(request, self.template_name, context)
@@ -84,23 +78,13 @@ class MathCalculateDemoView(View):
             return JsonResponse(data=data, status=200)
 
         context = {
-            TITLE: 'Задание на вычисление',
+            'title': 'Задание на вычисление',
         }
         return render(request, self.template_name, context)
 
 
 class MathCalculateSolutionView(TemplateView):
-    """Calculate exercise view with input of a solution and scoring.
-
-    The ``get`` method renders the page for the exercise.
-    The page contains a form for entering the user's solution.
-
-    On the user side, a post-request is generated via Ajax to receive
-    the task.
-
-    The ``post`` method accepts a user response for validation and
-    returns a JSON response with an evaluate.
-    """
+    """Calculate exercise view with input of a solution and scoring."""
 
     template_name = 'mathematics/math_calculate_solution.html'
 
@@ -108,7 +92,7 @@ class MathCalculateSolutionView(TemplateView):
         """Add form with title to context."""
         context = super().get_context_data()
         context['form'] = NumberInputForm()
-        context[TITLE] = 'Вычисления с вводом ответа'
+        context['title'] = 'Вычисления с вводом ответа'
         return context
 
     def post(self, request: HttpRequest) -> JsonResponse:
@@ -116,14 +100,14 @@ class MathCalculateSolutionView(TemplateView):
         form = NumberInputForm(request.POST)
 
         if form.is_valid():
-            task_check = CalculationExerciseCheck(request=request, form=form)
-            is_correct_solution = task_check.check_and_save_user_solution()
-            msg = 'Верно!' if is_correct_solution else 'Неверно!'
+            data = form.cleaned_data
+            answer = {'answer': str(data.get('user_solution'))}
+            is_correctly = handel_answer(answer, request.user)
 
             return JsonResponse(
                 data={
-                    'msg': msg,
-                    'is_correct_solution': is_correct_solution,
+                    'msg': 'Верно!' if is_correctly else 'Неверно!',
+                    'is_correct_solution': is_correctly,
                 },
                 status=200,
             )
@@ -132,39 +116,18 @@ class MathCalculateSolutionView(TemplateView):
 
 
 def render_task(request: HttpRequest) -> JsonResponse:
-    """Send question text to page.
-
-    Gets the task creation conditions from the session.
-    Create new ``task`` instance, save ``answer_text`` in session,
-    render new ``question_text`` to user via json response.
-
-    Parameters
-    ----------
-    request : `HttpRequest`
-        Request to receive new text of the question.
-
-
-    Return
-    ------
-    `JsonResponse`
-        Json response with new question text.
-
-    """
-    task_conditions = request.session.get('task_conditions')
-    user_id = request.user.id
-    # A new task is created when the class CalculationExercise
-    # is initialized.
-    task = CalcExerciseBrowser(user_id=user_id, **task_conditions)
-    request.session['calculation_type'] = task.calculation_type
-    request.session['question_text'] = task.question_text
-    request.session['answer_text'] = task.answer_text
-    balance_in_hundredths = get_points_balance(user_id) / 100
+    """Send question text to page."""
+    user = request.user
+    exercise_conditions = request.session.get('task_conditions')
+    exercise_conditions.pop('timeout')
+    task = create_task(exercise_conditions, request.user)
+    balance = get_points_balance(user.id) / 100
 
     return JsonResponse(
         data={
             'success': True,
-            'question_text': task.question_text,
-            'balance': balance_in_hundredths,
+            'question_text': task.data_to_render['question'],
+            'balance': balance,
         },
         status=200,
     )
@@ -188,7 +151,7 @@ class SetMultiplicationTableExerciseView(RedirectView):
     ) -> HttpResponseBase:
         """Save task conditions in session."""
         task_conditions = {
-            'calculation_type': MULTIPLICATION,
+            'calculation_type': 'mul',
             'min_value': 2,
             'max_value': 9,
         }

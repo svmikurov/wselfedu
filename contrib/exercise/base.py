@@ -6,12 +6,13 @@ Question - task question.
 Answer - user answer.
 Solution - solution of task.
 """
-
+import logging
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Type
 
 import redis
 from django.core.exceptions import ValidationError
+from djoser.conf import User
 
 from config.constants import REDIS_PARAMS
 from mathematics.exercise import EXERCISES
@@ -114,7 +115,7 @@ def get_award(user: UserApp) -> int:
     return 5
 
 
-def create_task(exercise_conditions: dict, user: UserApp) -> BaseExercise:
+def create_task(exercise_conditions: dict, user: Type[User]) -> BaseExercise:
     """Create task."""
     exercise_class = EXERCISES[exercise_conditions['exercise']]
     task = exercise_class(**exercise_conditions)
@@ -126,7 +127,7 @@ def create_task(exercise_conditions: dict, user: UserApp) -> BaseExercise:
     return task
 
 
-def handel_answer(answer: dict, user: UserApp) -> None:
+def handel_answer(answer: dict, user: Type[User]) -> bool:
     """Handel the user answer."""
     award = get_award(user)
     task_data = RedisTaskCache(user).get_data()
@@ -138,3 +139,4 @@ def handel_answer(answer: dict, user: UserApp) -> None:
         transaction = None
 
     save_answer(user=user, **task_data, **answer, transaction=transaction)
+    return task_data['is_correctly']
