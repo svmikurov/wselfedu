@@ -36,8 +36,10 @@ class Transaction(models.Model):
     )
 
     class Meta:
-        """Set up transaction."""
+        """Model features."""
 
+        verbose_name = 'Транзакция вознаграждения'
+        verbose_name_plural = 'Транзакция вознаграждений'
         ordering = ['-timestamp']
         indexes = [
             models.Index(fields=['timestamp']),
@@ -97,6 +99,15 @@ class UserAccount(models.Model):
                 amount=amount,
                 transaction_type=Transaction.TransactionType.WRITEOFF,
             )
+
+    class Meta:
+        """Model features."""
+
+        verbose_name = 'Вознаграждения пользователя'
+        verbose_name_plural = 'Вознаграждения пользователей'
+
+    def __str__(self) -> str:
+        return str(self.user)
 
 
 def get_points_balance(user_id: int) -> int:
