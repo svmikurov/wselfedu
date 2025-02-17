@@ -2,7 +2,7 @@
 
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 
@@ -12,7 +12,7 @@ from mathematics.serializers.exercise import ConditionsSerializer
 
 
 @api_view(['POST'])
-@permission_classes((AllowAny,))
+@permission_classes((IsAuthenticated,))
 def render_task(request: Request) -> Response:
     """Render the task."""
     serializer = ConditionsSerializer(data=request.data)
@@ -26,7 +26,7 @@ def render_task(request: Request) -> Response:
 
 
 @api_view(['POST'])
-@permission_classes((AllowAny,))
+@permission_classes((IsAuthenticated,))
 def handle_answer(request: Request) -> Response:
     """Handel the solution."""
     serializer = AnswerSerializer(data=request.data)

@@ -1,20 +1,12 @@
-"""Base exercise.
+"""Base exercise."""
 
-Exercise - exercise type.
-Task - task of Exercise.
-Question - task question.
-Answer - user answer.
-Solution - solution of task.
-"""
-import logging
 from abc import ABC, abstractmethod
-from typing import Any, Type
+from typing import Type
 
-import redis
 from django.core.exceptions import ValidationError
 from djoser.conf import User
 
-from config.constants import REDIS_PARAMS
+from contrib.exercise.cache import RedisTaskCache
 from mathematics.exercise import EXERCISES
 from mathematics.models import MathematicsTasks
 from users.models import UserApp
@@ -44,44 +36,6 @@ class BaseExercise(ABC):
     def data_to_cache(self) -> dict:
         """Task data to cache."""
         raise NotImplementedError('The data_to_cache() is not implemented')
-
-
-class TaskStory:
-    """Task data story."""
-
-    def __init__(self, user: UserApp) -> None:
-        """Construct the story."""
-        self._user = user
-
-    def save_data(self, mapping: dict[str, Any]) -> None:
-        """Save task data."""
-        raise NotImplementedError('The method save_data is not implemented')
-
-    def get_data(self) -> dict:
-        """Get data."""
-        raise NotImplementedError('The method get_data is not implemented')
-
-
-class RedisTaskCache(TaskStory):
-    """Story data in Redis."""
-
-    def __init__(self, user: UserApp) -> None:
-        """Construct the story."""
-        super().__init__(user)
-        self._time = 180
-        self._name = str(user)
-
-    def save_data(self, mapping: dict[str, Any]) -> None:
-        """Cache the data."""
-        conn = redis.Redis(**REDIS_PARAMS)
-        conn.hset(self._name, mapping=mapping)
-        conn.expire(self._name, self._time)
-
-    def get_data(self) -> dict:
-        """Get data from cache."""
-        conn = redis.Redis(**REDIS_PARAMS)
-        data = conn.hgetall(self._name)
-        return data
 
 
 ########################################################################

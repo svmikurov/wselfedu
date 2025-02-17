@@ -107,6 +107,7 @@ class UserAccount(models.Model):
         verbose_name_plural = 'Вознаграждения пользователей'
 
     def __str__(self) -> str:
+        """Provide the informal string representation of an object."""
         return str(self.user)
 
 

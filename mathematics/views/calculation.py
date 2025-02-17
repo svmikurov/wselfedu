@@ -117,11 +117,10 @@ class MathCalculateSolutionView(TemplateView):
 
 def render_task(request: HttpRequest) -> JsonResponse:
     """Send question text to page."""
-    user = request.user
     exercise_conditions = request.session.get('task_conditions')
     exercise_conditions.pop('timeout')
     task = create_task(exercise_conditions, request.user)
-    balance = get_points_balance(user.id) / 100
+    balance = get_points_balance(request.user.id) / 100
 
     return JsonResponse(
         data={
