@@ -23,7 +23,6 @@ ALLOWED_HOSTS = []
 # Application definition
 # adds path to projects apps
 sys.path.append(str(BASE_DIR / 'apps/'))
-sys.path.append(str(BASE_DIR / 'apps/features/'))
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -35,8 +34,9 @@ INSTALLED_APPS = [
     # Installed
     'rest_framework',
     # Added
-    'apps.core.apps.CoreConfig',
-    'apps.features.mathem.apps.MathemConfig',
+    'apps.accounts',
+    'apps.core',
+    'apps.features',
 ]
 
 MIDDLEWARE = [
