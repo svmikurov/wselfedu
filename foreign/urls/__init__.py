@@ -1,1 +1,0 @@
-"""Foreign word urls."""

@@ -1,21 +1,11 @@
-.idea/
-.venv/
-.venv_wse/
-__pycache__/
-docs/build/
-docs/source/generated/
-htmlcov/
-postgres_data/
+# Virtual environment
+.venv_wse_django/
+
+# Static files
 static/
-*/screenshots/
 
-.env
-.env.postgres
-.env.wse
-.coverage
-coverage.xml
-state.json
-fixtures.json
+# Byte-compiled / optimized
+__pycache__/
 
-db*.json
-*.sqlite3
+# IntelliJ Idea family of suites
+.idea

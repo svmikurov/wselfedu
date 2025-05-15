@@ -1,9 +1,0 @@
-{% extends 'base.html' %}
-{% load crispy_forms_tags %}
-
-{% block title %}{{ title }}{% endblock %}
-
-{% block content %}
-  {% include 'components/title.html' %}
-  {% crispy form form.helper %}
-{% endblock %}

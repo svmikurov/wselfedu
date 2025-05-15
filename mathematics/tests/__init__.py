@@ -1,1 +1,0 @@
-"""Mathematics app tests."""

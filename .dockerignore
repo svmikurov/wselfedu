@@ -1,8 +1,11 @@
-.github/
-.venv/
+# Virtual environment
 .venv_wse/
-postgres_data/
+
+# Static files
 static/
 
-.coverage
-.gitignore
+# Byte-compiled / optimized
+__pycache__/
+
+# IntelliJ Idea family of suites
+.idea

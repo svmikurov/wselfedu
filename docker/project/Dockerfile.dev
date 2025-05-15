@@ -2,17 +2,12 @@
 
 FROM python:3.12-bookworm
 
-RUN pip install --upgrade pip && \
-    pip install playwright && \
-    pip install pytest-playwright==0.5.0 && \
-    playwright install && \
-    playwright install-deps
+WORKDIR /wselfedu
+COPY pyproject.toml ./
 
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install -r /tmp/requirements.txt
 COPY requirements.dev.txt /tmp/requirements.dev.txt
 RUN pip install -r /tmp/requirements.dev.txt
-
-WORKDIR /wselfedu
 
 COPY . .

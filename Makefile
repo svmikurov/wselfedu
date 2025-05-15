@@ -10,6 +10,10 @@ endif
 APP := @$(COMPOSE) exec wse-project
 MANAGE := @$(APP) python manage.py
 
+# Poetry
+poetry-export:
+	poetry export -f requirements.txt --output requirements.txt --without-hashes
+	poetry export --only=dev -f requirements.txt --output requirements.dev.txt --without-hashes
 
 # Docker
 update:

@@ -1,8 +1,0 @@
-{% extends 'base.html' %}
-
-{% block content %}
-{% include 'components/title.html' with title='Назначить упражнения' %}
-
-<a href="{% url 'foreign:word_to_student' student_id %}">Добавить иностранные слова для изучения</a>
-
-{% endblock %}

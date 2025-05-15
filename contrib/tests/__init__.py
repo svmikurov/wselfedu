@@ -1,1 +1,0 @@
-"""Project general tests."""

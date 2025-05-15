@@ -1,1 +1,0 @@
-"""Foreign app exercise."""

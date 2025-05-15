@@ -1,0 +1,8 @@
+# Install Poetry
+curl -sSL https://install.python-poetry.org | python3 -
+
+# Add Poetry plugin to export requirements to requirements.txt
+curl -sSL https://install.python-poetry.org | python3 -
+
+poetry add django
+django-admin startproject config .
