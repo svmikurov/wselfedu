@@ -13,17 +13,18 @@ dependencies = [
     "dotenv (>=0.9.9,<0.10.0)"
 ]
 
-
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
 
 # Poetry
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.11.10"
 
-# Ruff linter
+
+# Ruff
 
 [tool.ruff]
 # https://docs.astral.sh/ruff/configuration/
@@ -32,6 +33,7 @@ exclude = [
     ".idea/*",
     ".venv*",
     "docs/*",
+    "*/migrations/*.py",
     "*/conftest.py",
 ]
 line-length = 79

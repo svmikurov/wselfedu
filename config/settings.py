@@ -1,7 +1,8 @@
 """Django settings for config project."""
-import os
+
 # ruff: noqa: E501
 
+import os
 import sys
 from pathlib import Path
 
@@ -115,7 +116,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 20
+    'PAGE_SIZE': 20,
 }
 
 # Internationalization
