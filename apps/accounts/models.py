@@ -1,3 +1,10 @@
-from django.db import models
+"""Defines custom user model."""
 
-# Create your models here.
+from django.contrib.auth.models import AbstractUser
+
+
+class CustomUser(AbstractUser):
+    """Custom user model."""
+
+    def __str__(self):
+        return self.email
