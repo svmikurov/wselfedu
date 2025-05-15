@@ -34,14 +34,6 @@ restart: ruff down up
 
 rebuild: ruff down build up
 
-docker-clean:
-	@$(COMPOSE) down && \
-	docker image prune -a -f && \
-	docker volume prune -a -f && \
-	docker builder prune -a -f && \
-	docker system df
-
-
 # Django
 makemigrations:
 	@$(MANAGE) makemigrations
