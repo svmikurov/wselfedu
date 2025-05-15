@@ -1,6 +1,9 @@
 # Virtual environment
 .venv_wse_django/
 
+# Database
+db.sqlite3
+
 # Static files
 static/
 
