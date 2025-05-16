@@ -55,20 +55,6 @@ files = [
 django = ">=4.2"
 
 [[package]]
-name = "dotenv"
-version = "0.9.9"
-description = "Deprecated package"
-optional = false
-python-versions = "*"
-groups = ["main"]
-files = [
-    {file = "dotenv-0.9.9-py2.py3-none-any.whl", hash = "sha256:29cf74a087b31dafdb5a446b6d7e11cbce8ed2741540e2339c69fbef92c94ce9"},
-]
-
-[package.dependencies]
-python-dotenv = "*"
-
-[[package]]
 name = "python-dotenv"
 version = "1.1.0"
 description = "Read key-value pairs from a .env file and set them as environment variables"
@@ -156,4 +142,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10"
-content-hash = "c34d89b6b095df78d07c8b3f4b2701bdc05e97481cf0e163cc93a1207e2a5041"
+content-hash = "c2bb9d040edf1ca4885cfca608db4a1c70248970c4a7520db7db48ed8104a7c2"
