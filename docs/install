@@ -4,5 +4,7 @@ curl -sSL https://install.python-poetry.org | python3 -
 # Add Poetry plugin to export requirements to requirements.txt
 curl -sSL https://install.python-poetry.org | python3 -
 
-poetry add django
-django-admin startproject config .
+# Add Sphinx
+poetry add "sphinx>=7.0,<8.0" -G dev
+mkdir docs/ && cd docs/
+sphinx-quickstart
