@@ -7,4 +7,4 @@ class CoreConfig(AppConfig):
     """Core application config."""
 
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'core'
+    name = 'apps.main'

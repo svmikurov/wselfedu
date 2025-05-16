@@ -1,9 +1,6 @@
-"""Django settings for config project."""
-
-# ruff: noqa: E501
+"""Django settings for core project."""
 
 import os
-import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -12,6 +9,7 @@ load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -27,10 +25,8 @@ ALLOWED_HOSTS = [
     'localhost',
 ]
 
-# Application definition
-# adds path to projects apps
-sys.path.append(str(BASE_DIR / 'apps/'))
 
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,11 +36,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Installed
     'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
+    'drf_spectacular',
     # Added
-    'apps.accounts',
-    'apps.core',
-    'apps.features',
+    'apps.main',
+    'apps.mathem',
+    'apps.users',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -56,12 +56,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,7 +73,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
+WSGI_APPLICATION = 'core.wsgi.application'
 
 
 # Database
@@ -105,19 +105,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Django REST framework
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-    ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 20,
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
@@ -141,5 +128,47 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+# User
 # https://docs.djangoproject.com/en/5.1/topics/auth/customizing/#substituting-a-custom-user-model
-AUTH_USER_MODEL = 'accounts.CustomUser'
+
+AUTH_USER_MODEL = 'users.CustomUser'
+
+
+# Django REST framework
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+
+# Djoser authentication
+
+DJOSER = {
+    # https://djoser.readthedocs.io/en/latest/settings.html#permissions
+    'PERMISSIONS': {
+        'user_list': ['rest_framework.permissions.IsAdminUser'],
+    },
+}
+
+
+# REST API documentation
+# https://drf-spectacular.readthedocs.io/en/latest/readme.html#installation
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'WSE Django and REST backend',
+    'DESCRIPTION': 'WSE Series site',
+    'VERSION': '0.4.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'COMPONENT_SPLIT_REQUEST': True,
+}

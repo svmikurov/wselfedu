@@ -7,4 +7,4 @@ class MathemConfig(AppConfig):
     """Mathematical application config."""
 
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'mathem'
+    name = 'apps.mathem'
