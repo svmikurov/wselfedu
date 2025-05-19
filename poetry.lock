@@ -1323,7 +1323,19 @@ h2 = ["h2 (>=4,<5)"]
 socks = ["pysocks (>=1.5.6,!=1.5.7,<2.0)"]
 zstd = ["zstandard (>=0.18.0)"]
 
+[[package]]
+name = "wse-exercises"
+version = "0.1.0"
+description = "Exercises for WSE applications"
+optional = false
+python-versions = "<4.0,>=3.10"
+groups = ["wse"]
+files = [
+    {file = "wse_exercises-0.1.0-py3-none-any.whl", hash = "sha256:d86741c3b1e70f99a212f7e57491cc790d9d6e6f1b8e7696902b76f500b1928d"},
+    {file = "wse_exercises-0.1.0.tar.gz", hash = "sha256:86ac603cb34ded2182cd736761df8e1061e53fbdc98321ba6c32652910d750df"},
+]
+
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10, <4.0"
-content-hash = "204839f457f9e2a79c78d226d03091328211ff7991b5cbadde2365cc2543604c"
+content-hash = "770cc8f53eeae9b284716e2ff809905178b06aa1e012927d9559dcd969507751"

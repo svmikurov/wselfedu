@@ -20,16 +20,16 @@ requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 
-# Poetry
+[tool.poetry.group.wse.dependencies]
+wse-exercises = "^0.1.0"
+
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.11.10"
 sphinx = ">=7.0,<8.0"
 drf-spectacular = "^0.28.0"
 
 
-# Ruff
 [tool.ruff]
-# https://docs.astral.sh/ruff/configuration/
 exclude = [
     ".github/*",
     ".idea/*",
