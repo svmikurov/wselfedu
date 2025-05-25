@@ -9,7 +9,8 @@ from drf_spectacular.views import (
 )
 
 api_urlpatterns = [
-    path('api/v1/users', include('apps.users.api.v1.urls')),
+    path('api/v1/users/', include('apps.users.api.v1.urls')),
+    path('api/v1/math/', include('apps.mathem.api.v1.urls')),
 ]
 
 web_urlpatterns = [

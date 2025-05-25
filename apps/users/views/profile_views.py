@@ -10,6 +10,8 @@ from django.views.generic import (
     UpdateView,
 )
 
+
+
 User = get_user_model()
 
 
@@ -41,7 +43,7 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
             kwargs={'username': self.object.username},
         )
 
-    def get_object(self, queryset: QuerySet | None = None) -> User:
+    def get_object(self, queryset: QuerySet | None = None) -> 'User':  # type: ignore
         """Get currently authenticated user for editing."""
         user = self.request.user
         if not user.is_authenticated:
