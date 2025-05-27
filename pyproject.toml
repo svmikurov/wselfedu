@@ -29,6 +29,7 @@ mypy = "^1.15.0"
 pytest-cov = "^6.1.1"
 ruff = "^0.11.10"
 sphinx = ">=7.0,<8.0"
+pytest-django = "^4.11.1"
 
 
 [tool.mypy]
@@ -93,3 +94,9 @@ quote-style = "single"
 
 [tool.ruff.lint.pycodestyle]
 max-doc-length = 72
+
+
+[tool.pytest.ini_options]
+django_find_project = false
+python_files = "tests.py test_*.py *_tests.py"
+addopts = "--ds=core.settings"
