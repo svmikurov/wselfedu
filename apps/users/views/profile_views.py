@@ -10,8 +10,6 @@ from django.views.generic import (
     UpdateView,
 )
 
-
-
 User = get_user_model()
 
 
