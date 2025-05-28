@@ -1,0 +1,22 @@
+name: Mypy Typecheck
+
+on:
+  push:
+    branches: [ series/dev ]
+  pull_request:
+    branches: [ series/dev ]
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+      - name: Install dependencies
+        run: poetry install --only main,typecheck
+      - name: Run Mypy
+        run: poetry run mypy .

@@ -1,0 +1,22 @@
+name: Pytest
+
+on:
+  push:
+    branches: [ series/dev ]
+  pull_request:
+    branches: [ series/dev ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+      - name: Install dependencies
+        run: poetry install --only main,test
+      - name: Run Pytest
+        run: poetry run pytest
