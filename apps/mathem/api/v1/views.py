@@ -1,50 +1,49 @@
 """Defines Math app REST API views."""
 
-from dependency_injector import providers
+import logging
+
 from dependency_injector.wiring import Provide, inject
 from rest_framework import permissions
 from rest_framework.decorators import action
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
+from wse_exercises.core.mathem.base.exercise import SimpleMathTaskRequest
 
-from di.di_container import MainContainer
-from services.exceptions import ExerciseServiceException
-from services.exercise import ExerciseService
+from apps.mathem.di_container import MathContainer
+from services.exceptions import (
+    ExerciseServiceException,
+)
+from services.exercise import SimpleMathExerciseService
+
+logger = logging.getLogger(__name__)
 
 
-class ExerciseViewSet(ViewSet):
-    """Exercise ViewSet with proper separation of concerns.
-
-    Endpoints:
-    POST /calculation/{exercise_type}/ - Generate exercise task
-    """
+class CalculationViewSet(ViewSet):
+    """Calculation exercise ViewSet."""
 
     permission_classes = [permissions.AllowAny]
 
     @action(
         detail=False,
         methods=['post'],
-        url_path=r'(?P<exercise_type>[a-zA-Z]+)',
+        url_path='simple',
     )
     @inject
-    def create_task(
+    def render_task(
         self,
         request: Request,
-        exercise_type: str,
-        exercises_container: providers.DependenciesContainer = Provide[
-            MainContainer.math.exercises
+        exercise_service: SimpleMathExerciseService = Provide[
+            MathContainer.exercise_service
         ],
     ) -> Response:
         """Generate exercise task."""
+        task_request_dto = SimpleMathTaskRequest.model_validate(request.data)
         try:
-            task_json = ExerciseService.create_task(
-                exercises_container, exercise_type
-            )
-            return Response({'task': task_json}, status=200)
-
+            task_dto = exercise_service.create_task(task_request_dto)
         except ExerciseServiceException as e:
             return self._handle_service_error(e)
+        return Response(task_dto.model_dump_json(), status=200)
 
     @classmethod
     def _handle_service_error(

@@ -11,6 +11,8 @@ from wse_exercises.core.mathem import (
     RandomOperandGenerator,
 )
 
+from services.exercise import SimpleMathExerciseService
+
 from .constants import MATH_EXERCISE_CONFIG_PATH
 
 
@@ -49,6 +51,10 @@ class MathExercisesContainer(containers.DeclarativeContainer):
 class MathContainer(containers.DeclarativeContainer):
     """DI container for math exercises."""
 
+    wiring_config = containers.WiringConfiguration(
+        modules=['apps.mathem.api.v1.views']
+    )
+
     # Configuration
     config = providers.Configuration()
     config.from_yaml(MATH_EXERCISE_CONFIG_PATH)
@@ -59,10 +65,16 @@ class MathContainer(containers.DeclarativeContainer):
     )
 
     # Exercises container
-    exercises = providers.Container(
+    exercises_container = providers.Container(
         MathExercisesContainer,
         math_container=providers.DependenciesContainer(
             random_operand_generator=random_operand_generator,
             config=config,
         ),
+    )
+
+    # Exercise services
+    exercise_service = providers.Factory(
+        SimpleMathExerciseService,
+        exercises_container=exercises_container,
     )
