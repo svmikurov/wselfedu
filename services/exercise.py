@@ -1,68 +1,81 @@
 """Defines exercise service."""
 
-from dependency_injector import providers
-from wse_exercises.base.exercise import Exercise
+import logging
 
+from dependency_injector import providers
+from wse_exercises.core.mathem.base.exercise import (
+    BaseSimpleCalculationExercise,
+    SimpleMathExerciseConfig,
+    SimpleMathTaskRequest,
+)
+from wse_exercises.core.mathem.enums import Exercises
+from wse_exercises.core.mathem.task import SimpleMathTask
+
+from services.base import BaseSimpleMathExerciseService
 from services.exceptions import (
     ExerciseNotFound,
     ExerciseServiceException,
-    InvalidExerciseProvider,
     TaskGenerationError,
 )
 
+logger = logging.getLogger(__name__)
 
-class ExerciseService:
+
+class SimpleMathExerciseService(BaseSimpleMathExerciseService):
     """Service layer for exercise operations."""
 
-    @classmethod
+    def __init__(
+        self,
+        exercises_container: providers.DependenciesContainer,
+    ) -> None:
+        """Construct the service."""
+        self.exercises_container = exercises_container
+
     def create_task(
-        cls,
-        container: providers.DependenciesContainer,
-        exercise_type: str,
-    ) -> str:
-        """Create exercise task."""
-        provider = cls._get_exercise_provider(container, exercise_type)
-        exercise = cls._create_exercise(provider)
-        return cls._generate_task(exercise)
+        self,
+        task_request_dto: SimpleMathTaskRequest,
+    ) -> SimpleMathTask:
+        """Create simple matn calculation task."""
+        provider = self._get_exercise_provider(task_request_dto.name)
+        exercise = self._create_exercise(provider)
+        task = self._generate_task(task_request_dto.config, exercise)
+        return task
 
-    @classmethod
-    def _get_exercise_provider(
-        cls,
-        container: providers.DependenciesContainer,
-        exercise_type: str,
-    ) -> providers.Provider:
-        """Get exercise provider from container."""
-        if not hasattr(container, exercise_type):
-            raise ExerciseNotFound(
-                f'Exercise type "{exercise_type}" not found'
-            )
-
-        provider = getattr(container, exercise_type)
-
-        if not isinstance(provider, providers.Provider):
-            raise InvalidExerciseProvider(
-                f'"{exercise_type}" is not a valid exercise provider'
-            )
-
-        return provider
-
-    @classmethod
-    def _create_exercise(cls, provider: providers.Provider) -> Exercise:
-        """Instantiate exercise from provider."""
+    @staticmethod
+    def _create_exercise(
+        provider: providers.Provider,
+    ) -> BaseSimpleCalculationExercise:
         try:
-            return provider()
+            exercise = provider()
         except Exception as e:
+            logger.exception('Exercise initialisation failed')
             raise ExerciseServiceException(
-                f'Exercise initialization failed: {str(e)}'
+                f'Exercise initialisation failed:  {str(e)}'
             ) from e
 
-    @classmethod
-    def _generate_task(cls, exercise: Exercise) -> str:
-        """Generate task JSON from exercise."""
+        return exercise
+
+    def _get_exercise_provider(
+        self,
+        exercise_name: Exercises,
+    ) -> providers.Provider:
         try:
-            task = exercise.create_task()
-            return task.model_dump_json()
-        except Exception as e:
-            raise TaskGenerationError(
-                f'Task generation failed: {str(e)}'
+            return getattr(self.exercises_container, exercise_name)
+        except AttributeError as e:
+            logger.exception(f'Exercise name "{exercise_name}" not found')
+            raise ExerciseNotFound(
+                f'Exercise name "{exercise_name}" not found'
             ) from e
+
+    @staticmethod
+    def _generate_task(
+        config: SimpleMathExerciseConfig,
+        exercise: BaseSimpleCalculationExercise,
+    ) -> SimpleMathTask:
+        try:
+            return exercise.create_task(config)
+        except Exception as err:
+            logger.exception('Task generation failed')
+            raise TaskGenerationError(
+                f'Task generation failed: {str(err)}'
+            ) from err
