@@ -27,9 +27,10 @@ djangorestframework-stubs = "^3.16.0"
 drf-spectacular = "^0.28.0"
 mypy = "^1.15.0"
 pytest-cov = "^6.1.1"
+pytest-django = "^4.11.1"
+pytest-mock = "^3.14.1"
 ruff = "^0.11.10"
 sphinx = ">=7.0,<8.0"
-pytest-django = "^4.11.1"
 
 
 [tool.mypy]
