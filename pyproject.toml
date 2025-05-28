@@ -38,7 +38,6 @@ django-stubs = "^5.2.0"
 djangorestframework-stubs = "^3.16.0"
 
 [tool.poetry.group.test.dependencies]
-pytest = "*"
 pytest-cov = "^6.1.1"
 pytest-django = "^4.11.1"
 pytest-mock = "^3.14.1"
