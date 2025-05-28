@@ -21,16 +21,27 @@ dependencies = [
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.poetry.group.dev.dependencies]
+
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.group.docs.dependencies]
+drf-spectacular = "^0.28.0"
+sphinx = ">=7.0,<8.0"
+
+[tool.poetry.group.lint.dependencies]
+ruff = "^0.11.10"
+
+[tool.poetry.group.typecheck.dependencies]
+mypy = "^1.15.0"
 django-stubs = "^5.2.0"
 djangorestframework-stubs = "^3.16.0"
-drf-spectacular = "^0.28.0"
-mypy = "^1.15.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "*"
 pytest-cov = "^6.1.1"
 pytest-django = "^4.11.1"
 pytest-mock = "^3.14.1"
-ruff = "^0.11.10"
-sphinx = ">=7.0,<8.0"
 
 
 [tool.mypy]
