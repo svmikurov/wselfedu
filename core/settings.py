@@ -172,3 +172,30 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
     'COMPONENT_SPLIT_REQUEST': True,
 }
+
+
+# Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': "[{asctime}] {levelname} '{name}': {message}",
+            'datefmt': '%d/%b/%Y %H:%M:%S',
+            'style': '{',
+        }
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        }
+    },
+    'loggers': {
+        'apps': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+    },
+}
