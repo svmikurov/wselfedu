@@ -19,6 +19,6 @@ jobs:
       - name: Install Poetry
         uses: snok/install-poetry@v1
       - name: Install dependencies
-        run: poetry install --only main,typecheck,docs
+        run: poetry install --only main,typecheck,docs,test
       - name: Run Mypy
         run: poetry run mypy .
