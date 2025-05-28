@@ -35,7 +35,7 @@ class CalculationViewSet(ViewSet):
         request: Request,
         exercise_service: SimpleMathExerciseService = Provide[
             MathContainer.exercise_service
-        ],
+        ],  # type: ignore
     ) -> Response:
         """Generate exercise task."""
         task_request_dto = SimpleMathTaskRequest.model_validate(request.data)
