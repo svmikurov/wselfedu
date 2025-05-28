@@ -112,10 +112,7 @@ def test_create_task_success(
         exercise_service=mock_service,
     )
 
-    # Assert that a method is called once.
-    mock_service.create_task.assert_called_once()
-
-    # Assert that a method is called with the expected data/
+    # Assert that a method is called with the expected data.
     mock_service.create_task.assert_called_once_with(task_request_dto)
 
     # Assert that a method return expected value.
