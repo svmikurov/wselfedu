@@ -1,1 +1,0 @@
-"""Project Core application package."""

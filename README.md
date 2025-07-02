@@ -1,1 +1,0 @@
-## WSE Series Django Backend
