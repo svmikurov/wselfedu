@@ -1,0 +1,21 @@
+# Distribution / packaging
+.venv_wselfedu/
+build/
+
+# Temporary files
+temp/
+
+# Byte-compiled
+db.sqlite3
+*__pycache__
+
+# IntelliJ Idea family of suites
+.idea/
+
+# WSE log files
+logs/
+
+# Secret value fails
+.env
+.env_db
+create_db.sql
