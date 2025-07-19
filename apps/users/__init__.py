@@ -1,1 +1,1 @@
-"""Users application."""
+"""The users application."""

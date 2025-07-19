@@ -1,1 +1,0 @@
-"""Defines base components."""

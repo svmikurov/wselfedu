@@ -1,1 +1,1 @@
-"""Contains WSE project."""
+"""Contains project configuration."""

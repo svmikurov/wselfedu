@@ -1,13 +1,13 @@
-"""Defines custom user model."""
+"""Defines user model."""
 
 from django.contrib.auth.models import AbstractUser
 
 
 class CustomUser(AbstractUser):
-    """Custom user model."""
+    """User model."""
 
     class Meta:
-        """Configure the model."""
+        """Model configuration."""
 
         db_table = 'users_custom_user'
         verbose_name = 'Пользователь'

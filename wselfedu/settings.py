@@ -7,17 +7,17 @@ from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv
 
-from .logging_config import LOGGING  # noqa: F401
-
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1', 't')
+
+DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', 't', '1')
 
 ALLOWED_HOSTS = [
-    '127.0.0.1',
     'localhost',
+    '127.0.0.1',
 ]
 
 
@@ -39,10 +39,8 @@ INSTALLED_APPS = [
     'django_bootstrap5',
     'crispy_forms',
     'crispy_bootstrap5',
-    # Added apps
-    'apps.main',
+    # Applications
     'apps.users',
-    'apps.math',
 ]
 
 MIDDLEWARE = [
@@ -72,12 +70,9 @@ TEMPLATES = [
     },
 ]
 
-# django-crispy-forms
-# https://github.com/django-crispy-forms
-CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
-CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 # WSGI
+
 WSGI_APPLICATION = 'wselfedu.wsgi.application'
 
 
@@ -112,6 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
 LOGIN_URL = 'login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
@@ -140,7 +136,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# REST_FRAMEWORK
+# Django REST framework
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -155,6 +151,17 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
+
+# Djoser authentication
+
+DJOSER = {
+    # https://djoser.readthedocs.io/en/latest/settings.html#permissions
+    'PERMISSIONS': {
+        'user_list': ['rest_framework.permissions.IsAdminUser'],
+    },
+}
+
+
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
@@ -165,10 +172,11 @@ SIMPLE_JWT = {
 
 # REST API documentation
 # https://drf-spectacular.readthedocs.io/en/latest/readme.html#installation
+
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'wseledu',
-    'DESCRIPTION': 'API description',
-    'VERSION': '0.6.0',
+    'TITLE': 'WSE Django and REST backend',
+    'DESCRIPTION': 'WSE Series site',
+    'VERSION': '0.7.0',
     'SERVE_INCLUDE_SCHEMA': False,
     'COMPONENT_SPLIT_REQUEST': True,
 }

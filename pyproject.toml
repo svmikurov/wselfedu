@@ -1,6 +1,6 @@
 [project]
 name = "wselfedu"
-version = "0.6.0"
+version = "0.7.0"
 description = "Web server of the WSE project."
 authors = [
     { name = "Sergei Mikurov", email = "454004@mail.ru" }
