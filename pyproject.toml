@@ -13,6 +13,7 @@ dependencies = [
     "dj-database-url (>=3.0.1,<4.0.0)",
     "django-bootstrap5 (>=25.1,<26.0)",
     "django-crispy-forms (>=2.4,<3.0)",
+    "django-extensions (>=4.1,<5.0)",
     "djangorestframework (>=3.16.0,<4.0.0)",
     "djangorestframework-simplejwt (>=5.5.0,<6.0.0)",
     "psycopg2-binary (>=2.9.10,<3.0.0)",
@@ -48,6 +49,10 @@ pytest-cov = "^6.2.1"
 pytest-django = "^4.11.1"
 pytest-mock = "^3.14.1"
 
+# Graphical overview of project
+[tool.poetry.group.graph.dependencies]
+pydot = "^4.0.1"
+pyparsing = "^3.2.3"
 
 # Settings for building a Python package (ignore)
 [build-system]
