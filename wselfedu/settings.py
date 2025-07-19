@@ -33,6 +33,8 @@ INSTALLED_APPS = [
     # Installed apps
     'rest_framework',
     'rest_framework_simplejwt',
+    # Django extensions
+    'django_extensions',
     # Documentation
     'drf_spectacular',
     # layout
@@ -43,6 +45,7 @@ INSTALLED_APPS = [
     'apps.main',
     'apps.users',
     'apps.math',
+    'apps.foreign',
 ]
 
 MIDDLEWARE = [
@@ -181,4 +184,30 @@ SPECTACULAR_SETTINGS = {
     'VERSION': '0.7.0',
     'SERVE_INCLUDE_SCHEMA': False,
     'COMPONENT_SPLIT_REQUEST': True,
+}
+
+
+# Graph models
+# https://django-extensions.readthedocs.io/en/latest/graph_models.html
+
+
+GRAPH_MODELS = {
+    'app_labels': [
+        'foreign',
+        'main',
+        'math',
+        'users',
+    ],
+    'exclude_models': [
+        'AbstractBaseSession',
+        'AbstractUser',
+        'Group',
+        'LogEntry',
+        'Permission',
+        'Session',
+    ],
+    'all_applications': False,
+    'group_models': True,
+    'rankdir': 'TB',  # Direction of the diagram (TB, LR, BT, RL)
+    'arrow_shape': 'normal',  # ['box', 'crow', 'curve', 'icurve', 'diamond', 'dot', 'inv', 'none', 'normal', 'tee', 'vee',]
 }
