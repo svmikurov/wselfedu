@@ -35,3 +35,10 @@ migrate:
 # Run deployment
 
 deploy: create_db makemigrations migrate
+
+# Django-extensions
+
+# https://django-extensions.readthedocs.io/en/latest/graph_models.html#example-usage
+graph_models:
+	mkdir -p temp/graph_models/ && \
+	python manage.py graph_models -o temp/graph_models/models.png
