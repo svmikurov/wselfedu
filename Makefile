@@ -19,8 +19,13 @@ format:
 mypy:
 	mypy .
 
+
+# Pytest
+pytest:
+	pytest .
+
 # Code checking
-check: format mypy
+check: format mypy pytest
 
 
 # Database commands
