@@ -51,4 +51,6 @@ load_initial_data:
 graph_models:
 	mkdir -p temp/graph_models/ && \
 	python manage.py graph_models \
-		-o temp/graph_models/models.png
+		-o temp/graph_models/models.png \
+		--verbose-names \
+		--inheritance
