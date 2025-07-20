@@ -19,3 +19,4 @@ logs/
 .env
 .env_db
 create_db.sql
+sensitive/
