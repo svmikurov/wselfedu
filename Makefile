@@ -2,6 +2,12 @@
 runserver:
 	python3 manage.py runserver
 
+# Run deployment
+deploy: create_db makemigrations migrate load_initial_data
+
+
+# Testing
+
 # Code style checking
 ruff:
 	ruff check && ruff format --diff
@@ -16,6 +22,7 @@ mypy:
 # Code checking
 check: format mypy
 
+
 # Database commands
 
 # Create database
@@ -25,20 +32,23 @@ create_db:
 	sudo -u postgres psql -f /tmp/create_db.sql
 	sudo rm /tmp/create_db.sql
 
-# Run migrations
+# Migrations
 makemigrations:
 	python manage.py makemigrations
 
 migrate:
 	python manage.py migrate
 
-# Run deployment
+# Fixture management
+load_initial_data:
+	python manage.py load_initial_data
 
-deploy: create_db makemigrations migrate
 
 # Django-extensions
 
+# Build model graphs
 # https://django-extensions.readthedocs.io/en/latest/graph_models.html#example-usage
 graph_models:
 	mkdir -p temp/graph_models/ && \
-	python manage.py graph_models -o temp/graph_models/models.png
+	python manage.py graph_models \
+		-o temp/graph_models/models.png
