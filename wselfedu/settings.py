@@ -208,8 +208,6 @@ GRAPH_MODELS = {
         'Permission',
         'Session',
     ],
-    'all_applications': False,
-    'group_models': True,
     'rankdir': 'TB',  # Direction of the diagram (TB, LR, BT, RL)
     'arrow_shape': 'normal',  # ['box', 'crow', 'curve', 'icurve', 'diamond', 'dot', 'inv', 'none', 'normal', 'tee', 'vee',]
 }
