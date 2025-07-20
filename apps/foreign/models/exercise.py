@@ -1,8 +1,9 @@
 """Defines foreign app exercise type model."""
 
 from django.contrib.contenttypes.fields import GenericRelation
-from apps.users.models import Transaction
+
 from apps.main.models import BaseExercise
+from apps.users.models import Transaction
 
 
 class ForeignExercise(BaseExercise):

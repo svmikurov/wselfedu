@@ -30,7 +30,7 @@ class Transaction(models.Model):
     content_type = models.ForeignKey(
         ContentType,
         on_delete=models.CASCADE,
-        related_name="transactions",  # Added for documentation
+        related_name='transactions',  # Added for documentation
     )
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey(
