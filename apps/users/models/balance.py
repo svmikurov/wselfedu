@@ -15,7 +15,7 @@ class Balance(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Пользователь',
     )
-    points = models.PositiveSmallIntegerField(
+    amount = models.PositiveSmallIntegerField(
         default=0,
         verbose_name='Всего очков',
     )
@@ -27,8 +27,8 @@ class Balance(models.Model):
 
     def __str__(self) -> str:
         """Return the text representation of object."""
-        return f'{self.user}`s: {self.points} points'
+        return f'{self.user}`s: {self.amount} points'
 
     def __repr__(self) -> str:
         """Return the representation of object."""
-        return f'<{self.user}: {self.points} points>'
+        return f'<{self.user}: {self.amount} points>'

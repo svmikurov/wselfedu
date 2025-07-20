@@ -69,7 +69,7 @@ class BalanceService(
 
         # Increase balance
         user_balance.update(  # type: ignore[attr-defined]
-            points=F('points') + reward,
+            amount=F('amount') + reward,
         )
 
         # Getting a ContentType for a reward
@@ -96,4 +96,4 @@ class BalanceService(
             return None
 
         user_balance, _ = self._balance_manager.get_or_create(user=user)
-        return user_balance.points
+        return user_balance.amount
