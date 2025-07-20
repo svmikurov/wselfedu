@@ -13,6 +13,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
+PRODUCTION = os.getenv('PRODUCTION', 'False').lower() in ('true', 't', '1')
+
 DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', 't', '1')
 
 ALLOWED_HOSTS = [
