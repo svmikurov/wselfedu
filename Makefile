@@ -27,6 +27,13 @@ pytest:
 # Code checking
 check: format mypy pytest
 
+# Check hexagonal architecture study code
+hex:
+	ruff check --fix hexagonal_arch && \
+	ruff format hexagonal_arch && \
+	mypy hexagonal_arch && \
+	pytest hexagonal_arch
+
 
 # Database commands
 
