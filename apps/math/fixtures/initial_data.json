@@ -1,0 +1,30 @@
+[
+{
+  "model": "math.mathexercise",
+  "pk": 1,
+  "fields": {
+    "name": "Сложение"
+  }
+},
+{
+  "model": "math.mathexercise",
+  "pk": 2,
+  "fields": {
+    "name": "Subtraction"
+  }
+},
+{
+  "model": "math.mathexercise",
+  "pk": 3,
+  "fields": {
+    "name": "Multiplication"
+  }
+},
+{
+  "model": "math.mathexercise",
+  "pk": 4,
+  "fields": {
+    "name": "Division"
+  }
+}
+]
