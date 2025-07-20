@@ -9,6 +9,5 @@ class CustomUser(AbstractUser):
     class Meta:
         """Model configuration."""
 
-        db_table = 'users_custom_user'
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
