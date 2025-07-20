@@ -1,0 +1,10 @@
+# Config to load fixtures into database
+# Version 0.1 (2025-07-20)
+
+load_order:
+  - public/math/exercise.json
+  - sensitive/users/test_user.json
+
+options:
+  default_database: "default"
+  ignore_nonexistent: true
