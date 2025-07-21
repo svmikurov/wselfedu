@@ -19,6 +19,7 @@ dependencies = [
     "psycopg2-binary (>=2.9.10,<3.0.0)",
     "python-dotenv (>=1.1.1,<2.0.0)",
     "wse-exercises (<1.0.0)",
+    "sqlparse (>=0.5.3,<0.6.0)",
 ]
 
 
@@ -54,7 +55,12 @@ pytest-mock = "^3.14.1"
 pydot = "^4.0.1"
 pyparsing = "^3.2.3"
 
-# Settings for building a Python package (ignore)
+[tool.poetry.group.dev.dependencies]
+# Dependencies for developmet utils
+termcolor = "^3.1.0"
+sqlparse = "^0.5.3"
+
 [build-system]
+# Settings for building a Python package
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
