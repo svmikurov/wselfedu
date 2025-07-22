@@ -42,6 +42,7 @@ class Command(BaseCommand):
     @override
     def handle(self, *args: object, **options: dict[str, Any]) -> None:
         """Handle the command with proper type safety."""
+        print(f':::::::::::::::: {options = }')
         config_path = self._get_config_path(options)
         config = self._open_config(config_path)
         if config is None:
@@ -94,7 +95,7 @@ class Command(BaseCommand):
     @staticmethod
     def _get_config_path(options: dict[str, Any]) -> Path:
         """Extract config path from options with type safety."""
-        config_path = options.get('config')
+        config_path = options.get('config_path')
         if not isinstance(config_path, (str, Path)):
             raise ValueError(
                 f'Expected config path type `str` or `Path`, '
