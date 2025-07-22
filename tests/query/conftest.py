@@ -42,6 +42,7 @@ def debug_sql(
     output_sql = SQLOutput(
         queries=connection.queries,
         test_time=total_test_time,
-        # test_name=request.node.name,
+        test_name=request.node.name,
+        test_doc=request.node.function.__doc__,
     )
     output_sql.output_sql()

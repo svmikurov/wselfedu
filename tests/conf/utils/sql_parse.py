@@ -57,11 +57,13 @@ class SQLOutput:
         queries: list[dict[str, str]],
         test_time: int | float | Decimal | None = None,
         test_name: str | None = None,
+        test_doc: str | None = None,
     ) -> None:
         """Construct the output."""
         self._queries = queries
         self._test_time = test_time
         self._test_name = test_name
+        self._test_doc = test_doc
 
     def output_sql(self) -> None:
         """Output SQL queries."""
@@ -128,8 +130,13 @@ class SQLOutput:
         return self._test_name + '.py' if self._test_name is not None else ''
 
     @property
+    def test_doc(self) -> str:
+        """Get the test docstring."""
+        return self._test_doc if self._test_doc is not None else self.test_name
+
+    @property
     def formated_title(self) -> str:
         """Get the formated title."""
         title = 'SQL queries: %s'
-        colored_test_name = _color(self.test_name, TITLE_COLOR)
+        colored_test_name = _color(self.test_doc, TITLE_COLOR)
         return title % colored_test_name
