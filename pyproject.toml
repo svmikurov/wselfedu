@@ -59,6 +59,7 @@ pyparsing = "^3.2.3"
 # Dependencies for developmet utils
 termcolor = "^3.1.0"
 sqlparse = "^0.5.3"
+rich = "^14.0.0"
 
 [build-system]
 # Settings for building a Python package
