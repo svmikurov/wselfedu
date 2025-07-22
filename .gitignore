@@ -2,6 +2,9 @@
 .venv_wselfedu/
 build/
 
+# Local test configuraion
+test_config.yml
+
 # Temporary files
 temp/
 
