@@ -1,17 +1,20 @@
 """Defines configuration for tests."""
 
-from typing import Generator, Iterator
+from decimal import Decimal
+from typing import Iterator
 
+import yaml
 from django.conf import settings
 from django.db import connection
 
 import pytest
 
-
 from timeit import default_timer as timer
 
 from apps.users.models import CustomUser, Balance
-from tests.conf.utils.sql_parse import SQLOutput
+from ..conf import CONFIG_PATH
+from ..conf.report.report_config import ReportConfig
+from ..conf.report.sql_reporter import SQLReporter
 
 
 @pytest.fixture
@@ -39,10 +42,14 @@ def debug_sql(
     yield
     total_test_time = timer() - start_time
 
-    output_sql = SQLOutput(
+    config = ReportConfig(**yaml.safe_load(open(CONFIG_PATH)))
+
+    reporter = SQLReporter(
+        config=config,
         queries=connection.queries,
-        test_time=total_test_time,
+        test_time=Decimal(total_test_time),
         test_name=request.node.name,
         test_doc=request.node.function.__doc__,
     )
-    output_sql.output_sql()
+    reporter.print_report()
+
