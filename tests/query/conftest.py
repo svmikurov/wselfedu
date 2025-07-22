@@ -1,20 +1,12 @@
 """Defines configuration for tests."""
 
-from decimal import Decimal
-from typing import Iterator
-
-import yaml
-from django.conf import settings
-from django.db import connection
+from typing import Generator
 
 import pytest
+from django.conf import settings
 
-from timeit import default_timer as timer
-
-from apps.users.models import CustomUser, Balance
-from ..conf import CONFIG_PATH
-from ..conf.report.report_config import ReportConfig
-from ..conf.report.sql_reporter import SQLReporter
+from apps.users.models import Balance, CustomUser
+from utils.sql.sql_reporter import SQLReporter
 
 
 @pytest.fixture
@@ -30,26 +22,18 @@ def balance(user: CustomUser) -> Balance:
 
 
 @pytest.fixture
-def debug_sql(
+def debug_reporter(
     request: pytest.FixtureRequest,
     monkeypatch: pytest.MonkeyPatch,
-) -> Iterator[None]:
+) -> Generator[SQLReporter, None, None]:
     """Output the SQL queries."""
-    connection.queries.clear()
     monkeypatch.setattr(settings, 'DEBUG', True)
 
-    start_time = timer()
-    yield
-    total_test_time = timer() - start_time
-
-    config = ReportConfig(**yaml.safe_load(open(CONFIG_PATH)))
-
     reporter = SQLReporter(
-        config=config,
-        queries=connection.queries,
-        test_time=Decimal(total_test_time),
         test_name=request.node.name,
         test_doc=request.node.function.__doc__,
     )
-    reporter.print_report()
 
+    yield reporter
+
+    reporter.print_report()

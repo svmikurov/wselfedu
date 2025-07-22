@@ -7,7 +7,7 @@ from django.db import connection
 from django.test import TestCase
 
 from apps.users.models import CustomUser
-from tests.conf.utils.sql_parse import SQLOutput
+from utils.sql.sql_parse import SQLOutput
 
 DIVIDER_DASH: str = '-' * 50
 DIVIDER_EQUAL: str = '=' * 50
