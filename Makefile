@@ -3,7 +3,7 @@ runserver:
 	python3 manage.py runserver
 
 # Run deployment
-deploy: create_db makemigrations migrate load_initial_data
+deploy: create_db create_tables makemigrations migrate load_initial_data
 
 
 # Testing
@@ -40,9 +40,15 @@ hex:
 # Create database
 create_db:
 	# Copy the file to the system directory available for postgres
-	sudo cp create_db.sql /tmp/
-	sudo -u postgres psql -f /tmp/create_db.sql
-	sudo rm /tmp/create_db.sql
+	sudo cp db/sql/init/001_create_db.sql       /tmp/
+	sudo cp db/sql/init/002_create_role.sql     /tmp/
+	sudo -u postgres psql -f /tmp/001_create_db.sql
+	sudo -u postgres psql -f /tmp/002_create_role.sql
+	sudo rm /tmp/001_create_db.sql
+	sudo rm /tmp/002_create_role.sql
+
+create_tables:
+	python manage.py create_tables
 
 # Migrations
 makemigrations:
@@ -53,7 +59,7 @@ migrate:
 
 # Fixture management
 load_initial_data:
-	python manage.py load_initial_data
+	python manage.py load_initial_data --load-sensitive
 
 
 # Django-extensions
