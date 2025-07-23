@@ -13,6 +13,7 @@ class Balance(models.Model):
     user = models.ForeignKey(
         'CustomUser',
         on_delete=models.CASCADE,
+        related_name='balance',
         verbose_name='Пользователь',
     )
     amount = models.PositiveSmallIntegerField(

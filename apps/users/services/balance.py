@@ -10,7 +10,7 @@ from django.db import models, transaction
 from django.db.models import F
 from typing_extensions import override
 
-from apps.main.models import BaseRewardT, BaseTaskT
+from apps.main.models.base.reward import BaseRewardT, BaseTaskT
 
 from ..models import CustomUser
 from ..models.balance import BalanceT
