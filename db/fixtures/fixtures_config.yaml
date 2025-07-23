@@ -2,8 +2,8 @@
 # Version 0.1 (2025-07-20)
 
 load_order:
-  - public/math/exercise.json
-  - sensitive/users/test_user.json
+  - db/fixtures/public/exercise.json
+  - db/fixtures/sensitive/users.json
 
 options:
   default_database: "default"
