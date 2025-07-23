@@ -20,7 +20,7 @@ class MathExercise(models.Model):
     class Meta:
         """Model configuration."""
 
-        # managed = False
+        managed = False
         db_table = 'math_exercise'
         verbose_name = 'Математические упражнения'
         verbose_name_plural = 'Математические упражнения'
