@@ -1,4 +1,4 @@
-"""Defines foreign app task model."""
+"""Defines Lang app task model."""
 
 from django.db import models
 
@@ -9,11 +9,11 @@ class TranslationTestTask(BaseTask):
     """Word translation test task model."""
 
     exercise = models.ForeignKey(
-        'ForeignExercise',
+        'LangExercise',
         on_delete=models.CASCADE,
     )
 
     class Meta:
         """Model configuration."""
 
-        db_table = 'foreign_translation_test_task'
+        db_table = 'lang_translation_test_task'

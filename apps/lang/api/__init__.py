@@ -1,0 +1,1 @@
+"""Contains lang app api."""

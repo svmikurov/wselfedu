@@ -1,4 +1,4 @@
-"""Defines foreign app api url paths."""
+"""Defines Lang app api url paths."""
 
 from rest_framework import routers
 

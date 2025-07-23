@@ -1,4 +1,4 @@
-"""Defines foreign syntax task."""
+"""Defines Lang syntax task."""
 
 from django.db import models
 
@@ -16,4 +16,4 @@ class SyntaxTask(BaseTask):
     class Meta:
         """Model configuration."""
 
-        db_table = 'foreign_syntax_task'
+        db_table = 'lang_syntax_task'
