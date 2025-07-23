@@ -1,13 +1,11 @@
-"""Contains base models."""
+"""Contains main app models."""
 
 __all__ = [
     'BaseExercise',
-    'BaseReward',
-    'BaseRewardT',
     'BaseTask',
-    'BaseTaskT',
+    'Discipline',
 ]
 
-from .exercise import BaseExercise
-from .reward import BaseReward, BaseRewardT, BaseTaskT
-from .task import BaseTask
+from .base.exercise import BaseExercise
+from .base.task import BaseTask
+from .discipline import Discipline

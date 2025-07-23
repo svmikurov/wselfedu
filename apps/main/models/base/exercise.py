@@ -1,19 +1,20 @@
 """Defines abstract base exercise model."""
 
-from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
-
-from apps.users.models import Transaction
 
 
 class BaseExercise(models.Model):
-    """Absract base exercise model."""
+    """Absract base exercise model.
+
+    Postgres is created for inheritance.
+    """
 
     name = models.CharField(
         max_length=30,
+        verbose_name='Упражнение',
     )
-    transactions = GenericRelation(
-        Transaction,
+    created_at = models.DateTimeField(
+        auto_now_add=True,
     )
 
     class Meta:

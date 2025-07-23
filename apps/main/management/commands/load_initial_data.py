@@ -8,13 +8,18 @@ from typing import Any
 import yaml
 from django.conf import settings
 from django.core.management import BaseCommand, call_command
+from dotenv import load_dotenv
 from typing_extensions import override
+
+load_dotenv()
 
 BASE_DIR = settings.BASE_DIR
 
-FIXTURES = [
-    BASE_DIR / 'apps' / 'math' / 'fixtures' / 'initial_data.json',
-]
+FORCE_PRODUCTION = os.getenv('FORCE_PRODUCTION', 'False').lower() in (
+    't',
+    '1',
+    'true',
+)
 
 
 class Command(BaseCommand):
@@ -35,14 +40,13 @@ class Command(BaseCommand):
             '--config',
             type=str,
             dest='config_path',
-            default='production_data/fixtures_config.yaml',
+            default='db/fixtures/fixtures_config.yaml',
             help='Path to config file',
         )
 
     @override
-    def handle(self, *args: object, **options: dict[str, Any]) -> None:
+    def handle(self, *args: object, **options: dict[str, Any]) -> None:  # noqa: C901
         """Handle the command with proper type safety."""
-        print(f':::::::::::::::: {options = }')
         config_path = self._get_config_path(options)
         config = self._open_config(config_path)
         if config is None:
@@ -54,7 +58,7 @@ class Command(BaseCommand):
                     'Not in production! Use FORCE_PRODUCTION=1 to override'
                 ),
             )
-            if not os.getenv('FORCE_PRODUCTION'):
+            if not FORCE_PRODUCTION:
                 return
 
         load_sensitive: bool = bool(options.get('load_sensitive', False))
@@ -66,17 +70,22 @@ class Command(BaseCommand):
                 )
                 options['load_sensitive'] = False  # type: ignore[assignment]
 
-        for fixture in config['load_order']:
+        try:
+            fixtures = config['load_order']
+        except (TypeError, KeyError):
+            self.stdout.write(self.style.ERROR('Error to get fixtures!'))
+            return
+
+        for fixture in fixtures:
             if 'sensitive/' in fixture and not options['load_sensitive']:
                 continue
 
-            fixture_path = BASE_DIR / 'production_data' / fixture
             self.stdout.write(f'Loading {fixture} ...')
 
             try:
                 call_command(
                     'loaddata',
-                    fixture_path,
+                    fixture,
                     database=config['options'].get('default', 'default'),
                     ignorenonexistent=config['options'].get(
                         'ignore_nonexistent', False
