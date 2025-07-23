@@ -1,6 +1,7 @@
 """Django settings for wselfedu project."""
 
 import os
+import sys
 from datetime import timedelta
 from pathlib import Path
 
@@ -47,7 +48,7 @@ INSTALLED_APPS = [
     'apps.main',
     'apps.users',
     'apps.math',
-    'apps.foreign',
+    'apps.lang',
 ]
 
 MIDDLEWARE = [
@@ -195,7 +196,7 @@ SPECTACULAR_SETTINGS = {
 
 GRAPH_MODELS = {
     'app_labels': [
-        'foreign',
+        'lang',
         'main',
         'math',
         'users',
@@ -211,3 +212,31 @@ GRAPH_MODELS = {
     'rankdir': 'TB',  # Direction of the diagram (TB, LR, BT, RL)
     'arrow_shape': 'normal',  # ['box', 'crow', 'curve', 'icurve', 'diamond', 'dot', 'inv', 'none', 'normal', 'tee', 'vee',]
 }
+
+
+DISABLE_LOGGING_DURING_MIGRATIONS = 'migrate' in sys.argv
+
+if not DISABLE_LOGGING_DURING_MIGRATIONS:
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': {
+            'sql': {
+                '()': 'utils.reports.formatters.sql.simple.SimpleSQLFormatter',
+            },
+        },
+        'handlers': {
+            'sql_console': {
+                'level': 'DEBUG',
+                'class': 'utils.reports.formatters.sql.third_party.ColorfulSQLHandler',
+                'formatter': 'sql',
+            },
+        },
+        'loggers': {
+            'django.db.backends': {
+                'level': 'DEBUG',
+                'handlers': ['sql_console'],
+                'propagate': False,
+            },
+        },
+    }

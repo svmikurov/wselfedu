@@ -2,7 +2,7 @@
 
 from django.urls import include, path
 
-from apps.foreign.api.v1.urls import router as foreign_router
+from apps.lang.api.v1.urls import router as lang_router
 from apps.math.api.v1.urls import router as math_router
 from apps.users.api.v1.urls import router as users_router
 
@@ -10,5 +10,5 @@ urlpatterns = [
     path('main/', include(users_router.urls)),
     path('users/', include(users_router.urls)),
     path('math/', include(math_router.urls)),
-    path('foreign/', include(foreign_router.urls)),
+    path('lang/', include(lang_router.urls)),
 ]
