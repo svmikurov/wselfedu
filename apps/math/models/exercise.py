@@ -1,20 +1,26 @@
 """Defines math app exercise type model."""
 
-from django.contrib.contenttypes.fields import GenericRelation
-
-from apps.main.models import BaseExercise
-from apps.users.models import Transaction
+from django.db import models
 
 
-class MathExercise(BaseExercise):
+class MathExercise(models.Model):
     """Math app exercise type model."""
 
-    transactions = GenericRelation(
-        Transaction,
-        related_query_name='math_exercise',
+    name = models.CharField(
+        max_length=30,
+        verbose_name='Упражнение',
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
     )
 
     class Meta:
         """Model configuration."""
 
+        # managed = False
         db_table = 'math_exercise'
+        verbose_name = 'Математические упражнения'
+        verbose_name_plural = 'Математические упражнения'

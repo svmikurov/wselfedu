@@ -11,6 +11,22 @@ class CalculationTask(BaseTask):
     exercise = models.ForeignKey(
         'MathExercise',
         on_delete=models.CASCADE,
+        related_name='calc_tasks',
+        editable=False,
+    )
+    operand_1 = models.DecimalField(
+        max_digits=3,
+        decimal_places=0,
+        editable=False,
+    )
+    operand_2 = models.DecimalField(
+        max_digits=3,
+        decimal_places=0,
+        editable=False,
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        editable=False,
     )
 
     class Meta:
