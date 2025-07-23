@@ -6,7 +6,6 @@ exclude = [
     ".venv*",
     "docs/*",
     "*/migrations/*.py",
-    "*/conftest.py",
 ]
 
 [lint.per-file-ignores]
