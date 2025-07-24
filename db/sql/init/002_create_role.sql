@@ -11,4 +11,5 @@ CREATE USER sv WITH password 'password';
 ALTER ROLE sv SET client_encoding TO 'utf8';
 ALTER ROLE sv SET default_transaction_isolation TO 'read committed';
 ALTER ROLE sv SET timezone TO 'UTC';
+ALTER USER sv CREATEDB;
 GRANT ALL PRIVILEGES ON DATABASE wse_db TO sv;
