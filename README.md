@@ -21,19 +21,9 @@ DEBUG=True
 ```
 
 ### Configure PostgreSQL database
-Update the `./create_db.sql` file with `username`, `password` and `dbname`
+Update the `db/sql/init/` SQL-scripts with `username`, `password` and `dbname`
 
 Run command:
 ```commandline
-make create_db
-```
-
-Create and apply django migrations:
-```text
-make makemigrations migrate
-```
-
-### Create the ``superuser``
-```commandline
-python3 manage.py createsuperuser
+make deploy
 ```
