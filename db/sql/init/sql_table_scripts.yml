@@ -7,4 +7,6 @@
 # Used when creating tables with the 'create_tables' management command
 # and uses the custom pytest fixture to create tables for tests.
 execute_scripts:
-  - 003_initial_shema_auto_date.sql
+  - 003_initial_shema.sql
+  - 004_functions.sql
+  - 005_triggers.sql
