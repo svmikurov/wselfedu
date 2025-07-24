@@ -7,9 +7,11 @@ from typing import Any
 
 import yaml
 from django.conf import settings
-from django.core.management import BaseCommand, call_command
+from django.core.management import call_command
 from dotenv import load_dotenv
 from typing_extensions import override
+
+from .base import CustomBaseCommand
 
 load_dotenv()
 
@@ -22,9 +24,10 @@ FORCE_PRODUCTION = os.getenv('FORCE_PRODUCTION', 'False').lower() in (
 )
 
 
-class Command(BaseCommand):
+class Command(CustomBaseCommand):
     """Load initial data into models."""
 
+    fixtures_config_path = 'db/fixtures/fixtures_config.yaml'
     help = 'Load initial data into models'
 
     def add_arguments(self, parser: ArgumentParser) -> None:
@@ -40,66 +43,61 @@ class Command(BaseCommand):
             '--config',
             type=str,
             dest='config_path',
-            default='db/fixtures/fixtures_config.yaml',
+            default=self.fixtures_config_path,
             help='Path to config file',
         )
 
     @override
     def handle(self, *args: object, **options: dict[str, Any]) -> None:  # noqa: C901
         """Handle the command with proper type safety."""
+        # Get config to load fixtures
         config_path = self._get_config_path(options)
-        config = self._open_config(config_path)
+        config = self._read_config(config_path)
         if config is None:
+            self._msg_error('Load fixtures config not set')
             return
 
+        # Check environment
         if not settings.PRODUCTION:
-            self.stdout.write(
-                self.style.WARNING(
-                    'Not in production! Use FORCE_PRODUCTION=1 to override'
-                ),
+            self._msg_warning(
+                'Not in production! Use FORCE_PRODUCTION=1 to override'
             )
             if not FORCE_PRODUCTION:
                 return
 
+        # Check fixture on sensitive
         load_sensitive: bool = bool(options.get('load_sensitive', False))
         if load_sensitive:
             confirm = input("Load SENSITIVE data? (type 'yes' to confirm): ")
             if confirm.lower() != 'yes':
-                self.stdout.write(
-                    self.style.NOTICE('Sensitive data loading cancelled')
-                )
+                self._msg_notice('Sensitive data loading cancelled')
                 options['load_sensitive'] = False  # type: ignore[assignment]
 
+        # Get fixtures
         try:
             fixtures = config['load_order']
         except (TypeError, KeyError):
-            self.stdout.write(self.style.ERROR('Error to get fixtures!'))
+            self._msg_error('Error to get fixtures!')
             return
 
+        # Load fixtures
         for fixture in fixtures:
             if 'sensitive/' in fixture and not options['load_sensitive']:
                 continue
-
             self.stdout.write(f'Loading {fixture} ...')
 
             try:
-                call_command(
-                    'loaddata',
-                    fixture,
-                    database=config['options'].get('default', 'default'),
-                    ignorenonexistent=config['options'].get(
-                        'ignore_nonexistent', False
-                    ),
-                    verbosity=1,
-                )
+                load_fixture_options = config['options']
+                self._call_load_fixture(fixture, load_fixture_options)
             except Exception as e:
-                self.stderr.write(
-                    self.style.ERROR(f'Error loading {fixture}: {str(e)}')
-                )
+                self._msg_error(f'Error loading {fixture}: {str(e)}')
                 if 'sensitive/' in fixture:
                     break
 
-        self.stdout.write(self.style.SUCCESS('Data loading completed!'))
+        # Finish message
+        self._msg_success('Data loading completed!')
+
+    # Utility methods
 
     @staticmethod
     def _get_config_path(options: dict[str, Any]) -> Path:
@@ -112,7 +110,7 @@ class Command(BaseCommand):
             )
         return BASE_DIR / Path(config_path)
 
-    def _open_config(self, config_path: Path) -> dict[str, Any] | None:
+    def _read_config(self, config_path: Path) -> dict[str, Any] | None:
         """Safely open and parse config file."""
         try:
             with open(config_path, 'r', encoding='utf-8') as f:
@@ -122,3 +120,14 @@ class Command(BaseCommand):
             return None
         else:
             return config
+
+    @staticmethod
+    def _call_load_fixture(path: Path, options: dict[str, Any]) -> None:
+        """Call command to load fixture."""
+        call_command(
+            'loaddata',
+            path,
+            database=options.get('default', 'default'),
+            ignorenonexistent=options.get('ignore_nonexistent', False),
+            verbosity=1,
+        )
