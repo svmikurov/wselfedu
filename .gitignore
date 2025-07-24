@@ -2,8 +2,9 @@
 .venv_wselfedu/
 build/
 
-# Local test configuraion
+# Local configuraion
 test_config.yml
+fixtures_config.yaml
 
 # Temporary files
 temp/
@@ -18,7 +19,7 @@ db.sqlite3
 # WSE log files
 logs/
 
-# Secret value fails
+# Secret
 .env
 .env_db
 create_db.sql
