@@ -11,6 +11,7 @@ from timeit import default_timer as timer
 
 import sqlparse  # type: ignore[import-untyped]
 import yaml
+from django.conf import settings
 from django.db import connection
 from rich.box import HORIZONTALS
 from rich.console import Console
@@ -18,10 +19,10 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
 
-from tests.conf import CONFIG_PATH
 from utils.sql.report_config import ReportConfig
 from utils.sql.thema import create_theme
 
+CONFIG_PATH = settings.BASE_DIR / 'tests' / 'conf' / 'test_config.yml'
 CONFIG = ReportConfig(**yaml.safe_load(open(CONFIG_PATH)))
 
 

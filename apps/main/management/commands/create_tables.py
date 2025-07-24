@@ -1,18 +1,17 @@
 """Defines command to DB initialisation."""
 
-from pathlib import Path
-
 import sqlparse  # type: ignore[import-untyped]
+import yaml
 from django.conf import settings
 from django.db import connection
 
 from .base import CustomBaseCommand
+from .command_config import MainCommandConfig
 
-SCRIPT_DIR = settings.BASE_DIR / 'db' / 'sql' / 'init'
+SQL_SCRIPTS_DIR = settings.BASE_DIR / 'db' / 'sql' / 'init'
+SQL_TABLE_SCRIPTS_PATH = SQL_SCRIPTS_DIR / 'sql_table_scripts.yml'
 
-scripts: list[Path] = [
-    SCRIPT_DIR / '003_initial_shema.sql',
-]
+CONFIG = MainCommandConfig(**yaml.safe_load(open(SQL_TABLE_SCRIPTS_PATH)))
 
 
 def execute_sql(sql: str) -> None:
@@ -31,18 +30,19 @@ class Command(CustomBaseCommand):
 
     def handle(self, *args: object, **options: object) -> None:
         """Handle the command."""
-        for script_path in scripts:
+        for script in CONFIG.execute_scripts:
+            script_path = SQL_SCRIPTS_DIR / script
             print(f'Executing SQL script {script_path}')
 
             try:
                 with open(script_path, 'r', encoding='utf-8') as f:
-                    raw = f.read()
+                    row = f.read()
 
             except FileNotFoundError:
                 self._msg_error(f"Script '{script_path.name}' not foud")
                 return
 
-            sql_commands = sqlparse.split(raw)
+            sql_commands = sqlparse.split(row)
 
             # Execute SQL command
             for sql in sql_commands:
