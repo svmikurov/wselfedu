@@ -8,16 +8,24 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     env:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
       - name: Install Poetry
         uses: snok/install-poetry@v1
+
       - name: Install dependencies
-        run: poetry install --only main,test,docs
+        run: poetry install --only main,test,docs,dev
+
+      - name: Set configurations
+        run: cp tests/conf/test_config.yml.example tests/conf/test_config.yml
+
       - name: Run Pytest
         run: poetry run pytest
