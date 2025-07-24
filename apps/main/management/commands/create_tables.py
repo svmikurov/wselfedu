@@ -33,11 +33,11 @@ class Command(CustomBaseCommand):
         """Handle the command."""
         for script_path in scripts:
             print(f'Executing SQL script {script_path}')
-            
+
             try:
                 with open(script_path, 'r', encoding='utf-8') as f:
                     raw = f.read()
-            
+
             except FileNotFoundError:
                 self._msg_error(f"Script '{script_path.name}' not foud")
                 return
