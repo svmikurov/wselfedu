@@ -22,5 +22,4 @@ logs/
 # Secret
 .env
 .env_db
-create_db.sql
 sensitive/

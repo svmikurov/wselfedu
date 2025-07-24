@@ -8,4 +8,4 @@ from pydantic import BaseModel
 class MainCommandConfig(BaseModel):
     """Main app management command config model."""
 
-    execute_scripts: list[Path]
+    sql_execute_order: list[Path]

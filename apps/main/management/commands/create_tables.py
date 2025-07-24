@@ -9,7 +9,7 @@ from .base import CustomBaseCommand
 from .command_config import MainCommandConfig
 
 SQL_SCRIPTS_DIR = settings.BASE_DIR / 'db' / 'sql' / 'init'
-SQL_TABLE_SCRIPTS_PATH = SQL_SCRIPTS_DIR / 'sql_table_scripts.yml'
+SQL_TABLE_SCRIPTS_PATH = SQL_SCRIPTS_DIR / 'order.yml'
 
 CONFIG = MainCommandConfig(**yaml.safe_load(open(SQL_TABLE_SCRIPTS_PATH)))
 
@@ -30,7 +30,7 @@ class Command(CustomBaseCommand):
 
     def handle(self, *args: object, **options: object) -> None:
         """Handle the command."""
-        for script in CONFIG.execute_scripts:
+        for script in CONFIG.sql_execute_order:
             script_path = SQL_SCRIPTS_DIR / script
             print(f'Executing SQL script {script_path}')
 

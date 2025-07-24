@@ -1,7 +1,7 @@
 -- Version: 0.1.0
 -- Autor: Sergei Mikurov
 -- Date: 2025-07-23
--- Description: Creating project tables via PostgreSQL
+-- Description: Contains table schemas
 
 -- Starting a transaction
 BEGIN;
@@ -10,8 +10,8 @@ BEGIN;
 CREATE TABLE base_exercise (
     id INT NOT NULL PRIMARY KEY,
     name VARCHAR(30) NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create Math app exercise (inherits)
