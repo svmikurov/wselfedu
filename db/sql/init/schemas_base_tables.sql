@@ -20,12 +20,12 @@ CREATE TABLE base.transaction (
     user_id INT NOT NULL,
     amount DECIMAL (11, 2) NOT NULL,
     type VARCHAR(30) NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE
-    -- Add to derived tables
---    CONSTRAINT fk_user
---        FOREIGN KEY (user_id)
---        REFERENCES users(user_id)
---        ON DELETE CASCADE;
+    created_at TIMESTAMP WITH TIME ZONE,
+    -- Add into derived tables also
+    CONSTRAINT fk_user
+        FOREIGN KEY (user_id)
+        REFERENCES users.customuser(id)
+        ON DELETE CASCADE
 );
 
 -- Applying Changes

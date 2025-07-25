@@ -3,6 +3,9 @@
 -- Date: 2025-07-24
 -- Description: Contains schemas (not for tables)
 
+\connect wse_db
+-- Tables
+
 -- Starting a transaction
 BEGIN;
 
@@ -10,6 +13,11 @@ BEGIN;
 CREATE SCHEMA base;
 GRANT ALL PRIVILEGES ON SCHEMA base TO sv;
 ALTER SCHEMA base OWNER TO sv;
+
+-- Schema for base tables
+CREATE SCHEMA users;
+GRANT ALL PRIVILEGES ON SCHEMA users TO sv;
+ALTER SCHEMA users OWNER TO sv;
 
 -- Schema for Math app tables
 CREATE SCHEMA math;
@@ -20,6 +28,8 @@ ALTER SCHEMA math OWNER TO sv;
 CREATE SCHEMA lang;
 GRANT ALL PRIVILEGES ON SCHEMA lang TO sv;
 ALTER SCHEMA lang OWNER TO sv;
+
+-- Functions
 
 -- Schema for trigger functions
 CREATE SCHEMA triggers;

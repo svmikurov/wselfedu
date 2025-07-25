@@ -6,7 +6,6 @@
 # Used when creating tables with the 'create_tables' management command
 # and uses the custom pytest fixture to create tables for tests.
 sql_execute_order:
-  - schemas.sql
   - schemas_base_tables.sql
   - schemas_lang_tables.sql
   - schemas_math_tables.sql
