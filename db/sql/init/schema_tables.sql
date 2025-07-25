@@ -10,8 +10,8 @@ BEGIN;
 CREATE TABLE base_exercise (
     id INT NOT NULL PRIMARY KEY,
     name VARCHAR(30) NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP WITH TIME ZONE,
+    updated_at TIMESTAMP WITH TIME ZONE
 );
 
 -- Create Math app exercise (inherits)

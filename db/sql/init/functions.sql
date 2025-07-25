@@ -7,7 +7,7 @@
 BEGIN;
 
 -- Create update timestamp function
-CREATE OR REPLACE FUNCTION triggers.update_timestamp()
+CREATE OR REPLACE FUNCTION update_timestamp()
 RETURNS TRIGGER AS $$
 DECLARE
     error_message TEXT;
@@ -19,7 +19,17 @@ BEGIN
     error_message := '';
     violation_details := '';
 
-    -- Check only for UPDATE operations
+    IF TG_OP = 'INSERT' THEN
+        IF NEW.created_at IS NULL THEN
+            NEW.created_at = NOW();
+        END IF;
+
+        IF NEW.updated_at IS NULL THEN
+            NEW.updated_at = NOW();
+        END IF;
+    END IF;
+
+    -- Check datatime changes only for UPDATE operations
     IF TG_OP = 'UPDATE' THEN
         -- Checking the created_at field
         IF NEW.created_at IS DISTINCT FROM OLD.created_at THEN
@@ -31,6 +41,10 @@ BEGIN
             );
         END IF;
 
+        -- Update only updated_at field
+        NEW.updated_at = NOW();
+
+        -- Build error messaged
         IF error_message <> '' THEN
             RAISE LOG 'Attempted to modify protected fields. User: %, Table: %, Record ID: %, Details: %',
             current_user_name,
@@ -44,8 +58,6 @@ BEGIN
                   DETAIL = violation_details,
                   ERRCODE = 'restrict_violation';
         END IF;
-
-        NEW.updated_at = NOW();
     END IF;
 
     RETURN NEW;
