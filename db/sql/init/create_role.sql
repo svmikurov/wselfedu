@@ -3,9 +3,6 @@
 -- Date: 2025-07-23
 -- Description: Database role creation
 
--- Drop existing role
-DROP ROLE IF EXISTS sv;
-
 -- Create user
 CREATE USER sv WITH password 'password';
 ALTER ROLE sv SET client_encoding TO 'utf8';

@@ -6,6 +6,8 @@
 -- Drop existing DB
 DROP DATABASE IF EXISTS wse_db;
 
+SET ROLE sv;
+
 -- Create DB
 CREATE DATABASE wse_db WITH
     ENCODING = 'UTF8'
