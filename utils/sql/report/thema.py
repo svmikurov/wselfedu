@@ -2,7 +2,7 @@
 
 from rich.theme import Theme
 
-from utils.sql.report_config import ReportConfig
+from utils.sql.report.config import ReportConfig
 
 
 def create_theme(config: ReportConfig) -> Theme:

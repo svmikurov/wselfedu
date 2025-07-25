@@ -1,1 +1,0 @@
-"""Contains SQL formatters."""

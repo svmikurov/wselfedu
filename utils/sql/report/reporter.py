@@ -7,11 +7,11 @@ Features:
 """
 
 from decimal import Decimal
+from pathlib import Path
 from timeit import default_timer as timer
 
 import sqlparse  # type: ignore[import-untyped]
 import yaml
-from django.conf import settings
 from django.db import connection
 from rich.box import HORIZONTALS
 from rich.console import Console
@@ -19,10 +19,10 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
 
-from utils.sql.report_config import ReportConfig
-from utils.sql.thema import create_theme
+from utils.sql.report.config import ReportConfig
+from utils.sql.report.thema import create_theme
 
-CONFIG_PATH = settings.BASE_DIR / 'tests' / 'conf' / 'test_config.yml'
+CONFIG_PATH = Path(__file__).resolve().parent / 'config.yml'
 CONFIG = ReportConfig(**yaml.safe_load(open(CONFIG_PATH)))
 
 
@@ -140,18 +140,16 @@ class SQLReporter:
     def start_act(self) -> None:
         """Start act of test."""
         self._start_timer()
-        self.clear_queries()
+        connection.queries.clear()
 
     def end_act(self) -> None:
         """End act of test."""
         self._stop_timer()
         self._queries = [*connection.queries]
-        self.clear_queries()
 
-    @staticmethod
-    def clear_queries() -> None:
+    def clear_queries(self) -> None:
         """Clear the queries."""
-        connection.queries.clear()
+        self.queries.clear()
 
     @property
     def queries(self) -> list[dict[str, str]]:
