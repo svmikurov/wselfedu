@@ -6,7 +6,7 @@ import pytest
 from django.conf import settings
 from django.core.management import call_command
 
-from utils.sql.sql_reporter import SQLReporter
+from utils.sql.report.reporter import SQLReporter
 
 
 @pytest.fixture
