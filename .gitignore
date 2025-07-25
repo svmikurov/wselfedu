@@ -3,7 +3,7 @@
 build/
 
 # Local configuraion
-test_config.yml
+utils/sql/report/config.yml
 fixtures_config.yaml
 
 # Temporary files
