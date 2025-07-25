@@ -1,12 +1,13 @@
 """Django settings for wselfedu project."""
 
 import os
-import sys
 from datetime import timedelta
 from pathlib import Path
 
 import dj_database_url
 from dotenv import load_dotenv
+
+from utils.load import getenv_bool
 
 load_dotenv()
 
@@ -14,9 +15,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-PRODUCTION = os.getenv('PRODUCTION', 'False').lower() in ('true', 't', '1')
+PRODUCTION = getenv_bool('PRODUCTION')
 
-DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', 't', '1')
+DEBUG = getenv_bool('DEBUG')
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -214,9 +215,9 @@ GRAPH_MODELS = {
 }
 
 
-DISABLE_LOGGING_DURING_MIGRATIONS = 'migrate' in sys.argv
+LOGGING_ON = getenv_bool('LOGGING')
 
-if not DISABLE_LOGGING_DURING_MIGRATIONS:
+if LOGGING_ON:
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
