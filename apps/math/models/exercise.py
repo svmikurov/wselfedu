@@ -10,11 +10,11 @@ class MathExercise(models.Model):
         max_length=30,
         verbose_name='Упражнение',
     )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-    )
     created_at = models.DateTimeField(
-        auto_now_add=True,
+        blank=True,
+    )
+    updated_at = models.DateTimeField(
+        blank=True,
     )
 
     class Meta:
