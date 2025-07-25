@@ -2,13 +2,15 @@
 # Autor: Mikurov Sergey
 # Version: 0.1.0
 # Created: 2025.07.24
+# Updated: 2025.07.25
 
 # Used when creating tables with the 'create_tables' management command
-# and uses the custom pytest fixture to create tables for tests.
 sql_execute_order:
   - tables_base.sql
   - tables_lang.sql
   - tables_math.sql
+  - tables_users.sql
   - functions.sql
   - triggers_lang.sql
   - triggers_math.sql
+  - procedures_users.sql

@@ -3,11 +3,14 @@ runserver:
 	python3 manage.py runserver
 
 # Run deployment
-deploy: create_db \
+deploy: format \
+		mypy \
+		create_db \
 		makemigrations \
 		migrate \
 		create_tables \
 		load_initial_data \
+		pytest
 
 # Testing
 

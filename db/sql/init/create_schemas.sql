@@ -1,20 +1,21 @@
 -- Version: 0.1.0
 -- Autor: Sergei Mikurov
 -- Date: 2025-07-24
--- Description: Contains schemas (not for tables)
+-- Updated: 2025-07-25
+-- Description: Defines schemas (not for tables)
 
 \connect wse_db
--- Tables
 
--- Starting a transaction
 BEGIN;
+
+-- Tables
 
 -- Schema for base tables
 CREATE SCHEMA base;
 GRANT ALL PRIVILEGES ON SCHEMA base TO sv;
 ALTER SCHEMA base OWNER TO sv;
 
--- Schema for base tables
+-- Schema for Users app tables
 CREATE SCHEMA users;
 GRANT ALL PRIVILEGES ON SCHEMA users TO sv;
 ALTER SCHEMA users OWNER TO sv;
@@ -36,5 +37,4 @@ CREATE SCHEMA triggers;
 GRANT ALL PRIVILEGES ON SCHEMA triggers TO sv;
 ALTER SCHEMA triggers OWNER TO sv;
 
--- Applying Changes
 COMMIT;
