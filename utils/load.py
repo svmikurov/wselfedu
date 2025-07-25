@@ -3,7 +3,7 @@
 import os
 
 
-def getenv_bool(env: str) -> bool:
+def get_boolean_value(env: str) -> bool:
     """Get boolean environment variable.
 
     For example:

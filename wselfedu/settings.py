@@ -7,7 +7,7 @@ from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv
 
-from utils.load import getenv_bool
+from utils.load import get_boolean_value
 
 load_dotenv()
 
@@ -15,9 +15,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-PRODUCTION = getenv_bool('PRODUCTION')
+PRODUCTION = get_boolean_value('PRODUCTION')
 
-DEBUG = getenv_bool('DEBUG')
+DEBUG = get_boolean_value('DEBUG')
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -215,7 +215,7 @@ GRAPH_MODELS = {
 }
 
 
-LOGGING_ON = getenv_bool('LOGGING')
+LOGGING_ON = get_boolean_value('LOGGING')
 
 if LOGGING_ON:
     LOGGING = {
