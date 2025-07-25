@@ -1,12 +1,37 @@
 """Defines configuration for tests."""
 
-from typing import Generator
+from typing import Generator, Iterable
 
+import psycopg
 import pytest
 from django.conf import settings
-from django.core.management import call_command
+from django.db import connections
 
 from utils.sql.report.reporter import SQLReporter
+
+
+def run_sql(sql: str) -> None:
+    """Run SQL command."""
+    with psycopg.connect(dbname='postgres', autocommit=True) as conn:
+        conn.execute(sql)
+
+
+@pytest.fixture(scope='session')
+def django_db_setup() -> Iterable[None]:
+    """Set up DB."""
+    from django.conf import settings
+
+    settings.DATABASES['default']['NAME'] = 'the_copied_db'
+
+    run_sql('DROP DATABASE IF EXISTS the_copied_db')
+    run_sql('CREATE DATABASE the_copied_db TEMPLATE wse_db')
+
+    yield
+
+    for conn in connections.all():
+        conn.close()
+
+    run_sql('DROP DATABASE the_copied_db')
 
 
 @pytest.fixture
@@ -25,16 +50,3 @@ def debug_reporter(
     yield reporter
 
     reporter.print_report()
-
-
-@pytest.fixture(scope='session', autouse=True)
-def call_create_db_tables(  # type: ignore[no-untyped-def]
-    django_db_setup: None,
-    django_db_blocker,  # noqa: ANN001
-) -> None:
-    """Call management command to create database tables.
-
-    Creates the database tables that are not managed by Django.
-    """
-    with django_db_blocker.unblock():
-        call_command('create_tables')
