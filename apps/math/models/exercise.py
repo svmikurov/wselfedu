@@ -21,6 +21,6 @@ class MathExercise(models.Model):
         """Model configuration."""
 
         managed = False
-        db_table = 'math_exercise'
+        db_table = 'math"."exercise'
         verbose_name = 'Математические упражнения'
         verbose_name_plural = 'Математические упражнения'

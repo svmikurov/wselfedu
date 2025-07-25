@@ -16,4 +16,4 @@ class SyntaxTask(BaseTask):
     class Meta:
         """Model configuration."""
 
-        db_table = 'lang_syntax_task'
+        db_table = 'lang"."syntax_task'

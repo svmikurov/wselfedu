@@ -25,7 +25,7 @@ def test_create_exercise_with_sql(
     debug_reporter.start_act()
     with connection.cursor() as cursor:
         cursor.execute(
-            'INSERT INTO math_exercise (name) VALUES (%s)',
+            'INSERT INTO math.exercise (name) VALUES (%s)',
             ('name',),
         )
     debug_reporter.end_act()
@@ -102,7 +102,7 @@ def test_updated_exercise_with_sql(
     with connection.cursor() as cursor:
         cursor.execute(
             """
-            UPDATE math_exercise
+            UPDATE math.exercise
             SET name = %s
             WHERE name = %s
             """,
@@ -193,7 +193,7 @@ def test_updated_at_exception(
             with connection.cursor() as cursor:
                 cursor.execute(
                     """
-                    UPDATE math_exercise
+                    UPDATE math.exercise
                     SET name = %s, created_at = %s, updated_at = %s
                     WHERE name = %s
                 """,

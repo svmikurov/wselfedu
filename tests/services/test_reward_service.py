@@ -8,7 +8,7 @@ import pytest
 from apps.math.models import MathExercise
 from apps.math.models.calculation import CalculationTask
 from apps.users.models import Balance, CustomUser
-from services.reward_service.reward_service import RewardService
+from services.reward_service.reward import RewardService
 from utils.sql.report.reporter import SQLReporter
 
 

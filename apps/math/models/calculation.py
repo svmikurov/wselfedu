@@ -32,4 +32,4 @@ class CalculationTask(BaseTask):
     class Meta:
         """Model configuration."""
 
-        db_table = 'math_calculation_task'
+        db_table = 'math"."calculation_task'

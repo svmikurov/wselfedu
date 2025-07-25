@@ -1,7 +1,6 @@
 """Defines SQL formater."""
 
 import logging
-from typing import TextIO
 
 
 class SQLFormatter(logging.Formatter):
@@ -14,9 +13,8 @@ class SQLFormatter(logging.Formatter):
             sql = record.sql
             duration = getattr(record, 'duration', 0)
 
-            # Форматируем SQL
-            sql = sql.replace('"', '')  # Убираем кавычки
-            sql = ' '.join(sql.split())  # Убираем лишние пробелы
+            sql = sql.replace('"', '')
+            sql = ' '.join(sql.split())
 
             if hasattr(record, 'params') and record.params:
                 try:
@@ -37,21 +35,4 @@ class SQLFormatter(logging.Formatter):
             except Exception:
                 return super().format(record)
 
-        # Для всех остальных сообщений
         return super().format(record)
-
-
-class ColorfulSQLHandler(logging.StreamHandler[TextIO]):
-    """Colore SQL output handler."""
-
-    def emit(self, record: logging.LogRecord) -> None:
-        """Handel."""
-        try:
-            message = self.format(record)
-            if hasattr(record, 'sql') or record.getMessage().startswith('('):
-                message = f'\033[36m{message}\033[0m'
-            self.stream.write(message + '\n')
-            self.flush()
-        except Exception as e:
-            print(f'Logging error: {str(e)}')
-            super().handleError(record)

@@ -10,4 +10,4 @@ class LangExercise(BaseExercise):
         """Model configuration."""
 
         managed = False
-        db_table = 'lang_exercise'
+        db_table = 'lang"."exercise'

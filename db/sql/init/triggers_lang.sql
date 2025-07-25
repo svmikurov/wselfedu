@@ -1,16 +1,16 @@
 -- Version: 0.1.0
 -- Autor: Sergei Mikurov
 -- Date: 2025-07-24
--- Description: Contains triggers
+-- Description: Contains triggers for Lang app
 
 -- Starting a transaction
 BEGIN;
 
--- Create update timestamp trigger on base exercise table
+-- Update datetime fields
 CREATE TRIGGER trg_update_timestamp
-BEFORE INSERT OR UPDATE ON math_exercise
+BEFORE INSERT OR UPDATE ON lang.exercise
 FOR EACH ROW
-EXECUTE FUNCTION update_timestamp();
+EXECUTE FUNCTION triggers.update_timestamp();
 
 -- Applying changes
 COMMIT;

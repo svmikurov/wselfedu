@@ -16,4 +16,4 @@ class FractionTask(BaseTask):
     class Meta:
         """Model configuration."""
 
-        db_table = 'math_fraction_task'
+        db_table = 'math"."fraction_task'

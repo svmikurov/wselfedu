@@ -16,4 +16,4 @@ class TranslationTestTask(BaseTask):
     class Meta:
         """Model configuration."""
 
-        db_table = 'lang_translation_test_task'
+        db_table = 'lang"."translation_test_task'

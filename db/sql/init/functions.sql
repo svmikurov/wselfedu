@@ -7,7 +7,7 @@
 BEGIN;
 
 -- Create update timestamp function
-CREATE OR REPLACE FUNCTION update_timestamp()
+CREATE OR REPLACE FUNCTION triggers.update_timestamp()
 RETURNS TRIGGER AS $$
 DECLARE
     error_message TEXT;

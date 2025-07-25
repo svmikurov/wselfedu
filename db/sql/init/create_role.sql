@@ -4,7 +4,7 @@
 -- Description: Database role creation
 
 -- Drop existing role
---DROP ROLE IF EXISTS sv;
+DROP ROLE IF EXISTS sv;
 
 -- Create user
 CREATE USER sv WITH password 'password';

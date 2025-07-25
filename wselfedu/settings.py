@@ -223,13 +223,13 @@ if LOGGING_ON:
         'disable_existing_loggers': False,
         'formatters': {
             'sql': {
-                '()': 'utils.reports.formatters.sql.simple.SimpleSQLFormatter',
+                '()': 'utils.logger.formatters.simple.SimpleSQLFormatter',
             },
         },
         'handlers': {
             'sql_console': {
                 'level': 'DEBUG',
-                'class': 'utils.reports.formatters.sql.third_party.ColorfulSQLHandler',
+                'class': 'utils.logger.handlers.third_party.ColorfulSQLHandler',
                 'formatter': 'sql',
             },
         },
