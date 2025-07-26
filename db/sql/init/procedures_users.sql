@@ -5,8 +5,8 @@
 
 BEGIN;
 -- Procedure to reward bonus to user
--- For example: CALL add_bonus(123, 100.50, 'math');
-CREATE OR REPLACE PROCEDURE add_bonus(
+-- For example: CALL increment_user_reward(123, 100.50, 'math');
+CREATE OR REPLACE PROCEDURE increment_user_reward(
     p_user_id INTEGER,
     p_amount DECIMAL,
     p_app_name VARCHAR(50)

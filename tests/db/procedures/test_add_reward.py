@@ -11,18 +11,20 @@ AMOUNT = 33
 # TODO: Add app table to DB
 APP_NAME = 'math'
 
-SQL_ADD_REWARD = 'CALL add_bonus(%s, %s, %s)', (USER_ID, AMOUNT, APP_NAME)
+SQL = 'CALL increment_user_reward(%s, %s, %s)', (USER_ID, AMOUNT, APP_NAME)
 
 
 def add_math_reward() -> None:
     """Call procedure to add reward."""
     with connection.cursor() as cursor:
-        cursor.execute(*SQL_ADD_REWARD)
+        cursor.execute(*SQL)
 
 
 @pytest.mark.django_db
-def test_procedure_add_reward(debug_reporter: SQLReporter) -> None:
-    """Test the add reward procedure."""
+def test_procedure_increment_user_reward(
+    debug_reporter: SQLReporter,
+) -> None:
+    """Test of increment user reward procedure."""
     # Act
     add_math_reward()
 
@@ -36,8 +38,10 @@ def test_procedure_add_reward(debug_reporter: SQLReporter) -> None:
 
 
 @pytest.mark.django_db
-def test_procedure_add_reward_twice(debug_reporter: SQLReporter) -> None:
-    """Test the add reward procedure twice."""
+def test_procedure_increment_user_reward_twice(
+    debug_reporter: SQLReporter,
+) -> None:
+    """Test of increment user reward procedure, called twice."""
     # Setup
     double_reward = AMOUNT * 2
 
