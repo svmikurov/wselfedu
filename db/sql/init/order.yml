@@ -6,7 +6,7 @@
 
 # Used when creating tables with the 'create_tables' management command
 sql_execute_order:
-  - tables_base.sql
+  - tables_main.sql
   - tables_lang.sql
   - tables_math.sql
   - tables_users.sql

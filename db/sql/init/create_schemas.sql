@@ -1,8 +1,8 @@
 -- Version: 0.1.0
 -- Autor: Sergei Mikurov
 -- Date: 2025-07-24
--- Updated: 2025-07-25
--- Description: Defines schemas (not for tables)
+-- Updated: 2025-07-26
+-- Description: Defines schemas
 
 \connect wse_db
 
@@ -10,10 +10,11 @@ BEGIN;
 
 -- Tables
 
--- Schema for base tables
-CREATE SCHEMA base;
-GRANT ALL PRIVILEGES ON SCHEMA base TO sv;
-ALTER SCHEMA base OWNER TO sv;
+-- Schema for main app tables
+-- Contains base tables to inherit
+CREATE SCHEMA main;
+GRANT ALL PRIVILEGES ON SCHEMA main TO sv;
+ALTER SCHEMA main OWNER TO sv;
 
 -- Schema for Users app tables
 CREATE SCHEMA users;
