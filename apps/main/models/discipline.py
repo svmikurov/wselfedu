@@ -3,6 +3,7 @@
 from django.db import models
 
 
+# TODO: Develop
 class Discipline(models.Model):
     """Project discipline model."""
 
@@ -13,5 +14,6 @@ class Discipline(models.Model):
     class Meta:
         """Model configuration."""
 
+        managed = False
         verbose_name = 'Дисциплина'
         verbose_name_plural = 'Дисциплины'

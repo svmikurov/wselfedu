@@ -3,13 +3,11 @@
 __all__ = [
     'Balance',
     'CustomUser',
+    'RewardLimit',
     'Transaction',
-    'UserTasks',
-    'Reward',
 ]
 
 from .balance import Balance
-from .reward import Reward
-from .task import UserTasks
+from .limit import RewardLimit
 from .transaction import Transaction
 from .user import CustomUser

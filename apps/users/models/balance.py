@@ -16,20 +16,27 @@ class Balance(models.Model):
         related_name='balance',
         verbose_name='Пользователь',
     )
-    amount = models.PositiveSmallIntegerField(
-        default=0,
+    total = models.DecimalField(
+        max_digits=11,
+        decimal_places=2,
         verbose_name='Всего очков',
     )
     created_at = models.DateTimeField(
-        auto_now_add=True,
+        blank=True,
         verbose_name='Добавлен',
     )
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='Обновлен')
+    updated_at = models.DateTimeField(blank=True, verbose_name='Обновлен')
+
+    class Meta:
+        """Model configuration."""
+
+        managed = False
+        db_table = 'users"."balance'
 
     def __str__(self) -> str:
         """Return the text representation of object."""
-        return f'{self.user}`s: {self.amount} points'
+        return f'{self.user}`s: {self.total} points'
 
     def __repr__(self) -> str:
         """Return the representation of object."""
-        return f'<{self.user}: {self.amount} points>'
+        return f'<{self.user}: {self.total} points>'

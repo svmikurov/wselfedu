@@ -2,10 +2,12 @@
 
 from django.db import models
 
-from apps.main.models import BaseTask
+MAX_OPERAND_DIGIT = 3
+DECIMAL_PACES = 3
 
 
-class CalculationTask(BaseTask):
+# TODO: Develop
+class CalculationTask(models.Model):
     """Calculation math task model."""
 
     exercise = models.ForeignKey(
@@ -15,13 +17,13 @@ class CalculationTask(BaseTask):
         editable=False,
     )
     operand_1 = models.DecimalField(
-        max_digits=3,
-        decimal_places=0,
+        max_digits=MAX_OPERAND_DIGIT,
+        decimal_places=DECIMAL_PACES,
         editable=False,
     )
     operand_2 = models.DecimalField(
-        max_digits=3,
-        decimal_places=0,
+        max_digits=MAX_OPERAND_DIGIT,
+        decimal_places=DECIMAL_PACES,
         editable=False,
     )
     created_at = models.DateTimeField(
@@ -32,4 +34,5 @@ class CalculationTask(BaseTask):
     class Meta:
         """Model configuration."""
 
+        managed = False
         db_table = 'math"."calculation_task'

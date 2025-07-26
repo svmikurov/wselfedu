@@ -2,10 +2,9 @@
 
 __all__ = [
     'BaseExercise',
-    'BaseTask',
     'Discipline',
 ]
 
-from .base.exercise import BaseExercise
-from .base.task import BaseTask
+from apps.main.models.exercise import BaseExercise
+
 from .discipline import Discipline

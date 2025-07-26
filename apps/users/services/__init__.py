@@ -1,1 +1,0 @@
-"""Contains users app services."""

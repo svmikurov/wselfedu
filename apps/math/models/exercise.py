@@ -3,6 +3,7 @@
 from django.db import models
 
 
+# TODO: Check consistency with SQL-script
 class MathExercise(models.Model):
     """Math app exercise type model."""
 

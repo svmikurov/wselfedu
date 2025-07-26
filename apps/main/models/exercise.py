@@ -3,6 +3,7 @@
 from django.db import models
 
 
+# TODO: Develop
 class BaseExercise(models.Model):
     """Absract base exercise model.
 

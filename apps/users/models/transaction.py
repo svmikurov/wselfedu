@@ -3,8 +3,6 @@
 from decimal import Decimal
 from typing import TypeVar
 
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
 from django.core.validators import MinValueValidator
 from django.db import models
 
@@ -20,30 +18,14 @@ class Transaction(models.Model):
         REWARD = 'reward'
         PAYMENT = 'payment'
 
-    balance = models.ForeignKey(
-        'Balance',
+    user = models.ForeignKey(
+        'CustomUser',
         on_delete=models.CASCADE,
-        verbose_name='Баланс',
+        verbose_name='Пользователь',
         related_name='transactions',
     )
-
-    # Generic foreign key
-    content_type = models.ForeignKey(
-        ContentType,
-        on_delete=models.CASCADE,
-    )
-    object_uid = models.UUIDField()
-    content_object = GenericForeignKey(
-        'content_type',
-        'object_uid',
-    )
-
-    operation_type = models.CharField(
-        max_length=20,
-        choices=Operation.choices,
-    )
     amount = models.DecimalField(
-        max_digits=5,
+        max_digits=11,
         decimal_places=2,
         validators=[
             MinValueValidator(
@@ -53,12 +35,18 @@ class Transaction(models.Model):
         ],
         verbose_name='Сумма транзакции',
     )
+    type = models.CharField(
+        max_length=30,
+        choices=Operation.choices,
+        verbose_name='Тип транзакции',
+    )
     created_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name='Добавлено',
+        verbose_name='Дата транзакции',
     )
 
     class Meta:
-        """Configure the model."""
+        """Model configuration."""
 
-        indexes = [models.Index(fields=['content_type', 'object_uid'])]
+        managed = False
+        db_table = 'users"."transaction'
