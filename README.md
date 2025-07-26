@@ -15,13 +15,12 @@ poetry install --all-extras
 
 .env:
 ```text
+DB_NAME=db_name
+DB_USER=username
+DB_PASSWORD=password
 SECRET_KEY=secret_key
 DATABASE_URL=postgres://username:password@localhost:5432/dbname
-DEBUG=True
 ```
-
-### Configure PostgreSQL database
-Update the `db/sql/init/` SQL-scripts with `username`, `password` and `dbname`
 
 Run command:
 ```commandline
