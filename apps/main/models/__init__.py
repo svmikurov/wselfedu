@@ -1,10 +1,11 @@
 """Contains main app models."""
 
 __all__ = [
+    'Apps',
     'BaseExercise',
     'Discipline',
 ]
 
-from apps.main.models.exercise import BaseExercise
-
+from .app import Apps
 from .discipline import Discipline
+from .exercise import BaseExercise
