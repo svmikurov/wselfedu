@@ -4,7 +4,7 @@ from apps.users.models import Transaction
 
 
 class MathTransaction(Transaction):
-    """reward transaction proxy model on math exercise"""
+    """Reward transaction proxy model on math exercise."""
 
     class Meta:
         """Model configuration."""
