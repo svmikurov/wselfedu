@@ -6,15 +6,19 @@ Model contains Django project applications enumeration.
 from django.db import models
 
 
-class Apps(models.Model):
+class App(models.Model):
     """Project application model."""
 
     name = models.CharField(
-        max_length=15,
+        max_length=50,
         verbose_name='Имя приложения',
+    )
+    schema_name = models.CharField(
+        max_length=50,
+        verbose_name='Имя схемы в БД',
     )
 
     class Meta:
         """Model configuration."""
 
-        db_table = 'main"."apps'
+        db_table = 'main"."app'
