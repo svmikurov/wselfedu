@@ -6,11 +6,6 @@
 
 BEGIN;
 
-CREATE TRIGGER trg_exercise_timestamp
-BEFORE INSERT OR UPDATE ON math.exercise
-FOR EACH ROW
-EXECUTE FUNCTION triggers.create_with_update_timestamp();
-
 CREATE TRIGGER trg_transaction_update_timestamp
 BEFORE INSERT OR UPDATE ON math.transaction
 FOR EACH ROW

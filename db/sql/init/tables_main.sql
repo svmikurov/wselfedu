@@ -6,14 +6,6 @@
 
 BEGIN;
 
--- Base exercise table
-CREATE TABLE main.exercise (
-    id INT NOT NULL PRIMARY KEY,
-    name VARCHAR(30) NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE,
-    updated_at TIMESTAMP WITH TIME ZONE
-);
-
 -- Base reward transaction table
 CREATE TABLE main.transaction (
     id INT NOT NULL PRIMARY KEY,
