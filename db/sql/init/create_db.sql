@@ -4,15 +4,8 @@
 -- Updated: 2025-07-26
 -- Description: Postgres DB creating
 
--- Get values
-SELECT :'db_name' AS db_name;
-SELECT :'db_user' AS db_user;
-
 -- Set role
 SET ROLE :db_user;
-
--- Drop existing DB
-DROP DATABASE IF EXISTS :db_name;
 
 -- Create DB
 CREATE DATABASE :db_name WITH

@@ -4,13 +4,6 @@
 -- Updated: 2025-07-26
 -- Description: Database role creation
 
--- Get values
-SELECT :'db_user' AS db_user;
-SELECT :'db_password' AS db_password;
-
--- Drop role
-DROP ROLE IF EXISTS sv;
-
 -- Create role
 CREATE ROLE :db_user;
 ALTER ROLE :db_user PASSWORD :'db_password';
