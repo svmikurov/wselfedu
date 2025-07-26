@@ -46,15 +46,9 @@ hex:
 # Create database
 create_db:
 	# Copy the file to the system directory available for postgres
-	sudo cp db/sql/init/create_db.sql       /tmp/
-	sudo cp db/sql/init/create_role.sql     /tmp/
-	sudo cp db/sql/init/create_schemas.sql     /tmp/
-	sudo -u postgres psql -f /tmp/create_db.sql
-	sudo -u postgres psql -f /tmp/create_role.sql
-	sudo -u postgres psql -f /tmp/create_schemas.sql
-	sudo rm /tmp/create_db.sql
-	sudo rm /tmp/create_role.sql
-	sudo rm /tmp/create_schemas.sql
+	sudo -u postgres psql -f db/sql/init/create_db.sql
+	sudo -u postgres psql -f db/sql/init/create_role.sql
+	sudo -u postgres psql -f db/sql/init/create_schemas.sql
 
 create_tables:
 	python manage.py create_tables
