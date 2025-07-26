@@ -34,6 +34,7 @@ def django_db_setup() -> Iterable[None]:
     run_sql('DROP DATABASE the_copied_db')
 
 
+# TODO: Fix adding sql queries from "Setup" before "Act"
 @pytest.fixture
 def debug_reporter(
     request: pytest.FixtureRequest,
