@@ -49,4 +49,4 @@ class Transaction(models.Model):
         """Model configuration."""
 
         managed = False
-        db_table = 'users"."transaction'
+        db_table = 'main"."transaction'

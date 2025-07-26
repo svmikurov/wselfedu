@@ -22,3 +22,4 @@ class App(models.Model):
         """Model configuration."""
 
         db_table = 'main"."app'
+        verbose_name = 'Основное приложение'
