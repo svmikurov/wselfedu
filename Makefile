@@ -1,5 +1,5 @@
 # Run server in development mode
-runserver:
+run:
 	python3 manage.py runserver
 
 # Run deployment
@@ -12,7 +12,9 @@ deploy: format \
 		load_initial_data \
 		pytest
 
-# Testing
+
+# Testing and code checking
+
 
 # Code style checking
 ruff:
@@ -25,47 +27,42 @@ format:
 mypy:
 	mypy .
 
-
 # Pytest
 pytest:
 	pytest .
 
-# Code checking
+# Combined checking
 check: format mypy pytest
-
-# Check hexagonal architecture study code
-hex:
-	ruff check --fix hexagonal_arch && \
-	ruff format hexagonal_arch && \
-	mypy hexagonal_arch && \
-	pytest hexagonal_arch
 
 
 # Database commands
 
+
 # Create database
 create_db:
-	# Copy the file to the system directory available for postgres
 	sudo -u postgres psql -f db/sql/init/create_db.sql
 	sudo -u postgres psql -f db/sql/init/create_role.sql
 	sudo -u postgres psql -f db/sql/init/create_schemas.sql
 
+# Create tables with SQL-scripts
 create_tables:
 	python manage.py create_tables
 
-# Migrations
+# Django migration creating
 makemigrations:
 	python manage.py makemigrations
 
+# Apply django migrations
 migrate:
 	python manage.py migrate
 
-# Fixture management
+# Load inial data fixtures
 load_initial_data:
 	python manage.py load_initial_data --load-sensitive
 
 
 # Django-extensions
+
 
 # Build model graphs
 # https://django-extensions.readthedocs.io/en/latest/graph_models.html#example-usage
