@@ -1,0 +1,34 @@
+[
+{
+  "model": "main.app",
+  "pk": 1,
+  "fields": {
+    "name": "Главное приложение",
+    "schema_name": "main"
+  }
+},
+{
+  "model": "main.app",
+  "pk": 2,
+  "fields": {
+    "name": "Пользователи",
+    "schema_name": "users"
+  }
+},
+  {
+  "model": "main.app",
+  "pk": 3,
+  "fields": {
+    "name": "Математика",
+    "schema_name": "math"
+  }
+},
+{
+  "model": "main.app",
+  "pk": 4,
+  "fields": {
+    "name": "Иностранный язык",
+    "schema_name": "lang"
+  }
+}
+]
