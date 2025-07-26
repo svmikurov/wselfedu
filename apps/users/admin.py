@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 
-from apps.users.models import Balance, CustomUser, RewardLimit, Transaction
+from apps.users.models import Balance, CustomUser, Transaction
 
 
 @admin.register(CustomUser)
@@ -24,11 +24,3 @@ class TransactionAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """User balance transaction model administration."""
 
     list_display = ['user', 'amount', 'type', 'created_at']
-
-
-@admin.register(RewardLimit)
-class RewardLimitAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
-    """User reward model administration."""
-
-    fields = ['user', 'limit']
-    list_display = ['user', 'remainder', 'limit', 'created_at', 'updated_at']
