@@ -3,30 +3,32 @@
 from django.db import models
 
 
-# TODO: Develop
 class RewardLimit(models.Model):
     """Reward limits."""
 
     user = models.ForeignKey(
-        'CustomUser',
-        on_delete=models.CASCADE,
+        'CustomUser', on_delete=models.CASCADE, verbose_name='Обучающийся'
     )
-    daily_limit = models.DecimalField(
+    # TODO: Add calculation for remainder field
+    #  remainder = limit - sum(main.transaction for today)
+    remainder = models.DecimalField(
         max_digits=5,
         decimal_places=2,
+        verbose_name='Остаток лимита',
     )
-    max_limit = models.DecimalField(
+    limit = models.DecimalField(
         max_digits=5,
         decimal_places=2,
+        verbose_name='Дневной лимит',
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
     )
-    updated = models.DateTimeField(
+    updated_at = models.DateTimeField(
         auto_now=True,
     )
 
     class Meta:
         """Model configuration."""
 
-        managed = False
+        verbose_name = 'Лимит ежедневного вознаграждения'
