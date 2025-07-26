@@ -4,27 +4,32 @@
 -- Description: Defines procedure for balance update with transaction
 
 BEGIN;
-
 -- Procedure to reward bonus to user
 -- For example: CALL add_bonus(123, 100.50, 'math');
 CREATE OR REPLACE PROCEDURE add_bonus(
     p_user_id INTEGER,
     p_amount DECIMAL,
     p_app_name VARCHAR(50)
-)
-LANGUAGE plpgsql
-AS $$
+) LANGUAGE plpgsql AS $$
+-- Declare to fetch app schema name
+DECLARE
+    v_schema_name TEXT;
+    v_table_name TEXT := 'transaction';
 BEGIN
-    -- Add transaction
-    IF p_app_name = 'math' THEN
-        INSERT INTO math.transaction (user_id, amount, type)
-        VALUES (p_user_id, p_amount, 'reward');
-    ELSIF p_app_name = 'lang' THEN
-        INSERT INTO lang.transaction (user_id, amount, type)
-        VALUES (p_user_id, p_amount, 'reward');
-    ELSE
-        RAISE EXCEPTION 'Unknown app: % ', p_app_name;
+    -- Get app schema for transaction
+    SELECT schema_name INTO v_schema_name
+    FROM main.app
+    WHERE schema_name = p_app_name;
+
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'Unknown app: %', p_app_name;
     END IF;
+
+    -- Add transaction
+    EXECUTE format(
+        'INSERT INTO %I.%I (user_id, amount, type) VALUES ($1, $2, ''reward'')',
+        v_schema_name, v_table_name
+    ) USING p_user_id, p_amount;
 
     -- Update balance
     IF EXISTS (SELECT 1 FROM users.balance WHERE user_id = p_user_id) THEN
