@@ -16,7 +16,7 @@ class CustomUserAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
 class BalanceAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """User balance model administration."""
 
-    list_display = ['user', 'total', 'created_at']
+    list_display = ['user', 'total', 'updated_at']
 
 
 @admin.register(Transaction)
