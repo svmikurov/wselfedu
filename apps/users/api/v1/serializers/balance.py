@@ -12,4 +12,4 @@ class BalanceSerializer(serializers.ModelSerializer[Balance]):
         """Serializer configuration."""
 
         model = Balance
-        fields = ['points']
+        fields = ['total']
