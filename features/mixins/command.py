@@ -1,10 +1,15 @@
 """Defines custom base command for management."""
 
-from django.core.management import BaseCommand
+from django.core.management.base import OutputWrapper
+from django.core.management.color import Style
 
 
-class CustomBaseCommand(BaseCommand):
-    """Custom base command for management."""
+class STDCommandMixin:
+    """Mixin std out/err."""
+
+    stdout: OutputWrapper
+    stderr: OutputWrapper
+    style: Style
 
     # Command message output
 

@@ -1,6 +1,5 @@
 """Defines command to load inial data to database."""
 
-import os.path
 from argparse import ArgumentParser
 from pathlib import Path
 from typing import Any
@@ -8,23 +7,21 @@ from typing import Any
 import yaml
 from django.conf import settings
 from django.core.management import call_command
+from django.core.management.base import BaseCommand
 from dotenv import load_dotenv
 from typing_extensions import override
 
-from .base import CustomBaseCommand
+from features.mixins.command import STDCommandMixin
+from utils.load import get_boolean_value
 
 load_dotenv()
 
 BASE_DIR = settings.BASE_DIR
 
-FORCE_PRODUCTION = os.getenv('FORCE_PRODUCTION', 'False').lower() in (
-    't',
-    '1',
-    'true',
-)
+FORCE_PRODUCTION = get_boolean_value('FORCE_PRODUCTION')
 
 
-class Command(CustomBaseCommand):
+class Command(STDCommandMixin, BaseCommand):
     """Load initial data into models."""
 
     fixtures_config_path = 'db/fixtures/fixtures_config.yaml'
