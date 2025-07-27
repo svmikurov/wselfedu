@@ -1,10 +1,6 @@
 """Defines user reward models."""
 
-from typing import TypeVar
-
 from django.db import models
-
-BalanceT = TypeVar('BalanceT', bound='Balance')
 
 
 class Balance(models.Model):
@@ -25,7 +21,10 @@ class Balance(models.Model):
         blank=True,
         verbose_name='Добавлен',
     )
-    updated_at = models.DateTimeField(blank=True, verbose_name='Обновлен')
+    updated_at = models.DateTimeField(
+        blank=True,
+        verbose_name='Обновлен',
+    )
 
     class Meta:
         """Model configuration."""
@@ -37,8 +36,8 @@ class Balance(models.Model):
 
     def __str__(self) -> str:
         """Return the text representation of object."""
-        return f'{self.user}`s: {self.total} points'
+        return f'Баланс {self.user}: {self.total}'
 
     def __repr__(self) -> str:
         """Return the representation of object."""
-        return f'<{self.user}: {self.total} points>'
+        return f'<{self.user}: {self.total}>'
