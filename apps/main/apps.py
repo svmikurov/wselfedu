@@ -10,7 +10,7 @@ class MainConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'apps.main'
 
-    verbose_name = 'Основное приложение'
+    verbose_name = 'Базовое приложение'
 
     def ready(self) -> None:
         """Initialize the DI core container when Django starts."""

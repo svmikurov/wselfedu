@@ -9,5 +9,5 @@ class LangConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'apps.lang'
 
-    verbose_name = 'Иностранный язык'
+    verbose_name = 'Изучение языков'
     verbose_name_plural = 'Иностранные языки'

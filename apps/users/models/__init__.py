@@ -3,9 +3,7 @@
 __all__ = [
     'Balance',
     'CustomUser',
-    'Transaction',
 ]
 
 from .balance import Balance
-from .transaction import Transaction
 from .user import CustomUser

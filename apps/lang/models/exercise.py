@@ -11,5 +11,5 @@ class LangExercise(BaseExercise):
 
         managed = False
         db_table = 'lang"."exercise'
-        verbose_name = 'Иностранный язык'
-        verbose_name_plural = 'Иностранные языки'
+        verbose_name = 'Упражнение'
+        verbose_name_plural = 'Упражнения'

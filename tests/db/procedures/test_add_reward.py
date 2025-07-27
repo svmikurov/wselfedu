@@ -6,14 +6,13 @@ from django.db.models import Sum
 
 from apps.lang.models import LangTransaction
 from apps.math.models.transaction import MathTransaction
-from apps.users.models import Balance, Transaction
+from apps.users.models import Balance
 
 USER_ID = 1
 AMOUNT = 33
-# TODO: Add app table to DB
-APP_NAME = 'math'
+SCHEMA_NAME = 'math'
 
-SQL = 'CALL increment_user_reward(%s, %s, %s)', (USER_ID, AMOUNT, APP_NAME)
+SQL = 'CALL increment_user_reward(%s, %s, %s)', (USER_ID, AMOUNT, SCHEMA_NAME)
 
 
 def add_math_reward() -> None:
@@ -34,7 +33,7 @@ class TestIncrementUserRewardProcedure:
         # Assertion
 
         # Get data for assertions
-        transaction = Transaction.objects.filter(user_id=USER_ID)
+        transaction = MathTransaction.objects.filter(user_id=USER_ID)
 
         # Transaction was added once
         assert transaction.count() == 1
@@ -69,7 +68,7 @@ class TestIncrementUserRewardProcedure:
         # Assertion
 
         # Get data for assertions
-        transaction = Transaction.objects.filter(user_id=USER_ID)
+        transaction = MathTransaction.objects.filter(user_id=USER_ID)
         total_amount = transaction.aggregate(total_amount=Sum('amount'))
 
         # Transaction was added once

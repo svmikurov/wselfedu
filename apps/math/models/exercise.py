@@ -23,5 +23,5 @@ class MathExercise(models.Model):
 
         managed = False
         db_table = 'math"."exercise'
-        verbose_name = 'Математические упражнения'
-        verbose_name_plural = 'Математические упражнения'
+        verbose_name = 'Упражнение'
+        verbose_name_plural = 'Упражнения'
