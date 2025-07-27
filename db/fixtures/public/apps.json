@@ -3,7 +3,7 @@
   "model": "main.app",
   "pk": 1,
   "fields": {
-    "name": "Главное приложение",
+    "name": "Базовое приложение",
     "schema_name": "main"
   }
 },
