@@ -4,6 +4,7 @@ import pytest
 from django.db import connection
 from django.db.models import Sum
 
+from apps.lang.models import LangTransaction
 from apps.math.models.transaction import MathTransaction
 from apps.users.models import Balance, Transaction
 
@@ -108,3 +109,22 @@ class TestIncrementUserRewardProcedure:
 
         # The reward increased the balance
         assert balance.total == double_reward
+
+
+class TestDerivedTransaction:
+    """Test derived transactions."""
+
+    @pytest.mark.django_db
+    def test_isolation_derived_transaction(self) -> None:
+        """Test that derived transaction is isolated."""
+        # Adt
+        add_math_reward()
+
+        # Assert
+
+        # Get data for assertions
+        math_transaction = MathTransaction.objects.count()
+        lang_transaction = LangTransaction.objects.count()
+
+        # Transaction is specific for model
+        assert math_transaction != lang_transaction
