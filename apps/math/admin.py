@@ -2,8 +2,8 @@
 
 from django.contrib import admin
 
-from apps.math.models import MathExercise
-from apps.math.models.transaction import MathTransaction
+from apps.math.models import MathExercise, MathTransaction
+from features.mixins.admin import UnchangeableAdminMixin
 
 
 @admin.register(MathExercise)
@@ -15,7 +15,7 @@ class MathExerciseAdmin(admin.ModelAdmin):  # type: ignore
 
 
 @admin.register(MathTransaction)
-class MathTransactionAdmin(admin.ModelAdmin):  # type: ignore
+class MathTransactionAdmin(UnchangeableAdminMixin, admin.ModelAdmin):  # type: ignore
     """Math reward transaction model administration."""
 
     list_display = ['user', 'amount', 'type', 'created_at']

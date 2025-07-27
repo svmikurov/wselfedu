@@ -3,7 +3,7 @@
 from django.contrib import admin
 
 from apps.lang.models import LangExercise, LangTransaction
-
+from features.mixins.admin import UnchangeableAdminMixin
 
 @admin.register(LangExercise)
 class LangExerciseAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
@@ -13,7 +13,7 @@ class LangExerciseAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
 
 
 @admin.register(LangTransaction)
-class LangTransactionAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+class LangTransactionAdmin(UnchangeableAdminMixin, admin.ModelAdmin):  # type: ignore[type-arg]
     """Lang reward transaction model administration."""
 
     list_display = ['user', 'amount', 'type', 'created_at']
