@@ -9,7 +9,7 @@ class MathExercise(models.Model):
 
     name = models.CharField(
         max_length=30,
-        verbose_name='Упражнение',
+        verbose_name='Наименование',
     )
     created_at = models.DateTimeField(
         blank=True,

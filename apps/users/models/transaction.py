@@ -33,16 +33,16 @@ class Transaction(models.Model):
                 message='Значение должно быть > 0',
             ),
         ],
-        verbose_name='Сумма транзакции',
+        verbose_name='Сумма',
     )
     type = models.CharField(
         max_length=30,
         choices=Operation.choices,
-        verbose_name='Тип транзакции',
+        verbose_name='Тип',
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name='Дата транзакции',
+        verbose_name='Дата',
     )
 
     class Meta:
@@ -50,3 +50,5 @@ class Transaction(models.Model):
 
         managed = False
         db_table = 'main"."transaction'
+        verbose_name = 'Транзакция'
+        verbose_name_plural = 'Транзакции по всем предметам'

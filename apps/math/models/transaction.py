@@ -11,3 +11,5 @@ class MathTransaction(Transaction):
 
         proxy = True
         db_table = 'math"."transaction'
+        verbose_name = 'Транзакция'
+        verbose_name_plural = 'Транзакции'

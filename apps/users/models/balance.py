@@ -19,7 +19,7 @@ class Balance(models.Model):
     total = models.DecimalField(
         max_digits=11,
         decimal_places=2,
-        verbose_name='Всего очков',
+        verbose_name='Баланс',
     )
     created_at = models.DateTimeField(
         blank=True,
@@ -32,6 +32,8 @@ class Balance(models.Model):
 
         managed = False
         db_table = 'users"."balance'
+        verbose_name = 'Баланс'
+        verbose_name_plural = 'Баланс'
 
     def __str__(self) -> str:
         """Return the text representation of object."""
