@@ -16,4 +16,5 @@ documentation for details.
    :caption: Contents:
 
    install/index.rst
+   db/index.rst
    dev/index.rst
