@@ -10,12 +10,6 @@ BEGIN;
 
 -- Tables
 
--- Schema for main app tables
--- Contains base tables to inherit
-CREATE SCHEMA main;
-GRANT ALL PRIVILEGES ON SCHEMA main TO sv;
-ALTER SCHEMA main OWNER TO sv;
-
 -- Schema for Users app tables
 CREATE SCHEMA users;
 GRANT ALL PRIVILEGES ON SCHEMA users TO sv;
