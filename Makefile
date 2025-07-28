@@ -22,6 +22,7 @@ deploy: format \
 ruff:
 	ruff check && ruff format --diff
 
+# Fix code format
 format:
 	ruff check --fix && ruff format
 
