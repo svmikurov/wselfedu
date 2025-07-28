@@ -14,17 +14,9 @@ def create_schema(
     quoted_user = connection.ops.quote_name(db_user)
 
     sql = f"""
-    CREATE SCHEMA IF NOT EXISTS main;
-    GRANT ALL PRIVILEGES ON SCHEMA main TO {quoted_user};
-    ALTER SCHEMA main OWNER TO {quoted_user};
-    
-    CREATE SCHEMA IF NOT EXISTS users;
-    GRANT ALL PRIVILEGES ON SCHEMA users TO {quoted_user};
-    ALTER SCHEMA users OWNER TO {quoted_user};
-    
-    CREATE SCHEMA triggers;
-    GRANT ALL PRIVILEGES ON SCHEMA triggers TO {quoted_user};
-    ALTER SCHEMA triggers OWNER TO {quoted_user};
+    CREATE SCHEMA IF NOT EXISTS math;
+    GRANT ALL PRIVILEGES ON SCHEMA math TO {quoted_user};
+    ALTER SCHEMA math OWNER TO {quoted_user};
     """
 
     schema_editor.execute(sql)
@@ -35,11 +27,7 @@ def reverse_schema(
     schema_editor: BaseDatabaseSchemaEditor,
 ) -> None:
     """Create reverse schema."""
-    schema_editor.execute(
-        'DROP SCHEMA IF EXISTS main CASCADE;'
-        'DROP SCHEMA IF EXISTS users CASCADE;'
-        'DROP SCHEMA IF EXISTS triggers CASCADE;'
-    )
+    schema_editor.execute('DROP SCHEMA IF EXISTS math CASCADE;')
 
 
 class Migration(migrations.Migration):

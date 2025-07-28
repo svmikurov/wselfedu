@@ -46,7 +46,6 @@ create_db:
 	sudo -u postgres psql -v db_user=$(DB_USER) -v db_name=$(DB_NAME) -f db/sql/init/drop_all.sql
 	sudo -u postgres psql -v db_user=$(DB_USER) -v db_password=$(DB_PASSWORD) -f db/sql/init/create_role.sql
 	sudo -u postgres psql -v db_user=$(DB_USER) -v db_name=$(DB_NAME) -f db/sql/init/create_db.sql
-	sudo -u postgres psql -f db/sql/init/create_schemas.sql
 
 # Create tables with SQL-scripts
 create_tables:
