@@ -11,7 +11,7 @@ from django.core.management.base import BaseCommand
 from dotenv import load_dotenv
 from typing_extensions import override
 
-from features.mixins.command import STDCommandMixin
+from features.mixins.command import DjStyledMessageMixin
 from utils.load import get_boolean_value
 
 load_dotenv()
@@ -21,7 +21,7 @@ BASE_DIR = settings.BASE_DIR
 FORCE_PRODUCTION = get_boolean_value('FORCE_PRODUCTION')
 
 
-class Command(STDCommandMixin, BaseCommand):
+class Command(DjStyledMessageMixin, BaseCommand):
     """Load initial data into models."""
 
     fixtures_config_path = 'db/fixtures/fixtures_config.yaml'

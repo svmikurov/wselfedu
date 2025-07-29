@@ -4,8 +4,8 @@ from django.core.management.base import OutputWrapper
 from django.core.management.color import Style
 
 
-class STDCommandMixin:
-    """Mixin std out/err."""
+class DjStyledMessageMixin:
+    """Mixin for out/err messages with Django style."""
 
     stdout: OutputWrapper
     stderr: OutputWrapper
