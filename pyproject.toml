@@ -55,13 +55,13 @@ pytest-mock = "^3.14.1"
 pydot = "^4.0.1"
 pyparsing = "^3.2.3"
 
-[tool.poetry.group.dev.dependencies]
 # Dependencies for developmet utils
+[tool.poetry.group.dev.dependencies]
 termcolor = "^3.1.0"
 sqlparse = "^0.5.3"
 rich = "^14.0.0"
 
-[build-system]
 # Settings for building a Python package
+[build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
