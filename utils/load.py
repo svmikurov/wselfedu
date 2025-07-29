@@ -11,14 +11,10 @@ def get_boolean_value(env_var: str) -> bool:
 
     Args:
         env_var: Name of the environment variable to read
-
     Returns:
         The boolean interpretation of the environment variable's value
-
     For example:
-
         DEBUG = getenv_bool('DEBUG')
-
     """
     value = os.getenv(env_var, 'False').strip().lower()
     return value in ('true', 't', '1')
@@ -29,9 +25,8 @@ def validate_username(username: str) -> None:
 
     Args:
         username: Username to validat
-
-    Raise: Iv username is not valid.
-
+    Raises:
+        Iv username is not valid.
     """
     if not re.match(USERNAME_PATTERN, username):
         raise ValueError(
@@ -46,14 +41,11 @@ def get_db_user(env_var: str = 'DB_USER') -> str:
 
     Args:
         env_var: Environment variable name (default 'DB_USER')
-
     Returns:
         Environment variable value
-
     Raises:
         ValueError: If the variable is not set or contains an invalid
         username
-
     """
     db_user = os.getenv(env_var)
 
