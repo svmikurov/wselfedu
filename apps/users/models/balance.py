@@ -19,10 +19,12 @@ class Balance(models.Model):
     )
     created_at = models.DateTimeField(
         blank=True,
+        auto_now_add=True,
         verbose_name='Добавлен',
     )
     updated_at = models.DateTimeField(
         blank=True,
+        auto_now=True,
         verbose_name='Обновлен',
     )
 
