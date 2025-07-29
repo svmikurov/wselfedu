@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     # Applications
+    'apps.pg_utils',
     'apps.main',
     'apps.users',
     'apps.math',

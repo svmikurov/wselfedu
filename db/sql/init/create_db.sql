@@ -1,8 +1,22 @@
 -- Version: 0.1.0
 -- Autor: Sergei Mikurov
--- Date: 2025-07-23
--- Updated: 2025-07-26
--- Description: Postgres DB creating
+-- Date: 2025-07-29
+-- Description: Create role and DB, drop if exists
+
+-- Drop existing DB
+DROP DATABASE IF EXISTS :db_name;
+
+-- Drop role
+DROP ROLE IF EXISTS :db_user;
+
+-- Create role
+CREATE ROLE :db_user;
+ALTER ROLE :db_user PASSWORD :'db_password';
+ALTER ROLE :db_user LOGIN;
+ALTER ROLE :db_user SET client_encoding TO 'utf8';
+ALTER ROLE :db_user SET default_transaction_isolation TO 'read committed';
+ALTER ROLE :db_user SET timezone TO 'UTC';
+ALTER ROLE :db_user CREATEDB;
 
 -- Set role
 SET ROLE :db_user;

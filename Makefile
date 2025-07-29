@@ -10,7 +10,6 @@ deploy: format \
 		create_db \
 		makemigrations \
 		migrate \
-		create_tables \
 		load_initial_data \
 		pytest
 
@@ -43,19 +42,17 @@ check: format mypy pytest
 
 # Create database
 create_db:
-	sudo -u postgres psql -v db_user=$(DB_USER) -v db_name=$(DB_NAME) -f db/sql/init/drop_all.sql
-	sudo -u postgres psql -v db_user=$(DB_USER) -v db_password=$(DB_PASSWORD) -f db/sql/init/create_role.sql
-	sudo -u postgres psql -v db_user=$(DB_USER) -v db_name=$(DB_NAME) -f db/sql/init/create_db.sql
-
-# Create tables with SQL-scripts
-create_tables:
-	python manage.py create_tables
+	sudo -u postgres psql \
+	-v db_name=$(DB_NAME) \
+	-v db_user=$(DB_USER) \
+	-v db_password=$(DB_PASSWORD) \
+	-f db/sql/init/create_db.sql
 
 # Django migration creating
 makemigrations:
 	python manage.py makemigrations
 
-# Apply django migrations
+# Apply Django migrations
 migrate:
 	python manage.py migrate
 
