@@ -1,129 +1,113 @@
-"""Defines test of add reward Postgres procedure."""
+"""Tests for add reward Postgres procedure."""
+
+from typing import Callable
 
 import pytest
 from django.db import connection
 from django.db.models import Sum
 
 from apps.lang.models import LangTransaction
+from apps.main.models import App
 from apps.math.models.transaction import MathTransaction
-from apps.users.models import Balance
+from apps.users.models import Balance, CustomUser
+from apps.users.models.transaction import Transaction
 
-USER_ID = 1
 AMOUNT = 33
 SCHEMA_NAME = 'math'
 
-SQL = 'CALL increment_user_reward(%s, %s, %s)', (USER_ID, AMOUNT, SCHEMA_NAME)
+
+@pytest.fixture
+def user() -> CustomUser:
+    """Fixture provides test user."""
+    return CustomUser.objects.create_user(username='test_user')
 
 
-def add_math_reward() -> None:
-    """Call procedure to add reward."""
-    with connection.cursor() as cursor:
-        cursor.execute(*SQL)
+@pytest.fixture(autouse=True)
+def math_app() -> App:
+    """Fixture provides math app."""
+    return App.objects.create(name='Adding', schema_name=SCHEMA_NAME)
+
+
+@pytest.fixture
+def add_reward() -> Callable[..., None]:
+    """Fixture to call reward procedure."""
+
+    def _add_reward(
+        user_id: int,
+        amount: int = AMOUNT,
+        schema: str = SCHEMA_NAME,
+    ) -> None:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                'CALL increment_user_reward(%s, %s, %s)',
+                (user_id, amount, schema),
+            )
+
+    return _add_reward
 
 
 class TestIncrementUserRewardProcedure:
     """Test `increment_user_reward` Postgres procedure."""
 
     @pytest.mark.django_db
-    def test_transaction_added(self) -> None:
-        """Test that the transaction was added."""
-        # Act
-        add_math_reward()
+    def test_transaction_created(
+        self,
+        user: CustomUser,
+        add_reward: Callable[..., None],
+    ) -> None:
+        """Test transaction creation."""
+        add_reward(user.pk)
+        transaction = MathTransaction.objects.filter(user=user).first()
 
-        # Assertion
-
-        # Get data for assertions
-        transaction = MathTransaction.objects.filter(user_id=USER_ID)
-
-        # Transaction was added once
-        assert transaction.count() == 1
-
-        # Transaction was added with amount
-        assert transaction.last().amount == AMOUNT  # type: ignore[union-attr]
+        assert transaction is not None
+        assert transaction.amount == AMOUNT
 
     @pytest.mark.django_db
-    def test_math_transaction_added(self) -> None:
-        """Test that the transaction was added to math transaction."""
-        # Act
-        add_math_reward()
+    def test_multiple_transactions(
+        self, user: CustomUser, add_reward: Callable[..., None]
+    ) -> None:
+        """Test multiple reward calls."""
+        add_reward(user.pk)
+        add_reward(user.pk)
 
-        # Assertion
+        transactions = MathTransaction.objects.filter(user=user)
+        total = transactions.aggregate(total=Sum('amount'))
 
-        # Get data for assertions
-        transaction = MathTransaction.objects.filter(user_id=USER_ID)
-
-        # Transaction was added once
-        assert transaction.count() == 1
-
-        # Transaction was added with amount
-        assert transaction.last().amount == AMOUNT  # type: ignore[union-attr]
+        assert transactions.count() == 2
+        assert total['total'] == AMOUNT * 2
 
     @pytest.mark.django_db
-    def test_transaction_added_twice(self) -> None:
-        """Test that the transaction was added twice."""
-        # Act
-        add_math_reward()
-        add_math_reward()
-
-        # Assertion
-
-        # Get data for assertions
-        transaction = MathTransaction.objects.filter(user_id=USER_ID)
-        total_amount = transaction.aggregate(total_amount=Sum('amount'))
-
-        # Transaction was added once
-        assert transaction.count() == 2
-
-        # Transaction was added with amount
-        assert total_amount.get('total_amount') == AMOUNT * 2
-
-    @pytest.mark.django_db
-    def test_balance_increased(self) -> None:
-        """Test that balance increased."""
-        # Act
-        add_math_reward()
-
-        # Assertion
-
-        # Get data for assertions
-        balance = Balance.objects.get(user_id=1)
-
-        # The reward increased the balance
+    def test_balance_updates(
+        self,
+        user: CustomUser,
+        add_reward: Callable[..., None],
+    ) -> None:
+        """Test balance updates."""
+        add_reward(user.pk)
+        balance = Balance.objects.get(user=user)
         assert balance.total == AMOUNT
 
-    @pytest.mark.django_db
-    def test_balance_increased_twice(self) -> None:
-        """Test that balance increased, called twice."""
-        # Setup
-        double_reward = AMOUNT * 2
-
-        # Act
-        add_math_reward()
-        add_math_reward()
-
-        # Assertion
-
-        # Get data for assertions
-        balance = Balance.objects.get(user_id=1)
-
-        # The reward increased the balance
-        assert balance.total == double_reward
+        add_reward(user.pk)
+        balance.refresh_from_db()
+        assert balance.total == AMOUNT * 2
 
 
-class TestDerivedTransaction:
-    """Test derived transactions."""
+class TestTransactionIsolation:
+    """Test transaction isolation between apps."""
 
     @pytest.mark.django_db
-    def test_isolation_derived_transaction(self) -> None:
-        """Test that derived transaction is isolated."""
-        # Adt
-        add_math_reward()
+    def test_math_transaction_isolation(
+        self,
+        user: CustomUser,
+        add_reward: Callable[..., None],
+    ) -> None:
+        """Test transactions are isolated to their apps."""
+        add_reward(user.pk)
 
-        # Assert
+        math_count: int = MathTransaction.objects.count()
+        lang_count: int = LangTransaction.objects.count()
+        main_count: int = Transaction.objects.count()
 
-        # Get data for assertions
-        math_transaction = MathTransaction.objects.count()
-        lang_transaction = LangTransaction.objects.count()
-
-        # Transaction is specific for model
-        assert math_transaction != lang_transaction
+        assert math_count == 1
+        assert lang_count == 0
+        assert main_count == 1
