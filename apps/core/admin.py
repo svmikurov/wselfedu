@@ -1,4 +1,4 @@
-"""Defines main app model administration."""
+"""Defines Core app model administration."""
 
 from django.contrib import admin
 

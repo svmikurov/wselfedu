@@ -1,14 +1,14 @@
 [
 {
-  "model": "main.app",
+  "model": "core.app",
   "pk": 1,
   "fields": {
     "name": "Базовое приложение",
-    "schema_name": "main"
+    "schema_name": "core"
   }
 },
 {
-  "model": "main.app",
+  "model": "core.app",
   "pk": 2,
   "fields": {
     "name": "Пользователи",
@@ -16,7 +16,7 @@
   }
 },
   {
-  "model": "main.app",
+  "model": "core.app",
   "pk": 3,
   "fields": {
     "name": "Математика",
@@ -24,7 +24,7 @@
   }
 },
 {
-  "model": "main.app",
+  "model": "core.app",
   "pk": 4,
   "fields": {
     "name": "Иностранный язык",

@@ -8,7 +8,7 @@ from django.db import migrations
 
 # SQL for creating the base transaction table
 CREATE_TABLE_SQL = """
-CREATE TABLE main.transaction (
+CREATE TABLE core.transaction (
     id INT NOT NULL PRIMARY KEY,
     user_id INT NOT NULL,
     amount DECIMAL (11, 2) NOT NULL,
@@ -23,16 +23,16 @@ CREATE TABLE main.transaction (
 
 # SQL for reverse migration
 DROP_TABLE_SQL = """
-DROP TABLE IF EXISTS main.transaction CASCADE;
+DROP TABLE IF EXISTS core.transaction CASCADE;
 """
 
 
 class Migration(migrations.Migration):
-    """Migration to create the base transaction table in main schema."""
+    """Migration to create the base transaction table in core schema."""
 
     dependencies = [
-        ('main', '0001_create_base_exercise'),  # Previous migration
-        ('pg_utils', '0001_create_schemas'),  # Ensures 'main' schema exists
+        ('core', '0001_create_base_exercise'),  # Previous migration
+        ('pg_utils', '0001_create_schemas'),  # Ensures 'core' schema exists
     ]
 
     operations = [

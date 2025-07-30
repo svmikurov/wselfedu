@@ -1,11 +1,11 @@
 """Migration to create Transaction table with PostgreSQL inheritance.
 
 Creates:
-1. Table `math.transaction` inheriting from `main.transaction`
+1. Table `math.transaction` inheriting from `core.transaction`
 2. Automatic ID generation using PostgreSQL identity column
 
 Important notes:
-- Inherits all columns from parent table `main.transaction`
+- Inherits all columns from parent table `core.transaction`
 - Child table can add additional columns
 - CASCADE used in reverse migration to ensure proper cleanup
 """
@@ -20,7 +20,9 @@ CREATE TABLE math.transaction (
         FOREIGN KEY (user_id)
         REFERENCES users.customuser(id)
         ON DELETE CASCADE
-) INHERITS (main.transaction);
+) INHERITS (core.transaction);
+ALTER TABLE math.transaction
+ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
 """
 
 # SQL for reverse migration
@@ -34,7 +36,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('math', '0001_create_exercise'),  # Previous migration
-        ('main', '0002_create_base_transaction'),  # Parent table must exist
+        ('core', '0002_create_base_transaction'),  # Parent table must exist
         ('users', '0001_initial'),  # Required for user reference
     ]
 

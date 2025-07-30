@@ -4,20 +4,20 @@ DB schema with Dj migrations
 Create empty migration
 ----------------------
 
-1. Create empty migration with ``create_custom_schema`` name into ``main`` app
+1. Create empty migration with ``create_custom_schema`` name into ``core`` app
 
 .. code-block:: bash
    :caption: bash
 
 
-   $ python manage.py makemigrations --empty main --name create_custom_schema
-   Migrations for 'main':
-   ../main/migrations/0001_create_custom_schema.py
+   $ python manage.py makemigrations --empty core --name create_custom_schema
+   Migrations for 'core':
+   ../core/migrations/0001_create_custom_schema.py
 
 Django will create a migration module
 
 .. code-block:: python
-   :caption: ../main/migrations/0001_create_custom_schema.py
+   :caption: ../core/migrations/0001_create_custom_schema.py
 
    from django.db import migrations
 
@@ -29,20 +29,20 @@ Django will create a migration module
        operations = [
        ]
 
-2. Add the field value ``db_table = 'main"."mymodel'`` to the model metadata
+2. Add the field value ``db_table = 'core"."mymodel'`` to the model metadata
 
 .. code-block:: python
 
    class MyModel(models.Model):
       ...
        class Meta:
-           db_table = 'main"."mymodel'
+           db_table = 'core"."mymodel'
            ...
 
 3. Add sql code
 
 .. code-block:: python
-   :caption: ../main/migrations/0001_create_custom_schema.py
+   :caption: ../core/migrations/0001_create_custom_schema.py
 
    from django.db import migrations
    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
@@ -53,10 +53,10 @@ Django will create a migration module
        schema_editor: BaseDatabaseSchemaEditor
    ) -> None:
        schema_editor.execute("""
-           -- Schema for main app tables
-           CREATE SCHEMA main;
-           GRANT ALL PRIVILEGES ON SCHEMA main TO db_user;
-           ALTER SCHEMA main OWNER TO db_user;
+           -- Schema for core app tables
+           CREATE SCHEMA core;
+           GRANT ALL PRIVILEGES ON SCHEMA core TO db_user;
+           ALTER SCHEMA core OWNER TO db_user;
        """)
 
    class Migration(migrations.Migration):
@@ -65,7 +65,7 @@ Django will create a migration module
 4. If you need to run the migration before the standard migrations, add
 
 .. code-block:: python
-   :caption: ../main/migrations/0001_create_custom_schema.py
+   :caption: ../core/migrations/0001_create_custom_schema.py
 
       class Migration(migrations.Migration):
 
@@ -80,12 +80,12 @@ Django will create a migration module
    :caption: bash
 
    $ python manage.py makemigrations
-   Migrations for 'main':
-     ../main/migrations/0002_initial.py
+   Migrations for 'core':
+     ../core/migrations/0002_initial.py
        + Create model MyModel
 
 .. code-block:: bash
-   :caption: ../main/migrations/
+   :caption: ../core/migrations/
 
    0001_create_custom_schema.py
    0002_initial.py
@@ -93,18 +93,18 @@ Django will create a migration module
 Migrations will add a ``dependency`` on creating a custom schema
 
 .. code-block:: python
-   :caption: ../main/migrations/0002_initial.py
+   :caption: ../core/migrations/0002_initial.py
 
       class Migration(migrations.Migration):
 
           initial = True
 
           dependencies = [
-              ('main', '0001_create_custom_schema'),
+              ('core', '0001_create_custom_schema'),
           ]
           ...
 
-6. Check with terminal ``psql`` the schema ``main`` and the creation of the model ``MyModel``
+6. Check with terminal ``psql`` the schema ``core`` and the creation of the model ``MyModel``
 
 .. code-block:: bash
    :caption: psql
@@ -113,7 +113,7 @@ Migrations will add a ``dependency`` on creating a custom schema
             Список схем
       Имя    |     Владелец
    ----------+-------------------
-    main     | db_user
+    core     | db_user
     public   | pg_database_owner
     ...
    (... строк)
@@ -121,8 +121,8 @@ Migrations will add a ``dependency`` on creating a custom schema
 .. code-block:: bash
    :caption: psql
 
-   db_name=# \dt main.*
+   db_name=# \dt core.*
                 Список отношений
     Схема |     Имя     |   Тип   | Владелец
    -------+-------------+---------+----------
-    main  | mymodel     | таблица | db_user
+    core  | mymodel     | таблица | db_user

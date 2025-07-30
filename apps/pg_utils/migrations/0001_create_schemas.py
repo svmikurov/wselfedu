@@ -15,7 +15,7 @@ from utils.load import get_db_user
 # List of schemas to create
 SCHEMAS: list[str] = [
     'lang',
-    'main',
+    'core',
     'math',
     'triggers',
     'users',
@@ -59,15 +59,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.SeparateDatabaseAndState(
-            # Database operations
-            database_operations=[
-                migrations.RunPython(
-                    code=create_schema,
-                    reverse_code=reverse_schema,
-                ),
-            ],
-            # No state operations needed (pure DB change)
-            state_operations=[],
+        migrations.RunPython(
+            code=create_schema,
+            reverse_code=reverse_schema,
         ),
     ]

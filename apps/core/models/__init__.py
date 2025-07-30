@@ -1,4 +1,4 @@
-"""Contains main app models."""
+"""Contains Core app models."""
 
 __all__ = [
     'App',

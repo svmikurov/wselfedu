@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     # Applications
     'apps.pg_utils',
-    'apps.main',
+    'apps.core',
     'apps.users',
     'apps.math',
     'apps.lang',
@@ -199,7 +199,7 @@ SPECTACULAR_SETTINGS = {
 GRAPH_MODELS = {
     'app_labels': [
         'lang',
-        'main',
+        'core',
         'math',
         'users',
     ],

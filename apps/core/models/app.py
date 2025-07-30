@@ -22,6 +22,6 @@ class App(models.Model):
     class Meta:
         """Model configuration."""
 
-        db_table = 'main"."app'
+        db_table = 'core"."app'
         verbose_name = 'Приложение'
         verbose_name_plural = 'Приложения'

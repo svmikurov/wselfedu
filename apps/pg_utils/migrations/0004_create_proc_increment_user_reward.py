@@ -24,7 +24,7 @@ DECLARE
 BEGIN
     -- Get app schema for transaction
     SELECT schema_name INTO v_schema_name
-    FROM main.app
+    FROM core.app
     WHERE schema_name = p_app_name;
 
     IF NOT FOUND THEN

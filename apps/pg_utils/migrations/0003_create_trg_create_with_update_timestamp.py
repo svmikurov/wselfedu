@@ -15,6 +15,7 @@ from django.db.backends.base.schema import BaseDatabaseSchemaEditor
 TABLES = [
     'lang.exercise',
     'math.exercise',
+    'users.balance',
 ]
 
 # SQL for creating the timestamp management function
@@ -112,24 +113,18 @@ class Migration(migrations.Migration):
         ('pg_utils', '0002_create_trg_create_timestamp'),  # Previous migration
         ('lang', '0002_create_transaction'),  # Ensure tables exist
         ('math', '0002_create_transaction'),  # Ensure tables exist
+        ('users', '0002_create_balance'),  # Ensure tables exist
     ]
 
     operations = [
-        migrations.SeparateDatabaseAndState(
-            # Database operations
-            database_operations=[
-                # Create the timestamp function
-                migrations.RunSQL(
-                    sql=FUNCTION_SQL,
-                    reverse_sql=REVERSE_FUNCTION_SQL,
-                ),
-                # Apply triggers to tables
-                migrations.RunPython(
-                    code=apply_triggers,
-                    reverse_code=drop_triggers,
-                ),
-            ],
-            # No state operations needed (pure database change)
-            state_operations=[],
+        # Create the function
+        migrations.RunSQL(
+            sql=FUNCTION_SQL,
+            reverse_sql=REVERSE_FUNCTION_SQL,
+        ),
+        # Apply triggers to tables
+        migrations.RunPython(
+            code=apply_triggers,
+            reverse_code=drop_triggers,
         ),
     ]

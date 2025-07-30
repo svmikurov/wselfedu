@@ -43,7 +43,7 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name': 'Транзакция',
                 'verbose_name_plural': 'Транзакции',
-                'db_table': 'main"."transaction',
+                'db_table': 'core"."transaction',
                 'managed': False,
             },
         ),

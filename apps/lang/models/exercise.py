@@ -1,6 +1,6 @@
 """Defines lang app exercise model."""
 
-from apps.main.models import BaseExercise
+from apps.core.models import BaseExercise
 
 
 class LangExercise(BaseExercise):

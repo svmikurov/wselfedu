@@ -107,21 +107,14 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.SeparateDatabaseAndState(
-            # Database operations
-            database_operations=[
-                # Create the function
-                migrations.RunSQL(
-                    sql=FUNCTION_SQL,
-                    reverse_sql=REVERSE_FUNCTION_SQL,
-                ),
-                # Apply triggers to tables
-                migrations.RunPython(
-                    code=apply_trigger,
-                    reverse_code=drop_triggers,
-                ),
-            ],
-            # No state operations needed (pure DB change)
-            state_operations=[],
+        # Create the function
+        migrations.RunSQL(
+            sql=FUNCTION_SQL,
+            reverse_sql=REVERSE_FUNCTION_SQL,
+        ),
+        # Apply triggers to tables
+        migrations.RunPython(
+            code=apply_trigger,
+            reverse_code=drop_triggers,
         ),
     ]

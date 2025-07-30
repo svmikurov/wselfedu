@@ -1,19 +1,10 @@
 """Defines reward transaction proxy model on Lang exercise."""
 
-from django.db import models
-
-from apps.main.models import BaseTransaction
-from apps.users.models import CustomUser
+from apps.core.models import BaseTransaction
 
 
 class LangTransaction(BaseTransaction):
     """Reward transaction proxy model on Lang exercise."""
-
-    user = models.ForeignKey(
-        CustomUser,
-        on_delete=models.CASCADE,
-        related_name='lang_transactions',
-    )
 
     class Meta:
         """Model configuration."""
