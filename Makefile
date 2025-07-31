@@ -45,7 +45,9 @@ pytest:
 
 # Pytest with configured coverage
 pytest-cov:
-	pytest --cov=. --cov-report=term-missing:skip-covered
+	pytest --cov=. \
+    --cov-report=term-missing:skip-covered \
+    --cov-report=html
 
 # Combined checking
 check: format mypy pytest-cov
