@@ -90,7 +90,7 @@ class TestBalanceModel:
     ) -> None:
         """Test user-balance relationship."""
         # Access through related_name
-        assert user.balance.first() == balance
+        assert user.balance == balance
 
         # Test deletion
         user.delete()
