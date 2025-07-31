@@ -1,4 +1,13 @@
+# Load data to create a database
 include .env
+DB_NAME ?= $(DB_NAME)
+DB_USER ?= $(DB_USER)
+DB_PASS ?= $(DB_PASSWORD)
+
+# Defining color for messages
+GREEN  := \033[0;32m
+RED    := \033[0;31m
+RESET  := \033[0m
 
 # Run server in development mode
 run:
@@ -7,7 +16,8 @@ run:
 # Run deployment
 deploy: format \
 		mypy \
-		create_db \
+		check-connections \
+		recreate_db \
 		makemigrations \
 		migrate \
 		load_initial_data \
@@ -40,12 +50,23 @@ check: format mypy pytest
 # Database commands
 
 
-# Create database
-create_db:
+# Check active PostgreSQL connections
+check-connections:
+	@echo "Checking active PostgreSQL connections..."
+	@if [ $$(psql -U $(DB_USER) -d $(DB_NAME) -t -c "SELECT COUNT(*) FROM pg_stat_activity WHERE datname = '$(DB_NAME)' AND pid <> pg_backend_pid();") -gt 0 ]; \
+	then \
+		echo "$(RED)ERROR: Active connections detected. Aborting.$(RESET)"; \
+		exit 1; \
+	else \
+		echo "$(GREEN)No active connections. Proceeding...$(RESET)"; \
+	fi
+
+# Drop existing DB and role, create role and DB
+recreate_db:
 	sudo -u postgres psql \
 	-v db_name=$(DB_NAME) \
 	-v db_user=$(DB_USER) \
-	-v db_password=$(DB_PASSWORD) \
+	-v db_password=$(DB_PASS) \
 	-f db/sql/init/create_db.sql
 
 # Django migration creating
@@ -58,7 +79,8 @@ migrate:
 
 # Load inial data fixtures
 load_initial_data:
-	python manage.py load_initial_data --load-sensitive
+	# TODO: Fix temporary "yes" answer
+	echo "yes" | python manage.py load_initial_data --load-sensitive
 
 
 # Django-extensions
