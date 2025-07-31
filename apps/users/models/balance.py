@@ -6,7 +6,7 @@ from django.db import models
 class Balance(models.Model):
     """User points balance."""
 
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         'CustomUser',
         on_delete=models.CASCADE,
         related_name='balance',
