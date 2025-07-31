@@ -11,7 +11,7 @@ from django.core.management.base import BaseCommand
 from dotenv import load_dotenv
 from typing_extensions import override
 
-from features.mixins.command import DjStyledMessageMixin
+from apps.core.mixins.command import DjStyledMessageMixin
 from utils.load import get_boolean_value
 
 load_dotenv()

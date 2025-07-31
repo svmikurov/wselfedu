@@ -2,9 +2,9 @@
 
 from django.contrib import admin
 
+from apps.core.mixins.admin import UnchangeableAdminMixin
 from apps.users.models import Balance, CustomUser
 from apps.users.models.transaction import Transaction
-from features.mixins.admin import UnchangeableAdminMixin
 
 
 @admin.register(CustomUser)

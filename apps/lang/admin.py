@@ -2,8 +2,8 @@
 
 from django.contrib import admin
 
+from apps.core.mixins.admin import UnchangeableAdminMixin
 from apps.lang.models import LangExercise, LangTransaction
-from features.mixins.admin import UnchangeableAdminMixin
 
 
 @admin.register(LangExercise)

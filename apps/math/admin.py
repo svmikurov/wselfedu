@@ -2,8 +2,8 @@
 
 from django.contrib import admin
 
+from apps.core.mixins.admin import UnchangeableAdminMixin
 from apps.math.models import MathExercise, MathTransaction
-from features.mixins.admin import UnchangeableAdminMixin
 
 
 @admin.register(MathExercise)
