@@ -1,0 +1,19 @@
+[run]
+omit =
+    */.venv_wselfedu/*
+    */migrations/*
+    */tests/*
+    */src/dependency_injector/*.pyx
+    */site-packages/*
+    */commands/*
+    */command.py
+    */admin.py
+    */apps.py
+    */urls.py
+    */__init__.py
+    wselfedu/settings.py
+    wselfedu/urls/*
+    wselfedu/wsgi.py
+    wselfedu/asgi.py
+    utils/logger/*
+    manage.py

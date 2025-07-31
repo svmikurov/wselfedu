@@ -21,7 +21,7 @@ deploy: format \
 		makemigrations \
 		migrate \
 		load_initial_data \
-		pytest
+		pytest-cov
 
 
 # Testing and code checking
@@ -43,8 +43,12 @@ mypy:
 pytest:
 	pytest .
 
+# Pytest with configured coverage
+pytest-cov:
+	pytest --cov=. --cov-report=term-missing:skip-covered
+
 # Combined checking
-check: format mypy pytest
+check: format mypy pytest-cov
 
 
 # Database commands

@@ -11,6 +11,7 @@ temp/
 
 # Byte-compiled
 db.sqlite3
+.coverage
 *__pycache__
 
 # IntelliJ Idea family of suites
