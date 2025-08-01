@@ -10,7 +10,7 @@ from django.core.management import call_command
 from django.core.management.base import BaseCommand
 from typing_extensions import override
 
-from apps.core.mixins.command import DjStyledMessageMixin
+from apps.core.mixins.command import DjangoStyledMessageMixin
 from utils.load import get_boolean_value
 
 PRODUCTION: bool = get_boolean_value('PRODUCTION')
@@ -42,7 +42,7 @@ Command to load initial data into the database
 """
 
 
-class Command(DjStyledMessageMixin, BaseCommand):
+class Command(DjangoStyledMessageMixin, BaseCommand):
     """Load initial data into models."""
 
     help = 'Load initial data into models'
