@@ -1,0 +1,43 @@
+{% load static %}
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{% endblock %}</title>
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+</head>
+
+<body>
+  <header class="">
+    <!--======= Navigation =======-->
+    <!-- End Navigation -->
+  </header>
+
+  <div class="container-xl">
+    <div class="row pt-2">
+      <!--======= Sidebar =======-->
+      <!-- End Sidebar -->
+      <div class="col">
+        <!--======= Django Messages =======-->
+        <section>
+          {% bootstrap_messages %}
+        </section><!-- End Django Messages -->
+        <!--======= Content =======-->
+        <main>
+          {% block content %}{% endblock %}
+        </main><!-- End Content -->
+      </div>
+    </div>
+  </div>
+
+  <!--======= Scripts =======-->
+  <!-- Load jquery --><!-- End Load jquery -->
+  <!-- End Scripts -->
+</body>
+</html>
