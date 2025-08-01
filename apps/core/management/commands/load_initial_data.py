@@ -1,6 +1,6 @@
 """Defines command to load inial data to database."""
 
-from argparse import ArgumentParser
+from argparse import ArgumentParser, RawDescriptionHelpFormatter
 from pathlib import Path
 from typing import Any
 
@@ -8,27 +8,51 @@ import yaml
 from django.conf import settings
 from django.core.management import call_command
 from django.core.management.base import BaseCommand
-from dotenv import load_dotenv
 from typing_extensions import override
 
 from apps.core.mixins.command import DjStyledMessageMixin
 from utils.load import get_boolean_value
 
-load_dotenv()
+PRODUCTION: bool = get_boolean_value('PRODUCTION')
+FORCE_PRODUCTION: bool = get_boolean_value('FORCE_PRODUCTION')
+FIXTURES_CONFIG_PATH = 'db/fixtures/fixtures_config.yaml'
+DESCRIPTION = """
+Command to load initial data into the database
+----------------------------------------------
 
-BASE_DIR = settings.BASE_DIR
+    If the production environment is not set, sensitive data (user, ...)
+    is loaded from the /sensitive/ fixtures directory by default.
 
-FORCE_PRODUCTION = get_boolean_value('FORCE_PRODUCTION')
+    To load sensitive data in production, set environment
+    FORCE_PRODUCTION=1.
+
+    To load fixtures uses load fixture config.
+    For example:
+
+        db/fixtures/fixtures_config.yaml:
+
+            load_order:
+              - db/fixtures/public/apps.json
+              - db/fixtures/public/math_exercise.json
+              - db/fixtures/sensitive/users.json
+
+            options:
+              default_database: "default"
+              ignore_nonexistent: false
+"""
 
 
 class Command(DjStyledMessageMixin, BaseCommand):
     """Load initial data into models."""
 
-    fixtures_config_path = 'db/fixtures/fixtures_config.yaml'
     help = 'Load initial data into models'
+    success_load = True
 
     def add_arguments(self, parser: ArgumentParser) -> None:
         """Add custom command line args for the management command."""
+        parser.formatter_class = RawDescriptionHelpFormatter
+        parser.description = DESCRIPTION
+
         parser.add_argument(
             '--load-sensitive',
             action='store_true',
@@ -40,8 +64,8 @@ class Command(DjStyledMessageMixin, BaseCommand):
             '--config',
             type=str,
             dest='config_path',
-            default=self.fixtures_config_path,
-            help='Path to config file',
+            default=FIXTURES_CONFIG_PATH,
+            help='Path to load fixtures configuration file',
         )
 
     @override
@@ -54,45 +78,55 @@ class Command(DjStyledMessageMixin, BaseCommand):
             self._msg_error('Load fixtures config not set')
             return
 
-        # Check environment
-        if not settings.PRODUCTION:
+        # Check environment before load fixtures
+        if settings.PRODUCTION:
             self._msg_warning(
                 'Not in production! Use FORCE_PRODUCTION=1 to override'
             )
             if not FORCE_PRODUCTION:
                 return
 
-        # Check fixture on sensitive
+        # Set load fixture options for sensitive fixture loading
         load_sensitive: bool = bool(options.get('load_sensitive', False))
-        if load_sensitive:
+        if load_sensitive and PRODUCTION:
             confirm = input("Load SENSITIVE data? (type 'yes' to confirm): ")
+
             if confirm.lower() != 'yes':
                 self._msg_notice('Sensitive data loading cancelled')
                 options['load_sensitive'] = False  # type: ignore[assignment]
 
-        # Get fixtures
+        else:
+            self._msg_warning('Sensitive data loading enable')
+            options['load_sensitive'] = True  # type: ignore[assignment]
+
+        # Get fixture paths to load
         try:
-            fixtures = config['load_order']
+            fixtures: list[Path] = config['load_order']
         except (TypeError, KeyError):
             self._msg_error('Error to get fixtures!')
             return
 
         # Load fixtures
         for fixture in fixtures:
-            if 'sensitive/' in fixture and not options['load_sensitive']:
-                continue
-            self.stdout.write(f'Loading {fixture} ...')
+            if 'sensitive' in str(fixture):
+                if not options['load_sensitive']:
+                    continue
+                self._msg_warning(f'Loading sensitive {fixture} ...')
+            else:
+                print(f'Loading {fixture} ...')
 
             try:
                 load_fixture_options = config['options']
                 self._call_load_fixture(fixture, load_fixture_options)
             except Exception as e:
                 self._msg_error(f'Error loading {fixture}: {str(e)}')
-                if 'sensitive/' in fixture:
-                    break
+                self.success_load = False
 
         # Finish message
-        self._msg_success('Data loading completed!')
+        if self.success_load:
+            self._msg_success('Initial data loading into models completed!')
+        else:
+            self._msg_error('Error load initial data into models')
 
     # Utility methods
 
@@ -105,7 +139,7 @@ class Command(DjStyledMessageMixin, BaseCommand):
                 f'Expected config path type `str` or `Path`, '
                 f'got `{type(config_path)}`'
             )
-        return BASE_DIR / Path(config_path)
+        return settings.BASE_DIR / Path(config_path)
 
     def _read_config(self, config_path: Path) -> dict[str, Any] | None:
         """Safely open and parse config file."""
