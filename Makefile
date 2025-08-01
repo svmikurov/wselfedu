@@ -21,7 +21,7 @@ deploy: format \
 		makemigrations \
 		migrate \
 		load_initial_data \
-		pytest-cov
+		pytest
 
 
 # Testing and code checking
@@ -85,8 +85,7 @@ migrate:
 
 # Load inial data fixtures
 load_initial_data:
-	# TODO: Fix temporary "yes" answer
-	echo "yes" | python manage.py load_initial_data --load-sensitive
+	python manage.py load_initial_data --load-sensitive
 
 
 # Django-extensions
