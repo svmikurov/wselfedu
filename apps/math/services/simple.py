@@ -7,7 +7,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import PermissionDenied
 from typing_extensions import override
 from wse_exercises.base.rest import CheckRequest, TaskRequest
-from wse_exercises.core import MathExercise
+from wse_exercises.core import MathEnum
 from wse_exercises.core.math import (
     SimpleCalcAnswer,
     SimpleCalcConditions,
@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 
 class SimpleCalcService(
     BaseExerciseService[
-        MathExercise,
+        MathEnum,
         SimpleCalcConfig,
         SimpleCalcConditions,
         SimpleCalcQuestion,
@@ -59,7 +59,7 @@ class SimpleCalcService(
     def create(
         self,
         user: CustomUser | AnonymousUser,
-        request_dto: TaskRequest[MathExercise, SimpleCalcConfig],
+        request_dto: TaskRequest[MathEnum, SimpleCalcConfig],
     ) -> tuple[uuid.UUID, SimpleCalcTask]:
         """Create and store the task."""
         exercise = self._exercise_factory.get(request_dto.name)

@@ -3,7 +3,7 @@
 import uuid
 
 from django.db import models
-from wse_exercises.core import MathExercise
+from wse_exercises.core import MathEnum
 from wse_exercises.core.math import SimpleCalcTask
 from wse_exercises.core.math.rest import SimpleCalcResult
 
@@ -59,6 +59,6 @@ class SimpleCalcDBService:
         # In the division exercise, the divisor is calculated as
         # the multiplication of the first operand by the second.
         operand_1 = task_dto.conditions.operand_1
-        if task_dto.exercise_name == MathExercise.DIVISION:
+        if task_dto.exercise_name == MathEnum.DIVISION:
             return operand_1 * task_dto.conditions.operand_2
         return operand_1
