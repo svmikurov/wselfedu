@@ -1,12 +1,9 @@
-"""Optimized tests for Balance model."""
+"""Tests for Balance model."""
 
-from datetime import timedelta
 from decimal import Decimal
 
 import pytest
-from django.db import connection
 from django.db.utils import DataError
-from django.utils import timezone
 
 from apps.users.models import Balance, CustomUser
 
@@ -31,33 +28,7 @@ class TestBalanceModel:
             total=Decimal('1000.50'),
         )
 
-    def test_balance_creation_via_sql(
-        self,
-        user: CustomUser,
-    ) -> None:
-        """Test balance object creation."""
-        tolerance = timedelta(seconds=1)
-        now = timezone.now()
-
-        with connection.cursor() as cursor:
-            cursor.execute(
-                'INSERT INTO users.balance (user_id) VALUES (%s)',
-                (user.pk,),
-            )
-
-        # Object created
-        obj = Balance.objects.get(user=user.pk)
-
-        # The current datetime was set in the created_at field
-        assert abs(obj.updated_at - now) < tolerance
-
-        # The current datetime was set in the updated_at field
-        assert abs(obj.created_at - now) < tolerance
-
-        # The total balance not NULL
-        assert obj.total == Decimal('0.00')
-
-    def test_balance_creation_via_orm(
+    def test_balance_creation(
         self,
         balance: Balance,
         user: CustomUser,

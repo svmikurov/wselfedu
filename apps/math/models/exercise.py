@@ -1,6 +1,6 @@
 """Defines math app exercise type model."""
 
-from apps.core.models import BaseExercise
+from apps.core.models.base import BaseExercise
 
 
 class MathExercise(BaseExercise):
@@ -9,7 +9,5 @@ class MathExercise(BaseExercise):
     class Meta:
         """Model configuration."""
 
-        managed = False
-        db_table = 'math"."exercise'
         verbose_name = 'Упражнение'
         verbose_name_plural = 'Упражнения'

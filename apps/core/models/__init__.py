@@ -1,11 +1,7 @@
 """Contains Core app models."""
 
 __all__ = [
-    'App',
-    'BaseExercise',
-    'BaseTransaction',
+    'Discipline',
 ]
 
-from .app import App
-from .exercise import BaseExercise
-from .transaction import BaseTransaction
+from .discipline import Discipline

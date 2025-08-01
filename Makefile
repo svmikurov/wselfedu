@@ -21,7 +21,7 @@ deploy: format \
 		makemigrations \
 		migrate \
 		load_initial_data \
-		pytest
+		pytest-cov
 
 
 # Testing and code checking
@@ -39,9 +39,13 @@ format:
 mypy:
 	mypy .
 
-# Pytest
+# Pytess
 pytest:
-	pytest .
+	pytest
+
+# Pytest without browser testing
+pytest-no-browser:
+	pytest --ignore=tests/browser/
 
 # Pytest with configured coverage
 pytest-cov:

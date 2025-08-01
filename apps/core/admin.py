@@ -2,12 +2,12 @@
 
 from django.contrib import admin
 
-from .models import App
+from .models import Discipline
 
 
-@admin.register(App)
+@admin.register(Discipline)
 class DisciplineAdmin(admin.ModelAdmin):  # type: ignore
-    """Project app model administration."""
+    """Discipline model administration."""
 
-    list_display = ['name', 'schema_name']
-    ordering = ['name', 'schema_name']
+    list_display = ['name']
+    ordering = ['name']

@@ -1,0 +1,16 @@
+[
+{
+  "model": "core.discipline",
+  "pk": 1,
+  "fields": {
+    "name": "Математика"
+  }
+},
+{
+  "model": "core.discipline",
+  "pk": 2,
+  "fields": {
+    "name": "Изучение языка"
+  }
+}
+]

@@ -31,8 +31,6 @@ class Balance(models.Model):
     class Meta:
         """Model configuration."""
 
-        managed = False
-        db_table = 'users"."balance'
         verbose_name = 'Баланс'
         verbose_name_plural = 'Баланс'
 
