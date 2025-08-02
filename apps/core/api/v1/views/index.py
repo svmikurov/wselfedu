@@ -21,24 +21,38 @@ if TYPE_CHECKING:
 
 
 class IndexViewSet(viewsets.ViewSet):
-    """Core app index viewset."""
+    """ViewSet for providing core application information.
+
+    Provides endpoints for retrieving general information about the
+    application, including user-specific data when authenticated.
+    """
 
     permission_classes = [permissions.AllowAny]
 
     @extend_schema(
         summary='Get core information',
-        description='Returns core information',
+        description='Returns general application information '
+        'and user-specific data if authenticated',
         responses={
             200: OpenApiResponse(
                 response=IndexSerializer,
-                description='Success response with user data',
+                description='Success response with core application data.\n'
+                'Includes balance information for authenticated users if '
+                'available.',
             ),
         },
         tags=['Core'],
     )
     @action(detail=False)
     def index(self, request: Request) -> Response:
-        """Core app index viewset."""
+        """Retrieve core application information.
+
+        Returns:
+            Response: Serialized core application data including:
+                - General application information
+                - User balance (if authenticated and balance exists)
+
+        """
         serializer = IndexSerializer(self._get_index_data(request.user))
         return Response(serializer.data)
 
@@ -46,5 +60,14 @@ class IndexViewSet(viewsets.ViewSet):
     def _get_index_data(
         user: CustomUser | AnonymousUser,
     ) -> dict[str, Any]:
-        """Get response data."""
+        """Prepare data for the index response.
+
+        Args:
+            user: The authenticated user or anonymous user
+
+        Returns:
+            Dictionary containing all necessary data for the
+            index response.
+
+        """
         return get_index_data(user)

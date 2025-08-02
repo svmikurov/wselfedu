@@ -10,7 +10,16 @@ from apps.users.models import CustomUser
 def get_index_data(
     user: CustomUser | AnonymousUser,
 ) -> dict[str, Any]:
-    """Get common index response data."""
+    """Aggregate core application data for API response.
+
+    Args:
+        user: User instance (authenticated or anonymous)
+
+    Returns:
+        Dict with:
+            - user_balance: float | None
+
+    """
     if user.is_authenticated:
         return {
             'balance': user.balance_total,
