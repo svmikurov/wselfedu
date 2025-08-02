@@ -1,4 +1,4 @@
-"""Prepare data for index views DRF."""
+"""Prepare Core app data for index views DRF."""
 
 from typing import Any
 
@@ -10,7 +10,7 @@ from apps.users.models import CustomUser
 def get_index_data(
     user: CustomUser | AnonymousUser,
 ) -> dict[str, Any]:
-    """Aggregate core application data for API response.
+    """Aggregate Core app data for API response.
 
     Args:
         user: User instance (authenticated or anonymous)

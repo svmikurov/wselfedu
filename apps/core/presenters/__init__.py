@@ -1,1 +1,1 @@
-"""Contains methods for preparing data for DRF."""
+"""Contains methods for preparing Core app data for DRF."""
