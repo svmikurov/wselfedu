@@ -1,5 +1,6 @@
 """Test Core app index ViewSet."""
 
+from http import HTTPStatus
 from unittest.mock import Mock, patch
 
 import pytest
@@ -38,11 +39,11 @@ class TestIndexViewSet:
     @pytest.mark.parametrize(
         'user, balance',
         [
-            (authenticated_user, '0.00'),
+            (authenticated_user, '5.00'),
             (anonymous_user, None),
         ],
     )
-    def test_index_action_anonymous(
+    def test_index_action(
         self,
         user: CustomUser | AnonymousUser,
         balance: str | None,
@@ -64,7 +65,7 @@ class TestIndexViewSet:
             # Check that the mock was called with the correct argument
             mock_method.assert_called_once_with(user)
 
-            assert response.status_code == 200
+            assert response.status_code == HTTPStatus.OK
             assert response.data == {
                 'balance': balance,
             }

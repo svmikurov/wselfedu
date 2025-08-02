@@ -25,4 +25,6 @@ def get_index_data(
             'balance': user.balance_total,
         }
     else:
-        return {}
+        return {
+            'balance': None,
+        }

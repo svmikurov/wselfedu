@@ -21,4 +21,6 @@ def test_for_authenticated_user() -> None:
 def test_for_anonymous_user() -> None:
     """Test the preparation of data for anonymous user."""
     user = AnonymousUser()
-    assert get_index_data(user) == {}
+    assert get_index_data(user) == {
+        'balance': None,
+    }
