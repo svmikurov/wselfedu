@@ -1,15 +1,9 @@
-"""Defines Index serializer."""
+"""Defines Core app index serializer."""
 
-from typing import Any
-
-from rest_framework import serializers
+from apps.core.serializers.base import BalanceSerializer
 
 
-class IndexSerializer(serializers.Serializer[dict[str, Any]]):
+class IndexSerializer(
+    BalanceSerializer,
+):
     """Core app index serializer."""
-
-    balance = serializers.DecimalField(
-        max_digits=11,
-        decimal_places=2,
-        help_text='Current user balance',
-    )
