@@ -1,4 +1,4 @@
-"""Defines Math app serializer."""
+"""Defines Math app index serializer."""
 
 from rest_framework import serializers
 
