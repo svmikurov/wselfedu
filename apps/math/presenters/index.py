@@ -18,13 +18,22 @@ def get_index_data(
     Returns:
         Dict with:
             - user_balance: float | None
+            - exercises: list[str]
 
     """
     if user.is_authenticated:
         return {
             'balance': user.balance_total,
+            'exercises': [
+                'Adding',
+                'Multiplication',
+            ],
         }
     else:
         return {
             'balance': None,
+            'exercises': [
+                'Adding',
+                'Multiplication',
+            ],
         }
