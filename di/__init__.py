@@ -1,7 +1,18 @@
-"""Contains the initialization of dependency injection."""
+"""Dependency injection configuration and container initialization.
 
-from di.di_container import CoreContainer
+Defines which modules should be wired and provides the DI container
+instance.
+"""
 
-WIRED_MODULES: list[str] = []
+from di.di_container import MainContainer
 
-container = CoreContainer()
+WIRED_MODULES: list[str] = [
+    'apps.math.api.v1.views.calculation',
+]
+
+__all__ = [
+    'MainContainer',
+    'WIRED_MODULES',
+]
+
+container = MainContainer()
