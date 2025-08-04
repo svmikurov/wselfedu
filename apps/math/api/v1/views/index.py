@@ -9,9 +9,10 @@ from rest_framework.decorators import action
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from apps.math.api.v1.serializers.index import IndexSerializer
 from apps.math.presenters.index import get_index_data
 from apps.users.models import CustomUser
+
+from ..serializers.index import MathIndexSerializer
 
 
 class IndexViewSet(viewsets.ViewSet):
@@ -23,7 +24,7 @@ class IndexViewSet(viewsets.ViewSet):
         'and user-specific data if authenticated',
         responses={
             200: OpenApiResponse(
-                response=IndexSerializer,
+                response=MathIndexSerializer,
                 description='Success response with core application data.\n'
                 'Includes balance information for authenticated users if '
                 'available.',
@@ -35,7 +36,7 @@ class IndexViewSet(viewsets.ViewSet):
     def index(self, request: Request) -> Response:
         """Render the Math app general info."""
         data = self._get_response_data(request.user)
-        serializer = IndexSerializer(data)
+        serializer = MathIndexSerializer(data)
         return Response(serializer.data)
 
     @staticmethod

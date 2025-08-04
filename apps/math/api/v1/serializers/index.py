@@ -5,7 +5,7 @@ from rest_framework import serializers
 from apps.core.serializers.base import BalanceSerializer
 
 
-class IndexSerializer(
+class MathIndexSerializer(
     BalanceSerializer,
 ):
     """Math app index serializer."""
