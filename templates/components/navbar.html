@@ -1,0 +1,65 @@
+<nav id="nav" class="navbar navbar-expand-md navbar-dark bg-dark">
+  <div class="container-fluid">
+
+    {% if balance %}
+    <a class="navbar-brand" href="{% url 'home' %}">
+      * WSE * Баланс: <span id="balance">{{ balance }}</span> *
+    </a>
+    {% else %}
+    <a class="navbar-brand" href="{% url 'home' %}">
+      WSE
+    </a>
+    {% endif %}
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span id="navbar-toggler-icon" class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse">
+      <ul data-testid="navbar-list" class="navbar-nav">
+        <li class="nav-item dropdown" id="navbarProject">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Проект
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarProjectMenu">
+            <li><a class="dropdown-item" id="home-nav" href="#">Главная</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" id="about-nav" href="#">О проекте</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" id="android-nav" href="#">Android приложение</a></li>
+            <li><a class="dropdown-item" id="windows-nav" href="#">Приложение для Windows</a></li>
+            <li><a class="dropdown-item" id="linux-nav" href="#">Приложение для Linux</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown" id="navbarGlossary">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Дисциплины
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" id="math-nav" href="#">Математика</a></li>
+            <li><a class="dropdown-item" id="glos-nav" href="#">Глоссарий</a></li>
+            <li><a class="dropdown-item" id="lang-nav" href="#">Изучение языков</a></li>
+          </ul>
+        </li>
+
+        {% if user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Профиль
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" id="user-nav" href="{% url 'users:profile' user.pk %}">Профиль</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" id="profile-nav" href="#">Наставничество</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" id="mentorship-nav" href="#">Выйти</a></li>
+            </ul>
+          </li>
+        {% else %}
+          <li class="nav-item"><a id="register-nav" class="nav-link" href="{% url 'signup' %}">Регистрация</a></li>
+          <li class="nav-item"><a id="login-nav" class="nav-link" href="{% url 'login' %}">Войти</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
