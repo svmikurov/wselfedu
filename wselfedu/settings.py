@@ -42,9 +42,10 @@ INSTALLED_APPS = [
     # Documentation
     'drf_spectacular',
     # layout
-    'django_bootstrap5',
-    'crispy_forms',
     'crispy_bootstrap5',
+    'crispy_forms',
+    'django_bootstrap5',
+    'django_htmx',
     # Applications
     'apps.core',
     'apps.users',
@@ -57,6 +58,8 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    # https://django-htmx.readthedocs.io/en/latest/installation.html#id1
+    'django_htmx.middleware.HtmxMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

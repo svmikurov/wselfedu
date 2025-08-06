@@ -1,6 +1,7 @@
 {% load static %}
 {% load django_bootstrap5 %}
 {% bootstrap_css %}
+{% load django_htmx %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,9 +12,10 @@
   <title>{% block title %}{% endblock %}</title>
   {% bootstrap_css %}
   {% bootstrap_javascript %}
+  {% htmx_script minified=False %}
 </head>
 
-<body>
+<body hx-headers='{"x-csrftoken": "{{ csrf_token }}"}'>
   <header class="">
     <!--======= Navigation =======-->
     {% include 'components/navbar.html' %}

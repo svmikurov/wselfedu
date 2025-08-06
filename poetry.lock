@@ -429,6 +429,22 @@ files = [
 django = ">=4.2"
 
 [[package]]
+name = "django-htmx"
+version = "1.23.2"
+description = "Extensions for using Django with htmx."
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "django_htmx-1.23.2-py3-none-any.whl", hash = "sha256:c288fe92bdcfa7c2ed9665d6d23cc55c6693a7cc8d22cf0a01e1e38318874030"},
+    {file = "django_htmx-1.23.2.tar.gz", hash = "sha256:65a8c8825fcae983b94aedce26af96a70717ab185d55cdb8a7a4bb68863ab079"},
+]
+
+[package.dependencies]
+asgiref = ">=3.6"
+django = ">=4.2"
+
+[[package]]
 name = "django-stubs"
 version = "5.2.2"
 description = "Mypy stubs for Django"
@@ -1843,4 +1859,4 @@ pydantic = "1.10.22"
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<4.0"
-content-hash = "d7994689ed631fffec6f15ef127480b1eb32a860579f2d13b8c4bb40a7add7ac"
+content-hash = "37b88ed24966f65aa709d76da6f0634cf0634636c13348089fe1d576c5174713"
