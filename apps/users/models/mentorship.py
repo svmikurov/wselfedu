@@ -25,6 +25,9 @@ class Mentorship(models.Model):
         on_delete=models.CASCADE,
         related_name='student',
     )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
 
     def __str__(self) -> str:
         """Return string representation of model."""
@@ -53,6 +56,9 @@ class MentorshipRequest(models.Model):
         'CustomUser',
         related_name='to_mentor',
         on_delete=models.CASCADE,
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
     )
 
     def __str__(self) -> str:

@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block title %}Наставничество{% endblock %}
+
+{% block content %}
+<h1 style="text-align: center">Наставничество</h1>
+
+{% if mentor_mentorships %}
+<h2>Обучающиеся</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Обучающийся</th>
+        <th scope="col">Начало наставничества</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for mentorship in mentor_mentorships %}
+      <tr id="student-{{ mentorship.id }}">
+        <th>{{ mentorship.student }}</th>
+        <th>{{ mentorship.created_at|date:"d M Y"  }}</th>
+        <th>
+          <button
+            hx-delete="{% url 'users:mentorship-mentor-delete' mentorship.id %}"
+            hx-target="#student-{{ mentorship.id }}"
+            hx-swap="outerHTML"
+            hx-confirm="Удалить запись?"
+            class="btn btn-sm btn-primary"
+          >
+            Завершить
+          </button>
+        </th>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+{% if student_mentorships %}
+<h2>Мои наставники</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Наставник</th>
+        <th scope="col">Начало наставничества</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for mentorship in student_mentorships %}
+      <tr id="mentor-{{ mentorship.id }}">
+        <th>{{ mentorship.mentor }}</th>
+        <th>{{ mentorship.created_at|date:"d M Y"  }}</th>
+        <th>
+          <button
+            hx-delete="{% url 'users:mentorship-student-delete' mentorship.id %}"
+            hx-target="#mentor-{{ mentorship.id }}"
+            hx-swap="outerHTML"
+            hx-confirm="Удалить запись?"
+            class="btn btn-sm btn-primary"
+          >
+            Завершить
+          </button>
+        </th>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+{% if request_from_students %}
+<h2>Запросы на наставничество</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Запрос от</th>
+        <th scope="col">Дата запроса</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for request in request_from_students %}
+      <tr id="request-from-student-{{ request.id }}">
+        <th>{{ request.from_user }}</th>
+        <th>{{ request.created_at|date:"d M Y"  }}</th>
+        <th>
+          <button
+            hx-delete="{% url 'users:mentorship-mentor-request-delete' request.id %}"
+            hx-target="#request-from-student-{{ request.id }}"
+            hx-swap="outerHTML"
+            hx-confirm="Удалить запрос?"
+            class="btn btn-sm btn-primary"
+          >
+            Пропустить
+          </button>
+        </th>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+{% if request_to_mentors %}
+<h2>Запросы на наставничество</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Запрос наставнику</th>
+        <th scope="col">Дата запроса</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for request in request_to_mentors %}
+      <tr id="request-to-mentor-{{ request.id }}">
+        <th>{{ request.to_user }}</th>
+        <th>{{ request.created_at|date:"d M Y"  }}</th>
+        <th>
+          <button
+            hx-delete="{% url 'users:mentorship-student-request-delete' request.id %}"
+            hx-target="#request-to-mentor-{{ request.id }}"
+            hx-swap="outerHTML"
+            hx-confirm="Удалить запрос?"
+            class="btn btn-sm btn-primary"
+          >
+            Отказать
+          </button>
+        </th>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+<h2>Отправить запрос</h2>
+<form method="post" action="{% url 'users:mentorship-student-request-send' %}">
+  {% csrf_token %}
+  {{ form }}
+  <button class="btn btn-sm btn-primary">Отправить</button>
+</form>
+{% endblock %}

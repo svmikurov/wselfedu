@@ -3,6 +3,7 @@
 from django.contrib import admin
 
 from apps.core.mixins.admin import UnchangeableAdminMixin
+
 from .models import Balance, CustomUser, Mentorship, MentorshipRequest
 from .models.transaction import Transaction
 
@@ -16,17 +17,19 @@ class CustomUserAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
 
 
 @admin.register(Mentorship)
-class MentorshipAdmin(admin.ModelAdmin):
+class MentorshipAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Mentorship model representation."""
 
     list_display = ['mentor', 'student']
+    ordering = ['mentor', 'student']
 
 
 @admin.register(MentorshipRequest)
-class MentorshipRequestAdmin(admin.ModelAdmin):
+class MentorshipRequestAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Mentorship request model representation."""
 
     list_display = ['from_user', 'to_user']
+    ordering = ['from_user', 'to_user']
 
 
 @admin.register(Balance)
@@ -34,6 +37,7 @@ class BalanceAdmin(UnchangeableAdminMixin, admin.ModelAdmin):  # type: ignore[ty
     """User balance model administration."""
 
     list_display = ['user', 'total', 'updated_at']
+    ordering = ['user']
 
 
 # TODO: Fix username link
