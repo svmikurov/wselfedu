@@ -1,8 +1,6 @@
 """Defines Math app calculation exercise viewset."""
 
-from typing import Annotated
-
-from dependency_injector.wiring import Provide, inject
+from dependency_injector.wiring import Provide
 from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -23,48 +21,36 @@ from ..serializers.calculation import (
 class CalculationViewSet(viewsets.ViewSet):
     """Math app calculation exercise viewset."""
 
+    calc_exercise_presenter: CalcPresenter = Provide[
+        MainContainer.math_container.calc_presenter
+    ]
+
     @extend_schema(
         summary='Get calculation task',
         description='Endpoint for mathematical calculations exercise',
         request=CalcDataSerializer,
-        responses={
-            200: CalcTaskSerializer,
-        },
+        responses={200: CalcTaskSerializer},
         tags=['Math'],
     )
-    @inject
-    @action(detail=False, methods=['post'], url_path='simple-calc')
-    def calculation(
-        self,
-        request: Request,
-        presenter: Annotated[
-            CalcPresenter,
-            Provide[MainContainer.math_container.calc_presenter],
-        ],
-    ) -> Response:
+    @action(detail=False, methods=['post'])
+    def calculation(self, request: Request) -> Response:
         """Render the Math app calculation task."""
-        data = CalcDataSerializer(request.data)
-        task = presenter.get_task(data.data)
-        serializer = CalcTaskSerializer(task)
-        return Response(serializer.data)
+        data = CalcDataSerializer(data=request.data)
+        data.is_valid(raise_exception=True)
+        task = self.calc_exercise_presenter.get_task(data.validated_data)
+        return Response(CalcTaskSerializer(task).data)
 
     @extend_schema(
         summary='Check user answer on calculation task',
+        description="Endpoint for checking user's answer to task",
+        request=CalcAnswerSerializer,
+        responses={200: CalcResultSerializer},
         tags=['Math'],
-        responses=CalcAnswerSerializer,
-        request=CalcResultSerializer,
     )
-    @action(detail=False, methods=['post'], url_path='simple-calc/validate')
-    def validate(
-        self,
-        request: Request,
-        presenter: Annotated[
-            CalcPresenter,
-            Provide[MainContainer.math_container.calc_presenter],
-        ],
-    ) -> Response:
+    @action(detail=False, methods=['post'], url_path='calculation/validate')
+    def calculation_validate(self, request: Request) -> Response:
         """Render the result of answer check."""
-        data = CalcAnswerSerializer(request.data)
-        result = presenter.get_result(data.data)
-        serializer = CalcResultSerializer(result)
-        return Response(serializer.data)
+        data = CalcAnswerSerializer(data=request.data)
+        data.is_valid(raise_exception=True)
+        result = self.calc_exercise_presenter.get_result(data.validated_data)
+        return Response(CalcResultSerializer(result).data)

@@ -2,24 +2,69 @@
 
 from typing import Any
 
+from drf_spectacular.utils import OpenApiExample, extend_schema_serializer
 from rest_framework import serializers
 
+# TODO: Add other examples
 
+# TODO:
+# ConfigData(BaseModel):
+# min_value: int
+# max_value: int
+#
+# OpenApiExample(
+#   'Valid config',
+#   value=TypeData(ConfigData),
+
+# Nested schemas
+
+CONFIG_EXAMPLE = {
+    'min_value': 1,
+    'max_value': 9,
+}
+
+# Request schemas
+
+CALC_DATA_EXAMPLE = {
+    'exercise_name': 'subtraction',
+    'config': CONFIG_EXAMPLE,
+}
+
+# Response schemas
+
+...
+
+
+@extend_schema_serializer(
+    examples=[
+        OpenApiExample(
+            'Valid config',
+            value=CONFIG_EXAMPLE,
+            description='Example of calculation exercise configuration',
+        ),
+    ],
+)
 class CalcConfSerializer(serializers.Serializer[dict[str, Any]]):
-    """Serializer for calculation exercise configuration."""
+    """Nested serializer for calculation exercise configuration."""
 
     min_value = serializers.IntegerField()
     max_value = serializers.IntegerField()
 
 
+@extend_schema_serializer(
+    examples=[
+        OpenApiExample(
+            'Valid calculation data',
+            value=CALC_DATA_EXAMPLE,
+            description='Example of calculation exercise configuration',
+        ),
+    ],
+)
 class CalcDataSerializer(serializers.Serializer[dict[str, Any]]):
     """Serializer for calculation input data.
 
     Validates and processes the initial data required to perform
     a calculation.
-
-    Fields:
-        exercise (str): Calculation exercise name
     """
 
     exercise_name = serializers.CharField(
@@ -33,12 +78,7 @@ class CalcDataSerializer(serializers.Serializer[dict[str, Any]]):
 
 
 class CalcTaskSerializer(serializers.Serializer[dict[str, Any]]):
-    """Serializer for calculation task representation.
-
-    Contains complete information about a calculation task including:
-        uid (UUID): Unique identifier of the calculation task,
-        task (str): String representation of the task
-    """
+    """Serializer for calculation task representation."""
 
     uid = serializers.UUIDField(
         help_text='Unique identifier of the calculation task'

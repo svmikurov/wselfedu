@@ -2,7 +2,7 @@
 
 from rest_framework import serializers
 
-from apps.core.serializers.base import BalanceSerializer
+from apps.users.api.v1.serializers.balance import BalanceSerializer
 
 
 class MathIndexSerializer(
