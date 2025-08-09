@@ -11,3 +11,7 @@ class MathExercise(BaseExercise):
 
         verbose_name = 'Упражнение'
         verbose_name_plural = 'Упражнения'
+
+    def __str__(self) -> str:
+        """Return string representation of model."""
+        return str(self.name)

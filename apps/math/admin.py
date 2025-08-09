@@ -10,4 +10,4 @@ class MathExerciseAdmin(admin.ModelAdmin):  # type: ignore
     """Math app exercise model administration."""
 
     list_display = ['name']
-    ordering = ['name']
+    ordering = ['id']
