@@ -1,14 +1,16 @@
 """Defines simple calculation exercise presenter."""
 
 from typing import Any
+from typing_extensions import override
 
 from wse_exercises.core.math import CalcTask
 
 from apps.core.services.iabc import IExerciseService
 from apps.core.storage.iabc.itask import ITaskStorage
+from apps.math.presenters.iabc import CalcPresenterABC
 
 
-class CalcPresenter:
+class CalcPresenter(CalcPresenterABC):
     """Calculation task presenter."""
 
     def __init__(
@@ -20,6 +22,7 @@ class CalcPresenter:
         self._exercise_service = exercise_service
         self._task_storage = task_storage
 
+    @override
     def get_task(self, data: dict[str, Any]) -> dict[str, Any]:
         """Get calculation task."""
         task_dto: CalcTask = self._exercise_service.create_task(data)
@@ -29,6 +32,7 @@ class CalcPresenter:
             'question': task_dto.question.text,
         }
 
+    @override
     def get_result(self, data: dict[str, Any]) -> dict[str, Any]:
         """Get user answer checking result."""
         task_dto: CalcTask = self._task_storage.retrieve_task(data['uid'])

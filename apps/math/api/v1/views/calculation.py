@@ -8,6 +8,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from apps.math.presenters.calculation import CalcPresenter
+from apps.math.presenters.iabc import ICalcPresenter
 from di import MainContainer
 
 from ..serializers.calculation import (
@@ -21,7 +22,7 @@ from ..serializers.calculation import (
 class CalculationViewSet(viewsets.ViewSet):
     """Math app calculation exercise viewset."""
 
-    calc_exercise_presenter: CalcPresenter = Provide[
+    calc_exercise_presenter: ICalcPresenter = Provide[
         MainContainer.math_container.calc_presenter
     ]
 
