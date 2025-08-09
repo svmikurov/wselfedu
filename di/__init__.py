@@ -9,6 +9,7 @@ from di.di_container import MainContainer
 WIRED_MODULES: list[str] = [
     'apps.math.api.v1.views.calculation',
     'apps.users.views.mentorship',
+    'apps.users.views.student',
 ]
 
 __all__ = [
