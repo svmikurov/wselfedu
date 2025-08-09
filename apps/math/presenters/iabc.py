@@ -1,7 +1,7 @@
 """Defines protocols and ABC for Math app presenter interfaces."""
 
 from abc import ABC, abstractmethod
-from typing import Protocol, Any
+from typing import Any, Protocol
 
 from typing_extensions import override
 

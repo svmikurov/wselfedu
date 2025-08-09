@@ -7,7 +7,6 @@ from rest_framework.decorators import action
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from apps.math.presenters.calculation import CalcPresenter
 from apps.math.presenters.iabc import ICalcPresenter
 from di import MainContainer
 

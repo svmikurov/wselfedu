@@ -1,8 +1,8 @@
 """Defines simple calculation exercise presenter."""
 
 from typing import Any
-from typing_extensions import override
 
+from typing_extensions import override
 from wse_exercises.core.math import CalcTask
 
 from apps.core.services.iabc import IExerciseService
