@@ -6,7 +6,7 @@ from tests.browser.pages.base import BasePage
 class LoginPage(BasePage):
     """Login page."""
 
-    title = 'Login'
+    title = 'Войти'
     path = 'login/'
 
     def _set_locators(self) -> None:
