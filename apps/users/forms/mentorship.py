@@ -8,7 +8,9 @@ from django import forms
 class SendMentorshipRequestForm(forms.Form):
     """Form to send request on mentorship."""
 
-    mentor_username = forms.CharField()
+    mentor_username = forms.CharField(
+        label='Введите "username" наставника',
+    )
 
     def __init__(
         self,
