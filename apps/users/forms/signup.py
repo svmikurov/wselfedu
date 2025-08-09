@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from ..models import CustomUser
 
 
-class SignUpForm(UserCreationForm):  # type: ignore[type-arg]
+class SignUpForm(UserCreationForm):  # type: ignore
     """User sign up form."""
 
     class Meta:

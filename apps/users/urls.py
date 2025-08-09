@@ -23,6 +23,11 @@ urlpatterns = [
         name='mentorship-mentor-delete',
     ),
     path(
+        'mentorship/mentor/accept-request/<int:pk>/',
+        views.AcceptMentorshipRequest.as_view(),
+        name='mentorship-mentor-request-accept',
+    ),
+    path(
         'mentorship/mentor/delete-request/<int:pk>/',
         views.DeleteStudentRequestView.as_view(),
         name='mentorship-mentor-request-delete',
@@ -31,11 +36,6 @@ urlpatterns = [
         'mentorship/student/delete/<int:pk>/',
         views.DeleteMentorView.as_view(),
         name='mentorship-student-delete',
-    ),
-    path(
-        'mentorship/student/request/',
-        views.SendMentorRequestView.as_view(),
-        name='mentorship-student-request-send',
     ),
     path(
         'mentorship/student/delete-request/<int:pk>/',

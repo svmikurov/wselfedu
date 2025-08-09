@@ -1,0 +1,49 @@
+<div id="mentor-requests">
+  <h2>Запросы на наставничество</h2>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="col-4" scope="col">Запрос от</th>
+        <th class="col-4" scope="col">Дата запроса</th>
+        <th class="col-4" scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% if request_from_students %}
+      {% for request in request_from_students %}
+      <tr id="request-from-student-{{ request.id }}">
+        <td>{{ request.from_user }}</td>
+        <td>{{ request.created_at|date:"d M Y"  }}</td>
+        <td>
+          <button
+            hx-post="{% url 'users:mentorship-mentor-request-accept' request.id %}"
+            hx-target="#mentorship-tables"
+            hx-swap="innerHTML"
+            hx-confirm="Принять запрос?"
+            class="btn btn-sm btn-primary"
+          >
+            Принять
+          </button>
+          <button
+            hx-delete="{% url 'users:mentorship-mentor-request-delete' request.id %}"
+            hx-target="#request-from-student-{{ request.id }}"
+            hx-swap="outerHTML"
+            hx-confirm="Удалить запрос?"
+            class="btn btn-sm btn-primary"
+          >
+            Пропустить
+          </button>
+        </td>
+      </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td>-</td>
+        <td>-</td>
+        <td></td>
+      </tr>
+    {% endif %}
+    </tbody>
+  </table>
+</div>

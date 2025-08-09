@@ -1,0 +1,48 @@
+{% load crispy_forms_tags %}
+
+<div id="mentorship-requests">
+  <h2>Запросы на наставничество</h2>
+
+  <table id="mentorship-requests-table" class="table">
+    <thead>
+      <tr>
+        <th class="col-4" scope="col">Запрос наставнику</th>
+        <th class="col-4" scope="col">Дата запроса</th>
+        <th class="col-4" scope="col"></th>
+      </tr>
+    </thead>
+    <tbody id="mentorship-requests-table-body">
+    {% if request_to_mentors %}
+      {% for request in request_to_mentors %}
+      <tr id="request-to-mentor-{{ request.id }}">
+        <td>{{ request.to_user }}</td>
+        <td>{{ request.created_at|date:"d M Y"  }}</td>
+        <td>
+          <button
+            hx-delete="{% url 'users:mentorship-student-request-delete' request.id %}"
+            hx-target="#request-to-mentor-{{ request.id }}"
+            hx-swap="outerHTML"
+            hx-confirm="Удалить запрос?"
+            class="btn btn-sm btn-primary"
+          >
+            Отозвать
+          </button>
+        </td>
+      </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td>-</td>
+        <td>-</td>
+        <td></td>
+      </tr>
+    {% endif %}
+    </tbody>
+  </table>
+
+  <!-- Submitting mentoring requests is not available for the mentor. -->
+  {% if not mentor_mentorships %}
+  <h2>Отправить запрос</h2>
+    {% crispy form %}
+  {% endif %}
+</div>

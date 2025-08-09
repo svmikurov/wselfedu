@@ -1,0 +1,40 @@
+<div id="mentor-mentorships">
+  <h2>Обучающиеся</h2>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="col-4" scope="col">Обучающийся</th>
+        <th class="col-4" scope="col">Начало наставничества</th>
+        <th class="col-4" scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% if mentor_mentorships %}
+      {% for mentorship in mentor_mentorships %}
+      <tr id="student-{{ mentorship.id }}">
+        <td>{{ mentorship.student }}</td>
+        <td>{{ mentorship.created_at|date:"d M Y"  }}</td>
+        <td>
+          <button
+            hx-delete="{% url 'users:mentorship-mentor-delete' mentorship.id %}"
+            hx-target="#student-{{ mentorship.id }}"
+            hx-swap="outerHTML"
+            hx-confirm="Удалить запись?"
+            class="btn btn-sm btn-primary"
+          >
+            Завершить
+          </button>
+        </td>
+      </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td>-</td>
+        <td>-</td>
+        <td></td>
+      </tr>
+    {% endif %}
+    </tbody>
+  </table>
+</div>

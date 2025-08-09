@@ -1,0 +1,11 @@
+<div id="mentorship-tables">
+  {% if not student_mentorships and not request_to_mentors %}
+    {% include 'users/mentorship/partials/table_mentor_mentorships.html' %}
+    {% include 'users/mentorship/partials/table_mentor_requests.html' %}
+  {% endif %}
+
+  {% if not mentor_mentorships %}
+    {% include 'users/mentorship/partials/table_student_mentorships.html' %}
+    {% include 'users/mentorship/partials/table_student_requests.html' %}
+  {% endif %}
+</div>
