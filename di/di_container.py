@@ -5,6 +5,7 @@ from dependency_injector.providers import Container
 
 from apps.core.di_container import CoreContainer
 from apps.math.di_container import MathAppContainer
+from apps.users.di_container import UsersContainer
 
 
 class MainContainer(DeclarativeContainer):
@@ -12,6 +13,9 @@ class MainContainer(DeclarativeContainer):
 
     core_container: Container[CoreContainer] = Container(
         CoreContainer,
+    )
+    users_container: Container[UsersContainer] = Container(
+        UsersContainer,
     )
     math_container: Container[MathAppContainer] = Container(
         MathAppContainer,
