@@ -18,6 +18,23 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
 
+        <!--======= Disciplines =======-->
+        <li class="nav-item dropdown" id="navbarDiscipline">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Дисциплины</a>
+          <ul class="dropdown-menu">
+            <li class="nav-item">
+              <a class="dropdown-item" id="math-nav" href="#">Математика</a>
+            </li>
+            <li class="nav-item">
+              <a class="dropdown-item" id="glos-nav" href="#">Глоссарий</a>
+            </li>
+            <li class="nav-item">
+              <a class="dropdown-item" id="lang-nav" href="#">Изучение языков</a>
+            </li>
+          </ul>
+        </li><!-- End Disciplines -->
+
+        <!--======= Project =======-->
         <li class="nav-item dropdown" id="navbarProject">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Проект</a>
           <ul class="dropdown-menu" aria-labelledby="navbarProjectMenu">
@@ -39,23 +56,9 @@
               <a class="dropdown-item" id="linux-nav" href="#">Приложение для Linux</a>
             </li>
           </ul>
-        </li>
+        </li><!- End Project -->
 
-        <li class="nav-item dropdown" id="navbarDiscipline">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Дисциплины</a>
-          <ul class="dropdown-menu">
-            <li class="nav-item">
-              <a class="dropdown-item" id="math-nav" href="#">Математика</a>
-            </li>
-            <li class="nav-item">
-              <a class="dropdown-item" id="glos-nav" href="#">Глоссарий</a>
-            </li>
-            <li class="nav-item">
-              <a class="dropdown-item" id="lang-nav" href="#">Изучение языков</a>
-            </li>
-          </ul>
-        </li>
-
+        <!--======= User =======-->
         {% if user.is_authenticated %}
         <li class="nav-item dropdown" id="navbarAccount">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ user.username }}</a>
@@ -83,7 +86,8 @@
         <li class="nav-item">
           <a id="login-nav" class="nav-link" href="{% url 'login' %}">Войти</a>
         </li>
-        {% endif %}
+        {% endif %}<!-- End User -->
+
       </ul>
     </div>
   </div>
