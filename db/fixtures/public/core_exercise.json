@@ -1,0 +1,22 @@
+[
+{
+  "model": "core.exercise",
+  "pk": 1,
+  "fields": {
+    "name": "Таблица умножения",
+    "discipline": 1,
+    "content_type": 14,
+    "object_id": 3
+  }
+},
+{
+  "model": "core.exercise",
+  "pk": 2,
+  "fields": {
+    "name": "Деление",
+    "discipline": 1,
+    "content_type": 14,
+    "object_id": 4
+  }
+}
+]

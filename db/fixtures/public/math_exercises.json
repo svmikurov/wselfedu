@@ -1,0 +1,42 @@
+[
+{
+  "model": "math.mathexercise",
+  "pk": 1,
+  "fields": {
+    "discipline": 1,
+    "name": "Сложение",
+    "created_at": "2025-08-09T19:08:03.465Z",
+    "updated_at": "2025-08-09T19:08:03.465Z"
+  }
+},
+{
+  "model": "math.mathexercise",
+  "pk": 2,
+  "fields": {
+    "discipline": 1,
+    "name": "Вычитание",
+    "created_at": "2025-08-09T19:08:18.338Z",
+    "updated_at": "2025-08-09T19:08:18.338Z"
+  }
+},
+{
+  "model": "math.mathexercise",
+  "pk": 3,
+  "fields": {
+    "discipline": 1,
+    "name": "Умножение",
+    "created_at": "2025-08-09T19:08:29.664Z",
+    "updated_at": "2025-08-09T19:08:29.664Z"
+  }
+},
+{
+  "model": "math.mathexercise",
+  "pk": 4,
+  "fields": {
+    "discipline": 1,
+    "name": "Деление",
+    "created_at": "2025-08-09T19:08:36.484Z",
+    "updated_at": "2025-08-09T19:08:36.484Z"
+  }
+}
+]

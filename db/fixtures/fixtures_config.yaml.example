@@ -1,12 +1,16 @@
 # Config to load fixtures into database
-# Version 0.1 (2025-08-02)
+# Version 0.1 (2025-08-10)
 
 load_order:
   - db/fixtures/public/discipline.json
-  - db/fixtures/public/math_exercise.json
-  - db/fixtures/public/lang_exercise.json
+  - db/fixtures/public/math_exercises.json
+  - db/fixtures/public/core_exercise.json
   - db/fixtures/sensitive/users.json
+  - db/fixtures/sensitive/mentorship_users.json
+  - db/fixtures/sensitive/mentorship_request.json
+  - db/fixtures/sensitive/mentorship.json
   - db/fixtures/sensitive/session.json
+
 
 options:
   default_database: "default"
