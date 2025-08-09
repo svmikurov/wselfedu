@@ -6,7 +6,12 @@ from typing import Protocol
 from django.db.models.query import QuerySet
 from typing_extensions import override
 
-from apps.users.models import CustomUser, Mentorship, MentorshipRequest
+from ..models import (
+    AssignedExercise,
+    CustomUser,
+    Mentorship,
+    MentorshipRequest,
+)
 
 
 class IMentorshipPresenter(Protocol):
@@ -79,3 +84,25 @@ class MentorshipPresenterABC(IMentorshipPresenter, ABC):
         user: CustomUser,
     ) -> dict[str, QuerySet[MentorshipRequest | Mentorship]]:
         """Get all mentorship relations for a given user."""
+
+
+class IStudentExercisesPresenter(Protocol):
+    """Protocol for student exercise presenter interface."""
+
+    @staticmethod
+    def get_assigned(
+        mentorship: Mentorship | None = None,
+    ) -> QuerySet[AssignedExercise]:
+        """Get assigned exercises to student by mentor."""
+
+
+class StudentExercisesPresenterABC(IStudentExercisesPresenter, ABC):
+    """Abstract base class for student exercise presenter."""
+
+    @staticmethod
+    @abstractmethod
+    @override
+    def get_assigned(
+        mentorship: Mentorship | None = None,
+    ) -> QuerySet[AssignedExercise]:
+        """Get assigned exercises to student by mentor."""

@@ -2,8 +2,13 @@
 
 from dependency_injector import containers, providers
 
-from apps.users.presenters.mentorship import MentorshipPresenter
-from apps.users.services.mentorship import MentorshipService
+from .presenters import (
+    MentorshipPresenter,
+    StudentExercisesPresenter,
+)
+from .services.mentorship import (
+    MentorshipService,
+)
 
 
 class UsersContainer(containers.DeclarativeContainer):
@@ -14,4 +19,8 @@ class UsersContainer(containers.DeclarativeContainer):
     )
     mentorship_presenter = providers.Factory(
         MentorshipPresenter,
+    )
+
+    exercises_presenter = providers.Factory(
+        StudentExercisesPresenter,
     )

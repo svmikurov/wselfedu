@@ -12,6 +12,13 @@ urlpatterns = [
         views.ProfileView.as_view(),
         name='profile',
     ),
+    # Student study management by mentor
+    path(
+        'mentorship/<int:pk>/student/',
+        views.StudentManagementView.as_view(),
+        name='mentorship-mentor-student',
+    ),
+    # Mentorship management
     path(
         'mentorship/<int:pk>/',
         views.MentorshipView.as_view(),

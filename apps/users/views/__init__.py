@@ -9,6 +9,7 @@ __all__ = [
     'MentorshipView',
     'ProfileView',
     'SignUpView',
+    'StudentManagementView',
 ]
 
 from .mentorship import (
@@ -20,4 +21,5 @@ from .mentorship import (
     MentorshipView,
 )
 from .profile import ProfileView
+from .student import StudentManagementView
 from .user import SignUpView

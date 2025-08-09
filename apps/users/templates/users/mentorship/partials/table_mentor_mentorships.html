@@ -13,7 +13,9 @@
     {% if mentor_mentorships %}
       {% for mentorship in mentor_mentorships %}
       <tr id="student-{{ mentorship.id }}">
-        <td>{{ mentorship.student }}</td>
+        <td>
+          <a href="{% url 'users:mentorship-mentor-student' mentorship.id %}">{{ mentorship.student }}</a>
+        </td>
         <td>{{ mentorship.created_at|date:"d M Y"  }}</td>
         <td>
           <button
