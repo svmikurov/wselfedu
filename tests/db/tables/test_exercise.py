@@ -6,6 +6,7 @@ from typing import Type
 import pytest
 from django.utils import timezone
 
+from apps.core.models import Discipline
 from apps.lang.models import LangExercise
 from apps.math.models import MathExercise
 
@@ -21,11 +22,18 @@ UPDATED_NAME = 'updated exercise name'
 TOLERANCE = timedelta(seconds=1)
 
 
+@pytest.fixture
+def discipline() -> Discipline:
+    """Fixture provides discipline model instance."""
+    return Discipline.objects.create(name='Math')
+
+
 @pytest.mark.parametrize(*EXERCISES)
 @pytest.mark.django_db
 def test_create_exercise(
     schema: str,
     exercise: Type[MathExercise],
+    discipline: Discipline,
 ) -> None:
     """Test the auto-fill timestamp on create with ORM.
 
@@ -37,7 +45,7 @@ def test_create_exercise(
     now = timezone.now()
 
     # Create exercise
-    exercise.objects.create(name=INITIAL_NAME)
+    exercise.objects.create(discipline=discipline, name=INITIAL_NAME)
 
     # Exercise created
     obj = exercise.objects.get(name=INITIAL_NAME)
@@ -54,6 +62,7 @@ def test_create_exercise(
 def test_update_exercise(
     schema: str,
     exercise: Type[MathExercise],
+    discipline: Discipline,
 ) -> None:
     """Test the auto-fill timestamp on update with ORM request.
 
@@ -64,7 +73,7 @@ def test_update_exercise(
         - created_at
     """
     # Set exercise
-    obj = exercise.objects.create(name=INITIAL_NAME)
+    obj = exercise.objects.create(discipline=discipline, name=INITIAL_NAME)
 
     # Update exercise name
     exercise.objects.filter(name=INITIAL_NAME).update(name=UPDATED_NAME)
