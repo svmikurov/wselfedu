@@ -1,17 +1,21 @@
 """Defines views to student study management by mentor."""
 
+from functools import cached_property
+from http import HTTPStatus
 from typing import Any
 
 from dependency_injector.wiring import Provide, inject
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
-from django.views.generic import DetailView, FormView
+from django.views.generic import DetailView, FormView, View
 from django.views.generic.edit import FormMixin
 
 from di import MainContainer
 
+from ...core.orchestrators.exercise import ExerciseAssignator
 from ..forms.assignation import AssignExerciseForm
 from ..models import Mentorship
 from ..presenters.iabc import IStudentExercisesPresenter
@@ -114,3 +118,30 @@ class AssignExerciseView(
             pk=self.kwargs['pk'],
             mentor=self.request.user,
         )
+
+
+class DeleteAssignationView(
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+    View,
+):
+    """Delete the assignation."""
+
+    def delete(
+        self,
+        request: HttpRequest,
+        *args: object,
+        **kwargs: object,
+    ) -> HttpResponse:
+        """Delete the exercise assignation."""
+        ExerciseAssignator.delete(self.kwargs['exercise_id'])
+        return HttpResponse(status=HTTPStatus.OK)
+
+    def test_func(self) -> bool:
+        """Test on request ownership."""
+        return bool(self.request.user == self.mentorship.mentor)
+
+    @cached_property
+    def mentorship(self) -> Mentorship:
+        """Get mentorship instance."""
+        return get_object_or_404(Mentorship, pk=self.kwargs['mentorship_id'])

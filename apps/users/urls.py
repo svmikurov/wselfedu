@@ -23,6 +23,11 @@ urlpatterns = [
         views.AssignExerciseView.as_view(),
         name='mentorship-mentor-student-assign',
     ),
+    path(
+        'mentorship/<int:mentorship_id>/student/assign/<int:exercise_id>/delete/',
+        views.DeleteAssignationView.as_view(),
+        name='mentorship-mentor-student-assign-delete',
+    ),
     # Mentorship management
     path(
         'mentorship/<int:pk>/',

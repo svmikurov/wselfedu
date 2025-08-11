@@ -4,6 +4,7 @@ __all__ = [
     'AcceptMentorshipRequest',
     'AssignExerciseView',
     'AssignedExercisesView',
+    'DeleteAssignationView',
     'DeleteMentorRequestView',
     'DeleteMentorView',
     'DeleteStudentRequestView',
@@ -16,6 +17,7 @@ __all__ = [
 from .assignation import (
     AssignedExercisesView,
     AssignExerciseView,
+    DeleteAssignationView,
 )
 from .mentorship import (
     AcceptMentorshipRequest,

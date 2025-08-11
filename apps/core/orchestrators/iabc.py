@@ -10,3 +10,7 @@ class IExerciseAssignator(Protocol):
 
     def create(self, data: dict[str, Any]) -> ExerciseAssigned:
         """Assign an exercise."""
+
+    @staticmethod
+    def delete(exercise_id: int) -> None:
+        """Delete the exercise from assigned exercises."""

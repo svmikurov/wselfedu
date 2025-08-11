@@ -10,9 +10,7 @@ from django.urls import reverse
 
 from apps.core.models.exercise import Exercise
 from apps.core.orchestrators.exercise import ExerciseAssignator
-from apps.users.models import (
-    Mentorship,
-)
+from apps.users.models import Mentorship
 
 
 class AssignExerciseForm(forms.Form):

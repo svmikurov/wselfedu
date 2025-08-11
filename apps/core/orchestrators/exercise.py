@@ -38,6 +38,14 @@ class ExerciseAssignator(IExerciseAssignator):
         return assignment
 
     @staticmethod
+    @transaction.atomic
+    @override
+    def delete(exercise_id: int) -> None:
+        """Delete the exercise from assigned exercises."""
+        assignment = ExerciseAssigned.objects.get(pk=exercise_id)
+        assignment.delete()
+
+    @staticmethod
     def _create_related_objects(
         assignment: ExerciseAssigned,
         data: dict[str, Any],
