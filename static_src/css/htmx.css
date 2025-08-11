@@ -1,0 +1,5 @@
+  /* Table row disappear animation on htmx-request */
+  tr.htmx-swapping td {
+    opacity: 0;
+    transition: opacity 1s ease-out;
+  }
