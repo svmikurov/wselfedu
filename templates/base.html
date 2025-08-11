@@ -1,9 +1,10 @@
+<!DOCTYPE html>
+
 {% load static %}
 {% load django_bootstrap5 %}
 {% bootstrap_css %}
 {% load django_htmx %}
 
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -13,6 +14,7 @@
   {% bootstrap_css %}
   {% bootstrap_javascript %}
   {% htmx_script minified=False %}
+  {% block styles %}{% endblock %}
 </head>
 
 <body hx-headers='{"x-csrftoken": "{{ csrf_token }}"}'>
@@ -42,5 +44,6 @@
   <!--======= Scripts =======-->
   <!-- Load jquery --><!-- End Load jquery -->
   <!-- End Scripts -->
+  {% block scripts %}{% endblock scripts %}
 </body>
 </html>
