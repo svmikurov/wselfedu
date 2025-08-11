@@ -9,6 +9,11 @@ load_order:
   - db/fixtures/sensitive/mentorship_users.json
   - db/fixtures/sensitive/mentorship_request.json
   - db/fixtures/sensitive/mentorship.json
+  - db/fixtures/sensitive/exercise_assigned.json
+  - db/fixtures/sensitive/exercise_active.json
+  - db/fixtures/sensitive/exercise_expiration.json
+  - db/fixtures/sensitive/exercise_task_award.json
+  - db/fixtures/sensitive/exercise_task_count.json
   - db/fixtures/sensitive/session.json
 
 

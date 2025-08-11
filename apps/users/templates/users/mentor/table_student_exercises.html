@@ -1,4 +1,35 @@
-<div id="student-exercises">
+{% load crispy_forms_tags %}
+
+<div id="assigned-exercises">
   <h2>Назначенные задания обучающемуся</h2>
-  {{ exercises }}
+
+  <table id="assigned-exercises-table" class="table">
+    <thead>
+      <tr style="vertical-align: top">
+        <th>#</th>
+        <th>Упражнение</th>
+        <th>Количество</th>
+        <th>Вознаграждение</th>
+        <th>Ежедневное</th>
+        <th>Срок</th>
+      </tr>
+    </thead>
+    <tbody id="assigned-exercises-body">
+      {% for exercise in assigned_exercises %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ exercise.exercise }}</td>
+          <td>{{ exercise.count | default:"-" }}</td>
+          <td>{{ exercise.award | default:"-" }}</td>
+          <td>{{ exercise.is_daily | yesno:"Ежедневное,Разовое,-" }}</td>
+          <td>{{ exercise.expiration | date:"Y/m/d" | default:"-" }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% if user == object.mentor %}
+  <h3>Назначить упражнение</h3>
+  {% crispy form %}
+  {% endif %}
 </div>

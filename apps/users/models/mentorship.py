@@ -70,3 +70,4 @@ class MentorshipRequest(models.Model):
 
         verbose_name = 'Запрос на наставничество'
         verbose_name_plural = 'Запросы на наставничество'
+        db_table = 'users_mentorship_request'

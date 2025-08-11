@@ -5,5 +5,5 @@ __all__ = [
     'StudentExercisesPresenter',
 ]
 
+from .assignation import StudentExercisesPresenter
 from .mentorship import MentorshipPresenter
-from .student import StudentExercisesPresenter

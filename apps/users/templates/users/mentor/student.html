@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
-{% block title %}Студент: {{ student.username }}{% endblock%}
+{% block title %}Студент: {{ object.student.username }}{% endblock%}
 
 {% block content %}
-<h1>Карточка студента</h1>
+<h1>Карточка студента: {{ object.student.username }}</h1>
   {% include 'users/mentor/table_student_exercises.html' %}
 {% endblock %}

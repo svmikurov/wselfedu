@@ -57,11 +57,11 @@ class MentorshipView(LoginRequiredMixin, FormView):  # type: ignore[type-arg]
             )
         except MentorshipError as e:
             form.add_error(None, str(e.html_message))
-            html = self._get_html(form)
+            html = self._get_html(form=form)
         else:
             # TODO: Fix automatic filling of form fields when the page
             #       is forced to reload after submitting the form.
-            html = self._get_html(SendMentorshipRequestForm())
+            html = self._get_html(form=SendMentorshipRequestForm())
 
         return HttpResponse(html)
 
@@ -80,6 +80,7 @@ class MentorshipView(LoginRequiredMixin, FormView):  # type: ignore[type-arg]
             raise PermissionDenied('Invalid user type')
         return user
 
+    @inject
     def _get_html(
         self,
         form: forms.Form,

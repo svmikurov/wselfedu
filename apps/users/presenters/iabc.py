@@ -7,8 +7,8 @@ from django.db.models.query import QuerySet
 from typing_extensions import override
 
 from ..models import (
-    AssignedExercise,
     CustomUser,
+    ExerciseAssigned,
     Mentorship,
     MentorshipRequest,
 )
@@ -90,9 +90,9 @@ class IStudentExercisesPresenter(Protocol):
     """Protocol for student exercise presenter interface."""
 
     @staticmethod
-    def get_assigned(
+    def get_assigned_exercise(
         mentorship: Mentorship | None = None,
-    ) -> QuerySet[AssignedExercise]:
+    ) -> QuerySet[ExerciseAssigned]:
         """Get assigned exercises to student by mentor."""
 
 
@@ -102,7 +102,7 @@ class StudentExercisesPresenterABC(IStudentExercisesPresenter, ABC):
     @staticmethod
     @abstractmethod
     @override
-    def get_assigned(
+    def get_assigned_exercise(
         mentorship: Mentorship | None = None,
-    ) -> QuerySet[AssignedExercise]:
+    ) -> QuerySet[ExerciseAssigned]:
         """Get assigned exercises to student by mentor."""
