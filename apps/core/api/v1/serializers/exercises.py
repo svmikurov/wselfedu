@@ -1,11 +1,14 @@
 """Defines serializers for assigned exercises."""
 
+from django.db.models import QuerySet
 from rest_framework import serializers
 
 from apps.users.models import ExerciseAssigned
 
 
-class AssignedMentorSerializer(serializers.Serializer):
+class AssignedMentorSerializer(
+    serializers.Serializer[QuerySet[ExerciseAssigned]]
+):
     """Serializer for assigned exercises by one mentor."""
 
     mentorship_id = serializers.IntegerField(

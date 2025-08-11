@@ -1,8 +1,8 @@
 """Defines views for mentorship info."""
+
 from functools import cached_property
 
 from dependency_injector.wiring import Provide
-from django.shortcuts import get_list_or_404
 from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
 from rest_framework.decorators import action

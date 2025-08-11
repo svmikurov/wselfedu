@@ -42,8 +42,7 @@ class StudentExercisesPresenter(StudentExercisesPresenterABC):
         filters: dict[str, Any],
     ) -> QuerySet[ExerciseAssigned]:
         return (
-            ExerciseAssigned.objects
-            .filter(**filters)
+            ExerciseAssigned.objects.filter(**filters)
             .select_related(
                 'mentorship',
                 'exercise',
@@ -52,7 +51,7 @@ class StudentExercisesPresenter(StudentExercisesPresenterABC):
                 'activation_status',
                 'exercise_expiration',
                 'exercise_task_count',
-                'task_award'
+                'task_award',
             )
             .annotate(count=F('exercise_task_count__count'))
             .annotate(award=F('task_award__award'))
