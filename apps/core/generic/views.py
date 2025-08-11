@@ -1,6 +1,9 @@
 """Contains custom generic views."""
 
-from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+)
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.views.generic import DeleteView
@@ -8,7 +11,11 @@ from django.views.generic import DeleteView
 from apps.users.models import CustomUser
 
 
-class HtmxDeleteView(UserPassesTestMixin, DeleteView):  # type: ignore[type-arg]
+class HtmxDeleteView(
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+    DeleteView,  # type: ignore[type-arg]
+):
     """Delete the object with HTMX request."""
 
     def test_func(self) -> bool:
