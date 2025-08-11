@@ -87,22 +87,43 @@ class MentorshipPresenterABC(IMentorshipPresenter, ABC):
 
 
 class IStudentExercisesPresenter(Protocol):
-    """Protocol for student exercise presenter interface."""
+    """Protocol for student exercise presenter interface.
 
-    @staticmethod
+    Presents to render the exercises assigned by the mentor.
+    """
+
+    @classmethod
     def get_assigned_exercise(
-        mentorship: Mentorship | None = None,
+        cls,
+        mentorship: Mentorship,
     ) -> QuerySet[ExerciseAssigned]:
         """Get assigned exercises to student by mentor."""
+
+    @classmethod
+    def get_assigned_exercise_all(
+        cls,
+        student: CustomUser,
+    ) -> QuerySet[ExerciseAssigned]:
+        """Get assigned exercises to student by all his mentors."""
 
 
 class StudentExercisesPresenterABC(IStudentExercisesPresenter, ABC):
     """Abstract base class for student exercise presenter."""
 
-    @staticmethod
+    @classmethod
     @abstractmethod
     @override
     def get_assigned_exercise(
-        mentorship: Mentorship | None = None,
+        cls,
+        mentorship: Mentorship,
     ) -> QuerySet[ExerciseAssigned]:
         """Get assigned exercises to student by mentor."""
+
+    @classmethod
+    @abstractmethod
+    @override
+    def get_assigned_exercise_all(
+        cls,
+        student: CustomUser,
+    ) -> QuerySet[ExerciseAssigned]:
+        """Get assigned exercises to student by all his mentors."""
