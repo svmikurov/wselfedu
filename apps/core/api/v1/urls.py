@@ -12,7 +12,7 @@ router.register(
     basename='core_index',
 )
 router.register(
-    r'assigned/mentors',
+    r'assigned',
     AssignedExercisesSetView,
     basename='assigned_mentor',
 )

@@ -100,7 +100,7 @@ class IStudentExercisesPresenter(Protocol):
         """Get assigned exercises to student by mentor."""
 
     @classmethod
-    def get_assigned_exercise_all(
+    def get_assigned_all(
         cls,
         student: CustomUser,
     ) -> QuerySet[ExerciseAssigned]:
@@ -122,7 +122,7 @@ class StudentExercisesPresenterABC(IStudentExercisesPresenter, ABC):
     @classmethod
     @abstractmethod
     @override
-    def get_assigned_exercise_all(
+    def get_assigned_all(
         cls,
         student: CustomUser,
     ) -> QuerySet[ExerciseAssigned]:

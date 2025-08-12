@@ -27,7 +27,7 @@ class StudentExercisesPresenter(StudentExercisesPresenterABC):
 
     @classmethod
     @override
-    def get_assigned_exercise_all(
+    def get_assigned_all(
         cls,
         student: CustomUser,
     ) -> QuerySet[ExerciseAssigned]:
