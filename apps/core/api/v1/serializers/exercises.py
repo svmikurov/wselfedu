@@ -10,7 +10,7 @@ from apps.users.models import ExerciseAssigned
 @extend_schema_serializer(
     examples=[
         OpenApiExample(
-            'Valid data',
+            'Response data',
             value={
                 'mentorship_id': 1,
                 'exercise_id': 1,
@@ -21,7 +21,7 @@ from apps.users.models import ExerciseAssigned
                 'is_daily': True,
                 'expiration': '2025-08-12T00:00:00Z',
             },
-            description='Example of assigned exercise',
+            response_only=True,
         )
     ]
 )
