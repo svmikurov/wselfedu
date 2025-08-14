@@ -31,19 +31,34 @@ class AssignedMentorSerializer(
     """Serializer for assigned exercises by one mentor."""
 
     mentorship_id = serializers.IntegerField(
-        source='mentorship.id', read_only=True
+        source='mentorship.id',
+        read_only=True,
     )
     exercise_id = serializers.IntegerField(
-        source='exercise.id', read_only=True
+        source='exercise.id',
+        read_only=True,
     )
     exercise_name = serializers.CharField(
-        source='exercise.name', read_only=True
+        source='exercise.name',
+        read_only=True,
     )
-    count = serializers.IntegerField(read_only=True)
-    award = serializers.IntegerField(read_only=True)
-    is_active = serializers.BooleanField(read_only=True)
-    is_daily = serializers.BooleanField(read_only=True)
-    expiration = serializers.DateTimeField(read_only=True)
+    count = serializers.IntegerField(
+        read_only=True,
+    )
+    award = serializers.IntegerField(
+        read_only=True,
+    )
+    is_active = serializers.BooleanField(
+        read_only=True,
+    )
+    is_daily = serializers.BooleanField(
+        read_only=True,
+    )
+    expiration = serializers.DateTimeField(
+        read_only=True,
+        allow_null=True,
+        required=False,
+    )
 
     class Meta:
         """Serializer configration."""
