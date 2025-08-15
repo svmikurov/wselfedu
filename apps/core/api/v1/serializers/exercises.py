@@ -12,7 +12,9 @@ from apps.users.models import ExerciseAssigned
         OpenApiExample(
             'Response data',
             value={
+                'assignation_id': 3,
                 'mentorship_id': 1,
+                'mentor_username': "Папа",
                 'exercise_id': 1,
                 'exercise_name': 'Таблица умножения',
                 'count': 20,
@@ -30,9 +32,17 @@ class AssignedMentorSerializer(
 ):
     """Serializer for assigned exercises by one mentor."""
 
+    assignation_id = serializers.IntegerField(
+        source='pk',
+        read_only=True,
+    )
     mentorship_id = serializers.IntegerField(
         source='mentorship.id',
         read_only=True,
+    )
+    mentor_username = serializers.CharField(
+        source='mentorship.mentor',
+        max_length=150,
     )
     exercise_id = serializers.IntegerField(
         source='exercise.id',
@@ -65,8 +75,9 @@ class AssignedMentorSerializer(
 
         model = ExerciseAssigned
         fields = [
-            'id',
+            'assignation_id',
             'mentorship_id',
+            'mentor_username',
             'exercise_id',
             'exercise_name',
             'count',
