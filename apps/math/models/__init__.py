@@ -2,6 +2,7 @@
 
 __all__ = [
     'MathExercise',
+    'ExerciseCondition',
 ]
 
-from .exercise import MathExercise
+from .exercise import ExerciseCondition, MathExercise

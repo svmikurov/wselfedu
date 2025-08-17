@@ -5,7 +5,7 @@ from django.contrib import admin
 
 from .models import Discipline
 from .models.base import BaseExercise
-from .models.exercise import Exercise
+from .models.exercise import Exercise, TaskIO
 
 
 @admin.register(Discipline)
@@ -23,6 +23,7 @@ class ExerciseAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     list_display = [
         'name',
         'discipline',
+        'task_io',
         'content_object_display',
         'content_type_display',
         # Exercise id in exercise model of specific app (type content)
@@ -46,3 +47,11 @@ class ExerciseAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
 
     content_object_display.short_description = 'Вид упражнения'  # type: ignore[attr-defined]
     content_type_display.short_description = 'Приложение'  # type: ignore[attr-defined]
+
+
+@admin.register(TaskIO)
+class TaskIOAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """Task I/O administration."""
+
+    list_display = ['name', 'alias']
+    ordering = ['name']

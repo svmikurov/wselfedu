@@ -10,6 +10,34 @@ from apps.core.models import Discipline
 from apps.core.models.base import BaseExercise
 
 
+class TaskIO(models.Model):
+    """String representation model of the I/O task type."""
+
+    name = models.CharField(
+        'Тип ввода/вывода',
+        max_length=50,
+    )
+    alias = models.SlugField(
+        'Псевдоним',
+        max_length=50,
+        unique=True,
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    class Meta:
+        """Configure the model."""
+
+        verbose_name = 'Тип I/O'
+        verbose_name_plural = 'Тип I/O'
+        db_table = 'core_task_io'
+
+    def __str__(self) -> str:
+        """Get the string representation of model instance."""
+        return str(self.name)
+
+
 def get_exercises_choices() -> dict[str, Any]:
     """Get exercise models for choice.
 
@@ -36,6 +64,12 @@ class Exercise(models.Model):
         help_text='Discipline',
         verbose_name='Дисциплина',
     )
+    task_io = models.ForeignKey(
+        TaskIO,
+        on_delete=models.CASCADE,
+        help_text='Task I/O: text, number, test, ...',
+        verbose_name='Тип ввода/вывода',
+    )
     content_type = models.ForeignKey(
         ContentType,
         on_delete=models.CASCADE,
@@ -45,6 +79,14 @@ class Exercise(models.Model):
         help_text='Primary key exercise name field in exercise model',
     )
     content_object = GenericForeignKey('content_type', 'object_id')
+    created_at = models.DateTimeField(
+        'Добавлено',
+        auto_now_add=True,
+    )
+    updated_at = models.DateTimeField(
+        'Изменено',
+        auto_now=True,
+    )
 
     class Meta:
         """Configure the model."""

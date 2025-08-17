@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 
-from apps.math.models import MathExercise
+from .models import ExerciseCondition, MathExercise
 
 
 @admin.register(MathExercise)
@@ -11,3 +11,16 @@ class MathExerciseAdmin(admin.ModelAdmin):  # type: ignore
 
     list_display = ['name']
     ordering = ['id']
+
+
+@admin.register(ExerciseCondition)
+class ExerciseConditionAdmin(admin.ModelAdmin):  # type: ignore
+    """Math app exercise conditions model administration."""
+
+    list_display = [
+        'name',
+        'conditions',
+        'min_operand',
+        'max_operand',
+        'updated_at',
+    ]
