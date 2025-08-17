@@ -14,9 +14,9 @@ from apps.users.models import ExerciseAssigned
             value={
                 'assignation_id': 3,
                 'mentorship_id': 1,
-                'mentor_username': "Папа",
+                'mentor_username': 'Dad',
                 'exercise_id': 1,
-                'exercise_name': 'Таблица умножения',
+                'exercise_name': 'Multiplication table',
                 'count': 20,
                 'award': 3,
                 'is_active': True,
