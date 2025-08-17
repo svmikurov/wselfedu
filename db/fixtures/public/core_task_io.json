@@ -1,0 +1,47 @@
+[
+{
+  "model": "core.taskio",
+  "pk": 1,
+  "fields": {
+    "name": "Текст",
+    "alias": "text",
+    "created_at": "2025-08-17T21:35:34.776Z"
+  }
+},
+{
+  "model": "core.taskio",
+  "pk": 2,
+  "fields": {
+    "name": "Целые числа",
+    "alias": "integer",
+    "created_at": "2025-08-17T21:36:09.299Z"
+  }
+},
+{
+  "model": "core.taskio",
+  "pk": 3,
+  "fields": {
+    "name": "Дроби",
+    "alias": "fractions",
+    "created_at": "2025-08-17T21:36:39.211Z"
+  }
+},
+{
+  "model": "core.taskio",
+  "pk": 4,
+  "fields": {
+    "name": "Тест с одним ответом",
+    "alias": "one-answer-test",
+    "created_at": "2025-08-17T21:38:19.332Z"
+  }
+},
+{
+  "model": "core.taskio",
+  "pk": 5,
+  "fields": {
+    "name": "Тест с несколькими ответами",
+    "alias": "multiple-choice-test",
+    "created_at": "2025-08-17T21:41:55.048Z"
+  }
+}
+]
