@@ -6,9 +6,10 @@ from typing import Protocol
 from django.db.models.query import QuerySet
 from typing_extensions import override
 
+from apps.study.models import ExerciseAssigned
+
 from ..models import (
     CustomUser,
-    ExerciseAssigned,
     Mentorship,
     MentorshipRequest,
 )
@@ -93,7 +94,7 @@ class IStudentExercisesPresenter(Protocol):
     """
 
     @classmethod
-    def get_assigned_exercise(
+    def get_assigned_by_mentor(
         cls,
         mentorship: Mentorship,
     ) -> QuerySet[ExerciseAssigned]:
@@ -105,6 +106,14 @@ class IStudentExercisesPresenter(Protocol):
         student: CustomUser,
     ) -> QuerySet[ExerciseAssigned]:
         """Get assigned exercises to student by all his mentors."""
+
+    @classmethod
+    def get_exercise_meta(
+        cls,
+        assignation_id: int,
+        student: CustomUser,
+    ) -> ExerciseAssigned:
+        """Get assigned exercise meta data."""
 
 
 class StudentExercisesPresenterABC(IStudentExercisesPresenter, ABC):
@@ -113,7 +122,7 @@ class StudentExercisesPresenterABC(IStudentExercisesPresenter, ABC):
     @classmethod
     @abstractmethod
     @override
-    def get_assigned_exercise(
+    def get_assigned_by_mentor(
         cls,
         mentorship: Mentorship,
     ) -> QuerySet[ExerciseAssigned]:
@@ -127,3 +136,13 @@ class StudentExercisesPresenterABC(IStudentExercisesPresenter, ABC):
         student: CustomUser,
     ) -> QuerySet[ExerciseAssigned]:
         """Get assigned exercises to student by all his mentors."""
+
+    @classmethod
+    @abstractmethod
+    @override
+    def get_exercise_meta(
+        cls,
+        assignation_id: int,
+        student: CustomUser,
+    ) -> ExerciseAssigned:
+        """Get assigned exercise meta data."""

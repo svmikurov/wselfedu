@@ -1,4 +1,4 @@
-"""Defines math app config."""
+"""Defines Math app config."""
 
 from django.apps import AppConfig
 

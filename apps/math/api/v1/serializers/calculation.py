@@ -5,34 +5,21 @@ from typing import Any
 from drf_spectacular.utils import OpenApiExample, extend_schema_serializer
 from rest_framework import serializers
 
-# TODO: Add other examples
-
-# TODO:
-# ConfigData(BaseModel):
-# min_value: int
-# max_value: int
-#
-# OpenApiExample(
-#   'Valid config',
-#   value=TypeData(ConfigData),
-
-# Nested schemas
+from apps.core.api.v1.serializers.related import RelatedDataSerializer
+from apps.core.types import ResultType
+from apps.math.presenters.types import QuestionResponseType, ResultResponseType
+from apps.math.services.types import CalcTaskType
 
 CONFIG_EXAMPLE = {
     'min_value': 1,
     'max_value': 9,
 }
-
-# Request schemas
-
 CALC_DATA_EXAMPLE = {
     'exercise_name': 'subtraction',
     'config': CONFIG_EXAMPLE,
 }
 
-# Response schemas
-
-...
+# Task condition serializer
 
 
 @extend_schema_serializer(
@@ -44,7 +31,7 @@ CALC_DATA_EXAMPLE = {
         ),
     ],
 )
-class CalcConfSerializer(serializers.Serializer[dict[str, Any]]):
+class ConfigSerializer(serializers.Serializer[dict[str, Any]]):
     """Nested serializer for calculation exercise configuration."""
 
     min_value = serializers.IntegerField()
@@ -60,8 +47,8 @@ class CalcConfSerializer(serializers.Serializer[dict[str, Any]]):
         ),
     ],
 )
-class CalcDataSerializer(serializers.Serializer[dict[str, Any]]):
-    """Serializer for calculation input data.
+class ConditionSerializer(serializers.Serializer[dict[str, Any]]):
+    """Serializer for calculation condition data.
 
     Validates and processes the initial data required to perform
     a calculation.
@@ -74,10 +61,13 @@ class CalcDataSerializer(serializers.Serializer[dict[str, Any]]):
             'max_length': 'Maximum 50 characters',
         },
     )
-    config = CalcConfSerializer()
+    config = ConfigSerializer()
 
 
-class CalcTaskSerializer(serializers.Serializer[dict[str, Any]]):
+# Serializer to task question
+
+
+class QuestionSerializer(serializers.Serializer[CalcTaskType]):
     """Serializer for calculation task representation."""
 
     uid = serializers.UUIDField(
@@ -92,7 +82,10 @@ class CalcTaskSerializer(serializers.Serializer[dict[str, Any]]):
     )
 
 
-class CalcAnswerSerializer(serializers.Serializer[dict[str, Any]]):
+# Serializers for request thr answer check
+
+
+class AnswerSerializer(serializers.Serializer[dict[str, Any]]):
     """Serializer for calculation task answer."""
 
     uid = serializers.UUIDField(
@@ -107,12 +100,29 @@ class CalcAnswerSerializer(serializers.Serializer[dict[str, Any]]):
     )
 
 
-class CalcResultSerializer(serializers.Serializer[dict[str, Any]]):
-    """Serializer for calculation result representation."""
+class AssignedAnswerSerializer(AnswerSerializer):
+    """Serializer for calculation task answer."""
+
+    def validate(self, attrs: dict[str, Any]) -> dict[str, Any]:
+        """Add assignation ID to valid data."""
+        attrs['assignation_id'] = self.context.get('assignation_id')
+        return attrs
+
+
+# Serializers for task answer result checking
+
+
+class ResultSerializer(serializers.Serializer[ResultType]):
+    """Base serializer for calculation result representation."""
 
     is_correct = serializers.BooleanField(
         help_text="Is the user's answer correct?",
     )
+
+
+class ResultAnswerSerializer(ResultSerializer):
+    """Serializer for calculation result representation."""
+
     correct_answer = serializers.CharField(
         max_length=100,
         help_text='String representation of the correct answer',
@@ -120,3 +130,27 @@ class CalcResultSerializer(serializers.Serializer[dict[str, Any]]):
             'max_length': 'Maximum 100 characters',
         },
     )
+    user_answer = serializers.CharField(
+        max_length=100,
+        help_text='String representation of the user user answer',
+        error_messages={
+            'max_length': 'Maximum 100 characters',
+        },
+    )
+
+
+# TODO: Fix annotation
+class TaskSerializer(serializers.Serializer[QuestionResponseType]):
+    """Serializer for calculation task response."""
+
+    status = serializers.ChoiceField(choices=['success', 'error'])
+    data = QuestionSerializer()  # type: ignore[assignment]
+    related_data = RelatedDataSerializer(required=False)
+
+
+class CheckSerializer(serializers.Serializer[ResultResponseType]):
+    """Serializer for calculation task response."""
+
+    status = serializers.ChoiceField(choices=['success', 'error'])
+    data = ResultAnswerSerializer()  # type: ignore[assignment]
+    related_data = RelatedDataSerializer(required=False)

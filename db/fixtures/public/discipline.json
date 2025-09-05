@@ -3,14 +3,16 @@
   "model": "core.discipline",
   "pk": 1,
   "fields": {
-    "name": "Математика"
+    "name": "Математика",
+    "slug": "math"
   }
 },
 {
   "model": "core.discipline",
   "pk": 2,
   "fields": {
-    "name": "Изучение языка"
+    "name": "Изучение языка",
+    "slug": "lang"
   }
 }
 ]

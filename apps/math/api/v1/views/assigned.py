@@ -1,0 +1,164 @@
+"""Viewset to completion assigned Math exercises."""
+
+from http import HTTPStatus
+
+from dependency_injector.wiring import Provide, inject
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import (
+    OpenApiExample,
+    OpenApiParameter,
+    OpenApiResponse,
+    extend_schema,
+)
+from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.request import Request
+from rest_framework.response import Response
+
+from apps.math.presenters.calculation import CalculationPresenter
+from apps.study.selectors.iabc import IAssignedSelector
+from apps.users.models import CustomUser
+from di import MainContainer
+
+from ..serializers.calculation import (
+    AssignedAnswerSerializer,
+    CheckSerializer,
+    QuestionSerializer,
+    TaskSerializer,
+)
+
+
+class ExerciseViewSet(viewsets.ViewSet):
+    """ViewSet for managing assigned math exercises.
+
+    Provides endpoints for retrieving exercise tasks assigned to
+    students.
+    """
+
+    @extend_schema(
+        summary='Get assigned math exercise task',
+        description='Returns a specific task from an assigned math exercise',
+        parameters=[
+            OpenApiParameter(
+                name='exercise_slug',
+                description='Unique exercise identifier (slug)',
+                required=True,
+                type=str,
+                location=OpenApiParameter.PATH,
+            ),
+            OpenApiParameter(
+                name='assignation_id',
+                description='Exercise assignment ID for the student',
+                required=True,
+                type=int,
+                location=OpenApiParameter.PATH,
+            ),
+        ],
+        responses={
+            HTTPStatus.OK: QuestionSerializer,
+            HTTPStatus.NOT_FOUND: OpenApiResponse(
+                description='Exercise or assignment not found',
+                response=OpenApiTypes.OBJECT,
+                examples=[
+                    OpenApiExample(
+                        'Error example',
+                        value={'error': 'Exercise not found'},
+                        status_codes=[HTTPStatus.NOT_FOUND],
+                    )
+                ],
+            ),
+        },
+        tags=['Math'],
+    )
+    @action(
+        methods=['get'],
+        detail=False,
+        url_path=r'exercise/(?P<exercise_slug>[-\w]+)',
+        url_name='question',
+    )
+    @inject
+    def exercise(
+        self,
+        request: Request,
+        assignation_id: int,
+        exercise_slug: str,
+        exercise_selector: IAssignedSelector = Provide[
+            MainContainer.study_container.assigned_exercises_selector
+        ],
+        exercise_presenter: CalculationPresenter = Provide[
+            MainContainer.math_container.calc_presenter
+        ],
+    ) -> Response:
+        """Render question of assigned exercise."""
+        try:
+            data = exercise_selector.select(
+                assignation_id,
+                exercise_slug,
+                self.student,
+            )
+
+        except Exception as err:
+            return Response(
+                {
+                    'status': 'error',
+                    'message': str(err),
+                },
+                status=HTTPStatus.NOT_FOUND,
+            )
+
+        else:
+            task = exercise_presenter.get_task(data)
+            return Response(TaskSerializer(task).data)
+
+    @extend_schema(
+        request=AssignedAnswerSerializer,
+        responses={
+            HTTPStatus.OK: CheckSerializer,
+        },
+        tags=['Math'],
+    )
+    @action(
+        methods=['post'],
+        detail=False,
+        url_name='check',
+    )
+    def check(
+        self,
+        request: Request,
+        assignation_id: int,
+        exercise_presenter: CalculationPresenter = Provide[
+            MainContainer.math_container.calc_presenter
+        ],
+    ) -> Response:
+        """Render answer checking result."""
+        data = AssignedAnswerSerializer(
+            data=request.data,
+            context={
+                'assignation_id': assignation_id,
+            },
+        )
+        data.is_valid()
+
+        try:
+            result = exercise_presenter.get_result(data.validated_data)
+
+        except Exception as err:
+            return Response(
+                {
+                    'status': 'error',
+                    'message': str(err),
+                },
+                status=HTTPStatus.NOT_FOUND,
+            )
+
+        return Response(
+            CheckSerializer(result).data,
+            status=HTTPStatus.OK,
+        )
+
+    @property
+    def student(self) -> CustomUser:
+        """Get current user."""
+        student = self.request.user
+        assert isinstance(student, CustomUser)
+        return student

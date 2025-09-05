@@ -13,11 +13,10 @@ class TestIndexSerializer:
     @pytest.mark.parametrize(
         'balance, valid',
         [
-            ('123456789.99', True),  # valid max digits and decimal places
-            ('0.01', True),
+            ('123456789.99', False),  # valid max digits and decimal places
+            ('0.01', False),
             ('1', True),
             ('12345678901', False),  # too many digits (11 max)
-            ('1234567890.123', False),  # too many decimal places (2 max)
             ('abc', False),  # not a number
             (None, False),  # required field
         ],

@@ -1,43 +1,74 @@
 """Defines simple calculation exercise presenter."""
 
-from typing import Any
-
 from typing_extensions import override
 from wse_exercises.core.math import CalcTask
 
-from apps.core.services.iabc import IExerciseService
-from apps.core.storage.iabc.itask import ITaskStorage
-from apps.math.presenters.iabc import CalcPresenterABC
+from apps.core.presenters import TaskPresenter
+from apps.core.storage.services.iabc import TaskStorageProtocol
+from apps.study.servises.iabc import StrTaskCheckerProtocol
+
+from ..services.protocol import ExerciseServiceProto
+from ..services.types import CalcAnswerType, CalcConditionType
+from .types import QuestionResponseType, ResultResponseType
 
 
-class CalcPresenter(CalcPresenterABC):
+class CalculationPresenter(
+    TaskPresenter[
+        CalcConditionType,
+        QuestionResponseType,
+        CalcAnswerType,
+        ResultResponseType,
+    ],
+):
     """Calculation task presenter."""
 
     def __init__(
         self,
-        exercise_service: IExerciseService[CalcTask],
-        task_storage: ITaskStorage[CalcTask],
+        exercise_service: ExerciseServiceProto[CalcTask],
+        task_storage: TaskStorageProtocol[CalcTask],
+        task_checker: StrTaskCheckerProtocol,
     ) -> None:
         """Construct the presenter."""
         self._exercise_service = exercise_service
         self._task_storage = task_storage
+        self._task_checker = task_checker
 
     @override
-    def get_task(self, data: dict[str, Any]) -> dict[str, Any]:
+    def get_task(self, data: CalcConditionType) -> QuestionResponseType:
         """Get calculation task."""
         task_dto: CalcTask = self._exercise_service.create_task(data)
         uid = self._task_storage.save_task(task_dto)
+
         return {
-            'uid': uid,
-            'question': task_dto.question.text,
+            'status': 'success',
+            'data': {
+                'uid': uid,
+                'question': task_dto.question.text,
+            },
+            # TODO: Fix related data for calculation exercise
+            'related_data': {
+                'balance': '15',
+            },
         }
 
     @override
-    def get_result(self, data: dict[str, Any]) -> dict[str, Any]:
+    def get_result(self, data: CalcAnswerType) -> ResultResponseType:
         """Get user answer checking result."""
         task_dto: CalcTask = self._task_storage.retrieve_task(data['uid'])
-        is_correct = data['answer'] == str(task_dto.answer.number)
+        correct_answer = str(task_dto.answer.number)
+        user_answer = data['answer']
+
+        is_correct = self._task_checker.check(correct_answer, user_answer)
+
         return {
-            'is_correct': is_correct,
-            'correct_answer': task_dto.answer.number,
+            'status': 'success',
+            'data': {
+                'is_correct': is_correct,
+                'correct_answer': correct_answer,
+                'user_answer': '' if is_correct else user_answer,
+            },
+            # TODO: Fix related data for calculation exercise
+            'related_data': {
+                'balance': '15',
+            },
         }

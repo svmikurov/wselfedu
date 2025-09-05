@@ -35,7 +35,9 @@ class Transaction(models.Model):
         verbose_name='Сумма',
     )
     discipline = models.ForeignKey(
-        Discipline, on_delete=models.CASCADE, verbose_name='Дисциплина'
+        Discipline,
+        on_delete=models.CASCADE,
+        verbose_name='Дисциплина',
     )
     type = models.CharField(
         max_length=30,
@@ -53,3 +55,4 @@ class Transaction(models.Model):
 
         verbose_name = 'Транзакция'
         verbose_name_plural = 'Транзакции'
+        db_table = 'users_balance_transaction'

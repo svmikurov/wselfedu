@@ -48,9 +48,10 @@ INSTALLED_APPS = [
     'django_htmx',
     # Applications
     'apps.core',
-    'apps.users',
-    'apps.math',
     'apps.lang',
+    'apps.math',
+    'apps.study',
+    'apps.users',
 ]
 
 MIDDLEWARE = [

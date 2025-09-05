@@ -1,8 +1,11 @@
 """Contains math app models."""
 
 __all__ = [
-    'MathExercise',
     'ExerciseCondition',
+    'MathExercise',
+    'MathAssignedConditionRel',
 ]
 
-from .exercise import ExerciseCondition, MathExercise
+from .exercise import MathExercise
+from .exercise_condition import ExerciseCondition
+from .exercise_condition_rel import MathAssignedConditionRel

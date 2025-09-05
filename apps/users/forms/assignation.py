@@ -9,7 +9,7 @@ from django import forms
 from django.urls import reverse
 
 from apps.core.models.exercise import Exercise
-from apps.core.orchestrators.exercise import ExerciseAssignator
+from apps.study.orchestrators.exercise import ExerciseAssignator
 from apps.users.models import Mentorship
 
 

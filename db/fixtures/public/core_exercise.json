@@ -3,52 +3,56 @@
   "model": "core.exercise",
   "pk": 1,
   "fields": {
-    "name": "Таблица умножения",
+    "name": "Умножение двух чисел",
     "discipline": 1,
+    "slug": "multiplication",
     "task_io": 2,
-    "content_type": 19,
+    "content_type": 20,
     "object_id": 3,
     "created_at": "2025-08-17T21:55:57.838Z",
-    "updated_at": "2025-08-17T21:55:57.849Z"
+    "updated_at": "2025-08-18T21:11:05.310Z"
   }
 },
 {
   "model": "core.exercise",
   "pk": 2,
   "fields": {
-    "name": "Деление",
+    "name": "Деление двух чисел",
+    "slug": "division",
     "discipline": 1,
     "task_io": 2,
-    "content_type": 19,
+    "content_type": 20,
     "object_id": 4,
     "created_at": "2025-08-17T21:55:57.838Z",
-    "updated_at": "2025-08-17T21:55:57.849Z"
+    "updated_at": "2025-08-18T21:10:56.647Z"
   }
 },
 {
   "model": "core.exercise",
   "pk": 3,
   "fields": {
-    "name": "Сложение",
+    "name": "Сложение двух чисел",
     "discipline": 1,
+    "slug": "adding",
     "task_io": 2,
-    "content_type": 19,
+    "content_type": 20,
     "object_id": 1,
     "created_at": "2025-08-17T21:55:57.838Z",
-    "updated_at": "2025-08-17T21:55:57.849Z"
+    "updated_at": "2025-08-18T21:10:35.788Z"
   }
 },
 {
   "model": "core.exercise",
   "pk": 4,
   "fields": {
-    "name": "Вычитание",
+    "name": "Вычитание двух чисел",
     "discipline": 1,
+    "slug": "subtraction",
     "task_io": 2,
-    "content_type": 19,
+    "content_type": 20,
     "object_id": 2,
     "created_at": "2025-08-17T21:55:57.838Z",
-    "updated_at": "2025-08-17T21:55:57.849Z"
+    "updated_at": "2025-08-18T21:10:47.336Z"
   }
 }
 ]

@@ -4,9 +4,12 @@ from typing import Any
 
 from django.db.models import F
 from django.db.models.query import QuerySet
+from django.shortcuts import get_object_or_404
 from typing_extensions import override
 
-from ..models import CustomUser, ExerciseAssigned, Mentorship
+from apps.study.models import ExerciseAssigned
+
+from ..models import CustomUser, Mentorship
 from ..presenters.iabc import StudentExercisesPresenterABC
 
 
@@ -15,7 +18,7 @@ class StudentExercisesPresenter(StudentExercisesPresenterABC):
 
     @classmethod
     @override
-    def get_assigned_exercise(
+    def get_assigned_by_mentor(
         cls,
         mentorship: Mentorship,
     ) -> QuerySet[ExerciseAssigned]:
@@ -36,6 +39,21 @@ class StudentExercisesPresenter(StudentExercisesPresenterABC):
             'mentorship__student': student,
         }
         return cls._get_exercises(filters)
+
+    @classmethod
+    @override
+    def get_exercise_meta(
+        cls,
+        assignation_id: int,
+        student: CustomUser,
+    ) -> ExerciseAssigned:
+        """Get assigned exercise meta data."""
+        obj = get_object_or_404(
+            ExerciseAssigned.objects,
+            pk=assignation_id,
+            mentorship__student=student,
+        )
+        return obj
 
     @staticmethod
     def _get_exercises(

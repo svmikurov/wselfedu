@@ -1,4 +1,4 @@
-"""Defines DI container for Users app."""
+"""Defines Users app DI container."""
 
 from dependency_injector import containers, providers
 
@@ -12,7 +12,7 @@ from .services.mentorship import (
 
 
 class UsersContainer(containers.DeclarativeContainer):
-    """DI container for Users app."""
+    """DI container for Users app dependencies."""
 
     mentorship_service = providers.Factory(
         MentorshipService,

@@ -2,17 +2,13 @@
 
 from rest_framework import routers
 
-from .views.exercises import AssignedExercisesSetView
-from .views.index import IndexViewSet
+from . import views
+
+app_name = 'core'
 
 router = routers.DefaultRouter()
 router.register(
     r'',
-    IndexViewSet,
+    views.IndexViewSet,
     basename='core_index',
-)
-router.register(
-    r'assigned',
-    AssignedExercisesSetView,
-    basename='assigned_mentor',
 )

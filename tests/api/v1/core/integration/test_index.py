@@ -15,13 +15,13 @@ class IndexViewSetIntegrationTest(APITestCase):
 
     def setUp(self) -> None:
         """Set up test data."""
-        self.url = reverse('core_index-index')
+        self.url = reverse('core:core_index-index')
         self.user_data = {
             'username': 'test_user',
             'password': 'test_pass123',
         }
         self.user = User.objects.create_user(**self.user_data)
-        self.balance = Balance.objects.create(user=self.user, total=100.00)
+        self.balance = Balance.objects.create(user=self.user, total=100)
 
     def test_index_unauthenticated(self) -> None:
         """Test index endpoint with unauthenticated request."""
@@ -38,4 +38,4 @@ class IndexViewSetIntegrationTest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn('balance', response.data)
-        self.assertEqual(response.data['balance'], '100.00')
+        self.assertEqual(response.data['balance'], '100')

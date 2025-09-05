@@ -1,21 +1,22 @@
 # Config to load fixtures into database
-# Version 0.1 (2025-08-10)
+# Version 0.1 (2025-08-22)
 
 load_order:
   - db/fixtures/public/discipline.json
   - db/fixtures/public/math_exercise.json
+  - db/fixtures/public/math_exercise_condition.json
   - db/fixtures/public/core_task_io.json
   - db/fixtures/public/core_exercise.json
   - db/fixtures/sensitive/users.json
   - db/fixtures/sensitive/mentorship_users.json
   - db/fixtures/sensitive/mentorship_request.json
   - db/fixtures/sensitive/mentorship.json
-  - db/fixtures/sensitive/exercise_assigned.json
-  - db/fixtures/sensitive/math_condition.json
-  - db/fixtures/sensitive/exercise_active.json
-  - db/fixtures/sensitive/exercise_expiration.json
-  - db/fixtures/sensitive/exercise_task_award.json
-  - db/fixtures/sensitive/exercise_task_count.json
+  - db/fixtures/sensitive/study_assigned.json
+  - db/fixtures/sensitive/study_math_condition.json
+  - db/fixtures/sensitive/study_active.json
+  - db/fixtures/sensitive/study_expiration.json
+  - db/fixtures/sensitive/study_task_award.json
+  - db/fixtures/sensitive/study_task_count.json
   - db/fixtures/sensitive/session.json
 
 options:

@@ -1,53 +1,11 @@
 """Defines project exercise collection model."""
 
-from typing import Any
-
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from django.core.validators import validate_slug
 from django.db import models
 
 from apps.core.models import Discipline
-from apps.core.models.base import BaseExercise
-
-
-class TaskIO(models.Model):
-    """String representation model of the I/O task type."""
-
-    name = models.CharField(
-        'Тип ввода/вывода',
-        max_length=50,
-    )
-    alias = models.SlugField(
-        'Псевдоним',
-        max_length=50,
-        unique=True,
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-    )
-
-    class Meta:
-        """Configure the model."""
-
-        verbose_name = 'Тип I/O'
-        verbose_name_plural = 'Тип I/O'
-        db_table = 'core_task_io'
-
-    def __str__(self) -> str:
-        """Get the string representation of model instance."""
-        return str(self.name)
-
-
-def get_exercises_choices() -> dict[str, Any]:
-    """Get exercise models for choice.
-
-    Return model filter by base exercise model.
-    """
-    return {
-        'model__in': [
-            model._meta.model_name for model in BaseExercise.__subclasses__()
-        ]
-    }
 
 
 class Exercise(models.Model):
@@ -64,8 +22,12 @@ class Exercise(models.Model):
         help_text='Discipline',
         verbose_name='Дисциплина',
     )
+    slug = models.SlugField(
+        validators=[validate_slug],
+        unique=True,
+    )
     task_io = models.ForeignKey(
-        TaskIO,
+        'TaskIO',
         on_delete=models.CASCADE,
         help_text='Task I/O: text, number, test, ...',
         verbose_name='Тип ввода/вывода',
@@ -93,9 +55,6 @@ class Exercise(models.Model):
 
         verbose_name = 'Упражнение'
         verbose_name_plural = 'Упражнения'
-        indexes = [
-            models.Index(fields=['content_type', 'object_id']),
-        ]
 
     def __str__(self) -> str:
         """Get the string representation of model instance."""

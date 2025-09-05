@@ -3,17 +3,22 @@
 from django.apps import apps
 from django.contrib import admin
 
-from .models import Discipline
+from .models import Discipline, Exercise, TaskIO
 from .models.base import BaseExercise
-from .models.exercise import Exercise, TaskIO
 
 
 @admin.register(Discipline)
 class DisciplineAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Discipline model administration."""
 
-    list_display = ['name']
-    ordering = ['name']
+    list_display = [
+        'name',
+        'slug',
+        'id',
+    ]
+    ordering = [
+        'name',
+    ]
 
 
 @admin.register(Exercise)
@@ -23,11 +28,13 @@ class ExerciseAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     list_display = [
         'name',
         'discipline',
+        'slug',
         'task_io',
         'content_object_display',
         'content_type_display',
         # Exercise id in exercise model of specific app (type content)
         'object_id',
+        'id',
     ]
 
     def content_type_display(self, obj: Exercise) -> str:
@@ -53,5 +60,11 @@ class ExerciseAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
 class TaskIOAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Task I/O administration."""
 
-    list_display = ['name', 'alias']
-    ordering = ['name']
+    list_display = [
+        'name',
+        'alias',
+        'id',
+    ]
+    ordering = [
+        'name',
+    ]

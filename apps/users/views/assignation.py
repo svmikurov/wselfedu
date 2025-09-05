@@ -13,9 +13,9 @@ from django.template.loader import render_to_string
 from django.views.generic import DetailView, FormView, View
 from django.views.generic.edit import FormMixin
 
+from apps.study.orchestrators.exercise import ExerciseAssignator
 from di import MainContainer
 
-from ...core.orchestrators.exercise import ExerciseAssignator
 from ..forms.assignation import AssignExerciseForm
 from ..models import Mentorship
 from ..presenters.iabc import IStudentExercisesPresenter
@@ -41,7 +41,9 @@ class AssignedExercisesView(
         **kwargs: dict[str, Any],
     ) -> dict[str, Any]:
         """Add data to context."""
-        assigned_exercises = presenter.get_assigned_exercise(self.get_object())
+        assigned_exercises = presenter.get_assigned_by_mentor(
+            self.get_object(),
+        )
         context = super().get_context_data(**kwargs)
         context['assigned_exercises'] = assigned_exercises
         return context
@@ -99,7 +101,9 @@ class AssignExerciseView(
         ],
     ) -> str:
         """Get HTML to render on request HTMX."""
-        assigned_exercises = presenter.get_assigned_exercise(self.get_object())
+        assigned_exercises = presenter.get_assigned_by_mentor(
+            self.get_object(),
+        )
         render = render_to_string(
             self.partial_template,
             {

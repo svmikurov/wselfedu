@@ -11,7 +11,7 @@ from rest_framework import serializers
     examples=[
         OpenApiExample(
             'Valid balance',
-            value={'balance': 113.32},
+            value={'balance': 113},
             description='Example of balance',
         )
     ]
@@ -20,8 +20,8 @@ class BalanceSerializer(serializers.Serializer[dict[str, Any]]):
     """Balance serializer."""
 
     balance = serializers.DecimalField(
-        max_digits=11,
-        decimal_places=2,
+        max_digits=5,
+        decimal_places=0,
         help_text='Current user balance',
         validators=[MinValueValidator(0)],
     )

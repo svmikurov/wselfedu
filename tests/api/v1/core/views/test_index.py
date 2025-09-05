@@ -39,7 +39,7 @@ class TestIndexViewSet:
     @pytest.mark.parametrize(
         'user, balance',
         [
-            (authenticated_user, '5.00'),
+            (authenticated_user, '5'),
             (anonymous_user, None),
         ],
     )

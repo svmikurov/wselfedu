@@ -1,0 +1,13 @@
+[
+{
+  "model": "math.exercisecondition",
+  "pk": 1,
+  "fields": {
+    "name": "Умножение до 5",
+    "min_operand": 1,
+    "max_operand": 5,
+    "created_at": "2025-08-17T22:58:39.222Z",
+    "updated_at": "2025-08-17T22:58:39.222Z"
+  }
+}
+]
