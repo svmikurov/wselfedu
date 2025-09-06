@@ -204,3 +204,16 @@ class ExerciseTaskAwardAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     mentor_display.short_description = 'Наставник'  # type: ignore[attr-defined]
     student_display.short_description = 'Обучающийся'  # type: ignore[attr-defined]
     updated_at_format.short_description = 'Дата изменения'  # type: ignore[attr-defined]
+
+
+@admin.register(AssignationCompletes)
+class AssignationCompletesAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """Completion assigned task model administration."""
+
+    list_display = [
+        'assignation',
+        'attempt_count',
+        'success_count',
+        'created_at',
+        'updated_at',
+    ]

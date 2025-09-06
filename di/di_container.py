@@ -21,6 +21,7 @@ class MainContainer(DeclarativeContainer):
     math_container: Container[MathAppContainer] = Container(
         MathAppContainer,
         task_storage=core_container.task_storage,
+        award_service=users_container.award_service,
     )
     study_container: Container[StudyAppContainer] = Container(
         StudyAppContainer,

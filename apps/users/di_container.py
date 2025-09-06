@@ -6,6 +6,7 @@ from .presenters import (
     MentorshipPresenter,
     StudentExercisesPresenter,
 )
+from .services.award import AwardService
 from .services.mentorship import (
     MentorshipService,
 )
@@ -23,4 +24,8 @@ class UsersContainer(containers.DeclarativeContainer):
 
     exercises_presenter = providers.Factory(
         StudentExercisesPresenter,
+    )
+
+    award_service = providers.Factory(
+        AwardService,
     )

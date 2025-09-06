@@ -15,7 +15,7 @@ from rest_framework.decorators import action
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from apps.math.presenters.calculation import CalculationPresenter
+from apps.math.presenters.assigned import AssignedCalculationPresenter
 from apps.study.selectors.iabc import IAssignedSelector
 from apps.users.models import CustomUser
 from di import MainContainer
@@ -85,8 +85,8 @@ class ExerciseViewSet(viewsets.ViewSet):
         exercise_selector: IAssignedSelector = Provide[
             MainContainer.study_container.assigned_exercises_selector
         ],
-        exercise_presenter: CalculationPresenter = Provide[
-            MainContainer.math_container.calc_presenter
+        exercise_presenter: AssignedCalculationPresenter = Provide[
+            MainContainer.math_container.assigned_calc_presenter
         ],
     ) -> Response:
         """Render question of assigned exercise."""
@@ -126,11 +126,14 @@ class ExerciseViewSet(viewsets.ViewSet):
         self,
         request: Request,
         assignation_id: int,
-        exercise_presenter: CalculationPresenter = Provide[
-            MainContainer.math_container.calc_presenter
+        exercise_presenter: AssignedCalculationPresenter = Provide[
+            MainContainer.math_container.assigned_calc_presenter
         ],
     ) -> Response:
         """Render answer checking result."""
+        # TODO: Add assignation validation with `get_object_or_404`
+        # TODO: Add assignation available validation
+
         data = AssignedAnswerSerializer(
             data=request.data,
             context={

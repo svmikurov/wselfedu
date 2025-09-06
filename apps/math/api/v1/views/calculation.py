@@ -1,5 +1,6 @@
 """Defines Math app calculation exercise viewset."""
 
+import logging
 from http import HTTPStatus
 
 from dependency_injector.wiring import Provide
@@ -18,6 +19,8 @@ from ..serializers.calculation import (
     ConditionSerializer,
     TaskSerializer,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class CalculationViewSet(viewsets.ViewSet):
@@ -71,6 +74,7 @@ class CalculationViewSet(viewsets.ViewSet):
 
         # TODO: Fix response
         except Exception as err:
+            logger.exception('Got result error')
             return Response(
                 {
                     'status': 'error',

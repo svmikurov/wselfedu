@@ -172,8 +172,40 @@ class ExerciseTaskAward(models.Model):
     )
 
     class Meta:
-        """Configure the model."""
+        """Model configuration."""
 
         verbose_name = 'Вознаграждение за задание'
         verbose_name_plural = 'Вознаграждения за задание'
-        db_table = 'study_exercise_task_award'
+        db_table = 'study_assigned_task_award'
+
+
+class AssignationCompletes(models.Model):
+    """Model of completed assigned tasks."""
+
+    assignation = models.ForeignKey(
+        ExerciseAssigned,
+        on_delete=models.CASCADE,
+        related_name='exercise_completion',
+        verbose_name='Назначенное упражнение',
+    )
+    attempt_count = models.PositiveSmallIntegerField(
+        verbose_name='Кол-во попыток',
+    )
+    success_count = models.PositiveSmallIntegerField(
+        verbose_name='Кол-во успешных решений',
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Добавлено',
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Изменено',
+    )
+
+    class Meta:
+        """Model configuration."""
+
+        verbose_name = 'Выполнение назначенного задания'
+        verbose_name_plural = 'Выполнения назначенного задания'
+        db_table = 'study_assigned_completion'

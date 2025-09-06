@@ -6,9 +6,11 @@ __all__ = [
     'ExerciseExpiration',
     'ExerciseTaskAward',
     'ExerciseTaskCount',
+    'AssignationCompletes',
 ]
 
 from .assignation import (
+    AssignationCompletes,
     ExerciseActive,
     ExerciseAssigned,
     ExerciseExpiration,
