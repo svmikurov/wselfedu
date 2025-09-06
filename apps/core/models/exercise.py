@@ -20,6 +20,7 @@ class Exercise(models.Model):
         Discipline,
         on_delete=models.CASCADE,
         help_text='Discipline',
+        related_name='exercise_discipline',
         verbose_name='Дисциплина',
     )
     slug = models.SlugField(
