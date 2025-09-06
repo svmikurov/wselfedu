@@ -129,6 +129,7 @@ class ResultAnswerSerializer(ResultSerializer):
         error_messages={
             'max_length': 'Maximum 100 characters',
         },
+        required=False,
     )
     user_answer = serializers.CharField(
         max_length=100,
@@ -136,6 +137,7 @@ class ResultAnswerSerializer(ResultSerializer):
         error_messages={
             'max_length': 'Maximum 100 characters',
         },
+        required=False,
     )
 
 
