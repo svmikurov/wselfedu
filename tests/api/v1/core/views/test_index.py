@@ -67,5 +67,6 @@ class TestIndexViewSet:
 
             assert response.status_code == HTTPStatus.OK
             assert response.data == {
-                'balance': balance,
+                'status': 'success',
+                'data': {'balance': balance},
             }

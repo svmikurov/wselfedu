@@ -28,8 +28,8 @@ class IndexViewSetIntegrationTest(APITestCase):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['balance'], None)
-        self.assertIs(response.data['balance'], None)
+        self.assertEqual(response.data['data']['balance'], None)
+        self.assertIs(response.data['data']['balance'], None)
 
     def test_index_authenticated(self) -> None:
         """Test index endpoint with authenticated user."""
@@ -37,5 +37,5 @@ class IndexViewSetIntegrationTest(APITestCase):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn('balance', response.data)
-        self.assertEqual(response.data['balance'], '100')
+        self.assertIn('balance', response.data['data'])
+        self.assertEqual(response.data['data']['balance'], '100')

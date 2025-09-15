@@ -1,15 +1,14 @@
 """Prepare Core app data for index views DRF."""
 
-from typing import Any
-
 from django.contrib.auth.models import AnonymousUser
 
+from apps.core.types import BalanceDataType
 from apps.users.models import CustomUser
 
 
 def get_index_data(
     user: CustomUser | AnonymousUser,
-) -> dict[str, Any]:
+) -> BalanceDataType:
     """Aggregate Core app data for API response.
 
     Args:

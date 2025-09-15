@@ -1,5 +1,7 @@
 """User reward service."""
 
+from decimal import Decimal
+
 from django.db import transaction
 from django.db.models import F, OuterRef, Subquery
 
@@ -16,7 +18,7 @@ class AwardService:
     """User reward service."""
 
     @staticmethod
-    def reward(assignation_id: str | int) -> str:
+    def reward(assignation_id: str | int) -> Decimal:
         """Reward the user and return the updated balance."""
         with transaction.atomic():
             award_subquery = ExerciseTaskAward.objects.filter(
@@ -56,4 +58,4 @@ class AwardService:
                 type=Transaction.Operation.REWARD,
             )
 
-        return str(balance_total.total)
+        return balance_total.total

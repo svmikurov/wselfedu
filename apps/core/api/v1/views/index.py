@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Any
-
 from django.contrib.auth.models import AnonymousUser
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import permissions, viewsets
@@ -13,6 +11,7 @@ from rest_framework.response import Response
 from typing_extensions import TYPE_CHECKING
 
 from apps.core.presenters.index import get_index_data
+from apps.core.types import BalanceDataType, IndexDataType
 
 from ..serializers.index import IndexSerializer
 
@@ -53,13 +52,17 @@ class IndexViewSet(viewsets.ViewSet):
                 - User balance (if authenticated and balance exists)
 
         """
-        serializer = IndexSerializer(self._get_index_data(request.user))
+        data: IndexDataType = {
+            'status': 'success',
+            'data': self._get_index_data(request.user),
+        }
+        serializer = IndexSerializer(data)
         return Response(serializer.data)
 
     @staticmethod
     def _get_index_data(
         user: CustomUser | AnonymousUser,
-    ) -> dict[str, Any]:
+    ) -> BalanceDataType:
         """Prepare data for the index response.
 
         Args:

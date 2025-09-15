@@ -1,5 +1,6 @@
 """Test the preparation of data for Core app index view."""
 
+from decimal import Decimal
 from unittest.mock import Mock
 
 from django.contrib.auth.models import AnonymousUser
@@ -14,7 +15,7 @@ def test_for_authenticated_user() -> None:
         balance_total=33,
     )
     assert get_index_data(user) == {
-        'balance': 33,
+        'balance': Decimal(33),
     }
 
 

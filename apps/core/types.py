@@ -1,12 +1,24 @@
 """Types for project objects."""
 
+from decimal import Decimal
 from typing import NotRequired, TypedDict
 
 
-class RelatedDataType(TypedDict):
-    """Type for exercise related data."""
+class BalanceDataType(TypedDict):
+    """Type for balance data."""
 
-    balance: str
+    balance: Decimal | None
+
+
+class IndexDataType(TypedDict):
+    """Type for index data."""
+
+    status: str
+    data: BalanceDataType
+
+
+class RelatedDataType(BalanceDataType):
+    """Type for exercise related data."""
 
 
 class ResultType(TypedDict):

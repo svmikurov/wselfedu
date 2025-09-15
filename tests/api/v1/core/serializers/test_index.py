@@ -28,13 +28,17 @@ class TestIndexSerializer:
     ) -> None:
         """Test field validation."""
         data = {
-            'balance': balance,
+            'status': 'success',
+            'data': {'balance': balance},
         }
         serializer = IndexSerializer(data=data)
 
         if valid:
             assert serializer.is_valid()
-            assert isinstance(serializer.validated_data['balance'], Decimal)
+            assert isinstance(
+                serializer.validated_data['data']['balance'],
+                Decimal,
+            )
         else:
             assert not serializer.is_valid()
-            assert 'balance' in serializer.errors
+            assert 'balance' in serializer.errors['data']
