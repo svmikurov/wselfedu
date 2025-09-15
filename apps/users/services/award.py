@@ -1,5 +1,5 @@
 """User reward service."""
-
+import logging
 from decimal import Decimal
 
 from django.db import transaction
@@ -12,6 +12,8 @@ from apps.study.models import (
 )
 from apps.users.models import Balance
 from apps.users.models.transaction import Transaction
+
+logger = logging.getLogger(__name__)
 
 
 class AwardService:
@@ -30,9 +32,14 @@ class AwardService:
                     'mentorship__student',
                     'exercise__discipline',
                 )
+                .select_for_update()
                 .annotate(award_value=Subquery(award_subquery))
                 .get(pk=assignation_id)
             )
+
+            if not assignation.award_value:
+                raise ValueError(
+                    f'Award for "{assignation_id}" assignation was not set')
 
             completion, _ = AssignationCompletes.objects.update_or_create(
                 assignation=assignation,
