@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Глоссарий{% endblock %}
+
+{% block content %}
+<h1>Глоссарий</h1>
+
+<a class="m-1 btn btn-secondary" href="{% url 'glossary:term_create' %}">Добавить термин</a><br>
+<a class="m-1 btn btn-secondary" href="{% url 'glossary:term_list' %}">Список терминов</a><br>
+<a class="m-1 btn btn-secondary" href="{% url 'glossary:term_study' %}">Изучать термины</a><br>
+{% endblock %}

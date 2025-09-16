@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Удаление термина{% endblock %}
+
+{% block content %}
+<h1>Удаление термина</h1>
+<form method="post">{% csrf_token %}
+    <p>Are you sure you want to delete "{{ object }}"?</p>
+    {{ form }}
+    <a class="m-1 btn btn-secondary" href="javascript:history.back()">Назад</a>
+    <input type="submit" value="Подтвердить" class="m-1 btn btn-secondary">
+</form>
+{% endblock %}

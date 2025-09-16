@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django_htmx',
     # Applications
     'apps.core',
+    'apps.glossary',
     'apps.lang',
     'apps.math',
     'apps.study',

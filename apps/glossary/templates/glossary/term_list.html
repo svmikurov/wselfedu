@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Термины{% endblock %}
+
+{% block content %}
+<h1>Термины</h1>
+<ul>
+{% for term in terms %}
+    <li><a href="{{ term.get_absolute_url }}">{{ term.name }}</a> - {{ term.definition }}</li>
+{% empty %}
+    <li>No terms yet.</li>
+{% endfor %}
+</ul>
+<a href="javascript:history.back()" class="btn btn-secondary">Назад</a>
+{% endblock %}

@@ -1,0 +1,1 @@
+"""Glossary app model management."""

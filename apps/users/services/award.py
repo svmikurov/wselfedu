@@ -1,4 +1,5 @@
 """User reward service."""
+
 import logging
 from decimal import Decimal
 
@@ -39,7 +40,8 @@ class AwardService:
 
             if not assignation.award_value:
                 raise ValueError(
-                    f'Award for "{assignation_id}" assignation was not set')
+                    f'Award for "{assignation_id}" assignation was not set'
+                )
 
             completion, _ = AssignationCompletes.objects.update_or_create(
                 assignation=assignation,
