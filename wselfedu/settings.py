@@ -174,6 +174,10 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
     # REST API documentation
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    # Custom render
+    'DEFAULT_RENDER_CLASSES': [
+        'apps.core.api.v1.renders.WrappedJSONRenderer',
+    ],
 }
 
 
