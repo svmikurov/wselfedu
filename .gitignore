@@ -14,8 +14,9 @@ db.sqlite3
 .coverage
 *__pycache__
 
-# IntelliJ Idea family of suites
+# IDE
 .idea/
+.vscode
 
 # WSE log files
 logs/
