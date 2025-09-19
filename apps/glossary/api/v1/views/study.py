@@ -2,7 +2,7 @@
 
 from dependency_injector.wiring import Provide
 from drf_spectacular.utils import extend_schema
-from rest_framework import viewsets
+from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -24,6 +24,8 @@ class TermStudyViewSet(viewsets.ViewSet):
 
     @extend_schema(
         summary='Term study through the presentation',
+        request={status.HTTP_200_OK: TermStudyParamsSerializer},
+        responses={status.HTTP_200_OK: TermStudyPresentationSerializer},
         tags=['Glossary'],
     )
     @action(methods=['post'], detail=False)

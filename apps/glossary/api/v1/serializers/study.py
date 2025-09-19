@@ -6,12 +6,13 @@ from apps.glossary.types import TermParamsType, TermType
 
 
 class TermStudyParamsSerializer(serializers.Serializer[TermParamsType]):
-    """Terms study exercie parameters of request serializer."""
+    """Terms study exercie parameters the request serializer."""
 
     category = serializers.ListField(
         child=serializers.CharField(
             max_length=50,
         ),
+        required=False,
     )
     marks = serializers.ListField(
         child=serializers.CharField(
@@ -27,7 +28,7 @@ class TermStudyParamsSerializer(serializers.Serializer[TermParamsType]):
 
 
 class TermStudyPresentationSerializer(serializers.Serializer[TermType]):
-    """Terms study exercie question serializer."""
+    """Terms study exercie question the response serializer."""
 
     term = serializers.CharField(
         max_length=50,
