@@ -7,6 +7,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from typing_extensions import Annotated
 
+from apps.core.api.renderers import WrappedJSONRenderer
 from apps.glossary.presenters import TermsStudyPresenter
 from di import MainContainer as Container
 
@@ -18,6 +19,8 @@ from ..serializers import (
 
 class TermsStudyViewSet(viewsets.ViewSet):
     """Term study viewset."""
+
+    renderer_classes = [WrappedJSONRenderer]
 
     @action(methods=['post'], detail=False)
     def question(
