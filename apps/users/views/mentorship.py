@@ -13,7 +13,7 @@ from django.views import View
 from django.views.generic import FormView
 
 from apps.core.generic.views import HtmxDeleteView
-from di import MainContainer
+from di import MainContainer as Container
 
 from ..exception import MentorshipError
 from ..forms import SendMentorshipRequestForm  # type: ignore
@@ -32,7 +32,7 @@ class MentorshipView(LoginRequiredMixin, FormView):  # type: ignore[type-arg]
     def get_context_data(
         self,
         presenter: IMentorshipPresenter = Provide[
-            MainContainer.users_container.mentorship_presenter
+            Container.users.mentorship_presenter
         ],
         **kwargs: dict[str, Any],
     ) -> dict[str, Any]:
@@ -46,7 +46,7 @@ class MentorshipView(LoginRequiredMixin, FormView):  # type: ignore[type-arg]
         self,
         form: forms.Form,
         service: IMentorshipService = Provide[
-            MainContainer.users_container.mentorship_service
+            Container.users.mentorship_service
         ],
     ) -> HttpResponse:
         """Create mentorship request by student."""
@@ -85,7 +85,7 @@ class MentorshipView(LoginRequiredMixin, FormView):  # type: ignore[type-arg]
         self,
         form: forms.Form,
         presenter: IMentorshipPresenter = Provide[
-            MainContainer.users_container.mentorship_presenter
+            Container.users.mentorship_presenter
         ],
     ) -> str:
         """Get HTML to render on request HTMX."""
@@ -112,7 +112,7 @@ class AcceptMentorshipRequest(LoginRequiredMixin, View):
         pk: int,
         *args: object,
         service: IMentorshipService = Provide[
-            MainContainer.users_container.mentorship_service
+            Container.users.mentorship_service
         ],
         **kwargs: object,
     ) -> HttpResponse:
@@ -123,7 +123,7 @@ class AcceptMentorshipRequest(LoginRequiredMixin, View):
     def _get_html(
         self,
         presenter: IMentorshipPresenter = Provide[
-            MainContainer.users_container.mentorship_presenter
+            Container.users.mentorship_presenter
         ],
     ) -> str:
         """Get HTML to render on request HTMX."""

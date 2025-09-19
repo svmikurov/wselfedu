@@ -12,7 +12,7 @@ from rest_framework.response import Response
 
 from apps.users.models import CustomUser
 from apps.users.presenters import StudentExercisesPresenter
-from di import MainContainer
+from di import MainContainer as Container
 
 from ..serializers import (
     AssignedMentorSerializer,
@@ -26,7 +26,7 @@ class AssignedExercisesViewSet(viewsets.ViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     presenter: StudentExercisesPresenter = Provide[
-        MainContainer.users_container.exercises_presenter,
+        Container.users.exercises_presenter,
     ]
 
     @extend_schema(

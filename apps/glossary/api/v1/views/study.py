@@ -5,7 +5,6 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.request import Request
 from rest_framework.response import Response
-from typing_extensions import Annotated
 
 from apps.core.api.renderers import WrappedJSONRenderer
 from apps.glossary.presenters import TermsStudyPresenter
@@ -26,9 +25,8 @@ class TermsStudyViewSet(viewsets.ViewSet):
     def question(
         self,
         request: Request,
-        exercise_prsenter: Annotated[
-            TermsStudyPresenter,
-            Provide[Container.glossary_container.terms_study_presenter,],
+        exercise_prsenter: TermsStudyPresenter = Provide[
+            Container.glossary.terms_study_presenter
         ],
     ) -> Response:
         """Get Terms study question."""

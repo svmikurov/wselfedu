@@ -11,7 +11,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from apps.math.presenters.calculation import CalculationPresenter
-from di import MainContainer
+from di import MainContainer as Container
 
 from ..serializers.calculation import (
     AnswerSerializer,
@@ -27,7 +27,7 @@ class CalculationViewSet(viewsets.ViewSet):
     """Math app calculation exercise viewset."""
 
     exercise_presenter: CalculationPresenter = Provide[
-        MainContainer.math_container.calc_presenter
+        Container.math.calc_presenter
     ]
 
     @extend_schema(

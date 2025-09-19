@@ -14,7 +14,7 @@ from django.views.generic import DetailView, FormView, View
 from django.views.generic.edit import FormMixin
 
 from apps.study.orchestrators.exercise import ExerciseAssignator
-from di import MainContainer
+from di import MainContainer as Container
 
 from ..forms.assignation import AssignExerciseForm
 from ..models import Mentorship
@@ -36,7 +36,7 @@ class AssignedExercisesView(
     def get_context_data(
         self,
         presenter: IStudentExercisesPresenter = Provide[
-            MainContainer.users_container.exercises_presenter,
+            Container.users.exercises_presenter,
         ],
         **kwargs: dict[str, Any],
     ) -> dict[str, Any]:
@@ -97,7 +97,7 @@ class AssignExerciseView(
         self,
         form: AssignExerciseForm,
         presenter: IStudentExercisesPresenter = Provide[
-            MainContainer.users_container.exercises_presenter
+            Container.users.exercises_presenter
         ],
     ) -> str:
         """Get HTML to render on request HTMX."""

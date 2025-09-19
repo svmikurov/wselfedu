@@ -13,20 +13,20 @@ from apps.users.di_container import UsersContainer
 class MainContainer(DeclarativeContainer):
     """Main DI container."""
 
-    core_container: Container[CoreContainer] = Container(
+    core: Container[CoreContainer] = Container(
         CoreContainer,
     )
-    users_container: Container[UsersContainer] = Container(
+    users: Container[UsersContainer] = Container(
         UsersContainer,
     )
-    math_container: Container[MathAppContainer] = Container(
+    math: Container[MathAppContainer] = Container(
         MathAppContainer,
-        task_storage=core_container.task_storage,
-        award_service=users_container.award_service,
+        task_storage=core.task_storage,
+        award_service=users.award_service,
     )
-    glossary_container: Container[GlossaryContainer] = Container(
+    glossary: Container[GlossaryContainer] = Container(
         GlossaryContainer,
     )
-    study_container: Container[StudyAppContainer] = Container(
+    study: Container[StudyAppContainer] = Container(
         StudyAppContainer,
     )
