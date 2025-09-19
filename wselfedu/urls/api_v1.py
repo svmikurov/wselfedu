@@ -15,6 +15,6 @@ urlpatterns = [
     path('users/', include(users_router.urls)),
     path(
         'glossary/',
-        include((terms_router.urls, 'glossary'), namespace='glossary'),
+        include((terms_router.urls, 'glossary_api'), namespace='glossary_api'),
     ),
 ]

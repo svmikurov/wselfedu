@@ -1,12 +1,12 @@
 """Terms study presenter."""
 
-from ..types import ParamsType, QuestionType
+from ..types import TermParamsType, TermType
 
 
-class TermsStudyPresenter:
+class TermStudyPresenter:
     """Presenter for Terms study exercise."""
 
-    def get_question(self, params: ParamsType) -> QuestionType:
+    def get_presentation(self, params: TermParamsType) -> TermType:
         """Get Ters study exercise question."""
         return {
             'term': 'термин',

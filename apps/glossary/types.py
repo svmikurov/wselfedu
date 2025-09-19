@@ -3,15 +3,15 @@
 from typing import TypedDict
 
 
-class ParamsType(TypedDict):
-    """Fields type for Terms study exercise."""
+class TermParamsType(TypedDict):
+    """Fields type for Term study request."""
 
     category: list[str] | None
     marks: list[str] | None
 
 
-class QuestionType(TypedDict):
-    """Fields type for Terms study exercise."""
+class TermType(TypedDict):
+    """Fields type for Term study response."""
 
     term: str
     definition: str

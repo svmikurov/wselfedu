@@ -2,10 +2,10 @@
 
 from rest_framework import serializers
 
-from apps.glossary.types import ParamsType, QuestionType
+from apps.glossary.types import TermParamsType, TermType
 
 
-class TermsStudyParamsSerializer(serializers.Serializer[ParamsType]):
+class TermStudyParamsSerializer(serializers.Serializer[TermParamsType]):
     """Terms study exercie parameters of request serializer."""
 
     category = serializers.ListField(
@@ -21,12 +21,12 @@ class TermsStudyParamsSerializer(serializers.Serializer[ParamsType]):
     )
 
     @property
-    def data(self) -> ParamsType:  # type: ignore[override]
+    def data(self) -> TermParamsType:  # type: ignore[override]
         """Return typed data."""
         return super().data  # type: ignore[return-value]
 
 
-class TermsStudyQuestionSerializer(serializers.Serializer[QuestionType]):
+class TermStudyPresentationSerializer(serializers.Serializer[TermType]):
     """Terms study exercie question serializer."""
 
     term = serializers.CharField(

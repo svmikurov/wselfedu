@@ -2,12 +2,12 @@
 
 from dependency_injector import containers, providers
 
-from apps.glossary.presenters import TermsStudyPresenter
+from apps.glossary.presenters import TermStudyPresenter
 
 
 class GlossaryContainer(containers.DeclarativeContainer):
     """Glossary discipline DI container."""
 
-    terms_study_presenter = providers.Factory(
-        TermsStudyPresenter,
+    term_study_presenter = providers.Factory(
+        TermStudyPresenter,
     )

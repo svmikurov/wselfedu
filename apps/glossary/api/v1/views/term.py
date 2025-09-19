@@ -3,6 +3,7 @@
 from typing import Any
 
 from django.db.models.query import QuerySet
+from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
@@ -14,6 +15,9 @@ from apps.users.models import CustomUser
 from ..serializers import TermSerializer
 
 
+@extend_schema(
+    tags=['Glossary'],
+)
 class TermViewSet(viewsets.ModelViewSet[Term]):
     """A viewset for viewing and editing Term instances."""
 

@@ -2,9 +2,9 @@
 
 __all__ = [
     'TermSerializer',
-    'TermsStudyParamsSerializer',
-    'TermsStudyQuestionSerializer',
+    'TermStudyParamsSerializer',
+    'TermStudyPresentationSerializer',
 ]
 
-from .study import TermsStudyParamsSerializer, TermsStudyQuestionSerializer
+from .study import TermStudyParamsSerializer, TermStudyPresentationSerializer
 from .term import TermSerializer

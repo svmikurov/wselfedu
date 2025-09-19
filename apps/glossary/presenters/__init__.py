@@ -1,7 +1,7 @@
 """Glossary app presenters."""
 
 __all__ = [
-    'TermsStudyPresenter',
+    'TermStudyPresenter',
 ]
 
-from .terms_study import TermsStudyPresenter
+from .terms_study import TermStudyPresenter
