@@ -12,4 +12,9 @@ class TermSerializer(serializers.ModelSerializer[Term]):
         """Serializer configuration."""
 
         model = Term
-        fields = '__all__'
+        fields = [
+            'id',
+            'name',
+            'definition',
+            'created_at',
+        ]
