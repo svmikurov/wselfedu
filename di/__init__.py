@@ -12,6 +12,7 @@ WIRED_MODULES: list[str] = [
     'apps.study.api.v1.views.assigned',
     'apps.users.views.mentorship',
     'apps.users.views.assignation',
+    'apps.glossary.api.v1.views.study',
 ]
 
 __all__ = [
