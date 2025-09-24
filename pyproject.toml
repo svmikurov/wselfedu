@@ -47,6 +47,7 @@ ruff = "^0.12.2"
 
 # Dependencies for testing the project
 [tool.poetry.group.test.dependencies]
+playwright = "^1.55.0"
 pytest-cov = "^6.2.1"
 pytest-django = "^4.11.1"
 pytest-mock = "^3.14.1"
