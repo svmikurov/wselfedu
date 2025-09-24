@@ -3,12 +3,13 @@
 
 ### Install development mode
 ```commandline
-python3.11 -m venv .venv_wselfedu
+python3 -m vena .venv_wselfedu
 source .venv_wselfedu/bin/activate
 poetry install --all-extras
+playwright install
 ```
 
-### Update environment values
+#### Update environment values
 - update secret key
 - update `username`, `password`, `dbname` to connet to database
 - debug mode
@@ -22,7 +23,12 @@ SECRET_KEY=secret_key
 DATABASE_URL=postgres://username:password@localhost:5432/dbname
 ```
 
-Run command:
+#### Add  fixtures_config.yaml
+```commandline
+cp db/fixtures/fixtures_config.yaml.example db/fixtures/fixtures_config.yaml
+```
+
+#### Run command:
 ```commandline
 make deploy
 ```
