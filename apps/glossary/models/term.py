@@ -36,6 +36,7 @@ class Term(models.Model):
 
         verbose_name = 'Термин'
         verbose_name_plural = 'Термины'
+        ordering = ['-created_at']
 
     def get_absolute_url(self) -> str:
         """Get object url path."""
