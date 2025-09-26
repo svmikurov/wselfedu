@@ -158,10 +158,12 @@ class ExerciseTaskAward(models.Model):
     exercise = models.ForeignKey(
         ExerciseAssigned,
         on_delete=models.CASCADE,
-        verbose_name='Вознаграждение',
+        verbose_name='Упражнение',
         related_name='task_award',
     )
-    award = models.PositiveSmallIntegerField()
+    award = models.PositiveSmallIntegerField(
+        verbose_name='Вознаграждение',
+    )
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Добавлено',
