@@ -11,3 +11,4 @@ class LangExercise(BaseExercise):
 
         verbose_name = 'Упражнение'
         verbose_name_plural = 'Упражнения'
+        db_table = 'lang_exercise'
