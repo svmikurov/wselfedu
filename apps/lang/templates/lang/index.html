@@ -5,6 +5,8 @@
 {% block content %}
 <h1>Изучение языков</h1>
 
+<a class="m-1 btn btn-secondary" href="{% url 'lang:translation_english_create' %}">Добавить перевод</a><br>
+<a class="m-1 btn btn-secondary" href="{% url 'lang:translation_english_list' %}">Словарь переводов</a><br>
 <a class="m-1 btn btn-secondary" href="{% url 'lang:label_create' %}">Добавить лейбл</a><br>
 <a class="m-1 btn btn-secondary" href="{% url 'lang:label_list' %}">Список лейблов</a><br>
 {% endblock %}
