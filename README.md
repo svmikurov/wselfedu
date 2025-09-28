@@ -3,7 +3,7 @@
 
 ### Install development mode
 ```commandline
-python3 -m vena .venv_wselfedu
+python3 -m venv .venv_wselfedu
 source .venv_wselfedu/bin/activate
 poetry install --all-extras
 playwright install
