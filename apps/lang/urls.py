@@ -36,6 +36,11 @@ urlpatterns = [
     path(
         'translation/english/create/',
         views.EnglishTranslationCreateView.as_view(),
-        name='english_translation_create',
+        name='translation_english_create',
+    ),
+    path(
+        'translation/english/list/',
+        views.EnglishTranslationListView.as_view(),
+        name='translation_english_list',
     ),
 ]
