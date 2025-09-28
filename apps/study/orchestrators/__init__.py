@@ -1,1 +1,1 @@
-"""Continues services for related models management."""
+"""Contains services for related models management."""
