@@ -16,7 +16,7 @@ run:
 # Run deployment
 deploy: format \
 		mypy \
-		check-connections \
+		check-db-connections \
 		recreate_db \
 		makemigrations \
 		migrate \
@@ -61,7 +61,7 @@ check: format mypy pytest-cov
 
 
 # Check active PostgreSQL connections
-check-connections:
+check-db-connections:
 	@echo "Checking active PostgreSQL connections..."
 	@if [ $$(psql -U $(DB_USER) -d $(DB_NAME) -t -c "SELECT COUNT(*) FROM pg_stat_activity WHERE datname = '$(DB_NAME)' AND pid <> pg_backend_pid();") -gt 0 ]; \
 	then \
@@ -87,7 +87,7 @@ makemigrations:
 migrate:
 	python manage.py migrate
 
-# Load inial data fixtures
+# Load initial data fixtures
 load_initial_data:
 	python manage.py load_initial_data --load-sensitive
 
