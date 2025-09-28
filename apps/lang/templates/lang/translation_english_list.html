@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Английский словарь{% endblock %}
+
+{% block content %}
+<h1>Английский словарь</h1>
+
+<ul>
+{% for translation in translations %}
+    <li><a href="#">{{ translation.native }} - {{ translation.english }}</a></li>
+{% empty %}
+    <p>Переводы еще не добавлены.</p>
+{% endfor %}
+</ul>
+<a href="javascript:history.back()" class="btn btn-secondary">Назад</a>
+{% endblock %}
