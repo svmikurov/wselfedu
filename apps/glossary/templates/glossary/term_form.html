@@ -1,14 +1,9 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
 
 {% block title %}Добавить/изменить термин{% endblock %}
 
 {% block content %}
 <h1>Добавить/изменить термин</h1>
 
-<form method="post">{% csrf_token %}
-    {{ form | crispy }}
-    <a class="m-1 btn btn-secondary" href="javascript:history.back()">Назад</a>
-    <input type="submit" value="Сохранить" class="m-1 btn btn-secondary">
-</form>
+{% include 'components/form.html' %}
 {% endblock %}
