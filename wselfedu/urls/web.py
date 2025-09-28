@@ -10,6 +10,7 @@ urlpatterns = [
     path('signup/', users_views.SignUpView.as_view(), name='signup'),
     path('login/', LoginView.as_view(), name='login'),
     path('glossary/', include('apps.glossary.urls'), name='glossary'),
+    path('lang/', include('apps.lang.urls'), name='lang'),
     # TODO: Add POST requests logout
     path('logout/', LogoutView.as_view(), name='logout'),
     path('accounts/', include('apps.users.urls')),
