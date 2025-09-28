@@ -1,0 +1,6 @@
+<form method="post">{% csrf_token %}
+    <p>Вы хотите удалить "{{ object.name }}"?</p>
+    {{ form }}
+    <a class="m-1 btn btn-secondary" href="javascript:history.back()">Назад</a>
+    <input type="submit" value="Подтвердить" class="m-1 btn btn-secondary">
+</form>

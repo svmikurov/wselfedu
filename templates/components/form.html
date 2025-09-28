@@ -1,0 +1,7 @@
+{% load crispy_forms_tags %}
+
+<form method="post">{% csrf_token %}
+  {{ form | crispy }}
+  <a class="m-1 btn btn-secondary" href="javascript:history.back()">Назад</a>
+  <input type="submit" value="Сохранить" class="m-1 btn btn-secondary">
+</form>
