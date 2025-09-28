@@ -5,6 +5,7 @@ from dependency_injector.providers import Container
 
 from apps.core.di_container import CoreContainer
 from apps.glossary.di_container import GlossaryContainer
+from apps.lang.di_container import LanguageContainer
 from apps.math.di_container import MathAppContainer
 from apps.study.di_container import StudyAppContainer
 from apps.users.di_container import UsersContainer
@@ -26,6 +27,9 @@ class MainContainer(DeclarativeContainer):
     )
     glossary: Container[GlossaryContainer] = Container(
         GlossaryContainer,
+    )
+    lang: Container[LanguageContainer] = Container(
+        LanguageContainer,
     )
     study: Container[StudyAppContainer] = Container(
         StudyAppContainer,
