@@ -33,4 +33,9 @@ urlpatterns = [
         views.LabelListView.as_view(),
         name='label_list',
     ),
+    path(
+        'translation/english/create/',
+        views.EnglishTranslationCreateView.as_view(),
+        name='english_translation_create',
+    ),
 ]
