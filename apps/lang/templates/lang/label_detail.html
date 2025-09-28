@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Лейбл{% endblock %}
+
+{% block content %}
+<h1>Лейбл дисциплины "Изучение языков"</h1>
+Лейбл: {{ object.name }}<br>
+<a class="m-1 btn btn-secondary" href="javascript:history.back()">Назад</a>
+<a class="m-1 btn btn-secondary" href="{% url 'lang:label_update' object.pk %}">Изменить</a>
+<a class="m-1 btn btn-secondary" href="{% url 'lang:label_delete' object.pk %}">Удалить</a>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Лайблы{% endblock %}
+
+{% block content %}
+<h1>Лейблы</h1>
+<ul>
+{% for label in labels %}
+    <li><a href="{{ label.get_absolute_url }}">{{ label.name }}</a></li>
+{% empty %}
+    <li>Лейблы еще не добавлены.</li>
+{% endfor %}
+</ul>
+<a href="javascript:history.back()" class="btn btn-secondary">Назад</a>
+{% endblock %}

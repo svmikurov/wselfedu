@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}Изучение языков{% endblock %}
+
+{% block content %}
+<h1>Изучение языков</h1>
+
+<a class="m-1 btn btn-secondary" href="{% url 'lang:label_create' %}">Добавить лейбл</a><br>
+<a class="m-1 btn btn-secondary" href="{% url 'lang:label_list' %}">Список лейблов</a><br>
+{% endblock %}
