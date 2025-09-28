@@ -52,9 +52,7 @@ class EnglishTranslationListView(
     template_name = 'lang/translation_english_list.html'
     context_object_name = 'translations'
 
-    def get_queryset(
-        self,
-    ) -> QuerySet[EnglishTranslation]:
+    def get_queryset(self) -> QuerySet[EnglishTranslation]:
         """Get English word translations queryset."""
         params = self._get_params()
         query = self._get_presenter().get_translations(params=params)
