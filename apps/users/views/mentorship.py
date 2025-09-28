@@ -12,7 +12,7 @@ from django.template.loader import render_to_string
 from django.views import View
 from django.views.generic import FormView
 
-from apps.core.generic.views import HtmxDeleteView
+from apps.core.generic.views.htmx import HtmxDeleteView
 from di import MainContainer as Container
 
 from ..exception import MentorshipError
