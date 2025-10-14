@@ -39,7 +39,7 @@ format:
 mypy:
 	mypy .
 
-# Pytess
+# Pytest
 pytest:
 	pytest
 
