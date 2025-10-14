@@ -10,6 +10,7 @@ from django.views import generic
 from apps.core.generic.views.auth import OwnershipRequiredMixin
 from apps.users.models import CustomUser
 
+from ..forms import TermForm
 from ..models import Term
 
 
@@ -20,7 +21,7 @@ class TermCreateView(
     """Create Term view."""
 
     model = Term
-    fields = ['name', 'definition']
+    form_class = TermForm
     success_url = reverse_lazy('glossary:term_create')
 
     def form_valid(self, form: BaseModelForm) -> HttpResponse:  # type: ignore[type-arg]
@@ -56,7 +57,13 @@ class TermDetailView(
 ):
     """Detail Term view."""
 
-    model = Term
+    def get_queryset(self) -> QuerySet[Term]:
+        """Get term queryset."""
+        if isinstance(self.request.user, CustomUser):
+            return Term.objects.filter(
+                user=self.request.user
+            ).prefetch_related('assertions')
+        return Term.objects.none()
 
 
 class TermListView(

@@ -11,6 +11,8 @@ from apps.glossary.views.term import (
     TermUpdateView,
 )
 
+from .views import assertion
+
 app_name = 'glossary'
 
 urlpatterns = [
@@ -45,5 +47,10 @@ urlpatterns = [
         'term/study/',
         IndexGlossaryView.as_view(),
         name='term_study',
+    ),
+    path(
+        'assertion/create/',
+        assertion.AssertionCreateView.as_view(),
+        name='assertion_create',
     ),
 ]
