@@ -1,6 +1,7 @@
 """View for assertion of a specific term."""
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
 from apps.users.models import CustomUser
@@ -16,6 +17,7 @@ class AssertionCreateView(
 
     model = TermAssertion
     fields = ['term', 'assertion']
+    success_url = reverse_lazy('glossary:assertion_create')
 
     def get_form(self, form_class: type | None = None) -> object:
         """Filter term by user."""
