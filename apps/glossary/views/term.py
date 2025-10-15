@@ -12,6 +12,7 @@ from apps.users.models import CustomUser
 
 from ..forms import TermForm
 from ..models import Term
+from ..presenters import TermDetailPresenter
 
 
 class TermCreateView(
@@ -60,9 +61,7 @@ class TermDetailView(
     def get_queryset(self) -> QuerySet[Term]:
         """Get term queryset."""
         if isinstance(self.request.user, CustomUser):
-            return Term.objects.filter(
-                user=self.request.user
-            ).prefetch_related('assertions')
+            return TermDetailPresenter.get_term(self.request.user)
         return Term.objects.none()
 
 

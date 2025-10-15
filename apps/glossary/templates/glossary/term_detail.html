@@ -8,7 +8,7 @@
 <h2 class="mt-3 h5">Толкование:</h4>
 {{ object.definition }}
 <h2 class="mt-3 h5">Утверждения:</h4>
-<ul>{% for assertion in object.assertions.all %}
+<ul>{% for assertion in object.sorted_assertions %}
         <li>{{ assertion.assertion }}</li>
     {% empty %}
         <li>Нет утверждений</li>
