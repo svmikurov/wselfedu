@@ -6,9 +6,11 @@ from django.views.generic import CreateView
 
 from apps.users.models import CustomUser
 
+from ..forms import TermAssertionForm
 from ..models import Term, TermAssertion
 
 
+# TODO: Add term ownership check when adding a assertion
 class AssertionCreateView(
     LoginRequiredMixin,
     CreateView,  # type: ignore[type-arg]
@@ -16,7 +18,7 @@ class AssertionCreateView(
     """Create assertion view."""
 
     model = TermAssertion
-    fields = ['term', 'assertion']
+    form_class = TermAssertionForm
     success_url = reverse_lazy('glossary:assertion_create')
 
     def get_form(self, form_class: type | None = None) -> object:
