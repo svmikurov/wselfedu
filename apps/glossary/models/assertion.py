@@ -13,7 +13,7 @@ class TermAssertion(models.Model):
         verbose_name='Термин',
     )
     assertion = models.CharField(
-        max_length=255,
+        max_length=300,
         verbose_name='Утверждение',
     )
     created_at = models.DateTimeField(
