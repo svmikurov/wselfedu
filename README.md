@@ -5,6 +5,7 @@
 ```commandline
 python3 -m venv .venv_wselfedu
 source .venv_wselfedu/bin/activate
+pip3 install poetry
 poetry install --all-extras
 playwright install
 ```
