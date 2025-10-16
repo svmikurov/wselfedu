@@ -42,5 +42,5 @@ class LangLabel(models.Model):
 
     def get_absolute_url(self) -> str:
         """Get object url path."""
-        url: str = reverse_lazy('lang:label_detail', kwargs={'pk': self.pk})
-        return url
+        url = reverse_lazy('lang:label_detail', kwargs={'pk': self.pk})
+        return str(url)

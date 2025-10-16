@@ -40,8 +40,8 @@ class Term(models.Model):
 
     def get_absolute_url(self) -> str:
         """Get object url path."""
-        url: str = reverse_lazy('glossary:term_detail', kwargs={'pk': self.pk})
-        return url
+        url = reverse_lazy('glossary:term_detail', kwargs={'pk': self.pk})
+        return str(url)
 
     def __str__(self) -> str:
         """Get string representation of term instance."""
