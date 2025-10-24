@@ -18,7 +18,7 @@ from ..serializers import (
 
 
 class TermStudyViewSet(viewsets.ViewSet):
-    """Term study viewset."""
+    """Term study ViewSet."""
 
     renderer_classes = [WrappedJSONRenderer]
 
@@ -32,12 +32,12 @@ class TermStudyViewSet(viewsets.ViewSet):
     def presentation(
         self,
         request: Request,
-        prsenter: TermStudyPresenter = Provide[
+        presenter: TermStudyPresenter = Provide[
             Container.glossary.term_study_presenter
         ],
     ) -> Response:
-        """Render the Term prsentanion."""
+        """Render the Term presentation."""
         study_params = TermStudyParamsSerializer(data=request.data)
         study_params.is_valid(raise_exception=True)
-        study_data = prsenter.get_presentation(study_params.data)
+        study_data = presenter.get_presentation(study_params.data)
         return Response(TermStudyPresentationSerializer(study_data).data)
