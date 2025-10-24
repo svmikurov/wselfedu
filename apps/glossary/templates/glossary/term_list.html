@@ -11,6 +11,6 @@
     <li>Термины еще не добавлены.</li>
 {% endfor %}
 </ul>
-<a href="javascript:history.back()" class="btn btn-secondary">Назад</a>
-<a href="{% url 'glossary:term_create' %}" class="btn btn btn-secondary">Добавить термин</a>
+<a class="m-1 btn btn-secondary" href="javascript:history.back()">Назад</a>
+<a class="m-1 btn btn btn-secondary" href="{% url 'glossary:term_create' %}">Добавить термин</a>
 {% endblock %}
