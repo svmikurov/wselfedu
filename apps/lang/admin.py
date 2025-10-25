@@ -1,12 +1,33 @@
-"""Defines Lang app model administration."""
+"""Language discipline models administration."""
 
 from django.contrib import admin
 
-from apps.lang.models import LangExercise
+from apps.lang import models
 
 
-@admin.register(LangExercise)
+@admin.register(models.LangExercise)
 class LangExerciseAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Lang app exercise model administration."""
 
     list_display = ['name']
+
+
+@admin.register(models.NativeWord)
+class NativeWordAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """Native word model administration."""
+
+    list_display = ['user', 'word', 'created_at']
+
+
+@admin.register(models.EnglishWord)
+class EnglishWordAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """English word model administration."""
+
+    list_display = ['user', 'word', 'created_at']
+
+
+@admin.register(models.EnglishTranslation)
+class EnglishTranslationAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """English translation model administration."""
+
+    list_display = ['user', 'english', 'native', 'created_at']
