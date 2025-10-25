@@ -1,8 +1,7 @@
 """Protocols and ABC for project presenters."""
 
 from abc import ABC, abstractmethod
-
-from typing_extensions import override
+from typing import Generic, TypeVar, override
 
 from .protocol import (
     AnswerT_contra,
@@ -11,6 +10,9 @@ from .protocol import (
     TaskPresenterProto,
     TaskT_co,
 )
+
+T = TypeVar('T')
+T_contra = TypeVar('T_contra', contravariant=True)
 
 
 class TaskPresenter(
@@ -33,3 +35,11 @@ class TaskPresenter(
     @override
     def get_result(self, answer_data: AnswerT_contra) -> ResultT_co:
         """Get user answer checking result."""
+
+
+class StudyPresenterGenABC(ABC, Generic[T_contra, T]):
+    """ABC for item study via presentation."""
+
+    @abstractmethod
+    def get_presentation(self, params: T_contra) -> T:
+        """Get item study presentation case."""

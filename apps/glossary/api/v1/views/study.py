@@ -8,7 +8,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from apps.core.api.renderers import WrappedJSONRenderer
-from apps.glossary.presenters import TermStudyPresenter
+from apps.glossary.presenters.abc import TermStudyPresenterABC
 from di import MainContainer as Container
 
 from ..serializers import (
@@ -32,7 +32,7 @@ class TermStudyViewSet(viewsets.ViewSet):
     def presentation(
         self,
         request: Request,
-        presenter: TermStudyPresenter = Provide[
+        presenter: TermStudyPresenterABC = Provide[
             Container.glossary.term_study_presenter
         ],
     ) -> Response:

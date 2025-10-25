@@ -1,13 +1,14 @@
 """Terms study presenter."""
 
 from ..types import TermParamsType, TermType
+from .abc import TermStudyPresenterABC
 
 
-class TermStudyPresenter:
+class TermStudyPresenter(TermStudyPresenterABC):
     """Presenter for Terms study exercise."""
 
     def get_presentation(self, params: TermParamsType) -> TermType:
-        """Get Ters study exercise question."""
+        """Get Term study presentation case."""
         return {
             'term': 'термин',
             'definition': 'определение термина',

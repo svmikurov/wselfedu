@@ -2,6 +2,8 @@
 
 __all__ = [
     'TermViewSet',
+    'TermStudyViewSet',
 ]
 
+from .study import TermStudyViewSet
 from .term import TermViewSet

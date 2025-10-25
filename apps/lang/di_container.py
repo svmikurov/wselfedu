@@ -3,7 +3,10 @@
 from dependency_injector import containers, providers
 
 from .orchestrators import CreateEnglishTranslation
-from .presenters import EnglishTranslationPresenter
+from .presenters import (
+    EnglishTranslationPresenter,
+    WordStudyPresenter,
+)
 
 
 class LanguageContainer(containers.DeclarativeContainer):
@@ -14,4 +17,7 @@ class LanguageContainer(containers.DeclarativeContainer):
     )
     translation_presenter = providers.Factory(
         EnglishTranslationPresenter,
+    )
+    word_study_presenter = providers.Factory(
+        WordStudyPresenter,
     )

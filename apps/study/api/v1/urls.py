@@ -4,7 +4,7 @@ from rest_framework import routers
 
 from . import views
 
-app_name = 'core'
+app_name = 'study'
 
 router = routers.DefaultRouter()
 router.register(

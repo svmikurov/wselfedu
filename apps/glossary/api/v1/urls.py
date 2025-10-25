@@ -1,12 +1,10 @@
-"""Glossary app API v1 urls."""
+"""Glossary discipline app REST API v1 urls."""
 
 from rest_framework import routers
 
-from apps.glossary.api.v1.views.study import TermStudyViewSet
+from .views import TermStudyViewSet, TermViewSet
 
-from .views import TermViewSet
-
-router = routers.SimpleRouter()
+router = routers.DefaultRouter()
 
 router.register(r'terms', TermViewSet, basename='term')
 router.register(r'study', TermStudyViewSet, basename='study')
