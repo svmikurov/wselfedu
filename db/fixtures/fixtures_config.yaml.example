@@ -22,9 +22,13 @@ load_order:
   - db/fixtures/sensitive/study_task_award.json
   - db/fixtures/sensitive/study_task_count.json
   ## Glossary
-  - db/fixtures/sensitive/terms.json
+  ### Users data
+  - db/fixtures/sensitive/glossary.json
   ## Authorization
   - db/fixtures/sensitive/session.json
+  ## Language
+  ### Development data
+  - db/fixtures/sensitive/lang_dev.json
 
 options:
   default_database: "default"
