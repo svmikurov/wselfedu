@@ -25,6 +25,7 @@ deploy: format \
 
 
 # Testing and code checking
+# -------------------------
 
 
 # Code style checking
@@ -58,6 +59,7 @@ check: format mypy pytest-cov
 
 
 # Database commands
+# -----------------
 
 
 # Check active PostgreSQL connections
@@ -93,6 +95,7 @@ load_initial_data:
 
 
 # Django-extensions
+# -----------------
 
 
 # Build model graphs
