@@ -6,8 +6,8 @@ __all__ = [
     'WordStudyPresenter',
 ]
 
+from .study import WordStudyPresenter
 from .translation import (
     EnglishTranslationPresenter,
     TranslationParams,
 )
-from .words_study import WordStudyPresenter

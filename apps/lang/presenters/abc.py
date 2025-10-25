@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 from typing import override
 
 from apps.core.presenters.abc import StudyPresenterGenABC
+from apps.users.models import CustomUser
 
 from ..types import WordParamsType, WordType
 
@@ -16,5 +17,9 @@ class WordStudyPresenterABC(
 
     @abstractmethod
     @override
-    def get_presentation(self, params: WordParamsType) -> WordType:
+    def get_presentation(
+        self,
+        params: WordParamsType,
+        user: CustomUser,
+    ) -> WordType:
         """Get Word study presentation case."""

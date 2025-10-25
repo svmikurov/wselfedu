@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 from typing import override
 
 from apps.core.presenters.abc import StudyPresenterGenABC
+from apps.users.models import CustomUser
 
 from ..types import TermParamsType, TermType
 
@@ -16,5 +17,9 @@ class TermStudyPresenterABC(
 
     @abstractmethod
     @override
-    def get_presentation(self, params: TermParamsType) -> TermType:
+    def get_presentation(
+        self,
+        params: TermParamsType,
+        user: CustomUser,
+    ) -> TermType:
         """Get Term study presentation case."""

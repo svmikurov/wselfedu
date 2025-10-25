@@ -1,6 +1,6 @@
 """Language discipline app types."""
 
-from typing import TypedDict
+from typing import NamedTuple, TypedDict
 
 
 class WordParamsType(TypedDict):
@@ -8,6 +8,7 @@ class WordParamsType(TypedDict):
 
     category: list[str] | None
     marks: list[str] | None
+    user_id: int
 
 
 class WordType(TypedDict):
@@ -15,3 +16,15 @@ class WordType(TypedDict):
 
     definition: str
     explanation: str
+
+
+class WordStudyCase(NamedTuple):
+    """Word study case."""
+
+    definition_id: int
+
+
+class WordStudyParams(NamedTuple):
+    """Word study params."""
+
+    ids: list[int]
