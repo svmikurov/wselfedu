@@ -1,23 +1,33 @@
-"""Language discipline app REST API tests."""
+"""Test Word study presentation endpoint.
 
-from typing import Callable
-from unittest.mock import Mock
+Test via APIClient, APIRequestFactory.
+"""
 
 from http import HTTPStatus
+from typing import Callable
+from unittest.mock import Mock
 
 import pytest
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.test import APIRequestFactory, force_authenticate
+from rest_framework.test import (
+    APIClient,
+    APIRequestFactory,
+    force_authenticate,
+)
 
+from apps.core.api.renderers import WrappedJSONRenderer
 from apps.lang import types
 from apps.lang.api.v1.views.study import WordStudyViewSet
 from apps.lang.presenters.abc import WordStudyPresenterABC
 from apps.users.models import CustomUser
 from di import container
 
-# Test data
-# ---------
+
+@pytest.fixture
+def url() -> str:
+    """Url path fixture."""
+    return '/api/v1/lang/study/presentation/'
 
 
 @pytest.fixture
@@ -35,18 +45,9 @@ def case() -> types.WordType:
     }
 
 
-# Test cases
-# ----------
-
-
 @pytest.mark.django_db
 class TestWordStudyViewSet:
-    """Test WordStudyViewSet presentation endpoint."""
-
-    @pytest.fixture
-    def url(self) -> str:
-        """Url path fixture."""
-        return '/api/v1/lang/study/presentation/'
+    """Test WordStudyViewSet."""
 
     @pytest.fixture
     def view(self) -> Callable[[Request], Response]:
@@ -81,4 +82,36 @@ class TestWordStudyViewSet:
         assert response.data == case
         presenter_mock.get_presentation.assert_called_once()
 
-        print(f'\n{response.data = }')
+
+@pytest.mark.django_db
+class TestWordStudy:
+    """Test Word study presentation endpoint."""
+
+    @pytest.fixture
+    def presenter_mock(self, case: types.WordType) -> Mock:
+        """Mock presenter fixture."""
+        mock = Mock(spec=WordStudyPresenterABC)
+        mock.get_presentation.return_value = case
+        return mock
+
+    def test_presentation_success(
+        self,
+        url: str,
+        payload: dict[str, str],
+        client: APIClient,
+        user: CustomUser,
+        presenter_mock: Mock,
+        case: types.WordType,
+    ) -> None:
+        """Test successful presentation request."""
+        client.force_authenticate(user)
+        client.credentials(HTTP_ACCEPT='application/json')
+
+        with container.lang.word_study_presenter.override(presenter_mock):
+            response = client.post(url, payload, format='json')
+
+        assert isinstance(response.accepted_renderer, WrappedJSONRenderer)
+
+        assert response.status_code == HTTPStatus.OK
+        assert response.data == case
+        presenter_mock.get_presentation.assert_called_once()

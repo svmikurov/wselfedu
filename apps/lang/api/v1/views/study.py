@@ -10,9 +10,10 @@ from rest_framework.viewsets import ViewSet
 
 import di
 from apps.core.api import renderers
+from apps.lang import types
 from apps.lang.presenters.abc import WordStudyPresenterABC
 
-from ..serializers.word_study import (
+from ..serializers.study import (
     WordStudyParamsSerializer,
     WordStudyPresentationsSerializer,
 )
@@ -47,5 +48,13 @@ class WordStudyViewSet(ViewSet):
                 self.request.user,  # type: ignore[arg-type]
             )
         except LookupError:
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            return self._render_no_words()
         return Response(WordStudyPresentationsSerializer(study_data).data)
+
+    def _render_no_words(self) -> Response:
+        """Render no words to study for request params."""
+        no_data: types.WordType = {
+            'definition': '',
+            'explanation': '',
+        }
+        return Response(WordStudyPresentationsSerializer(no_data).data)
