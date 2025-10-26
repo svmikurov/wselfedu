@@ -17,3 +17,11 @@ class WordStudyOrchestratorABC(ABC):
     @abstractmethod
     def get_case(self, english_word_id: int, user: CustomUser) -> WordType:
         """Get items for exercise case."""
+
+
+class WordStudyParamsOrchestratorABC(ABC):
+    """ABC for Word study params orchestrator."""
+
+    @abstractmethod
+    def fetch_initial(self, user: CustomUser) -> WordParamsType:
+        """Fetch initial params."""

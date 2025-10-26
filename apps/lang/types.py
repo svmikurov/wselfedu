@@ -7,7 +7,7 @@ class WordParamsType(TypedDict):
     """Fields type for Word study request."""
 
     category: list[str] | None
-    marks: list[str] | None
+    marks: list[dict[int, str]] | None
     user_id: int
 
 

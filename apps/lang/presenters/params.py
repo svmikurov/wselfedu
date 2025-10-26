@@ -2,8 +2,8 @@
 
 from typing import override
 
+from ..types import WordParamsType
 from .abc import (
-    WordStudyInitialParamsType,
     WordStudyParamsPresenterABC,
 )
 
@@ -12,6 +12,10 @@ class WordStudyParamsPresenter(WordStudyParamsPresenterABC):
     """Word study params presenter."""
 
     @override
-    def get_initial(self) -> WordStudyInitialParamsType:
+    def get_initial(self) -> WordParamsType:
         """Get Word study initial params."""
-        return {'marks': []}
+        return {
+            'category': [],
+            'marks': [],
+            'user_id': 1,
+        }

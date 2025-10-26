@@ -1,25 +1,12 @@
 """Abstract base classes for Language discipline app."""
 
 from abc import ABC, abstractmethod
-from typing import TypedDict, override
+from typing import override
 
 from apps.core.presenters.abc import StudyPresenterGenABC
 from apps.users.models import CustomUser
 
 from ..types import WordParamsType, WordType
-
-# Types
-# -----
-
-
-class WordStudyInitialParamsType(TypedDict):
-    """Word study initial params field types."""
-
-    marks: list[dict[int, str]]
-
-
-# ABC
-# ---
 
 
 class WordStudyPresenterABC(
@@ -42,5 +29,5 @@ class WordStudyParamsPresenterABC(ABC):
     """ABC for Word study params presenter."""
 
     @abstractmethod
-    def get_initial(self) -> WordStudyInitialParamsType:
+    def get_initial(self) -> WordParamsType:
         """Get Word study initial params."""

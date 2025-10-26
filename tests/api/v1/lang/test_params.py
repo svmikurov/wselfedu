@@ -7,21 +7,23 @@ import pytest
 from rest_framework.test import APIClient
 
 from apps.lang.presenters.abc import (
-    WordStudyInitialParamsType,
     WordStudyParamsPresenterABC,
 )
+from apps.lang.types import WordParamsType
 from apps.users.models import CustomUser
 from di import container
 
 
 @pytest.fixture
-def initial_payload() -> WordStudyInitialParamsType:
+def initial_payload() -> WordParamsType:
     """Get Word study initial params."""
     return {
+        'category': [],
         'marks': [
             {1: 'color'},
             {2: 'time'},
-        ]
+        ],
+        'user_id': 1,
     }
 
 
@@ -37,7 +39,7 @@ class TestWordStudyParams:
     @pytest.fixture
     def presenter_mock(
         self,
-        initial_payload: WordStudyInitialParamsType,
+        initial_payload: WordParamsType,
     ) -> Mock:
         """Mock initial Word study params."""
         mock = Mock(spec=WordStudyParamsPresenterABC)
@@ -49,7 +51,7 @@ class TestWordStudyParams:
         url: str,
         client: APIClient,
         user: CustomUser,
-        initial_payload: WordStudyInitialParamsType,
+        initial_payload: WordParamsType,
         presenter_mock: Mock,
     ) -> None:
         """Test params success."""
