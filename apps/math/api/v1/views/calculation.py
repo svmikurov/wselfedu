@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 
 
 class CalculationViewSet(viewsets.ViewSet):
-    """Math app calculation exercise viewset."""
+    """Math app calculation exercise ViewSet."""
 
     exercise_presenter: CalculationPresenter = Provide[
         Container.math.calc_presenter
