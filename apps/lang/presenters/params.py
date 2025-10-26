@@ -14,9 +14,4 @@ class WordStudyParamsPresenter(WordStudyParamsPresenterABC):
     @override
     def get_initial(self) -> WordStudyInitialParamsType:
         """Get Word study initial params."""
-        return {
-            'marks': [
-                {1: 'color'},
-                {2: 'time'},
-            ]
-        }
+        return {'marks': []}

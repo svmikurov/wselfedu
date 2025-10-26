@@ -1,12 +1,17 @@
 """Test the Word study params endpoint."""
 
 from http import HTTPStatus
+from unittest.mock import Mock
 
 import pytest
 from rest_framework.test import APIClient
 
-from apps.lang.presenters.abc import WordStudyInitialParamsType
+from apps.lang.presenters.abc import (
+    WordStudyInitialParamsType,
+    WordStudyParamsPresenterABC,
+)
 from apps.users.models import CustomUser
+from di import container
 
 
 @pytest.fixture
@@ -29,16 +34,30 @@ class TestWordStudyParams:
         """Word study params url path."""
         return '/api/v1/lang/study/params/'
 
+    @pytest.fixture
+    def presenter_mock(
+        self,
+        initial_payload: WordStudyInitialParamsType,
+    ) -> Mock:
+        """Mock initial Word study params."""
+        mock = Mock(spec=WordStudyParamsPresenterABC)
+        mock.get_initial.return_value = initial_payload
+        return mock
+
     def test_params_success(
         self,
         url: str,
         client: APIClient,
         user: CustomUser,
         initial_payload: WordStudyInitialParamsType,
+        presenter_mock: Mock,
     ) -> None:
         """Test params success."""
         client.force_authenticate(user)
-        response = client.get(url)
+
+        # Mock presenter
+        with container.lang.params_presenter.override(presenter_mock):
+            response = client.get(url)
 
         assert response.status_code == HTTPStatus.OK
         assert response.data == initial_payload
