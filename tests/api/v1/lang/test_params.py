@@ -5,7 +5,19 @@ from http import HTTPStatus
 import pytest
 from rest_framework.test import APIClient
 
+from apps.lang.presenters.abc import WordStudyInitialParamsType
 from apps.users.models import CustomUser
+
+
+@pytest.fixture
+def initial_payload() -> WordStudyInitialParamsType:
+    """Get Word study initial params."""
+    return {
+        'marks': [
+            {1: 'color'},
+            {2: 'time'},
+        ]
+    }
 
 
 @pytest.mark.django_db
@@ -22,9 +34,11 @@ class TestWordStudyParams:
         url: str,
         client: APIClient,
         user: CustomUser,
+        initial_payload: WordStudyInitialParamsType,
     ) -> None:
         """Test params success."""
         client.force_authenticate(user)
         response = client.get(url)
 
         assert response.status_code == HTTPStatus.OK
+        assert response.data == initial_payload
