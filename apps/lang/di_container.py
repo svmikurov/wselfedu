@@ -1,6 +1,7 @@
 """Language application DI container."""
 
 from dependency_injector import containers, providers
+from dependency_injector.providers import Factory
 
 from .orchestrators import (
     CreateEnglishTranslation,
@@ -8,8 +9,10 @@ from .orchestrators import (
 from .orchestrators.study import WordStudyOrchestrator
 from .presenters import (
     EnglishTranslationPresenter,
+    WordStudyParamsPresenter,
     WordStudyPresenter,
 )
+from .presenters.abc import WordStudyParamsPresenterABC
 from .services.study import WordStudyService
 
 
@@ -39,4 +42,7 @@ class LanguageContainer(containers.DeclarativeContainer):
         WordStudyPresenter,
         db_service=db_service,
         task_service=task_service,
+    )
+    params_presenter: Factory[WordStudyParamsPresenterABC] = Factory(
+        WordStudyParamsPresenter,
     )

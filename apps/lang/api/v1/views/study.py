@@ -11,7 +11,10 @@ from rest_framework.viewsets import ViewSet
 import di
 from apps.core.api import renderers
 from apps.lang import types
-from apps.lang.presenters.abc import WordStudyPresenterABC
+from apps.lang.presenters.abc import (
+    WordStudyParamsPresenterABC,
+    WordStudyPresenterABC,
+)
 
 from ..serializers.study import (
     WordStudyParamsSerializer,
@@ -61,6 +64,13 @@ class WordStudyViewSet(ViewSet):
 
     @extend_schema(tags=['Lang'])
     @action(methods=['get'], detail=False)
-    def params(self, request: Request) -> Response:
+    def params(
+        self,
+        request: Request,
+        presenter: WordStudyParamsPresenterABC = wiring.Provide[
+            di.MainContainer.lang.params_presenter,
+        ],
+    ) -> Response:
         """Render initial Word study params."""
-        return Response(status=status.HTTP_200_OK)
+        payload = presenter.get_initial()
+        return Response(payload, status=status.HTTP_200_OK)
