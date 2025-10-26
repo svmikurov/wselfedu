@@ -58,3 +58,9 @@ class WordStudyViewSet(ViewSet):
             'explanation': '',
         }
         return Response(WordStudyPresentationsSerializer(no_data).data)
+
+    @extend_schema(tags=['Lang'])
+    @action(methods=['get'], detail=False)
+    def params(self, request: Request) -> Response:
+        """Render initial Word study params."""
+        return Response(status=status.HTTP_200_OK)
