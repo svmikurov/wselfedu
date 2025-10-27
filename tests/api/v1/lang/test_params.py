@@ -18,12 +18,11 @@ from di import container
 def initial_payload() -> WordParamsType:
     """Get Word study initial params."""
     return {
-        'category': [],
-        'marks': [
-            {1: 'color'},
-            {2: 'time'},
-        ],
         'user_id': 1,
+        'categories': [],
+        'marks': [
+            {'id': 2, 'name': 'mark name'},
+        ],
     }
 
 

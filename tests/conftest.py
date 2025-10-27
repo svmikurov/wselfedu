@@ -12,3 +12,12 @@ def user() -> CustomUser:
         username='test_user',
         password='test_pass',
     )
+
+
+@pytest.fixture
+def owner() -> CustomUser:
+    """Owner of object, the User fixture."""
+    return CustomUser.objects.create_user(
+        username='owner_user',
+        password='owner_pass',
+    )
