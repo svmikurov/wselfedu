@@ -29,5 +29,5 @@ class WordStudyParamsPresenterABC(ABC):
     """ABC for Word study params presenter."""
 
     @abstractmethod
-    def get_initial(self) -> WordParamsType:
+    def get_initial(self, user: CustomUser) -> WordParamsType:
         """Get Word study initial params."""

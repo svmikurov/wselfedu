@@ -15,8 +15,9 @@ from apps.lang.presenters.abc import (
     WordStudyParamsPresenterABC,
     WordStudyPresenterABC,
 )
+from apps.users.models import CustomUser
 
-from ..serializers.study import (
+from ..serializers import (
     WordStudyParamsSerializer,
     WordStudyPresentationsSerializer,
 )
@@ -62,7 +63,11 @@ class WordStudyViewSet(ViewSet):
         }
         return Response(WordStudyPresentationsSerializer(no_data).data)
 
-    @extend_schema(tags=['Lang'])
+    @extend_schema(
+        summary='Word study params',
+        responses=WordStudyParamsSerializer, 
+        tags=['Lang'],
+    )
     @action(methods=['get'], detail=False)
     def params(
         self,
@@ -72,5 +77,8 @@ class WordStudyViewSet(ViewSet):
         ],
     ) -> Response:
         """Render initial Word study params."""
-        payload = presenter.get_initial()
-        return Response(payload, status=status.HTTP_200_OK)
+        if not isinstance(self.request.user, CustomUser):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        payload = presenter.get_initial(self.request.user)
+        return Response(WordStudyParamsSerializer(payload).data)

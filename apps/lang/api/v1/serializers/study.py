@@ -2,19 +2,22 @@
 
 from rest_framework import serializers
 
-from apps.lang.types import WordParamsType, WordType
+from apps.lang.types import WordParamsType, WordType, IdNameType
 
 
-# TODO: Check fields max length
-class WordStudyParamsSerializer(serializers.Serializer[WordParamsType]):
-    """Word study params serializer."""
+# Nested serializer
+# -----------------
 
-    category = serializers.CharField(
-        max_length=200, required=False, allow_null=True, allow_blank=True
-    )
-    marks = serializers.CharField(
-        max_length=200, required=False, allow_null=True, allow_blank=True
-    )
+
+class IdNameSerializer(serializers.Serializer[IdNameType]):
+    """Serializer for objects with id and name fields."""    
+    
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+
+
+# /presentation/
+# --------------
 
 
 # TODO: Check fields max length
@@ -23,3 +26,15 @@ class WordStudyPresentationsSerializer(serializers.Serializer[WordType]):
 
     definition = serializers.CharField(max_length=200)
     explanation = serializers.CharField(max_length=200)
+
+
+# /params/
+# --------
+
+
+class WordStudyParamsSerializer(serializers.Serializer[WordParamsType]):
+    """Serializer for word study parameters."""
+    
+    user_id = serializers.IntegerField()
+    categories = IdNameSerializer(many=True)
+    marks = IdNameSerializer(many=True)

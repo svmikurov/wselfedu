@@ -3,12 +3,19 @@
 from typing import NamedTuple, TypedDict
 
 
+class IdNameType(TypedDict):
+    """Dict representation of entity only with its 'name' and 'ID'."""
+
+    id: int
+    name: str
+
+
 class WordParamsType(TypedDict):
     """Fields type for Word study request."""
 
-    category: list[str] | None
-    marks: list[dict[int, str]] | None
     user_id: int
+    categories: list[IdNameType]
+    marks: list[IdNameType]
 
 
 class WordType(TypedDict):

@@ -11,7 +11,11 @@ class WordStudyParamsOrchestrator(WordStudyParamsOrchestratorABC):
     def fetch_initial(self, user: CustomUser) -> WordParamsType:
         """Fetch initial params."""
         return {
-            'category': [],
-            'marks': [],
             'user_id': 1,
+            'categories': [
+                {'id': 2, 'name': 'category name'},
+            ],
+            'marks': [
+                {'id': 3, 'name': 'mark name'},
+            ],
         }
