@@ -1,5 +1,5 @@
 # Config to load fixtures into database
-# Version 0.1 (2025-08-22)
+# Version 0.1.1 (2025-10-29)
 
 load_order:
   # Public
@@ -28,7 +28,11 @@ load_order:
   - db/fixtures/sensitive/session.json
   ## Language
   ### Development data
-  - db/fixtures/sensitive/lang_dev.json
+  - db/fixtures/sensitive/lang_english_word.json
+  - db/fixtures/sensitive/lang_native_word.json
+  - db/fixtures/sensitive/lang_english_translation.json
+  - db/fixtures/sensitive/lang_category.json
+  - db/fixtures/sensitive/lang_label.json
 
 options:
   default_database: "default"
