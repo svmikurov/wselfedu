@@ -1,5 +1,6 @@
 """Abstract base class for Word study params orchestrator."""
 
+from apps.lang import models
 from apps.lang.orchestrators.abc import WordStudyParamsOrchestratorABC
 from apps.lang.types import WordParamsType
 from apps.users.models import CustomUser
@@ -10,12 +11,14 @@ class WordStudyParamsOrchestrator(WordStudyParamsOrchestratorABC):
 
     def fetch_initial(self, user: CustomUser) -> WordParamsType:
         """Fetch initial params."""
+        labels = models.LangLabel.objects.filter(user=user).values(
+            'id', 'name'
+        )
+        categories = models.LangCategory.objects.filter(user=user).values(
+            'id', 'name'
+        )
         return {
-            'user_id': 1,
-            'categories': [
-                {'id': 2, 'name': 'category name'},
-            ],
-            'marks': [
-                {'id': 3, 'name': 'mark name'},
-            ],
+            'user_id': user.pk,
+            'categories': list(categories),
+            'labels': list(labels),
         }

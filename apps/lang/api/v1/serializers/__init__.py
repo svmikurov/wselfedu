@@ -6,5 +6,6 @@ __all__ = [
 ]
 
 from .study import (
-    WordStudyParamsSerializer, WordStudyPresentationsSerializer,
-    )
+    WordStudyParamsSerializer,
+    WordStudyPresentationsSerializer,
+)

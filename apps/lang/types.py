@@ -15,7 +15,7 @@ class WordParamsType(TypedDict):
 
     user_id: int
     categories: list[IdNameType]
-    marks: list[IdNameType]
+    labels: list[IdNameType]
 
 
 class WordType(TypedDict):

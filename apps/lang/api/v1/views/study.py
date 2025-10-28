@@ -65,7 +65,7 @@ class WordStudyViewSet(ViewSet):
 
     @extend_schema(
         summary='Word study params',
-        responses=WordStudyParamsSerializer, 
+        responses=WordStudyParamsSerializer,
         tags=['Lang'],
     )
     @action(methods=['get'], detail=False)

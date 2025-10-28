@@ -6,8 +6,10 @@ __all__ = [
     'NativeWord',
     'EnglishWord',
     'EnglishTranslation',
+    'LangCategory',
 ]
 
+from .category import LangCategory
 from .exercise import LangExercise
 from .label import LangLabel
 from .translation import EnglishTranslation

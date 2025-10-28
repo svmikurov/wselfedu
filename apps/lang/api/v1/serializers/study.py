@@ -2,16 +2,15 @@
 
 from rest_framework import serializers
 
-from apps.lang.types import WordParamsType, WordType, IdNameType
-
+from apps.lang.types import IdNameType, WordParamsType, WordType
 
 # Nested serializer
 # -----------------
 
 
 class IdNameSerializer(serializers.Serializer[IdNameType]):
-    """Serializer for objects with id and name fields."""    
-    
+    """Serializer for objects with id and name fields."""
+
     id = serializers.IntegerField()
     name = serializers.CharField()
 
@@ -34,7 +33,7 @@ class WordStudyPresentationsSerializer(serializers.Serializer[WordType]):
 
 class WordStudyParamsSerializer(serializers.Serializer[WordParamsType]):
     """Serializer for word study parameters."""
-    
+
     user_id = serializers.IntegerField()
     categories = IdNameSerializer(many=True)
-    marks = IdNameSerializer(many=True)
+    labels = IdNameSerializer(many=True)

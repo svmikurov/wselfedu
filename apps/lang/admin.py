@@ -31,3 +31,17 @@ class EnglishTranslationAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """English translation model administration."""
 
     list_display = ['user', 'english', 'native', 'created_at']
+
+
+@admin.register(models.LangLabel)
+class LangLabelAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """Lang app label model administration."""
+
+    list_display = ['name']
+
+
+@admin.register(models.LangCategory)
+class LangCategoryAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """Lang app category model administration."""
+
+    list_display = ['name']
