@@ -36,8 +36,8 @@ def payload() -> types.WordParamsType:
     return {
         'user_id': 1,
         'categories': [],
-        'marks': [
-            {'id': 2, 'name': 'mark name'},
+        'labels': [
+            {'id': 2, 'name': 'label name'},
         ],
     }
 

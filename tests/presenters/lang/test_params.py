@@ -18,8 +18,8 @@ def initial_params() -> WordParamsType:
         'categories': [
             {'id': 2, 'name': 'category name'},
         ],
-        'marks': [
-            {'id': 3, 'name': 'mark name'},
+        'labels': [
+            {'id': 3, 'name': 'label name'},
         ],
     }
 
