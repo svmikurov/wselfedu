@@ -31,9 +31,15 @@ def url() -> str:
 
 
 @pytest.fixture
-def payload() -> dict[str, str]:
+def payload() -> types.WordParamsType:
     """Request payload fixture."""
-    return {}
+    return {
+        'user_id': 1,
+        'categories': [],
+        'marks': [
+            {'id': 2, 'name': 'mark name'},
+        ],
+    }
 
 
 @pytest.fixture
