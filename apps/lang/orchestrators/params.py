@@ -2,7 +2,7 @@
 
 from apps.lang import models
 from apps.lang.orchestrators.abc import WordStudyParamsOrchestratorABC
-from apps.lang.types import DefaultWordParamsType, WordParamsType
+from apps.lang.types import WordCaseParamsType, WordParamsType
 from apps.users.models import CustomUser
 
 
@@ -30,7 +30,7 @@ class WordStudyParamsOrchestrator(WordStudyParamsOrchestratorABC):
             or {}
         )
 
-        default: DefaultWordParamsType = {
+        default: WordCaseParamsType = {
             'category': {
                 'id': default_query['category__id'],
                 'name': default_query['category__name'],
@@ -47,7 +47,6 @@ class WordStudyParamsOrchestrator(WordStudyParamsOrchestratorABC):
         }
 
         return {
-            'user_id': user.pk,
             'categories': list(categories),
             'labels': list(labels),
             'default': default,

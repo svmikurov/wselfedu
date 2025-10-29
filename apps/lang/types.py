@@ -10,7 +10,7 @@ class IdNameType(TypedDict):
     name: str
 
 
-class DefaultWordParamsType(TypedDict):
+class WordCaseParamsType(TypedDict):
     """Default params values typed fields."""
 
     category: IdNameType | None
@@ -21,10 +21,9 @@ class DefaultWordParamsType(TypedDict):
 class WordParamsType(TypedDict):
     """Fields type for Word study request."""
 
-    user_id: int
     categories: list[IdNameType]
     labels: list[IdNameType]
-    default: DefaultWordParamsType | None
+    default: WordCaseParamsType | None
 
 
 class WordType(TypedDict):

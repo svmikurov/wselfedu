@@ -14,7 +14,6 @@ from di import container
 def initial_params() -> WordParamsType:
     """Get Word study params fixture."""
     return {
-        'user_id': 1,
         'categories': [
             {'id': 2, 'name': 'category name'},
         ],

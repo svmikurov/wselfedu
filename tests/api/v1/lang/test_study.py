@@ -30,16 +30,14 @@ def url() -> str:
     return '/api/v1/lang/study/presentation/'
 
 
+# TODO: Add cases
 @pytest.fixture
-def payload() -> types.WordParamsType:
+def payload() -> types.WordCaseParamsType:
     """Request payload fixture."""
     return {
-        'user_id': 1,
-        'categories': [],
-        'labels': [
-            {'id': 2, 'name': 'label name'},
-        ],
-        'default': None,
+        'category': None,
+        'label': None,
+        'word_count': None,
     }
 
 

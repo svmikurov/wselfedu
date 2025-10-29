@@ -18,8 +18,9 @@ from apps.lang.presenters.abc import (
 from apps.users.models import CustomUser
 
 from ..serializers import (
+    WordStudyCaseSerializer,
+    WordStudyParamsSelectSerializer,
     WordStudyParamsSerializer,
-    WordStudyPresentationsSerializer,
 )
 
 
@@ -31,8 +32,8 @@ class WordStudyViewSet(ViewSet):
 
     @extend_schema(
         summary='Word study through the presentation',
-        request={status.HTTP_200_OK: WordStudyParamsSerializer},
-        responses={status.HTTP_200_OK: WordStudyPresentationsSerializer},
+        request={status.HTTP_200_OK: WordStudyParamsSelectSerializer},
+        responses={status.HTTP_200_OK: WordStudyCaseSerializer},
         tags=['Lang'],
     )
     @action(methods=['post'], detail=False)
@@ -53,7 +54,7 @@ class WordStudyViewSet(ViewSet):
             )
         except LookupError:
             return self._render_no_words()
-        return Response(WordStudyPresentationsSerializer(study_data).data)
+        return Response(WordStudyCaseSerializer(study_data).data)
 
     def _render_no_words(self) -> Response:
         """Render no words to study for request params."""
@@ -61,11 +62,11 @@ class WordStudyViewSet(ViewSet):
             'definition': '',
             'explanation': '',
         }
-        return Response(WordStudyPresentationsSerializer(no_data).data)
+        return Response(WordStudyCaseSerializer(no_data).data)
 
     @extend_schema(
         summary='Word study params',
-        responses=WordStudyParamsSerializer,
+        responses=WordStudyParamsSelectSerializer,
         tags=['Lang'],
     )
     @action(methods=['get'], detail=False)
@@ -81,4 +82,4 @@ class WordStudyViewSet(ViewSet):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         payload = presenter.get_initial(self.request.user)
-        return Response(WordStudyParamsSerializer(payload).data)
+        return Response(WordStudyParamsSelectSerializer(payload).data)

@@ -2,10 +2,12 @@
 
 __all__ = [
     'WordStudyParamsSerializer',
-    'WordStudyPresentationsSerializer',
+    'WordStudyParamsSelectSerializer',
+    'WordStudyCaseSerializer',
 ]
 
 from .study import (
+    WordStudyCaseSerializer,
+    WordStudyParamsSelectSerializer,
     WordStudyParamsSerializer,
-    WordStudyPresentationsSerializer,
 )

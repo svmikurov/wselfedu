@@ -2,10 +2,13 @@
 
 from rest_framework import serializers
 
-from apps.lang.types import IdNameType, WordParamsType, WordType
-
-# Nested serializer
-# -----------------
+from apps.lang.models.word import WORD_LENGTH
+from apps.lang.types import (
+    IdNameType,
+    WordCaseParamsType,
+    WordParamsType,
+    WordType,
+)
 
 
 class IdNameSerializer(serializers.Serializer[IdNameType]):
@@ -15,25 +18,24 @@ class IdNameSerializer(serializers.Serializer[IdNameType]):
     name = serializers.CharField()
 
 
-# /presentation/
-# --------------
+class WordStudyParamsSerializer(serializers.Serializer[WordCaseParamsType]):
+    """Serializer for Word study params."""
+
+    category = IdNameSerializer(required=False, allow_null=True)
+    label = IdNameSerializer(required=False, allow_null=True)  # type: ignore[assignment]
+    word_count = serializers.IntegerField(required=False, allow_null=True)
 
 
-# TODO: Check fields max length
-class WordStudyPresentationsSerializer(serializers.Serializer[WordType]):
-    """Word study presentation case serializer."""
+class WordStudyCaseSerializer(serializers.Serializer[WordType]):
+    """Serializer for Word study case."""
 
-    definition = serializers.CharField(max_length=200)
-    explanation = serializers.CharField(max_length=200)
-
-
-# /params/
-# --------
+    definition = serializers.CharField(max_length=WORD_LENGTH)
+    explanation = serializers.CharField(max_length=WORD_LENGTH)
 
 
-class WordStudyParamsSerializer(serializers.Serializer[WordParamsType]):
-    """Serializer for word study parameters."""
+class WordStudyParamsSelectSerializer(serializers.Serializer[WordParamsType]):
+    """Serializer for Word study params select."""
 
-    user_id = serializers.IntegerField()
     categories = IdNameSerializer(many=True)
     labels = IdNameSerializer(many=True)
+    default = WordStudyParamsSerializer()
