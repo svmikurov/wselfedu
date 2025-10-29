@@ -23,6 +23,7 @@ def initial_payload() -> WordParamsType:
         'labels': [
             {'id': 2, 'name': 'label name'},
         ],
+        'default': None,
     }
 
 

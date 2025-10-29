@@ -21,6 +21,11 @@ def initial_params() -> WordParamsType:
         'labels': [
             {'id': 3, 'name': 'label name'},
         ],
+        'default': {
+            'category': None,
+            'label': {'id': 4, 'name': 'test label'},
+            'word_count': 5,
+        },
     }
 
 

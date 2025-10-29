@@ -45,3 +45,10 @@ class LangCategoryAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Lang app category model administration."""
 
     list_display = ['name']
+
+
+@admin.register(models.Params)
+class ParamsAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """Word study params model administration."""
+
+    list_display = ['user', 'category', 'label', 'word_count']

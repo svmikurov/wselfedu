@@ -39,6 +39,7 @@ def payload() -> types.WordParamsType:
         'labels': [
             {'id': 2, 'name': 'label name'},
         ],
+        'default': None,
     }
 
 
