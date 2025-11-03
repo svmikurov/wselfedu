@@ -20,8 +20,8 @@ class ICacheClient(Protocol[T]):
     def get(uid: uuid.UUID) -> T:
         """Retrieve an object from the cache."""
 
-    @staticmethod
-    def pop(uid: uuid.UUID) -> T:
+    @classmethod
+    def pop(cls, uid: uuid.UUID) -> T:
         """Remove and return an object from the cache."""
 
     @staticmethod
@@ -44,10 +44,10 @@ class CacheABC(ICacheClient[T], ABC):
     def get(uid: uuid.UUID) -> T:
         """Retrieve an object from the cache."""
 
-    @staticmethod
+    @classmethod
     @abstractmethod
     @override
-    def pop(uid: uuid.UUID) -> T:
+    def pop(cls, uid: uuid.UUID) -> T:
         """Remove and return an object from the cache."""
 
     @staticmethod
