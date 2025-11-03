@@ -5,7 +5,7 @@ from typing import override
 
 from apps.users.models import CustomUser
 
-from ..orchestrators.abc import WordStudyOrchestratorABC
+from ..repositories.abc import WordStudyRepositoryABC
 from ..services.abc import WordStudyServiceABC
 from ..types import WordParamsType, WordType
 from .abc import WordStudyPresenterABC
@@ -18,7 +18,7 @@ class WordStudyPresenter(WordStudyPresenterABC):
 
     def __init__(
         self,
-        db_service: WordStudyOrchestratorABC,
+        db_service: WordStudyRepositoryABC,
         task_service: WordStudyServiceABC,
     ) -> None:
         """Construct the presenter."""

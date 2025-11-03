@@ -13,7 +13,7 @@ from django.template.loader import render_to_string
 from django.views.generic import DetailView, FormView, View
 from django.views.generic.edit import FormMixin
 
-from apps.study.orchestrators.exercise import ExerciseAssignator
+from apps.study.repositories.exercise import ExerciseAssignator
 from di import MainContainer as Container
 
 from ..forms.assignation import AssignExerciseForm

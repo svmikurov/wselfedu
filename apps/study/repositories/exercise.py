@@ -12,7 +12,7 @@ from apps.study.models import (
     ExerciseTaskAward,
     ExerciseTaskCount,
 )
-from apps.study.orchestrators.iabc import IExerciseAssignator
+from apps.study.repositories.iabc import IExerciseAssignator
 from apps.users.models import Mentorship
 
 

@@ -7,8 +7,8 @@ from apps.users.models import CustomUser
 from ..types import WordParamsType, WordStudyParams, WordType
 
 
-class WordStudyOrchestratorABC(ABC):
-    """ABC for word study orchestrator."""
+class WordStudyRepositoryABC(ABC):
+    """ABC for word study repository."""
 
     @abstractmethod
     def get_candidates(self, params: WordParamsType) -> WordStudyParams:
@@ -19,8 +19,8 @@ class WordStudyOrchestratorABC(ABC):
         """Get items for exercise case."""
 
 
-class WordStudyParamsOrchestratorABC(ABC):
-    """ABC for Word study params orchestrator."""
+class WordStudyParamsRepositoryABC(ABC):
+    """ABC for Word study params repository."""
 
     @abstractmethod
     def fetch_initial(self, user: CustomUser) -> WordParamsType:

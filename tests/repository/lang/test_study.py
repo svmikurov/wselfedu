@@ -1,11 +1,11 @@
-"""Test the `WordStudyOrchestrator` that gets word study case."""
+"""Test the `WordStudyRepository` that gets word study case."""
 
 import pytest
 from django.core.exceptions import ObjectDoesNotExist
 from django.test.utils import CaptureQueriesContext
 
 from apps.lang.models import EnglishTranslation, EnglishWord, NativeWord
-from apps.lang.orchestrators.study import WordStudyOrchestrator
+from apps.lang.repositories.study import WordStudyRepository
 from apps.users.models import CustomUser
 
 
@@ -54,13 +54,13 @@ class TestGetCase:
         )
 
     @pytest.fixture
-    def service(self) -> WordStudyOrchestrator:
+    def service(self) -> WordStudyRepository:
         """Service fixture."""
-        return WordStudyOrchestrator()
+        return WordStudyRepository()
 
     def test_get_case_success(
         self,
-        service: WordStudyOrchestrator,
+        service: WordStudyRepository,
         user: CustomUser,
         translation: EnglishTranslation,
         native_word: NativeWord,
@@ -79,7 +79,7 @@ class TestGetCase:
 
     def test_get_case_not_found(
         self,
-        service: WordStudyOrchestrator,
+        service: WordStudyRepository,
         user: CustomUser,
     ) -> None:
         """Test case when translation doesn't exist."""
@@ -89,7 +89,7 @@ class TestGetCase:
 
     def test_get_case_different_users(
         self,
-        service: WordStudyOrchestrator,
+        service: WordStudyRepository,
         user: CustomUser,
         translation: EnglishTranslation,
     ) -> None:
@@ -109,7 +109,7 @@ class TestGetCase:
 
     def test_get_case_query_count(
         self,
-        service: WordStudyOrchestrator,
+        service: WordStudyRepository,
         user: CustomUser,
         translation: EnglishTranslation,
         django_assert_num_queries: CaptureQueriesContext,

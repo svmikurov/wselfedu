@@ -1,4 +1,4 @@
-"""Word study orchestrators."""
+"""Word study repositories."""
 
 import logging
 
@@ -6,13 +6,13 @@ from apps.users.models import CustomUser
 
 from .. import models
 from ..types import WordParamsType, WordStudyParams, WordType
-from .abc import WordStudyOrchestratorABC
+from .abc import WordStudyRepositoryABC
 
 log = logging.getLogger(__name__)
 
 
-class WordStudyOrchestrator(WordStudyOrchestratorABC):
-    """Word study orchestrator."""
+class WordStudyRepository(WordStudyRepositoryABC):
+    """Word study repository."""
 
     def get_candidates(self, params: WordParamsType) -> WordStudyParams:
         """Get candidates of words to study."""

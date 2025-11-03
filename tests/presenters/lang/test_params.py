@@ -4,7 +4,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from apps.lang.orchestrators.abc import WordStudyParamsOrchestratorABC
+from apps.lang.repositories.abc import WordStudyParamsRepositoryABC
 from apps.lang.types import WordParamsType
 from apps.users.models import CustomUser
 from di import container
@@ -33,9 +33,9 @@ class TestWordStudyParamsPresenter:
     """Test Word study params presenter."""
 
     @pytest.fixture
-    def orchestrator_mock(self, initial_params: WordParamsType) -> Mock:
-        """Mock Word study params orchestrator."""
-        mock = Mock(spec=WordStudyParamsOrchestratorABC)
+    def mock_repo(self, initial_params: WordParamsType) -> Mock:
+        """Mock Word study params repository."""
+        mock = Mock(spec=WordStudyParamsRepositoryABC)
         mock.fetch_initial.return_value = initial_params
         return mock
 
@@ -43,12 +43,12 @@ class TestWordStudyParamsPresenter:
         self,
         user: CustomUser,
         initial_params: WordParamsType,
-        orchestrator_mock: Mock,
+        mock_repo: Mock,
     ) -> None:
         """Get Word study initial params."""
-        with container.lang.params_orchestrator.override(orchestrator_mock):
+        with container.lang.params_repo.override(mock_repo):
             presenter = container.lang.params_presenter()
             params = presenter.get_initial(user)
 
         assert params == initial_params
-        orchestrator_mock.fetch_initial.assert_called_once_with(user)
+        mock_repo.fetch_initial.assert_called_once_with(user)

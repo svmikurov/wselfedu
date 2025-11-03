@@ -3,17 +3,17 @@
 from dependency_injector import containers, providers
 from dependency_injector.providers import Factory
 
-from .orchestrators import (
-    CreateEnglishTranslation,
-    WordStudyOrchestrator,
-    WordStudyParamsOrchestrator,
-)
 from .presenters import (
     EnglishTranslationPresenter,
     WordStudyParamsPresenter,
     WordStudyPresenter,
 )
 from .presenters.abc import WordStudyParamsPresenterABC
+from .repositories import (
+    CreateEnglishTranslation,
+    WordStudyParamsRepository,
+    WordStudyRepository,
+)
 from .services.study import WordStudyService
 
 
@@ -24,21 +24,21 @@ class LanguageContainer(containers.DeclarativeContainer):
     # --------
 
     db_service = providers.Factory(
-        WordStudyOrchestrator,
+        WordStudyRepository,
     )
     task_service = providers.Factory(
         WordStudyService,
     )
 
-    # Orchestrators
-    # -------------
+    # Repositories
+    # ------------
 
-    translation_orchestrator = providers.Factory(
+    translation_repo = providers.Factory(
         CreateEnglishTranslation,
     )
 
-    params_orchestrator = providers.Factory(
-        WordStudyParamsOrchestrator,
+    params_repo = providers.Factory(
+        WordStudyParamsRepository,
     )
 
     # Presenters
@@ -50,7 +50,7 @@ class LanguageContainer(containers.DeclarativeContainer):
 
     params_presenter: Factory[WordStudyParamsPresenterABC] = Factory(
         WordStudyParamsPresenter,
-        orchestrator=params_orchestrator,
+        repo=params_repo,
     )
 
     word_study_presenter = providers.Factory(

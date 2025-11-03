@@ -1,4 +1,4 @@
-"""Defines protocols and ABC for orchestrator interface."""
+"""Defines protocols and ABC for repository interface."""
 
 from typing import Any, Protocol
 

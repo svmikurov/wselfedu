@@ -9,7 +9,7 @@ from django import forms
 from django.urls import reverse
 
 from apps.core.models.exercise import Exercise
-from apps.study.orchestrators.exercise import ExerciseAssignator
+from apps.study.repositories.exercise import ExerciseAssignator
 from apps.users.models import Mentorship
 
 
@@ -93,7 +93,7 @@ class AssignExerciseForm(forms.Form):
 
     def create(self) -> None:
         """Save exercise assignment."""
-        orchestrator = ExerciseAssignator(
+        repo = ExerciseAssignator(
             self.mentorship,
         )
-        orchestrator.create(self.cleaned_data)
+        repo.create(self.cleaned_data)

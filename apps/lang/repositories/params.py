@@ -1,13 +1,13 @@
-"""Abstract base class for Word study params orchestrator."""
+"""Abstract base class for Word study params repository."""
 
 from apps.lang import models
-from apps.lang.orchestrators.abc import WordStudyParamsOrchestratorABC
+from apps.lang.repositories.abc import WordStudyParamsRepositoryABC
 from apps.lang.types import WordCaseParamsType, WordParamsType
 from apps.users.models import CustomUser
 
 
-class WordStudyParamsOrchestrator(WordStudyParamsOrchestratorABC):
-    """ABC for Word study params orchestrator."""
+class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
+    """ABC for Word study params repository."""
 
     def fetch_initial(self, user: CustomUser) -> WordParamsType:
         """Fetch initial params."""

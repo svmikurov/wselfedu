@@ -12,8 +12,8 @@ from di import MainContainer
 
 from ..forms import EnglishTranslationForm
 from ..models import EnglishTranslation
-from ..orchestrators import CreateEnglishTranslation
 from ..presenters import EnglishTranslationPresenter, TranslationParams
+from ..repositories import CreateEnglishTranslation
 
 
 class EnglishTranslationCreateView(
@@ -29,13 +29,13 @@ class EnglishTranslationCreateView(
     def form_valid(
         self,
         form: EnglishTranslationForm,
-        orchestrator: CreateEnglishTranslation = Provide[
-            MainContainer.lang.translation_orchestrator
+        repo: CreateEnglishTranslation = Provide[
+            MainContainer.lang.translation_repo
         ],
     ) -> HttpResponse:
         """Save word translation."""
         if isinstance(self.request.user, CustomUser):
-            orchestrator.create_translation(
+            repo.create_translation(
                 user=self.request.user,
                 native=form.data['native'],
                 english=form.data['english'],

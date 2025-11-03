@@ -4,7 +4,7 @@ from typing import override
 
 from apps.users.models import CustomUser
 
-from ..orchestrators.abc import WordStudyParamsOrchestratorABC
+from ..repositories.abc import WordStudyParamsRepositoryABC
 from ..types import WordParamsType
 from .abc import (
     WordStudyParamsPresenterABC,
@@ -16,12 +16,12 @@ class WordStudyParamsPresenter(WordStudyParamsPresenterABC):
 
     def __init__(
         self,
-        orchestrator: WordStudyParamsOrchestratorABC,
+        repo: WordStudyParamsRepositoryABC,
     ) -> None:
         """Construct the presenter."""
-        self.orchestrator = orchestrator
+        self._repo = repo
 
     @override
     def get_initial(self, user: CustomUser) -> WordParamsType:
         """Get Word study initial params."""
-        return self.orchestrator.fetch_initial(user)
+        return self._repo.fetch_initial(user)
