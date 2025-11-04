@@ -3,11 +3,11 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
-WORD_LENGTH = 70
 
-
-class WordModel(models.Model):
+class AbstractWordModel(models.Model):
     """Base word model."""
+
+    WORD_LENGTH = 70
 
     word: models.CharField  # type: ignore[type-arg]
 
@@ -27,7 +27,7 @@ class WordModel(models.Model):
         return str(self.word)
 
 
-class NativeWord(WordModel):
+class NativeWord(AbstractWordModel):
     """Native word."""
 
     user = models.ForeignKey(
@@ -37,7 +37,7 @@ class NativeWord(WordModel):
         related_name='native_word',
     )
     word = models.CharField(
-        max_length=WORD_LENGTH,
+        max_length=AbstractWordModel.WORD_LENGTH,
         verbose_name='Слово на родном языке',
     )
 
@@ -50,7 +50,7 @@ class NativeWord(WordModel):
         db_table = 'lang_word_native'
 
 
-class EnglishWord(WordModel):
+class EnglishWord(AbstractWordModel):
     """English word."""
 
     user = models.ForeignKey(
@@ -60,7 +60,7 @@ class EnglishWord(WordModel):
         related_name='english_word',
     )
     word = models.CharField(
-        max_length=WORD_LENGTH,
+        max_length=AbstractWordModel.WORD_LENGTH,
         verbose_name='Слово на английском',
     )
 

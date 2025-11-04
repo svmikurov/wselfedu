@@ -15,12 +15,14 @@ from apps.lang.presenters.abc import (
     WordStudyParamsPresenterABC,
     WordStudyPresenterABC,
 )
+from apps.lang.services.abc import WordProgressServiceABC
 from apps.users.models import CustomUser
 
 from ..serializers import (
     WordStudyCaseSerializer,
-    WordStudyParamsSelectSerializer,
     WordStudyParamsSerializer,
+    WordStudyProgressSerializer,
+    WordStudySelectSerializer,
 )
 
 
@@ -32,7 +34,7 @@ class WordStudyViewSet(ViewSet):
 
     @extend_schema(
         summary='Word study through the presentation',
-        request={status.HTTP_200_OK: WordStudyParamsSelectSerializer},
+        request={status.HTTP_200_OK: WordStudySelectSerializer},
         responses={status.HTTP_200_OK: WordStudyCaseSerializer},
         tags=['Lang'],
     )
@@ -66,7 +68,7 @@ class WordStudyViewSet(ViewSet):
 
     @extend_schema(
         summary='Word study params',
-        responses=WordStudyParamsSelectSerializer,
+        responses=WordStudySelectSerializer,
         tags=['Lang'],
     )
     @action(methods=['get'], detail=False)
@@ -82,4 +84,29 @@ class WordStudyViewSet(ViewSet):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         payload = presenter.get_initial(self.request.user)
-        return Response(WordStudyParamsSelectSerializer(payload).data)
+        return Response(WordStudySelectSerializer(payload).data)
+
+    # TODO: Add status codes with exceptions
+    # TODO: Update response status to 200?
+    # TODO: Fix type ignore
+    @extend_schema(
+        summary='Update word study progress',
+        request=WordStudyProgressSerializer,
+        tags=['Lang'],
+    )
+    @action(methods=['post'], detail=False)
+    def progress(
+        self,
+        request: Request,
+        service: WordProgressServiceABC = wiring.Provide[
+            di.MainContainer.lang.progress_service,
+        ],
+    ) -> Response:
+        """Update word study progress."""
+        progress_serializer = WordStudyProgressSerializer(data=request.data)
+        progress_serializer.is_valid(raise_exception=True)
+        try:
+            service.update(**progress_serializer.validated_data)
+        except Exception:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_204_NO_CONTENT)

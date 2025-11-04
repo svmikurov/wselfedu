@@ -1,6 +1,10 @@
 """Language discipline app types."""
 
-from typing import NamedTuple, TypedDict
+import uuid
+from typing import Literal, NamedTuple, TypedDict
+
+LanguageType = Literal['native', 'english']
+ProgressType = Literal['known', 'unknown']
 
 
 class IdNameType(TypedDict):
@@ -31,6 +35,13 @@ class WordType(TypedDict):
 
     definition: str
     explanation: str
+
+
+class WordProgressType(TypedDict):
+    """Word study progress typed dict."""
+
+    case_uuid: uuid.UUID
+    progress_case: ProgressType
 
 
 class WordStudyCase(NamedTuple):

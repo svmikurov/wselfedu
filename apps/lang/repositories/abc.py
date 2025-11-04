@@ -2,9 +2,24 @@
 
 from abc import ABC, abstractmethod
 
+from apps.lang import types
 from apps.users.models import CustomUser
 
 from ..types import WordParamsType, WordStudyParams, WordType
+
+
+class UpdateWordProgressRepoABC(ABC):
+    """ABC for Update word study repository."""
+
+    @abstractmethod
+    def update(
+        self,
+        translation_id: int,
+        language: types.LanguageType,
+        progress_case: types.ProgressType,
+        progress_value: int,
+    ) -> None:
+        """Update word study progress."""
 
 
 class WordStudyRepositoryABC(ABC):
