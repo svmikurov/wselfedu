@@ -2,16 +2,33 @@
 
 from random import choice
 
-from ..types import WordStudyCase, WordStudyParams
-from .abc import WordStudyServiceABC
+from .. import types
+from .abc import WordStudyDomainABC
 
 
-class WordStudyService(WordStudyServiceABC):
-    """Word study service to create task case."""
+class WordStudyDomain(WordStudyDomainABC):
+    """Word study case service."""
 
-    def create(self, params: WordStudyParams) -> WordStudyCase:
-        """Create word study task case."""
-        return WordStudyCase(definition_id=self._get_random_id(params.ids))
+    def create(self, params: types.WordStudyParams) -> types.WordStudyCase:
+        """Create Word study case.
+
+        Creates Word study case from selected **translation IDs**.
+
+        Parameters
+        ----------
+        params : `WordStudyParams`
+            Create case parameters.
+
+        Returns
+        -------
+        `WordStudyCase`
+            Exercise case to fetch word data.
+            Not contains words to study.
+
+        """
+        return types.WordStudyCase(
+            translation_id=self._get_random_id(params.translation_ids)
+        )
 
     def _get_random_id(self, ids: list[int]) -> int:
         """Get random id."""

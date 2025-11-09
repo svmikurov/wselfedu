@@ -9,7 +9,7 @@ from .abc import TermStudyPresenterABC
 class TermStudyPresenter(TermStudyPresenterABC):
     """Presenter for Terms study exercise."""
 
-    def get_presentation(
+    def get_presentation_case(
         self,
         params: TermParamsType,
         user: CustomUser,

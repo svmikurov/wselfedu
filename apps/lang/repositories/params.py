@@ -30,7 +30,7 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
             or {}
         )
 
-        default: WordCaseParamsType = {
+        default_params: WordCaseParamsType = {
             'category': {
                 'id': default_query['category__id'],
                 'name': default_query['category__name'],
@@ -49,5 +49,5 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
         return {
             'categories': list(categories),
             'labels': list(labels),
-            'default': default,
+            'default_params': default_params,
         }

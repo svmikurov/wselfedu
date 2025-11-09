@@ -10,15 +10,14 @@ from . import repositories, services
 from .presenters import (
     EnglishTranslationPresenter,
     WordStudyParamsPresenter,
-    WordStudyPresenter,
 )
 from .presenters.abc import WordStudyParamsPresenterABC
 from .repositories import (
-    CreateEnglishTranslation,
     WordStudyParamsRepository,
     WordStudyRepository,
 )
-from .services.study import WordStudyService
+from .services.presentation import WordPresentationService
+from .services.study import WordStudyDomain
 
 
 class LanguageContainer(containers.DeclarativeContainer):
@@ -42,26 +41,35 @@ class LanguageContainer(containers.DeclarativeContainer):
     # Repositories
     # ------------
 
-    translation_repo = providers.Factory(
-        CreateEnglishTranslation,
-    )
-
     params_repo = providers.Factory(
         WordStudyParamsRepository,
     )
-
+    word_repo = providers.Factory(
+        WordStudyRepository,
+    )
+    translation_repo = providers.Factory(
+        repositories.TranslationRepo,
+    )
     progress_repo = providers.Factory(
         repositories.UpdateWordProgressRepo,
+    )
+
+    # Domain
+    # ------
+
+    word_study_domain = providers.Factory(
+        WordStudyDomain,
     )
 
     # Services
     # --------
 
-    db_service = providers.Factory(
-        WordStudyRepository,
-    )
-    task_service = providers.Factory(
-        WordStudyService,
+    word_presentation_service = providers.Factory(
+        WordPresentationService,
+        word_repo=word_repo,
+        translation_repo=translation_repo,
+        case_storage=django_cache,
+        domain=word_study_domain,
     )
 
     progress_service = providers.Factory(
@@ -81,10 +89,4 @@ class LanguageContainer(containers.DeclarativeContainer):
     params_presenter: Factory[WordStudyParamsPresenterABC] = Factory(
         WordStudyParamsPresenter,
         repo=params_repo,
-    )
-
-    word_study_presenter = providers.Factory(
-        WordStudyPresenter,
-        db_service=db_service,
-        task_service=task_service,
     )

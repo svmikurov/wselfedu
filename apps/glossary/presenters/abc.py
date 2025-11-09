@@ -17,7 +17,7 @@ class TermStudyPresenterABC(
 
     @abstractmethod
     @override
-    def get_presentation(
+    def get_presentation_case(
         self,
         params: TermParamsType,
         user: CustomUser,

@@ -1,5 +1,7 @@
 """Word study API view."""
 
+import uuid
+
 from dependency_injector import wiring
 from drf_spectacular.utils import extend_schema
 from rest_framework import permissions, status
@@ -11,11 +13,11 @@ from rest_framework.viewsets import ViewSet
 import di
 from apps.core.api import renderers
 from apps.lang import types
-from apps.lang.presenters.abc import (
-    WordStudyParamsPresenterABC,
-    WordStudyPresenterABC,
+from apps.lang.presenters.abc import WordStudyParamsPresenterABC
+from apps.lang.services.abc import (
+    WordPresentationServiceABC,
+    WordProgressServiceABC,
 )
-from apps.lang.services.abc import WordProgressServiceABC
 from apps.users.models import CustomUser
 
 from ..serializers import (
@@ -42,15 +44,15 @@ class WordStudyViewSet(ViewSet):
     def presentation(
         self,
         request: Request,
-        presenter: WordStudyPresenterABC = wiring.Provide[
-            di.MainContainer.lang.word_study_presenter,
+        presentation_services: WordPresentationServiceABC = wiring.Provide[
+            di.MainContainer.lang.word_presentation_service,
         ],
     ) -> Response:
         """Render the word presentation."""
         study_params = WordStudyParamsSerializer(data=request.data)
         study_params.is_valid(raise_exception=True)
         try:
-            study_data = presenter.get_presentation(
+            study_data = presentation_services.get_presentation_case(
                 study_params.validated_data,
                 self.request.user,  # type: ignore[arg-type]
             )
@@ -60,7 +62,8 @@ class WordStudyViewSet(ViewSet):
 
     def _render_no_words(self) -> Response:
         """Render no words to study for request params."""
-        no_data: types.WordType = {
+        no_data: types.WordCaseType = {
+            'case_uuid': uuid.uuid4(),
             'definition': '',
             'explanation': '',
         }
@@ -106,7 +109,7 @@ class WordStudyViewSet(ViewSet):
         progress_serializer = WordStudyProgressSerializer(data=request.data)
         progress_serializer.is_valid(raise_exception=True)
         try:
-            service.update(**progress_serializer.validated_data)
+            service.update_progress(**progress_serializer.validated_data)
         except Exception:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_204_NO_CONTENT)

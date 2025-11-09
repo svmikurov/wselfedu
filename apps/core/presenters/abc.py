@@ -43,5 +43,9 @@ class StudyPresenterGenABC(ABC, Generic[T_contra, T]):
     """ABC for item study via presentation."""
 
     @abstractmethod
-    def get_presentation(self, params: T_contra, user: CustomUser) -> T:
+    def get_presentation_case(
+        self,
+        presentation_params: T_contra,
+        user: CustomUser,
+    ) -> T:
         """Get item study presentation case."""

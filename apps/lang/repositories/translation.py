@@ -1,12 +1,13 @@
 """Create word translation."""
 
-from typing import NamedTuple
+from typing import NamedTuple, override
 
 from django.db import transaction
 
 from apps.users.models import CustomUser
 
 from ..models import EnglishTranslation, EnglishWord, NativeWord
+from .abc import TranslationRepoABC
 
 
 def normalize_word(word: str) -> str:
@@ -51,3 +52,15 @@ class CreateEnglishTranslation:
             english_created,
             translation_created,
         )
+
+
+class TranslationRepo(TranslationRepoABC):
+    """Repository to get word translation relationship."""
+
+    @override
+    def get_translation_id(
+        self,
+        word_id: int,
+    ) -> int:
+        """Get word translation relationship."""
+        return EnglishTranslation.objects.get(native=word_id).pk

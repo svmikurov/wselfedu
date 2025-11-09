@@ -3,6 +3,7 @@
 Test via APIClient, APIRequestFactory.
 """
 
+import uuid
 from http import HTTPStatus
 from typing import Callable
 from unittest.mock import Mock
@@ -42,9 +43,20 @@ def payload() -> types.WordCaseParamsType:
 
 
 @pytest.fixture
-def case() -> types.WordDataType:
+def case() -> types.WordCaseType:
     """Word study case fixture."""
     return {
+        'case_uuid': uuid.UUID('5b518a3e-45a4-4147-a097-0ed28211d8a4'),
+        'definition': 'Test definition',
+        'explanation': 'Test explanation',
+    }
+
+
+@pytest.fixture
+def response_data() -> dict[str, str]:
+    """Expect Word study response data."""
+    return {
+        'case_uuid': '5b518a3e-45a4-4147-a097-0ed28211d8a4',
         'definition': 'Test definition',
         'explanation': 'Test explanation',
     }
@@ -74,7 +86,7 @@ class TestWordStudyViewSet:
         user: CustomUser,
         view: Callable[[Request], Response],
         presenter_mock: Mock,
-        case: types.WordDataType,
+        response_data: dict[str, str],
     ) -> None:
         """Test successful presentation request."""
         request = factory.post(url, payload, format='json')
@@ -84,7 +96,7 @@ class TestWordStudyViewSet:
             response = view(request)
 
         assert response.status_code == HTTPStatus.OK
-        assert response.data == case
+        assert response.data == response_data
         presenter_mock.get_presentation_case.assert_called_once()
 
 
@@ -106,7 +118,7 @@ class TestWordStudy:
         client: APIClient,
         user: CustomUser,
         presenter_mock: Mock,
-        case: types.WordDataType,
+        response_data: dict[str, str],
     ) -> None:
         """Test successful presentation request."""
         client.force_authenticate(user)
@@ -118,5 +130,5 @@ class TestWordStudy:
         assert isinstance(response.accepted_renderer, WrappedJSONRenderer)
 
         assert response.status_code == HTTPStatus.OK
-        assert response.data == case
+        assert response.data == response_data
         presenter_mock.get_presentation_case.assert_called_once()

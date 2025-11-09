@@ -27,30 +27,42 @@ class WordParamsType(TypedDict):
 
     categories: list[IdNameType]
     labels: list[IdNameType]
-    default: WordCaseParamsType | None
+    default_params: WordCaseParamsType | None
 
 
-class WordType(TypedDict):
-    """Fields type for Word study response."""
+class CaseUUIDType(TypedDict):
+    """Case UUID typed dict."""
+
+    case_uuid: uuid.UUID
+
+
+class WordDataType(TypedDict):
+    """Word study data typed dict."""
 
     definition: str
     explanation: str
 
 
-class WordProgressType(TypedDict):
+class WordCaseType(
+    CaseUUIDType,
+    WordDataType,
+):
+    """Word study case typed dict."""
+
+
+class WordProgressType(CaseUUIDType):
     """Word study progress typed dict."""
 
-    case_uuid: uuid.UUID
-    progress_case: ProgressType
+    progress_type: ProgressType
 
 
 class WordStudyCase(NamedTuple):
     """Word study case."""
 
-    definition_id: int
+    translation_id: int
 
 
 class WordStudyParams(NamedTuple):
     """Word study params."""
 
-    ids: list[int]
+    translation_ids: list[int]

@@ -25,7 +25,7 @@ class UpdateWordProgressService(WordProgressServiceABC):
         self._progress_config = progress_config
 
     @override
-    def update(
+    def update_progress(
         self,
         case_uuid: uuid.UUID,
         progress_type: types.ProgressType,

@@ -2,17 +2,35 @@
 
 import uuid
 from abc import ABC, abstractmethod
+from typing import override
 
-from apps.lang import types
+from apps.core.presenters.abc import StudyPresenterGenABC
+from apps.users.models import CustomUser
 
-from ..types import WordStudyCase, WordStudyParams
+from .. import types
+
+
+class WordPresentationServiceABC(
+    StudyPresenterGenABC[types.WordParamsType, types.WordDataType],
+    ABC,
+):
+    """ABC fore Word study presenter."""
+
+    @abstractmethod
+    @override
+    def get_presentation_case(
+        self,
+        presentation_params: types.WordParamsType,
+        user: CustomUser,
+    ) -> types.WordCaseType:
+        """Get Word study presentation case."""
 
 
 class WordProgressServiceABC(ABC):
     """ABC for Update word study progress Service."""
 
     @abstractmethod
-    def update(
+    def update_progress(
         self,
         case_uuid: uuid.UUID,
         progress_type: types.ProgressType,
@@ -31,9 +49,9 @@ class WordProgressServiceABC(ABC):
         """
 
 
-class WordStudyServiceABC(ABC):
+class WordStudyDomainABC(ABC):
     """Word study service to create task case."""
 
     @abstractmethod
-    def create(self, params: WordStudyParams) -> WordStudyCase:
+    def create(self, params: types.WordStudyParams) -> types.WordStudyCase:
         """Create word study task case."""

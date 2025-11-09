@@ -22,12 +22,13 @@ class WordStudySelectSerializer(serializers.Serializer[types.WordParamsType]):
 
     categories = IdNameSerializer(many=True)
     labels = IdNameSerializer(many=True)
-    default = WordStudyParamsSerializer()
+    default_params = WordStudyParamsSerializer()
 
 
-class WordStudyCaseSerializer(serializers.Serializer[types.WordType]):
+class WordStudyCaseSerializer(serializers.Serializer[types.WordCaseType]):
     """Serializer for Word study case."""
 
+    case_uuid = serializers.UUIDField()
     definition = serializers.CharField(
         max_length=AbstractWordModel.WORD_LENGTH,
     )

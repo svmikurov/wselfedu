@@ -2,10 +2,9 @@
 
 from abc import ABC, abstractmethod
 
-from apps.lang import types
 from apps.users.models import CustomUser
 
-from ..types import WordParamsType, WordStudyParams, WordType
+from .. import types
 
 
 class UpdateWordProgressRepoABC(ABC):
@@ -26,11 +25,18 @@ class WordStudyRepositoryABC(ABC):
     """ABC for word study repository."""
 
     @abstractmethod
-    def get_candidates(self, params: WordParamsType) -> WordStudyParams:
+    def get_candidates(
+        self,
+        params: types.WordParamsType,
+    ) -> types.WordStudyParams:
         """Get candidates of words to study."""
 
     @abstractmethod
-    def get_case(self, english_word_id: int, user: CustomUser) -> WordType:
+    def get_word_data(
+        self,
+        english_word_id: int,
+        user: CustomUser,
+    ) -> types.WordDataType:
         """Get items for exercise case."""
 
 
@@ -38,5 +44,23 @@ class WordStudyParamsRepositoryABC(ABC):
     """ABC for Word study params repository."""
 
     @abstractmethod
-    def fetch_initial(self, user: CustomUser) -> WordParamsType:
+    def fetch_initial(self, user: CustomUser) -> types.WordParamsType:
         """Fetch initial params."""
+
+
+class TranslationRepoABC(ABC):
+    """ABC for Get translation repository."""
+
+    @abstractmethod
+    def get_translation_id(
+        self,
+        word_id: int,
+    ) -> int:
+        """Get word translation.
+
+        Parameters
+        ----------
+        word_id : `int`
+            Word ID to translate.
+
+        """
