@@ -19,7 +19,7 @@ from rest_framework.test import (
 from apps.core.api.renderers import WrappedJSONRenderer
 from apps.lang import types
 from apps.lang.api.v1.views.study import WordStudyViewSet
-from apps.lang.presenters.abc import WordStudyPresenterABC
+from apps.lang.services.abc import WordPresentationServiceABC
 from apps.users.models import CustomUser
 from di import container
 
@@ -42,7 +42,7 @@ def payload() -> types.WordCaseParamsType:
 
 
 @pytest.fixture
-def case() -> types.WordType:
+def case() -> types.WordDataType:
     """Word study case fixture."""
     return {
         'definition': 'Test definition',
@@ -60,10 +60,10 @@ class TestWordStudyViewSet:
         return WordStudyViewSet.as_view({'post': 'presentation'})
 
     @pytest.fixture
-    def presenter_mock(self, case: types.WordType) -> Mock:
+    def presenter_mock(self, case: types.WordDataType) -> Mock:
         """Mock presenter fixture."""
-        mock = Mock(spec=WordStudyPresenterABC)
-        mock.get_presentation.return_value = case
+        mock = Mock(spec=WordPresentationServiceABC)
+        mock.get_presentation_case.return_value = case
         return mock
 
     def test_presentation_success(
@@ -74,18 +74,18 @@ class TestWordStudyViewSet:
         user: CustomUser,
         view: Callable[[Request], Response],
         presenter_mock: Mock,
-        case: types.WordType,
+        case: types.WordDataType,
     ) -> None:
         """Test successful presentation request."""
         request = factory.post(url, payload, format='json')
         force_authenticate(request, user=user)
 
-        with container.lang.word_study_presenter.override(presenter_mock):
+        with container.lang.word_presentation_service.override(presenter_mock):
             response = view(request)
 
         assert response.status_code == HTTPStatus.OK
         assert response.data == case
-        presenter_mock.get_presentation.assert_called_once()
+        presenter_mock.get_presentation_case.assert_called_once()
 
 
 @pytest.mark.django_db
@@ -93,10 +93,10 @@ class TestWordStudy:
     """Test Word study presentation endpoint."""
 
     @pytest.fixture
-    def presenter_mock(self, case: types.WordType) -> Mock:
+    def presenter_mock(self, case: types.WordDataType) -> Mock:
         """Mock presenter fixture."""
-        mock = Mock(spec=WordStudyPresenterABC)
-        mock.get_presentation.return_value = case
+        mock = Mock(spec=WordPresentationServiceABC)
+        mock.get_presentation_case.return_value = case
         return mock
 
     def test_presentation_success(
@@ -106,17 +106,17 @@ class TestWordStudy:
         client: APIClient,
         user: CustomUser,
         presenter_mock: Mock,
-        case: types.WordType,
+        case: types.WordDataType,
     ) -> None:
         """Test successful presentation request."""
         client.force_authenticate(user)
         client.credentials(HTTP_ACCEPT='application/json')
 
-        with container.lang.word_study_presenter.override(presenter_mock):
+        with container.lang.word_presentation_service.override(presenter_mock):
             response = client.post(url, payload, format='json')
 
         assert isinstance(response.accepted_renderer, WrappedJSONRenderer)
 
         assert response.status_code == HTTPStatus.OK
         assert response.data == case
-        presenter_mock.get_presentation.assert_called_once()
+        presenter_mock.get_presentation_case.assert_called_once()

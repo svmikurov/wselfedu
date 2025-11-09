@@ -1,8 +1,16 @@
 """Test configuration."""
 
 import pytest
+from rest_framework.test import APIClient, APIRequestFactory
 
 from apps.users.models import CustomUser
+from di import MainContainer
+
+
+@pytest.fixture
+def container() -> MainContainer:
+    """Get main DI container."""
+    return MainContainer()
 
 
 @pytest.fixture
@@ -21,3 +29,15 @@ def owner() -> CustomUser:
         username='owner_user',
         password='owner_pass',
     )
+
+
+@pytest.fixture
+def factory() -> APIRequestFactory:
+    """Get API request factory."""
+    return APIRequestFactory()
+
+
+@pytest.fixture
+def client() -> APIClient:
+    """Get API client."""
+    return APIClient()

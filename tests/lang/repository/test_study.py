@@ -68,7 +68,9 @@ class TestGetCase:
     ) -> None:
         """Test successful case retrieval."""
         # Act
-        result = service.get_case(english_word_id=native_word.id, user=user)
+        result = service.get_word_data(
+            english_word_id=native_word.id, user=user
+        )
 
         # Assert
         assert result['definition'] == str(english_word)
@@ -85,7 +87,7 @@ class TestGetCase:
         """Test case when translation doesn't exist."""
         # Act & Assert
         with pytest.raises(ObjectDoesNotExist):
-            service.get_case(english_word_id=999, user=user)
+            service.get_word_data(english_word_id=999, user=user)
 
     def test_get_case_different_users(
         self,
@@ -103,7 +105,7 @@ class TestGetCase:
 
         # Act & Assert - other user shouldn't see the translation
         with pytest.raises(ObjectDoesNotExist):
-            service.get_case(
+            service.get_word_data(
                 english_word_id=translation.native.id, user=other_user
             )
 
@@ -116,7 +118,7 @@ class TestGetCase:
     ) -> None:
         """Test that only one query is executed."""
         with django_assert_num_queries(1):  # type: ignore[operator]
-            result = service.get_case(
+            result = service.get_word_data(
                 english_word_id=translation.native.id, user=user
             )
 
