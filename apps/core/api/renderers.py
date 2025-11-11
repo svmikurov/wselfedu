@@ -8,21 +8,7 @@ from rest_framework import renderers
 
 
 class WrappedJSONRenderer(renderers.JSONRenderer):
-    """Wrapped JSON response renderer.
-
-    This renderer wraps API responses in a format:
-    {
-        "status": "success" | "error",
-        "message": string,
-        "data": ...
-    }
-
-    For example:
-
-        class SomeView(ModelViewSet):
-            ...
-            renderer_classes = [WrappedJSONRenderer]
-    """
+    """Wrapped JSON response renderer."""
 
     def render(
         self,
@@ -35,6 +21,7 @@ class WrappedJSONRenderer(renderers.JSONRenderer):
             return super().render(data, accepted_media_type, renderer_context)
 
         response = renderer_context.get('response')
+
         if not isinstance(response, HttpResponse):
             return super().render(data, accepted_media_type, renderer_context)
 
@@ -42,14 +29,56 @@ class WrappedJSONRenderer(renderers.JSONRenderer):
         status = 'success' if status_code < HTTPStatus.BAD_REQUEST else 'error'
         message = renderer_context.get('message')
 
-        wrapped_data: dict[str, Any] = {
-            'status': status,
-            'message': message,
+        if status == 'success':
+            wrapped_data = self._wrap_success(
+                data=data,
+                status_code=status_code,
+                message=message,
+            )
+        else:
+            wrapped_data = self._wrap_error(
+                data=data,
+                status_code=status_code,
+                message=message,
+            )
+
+        return super().render(
+            wrapped_data, accepted_media_type, renderer_context
+        )
+
+    def _wrap_success(
+        self,
+        data: object,
+        status_code: int,
+        message: str | None = None,
+    ) -> dict[str, Any]:
+        default_message: str = 'Success'
+
+        return {
+            'status': 'success',
+            'code': status_code,
+            'message': message or default_message,
             'data': data,
         }
 
-        return super().render(
-            wrapped_data,
-            accepted_media_type,
-            renderer_context,
-        )
+    def _wrap_error(
+        self,
+        data: object,
+        status_code: int,
+        message: str | None = None,
+    ) -> dict[str, Any]:
+        default_message: str = 'Error'
+
+        if isinstance(data, dict):
+            if 'detail' in data:
+                default_message = message or data['detail']
+            elif any(key in data for key in ['errors', 'non_field_errors']):
+                default_message = message or 'Validation error'
+
+        return {
+            'status': 'error',
+            'code': status_code,
+            'message': message or default_message,
+            'data': None,
+            'errors': data,
+        }
