@@ -18,7 +18,6 @@ from apps.lang.services.abc import (
     WordPresentationServiceABC,
     WordProgressServiceABC,
 )
-from apps.users.models import CustomUser
 
 from ..serializers import (
     WordStudyCaseSerializer,
@@ -60,6 +59,7 @@ class WordStudyViewSet(ViewSet):
             return self._render_no_words()
         return Response(WordStudyCaseSerializer(study_data).data)
 
+    # TODO: Move to service
     def _render_no_words(self) -> Response:
         """Render no words to study for request params."""
         no_data: types.WordCaseType = {
@@ -83,10 +83,7 @@ class WordStudyViewSet(ViewSet):
         ],
     ) -> Response:
         """Render initial Word study params."""
-        if not isinstance(self.request.user, CustomUser):
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
-
-        payload = presenter.get_initial(self.request.user)
+        payload = presenter.get_initial(self.request.user)  # type: ignore[arg-type]
         return Response(WordStudySelectSerializer(payload).data)
 
     # TODO: Add status codes with exceptions
@@ -95,6 +92,7 @@ class WordStudyViewSet(ViewSet):
     @extend_schema(
         summary='Update word study progress',
         request=WordStudyProgressSerializer,
+        responses={},
         tags=['Lang'],
     )
     @action(methods=['post'], detail=False)
@@ -110,6 +108,9 @@ class WordStudyViewSet(ViewSet):
         progress_serializer.is_valid(raise_exception=True)
         try:
             service.update_progress(**progress_serializer.validated_data)
-        except Exception:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except Exception as exc:
+            return Response(
+                data={'detail': str(exc)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         return Response(status=status.HTTP_204_NO_CONTENT)
