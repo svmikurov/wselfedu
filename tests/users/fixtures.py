@@ -1,5 +1,7 @@
 """Users application fixtures."""
 
+from unittest.mock import Mock
+
 import pytest
 
 from apps.users.models import CustomUser
@@ -12,6 +14,12 @@ def user() -> CustomUser:
         username='test_user',
         password='test_pass',
     )
+
+
+@pytest.fixture
+def mock_user() -> Mock:
+    """Mock user fixture."""
+    return Mock(spec=CustomUser)
 
 
 @pytest.fixture

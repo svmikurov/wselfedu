@@ -2,7 +2,7 @@
 
 import pytest
 
-from apps.lang import models, repos, schemas, types
+from apps.lang import models, repos
 from apps.users.models import CustomUser
 
 
@@ -16,23 +16,76 @@ def progress_repo() -> repos.UpdateWordProgressRepo:
 class TestRepository:
     """Test Word study progress repository."""
 
-    def test_update(
+    @pytest.mark.parametrize(
+        'progress_delta, expected_progress',
+        [
+            (1, 1),
+            (-1, 0),
+            (
+                models.EnglishProgress.MAX_PROGRESS + 1,
+                models.EnglishProgress.MAX_PROGRESS,
+            ),
+        ],
+    )
+    def test_create_progress(
         self,
+        progress_delta: int,
+        expected_progress: int,
         user: CustomUser,
         translation: models.EnglishTranslation,
-        progress_config: schemas.ProgressConfigSchema,
-        progress_case: types.WordProgressType,
         progress_repo: repos.UpdateWordProgressRepo,
     ) -> None:
-        """Test update the Word study progress."""
+        """Test create the Word study progress."""
+        # Act
         progress_repo.update(
+            user=user,
             translation_id=translation.pk,
             language='english',
-            progress_case=progress_case['progress_type'],
-            progress_value=progress_config.increment,
+            progress_delta=progress_delta,
         )
 
+        # Assert
         progress = models.EnglishProgress.objects.get(
             translation_id=translation.pk,
         )
-        assert progress.progress == 1
+        assert progress.progress == expected_progress
+
+    @pytest.mark.parametrize(
+        'initial_progress, progress_delta, expected_progress',
+        [
+            (0, 1, 1),
+            (0, -1, 0),
+            (1, -1, 0),
+            (11, 3, models.EnglishProgress.MAX_PROGRESS),
+        ],
+    )
+    def test_update_progress(
+        self,
+        initial_progress: int,
+        progress_delta: int,
+        expected_progress: int,
+        user: CustomUser,
+        translation: models.EnglishTranslation,
+        progress_repo: repos.UpdateWordProgressRepo,
+    ) -> None:
+        """Test update the Word study progress."""
+        # Average
+        models.EnglishProgress.objects.create(
+            user=user,
+            translation_id=translation.pk,
+            progress=initial_progress,
+        )
+
+        # Act
+        progress_repo.update(
+            user=user,
+            translation_id=translation.pk,
+            language='english',
+            progress_delta=progress_delta,
+        )
+
+        # Assert
+        progress = models.EnglishProgress.objects.get(
+            translation_id=translation.pk,
+        )
+        assert progress.progress == expected_progress
