@@ -13,11 +13,11 @@ class UpdateWordProgressRepoABC(ABC):
     @abstractmethod
     def update(
         self,
+        user: CustomUser,
         translation_id: int,
         language: types.LanguageType,
-        progress_case: types.ProgressType,
-        progress_value: int,
-    ) -> None:
+        progress_delta: int,
+    ) -> dict[str, int | bool]:
         """Update word study progress."""
 
 
