@@ -1,15 +1,14 @@
 """Abstract base class for Word study params repository."""
 
-from apps.lang import models
-from apps.lang.repositories.abc import WordStudyParamsRepositoryABC
-from apps.lang.types import WordCaseParamsType, WordParamsType
+from apps.lang import models, types
+from apps.lang.repos.abc import WordStudyParamsRepositoryABC
 from apps.users.models import CustomUser
 
 
 class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
     """ABC for Word study params repository."""
 
-    def fetch_initial(self, user: CustomUser) -> WordParamsType:
+    def fetch_initial(self, user: CustomUser) -> types.WordParamsType:
         """Fetch initial params."""
         labels = models.LangLabel.objects.filter(user=user).values(
             'id', 'name'
@@ -30,7 +29,7 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
             or {}
         )
 
-        default_params: WordCaseParamsType = {
+        default_params: types.WordCaseParamsType = {
             'category': {
                 'id': default_query['category__id'],
                 'name': default_query['category__name'],

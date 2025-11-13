@@ -3,6 +3,7 @@
 from typing import override
 
 from apps.lang import types
+from utils import decorators
 
 from .abc import UpdateWordProgressRepoABC
 
@@ -11,6 +12,7 @@ class UpdateWordProgressRepo(UpdateWordProgressRepoABC):
     """Update word study repository."""
 
     @override
+    @decorators.log_unimplemented_call
     def update(
         self,
         translation_id: int,
