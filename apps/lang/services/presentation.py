@@ -7,7 +7,7 @@ from apps.core.storage.clients import DjangoCache
 from apps.users.models import CustomUser
 
 from .. import schemas, types
-from ..repositories.abc import TranslationRepoABC, WordStudyRepositoryABC
+from ..repos.abc import TranslationRepoABC, WordStudyRepositoryABC
 from .abc import WordPresentationServiceABC, WordStudyDomainABC
 
 log = logging.getLogger(__name__)

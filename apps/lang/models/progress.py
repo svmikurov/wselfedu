@@ -31,13 +31,23 @@ class EnglishProgress(models.Model):
         ],
         verbose_name='Прогресс изучения',
     )
+    created_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Добавлено',
+    )
+    updated_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Обновлено',
+    )
 
     class Meta:
         """Model configuration."""
 
         verbose_name = 'Прогресс'
         verbose_name_plural = 'Прогресс'
+
         db_table = 'lang_progress_english'
+
         constraints = [
             models.UniqueConstraint(
                 fields=['user', 'translation'],

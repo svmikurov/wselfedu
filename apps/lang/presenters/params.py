@@ -4,7 +4,7 @@ from typing import override
 
 from apps.users.models import CustomUser
 
-from ..repositories.abc import WordStudyParamsRepositoryABC
+from ..repos.abc import WordStudyParamsRepositoryABC
 from ..types import WordParamsType
 from .abc import (
     WordStudyParamsPresenterABC,

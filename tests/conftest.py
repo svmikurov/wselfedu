@@ -5,32 +5,18 @@ from unittest.mock import Mock
 import pytest
 from rest_framework.test import APIClient, APIRequestFactory
 
-from apps.users.models import CustomUser
 from di import MainContainer
+
+pytest_plugins = [
+    'tests.users.fixtures',
+    'tests.lang.fixtures',
+]
 
 
 @pytest.fixture
 def container() -> MainContainer:
     """Get main DI container."""
     return MainContainer()
-
-
-@pytest.fixture
-def user() -> CustomUser:
-    """User fixture."""
-    return CustomUser.objects.create_user(
-        username='test_user',
-        password='test_pass',
-    )
-
-
-@pytest.fixture
-def owner() -> CustomUser:
-    """Owner of object, the User fixture."""
-    return CustomUser.objects.create_user(
-        username='owner_user',
-        password='owner_pass',
-    )
 
 
 @pytest.fixture

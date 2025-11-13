@@ -13,7 +13,7 @@ from di import MainContainer
 from ..forms import EnglishTranslationForm
 from ..models import EnglishTranslation
 from ..presenters import EnglishTranslationPresenter, TranslationParams
-from ..repositories import CreateEnglishTranslation
+from ..repos import CreateEnglishTranslation
 
 
 class EnglishTranslationCreateView(

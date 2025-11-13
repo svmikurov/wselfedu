@@ -1,13 +1,16 @@
 """Update word study progress service."""
 
+import logging
 import uuid
 from typing import override
 
 from apps.core.storage.clients import DjangoCache
 
 from .. import schemas, types
-from ..repositories.abc import UpdateWordProgressRepoABC
+from ..repos.abc import UpdateWordProgressRepoABC
 from .abc import WordProgressServiceABC
+
+log = logging.getLogger(__name__)
 
 
 class UpdateWordProgressService(WordProgressServiceABC):
@@ -31,12 +34,28 @@ class UpdateWordProgressService(WordProgressServiceABC):
         progress_type: types.ProgressType,
     ) -> None:
         """Update word study progress."""
-        case_data: schemas.WordStudyCaseSchema = self._case_storage.pop(
-            case_uuid
-        )
-        self._progress_repo.update(
-            case_data.translation_id,
-            case_data.language,
-            progress_type,
-            getattr(self._progress_config, progress_type),
-        )
+        progress_value = {
+            'known': self._progress_config.increment,
+            'unknown': self._progress_config.decrement,
+        }[progress_type]
+
+        try:
+            case_data: schemas.WordStudyCaseSchema = self._case_storage.pop(
+                cache_kay=case_uuid,
+            )
+        except KeyError as exc:
+            log.warning('Case not found in storage: %s', case_uuid)
+            raise KeyError(
+                f'Exercise not found or already completed: {case_uuid}'
+            ) from exc
+
+        try:
+            self._progress_repo.update(
+                translation_id=case_data.translation_id,
+                language=case_data.language,
+                progress_case=progress_type,
+                progress_value=progress_value,
+            )
+        except Exception as exc:
+            log.exception('Unexpected error during progress update: %s', exc)
+            raise

@@ -3,6 +3,7 @@
 import pytest
 
 from apps.lang import models, repos, schemas, types
+from apps.users.models import CustomUser
 
 
 @pytest.fixture
@@ -17,6 +18,7 @@ class TestRepository:
 
     def test_update(
         self,
+        user: CustomUser,
         translation: models.EnglishTranslation,
         progress_config: schemas.ProgressConfigSchema,
         progress_case: types.WordProgressType,
@@ -29,3 +31,8 @@ class TestRepository:
             progress_case=progress_case['progress_type'],
             progress_value=progress_config.increment,
         )
+
+        progress = models.EnglishProgress.objects.get(
+            translation_id=translation.pk,
+        )
+        assert progress.progress == 1
