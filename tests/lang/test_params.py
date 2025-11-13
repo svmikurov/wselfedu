@@ -4,7 +4,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from apps.lang.repositories.abc import WordStudyParamsRepositoryABC
+from apps.lang.repos.abc import WordStudyParamsRepositoryABC
 from apps.lang.types import WordParamsType
 from apps.users.models import CustomUser
 from di import container

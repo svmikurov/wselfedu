@@ -1,5 +1,7 @@
 """Test configuration."""
 
+from unittest.mock import Mock
+
 import pytest
 from rest_framework.test import APIClient, APIRequestFactory
 
@@ -41,3 +43,13 @@ def factory() -> APIRequestFactory:
 def client() -> APIClient:
     """Get API client."""
     return APIClient()
+
+
+# Mocking
+# -------
+
+
+@pytest.fixture
+def mock_request() -> Mock:
+    """Mock request fixture."""
+    return Mock()

@@ -4,8 +4,8 @@ import pytest
 from django.core.exceptions import ObjectDoesNotExist
 from django.test.utils import CaptureQueriesContext
 
-from apps.lang.models import EnglishTranslation, EnglishWord, NativeWord
-from apps.lang.repositories.study import WordStudyRepository
+from apps.lang import models
+from apps.lang.repos.study import WordStudyRepository
 from apps.users.models import CustomUser
 
 
@@ -23,37 +23,6 @@ class TestGetCase:
     """Test get_case method."""
 
     @pytest.fixture
-    def user(self) -> CustomUser:
-        """User fixture."""
-        return CustomUser.objects.create_user(
-            username='testuser',
-            email='test@example.com',
-            password='testpass123',
-        )
-
-    @pytest.fixture
-    def native_word(self, user: CustomUser) -> NativeWord:
-        """Native word fixture."""
-        return NativeWord.objects.create(user=user, word='дом')
-
-    @pytest.fixture
-    def english_word(self, user: CustomUser) -> EnglishWord:
-        """English word fixture."""
-        return EnglishWord.objects.create(user=user, word='house')
-
-    @pytest.fixture
-    def translation(
-        self,
-        user: CustomUser,
-        native_word: NativeWord,
-        english_word: EnglishWord,
-    ) -> EnglishTranslation:
-        """Get translation fixture."""
-        return EnglishTranslation.objects.create(
-            user=user, native=native_word, english=english_word
-        )
-
-    @pytest.fixture
     def service(self) -> WordStudyRepository:
         """Service fixture."""
         return WordStudyRepository()
@@ -62,9 +31,9 @@ class TestGetCase:
         self,
         service: WordStudyRepository,
         user: CustomUser,
-        translation: EnglishTranslation,
-        native_word: NativeWord,
-        english_word: EnglishWord,
+        translation: models.EnglishTranslation,  # Adds translation to DB
+        native_word: models.NativeWord,
+        english_word: models.EnglishWord,
     ) -> None:
         """Test successful case retrieval."""
         # Act
@@ -92,8 +61,8 @@ class TestGetCase:
     def test_get_case_different_users(
         self,
         service: WordStudyRepository,
-        user: CustomUser,
-        translation: EnglishTranslation,
+        user: CustomUser,  # Adds user to DB
+        translation: models.EnglishTranslation,
     ) -> None:
         """Test that users can only access their own translations."""
         # Create another user
@@ -113,7 +82,7 @@ class TestGetCase:
         self,
         service: WordStudyRepository,
         user: CustomUser,
-        translation: EnglishTranslation,
+        translation: models.EnglishTranslation,
         django_assert_num_queries: CaptureQueriesContext,
     ) -> None:
         """Test that only one query is executed."""
