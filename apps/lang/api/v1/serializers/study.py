@@ -42,5 +42,10 @@ class WordStudyProgressSerializer(
 ):
     """Serializer for Word study progress."""
 
-    case_uuid = serializers.UUIDField()
-    progress_type = serializers.ChoiceField(choices=['known', 'unknown'])
+    case_uuid = serializers.UUIDField(
+        required=True,
+    )
+    progress_type = serializers.ChoiceField(
+        required=True,
+        choices=['known', 'unknown'],
+    )
