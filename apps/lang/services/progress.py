@@ -5,6 +5,7 @@ import uuid
 from typing import override
 
 from apps.core.storage.clients import DjangoCache
+from apps.users.models import CustomUser
 
 from .. import schemas, types
 from ..repos.abc import UpdateWordProgressRepoABC
@@ -30,6 +31,7 @@ class UpdateWordProgressService(WordProgressServiceABC):
     @override
     def update_progress(
         self,
+        user: CustomUser,
         case_uuid: uuid.UUID,
         progress_type: types.ProgressType,
     ) -> None:
@@ -38,6 +40,12 @@ class UpdateWordProgressService(WordProgressServiceABC):
             'known': self._progress_config.increment,
             'unknown': self._progress_config.decrement,
         }[progress_type]
+
+        match progress_type:
+            case 'known':
+                progress_delta = progress_value
+            case 'unknown':
+                progress_delta = -progress_value
 
         try:
             case_data: schemas.WordStudyCaseSchema = self._case_storage.pop(
@@ -51,10 +59,10 @@ class UpdateWordProgressService(WordProgressServiceABC):
 
         try:
             self._progress_repo.update(
+                user=user,
                 translation_id=case_data.translation_id,
                 language=case_data.language,
-                progress_case=progress_type,
-                progress_value=progress_value,
+                progress_delta=progress_delta,
             )
         except Exception as exc:
             log.exception('Unexpected error during progress update: %s', exc)

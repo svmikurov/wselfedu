@@ -32,6 +32,7 @@ class WordProgressServiceABC(ABC):
     @abstractmethod
     def update_progress(
         self,
+        user: CustomUser,
         case_uuid: uuid.UUID,
         progress_type: types.ProgressType,
     ) -> None:
@@ -39,6 +40,8 @@ class WordProgressServiceABC(ABC):
 
         Parameters
         ----------
+        user : `CustomUser`
+            Current user instance.
         case_uuid : `uuid.UUID`
             The UUID of the exercise case that was saved
             and provided to the client for word learning.
