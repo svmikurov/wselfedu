@@ -4,11 +4,13 @@ from django.contrib.auth import get_user_model
 from django.core import validators
 from django.db import models
 
+MAX_ENGLISH_PROGRESS: int = 12
+
 
 class EnglishProgress(models.Model):
     """Native-English translation study progress model."""
 
-    MAX_PROGRESS: int = 12
+    MAX_PROGRESS: int = MAX_ENGLISH_PROGRESS
 
     user = models.ForeignKey(
         get_user_model(),
@@ -52,5 +54,10 @@ class EnglishProgress(models.Model):
             models.UniqueConstraint(
                 fields=['user', 'translation'],
                 name='progress_english_unique_user_translation',
-            )
+            ),
+            models.CheckConstraint(
+                condition=models.Q(progress__gte=0)
+                & models.Q(progress__lte=MAX_ENGLISH_PROGRESS),
+                name='progress_english_range_check',
+            ),
         ]
