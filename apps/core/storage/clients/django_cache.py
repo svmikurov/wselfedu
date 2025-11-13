@@ -18,29 +18,31 @@ class DjangoCache(CacheABC[T]):
     @override
     def set(obj: T, ttl: int | None = None) -> uuid.UUID:
         """Save object to cache."""
-        uid = uuid.uuid4()
-        cache.set(uid, obj, ttl)
-        return uid
+        cache_key = uuid.uuid4()
+        cache.set(cache_key, obj, ttl)
+        return cache_key
 
     @staticmethod
     @override
-    def get(uid: uuid.UUID) -> T:
+    def get(cache_key: uuid.UUID) -> T:
         """Retrieve an object from the cache."""
-        obj: T = cache.get(uid)
+        obj: T = cache.get(cache_key)
         if obj is None:
-            raise KeyError(f'Object with uid {uid} not found in cache')
+            raise KeyError(
+                f'Object with cache_key {cache_key} not found in cache'
+            )
         return obj
 
     @classmethod
     @override
-    def pop(cls, uid: uuid.UUID) -> T:
+    def pop(cls, cache_kay: uuid.UUID) -> T:
         """Remove and return an object from the cache."""
-        obj = cls.get(uid)
-        cls.delete(uid)
+        obj = cls.get(cache_kay)
+        cls.delete(cache_kay)
         return obj
 
     @staticmethod
     @override
-    def delete(uid: uuid.UUID) -> None:
+    def delete(cache_kay: uuid.UUID) -> None:
         """Delete an object from the cache."""
-        cache.delete(uid)
+        cache.delete(cache_kay)
