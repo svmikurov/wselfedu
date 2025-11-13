@@ -1,5 +1,6 @@
 """Word study API view."""
 
+import logging
 import uuid
 
 from dependency_injector import wiring
@@ -19,12 +20,9 @@ from apps.lang.services.abc import (
     WordProgressServiceABC,
 )
 
-from ..serializers import (
-    WordStudyCaseSerializer,
-    WordStudyParamsSerializer,
-    WordStudyProgressSerializer,
-    WordStudySelectSerializer,
-)
+from .. import serializers as ser
+
+log = logging.getLogger(__name__)
 
 
 class WordStudyViewSet(ViewSet):
@@ -35,8 +33,8 @@ class WordStudyViewSet(ViewSet):
 
     @extend_schema(
         summary='Word study through the presentation',
-        request={status.HTTP_200_OK: WordStudySelectSerializer},
-        responses={status.HTTP_200_OK: WordStudyCaseSerializer},
+        request={status.HTTP_200_OK: ser.WordStudySelectSerializer},
+        responses={status.HTTP_200_OK: ser.WordStudyCaseSerializer},
         tags=['Lang'],
     )
     @action(methods=['post'], detail=False)
@@ -48,7 +46,7 @@ class WordStudyViewSet(ViewSet):
         ],
     ) -> Response:
         """Render the word presentation."""
-        study_params = WordStudyParamsSerializer(data=request.data)
+        study_params = ser.WordStudyParamsSerializer(data=request.data)
         study_params.is_valid(raise_exception=True)
         try:
             study_data = presentation_services.get_presentation_case(
@@ -57,7 +55,7 @@ class WordStudyViewSet(ViewSet):
             )
         except LookupError:
             return self._render_no_words()
-        return Response(WordStudyCaseSerializer(study_data).data)
+        return Response(ser.WordStudyCaseSerializer(study_data).data)
 
     # TODO: Move to service
     def _render_no_words(self) -> Response:
@@ -67,11 +65,11 @@ class WordStudyViewSet(ViewSet):
             'definition': '',
             'explanation': '',
         }
-        return Response(WordStudyCaseSerializer(no_data).data)
+        return Response(ser.WordStudyCaseSerializer(no_data).data)
 
     @extend_schema(
         summary='Word study params',
-        responses=WordStudySelectSerializer,
+        responses=ser.WordStudySelectSerializer,
         tags=['Lang'],
     )
     @action(methods=['get'], detail=False)
@@ -84,14 +82,13 @@ class WordStudyViewSet(ViewSet):
     ) -> Response:
         """Render initial Word study params."""
         payload = presenter.get_initial(self.request.user)  # type: ignore[arg-type]
-        return Response(WordStudySelectSerializer(payload).data)
+        return Response(ser.WordStudySelectSerializer(payload).data)
 
     # TODO: Add status codes with exceptions
     # TODO: Update response status to 200?
-    # TODO: Fix type ignore
     @extend_schema(
         summary='Update word study progress',
-        request=WordStudyProgressSerializer,
+        request=ser.WordStudyProgressSerializer,
         responses={},
         tags=['Lang'],
     )
@@ -104,8 +101,22 @@ class WordStudyViewSet(ViewSet):
         ],
     ) -> Response:
         """Update word study progress."""
-        progress_serializer = WordStudyProgressSerializer(data=request.data)
-        progress_serializer.is_valid(raise_exception=True)
+        progress_serializer = ser.WordStudyProgressSerializer(
+            data=request.data
+        )
+
+        if not progress_serializer.is_valid():
+            log.warning(
+                'Invalid progress data from user %s:\n%s.\nGot %s',
+                request.user.id,
+                progress_serializer.errors,
+                request.data,
+            )
+            return Response(
+                data=progress_serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         try:
             service.update_progress(**progress_serializer.validated_data)
         except Exception as exc:
@@ -113,4 +124,5 @@ class WordStudyViewSet(ViewSet):
                 data={'detail': str(exc)},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
         return Response(status=status.HTTP_204_NO_CONTENT)
