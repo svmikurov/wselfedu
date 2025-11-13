@@ -6,16 +6,8 @@ from dependency_injector.providers import Factory
 from apps.core.storage.clients import DjangoCache
 from apps.lang import schemas
 
-from . import repositories, services
-from .presenters import (
-    EnglishTranslationPresenter,
-    WordStudyParamsPresenter,
-)
+from . import presenters, repos, services
 from .presenters.abc import WordStudyParamsPresenterABC
-from .repositories import (
-    WordStudyParamsRepository,
-    WordStudyRepository,
-)
 from .services.presentation import WordPresentationService
 from .services.study import WordStudyDomain
 
@@ -42,16 +34,16 @@ class LanguageContainer(containers.DeclarativeContainer):
     # ------------
 
     params_repo = providers.Factory(
-        WordStudyParamsRepository,
+        repos.WordStudyParamsRepository,
     )
     word_repo = providers.Factory(
-        WordStudyRepository,
+        repos.WordStudyRepository,
     )
     translation_repo = providers.Factory(
-        repositories.TranslationRepo,
+        repos.TranslationRepo,
     )
     progress_repo = providers.Factory(
-        repositories.UpdateWordProgressRepo,
+        repos.UpdateWordProgressRepo,
     )
 
     # Domain
@@ -83,10 +75,10 @@ class LanguageContainer(containers.DeclarativeContainer):
     # ----------
 
     translation_presenter = providers.Factory(
-        EnglishTranslationPresenter,
+        presenters.EnglishTranslationPresenter,
     )
 
     params_presenter: Factory[WordStudyParamsPresenterABC] = Factory(
-        WordStudyParamsPresenter,
+        presenters.WordStudyParamsPresenter,
         repo=params_repo,
     )
