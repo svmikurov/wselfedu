@@ -1,75 +1,92 @@
-"""Test the Word study progress."""
+"""Test the Word study ViewSet, `progress` action."""
 
 from http import HTTPStatus
+from typing import Callable
 from unittest.mock import Mock
 
 import pytest
+from rest_framework.request import Request
+from rest_framework.response import Response
+from rest_framework.test import APIRequestFactory, force_authenticate
 
+from apps.lang import types
 from apps.lang.api.v1.views.study import WordStudyViewSet
 from apps.lang.services.abc import WordProgressServiceABC
-from apps.lang.types import WordProgressType
 from di import container
 
 from . import cases
 
 
 @pytest.fixture
-def viewset() -> WordStudyViewSet:
-    """Get ViewSet fixture."""
-    return WordStudyViewSet()
+def view() -> Callable[[Request], Response]:
+    """Provide Word study ViewSet."""
+    return WordStudyViewSet.as_view({'post': 'progress'})
 
 
 @pytest.fixture
 def mock_service() -> Mock:
-    """Mock word study progress service fixture."""
+    """Mock word study progress service."""
     return Mock(spec=WordProgressServiceABC)
 
 
 @pytest.fixture
-def valid_payload() -> WordProgressType:
+def valid_payload() -> types.WordProgressType:
     """Mock valid request payload."""
     return cases.VALID_PAYLOAD
 
 
-class TestWordStudyViewSet:
-    """Test Word study progress HTTP ViewSet."""
+class TestProgress:
+    """Test the Word study ViewSet, `progress` action."""
 
-    def test_progress_success(
+    def test_success(
         self,
-        viewset: WordStudyViewSet,
-        mock_request: Mock,
+        mock_user: Mock,
         mock_service: Mock,
-        valid_payload: WordProgressType,
+        api_request_factory: APIRequestFactory,
+        view: Callable[[Request], Response],
+        valid_payload: types.WordProgressType,
     ) -> None:
-        """Test successful progress update."""
-        mock_request.data = valid_payload
+        """Test update progress success."""
+        # Arrange
+        request = api_request_factory.post('', valid_payload)
+        force_authenticate(request, mock_user)
 
+        # Act
         with container.lang.progress_service.override(mock_service):
-            response = viewset.progress(mock_request)  # type: ignore
+            response = view(request)
 
+        # Assert
         assert response.status_code == HTTPStatus.NO_CONTENT
-        mock_service.update_progress.assert_called_once_with(**valid_payload)
+        assert response.data is None
+        mock_service.update_progress.assert_called_once_with(
+            mock_user, valid_payload
+        )
 
     @pytest.mark.parametrize(
         'invalid_payload, expected_errors',
         cases.INVALID_PAYLOAD,
     )
-    def test_progress_validation_errors_handling(
+    def test_validation_errors_handling(
         self,
-        viewset: WordStudyViewSet,
-        mock_request: Mock,
+        mock_user: Mock,
         mock_service: Mock,
+        api_request_factory: APIRequestFactory,
+        view: Callable[[Request], Response],
         invalid_payload: cases.InvalidPayload,
         expected_errors: cases.SerializerErrors,
     ) -> None:
-        """Test validation errors handling."""
-        mock_request.data = invalid_payload
+        """Test update progress validation errors."""
+        # Arrange
+        request = api_request_factory.post('', invalid_payload)
+        force_authenticate(request, mock_user)
 
-        response = viewset.progress(mock_request)  # type: ignore
+        # Act
+        with container.lang.progress_service.override(mock_service):
+            response = view(request)
 
+        # Assert
         assert response.status_code == HTTPStatus.BAD_REQUEST
         assert response.data == expected_errors
-
         mock_service.update_progress.assert_not_called()
 
     @pytest.mark.parametrize(
@@ -78,19 +95,27 @@ class TestWordStudyViewSet:
     )
     def test_service_errors_handling(
         self,
-        viewset: WordStudyViewSet,
-        mock_request: Mock,
+        mock_user: Mock,
         mock_service: Mock,
-        valid_payload: WordProgressType,
+        api_request_factory: APIRequestFactory,
+        view: Callable[[Request], Response],
+        valid_payload: types.WordProgressType,
         exception: cases.ServiceErrors,
         expected_detail: str,
     ) -> None:
-        """Test service exception handling."""
-        mock_request.data = valid_payload
+        """Test update progress service exception."""
+        # Arrange
+        request = api_request_factory.post('', valid_payload)
+        force_authenticate(request, mock_user)
         mock_service.update_progress.side_effect = exception
 
+        # Act
         with container.lang.progress_service.override(mock_service):
-            response = viewset.progress(mock_request)  # type: ignore
+            response = view(request)
 
+        # Assert
         assert response.status_code == HTTPStatus.BAD_REQUEST
         assert response.data == {'detail': expected_detail}
+        mock_service.update_progress.assert_called_once_with(
+            mock_user, valid_payload
+        )

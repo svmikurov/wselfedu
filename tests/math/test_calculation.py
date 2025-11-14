@@ -66,14 +66,14 @@ class TestCalculationViewSet:
         self,
         url: str,
         payload: dict[str, str],
-        factory: APIRequestFactory,
+        api_request_factory: APIRequestFactory,
         user: CustomUser,
         view: Callable[[Request], Response],
         presenter_mock: Mock,
         case: dict[str, Any],
     ) -> None:
         """Test successful presentation request."""
-        request = factory.post(url, payload, format='json')
+        request = api_request_factory.post(url, payload, format='json')
         force_authenticate(request, user=user)
 
         with patch.object(

@@ -48,17 +48,17 @@ class TestWordStudyParams:
     def test_params_success(
         self,
         url: str,
-        client: APIClient,
+        api_client: APIClient,
         user: CustomUser,
         initial_payload: WordParamsType,
         presenter_mock: Mock,
     ) -> None:
         """Test params success."""
-        client.force_authenticate(user)
+        api_client.force_authenticate(user)
 
         # Mock presenter
         with container.lang.params_presenter.override(presenter_mock):
-            response = client.get(url)
+            response = api_client.get(url)
 
         assert response.status_code == HTTPStatus.OK
         assert response.data == initial_payload

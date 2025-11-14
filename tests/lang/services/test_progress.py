@@ -24,7 +24,7 @@ class TestService:
         mock_django_cache_storage.pop.return_value = case_data
 
         # Act
-        progress_service_di_mock.update_progress(mock_user, **progress_case)
+        progress_service_di_mock.update_progress(mock_user, progress_case)
 
         # Assert
         mock_django_cache_storage.pop.assert_called_once_with(

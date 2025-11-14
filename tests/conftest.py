@@ -22,13 +22,13 @@ def container() -> MainContainer:
 
 
 @pytest.fixture
-def factory() -> APIRequestFactory:
+def api_request_factory() -> APIRequestFactory:
     """Get API request factory."""
     return APIRequestFactory()
 
 
 @pytest.fixture
-def client() -> APIClient:
+def api_client() -> APIClient:
     """Get API client."""
     return APIClient()
 
@@ -38,6 +38,10 @@ def client() -> APIClient:
 
 
 @pytest.fixture
-def mock_request() -> Mock:
+def mock_request(
+    mock_user: Mock,
+) -> Mock:
     """Mock request fixture."""
-    return Mock()
+    request = Mock()
+    request.user = mock_user
+    return request

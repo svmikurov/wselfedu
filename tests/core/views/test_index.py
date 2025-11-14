@@ -1,7 +1,7 @@
 """Test Core app index ViewSet."""
 
 from http import HTTPStatus
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 
 import pytest
 from django.contrib.auth.models import AnonymousUser
@@ -9,6 +9,7 @@ from rest_framework.test import APIRequestFactory
 
 from apps.core.api.v1.views import IndexViewSet
 from apps.users.models import CustomUser
+from tests.users import fixtures
 
 
 class TestIndexViewSet:
@@ -24,23 +25,11 @@ class TestIndexViewSet:
         """Fixture providing test request."""
         return APIRequestFactory()
 
-    @pytest.fixture
-    def authenticated_user(self) -> Mock:
-        """Fixture providing test user mocking."""
-        user = Mock(spec=CustomUser)
-        user.is_authenticated = True
-        return user
-
-    @pytest.fixture
-    def anonymous_user(self) -> AnonymousUser:
-        """Fixture providing anonymous user."""
-        return AnonymousUser()
-
     @pytest.mark.parametrize(
         'user, balance',
         [
-            (authenticated_user, '5'),
-            (anonymous_user, None),
+            (fixtures.mock_auth_user, '5'),
+            (fixtures.anonymous_user, None),
         ],
     )
     def test_index_action(
