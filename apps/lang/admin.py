@@ -52,3 +52,10 @@ class ParamsAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Word study params model administration."""
 
     list_display = ['user', 'category', 'label', 'word_count']
+
+
+@admin.register(models.EnglishProgress)
+class EnglishProgressAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """Native-English study progress model administration."""
+
+    list_display = ['user', 'translation', 'progress']
