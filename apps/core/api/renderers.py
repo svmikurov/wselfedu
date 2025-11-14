@@ -4,7 +4,7 @@ from http import HTTPStatus
 from typing import Any, Mapping
 
 from django.http import HttpResponse
-from rest_framework import renderers
+from rest_framework import renderers, status
 
 
 class WrappedJSONRenderer(renderers.JSONRenderer):
@@ -26,10 +26,16 @@ class WrappedJSONRenderer(renderers.JSONRenderer):
             return super().render(data, accepted_media_type, renderer_context)
 
         status_code = response.status_code
-        status = 'success' if status_code < HTTPStatus.BAD_REQUEST else 'error'
+
+        if status_code == status.HTTP_204_NO_CONTENT:
+            return b''
+
+        status_text = (
+            'success' if status_code < HTTPStatus.BAD_REQUEST else 'error'
+        )
         message = renderer_context.get('message')
 
-        if status == 'success':
+        if status_text == 'success':
             wrapped_data = self._wrap_success(
                 data=data,
                 status_code=status_code,
