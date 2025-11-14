@@ -36,16 +36,10 @@ class UpdateWordProgressService(WordProgressServiceABC):
         progress_type: types.ProgressType,
     ) -> None:
         """Update word study progress."""
-        progress_value = {
+        progress_delta = {
             'known': self._progress_config.increment,
-            'unknown': self._progress_config.decrement,
+            'unknown': -self._progress_config.decrement,
         }[progress_type]
-
-        match progress_type:
-            case 'known':
-                progress_delta = progress_value
-            case 'unknown':
-                progress_delta = -progress_value
 
         try:
             case_data: schemas.WordStudyCaseSchema = self._case_storage.pop(
