@@ -34,11 +34,11 @@ class EnglishProgress(models.Model):
         verbose_name='Прогресс изучения',
     )
     created_at = models.DateTimeField(
-        auto_now=True,
+        auto_now_add=True,
         verbose_name='Добавлено',
     )
     updated_at = models.DateTimeField(
-        auto_now_add=True,
+        auto_now=True,
         verbose_name='Обновлено',
     )
 
