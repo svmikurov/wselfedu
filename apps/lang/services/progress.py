@@ -7,7 +7,7 @@ from apps.core.storage.clients import DjangoCache
 from apps.users.models import CustomUser
 
 from .. import schemas, types
-from ..repos.abc import UpdateWordProgressRepoABC
+from ..repos.abc import ProgressABC
 from .abc import WordProgressServiceABC
 
 log = logging.getLogger(__name__)
@@ -18,7 +18,7 @@ class UpdateWordProgressService(WordProgressServiceABC):
 
     def __init__(
         self,
-        progress_repo: UpdateWordProgressRepoABC,
+        progress_repo: ProgressABC,
         case_storage: DjangoCache[schemas.WordStudyCaseSchema],
         progress_config: schemas.ProgressConfigSchema,
     ) -> None:

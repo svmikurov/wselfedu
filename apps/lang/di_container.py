@@ -43,7 +43,7 @@ class LanguageContainer(containers.DeclarativeContainer):
         repos.TranslationRepo,
     )
     progress_repo = providers.Factory(
-        repos.UpdateWordProgressRepo,
+        repos.ProgressRepo,
     )
 
     # Domain

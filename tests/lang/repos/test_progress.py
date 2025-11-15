@@ -7,9 +7,9 @@ from apps.users.models import CustomUser
 
 
 @pytest.fixture
-def progress_repo() -> repos.UpdateWordProgressRepo:
+def progress_repo() -> repos.ProgressRepo:
     """Provide Word study update progress repo."""
-    return repos.UpdateWordProgressRepo()
+    return repos.ProgressRepo()
 
 
 @pytest.mark.django_db
@@ -33,7 +33,7 @@ class TestRepository:
         expected_progress: int,
         user: CustomUser,
         translation: models.EnglishTranslation,
-        progress_repo: repos.UpdateWordProgressRepo,
+        progress_repo: repos.ProgressRepo,
     ) -> None:
         """Test create the Word study progress."""
         # Act
@@ -66,7 +66,7 @@ class TestRepository:
         expected_progress: int,
         user: CustomUser,
         translation: models.EnglishTranslation,
-        progress_repo: repos.UpdateWordProgressRepo,
+        progress_repo: repos.ProgressRepo,
     ) -> None:
         """Test update the Word study progress."""
         # Average

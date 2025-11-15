@@ -6,7 +6,7 @@ import pytest
 
 from apps.core.storage.clients import DjangoCache
 from apps.lang import models, schemas, services, types
-from apps.lang.repos.abc import UpdateWordProgressRepoABC
+from apps.lang.repos.abc import ProgressABC
 from apps.users.models import CustomUser
 
 from .api.v1.study import cases
@@ -15,7 +15,7 @@ from .api.v1.study import cases
 @pytest.fixture
 def mock_progress_repo() -> Mock:
     """Mock Word study progress repo fixture."""
-    return Mock(spec=UpdateWordProgressRepoABC)
+    return Mock(spec=ProgressABC)
 
 
 @pytest.fixture

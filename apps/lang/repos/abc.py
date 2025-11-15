@@ -1,14 +1,21 @@
-"""Abstract base classes for Language discipline."""
+"""Abstract base classes for Language discipline repositories."""
 
 from abc import ABC, abstractmethod
+from typing import TypedDict
 
 from apps.users.models import CustomUser
 
 from .. import types
 
 
-class UpdateWordProgressRepoABC(ABC):
-    """ABC for Update word study repository."""
+class ProgressABC(ABC):
+    """ABC for Word study Progress repository."""
+
+    class UpdateResult(TypedDict):
+        """Word study Progress update result typed dict."""
+
+        created: bool
+        current_progress: int
 
     @abstractmethod
     def update(
@@ -17,8 +24,8 @@ class UpdateWordProgressRepoABC(ABC):
         translation_id: int,
         language: types.LanguageType,
         progress_delta: int,
-    ) -> dict[str, int | bool]:
-        """Update word study progress."""
+    ) -> UpdateResult:
+        """Update Word study Progress."""
 
 
 class PresentationABC(ABC):
