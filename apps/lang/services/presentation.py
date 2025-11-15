@@ -51,7 +51,11 @@ class WordPresentationService(WordPresentationServiceABC):
             language='english',
         )
         case_uuid = self._case_storage.set(schema)
-        case_data = self._word_repo.get_case(case.translation_id, user)
+        case_data = self._word_repo.get_case(
+            user=user,
+            translation_id=case.translation_id,
+            language='english',
+        )
 
         return types.WordCaseType(
             case_uuid=case_uuid,

@@ -27,7 +27,7 @@ class Progress(ProgressABC):
         progress_delta: int,
     ) -> ProgressABC.UpdateResult:
         """Update Word study Progress."""
-        model = models.TRANSLATION_MODELS[language]
+        model = models.PROGRESS_MODELS[language]
 
         try:
             obj, created = model.objects.select_for_update().get_or_create(  # type: ignore[attr-defined]

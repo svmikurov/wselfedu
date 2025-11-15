@@ -26,5 +26,8 @@ from .translation import EnglishTranslation
 from .word import EnglishWord, NativeWord
 
 TRANSLATION_MODELS: dict[types.LanguageType, Type[Model]] = {
+    'english': EnglishTranslation,
+}
+PROGRESS_MODELS: dict[types.LanguageType, Type[Model]] = {
     'english': EnglishProgress,
 }

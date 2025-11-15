@@ -41,8 +41,9 @@ class PresentationABC(ABC):
     @abstractmethod
     def get_case(
         self,
-        english_word_id: int,
         user: CustomUser,
+        translation_id: int,
+        language: types.LanguageType,
     ) -> types.PresentationDict:
         """Get Presentation case."""
 

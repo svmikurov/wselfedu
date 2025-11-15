@@ -28,19 +28,26 @@ class Presentation(PresentationABC):
 
     def get_case(
         self,
-        english_word_id: int,
         user: CustomUser,
+        translation_id: int,
+        language: types.LanguageType,
     ) -> types.PresentationDict:
         """Get Presentation case."""
+        model = models.TRANSLATION_MODELS[language]
+
         try:
-            translation = models.EnglishTranslation.objects.select_related(
+            translation = model.objects.select_related(  # type: ignore[attr-defined]
                 'native', 'english'
             ).get(
-                native_id=english_word_id,
+                pk=translation_id,
                 user=user,
             )
-        except models.EnglishTranslation.DoesNotExist:
+        except model.DoesNotExist:  # type: ignore[attr-defined]
             log.info('No case for word study params')
+            raise
+
+        except Exception as exc:
+            log.error(f'Unexpected error: {exc}')
             raise
 
         return types.PresentationDict(
