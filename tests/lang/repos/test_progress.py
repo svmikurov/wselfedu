@@ -6,12 +6,6 @@ from apps.lang import models, repos
 from apps.users.models import CustomUser
 
 
-@pytest.fixture
-def progress_repo() -> repos.ProgressRepo:
-    """Provide Word study update progress repo."""
-    return repos.ProgressRepo()
-
-
 @pytest.mark.django_db
 class TestRepository:
     """Test Word study progress repository."""
