@@ -21,15 +21,15 @@ class UpdateWordProgressRepoABC(ABC):
         """Update word study progress."""
 
 
-class WordStudyRepositoryABC(ABC):
-    """ABC for word study repository."""
+class PresentationABC(ABC):
+    """ABC for Word study Presentation repo."""
 
     @abstractmethod
     def get_candidates(
         self,
         params: types.WordParamsType,
     ) -> types.WordStudyParams:
-        """Get candidates of words to study."""
+        """Get candidates for Presentation."""
 
     @abstractmethod
     def get_word_data(
@@ -37,7 +37,7 @@ class WordStudyRepositoryABC(ABC):
         english_word_id: int,
         user: CustomUser,
     ) -> types.WordDataType:
-        """Get items for exercise case."""
+        """Get Presentation case."""
 
 
 class WordStudyParamsRepositoryABC(ABC):

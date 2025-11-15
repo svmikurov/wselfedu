@@ -7,7 +7,7 @@ from apps.core.storage.clients import DjangoCache
 from apps.users.models import CustomUser
 
 from .. import schemas, types
-from ..repos.abc import TranslationRepoABC, WordStudyRepositoryABC
+from ..repos.abc import PresentationABC, TranslationRepoABC
 from .abc import WordPresentationServiceABC, WordStudyDomainABC
 
 log = logging.getLogger(__name__)
@@ -18,7 +18,7 @@ class WordPresentationService(WordPresentationServiceABC):
 
     def __init__(
         self,
-        word_repo: WordStudyRepositoryABC,
+        word_repo: PresentationABC,
         translation_repo: TranslationRepoABC,
         case_storage: DjangoCache[schemas.WordStudyCaseSchema],
         domain: WordStudyDomainABC,

@@ -3,12 +3,12 @@
 __all__ = [
     'CreateEnglishTranslation',
     'WordStudyParamsRepository',
-    'WordStudyRepository',
+    'Presentation',
     'UpdateWordProgressRepo',
     'TranslationRepo',
 ]
 
 from .params import WordStudyParamsRepository
 from .progress import UpdateWordProgressRepo
-from .study import WordStudyRepository
+from .study import Presentation
 from .translation import CreateEnglishTranslation, TranslationRepo

@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.test.utils import CaptureQueriesContext
 
 from apps.lang import models
-from apps.lang.repos.study import WordStudyRepository
+from apps.lang.repos.study import Presentation
 from apps.users.models import CustomUser
 
 
@@ -23,13 +23,13 @@ class TestGetCase:
     """Test get_case method."""
 
     @pytest.fixture
-    def service(self) -> WordStudyRepository:
+    def service(self) -> Presentation:
         """Service fixture."""
-        return WordStudyRepository()
+        return Presentation()
 
     def test_get_case_success(
         self,
-        service: WordStudyRepository,
+        service: Presentation,
         user: CustomUser,
         translation: models.EnglishTranslation,  # Adds translation to DB
         native_word: models.NativeWord,
@@ -50,7 +50,7 @@ class TestGetCase:
 
     def test_get_case_not_found(
         self,
-        service: WordStudyRepository,
+        service: Presentation,
         user: CustomUser,
     ) -> None:
         """Test case when translation doesn't exist."""
@@ -60,7 +60,7 @@ class TestGetCase:
 
     def test_get_case_different_users(
         self,
-        service: WordStudyRepository,
+        service: Presentation,
         user: CustomUser,  # Adds user to DB
         translation: models.EnglishTranslation,
     ) -> None:
@@ -80,7 +80,7 @@ class TestGetCase:
 
     def test_get_case_query_count(
         self,
-        service: WordStudyRepository,
+        service: Presentation,
         user: CustomUser,
         translation: models.EnglishTranslation,
         django_assert_num_queries: CaptureQueriesContext,

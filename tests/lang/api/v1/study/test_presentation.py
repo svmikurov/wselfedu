@@ -16,7 +16,7 @@ from apps.lang.services.abc import WordPresentationServiceABC
 from di import container
 
 
-class PresentationDataType(TypedDict):
+class PresentationType(TypedDict):
     """Word study Presentation response data typed dict."""
 
     case_uuid: str
@@ -52,7 +52,7 @@ def presentation_case() -> types.WordCaseType:
 
 
 @pytest.fixture
-def success_response_data() -> PresentationDataType:
+def success_response_data() -> PresentationType:
     """Provide Word study success Response data."""
     return {
         'case_uuid': '5b518a3e-45a4-4147-a097-0ed28211d8a4',
@@ -75,14 +75,14 @@ def mock_service(
 class TestPresentation:
     """Test WordStudyViewSet."""
 
-    def test_presentation_success(
+    def test_success(
         self,
         mock_user: Mock,
         mock_service: Mock,
         api_request_factory: APIRequestFactory,
         view: Callable[[Request], Response],
-        success_response_data: dict[str, str],
-        valid_payload: dict[str, str],
+        success_response_data: PresentationType,
+        valid_payload: types.WordCaseParamsType,
     ) -> None:
         """Test successful presentation request."""
         # Arrange

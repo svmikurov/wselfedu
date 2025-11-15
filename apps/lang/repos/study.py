@@ -4,23 +4,25 @@ import logging
 
 from apps.users.models import CustomUser
 
-from .. import models
-from ..types import WordDataType, WordParamsType, WordStudyParams
-from .abc import WordStudyRepositoryABC
+from .. import models, types
+from .abc import PresentationABC
 
 log = logging.getLogger(__name__)
 
 
-class WordStudyRepository(WordStudyRepositoryABC):
-    """Word study repository."""
+class Presentation(PresentationABC):
+    """Word study Presentation repo."""
 
-    def get_candidates(self, params: WordParamsType) -> WordStudyParams:
-        """Get candidates of words to study."""
+    def get_candidates(
+        self,
+        params: types.WordParamsType,
+    ) -> types.WordStudyParams:
+        """Get candidates for Presentation."""
         # Temporary translations from english to native
         english_word_ids = models.EnglishWord.objects.all().values_list(
             'id', flat=True
         )
-        return WordStudyParams(
+        return types.WordStudyParams(
             translation_ids=list(english_word_ids),
         )
 
@@ -28,8 +30,8 @@ class WordStudyRepository(WordStudyRepositoryABC):
         self,
         english_word_id: int,
         user: CustomUser,
-    ) -> WordDataType:
-        """Get translation for exercise case."""
+    ) -> types.WordDataType:
+        """Get Presentation case."""
         try:
             translation = models.EnglishTranslation.objects.select_related(
                 'native', 'english'
@@ -41,7 +43,7 @@ class WordStudyRepository(WordStudyRepositoryABC):
             log.info('No case for word study params')
             raise
 
-        return WordDataType(
+        return types.WordDataType(
             definition=str(translation.english),
             explanation=str(translation.native),
         )

@@ -37,7 +37,7 @@ class LanguageContainer(containers.DeclarativeContainer):
         repos.WordStudyParamsRepository,
     )
     word_repo = providers.Factory(
-        repos.WordStudyRepository,
+        repos.Presentation,
     )
     translation_repo = providers.Factory(
         repos.TranslationRepo,
