@@ -1,7 +1,6 @@
 """Update word study progress service."""
 
 import logging
-import uuid
 from typing import override
 
 from apps.core.storage.clients import DjangoCache
@@ -32,10 +31,12 @@ class UpdateWordProgressService(WordProgressServiceABC):
     def update_progress(
         self,
         user: CustomUser,
-        case_uuid: uuid.UUID,
-        progress_type: types.ProgressType,
+        data: types.WordProgressType,
     ) -> None:
         """Update word study progress."""
+        case_uuid = data['case_uuid']
+        progress_type = data['progress_type']
+
         progress_delta = {
             'known': self._progress_config.increment,
             'unknown': -self._progress_config.decrement,
@@ -43,7 +44,7 @@ class UpdateWordProgressService(WordProgressServiceABC):
 
         try:
             case_data: schemas.WordStudyCaseSchema = self._case_storage.pop(
-                cache_kay=case_uuid,
+                cache_kay=data['case_uuid'],
             )
         except KeyError as exc:
             log.warning('Case not found in storage: %s', case_uuid)

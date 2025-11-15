@@ -120,7 +120,7 @@ class WordStudyViewSet(ViewSet):
         try:
             service.update_progress(
                 request.user,  # type: ignore[arg-type]
-                **progress_serializer.validated_data,
+                progress_serializer.validated_data,
             )
         except Exception as exc:
             return Response(

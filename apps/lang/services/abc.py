@@ -1,6 +1,5 @@
 """Abstract base classes for Language discipline services."""
 
-import uuid
 from abc import ABC, abstractmethod
 from typing import override
 
@@ -33,8 +32,7 @@ class WordProgressServiceABC(ABC):
     def update_progress(
         self,
         user: CustomUser,
-        case_uuid: uuid.UUID,
-        progress_type: types.ProgressType,
+        data: types.WordProgressType,
     ) -> None:
         """Update word study progress.
 
@@ -42,12 +40,8 @@ class WordProgressServiceABC(ABC):
         ----------
         user : `CustomUser`
             Current user instance.
-        case_uuid : `uuid.UUID`
-            The UUID of the exercise case that was saved
-            and provided to the client for word learning.
-
-        progress_type : `Progress`
-            Progress enumeration, may by 'known' or 'unknown'.
+        data : `WordProgressType`
+            Update Word study progress data.
 
         """
 
