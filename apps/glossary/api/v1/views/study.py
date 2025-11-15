@@ -44,5 +44,5 @@ class TermStudyViewSet(viewsets.ViewSet):
 
         study_params = TermStudyParamsSerializer(data=request.data)
         study_params.is_valid(raise_exception=True)
-        study_data = presenter.get_presentation_case(study_params.data, user)
+        study_data = presenter.get_presentation_case(user, study_params.data)
         return Response(TermStudyPresentationSerializer(study_data).data)

@@ -48,15 +48,37 @@ def progress_service_di_mock(
 
 
 @pytest.fixture
-def native_word(user: CustomUser) -> models.NativeWord:
-    """Native word fixture."""
-    return models.NativeWord.objects.create(user=user, word='дом')
+def presentation() -> types.PresentationDict:
+    """Provide presentation data."""
+    return types.PresentationDict(
+        definition='house',
+        explanation='дом',
+        progress=7,
+    )
 
 
 @pytest.fixture
-def english_word(user: CustomUser) -> models.EnglishWord:
+def native_word(
+    user: CustomUser,
+    presentation: types.PresentationDict,
+) -> models.NativeWord:
+    """Native word fixture."""
+    return models.NativeWord.objects.create(
+        user=user,
+        word=presentation['explanation'],
+    )
+
+
+@pytest.fixture
+def english_word(
+    user: CustomUser,
+    presentation: types.PresentationDict,
+) -> models.EnglishWord:
     """English word fixture."""
-    return models.EnglishWord.objects.create(user=user, word='house')
+    return models.EnglishWord.objects.create(
+        user=user,
+        word=presentation['definition'],
+    )
 
 
 @pytest.fixture
@@ -68,6 +90,20 @@ def translation(
     """Get translation fixture."""
     return models.EnglishTranslation.objects.create(
         user=user, native=native_word, english=english_word
+    )
+
+
+@pytest.fixture
+def english_progress(
+    user: CustomUser,
+    presentation: types.PresentationDict,
+    translation: models.EnglishTranslation,
+) -> models.EnglishProgress:
+    """Get translation fixture."""
+    return models.EnglishProgress.objects.create(
+        user=user,
+        translation=translation,
+        progress=presentation['progress'],  # type: ignore[misc]
     )
 
 

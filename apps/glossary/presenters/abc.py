@@ -19,7 +19,7 @@ class TermStudyPresenterABC(
     @override
     def get_presentation_case(
         self,
-        params: TermParamsType,
         user: CustomUser,
+        params: TermParamsType,
     ) -> TermType:
         """Get Term study presentation case."""

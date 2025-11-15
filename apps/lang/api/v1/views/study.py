@@ -60,11 +60,13 @@ class WordStudyViewSet(ViewSet):
     # TODO: Move to service
     def _render_no_words(self) -> Response:
         """Render no words to study for request params."""
-        no_data: types.WordCaseType = {
+        no_data: types.PresentationCase = {
             'case_uuid': uuid.uuid4(),
             'definition': '',
             'explanation': '',
-            'progress': None,
+            'info': {
+                'progress': None,
+            },
         }
         return Response(ser.WordStudyCaseSerializer(no_data).data)
 

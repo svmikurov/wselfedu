@@ -40,13 +40,14 @@ class Presentation(PresentationABC):
 
         try:
             progress_subquery = progress_model.objects.filter(  # type: ignore[attr-defined]
-                translation_id=OuterRef('id'), user=user
+                user=user,
+                translation_id=OuterRef('id'),
             ).values('progress')[:1]
 
             translation_data = (
                 translation_model.objects.filter(  # type: ignore[attr-defined]
-                    id=translation_id,
                     user=user,
+                    id=translation_id,
                 )
                 .select_related('native', 'english')
                 .annotate(

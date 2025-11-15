@@ -1,6 +1,7 @@
 """Word study presenter."""
 
 import logging
+import uuid
 from typing import override
 
 from apps.core.storage.clients import DjangoCache
@@ -33,9 +34,9 @@ class WordPresentationService(WordPresentationServiceABC):
     @override
     def get_presentation_case(
         self,
-        presentation_params: types.WordParamsType,
         user: CustomUser,
-    ) -> types.WordCaseType:
+        presentation_params: types.WordParamsType,
+    ) -> types.PresentationCase:
         """Get Word study presentation case."""
         candidates = self._word_repo.get_candidates(presentation_params)
 
@@ -57,9 +58,19 @@ class WordPresentationService(WordPresentationServiceABC):
             language='english',
         )
 
-        return types.WordCaseType(
+        return self._build_case(case_uuid, case_data)
+
+    @staticmethod
+    def _build_case(
+        case_uuid: uuid.UUID,
+        case_data: types.PresentationDict,
+    ) -> types.PresentationCase:
+        """Build Presentation case."""
+        return types.PresentationCase(
             case_uuid=case_uuid,
             definition=case_data['definition'],
             explanation=case_data['explanation'],
-            progress=case_data['progress'],
+            info=types.Info(
+                progress=case_data['progress'],
+            ),
         )

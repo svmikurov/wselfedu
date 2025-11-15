@@ -16,13 +16,19 @@ from apps.lang.services.abc import WordPresentationServiceABC
 from di import container
 
 
+class Info(TypedDict):
+    """Word study Info typed dict."""
+
+    progress: int
+
+
 class PresentationType(TypedDict):
     """Word study Presentation response data typed dict."""
 
     case_uuid: str
     definition: str
     explanation: str
-    # progress: str
+    info: Info | None
 
 
 @pytest.fixture
@@ -42,12 +48,13 @@ def valid_payload() -> types.WordCaseParamsType:
 
 
 @pytest.fixture
-def presentation_case() -> types.WordCaseType:
+def presentation_case() -> types.PresentationCase:
     """Provide Word study presentation case."""
     return {
         'case_uuid': uuid.UUID('5b518a3e-45a4-4147-a097-0ed28211d8a4'),
         'definition': 'Test definition',
         'explanation': 'Test explanation',
+        'info': {'progress': 9},
     }
 
 
@@ -58,7 +65,7 @@ def success_response_data() -> PresentationType:
         'case_uuid': '5b518a3e-45a4-4147-a097-0ed28211d8a4',
         'definition': 'Test definition',
         'explanation': 'Test explanation',
-        # 'progress': '8',
+        'info': {'progress': 9},
     }
 
 

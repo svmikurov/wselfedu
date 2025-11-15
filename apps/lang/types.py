@@ -36,19 +36,27 @@ class CaseUUIDType(TypedDict):
     case_uuid: uuid.UUID
 
 
-class PresentationDict(TypedDict):
+class Info(TypedDict):
+    """Word study Presentation info typed dict."""
+
+    progress: int | None
+
+
+class PresentationDict(Info):
     """Word study Presentation typed dict."""
 
     definition: str
     explanation: str
-    progress: int | None
 
 
-class WordCaseType(
+class PresentationCase(
     CaseUUIDType,
-    PresentationDict,
 ):
-    """Word study case typed dict."""
+    """Word study Presentation case typed dict."""
+
+    definition: str
+    explanation: str
+    info: Info | None
 
 
 class WordProgressType(CaseUUIDType):

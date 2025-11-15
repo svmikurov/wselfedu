@@ -25,7 +25,13 @@ class WordStudySelectSerializer(serializers.Serializer[types.WordParamsType]):
     default_params = WordStudyParamsSerializer()
 
 
-class WordStudyCaseSerializer(serializers.Serializer[types.WordCaseType]):
+class WordStudyInfoSerializer(serializers.Serializer[types.Info]):
+    """Serializer for Word study case info."""
+
+    progress = serializers.IntegerField()
+
+
+class WordStudyCaseSerializer(serializers.Serializer[types.PresentationCase]):
     """Serializer for Word study case."""
 
     case_uuid = serializers.UUIDField()
@@ -35,7 +41,7 @@ class WordStudyCaseSerializer(serializers.Serializer[types.WordCaseType]):
     explanation = serializers.CharField(
         max_length=AbstractWordModel.WORD_LENGTH,
     )
-    progress = serializers.IntegerField()
+    info = WordStudyInfoSerializer()
 
 
 class WordStudyProgressSerializer(
