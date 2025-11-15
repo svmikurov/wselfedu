@@ -6,6 +6,12 @@ from apps.lang import repos
 
 
 @pytest.fixture
-def progress_repo() -> repos.ProgressRepo:
+def presentation_repo() -> repos.Presentation:
+    """Provide Word study Presentation repository."""
+    return repos.Presentation()
+
+
+@pytest.fixture
+def progress_repo() -> repos.Progress:
     """Provide Word study Progress repository."""
-    return repos.ProgressRepo()
+    return repos.Progress()

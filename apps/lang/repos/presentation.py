@@ -26,7 +26,7 @@ class Presentation(PresentationABC):
             translation_ids=list(english_word_ids),
         )
 
-    def get_word_data(
+    def get_case(
         self,
         english_word_id: int,
         user: CustomUser,

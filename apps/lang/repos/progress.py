@@ -14,7 +14,7 @@ from .abc import ProgressABC
 log = logging.getLogger(__name__)
 
 
-class ProgressRepo(ProgressABC):
+class Progress(ProgressABC):
     """Word study Progress repository."""
 
     @override

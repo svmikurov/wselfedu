@@ -39,7 +39,7 @@ class PresentationABC(ABC):
         """Get candidates for Presentation."""
 
     @abstractmethod
-    def get_word_data(
+    def get_case(
         self,
         english_word_id: int,
         user: CustomUser,

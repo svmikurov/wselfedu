@@ -27,7 +27,7 @@ class TestRepository:
         expected_progress: int,
         user: CustomUser,
         translation: models.EnglishTranslation,
-        progress_repo: repos.ProgressRepo,
+        progress_repo: repos.Progress,
     ) -> None:
         """Test create the Word study progress."""
         # Act
@@ -64,7 +64,7 @@ class TestRepository:
         expected_progress: int,
         user: CustomUser,
         translation: models.EnglishTranslation,
-        progress_repo: repos.ProgressRepo,
+        progress_repo: repos.Progress,
     ) -> None:
         """Test update the Word study progress."""
         # Average
