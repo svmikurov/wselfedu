@@ -2,6 +2,8 @@
 
 import logging
 
+from django.db.models import IntegerField, OuterRef, Subquery
+
 from apps.users.models import CustomUser
 
 from .. import models, types
@@ -33,16 +35,30 @@ class Presentation(PresentationABC):
         language: types.LanguageType,
     ) -> types.PresentationDict:
         """Get Presentation case."""
-        model = models.TRANSLATION_MODELS[language]
+        translation_model = models.TRANSLATION_MODELS[language]
+        progress_model = models.PROGRESS_MODELS[language]
 
         try:
-            translation = model.objects.select_related(  # type: ignore[attr-defined]
-                'native', 'english'
-            ).get(
-                pk=translation_id,
-                user=user,
+            progress_subquery = progress_model.objects.filter(  # type: ignore[attr-defined]
+                translation_id=OuterRef('id'), user=user
+            ).values('progress')[:1]
+
+            translation_data = (
+                translation_model.objects.filter(  # type: ignore[attr-defined]
+                    id=translation_id,
+                    user=user,
+                )
+                .select_related('native', 'english')
+                .annotate(
+                    user_progress=Subquery(
+                        progress_subquery,
+                        output_field=IntegerField(),
+                    )
+                )
+                .get()
             )
-        except model.DoesNotExist:  # type: ignore[attr-defined]
+
+        except translation_model.DoesNotExist:  # type: ignore[attr-defined]
             log.info('No case for word study params')
             raise
 
@@ -51,6 +67,7 @@ class Presentation(PresentationABC):
             raise
 
         return types.PresentationDict(
-            definition=str(translation.english),
-            explanation=str(translation.native),
+            definition=translation_data.english.word,
+            explanation=translation_data.native.word,
+            progress=translation_data.user_progress,
         )

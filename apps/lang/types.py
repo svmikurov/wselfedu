@@ -41,6 +41,7 @@ class PresentationDict(TypedDict):
 
     definition: str
     explanation: str
+    progress: int | None
 
 
 class WordCaseType(

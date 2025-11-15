@@ -64,6 +64,7 @@ class WordStudyViewSet(ViewSet):
             'case_uuid': uuid.uuid4(),
             'definition': '',
             'explanation': '',
+            'progress': None,
         }
         return Response(ser.WordStudyCaseSerializer(no_data).data)
 

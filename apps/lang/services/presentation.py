@@ -61,4 +61,5 @@ class WordPresentationService(WordPresentationServiceABC):
             case_uuid=case_uuid,
             definition=case_data['definition'],
             explanation=case_data['explanation'],
+            progress=case_data['progress'],
         )
