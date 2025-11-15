@@ -35,6 +35,7 @@ class WordStudyCaseSerializer(serializers.Serializer[types.WordCaseType]):
     explanation = serializers.CharField(
         max_length=AbstractWordModel.WORD_LENGTH,
     )
+    progress = serializers.IntegerField()
 
 
 class WordStudyProgressSerializer(
