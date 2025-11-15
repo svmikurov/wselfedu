@@ -64,7 +64,7 @@ def success_response_data() -> PresentationType:
 
 @pytest.fixture
 def mock_service(
-    presentation_case: types.WordDataType,
+    presentation_case: types.PresentationDict,
 ) -> Mock:
     """Mock Word study presentation service."""
     mock = Mock(spec=WordPresentationServiceABC)

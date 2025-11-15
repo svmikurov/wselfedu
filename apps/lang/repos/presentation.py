@@ -30,7 +30,7 @@ class Presentation(PresentationABC):
         self,
         english_word_id: int,
         user: CustomUser,
-    ) -> types.WordDataType:
+    ) -> types.PresentationDict:
         """Get Presentation case."""
         try:
             translation = models.EnglishTranslation.objects.select_related(
@@ -43,7 +43,7 @@ class Presentation(PresentationABC):
             log.info('No case for word study params')
             raise
 
-        return types.WordDataType(
+        return types.PresentationDict(
             definition=str(translation.english),
             explanation=str(translation.native),
         )

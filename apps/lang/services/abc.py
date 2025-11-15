@@ -10,7 +10,7 @@ from .. import types
 
 
 class WordPresentationServiceABC(
-    StudyPresenterGenABC[types.WordParamsType, types.WordDataType],
+    StudyPresenterGenABC[types.WordParamsType, types.PresentationDict],
     ABC,
 ):
     """ABC fore Word study presenter."""

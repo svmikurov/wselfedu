@@ -37,9 +37,7 @@ class TestGetCase:
     ) -> None:
         """Test successful case retrieval."""
         # Act
-        result = service.get_case(
-            english_word_id=native_word.id, user=user
-        )
+        result = service.get_case(english_word_id=native_word.id, user=user)
 
         # Assert
         assert result['definition'] == str(english_word)

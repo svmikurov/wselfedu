@@ -43,7 +43,7 @@ class PresentationABC(ABC):
         self,
         english_word_id: int,
         user: CustomUser,
-    ) -> types.WordDataType:
+    ) -> types.PresentationDict:
         """Get Presentation case."""
 
 

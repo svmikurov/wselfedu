@@ -36,8 +36,8 @@ class CaseUUIDType(TypedDict):
     case_uuid: uuid.UUID
 
 
-class WordDataType(TypedDict):
-    """Word study data typed dict."""
+class PresentationDict(TypedDict):
+    """Word study Presentation typed dict."""
 
     definition: str
     explanation: str
@@ -45,7 +45,7 @@ class WordDataType(TypedDict):
 
 class WordCaseType(
     CaseUUIDType,
-    WordDataType,
+    PresentationDict,
 ):
     """Word study case typed dict."""
 
