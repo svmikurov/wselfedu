@@ -9,6 +9,6 @@ __all__ = [
 ]
 
 from .params import WordStudyParamsRepository
+from .presentation import Presentation
 from .progress import ProgressRepo
-from .study import Presentation
 from .translation import CreateEnglishTranslation, TranslationRepo

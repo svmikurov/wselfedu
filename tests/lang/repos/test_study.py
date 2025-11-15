@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.test.utils import CaptureQueriesContext
 
 from apps.lang import models
-from apps.lang.repos.study import Presentation
+from apps.lang.repos.presentation import Presentation
 from apps.users.models import CustomUser
 
 
