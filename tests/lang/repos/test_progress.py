@@ -50,7 +50,11 @@ class TestRepository:
             (0, 1, 1),
             (0, -1, 0),
             (1, -1, 0),
-            (11, 3, models.EnglishProgress.MAX_PROGRESS),
+            (
+                models.EnglishProgress.MAX_PROGRESS - 1,
+                2,
+                models.EnglishProgress.MAX_PROGRESS,
+            ),
         ],
     )
     def test_update_progress(
