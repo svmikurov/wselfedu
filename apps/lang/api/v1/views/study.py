@@ -50,8 +50,8 @@ class WordStudyViewSet(ViewSet):
         study_params.is_valid(raise_exception=True)
         try:
             study_data = presentation_services.get_presentation_case(
-                study_params.validated_data,
                 self.request.user,  # type: ignore[arg-type]
+                study_params.validated_data,
             )
         except LookupError:
             return self._render_no_words()
