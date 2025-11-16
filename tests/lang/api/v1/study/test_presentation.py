@@ -104,5 +104,6 @@ class TestPresentation:
         assert response.status_code == HTTPStatus.OK
         assert response.data == success_response_data
         mock_service.get_presentation_case.assert_called_once_with(
-            valid_payload, mock_user
+            mock_user,
+            valid_payload,
         )
