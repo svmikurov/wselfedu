@@ -20,7 +20,7 @@ class WordPresentationService(WordPresentationServiceABC):
     def __init__(
         self,
         word_repo: PresentationABC,
-        case_storage: DjangoCache[schemas.WordStudyCaseSchema],
+        case_storage: DjangoCache[schemas.WordStudyStoredCase],
         domain: WordStudyDomainABC,
     ) -> None:
         """Construct the service."""
@@ -55,7 +55,7 @@ class WordPresentationService(WordPresentationServiceABC):
         return self._build_case_data(case_uuid, case_data)
 
     def _store_case(self, case: types.WordStudyCase) -> uuid.UUID:
-        schema = schemas.WordStudyCaseSchema(
+        schema = schemas.WordStudyStoredCase(
             translation_id=case.translation_id,
             language='english',
         )

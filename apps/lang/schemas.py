@@ -12,8 +12,12 @@ class ProgressConfigSchema(BaseModel):
     decrement: int
 
 
-class WordStudyCaseSchema(BaseModel):
-    """Word study schema."""
+class WordStudyStoredCase(BaseModel):
+    """Word study schema for store.
+
+    Scheme of temporary storage of the word study
+    exercise being performed.
+    """
 
     translation_id: int
     language: types.LanguageType

@@ -19,7 +19,7 @@ class UpdateWordProgressService(WordProgressServiceABC):
     def __init__(
         self,
         progress_repo: ProgressABC,
-        case_storage: DjangoCache[schemas.WordStudyCaseSchema],
+        case_storage: DjangoCache[schemas.WordStudyStoredCase],
         progress_config: schemas.ProgressConfigSchema,
     ) -> None:
         """Construct the service."""
@@ -43,7 +43,7 @@ class UpdateWordProgressService(WordProgressServiceABC):
         }[progress_type]
 
         try:
-            case_data: schemas.WordStudyCaseSchema = self._case_storage.pop(
+            case_data: schemas.WordStudyStoredCase = self._case_storage.pop(
                 cache_kay=data['case_uuid'],
             )
         except KeyError as exc:

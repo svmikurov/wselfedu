@@ -27,7 +27,7 @@ class LanguageContainer(containers.DeclarativeContainer):
     # ----------------------
 
     django_cache: providers.Dependency[
-        DjangoCache[schemas.WordStudyCaseSchema]
+        DjangoCache[schemas.WordStudyStoredCase]
     ] = providers.Dependency()
 
     # Repositories
