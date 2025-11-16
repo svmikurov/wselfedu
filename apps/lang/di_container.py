@@ -59,7 +59,6 @@ class LanguageContainer(containers.DeclarativeContainer):
     word_presentation_service = providers.Factory(
         WordPresentationService,
         word_repo=word_repo,
-        translation_repo=translation_repo,
         case_storage=django_cache,
         domain=word_study_domain,
     )

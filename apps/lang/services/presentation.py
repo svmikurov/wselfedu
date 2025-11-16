@@ -8,7 +8,7 @@ from apps.core.storage.clients import DjangoCache
 from apps.users.models import CustomUser
 
 from .. import schemas, types
-from ..repos.abc import PresentationABC, TranslationRepoABC
+from ..repos.abc import PresentationABC
 from .abc import WordPresentationServiceABC, WordStudyDomainABC
 
 log = logging.getLogger(__name__)
@@ -20,13 +20,11 @@ class WordPresentationService(WordPresentationServiceABC):
     def __init__(
         self,
         word_repo: PresentationABC,
-        translation_repo: TranslationRepoABC,
         case_storage: DjangoCache[schemas.WordStudyCaseSchema],
         domain: WordStudyDomainABC,
     ) -> None:
         """Construct the service."""
         self._word_repo = word_repo
-        self._translation_repo = translation_repo
         self._case_storage = case_storage
         self._domain = domain
 
@@ -47,21 +45,25 @@ class WordPresentationService(WordPresentationServiceABC):
             raise LookupError
 
         case = self._domain.create(candidates)
-        schema = schemas.WordStudyCaseSchema(
-            translation_id=case.translation_id,
-            language='english',
-        )
-        case_uuid = self._case_storage.set(schema)
+        case_uuid = self._store_case(case)
         case_data = self._word_repo.get_case(
             user=user,
             translation_id=case.translation_id,
             language='english',
         )
 
-        return self._build_case(case_uuid, case_data)
+        return self._build_case_data(case_uuid, case_data)
+
+    def _store_case(self, case: types.WordStudyCase) -> uuid.UUID:
+        schema = schemas.WordStudyCaseSchema(
+            translation_id=case.translation_id,
+            language='english',
+        )
+        case_uuid = self._case_storage.set(schema)
+        return case_uuid
 
     @staticmethod
-    def _build_case(
+    def _build_case_data(
         case_uuid: uuid.UUID,
         case_data: types.PresentationDict,
     ) -> types.PresentationCase:
