@@ -1,36 +1,13 @@
 """Word study Presentation service tests."""
 
 import uuid
-from typing import TypedDict
 from unittest.mock import Mock
 
 import pytest
 
-from apps.core.storage.clients import DjangoCache
 from apps.lang import services, types
 from apps.lang.repos.abc import PresentationABC
 from apps.lang.services.study import WordStudyDomain
-
-
-class Info(TypedDict):
-    """Presentation case typed dict."""
-
-    progress: int | None
-
-
-class Case(TypedDict):
-    """Presentation case typed dict."""
-
-    case_uuid: uuid.UUID
-    definition: str
-    explanation: str
-    info: Info
-
-
-@pytest.fixture
-def case_uuid() -> uuid.UUID:
-    """Provide Word study presentation case."""
-    return uuid.UUID('5b518a3e-45a4-4147-a097-0ed28211d8a4')
 
 
 @pytest.fixture
@@ -43,16 +20,6 @@ def mock_presentation_repo(
         translation_ids=[1],
     )
     mock.get_case.return_value = presentation
-    return mock
-
-
-@pytest.fixture
-def mock_django_cache_storage(
-    case_uuid: uuid.UUID,
-) -> Mock:
-    """Mock Django cache storage fixture."""
-    mock = Mock(spec=DjangoCache)
-    mock.set.return_value = case_uuid
     return mock
 
 
@@ -80,13 +47,13 @@ def service(
 def expected_case(
     case_uuid: uuid.UUID,
     presentation: types.PresentationDict,
-) -> Case:
+) -> types.PresentationCase:
     """Provide Word study Presentation case."""
-    return Case(
+    return types.PresentationCase(
         case_uuid=case_uuid,
         definition=presentation['definition'],
         explanation=presentation['explanation'],
-        info=Info(
+        info=types.Info(
             progress=presentation['progress'],
         ),
     )
@@ -106,7 +73,7 @@ class TestService:
         mock_user: Mock,
         service: services.WordPresentationService,
         params: Mock,
-        expected_case: Case,
+        expected_case: types.PresentationCase,
     ) -> None:
         """Test get Presentation case."""
         # Act

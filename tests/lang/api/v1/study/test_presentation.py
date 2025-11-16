@@ -1,6 +1,5 @@
 """Test the Word study ViewSet, `presentation` action."""
 
-import uuid
 from http import HTTPStatus
 from typing import Callable, TypedDict
 from unittest.mock import Mock
@@ -16,19 +15,13 @@ from apps.lang.services.abc import WordPresentationServiceABC
 from di import container
 
 
-class Info(TypedDict):
-    """Word study Info typed dict."""
-
-    progress: int
-
-
-class PresentationType(TypedDict):
+class PresentationResponse(TypedDict):
     """Word study Presentation response data typed dict."""
 
     case_uuid: str
     definition: str
     explanation: str
-    info: Info | None
+    info: types.Info
 
 
 @pytest.fixture
@@ -48,24 +41,13 @@ def valid_payload() -> types.WordCaseParamsType:
 
 
 @pytest.fixture
-def presentation_case() -> types.PresentationCase:
-    """Provide Word study presentation case."""
-    return {
-        'case_uuid': uuid.UUID('5b518a3e-45a4-4147-a097-0ed28211d8a4'),
-        'definition': 'Test definition',
-        'explanation': 'Test explanation',
-        'info': {'progress': 9},
-    }
-
-
-@pytest.fixture
-def success_response_data() -> PresentationType:
+def valid_response_data() -> PresentationResponse:
     """Provide Word study success Response data."""
     return {
         'case_uuid': '5b518a3e-45a4-4147-a097-0ed28211d8a4',
-        'definition': 'Test definition',
-        'explanation': 'Test explanation',
-        'info': {'progress': 9},
+        'definition': 'house',
+        'explanation': 'дом',
+        'info': {'progress': 7},
     }
 
 
@@ -88,7 +70,7 @@ class TestPresentation:
         mock_service: Mock,
         api_request_factory: APIRequestFactory,
         view: Callable[[Request], Response],
-        success_response_data: PresentationType,
+        valid_response_data: PresentationResponse,
         valid_payload: types.WordCaseParamsType,
     ) -> None:
         """Test successful presentation request."""
@@ -102,7 +84,7 @@ class TestPresentation:
 
         # Assert
         assert response.status_code == HTTPStatus.OK
-        assert response.data == success_response_data
+        assert response.data == valid_response_data
         mock_service.get_presentation_case.assert_called_once_with(
             mock_user,
             valid_payload,

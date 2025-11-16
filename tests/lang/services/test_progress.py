@@ -16,12 +16,12 @@ class TestService:
         mock_django_cache_storage: Mock,
         progress_config: schemas.ProgressConfigSchema,
         progress_case: types.WordProgressType,
-        case_data: schemas.WordStudyCaseSchema,
+        stored_case: schemas.WordStudyStoredCase,
         progress_service_di_mock: WordProgressServiceABC,
     ) -> None:
         """Test Word study progress update service."""
         # Arrange
-        mock_django_cache_storage.pop.return_value = case_data
+        mock_django_cache_storage.pop.return_value = stored_case
 
         # Act
         progress_service_di_mock.update_progress(mock_user, progress_case)
@@ -32,7 +32,7 @@ class TestService:
         )
         mock_progress_repo.update.assert_called_once_with(
             user=mock_user,
-            translation_id=case_data.translation_id,
-            language=case_data.language,
+            translation_id=stored_case.translation_id,
+            language=stored_case.language,
             progress_delta=progress_config.increment,
         )

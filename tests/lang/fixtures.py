@@ -1,5 +1,6 @@
 """Language discipline fixtures."""
 
+import uuid
 from unittest.mock import Mock
 
 import pytest
@@ -11,17 +12,49 @@ from apps.users.models import CustomUser
 
 from .api.v1.study import cases
 
-
-@pytest.fixture
-def mock_progress_repo() -> Mock:
-    """Mock Word study progress repo fixture."""
-    return Mock(spec=ProgressABC)
+# Data fixtures
+# -------------
 
 
 @pytest.fixture
-def mock_django_cache_storage() -> Mock:
-    """Mock Django cache storage fixture."""
-    return Mock(spec=DjangoCache)
+def case_uuid() -> uuid.UUID:
+    """Provide Word study presentation case."""
+    return uuid.UUID('5b518a3e-45a4-4147-a097-0ed28211d8a4')
+
+
+@pytest.fixture
+def presentation() -> types.PresentationDict:
+    """Provide presentation data."""
+    return types.PresentationDict(
+        definition='house',
+        explanation='дом',
+        progress=7,
+    )
+
+
+@pytest.fixture
+def presentation_case(
+    case_uuid: uuid.UUID,
+    presentation: types.PresentationDict,
+) -> types.PresentationCase:
+    """Provide Word study presentation case."""
+    return types.PresentationCase(
+        case_uuid=case_uuid,
+        definition=presentation['definition'],
+        explanation=presentation['explanation'],
+        info=types.Info(
+            progress=presentation['progress'],
+        ),
+    )
+
+
+@pytest.fixture
+def stored_case() -> schemas.WordStudyStoredCase:
+    """Provide Word study case data."""
+    return schemas.WordStudyStoredCase(
+        translation_id=1,
+        language='english',
+    )
 
 
 @pytest.fixture
@@ -34,27 +67,13 @@ def progress_config() -> schemas.ProgressConfigSchema:
 
 
 @pytest.fixture
-def progress_service_di_mock(
-    mock_progress_repo: Mock,
-    mock_django_cache_storage: Mock,
-    progress_config: schemas.ProgressConfigSchema,
-) -> services.UpdateWordProgressService:
-    """Test Word study progress update service."""
-    return services.UpdateWordProgressService(
-        progress_repo=mock_progress_repo,
-        case_storage=mock_django_cache_storage,
-        progress_config=progress_config,
-    )
+def progress_case() -> types.WordProgressType:
+    """Provide valid word study progress update case."""
+    return cases.VALID_PAYLOAD
 
 
-@pytest.fixture
-def presentation() -> types.PresentationDict:
-    """Provide presentation data."""
-    return types.PresentationDict(
-        definition='house',
-        explanation='дом',
-        progress=7,
-    )
+# Database fixtures
+# -----------------
 
 
 @pytest.fixture
@@ -107,16 +126,35 @@ def english_progress(
     )
 
 
-@pytest.fixture
-def progress_case() -> types.WordProgressType:
-    """Provide valid word study progress update case."""
-    return cases.VALID_PAYLOAD
+# Mocked dependency fixtures
+# --------------------------
 
 
 @pytest.fixture
-def case_data() -> schemas.WordStudyCaseSchema:
-    """Provide Word study case data."""
-    return schemas.WordStudyCaseSchema(
-        translation_id=1,
-        language='english',
+def mock_progress_repo() -> Mock:
+    """Mock Word study progress repo fixture."""
+    return Mock(spec=ProgressABC)
+
+
+@pytest.fixture
+def mock_django_cache_storage(
+    case_uuid: uuid.UUID,
+) -> Mock:
+    """Mock Django cache storage fixture."""
+    mock = Mock(spec=DjangoCache)
+    mock.set.return_value = case_uuid
+    return mock
+
+
+@pytest.fixture
+def progress_service_di_mock(
+    mock_progress_repo: Mock,
+    mock_django_cache_storage: Mock,
+    progress_config: schemas.ProgressConfigSchema,
+) -> services.UpdateWordProgressService:
+    """Test Word study progress update service."""
+    return services.UpdateWordProgressService(
+        progress_repo=mock_progress_repo,
+        case_storage=mock_django_cache_storage,
+        progress_config=progress_config,
     )
