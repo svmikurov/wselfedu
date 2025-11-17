@@ -1,11 +1,19 @@
 """Abstract base classes for Language discipline repositories."""
 
 from abc import ABC, abstractmethod
-from typing import TypedDict
+from typing import NamedTuple, TypedDict
 
 from apps.users.models import CustomUser
 
 from .. import types
+
+
+class CreationStatus(NamedTuple):
+    """Status of create English word translation."""
+
+    created_native: bool
+    created_english: bool
+    created_translation: bool
 
 
 class ProgressABC(ABC):
@@ -58,6 +66,15 @@ class WordStudyParamsRepositoryABC(ABC):
 
 class TranslationRepoABC(ABC):
     """ABC for Get translation repository."""
+
+    @abstractmethod
+    def create_translation(
+        self,
+        user: CustomUser,
+        native: str,
+        english: str,
+    ) -> CreationStatus:
+        """Create English word translation."""
 
     @abstractmethod
     def get_translation_id(

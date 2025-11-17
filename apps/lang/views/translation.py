@@ -13,7 +13,7 @@ from di import MainContainer
 from ..forms import EnglishTranslationForm
 from ..models import EnglishTranslation
 from ..presenters import EnglishTranslationPresenter, TranslationParams
-from ..repos import CreateEnglishTranslation
+from ..repos import TranslationRepo
 
 
 class EnglishTranslationCreateView(
@@ -29,17 +29,14 @@ class EnglishTranslationCreateView(
     def form_valid(
         self,
         form: EnglishTranslationForm,
-        repo: CreateEnglishTranslation = Provide[
-            MainContainer.lang.translation_repo
-        ],
+        repo: TranslationRepo = Provide[MainContainer.lang.translation_repo],
     ) -> HttpResponse:
         """Save word translation."""
-        if isinstance(self.request.user, CustomUser):
-            repo.create_translation(
-                user=self.request.user,
-                native=form.data['native'],
-                english=form.data['english'],
-            )
+        repo.create_translation(
+            user=self.request.user,  # type: ignore[arg-type]
+            native=form.data['native'],
+            english=form.data['english'],
+        )
         return super().form_valid(form)
 
 

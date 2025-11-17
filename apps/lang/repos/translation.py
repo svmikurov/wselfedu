@@ -1,13 +1,13 @@
 """Create word translation."""
 
-from typing import NamedTuple, override
+from typing import override
 
 from django.db import transaction
 
 from apps.users.models import CustomUser
 
-from ..models import EnglishTranslation, EnglishWord, NativeWord
-from .abc import TranslationRepoABC
+from .. import models
+from . import abc as base
 
 
 def normalize_word(word: str) -> str:
@@ -15,47 +15,40 @@ def normalize_word(word: str) -> str:
     return word.strip()
 
 
-class CreationStatus(NamedTuple):
-    """Status of create English word translation."""
-
-    created_native: bool
-    created_english: bool
-    created_translation: bool
-
-
-class CreateEnglishTranslation:
+class TranslationRepo(base.TranslationRepoABC):
     """Create English word translation."""
 
+    @override
     @transaction.atomic
     def create_translation(
         self,
         user: CustomUser,
         native: str,
         english: str,
-    ) -> CreationStatus:
+    ) -> base.CreationStatus:
         """Create English word translation."""
-        native_obj, native_created = NativeWord.objects.get_or_create(
+        native_obj, native_created = models.NativeWord.objects.get_or_create(
             user=user,
             word=normalize_word(native),
         )
-        english_obj, english_created = EnglishWord.objects.get_or_create(
-            user=user,
-            word=normalize_word(english),
+        english_obj, english_created = (
+            models.EnglishWord.objects.get_or_create(
+                user=user,
+                word=normalize_word(english),
+            )
         )
-        _, translation_created = EnglishTranslation.objects.get_or_create(
-            user=user,
-            native=native_obj,
-            english=english_obj,
+        _, translation_created = (
+            models.EnglishTranslation.objects.get_or_create(
+                user=user,
+                native=native_obj,
+                english=english_obj,
+            )
         )
-        return CreationStatus(
+        return base.CreationStatus(
             native_created,
             english_created,
             translation_created,
         )
-
-
-class TranslationRepo(TranslationRepoABC):
-    """Repository to get word translation relationship."""
 
     @override
     def get_translation_id(
@@ -63,4 +56,4 @@ class TranslationRepo(TranslationRepoABC):
         word_id: int,
     ) -> int:
         """Get word translation relationship."""
-        return EnglishTranslation.objects.get(native=word_id).pk
+        return models.EnglishTranslation.objects.get(native=word_id).pk

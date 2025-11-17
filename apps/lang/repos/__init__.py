@@ -1,7 +1,7 @@
 """Language app repository."""
 
 __all__ = [
-    'CreateEnglishTranslation',
+    'TranslationRepo',
     'WordStudyParamsRepository',
     'Presentation',
     'Progress',
@@ -11,4 +11,4 @@ __all__ = [
 from .params import WordStudyParamsRepository
 from .presentation import Presentation
 from .progress import Progress
-from .translation import CreateEnglishTranslation, TranslationRepo
+from .translation import TranslationRepo
