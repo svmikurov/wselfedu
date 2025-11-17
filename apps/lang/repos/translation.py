@@ -12,7 +12,7 @@ from . import abc as base
 
 def normalize_word(word: str) -> str:
     """Normalize word."""
-    return word.strip()
+    return word.strip().lower()
 
 
 class TranslationRepo(base.TranslationRepoABC):
@@ -25,16 +25,24 @@ class TranslationRepo(base.TranslationRepoABC):
         user: CustomUser,
         native: str,
         english: str,
+        normalize: bool = True,
     ) -> base.CreationStatus:
         """Create English word translation."""
+        native_to_store = native
+        english_to_store = english
+
+        if normalize:
+            native_to_store = normalize_word(native)
+            english_to_store = normalize_word(english)
+
         native_obj, native_created = models.NativeWord.objects.get_or_create(
             user=user,
-            word=normalize_word(native),
+            word=native_to_store,
         )
         english_obj, english_created = (
             models.EnglishWord.objects.get_or_create(
                 user=user,
-                word=normalize_word(english),
+                word=english_to_store,
             )
         )
         _, translation_created = (
