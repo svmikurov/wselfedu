@@ -1,4 +1,4 @@
-"""Base class for url tests."""
+"""Base class for api url tests."""
 
 from typing import Literal, Type, TypedDict
 
@@ -17,12 +17,12 @@ class UrlConfigType(TypedDict, total=True):
     ]
 
 
-class BaseTestUrls:
-    """Base url test.
+class BaseApiUrlTest:
+    """Api url base test.
 
     Example:
     -------
-        class TestUrls(BaseTestUrls):
+        class TestUrls(BaseApiUrlTest):
             URL_CONFIGS = {
                 'study-params': {
                     'path': '/api/v1/lang/study/params/',

@@ -10,8 +10,8 @@ from di import MainContainer
 # Note: Multiple fixtures are used here to maintain consistency
 # across the test suite. Revisit if maintenance becomes costly.
 pytest_plugins = [
-    'tests.users.fixtures',
-    'tests.lang.fixtures',
+    'tests.integration.users.fixtures',
+    'tests.unit.lang.fixtures',
 ]
 
 

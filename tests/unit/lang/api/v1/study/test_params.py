@@ -6,12 +6,11 @@ from unittest.mock import Mock
 import pytest
 from rest_framework.test import APIClient
 
+import di
 from apps.lang.presenters.abc import (
     WordStudyParamsPresenterABC,
 )
 from apps.lang.types import WordParamsType
-from apps.users.models import CustomUser
-from di import container
 
 
 @pytest.fixture
@@ -26,7 +25,7 @@ def initial_payload() -> WordParamsType:
     }
 
 
-@pytest.mark.django_db
+# @pytest.mark.django_db
 class TestWordStudyParams:
     """Test Word study params REST API endpoint."""
 
@@ -49,15 +48,14 @@ class TestWordStudyParams:
         self,
         url: str,
         api_client: APIClient,
-        user: CustomUser,
         initial_payload: WordParamsType,
         presenter_mock: Mock,
     ) -> None:
         """Test params success."""
-        api_client.force_authenticate(user)
+        api_client.force_authenticate(Mock())
 
         # Mock presenter
-        with container.lang.params_presenter.override(presenter_mock):
+        with di.container.lang.params_presenter.override(presenter_mock):
             response = api_client.get(url)
 
         assert response.status_code == HTTPStatus.OK

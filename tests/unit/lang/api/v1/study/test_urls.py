@@ -1,10 +1,10 @@
 """Test Word study paths."""
 
 from apps.lang.api.v1.views.study import WordStudyViewSet
-from tests.base.test_urls import BaseTestUrls
+from tests.unit.base.test_urls import BaseApiUrlTest
 
 
-class TestUrls(BaseTestUrls):
+class TestUrls(BaseApiUrlTest):
     """Test Word study ViewSet urls."""
 
     URL_CONFIGS = {

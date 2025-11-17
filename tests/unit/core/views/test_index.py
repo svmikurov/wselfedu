@@ -9,7 +9,7 @@ from rest_framework.test import APIRequestFactory
 
 from apps.core.api.v1.views import IndexViewSet
 from apps.users.models import CustomUser
-from tests.users import fixtures
+from tests.integration.users import fixtures
 
 
 class TestIndexViewSet:

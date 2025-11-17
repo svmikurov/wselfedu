@@ -79,7 +79,6 @@ class TestCalculationViewSet:
         with patch.object(
             CalculationViewSet, 'exercise_presenter', presenter_mock
         ):
-            response = view(request)
+            view(request)
 
-        print(f'\n{response.data = }')
         presenter_mock.get_task.assert_called_once_with(payload)
