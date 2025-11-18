@@ -87,6 +87,32 @@ class WordStudyViewSet(ViewSet):
         payload = presenter.get_initial(self.request.user)  # type: ignore[arg-type]
         return Response(ser.WordStudySelectSerializer(payload).data)
 
+    # TODO: Feat error handling for response
+    @extend_schema(
+        summary='Word study params update',
+        request=ser.WordStudyParamsSerializer,
+        tags=['Lang'],
+    )
+    @action(methods=['put'], detail=False, url_path='params/update')
+    def update_params(
+        self,
+        request: Request,
+        presenter: WordStudyParamsPresenterABC = wiring.Provide[
+            di.MainContainer.lang.params_presenter,
+        ],
+    ) -> Response:
+        """Update initial Word study params."""
+        params = ser.WordStudyParamsSerializer(data=request.data)
+        params.is_valid()
+        try:
+            presenter.update_initial(
+                self.request.user,  # type: ignore[arg-type]
+                params.validated_data,
+            )
+        except Exception:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_200_OK)
+
     # TODO: Add status codes with exceptions
     # TODO: Update response status to 200?
     @extend_schema(

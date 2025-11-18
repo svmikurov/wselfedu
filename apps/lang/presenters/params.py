@@ -11,8 +11,9 @@ from .abc import (
 )
 
 
+# TODO: Rename to repository
 class WordStudyParamsPresenter(WordStudyParamsPresenterABC):
-    """Word study params presenter."""
+    """Word study params repository."""
 
     def __init__(
         self,
@@ -25,3 +26,8 @@ class WordStudyParamsPresenter(WordStudyParamsPresenterABC):
     def get_initial(self, user: CustomUser) -> WordParamsType:
         """Get Word study initial params."""
         return self._repo.fetch_initial(user)
+
+    @override
+    def update_initial(self, user: CustomUser, data: object) -> None:
+        """Update Word study initial params."""
+        return self._repo.update_initial(user, data)

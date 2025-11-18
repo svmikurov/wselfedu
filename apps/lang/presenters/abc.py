@@ -13,3 +13,7 @@ class WordStudyParamsPresenterABC(ABC):
     @abstractmethod
     def get_initial(self, user: CustomUser) -> WordParamsType:
         """Get Word study initial params."""
+
+    @abstractmethod
+    def update_initial(self, user: CustomUser, data: object) -> None:
+        """Update Word study initial params."""

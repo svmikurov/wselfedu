@@ -14,7 +14,16 @@ class WordStudyParamsSerializer(
 
     category = IdNameSerializer(required=False, allow_null=True)
     label = IdNameSerializer(required=False, allow_null=True)  # type: ignore[assignment]
+    word_source = IdNameSerializer(required=False, allow_null=True)
+    order = IdNameSerializer(required=False, allow_null=True)
+    start_period = IdNameSerializer(required=False, allow_null=True)
+    end_period = IdNameSerializer(required=False, allow_null=True)
+
     word_count = serializers.IntegerField(required=False, allow_null=True)
+    question_timeout = serializers.IntegerField(
+        required=False, allow_null=True
+    )
+    answer_timeout = serializers.IntegerField(required=False, allow_null=True)
 
 
 class WordStudySelectSerializer(serializers.Serializer[types.WordParamsType]):

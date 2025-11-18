@@ -1,5 +1,7 @@
 """Abstract base class for Word study params repository."""
 
+from typing import override
+
 from apps.lang import models, types
 from apps.lang.repos.abc import WordStudyParamsRepositoryABC
 from apps.users.models import CustomUser
@@ -8,6 +10,7 @@ from apps.users.models import CustomUser
 class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
     """ABC for Word study params repository."""
 
+    @override
     def fetch_initial(self, user: CustomUser) -> types.WordParamsType:
         """Fetch initial params."""
         labels = models.LangLabel.objects.filter(user=user).values(
@@ -43,6 +46,10 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
             if default_query.get('label__id')
             else None,
             'word_count': default_query.get('word_count'),
+            # 'source': {
+            #     'id': default_query['source__id'],
+            #     'name': default_query['source__name'],
+            # },
         }
 
         return {
@@ -50,3 +57,8 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
             'labels': list(labels),
             'default_params': default_params,
         }
+
+    @override
+    def update_initial(self, user: CustomUser, data: object) -> None:
+        """Update initial params."""
+        pass

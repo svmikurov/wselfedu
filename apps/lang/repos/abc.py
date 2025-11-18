@@ -63,6 +63,10 @@ class WordStudyParamsRepositoryABC(ABC):
     def fetch_initial(self, user: CustomUser) -> types.WordParamsType:
         """Fetch initial params."""
 
+    @abstractmethod
+    def update_initial(self, user: CustomUser, data: object) -> None:
+        """Update initial params."""
+
 
 class TranslationRepoABC(ABC):
     """ABC for Get translation repository."""

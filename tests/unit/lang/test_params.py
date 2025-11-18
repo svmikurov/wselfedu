@@ -23,6 +23,7 @@ def initial_params() -> WordParamsType:
         'default_params': {
             'category': None,
             'label': {'id': 4, 'name': 'test label'},
+            # 'source': {'id': 2, 'name': 'test source'},
             'word_count': 5,
         },
     }

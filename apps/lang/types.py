@@ -19,6 +19,7 @@ class WordCaseParamsType(TypedDict):
 
     category: IdNameType | None
     label: IdNameType | None
+    # source: IdNameType | None
     word_count: int | None
 
 
