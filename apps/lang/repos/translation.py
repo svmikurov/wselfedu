@@ -12,7 +12,7 @@ from . import abc as base
 
 def normalize_word(word: str) -> str:
     """Normalize word."""
-    return word.strip().lower()
+    return word.strip('?!#- .,').lower()
 
 
 class TranslationRepo(base.TranslationRepoABC):
