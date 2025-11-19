@@ -20,10 +20,10 @@ class WordStudyParamsSerializer(
     end_period = IdNameSerializer(required=False, allow_null=True)
 
     word_count = serializers.IntegerField(required=False, allow_null=True)
-    question_timeout = serializers.IntegerField(
+    question_timeout = serializers.FloatField(
         required=False, allow_null=True
     )
-    answer_timeout = serializers.IntegerField(required=False, allow_null=True)
+    answer_timeout = serializers.FloatField(required=False, allow_null=True)
 
 
 class WordStudySelectSerializer(serializers.Serializer[types.WordParamsType]):
