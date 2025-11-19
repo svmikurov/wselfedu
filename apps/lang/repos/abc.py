@@ -42,7 +42,7 @@ class PresentationABC(ABC):
     @abstractmethod
     def get_candidates(
         self,
-        params: types.WordParamsType,
+        params: types.ParamsChoicesT,
     ) -> types.WordStudyParams:
         """Get candidates for Presentation."""
 
@@ -52,7 +52,7 @@ class PresentationABC(ABC):
         user: CustomUser,
         translation_id: int,
         language: types.LanguageType,
-    ) -> types.PresentationDict:
+    ) -> types.PresentationDataT:
         """Get Presentation case."""
 
 
@@ -60,7 +60,7 @@ class WordStudyParamsRepositoryABC(ABC):
     """ABC for Word study params repository."""
 
     @abstractmethod
-    def fetch_initial(self, user: CustomUser) -> types.WordParamsType:
+    def fetch_initial(self, user: CustomUser) -> types.ParamsChoicesT:
         """Fetch initial params."""
 
     @abstractmethod

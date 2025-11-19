@@ -11,7 +11,7 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
     """ABC for Word study params repository."""
 
     @override
-    def fetch_initial(self, user: CustomUser) -> types.WordParamsType:
+    def fetch_initial(self, user: CustomUser) -> types.ParamsChoicesT:
         """Fetch initial params."""
         labels = models.LangLabel.objects.filter(user=user).values(
             'id', 'name'
@@ -32,7 +32,7 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
             or {}
         )
 
-        default_params: types.WordCaseParamsType = {
+        default_params: types.InitialChoiceT = {
             'category': {
                 'id': default_query['category__id'],
                 'name': default_query['category__name'],
@@ -45,17 +45,14 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
             }
             if default_query.get('label__id')
             else None,
-            'word_count': default_query.get('word_count'),
-            # 'source': {
-            #     'id': default_query['source__id'],
-            #     'name': default_query['source__name'],
-            # },
         }
 
-        return {
+        # TODO: Fix type ignore
+        return {  # type: ignore[typeddict-unknown-key]
             'categories': list(categories),
             'labels': list(labels),
-            'default_params': default_params,
+            'category': default_params['category'],
+            'label': default_params['label'],
         }
 
     @override

@@ -4,28 +4,23 @@ from unittest.mock import Mock
 
 import pytest
 
+from apps.lang import types
 from apps.lang.repos.abc import WordStudyParamsRepositoryABC
-from apps.lang.types import WordParamsType
 from apps.users.models import CustomUser
 from di import container
 
 
 @pytest.fixture
-def initial_params() -> WordParamsType:
+def initial_params() -> types.WordPresentationParamsT:
     """Get Word study params fixture."""
     return {
-        'categories': [
-            {'id': 2, 'name': 'category name'},
-        ],
-        'labels': [
-            {'id': 3, 'name': 'label name'},
-        ],
-        'default_params': {
-            'category': None,
-            'label': {'id': 4, 'name': 'test label'},
-            # 'source': {'id': 2, 'name': 'test source'},
-            'word_count': 5,
-        },
+        'categories': [{'id': 2, 'name': 'category name'}],
+        'labels': [{'id': 3, 'name': 'label name'}],
+        'category': None,
+        'label': None,
+        'word_count': None,
+        'question_timeout': None,
+        'answer_timeout': None,
     }
 
 
@@ -34,7 +29,7 @@ class TestWordStudyParamsPresenter:
     """Test Word study params presenter."""
 
     @pytest.fixture
-    def mock_repo(self, initial_params: WordParamsType) -> Mock:
+    def mock_repo(self, initial_params: types.ParamsChoicesT) -> Mock:
         """Mock Word study params repository."""
         mock = Mock(spec=WordStudyParamsRepositoryABC)
         mock.fetch_initial.return_value = initial_params
@@ -43,7 +38,7 @@ class TestWordStudyParamsPresenter:
     def test_get_initial(
         self,
         user: CustomUser,
-        initial_params: WordParamsType,
+        initial_params: types.ParamsChoicesT,
         mock_repo: Mock,
     ) -> None:
         """Get Word study initial params."""

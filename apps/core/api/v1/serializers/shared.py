@@ -5,7 +5,7 @@ from rest_framework import serializers
 from apps.lang import types
 
 
-class IdNameSerializer(serializers.Serializer[types.IdNameType]):
+class IdNameSerializer(serializers.Serializer[types.IdName]):
     """Serializer for objects with id and name fields."""
 
     id = serializers.IntegerField()

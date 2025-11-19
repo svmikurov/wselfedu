@@ -5,12 +5,12 @@ from typing import TypeAlias
 
 from rest_framework.exceptions import ErrorDetail
 
-from apps.lang.types import WordProgressType
+from apps.lang.types import WordProgressT
 
 # Progress cases
 # --------------
 
-VALID_PAYLOAD: WordProgressType = {
+VALID_PAYLOAD: WordProgressT = {
     'case_uuid': uuid.UUID('5b518a3e-45a4-4147-a097-0ed28211d8a4'),
     'progress_type': 'known',
 }

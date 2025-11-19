@@ -32,7 +32,7 @@ class TestRepository:
         # Assert
         assert result['definition'] == english_word.word
         assert result['explanation'] == native_word.word
-        assert result['progress'] == english_progress.progress
+        assert result['info']['progress'] == english_progress.progress  # type: ignore[index]
         assert len(result) == 3
 
     def test_get_case_not_found(

@@ -12,7 +12,7 @@ from apps.lang.services.study import WordStudyDomain
 
 @pytest.fixture
 def mock_presentation_repo(
-    presentation: types.PresentationDict,
+    presentation: types.PresentationT,
 ) -> Mock:
     """Mock Word study Presentation repository."""
     mock = Mock(spec=PresentationABC)
@@ -46,23 +46,17 @@ def service(
 @pytest.fixture
 def expected_case(
     case_uuid: uuid.UUID,
-    presentation: types.PresentationDict,
-) -> types.PresentationCase:
+    presentation: types.PresentationDataT,
+) -> types.PresentationCaseT:
     """Provide Word study Presentation case."""
-    return types.PresentationCase(
-        case_uuid=case_uuid,
-        definition=presentation['definition'],
-        explanation=presentation['explanation'],
-        info=types.Info(
-            progress=presentation['progress'],
-        ),
-    )
+    case: types.PresentationCaseT = {'case_uuid': case_uuid, **presentation}
+    return case
 
 
 @pytest.fixture
 def params() -> Mock:
     """Provide Word study Presentation params."""
-    return Mock(spec=types.WordParamsType)
+    return Mock(spec=types.ParamsChoicesT)
 
 
 class TestService:
@@ -73,7 +67,7 @@ class TestService:
         mock_user: Mock,
         service: services.WordPresentationService,
         params: Mock,
-        expected_case: types.PresentationCase,
+        expected_case: types.PresentationCaseT,
     ) -> None:
         """Test get Presentation case."""
         # Act

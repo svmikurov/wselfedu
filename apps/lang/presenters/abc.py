@@ -4,14 +4,14 @@ from abc import ABC, abstractmethod
 
 from apps.users.models import CustomUser
 
-from ..types import WordParamsType
+from ..types import ParamsChoicesT
 
 
 class WordStudyParamsPresenterABC(ABC):
     """ABC for Word study params presenter."""
 
     @abstractmethod
-    def get_initial(self, user: CustomUser) -> WordParamsType:
+    def get_initial(self, user: CustomUser) -> ParamsChoicesT:
         """Get Word study initial params."""
 
     @abstractmethod

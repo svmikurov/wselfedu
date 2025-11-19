@@ -21,7 +21,7 @@ class PresentationResponse(TypedDict):
     case_uuid: str
     definition: str
     explanation: str
-    info: types.Info
+    info: types.InfoT
 
 
 @pytest.fixture
@@ -31,13 +31,11 @@ def view() -> Callable[[Request], Response]:
 
 
 @pytest.fixture
-def valid_payload() -> types.WordCaseParamsType:
+def valid_payload() -> types.InitialChoiceT:
     """Provide Request payload."""
     return {
         'category': None,
         'label': None,
-        'word_count': None,
-        # 'source': None,
     }
 
 
@@ -54,7 +52,7 @@ def valid_response_data() -> PresentationResponse:
 
 @pytest.fixture
 def mock_service(
-    presentation_case: types.PresentationDict,
+    presentation_case: types.PresentationT,
 ) -> Mock:
     """Mock Word study presentation service."""
     mock = Mock(spec=WordPresentationServiceABC)
@@ -72,7 +70,7 @@ class TestPresentation:
         api_request_factory: APIRequestFactory,
         view: Callable[[Request], Response],
         valid_response_data: PresentationResponse,
-        valid_payload: types.WordCaseParamsType,
+        valid_payload: types.InitialChoiceT,
     ) -> None:
         """Test successful presentation request."""
         # Arrange

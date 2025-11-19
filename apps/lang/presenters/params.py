@@ -5,7 +5,7 @@ from typing import override
 from apps.users.models import CustomUser
 
 from ..repos.abc import WordStudyParamsRepositoryABC
-from ..types import WordParamsType
+from ..types import ParamsChoicesT
 from .abc import (
     WordStudyParamsPresenterABC,
 )
@@ -23,7 +23,7 @@ class WordStudyParamsPresenter(WordStudyParamsPresenterABC):
         self._repo = repo
 
     @override
-    def get_initial(self, user: CustomUser) -> WordParamsType:
+    def get_initial(self, user: CustomUser) -> ParamsChoicesT:
         """Get Word study initial params."""
         return self._repo.fetch_initial(user)
 

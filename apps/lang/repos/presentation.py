@@ -17,7 +17,7 @@ class Presentation(PresentationABC):
 
     def get_candidates(
         self,
-        params: types.WordParamsType,
+        params: types.ParamsChoicesT,
     ) -> types.WordStudyParams:
         """Get candidates for Presentation."""
         # Temporary translations from english to native
@@ -33,7 +33,7 @@ class Presentation(PresentationABC):
         user: CustomUser,
         translation_id: int,
         language: types.LanguageType,
-    ) -> types.PresentationDict:
+    ) -> types.PresentationDataT:
         """Get Presentation case."""
         translation_model = models.TRANSLATION_MODELS[language]
         progress_model = models.PROGRESS_MODELS[language]
@@ -67,8 +67,11 @@ class Presentation(PresentationABC):
             log.error(f'Unexpected error: {exc}')
             raise
 
-        return types.PresentationDict(
-            definition=translation_data.english.word,
-            explanation=translation_data.native.word,
-            progress=translation_data.user_progress,
-        )
+        data: types.PresentationDataT = {
+            'definition': translation_data.english.word,
+            'explanation': translation_data.native.word,
+            'info': {
+                'progress': translation_data.user_progress,
+            },
+        }
+        return data

@@ -31,7 +31,7 @@ class UpdateWordProgressService(WordProgressServiceABC):
     def update_progress(
         self,
         user: CustomUser,
-        data: types.WordProgressType,
+        data: types.WordProgressT,
     ) -> None:
         """Update word study progress."""
         case_uuid = data['case_uuid']

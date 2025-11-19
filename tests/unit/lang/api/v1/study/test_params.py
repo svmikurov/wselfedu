@@ -10,18 +10,15 @@ import di
 from apps.lang.presenters.abc import (
     WordStudyParamsPresenterABC,
 )
-from apps.lang.types import WordParamsType
+from apps.lang.types import ParamsChoicesT
 
 
 @pytest.fixture
-def initial_payload() -> WordParamsType:
+def initial_payload() -> ParamsChoicesT:
     """Get Word study initial params."""
     return {
         'categories': [],
-        'labels': [
-            {'id': 2, 'name': 'label name'},
-        ],
-        'default_params': None,
+        'labels': [{'id': 2, 'name': 'label name'}],
     }
 
 
@@ -37,7 +34,7 @@ class TestWordStudyParams:
     @pytest.fixture
     def presenter_mock(
         self,
-        initial_payload: WordParamsType,
+        initial_payload: ParamsChoicesT,
     ) -> Mock:
         """Mock initial Word study params."""
         mock = Mock(spec=WordStudyParamsPresenterABC)
@@ -48,7 +45,7 @@ class TestWordStudyParams:
         self,
         url: str,
         api_client: APIClient,
-        initial_payload: WordParamsType,
+        initial_payload: ParamsChoicesT,
         presenter_mock: Mock,
     ) -> None:
         """Test params success."""

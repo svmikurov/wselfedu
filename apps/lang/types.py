@@ -7,28 +7,49 @@ LanguageType = Literal['native', 'english']
 ProgressType = Literal['known', 'unknown']
 
 
-class IdNameType(TypedDict):
+class IdName(TypedDict):
     """Dict representation of entity only with its 'name' and 'ID'."""
 
     id: int
     name: str
 
 
-class WordCaseParamsType(TypedDict):
-    """Default params values typed fields."""
-
-    category: IdNameType | None
-    label: IdNameType | None
-    # source: IdNameType | None
-    word_count: int | None
+# Word study Presentation params
+# ------------------------------
 
 
-class WordParamsType(TypedDict):
+class ParamsChoicesT(TypedDict):
     """Fields type for Word study request."""
 
-    categories: list[IdNameType]
-    labels: list[IdNameType]
-    default_params: WordCaseParamsType | None
+    categories: list[IdName] | None
+    labels: list[IdName] | None
+
+
+class InitialChoiceT(TypedDict):
+    """Default params values typed fields."""
+
+    category: IdName | None
+    label: IdName | None
+
+
+class PresentationSettingsT(TypedDict):
+    """Fields type for Word study request."""
+
+    word_count: IdName | None
+    question_timeout: IdName | None
+    answer_timeout: IdName | None
+
+
+class WordPresentationParamsT(
+    ParamsChoicesT,
+    InitialChoiceT,
+    PresentationSettingsT,
+):
+    """Fields type for Word study request."""
+
+
+# Word study Presentation case
+# ----------------------------
 
 
 class CaseUUIDType(TypedDict):
@@ -37,33 +58,45 @@ class CaseUUIDType(TypedDict):
     case_uuid: uuid.UUID
 
 
-class Info(TypedDict):
-    """Word study Presentation info typed dict."""
-
-    progress: int | None
-
-
-class PresentationDict(Info):
+class PresentationT(TypedDict):
     """Word study Presentation typed dict."""
 
     definition: str
     explanation: str
 
 
-class PresentationCase(
+class InfoT(TypedDict):
+    """Word study Presentation info typed dict."""
+
+    progress: int | None
+
+
+class PresentationDataT(
+    PresentationT,
+):
+    """Word study Presentation data typed dict."""
+
+    info: InfoT | None
+
+
+class PresentationCaseT(
     CaseUUIDType,
+    PresentationDataT,
 ):
     """Word study Presentation case typed dict."""
 
-    definition: str
-    explanation: str
-    info: Info | None
+
+# Word study Presentation progress
+# --------------------------------
 
 
-class WordProgressType(CaseUUIDType):
+class WordProgressT(CaseUUIDType):
     """Word study progress typed dict."""
 
     progress_type: ProgressType
+
+
+# TODO: Remove below?
 
 
 class WordStudyCase(NamedTuple):

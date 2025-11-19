@@ -7,9 +7,7 @@ from apps.lang import types
 from apps.lang.models.word import AbstractWordModel
 
 
-class WordStudyParamsSerializer(
-    serializers.Serializer[types.WordCaseParamsType]
-):
+class WordStudyParamsSerializer(serializers.Serializer[types.InitialChoiceT]):
     """Serializer for Word study params."""
 
     category = IdNameSerializer(required=False, allow_null=True)
@@ -20,27 +18,26 @@ class WordStudyParamsSerializer(
     end_period = IdNameSerializer(required=False, allow_null=True)
 
     word_count = serializers.IntegerField(required=False, allow_null=True)
-    question_timeout = serializers.FloatField(
-        required=False, allow_null=True
-    )
+    question_timeout = serializers.FloatField(required=False, allow_null=True)
     answer_timeout = serializers.FloatField(required=False, allow_null=True)
 
 
-class WordStudySelectSerializer(serializers.Serializer[types.WordParamsType]):
+class WordStudySelectSerializer(
+    serializers.Serializer[types.ParamsChoicesT],
+):
     """Serializer for Word study params select."""
 
     categories = IdNameSerializer(many=True)
     labels = IdNameSerializer(many=True)
-    default_params = WordStudyParamsSerializer()
 
 
-class WordStudyInfoSerializer(serializers.Serializer[types.Info]):
+class WordStudyInfoSerializer(serializers.Serializer[types.InfoT]):
     """Serializer for Word study case info."""
 
     progress = serializers.IntegerField()
 
 
-class WordStudyCaseSerializer(serializers.Serializer[types.PresentationCase]):
+class WordStudyCaseSerializer(serializers.Serializer[types.PresentationCaseT]):
     """Serializer for Word study case."""
 
     case_uuid = serializers.UUIDField()
@@ -53,9 +50,7 @@ class WordStudyCaseSerializer(serializers.Serializer[types.PresentationCase]):
     info = WordStudyInfoSerializer()
 
 
-class WordStudyProgressSerializer(
-    serializers.Serializer[types.WordProgressType]
-):
+class WordStudyProgressSerializer(serializers.Serializer[types.WordProgressT]):
     """Serializer for Word study progress."""
 
     case_uuid = serializers.UUIDField(

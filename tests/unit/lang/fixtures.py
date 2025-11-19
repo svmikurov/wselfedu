@@ -23,29 +23,22 @@ def case_uuid() -> uuid.UUID:
 
 
 @pytest.fixture
-def presentation() -> types.PresentationDict:
+def presentation() -> types.PresentationDataT:
     """Provide presentation data."""
-    return types.PresentationDict(
-        definition='house',
-        explanation='дом',
-        progress=7,
-    )
+    return {
+        'definition': 'house',
+        'explanation': 'дом',
+        'info': {'progress': 7},
+    }
 
 
 @pytest.fixture
 def presentation_case(
     case_uuid: uuid.UUID,
-    presentation: types.PresentationDict,
-) -> types.PresentationCase:
+    presentation: types.PresentationDataT,
+) -> types.PresentationCaseT:
     """Provide Word study presentation case."""
-    return types.PresentationCase(
-        case_uuid=case_uuid,
-        definition=presentation['definition'],
-        explanation=presentation['explanation'],
-        info=types.Info(
-            progress=presentation['progress'],
-        ),
-    )
+    return {'case_uuid': case_uuid, **presentation}
 
 
 @pytest.fixture
@@ -67,7 +60,7 @@ def progress_config() -> schemas.ProgressConfigSchema:
 
 
 @pytest.fixture
-def progress_case() -> types.WordProgressType:
+def progress_case() -> types.WordProgressT:
     """Provide valid word study progress update case."""
     return cases.VALID_PAYLOAD
 
@@ -79,7 +72,7 @@ def progress_case() -> types.WordProgressType:
 @pytest.fixture
 def native_word(
     user: CustomUser,
-    presentation: types.PresentationDict,
+    presentation: types.PresentationT,
 ) -> models.NativeWord:
     """Native word fixture."""
     return models.NativeWord.objects.create(
@@ -91,7 +84,7 @@ def native_word(
 @pytest.fixture
 def english_word(
     user: CustomUser,
-    presentation: types.PresentationDict,
+    presentation: types.PresentationT,
 ) -> models.EnglishWord:
     """English word fixture."""
     return models.EnglishWord.objects.create(
@@ -115,14 +108,14 @@ def translation(
 @pytest.fixture
 def english_progress(
     user: CustomUser,
-    presentation: types.PresentationDict,
+    presentation: types.PresentationT,
     translation: models.EnglishTranslation,
 ) -> models.EnglishProgress:
     """Get translation fixture."""
     return models.EnglishProgress.objects.create(
         user=user,
         translation=translation,
-        progress=presentation['progress'],  # type: ignore[misc]
+        progress=presentation['info']['progress'],  # type: ignore[typeddict-item]
     )
 
 

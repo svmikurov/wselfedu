@@ -33,8 +33,8 @@ class WordPresentationService(WordPresentationServiceABC):
     def get_presentation_case(
         self,
         user: CustomUser,
-        presentation_params: types.WordParamsType,
-    ) -> types.PresentationCase:
+        presentation_params: types.ParamsChoicesT,
+    ) -> types.PresentationCaseT:
         """Get Word study presentation case."""
         candidates = self._word_repo.get_candidates(presentation_params)
 
@@ -62,17 +62,19 @@ class WordPresentationService(WordPresentationServiceABC):
         case_uuid = self._case_storage.set(schema)
         return case_uuid
 
+    # TODO: Fix type ignore
     @staticmethod
     def _build_case_data(
         case_uuid: uuid.UUID,
-        case_data: types.PresentationDict,
-    ) -> types.PresentationCase:
+        case_data: types.PresentationDataT,
+    ) -> types.PresentationCaseT:
         """Build Presentation case."""
-        return types.PresentationCase(
-            case_uuid=case_uuid,
-            definition=case_data['definition'],
-            explanation=case_data['explanation'],
-            info=types.Info(
-                progress=case_data['progress'],
-            ),
-        )
+        case: types.PresentationCaseT = {
+            'case_uuid': case_uuid,
+            'definition': case_data['definition'],
+            'explanation': case_data['explanation'],
+            'info': {
+                'progress': case_data['info']['progress'],  # type: ignore[typeddict-item, index]
+            },
+        }
+        return case

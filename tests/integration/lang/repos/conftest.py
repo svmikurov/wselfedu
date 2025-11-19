@@ -22,7 +22,7 @@ def progress_repo() -> repos.Progress:
 
 @pytest.fixture
 def mock_presentation_repo(
-    presentation: types.PresentationDict,
+    presentation: types.PresentationT,
 ) -> Mock:
     """Mock Word study Presentation repo."""
     mock = Mock(spec=base.PresentationABC)
