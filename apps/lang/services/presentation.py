@@ -1,4 +1,4 @@
-"""Word study presenter."""
+"""Word study service."""
 
 import logging
 import uuid

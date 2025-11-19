@@ -12,8 +12,7 @@ from di import MainContainer
 
 from ..forms import EnglishTranslationForm
 from ..models import EnglishTranslation
-from ..presenters import EnglishTranslationPresenter, TranslationParams
-from ..repos import TranslationRepo
+from ..repos import TranslationParams, TranslationRepo
 
 
 class EnglishTranslationCreateView(
@@ -52,17 +51,17 @@ class EnglishTranslationListView(
     def get_queryset(self) -> QuerySet[EnglishTranslation]:
         """Get English word translations queryset."""
         params = self._get_params()
-        query = self._get_presenter().get_translations(params=params)
+        query = self._get_repository().get_translations(params=params)
         return query
 
     @staticmethod
-    def _get_presenter(
-        presenter: EnglishTranslationPresenter = Provide[
-            MainContainer.lang.translation_presenter
+    def _get_repository(
+        repository: TranslationRepo = Provide[
+            MainContainer.lang.translation_repo
         ],
-    ) -> EnglishTranslationPresenter:
-        """Get English word translations presenter."""
-        return presenter
+    ) -> TranslationRepo:
+        """Get English word translations repository."""
+        return repository
 
     def _get_params(self) -> TranslationParams | None:
         """Get translation filter params."""

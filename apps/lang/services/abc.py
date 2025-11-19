@@ -13,7 +13,7 @@ class WordPresentationServiceABC(
     StudyPresenterGenABC[types.ParamsChoicesT, types.PresentationCaseT],
     ABC,
 ):
-    """ABC fore Word study presenter."""
+    """ABC fore Word study service."""
 
     @abstractmethod
     @override

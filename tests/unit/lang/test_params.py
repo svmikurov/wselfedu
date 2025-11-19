@@ -43,8 +43,8 @@ class TestWordStudyParamsPresenter:
     ) -> None:
         """Get Word study initial params."""
         with container.lang.params_repo.override(mock_repo):
-            presenter = container.lang.params_presenter()
-            params = presenter.get_initial(user)
+            repository = container.lang.params_repo()
+            params = repository.fetch_initial(user)
 
         assert params == initial_params
         mock_repo.fetch_initial.assert_called_once_with(user)

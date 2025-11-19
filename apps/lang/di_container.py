@@ -1,13 +1,11 @@
 """Language application DI container."""
 
 from dependency_injector import containers, providers
-from dependency_injector.providers import Factory
 
 from apps.core.storage.clients import DjangoCache
 from apps.lang import schemas
 
-from . import presenters, repos, services
-from .presenters.abc import WordStudyParamsPresenterABC
+from . import repos, services
 from .services.presentation import WordPresentationService
 from .services.study import WordStudyDomain
 
@@ -68,16 +66,4 @@ class LanguageContainer(containers.DeclarativeContainer):
         progress_repo=progress_repo,
         case_storage=django_cache,
         progress_config=progress_config,
-    )
-
-    # Presenters
-    # ----------
-
-    translation_presenter = providers.Factory(
-        presenters.EnglishTranslationPresenter,
-    )
-
-    params_presenter: Factory[WordStudyParamsPresenterABC] = Factory(
-        presenters.WordStudyParamsPresenter,
-        repo=params_repo,
     )

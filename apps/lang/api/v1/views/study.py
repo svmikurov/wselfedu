@@ -14,7 +14,7 @@ from rest_framework.viewsets import ViewSet
 import di
 from apps.core.api import renderers
 from apps.lang import types
-from apps.lang.presenters.abc import WordStudyParamsPresenterABC
+from apps.lang.repos.abc import WordStudyParamsRepositoryABC
 from apps.lang.services.abc import (
     WordPresentationServiceABC,
     WordProgressServiceABC,
@@ -77,12 +77,12 @@ class WordStudyViewSet(ViewSet):
     def params(
         self,
         request: Request,
-        presenter: WordStudyParamsPresenterABC = wiring.Provide[
-            di.MainContainer.lang.params_presenter,
+        repository: WordStudyParamsRepositoryABC = wiring.Provide[
+            di.MainContainer.lang.params_repo,
         ],
     ) -> Response:
         """Render initial Word study params."""
-        payload = presenter.get_initial(self.request.user)  # type: ignore[arg-type]
+        payload = repository.fetch_initial(self.request.user)  # type: ignore[arg-type]
         return Response(ser.WordStudySelectSerializer(payload).data)
 
     # TODO: Feat error handling for response
@@ -95,15 +95,15 @@ class WordStudyViewSet(ViewSet):
     def update_params(
         self,
         request: Request,
-        presenter: WordStudyParamsPresenterABC = wiring.Provide[
-            di.MainContainer.lang.params_presenter,
+        repository: WordStudyParamsRepositoryABC = wiring.Provide[
+            di.MainContainer.lang.progress_repo,
         ],
     ) -> Response:
         """Update initial Word study params."""
         params = ser.WordStudyParamsSerializer(data=request.data)
         params.is_valid()
         try:
-            presenter.update_initial(
+            repository.update_initial(
                 self.request.user,  # type: ignore[arg-type]
                 params.validated_data,
             )

@@ -7,8 +7,8 @@ import pytest
 from rest_framework.test import APIClient
 
 import di
-from apps.lang.presenters.abc import (
-    WordStudyParamsPresenterABC,
+from apps.lang.repos.abc import (
+    WordStudyParamsRepositoryABC,
 )
 from apps.lang.types import ParamsChoicesT
 
@@ -37,8 +37,8 @@ class TestWordStudyParams:
         initial_payload: ParamsChoicesT,
     ) -> Mock:
         """Mock initial Word study params."""
-        mock = Mock(spec=WordStudyParamsPresenterABC)
-        mock.get_initial.return_value = initial_payload
+        mock = Mock(spec=WordStudyParamsRepositoryABC)
+        mock.fetch_initial.return_value = initial_payload
         return mock
 
     def test_params_success(
@@ -52,7 +52,7 @@ class TestWordStudyParams:
         api_client.force_authenticate(Mock())
 
         # Mock presenter
-        with di.container.lang.params_presenter.override(presenter_mock):
+        with di.container.lang.params_repo.override(presenter_mock):
             response = api_client.get(url)
 
         assert response.status_code == HTTPStatus.OK
