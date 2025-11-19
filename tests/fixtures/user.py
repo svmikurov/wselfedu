@@ -7,6 +7,9 @@ from django.contrib.auth.models import AnonymousUser
 
 from apps.users.models import CustomUser
 
+# Database fixtures
+# -----------------
+
 
 @pytest.fixture
 def user() -> CustomUser:
@@ -33,6 +36,10 @@ def owner() -> CustomUser:
         username='owner_user',
         password='owner_pass',
     )
+
+
+# Mock user fixtures
+# ------------------
 
 
 @pytest.fixture

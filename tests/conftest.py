@@ -7,10 +7,8 @@ from rest_framework.test import APIClient, APIRequestFactory
 
 from di import MainContainer
 
-# Note: Multiple fixtures are used here to maintain consistency
-# across the test suite. Revisit if maintenance becomes costly.
 pytest_plugins = [
-    'tests.integration.users.fixtures',
+    'tests.fixtures.user',
     'tests.unit.lang.fixtures',
 ]
 

@@ -9,7 +9,7 @@ from rest_framework.test import APIRequestFactory
 
 from apps.core.api.v1.views import IndexViewSet
 from apps.users.models import CustomUser
-from tests.integration.users import fixtures
+from tests.fixtures import user
 
 
 class TestIndexViewSet:
@@ -28,8 +28,8 @@ class TestIndexViewSet:
     @pytest.mark.parametrize(
         'user, balance',
         [
-            (fixtures.mock_auth_user, '5'),
-            (fixtures.anonymous_user, None),
+            (user.mock_auth_user, '5'),
+            (user.anonymous_user, None),
         ],
     )
     def test_index_action(
