@@ -29,11 +29,8 @@ def payload() -> dict[str, Any]:
 def case() -> dict[str, Any]:
     """Get calculation case, fixture."""
     return {
-        'status': 'success',
-        'data': {
-            'uid': '1868ebac-8ea7-4ed5-a407-64c9751b4b46',
-            'question': '9 - 4',
-        },
+        'uid': '1868ebac-8ea7-4ed5-a407-64c9751b4b46',
+        'question': '9 - 4',
     }
 
 

@@ -44,12 +44,6 @@ class AssignedCalcAnswerType(CalcAnswerType):
     assignation_id: str
 
 
-class ResultType(TypedDict):
-    """Type for user answer check result."""
-
-    is_correct: bool
-
-
 class ExerciseServiceProt(
     Protocol[TaskT_cov],
 ):

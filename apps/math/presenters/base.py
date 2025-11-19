@@ -7,6 +7,7 @@ from wse_exercises.core.math import CalcTask
 
 from apps.core.presenters import TaskPresenter
 from apps.core.storage.services.iabc import TaskStorageProto
+from apps.core.types import ResultType
 from apps.study.servises.iabc import StrTaskCheckerProto
 
 from ..services.protocol import ExerciseServiceProto
@@ -14,8 +15,8 @@ from ..services.types import (
     AssignedCalcAnswerType,
     CalcAnswerType,
     CalcConditionType,
+    CalcTaskType,
 )
-from .types import QuestionResponseType, ResultResponseType
 
 AnswerT = TypeVar(
     'AnswerT',
@@ -26,9 +27,9 @@ AnswerT = TypeVar(
 class BaseCalcTaskPresenter(
     TaskPresenter[
         CalcConditionType,
-        QuestionResponseType,
+        CalcTaskType,
         AnswerT,
-        ResultResponseType,
+        ResultType,
     ],
 ):
     """Typed base class for calculation task presenter."""
@@ -46,41 +47,35 @@ class BaseCalcTaskPresenter(
         self._assignation_id: str | None = None
 
     @override
-    def get_task(self, data: CalcConditionType) -> QuestionResponseType:
+    def get_task(self, answer_data: CalcConditionType) -> CalcTaskType:
         """Get calculation task."""
-        task: CalcTask = self._exercise_service.create_task(data)
+        task: CalcTask = self._exercise_service.create_task(answer_data)
         uid = self._task_storage.save_task(task)
 
         return {
-            'status': 'success',
-            'data': {
-                'uid': uid,
-                'question': task.question.text,
-            },
+            'uid': uid,
+            'question': task.question.text,
         }
 
     @override
     def get_result(
         self,
-        data: AnswerT,
-    ) -> ResultResponseType:
+        answer_data: AnswerT,
+    ) -> ResultType:
         """Get user answer checking result."""
-        task = self._task_storage.retrieve_task(data['uid'])
+        task = self._task_storage.retrieve_task(answer_data['uid'])
         correct_answer = str(task.answer.number)
-        user_answer = data['answer']
+        user_answer = answer_data['answer']
         # Assigned exercise have assignation ID
-        self._assignation_id = data.get('assignation_id')  # type: ignore[assignment]
+        self._assignation_id = answer_data.get('assignation_id')  # type: ignore[assignment]
 
         is_correct = self._task_checker.check(correct_answer, user_answer)
 
-        payload: ResultResponseType = {
-            'status': 'success',
-            'data': {
-                'is_correct': is_correct,
-            },
+        payload: ResultType = {
+            'is_correct': is_correct,
         }
         if not is_correct:
-            payload['data']['correct_answer'] = correct_answer
-            payload['data']['user_answer'] = user_answer
+            payload['correct_answer'] = correct_answer
+            payload['user_answer'] = user_answer
 
         return payload

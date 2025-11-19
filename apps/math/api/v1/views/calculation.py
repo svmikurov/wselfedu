@@ -10,21 +10,19 @@ from rest_framework.decorators import action
 from rest_framework.request import Request
 from rest_framework.response import Response
 
+from apps.core.api import renderers
 from apps.math.presenters.calculation import CalculationPresenter
 from di import MainContainer as Container
 
-from ..serializers.calculation import (
-    AnswerSerializer,
-    CheckSerializer,
-    ConditionSerializer,
-    TaskSerializer,
-)
+from ..serializers import calculation as ser
 
 logger = logging.getLogger(__name__)
 
 
 class CalculationViewSet(viewsets.ViewSet):
     """Math app calculation exercise ViewSet."""
+
+    renderer_classes = [renderers.WrappedJSONRenderer]
 
     exercise_presenter: CalculationPresenter = Provide[
         Container.math.calc_presenter
@@ -33,9 +31,9 @@ class CalculationViewSet(viewsets.ViewSet):
     @extend_schema(
         summary='Get calculation task',
         description='Endpoint for mathematical calculations exercise',
-        request=ConditionSerializer,
+        request=ser.ConditionSerializer,
         responses={
-            HTTPStatus.OK: TaskSerializer,
+            HTTPStatus.OK: ser.QuestionSerializer,
         },
         tags=['Math'],
     )
@@ -45,17 +43,17 @@ class CalculationViewSet(viewsets.ViewSet):
     )
     def calculation(self, request: Request) -> Response:
         """Render the Math app calculation task."""
-        data = ConditionSerializer(data=request.data)
+        data = ser.ConditionSerializer(data=request.data)
         data.is_valid(raise_exception=True)
         task = self.exercise_presenter.get_task(data.validated_data)
-        return Response(TaskSerializer(task).data)
+        return Response(ser.QuestionSerializer(task).data)
 
     @extend_schema(
         summary='Check user answer on calculation task',
         description="Endpoint for checking user's answer to task",
-        request=AnswerSerializer,
+        request=ser.AnswerSerializer,
         responses={
-            HTTPStatus.OK: CheckSerializer,
+            HTTPStatus.OK: ser.ResultAnswerSerializer,
         },
         tags=['Math'],
     )
@@ -66,7 +64,7 @@ class CalculationViewSet(viewsets.ViewSet):
     )
     def calculation_validate(self, request: Request) -> Response:
         """Render the result of answer check."""
-        data = AnswerSerializer(data=request.data)
+        data = ser.AnswerSerializer(data=request.data)
         data.is_valid(raise_exception=True)
 
         try:
@@ -84,6 +82,6 @@ class CalculationViewSet(viewsets.ViewSet):
             )
 
         return Response(
-            CheckSerializer(result).data,
+            ser.ResultAnswerSerializer(result).data,
             status=HTTPStatus.OK,
         )

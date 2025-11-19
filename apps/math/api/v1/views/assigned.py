@@ -20,12 +20,7 @@ from apps.study.selectors.iabc import IAssignedSelector
 from apps.users.models import CustomUser
 from di import MainContainer as Container
 
-from ..serializers.calculation import (
-    AssignedAnswerSerializer,
-    CheckSerializer,
-    QuestionSerializer,
-    TaskSerializer,
-)
+from ..serializers import calculation as ser
 
 
 class ExerciseViewSet(viewsets.ViewSet):
@@ -55,7 +50,7 @@ class ExerciseViewSet(viewsets.ViewSet):
             ),
         ],
         responses={
-            HTTPStatus.OK: QuestionSerializer,
+            HTTPStatus.OK: ser.ResultAnswerSerializer,
             HTTPStatus.NOT_FOUND: OpenApiResponse(
                 description='Exercise or assignment not found',
                 response=OpenApiTypes.OBJECT,
@@ -108,12 +103,12 @@ class ExerciseViewSet(viewsets.ViewSet):
 
         else:
             task = exercise_presenter.get_task(data)
-            return Response(TaskSerializer(task).data)
+            return Response(ser.QuestionSerializer(task).data)
 
     @extend_schema(
-        request=AssignedAnswerSerializer,
+        request=ser.AssignedAnswerSerializer,
         responses={
-            HTTPStatus.OK: CheckSerializer,
+            HTTPStatus.OK: ser.ResultAnswerSerializer,
         },
         tags=['Math'],
     )
@@ -134,7 +129,7 @@ class ExerciseViewSet(viewsets.ViewSet):
         # TODO: Add assignation validation with `get_object_or_404`
         # TODO: Add assignation available validation
 
-        data = AssignedAnswerSerializer(
+        data = ser.AssignedAnswerSerializer(
             data=request.data,
             context={
                 'assignation_id': assignation_id,
@@ -155,7 +150,7 @@ class ExerciseViewSet(viewsets.ViewSet):
             )
 
         return Response(
-            CheckSerializer(result).data,
+            ser.ResultAnswerSerializer(result).data,
             status=HTTPStatus.OK,
         )
 

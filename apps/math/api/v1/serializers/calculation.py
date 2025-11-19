@@ -5,9 +5,7 @@ from typing import Any
 from drf_spectacular.utils import OpenApiExample, extend_schema_serializer
 from rest_framework import serializers
 
-from apps.core.api.v1.serializers.related import RelatedDataSerializer
 from apps.core.types import ResultType
-from apps.math.presenters.types import QuestionResponseType, ResultResponseType
 from apps.math.services.types import CalcTaskType
 
 CONFIG_EXAMPLE = {
@@ -139,20 +137,3 @@ class ResultAnswerSerializer(ResultSerializer):
         },
         required=False,
     )
-
-
-# TODO: Fix annotation
-class TaskSerializer(serializers.Serializer[QuestionResponseType]):
-    """Serializer for calculation task response."""
-
-    status = serializers.ChoiceField(choices=['success', 'error'])
-    data = QuestionSerializer()  # type: ignore[assignment]
-    related_data = RelatedDataSerializer(required=False)
-
-
-class CheckSerializer(serializers.Serializer[ResultResponseType]):
-    """Serializer for calculation task response."""
-
-    status = serializers.ChoiceField(choices=['success', 'error'])
-    data = ResultAnswerSerializer()  # type: ignore[assignment]
-    related_data = RelatedDataSerializer(required=False)
