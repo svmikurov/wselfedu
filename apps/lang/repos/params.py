@@ -32,7 +32,7 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
             or {}
         )
 
-        default_params: types.InitialChoiceT = {
+        initial_choices: types.InitialChoicesT = {
             'category': {
                 'id': default_query['category__id'],
                 'name': default_query['category__name'],
@@ -45,14 +45,19 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
             }
             if default_query.get('label__id')
             else None,
+            # TODO: Add database tables for choices
+            'word_source': None,
+            'order': None,
+            'start_period': None,
+            'end_period': None,
         }
 
         # TODO: Fix type ignore
         return {  # type: ignore[typeddict-unknown-key]
             'categories': list(categories),
             'labels': list(labels),
-            'category': default_params['category'],
-            'label': default_params['label'],
+            'category': initial_choices['category'],
+            'label': initial_choices['label'],
         }
 
     @override

@@ -19,21 +19,25 @@ class IdName(TypedDict):
 
 
 class ParamsChoicesT(TypedDict):
-    """Fields type for Word study request."""
+    """Fields type for Word study choices."""
 
     categories: list[IdName] | None
     labels: list[IdName] | None
 
 
-class InitialChoiceT(TypedDict):
-    """Default params values typed fields."""
+class InitialChoicesT(TypedDict):
+    """Fields type for Word study initial choices."""
 
     category: IdName | None
     label: IdName | None
+    word_source: IdName | None
+    order: IdName | None
+    start_period: IdName | None
+    end_period: IdName | None
 
 
 class PresentationSettingsT(TypedDict):
-    """Fields type for Word study request."""
+    """Fields type for Word study Presentation settings."""
 
     word_count: IdName | None
     question_timeout: IdName | None
@@ -42,10 +46,10 @@ class PresentationSettingsT(TypedDict):
 
 class WordPresentationParamsT(
     ParamsChoicesT,
-    InitialChoiceT,
+    InitialChoicesT,
     PresentationSettingsT,
 ):
-    """Fields type for Word study request."""
+    """Fields type for Word study response."""
 
 
 # Word study Presentation case

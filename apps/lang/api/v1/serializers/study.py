@@ -6,9 +6,23 @@ from apps.core.api.v1.serializers import IdNameSerializer
 from apps.lang import types
 from apps.lang.models.word import AbstractWordModel
 
+# Presentation parameters
+# -----------------------
 
-class WordStudyParamsSerializer(serializers.Serializer[types.InitialChoiceT]):
-    """Serializer for Word study params."""
+
+class WordStudyParamsChoicesSerializer(
+    serializers.Serializer[types.ParamsChoicesT],
+):
+    """Serializer for Word study params choices."""
+
+    categories = IdNameSerializer(many=True)
+    labels = IdNameSerializer(many=True)
+
+
+class WordStudyInitialChoicesSerializer(
+    serializers.Serializer[types.InitialChoicesT],
+):
+    """Serializer for Word study params initial choices."""
 
     category = IdNameSerializer(required=False, allow_null=True)
     label = IdNameSerializer(required=False, allow_null=True)  # type: ignore[assignment]
@@ -17,18 +31,27 @@ class WordStudyParamsSerializer(serializers.Serializer[types.InitialChoiceT]):
     start_period = IdNameSerializer(required=False, allow_null=True)
     end_period = IdNameSerializer(required=False, allow_null=True)
 
+
+class PresentationSettingsSerializer(
+    serializers.Serializer[types.ParamsChoicesT],
+):
+    """Serializer for Presentation settings."""
+
     word_count = serializers.IntegerField(required=False, allow_null=True)
     question_timeout = serializers.FloatField(required=False, allow_null=True)
     answer_timeout = serializers.FloatField(required=False, allow_null=True)
 
 
-class WordStudySelectSerializer(
-    serializers.Serializer[types.ParamsChoicesT],
+class WordStudyPresentationParamsSerializer(
+    WordStudyParamsChoicesSerializer,
+    WordStudyInitialChoicesSerializer,
+    PresentationSettingsSerializer,
 ):
-    """Serializer for Word study params select."""
+    """Word study Presentation params serializer."""
 
-    categories = IdNameSerializer(many=True)
-    labels = IdNameSerializer(many=True)
+
+# Presentation
+# ------------
 
 
 class WordStudyInfoSerializer(serializers.Serializer[types.InfoT]):
@@ -48,6 +71,10 @@ class WordStudyCaseSerializer(serializers.Serializer[types.PresentationCaseT]):
         max_length=AbstractWordModel.WORD_LENGTH,
     )
     info = WordStudyInfoSerializer()
+
+
+# Progress
+# --------
 
 
 class WordStudyProgressSerializer(serializers.Serializer[types.WordProgressT]):
