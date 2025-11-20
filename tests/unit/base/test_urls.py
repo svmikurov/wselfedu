@@ -12,7 +12,7 @@ class UrlConfigType(TypedDict, total=True):
     path: str
     view_class: Type[ViewSet]
     action: dict[
-        Literal['post', 'get'],
+        Literal['post', 'get', 'put'],
         str,
     ]
 

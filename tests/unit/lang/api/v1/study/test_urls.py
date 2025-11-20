@@ -13,6 +13,11 @@ class TestUrls(BaseApiUrlTest):
             'view_class': WordStudyViewSet,
             'action': {'get': 'params'},
         },
+        'study-update-params': {
+            'path': '/api/v1/lang/study/params/update/',
+            'view_class': WordStudyViewSet,
+            'action': {'put': 'update_params'},
+        },
         'study-presentation': {
             'path': '/api/v1/lang/study/presentation/',
             'view_class': WordStudyViewSet,

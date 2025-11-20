@@ -18,6 +18,11 @@ def initial_params() -> types.WordPresentationParamsT:
         'labels': [{'id': 3, 'name': 'label name'}],
         'category': None,
         'label': None,
+        # TODO: Add database tables for choices
+        'word_source': None,
+        'order': None,
+        'start_period': None,
+        'end_period': None,
         'word_count': None,
         'question_timeout': None,
         'answer_timeout': None,

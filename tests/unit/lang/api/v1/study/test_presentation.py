@@ -31,11 +31,16 @@ def view() -> Callable[[Request], Response]:
 
 
 @pytest.fixture
-def valid_payload() -> types.InitialChoiceT:
+def valid_payload() -> types.InitialChoicesT:
     """Provide Request payload."""
     return {
         'category': None,
         'label': None,
+        # TODO: Add database tables for choices
+        'word_source': None,
+        'order': None,
+        'start_period': None,
+        'end_period': None,
     }
 
 
@@ -70,7 +75,7 @@ class TestPresentation:
         api_request_factory: APIRequestFactory,
         view: Callable[[Request], Response],
         valid_response_data: PresentationResponse,
-        valid_payload: types.InitialChoiceT,
+        valid_payload: types.InitialChoicesT,
     ) -> None:
         """Test successful presentation request."""
         # Arrange
