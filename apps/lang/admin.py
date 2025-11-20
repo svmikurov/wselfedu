@@ -30,7 +30,14 @@ class EnglishWordAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
 class EnglishTranslationAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """English translation model administration."""
 
-    list_display = ['user', 'english', 'native', 'created_at']
+    list_display = [
+        'user',
+        'english',
+        'native',
+        'created_at',
+        'category',
+        'source',
+    ]
 
 
 @admin.register(models.LangLabel)
@@ -51,7 +58,17 @@ class LangCategoryAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
 class ParamsAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Word study params model administration."""
 
-    list_display = ['user', 'category', 'label', 'word_count']
+    list_display = [
+        'user',
+        'category',
+        'label',
+        'word_count',
+        'order',
+        'start_period',
+        'end_period',
+        'question_timeout',
+        'answer_timeout',
+    ]
 
 
 @admin.register(models.EnglishProgress)

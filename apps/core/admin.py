@@ -3,11 +3,11 @@
 from django.apps import apps
 from django.contrib import admin
 
-from .models import Discipline, Exercise, TaskIO
+from . import models
 from .models.base import BaseExercise
 
 
-@admin.register(Discipline)
+@admin.register(models.Discipline)
 class DisciplineAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Discipline model administration."""
 
@@ -21,7 +21,7 @@ class DisciplineAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     ]
 
 
-@admin.register(Exercise)
+@admin.register(models.Exercise)
 class ExerciseAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Exercise model administration."""
 
@@ -37,7 +37,7 @@ class ExerciseAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
         'id',
     ]
 
-    def content_type_display(self, obj: Exercise) -> str:
+    def content_type_display(self, obj: models.Exercise) -> str:
         """Get discipline name."""
         content_type = obj.content_type
         if content_type:
@@ -45,7 +45,7 @@ class ExerciseAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
             return str(app_config.verbose_name)
         return '-'
 
-    def content_object_display(self, obj: Exercise) -> str:
+    def content_object_display(self, obj: models.Exercise) -> str:
         """Get exercise name."""
         exercise: BaseExercise = obj.content_object  # type: ignore[assignment]
         if exercise:
@@ -56,9 +56,9 @@ class ExerciseAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     content_type_display.short_description = 'Приложение'  # type: ignore[attr-defined]
 
 
-@admin.register(TaskIO)
+@admin.register(models.TaskIO)
 class TaskIOAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
-    """Task I/O administration."""
+    """Task I/O model administration."""
 
     list_display = [
         'name',
@@ -68,3 +68,17 @@ class TaskIOAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     ordering = [
         'name',
     ]
+
+
+@admin.register(models.Source)
+class SourceAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """Source model administration."""
+
+    list_display = ['name']
+
+
+@admin.register(models.Period)
+class PeriodAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """Period model administration."""
+
+    list_display = ['name']

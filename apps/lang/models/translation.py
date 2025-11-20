@@ -3,6 +3,8 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from apps.core.models import Source
+
 
 class EnglishTranslation(models.Model):
     """Translation of English word."""
@@ -21,6 +23,20 @@ class EnglishTranslation(models.Model):
         'EnglishWord',
         on_delete=models.CASCADE,
         verbose_name='Слово на английском',
+    )
+    category = models.ForeignKey(
+        'LangCategory',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name='Категория',
+    )
+    source = models.ForeignKey(
+        Source,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name='Источник',
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
