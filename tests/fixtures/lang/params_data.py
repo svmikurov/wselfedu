@@ -16,6 +16,7 @@ def choices() -> types.ParamsChoicesT:
     return {
         'categories': [{'id': 1, 'name': 'category'}],
         'marks': [{'id': 2, 'name': 'mark'}],
+        'sources': [{'id': 3, 'name': 'source'}],
     }
 
 
@@ -25,7 +26,7 @@ def initial() -> types.InitialChoicesT:
     return {
         'category': {'id': 1, 'name': 'category'},
         'mark': {'id': 2, 'name': 'mark'},
-        'word_source': None,
+        'word_source': {'id': 3, 'name': 'source'},
         'order': None,
         'start_period': None,
         'end_period': None,

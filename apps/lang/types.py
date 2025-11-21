@@ -30,6 +30,7 @@ class ParamsChoicesT(TypedDict):
 
     categories: list[IdName] | None
     marks: list[IdName] | None
+    sources: list[IdName] | None
 
 
 class InitialChoicesT(TypedDict):

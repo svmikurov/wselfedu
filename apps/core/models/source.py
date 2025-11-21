@@ -1,11 +1,17 @@
 """Education data source."""
 
+from django.contrib.auth import get_user_model
 from django.db import models
 
 
 class Source(models.Model):
     """Education data source."""
 
+    user = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        verbose_name='Пользователь',
+    )
     name = models.CharField(
         max_length=100,
         verbose_name='Источник',

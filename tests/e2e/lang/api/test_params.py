@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING, Sequence
 import pytest
 from rest_framework.exceptions import ErrorDetail
 
+from apps.core import models as core_models
 from apps.lang import models
 
 if TYPE_CHECKING:
@@ -30,6 +31,7 @@ UNAUTHORIZED_RESPONSE_DATA = {
 EMPTY_PARAMETERS_SERIALIZER_DATA: types.WordPresentationParamsT = {
     'categories': [],
     'marks': [],
+    'sources': [],
     'category': None,
     'mark': None,
     'word_source': None,
@@ -67,11 +69,19 @@ def parameters_db_data(
         ],
         batch_size=None,
     )
+    sources = core_models.Source.objects.bulk_create(
+        [
+            core_models.Source(user=user, name='source 1'),
+            core_models.Source(user=user, name='source 2'),
+        ],
+        batch_size=None,
+    )
     models.Params.objects.create(
         user=user,
         # Initial choices
         category=categories[0],
         mark=marks[1],
+        word_source=sources[0],
         # TODO: Add implementation of the 'word_count' parameter
         # and other
         # word_count=80,
@@ -80,8 +90,10 @@ def parameters_db_data(
         **EMPTY_PARAMETERS_SERIALIZER_DATA,
         'categories': _build_choices(categories),
         'marks': _build_choices(marks),
+        'sources': _build_choices(sources),
         'category': {'id': categories[0].id, 'name': categories[0].name},
         'mark': {'id': marks[1].id, 'name': marks[1].name},
+        'word_source': {'id': sources[0].id, 'name': sources[0].name},
         # 'word_count': parameters.word_count,
     }
 

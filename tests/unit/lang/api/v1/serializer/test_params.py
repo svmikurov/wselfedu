@@ -8,6 +8,7 @@ from apps.lang.api.v1.serializers.study import (
 VALID_DATA: types.WordPresentationParamsT = {
     'categories': [{'id': 1, 'name': 'cat 1'}, {'id': 2, 'name': 'cat 2'}],
     'marks': [{'id': 1, 'name': 'mark 1'}],
+    'sources': [{'id': 1, 'name': 'mark 1'}],
     'category': {'id': 1, 'name': 'cat 1'},
     'mark': {'id': 1, 'name': 'mark 1'},
     'word_source': {'id': 1, 'name': 'source 1'},

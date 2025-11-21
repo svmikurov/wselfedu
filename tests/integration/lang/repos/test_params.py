@@ -5,6 +5,7 @@ from typing import Any
 import pytest
 from django.test.utils import CaptureQueriesContext
 
+from apps.core import models as core_models
 from apps.lang import models, repos
 from apps.users.models import CustomUser
 
@@ -18,8 +19,10 @@ def empty_parameters() -> dict[str, Any]:
     return {
         'categories': [],
         'marks': [],
+        'sources': [],
         'category': None,
         'mark': None,
+        'word_source': None,
     }
 
 
@@ -27,24 +30,35 @@ def empty_parameters() -> dict[str, Any]:
 def parameters(
     user: CustomUser,
 ) -> dict[str, Any]:
-    """Populate DB and provide parameters fixture."""
+    """Populate DB and provide parameters."""
+    # Create choices
     category1 = models.LangCategory.objects.create(user=user, name='cat 1')
-    mark1 = models.LangMark.objects.create(user=user, name='mark 1')
-    mark2 = models.LangMark.objects.create(user=user, name='mark 2')
+    marks = models.LangMark.objects.bulk_create(
+        [
+            models.LangMark(user=user, name='mark 1'),
+            models.LangMark(user=user, name='mark 2'),
+        ],
+        batch_size=None,
+    )
+    source1 = core_models.Source.objects.create(user=user, name='source 1')
+
+    # Set initial choices
     models.Params.objects.create(
         user=user,
-        # Set initial choices
         category=category1,
-        mark=mark1,
+        mark=marks[0],
+        word_source=source1,
     )
     return {
         'categories': [{'id': category1.id, 'name': 'cat 1'}],
         'marks': [
-            {'id': mark1.id, 'name': 'mark 1'},
-            {'id': mark2.id, 'name': 'mark 2'},
+            {'id': marks[0].id, 'name': 'mark 1'},
+            {'id': marks[1].id, 'name': 'mark 2'},
         ],
         'category': {'id': category1.id, 'name': 'cat 1'},
-        'mark': {'id': mark1.id, 'name': 'mark 1'},
+        'sources': [{'id': source1.id, 'name': 'source 1'}],
+        'mark': {'id': marks[0].id, 'name': 'mark 1'},
+        'word_source': {'id': source1.id, 'name': source1.name},
     }
 
 
@@ -85,5 +99,5 @@ class TestFetch:
     ) -> None:
         """Test fetch initial data."""
         # Act & assert
-        with django_assert_num_queries(3):  # type: ignore[operator]
+        with django_assert_num_queries(4):  # type: ignore[operator]
             assert parameters == repo.fetch(user)

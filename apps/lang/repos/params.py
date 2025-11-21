@@ -2,6 +2,7 @@
 
 from typing import override
 
+from apps.core import models as core_models
 from apps.lang import models, types
 from apps.lang.repos.abc import WordStudyParamsRepositoryABC
 from apps.users.models import CustomUser
@@ -13,17 +14,21 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
     @override
     def fetch(self, user: CustomUser) -> types.WordPresentationParamsT:
         """Fetch parameters with parameter choices."""
+        # TODO: Fix database query (N+1)? Now 4.
         parameters = models.Params.objects.filter(user=user)
         categories = models.LangCategory.objects.filter(user=user)
         marks = models.LangMark.objects.filter(user=user)
+        sources = core_models.Source.objects.filter(user=user)
 
         data = {
             # Parameter choices
             'categories': list(categories.values('id', 'name')),
             'marks': list(marks.values('id', 'name')),
+            'sources': list(sources.values('id', 'name')),
             # Initial parameters
             'category': None,
             'mark': None,
+            'word_source': None,
         }
 
         initial = parameters.values(
@@ -31,6 +36,8 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
             'category__name',
             'mark__id',
             'mark__name',
+            'word_source__id',
+            'word_source__name',
         ).first()
 
         if not initial:
@@ -45,6 +52,11 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
             data['mark'] = {  # type: ignore[assignment]
                 'id': initial['mark__id'],
                 'name': initial['mark__name'],
+            }
+        if initial.get('word_source__id'):
+            data['word_source'] = {  # type: ignore[assignment]
+                'id': initial['word_source__id'],
+                'name': initial['word_source__name'],
             }
 
         return data  # type: ignore[return-value]
