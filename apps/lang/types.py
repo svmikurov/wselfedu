@@ -38,7 +38,7 @@ class InitialChoicesT(TypedDict):
     category: IdName | None
     mark: IdName | None
     word_source: IdName | None
-    order: IdName | None
+    order: Literal['from_native', 'to_native'] | None
     start_period: IdName | None
     end_period: IdName | None
 
