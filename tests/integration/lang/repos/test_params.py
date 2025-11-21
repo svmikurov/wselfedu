@@ -74,7 +74,7 @@ class TestFetch:
     ) -> None:
         """Test fetch initial empty data."""
         # Act & assert
-        assert empty_parameters == repo.fetch_initial(user)
+        assert empty_parameters == repo.fetch(user)
 
     def test_fetch_data(
         self,
@@ -86,4 +86,4 @@ class TestFetch:
         """Test fetch initial data."""
         # Act & assert
         with django_assert_num_queries(3):  # type: ignore[operator]
-            assert parameters == repo.fetch_initial(user)
+            assert parameters == repo.fetch(user)

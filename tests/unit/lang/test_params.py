@@ -37,7 +37,7 @@ class TestWordStudyParamsPresenter:
     def mock_repo(self, initial_params: types.ParamsChoicesT) -> Mock:
         """Mock Word study params repository."""
         mock = Mock(spec=WordStudyParamsRepositoryABC)
-        mock.fetch_initial.return_value = initial_params
+        mock.fetch.return_value = initial_params
         return mock
 
     def test_get_initial(
@@ -49,7 +49,7 @@ class TestWordStudyParamsPresenter:
         """Get Word study initial params."""
         with container.lang.params_repo.override(mock_repo):
             repository = container.lang.params_repo()
-            params = repository.fetch_initial(user)
+            params = repository.fetch(user)
 
         assert params == initial_params
-        mock_repo.fetch_initial.assert_called_once_with(user)
+        mock_repo.fetch.assert_called_once_with(user)

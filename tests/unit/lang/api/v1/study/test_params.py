@@ -36,7 +36,7 @@ def mock_repository(
 ) -> Mock:
     """Mock initial Word study params."""
     mock = Mock(spec=WordStudyParamsRepositoryABC)
-    mock.fetch_initial.return_value = payload
+    mock.fetch.return_value = payload
     return mock
 
 

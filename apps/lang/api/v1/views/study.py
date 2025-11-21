@@ -82,7 +82,7 @@ class WordStudyViewSet(ViewSet):
         ],
     ) -> Response:
         """Render initial Word study params."""
-        payload = repository.fetch_initial(self.request.user)  # type: ignore[arg-type]
+        payload = repository.fetch(self.request.user)  # type: ignore[arg-type]
         return Response(
             ser.WordStudyPresentationParamsSerializer(payload).data
         )
