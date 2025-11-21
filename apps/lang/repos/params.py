@@ -15,22 +15,22 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
         """Fetch parameters with parameter choices."""
         parameters = models.Params.objects.filter(user=user)
         categories = models.LangCategory.objects.filter(user=user)
-        labels = models.LangLabel.objects.filter(user=user)
+        marks = models.LangMark.objects.filter(user=user)
 
         data = {
             # Parameter choices
             'categories': list(categories.values('id', 'name')),
-            'labels': list(labels.values('id', 'name')),
+            'marks': list(marks.values('id', 'name')),
             # Initial parameters
             'category': None,
-            'label': None,
+            'mark': None,
         }
 
         initial = parameters.values(
             'category__id',
             'category__name',
-            'label__id',
-            'label__name',
+            'mark__id',
+            'mark__name',
         ).first()
 
         if not initial:
@@ -41,10 +41,10 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
                 'id': initial['category__id'],
                 'name': initial['category__name'],
             }
-        if initial.get('label__id'):
-            data['label'] = {  # type: ignore[assignment]
-                'id': initial['label__id'],
-                'name': initial['label__name'],
+        if initial.get('mark__id'):
+            data['mark'] = {  # type: ignore[assignment]
+                'id': initial['mark__id'],
+                'name': initial['mark__name'],
             }
 
         return data  # type: ignore[return-value]

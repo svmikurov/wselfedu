@@ -1,4 +1,4 @@
-"""Language discipline labels."""
+"""Language discipline marks."""
 
 from django.contrib.auth import get_user_model
 from django.db import models
@@ -7,8 +7,8 @@ from django.urls import reverse_lazy
 LABEL_LENGTH = 70
 
 
-class LangLabel(models.Model):
-    """Language discipline label."""
+class LangMark(models.Model):
+    """Language discipline mark."""
 
     user = models.ForeignKey(
         get_user_model(),
@@ -18,7 +18,7 @@ class LangLabel(models.Model):
     name = models.CharField(
         max_length=LABEL_LENGTH,
         unique=True,
-        verbose_name='Лейбл',
+        verbose_name='Маркер',
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -32,9 +32,9 @@ class LangLabel(models.Model):
     class Meta:
         """Model configuration."""
 
-        verbose_name = 'Лейбл'
-        verbose_name_plural = 'Лейблы'
-        db_table = 'lang_label'
+        verbose_name = 'Маркер'
+        verbose_name_plural = 'Маркеру'
+        db_table = 'lang_mark'
 
     def __str__(self) -> str:
         """Get string representation."""
@@ -42,5 +42,5 @@ class LangLabel(models.Model):
 
     def get_absolute_url(self) -> str:
         """Get object url path."""
-        url = reverse_lazy('lang:label_detail', kwargs={'pk': self.pk})
+        url = reverse_lazy('lang:mark_detail', kwargs={'pk': self.pk})
         return str(url)

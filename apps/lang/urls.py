@@ -9,29 +9,29 @@ app_name = 'lang'
 urlpatterns = [
     path('', views.IndexLangView.as_view(), name='index'),
     path(
-        'label/create/',
-        views.LabelCreateView.as_view(),
-        name='label_create',
+        'mark/create/',
+        views.MarkCreateView.as_view(),
+        name='mark_create',
     ),
     path(
-        'label/<int:pk>/update/',
-        views.LabelUpdateView.as_view(),
-        name='label_update',
+        'mark/<int:pk>/update/',
+        views.MarkUpdateView.as_view(),
+        name='mark_update',
     ),
     path(
-        'label/<int:pk>/delete/',
-        views.LabelDeleteView.as_view(),
-        name='label_delete',
+        'mark/<int:pk>/delete/',
+        views.MarkDeleteView.as_view(),
+        name='mark_delete',
     ),
     path(
-        'label/<int:pk>/',
-        views.LabeDetailView.as_view(),
-        name='label_detail',
+        'mark/<int:pk>/',
+        views.MarkDetailView.as_view(),
+        name='mark_detail',
     ),
     path(
-        'label/list/',
+        'mark/list/',
         views.LabelListView.as_view(),
-        name='label_list',
+        name='mark_list',
     ),
     path(
         'translation/english/create/',

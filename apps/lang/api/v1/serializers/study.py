@@ -16,7 +16,7 @@ class WordStudyParamsChoicesSerializer(
     """Serializer for Word study params choices."""
 
     categories = IdNameSerializer(many=True)
-    labels = IdNameSerializer(many=True)
+    marks = IdNameSerializer(many=True)
 
 
 class WordStudyInitialChoicesSerializer(
@@ -25,7 +25,7 @@ class WordStudyInitialChoicesSerializer(
     """Serializer for Word study params initial choices."""
 
     category = IdNameSerializer(required=False, allow_null=True)
-    label = IdNameSerializer(required=False, allow_null=True)  # type: ignore[assignment]
+    mark = IdNameSerializer(required=False, allow_null=True)
     word_source = IdNameSerializer(required=False, allow_null=True)
     order = IdNameSerializer(required=False, allow_null=True)
     start_period = IdNameSerializer(required=False, allow_null=True)

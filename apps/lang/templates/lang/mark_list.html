@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Маркеры{% endblock %}
+
+{% block content %}
+<h1>Маркеры</h1>
+<ul>
+{% for mark in marks %}
+    <li><a href="{{ mark.get_absolute_url }}">{{ mark.name }}</a></li>
+{% empty %}
+    <p>Маркеры еще не добавлены.</p>
+{% endfor %}
+</ul>
+<a href="javascript:history.back()" class="btn btn-secondary">Назад</a>
+{% endblock %}

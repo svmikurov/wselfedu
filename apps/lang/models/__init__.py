@@ -2,7 +2,7 @@
 
 __all__ = [
     'LangExercise',
-    'LangLabel',
+    'LangMark',
     'NativeWord',
     'EnglishWord',
     'EnglishTranslation',
@@ -19,7 +19,7 @@ from apps.lang import types
 
 from .category import LangCategory
 from .exercise import LangExercise
-from .label import LangLabel
+from .mark import LangMark
 from .params import Params
 from .progress import EnglishProgress
 from .translation import EnglishTranslation

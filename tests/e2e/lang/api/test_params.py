@@ -29,9 +29,9 @@ UNAUTHORIZED_RESPONSE_DATA = {
 
 EMPTY_PARAMETERS_PAYLOAD: types.WordPresentationParamsT = {
     'categories': [],
-    'labels': [],
+    'marks': [],
     'category': None,
-    'label': None,
+    'mark': None,
     'word_source': None,
     'order': None,
     'start_period': None,
@@ -60,10 +60,10 @@ def parameters_db_data(
         ],
         batch_size=None,
     )
-    labels = models.LangLabel.objects.bulk_create(
+    marks = models.LangMark.objects.bulk_create(
         [
-            models.LangLabel(user=user, name='label 1'),
-            models.LangLabel(user=user, name='label 2'),
+            models.LangMark(user=user, name='mark 1'),
+            models.LangMark(user=user, name='mark 2'),
         ],
         batch_size=None,
     )
@@ -71,7 +71,7 @@ def parameters_db_data(
         user=user,
         # Initial choices
         category=categories[0],
-        label=labels[1],
+        mark=marks[1],
         # TODO: Add implementation of the 'word_count' parameter
         # and other
         # word_count=80,
@@ -79,9 +79,9 @@ def parameters_db_data(
     return {
         **EMPTY_PARAMETERS_PAYLOAD,
         'categories': _build_choices(categories),
-        'labels': _build_choices(labels),
+        'marks': _build_choices(marks),
         'category': {'id': categories[0].id, 'name': categories[0].name},
-        'label': {'id': labels[1].id, 'name': labels[1].name},
+        'mark': {'id': marks[1].id, 'name': marks[1].name},
         # 'word_count': parameters.word_count,
     }
 

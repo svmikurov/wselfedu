@@ -32,7 +32,7 @@ load_order:
   - db/fixtures/sensitive/lang_native_word.json
   - db/fixtures/sensitive/lang_english_translation.json
   - db/fixtures/sensitive/lang_category.json
-  - db/fixtures/sensitive/lang_label.json
+  - db/fixtures/sensitive/lang_mark.json
 
 options:
   default_database: "default"

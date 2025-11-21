@@ -40,9 +40,9 @@ class EnglishTranslationAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     ]
 
 
-@admin.register(models.LangLabel)
-class LangLabelAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
-    """Lang app label model administration."""
+@admin.register(models.LangMark)
+class LangMarkAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """Lang app mark model administration."""
 
     list_display = ['name']
 
@@ -61,7 +61,7 @@ class ParamsAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     list_display = [
         'user',
         'category',
-        'label',
+        'mark',
         'word_count',
         'order',
         'start_period',

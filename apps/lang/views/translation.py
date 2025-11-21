@@ -68,6 +68,6 @@ class EnglishTranslationListView(
         if isinstance(self.request.user, CustomUser):
             return TranslationParams(
                 user=self.request.user,
-                labels=None,
+                marks=None,
             )
         return None

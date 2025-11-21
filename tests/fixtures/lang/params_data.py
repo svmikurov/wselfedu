@@ -15,7 +15,7 @@ def choices() -> types.ParamsChoicesT:
     """Provide Word study Presentation params choices."""
     return {
         'categories': [{'id': 1, 'name': 'category'}],
-        'labels': [{'id': 2, 'name': 'label'}],
+        'marks': [{'id': 2, 'name': 'mark'}],
     }
 
 
@@ -24,7 +24,7 @@ def initial() -> types.InitialChoicesT:
     """Provide Word study Presentation params choices."""
     return {
         'category': {'id': 1, 'name': 'category'},
-        'label': {'id': 2, 'name': 'label'},
+        'mark': {'id': 2, 'name': 'mark'},
         'word_source': None,
         'order': None,
         'start_period': None,

@@ -29,14 +29,14 @@ class ParamsChoicesT(TypedDict):
     """Fields type for Word study choices."""
 
     categories: list[IdName] | None
-    labels: list[IdName] | None
+    marks: list[IdName] | None
 
 
 class InitialChoicesT(TypedDict):
     """Fields type for Word study initial choices."""
 
     category: IdName | None
-    label: IdName | None
+    mark: IdName | None
     word_source: IdName | None
     order: IdName | None
     start_period: IdName | None

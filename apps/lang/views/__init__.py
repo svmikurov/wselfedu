@@ -2,10 +2,10 @@
 
 __all__ = [
     'IndexLangView',
-    'LabelCreateView',
-    'LabelUpdateView',
-    'LabelDeleteView',
-    'LabeDetailView',
+    'MarkCreateView',
+    'MarkUpdateView',
+    'MarkDeleteView',
+    'MarkDetailView',
     'LabelListView',
     'EnglishTranslationCreateView',
     'EnglishTranslationListView',
@@ -13,11 +13,11 @@ __all__ = [
 
 from .index import IndexLangView
 from .label import (
-    LabeDetailView,
-    LabelCreateView,
-    LabelDeleteView,
     LabelListView,
-    LabelUpdateView,
+    MarkCreateView,
+    MarkDeleteView,
+    MarkDetailView,
+    MarkUpdateView,
 )
 from .translation import (
     EnglishTranslationCreateView,

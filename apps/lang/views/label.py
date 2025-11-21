@@ -1,4 +1,4 @@
-"""Language discipline label views."""
+"""Language discipline mark views."""
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.query import QuerySet
@@ -10,19 +10,19 @@ from django.views import generic
 from apps.core.generic.views.auth import OwnershipRequiredMixin
 from apps.users.models import CustomUser
 
-from ..models import LangLabel
+from ..models import LangMark
 
 
-class LabelCreateView(
+class MarkCreateView(
     LoginRequiredMixin,
     generic.CreateView,  # type: ignore[type-arg]
 ):
-    """View to create Language discipline label."""
+    """View to create Language discipline mark."""
 
-    model = LangLabel
+    model = LangMark
     fields = ['name']
-    success_url = reverse_lazy('lang:label_create')
-    template_name = 'lang/label_form.html'
+    success_url = reverse_lazy('lang:mark_create')
+    template_name = 'lang/mark_form.html'
 
     def form_valid(self, form: BaseModelForm) -> HttpResponse:  # type: ignore[type-arg]
         """Add current user to form."""
@@ -30,51 +30,51 @@ class LabelCreateView(
         return super().form_valid(form)
 
 
-class LabelUpdateView(
-    OwnershipRequiredMixin[LangLabel],
+class MarkUpdateView(
+    OwnershipRequiredMixin[LangMark],
     generic.UpdateView,  # type: ignore[type-arg]
 ):
-    """View to update Language discipline label."""
+    """View to update Language discipline mark."""
 
-    model = LangLabel
+    model = LangMark
     fields = ['name']
-    template_name = 'lang/label_form.html'
-    success_url = reverse_lazy('lang:label_list')
+    template_name = 'lang/mark_form.html'
+    success_url = reverse_lazy('lang:mark_list')
 
 
-class LabelDeleteView(
-    OwnershipRequiredMixin[LangLabel],
+class MarkDeleteView(
+    OwnershipRequiredMixin[LangMark],
     generic.DeleteView,  # type: ignore[type-arg]
 ):
-    """View to delete Language discipline label."""
+    """View to delete Language discipline mark."""
 
-    model = LangLabel
-    success_url = reverse_lazy('lang:label_list')
-    template_name = 'lang/label_confirm_delete.html'
+    model = LangMark
+    success_url = reverse_lazy('lang:mark_list')
+    template_name = 'lang/mark_confirm_delete.html'
 
 
-class LabeDetailView(
-    OwnershipRequiredMixin[LangLabel],
+class MarkDetailView(
+    OwnershipRequiredMixin[LangMark],
     generic.DetailView,  # type: ignore[type-arg]
 ):
-    """View for detail Language discipline label."""
+    """View for detail Language discipline mark."""
 
-    model = LangLabel
-    template_name = 'lang/label_detail.html'
+    model = LangMark
+    template_name = 'lang/mark_detail.html'
 
 
 class LabelListView(
     LoginRequiredMixin,
     generic.ListView,  # type: ignore[type-arg]
 ):
-    """View for list of Language discipline label."""
+    """View for list of Language discipline mark."""
 
     paginate_by = 10
-    context_object_name = 'labels'
-    template_name = 'lang/label_list.html'
+    context_object_name = 'marks'
+    template_name = 'lang/mark_list.html'
 
-    def get_queryset(self) -> QuerySet[LangLabel]:
+    def get_queryset(self) -> QuerySet[LangMark]:
         """Get Label list filtered by user."""
         if isinstance(self.request.user, CustomUser):
-            return LangLabel.objects.filter(user=self.request.user)
-        return LangLabel.objects.none()
+            return LangMark.objects.filter(user=self.request.user)
+        return LangMark.objects.none()

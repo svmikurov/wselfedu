@@ -35,7 +35,7 @@ def valid_payload() -> types.InitialChoicesT:
     """Provide Request payload."""
     return {
         'category': None,
-        'label': None,
+        'mark': None,
         # TODO: Add database tables for choices
         'word_source': None,
         'order': None,

@@ -17,9 +17,9 @@ def empty_parameters() -> dict[str, Any]:
     """Provide empty parameters DB data."""
     return {
         'categories': [],
-        'labels': [],
+        'marks': [],
         'category': None,
-        'label': None,
+        'mark': None,
     }
 
 
@@ -29,22 +29,22 @@ def parameters(
 ) -> dict[str, Any]:
     """Populate DB and provide parameters fixture."""
     category1 = models.LangCategory.objects.create(user=user, name='cat 1')
-    label1 = models.LangLabel.objects.create(user=user, name='label 1')
-    label2 = models.LangLabel.objects.create(user=user, name='label 2')
+    mark1 = models.LangMark.objects.create(user=user, name='mark 1')
+    mark2 = models.LangMark.objects.create(user=user, name='mark 2')
     models.Params.objects.create(
         user=user,
         # Set initial choices
         category=category1,
-        label=label1,
+        mark=mark1,
     )
     return {
         'categories': [{'id': category1.id, 'name': 'cat 1'}],
-        'labels': [
-            {'id': label1.id, 'name': 'label 1'},
-            {'id': label2.id, 'name': 'label 2'},
+        'marks': [
+            {'id': mark1.id, 'name': 'mark 1'},
+            {'id': mark2.id, 'name': 'mark 2'},
         ],
         'category': {'id': category1.id, 'name': 'cat 1'},
-        'label': {'id': label1.id, 'name': 'label 1'},
+        'mark': {'id': mark1.id, 'name': 'mark 1'},
     }
 
 

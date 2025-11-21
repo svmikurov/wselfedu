@@ -15,7 +15,7 @@ class TranslationParams(NamedTuple):
     """Get translation params."""
 
     user: CustomUser
-    labels: list[models.LangLabel] | None
+    marks: list[models.LangMark] | None
 
 
 class Translations(NamedTuple):

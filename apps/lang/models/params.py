@@ -30,13 +30,13 @@ class Params(models.Model):
         verbose_name='Категория',
         related_name='category_params',
     )
-    label = models.ForeignKey(
-        'LangLabel',
+    mark = models.ForeignKey(
+        'LangMark',
         on_delete=models.CASCADE,
         blank=True,
         null=True,
-        verbose_name='Лейбл',
-        related_name='label_params',
+        verbose_name='Маркер',
+        related_name='mark_params',
     )
     word_source = models.ForeignKey(
         Source,
