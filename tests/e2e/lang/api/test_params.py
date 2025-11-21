@@ -67,10 +67,22 @@ def parameters_db_data(
         ],
         batch_size=None,
     )
+    models.Params.objects.create(
+        user=user,
+        # Initial choices
+        category=categories[0],
+        label=labels[1],
+        # TODO: Add implementation of the 'word_count' parameter
+        # and other
+        # word_count=80,
+    )
     return {
         **EMPTY_PARAMETERS_PAYLOAD,
         'categories': _build_choices(categories),
         'labels': _build_choices(labels),
+        'category': {'id': categories[0].id, 'name': categories[0].name},
+        'label': {'id': labels[1].id, 'name': labels[1].name},
+        # 'word_count': parameters.word_count,
     }
 
 
