@@ -11,7 +11,7 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
     """Word study params repository."""
 
     @override
-    def fetch(self, user: CustomUser) -> types.ParamsChoicesT:
+    def fetch(self, user: CustomUser) -> types.WordPresentationParamsT:
         """Fetch parameters with parameter choices."""
         parameters = models.Params.objects.filter(user=user)
         categories = models.LangCategory.objects.filter(user=user)
