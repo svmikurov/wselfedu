@@ -13,7 +13,7 @@ from apps.users.models import CustomUser
 
 @pytest.fixture
 def user() -> CustomUser:
-    """Provide user fixture."""
+    """Provide user."""
     return CustomUser.objects.create_user(
         username='test_user',
         password='test_pass',
@@ -21,8 +21,8 @@ def user() -> CustomUser:
 
 
 @pytest.fixture
-def other_user() -> CustomUser:
-    """Provide other user fixture."""
+def user_not_owner() -> CustomUser:
+    """Provide user that is not the owner."""
     return CustomUser.objects.create_user(
         username='other_test_user',
         password='other_test_pass',
@@ -31,7 +31,7 @@ def other_user() -> CustomUser:
 
 @pytest.fixture
 def owner() -> CustomUser:
-    """Provide owner of object fixture."""
+    """Provide owner of object."""
     return CustomUser.objects.create_user(
         username='owner_user',
         password='owner_pass',

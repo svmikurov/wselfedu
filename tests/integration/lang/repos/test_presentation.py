@@ -55,14 +55,14 @@ class TestRepository:
     def test_get_case_different_users(
         self,
         presentation_repo: repos.Presentation,
-        other_user: CustomUser,
+        user_not_owner: CustomUser,
         translation: models.EnglishTranslation,
     ) -> None:
         """Test that users can only access their own translations."""
         # Act & Assert - other user shouldn't see the translation
         with pytest.raises(ObjectDoesNotExist):
             presentation_repo.get_case(
-                user=other_user,
+                user=user_not_owner,
                 translation_id=translation.pk,
                 language='english',
             )
