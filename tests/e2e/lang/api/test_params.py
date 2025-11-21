@@ -27,7 +27,7 @@ UNAUTHORIZED_RESPONSE_DATA = {
 # Data fixtures
 # ~~~~~~~~~~~~~
 
-EMPTY_PARAMETERS_PAYLOAD: types.WordPresentationParamsT = {
+EMPTY_PARAMETERS_SERIALIZER_DATA: types.WordPresentationParamsT = {
     'categories': [],
     'marks': [],
     'category': None,
@@ -45,7 +45,7 @@ EMPTY_PARAMETERS_PAYLOAD: types.WordPresentationParamsT = {
 @pytest.fixture
 def parameters_empty_data() -> types.WordPresentationParamsT:
     """Provide Word study Presenter empty data parameters."""
-    return EMPTY_PARAMETERS_PAYLOAD.copy()
+    return EMPTY_PARAMETERS_SERIALIZER_DATA.copy()
 
 
 @pytest.fixture
@@ -77,7 +77,7 @@ def parameters_db_data(
         # word_count=80,
     )
     return {
-        **EMPTY_PARAMETERS_PAYLOAD,
+        **EMPTY_PARAMETERS_SERIALIZER_DATA,
         'categories': _build_choices(categories),
         'marks': _build_choices(marks),
         'category': {'id': categories[0].id, 'name': categories[0].name},
