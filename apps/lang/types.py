@@ -1,10 +1,17 @@
 """Language discipline app types."""
 
 import uuid
-from typing import Literal, NamedTuple, TypedDict
+from typing import Literal, NamedTuple, Protocol, TypedDict
 
 LanguageType = Literal['native', 'english']
 ProgressType = Literal['known', 'unknown']
+
+
+class HasIdName(Protocol):
+    """Protocol for id-name dictionaries."""
+
+    id: int
+    name: str
 
 
 class IdName(TypedDict):
