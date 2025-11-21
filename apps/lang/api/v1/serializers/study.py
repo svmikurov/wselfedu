@@ -3,7 +3,7 @@
 from rest_framework import serializers
 
 from apps.core.api.v1.serializers import IdNameSerializer
-from apps.lang import types
+from apps.lang import models, types
 from apps.lang.models.word import AbstractWordModel
 
 # Presentation parameters
@@ -24,12 +24,14 @@ class WordStudyInitialChoicesSerializer(
 ):
     """Serializer for Word study params initial choices."""
 
-    category = IdNameSerializer(required=False, allow_null=True)
-    mark = IdNameSerializer(required=False, allow_null=True)
-    word_source = IdNameSerializer(required=False, allow_null=True)
-    order = IdNameSerializer(required=False, allow_null=True)
-    start_period = IdNameSerializer(required=False, allow_null=True)
-    end_period = IdNameSerializer(required=False, allow_null=True)
+    category = IdNameSerializer(allow_null=True)
+    mark = IdNameSerializer(allow_null=True)
+    word_source = IdNameSerializer(allow_null=True)
+    order = serializers.ChoiceField(
+        choices=models.Params.TranslateChoices.choices, allow_null=True
+    )
+    start_period = IdNameSerializer(allow_null=True)
+    end_period = IdNameSerializer(allow_null=True)
 
 
 class PresentationSettingsSerializer(
@@ -37,9 +39,9 @@ class PresentationSettingsSerializer(
 ):
     """Serializer for Presentation settings."""
 
-    word_count = serializers.IntegerField(required=False, allow_null=True)
-    question_timeout = serializers.FloatField(required=False, allow_null=True)
-    answer_timeout = serializers.FloatField(required=False, allow_null=True)
+    word_count = serializers.IntegerField(allow_null=True)
+    question_timeout = serializers.FloatField(allow_null=True)
+    answer_timeout = serializers.FloatField(allow_null=True)
 
 
 class WordStudyPresentationParamsSerializer(
