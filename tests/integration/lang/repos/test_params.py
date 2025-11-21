@@ -9,6 +9,8 @@ from apps.core import models as core_models
 from apps.lang import models, repos
 from apps.users.models import CustomUser
 
+pytestmark = pytest.mark.django_db
+
 # Data fixtures
 # ~~~~~~~~~~~~~
 
@@ -26,6 +28,8 @@ def empty_parameters() -> dict[str, Any]:
     }
 
 
+# TODO: Update return type to `apps.lang.types.WordPresentationParamsT`
+# after completion of the repo implementation
 @pytest.fixture
 def parameters(
     user: CustomUser,
@@ -49,14 +53,16 @@ def parameters(
         mark=marks[0],
         word_source=source1,
     )
+
+    # Parameters data
     return {
         'categories': [{'id': category1.id, 'name': 'cat 1'}],
         'marks': [
             {'id': marks[0].id, 'name': 'mark 1'},
             {'id': marks[1].id, 'name': 'mark 2'},
         ],
-        'category': {'id': category1.id, 'name': 'cat 1'},
         'sources': [{'id': source1.id, 'name': 'source 1'}],
+        'category': {'id': category1.id, 'name': 'cat 1'},
         'mark': {'id': marks[0].id, 'name': 'mark 1'},
         'word_source': {'id': source1.id, 'name': source1.name},
     }
@@ -76,7 +82,6 @@ def repo() -> repos.WordStudyParamsRepository:
 # ~~~~~
 
 
-@pytest.mark.django_db
 class TestFetch:
     """Fetch Word study Presentation params repository tests."""
 
@@ -101,3 +106,33 @@ class TestFetch:
         # Act & assert
         with django_assert_num_queries(4):  # type: ignore[operator]
             assert parameters == repo.fetch(user)
+
+
+class TestUpdate:
+    """Update Word study Presentation params repository tests."""
+
+    def test_update_parameters(
+        self,
+        user: CustomUser,
+        repo: repos.WordStudyParamsRepository,
+        parameters: dict[str, Any],
+        django_assert_num_queries: CaptureQueriesContext,
+    ) -> None:
+        """Test update initial data."""
+        # Arrange
+        # - Select a parameter from the options
+        # to set it as the initial value
+        mark = parameters['marks'][1]
+
+        # - Parameter data without options to update
+        new_params = {
+            key: parameters[key] for key in ('category', 'word_source')
+        }
+        new_params['mark'] = mark
+
+        # - Expected new parameter data
+        expected = {**parameters, 'mark': mark}
+
+        # Act & assert
+        with django_assert_num_queries(7):  # type: ignore[operator]
+            assert expected == repo.update(user, new_params)  # type: ignore[arg-type]
