@@ -10,7 +10,7 @@ from apps.lang import models, schemas, services, types
 from apps.lang.repos.abc import ProgressABC
 from apps.users.models import CustomUser
 
-from .api.v1.study import cases
+from .api.v1.view.study import cases
 
 # Data fixtures
 # -------------
