@@ -105,7 +105,7 @@ class WordStudyViewSet(ViewSet):
         params = ser.WordStudyInitialChoicesSerializer(data=request.data)
         params.is_valid()
         try:
-            repository.update_initial(
+            repository.update(
                 self.request.user,  # type: ignore[arg-type]
                 params.validated_data,
             )

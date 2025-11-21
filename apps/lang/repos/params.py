@@ -2,6 +2,8 @@
 
 from typing import override
 
+from django.db import transaction
+
 from apps.core import models as core_models
 from apps.lang import models, types
 from apps.lang.repos.abc import WordStudyParamsRepositoryABC
@@ -62,5 +64,20 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
         return data  # type: ignore[return-value]
 
     @override
-    def update_initial(self, user: CustomUser, data: object) -> None:
-        """Update initial params."""
+    @transaction.atomic
+    def update(
+        self,
+        user: CustomUser,
+        data: types.UpdateParametersT,
+    ) -> types.WordPresentationParamsT:
+        """Update initial parameters."""
+        (
+            models.Params.objects.select_for_update()
+            .filter(user=user)
+            .update(
+                category=data['category']['id'],  # type: ignore[index]
+                mark=data['mark']['id'],  # type: ignore[index]
+                word_source=data['word_source']['id'],  # type: ignore[index]
+            )
+        )
+        return self.fetch(user)

@@ -52,6 +52,10 @@ class PresentationSettingsT(TypedDict):
     answer_timeout: float | None
 
 
+class UpdateParametersT(InitialChoicesT, PresentationSettingsT):
+    """Fields type to Word study Presentation parameters."""
+
+
 class WordPresentationParamsT(
     ParamsChoicesT,
     InitialChoicesT,

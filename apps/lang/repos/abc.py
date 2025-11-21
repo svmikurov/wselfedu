@@ -60,12 +60,16 @@ class WordStudyParamsRepositoryABC(ABC):
     """ABC for Word study params repository."""
 
     @abstractmethod
-    def fetch(self, user: CustomUser) -> types.ParamsChoicesT:
+    def fetch(self, user: CustomUser) -> types.WordPresentationParamsT:
         """Fetch initial params."""
 
     @abstractmethod
-    def update_initial(self, user: CustomUser, data: object) -> None:
-        """Update initial params."""
+    def update(
+        self,
+        user: CustomUser,
+        data: types.UpdateParametersT,
+    ) -> types.WordPresentationParamsT:
+        """Update initial parameters."""
 
 
 class TranslationRepoABC(ABC):
