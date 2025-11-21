@@ -24,3 +24,7 @@ class Source(models.Model):
 
         verbose_name = 'Источник'
         verbose_name_plural = 'Источники'
+
+    def __str__(self) -> str:
+        """Get model instance string representation."""
+        return str(self.name)
