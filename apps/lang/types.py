@@ -46,9 +46,9 @@ class InitialChoicesT(TypedDict):
 class PresentationSettingsT(TypedDict):
     """Fields type for Word study Presentation settings."""
 
-    word_count: IdName | None
-    question_timeout: IdName | None
-    answer_timeout: IdName | None
+    word_count: int | None
+    question_timeout: float | None
+    answer_timeout: float | None
 
 
 class WordPresentationParamsT(
