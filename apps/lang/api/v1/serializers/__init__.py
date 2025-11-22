@@ -6,9 +6,11 @@ __all__ = [
     'WordStudyCaseSerializer',
     'WordStudyProgressSerializer',
     'WordStudyPresentationParamsSerializer',
+    'UpdateParametersSerializer',
 ]
 
 from .study import (
+    UpdateParametersSerializer,
     WordStudyCaseSerializer,
     WordStudyInitialChoicesSerializer,
     WordStudyParamsChoicesSerializer,

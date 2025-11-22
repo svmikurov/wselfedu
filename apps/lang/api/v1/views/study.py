@@ -90,7 +90,7 @@ class WordStudyViewSet(ViewSet):
     # TODO: Feat error handling for response
     @extend_schema(
         summary='Word study params update',
-        request=ser.WordStudyInitialChoicesSerializer,
+        request=ser.UpdateParametersSerializer,
         tags=['Lang'],
     )
     @action(methods=['put'], detail=False, url_path='params/update')
@@ -102,7 +102,7 @@ class WordStudyViewSet(ViewSet):
         ],
     ) -> Response:
         """Update initial Word study params."""
-        params = ser.WordStudyInitialChoicesSerializer(data=request.data)
+        params = ser.UpdateParametersSerializer(data=request.data)
         params.is_valid()
         try:
             repository.update(

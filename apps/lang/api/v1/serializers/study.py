@@ -46,6 +46,13 @@ class PresentationSettingsSerializer(
     answer_timeout = serializers.FloatField(allow_null=True)
 
 
+class UpdateParametersSerializer(
+    WordStudyInitialChoicesSerializer,
+    PresentationSettingsSerializer,
+):
+    """Serializer for update Presentation Parameters."""
+
+
 class WordStudyPresentationParamsSerializer(
     WordStudyParamsChoicesSerializer,
     WordStudyInitialChoicesSerializer,
