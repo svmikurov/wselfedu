@@ -1,6 +1,6 @@
 """Word study params repository."""
 
-from typing import override
+from typing import Literal, override
 
 from django.db import transaction
 
@@ -75,9 +75,18 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
             models.Params.objects.select_for_update()
             .filter(user=user)
             .update(
-                category=data['category']['id'],  # type: ignore[index]
-                mark=data['mark']['id'],  # type: ignore[index]
-                word_source=data['word_source']['id'],  # type: ignore[index]
+                category=self._get_initial(data, 'category'),
+                mark=self._get_initial(data, 'mark'),
+                word_source=self._get_initial(data, 'word_source'),
             )
         )
         return self.fetch(user)
+
+    @staticmethod
+    def _get_initial(
+        data: types.UpdateParametersT,
+        field_name: Literal['category', 'mark', 'word_source'],
+    ) -> int | None:
+        """Get new parameter option ID or return None."""
+        value: types.IdName | None = data.get(field_name)
+        return None if value is None else value['id']
