@@ -1,0 +1,92 @@
+[
+{
+  "model": "core.period",
+  "pk": 1,
+  "fields": {
+    "name": "Сегодня",
+    "created_at": "2025-11-22T01:26:42.692Z",
+    "updated_at": "2025-11-22T01:26:42.692Z"
+  }
+},
+{
+  "model": "core.period",
+  "pk": 2,
+  "fields": {
+    "name": "Вчера",
+    "created_at": "2025-11-22T01:26:55.478Z",
+    "updated_at": "2025-11-22T01:26:55.478Z"
+  }
+},
+{
+  "model": "core.period",
+  "pk": 3,
+  "fields": {
+    "name": "Два дня назад",
+    "created_at": "2025-11-22T01:27:10.655Z",
+    "updated_at": "2025-11-22T01:27:10.655Z"
+  }
+},
+{
+  "model": "core.period",
+  "pk": 4,
+  "fields": {
+    "name": "Четыре дня назад",
+    "created_at": "2025-11-22T01:27:29.671Z",
+    "updated_at": "2025-11-22T01:27:29.671Z"
+  }
+},
+{
+  "model": "core.period",
+  "pk": 5,
+  "fields": {
+    "name": "Неделю назад",
+    "created_at": "2025-11-22T01:27:38.986Z",
+    "updated_at": "2025-11-22T01:27:38.986Z"
+  }
+},
+{
+  "model": "core.period",
+  "pk": 6,
+  "fields": {
+    "name": "Две недели назад",
+    "created_at": "2025-11-22T01:27:49.812Z",
+    "updated_at": "2025-11-22T01:27:49.812Z"
+  }
+},
+{
+  "model": "core.period",
+  "pk": 7,
+  "fields": {
+    "name": "Месяц назад",
+    "created_at": "2025-11-22T01:27:59.635Z",
+    "updated_at": "2025-11-22T01:27:59.635Z"
+  }
+},
+{
+  "model": "core.period",
+  "pk": 8,
+  "fields": {
+    "name": "Три месяца назад",
+    "created_at": "2025-11-22T01:28:43.667Z",
+    "updated_at": "2025-11-22T01:28:43.667Z"
+  }
+},
+{
+  "model": "core.period",
+  "pk": 9,
+  "fields": {
+    "name": "Пол года назад",
+    "created_at": "2025-11-22T01:28:56.581Z",
+    "updated_at": "2025-11-22T01:28:56.581Z"
+  }
+},
+{
+  "model": "core.period",
+  "pk": 10,
+  "fields": {
+    "name": "Год назад",
+    "created_at": "2025-11-22T01:29:02.595Z",
+    "updated_at": "2025-11-22T01:29:02.595Z"
+  }
+}
+]

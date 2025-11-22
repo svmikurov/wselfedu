@@ -8,6 +8,7 @@ load_order:
   - db/fixtures/public/math_exercise_condition.json
   - db/fixtures/public/core_task_io.json
   - db/fixtures/public/core_exercise.json
+  - db/fixtures/public/core_periods.json
   # Sensitive
   ## User
   - db/fixtures/sensitive/users.json
