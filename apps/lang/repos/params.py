@@ -104,12 +104,17 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
             models.Params.objects.select_for_update()
             .filter(user=user)
             .update(
+                # Initial choices
                 category=self._get_initial(data, 'category'),
                 mark=self._get_initial(data, 'mark'),
                 word_source=self._get_initial(data, 'word_source'),
-                word_count=data.get('word_count'),
+                order=data.get('order'),
                 start_period=self._get_initial(data, 'start_period'),
                 end_period=self._get_initial(data, 'end_period'),
+                # Settings
+                word_count=data.get('word_count'),
+                question_timeout=data.get('question_timeout'),
+                answer_timeout=data.get('answer_timeout'),
             )
         )
         return self.fetch(user)
