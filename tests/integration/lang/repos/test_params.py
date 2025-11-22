@@ -6,7 +6,7 @@ import pytest
 from django.test.utils import CaptureQueriesContext
 
 from apps.core import models as core_models
-from apps.lang import models, repos
+from apps.lang import models, repos, types
 from apps.users.models import CustomUser
 
 pytestmark = pytest.mark.django_db
@@ -16,7 +16,7 @@ pytestmark = pytest.mark.django_db
 
 
 @pytest.fixture
-def empty_parameters() -> dict[str, Any]:
+def empty_parameters() -> dict[str, list[types.IdName] | None]:
     """Provide empty parameters DB data."""
     return {
         'categories': [],
@@ -25,6 +25,7 @@ def empty_parameters() -> dict[str, Any]:
         'category': None,
         'mark': None,
         'word_source': None,
+        'word_count': None,
     }
 
 
@@ -47,11 +48,12 @@ def parameters(
     source1 = core_models.Source.objects.create(user=user, name='source 1')
 
     # Set initial choices
-    models.Params.objects.create(
+    parameters = models.Params.objects.create(
         user=user,
         category=category1,
         mark=marks[0],
         word_source=source1,
+        word_count=67,
     )
 
     # Parameters data
@@ -65,6 +67,7 @@ def parameters(
         'category': {'id': category1.id, 'name': 'cat 1'},
         'mark': {'id': marks[0].id, 'name': 'mark 1'},
         'word_source': {'id': source1.id, 'name': source1.name},
+        'word_count': parameters.word_count,
     }
 
 
@@ -129,14 +132,19 @@ class TestUpdate:
             key: parameters[key] for key in ('category', 'mark', 'word_source')
         }
         new_params['mark'] = mark
+        new_params['word_count'] = 76
 
         # - Expected new parameter data
         expected = parameters.copy()
         expected['mark'] = mark
+        expected['word_count'] = 76
 
-        # Act & assert
+        # Act
         with django_assert_num_queries(7):  # type: ignore[operator]
-            assert expected == repo.update(user, new_params)  # type: ignore[arg-type]
+            updated_parameters = repo.update(user, new_params)  # type: ignore[arg-type]
+
+        # Assert
+        assert expected == updated_parameters
 
     def test_update_with_none(
         self,
@@ -147,7 +155,13 @@ class TestUpdate:
         """Test that updated parameter is None."""
         # Arrange
         update_data = {
-            key: None for key in ('category', 'mark', 'word_source')
+            key: None
+            for key in (
+                'category',
+                'mark',
+                'word_source',
+                'word_count',
+            )
         }
         expected = {**parameters, **update_data}
 

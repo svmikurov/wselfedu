@@ -1,6 +1,6 @@
 """Word study params repository."""
 
-from typing import Literal, override
+from typing import Any, Literal, override
 
 from django.db import transaction
 
@@ -22,6 +22,19 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
         marks = models.LangMark.objects.filter(user=user)
         sources = core_models.Source.objects.filter(user=user)
 
+        initial: dict[str, Any] = (
+            parameters.values(  # type: ignore[assignment]
+                'category__id',
+                'category__name',
+                'mark__id',
+                'mark__name',
+                'word_source__id',
+                'word_source__name',
+                'word_count',
+            ).first()
+            or {}
+        )
+
         data = {
             # Parameter choices
             'categories': list(categories.values('id', 'name')),
@@ -31,32 +44,24 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
             'category': None,
             'mark': None,
             'word_source': None,
+            'word_count': initial.get('word_count'),
         }
-
-        initial = parameters.values(
-            'category__id',
-            'category__name',
-            'mark__id',
-            'mark__name',
-            'word_source__id',
-            'word_source__name',
-        ).first()
 
         if not initial:
             return data  # type: ignore[return-value]
 
         if initial.get('category__id'):
-            data['category'] = {  # type: ignore[assignment]
+            data['category'] = {
                 'id': initial['category__id'],
                 'name': initial['category__name'],
             }
         if initial.get('mark__id'):
-            data['mark'] = {  # type: ignore[assignment]
+            data['mark'] = {
                 'id': initial['mark__id'],
                 'name': initial['mark__name'],
             }
         if initial.get('word_source__id'):
-            data['word_source'] = {  # type: ignore[assignment]
+            data['word_source'] = {
                 'id': initial['word_source__id'],
                 'name': initial['word_source__name'],
             }
@@ -78,6 +83,7 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
                 category=self._get_initial(data, 'category'),
                 mark=self._get_initial(data, 'mark'),
                 word_source=self._get_initial(data, 'word_source'),
+                word_count=data.get('word_count'),
             )
         )
         return self.fetch(user)

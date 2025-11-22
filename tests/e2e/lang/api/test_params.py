@@ -76,15 +76,13 @@ def parameters_db_data(
         ],
         batch_size=None,
     )
-    models.Params.objects.create(
+    parameters = models.Params.objects.create(
         user=user,
         # Initial choices
         category=categories[0],
         mark=marks[1],
         word_source=sources[0],
-        # TODO: Add implementation of the 'word_count' parameter
-        # and other
-        # word_count=80,
+        word_count=80,
     )
     return {
         **EMPTY_PARAMETERS_SERIALIZER_DATA,
@@ -94,7 +92,7 @@ def parameters_db_data(
         'category': {'id': categories[0].id, 'name': categories[0].name},
         'mark': {'id': marks[1].id, 'name': marks[1].name},
         'word_source': {'id': sources[0].id, 'name': sources[0].name},
-        # 'word_count': parameters.word_count,
+        'word_count': parameters.word_count,
     }
 
 
