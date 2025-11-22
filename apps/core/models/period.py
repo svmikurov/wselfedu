@@ -24,3 +24,7 @@ class Period(models.Model):
 
         verbose_name = 'Период'
         verbose_name_plural = 'Периоды'
+
+    def __str__(self) -> str:
+        """Get the string representation of period."""
+        return str(self.name)
