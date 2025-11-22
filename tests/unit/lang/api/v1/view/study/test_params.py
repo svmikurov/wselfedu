@@ -15,19 +15,19 @@ import di
 from apps.lang.repos.abc import WordStudyParamsRepositoryABC
 from apps.lang import types
 
-from tests.fixtures.lang.params_data import choices, initial, settings
+from tests.fixtures.lang.params_data import options, selected, settings
 
 from apps.lang.api.v1.views.study import WordStudyViewSet
 
 
 @pytest.fixture
 def payload(
-    choices: types.ParamsChoicesT,
-    initial: types.InitialChoicesT,
+    options: types.ParamsChoicesT,
+    selected: types.InitialChoicesT,
     settings: types.PresentationSettingsT,
 ) -> types.WordPresentationParamsT:
     """Provide Word study Presentation params payload."""
-    return {**choices, **initial, **settings}
+    return {**options, **selected, **settings}
 
 
 @pytest.fixture

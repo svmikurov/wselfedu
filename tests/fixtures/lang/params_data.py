@@ -5,14 +5,14 @@ import pytest
 from apps.lang import types
 
 # The Word study Presentation parameters consists from data:
-# - choices for each parameter
-# - initial parameter choice
+# - parameter options
+# - selected parameter
 # - settings for presentation performance
 
 
 @pytest.fixture
-def choices() -> types.ParamsChoicesT:
-    """Provide Word study Presentation params choices."""
+def options() -> types.ParamsChoicesT:
+    """Provide Word study Presentation parameter options."""
     return {
         'categories': [{'id': 1, 'name': 'category'}],
         'marks': [{'id': 2, 'name': 'mark'}],
@@ -22,8 +22,8 @@ def choices() -> types.ParamsChoicesT:
 
 
 @pytest.fixture
-def initial() -> types.InitialChoicesT:
-    """Provide Word study Presentation params choices."""
+def selected() -> types.InitialChoicesT:
+    """Provide Word study Presentation selected parameters."""
     return {
         'category': {'id': 1, 'name': 'category'},
         'mark': {'id': 2, 'name': 'mark'},
@@ -42,9 +42,3 @@ def settings() -> types.PresentationSettingsT:
         'question_timeout': None,
         'answer_timeout': None,
     }
-
-
-# TODO: Add fixture
-# @pytest.fixture
-# def populate_db_with_params_data() -> None:
-#     """Populate Database with test params data."""
