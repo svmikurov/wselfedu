@@ -3,21 +3,22 @@
 from __future__ import annotations
 
 from http import HTTPStatus
-from typing import TYPE_CHECKING, Sequence
+from typing import TYPE_CHECKING, Any, Sequence
 
 import pytest
 from rest_framework.exceptions import ErrorDetail
 
 from apps.core import models as core_models
-from apps.lang import models
+from apps.lang import models, repos, types
 
 if TYPE_CHECKING:
     from rest_framework.test import APIClient
 
-    from apps.lang import types
     from apps.users.models import CustomUser
 
 GET_PARAMETERS_PATH = '/api/v1/lang/study/params/'
+PUT_PARAMETERS_PATH = '/api/v1/lang/study/params/update/'
+
 UNAUTHORIZED_RESPONSE_DATA = {
     'detail': ErrorDetail(
         string='Учетные данные не были предоставлены.',
@@ -124,7 +125,7 @@ def _build_choices(data: Sequence[types.HasIdName]) -> list[types.IdName]:
 
 @pytest.mark.django_db
 class TestGetSuccess:
-    """Get Word study Progress parameters API success tests."""
+    """Get Word study Presentation parameters API success tests."""
 
     def test_get_data(
         self,
@@ -142,6 +143,41 @@ class TestGetSuccess:
         # Assert
         assert response.status_code == HTTPStatus.OK
         assert response.data == parameters_db_data
+
+
+class TestUpdate:
+    """Update Word study Presentation parameters API success tests."""
+
+    @pytest.mark.django_db
+    def test_update_success(
+        self,
+        user: CustomUser,
+        api_client: APIClient,
+        parameters_db_data: types.WordPresentationParamsT,
+    ) -> None:
+        """Test that parameters updated."""
+        # Arrange
+        parameters = {
+            key: parameters_db_data[key]  # type: ignore[literal-required]
+            for key in parameters_db_data.keys()
+            if key not in ('categories', 'marks', 'sources', 'periods')
+        }
+        to_update = {
+            'word_count': 324,
+            'question_timeout': 7,
+        }
+        payload: dict[str, Any] = {**parameters, **to_update}
+
+        api_client.force_authenticate(user)
+
+        # Act
+        response = api_client.put(PUT_PARAMETERS_PATH, payload, format='json')
+
+        # Assert
+        assert response.status_code == HTTPStatus.OK
+
+        updated_data = repos.WordStudyParamsRepository().fetch(user)
+        assert to_update.items() <= updated_data.items()
 
 
 class TestPermissions:
