@@ -124,15 +124,32 @@ class TestUpdate:
         # to set it as the initial value
         mark = parameters['marks'][1]
 
-        # - Parameter data without options to update
+        # - Parameter data without option fields to update
         new_params = {
-            key: parameters[key] for key in ('category', 'word_source')
+            key: parameters[key] for key in ('category', 'mark', 'word_source')
         }
         new_params['mark'] = mark
 
         # - Expected new parameter data
-        expected = {**parameters, 'mark': mark}
+        expected = parameters.copy()
+        expected['mark'] = mark
 
         # Act & assert
         with django_assert_num_queries(7):  # type: ignore[operator]
             assert expected == repo.update(user, new_params)  # type: ignore[arg-type]
+
+    def test_update_with_none(
+        self,
+        user: CustomUser,
+        repo: repos.WordStudyParamsRepository,
+        parameters: dict[str, Any],
+    ) -> None:
+        """Test that updated parameter is None."""
+        # Arrange
+        update_data = {
+            key: None for key in ('category', 'mark', 'word_source')
+        }
+        expected = {**parameters, **update_data}
+
+        # Act & Assert
+        assert expected == repo.update(user, update_data)  # type: ignore[arg-type]
