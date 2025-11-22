@@ -169,13 +169,8 @@ class TestUpdate:
         # - Parameter data without option fields to update
         new_params = {
             key: parameters[key]
-            for key in (
-                'category',
-                'mark',
-                'word_source',
-                'start_period',
-                'end_period',
-            )
+            for key in parameters.keys()
+            if key not in ('categories', 'marks', 'sources', 'periods')
         }
         new_params['mark'] = mark
         new_params['word_count'] = 76
@@ -209,6 +204,9 @@ class TestUpdate:
                 'word_count',
                 'start_period',
                 'end_period',
+                'question_timeout',
+                'answer_timeout',
+                'order',
             )
         }
         expected = {**parameters, **update_data}
