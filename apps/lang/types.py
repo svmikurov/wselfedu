@@ -5,6 +5,7 @@ from typing import Literal, NamedTuple, Protocol, TypedDict
 
 LanguageType = Literal['native', 'english']
 ProgressType = Literal['known', 'unknown']
+TranslateOrderT = Literal['from_native', 'to_native']
 
 
 class HasIdName(Protocol):
@@ -40,7 +41,7 @@ class InitialChoicesT(TypedDict):
     category: IdName | None
     mark: IdName | None
     word_source: IdName | None
-    order: Literal['from_native', 'to_native'] | None
+    order: TranslateOrderT | None
     start_period: IdName | None
     end_period: IdName | None
 

@@ -16,19 +16,36 @@ pytestmark = pytest.mark.django_db
 
 
 @pytest.fixture
-def empty_parameters() -> dict[str, list[types.IdName] | None]:
-    """Provide empty parameters DB data."""
+def public_parameters() -> dict[str, list[types.IdName] | None]:
+    """Provide public DB data."""
+    # Create public parameter choices
+    periods = core_models.Period.objects.bulk_create(
+        [
+            core_models.Period(name='start'),
+            core_models.Period(name='end'),
+        ]
+    )
+
     return {
         'categories': [],
         'marks': [],
         'sources': [],
-        'periods': [],
+        # Public parameter choices
+        'periods': [
+            {'id': periods[0].pk, 'name': periods[0].name},
+            {'id': periods[1].pk, 'name': periods[1].name},
+        ],
         'category': None,
         'mark': None,
+        # Returns the default 'order' value after creating
+        # the user parameter, now return None.
+        'order': None,
         'word_source': None,
         'word_count': None,
         'start_period': None,
         'end_period': None,
+        'question_timeout': None,
+        'answer_timeout': None,
     }
 
 
@@ -65,6 +82,8 @@ def parameters(
         word_count=67,
         start_period=periods[0],
         end_period=periods[1],
+        question_timeout=2.1,
+        answer_timeout=1.2,
     )
 
     # Parameters data
@@ -85,6 +104,9 @@ def parameters(
         'word_count': parameters.word_count,
         'start_period': {'id': periods[0].pk, 'name': periods[0].name},
         'end_period': {'id': periods[1].pk, 'name': periods[1].name},
+        'order': parameters.order,
+        'question_timeout': parameters.question_timeout,
+        'answer_timeout': parameters.answer_timeout,
     }
 
 
@@ -105,15 +127,15 @@ def repo() -> repos.WordStudyParamsRepository:
 class TestFetch:
     """Fetch Word study Presentation params repository tests."""
 
-    def test_fetch_empty_data(
+    def test_fetch_public_parameters(
         self,
         user: CustomUser,
         repo: repos.WordStudyParamsRepository,
-        empty_parameters: dict[str, Any],
+        public_parameters: dict[str, Any],
     ) -> None:
-        """Test fetch initial empty data."""
+        """Test fetch public default data."""
         # Act & assert
-        assert empty_parameters == repo.fetch(user)
+        assert public_parameters == repo.fetch(user)
 
     def test_fetch_data(
         self,

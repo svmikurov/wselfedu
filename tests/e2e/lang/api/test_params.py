@@ -93,6 +93,8 @@ def parameters_db_data(
         word_count=80,
         start_period=periods[0],
         end_period=periods[1],
+        question_timeout=2.9,
+        answer_timeout=3.1,
     )
     return {
         'categories': _build_choices(categories),
@@ -102,12 +104,12 @@ def parameters_db_data(
         'category': {'id': categories[0].pk, 'name': categories[0].name},
         'mark': {'id': marks[1].pk, 'name': marks[1].name},
         'word_source': {'id': sources[0].pk, 'name': sources[0].name},
-        'order': None,
+        'order': parameters.order,  # type: ignore[typeddict-item]
         'start_period': {'id': periods[0].pk, 'name': periods[0].name},
         'end_period': {'id': periods[1].pk, 'name': periods[1].name},
         'word_count': parameters.word_count,
-        'question_timeout': None,
-        'answer_timeout': None,
+        'question_timeout': parameters.question_timeout,
+        'answer_timeout': parameters.answer_timeout,
     }
 
 

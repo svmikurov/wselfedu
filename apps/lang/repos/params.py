@@ -36,6 +36,9 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
                 'end_period__id',
                 'end_period__name',
                 'word_count',
+                'question_timeout',
+                'answer_timeout',
+                'order',
             ).first()
             or {}
         )
@@ -50,9 +53,12 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
             'category': None,
             'mark': None,
             'word_source': None,
+            'order': initial.get('order'),
             'start_period': None,
             'end_period': None,
             'word_count': initial.get('word_count'),
+            'question_timeout': initial.get('question_timeout'),
+            'answer_timeout': initial.get('answer_timeout'),
         }
 
         if not initial:
