@@ -28,26 +28,27 @@ UNAUTHORIZED_RESPONSE_DATA = {
 # Data fixtures
 # ~~~~~~~~~~~~~
 
-EMPTY_PARAMETERS_SERIALIZER_DATA: types.WordPresentationParamsT = {
-    'categories': [],
-    'marks': [],
-    'sources': [],
-    'category': None,
-    'mark': None,
-    'word_source': None,
-    'order': None,
-    'start_period': None,
-    'end_period': None,
-    'word_count': None,
-    'question_timeout': None,
-    'answer_timeout': None,
-}
-
 
 @pytest.fixture
-def parameters_empty_data() -> types.WordPresentationParamsT:
-    """Provide Word study Presenter empty data parameters."""
-    return EMPTY_PARAMETERS_SERIALIZER_DATA.copy()
+def public_parameters(
+    parameters_db_data: types.WordPresentationParamsT,
+) -> types.WordPresentationParamsT:
+    """Provide public Parameters data."""
+    return {
+        'categories': [],
+        'marks': [],
+        'sources': [],
+        'periods': parameters_db_data['periods'],
+        'category': None,
+        'mark': None,
+        'word_source': None,
+        'order': None,
+        'start_period': None,
+        'end_period': None,
+        'word_count': None,
+        'question_timeout': None,
+        'answer_timeout': None,
+    }
 
 
 @pytest.fixture
@@ -76,6 +77,13 @@ def parameters_db_data(
         ],
         batch_size=None,
     )
+    periods = core_models.Period.objects.bulk_create(
+        [
+            core_models.Period(name='start'),
+            core_models.Period(name='end'),
+        ]
+    )
+
     parameters = models.Params.objects.create(
         user=user,
         # Initial choices
@@ -83,16 +91,23 @@ def parameters_db_data(
         mark=marks[1],
         word_source=sources[0],
         word_count=80,
+        start_period=periods[0],
+        end_period=periods[1],
     )
     return {
-        **EMPTY_PARAMETERS_SERIALIZER_DATA,
         'categories': _build_choices(categories),
         'marks': _build_choices(marks),
         'sources': _build_choices(sources),
-        'category': {'id': categories[0].id, 'name': categories[0].name},
-        'mark': {'id': marks[1].id, 'name': marks[1].name},
-        'word_source': {'id': sources[0].id, 'name': sources[0].name},
+        'periods': _build_choices(periods),
+        'category': {'id': categories[0].pk, 'name': categories[0].name},
+        'mark': {'id': marks[1].pk, 'name': marks[1].name},
+        'word_source': {'id': sources[0].pk, 'name': sources[0].name},
+        'order': None,
+        'start_period': {'id': periods[0].pk, 'name': periods[0].name},
+        'end_period': {'id': periods[1].pk, 'name': periods[1].name},
         'word_count': parameters.word_count,
+        'question_timeout': None,
+        'answer_timeout': None,
     }
 
 
@@ -108,23 +123,6 @@ def _build_choices(data: Sequence[types.HasIdName]) -> list[types.IdName]:
 @pytest.mark.django_db
 class TestGetSuccess:
     """Get Word study Progress parameters API success tests."""
-
-    def test_get_data_empty_case(
-        self,
-        user: CustomUser,
-        api_client: APIClient,
-        parameters_empty_data: types.WordPresentationParamsT,
-    ) -> None:
-        """Fetch Word study Presentation parameters empty data."""
-        # Arrange
-        api_client.force_authenticate(user=user)
-
-        # Act
-        response = api_client.get(GET_PARAMETERS_PATH)
-
-        # Assert
-        assert response.status_code == HTTPStatus.OK
-        assert response.data == parameters_empty_data
 
     def test_get_data(
         self,
@@ -160,15 +158,15 @@ class TestPermissions:
         assert response.data == UNAUTHORIZED_RESPONSE_DATA
 
     @pytest.mark.django_db
-    def test_ownership(
+    def test_public_parameters_data(
         self,
         api_client: APIClient,
         user_not_owner: CustomUser,
-        parameters_empty_data: types.WordPresentationParamsT,
-        parameters_db_data: types.WordPresentationParamsT,
+        public_parameters: types.WordPresentationParamsT,
     ) -> None:
-        """Test get parameters for anonymous."""
+        """Test the public parameters."""
         # Arrange
+        # Authentication with not parameters owner
         api_client.force_authenticate(user=user_not_owner)
 
         # Act
@@ -176,6 +174,9 @@ class TestPermissions:
 
         # Assert
         assert response.status_code == HTTPStatus.OK
-        # The user does not see the choices of others
+
+        # - The user does not see the choices of others
         assert response.data != parameters_db_data
-        assert response.data == parameters_empty_data
+
+        # - The user see only public data
+        assert response.data == public_parameters

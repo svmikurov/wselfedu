@@ -18,6 +18,7 @@ class WordStudyParamsChoicesSerializer(
     categories = IdNameSerializer(many=True)
     marks = IdNameSerializer(many=True)
     sources = IdNameSerializer(many=True)
+    periods = IdNameSerializer(many=True)
 
 
 class WordStudyInitialChoicesSerializer(

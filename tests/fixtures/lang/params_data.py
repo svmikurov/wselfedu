@@ -17,6 +17,7 @@ def choices() -> types.ParamsChoicesT:
         'categories': [{'id': 1, 'name': 'category'}],
         'marks': [{'id': 2, 'name': 'mark'}],
         'sources': [{'id': 3, 'name': 'source'}],
+        'periods': [{'id': 4, 'name': 'source'}],
     }
 
 

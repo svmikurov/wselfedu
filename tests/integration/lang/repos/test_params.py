@@ -22,10 +22,13 @@ def empty_parameters() -> dict[str, list[types.IdName] | None]:
         'categories': [],
         'marks': [],
         'sources': [],
+        'periods': [],
         'category': None,
         'mark': None,
         'word_source': None,
         'word_count': None,
+        'start_period': None,
+        'end_period': None,
     }
 
 
@@ -46,6 +49,12 @@ def parameters(
         batch_size=None,
     )
     source1 = core_models.Source.objects.create(user=user, name='source 1')
+    periods = core_models.Period.objects.bulk_create(
+        [
+            core_models.Period(name='start'),
+            core_models.Period(name='end'),
+        ]
+    )
 
     # Set initial choices
     parameters = models.Params.objects.create(
@@ -54,20 +63,28 @@ def parameters(
         mark=marks[0],
         word_source=source1,
         word_count=67,
+        start_period=periods[0],
+        end_period=periods[1],
     )
 
     # Parameters data
     return {
-        'categories': [{'id': category1.id, 'name': 'cat 1'}],
+        'categories': [{'id': category1.pk, 'name': 'cat 1'}],
         'marks': [
-            {'id': marks[0].id, 'name': 'mark 1'},
-            {'id': marks[1].id, 'name': 'mark 2'},
+            {'id': marks[0].pk, 'name': 'mark 1'},
+            {'id': marks[1].pk, 'name': 'mark 2'},
         ],
-        'sources': [{'id': source1.id, 'name': 'source 1'}],
-        'category': {'id': category1.id, 'name': 'cat 1'},
-        'mark': {'id': marks[0].id, 'name': 'mark 1'},
-        'word_source': {'id': source1.id, 'name': source1.name},
+        'sources': [{'id': source1.pk, 'name': 'source 1'}],
+        'category': {'id': category1.pk, 'name': 'cat 1'},
+        'periods': [
+            {'id': periods[0].pk, 'name': 'start'},
+            {'id': periods[1].pk, 'name': 'end'},
+        ],
+        'mark': {'id': marks[0].pk, 'name': 'mark 1'},
+        'word_source': {'id': source1.pk, 'name': source1.name},
         'word_count': parameters.word_count,
+        'start_period': {'id': periods[0].pk, 'name': periods[0].name},
+        'end_period': {'id': periods[1].pk, 'name': periods[1].name},
     }
 
 
@@ -107,7 +124,7 @@ class TestFetch:
     ) -> None:
         """Test fetch initial data."""
         # Act & assert
-        with django_assert_num_queries(4):  # type: ignore[operator]
+        with django_assert_num_queries(5):  # type: ignore[operator]
             assert parameters == repo.fetch(user)
 
 
@@ -129,7 +146,14 @@ class TestUpdate:
 
         # - Parameter data without option fields to update
         new_params = {
-            key: parameters[key] for key in ('category', 'mark', 'word_source')
+            key: parameters[key]
+            for key in (
+                'category',
+                'mark',
+                'word_source',
+                'start_period',
+                'end_period',
+            )
         }
         new_params['mark'] = mark
         new_params['word_count'] = 76
@@ -140,7 +164,7 @@ class TestUpdate:
         expected['word_count'] = 76
 
         # Act
-        with django_assert_num_queries(7):  # type: ignore[operator]
+        with django_assert_num_queries(8):  # type: ignore[operator]
             updated_parameters = repo.update(user, new_params)  # type: ignore[arg-type]
 
         # Assert
@@ -161,6 +185,8 @@ class TestUpdate:
                 'mark',
                 'word_source',
                 'word_count',
+                'start_period',
+                'end_period',
             )
         }
         expected = {**parameters, **update_data}
