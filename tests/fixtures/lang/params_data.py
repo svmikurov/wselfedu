@@ -7,7 +7,7 @@ from apps.lang import types
 # The Word study Presentation parameters consists from data:
 # - parameter options
 # - selected parameter
-# - settings for presentation performance
+# - set parameter value
 
 
 @pytest.fixture
@@ -18,6 +18,11 @@ def options() -> types.ParamsChoicesT:
         'marks': [{'id': 2, 'name': 'mark'}],
         'sources': [{'id': 3, 'name': 'source'}],
         'periods': [{'id': 4, 'name': 'source'}],
+        'orders': [
+            {'value': 'to_native', 'label': 'На родной'},
+            {'value': 'from_native', 'label': 'С родного'},
+            {'value': 'random', 'label': 'Случайные'},
+        ],
     }
 
 
