@@ -34,18 +34,30 @@ UNAUTHORIZED_RESPONSE_DATA = {
 def public_parameters(
     parameters_db_data: types.WordPresentationParamsT,
 ) -> types.WordPresentationParamsT:
-    """Provide public Parameters data."""
+    """Provide public Parameters data.
+
+    Contains fields for a user who has no saved settings
+    or the field is not set in the user settings.
+    """
     return {
+        # Parameter options
         'categories': [],
         'marks': [],
         'sources': [],
         'periods': parameters_db_data['periods'],
+        'orders': [
+            {'value': 'to_native', 'label': 'На родной'},
+            {'value': 'from_native', 'label': 'С родного'},
+            {'value': 'random', 'label': 'Случайные'},
+        ],
+        # Selected parameter
         'category': None,
         'mark': None,
         'word_source': None,
         'order': None,
         'start_period': None,
         'end_period': None,
+        # Set parameter
         'word_count': None,
         'question_timeout': None,
         'answer_timeout': None,
