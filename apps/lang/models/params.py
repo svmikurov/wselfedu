@@ -15,6 +15,7 @@ class Params(models.Model):
 
         FROM_NATIVE = 'from_native', 'С родного языка'
         TO_NATIVE = 'to_native', 'На родной язык'
+        RANDOM = 'random', 'Случайный порядок'
 
     user = models.ForeignKey(
         get_user_model(),
