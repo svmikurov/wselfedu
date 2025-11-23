@@ -22,17 +22,28 @@ class IdName(TypedDict):
     name: str
 
 
+class ValueLabel(TypedDict):
+    """Dict representation of choice with machine and human values."""
+
+    value: str
+    label: str
+
+
 # Word study Presentation params
 # ------------------------------
 
 
+# TODO: Rename to `ParamOptionsT`
 class ParamsChoicesT(TypedDict):
     """Fields type for Word study choices."""
 
     categories: list[IdName] | None
     marks: list[IdName] | None
     sources: list[IdName] | None
+    # TODO: Should the 'periods' field be optional?
+    # It is public field.
     periods: list[IdName] | None
+    orders: list[ValueLabel]
 
 
 class InitialChoicesT(TypedDict):
