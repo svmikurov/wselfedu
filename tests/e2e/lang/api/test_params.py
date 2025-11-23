@@ -46,17 +46,17 @@ def public_parameters(
         'sources': [],
         'periods': parameters_db_data['periods'],
         'orders': [
-            {'value': 'to_native', 'label': 'На родной'},
-            {'value': 'from_native', 'label': 'С родного'},
-            {'value': 'random', 'label': 'Случайные'},
+            {'value': 'from_native', 'label': 'С родного языка'},
+            {'value': 'to_native', 'label': 'На родной язык'},
+            {'value': 'random', 'label': 'Случайный порядок'},
         ],
         # Selected parameter
         'category': None,
         'mark': None,
         'word_source': None,
-        'order': None,
         'start_period': None,
         'end_period': None,
+        'order': {'value': 'to_native', 'label': 'На родной язык'},
         # Set parameter
         'word_count': None,
         'question_timeout': None,
@@ -109,17 +109,30 @@ def parameters_db_data(
         question_timeout=2.9,
         answer_timeout=3.1,
     )
+
+    # TODO: Fix type ignore
     return {
+        # Parameter options
         'categories': _build_choices(categories),
         'marks': _build_choices(marks),
         'sources': _build_choices(sources),
         'periods': _build_choices(periods),
+        'orders': [
+            {'value': 'from_native', 'label': 'С родного языка'},
+            {'value': 'to_native', 'label': 'На родной язык'},
+            {'value': 'random', 'label': 'Случайный порядок'},
+        ],
+        # Selected parameter
         'category': {'id': categories[0].pk, 'name': categories[0].name},
         'mark': {'id': marks[1].pk, 'name': marks[1].name},
         'word_source': {'id': sources[0].pk, 'name': sources[0].name},
-        'order': parameters.order,  # type: ignore[typeddict-item]
         'start_period': {'id': periods[0].pk, 'name': periods[0].name},
         'end_period': {'id': periods[1].pk, 'name': periods[1].name},
+        'order': {  # type: ignore[typeddict-item]
+            'value': parameters.order.value,  # type: ignore[union-attr]
+            'label': parameters.order.label,  # type: ignore[union-attr]
+        },
+        # Set parameter
         'word_count': parameters.word_count,
         'question_timeout': parameters.question_timeout,
         'answer_timeout': parameters.answer_timeout,

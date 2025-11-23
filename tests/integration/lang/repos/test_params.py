@@ -16,7 +16,10 @@ pytestmark = pytest.mark.django_db
 
 
 @pytest.fixture
-def public_parameters() -> dict[str, list[types.IdName] | None]:
+def public_parameters() -> dict[
+    str,
+    list[types.IdName] | list[types.ValueLabel] | types.TranslateOrderT | None,
+]:
     """Provide public DB data."""
     # Create public parameter choices
     periods = core_models.Period.objects.bulk_create(
@@ -26,24 +29,32 @@ def public_parameters() -> dict[str, list[types.IdName] | None]:
         ]
     )
 
+    # TODO: Fix type ignore
+    # Add protocol of typed dict instead Literal?
     return {
+        # Parameter options
         'categories': [],
         'marks': [],
         'sources': [],
-        # Public parameter choices
-        'periods': [
+        # - public options
+        'periods': [  # type: ignore[dict-item]
             {'id': periods[0].pk, 'name': periods[0].name},
             {'id': periods[1].pk, 'name': periods[1].name},
         ],
+        'orders': [  # type: ignore[dict-item]
+            {'value': 'from_native', 'label': 'С родного языка'},
+            {'value': 'to_native', 'label': 'На родной язык'},
+            {'value': 'random', 'label': 'Случайный порядок'},
+        ],
+        # Selected parameter
         'category': None,
         'mark': None,
-        # Returns the default 'order' value after creating
-        # the user parameter, now return None.
-        'order': None,
         'word_source': None,
-        'word_count': None,
         'start_period': None,
         'end_period': None,
+        'order': {'value': 'to_native', 'label': 'На родной язык'},  # type: ignore[dict-item]
+        # Set parameter
+        'word_count': None,
         'question_timeout': None,
         'answer_timeout': None,
     }
@@ -86,25 +97,37 @@ def parameters(
         answer_timeout=1.2,
     )
 
-    # Parameters data
+    # TODO: Fix type ignore
+    # Expected parameters data
     return {
+        # Parameter options
         'categories': [{'id': category1.pk, 'name': 'cat 1'}],
         'marks': [
             {'id': marks[0].pk, 'name': 'mark 1'},
             {'id': marks[1].pk, 'name': 'mark 2'},
         ],
         'sources': [{'id': source1.pk, 'name': 'source 1'}],
-        'category': {'id': category1.pk, 'name': 'cat 1'},
         'periods': [
             {'id': periods[0].pk, 'name': 'start'},
             {'id': periods[1].pk, 'name': 'end'},
         ],
+        'orders': [
+            {'value': 'from_native', 'label': 'С родного языка'},
+            {'value': 'to_native', 'label': 'На родной язык'},
+            {'value': 'random', 'label': 'Случайный порядок'},
+        ],
+        # Selected parameter
+        'category': {'id': category1.pk, 'name': 'cat 1'},
         'mark': {'id': marks[0].pk, 'name': 'mark 1'},
         'word_source': {'id': source1.pk, 'name': source1.name},
-        'word_count': parameters.word_count,
         'start_period': {'id': periods[0].pk, 'name': periods[0].name},
         'end_period': {'id': periods[1].pk, 'name': periods[1].name},
-        'order': parameters.order,
+        'order': {
+            'value': parameters.order.value,  # type: ignore[union-attr]
+            'label': parameters.order.label,  # type: ignore[union-attr]
+        },
+        # Set parameter
+        'word_count': parameters.word_count,
         'question_timeout': parameters.question_timeout,
         'answer_timeout': parameters.answer_timeout,
     }
@@ -206,7 +229,6 @@ class TestUpdate:
                 'end_period',
                 'question_timeout',
                 'answer_timeout',
-                'order',
             )
         }
         expected = {**parameters, **update_data}
