@@ -122,3 +122,13 @@ class Params(models.Model):
                 name='word_study_params_unique_user_name',
             ),
         ]
+
+    @classmethod
+    def resolve_order_choice(cls, order_value: str | None) -> tuple[str, str]:
+        """Resolve order choice, return default if None."""
+        choice = (
+            cls.TranslateChoices(order_value)
+            if order_value
+            else cls.TranslateChoices.TO_NATIVE
+        )
+        return choice.value, choice.label

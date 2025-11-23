@@ -9,6 +9,10 @@ from apps.lang import models, types
 from apps.lang.repos.abc import WordStudyParamsRepositoryABC
 from apps.users.models import CustomUser
 
+OptionsT = Literal[
+    'category', 'mark', 'word_source', 'start_period', 'end_period'
+]
+
 
 class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
     """Word study params repository."""
@@ -16,14 +20,16 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
     @override
     def fetch(self, user: CustomUser) -> types.WordPresentationParamsT:
         """Fetch parameters with parameter choices."""
-        # TODO: Fix database query (N+1)? Now 4.
-        parameters = models.Params.objects.filter(user=user)
+        # Parameter options
         categories = models.LangCategory.objects.filter(user=user)
         marks = models.LangMark.objects.filter(user=user)
         sources = core_models.Source.objects.filter(user=user)
         periods = core_models.Period.objects
 
-        initial: dict[str, Any] = (
+        # Default, selected and set parameters
+        parameters = models.Params.objects.filter(user=user)
+
+        custom: dict[str, Any] = (
             parameters.values(  # type: ignore[assignment]
                 'category__id',
                 'category__name',
@@ -43,11 +49,9 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
             or {}
         )
 
-        order_value = (
-            initial.get('order')
-            or models.Params.TranslateChoices.TO_NATIVE.value
+        order_value, order_label = models.Params.resolve_order_choice(
+            custom.get('order')
         )
-        order_choice = models.Params.TranslateChoices(order_value)
 
         data = {
             # Parameters options
@@ -59,52 +63,47 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
                 {'value': value, 'label': label}
                 for value, label in models.Params.TranslateChoices.choices
             ],
-            # Selected parameter
+            #
+            # Selected parameter default
             'category': None,
             'mark': None,
             'word_source': None,
             'start_period': None,
             'end_period': None,
-            'order': {
-                'value': order_choice.value,
-                'label': order_choice.label,
-            },
-            # Set parameter
-            'word_count': initial.get('word_count'),
-            'question_timeout': initial.get('question_timeout'),
-            'answer_timeout': initial.get('answer_timeout'),
+            'order': {'value': order_value, 'label': order_label},
+            #
+            # The parameters set, if any
+            'word_count': custom.get('word_count'),
+            'question_timeout': custom.get('question_timeout'),
+            'answer_timeout': custom.get('answer_timeout'),
         }
 
-        if not initial:
+        # Provides default parameters if the
+        # user has not set them themselves.
+        if not custom:
             return data  # type: ignore[return-value]
 
-        if initial.get('category__id'):
-            data['category'] = {
-                'id': initial['category__id'],
-                'name': initial['category__name'],
-            }
-        if initial.get('mark__id'):
-            data['mark'] = {
-                'id': initial['mark__id'],
-                'name': initial['mark__name'],
-            }
-        if initial.get('word_source__id'):
-            data['word_source'] = {
-                'id': initial['word_source__id'],
-                'name': initial['word_source__name'],
-            }
-        if initial.get('start_period__id'):
-            data['start_period'] = {
-                'id': initial['start_period__id'],
-                'name': initial['start_period__name'],
-            }
-        if initial.get('end_period__id'):
-            data['end_period'] = {
-                'id': initial['end_period__id'],
-                'name': initial['end_period__name'],
-            }
+        # Selected parameters set by the user
+        data['category'] = self._build_option(custom, 'category')
+        data['mark'] = self._build_option(custom, 'mark')
+        data['word_source'] = self._build_option(custom, 'word_source')
+        data['start_period'] = self._build_option(custom, 'start_period')
+        data['end_period'] = self._build_option(custom, 'end_period')
 
         return data  # type: ignore[return-value]
+
+    @staticmethod
+    def _build_option(
+        data: dict[str, Any],
+        field_name: str,
+    ) -> types.IdName | None:
+        """Build id-name option."""
+        id_field, name_field = f'{field_name}__id', f'{field_name}__name'
+        return (
+            {'id': data[id_field], 'name': data[name_field]}
+            if data.get(id_field)
+            else None
+        )
 
     @override
     @transaction.atomic
@@ -127,6 +126,7 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
                 else None,
                 start_period=self._get_initial(data, 'start_period'),
                 end_period=self._get_initial(data, 'end_period'),
+                #
                 # Settings
                 word_count=data.get('word_count'),
                 question_timeout=data.get('question_timeout'),
@@ -138,13 +138,7 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
     @staticmethod
     def _get_initial(
         data: types.UpdateParametersT,
-        field_name: Literal[
-            'category',
-            'mark',
-            'word_source',
-            'start_period',
-            'end_period',
-        ],
+        field_name: OptionsT,
     ) -> int | None:
         """Get new parameter option ID or return None."""
         value: types.IdName | None = data.get(field_name)
