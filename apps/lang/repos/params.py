@@ -43,19 +43,33 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
             or {}
         )
 
+        order_value = (
+            initial.get('order')
+            or models.Params.TranslateChoices.TO_NATIVE.value
+        )
+        order_choice = models.Params.TranslateChoices(order_value)
+
         data = {
-            # Parameter choices
+            # Parameters options
             'categories': list(categories.values('id', 'name')),
             'marks': list(marks.values('id', 'name')),
             'sources': list(sources.values('id', 'name')),
             'periods': list(periods.values('id', 'name')),
-            # Initial parameters
+            'orders': [
+                {'value': value, 'label': label}
+                for value, label in models.Params.TranslateChoices.choices
+            ],
+            # Selected parameter
             'category': None,
             'mark': None,
             'word_source': None,
-            'order': initial.get('order'),
             'start_period': None,
             'end_period': None,
+            'order': {
+                'value': order_choice.value,
+                'label': order_choice.label,
+            },
+            # Set parameter
             'word_count': initial.get('word_count'),
             'question_timeout': initial.get('question_timeout'),
             'answer_timeout': initial.get('answer_timeout'),
@@ -108,7 +122,9 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
                 category=self._get_initial(data, 'category'),
                 mark=self._get_initial(data, 'mark'),
                 word_source=self._get_initial(data, 'word_source'),
-                order=data.get('order'),
+                order=data.get('order')['value']  # type: ignore[index]
+                if data.get('order')
+                else None,
                 start_period=self._get_initial(data, 'start_period'),
                 end_period=self._get_initial(data, 'end_period'),
                 # Settings
