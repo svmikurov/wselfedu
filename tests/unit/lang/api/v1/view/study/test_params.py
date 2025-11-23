@@ -15,7 +15,7 @@ import di
 from apps.lang.repos.abc import WordStudyParamsRepositoryABC
 from apps.lang import types
 
-from tests.fixtures.lang.params_data import options, selected, settings
+from tests.fixtures.lang.no_db.params_data import options, selected, settings
 
 from apps.lang.api.v1.views.study import WordStudyViewSet
 
