@@ -60,7 +60,7 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
             'sources': list(sources.values('id', 'name')),
             'periods': list(periods.values('id', 'name')),
             'orders': [
-                {'value': value, 'label': label}
+                {'code': value, 'name': label}
                 for value, label in models.Params.TranslateChoices.choices
             ],
             #
@@ -70,7 +70,7 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
             'word_source': None,
             'start_period': None,
             'end_period': None,
-            'order': {'value': order_value, 'label': order_label},
+            'order': {'code': order_value, 'name': order_label},
             #
             # The parameters set, if any
             'word_count': custom.get('word_count'),
@@ -121,7 +121,7 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
                 category=self._get_initial(data, 'category'),
                 mark=self._get_initial(data, 'mark'),
                 word_source=self._get_initial(data, 'word_source'),
-                order=data.get('order')['value']  # type: ignore[index]
+                order=data.get('order')['code']  # type: ignore[index]
                 if data.get('order')
                 else None,
                 start_period=self._get_initial(data, 'start_period'),

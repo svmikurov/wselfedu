@@ -3,8 +3,8 @@
 from rest_framework import serializers
 
 from apps.core.api.v1.serializers import (
+    CodeNameSerializer,
     IdNameSerializer,
-    ValueLabelSerializer,
 )
 from apps.lang import types
 from apps.lang.models.word import AbstractWordModel
@@ -22,7 +22,7 @@ class WordStudyParamsChoicesSerializer(
     marks = IdNameSerializer(many=True)
     sources = IdNameSerializer(many=True)
     periods = IdNameSerializer(many=True)
-    orders = ValueLabelSerializer(many=True)
+    orders = CodeNameSerializer(many=True)
 
 
 class WordStudyInitialChoicesSerializer(
@@ -33,7 +33,7 @@ class WordStudyInitialChoicesSerializer(
     category = IdNameSerializer(allow_null=True)
     mark = IdNameSerializer(allow_null=True)
     word_source = IdNameSerializer(allow_null=True)
-    order = ValueLabelSerializer(allow_null=True)
+    order = CodeNameSerializer(allow_null=True)
     start_period = IdNameSerializer(allow_null=True)
     end_period = IdNameSerializer(allow_null=True)
 

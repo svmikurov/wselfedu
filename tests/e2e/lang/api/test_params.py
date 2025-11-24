@@ -46,9 +46,9 @@ def public_parameters(
         'sources': [],
         'periods': parameters_db_data['periods'],
         'orders': [
-            {'value': 'from_native', 'label': 'С родного языка'},
-            {'value': 'to_native', 'label': 'На родной язык'},
-            {'value': 'random', 'label': 'Случайный порядок'},
+            {'code': 'from_native', 'name': 'С родного языка'},
+            {'code': 'to_native', 'name': 'На родной язык'},
+            {'code': 'random', 'name': 'Случайный порядок'},
         ],
         # Selected parameter
         'category': None,
@@ -56,7 +56,7 @@ def public_parameters(
         'word_source': None,
         'start_period': None,
         'end_period': None,
-        'order': {'value': 'to_native', 'label': 'На родной язык'},
+        'order': {'code': 'to_native', 'name': 'На родной язык'},
         # Set parameter
         'word_count': None,
         'question_timeout': None,
@@ -118,9 +118,9 @@ def parameters_db_data(
         'sources': _build_choices(sources),
         'periods': _build_choices(periods),
         'orders': [
-            {'value': 'from_native', 'label': 'С родного языка'},
-            {'value': 'to_native', 'label': 'На родной язык'},
-            {'value': 'random', 'label': 'Случайный порядок'},
+            {'code': 'from_native', 'name': 'С родного языка'},
+            {'code': 'to_native', 'name': 'На родной язык'},
+            {'code': 'random', 'name': 'Случайный порядок'},
         ],
         # Selected parameter
         'category': {'id': categories[0].pk, 'name': categories[0].name},
@@ -129,8 +129,8 @@ def parameters_db_data(
         'start_period': {'id': periods[0].pk, 'name': periods[0].name},
         'end_period': {'id': periods[1].pk, 'name': periods[1].name},
         'order': {  # type: ignore[typeddict-item]
-            'value': parameters.order.value,  # type: ignore[union-attr]
-            'label': parameters.order.label,  # type: ignore[union-attr]
+            'code': parameters.order.value,  # type: ignore[union-attr]
+            'name': parameters.order.label,  # type: ignore[union-attr]
         },
         # Set parameter
         'word_count': parameters.word_count,

@@ -2,10 +2,10 @@
 
 __all__ = [
     'IdNameSerializer',
-    'ValueLabelSerializer',
+    'CodeNameSerializer',
 ]
 
 from .shared import (
+    CodeNameSerializer,
     IdNameSerializer,
-    ValueLabelSerializer,
 )

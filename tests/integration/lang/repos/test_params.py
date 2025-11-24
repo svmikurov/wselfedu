@@ -18,7 +18,7 @@ pytestmark = pytest.mark.django_db
 @pytest.fixture
 def public_parameters() -> dict[
     str,
-    list[types.IdName] | list[types.ValueLabel] | types.TranslateOrderT | None,
+    list[types.IdName] | list[types.CodeName] | types.TranslateOrderT | None,
 ]:
     """Provide public DB data."""
     # Create public parameter choices
@@ -42,9 +42,9 @@ def public_parameters() -> dict[
             {'id': periods[1].pk, 'name': periods[1].name},
         ],
         'orders': [  # type: ignore[dict-item]
-            {'value': 'from_native', 'label': 'С родного языка'},
-            {'value': 'to_native', 'label': 'На родной язык'},
-            {'value': 'random', 'label': 'Случайный порядок'},
+            {'code': 'from_native', 'name': 'С родного языка'},
+            {'code': 'to_native', 'name': 'На родной язык'},
+            {'code': 'random', 'name': 'Случайный порядок'},
         ],
         # Selected parameter
         'category': None,
@@ -52,7 +52,7 @@ def public_parameters() -> dict[
         'word_source': None,
         'start_period': None,
         'end_period': None,
-        'order': {'value': 'to_native', 'label': 'На родной язык'},  # type: ignore[dict-item]
+        'order': {'code': 'to_native', 'name': 'На родной язык'},  # type: ignore[dict-item]
         # Set parameter
         'word_count': None,
         'question_timeout': None,
@@ -112,9 +112,9 @@ def parameters(
             {'id': periods[1].pk, 'name': 'end'},
         ],
         'orders': [
-            {'value': 'from_native', 'label': 'С родного языка'},
-            {'value': 'to_native', 'label': 'На родной язык'},
-            {'value': 'random', 'label': 'Случайный порядок'},
+            {'code': 'from_native', 'name': 'С родного языка'},
+            {'code': 'to_native', 'name': 'На родной язык'},
+            {'code': 'random', 'name': 'Случайный порядок'},
         ],
         # Selected parameter
         'category': {'id': category1.pk, 'name': 'cat 1'},
@@ -123,8 +123,8 @@ def parameters(
         'start_period': {'id': periods[0].pk, 'name': periods[0].name},
         'end_period': {'id': periods[1].pk, 'name': periods[1].name},
         'order': {
-            'value': parameters.order.value,  # type: ignore[union-attr]
-            'label': parameters.order.label,  # type: ignore[union-attr]
+            'code': parameters.order.value,  # type: ignore[union-attr]
+            'name': parameters.order.label,  # type: ignore[union-attr]
         },
         # Set parameter
         'word_count': parameters.word_count,

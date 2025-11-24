@@ -14,15 +14,15 @@ VALID_DATA: types.WordPresentationParamsT = {
     'sources': [{'id': 1, 'name': 'mark 1'}],
     'periods': [{'id': 1, 'name': 'today'}, {'id': 2, 'name': 'week_before'}],
     'orders': [
-        {'value': 'to_native', 'label': 'На родной'},
-        {'value': 'from_native', 'label': 'С родного'},
-        {'value': 'random', 'label': 'Случайные'},
+        {'code': 'to_native', 'name': 'На родной'},
+        {'code': 'from_native', 'name': 'С родного'},
+        {'code': 'random', 'name': 'Случайные'},
     ],
     # Selected parameter
     'category': {'id': 1, 'name': 'cat 1'},
     'mark': {'id': 1, 'name': 'mark 1'},
     'word_source': {'id': 1, 'name': 'source 1'},
-    'order': {'value': 'to_native', 'label': 'На родной'},
+    'order': {'code': 'to_native', 'name': 'На родной'},
     'start_period': {'id': 2, 'name': 'week_before'},
     'end_period': {'id': 1, 'name': 'today'},
     # Set parameter

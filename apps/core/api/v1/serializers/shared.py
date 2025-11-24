@@ -12,10 +12,8 @@ class IdNameSerializer(serializers.Serializer[types.IdName]):
     name = serializers.CharField()
 
 
-# TODO: Rename 'label' field
-# Use serializers.CharField(source='label')?
-class ValueLabelSerializer(serializers.Serializer[types.ValueLabel]):
-    """Serializer for objects with value and label fields."""
+class CodeNameSerializer(serializers.Serializer[types.CodeName]):
+    """Serializer for objects with code and name fields."""
 
-    value = serializers.CharField()
-    label = serializers.CharField()  # type: ignore[assignment]
+    code = serializers.CharField()
+    name = serializers.CharField()

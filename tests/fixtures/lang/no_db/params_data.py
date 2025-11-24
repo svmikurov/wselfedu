@@ -19,9 +19,9 @@ def options() -> types.ParamsChoicesT:
         'sources': [{'id': 3, 'name': 'source'}],
         'periods': [{'id': 4, 'name': 'source'}],
         'orders': [
-            {'value': 'from_native', 'label': 'С родного языка'},
-            {'value': 'to_native', 'label': 'На родной язык'},
-            {'value': 'random', 'label': 'Случайный порядок'},
+            {'code': 'from_native', 'name': 'С родного языка'},
+            {'code': 'to_native', 'name': 'На родной язык'},
+            {'code': 'random', 'name': 'Случайный порядок'},
         ],
     }
 
