@@ -46,14 +46,14 @@ def public_parameters(
         'marks': [],
         'sources': [],
         'periods': parameters_db_data['periods'],
-        'orders': translation_order_options,
+        'translation_orders': translation_order_options,
         # Selected parameter
         'category': None,
         'mark': None,
         'word_source': None,
         'start_period': None,
         'end_period': None,
-        'order': translation_order_options[1],
+        'translation_order': translation_order_options[1],
         # Set parameter
         'word_count': None,
         'question_timeout': None,
@@ -115,16 +115,16 @@ def parameters_db_data(
         'marks': _build_choices(marks),
         'sources': _build_choices(sources),
         'periods': _build_choices(periods),
-        'orders': translation_order_options,
+        'translation_orders': translation_order_options,
         # Selected parameter
         'category': {'id': categories[0].pk, 'name': categories[0].name},
         'mark': {'id': marks[1].pk, 'name': marks[1].name},
         'word_source': {'id': sources[0].pk, 'name': sources[0].name},
         'start_period': {'id': periods[0].pk, 'name': periods[0].name},
         'end_period': {'id': periods[1].pk, 'name': periods[1].name},
-        'order': {  # type: ignore[typeddict-item]
-            'code': parameters.order.value,  # type: ignore[union-attr]
-            'name': parameters.order.label,  # type: ignore[union-attr]
+        'translation_order': {  # type: ignore[typeddict-item]
+            'code': parameters.translation_order.value,  # type: ignore[union-attr]
+            'name': parameters.translation_order.label,  # type: ignore[union-attr]
         },
         # Set parameter
         'word_count': parameters.word_count,

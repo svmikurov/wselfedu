@@ -38,7 +38,7 @@ def valid_payload() -> types.InitialChoicesT:
         'mark': None,
         # TODO: Add database tables for choices
         'word_source': None,
-        'order': None,
+        'translation_order': None,
         'start_period': None,
         'end_period': None,
     }

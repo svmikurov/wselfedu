@@ -63,7 +63,7 @@ class ParamsAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
         'category',
         'mark',
         'word_count',
-        'order',
+        'translation_order',
         'start_period',
         'end_period',
         'question_timeout',

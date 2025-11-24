@@ -1,7 +1,5 @@
 """Word study Presentation parameters Repository tests."""
 
-from typing import Any
-
 import pytest
 from django.test.utils import CaptureQueriesContext
 
@@ -18,10 +16,7 @@ pytestmark = pytest.mark.django_db
 @pytest.fixture
 def public_parameters(
     translation_order_options: list[types.CodeName],
-) -> dict[
-    str,
-    list[types.IdName] | list[types.CodeName] | types.TranslateOrderT | None,
-]:
+) -> types.WordPresentationParamsT:
     """Provide public DB data."""
     # Create public parameter choices
     periods = core_models.Period.objects.bulk_create(
@@ -39,18 +34,18 @@ def public_parameters(
         'marks': [],
         'sources': [],
         # - public options
-        'periods': [  # type: ignore[dict-item]
+        'periods': [
             {'id': periods[0].pk, 'name': periods[0].name},
             {'id': periods[1].pk, 'name': periods[1].name},
         ],
-        'orders': translation_order_options,
+        'translation_orders': translation_order_options,
         # Selected parameter
         'category': None,
         'mark': None,
         'word_source': None,
         'start_period': None,
         'end_period': None,
-        'order': translation_order_options[1],  # type: ignore[dict-item]
+        'translation_order': translation_order_options[1],
         # Set parameter
         'word_count': None,
         'question_timeout': None,
@@ -64,7 +59,7 @@ def public_parameters(
 def parameters(
     user: CustomUser,
     translation_order_options: list[types.CodeName],
-) -> dict[str, Any]:
+) -> types.WordPresentationParamsT:
     """Populate DB and provide parameters."""
     # Create choices
     category1 = models.LangCategory.objects.create(user=user, name='cat 1')
@@ -110,16 +105,16 @@ def parameters(
             {'id': periods[0].pk, 'name': 'start'},
             {'id': periods[1].pk, 'name': 'end'},
         ],
-        'orders': translation_order_options,
+        'translation_orders': translation_order_options,
         # Selected parameter
         'category': {'id': category1.pk, 'name': 'cat 1'},
         'mark': {'id': marks[0].pk, 'name': 'mark 1'},
         'word_source': {'id': source1.pk, 'name': source1.name},
         'start_period': {'id': periods[0].pk, 'name': periods[0].name},
         'end_period': {'id': periods[1].pk, 'name': periods[1].name},
-        'order': {
-            'code': parameters.order.value,  # type: ignore[union-attr]
-            'name': parameters.order.label,  # type: ignore[union-attr]
+        'translation_order': {  # type: ignore[typeddict-item]
+            'code': parameters.translation_order.value,  # type: ignore[union-attr]
+            'name': parameters.translation_order.label,  # type: ignore[union-attr]
         },
         # Set parameter
         'word_count': parameters.word_count,
@@ -149,7 +144,7 @@ class TestFetch:
         self,
         user: CustomUser,
         repo: repos.WordStudyParamsRepository,
-        public_parameters: dict[str, Any],
+        public_parameters: types.WordPresentationParamsT,
     ) -> None:
         """Test fetch public default data."""
         # Act & assert
@@ -159,7 +154,7 @@ class TestFetch:
         self,
         user: CustomUser,
         repo: repos.WordStudyParamsRepository,
-        parameters: dict[str, Any],
+        parameters: types.WordPresentationParamsT,
         django_assert_num_queries: CaptureQueriesContext,
     ) -> None:
         """Test fetch initial data."""
@@ -175,18 +170,18 @@ class TestUpdate:
         self,
         user: CustomUser,
         repo: repos.WordStudyParamsRepository,
-        parameters: dict[str, Any],
+        parameters: types.WordPresentationParamsT,
         django_assert_num_queries: CaptureQueriesContext,
     ) -> None:
         """Test update initial data."""
         # Arrange
         # - Select a parameter from the options
         # to set it as the initial value
-        mark = parameters['marks'][1]
+        mark = parameters['marks'][1]  # type: ignore[index]
 
         # - Parameter data without option fields to update
         new_params = {
-            key: parameters[key]
+            key: parameters[key]  # type: ignore[literal-required]
             for key in parameters.keys()
             if key not in ('categories', 'marks', 'sources', 'periods')
         }
@@ -209,7 +204,7 @@ class TestUpdate:
         self,
         user: CustomUser,
         repo: repos.WordStudyParamsRepository,
-        parameters: dict[str, Any],
+        parameters: types.WordPresentationParamsT,
     ) -> None:
         """Test that updated parameter is None."""
         # Arrange

@@ -44,7 +44,7 @@ def word_presentation_options(
             {'id': 1, 'name': 'today'},
             {'id': 2, 'name': 'week_before'},
         ],
-        'orders': translation_order_options,
+        'translation_orders': translation_order_options,
     }
 
 
@@ -58,9 +58,9 @@ def word_presentation_selected(
         'category': word_presentation_options['categories'][0],  # type: ignore
         'mark': word_presentation_options['marks'][1],  # type: ignore
         'word_source': word_presentation_options['sources'][0],  # type: ignore
-        'start_period': word_presentation_options['periods'][0],  # type: ignore
-        'end_period': word_presentation_options['periods'][1],  # type: ignore
-        'order': translation_order_options[0],
+        'start_period': word_presentation_options['periods'][0],
+        'end_period': word_presentation_options['periods'][1],
+        'translation_order': translation_order_options[0],
     }
 
 

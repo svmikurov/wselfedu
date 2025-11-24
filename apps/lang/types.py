@@ -40,10 +40,8 @@ class ParamsChoicesT(TypedDict):
     categories: list[IdName] | None
     marks: list[IdName] | None
     sources: list[IdName] | None
-    # TODO: Should the 'periods' field be optional?
-    # It is public field.
-    periods: list[IdName] | None
-    orders: list[CodeName]
+    periods: list[IdName]
+    translation_orders: list[CodeName]
 
 
 class InitialChoicesT(TypedDict):
@@ -52,7 +50,8 @@ class InitialChoicesT(TypedDict):
     category: IdName | None
     mark: IdName | None
     word_source: IdName | None
-    order: CodeName | None
+    # TODO: Should below fields be optional?
+    translation_order: CodeName | None
     start_period: IdName | None
     end_period: IdName | None
 

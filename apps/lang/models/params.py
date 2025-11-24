@@ -46,7 +46,7 @@ class Params(models.Model):
         null=True,
         verbose_name='Источник',
     )
-    order = models.CharField(
+    translation_order = models.CharField(
         max_length=20,
         blank=True,
         null=True,
