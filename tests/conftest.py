@@ -9,6 +9,7 @@ from di import MainContainer
 
 pytest_plugins = [
     'tests.fixtures.user',
+    'tests.fixtures.lang.no_db.params_data',
     'tests.unit.lang.fixtures',
 ]
 

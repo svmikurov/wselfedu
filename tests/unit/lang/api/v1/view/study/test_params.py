@@ -15,28 +15,16 @@ import di
 from apps.lang.repos.abc import WordStudyParamsRepositoryABC
 from apps.lang import types
 
-from tests.fixtures.lang.no_db.params_data import options, selected, settings
-
 from apps.lang.api.v1.views.study import WordStudyViewSet
 
 
 @pytest.fixture
-def payload(
-    options: types.ParamsChoicesT,
-    selected: types.InitialChoicesT,
-    settings: types.PresentationSettingsT,
-) -> types.WordPresentationParamsT:
-    """Provide Word study Presentation params payload."""
-    return {**options, **selected, **settings}
-
-
-@pytest.fixture
 def mock_repository(
-    payload: types.WordPresentationParamsT,
+    word_presentation_params: types.WordPresentationParamsT,
 ) -> Mock:
     """Mock initial Word study params."""
     mock = Mock(spec=WordStudyParamsRepositoryABC)
-    mock.fetch.return_value = payload
+    mock.fetch.return_value = word_presentation_params
     return mock
 
 
@@ -52,7 +40,7 @@ class TestWordStudyParams:
         self,
         api_request_factory: APIRequestFactory,
         view: Callable[[Request], Response],
-        payload: types.WordPresentationParamsT,
+        word_presentation_params: types.WordPresentationParamsT,
         mock_repository: Mock,
     ) -> None:
         """Test params success."""
@@ -66,4 +54,4 @@ class TestWordStudyParams:
 
         # Assert
         assert response.status_code == HTTPStatus.OK
-        assert response.data == payload
+        assert response.data == word_presentation_params

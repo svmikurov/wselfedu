@@ -33,6 +33,7 @@ UNAUTHORIZED_RESPONSE_DATA = {
 @pytest.fixture
 def public_parameters(
     parameters_db_data: types.WordPresentationParamsT,
+    translation_order_options: list[types.CodeName],
 ) -> types.WordPresentationParamsT:
     """Provide public Parameters data.
 
@@ -45,18 +46,14 @@ def public_parameters(
         'marks': [],
         'sources': [],
         'periods': parameters_db_data['periods'],
-        'orders': [
-            {'code': 'from_native', 'name': 'С родного языка'},
-            {'code': 'to_native', 'name': 'На родной язык'},
-            {'code': 'random', 'name': 'Случайный порядок'},
-        ],
+        'orders': translation_order_options,
         # Selected parameter
         'category': None,
         'mark': None,
         'word_source': None,
         'start_period': None,
         'end_period': None,
-        'order': {'code': 'to_native', 'name': 'На родной язык'},
+        'order': translation_order_options[1],
         # Set parameter
         'word_count': None,
         'question_timeout': None,
@@ -67,6 +64,7 @@ def public_parameters(
 @pytest.fixture
 def parameters_db_data(
     user: CustomUser,
+    translation_order_options: list[types.CodeName],
 ) -> types.WordPresentationParamsT:
     """Provide Word study Presenter DB data parameters."""
     categories = models.LangCategory.objects.bulk_create(
@@ -117,11 +115,7 @@ def parameters_db_data(
         'marks': _build_choices(marks),
         'sources': _build_choices(sources),
         'periods': _build_choices(periods),
-        'orders': [
-            {'code': 'from_native', 'name': 'С родного языка'},
-            {'code': 'to_native', 'name': 'На родной язык'},
-            {'code': 'random', 'name': 'Случайный порядок'},
-        ],
+        'orders': translation_order_options,
         # Selected parameter
         'category': {'id': categories[0].pk, 'name': categories[0].name},
         'mark': {'id': marks[1].pk, 'name': marks[1].name},

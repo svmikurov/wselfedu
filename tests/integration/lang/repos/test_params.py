@@ -16,7 +16,9 @@ pytestmark = pytest.mark.django_db
 
 
 @pytest.fixture
-def public_parameters() -> dict[
+def public_parameters(
+    translation_order_options: list[types.CodeName],
+) -> dict[
     str,
     list[types.IdName] | list[types.CodeName] | types.TranslateOrderT | None,
 ]:
@@ -41,18 +43,14 @@ def public_parameters() -> dict[
             {'id': periods[0].pk, 'name': periods[0].name},
             {'id': periods[1].pk, 'name': periods[1].name},
         ],
-        'orders': [  # type: ignore[dict-item]
-            {'code': 'from_native', 'name': 'С родного языка'},
-            {'code': 'to_native', 'name': 'На родной язык'},
-            {'code': 'random', 'name': 'Случайный порядок'},
-        ],
+        'orders': translation_order_options,
         # Selected parameter
         'category': None,
         'mark': None,
         'word_source': None,
         'start_period': None,
         'end_period': None,
-        'order': {'code': 'to_native', 'name': 'На родной язык'},  # type: ignore[dict-item]
+        'order': translation_order_options[1],  # type: ignore[dict-item]
         # Set parameter
         'word_count': None,
         'question_timeout': None,
@@ -65,6 +63,7 @@ def public_parameters() -> dict[
 @pytest.fixture
 def parameters(
     user: CustomUser,
+    translation_order_options: list[types.CodeName],
 ) -> dict[str, Any]:
     """Populate DB and provide parameters."""
     # Create choices
@@ -111,11 +110,7 @@ def parameters(
             {'id': periods[0].pk, 'name': 'start'},
             {'id': periods[1].pk, 'name': 'end'},
         ],
-        'orders': [
-            {'code': 'from_native', 'name': 'С родного языка'},
-            {'code': 'to_native', 'name': 'На родной язык'},
-            {'code': 'random', 'name': 'Случайный порядок'},
-        ],
+        'orders': translation_order_options,
         # Selected parameter
         'category': {'id': category1.pk, 'name': 'cat 1'},
         'mark': {'id': marks[0].pk, 'name': 'mark 1'},
