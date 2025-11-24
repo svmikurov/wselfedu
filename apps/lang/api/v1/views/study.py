@@ -2,9 +2,10 @@
 
 import logging
 import uuid
+from http import HTTPStatus
 
 from dependency_injector import wiring
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import OpenApiExample, extend_schema
 from rest_framework import permissions, status
 from rest_framework.decorators import action
 from rest_framework.request import Request
@@ -20,6 +21,7 @@ from apps.lang.services.abc import (
     WordProgressServiceABC,
 )
 
+from .. import examples
 from .. import serializers as ser
 
 log = logging.getLogger(__name__)
@@ -70,7 +72,15 @@ class WordStudyViewSet(ViewSet):
 
     @extend_schema(
         summary='Word study params',
-        responses=ser.WordStudyPresentationParamsSerializer,
+        responses={HTTPStatus.OK: ser.WordStudyPresentationParamsSerializer},
+        examples=[
+            OpenApiExample(
+                'Success response data example',
+                value=examples.WORD_STUDY_PARAMETERS_DATA,
+                response_only=True,
+                status_codes=[HTTPStatus.OK],
+            ),
+        ],
         tags=['Lang'],
     )
     @action(methods=['get'], detail=False)
