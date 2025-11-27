@@ -81,6 +81,7 @@ class TestUpdate:
 
         updated_data = repos.WordStudyParamsRepository().fetch(user)
         assert to_update.items() <= updated_data.items()
+        assert response.data == updated_data
 
 
 class TestPermissions:
