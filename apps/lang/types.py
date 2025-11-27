@@ -33,9 +33,8 @@ class CodeName(TypedDict):
 # ------------------------------
 
 
-# TODO: Rename to `ParamOptionsT`
-class ParamsChoicesT(TypedDict):
-    """Fields type for Word study choices."""
+class ParamOptionsT(TypedDict):
+    """Fields type for Word study Parameter options."""
 
     categories: list[IdName] | None
     marks: list[IdName] | None
@@ -50,7 +49,6 @@ class InitialChoicesT(TypedDict):
     category: IdName | None
     mark: IdName | None
     word_source: IdName | None
-    # TODO: Should below fields be optional?
     translation_order: CodeName | None
     start_period: IdName | None
     end_period: IdName | None
@@ -69,7 +67,7 @@ class UpdateParametersT(InitialChoicesT, PresentationSettingsT):
 
 
 class WordPresentationParamsT(
-    ParamsChoicesT,
+    ParamOptionsT,
     InitialChoicesT,
     PresentationSettingsT,
 ):

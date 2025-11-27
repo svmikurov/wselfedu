@@ -17,7 +17,7 @@ class Presentation(PresentationABC):
 
     def get_candidates(
         self,
-        params: types.ParamsChoicesT,
+        params: types.ParamOptionsT,
     ) -> types.WordStudyParams:
         """Get candidates for Presentation."""
         # Temporary translations from english to native

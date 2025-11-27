@@ -42,7 +42,7 @@ class PresentationABC(ABC):
     @abstractmethod
     def get_candidates(
         self,
-        params: types.ParamsChoicesT,
+        params: types.ParamOptionsT,
     ) -> types.WordStudyParams:
         """Get candidates for Presentation."""
 

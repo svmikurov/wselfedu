@@ -56,7 +56,7 @@ def expected_case(
 @pytest.fixture
 def params() -> Mock:
     """Provide Word study Presentation params."""
-    return Mock(spec=types.ParamsChoicesT)
+    return Mock(spec=types.ParamOptionsT)
 
 
 class TestService:

@@ -14,7 +14,7 @@ from apps.lang.models.word import AbstractWordModel
 
 
 class WordStudyParamsChoicesSerializer(
-    serializers.Serializer[types.ParamsChoicesT],
+    serializers.Serializer[types.ParamOptionsT],
 ):
     """Serializer for Word study params choices."""
 
@@ -39,7 +39,7 @@ class WordStudyInitialChoicesSerializer(
 
 
 class PresentationSettingsSerializer(
-    serializers.Serializer[types.ParamsChoicesT],
+    serializers.Serializer[types.ParamOptionsT],
 ):
     """Serializer for Presentation settings."""
 

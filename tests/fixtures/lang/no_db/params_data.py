@@ -26,7 +26,7 @@ def translation_order_options() -> list[types.CodeName]:
 @pytest.fixture
 def word_presentation_options(
     translation_order_options: list[types.CodeName],
-) -> types.ParamsChoicesT:
+) -> types.ParamOptionsT:
     """Provide Word study Presentation parameter options."""
     return {
         'categories': [
@@ -51,7 +51,7 @@ def word_presentation_options(
 @pytest.fixture
 def word_presentation_selected(
     translation_order_options: list[types.CodeName],
-    word_presentation_options: types.ParamsChoicesT,
+    word_presentation_options: types.ParamOptionsT,
 ) -> types.InitialChoicesT:
     """Provide Word study Presentation selected parameters."""
     return {
@@ -76,7 +76,7 @@ def word_presentation_settings() -> types.PresentationSettingsT:  #
 
 @pytest.fixture
 def word_presentation_params(
-    word_presentation_options: types.ParamsChoicesT,
+    word_presentation_options: types.ParamOptionsT,
     word_presentation_selected: types.InitialChoicesT,
     word_presentation_settings: types.PresentationSettingsT,
 ) -> types.WordPresentationParamsT:
