@@ -115,7 +115,7 @@ class WordStudyViewSet(ViewSet):
         params = ser.UpdateParametersSerializer(data=request.data)
         params.is_valid()
         try:
-            repository.update(
+            payload = repository.update(
                 self.request.user,  # type: ignore[arg-type]
                 params.validated_data,
             )
@@ -124,7 +124,9 @@ class WordStudyViewSet(ViewSet):
                 data={'detail': str(exc)},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        return Response(status=status.HTTP_200_OK)
+        return Response(
+            ser.WordStudyPresentationParamsSerializer(payload).data
+        )
 
     # TODO: Add status codes with exceptions
     # TODO: Update response status to 200?
