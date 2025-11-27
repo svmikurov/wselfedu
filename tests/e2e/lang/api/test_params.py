@@ -1,4 +1,4 @@
-"""Test Word study Progress parameters API tests."""
+"""Word study parameters API tests."""
 
 from __future__ import annotations
 
