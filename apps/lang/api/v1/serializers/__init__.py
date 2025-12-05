@@ -1,19 +1,17 @@
 """Language discipline app serializers."""
 
 __all__ = [
-    'WordStudyInitialChoicesSerializer',
-    'WordStudyParamsChoicesSerializer',
+    'WordParametersSerializer',
     'WordStudyCaseSerializer',
     'WordStudyProgressSerializer',
-    'WordStudyPresentationParamsSerializer',
-    'UpdateParametersSerializer',
+    'SetParametersSerializer',
+    'StudyParametersSerializer',
 ]
 
 from .study import (
-    UpdateParametersSerializer,
+    SetParametersSerializer,
+    StudyParametersSerializer,
+    WordParametersSerializer,
     WordStudyCaseSerializer,
-    WordStudyInitialChoicesSerializer,
-    WordStudyParamsChoicesSerializer,
-    WordStudyPresentationParamsSerializer,
     WordStudyProgressSerializer,
 )
