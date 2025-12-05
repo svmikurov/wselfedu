@@ -4,24 +4,24 @@ import logging
 import uuid
 from typing import override
 
-from apps.core.storage.clients import DjangoCache
+from apps.core.exceptions import info
+from apps.core.storage import clients as storage
 from apps.users.models import CustomUser
 
-from .. import schemas, types
-from ..repos.abc import PresentationABC
-from .abc import WordPresentationServiceABC, WordStudyDomainABC
+from .. import domain, repos, schemas, types
+from .abc import WordPresentationServiceABC
 
 log = logging.getLogger(__name__)
 
 
 class WordPresentationService(WordPresentationServiceABC):
-    """Service to Word study via presentation."""
+    """Word study Presentation service."""
 
     def __init__(
         self,
-        word_repo: PresentationABC,
-        case_storage: DjangoCache[schemas.WordStudyStoredCase],
-        domain: WordStudyDomainABC,
+        word_repo: repos.PresentationABC,
+        case_storage: storage.CacheABC[schemas.WordStudyStoredCase],
+        domain: domain.WordStudyDomainABC,
     ) -> None:
         """Construct the service."""
         self._word_repo = word_repo
@@ -33,20 +33,18 @@ class WordPresentationService(WordPresentationServiceABC):
     def get_presentation_case(
         self,
         user: CustomUser,
-        presentation_params: types.ParamOptionsT,
+        presentation_params: types.WordParameters,
     ) -> types.PresentationCaseT:
         """Get Word study presentation case."""
         candidates = self._word_repo.get_candidates(presentation_params)
 
-        # TODO: Handle exception into view.
-        # TODO: Add custom exception?
         if not candidates.translation_ids:
-            log.info('No words to study for request params')
-            raise LookupError
+            log.info('No translation to study for requested parameters')
+            raise info.NoTranslationsAvailableException
 
         case = self._domain.create(candidates)
         case_uuid = self._store_case(case)
-        case_data = self._word_repo.get_case(
+        case_data = self._word_repo.get_word_study_data(
             user=user,
             translation_id=case.translation_id,
             language='english',
@@ -62,7 +60,6 @@ class WordPresentationService(WordPresentationServiceABC):
         case_uuid = self._case_storage.set(schema)
         return case_uuid
 
-    # TODO: Fix type ignore
     @staticmethod
     def _build_case_data(
         case_uuid: uuid.UUID,
@@ -74,7 +71,7 @@ class WordPresentationService(WordPresentationServiceABC):
             'definition': case_data['definition'],
             'explanation': case_data['explanation'],
             'info': {
-                'progress': case_data['info']['progress'],  # type: ignore[typeddict-item, index]
+                'progress': case_data['info']['progress'],
             },
         }
         return case

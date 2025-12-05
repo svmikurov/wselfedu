@@ -1,4 +1,4 @@
-"""Abstract base classes for Language discipline services."""
+"""Abstract base classes for Language app services."""
 
 from abc import ABC, abstractmethod
 from typing import override
@@ -10,7 +10,7 @@ from .. import types
 
 
 class WordPresentationServiceABC(
-    StudyPresenterGenABC[types.ParamOptionsT, types.PresentationCaseT],
+    StudyPresenterGenABC[types.WordParameters, types.PresentationCaseT],
     ABC,
 ):
     """ABC fore Word study service."""
@@ -20,7 +20,7 @@ class WordPresentationServiceABC(
     def get_presentation_case(
         self,
         user: CustomUser,
-        presentation_params: types.ParamOptionsT,
+        presentation_params: types.WordParameters,
     ) -> types.PresentationCaseT:
         """Get Word study presentation case."""
 
@@ -44,11 +44,3 @@ class WordProgressServiceABC(ABC):
             Update Word study progress data.
 
         """
-
-
-class WordStudyDomainABC(ABC):
-    """Word study service to create task case."""
-
-    @abstractmethod
-    def create(self, params: types.WordStudyParams) -> types.WordStudyCase:
-        """Create word study task case."""
