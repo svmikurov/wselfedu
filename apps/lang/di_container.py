@@ -6,8 +6,8 @@ from apps.core.storage.clients import DjangoCache
 from apps.lang import schemas
 
 from . import repos, services
+from .domain.presentation import WordStudyDomain
 from .services.presentation import WordPresentationService
-from .services.study import WordStudyDomain
 
 
 class LanguageContainer(containers.DeclarativeContainer):
@@ -35,7 +35,7 @@ class LanguageContainer(containers.DeclarativeContainer):
         repos.WordStudyParamsRepository,
     )
     word_repo = providers.Factory(
-        repos.Presentation,
+        repos.EnglishPresentation,
     )
     translation_repo = providers.Factory(
         repos.TranslationRepo,
