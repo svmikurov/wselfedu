@@ -4,13 +4,18 @@ from typing import Any, Literal, override
 
 from django.db import transaction
 
-from apps.core import models as core_models
+from apps.core import models as models_core
 from apps.lang import models, types
 from apps.lang.repos.abc import WordStudyParamsRepositoryABC
 from apps.users.models import CustomUser
 
 OptionsT = Literal[
-    'category', 'mark', 'word_source', 'start_period', 'end_period'
+    'category',
+    'mark',
+    'word_source',
+    'start_period',
+    'end_period',
+    'translation_order',
 ]
 
 
@@ -18,13 +23,13 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
     """Word study params repository."""
 
     @override
-    def fetch(self, user: CustomUser) -> types.WordPresentationParamsT:
+    def fetch(self, user: CustomUser) -> types.SetStudyParameters:
         """Fetch parameters with parameter choices."""
         # Parameter options
         categories = models.LangCategory.objects.filter(user=user)
         marks = models.LangMark.objects.filter(user=user)
-        sources = core_models.Source.objects.filter(user=user)
-        periods = core_models.Period.objects
+        sources = models_core.Source.objects.filter(user=user)
+        periods = models_core.Period.objects
 
         # Default, selected and set parameters
         parameters = models.Params.objects.filter(user=user)
@@ -110,36 +115,40 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
     def update(
         self,
         user: CustomUser,
-        data: types.UpdateParametersT,
-    ) -> types.WordPresentationParamsT:
+        data: types.StudyParameters,
+    ) -> types.SetStudyParameters:
         """Update initial parameters."""
+        defaults = {
+            'category_id': self._get_identifier(data, 'category'),
+            'mark_id': self._get_identifier(data, 'mark'),
+            'word_source_id': self._get_identifier(data, 'word_source'),
+            'translation_order': self._get_identifier(
+                data, 'translation_order'
+            ),
+            'start_period_id': self._get_identifier(data, 'start_period'),
+            'end_period_id': self._get_identifier(data, 'end_period'),
+            'word_count': data.get('word_count'),
+            'question_timeout': data.get('question_timeout'),
+            'answer_timeout': data.get('answer_timeout'),
+        }
         (
-            models.Params.objects.select_for_update()
-            .filter(user=user)
-            .update(
-                # Initial choices
-                category=self._get_initial(data, 'category'),
-                mark=self._get_initial(data, 'mark'),
-                word_source=self._get_initial(data, 'word_source'),
-                translation_order=data.get('translation_order')['code']  # type: ignore[index]
-                if data.get('translation_order')
-                else None,
-                start_period=self._get_initial(data, 'start_period'),
-                end_period=self._get_initial(data, 'end_period'),
-                #
-                # Settings
-                word_count=data.get('word_count'),
-                question_timeout=data.get('question_timeout'),
-                answer_timeout=data.get('answer_timeout'),
+            models.Params.objects.update_or_create(
+                user=user,
+                defaults=defaults,
             )
         )
         return self.fetch(user)
 
     @staticmethod
-    def _get_initial(
-        data: types.UpdateParametersT,
+    def _get_identifier(
+        data: types.WordParameters,
         field_name: OptionsT,
-    ) -> int | None:
-        """Get new parameter option ID or return None."""
-        value: types.IdName | None = data.get(field_name)
-        return None if value is None else value['id']
+    ) -> int | str | None:
+        """Get parameter identifier or return None."""
+        match data.get(field_name):
+            case {'id': int(id), 'name': _}:
+                return id
+            case {'code': str(code), 'name': _}:
+                return code
+            case _:
+                return None

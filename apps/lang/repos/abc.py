@@ -30,7 +30,7 @@ class ProgressABC(ABC):
         self,
         user: CustomUser,
         translation_id: int,
-        language: types.LanguageType,
+        language: types.Language,
         progress_delta: int,
     ) -> UpdateResult:
         """Update Word study Progress."""
@@ -42,33 +42,33 @@ class PresentationABC(ABC):
     @abstractmethod
     def get_candidates(
         self,
-        params: types.ParamOptionsT,
-    ) -> types.WordStudyParams:
+        params: types.WordParameters,
+    ) -> types.WordStudyParameters:
         """Get candidates for Presentation."""
 
     @abstractmethod
-    def get_case(
+    def get_word_study_data(
         self,
         user: CustomUser,
         translation_id: int,
-        language: types.LanguageType,
+        language: types.Language,
     ) -> types.PresentationDataT:
-        """Get Presentation case."""
+        """Get Presentation case word data."""
 
 
 class WordStudyParamsRepositoryABC(ABC):
     """ABC for Word study params repository."""
 
     @abstractmethod
-    def fetch(self, user: CustomUser) -> types.WordPresentationParamsT:
+    def fetch(self, user: CustomUser) -> types.SetStudyParameters:
         """Fetch initial params."""
 
     @abstractmethod
     def update(
         self,
         user: CustomUser,
-        data: types.UpdateParametersT,
-    ) -> types.WordPresentationParamsT:
+        data: types.StudyParameters,
+    ) -> types.SetStudyParameters:
         """Update initial parameters."""
 
 

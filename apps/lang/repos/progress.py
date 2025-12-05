@@ -23,7 +23,7 @@ class Progress(ProgressABC):
         self,
         user: CustomUser,
         translation_id: int,
-        language: types.LanguageType,
+        language: types.Language,
         progress_delta: int,
     ) -> ProgressABC.UpdateResult:
         """Update Word study Progress."""
