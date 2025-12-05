@@ -3,8 +3,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from apps.core.models import Source
-
 
 class EnglishTranslation(models.Model):
     """Translation of English word."""
@@ -32,11 +30,18 @@ class EnglishTranslation(models.Model):
         verbose_name='Категория',
     )
     source = models.ForeignKey(
-        Source,
+        'core.Source',
         on_delete=models.CASCADE,
         null=True,
         blank=True,
         verbose_name='Источник',
+    )
+    marks = models.ManyToManyField(  # type: ignore[var-annotated]
+        'LangMark',
+        through='EnglishMark',
+        through_fields=('translation', 'mark'),
+        blank=True,
+        verbose_name='Маркеры',
     )
     created_at = models.DateTimeField(
         auto_now_add=True,

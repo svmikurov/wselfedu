@@ -1,4 +1,4 @@
-"""Language discipline marks."""
+"""Translation relationship with the marker model."""
 
 from django.contrib.auth import get_user_model
 from django.db import models
@@ -44,3 +44,34 @@ class LangMark(models.Model):
         """Get object url path."""
         url = reverse_lazy('lang:mark_detail', kwargs={'pk': self.pk})
         return str(url)
+
+
+class EnglishMark(models.Model):
+    """English translation relationship with the marker."""
+
+    translation = models.ForeignKey(
+        'EnglishTranslation',
+        on_delete=models.CASCADE,
+        verbose_name='Перевод',
+    )
+    mark = models.ForeignKey(
+        'LangMark',
+        on_delete=models.CASCADE,
+        verbose_name='Маркер',
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Добавлено',
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Изменено',
+    )
+
+    class Meta:
+        """Model configuration."""
+
+        unique_together = ['translation', 'mark']
+        verbose_name = 'Маркировка перевода'
+        verbose_name_plural = 'Маркировки переводов'
+        db_table = 'lang_english_mark'
