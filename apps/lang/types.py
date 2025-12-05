@@ -1,77 +1,119 @@
 """Language discipline app types."""
 
+import logging
 import uuid
-from typing import Literal, NamedTuple, Protocol, TypedDict
+from datetime import datetime
+from typing import (
+    Literal,
+    NamedTuple,
+    Protocol,
+    TypeAlias,
+    TypedDict,
+)
 
-LanguageType = Literal['native', 'english']
-ProgressType = Literal['known', 'unknown']
-TranslateOrderT = Literal['from_native', 'to_native', 'random']
+log = logging.getLogger(__name__)
+
+Language: TypeAlias = Literal['native', 'english']
+Progress: TypeAlias = Literal['known', 'unknown']
+TranslateOrder: TypeAlias = Literal['from_native', 'to_native', 'random']
+
+
+# Option types
+# ------------
 
 
 class HasIdName(Protocol):
-    """Protocol for id-name dictionaries."""
+    """Protocol for id-name option interface."""
 
     id: int
     name: str
 
 
 class IdName(TypedDict):
-    """Dict representation of entity only with its 'name' and 'ID'."""
+    """Id-name option type."""
 
     id: int
     name: str
 
 
 class CodeName(TypedDict):
-    """Dict representation of choice with machine and human values."""
+    """Code-name option type."""
 
     code: str
     name: str
 
 
-# Word study Presentation params
-# ------------------------------
+# Word
+# ----
 
 
-class ParamOptionsT(TypedDict):
-    """Fields type for Word study Parameter options."""
+class Options(TypedDict):
+    """Translation options type."""
 
-    categories: list[IdName] | None
-    marks: list[IdName] | None
-    sources: list[IdName] | None
+    categories: list[IdName]
+    marks: list[IdName]
+    sources: list[IdName]
     periods: list[IdName]
     translation_orders: list[CodeName]
 
 
-class InitialChoicesT(TypedDict):
-    """Fields type for Word study initial choices."""
+class TranslationMeta(TypedDict):
+    """Translation meta type."""
 
     category: IdName | None
     mark: IdName | None
     word_source: IdName | None
-    translation_order: CodeName | None
     start_period: IdName | None
     end_period: IdName | None
 
 
-class PresentationSettingsT(TypedDict):
-    """Fields type for Word study Presentation settings."""
+class TranslationSettings(TypedDict):
+    """Translation settings type."""
 
+    translation_order: CodeName | None
     word_count: int | None
+
+
+class PresentationSettings(TypedDict):
+    """Presentation settings type."""
+
     question_timeout: float | None
     answer_timeout: float | None
 
 
-class UpdateParametersT(InitialChoicesT, PresentationSettingsT):
-    """Fields type to Word study Presentation parameters."""
+# Word study
+# ----------
 
 
-class WordPresentationParamsT(
-    ParamOptionsT,
-    InitialChoicesT,
-    PresentationSettingsT,
+class WordLookup(TypedDict, total=False):
+    """Word lookup condition type."""
+
+    category: int | None
+    marks: int | None
+    source: int | None
+    start_period: datetime | None
+    end_period: datetime | None
+
+
+class WordParameters(
+    TranslationMeta,
+    TranslationSettings,
 ):
-    """Fields type for Word study response."""
+    """Word parameters type."""
+
+
+class StudyParameters(
+    WordParameters,
+    PresentationSettings,
+):
+    """Word study parameters types."""
+
+
+class SetStudyParameters(
+    Options,
+    StudyParameters,
+):
+    """Set Word study parameters types."""
 
 
 # Word study Presentation case
@@ -102,7 +144,7 @@ class PresentationDataT(
 ):
     """Word study Presentation data typed dict."""
 
-    info: InfoT | None
+    info: InfoT
 
 
 class PresentationCaseT(
@@ -119,7 +161,7 @@ class PresentationCaseT(
 class WordProgressT(CaseUUIDType):
     """Word study progress typed dict."""
 
-    progress_type: ProgressType
+    progress_type: Progress
 
 
 # TODO: Remove below?
@@ -131,7 +173,7 @@ class WordStudyCase(NamedTuple):
     translation_id: int
 
 
-class WordStudyParams(NamedTuple):
+class WordStudyParameters(NamedTuple):
     """Word study params."""
 
     translation_ids: list[int]
