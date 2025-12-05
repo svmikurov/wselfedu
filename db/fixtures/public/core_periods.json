@@ -30,7 +30,7 @@
   "model": "core.period",
   "pk": 4,
   "fields": {
-    "name": "Четыре дня назад",
+    "name": "Три дня назад",
     "created_at": "2025-11-22T01:27:29.671Z",
     "updated_at": "2025-11-22T01:27:29.671Z"
   }
@@ -39,7 +39,7 @@
   "model": "core.period",
   "pk": 5,
   "fields": {
-    "name": "Неделю назад",
+    "name": "Пять дней назад",
     "created_at": "2025-11-22T01:27:38.986Z",
     "updated_at": "2025-11-22T01:27:38.986Z"
   }
@@ -48,7 +48,7 @@
   "model": "core.period",
   "pk": 6,
   "fields": {
-    "name": "Две недели назад",
+    "name": "Неделя назад",
     "created_at": "2025-11-22T01:27:49.812Z",
     "updated_at": "2025-11-22T01:27:49.812Z"
   }
@@ -57,7 +57,7 @@
   "model": "core.period",
   "pk": 7,
   "fields": {
-    "name": "Месяц назад",
+    "name": "Две недели назад",
     "created_at": "2025-11-22T01:27:59.635Z",
     "updated_at": "2025-11-22T01:27:59.635Z"
   }
@@ -66,7 +66,7 @@
   "model": "core.period",
   "pk": 8,
   "fields": {
-    "name": "Три месяца назад",
+    "name": "Три недели назад",
     "created_at": "2025-11-22T01:28:43.667Z",
     "updated_at": "2025-11-22T01:28:43.667Z"
   }
@@ -75,7 +75,7 @@
   "model": "core.period",
   "pk": 9,
   "fields": {
-    "name": "Пол года назад",
+    "name": "Пять недель назад",
     "created_at": "2025-11-22T01:28:56.581Z",
     "updated_at": "2025-11-22T01:28:56.581Z"
   }
@@ -83,6 +83,24 @@
 {
   "model": "core.period",
   "pk": 10,
+  "fields": {
+    "name": "Три месяца назад",
+    "created_at": "2025-11-22T01:28:56.581Z",
+    "updated_at": "2025-11-22T01:28:56.581Z"
+  }
+},
+{
+  "model": "core.period",
+  "pk": 11,
+  "fields": {
+    "name": "Пол года назад",
+    "created_at": "2025-11-22T01:28:56.581Z",
+    "updated_at": "2025-11-22T01:28:56.581Z"
+  }
+},
+{
+  "model": "core.period",
+  "pk": 12,
   "fields": {
     "name": "Год назад",
     "created_at": "2025-11-22T01:29:02.595Z",
