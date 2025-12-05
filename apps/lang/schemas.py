@@ -20,13 +20,13 @@ class WordStudyStoredCase(BaseModel):
     """
 
     translation_id: int
-    language: types.LanguageType
+    language: types.Language
 
 
 class UpdateWordProgressSchema(BaseModel):
     """Update word study progress schema."""
 
     translation_id: int
-    language: types.LanguageType
-    progress_case: types.ProgressType
+    language: types.Language
+    progress_case: types.Progress
     progress_value: int
