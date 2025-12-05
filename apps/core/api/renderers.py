@@ -12,7 +12,7 @@ class WrappedJSONRenderer(renderers.JSONRenderer):
 
     def render(
         self,
-        data: object,
+        data: dict[str, Any],
         accepted_media_type: str | None = None,
         renderer_context: Mapping[str, Any] | None = None,
     ) -> Any:  # noqa: ANN401
@@ -25,28 +25,15 @@ class WrappedJSONRenderer(renderers.JSONRenderer):
         if not isinstance(response, HttpResponse):
             return super().render(data, accepted_media_type, renderer_context)
 
-        status_code = response.status_code
+        match status_code := response.status_code:
+            case status.HTTP_204_NO_CONTENT:
+                return b''
 
-        if status_code == status.HTTP_204_NO_CONTENT:
-            return b''
+            case status_code if status_code < HTTPStatus.BAD_REQUEST:
+                wrapped_data = self._wrap_success(data=data)
 
-        status_text = (
-            'success' if status_code < HTTPStatus.BAD_REQUEST else 'error'
-        )
-        message = renderer_context.get('message')
-
-        if status_text == 'success':
-            wrapped_data = self._wrap_success(
-                data=data,
-                status_code=status_code,
-                message=message,
-            )
-        else:
-            wrapped_data = self._wrap_error(
-                data=data,
-                status_code=status_code,
-                message=message,
-            )
+            case _:
+                wrapped_data = self._wrap_error(data=data)
 
         return super().render(
             wrapped_data, accepted_media_type, renderer_context
@@ -54,37 +41,43 @@ class WrappedJSONRenderer(renderers.JSONRenderer):
 
     def _wrap_success(
         self,
-        data: object,
-        status_code: int,
-        message: str | None = None,
+        data: dict[str, Any],
     ) -> dict[str, Any]:
-        default_message: str = 'Success'
-
-        return {
+        payload: dict[str, Any] = {
             'status': 'success',
-            'code': status_code,
-            'message': message or default_message,
-            'data': data,
+            'message': 'Success',
+            'data': None,
         }
+
+        match data:
+            case {'detail': detail}:
+                payload['message'] = detail
+                payload['code'] = detail.code
+
+            case _:
+                payload['data'] = data
+
+        return payload
 
     def _wrap_error(
         self,
-        data: object,
-        status_code: int,
-        message: str | None = None,
+        data: dict[str, Any],
     ) -> dict[str, Any]:
-        default_message: str = 'Error'
-
-        if isinstance(data, dict):
-            if 'detail' in data:
-                default_message = message or data['detail']
-            elif any(key in data for key in ['errors', 'non_field_errors']):
-                default_message = message or 'Validation error'
-
-        return {
+        payload: dict[str, Any] = {
             'status': 'error',
-            'code': status_code,
-            'message': message or default_message,
             'data': None,
-            'errors': data,
         }
+
+        match data:
+            case {'detail': detail}:
+                payload['message'] = detail
+                payload['code'] = detail.code
+
+            case {'errors': _} | {'non_field_errors': _}:
+                payload['message'] = 'Validation error'
+                payload['errors'] = data
+
+            case _:
+                payload['message'] = 'Unexpected server error'
+
+        return payload
