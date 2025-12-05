@@ -1,4 +1,8 @@
-"""Word study service."""
+"""Word study presentation domain logic.
+
+This over-engineering demonstrates clean architecture for educational
+purposes, separating domain logic even when simple.
+"""
 
 from random import choice
 
@@ -9,15 +13,15 @@ from .abc import WordStudyDomainABC
 class WordStudyDomain(WordStudyDomainABC):
     """Word study case service."""
 
-    def create(self, params: types.WordStudyParams) -> types.WordStudyCase:
+    def create(self, params: types.WordStudyParameters) -> types.WordStudyCase:
         """Create Word study case.
 
         Creates Word study case from selected **translation IDs**.
 
         Parameters
         ----------
-        params : `WordStudyParams`
-            Create case parameters.
+        params : `WordStudyParameters`
+            Create presentation case parameters.
 
         Returns
         -------
@@ -27,9 +31,5 @@ class WordStudyDomain(WordStudyDomainABC):
 
         """
         return types.WordStudyCase(
-            translation_id=self._get_random_id(params.translation_ids)
+            translation_id=choice(params.translation_ids)
         )
-
-    def _get_random_id(self, ids: list[int]) -> int:
-        """Get random id."""
-        return choice(ids)
