@@ -2,65 +2,37 @@
 
 from rest_framework import serializers
 
-from apps.core.api.v1.serializers import (
-    CodeNameSerializer,
-    IdNameSerializer,
-)
 from apps.lang import types
 from apps.lang.models.word import AbstractWordModel
 
-# Presentation parameters
-# -----------------------
+from . import base
+
+# Word study parameters
+# ---------------------
 
 
-class WordStudyParamsChoicesSerializer(
-    serializers.Serializer[types.ParamOptionsT],
+class WordParametersSerializer(
+    base.TranslationMetaSerializer,
+    base.TranslationSettingsSerializer,
 ):
-    """Serializer for Word study params choices."""
-
-    categories = IdNameSerializer(many=True)
-    marks = IdNameSerializer(many=True)
-    sources = IdNameSerializer(many=True)
-    periods = IdNameSerializer(many=True)
-    translation_orders = CodeNameSerializer(many=True)
+    """Word parameters serializer."""
 
 
-class WordStudyInitialChoicesSerializer(
-    serializers.Serializer[types.InitialChoicesT],
+class StudyParametersSerializer(
+    base.TranslationMetaSerializer,
+    base.TranslationSettingsSerializer,
+    base.PresentationSettingsSerializer,
 ):
-    """Serializer for Word study params initial choices."""
-
-    category = IdNameSerializer(allow_null=True)
-    mark = IdNameSerializer(allow_null=True)
-    word_source = IdNameSerializer(allow_null=True)
-    translation_order = CodeNameSerializer(allow_null=True)
-    start_period = IdNameSerializer(allow_null=True)
-    end_period = IdNameSerializer(allow_null=True)
+    """Word study parameters serializer."""
 
 
-class PresentationSettingsSerializer(
-    serializers.Serializer[types.ParamOptionsT],
+class SetParametersSerializer(
+    base.OptionsSerializer,
+    base.TranslationMetaSerializer,
+    base.TranslationSettingsSerializer,
+    base.PresentationSettingsSerializer,
 ):
-    """Serializer for Presentation settings."""
-
-    word_count = serializers.IntegerField(allow_null=True)
-    question_timeout = serializers.FloatField(allow_null=True)
-    answer_timeout = serializers.FloatField(allow_null=True)
-
-
-class UpdateParametersSerializer(
-    WordStudyInitialChoicesSerializer,
-    PresentationSettingsSerializer,
-):
-    """Serializer for update Presentation Parameters."""
-
-
-class WordStudyPresentationParamsSerializer(
-    WordStudyParamsChoicesSerializer,
-    WordStudyInitialChoicesSerializer,
-    PresentationSettingsSerializer,
-):
-    """Word study Presentation params serializer."""
+    """Set Word study parameters serializer."""
 
 
 # Presentation
