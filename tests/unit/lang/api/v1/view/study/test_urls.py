@@ -8,15 +8,15 @@ class TestUrls(BaseApiUrlTest):
     """Test Word study ViewSet urls."""
 
     URL_CONFIGS = {
-        'study-params': {
-            'path': '/api/v1/lang/study/params/',
+        'study-parameters': {
+            'path': '/api/v1/lang/study/parameters/',
             'view_class': WordStudyViewSet,
-            'action': {'get': 'params'},
+            'action': {'get': 'parameters'},
         },
-        'study-update-params': {
-            'path': '/api/v1/lang/study/params/update/',
+        'study-update-parameters': {
+            'path': '/api/v1/lang/study/parameters/update/',
             'view_class': WordStudyViewSet,
-            'action': {'put': 'update_params'},
+            'action': {'put': 'update_parameters'},
         },
         'study-presentation': {
             'path': '/api/v1/lang/study/presentation/',

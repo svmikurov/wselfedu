@@ -6,18 +6,25 @@ from typing import TYPE_CHECKING, Sequence
 
 import pytest
 
-from apps.core import models as core_models
+from apps.core import models as models_core
 from apps.lang import models, types
+from tests.fixtures.lang.no_db import word_study_params as fixtures
 
 if TYPE_CHECKING:
     from apps.users.models import CustomUser
 
 
 @pytest.fixture
+def translation_order_options() -> list[types.CodeName]:
+    """Provide translation order options."""
+    return fixtures.TRANSLATION_ORDERS
+
+
+@pytest.fixture
 def public_parameters(
-    parameters_db_data: types.WordPresentationParamsT,
+    parameters_db_data: types.SetStudyParameters,
     translation_order_options: list[types.CodeName],
-) -> types.WordPresentationParamsT:
+) -> types.SetStudyParameters:
     """Provide public Parameters data.
 
     Contains fields for a user who has no saved settings
@@ -48,7 +55,7 @@ def public_parameters(
 def parameters_db_data(
     user: CustomUser,
     translation_order_options: list[types.CodeName],
-) -> types.WordPresentationParamsT:
+) -> types.SetStudyParameters:
     """Provide Word study Presenter DB data parameters."""
     categories = models.LangCategory.objects.bulk_create(
         [
@@ -64,17 +71,17 @@ def parameters_db_data(
         ],
         batch_size=None,
     )
-    sources = core_models.Source.objects.bulk_create(
+    sources = models_core.Source.objects.bulk_create(
         [
-            core_models.Source(user=user, name='source 1'),
-            core_models.Source(user=user, name='source 2'),
+            models_core.Source(user=user, name='source 1'),
+            models_core.Source(user=user, name='source 2'),
         ],
         batch_size=None,
     )
-    periods = core_models.Period.objects.bulk_create(
+    periods = models_core.Period.objects.bulk_create(
         [
-            core_models.Period(name='start'),
-            core_models.Period(name='end'),
+            models_core.Period(name='start'),
+            models_core.Period(name='end'),
         ]
     )
 

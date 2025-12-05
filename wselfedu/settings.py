@@ -178,6 +178,7 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDER_CLASSES': [
         'apps.core.api.v1.renders.WrappedJSONRenderer',
     ],
+    'EXCEPTION_HANDLER': 'apps.core.exceptions.handler.custom_exception_handler',
 }
 
 

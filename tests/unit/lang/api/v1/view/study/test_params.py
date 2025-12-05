@@ -1,30 +1,25 @@
 """Test the Word study params endpoint."""
 
-# ruff: noqa: I001, F811, F401
-
 from http import HTTPStatus
-from unittest.mock import Mock
 from typing import Callable
+from unittest.mock import Mock
 
 import pytest
-from rest_framework.test import APIRequestFactory, force_authenticate
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.test import APIRequestFactory, force_authenticate
 
 import di
-from apps.lang.repos.abc import WordStudyParamsRepositoryABC
-from apps.lang import types
-
 from apps.lang.api.v1.views.study import WordStudyViewSet
+from apps.lang.repos.abc import WordStudyParamsRepositoryABC
+from tests.fixtures.lang.no_db import word_study_params as fixtures
 
 
 @pytest.fixture
-def mock_repository(
-    word_presentation_params: types.WordPresentationParamsT,
-) -> Mock:
+def mock_repository() -> Mock:
     """Mock initial Word study params."""
     mock = Mock(spec=WordStudyParamsRepositoryABC)
-    mock.fetch.return_value = word_presentation_params
+    mock.fetch.return_value = fixtures.PRESENTATION_PARAMETERS
     return mock
 
 
@@ -34,13 +29,12 @@ class TestWordStudyParams:
     @pytest.fixture
     def view(self) -> Callable[[Request], Response]:
         """Provide Word study ViewSet."""
-        return WordStudyViewSet.as_view(actions={'get': 'params'})
+        return WordStudyViewSet.as_view(actions={'get': 'parameters'})
 
     def test_params_success(
         self,
         api_request_factory: APIRequestFactory,
         view: Callable[[Request], Response],
-        word_presentation_params: types.WordPresentationParamsT,
         mock_repository: Mock,
     ) -> None:
         """Test params success."""
@@ -54,4 +48,4 @@ class TestWordStudyParams:
 
         # Assert
         assert response.status_code == HTTPStatus.OK
-        assert response.data == word_presentation_params
+        assert response.data == fixtures.PRESENTATION_PARAMETERS

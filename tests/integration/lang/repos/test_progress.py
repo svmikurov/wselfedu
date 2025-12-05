@@ -26,21 +26,21 @@ class TestRepository:
         progress_delta: int,
         expected_progress: int,
         user: CustomUser,
-        translation: models.EnglishTranslation,
+        word_translation: models.EnglishTranslation,
         progress_repo: repos.Progress,
     ) -> None:
         """Test create the Word study progress."""
         # Act
         progress_repo.update(
             user=user,
-            translation_id=translation.pk,
+            translation_id=word_translation.pk,
             language='english',
             progress_delta=progress_delta,
         )
 
         # Assert
         progress = models.EnglishProgress.objects.get(
-            translation_id=translation.pk,
+            translation_id=word_translation.pk,
         )
         assert progress.progress == expected_progress
 
@@ -63,27 +63,27 @@ class TestRepository:
         progress_delta: int,
         expected_progress: int,
         user: CustomUser,
-        translation: models.EnglishTranslation,
+        word_translation: models.EnglishTranslation,
         progress_repo: repos.Progress,
     ) -> None:
         """Test update the Word study progress."""
         # Average
         models.EnglishProgress.objects.create(
             user=user,
-            translation_id=translation.pk,
+            translation_id=word_translation.pk,
             progress=initial_progress,
         )
 
         # Act
         progress_repo.update(
             user=user,
-            translation_id=translation.pk,
+            translation_id=word_translation.pk,
             language='english',
             progress_delta=progress_delta,
         )
 
         # Assert
         progress = models.EnglishProgress.objects.get(
-            translation_id=translation.pk,
+            translation_id=word_translation.pk,
         )
         assert progress.progress == expected_progress

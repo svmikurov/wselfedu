@@ -3,9 +3,10 @@
 import pytest
 from django.test.utils import CaptureQueriesContext
 
-from apps.core import models as core_models
+from apps.core import models as models_core
 from apps.lang import models, repos, types
 from apps.users.models import CustomUser
+from tests.fixtures.lang.no_db import word_study_params as fixtures
 
 pytestmark = pytest.mark.django_db
 
@@ -14,15 +15,21 @@ pytestmark = pytest.mark.django_db
 
 
 @pytest.fixture
+def translation_order_options() -> list[types.CodeName]:
+    """Provide translation order options."""
+    return fixtures.TRANSLATION_ORDERS
+
+
+@pytest.fixture
 def public_parameters(
     translation_order_options: list[types.CodeName],
-) -> types.WordPresentationParamsT:
+) -> types.SetStudyParameters:
     """Provide public DB data."""
     # Create public parameter choices
-    periods = core_models.Period.objects.bulk_create(
+    periods = models_core.Period.objects.bulk_create(
         [
-            core_models.Period(name='start'),
-            core_models.Period(name='end'),
+            models_core.Period(name='start'),
+            models_core.Period(name='end'),
         ]
     )
 
@@ -59,7 +66,7 @@ def public_parameters(
 def parameters(
     user: CustomUser,
     translation_order_options: list[types.CodeName],
-) -> types.WordPresentationParamsT:
+) -> types.SetStudyParameters:
     """Populate DB and provide parameters."""
     # Create choices
     category1 = models.LangCategory.objects.create(user=user, name='cat 1')
@@ -70,11 +77,11 @@ def parameters(
         ],
         batch_size=None,
     )
-    source1 = core_models.Source.objects.create(user=user, name='source 1')
-    periods = core_models.Period.objects.bulk_create(
+    source1 = models_core.Source.objects.create(user=user, name='source 1')
+    periods = models_core.Period.objects.bulk_create(
         [
-            core_models.Period(name='start'),
-            core_models.Period(name='end'),
+            models_core.Period(name='start'),
+            models_core.Period(name='end'),
         ]
     )
 
@@ -137,6 +144,26 @@ def repo() -> repos.WordStudyParamsRepository:
 # ~~~~~
 
 
+class TestCreate:
+    """Create presentation parameters tests."""
+
+    def test_create_parameters_success(
+        self,
+        user: CustomUser,
+        repo: repos.WordStudyParamsRepository,
+    ) -> None:
+        """Parameters was successfully created."""
+        # Arrange
+        user_parameters = fixtures.EMPTY_PARAMETERS.copy()
+        user_parameters['word_count'] = 45
+
+        # Act
+        result = repo.update(user, user_parameters)
+
+        # Assert
+        assert result['word_count'] == user_parameters['word_count']
+
+
 class TestFetch:
     """Fetch Word study Presentation params repository tests."""
 
@@ -144,7 +171,7 @@ class TestFetch:
         self,
         user: CustomUser,
         repo: repos.WordStudyParamsRepository,
-        public_parameters: types.WordPresentationParamsT,
+        public_parameters: types.SetStudyParameters,
     ) -> None:
         """Test fetch public default data."""
         # Act & assert
@@ -154,7 +181,7 @@ class TestFetch:
         self,
         user: CustomUser,
         repo: repos.WordStudyParamsRepository,
-        parameters: types.WordPresentationParamsT,
+        parameters: types.SetStudyParameters,
         django_assert_num_queries: CaptureQueriesContext,
     ) -> None:
         """Test fetch initial data."""
@@ -170,14 +197,14 @@ class TestUpdate:
         self,
         user: CustomUser,
         repo: repos.WordStudyParamsRepository,
-        parameters: types.WordPresentationParamsT,
+        parameters: types.SetStudyParameters,
         django_assert_num_queries: CaptureQueriesContext,
     ) -> None:
         """Test update initial data."""
         # Arrange
         # - Select a parameter from the options
         # to set it as the initial value
-        mark = parameters['marks'][1]  # type: ignore[index]
+        mark = parameters['marks'][1]
 
         # - Parameter data without option fields to update
         new_params = {
@@ -194,7 +221,7 @@ class TestUpdate:
         expected['word_count'] = 76
 
         # Act
-        with django_assert_num_queries(8):  # type: ignore[operator]
+        with django_assert_num_queries(11):  # type: ignore[operator]
             updated_parameters = repo.update(user, new_params)  # type: ignore[arg-type]
 
         # Assert
@@ -204,7 +231,7 @@ class TestUpdate:
         self,
         user: CustomUser,
         repo: repos.WordStudyParamsRepository,
-        parameters: types.WordPresentationParamsT,
+        parameters: types.SetStudyParameters,
     ) -> None:
         """Test that updated parameter is None."""
         # Arrange

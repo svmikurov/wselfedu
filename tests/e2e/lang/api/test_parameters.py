@@ -15,8 +15,8 @@ if TYPE_CHECKING:
 
     from apps.users.models import CustomUser
 
-GET_PARAMETERS_PATH = '/api/v1/lang/study/params/'
-PUT_PARAMETERS_PATH = '/api/v1/lang/study/params/update/'
+GET_PARAMETERS_PATH = '/api/v1/lang/study/parameters/'
+PUT_PARAMETERS_PATH = '/api/v1/lang/study/parameters/update/'
 
 UNAUTHORIZED_RESPONSE_DATA = {
     'detail': ErrorDetail(
@@ -34,7 +34,7 @@ class TestGetSuccess:
         self,
         user: CustomUser,
         api_client: APIClient,
-        parameters_db_data: types.WordPresentationParamsT,
+        parameters_db_data: types.SetStudyParameters,
     ) -> None:
         """Fetch Word study Presentation parameters empty data."""
         # Arrange
@@ -56,7 +56,7 @@ class TestUpdate:
         self,
         user: CustomUser,
         api_client: APIClient,
-        parameters_db_data: types.WordPresentationParamsT,
+        parameters_db_data: types.SetStudyParameters,
     ) -> None:
         """Test that parameters updated."""
         # Arrange
@@ -104,8 +104,8 @@ class TestPermissions:
         self,
         api_client: APIClient,
         user_not_owner: CustomUser,
-        parameters_db_data: types.WordPresentationParamsT,
-        public_parameters: types.WordPresentationParamsT,
+        parameters_db_data: types.SetStudyParameters,
+        public_parameters: types.SetStudyParameters,
     ) -> None:
         """Test the public parameters."""
         # Arrange

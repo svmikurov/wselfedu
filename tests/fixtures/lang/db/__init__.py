@@ -1,0 +1,1 @@
+"""Fixtures with Database integration."""

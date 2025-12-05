@@ -25,9 +25,9 @@ class BaseApiUrlTest:
         class TestUrls(BaseApiUrlTest):
             URL_CONFIGS = {
                 'study-params': {
-                    'path': '/api/v1/lang/study/params/',
+                    'path': '/api/v1/lang/study/parameters/',
                     'view_class': WordStudyViewSet,
-                    'action': {'get': 'params'},
+                    'action': {'get': 'parameters'},
                 },
                 'study-presentation': {
                     'path': '/api/v1/lang/study/presentation/',

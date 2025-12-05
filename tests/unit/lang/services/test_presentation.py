@@ -5,9 +5,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from apps.lang import services, types
-from apps.lang.repos.abc import PresentationABC
-from apps.lang.services.study import WordStudyDomain
+from apps.lang import domain, repos, services, types
 
 
 @pytest.fixture
@@ -15,25 +13,25 @@ def mock_presentation_repo(
     presentation: types.PresentationT,
 ) -> Mock:
     """Mock Word study Presentation repository."""
-    mock = Mock(spec=PresentationABC)
-    mock.get_candidates.return_value = types.WordStudyParams(
+    mock = Mock(spec=repos.PresentationABC)
+    mock.get_candidates.return_value = types.WordStudyParameters(
         translation_ids=[1],
     )
-    mock.get_case.return_value = presentation
+    mock.get_word_study_data.return_value = presentation
     return mock
 
 
 @pytest.fixture
-def presentation_domain() -> WordStudyDomain:
+def presentation_domain() -> domain.WordStudyDomain:
     """Provide Word study Presentation domain."""
-    return WordStudyDomain()
+    return domain.WordStudyDomain()
 
 
 @pytest.fixture
 def service(
     mock_presentation_repo: Mock,
     mock_django_cache_storage: Mock,
-    presentation_domain: WordStudyDomain,
+    presentation_domain: domain.WordStudyDomain,
 ) -> services.WordPresentationService:
     """Provide Presentation service."""
     return services.WordPresentationService(
@@ -56,7 +54,7 @@ def expected_case(
 @pytest.fixture
 def params() -> Mock:
     """Provide Word study Presentation params."""
-    return Mock(spec=types.ParamOptionsT)
+    return Mock(spec=types.Options)
 
 
 class TestService:

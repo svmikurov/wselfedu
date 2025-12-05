@@ -1,1 +1,1 @@
-"""Fixtures for test without Database integration."""
+"""Fixtures without Database integration."""
