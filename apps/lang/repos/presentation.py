@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from django.db.models import IntegerField, OuterRef, Q, Subquery
 from django.utils import timezone
 
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 from .. import models, types
 from .abc import PresentationABC
@@ -57,7 +57,7 @@ class EnglishPresentation(PresentationABC):
 
     def get_word_study_data(
         self,
-        user: CustomUser,
+        user: Person,
         translation_id: int,
         language: types.Language,
     ) -> types.PresentationDataT:

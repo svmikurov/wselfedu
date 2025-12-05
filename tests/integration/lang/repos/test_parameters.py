@@ -5,7 +5,7 @@ from django.test.utils import CaptureQueriesContext
 
 from apps.core import models as models_core
 from apps.lang import models, repos, types
-from apps.users.models import CustomUser
+from apps.users.models import Person
 from tests.fixtures.lang.no_db import word_study_params as fixtures
 
 pytestmark = pytest.mark.django_db
@@ -64,7 +64,7 @@ def public_parameters(
 # after completion of the repo implementation
 @pytest.fixture
 def parameters(
-    user: CustomUser,
+    user: Person,
     translation_order_options: list[types.CodeName],
 ) -> types.SetStudyParameters:
     """Populate DB and provide parameters."""
@@ -149,7 +149,7 @@ class TestCreate:
 
     def test_create_parameters_success(
         self,
-        user: CustomUser,
+        user: Person,
         repo: repos.WordStudyParamsRepository,
     ) -> None:
         """Parameters was successfully created."""
@@ -169,7 +169,7 @@ class TestFetch:
 
     def test_fetch_public_parameters(
         self,
-        user: CustomUser,
+        user: Person,
         repo: repos.WordStudyParamsRepository,
         public_parameters: types.SetStudyParameters,
     ) -> None:
@@ -179,7 +179,7 @@ class TestFetch:
 
     def test_fetch_data(
         self,
-        user: CustomUser,
+        user: Person,
         repo: repos.WordStudyParamsRepository,
         parameters: types.SetStudyParameters,
         django_assert_num_queries: CaptureQueriesContext,
@@ -195,7 +195,7 @@ class TestUpdate:
 
     def test_update_parameters(
         self,
-        user: CustomUser,
+        user: Person,
         repo: repos.WordStudyParamsRepository,
         parameters: types.SetStudyParameters,
         django_assert_num_queries: CaptureQueriesContext,
@@ -229,7 +229,7 @@ class TestUpdate:
 
     def test_update_with_none(
         self,
-        user: CustomUser,
+        user: Person,
         repo: repos.WordStudyParamsRepository,
         parameters: types.SetStudyParameters,
     ) -> None:

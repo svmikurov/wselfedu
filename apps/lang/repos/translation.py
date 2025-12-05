@@ -5,7 +5,7 @@ from typing import NamedTuple, override
 from django.db import transaction
 from django.db.models.query import QuerySet
 
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 from .. import models
 from . import abc as base
@@ -14,7 +14,7 @@ from . import abc as base
 class TranslationParams(NamedTuple):
     """Get translation params."""
 
-    user: CustomUser
+    user: Person
     marks: list[models.LangMark] | None
 
 
@@ -38,7 +38,7 @@ class TranslationRepo(base.TranslationRepoABC):
     @transaction.atomic
     def create_translation(
         self,
-        user: CustomUser,
+        user: Person,
         native: str,
         english: str,
         normalize: bool = True,

@@ -9,7 +9,7 @@ from rest_framework.response import Response
 
 from apps.core.api.renderers import WrappedJSONRenderer
 from apps.glossary.presenters.abc import TermStudyPresenterABC
-from apps.users.models import CustomUser
+from apps.users.models import Person
 from di import MainContainer as Container
 
 from ..serializers import (
@@ -39,7 +39,7 @@ class TermStudyViewSet(viewsets.ViewSet):
     ) -> Response:
         """Render the Term presentation."""
         user = self.request.user
-        if not isinstance(user, CustomUser):
+        if not isinstance(user, Person):
             return Response(status=status.HTTP_403_FORBIDDEN)
 
         study_params = TermStudyParamsSerializer(data=request.data)

@@ -2,11 +2,11 @@
 
 __all__ = [
     'Balance',
-    'CustomUser',
+    'Person',
     'Mentorship',
     'MentorshipRequest',
 ]
 
 from .balance import Balance
 from .mentorship import Mentorship, MentorshipRequest
-from .user import CustomUser
+from .user import Person

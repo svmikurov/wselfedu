@@ -6,7 +6,7 @@ from django.core.validators import MinValueValidator
 from django.db import models
 
 from apps.core.models.discipline import Discipline
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 
 class Transaction(models.Model):
@@ -19,7 +19,7 @@ class Transaction(models.Model):
         PAYMENT = 'payment'
 
     user = models.ForeignKey(
-        CustomUser,
+        Person,
         on_delete=models.CASCADE,
         verbose_name='Пользователь',
     )

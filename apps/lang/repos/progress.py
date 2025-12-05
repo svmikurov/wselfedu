@@ -7,7 +7,7 @@ from django.db import transaction
 from django.db.utils import IntegrityError
 
 from apps.lang import models, types
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 from .abc import ProgressABC
 
@@ -21,7 +21,7 @@ class Progress(ProgressABC):
     @transaction.atomic
     def update(
         self,
-        user: CustomUser,
+        user: Person,
         translation_id: int,
         language: types.Language,
         progress_delta: int,

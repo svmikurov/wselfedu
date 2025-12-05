@@ -10,7 +10,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from apps.math.presenters.index import get_index_data
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 from ..serializers.index import MathIndexSerializer
 
@@ -41,7 +41,7 @@ class IndexViewSet(viewsets.ViewSet):
 
     @staticmethod
     def _get_response_data(
-        user: CustomUser | AnonymousUser,
+        user: Person | AnonymousUser,
     ) -> dict[str, Any]:
         """Get prepare data to response."""
         return get_index_data(user)

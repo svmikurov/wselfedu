@@ -5,34 +5,34 @@ from unittest.mock import Mock
 import pytest
 from django.contrib.auth.models import AnonymousUser
 
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 # Database fixtures
 # -----------------
 
 
 @pytest.fixture
-def user() -> CustomUser:
+def user() -> Person:
     """Provide user."""
-    return CustomUser.objects.create_user(
+    return Person.objects.create_user(
         username='test_user',
         password='test_pass',
     )
 
 
 @pytest.fixture
-def user_not_owner() -> CustomUser:
+def user_not_owner() -> Person:
     """Provide user that is not the owner."""
-    return CustomUser.objects.create_user(
+    return Person.objects.create_user(
         username='other_test_user',
         password='other_test_pass',
     )
 
 
 @pytest.fixture
-def owner() -> CustomUser:
+def owner() -> Person:
     """Provide owner of object."""
-    return CustomUser.objects.create_user(
+    return Person.objects.create_user(
         username='owner_user',
         password='owner_pass',
     )
@@ -51,7 +51,7 @@ def anonymous_user() -> AnonymousUser:
 @pytest.fixture
 def mock_user() -> Mock:
     """Provide user mock."""
-    return Mock(spec=CustomUser)
+    return Mock(spec=Person)
 
 
 @pytest.fixture

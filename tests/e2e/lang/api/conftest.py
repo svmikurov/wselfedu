@@ -11,7 +11,7 @@ from apps.lang import models, types
 from tests.fixtures.lang.no_db import word_study_params as fixtures
 
 if TYPE_CHECKING:
-    from apps.users.models import CustomUser
+    from apps.users.models import Person
 
 
 @pytest.fixture
@@ -53,7 +53,7 @@ def public_parameters(
 
 @pytest.fixture
 def parameters_db_data(
-    user: CustomUser,
+    user: Person,
     translation_order_options: list[types.CodeName],
 ) -> types.SetStudyParameters:
     """Provide Word study Presenter DB data parameters."""

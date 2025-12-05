@@ -3,7 +3,7 @@
 from django.db.models import Prefetch
 from django.db.models.query import QuerySet
 
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 from ..models import Term, TermAssertion
 
@@ -12,7 +12,7 @@ class TermDetailPresenter:
     """Presenter for term detail."""
 
     @staticmethod
-    def get_term(user: CustomUser) -> QuerySet[Term]:
+    def get_term(user: Person) -> QuerySet[Term]:
         """Get detail term."""
         # fmt: off
         return (

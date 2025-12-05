@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from apps.core.generic.views.auth import OwnershipRequiredMixin
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 from ..models import LangMark
 
@@ -75,6 +75,6 @@ class LabelListView(
 
     def get_queryset(self) -> QuerySet[LangMark]:
         """Get Label list filtered by user."""
-        if isinstance(self.request.user, CustomUser):
+        if isinstance(self.request.user, Person):
             return LangMark.objects.filter(user=self.request.user)
         return LangMark.objects.none()

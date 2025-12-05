@@ -4,7 +4,7 @@ import logging
 from typing import override
 
 from apps.core.storage.clients import DjangoCache
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 from .. import schemas, types
 from ..repos.abc import ProgressABC
@@ -30,7 +30,7 @@ class UpdateWordProgressService(WordProgressServiceABC):
     @override
     def update_progress(
         self,
-        user: CustomUser,
+        user: Person,
         data: types.WordProgressT,
     ) -> None:
         """Update word study progress."""

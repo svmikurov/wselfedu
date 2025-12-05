@@ -10,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from apps.core.api.permissions import IsOwnerOnly
 from apps.core.api.renderers import WrappedJSONRenderer
 from apps.glossary.models import Term
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 from ..serializers import TermSerializer
 
@@ -50,7 +50,7 @@ class TermViewSet(viewsets.ModelViewSet[Term]):
 
     def get_queryset(self) -> QuerySet[Term]:
         """Get Term queryset filtered by owner."""
-        if isinstance(self.request.user, CustomUser):
+        if isinstance(self.request.user, Person):
             return self.request.user.user_terms.all()
         return Term.objects.none()
 

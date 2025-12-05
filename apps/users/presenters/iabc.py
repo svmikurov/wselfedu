@@ -9,9 +9,9 @@ from typing_extensions import override
 from apps.study.models import ExerciseAssigned
 
 from ..models import (
-    CustomUser,
     Mentorship,
     MentorshipRequest,
+    Person,
 )
 
 
@@ -20,28 +20,28 @@ class IMentorshipPresenter(Protocol):
 
     @staticmethod
     def get_requests_to_mentors(
-        student: CustomUser,
+        student: Person,
     ) -> QuerySet[MentorshipRequest]:
         """Get mentorship requests sent by user to potential mentors."""
 
     @staticmethod
     def get_requests_from_students(
-        mentor: CustomUser,
+        mentor: Person,
     ) -> QuerySet[MentorshipRequest]:
         """Get mentorship requests received by user from students."""
 
     @staticmethod
-    def get_students(mentor: CustomUser) -> QuerySet[Mentorship]:
+    def get_students(mentor: Person) -> QuerySet[Mentorship]:
         """Get students for a specific mentor."""
 
     @staticmethod
-    def get_mentors(student: CustomUser) -> QuerySet[Mentorship]:
+    def get_mentors(student: Person) -> QuerySet[Mentorship]:
         """Get mentors for a specific student."""
 
     @classmethod
     def get_mentorship_relations(
         cls,
-        user: CustomUser,
+        user: Person,
     ) -> dict[str, QuerySet[MentorshipRequest | Mentorship]]:
         """Get all mentorship relations for a given user."""
 
@@ -53,7 +53,7 @@ class MentorshipPresenterABC(IMentorshipPresenter, ABC):
     @abstractmethod
     @override
     def get_requests_to_mentors(
-        student: CustomUser,
+        student: Person,
     ) -> QuerySet[MentorshipRequest]:
         """Get mentorship requests sent by user to potential mentors."""
 
@@ -61,20 +61,20 @@ class MentorshipPresenterABC(IMentorshipPresenter, ABC):
     @abstractmethod
     @override
     def get_requests_from_students(
-        mentor: CustomUser,
+        mentor: Person,
     ) -> QuerySet[MentorshipRequest]:
         """Get mentorship requests received by user from students."""
 
     @staticmethod
     @abstractmethod
     @override
-    def get_students(mentor: CustomUser) -> QuerySet[Mentorship]:
+    def get_students(mentor: Person) -> QuerySet[Mentorship]:
         """Get students for a specific mentor."""
 
     @staticmethod
     @abstractmethod
     @override
-    def get_mentors(student: CustomUser) -> QuerySet[Mentorship]:
+    def get_mentors(student: Person) -> QuerySet[Mentorship]:
         """Get mentors for a specific student."""
 
     @classmethod
@@ -82,7 +82,7 @@ class MentorshipPresenterABC(IMentorshipPresenter, ABC):
     @override
     def get_mentorship_relations(
         cls,
-        user: CustomUser,
+        user: Person,
     ) -> dict[str, QuerySet[MentorshipRequest | Mentorship]]:
         """Get all mentorship relations for a given user."""
 
@@ -103,7 +103,7 @@ class IStudentExercisesPresenter(Protocol):
     @classmethod
     def get_assigned_all(
         cls,
-        student: CustomUser,
+        student: Person,
     ) -> QuerySet[ExerciseAssigned]:
         """Get assigned exercises to student by all his mentors."""
 
@@ -111,7 +111,7 @@ class IStudentExercisesPresenter(Protocol):
     def get_exercise_meta(
         cls,
         assignation_id: int,
-        student: CustomUser,
+        student: Person,
     ) -> ExerciseAssigned:
         """Get assigned exercise meta data."""
 
@@ -133,7 +133,7 @@ class StudentExercisesPresenterABC(IStudentExercisesPresenter, ABC):
     @override
     def get_assigned_all(
         cls,
-        student: CustomUser,
+        student: Person,
     ) -> QuerySet[ExerciseAssigned]:
         """Get assigned exercises to student by all his mentors."""
 
@@ -143,6 +143,6 @@ class StudentExercisesPresenterABC(IStudentExercisesPresenter, ABC):
     def get_exercise_meta(
         cls,
         assignation_id: int,
-        student: CustomUser,
+        student: Person,
     ) -> ExerciseAssigned:
         """Get assigned exercise meta data."""

@@ -3,11 +3,11 @@
 from django.contrib.auth.models import AnonymousUser
 
 from apps.core.types import BalanceDataType
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 
 def get_index_data(
-    user: CustomUser | AnonymousUser,
+    user: Person | AnonymousUser,
 ) -> BalanceDataType:
     """Aggregate Core app data for API response.
 

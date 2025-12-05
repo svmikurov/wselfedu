@@ -2,7 +2,7 @@
 
 __all__ = [
     'BalanceAdmin',
-    'CustomUserAdmin',
+    'PersonAdmin',
     'MentorshipAdmin',
     'MentorshipRequestAdmin',
     'TransactionAdmin',
@@ -14,6 +14,6 @@ from .mentorship import (
 )
 from .user import (
     BalanceAdmin,
-    CustomUserAdmin,
+    PersonAdmin,
     TransactionAdmin,
 )

@@ -16,7 +16,7 @@ NO_BALANCE = None
 (`Decimal`)."""
 
 
-class CustomUser(AbstractUser):
+class Person(AbstractUser):
     """User model."""
 
     balance: Balance

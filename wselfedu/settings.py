@@ -122,7 +122,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'users.CustomUser'
+AUTH_USER_MODEL = 'users.Person'
 
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'

@@ -7,7 +7,7 @@ from django.db import transaction
 from apps.core import models as models_core
 from apps.lang import models, types
 from apps.lang.repos.abc import WordStudyParamsRepositoryABC
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 OptionsT = Literal[
     'category',
@@ -23,7 +23,7 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
     """Word study params repository."""
 
     @override
-    def fetch(self, user: CustomUser) -> types.SetStudyParameters:
+    def fetch(self, user: Person) -> types.SetStudyParameters:
         """Fetch parameters with parameter choices."""
         # Parameter options
         categories = models.LangCategory.objects.filter(user=user)
@@ -114,7 +114,7 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
     @transaction.atomic
     def update(
         self,
-        user: CustomUser,
+        user: Person,
         data: types.StudyParameters,
     ) -> types.SetStudyParameters:
         """Update initial parameters."""

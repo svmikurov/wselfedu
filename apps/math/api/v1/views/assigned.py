@@ -17,7 +17,7 @@ from rest_framework.response import Response
 
 from apps.math.presenters.assigned import AssignedCalculationPresenter
 from apps.study.selectors.iabc import IAssignedSelector
-from apps.users.models import CustomUser
+from apps.users.models import Person
 from di import MainContainer as Container
 
 from ..serializers import calculation as ser
@@ -155,8 +155,8 @@ class ExerciseViewSet(viewsets.ViewSet):
         )
 
     @property
-    def student(self) -> CustomUser:
+    def student(self) -> Person:
         """Get current user."""
         student = self.request.user
-        assert isinstance(student, CustomUser)
+        assert isinstance(student, Person)
         return student

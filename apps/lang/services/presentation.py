@@ -6,7 +6,7 @@ from typing import override
 
 from apps.core.exceptions import info
 from apps.core.storage import clients as storage
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 from .. import domain, repos, schemas, types
 from .abc import WordPresentationServiceABC
@@ -32,7 +32,7 @@ class WordPresentationService(WordPresentationServiceABC):
     @override
     def get_presentation_case(
         self,
-        user: CustomUser,
+        user: Person,
         presentation_params: types.WordParameters,
     ) -> types.PresentationCaseT:
         """Get Word study presentation case."""

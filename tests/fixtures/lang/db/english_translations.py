@@ -4,14 +4,14 @@ import pytest
 
 from apps.core import models as models_core
 from apps.lang import models
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 from ..no_db import translation_query as data
 
 
 @pytest.fixture
 def translations(
-    user: CustomUser,
+    user: Person,
 ) -> list[models.EnglishTranslation]:
     """Populate DB with translations."""
     # Create native word model objects
@@ -42,7 +42,7 @@ def translations(
 
 @pytest.fixture
 def translations_meta(
-    user: CustomUser,
+    user: Person,
 ) -> tuple[
     list[models.LangCategory],
     list[models_core.Source],

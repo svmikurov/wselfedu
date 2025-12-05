@@ -3,12 +3,12 @@
 import pytest
 
 from apps.lang import models, types
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 
 @pytest.fixture
 def native_word(
-    user: CustomUser,
+    user: Person,
     presentation: types.PresentationT,
 ) -> models.NativeWord:
     """Native word fixture."""
@@ -20,7 +20,7 @@ def native_word(
 
 @pytest.fixture
 def english_word(
-    user: CustomUser,
+    user: Person,
     presentation: types.PresentationT,
 ) -> models.EnglishWord:
     """English word fixture."""
@@ -32,7 +32,7 @@ def english_word(
 
 @pytest.fixture
 def word_translation(
-    user: CustomUser,
+    user: Person,
     native_word: models.NativeWord,
     english_word: models.EnglishWord,
 ) -> models.EnglishTranslation:
@@ -44,7 +44,7 @@ def word_translation(
 
 @pytest.fixture
 def english_progress(
-    user: CustomUser,
+    user: Person,
     presentation: types.PresentationT,
     word_translation: models.EnglishTranslation,
 ) -> models.EnglishProgress:

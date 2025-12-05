@@ -2,7 +2,7 @@
 
 from playwright.sync_api import expect
 
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 from ..pages.home import HomePage
 from ..pages.login import LoginPage
@@ -23,7 +23,7 @@ class TestLoginPage(BaseTest[LoginPage]):
         # Set up page with base url
         super().setUp()
 
-        self.user = CustomUser.objects.create_user(
+        self.user = Person.objects.create_user(
             username=USERNAME,
             password=PASSWORD,
         )

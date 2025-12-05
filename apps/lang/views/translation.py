@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views import generic
 
-from apps.users.models import CustomUser
+from apps.users.models import Person
 from di import MainContainer
 
 from ..forms import EnglishTranslationForm
@@ -65,7 +65,7 @@ class EnglishTranslationListView(
 
     def _get_params(self) -> TranslationParams | None:
         """Get translation filter params."""
-        if isinstance(self.request.user, CustomUser):
+        if isinstance(self.request.user, Person):
             return TranslationParams(
                 user=self.request.user,
                 marks=None,

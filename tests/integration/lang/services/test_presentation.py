@@ -7,7 +7,7 @@ import pytest
 from apps.core import exceptions
 from apps.core import models as models_core
 from apps.lang import models, repos, services, types
-from apps.users.models import CustomUser
+from apps.users.models import Person
 from tests.fixtures.lang.no_db import translation_query as fixtures
 
 
@@ -41,7 +41,7 @@ class TestGetPresentationCase:
     @pytest.mark.django_db
     def test_no_case_exception_raise(
         self,
-        user: CustomUser,
+        user: Person,
         service: services.WordPresentationService,
         translations: list[models.EnglishTranslation],
         translations_meta: tuple[

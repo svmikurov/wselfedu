@@ -10,7 +10,7 @@ from rest_framework import permissions, viewsets
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from apps.users.models import CustomUser
+from apps.users.models import Person
 from apps.users.presenters import StudentExercisesPresenter
 from di import MainContainer as Container
 
@@ -65,8 +65,8 @@ class AssignedExercisesViewSet(viewsets.ViewSet):
         return Response(data=serializer.data)
 
     @cached_property
-    def user(self) -> CustomUser:
+    def user(self) -> Person:
         """Get mentorship instance."""
         user = self.request.user
-        assert isinstance(user, CustomUser)
+        assert isinstance(user, Person)
         return user

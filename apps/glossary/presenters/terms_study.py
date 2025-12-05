@@ -1,6 +1,6 @@
 """Terms study presenter."""
 
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 from ..types import TermParamsType, TermType
 from .abc import TermStudyPresenterABC
@@ -11,7 +11,7 @@ class TermStudyPresenter(TermStudyPresenterABC):
 
     def get_presentation_case(
         self,
-        user: CustomUser,
+        user: Person,
         params: TermParamsType,
     ) -> TermType:
         """Get Term study presentation case."""

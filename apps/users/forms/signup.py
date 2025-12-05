@@ -2,7 +2,7 @@
 
 from django.contrib.auth.forms import UserCreationForm
 
-from ..models import CustomUser
+from ..models import Person
 
 
 class SignUpForm(UserCreationForm):  # type: ignore
@@ -11,5 +11,5 @@ class SignUpForm(UserCreationForm):  # type: ignore
     class Meta:
         """Configration of form."""
 
-        model = CustomUser
+        model = Person
         fields = ('username', 'password1', 'password2')

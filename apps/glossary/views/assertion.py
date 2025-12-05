@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 from ..forms import TermAssertionForm
 from ..models import Term, TermAssertion
@@ -25,6 +25,6 @@ class AssertionCreateView(
         """Filter term by user."""
         form = super().get_form(form_class)
         user = self.request.user
-        if isinstance(user, CustomUser):
+        if isinstance(user, Person):
             form.fields['term'].queryset = Term.objects.filter(user=user)
         return form

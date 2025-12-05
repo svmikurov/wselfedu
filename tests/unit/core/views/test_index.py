@@ -8,7 +8,7 @@ from django.contrib.auth.models import AnonymousUser
 from rest_framework.test import APIRequestFactory
 
 from apps.core.api.v1.views import IndexViewSet
-from apps.users.models import CustomUser
+from apps.users.models import Person
 from tests.fixtures import user
 
 
@@ -34,7 +34,7 @@ class TestIndexViewSet:
     )
     def test_index_action(
         self,
-        user: CustomUser | AnonymousUser,
+        user: Person | AnonymousUser,
         balance: str | None,
         viewset: IndexViewSet,
         factory: APIRequestFactory,

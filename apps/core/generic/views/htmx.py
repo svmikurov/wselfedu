@@ -8,7 +8,7 @@ from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.views.generic import DeleteView
 
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 
 class HtmxDeleteView(
@@ -21,7 +21,7 @@ class HtmxDeleteView(
     def test_func(self) -> bool:
         """Check if the user is the owner of the object."""
         user = self.request.user
-        if not isinstance(user, CustomUser):
+        if not isinstance(user, Person):
             return False
         return bool(user == self._get_owner())
 
@@ -37,5 +37,5 @@ class HtmxDeleteView(
         # HTMX does not update the template with response status 204
         return HttpResponse(status=200)
 
-    def _get_owner(self) -> CustomUser:
+    def _get_owner(self) -> Person:
         raise NotImplementedError('Must implement `_get_owner()` in subclass')

@@ -5,7 +5,7 @@ from typing import Protocol
 
 from typing_extensions import override
 
-from apps.users.models import CustomUser, MentorshipRequest
+from apps.users.models import MentorshipRequest, Person
 
 
 class IMentorshipService(Protocol):
@@ -13,13 +13,13 @@ class IMentorshipService(Protocol):
 
     @staticmethod
     def create_mentorship_request(
-        student: CustomUser,
+        student: Person,
         mentor_username: str,
     ) -> MentorshipRequest:
         """Create mentorship request."""
 
     @staticmethod
-    def accept_mentorship_request(request_id: int, mentor: CustomUser) -> None:
+    def accept_mentorship_request(request_id: int, mentor: Person) -> None:
         """Accept by mentor the user request to mentorship."""
 
 
@@ -30,7 +30,7 @@ class MentorshipServiceABC(IMentorshipService, ABC):
     @abstractmethod
     @override
     def create_mentorship_request(
-        student: CustomUser,
+        student: Person,
         mentor_username: str,
     ) -> MentorshipRequest:
         """Create mentorship request."""
@@ -38,5 +38,5 @@ class MentorshipServiceABC(IMentorshipService, ABC):
     @staticmethod
     @abstractmethod
     @override
-    def accept_mentorship_request(request_id: int, mentor: CustomUser) -> None:
+    def accept_mentorship_request(request_id: int, mentor: Person) -> None:
         """Accept by mentor the user request to mentorship."""

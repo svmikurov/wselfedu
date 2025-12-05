@@ -7,7 +7,7 @@ class Balance(models.Model):
     """User points balance."""
 
     user = models.OneToOneField(
-        'CustomUser',
+        'Person',
         on_delete=models.CASCADE,
         related_name='balance',
         verbose_name='Пользователь',

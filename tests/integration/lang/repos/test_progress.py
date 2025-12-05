@@ -3,7 +3,7 @@
 import pytest
 
 from apps.lang import models, repos
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 
 @pytest.mark.django_db
@@ -25,7 +25,7 @@ class TestRepository:
         self,
         progress_delta: int,
         expected_progress: int,
-        user: CustomUser,
+        user: Person,
         word_translation: models.EnglishTranslation,
         progress_repo: repos.Progress,
     ) -> None:
@@ -62,7 +62,7 @@ class TestRepository:
         initial_progress: int,
         progress_delta: int,
         expected_progress: int,
-        user: CustomUser,
+        user: Person,
         word_translation: models.EnglishTranslation,
         progress_repo: repos.Progress,
     ) -> None:

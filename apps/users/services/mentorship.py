@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from typing_extensions import override
 
 from apps.users.exception import MentorshipError
-from apps.users.models import CustomUser, Mentorship, MentorshipRequest
+from apps.users.models import Mentorship, MentorshipRequest, Person
 from apps.users.services.iabc import MentorshipServiceABC
 
 
@@ -14,11 +14,11 @@ class MentorshipService(MentorshipServiceABC):
     @staticmethod
     @override
     def create_mentorship_request(
-        student: CustomUser,
+        student: Person,
         mentor_username: str,
     ) -> MentorshipRequest:
         """Create mentorship request."""
-        mentor = CustomUser.objects.filter(username=mentor_username).first()
+        mentor = Person.objects.filter(username=mentor_username).first()
 
         if not mentor:
             raise MentorshipError(
@@ -52,7 +52,7 @@ class MentorshipService(MentorshipServiceABC):
 
     @staticmethod
     @override
-    def accept_mentorship_request(request_id: int, mentor: CustomUser) -> None:
+    def accept_mentorship_request(request_id: int, mentor: Person) -> None:
         """Accept by mentor the user request to mentorship."""
         mentorship_request = get_object_or_404(
             MentorshipRequest,

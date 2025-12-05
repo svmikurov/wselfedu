@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from typing import override
 
 from apps.core.presenters.abc import StudyPresenterGenABC
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 from .. import types
 
@@ -19,7 +19,7 @@ class WordPresentationServiceABC(
     @override
     def get_presentation_case(
         self,
-        user: CustomUser,
+        user: Person,
         presentation_params: types.WordParameters,
     ) -> types.PresentationCaseT:
         """Get Word study presentation case."""
@@ -31,14 +31,14 @@ class WordProgressServiceABC(ABC):
     @abstractmethod
     def update_progress(
         self,
-        user: CustomUser,
+        user: Person,
         data: types.WordProgressT,
     ) -> None:
         """Update word study progress.
 
         Parameters
         ----------
-        user : `CustomUser`
+        user : `Person`
             Current user instance.
         data : `WordProgressType`
             Update Word study progress data.

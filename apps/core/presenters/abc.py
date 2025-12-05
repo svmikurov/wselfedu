@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar, override
 
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 from .protocol import (
     AnswerT_contra,
@@ -45,7 +45,7 @@ class StudyPresenterGenABC(ABC, Generic[T_contra, T]):
     @abstractmethod
     def get_presentation_case(
         self,
-        user: CustomUser,
+        user: Person,
         presentation_params: T_contra,
     ) -> T:
         """Get item study presentation case."""

@@ -6,13 +6,13 @@ from apps.core.mixins.admin import UnchangeableAdminMixin
 
 from ..models import (
     Balance,
-    CustomUser,
+    Person,
 )
 from ..models.transaction import Transaction
 
 
-@admin.register(CustomUser)
-class CustomUserAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+@admin.register(Person)
+class PersonAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Custom user model administration."""
 
     list_display = ['username', 'date_joined']

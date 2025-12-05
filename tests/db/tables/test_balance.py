@@ -5,7 +5,7 @@ from decimal import Decimal
 import pytest
 from django.db.utils import DataError
 
-from apps.users.models import Balance, CustomUser
+from apps.users.models import Balance, Person
 
 
 @pytest.mark.django_db
@@ -13,15 +13,15 @@ class TestBalanceModel:
     """Test suite for Balance model."""
 
     @pytest.fixture
-    def user(self) -> CustomUser:
+    def user(self) -> Person:
         """Fixture provides user."""
-        return CustomUser.objects.create_user(
+        return Person.objects.create_user(
             username='test_user',
             password='test_pass123',
         )
 
     @pytest.fixture
-    def balance(self, user: CustomUser) -> Balance:
+    def balance(self, user: Person) -> Balance:
         """Fixture provides balance."""
         return Balance.objects.create(
             user=user,
@@ -31,7 +31,7 @@ class TestBalanceModel:
     def test_balance_creation(
         self,
         balance: Balance,
-        user: CustomUser,
+        user: Person,
     ) -> None:
         """Test balance object creation."""
         assert Balance.objects.count() == 1
@@ -43,7 +43,7 @@ class TestBalanceModel:
     def test_balance_str_representation(
         self,
         balance: Balance,
-        user: CustomUser,
+        user: Person,
     ) -> None:
         """Test string representation."""
         assert str(balance) == f'Баланс {user.username}: 1000.50'
@@ -57,7 +57,7 @@ class TestBalanceModel:
     def test_user_balance_relation(
         self,
         balance: Balance,
-        user: CustomUser,
+        user: Person,
     ) -> None:
         """Test user-balance relationship."""
         # Access through related_name
@@ -67,7 +67,7 @@ class TestBalanceModel:
         user.delete()
         assert not Balance.objects.filter(id=balance.id).exists()
 
-    def test_total_validation(self, user: CustomUser) -> None:
+    def test_total_validation(self, user: Person) -> None:
         """Test total field validation."""
         with pytest.raises(DataError):
             Balance.objects.create(

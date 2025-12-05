@@ -16,12 +16,12 @@ class Mentorship(models.Model):
     """
 
     mentor = models.ForeignKey(
-        'CustomUser',
+        'Person',
         on_delete=models.CASCADE,
         related_name='mentor',
     )
     student = models.ForeignKey(
-        'CustomUser',
+        'Person',
         on_delete=models.CASCADE,
         related_name='student',
     )
@@ -48,12 +48,12 @@ class MentorshipRequest(models.Model):
     """
 
     from_user = models.ForeignKey(
-        'CustomUser',
+        'Person',
         related_name='from_student',
         on_delete=models.CASCADE,
     )
     to_user = models.ForeignKey(
-        'CustomUser',
+        'Person',
         related_name='to_mentor',
         on_delete=models.CASCADE,
     )

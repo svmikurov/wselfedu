@@ -9,7 +9,7 @@ from typing_extensions import override
 
 from apps.study.models import ExerciseAssigned
 
-from ..models import CustomUser, Mentorship
+from ..models import Mentorship, Person
 from ..presenters.iabc import StudentExercisesPresenterABC
 
 
@@ -32,7 +32,7 @@ class StudentExercisesPresenter(StudentExercisesPresenterABC):
     @override
     def get_assigned_all(
         cls,
-        student: CustomUser,
+        student: Person,
     ) -> QuerySet[ExerciseAssigned]:
         """Get assigned exercises to student by all his mentors."""
         filters = {
@@ -45,7 +45,7 @@ class StudentExercisesPresenter(StudentExercisesPresenterABC):
     def get_exercise_meta(
         cls,
         assignation_id: int,
-        student: CustomUser,
+        student: Person,
     ) -> ExerciseAssigned:
         """Get assigned exercise meta data."""
         obj = get_object_or_404(

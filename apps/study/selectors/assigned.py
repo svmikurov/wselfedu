@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from typing_extensions import override
 
 from apps.math.services.types import CalcConditionType
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 from ..models import ExerciseAssigned
 from .iabc import AssignedSelectorABC
@@ -23,7 +23,7 @@ class AssignedSelector(AssignedSelectorABC):
     def select(
         assignation_id: int,
         exercise_slug: str,
-        student: CustomUser,
+        student: Person,
     ) -> CalcConditionType:
         """Select assigned exercise data."""
         assignation = get_object_or_404(

@@ -10,7 +10,7 @@ from rest_framework.test import APIRequestFactory, force_authenticate
 
 from apps.math.api.v1.views.calculation import CalculationViewSet
 from apps.math.presenters.calculation import CalculationPresenter
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 # Test data
 # ---------
@@ -64,7 +64,7 @@ class TestCalculationViewSet:
         url: str,
         payload: dict[str, str],
         api_request_factory: APIRequestFactory,
-        user: CustomUser,
+        user: Person,
         view: Callable[[Request], Response],
         presenter_mock: Mock,
         case: dict[str, Any],

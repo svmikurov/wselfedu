@@ -17,7 +17,7 @@ from di import MainContainer as Container
 
 from ..exception import MentorshipError
 from ..forms import SendMentorshipRequestForm  # type: ignore
-from ..models import CustomUser, Mentorship, MentorshipRequest
+from ..models import Mentorship, MentorshipRequest, Person
 from ..presenters.iabc import IMentorshipPresenter
 from ..services.iabc import IMentorshipService
 
@@ -73,10 +73,10 @@ class MentorshipView(LoginRequiredMixin, FormView):  # type: ignore[type-arg]
         return super().form_invalid(form)
 
     @property
-    def user(self) -> CustomUser:
+    def user(self) -> Person:
         """Get user."""
         user = self.request.user
-        if not isinstance(user, CustomUser):
+        if not isinstance(user, Person):
             raise PermissionDenied('Invalid user type')
         return user
 
@@ -141,10 +141,10 @@ class AcceptMentorshipRequest(LoginRequiredMixin, View):
         )
 
     @property
-    def mentor(self) -> CustomUser:
+    def mentor(self) -> Person:
         """Get mentor."""
         mentor = self.request.user
-        if not isinstance(mentor, CustomUser):
+        if not isinstance(mentor, Person):
             raise PermissionDenied('Invalid user type')
         return mentor
 
@@ -154,8 +154,8 @@ class DeleteStudentView(HtmxDeleteView):
 
     model = Mentorship
 
-    def _get_owner(self) -> CustomUser:
-        owner: CustomUser = self.get_object().mentor
+    def _get_owner(self) -> Person:
+        owner: Person = self.get_object().mentor
         return owner
 
 
@@ -164,8 +164,8 @@ class DeleteMentorView(HtmxDeleteView):
 
     model = Mentorship
 
-    def _get_owner(self) -> CustomUser:
-        owner: CustomUser = self.get_object().student
+    def _get_owner(self) -> Person:
+        owner: Person = self.get_object().student
         return owner
 
 
@@ -174,8 +174,8 @@ class DeleteStudentRequestView(HtmxDeleteView):
 
     model = MentorshipRequest
 
-    def _get_owner(self) -> CustomUser:
-        owner: CustomUser = self.get_object().to_user
+    def _get_owner(self) -> Person:
+        owner: Person = self.get_object().to_user
         return owner
 
 
@@ -184,6 +184,6 @@ class DeleteMentorRequestView(HtmxDeleteView):
 
     model = MentorshipRequest
 
-    def _get_owner(self) -> CustomUser:
-        owner: CustomUser = self.get_object().from_user
+    def _get_owner(self) -> Person:
+        owner: Person = self.get_object().from_user
         return owner

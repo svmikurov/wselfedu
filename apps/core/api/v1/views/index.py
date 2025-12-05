@@ -16,7 +16,7 @@ from apps.core.types import BalanceDataType, IndexDataType
 from ..serializers.index import IndexSerializer
 
 if TYPE_CHECKING:
-    from apps.users.models import CustomUser
+    from apps.users.models import Person
 
 
 class IndexViewSet(viewsets.ViewSet):
@@ -61,7 +61,7 @@ class IndexViewSet(viewsets.ViewSet):
 
     @staticmethod
     def _get_index_data(
-        user: CustomUser | AnonymousUser,
+        user: Person | AnonymousUser,
     ) -> BalanceDataType:
         """Prepare data for the index response.
 

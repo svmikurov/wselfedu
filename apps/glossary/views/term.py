@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from apps.core.generic.views.auth import OwnershipRequiredMixin
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 from ..forms import TermForm
 from ..models import Term
@@ -60,7 +60,7 @@ class TermDetailView(
 
     def get_queryset(self) -> QuerySet[Term]:
         """Get term queryset."""
-        if isinstance(self.request.user, CustomUser):
+        if isinstance(self.request.user, Person):
             return TermDetailPresenter.get_term(self.request.user)
         return Term.objects.none()
 
@@ -76,6 +76,6 @@ class TermListView(
 
     def get_queryset(self) -> QuerySet[Term]:
         """Get Term list filtered by user."""
-        if isinstance(self.request.user, CustomUser):
+        if isinstance(self.request.user, Person):
             return Term.objects.filter(user=self.request.user)
         return Term.objects.none()

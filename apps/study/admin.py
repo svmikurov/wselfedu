@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 from .models import (
     AssignationCompletes,
@@ -30,14 +30,14 @@ class ExerciseAssignedAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
 
     def mentor_display(self, obj: ExerciseAssigned) -> str:
         """Display the mentor who assigned the exercise."""
-        mentor: CustomUser = obj.mentorship.mentor
+        mentor: Person = obj.mentorship.mentor
         if mentor:
             return str(mentor.username)
         return '-'
 
     def student_display(self, obj: ExerciseAssigned) -> str:
         """Display the student who is assigned the exercise."""
-        student: CustomUser = obj.mentorship.student
+        student: Person = obj.mentorship.student
         if student:
             return str(student.username)
         return '-'
@@ -65,14 +65,14 @@ class ExerciseActiveAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
 
     def mentor_display(self, obj: ExerciseActive) -> str:
         """Display the mentor who assigned the exercise."""
-        mentor: CustomUser = obj.exercise.mentorship.mentor
+        mentor: Person = obj.exercise.mentorship.mentor
         if mentor:
             return str(mentor.username)
         return '-'
 
     def student_display(self, obj: ExerciseActive) -> str:
         """Display the student who is assigned the exercise."""
-        student: CustomUser = obj.exercise.mentorship.student
+        student: Person = obj.exercise.mentorship.student
         if student:
             return str(student.username)
         return '-'
@@ -106,14 +106,14 @@ class ExerciseExpirationAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
 
     def mentor_display(self, obj: ExerciseExpiration) -> str:
         """Display the mentor who assigned the exercise."""
-        mentor: CustomUser = obj.exercise.mentorship.mentor
+        mentor: Person = obj.exercise.mentorship.mentor
         if mentor:
             return str(mentor.username)
         return '-'
 
     def student_display(self, obj: ExerciseExpiration) -> str:
         """Display the student who is assigned the exercise."""
-        student: CustomUser = obj.exercise.mentorship.student
+        student: Person = obj.exercise.mentorship.student
         if student:
             return str(student.username)
         return '-'
@@ -149,14 +149,14 @@ class ExerciseTaskCountAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
 
     def mentor_display(self, obj: ExerciseExpiration) -> str:
         """Display the mentor who assigned the exercise."""
-        mentor: CustomUser = obj.exercise.mentorship.mentor
+        mentor: Person = obj.exercise.mentorship.mentor
         if mentor:
             return str(mentor.username)
         return '-'
 
     def student_display(self, obj: ExerciseExpiration) -> str:
         """Display the student who is assigned the exercise."""
-        student: CustomUser = obj.exercise.mentorship.student
+        student: Person = obj.exercise.mentorship.student
         if student:
             return str(student.username)
         return '-'
@@ -185,14 +185,14 @@ class ExerciseTaskAwardAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
 
     def mentor_display(self, obj: ExerciseExpiration) -> str:
         """Display the mentor who assigned the exercise."""
-        mentor: CustomUser = obj.exercise.mentorship.mentor
+        mentor: Person = obj.exercise.mentorship.mentor
         if mentor:
             return str(mentor.username)
         return '-'
 
     def student_display(self, obj: ExerciseExpiration) -> str:
         """Display the student who is assigned the exercise."""
-        student: CustomUser = obj.exercise.mentorship.student
+        student: Person = obj.exercise.mentorship.student
         if student:
             return str(student.username)
         return '-'

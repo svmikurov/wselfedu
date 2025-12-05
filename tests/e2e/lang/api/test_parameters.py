@@ -13,7 +13,7 @@ from apps.lang import repos, types
 if TYPE_CHECKING:
     from rest_framework.test import APIClient
 
-    from apps.users.models import CustomUser
+    from apps.users.models import Person
 
 GET_PARAMETERS_PATH = '/api/v1/lang/study/parameters/'
 PUT_PARAMETERS_PATH = '/api/v1/lang/study/parameters/update/'
@@ -32,7 +32,7 @@ class TestGetSuccess:
 
     def test_get_data(
         self,
-        user: CustomUser,
+        user: Person,
         api_client: APIClient,
         parameters_db_data: types.SetStudyParameters,
     ) -> None:
@@ -54,7 +54,7 @@ class TestUpdate:
     @pytest.mark.django_db
     def test_update_success(
         self,
-        user: CustomUser,
+        user: Person,
         api_client: APIClient,
         parameters_db_data: types.SetStudyParameters,
     ) -> None:
@@ -103,7 +103,7 @@ class TestPermissions:
     def test_public_parameters_data(
         self,
         api_client: APIClient,
-        user_not_owner: CustomUser,
+        user_not_owner: Person,
         parameters_db_data: types.SetStudyParameters,
         public_parameters: types.SetStudyParameters,
     ) -> None:

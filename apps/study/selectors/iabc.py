@@ -6,7 +6,7 @@ from typing import Protocol
 from typing_extensions import override
 
 from apps.math.services.types import CalcConditionType
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 
 class IAssignedSelector(Protocol):
@@ -16,7 +16,7 @@ class IAssignedSelector(Protocol):
     def select(
         assignation_id: int,
         exercise_slug: str,
-        student: CustomUser,
+        student: Person,
     ) -> CalcConditionType:
         """Select assigned exercise data."""
 
@@ -30,6 +30,6 @@ class AssignedSelectorABC(IAssignedSelector, ABC):
     def select(
         assignation_id: int,
         exercise_slug: str,
-        student: CustomUser,
+        student: Person,
     ) -> CalcConditionType:
         """Select assigned exercise data."""

@@ -9,7 +9,7 @@ from django.utils import timezone
 
 from apps.core import models as models_core
 from apps.lang import models, repos, types
-from apps.users.models import CustomUser
+from apps.users.models import Person
 from tests.fixtures.lang.no_db import translation_query as fixtures
 
 
@@ -215,7 +215,7 @@ class TestGetWordByTranslation:
 
     def test_get_word_study_data_success(
         self,
-        user: CustomUser,
+        user: Person,
         word_translation: models.EnglishTranslation,
         native_word: models.NativeWord,
         english_word: models.EnglishWord,
@@ -239,7 +239,7 @@ class TestGetWordByTranslation:
     def get_word_study_data_not_found(
         self,
         presentation_repo: repos.EnglishPresentation,
-        user: CustomUser,
+        user: Person,
     ) -> None:
         """Test case when translation doesn't exist."""
         # Arrange
@@ -256,7 +256,7 @@ class TestGetWordByTranslation:
     def get_word_study_data_other_users(
         self,
         presentation_repo: repos.EnglishPresentation,
-        user_not_owner: CustomUser,
+        user_not_owner: Person,
         word_translation: models.EnglishTranslation,
     ) -> None:
         """Test that users can only access their own translations."""
@@ -271,7 +271,7 @@ class TestGetWordByTranslation:
     def get_word_study_data_query_count(
         self,
         presentation_repo: repos.EnglishPresentation,
-        user: CustomUser,
+        user: Person,
         word_translation: models.EnglishTranslation,
         django_assert_num_queries: CaptureQueriesContext,
     ) -> None:

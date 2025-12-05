@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import NamedTuple, TypedDict
 
-from apps.users.models import CustomUser
+from apps.users.models import Person
 
 from .. import types
 
@@ -28,7 +28,7 @@ class ProgressABC(ABC):
     @abstractmethod
     def update(
         self,
-        user: CustomUser,
+        user: Person,
         translation_id: int,
         language: types.Language,
         progress_delta: int,
@@ -49,7 +49,7 @@ class PresentationABC(ABC):
     @abstractmethod
     def get_word_study_data(
         self,
-        user: CustomUser,
+        user: Person,
         translation_id: int,
         language: types.Language,
     ) -> types.PresentationDataT:
@@ -60,13 +60,13 @@ class WordStudyParamsRepositoryABC(ABC):
     """ABC for Word study params repository."""
 
     @abstractmethod
-    def fetch(self, user: CustomUser) -> types.SetStudyParameters:
+    def fetch(self, user: Person) -> types.SetStudyParameters:
         """Fetch initial params."""
 
     @abstractmethod
     def update(
         self,
-        user: CustomUser,
+        user: Person,
         data: types.StudyParameters,
     ) -> types.SetStudyParameters:
         """Update initial parameters."""
@@ -78,7 +78,7 @@ class TranslationRepoABC(ABC):
     @abstractmethod
     def create_translation(
         self,
-        user: CustomUser,
+        user: Person,
         native: str,
         english: str,
     ) -> CreationStatus:
