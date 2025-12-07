@@ -98,6 +98,34 @@ class Params(models.Model):
         ],
         verbose_name='Время для ответа (сек)',
     )
+    is_study = models.BooleanField(
+        blank=True,
+        null=True,
+        default=True,
+        verbose_name='Изучаю',
+        help_text='Показывать слова для изучения',
+    )
+    is_repeat = models.BooleanField(
+        blank=True,
+        null=True,
+        default=True,
+        verbose_name='Повторяю',
+        help_text='Показывать слова для повторения',
+    )
+    is_examine = models.BooleanField(
+        blank=True,
+        null=True,
+        default=True,
+        verbose_name='Проверяю',
+        help_text='Показывать слова для проверки',
+    )
+    is_know = models.BooleanField(
+        blank=True,
+        null=True,
+        default=False,
+        verbose_name='Знаю',
+        help_text='Показывать изученные слова',
+    )
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Добавлен',
