@@ -32,7 +32,7 @@ class WordProgressServiceABC(ABC):
     def update_progress(
         self,
         user: Person,
-        data: types.WordProgressT,
+        data: types.ProgressCase,
     ) -> None:
         """Update word study progress.
 
