@@ -50,6 +50,10 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
                 'question_timeout',
                 'answer_timeout',
                 'translation_order',
+                'is_study',
+                'is_repeat',
+                'is_examine',
+                'is_know',
             ).first()
             or {}
         )
@@ -76,7 +80,11 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
             'start_period': None,
             'end_period': None,
             'translation_order': {'code': order_value, 'name': order_label},
-            #
+            # Default switch progress
+            'is_study': custom.get('is_study', True),
+            'is_repeat': custom.get('is_repeat', True),
+            'is_examine': custom.get('is_examine', True),
+            'is_know': custom.get('is_know', False),
             # The parameters set, if any
             'word_count': custom.get('word_count'),
             'question_timeout': custom.get('question_timeout'),
@@ -130,7 +138,12 @@ class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
             'word_count': data.get('word_count'),
             'question_timeout': data.get('question_timeout'),
             'answer_timeout': data.get('answer_timeout'),
+            'is_study': data.get('is_study'),
+            'is_repeat': data.get('is_repeat'),
+            'is_examine': data.get('is_examine'),
+            'is_know': data.get('is_know'),
         }
+
         (
             models.Params.objects.update_or_create(
                 user=user,
