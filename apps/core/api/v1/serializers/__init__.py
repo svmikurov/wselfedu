@@ -1,8 +1,8 @@
 """Contains Core app serializers."""
 
 __all__ = [
-    'IdNameSerializer',
     'CodeNameSerializer',
+    'IdNameSerializer',
 ]
 
 from .shared import (
