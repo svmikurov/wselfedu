@@ -4,6 +4,7 @@ from rest_framework import serializers
 
 from apps.lang import types
 from apps.lang.models.word import AbstractWordModel
+from apps.study.api.v1 import serializers as study
 
 from . import base
 
@@ -14,6 +15,7 @@ from . import base
 class WordParametersSerializer(
     base.TranslationMetaSerializer,
     base.TranslationSettingsSerializer,
+    study.ProgressPhaseSerializer,
 ):
     """Word parameters serializer."""
 
@@ -22,6 +24,7 @@ class StudyParametersSerializer(
     base.TranslationMetaSerializer,
     base.TranslationSettingsSerializer,
     base.PresentationSettingsSerializer,
+    study.ProgressPhaseSerializer,
 ):
     """Word study parameters serializer."""
 
@@ -31,6 +34,7 @@ class SetParametersSerializer(
     base.TranslationMetaSerializer,
     base.TranslationSettingsSerializer,
     base.PresentationSettingsSerializer,
+    study.ProgressPhaseSerializer,
 ):
     """Set Word study parameters serializer."""
 
@@ -62,13 +66,8 @@ class WordStudyCaseSerializer(serializers.Serializer[types.PresentationCaseT]):
 # --------
 
 
-class WordStudyProgressSerializer(serializers.Serializer[types.WordProgressT]):
+class WordStudyProgressSerializer(serializers.Serializer[types.ProgressCase]):
     """Serializer for Word study progress."""
 
-    case_uuid = serializers.UUIDField(
-        required=True,
-    )
-    progress_type = serializers.ChoiceField(
-        required=True,
-        choices=['known', 'unknown'],
-    )
+    case_uuid = serializers.UUIDField(required=True)
+    is_known = serializers.BooleanField(required=True)
