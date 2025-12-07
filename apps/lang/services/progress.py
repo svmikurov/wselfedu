@@ -31,16 +31,16 @@ class UpdateWordProgressService(WordProgressServiceABC):
     def update_progress(
         self,
         user: Person,
-        data: types.WordProgressT,
+        data: types.ProgressCase,
     ) -> None:
         """Update word study progress."""
         case_uuid = data['case_uuid']
-        progress_type = data['progress_type']
+        is_known = data['is_known']
 
         progress_delta = {
-            'known': self._progress_config.increment,
-            'unknown': -self._progress_config.decrement,
-        }[progress_type]
+            True: self._progress_config.increment,
+            False: -self._progress_config.decrement,
+        }[is_known]
 
         try:
             case_data: schemas.WordStudyStoredCase = self._case_storage.pop(
