@@ -5,23 +5,23 @@ from typing import TypeAlias
 
 from rest_framework.exceptions import ErrorDetail
 
-from apps.lang.types import WordProgressT
+from apps.lang.types import ProgressCase
 
 # Progress cases
 # --------------
 
-VALID_PAYLOAD: WordProgressT = {
+VALID_PAYLOAD: ProgressCase = {
     'case_uuid': uuid.UUID('5b518a3e-45a4-4147-a097-0ed28211d8a4'),
-    'progress_type': 'known',
+    'is_known': True,
 }
 
-InvalidPayload: TypeAlias = dict[str, uuid.UUID | str]
+InvalidPayload: TypeAlias = dict[str, uuid.UUID | bool]
 SerializerErrors: TypeAlias = dict[str, list[ErrorDetail]]
 InvalidPayloadCases: TypeAlias = list[tuple[InvalidPayload, SerializerErrors]]
 
 INVALID_PAYLOAD: InvalidPayloadCases = [
     (
-        {'case_uuid': 'invalid', 'progress_type': 'known'},
+        {'case_uuid': 'invalid', 'is_known': True},  # type: ignore[dict-item]
         {
             'case_uuid': [
                 ErrorDetail(
@@ -32,13 +32,10 @@ INVALID_PAYLOAD: InvalidPayloadCases = [
         },
     ),
     (
-        {'case_uuid': uuid.uuid4(), 'progress_type': 'invalid'},
+        {'case_uuid': uuid.uuid4(), 'is_known': 'invalid'},  # type: ignore[dict-item]
         {
-            'progress_type': [
-                ErrorDetail(
-                    string='Значения invalid нет среди допустимых вариантов.',
-                    code='invalid_choice',
-                )
+            'is_known': [
+                ErrorDetail(string='Must be a valid boolean.', code='invalid')
             ]
         },
     ),
@@ -46,12 +43,6 @@ INVALID_PAYLOAD: InvalidPayloadCases = [
         {},
         {
             'case_uuid': [
-                ErrorDetail(
-                    string='Обязательное поле.',
-                    code='required',
-                )
-            ],
-            'progress_type': [
                 ErrorDetail(
                     string='Обязательное поле.',
                     code='required',

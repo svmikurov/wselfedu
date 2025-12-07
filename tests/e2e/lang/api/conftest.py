@@ -8,22 +8,15 @@ import pytest
 
 from apps.core import models as models_core
 from apps.lang import models, types
-from tests.fixtures.lang.no_db import word_study_params as fixtures
+from tests.fixtures.lang.no_db import translation_parameters as fixtures
 
 if TYPE_CHECKING:
     from apps.users.models import Person
 
 
 @pytest.fixture
-def translation_order_options() -> list[types.CodeName]:
-    """Provide translation order options."""
-    return fixtures.TRANSLATION_ORDERS
-
-
-@pytest.fixture
 def public_parameters(
     parameters_db_data: types.SetStudyParameters,
-    translation_order_options: list[types.CodeName],
 ) -> types.SetStudyParameters:
     """Provide public Parameters data.
 
@@ -36,14 +29,18 @@ def public_parameters(
         'marks': [],
         'sources': [],
         'periods': parameters_db_data['periods'],
-        'translation_orders': translation_order_options,
+        'translation_orders': fixtures.TRANSLATION_ORDERS,
         # Selected parameter
         'category': None,
         'mark': None,
         'word_source': None,
         'start_period': None,
         'end_period': None,
-        'translation_order': translation_order_options[1],
+        'translation_order': fixtures.TRANSLATION_ORDERS[1],
+        'is_study': True,
+        'is_repeat': True,
+        'is_examine': True,
+        'is_know': False,
         # Set parameter
         'word_count': None,
         'question_timeout': None,
@@ -52,11 +49,8 @@ def public_parameters(
 
 
 @pytest.fixture
-def parameters_db_data(
-    user: Person,
-    translation_order_options: list[types.CodeName],
-) -> types.SetStudyParameters:
-    """Provide Word study Presenter DB data parameters."""
+def parameters_db_data(user: Person) -> types.SetStudyParameters:
+    """Provide Word study parameters."""
     categories = models.LangCategory.objects.bulk_create(
         [
             models.LangCategory(user=user, name='cat 1'),
@@ -96,6 +90,10 @@ def parameters_db_data(
         end_period=periods[1],
         question_timeout=2.9,
         answer_timeout=3.1,
+        is_study=False,
+        is_repeat=False,
+        is_examine=True,
+        is_know=False,
     )
 
     # TODO: Fix type ignore
@@ -105,7 +103,7 @@ def parameters_db_data(
         'marks': _build_choices(marks),
         'sources': _build_choices(sources),
         'periods': _build_choices(periods),
-        'translation_orders': translation_order_options,
+        'translation_orders': fixtures.TRANSLATION_ORDERS,
         # Selected parameter
         'category': {'id': categories[0].pk, 'name': categories[0].name},
         'mark': {'id': marks[1].pk, 'name': marks[1].name},
@@ -116,6 +114,10 @@ def parameters_db_data(
             'code': parameters.translation_order.value,  # type: ignore[union-attr]
             'name': parameters.translation_order.label,  # type: ignore[union-attr]
         },
+        'is_study': parameters.is_study,  # type: ignore[typeddict-item]
+        'is_repeat': parameters.is_repeat,  # type: ignore[typeddict-item]
+        'is_examine': parameters.is_examine,  # type: ignore[typeddict-item]
+        'is_know': parameters.is_know,  # type: ignore[typeddict-item]
         # Set parameter
         'word_count': parameters.word_count,
         'question_timeout': parameters.question_timeout,

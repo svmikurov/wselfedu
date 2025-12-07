@@ -68,6 +68,10 @@ class TestUpdate:
         to_update = {
             'word_count': 324,
             'question_timeout': 7,
+            'is_study': True,
+            'is_repeat': True,
+            'is_examine': True,
+            'is_know': True,
         }
         payload: dict[str, Any] = {**parameters, **to_update}
 
@@ -99,6 +103,7 @@ class TestPermissions:
         assert response.status_code == HTTPStatus.UNAUTHORIZED
         assert response.data == UNAUTHORIZED_RESPONSE_DATA
 
+    # TODO: Fix type ignore
     @pytest.mark.django_db
     def test_public_parameters_data(
         self,

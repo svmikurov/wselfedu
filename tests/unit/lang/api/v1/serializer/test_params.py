@@ -1,7 +1,7 @@
 """Word study Presentation parameter Serializer tests."""
 
 from apps.lang.api.v1.serializers import study as serializers
-from tests.fixtures.lang.no_db import word_study_params as fixtures
+from tests.fixtures.lang.no_db import translation_parameters as fixtures
 
 
 class TestSerializer:

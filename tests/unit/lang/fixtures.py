@@ -8,6 +8,7 @@ import pytest
 from apps.core.storage.clients import DjangoCache
 from apps.lang import schemas, services, types
 from apps.lang.repos.abc import ProgressABC
+from tests.fixtures.lang.no_db import translation_query as fixtures
 
 from .api.v1.view.study import cases
 
@@ -34,7 +35,7 @@ def progress_config() -> schemas.ProgressConfigSchema:
 
 
 @pytest.fixture
-def progress_case() -> types.WordProgressT:
+def progress_case() -> types.ProgressCase:
     """Provide valid word study progress update case."""
     return cases.VALID_PAYLOAD
 
@@ -47,6 +48,12 @@ def progress_case() -> types.WordProgressT:
 def mock_progress_repo() -> Mock:
     """Mock Word study progress repo fixture."""
     return Mock(spec=ProgressABC)
+
+
+@pytest.fixture
+def case_uuid() -> uuid.UUID:
+    """Provide Word study presentation case."""
+    return fixtures.TRANSLATION_CASE_UUID
 
 
 @pytest.fixture

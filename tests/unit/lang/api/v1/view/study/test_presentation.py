@@ -1,5 +1,6 @@
 """Test the Word study ViewSet, `presentation` action."""
 
+import uuid
 from http import HTTPStatus
 from typing import Callable, TypedDict
 from unittest.mock import Mock
@@ -13,6 +14,19 @@ from apps.lang import types
 from apps.lang.api.v1.views.study import WordStudyViewSet
 from apps.lang.services.abc import WordPresentationServiceABC
 from di import container
+from tests.fixtures.lang.no_db import translation_query as fixtures
+
+
+@pytest.fixture
+def case_uuid() -> uuid.UUID:
+    """Provide Word study presentation case."""
+    return fixtures.TRANSLATION_CASE_UUID
+
+
+@pytest.fixture
+def presentation_case() -> types.PresentationCaseT:
+    """Provide Word study presentation case."""
+    return fixtures.PRESENTATION_CASE
 
 
 class PresentationResponse(TypedDict):
@@ -33,16 +47,7 @@ def view() -> Callable[[Request], Response]:
 @pytest.fixture
 def valid_payload() -> types.WordParameters:
     """Provide Request payload."""
-    return {
-        'category': None,
-        'mark': None,
-        'word_count': None,
-        # TODO: Add database tables for choices
-        'word_source': None,
-        'translation_order': None,
-        'start_period': None,
-        'end_period': None,
-    }
+    return fixtures.EMPTY_LOOKUP_CONDITIONS.copy()
 
 
 @pytest.fixture

@@ -15,7 +15,7 @@ class TestService:
         mock_progress_repo: Mock,
         mock_django_cache_storage: Mock,
         progress_config: schemas.ProgressConfigSchema,
-        progress_case: types.WordProgressT,
+        progress_case: types.ProgressCase,
         stored_case: schemas.WordStudyStoredCase,
         progress_service_di_mock: WordProgressServiceABC,
     ) -> None:

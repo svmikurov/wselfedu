@@ -30,7 +30,7 @@ def mock_service() -> Mock:
 
 
 @pytest.fixture
-def valid_payload() -> types.WordProgressT:
+def valid_payload() -> types.ProgressCase:
     """Mock valid request payload."""
     return cases.VALID_PAYLOAD
 
@@ -44,7 +44,7 @@ class TestProgress:
         mock_service: Mock,
         api_request_factory: APIRequestFactory,
         view: Callable[[Request], Response],
-        valid_payload: types.WordProgressT,
+        valid_payload: types.ProgressCase,
     ) -> None:
         """Test update progress success."""
         # Arrange
@@ -99,7 +99,7 @@ class TestProgress:
         mock_service: Mock,
         api_request_factory: APIRequestFactory,
         view: Callable[[Request], Response],
-        valid_payload: types.WordProgressT,
+        valid_payload: types.ProgressCase,
         exception: cases.ServiceErrors,
         expected_detail: str,
     ) -> None:

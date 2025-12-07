@@ -10,13 +10,6 @@ from django.utils import timezone
 from apps.core import models as models_core
 from apps.lang import models, repos, types
 from apps.users.models import Person
-from tests.fixtures.lang.no_db import translation_query as fixtures
-
-
-@pytest.fixture
-def conditions() -> types.WordParameters:
-    """Provide Word study lookup empty conditions."""
-    return fixtures.EMPTY_LOOKUP_CONDITIONS.copy()
 
 
 class TestGetByStartPeriod:
