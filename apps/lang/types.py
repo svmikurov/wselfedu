@@ -14,7 +14,6 @@ from typing import (
 log = logging.getLogger(__name__)
 
 Language: TypeAlias = Literal['native', 'english']
-Progress: TypeAlias = Literal['known', 'unknown']
 TranslateOrder: TypeAlias = Literal['from_native', 'to_native', 'random']
 
 
@@ -43,8 +42,26 @@ class CodeName(TypedDict):
     name: str
 
 
-# Word
-# ----
+class ProgressEdge(TypedDict):
+    """Study progress phase edge value type."""
+
+    study: int
+    repeat: int
+    examine: int
+    know: int
+
+
+class ProgressPhase(TypedDict):
+    """Study progress phase type."""
+
+    is_study: bool
+    is_repeat: bool
+    is_examine: bool
+    is_know: bool
+
+
+# Translation
+# -----------
 
 
 class Options(TypedDict):
@@ -67,7 +84,7 @@ class TranslationMeta(TypedDict):
     end_period: IdName | None
 
 
-class TranslationSettings(TypedDict):
+class TranslationSettings(ProgressPhase):
     """Translation settings type."""
 
     translation_order: CodeName | None
@@ -103,7 +120,8 @@ class WordParameters(
 
 
 class StudyParameters(
-    WordParameters,
+    TranslationMeta,
+    TranslationSettings,
     PresentationSettings,
 ):
     """Word study parameters types."""
@@ -111,7 +129,9 @@ class StudyParameters(
 
 class SetStudyParameters(
     Options,
-    StudyParameters,
+    TranslationMeta,
+    TranslationSettings,
+    PresentationSettings,
 ):
     """Set Word study parameters types."""
 
@@ -158,10 +178,10 @@ class PresentationCaseT(
 # --------------------------------
 
 
-class WordProgressT(CaseUUIDType):
-    """Word study progress typed dict."""
+class ProgressCase(CaseUUIDType):
+    """Word study progress case type."""
 
-    progress_type: Progress
+    is_known: bool
 
 
 # TODO: Remove below?
