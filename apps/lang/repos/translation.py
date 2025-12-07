@@ -1,29 +1,20 @@
 """Create word translation."""
 
-from typing import NamedTuple, override
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, override
 
 from django.db import transaction
-from django.db.models.query import QuerySet
-
-from apps.users.models import Person
 
 from .. import models
 from . import abc as base
 
+if TYPE_CHECKING:
+    from django.db.models import QuerySet
 
-class TranslationParams(NamedTuple):
-    """Get translation params."""
+    from apps.users.models import Person
 
-    user: Person
-    marks: list[models.LangMark] | None
-
-
-class Translations(NamedTuple):
-    """English word translations."""
-
-    pk: int
-    native: models.NativeWord
-    english: models.EnglishWord
+    from .. import models
 
 
 def normalize_word(word: str) -> str:
@@ -82,9 +73,12 @@ class TranslationRepo(base.TranslationRepoABC):
         """Get word translation relationship."""
         return models.EnglishTranslation.objects.get(native=word_id).pk
 
+    @override
     def get_translations(
         self,
-        params: TranslationParams | None = None,
+        user: Person,
     ) -> QuerySet[models.EnglishTranslation]:
         """Get English word translations."""
-        return models.EnglishTranslation.objects.all()
+        return models.EnglishTranslation.objects.filter(
+            user=user,
+        )

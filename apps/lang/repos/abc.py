@@ -1,11 +1,18 @@
 """Abstract base classes for Language discipline repositories."""
 
-from abc import ABC, abstractmethod
-from typing import NamedTuple, TypedDict
+from __future__ import annotations
 
-from apps.users.models import Person
+from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING, NamedTuple, TypedDict
 
 from .. import types
+
+if TYPE_CHECKING:
+    from django.db.models import QuerySet
+
+    from apps.users.models import Person
+
+    from .. import models
 
 
 class CreationStatus(NamedTuple):
@@ -97,3 +104,10 @@ class TranslationRepoABC(ABC):
             Word ID to translate.
 
         """
+
+    @abstractmethod
+    def get_translations(
+        self,
+        user: Person,
+    ) -> QuerySet[models.EnglishTranslation]:
+        """Get English word translations."""
