@@ -7,6 +7,7 @@ __all__ = [
     'ExerciseTaskAward',
     'ExerciseTaskCount',
     'AssignationCompletes',
+    'Progress',
 ]
 
 from .assignation import (
@@ -16,4 +17,7 @@ from .assignation import (
     ExerciseExpiration,
     ExerciseTaskAward,
     ExerciseTaskCount,
+)
+from .progress import (
+    Progress,
 )
