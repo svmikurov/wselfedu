@@ -28,5 +28,5 @@ class UpdateWordProgressSchema(BaseModel):
 
     translation_id: int
     language: types.Language
-    progress_case: types.Progress
+    progress_case: types.ProgressCase
     progress_value: int
