@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, NamedTuple, TypedDict
+from typing import TYPE_CHECKING
 
 from .. import types
 
@@ -15,22 +15,8 @@ if TYPE_CHECKING:
     from .. import models
 
 
-class CreationStatus(NamedTuple):
-    """Status of create English word translation."""
-
-    created_native: bool
-    created_english: bool
-    created_translation: bool
-
-
 class ProgressABC(ABC):
     """ABC for Word study Progress repository."""
-
-    class UpdateResult(TypedDict):
-        """Word study Progress update result typed dict."""
-
-        created: bool
-        current_progress: int
 
     @abstractmethod
     def update(
@@ -39,7 +25,7 @@ class ProgressABC(ABC):
         translation_id: int,
         language: types.Language,
         progress_delta: int,
-    ) -> UpdateResult:
+    ) -> None:
         """Update Word study Progress."""
 
 
@@ -88,7 +74,7 @@ class TranslationRepoABC(ABC):
         user: Person,
         native: str,
         english: str,
-    ) -> CreationStatus:
+    ) -> None:
         """Create English word translation."""
 
     @abstractmethod

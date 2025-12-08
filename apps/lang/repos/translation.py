@@ -33,7 +33,7 @@ class TranslationRepo(base.TranslationRepoABC):
         native: str,
         english: str,
         normalize: bool = True,
-    ) -> base.CreationStatus:
+    ) -> None:
         """Create English word translation."""
         native_to_store = native
         english_to_store = english
@@ -42,27 +42,20 @@ class TranslationRepo(base.TranslationRepoABC):
             native_to_store = normalize_word(native)
             english_to_store = normalize_word(english)
 
-        native_obj, native_created = models.NativeWord.objects.get_or_create(
+        native_obj, _ = models.NativeWord.objects.get_or_create(
             user=user,
             word=native_to_store,
         )
-        english_obj, english_created = (
-            models.EnglishWord.objects.get_or_create(
-                user=user,
-                word=english_to_store,
-            )
+        english_obj, _ = models.EnglishWord.objects.get_or_create(
+            user=user,
+            word=english_to_store,
         )
-        _, translation_created = (
+        _, _, = (
             models.EnglishTranslation.objects.get_or_create(
                 user=user,
                 native=native_obj,
                 english=english_obj,
             )
-        )
-        return base.CreationStatus(
-            native_created,
-            english_created,
-            translation_created,
         )
 
     @override

@@ -25,7 +25,7 @@ class Progress(ProgressABC):
         translation_id: int,
         language: types.Language,
         progress_delta: int,
-    ) -> ProgressABC.UpdateResult:
+    ) -> None:
         """Update Word study Progress."""
         model = models.PROGRESS_MODELS[language]
 
@@ -53,8 +53,3 @@ class Progress(ProgressABC):
         except Exception as exc:
             log.error(f'Unexpected error: {exc}')
             raise
-
-        return {
-            'created': created,
-            'current_progress': obj.progress,
-        }
