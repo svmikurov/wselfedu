@@ -29,8 +29,8 @@ class EnglishTranslationCreateView(
 
     def form_valid(self, form: forms.EnglishTranslationForm) -> HttpResponse:
         """Save word translation."""
-        self.repository.create_translation(  # type: ignore[union-attr]
-            user=self.request.user,  # type: ignore[arg-type]
+        self.repository.create_translation(
+            user=self.user,
             native=form.cleaned_data['native'],
             english=form.cleaned_data['english'],
         )
@@ -49,4 +49,4 @@ class EnglishTranslationListView(
 
     def get_queryset(self) -> QuerySet[models.EnglishTranslation]:
         """Get English word translations queryset."""
-        return self.repository.get_translations(self.request.user)  # type: ignore[union-attr, arg-type]
+        return self.repository.get_translations(self.user)

@@ -50,12 +50,13 @@ class TranslationRepo(base.TranslationRepoABC):
             user=user,
             word=english_to_store,
         )
-        _, _, = (
-            models.EnglishTranslation.objects.get_or_create(
-                user=user,
-                native=native_obj,
-                english=english_obj,
-            )
+        (
+            _,
+            _,
+        ) = models.EnglishTranslation.objects.get_or_create(
+            user=user,
+            native=native_obj,
+            english=english_obj,
         )
 
     @override

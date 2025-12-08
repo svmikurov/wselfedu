@@ -8,6 +8,7 @@ from dependency_injector.wiring import Provide, inject
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 
+from apps.users.models import Person
 from di import MainContainer
 
 from ..repos.abc import TranslationRepoABC
@@ -20,7 +21,7 @@ if TYPE_CHECKING:
 class TranslationView(LoginRequiredMixin, View):
     """Base English translation view with repository injection."""
 
-    repository: TranslationRepoABC | None = None
+    _repository: TranslationRepoABC | None = None
 
     @inject
     def dispatch(
@@ -33,5 +34,19 @@ class TranslationView(LoginRequiredMixin, View):
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject repository before processing request."""
-        self.repository = repository
+        self._repository = repository
         return super().dispatch(request, *args, **kwargs)
+
+    @property
+    def user(self) -> Person:
+        """Get user."""
+        if not isinstance(self.request.user, Person):
+            raise TypeError('Invalid user type')
+        return self.request.user
+
+    @property
+    def repository(self) -> TranslationRepoABC:
+        """Get translation repository."""
+        if not isinstance(self._repository, TranslationRepoABC):
+            raise AttributeError('Repository not initialized')
+        return self._repository

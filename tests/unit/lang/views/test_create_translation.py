@@ -9,6 +9,8 @@ from django.test import RequestFactory
 
 import di
 from apps.lang import views
+from apps.lang.repos.abc import TranslationRepoABC
+from apps.users.models import Person
 
 
 @pytest.fixture
@@ -29,8 +31,8 @@ class TestCreateTranslationView:
     ) -> None:
         """Test via request factory the translation creation."""
         # Arrange
-        mock_user = Mock()
-        mock_repo = Mock()
+        mock_user = Mock(spec=Person)
+        mock_repo = Mock(spec=TranslationRepoABC)
 
         request = RequestFactory().post('', data=form_data)
         request.user = mock_user
