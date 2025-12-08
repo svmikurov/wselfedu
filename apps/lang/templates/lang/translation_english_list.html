@@ -5,33 +5,28 @@
 {% block content %}
 <h1>Английский словарь</h1>
 
-<ul>
-{% for translation in translations %}
-    <li><a href="#">{{ translation.native }} - {{ translation.english }}</a></li>
-{% empty %}
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>На английском</th>  
+      <th>На родном</th>  
+    </tr>    
+  </thead>
+
+  <tbody>
+  {% for translation in translations %}
+    <tr>
+      <td>{{ translation.english }}</td>
+      <td>{{ translation.native }}</td>
+    </tr>
+  {% empty %}
     <p>Переводы еще не добавлены.</p>
-{% endfor %}
-</ul>
+  {% endfor %}
+  </tbody>
+</table>
 
 <div class="mb-3">
     <a href="javascript:history.back()" class="btn btn-secondary">Назад</a>
 </div>
-
-<div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; Первая</a>
-            <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
-        {% endif %}
-
-        <span class="current">
-            Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}" >Последняя &raquo;</a>
-        {% endif %}
-    </span>
-</div>
+{% include 'components/pagination.html' %}
 {% endblock %}
