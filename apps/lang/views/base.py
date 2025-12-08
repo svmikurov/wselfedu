@@ -10,7 +10,7 @@ from django.views import View
 
 from di import MainContainer
 
-from ..repos import TranslationRepo
+from ..repos.abc import TranslationRepoABC
 
 if TYPE_CHECKING:
     from django.http.request import HttpRequest as HttpRequest
@@ -20,14 +20,14 @@ if TYPE_CHECKING:
 class TranslationView(LoginRequiredMixin, View):
     """Base English translation view with repository injection."""
 
-    repository: TranslationRepo | None = None
+    repository: TranslationRepoABC | None = None
 
     @inject
     def dispatch(
         self,
         request: HttpRequest,
         *args: object,
-        repository: TranslationRepo = Provide[
+        repository: TranslationRepoABC = Provide[
             MainContainer.lang.translation_repo
         ],
         **kwargs: object,
