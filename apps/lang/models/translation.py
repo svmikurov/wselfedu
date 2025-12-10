@@ -17,6 +17,7 @@ class EnglishTranslation(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Слово на родном языке',
     )
+    # TODO: Rename 'english' field to 'foreign'?
     english = models.ForeignKey(
         'EnglishWord',
         on_delete=models.CASCADE,
