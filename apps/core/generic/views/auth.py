@@ -14,7 +14,7 @@ class OwnershipRequiredMixin(
     UserPassesTestMixin,
     Generic[ObjectT],
 ):
-    """Verify that the current user is ownership of query object."""
+    """Verify that the current user is owner of query object."""
 
     _object: ObjectT | None = None
 
