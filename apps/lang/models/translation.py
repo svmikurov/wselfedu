@@ -59,6 +59,7 @@ class EnglishTranslation(models.Model):
         verbose_name = 'Перевод слова на английский'
         verbose_name_plural = 'Переводы слов на английский'
         db_table = 'lang_translation_english'
+        ordering = ['-created_at']
 
     def __str__(self) -> str:
         """Get the string representation of model instance."""
