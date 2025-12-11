@@ -29,7 +29,7 @@ class EnglishTranslationCreateView(
 
     def form_valid(self, form: forms.EnglishTranslationForm) -> HttpResponse:
         """Save translation."""
-        self.repository.create_translation(self.user, **form.cleaned_data)
+        self.repository.create(self.user, **form.cleaned_data)
         return super().form_valid(form)
 
 

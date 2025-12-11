@@ -4,14 +4,14 @@ from unittest.mock import Mock
 
 import pytest
 
-from apps.lang import repos, services, types
+from apps.lang import repositories, services, types
 from tests.fixtures.lang.no_db import translation_query as fixtures
 
 
 @pytest.fixture
-def presentation_repo() -> repos.EnglishPresentation:
+def presentation_repo() -> repositories.EnglishPresentation:
     """Provide Word study Presentation repository."""
-    return repos.EnglishPresentation()
+    return repositories.EnglishPresentation()
 
 
 @pytest.fixture
@@ -22,7 +22,7 @@ def conditions() -> types.WordParameters:
 
 @pytest.fixture
 def service(
-    presentation_repo: repos.EnglishPresentation,
+    presentation_repo: repositories.EnglishPresentation,
 ) -> services.WordPresentationService:
     """Provide Word study presentation service."""
     return services.WordPresentationService(

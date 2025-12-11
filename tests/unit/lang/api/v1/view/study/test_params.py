@@ -11,7 +11,7 @@ from rest_framework.test import APIRequestFactory, force_authenticate
 
 import di
 from apps.lang.api.v1.views.study import WordStudyViewSet
-from apps.lang.repos.abc import WordStudyParamsRepositoryABC
+from apps.lang.repositories.abc import WordStudyParamsRepositoryABC
 from tests.fixtures.lang.no_db import translation_parameters as fixtures
 
 

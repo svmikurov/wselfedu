@@ -2,7 +2,7 @@
 
 import pytest
 
-from apps.lang import models, repos
+from apps.lang import models, repositories
 from apps.users.models import Person
 
 
@@ -27,7 +27,7 @@ class TestRepository:
         expected_progress: int,
         user: Person,
         word_translation: models.EnglishTranslation,
-        progress_repo: repos.Progress,
+        progress_repo: repositories.Progress,
     ) -> None:
         """Test create the Word study progress."""
         # Act
@@ -64,7 +64,7 @@ class TestRepository:
         expected_progress: int,
         user: Person,
         word_translation: models.EnglishTranslation,
-        progress_repo: repos.Progress,
+        progress_repo: repositories.Progress,
     ) -> None:
         """Test update the Word study progress."""
         # Average

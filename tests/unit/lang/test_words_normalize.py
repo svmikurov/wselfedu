@@ -2,7 +2,7 @@
 
 import pytest
 
-from apps.lang.repos.translation import normalize_word
+from apps.lang.repositories.translation import normalize_word
 
 
 @pytest.mark.parametrize(

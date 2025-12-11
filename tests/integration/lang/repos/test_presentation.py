@@ -8,7 +8,7 @@ from django.test.utils import CaptureQueriesContext
 from django.utils import timezone
 
 from apps.core import models as models_core
-from apps.lang import models, repos, types
+from apps.lang import models, repositories, types
 from apps.users.models import Person
 
 
@@ -19,7 +19,7 @@ class TestGetByStartPeriod:
     @pytest.mark.django_db
     def test_filter_when_end_older_that_start_edge(
         self,
-        presentation_repo: repos.EnglishPresentation,
+        presentation_repo: repositories.EnglishPresentation,
         conditions: types.WordParameters,
     ) -> None:
         """Repository correctly fetch data when end older start."""
@@ -35,7 +35,7 @@ class TestGetByStartPeriod:
 
     def test_filter_bad_edge_period(
         self,
-        presentation_repo: repos.EnglishPresentation,
+        presentation_repo: repositories.EnglishPresentation,
         conditions: types.WordParameters,
     ) -> None:
         """Repository correctly fetch data by bad edge period."""
@@ -49,7 +49,7 @@ class TestGetByStartPeriod:
     @pytest.mark.django_db
     def test_filter_edge_period(
         self,
-        presentation_repo: repos.EnglishPresentation,
+        presentation_repo: repositories.EnglishPresentation,
         translations: list[models.EnglishTranslation],
         conditions: types.WordParameters,
     ) -> None:
@@ -87,7 +87,7 @@ class TestGetByStartPeriod:
     @pytest.mark.django_db
     def test_filter_by_better_period(
         self,
-        presentation_repo: repos.EnglishPresentation,
+        presentation_repo: repositories.EnglishPresentation,
         translations: list[models.EnglishTranslation],
         conditions: types.WordParameters,
     ) -> None:
@@ -104,7 +104,7 @@ class TestGetByStartPeriod:
     @pytest.mark.django_db
     def test_filter_by_start_today(
         self,
-        presentation_repo: repos.EnglishPresentation,
+        presentation_repo: repositories.EnglishPresentation,
         translations: list[models.EnglishTranslation],
         conditions: types.WordParameters,
     ) -> None:
@@ -125,7 +125,7 @@ class TestGetByRelationships:
     @pytest.mark.django_db
     def test_fetch_candidates_by_relationship(
         self,
-        presentation_repo: repos.EnglishPresentation,
+        presentation_repo: repositories.EnglishPresentation,
         translations: list[models.EnglishTranslation],
         translations_meta: tuple[
             list[models.LangCategory],
@@ -188,7 +188,7 @@ class TestGetByRelationships:
     @pytest.mark.django_db
     def test_not_parameters_success(
         self,
-        presentation_repo: repos.EnglishPresentation,
+        presentation_repo: repositories.EnglishPresentation,
         translations: list[models.EnglishTranslation],
         conditions: types.WordParameters,
     ) -> None:
@@ -213,7 +213,7 @@ class TestGetWordByTranslation:
         native_word: models.NativeWord,
         english_word: models.EnglishWord,
         english_progress: models.EnglishProgress,  # Adds progress to DB
-        presentation_repo: repos.EnglishPresentation,
+        presentation_repo: repositories.EnglishPresentation,
     ) -> None:
         """Test get Word study case data by translation ID."""
         # Act
@@ -231,7 +231,7 @@ class TestGetWordByTranslation:
 
     def get_word_study_data_not_found(
         self,
-        presentation_repo: repos.EnglishPresentation,
+        presentation_repo: repositories.EnglishPresentation,
         user: Person,
     ) -> None:
         """Test case when translation doesn't exist."""
@@ -248,7 +248,7 @@ class TestGetWordByTranslation:
 
     def get_word_study_data_other_users(
         self,
-        presentation_repo: repos.EnglishPresentation,
+        presentation_repo: repositories.EnglishPresentation,
         user_not_owner: Person,
         word_translation: models.EnglishTranslation,
     ) -> None:
@@ -263,7 +263,7 @@ class TestGetWordByTranslation:
 
     def get_word_study_data_query_count(
         self,
-        presentation_repo: repos.EnglishPresentation,
+        presentation_repo: repositories.EnglishPresentation,
         user: Person,
         word_translation: models.EnglishTranslation,
         django_assert_num_queries: CaptureQueriesContext,

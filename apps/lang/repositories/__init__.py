@@ -4,15 +4,15 @@ __all__ = [
     # ABC
     'PresentationABC',
     # Implementation
-    'TranslationRepo',
-    'WordStudyParamsRepository',
+    'TranslationRepository',
+    'WordStudyParametersRepository',
     'EnglishPresentation',
     'Progress',
-    'TranslationRepo',
+    'TranslationRepository',
 ]
 
 from .abc import PresentationABC
-from .parameters import WordStudyParamsRepository
+from .parameters import WordStudyParametersRepository
 from .presentation import EnglishPresentation
 from .progress import Progress
-from .translation import TranslationRepo
+from .translation import TranslationRepository

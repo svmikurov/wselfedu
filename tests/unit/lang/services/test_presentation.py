@@ -5,7 +5,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from apps.lang import domain, repos, services, types
+from apps.lang import domain, repositories, services, types
 from tests.fixtures.lang.no_db import translation_query as fixtures
 
 
@@ -26,7 +26,7 @@ def mock_presentation_repo(
     presentation: types.PresentationT,
 ) -> Mock:
     """Mock Word study Presentation repository."""
-    mock = Mock(spec=repos.PresentationABC)
+    mock = Mock(spec=repositories.PresentationABC)
     mock.get_candidates.return_value = types.WordStudyParameters(
         translation_ids=[1],
     )

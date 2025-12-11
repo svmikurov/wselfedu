@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any
 import pytest
 from rest_framework.exceptions import ErrorDetail
 
-from apps.lang import repos, types
+from apps.lang import repositories, types
 
 if TYPE_CHECKING:
     from rest_framework.test import APIClient
@@ -83,7 +83,7 @@ class TestUpdate:
         # Assert
         assert response.status_code == HTTPStatus.OK
 
-        updated_data = repos.WordStudyParamsRepository().fetch(user)
+        updated_data = repositories.WordStudyParametersRepository().fetch(user)
         assert to_update.items() <= updated_data.items()
         assert response.data == updated_data
 

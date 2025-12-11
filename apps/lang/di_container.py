@@ -5,7 +5,7 @@ from dependency_injector import containers, providers
 from apps.core.storage.clients import DjangoCache
 from apps.lang import schemas
 
-from . import repos, services
+from . import repositories, services
 from .domain.presentation import WordStudyDomain
 from .services.presentation import WordPresentationService
 
@@ -32,16 +32,16 @@ class LanguageContainer(containers.DeclarativeContainer):
     # ------------
 
     params_repo = providers.Factory(
-        repos.WordStudyParamsRepository,
+        repositories.WordStudyParametersRepository,
     )
     word_repo = providers.Factory(
-        repos.EnglishPresentation,
+        repositories.EnglishPresentation,
     )
     translation_repo = providers.Factory(
-        repos.TranslationRepo,
+        repositories.TranslationRepository,
     )
     progress_repo = providers.Factory(
-        repos.Progress,
+        repositories.Progress,
     )
 
     # Domain

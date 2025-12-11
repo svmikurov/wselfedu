@@ -11,7 +11,7 @@ from django.views import View
 from apps.users.models import Person
 from di import MainContainer
 
-from ..repos.abc import TranslationRepoABC
+from ..repositories.abc import TranslationRepoABC
 
 if TYPE_CHECKING:
     from django.http.request import HttpRequest as HttpRequest

@@ -7,7 +7,7 @@ from apps.core.storage.clients import DjangoCache
 from apps.users.models import Person
 
 from .. import schemas, types
-from ..repos.abc import ProgressABC
+from ..repositories.abc import ProgressABC
 from .abc import WordProgressServiceABC
 
 log = logging.getLogger(__name__)

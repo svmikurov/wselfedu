@@ -3,7 +3,7 @@
 import pytest
 
 from apps.core import models as models_core
-from apps.lang import models, repos, types
+from apps.lang import models, repositories, types
 from apps.users.models import Person
 from tests.fixtures.lang.no_db.translation_parameters import (
     TRANSLATION_ORDERS,
@@ -162,18 +162,18 @@ def parameters(user: Person) -> types.SetStudyParameters:
 
 
 @pytest.fixture
-def parameters_repo() -> repos.WordStudyParamsRepository:
+def parameters_repo() -> repositories.WordStudyParametersRepository:
     """Provide Word study Presentation params repository."""
-    return repos.WordStudyParamsRepository()
+    return repositories.WordStudyParametersRepository()
 
 
 @pytest.fixture
-def presentation_repo() -> repos.EnglishPresentation:
+def presentation_repo() -> repositories.EnglishPresentation:
     """Provide Word study Presentation repository."""
-    return repos.EnglishPresentation()
+    return repositories.EnglishPresentation()
 
 
 @pytest.fixture
-def progress_repo() -> repos.Progress:
+def progress_repo() -> repositories.Progress:
     """Provide Word study Progress repository."""
-    return repos.Progress()
+    return repositories.Progress()

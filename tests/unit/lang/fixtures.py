@@ -7,7 +7,7 @@ import pytest
 
 from apps.core.storage.clients import DjangoCache
 from apps.lang import schemas, services, types
-from apps.lang.repos.abc import ProgressABC
+from apps.lang.repositories.abc import ProgressABC
 from tests.fixtures.lang.no_db import translation_query as fixtures
 
 from .api.v1.view.study import cases

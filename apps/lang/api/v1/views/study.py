@@ -16,7 +16,7 @@ from rest_framework.viewsets import ViewSet
 
 import di
 from apps.core.api import renderers
-from apps.lang.repos.abc import WordStudyParamsRepositoryABC
+from apps.lang.repositories.abc import WordStudyParamsRepositoryABC
 from apps.lang.services.abc import (
     WordPresentationServiceABC,
     WordProgressServiceABC,

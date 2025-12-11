@@ -3,7 +3,7 @@
 import pytest
 from django.test.utils import CaptureQueriesContext
 
-from apps.lang import repos, types
+from apps.lang import repositories, types
 from apps.users.models import Person
 from tests.fixtures.lang.no_db import translation_parameters as fixtures
 
@@ -16,7 +16,7 @@ class TestCreate:
     def test_create_parameters_success(
         self,
         user: Person,
-        parameters_repo: repos.WordStudyParamsRepository,
+        parameters_repo: repositories.WordStudyParametersRepository,
     ) -> None:
         """Parameters was successfully created."""
         # Arrange
@@ -36,7 +36,7 @@ class TestFetch:
     def test_fetch_public_parameters(
         self,
         user: Person,
-        parameters_repo: repos.WordStudyParamsRepository,
+        parameters_repo: repositories.WordStudyParametersRepository,
         public_parameters: types.SetStudyParameters,
     ) -> None:
         """Test fetch public default data."""
@@ -46,7 +46,7 @@ class TestFetch:
     def test_fetch_data(
         self,
         user: Person,
-        parameters_repo: repos.WordStudyParamsRepository,
+        parameters_repo: repositories.WordStudyParametersRepository,
         parameters: types.SetStudyParameters,
         django_assert_num_queries: CaptureQueriesContext,
     ) -> None:
@@ -62,7 +62,7 @@ class TestUpdate:
     def test_update_parameters(
         self,
         user: Person,
-        parameters_repo: repos.WordStudyParamsRepository,
+        parameters_repo: repositories.WordStudyParametersRepository,
         parameters: types.SetStudyParameters,
         django_assert_num_queries: CaptureQueriesContext,
     ) -> None:
@@ -97,7 +97,7 @@ class TestUpdate:
     def test_update_with_none(
         self,
         user: Person,
-        parameters_repo: repos.WordStudyParamsRepository,
+        parameters_repo: repositories.WordStudyParametersRepository,
         parameters: types.SetStudyParameters,
     ) -> None:
         """Test that updated parameter is None."""

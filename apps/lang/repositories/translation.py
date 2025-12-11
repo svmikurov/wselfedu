@@ -22,12 +22,12 @@ def normalize_word(word: str) -> str:
     return word.strip('?!#- .,').lower()
 
 
-class TranslationRepo(base.TranslationRepoABC):
+class TranslationRepository(base.TranslationRepoABC):
     """Create English word translation."""
 
     @override
     @transaction.atomic
-    def create_translation(
+    def create(
         self,
         user: Person,
         native: str,

@@ -8,7 +8,7 @@ from apps.core.exceptions import info
 from apps.core.storage import clients as storage
 from apps.users.models import Person
 
-from .. import domain, repos, schemas, types
+from .. import domain, repositories, schemas, types
 from .abc import WordPresentationServiceABC
 
 log = logging.getLogger(__name__)
@@ -19,7 +19,7 @@ class WordPresentationService(WordPresentationServiceABC):
 
     def __init__(
         self,
-        word_repo: repos.PresentationABC,
+        word_repo: repositories.PresentationABC,
         case_storage: storage.CacheABC[schemas.WordStudyStoredCase],
         domain: domain.WordStudyDomainABC,
     ) -> None:

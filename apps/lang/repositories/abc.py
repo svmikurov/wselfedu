@@ -69,7 +69,7 @@ class TranslationRepoABC(ABC):
     """ABC for Get translation repository."""
 
     @abstractmethod
-    def create_translation(
+    def create(
         self,
         user: Person,
         native: str,

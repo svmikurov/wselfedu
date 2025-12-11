@@ -6,7 +6,7 @@ from django.db import transaction
 
 from apps.core import models as models_core
 from apps.lang import models, types
-from apps.lang.repos.abc import WordStudyParamsRepositoryABC
+from apps.lang.repositories.abc import WordStudyParamsRepositoryABC
 from apps.users.models import Person
 
 OptionsT = Literal[
@@ -19,7 +19,7 @@ OptionsT = Literal[
 ]
 
 
-class WordStudyParamsRepository(WordStudyParamsRepositoryABC):
+class WordStudyParametersRepository(WordStudyParamsRepositoryABC):
     """Word study params repository."""
 
     @override
