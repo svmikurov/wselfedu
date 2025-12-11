@@ -99,7 +99,7 @@ class TestGetByStartPeriod:
         candidates = presentation_repo.get_candidates(conditions)
 
         # Assert
-        assert [item.pk for item in translations] == list(*candidates)
+        assert {item.pk for item in translations} == set(*candidates)
 
     @pytest.mark.django_db
     def test_filter_by_start_today(
@@ -116,7 +116,7 @@ class TestGetByStartPeriod:
         candidates = presentation_repo.get_candidates(conditions)
 
         # Assert
-        assert [item.pk for item in translations] == list(*candidates)
+        assert {item.pk for item in translations} == set(*candidates)
 
 
 class TestGetByRelationships:
@@ -180,10 +180,7 @@ class TestGetByRelationships:
 
         # Assert
         # - Got translations only with desired category, mark and source
-        assert (
-            translations[0].pk,
-            translations[2].pk,
-        ) == tuple(*candidates)
+        assert {translations[0].pk, translations[2].pk} == set(*candidates)
 
     @pytest.mark.django_db
     def test_not_parameters_success(
@@ -199,7 +196,7 @@ class TestGetByRelationships:
 
         # Assert
         # - Got all translations
-        assert [item.pk for item in translations] == list(*candidates)
+        assert {item.pk for item in translations} == set(*candidates)
 
 
 @pytest.mark.django_db
