@@ -15,7 +15,10 @@ class AbstractWordModel(models.Model):
         auto_now_add=True,
         verbose_name='Добавлено',
     )
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='Изменено')
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Изменено',
+    )
 
     class Meta:
         """Model configuration."""
