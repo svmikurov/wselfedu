@@ -1,8 +1,8 @@
-"""Create word translation."""
+"""English translation repository."""
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, override
+from typing import TYPE_CHECKING, NamedTuple, override
 
 from django.db import transaction
 
@@ -14,16 +14,21 @@ if TYPE_CHECKING:
 
     from apps.users.models import Person
 
-    from .. import models
+
+class _TranslationWords(NamedTuple):
+    """Native and foreign words of translation."""
+
+    native: models.NativeWord
+    english: models.EnglishWord
 
 
-def normalize_word(word: str) -> str:
+def _normalize_word(word: str) -> str:
     """Normalize word."""
     return word.strip('?!#- .,').lower()
 
 
 class TranslationRepository(base.TranslationRepoABC):
-    """Create English word translation."""
+    """English translation repository."""
 
     @override
     @transaction.atomic
@@ -34,13 +39,65 @@ class TranslationRepository(base.TranslationRepoABC):
         english: str,
         normalize: bool = True,
     ) -> None:
-        """Create English word translation."""
+        """Create English translation."""
+        words = self._get_or_create_words(user, native, english, normalize)
+
+        models.EnglishTranslation.objects.get_or_create(
+            user=user,
+            native=words.native,
+            english=words.english,
+        )
+
+    @override
+    @transaction.atomic
+    def update(
+        self,
+        user: Person,
+        instance: models.EnglishTranslation,
+        native: str,
+        english: str,
+        normalize: bool = True,
+    ) -> None:
+        """Update English translation."""
+        # TODO: Delete an updated word if it is no longer used?
+        words = self._get_or_create_words(user, native, english, normalize)
+
+        instance.native = words.native
+        instance.english = words.english
+        instance.save()
+
+    @override
+    def get_translation_id(
+        self,
+        word_id: int,
+    ) -> int:
+        """Get English translation relationship."""
+        return models.EnglishTranslation.objects.get(native=word_id).pk
+
+    @override
+    def get_translations(
+        self,
+        user: Person,
+    ) -> QuerySet[models.EnglishTranslation]:
+        """Get English translations."""
+        return models.EnglishTranslation.objects.filter(
+            user=user,
+        )
+
+    @staticmethod
+    def _get_or_create_words(
+        user: Person,
+        native: str,
+        english: str,
+        normalize: bool = True,
+    ) -> _TranslationWords:
+        """Get or create native and foreign words for translation."""
         native_to_store = native
         english_to_store = english
 
         if normalize:
-            native_to_store = normalize_word(native)
-            english_to_store = normalize_word(english)
+            native_to_store = _normalize_word(native)
+            english_to_store = _normalize_word(english)
 
         native_obj, _ = models.NativeWord.objects.get_or_create(
             user=user,
@@ -50,29 +107,4 @@ class TranslationRepository(base.TranslationRepoABC):
             user=user,
             word=english_to_store,
         )
-        (
-            _,
-            _,
-        ) = models.EnglishTranslation.objects.get_or_create(
-            user=user,
-            native=native_obj,
-            english=english_obj,
-        )
-
-    @override
-    def get_translation_id(
-        self,
-        word_id: int,
-    ) -> int:
-        """Get word translation relationship."""
-        return models.EnglishTranslation.objects.get(native=word_id).pk
-
-    @override
-    def get_translations(
-        self,
-        user: Person,
-    ) -> QuerySet[models.EnglishTranslation]:
-        """Get English word translations."""
-        return models.EnglishTranslation.objects.filter(
-            user=user,
-        )
+        return _TranslationWords(native_obj, english_obj)
