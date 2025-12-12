@@ -17,8 +17,6 @@ if TYPE_CHECKING:
     from django.db.models import QuerySet
     from django.http import HttpResponse
 
-    from apps.users.models import Person
-
 
 class EnglishTranslationCreateView(
     mixins.TranslationViewMixin,
@@ -78,11 +76,7 @@ class EnglishTranslationUpdateView(
         return super().form_valid(form)
 
 
-class EnglishTranslationDeleteView(htmx.HtmxDeleteView):
+class EnglishTranslationDeleteView(htmx.HtmxOwnerDeleteView):
     """English translation delete view."""
 
     model = models.EnglishTranslation
-
-    def _get_owner(self) -> Person:
-        owner: Person = self.get_object().user
-        return owner
