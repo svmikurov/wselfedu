@@ -3,6 +3,7 @@
 import pytest
 
 from apps.lang import models, repositories
+from apps.study import models as study_models
 from apps.users.models import Person
 
 
@@ -16,8 +17,8 @@ class TestRepository:
             (1, 1),
             (-1, 0),
             (
-                models.EnglishProgress.MAX_PROGRESS + 1,
-                models.EnglishProgress.MAX_PROGRESS,
+                study_models.Progress.KNOW_DEFAULT + 1,
+                study_models.Progress.KNOW_DEFAULT,
             ),
         ],
     )
@@ -51,9 +52,9 @@ class TestRepository:
             (0, -1, 0),
             (1, -1, 0),
             (
-                models.EnglishProgress.MAX_PROGRESS - 1,
+                study_models.Progress.KNOW_DEFAULT - 1,
                 2,
-                models.EnglishProgress.MAX_PROGRESS,
+                study_models.Progress.KNOW_DEFAULT,
             ),
         ],
     )

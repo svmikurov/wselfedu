@@ -2,7 +2,7 @@
 
 import pytest
 
-from apps.lang.repositories.translation import normalize_word
+from apps.lang.repositories.translation import _normalize_word
 
 
 @pytest.mark.parametrize(
@@ -20,4 +20,4 @@ def test_word_normalize(
     expected_text: str,
 ) -> None:
     """Test correct text normalize."""
-    assert normalize_word(text) == expected_text
+    assert _normalize_word(text) == expected_text
