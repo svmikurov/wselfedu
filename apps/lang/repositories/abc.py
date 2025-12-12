@@ -66,7 +66,7 @@ class WordStudyParamsRepositoryABC(ABC):
 
 
 class TranslationRepoABC(ABC):
-    """ABC for Get translation repository."""
+    """ABC for English translation repository."""
 
     @abstractmethod
     def create(
@@ -75,25 +75,28 @@ class TranslationRepoABC(ABC):
         native: str,
         english: str,
     ) -> None:
-        """Create English word translation."""
+        """Create English translation."""
+
+    @abstractmethod
+    def update(
+        self,
+        user: Person,
+        instance: models.EnglishTranslation,
+        native: str,
+        english: str,
+    ) -> None:
+        """Update English translation."""
 
     @abstractmethod
     def get_translation_id(
         self,
-        word_id: int,
+        native_id: int,
     ) -> int:
-        """Get word translation.
-
-        Parameters
-        ----------
-        word_id : `int`
-            Word ID to translate.
-
-        """
+        """Get English translation ID by native word ID."""
 
     @abstractmethod
     def get_translations(
         self,
         user: Person,
     ) -> QuerySet[models.EnglishTranslation]:
-        """Get English word translations."""
+        """Get English translations."""
