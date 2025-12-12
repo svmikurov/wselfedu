@@ -93,6 +93,13 @@ migrate:
 load_initial_data:
 	python manage.py load_initial_data --load-sensitive
 
+# Reset DB with initial data
+reset_db: check-db-connections \
+		  recreate_db \
+	      makemigrations \
+	      migrate \
+	      load_initial_data \
+
 
 # Django-extensions
 # -----------------
