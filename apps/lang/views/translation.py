@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views import generic
 
-from apps.core.generic.views import auth
+from apps.core.generic.views import auth, htmx
 
 from .. import forms, models
 from . import mixins
@@ -16,6 +16,8 @@ from . import mixins
 if TYPE_CHECKING:
     from django.db.models import QuerySet
     from django.http import HttpResponse
+
+    from apps.users.models import Person
 
 
 class EnglishTranslationCreateView(
@@ -74,3 +76,13 @@ class EnglishTranslationUpdateView(
         instance = self.get_object()
         self.repository.update(self.user, instance, **form.cleaned_data)
         return super().form_valid(form)
+
+
+class EnglishTranslationDeleteView(htmx.HtmxDeleteView):
+    """English translation delete view."""
+
+    model = models.EnglishTranslation
+
+    def _get_owner(self) -> Person:
+        owner: Person = self.get_object().user
+        return owner
