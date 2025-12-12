@@ -48,4 +48,9 @@ urlpatterns = [
         views.EnglishTranslationUpdateView.as_view(),
         name='translation_english_update',
     ),
+    path(
+        'translation/english/<int:pk>/delete/',
+        views.EnglishTranslationDeleteView.as_view(),
+        name='translation_english_delete',
+    ),
 ]
