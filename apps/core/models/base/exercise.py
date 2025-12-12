@@ -1,4 +1,4 @@
-"""Defines abstract base exercise model."""
+"""Abstract base exercise model."""
 
 from django.db import models
 
@@ -6,7 +6,7 @@ from apps.core.models import Discipline
 
 
 class BaseExercise(models.Model):
-    """Absract base exercise model."""
+    """Abstract base exercise model."""
 
     discipline = models.ForeignKey(
         Discipline,
