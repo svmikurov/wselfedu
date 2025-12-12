@@ -43,4 +43,9 @@ urlpatterns = [
         views.EnglishTranslationListView.as_view(),
         name='translation_english_list',
     ),
+    path(
+        'translation/english/<int:pk>/update/',
+        views.EnglishTranslationUpdateView.as_view(),
+        name='translation_english_update',
+    ),
 ]
