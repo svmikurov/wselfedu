@@ -1,4 +1,4 @@
-"""Word study params model."""
+"""Word study parameters model."""
 
 from django.contrib.auth import get_user_model
 from django.core import validators
@@ -8,7 +8,7 @@ from apps.core.models import Period, Source
 
 
 class Params(models.Model):
-    """Word study default params model."""
+    """Word study parameters model."""
 
     class TranslateChoices(models.TextChoices):
         """Translate order choices."""
@@ -97,6 +97,14 @@ class Params(models.Model):
             ),
         ],
         verbose_name='Время для ответа (сек)',
+    )
+    progress = models.ForeignKey(
+        'study.Progress',
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        verbose_name='Вариант прогресса',
+        help_text='Вариант применяемого прогресса для изучения',
     )
     is_study = models.BooleanField(
         blank=True,
