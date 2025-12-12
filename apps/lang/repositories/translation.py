@@ -39,7 +39,7 @@ class TranslationRepository(base.TranslationRepoABC):
         english: str,
         normalize: bool = True,
     ) -> None:
-        """Create English translation."""
+        """Create english translation."""
         words = self._get_or_create_words(user, native, english, normalize)
 
         models.EnglishTranslation.objects.get_or_create(
@@ -58,7 +58,7 @@ class TranslationRepository(base.TranslationRepoABC):
         english: str,
         normalize: bool = True,
     ) -> None:
-        """Update English translation."""
+        """Update english translation."""
         # TODO: Delete an updated word if it is no longer used?
         words = self._get_or_create_words(user, native, english, normalize)
 
@@ -71,7 +71,7 @@ class TranslationRepository(base.TranslationRepoABC):
         self,
         word_id: int,
     ) -> int:
-        """Get English translation relationship."""
+        """Get english translation relationship by native word ID."""
         return models.EnglishTranslation.objects.get(native=word_id).pk
 
     @override
@@ -79,7 +79,7 @@ class TranslationRepository(base.TranslationRepoABC):
         self,
         user: Person,
     ) -> QuerySet[models.EnglishTranslation]:
-        """Get English translations."""
+        """Get english translations."""
         return models.EnglishTranslation.objects.filter(
             user=user,
         )
