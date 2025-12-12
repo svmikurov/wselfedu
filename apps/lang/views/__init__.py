@@ -9,6 +9,7 @@ __all__ = [
     'LabelListView',
     'EnglishTranslationCreateView',
     'EnglishTranslationListView',
+    'EnglishTranslationUpdateView',
 ]
 
 from .index import IndexLangView
@@ -22,4 +23,5 @@ from .label import (
 from .translation import (
     EnglishTranslationCreateView,
     EnglishTranslationListView,
+    EnglishTranslationUpdateView,
 )
