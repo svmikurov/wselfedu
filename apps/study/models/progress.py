@@ -8,13 +8,11 @@ from django.db.models import F, Q
 class Progress(models.Model):
     """Item study progress phase model."""
 
-    class Default(models.Choices):
-        """Default progress edge enumeration."""
-
-        STUDY = 7
-        REPEAT = 10
-        EXAMINE = 13
-        KNOW = 17
+    # Max progress phase values
+    STUDY_DEFAULT = 7
+    REPEAT_DEFAULT = 10
+    EXAMINE_DEFAULT = 13
+    KNOW_DEFAULT = 17
 
     user = models.ForeignKey(
         'users.Person',
@@ -28,22 +26,22 @@ class Progress(models.Model):
     )
 
     study = models.PositiveSmallIntegerField(
-        default=Default.STUDY,
+        default=STUDY_DEFAULT,
         verbose_name='Изучаю',
         help_text='Значение для смены стадий "Изучаю-Повторяю"',
     )
     repeat = models.PositiveSmallIntegerField(
-        default=Default.REPEAT,
+        default=REPEAT_DEFAULT,
         verbose_name='Повторяю',
         help_text='Значение для смены стадии "Повторяю-Проверяю"',
     )
     examine = models.PositiveSmallIntegerField(
-        default=Default.EXAMINE,
+        default=EXAMINE_DEFAULT,
         verbose_name='Проверяю',
         help_text='Значение для смены стадии "Проверяю-Знаю"',
     )
     know = models.PositiveSmallIntegerField(
-        default=Default.KNOW,
+        default=KNOW_DEFAULT,
         verbose_name='Знаю',
         help_text='Максимальное значение прогресса',
     )
