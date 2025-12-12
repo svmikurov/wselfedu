@@ -9,6 +9,9 @@ fixtures_config.yaml
 # Temporary files
 temp/
 
+# Static files
+static/
+
 # Byte-compiled
 db.sqlite3
 .coverage
