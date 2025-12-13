@@ -11,12 +11,11 @@ from django.views.generic import DeleteView
 from apps.users.models import Person
 
 
-class SimpleOwnerMixin:
+class OwnerMixin:
     """Mixin provides object owner."""
 
     def _get_owner(self) -> Person:
-        owner: Person = self.get_object().user  # type: ignore[attr-defined]
-        return owner
+        return self.get_object().user  # type: ignore[no-any-return, attr-defined]
 
 
 class HtmxDeleteView(
@@ -49,5 +48,5 @@ class HtmxDeleteView(
         raise NotImplementedError('Must implement `_get_owner()` in subclass')
 
 
-class HtmxOwnerDeleteView(SimpleOwnerMixin, HtmxDeleteView):
+class HtmxOwnerDeleteView(OwnerMixin, HtmxDeleteView):
     """Delete the object with HTMX request by owner."""
