@@ -56,6 +56,10 @@ class WordStudyParamsRepositoryABC(ABC):
         """Fetch initial params."""
 
     @abstractmethod
+    def get_options(self, user: Person) -> types.Options:
+        """Get word study options."""
+
+    @abstractmethod
     def update(
         self,
         user: Person,

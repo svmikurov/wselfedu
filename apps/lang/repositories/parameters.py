@@ -1,15 +1,16 @@
 """Word study params repository."""
 
-from typing import Any, Literal, override
+from typing import Any, Literal, TypeAlias, override
 
 from django.db import transaction
+from django.db.models import QuerySet
 
 from apps.core import models as models_core
 from apps.lang import models, types
 from apps.lang.repositories.abc import WordStudyParamsRepositoryABC
 from apps.users.models import Person
 
-OptionsT = Literal[
+OptionsT: TypeAlias = Literal[
     'category',
     'mark',
     'word_source',
@@ -18,19 +19,42 @@ OptionsT = Literal[
     'translation_order',
 ]
 
+OptionsQuerySetT: TypeAlias = QuerySet[
+    models.LangCategory
+    | models.LangMark
+    | models_core.Source
+    | models_core.Period
+]
+
 
 class WordStudyParametersRepository(WordStudyParamsRepositoryABC):
     """Word study params repository."""
 
+    def _get_id_name(self, queryset: OptionsQuerySetT) -> list[types.IdName]:
+        return list(queryset.values('id', 'name'))  # type: ignore[arg-type]
+
     @override
-    def fetch(self, user: Person) -> types.SetStudyParameters:
-        """Fetch parameters with parameter choices."""
-        # Parameter options
+    def get_options(self, user: Person) -> types.Options:
+        """Get word study options."""
         categories = models.LangCategory.objects.filter(user=user)
         marks = models.LangMark.objects.filter(user=user)
         sources = models_core.Source.objects.filter(user=user)
-        periods = models_core.Period.objects
+        periods = models_core.Period.objects.all()
 
+        return types.Options(
+            categories=self._get_id_name(categories),
+            marks=self._get_id_name(marks),
+            sources=self._get_id_name(sources),
+            periods=self._get_id_name(periods),
+            translation_orders=[
+                {'code': str(value), 'name': str(label)}
+                for value, label in models.Params.TranslateChoices.choices
+            ],
+        )
+
+    @override
+    def fetch(self, user: Person) -> types.SetStudyParameters:
+        """Fetch parameters with parameter choices."""
         # Default, selected and set parameters
         parameters = models.Params.objects.filter(user=user)
 
@@ -64,14 +88,7 @@ class WordStudyParametersRepository(WordStudyParamsRepositoryABC):
 
         data = {
             # Parameters options
-            'categories': list(categories.values('id', 'name')),
-            'marks': list(marks.values('id', 'name')),
-            'sources': list(sources.values('id', 'name')),
-            'periods': list(periods.values('id', 'name')),
-            'translation_orders': [
-                {'code': value, 'name': label}
-                for value, label in models.Params.TranslateChoices.choices
-            ],
+            **self.get_options(user),
             #
             # Selected parameter default
             'category': None,
@@ -80,11 +97,13 @@ class WordStudyParametersRepository(WordStudyParamsRepositoryABC):
             'start_period': None,
             'end_period': None,
             'translation_order': {'code': order_value, 'name': order_label},
+            #
             # Default switch progress
             'is_study': custom.get('is_study', True),
             'is_repeat': custom.get('is_repeat', True),
             'is_examine': custom.get('is_examine', True),
             'is_know': custom.get('is_know', False),
+            #
             # The parameters set, if any
             'word_count': custom.get('word_count'),
             'question_timeout': custom.get('question_timeout'),
