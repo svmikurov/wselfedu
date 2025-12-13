@@ -55,17 +55,35 @@ class LangCategoryAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
 
 
 @admin.register(models.Parameters)
-class ParamsAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
-    """Word study params model administration."""
+class ParametersAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """Word study parameters model administration."""
 
     list_display = [
         'user',
         'category',
         'mark',
-        'word_count',
-        'translation_order',
         'start_period',
         'end_period',
+    ]
+
+
+@admin.register(models.TranslationSetting)
+class TranslationSettingAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """Translation study settings model administration."""
+
+    list_display = [
+        'user',
+        'translation_order',
+        'word_count',
+    ]
+
+
+@admin.register(models.PresentationSettings)
+class PresentationSettingsAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """Presentation settings model administration."""
+
+    list_display = [
+        'user',
         'question_timeout',
         'answer_timeout',
     ]
