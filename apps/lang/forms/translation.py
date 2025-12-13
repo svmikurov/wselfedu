@@ -3,12 +3,13 @@
 from crispy_forms.helper import FormHelper  # type: ignore
 from crispy_forms.layout import Field, Layout, Submit  # type: ignore
 from django import forms
+from django.db.models import QuerySet
 
 from .. import models
 
 
-class EnglishTranslationCreateForm(forms.Form):
-    """Form to create translation of English word."""
+class BaseEnglishForm(forms.ModelForm):  # type: ignore[type-arg]
+    """Base english translation form."""
 
     native = forms.CharField(
         max_length=models.EnglishWord.WORD_LENGTH,
@@ -16,6 +17,25 @@ class EnglishTranslationCreateForm(forms.Form):
     english = forms.CharField(
         max_length=models.NativeWord.WORD_LENGTH,
     )
+
+    def clean_marks(self) -> list[models.LangMark] | None:
+        """Convert QuerySet to list for cleaned_data."""
+        marks = self.cleaned_data.get('marks')
+        if not marks:
+            return []
+        if isinstance(marks, QuerySet):
+            return list(marks)
+        return marks  # type: ignore[no-any-return]
+
+    class Meta:
+        """Form configuration."""
+
+        model = models.EnglishTranslation
+        fields: list[str] = ['category', 'source', 'marks']
+
+
+class EnglishCreateForm(BaseEnglishForm):
+    """Form to create translation of English word."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the form."""
@@ -24,25 +44,15 @@ class EnglishTranslationCreateForm(forms.Form):
         self.helper.layout = Layout(
             Field('native'),
             Field('english'),
+            Field('category'),
+            Field('source'),
+            Field('marks'),
             Submit('submit', 'Добавить'),
         )
 
 
-class EnglishTranslationUpdateForm(forms.ModelForm):  # type: ignore[type-arg]
+class EnglishUpdateForm(BaseEnglishForm):
     """Form to update translation of English word."""
-
-    native = forms.CharField(
-        max_length=models.EnglishWord.WORD_LENGTH,
-    )
-    english = forms.CharField(
-        max_length=models.NativeWord.WORD_LENGTH,
-    )
-
-    class Meta:
-        """Form configuration."""
-
-        model = models.EnglishTranslation
-        fields: list[str] = []
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the form."""
@@ -56,5 +66,8 @@ class EnglishTranslationUpdateForm(forms.ModelForm):  # type: ignore[type-arg]
         self.helper.layout = Layout(
             Field('native'),
             Field('english'),
+            Field('category'),
+            Field('source'),
+            Field('marks'),
             Submit('submit', 'Изменить'),
         )

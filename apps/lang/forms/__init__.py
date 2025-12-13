@@ -1,11 +1,11 @@
 """Language discipline forms."""
 
 __all__ = [
-    'EnglishTranslationCreateForm',
-    'EnglishTranslationUpdateForm',
+    'EnglishCreateForm',
+    'EnglishUpdateForm',
 ]
 
 from .translation import (
-    EnglishTranslationCreateForm,
-    EnglishTranslationUpdateForm,
+    EnglishCreateForm,
+    EnglishUpdateForm,
 )
