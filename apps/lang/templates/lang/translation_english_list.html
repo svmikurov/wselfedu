@@ -1,16 +1,28 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
-{% block title %}Английский словарь{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<h1>Английский словарь</h1>
+<h1>{{ header }}</h1>
+
+<form method="get" class="mb-4">
+  <div class="row">
+    <div class="col">{{ filter.form.category|as_crispy_field }}</div>
+    <div class="col">{{ filter.form.source|as_crispy_field }}</div>
+    <div class="col"><!--TODO: Add marks--></div>
+    <div class="col"><!--TODO: Add progress--></div>
+  </div>
+    <button type="submit" class="btn btn-primary">Фильтровать</button>
+    <a href="{{ request.path }}" class="btn btn-primary">Сбросить</a>
+</form>
 
 <table class="table table-hover">
   <thead>
     <tr>
       <th>На английском</th>  
       <th>На родном</th>  
-      <th></th>  
+      <th><!--Icons--></th>  
     </tr>    
   </thead>
 
@@ -32,8 +44,7 @@
                 hx-delete="{% url 'lang:translation_english_delete' translation.id %}"
                 hx-target="#row-{{ translation.id }}"
                 hx-swap="outerHTML"
-                hx-confirm="Удалить перевод?"
-                class="btn btn-link p-0 border-0">
+                hx-confirm="Удалить перевод?">
             <i class="fas fa-trash fa-lg"></i>
         </button>
       </td>
@@ -45,7 +56,7 @@
 </table>
 
 <div class="mb-3">
-    <a href="javascript:history.back()" class="btn btn-secondary">Назад</a>
+  <a href="javascript:history.back()" class="btn btn-primary">Назад</a>
 </div>
 {% include 'components/pagination.html' %}
 {% endblock %}
