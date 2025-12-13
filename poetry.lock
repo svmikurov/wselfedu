@@ -493,6 +493,24 @@ files = [
 django = ">=4.2"
 
 [[package]]
+name = "django-filter"
+version = "25.2"
+description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "django_filter-25.2-py3-none-any.whl", hash = "sha256:9c0f8609057309bba611062fe1b720b4a873652541192d232dd28970383633e3"},
+    {file = "django_filter-25.2.tar.gz", hash = "sha256:760e984a931f4468d096f5541787efb8998c61217b73006163bf2f9523fe8f23"},
+]
+
+[package.dependencies]
+Django = ">=5.2"
+
+[package.extras]
+drf = ["djangorestframework"]
+
+[[package]]
 name = "django-htmx"
 version = "1.26.0"
 description = "Extensions for using Django with htmx."
@@ -514,7 +532,7 @@ version = "5.2.7"
 description = "Mypy stubs for Django"
 optional = false
 python-versions = ">=3.10"
-groups = ["typecheck"]
+groups = ["main", "typecheck"]
 files = [
     {file = "django_stubs-5.2.7-py3-none-any.whl", hash = "sha256:2864e74b56ead866ff1365a051f24d852f6ed02238959664f558a6c9601c95bf"},
     {file = "django_stubs-5.2.7.tar.gz", hash = "sha256:2a07e47a8a867836a763c6bba8bf3775847b4fd9555bfa940360e32d0ee384a1"},
@@ -537,7 +555,7 @@ version = "5.2.7"
 description = "Monkey-patching and extensions for django-stubs"
 optional = false
 python-versions = ">=3.10"
-groups = ["typecheck"]
+groups = ["main", "typecheck"]
 files = [
     {file = "django_stubs_ext-5.2.7-py3-none-any.whl", hash = "sha256:0466a7132587d49c5bbe12082ac9824d117a0dedcad5d0ada75a6e0d3aca6f60"},
     {file = "django_stubs_ext-5.2.7.tar.gz", hash = "sha256:b690655bd4cb8a44ae57abb314e0995dc90414280db8f26fff0cb9fb367d1cac"},
@@ -2053,12 +2071,27 @@ files = [
 tests = ["pytest", "pytest-cov"]
 
 [[package]]
+name = "types-django-filter"
+version = "25.2.0.20251010"
+description = "Typing stubs for django-filter"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "types_django_filter-25.2.0.20251010-py3-none-any.whl", hash = "sha256:58bc2c663ee9bf65db34346c2554a5b0d64f0033e090bfe651d398368bc9fab4"},
+    {file = "types_django_filter-25.2.0.20251010.tar.gz", hash = "sha256:f250784a9e3aa1b260881317e6d5505c05bb43a1caa1b3039efd5f93aaff6389"},
+]
+
+[package.dependencies]
+django-stubs = "*"
+
+[[package]]
 name = "types-pyyaml"
 version = "6.0.12.20250915"
 description = "Typing stubs for PyYAML"
 optional = false
 python-versions = ">=3.9"
-groups = ["typecheck"]
+groups = ["main", "typecheck"]
 files = [
     {file = "types_pyyaml-6.0.12.20250915-py3-none-any.whl", hash = "sha256:e7d4d9e064e89a3b3cae120b4990cd370874d2bf12fa5f46c97018dd5d3c9ab6"},
     {file = "types_pyyaml-6.0.12.20250915.tar.gz", hash = "sha256:0f8b54a528c303f0e6f7165687dd33fafa81c807fcac23f632b63aa624ced1d3"},
@@ -2167,4 +2200,4 @@ pydantic = ">=2.12.3,<3.0.0"
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13,<4.0"
-content-hash = "5fd2fbed1436b0597937b0705ed4487ecec80fdc0439d60d286244de2abb6018"
+content-hash = "b65de91b9d6d9b66d0c44a1925e06bb6af4af42d00c27b6f91c2874c5bab16a9"
