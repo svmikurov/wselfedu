@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
-{% block title %}Добавление перевода{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<h1>Добавление перевода</h1>
+<h1>{{ header }}</h1>
 
 <form method="post">{% csrf_token %}
   {% crispy form %}
