@@ -105,7 +105,7 @@ def parameters(user: Person) -> types.SetStudyParameters:
     )
 
     # Set initial choices
-    parameters = models.Params.objects.create(
+    parameters = models.Parameters.objects.create(
         user=user,
         category=category1,
         mark=marks[0],

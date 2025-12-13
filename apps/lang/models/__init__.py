@@ -7,7 +7,7 @@ __all__ = [
     'EnglishWord',
     'EnglishTranslation',
     'LangCategory',
-    'Params',
+    'Parameters',
     'EnglishProgress',
 ]
 
@@ -20,7 +20,7 @@ from apps.lang import types
 from .category import LangCategory
 from .exercise import LangExercise
 from .mark import LangMark
-from .params import Params
+from .parameters import Parameters
 from .progress import EnglishProgress
 from .translation import EnglishTranslation
 from .word import EnglishWord, NativeWord

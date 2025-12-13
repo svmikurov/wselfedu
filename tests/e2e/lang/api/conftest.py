@@ -79,7 +79,7 @@ def parameters_db_data(user: Person) -> types.SetStudyParameters:
         ]
     )
 
-    parameters = models.Params.objects.create(
+    parameters = models.Parameters.objects.create(
         user=user,
         # Initial choices
         category=categories[0],

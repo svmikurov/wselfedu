@@ -48,7 +48,7 @@ class WordStudyParametersRepository(WordStudyParamsRepositoryABC):
             periods=self._get_id_name(periods),
             translation_orders=[
                 {'code': str(value), 'name': str(label)}
-                for value, label in models.Params.TranslateChoices.choices
+                for value, label in models.Parameters.TranslateChoices.choices
             ],
         )
 
@@ -56,7 +56,7 @@ class WordStudyParametersRepository(WordStudyParamsRepositoryABC):
     def fetch(self, user: Person) -> types.SetStudyParameters:
         """Fetch parameters with parameter choices."""
         # Default, selected and set parameters
-        parameters = models.Params.objects.filter(user=user)
+        parameters = models.Parameters.objects.filter(user=user)
 
         custom: dict[str, Any] = (
             parameters.values(  # type: ignore[assignment]
@@ -82,7 +82,7 @@ class WordStudyParametersRepository(WordStudyParamsRepositoryABC):
             or {}
         )
 
-        order_value, order_label = models.Params.resolve_order_choice(
+        order_value, order_label = models.Parameters.resolve_order_choice(
             custom.get('translation_order')
         )
 
@@ -164,7 +164,7 @@ class WordStudyParametersRepository(WordStudyParamsRepositoryABC):
         }
 
         (
-            models.Params.objects.update_or_create(
+            models.Parameters.objects.update_or_create(
                 user=user,
                 defaults=defaults,
             )

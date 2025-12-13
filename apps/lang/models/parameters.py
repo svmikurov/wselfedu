@@ -7,7 +7,7 @@ from django.db import models
 from apps.core.models import Period, Source
 
 
-class Params(models.Model):
+class Parameters(models.Model):
     """Word study parameters model."""
 
     class TranslateChoices(models.TextChoices):

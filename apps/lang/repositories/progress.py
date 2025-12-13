@@ -63,7 +63,7 @@ class Progress(ProgressABC):
     def _get_max_progress(user: Person) -> int:
         # Get parameters
         parameters = (
-            models.Params.objects.filter(user=user)
+            models.Parameters.objects.filter(user=user)
             .select_related('progress')
             .first()
         )
