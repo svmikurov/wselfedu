@@ -37,15 +37,13 @@ INSTALLED_APPS = [
     # Installed apps
     'rest_framework',
     'rest_framework_simplejwt',
-    # Django extensions
-    'django_extensions',
-    # Documentation
-    'drf_spectacular',
-    # layout
     'crispy_bootstrap5',
     'crispy_forms',
     'django_bootstrap5',
     'django_htmx',
+    'django_filters',
+    'django_extensions',
+    'drf_spectacular',
     # Applications
     'apps.core',
     'apps.glossary',
