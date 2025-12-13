@@ -12,6 +12,7 @@ from . import abc as base
 if TYPE_CHECKING:
     from django.db.models import QuerySet
 
+    from apps.core import models as core_models
     from apps.users.models import Person
 
 
@@ -37,16 +38,24 @@ class TranslationRepository(base.TranslationRepoABC):
         user: Person,
         native: str,
         english: str,
+        category: models.LangCategory,
+        source: core_models.Source,
+        marks: QuerySet[models.LangMark],
         normalize: bool = True,
     ) -> None:
         """Create english translation."""
         words = self._get_or_create_words(user, native, english, normalize)
 
-        models.EnglishTranslation.objects.get_or_create(
+        translation, _ = models.EnglishTranslation.objects.get_or_create(
             user=user,
             native=words.native,
             english=words.english,
+            category=category,
+            source=source,
         )
+
+        if marks:
+            translation.marks.set(marks)
 
     @override
     @transaction.atomic
@@ -56,23 +65,28 @@ class TranslationRepository(base.TranslationRepoABC):
         instance: models.EnglishTranslation,
         native: str,
         english: str,
+        category: models.LangCategory,
+        source: core_models.Source,
+        marks: QuerySet[models.LangMark],
         normalize: bool = True,
     ) -> None:
         """Update english translation."""
-        # TODO: Delete an updated word if it is no longer used?
         words = self._get_or_create_words(user, native, english, normalize)
 
         instance.native = words.native
         instance.english = words.english
+        instance.category = category
+        instance.source = source
+        instance.marks.set(marks)
         instance.save()
 
     @override
     def get_translation_id(
         self,
-        word_id: int,
+        native_id: int,
     ) -> int:
         """Get english translation relationship by native word ID."""
-        return models.EnglishTranslation.objects.get(native=word_id).pk
+        return models.EnglishTranslation.objects.get(native=native_id).pk
 
     @override
     def get_translations(

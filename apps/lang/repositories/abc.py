@@ -5,14 +5,13 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
-from .. import types
-
 if TYPE_CHECKING:
     from django.db.models import QuerySet
 
+    from apps.core import models as core_models
     from apps.users.models import Person
 
-    from .. import models
+    from .. import models, types
 
 
 class ProgressABC(ABC):
@@ -74,6 +73,10 @@ class TranslationRepoABC(ABC):
         user: Person,
         native: str,
         english: str,
+        category: models.LangCategory,
+        source: core_models.Source,
+        marks: QuerySet[models.LangMark],
+        normalize: bool = True,
     ) -> None:
         """Create English translation."""
 
@@ -84,6 +87,10 @@ class TranslationRepoABC(ABC):
         instance: models.EnglishTranslation,
         native: str,
         english: str,
+        category: models.LangCategory,
+        source: core_models.Source,
+        marks: QuerySet[models.LangMark],
+        normalize: bool = True,
     ) -> None:
         """Update English translation."""
 
