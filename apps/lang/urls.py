@@ -59,8 +59,8 @@ urlpatterns = [
         name='translation_english_study',
     ),
     path(
-        'translation/english/study/case',
-        views.EnglishTranslationStudyCaseView.as_view(),
+        'translation/english/study/case/',
+        views.english_translation_case_htmx_view,
         name='translation_english_study_case',
     ),
 ]
