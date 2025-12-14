@@ -127,6 +127,7 @@ class WordStudyViewSet(ViewSet):
                 params.validated_data,
             )
         except Exception as exc:
+            log.exception('Update parameters error')
             return Response(
                 data={'detail': str(exc)},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -176,6 +177,7 @@ class WordStudyViewSet(ViewSet):
                 progress_serializer.validated_data,
             )
         except Exception as exc:
+            log.exception('Update progress error')
             return Response(
                 data={'detail': str(exc)},
                 status=status.HTTP_400_BAD_REQUEST,
