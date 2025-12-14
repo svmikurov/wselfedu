@@ -13,7 +13,7 @@ class TestService:
         self,
         mock_user: Mock,
         mock_progress_repo: Mock,
-        mock_django_cache_storage: Mock,
+        mock_task_storage: Mock,
         progress_config: schemas.ProgressConfigSchema,
         progress_case: types.ProgressCase,
         stored_case: schemas.WordStudyStoredCase,
@@ -21,14 +21,14 @@ class TestService:
     ) -> None:
         """Test Word study progress update service."""
         # Arrange
-        mock_django_cache_storage.pop.return_value = stored_case
+        mock_task_storage.retrieve_task.return_value = stored_case
 
         # Act
         progress_service_di_mock.update_progress(mock_user, progress_case)
 
         # Assert
-        mock_django_cache_storage.pop.assert_called_once_with(
-            cache_kay=progress_case['case_uuid'],
+        mock_task_storage.retrieve_task.assert_called_once_with(
+            uid=progress_case['case_uuid'],
         )
         mock_progress_repo.update.assert_called_once_with(
             user=mock_user,

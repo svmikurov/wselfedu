@@ -40,7 +40,7 @@ class TestCreateTranslationView:
         request.user = mock_user
 
         # Act
-        with di.container.lang.translation_repo.override(mock_repo):
+        with di.container.lang.translation_repository.override(mock_repo):
             response = views.EnglishTranslationCreateView.as_view()(request)
 
         # Assert

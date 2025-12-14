@@ -43,13 +43,13 @@ def presentation_domain() -> domain.WordStudyDomain:
 @pytest.fixture
 def service(
     mock_presentation_repo: Mock,
-    mock_django_cache_storage: Mock,
+    mock_task_storage: Mock,
     presentation_domain: domain.WordStudyDomain,
 ) -> services.WordPresentationService:
     """Provide Presentation service."""
     return services.WordPresentationService(
         word_repo=mock_presentation_repo,
-        case_storage=mock_django_cache_storage,
+        case_storage=mock_task_storage,
         domain=presentation_domain,
     )
 

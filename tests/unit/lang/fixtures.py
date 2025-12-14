@@ -5,7 +5,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from apps.core.storage.clients import DjangoCache
+from apps.core.storage.services import TaskStorage
 from apps.lang import schemas, services, types
 from apps.lang.repositories.abc import ProgressABC
 from tests.fixtures.lang.no_db import translation as fixtures
@@ -57,24 +57,24 @@ def case_uuid() -> uuid.UUID:
 
 
 @pytest.fixture
-def mock_django_cache_storage(
+def mock_task_storage(
     case_uuid: uuid.UUID,
 ) -> Mock:
-    """Mock Django cache storage fixture."""
-    mock = Mock(spec=DjangoCache)
-    mock.set.return_value = case_uuid
+    """Mock task storage fixture."""
+    mock = Mock(spec=TaskStorage)
+    mock.save_task.return_value = case_uuid
     return mock
 
 
 @pytest.fixture
 def progress_service_di_mock(
     mock_progress_repo: Mock,
-    mock_django_cache_storage: Mock,
+    mock_task_storage: Mock,
     progress_config: schemas.ProgressConfigSchema,
 ) -> services.UpdateWordProgressService:
     """Test Word study progress update service."""
     return services.UpdateWordProgressService(
         progress_repo=mock_progress_repo,
-        case_storage=mock_django_cache_storage,
+        case_storage=mock_task_storage,
         progress_config=progress_config,
     )
