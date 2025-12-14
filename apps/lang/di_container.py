@@ -2,12 +2,21 @@
 
 from dependency_injector import containers, providers
 
-from apps.core.storage.clients import DjangoCache
+from apps.core.storage import (
+    clients as storage_clients,
+)
+from apps.core.storage import (
+    services as storage,
+)
 from apps.lang import schemas
 
 from . import repositories, services
 from .domain.presentation import WordStudyDomain
 from .services.presentation import WordPresentationService
+
+# TODO: Implement dynamic ttl in dependency
+# as the sum of the question time and the answer time.
+TRANSLATION_CASE_STORAGE_TTL = 600
 
 
 class LanguageContainer(containers.DeclarativeContainer):
@@ -16,31 +25,38 @@ class LanguageContainer(containers.DeclarativeContainer):
     # Configurations
     # --------------
 
-    progress_config = schemas.ProgressConfigSchema(
+    progress_config = providers.Factory(
+        schemas.ProgressConfigSchema,
         increment=1,
         decrement=1,
     )
 
-    # External dependencies
-    # ----------------------
+    # Storage dependencies
+    # --------------------
 
-    django_cache: providers.Dependency[
-        DjangoCache[schemas.WordStudyStoredCase]
-    ] = providers.Dependency()
+    django_translation_cache = providers.Factory(
+        storage_clients.DjangoCache[schemas.WordStudyStoredCase],
+    )
+
+    translation_study_storage = providers.Factory(
+        storage.TaskStorage[schemas.WordStudyStoredCase],
+        storage=django_translation_cache,
+        ttl=TRANSLATION_CASE_STORAGE_TTL,
+    )
 
     # Repositories
     # ------------
 
-    params_repo = providers.Factory(
+    parameters_repository = providers.Factory(
         repositories.WordStudyParametersRepository,
     )
-    word_repo = providers.Factory(
+    word_repository = providers.Factory(
         repositories.EnglishPresentation,
     )
-    translation_repo = providers.Factory(
+    translation_repository = providers.Factory(
         repositories.TranslationRepository,
     )
-    progress_repo = providers.Factory(
+    progress_repository = providers.Factory(
         repositories.Progress,
     )
 
@@ -56,14 +72,14 @@ class LanguageContainer(containers.DeclarativeContainer):
 
     word_presentation_service = providers.Factory(
         WordPresentationService,
-        word_repo=word_repo,
-        case_storage=django_cache,
+        word_repo=word_repository,
+        case_storage=translation_study_storage,
         domain=word_study_domain,
     )
 
     progress_service = providers.Factory(
         services.UpdateWordProgressService,
-        progress_repo=progress_repo,
-        case_storage=django_cache,
+        progress_repo=progress_repository,
+        case_storage=translation_study_storage,
         progress_config=progress_config,
     )
