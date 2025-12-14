@@ -105,12 +105,12 @@ class EnglishPresentation(PresentationABC):
 
     @staticmethod
     def _get_conditions(
-        parameters: types.TranslationMeta,
+        parameters_db_data: types.TranslationMeta,
     ) -> Q:
         """Convert parameters to Q object represents an conditions."""
         conditions = Q()
 
-        for key, value in parameters.items():
+        for key, value in parameters_db_data.items():
             match key, value:
                 case _, None:
                     continue
