@@ -58,4 +58,9 @@ urlpatterns = [
         views.EnglishTranslationStudyView.as_view(),
         name='translation_english_study',
     ),
+    path(
+        'translation/english/study/case',
+        views.EnglishTranslationStudyCaseView.as_view(),
+        name='translation_english_study_case',
+    ),
 ]
