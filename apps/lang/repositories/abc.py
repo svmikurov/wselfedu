@@ -63,7 +63,7 @@ class WordStudyParamsRepositoryABC(ABC):
     def update(
         self,
         user: Person,
-        data: types.StudyParameters,
+        data: types.WordParameters,
     ) -> types.SetStudyParameters:
         """Update initial parameters."""
 
