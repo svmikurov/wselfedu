@@ -93,7 +93,7 @@ class WordStudyViewSet(ViewSet):
         self,
         request: Request,
         repository: WordStudyParamsRepositoryABC = wiring.Provide[
-            di.MainContainer.lang.params_repo,
+            di.MainContainer.lang.parameters_repository,
         ],
     ) -> Response:
         """Render initial Word study parameters."""
@@ -115,7 +115,7 @@ class WordStudyViewSet(ViewSet):
         self,
         request: Request,
         repository: WordStudyParamsRepositoryABC = wiring.Provide[
-            di.MainContainer.lang.params_repo,
+            di.MainContainer.lang.parameters_repository,
         ],
     ) -> Response:
         """Update initial Word study parameters."""

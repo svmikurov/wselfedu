@@ -27,7 +27,7 @@ class TranslationViewMixin:
         request: HttpRequest,
         *args: object,
         repository: TranslationRepoABC = Provide[
-            MainContainer.lang.translation_repo
+            MainContainer.lang.translation_repository
         ],
         **kwargs: object,
     ) -> HttpResponseBase:
