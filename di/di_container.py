@@ -30,7 +30,6 @@ class MainContainer(DeclarativeContainer):
     )
     lang: Container[LanguageContainer] = Container(
         LanguageContainer,
-        django_cache=core.django_cache,
     )
     study: Container[StudyAppContainer] = Container(
         StudyAppContainer,

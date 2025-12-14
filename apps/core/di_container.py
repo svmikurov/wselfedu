@@ -16,12 +16,8 @@ class CoreContainer(containers.DeclarativeContainer):
         DjangoCache,
     )
 
-    cache_task_storage: Factory[DjangoCache[Any]] = providers.Factory(
-        DjangoCache,
-    )
-
     # TODO: Update to `django_cache`?
     task_storage = providers.Factory(
         TaskStorage,
-        storage=cache_task_storage,
+        storage=django_cache,
     )
