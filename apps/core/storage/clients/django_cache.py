@@ -14,12 +14,17 @@ T = TypeVar('T')
 class DjangoCache(CacheABC[T]):
     """Django cache client for storing tasks."""
 
-    @staticmethod
+    DEFAULT_TTL: int = 3600
+
+    def __init__(self, ttl: int | None = None) -> None:
+        """Configure the storage."""
+        self.ttl = ttl or self.DEFAULT_TTL
+
     @override
-    def set(obj: T, ttl: int | None = None) -> uuid.UUID:
+    def set(self, obj: T, ttl: int | None = None) -> uuid.UUID:
         """Save object to cache."""
         cache_key = uuid.uuid4()
-        cache.set(cache_key, obj, ttl)
+        cache.set(cache_key, obj, ttl or self.ttl)
         return cache_key
 
     @staticmethod
