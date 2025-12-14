@@ -12,8 +12,7 @@ T = TypeVar('T')
 class ICacheClient(Protocol[T]):
     """Protocol for client interface for storing in cache."""
 
-    @staticmethod
-    def set(obj: T) -> uuid.UUID:
+    def set(self, obj: T) -> uuid.UUID:
         """Save an object to the cache."""
 
     @staticmethod
@@ -32,10 +31,9 @@ class ICacheClient(Protocol[T]):
 class CacheABC(ICacheClient[T], ABC):
     """Abstract base class for storing in cache."""
 
-    @staticmethod
     @abstractmethod
     @override
-    def set(obj: T) -> uuid.UUID:
+    def set(self, obj: T) -> uuid.UUID:
         """Save object to cache."""
 
     @staticmethod
