@@ -25,7 +25,7 @@ class TranslationContext(TypedDict):
     english_study: ViewContext
 
 
-TRANSLATION_CONTEXT: TranslationContext = {
+ENGLISH_TRANSLATION: TranslationContext = {
     'create': {
         'title': 'Добавление перевода',
         'header': 'Добавление перевода',

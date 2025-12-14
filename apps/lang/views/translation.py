@@ -30,7 +30,7 @@ class EnglishTranslationCreateView(
     form_class = forms.EnglishCreateForm
     template_name = 'lang/form.html'
     success_url = reverse_lazy('lang:translation_english_create')
-    extra_context = context.TRANSLATION_CONTEXT['create']
+    extra_context = context.ENGLISH_TRANSLATION['create']
 
     def form_valid(self, form: forms.EnglishCreateForm) -> HttpResponse:
         """Save translation."""
@@ -49,7 +49,7 @@ class EnglishTranslationListView(
     filterset_class = filters.TranslationFilter
     context_object_name = 'translations'
     paginate_by = 20
-    extra_context = context.TRANSLATION_CONTEXT['list']
+    extra_context = context.ENGLISH_TRANSLATION['list']
 
     def get_queryset(self) -> QuerySet[models.EnglishTranslation]:
         """Get translation queryset."""
@@ -75,7 +75,7 @@ class EnglishTranslationUpdateView(
     form_class = forms.EnglishUpdateForm
     template_name = 'lang/form.html'
     success_url = reverse_lazy('lang:translation_english_list')
-    extra_context = context.TRANSLATION_CONTEXT['update']
+    extra_context = context.ENGLISH_TRANSLATION['update']
 
     def form_valid(self, form: forms.EnglishUpdateForm) -> HttpResponse:
         """Save translation."""

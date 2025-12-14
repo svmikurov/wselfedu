@@ -9,4 +9,4 @@ class EnglishTranslationStudyView(generic.TemplateView):
     """English translation study view."""
 
     template_name = 'lang/translation_study.html'
-    extra_context = context.TRANSLATION_CONTEXT['english_study']
+    extra_context = context.ENGLISH_TRANSLATION['english_study']
