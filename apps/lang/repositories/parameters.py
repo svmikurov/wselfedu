@@ -1,6 +1,8 @@
-"""Word study params repository."""
+"""Word study parameters repository."""
 
-from typing import Any, Literal, TypeAlias, override
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Literal, TypeAlias, override
 
 from django.db import transaction
 from django.db.models import QuerySet
@@ -8,7 +10,9 @@ from django.db.models import QuerySet
 from apps.core import models as models_core
 from apps.lang import models, types
 from apps.lang.repositories.abc import WordStudyParamsRepositoryABC
-from apps.users.models import Person
+
+if TYPE_CHECKING:
+    from apps.users.models import Person
 
 OptionsT: TypeAlias = Literal[
     'category',
@@ -40,6 +44,7 @@ class WordStudyParametersRepository(WordStudyParamsRepositoryABC):
         marks = models.LangMark.objects.filter(user=user)
         sources = models_core.Source.objects.filter(user=user)
         periods = models_core.Period.objects.all()
+        orders = models.TranslationSetting.TranslateChoices.choices
 
         return types.Options(
             categories=self._get_id_name(categories),
@@ -48,125 +53,117 @@ class WordStudyParametersRepository(WordStudyParamsRepositoryABC):
             periods=self._get_id_name(periods),
             translation_orders=[
                 {'code': str(value), 'name': str(label)}
-                for value, label in models.Parameters.TranslateChoices.choices
+                for value, label in orders
             ],
         )
 
     @override
     def fetch(self, user: Person) -> types.SetStudyParameters:
         """Fetch parameters with parameter choices."""
-        # Default, selected and set parameters
-        parameters = models.Parameters.objects.filter(user=user)
+        options = self.get_options(user)
 
-        custom: dict[str, Any] = (
-            parameters.values(  # type: ignore[assignment]
-                'category__id',
-                'category__name',
-                'mark__id',
-                'mark__name',
-                'word_source__id',
-                'word_source__name',
-                'start_period__id',
-                'start_period__name',
-                'end_period__id',
-                'end_period__name',
-                'word_count',
-                'question_timeout',
-                'answer_timeout',
-                'translation_order',
-                'is_study',
-                'is_repeat',
-                'is_examine',
-                'is_know',
-            ).first()
-            or {}
+        parameters = (
+            models.Parameters.objects.filter(user=user)
+            .select_related(
+                'category',
+                'mark',
+                'word_source',
+                'start_period',
+                'end_period',
+            )
+            .first()
+            or models.Parameters()
         )
 
-        order_value, order_label = models.Parameters.resolve_order_choice(
-            custom.get('translation_order')
+        translation_settings = (
+            models.TranslationSetting.objects.filter(user=user).first()
+            or models.TranslationSetting()
+        )
+
+        presentation_settings = (
+            models.PresentationSettings.objects.filter(user=user).first()
+            or models.PresentationSettings()
+        )
+
+        order_value, order_label = (
+            models.TranslationSetting.resolve_order_choice(
+                translation_settings.translation_order
+            )
         )
 
         data = {
-            # Parameters options
-            **self.get_options(user),
+            **options,
             #
-            # Selected parameter default
-            'category': None,
-            'mark': None,
-            'word_source': None,
-            'start_period': None,
-            'end_period': None,
+            # Translation meta
+            'category': parameters.obj_to_id_name('category'),
+            'mark': parameters.obj_to_id_name('mark'),
+            'word_source': parameters.obj_to_id_name('word_source'),
+            'start_period': parameters.obj_to_id_name('start_period'),
+            'end_period': parameters.obj_to_id_name('end_period'),
+            'is_study': parameters.study,
+            'is_repeat': parameters.repeat,
+            'is_examine': parameters.examine,
+            'is_know': parameters.know,
+            #
+            # Translation settings
             'translation_order': {'code': order_value, 'name': order_label},
+            'word_count': translation_settings.word_count,
             #
-            # Default switch progress
-            'is_study': custom.get('is_study', True),
-            'is_repeat': custom.get('is_repeat', True),
-            'is_examine': custom.get('is_examine', True),
-            'is_know': custom.get('is_know', False),
-            #
-            # The parameters set, if any
-            'word_count': custom.get('word_count'),
-            'question_timeout': custom.get('question_timeout'),
-            'answer_timeout': custom.get('answer_timeout'),
+            # Presentation settings
+            'question_timeout': presentation_settings.question_timeout,
+            'answer_timeout': presentation_settings.answer_timeout,
         }
 
-        # Provides default parameters if the
-        # user has not set them themselves.
-        if not custom:
-            return data  # type: ignore[return-value]
-
-        # Selected parameters set by the user
-        data['category'] = self._build_option(custom, 'category')
-        data['mark'] = self._build_option(custom, 'mark')
-        data['word_source'] = self._build_option(custom, 'word_source')
-        data['start_period'] = self._build_option(custom, 'start_period')
-        data['end_period'] = self._build_option(custom, 'end_period')
-
         return data  # type: ignore[return-value]
-
-    @staticmethod
-    def _build_option(
-        data: dict[str, Any],
-        field_name: str,
-    ) -> types.IdName | None:
-        """Build id-name option."""
-        id_field, name_field = f'{field_name}__id', f'{field_name}__name'
-        return (
-            {'id': data[id_field], 'name': data[name_field]}
-            if data.get(id_field)
-            else None
-        )
 
     @override
     @transaction.atomic
     def update(
         self,
         user: Person,
-        data: types.StudyParameters,
+        data: types.WordParameters,
     ) -> types.SetStudyParameters:
         """Update initial parameters."""
-        defaults = {
+        translation_meta_defaults = {
             'category_id': self._get_identifier(data, 'category'),
             'mark_id': self._get_identifier(data, 'mark'),
             'word_source_id': self._get_identifier(data, 'word_source'),
-            'translation_order': self._get_identifier(
-                data, 'translation_order'
-            ),
             'start_period_id': self._get_identifier(data, 'start_period'),
             'end_period_id': self._get_identifier(data, 'end_period'),
-            'word_count': data.get('word_count'),
-            'question_timeout': data.get('question_timeout'),
-            'answer_timeout': data.get('answer_timeout'),
             'is_study': data.get('is_study'),
             'is_repeat': data.get('is_repeat'),
             'is_examine': data.get('is_examine'),
             'is_know': data.get('is_know'),
         }
 
+        translation_settings_defaults = {
+            'translation_order': self._get_identifier(
+                data, 'translation_order'
+            ),
+            'word_count': data.get('word_count'),
+        }
+
+        presentation_settings_defaults = {
+            'question_timeout': data.get('question_timeout'),
+            'answer_timeout': data.get('answer_timeout'),
+        }
+
         (
             models.Parameters.objects.update_or_create(
                 user=user,
-                defaults=defaults,
+                defaults=translation_meta_defaults,
+            )
+        )
+        (
+            models.TranslationSetting.objects.update_or_create(
+                user=user,
+                defaults=translation_settings_defaults,
+            )
+        )
+        (
+            models.PresentationSettings.objects.update_or_create(
+                user=user,
+                defaults=presentation_settings_defaults,
             )
         )
         return self.fetch(user)
