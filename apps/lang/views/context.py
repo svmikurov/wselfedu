@@ -1,6 +1,6 @@
 """Language view context."""
 
-from typing import TypedDict
+from typing import Any, TypedDict
 
 
 class ViewContext(TypedDict):
@@ -16,13 +16,19 @@ class SubmitViewContext(ViewContext):
     submit_text: str
 
 
+class PresentationViewContext(ViewContext):
+    """View context with submit text."""
+
+    task: dict[str, Any]
+
+
 class TranslationContext(TypedDict):
     """Translation context types."""
 
     create: SubmitViewContext
     update: SubmitViewContext
     list: ViewContext
-    english_study: ViewContext
+    english_study: PresentationViewContext
 
 
 ENGLISH_TRANSLATION: TranslationContext = {
@@ -43,5 +49,8 @@ ENGLISH_TRANSLATION: TranslationContext = {
     'english_study': {
         'title': 'Изучение английских слов',
         'header': 'Изучение английских слов',
+        'task': {
+            'task_path': '/lang/translation/english/study/case/',
+        },
     },
 }
