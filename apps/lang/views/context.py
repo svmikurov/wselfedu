@@ -22,6 +22,7 @@ class TranslationContext(TypedDict):
     create: SubmitViewContext
     update: SubmitViewContext
     list: ViewContext
+    english_study: ViewContext
 
 
 TRANSLATION_CONTEXT: TranslationContext = {
@@ -38,5 +39,9 @@ TRANSLATION_CONTEXT: TranslationContext = {
     'list': {
         'title': 'Список переводов',
         'header': 'Список переводов',
+    },
+    'english_study': {
+        'title': 'Изучение английских слов',
+        'header': 'Изучение английских слов',
     },
 }
