@@ -1,8 +1,21 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title%}{{ title }}{% endblock %}
 
 {% block content %}
-<h1 class="text-center">{{ header }}</h1>
-{% include 'lang/presentation/partial.html' %}
+  <h1 class="text-center">{{ header }}</h1>
+
+  <div 
+    id="update-presentation"
+    hx-get="/lang/translation/english/study/case/"
+    hx-target="#presentation-block"
+    hx-trigger="load">
+  </div>
+
+  {% include 'lang/presentation/partial.html' %}
+{% endblock %}
+
+{% block script %}
+  <script type="module" src="{% static 'js/translation_presentation.js' %}"></script>
 {% endblock %}
