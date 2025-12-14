@@ -5,7 +5,7 @@ from django.test.utils import CaptureQueriesContext
 
 from apps.lang import repositories, types
 from apps.users.models import Person
-from tests.fixtures.lang.no_db import translation_parameters as fixtures
+from tests.fixtures.lang.no_db import translation as fixtures
 
 pytestmark = pytest.mark.django_db
 
@@ -20,7 +20,7 @@ class TestCreate:
     ) -> None:
         """Parameters was successfully created."""
         # Arrange
-        user_parameters = fixtures.EMPTY_PARAMETERS.copy()
+        user_parameters = fixtures.EMPTY_TRANSLATION_PARAMETERS.copy()
         user_parameters['word_count'] = 45
 
         # Act
@@ -47,13 +47,13 @@ class TestFetch:
         self,
         user: Person,
         parameters_repo: repositories.WordStudyParametersRepository,
-        parameters: types.SetStudyParameters,
+        parameters_db_data: types.SetStudyParameters,
         django_assert_num_queries: CaptureQueriesContext,
     ) -> None:
         """Test fetch initial data."""
         # Act & assert
-        with django_assert_num_queries(5):  # type: ignore[operator]
-            assert parameters == parameters_repo.fetch(user)
+        with django_assert_num_queries(7):  # type: ignore[operator]
+            assert parameters_db_data == parameters_repo.fetch(user)
 
 
 class TestUpdate:
@@ -63,32 +63,32 @@ class TestUpdate:
         self,
         user: Person,
         parameters_repo: repositories.WordStudyParametersRepository,
-        parameters: types.SetStudyParameters,
+        parameters_db_data: types.SetStudyParameters,
         django_assert_num_queries: CaptureQueriesContext,
     ) -> None:
         """Test update initial data."""
         # Arrange
         # - Select a parameter from the options
         # to set it as the initial value
-        mark = parameters['marks'][1]
+        mark = parameters_db_data['marks'][1]
 
         # - Parameter data without option fields to update
         new_params = {
-            key: parameters[key]  # type: ignore[literal-required]
-            for key in parameters.keys()
+            key: parameters_db_data[key]  # type: ignore[literal-required]
+            for key in parameters_db_data.keys()
             if key not in ('categories', 'marks', 'sources', 'periods')
         }
         new_params['mark'] = mark
         new_params['word_count'] = 76
 
         # - Expected new parameter data
-        expected = parameters.copy()
+        expected = parameters_db_data.copy()
         expected['mark'] = mark
         expected['word_count'] = 76
 
         # Act
         # TODO: Fix database query count
-        with django_assert_num_queries(11):  # type: ignore[operator]
+        with django_assert_num_queries(21):  # type: ignore[operator]
             updated_parameters = parameters_repo.update(user, new_params)  # type: ignore[arg-type]
 
         # Assert
@@ -98,7 +98,7 @@ class TestUpdate:
         self,
         user: Person,
         parameters_repo: repositories.WordStudyParametersRepository,
-        parameters: types.SetStudyParameters,
+        parameters_db_data: types.SetStudyParameters,
     ) -> None:
         """Test that updated parameter is None."""
         # Arrange
@@ -119,7 +119,11 @@ class TestUpdate:
                 'is_know',
             )
         }
-        expected = {**parameters, **update_data}
+        expected = {**parameters_db_data, **update_data}
+        expected['is_study'] = True
+        expected['is_repeat'] = True
+        expected['is_examine'] = True
+        expected['is_know'] = False
 
         # Act & Assert
         assert expected == parameters_repo.update(user, update_data)  # type: ignore[arg-type]

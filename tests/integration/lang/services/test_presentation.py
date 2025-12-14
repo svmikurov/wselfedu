@@ -16,16 +16,16 @@ class TestGetPresentationCase:
         self,
         user: Person,
         service: services.WordPresentationService,
-        translations: list[models.EnglishTranslation],
         translations_meta: tuple[
             list[models.LangCategory],
             list[models_core.Source],
             list[models.LangMark],
+            list[models_core.Period],
         ],
         conditions: types.WordParameters,
     ) -> None:
         """Test that raises exception when no case for conditions."""
-        categories, _, _ = translations_meta
+        categories, _, _, _ = translations_meta
 
         # Arrange
         category = categories[0]

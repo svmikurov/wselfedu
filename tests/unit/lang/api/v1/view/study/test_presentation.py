@@ -14,7 +14,7 @@ from apps.lang import types
 from apps.lang.api.v1.views.study import WordStudyViewSet
 from apps.lang.services.abc import WordPresentationServiceABC
 from di import container
-from tests.fixtures.lang.no_db import translation_query as fixtures
+from tests.fixtures.lang.no_db import translation as fixtures
 
 
 @pytest.fixture
@@ -47,7 +47,7 @@ def view() -> Callable[[Request], Response]:
 @pytest.fixture
 def valid_payload() -> types.WordParameters:
     """Provide Request payload."""
-    return fixtures.EMPTY_LOOKUP_CONDITIONS.copy()
+    return fixtures.EMPTY_TRANSLATION_PARAMETERS.copy()
 
 
 @pytest.fixture

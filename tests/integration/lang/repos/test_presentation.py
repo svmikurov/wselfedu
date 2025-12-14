@@ -122,6 +122,7 @@ class TestGetByStartPeriod:
 class TestGetByRelationships:
     """Fetch translations by relationship conditions."""
 
+    # TODO: Add test of periods
     @pytest.mark.django_db
     def test_fetch_candidates_by_relationship(
         self,
@@ -131,11 +132,12 @@ class TestGetByRelationships:
             list[models.LangCategory],
             list[models_core.Source],
             list[models.LangMark],
+            list[models_core.Period],
         ],
         conditions: types.WordParameters,
     ) -> None:
         """Repository correctly fetch data by relationship."""
-        categories, sources, marks = translations_meta
+        categories, sources, marks, _ = translations_meta
 
         # Arrange
         desired_category = categories[0]

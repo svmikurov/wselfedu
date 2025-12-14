@@ -5,7 +5,7 @@ from unittest.mock import Mock
 import pytest
 
 from apps.lang import repositories, services, types
-from tests.fixtures.lang.no_db import translation_query as fixtures
+from tests.fixtures.lang.no_db import translation as fixtures
 
 
 @pytest.fixture
@@ -17,7 +17,7 @@ def presentation_repo() -> repositories.EnglishPresentation:
 @pytest.fixture
 def conditions() -> types.WordParameters:
     """Provide Word study lookup empty conditions."""
-    return fixtures.EMPTY_LOOKUP_CONDITIONS.copy()
+    return fixtures.EMPTY_TRANSLATION_PARAMETERS.copy()
 
 
 @pytest.fixture

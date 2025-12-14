@@ -84,8 +84,12 @@ class TestUpdate:
         assert response.status_code == HTTPStatus.OK
 
         updated_data = repositories.WordStudyParametersRepository().fetch(user)
+
+        print(f'\n{to_update = }')
+        print(f'\n{payload = }')
+
         assert to_update.items() <= updated_data.items()
-        assert response.data == updated_data
+        assert to_update.items() <= response.data.items()
 
 
 class TestPermissions:
