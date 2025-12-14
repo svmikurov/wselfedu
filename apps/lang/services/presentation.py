@@ -5,7 +5,7 @@ import uuid
 from typing import override
 
 from apps.core.exceptions import info
-from apps.core.storage import clients as storage
+from apps.core.storage import services as storage
 from apps.users.models import Person
 
 from .. import domain, repositories, schemas, types
@@ -20,7 +20,7 @@ class WordPresentationService(WordPresentationServiceABC):
     def __init__(
         self,
         word_repo: repositories.PresentationABC,
-        case_storage: storage.CacheABC[schemas.WordStudyStoredCase],
+        case_storage: storage.TaskStorage[schemas.WordStudyStoredCase],
         domain: domain.WordStudyDomainABC,
     ) -> None:
         """Construct the service."""
@@ -57,7 +57,7 @@ class WordPresentationService(WordPresentationServiceABC):
             translation_id=case.translation_id,
             language='english',
         )
-        case_uuid = self._case_storage.set(schema)
+        case_uuid = self._case_storage.save_task(schema)
         return case_uuid
 
     @staticmethod

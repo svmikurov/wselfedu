@@ -3,7 +3,7 @@
 import logging
 from typing import override
 
-from apps.core.storage.clients import DjangoCache
+from apps.core.storage import services as storage
 from apps.users.models import Person
 
 from .. import schemas, types
@@ -19,7 +19,7 @@ class UpdateWordProgressService(WordProgressServiceABC):
     def __init__(
         self,
         progress_repo: ProgressABC,
-        case_storage: DjangoCache[schemas.WordStudyStoredCase],
+        case_storage: storage.TaskStorage[schemas.WordStudyStoredCase],
         progress_config: schemas.ProgressConfigSchema,
     ) -> None:
         """Construct the service."""
@@ -43,8 +43,8 @@ class UpdateWordProgressService(WordProgressServiceABC):
         }[is_known]
 
         try:
-            case_data: schemas.WordStudyStoredCase = self._case_storage.pop(
-                cache_kay=data['case_uuid'],
+            case_data: schemas.WordStudyStoredCase = (
+                self._case_storage.retrieve_task(uid=data['case_uuid'])
             )
         except KeyError as exc:
             log.warning('Case not found in storage: %s', case_uuid)
