@@ -11,7 +11,7 @@
       </div>
       <div class="card-body" style="height: 150px; overflow-y: auto;">
         <div id="question" class="fs-1">
-          {{ task.question }}
+          {{ definition }}
         </div>
       </div>
     </div>
@@ -22,7 +22,7 @@
       </div>
       <div class="card-body" style="height: 150px; overflow-y: auto;">
         <div id="answer" class="invisible fs-1">
-          {{ task.answer }}
+          {{ explanation }}
         </div>
       </div>
     </div>
@@ -73,21 +73,3 @@
     </div>
   </div>
 </div>
-
-<script>
-// Load presentation case
-function loadPresentationCase () {
-    htmx.ajax('GET', '/lang/translation/english/study/case/', {
-        target: '#case-block'
-    });
-}
-
-// Display answer
-function showAnswer() {
-    // Show answer block
-    const answerBlock = document.getElementById('answer');
-    answerBlock.classList.remove('invisible');
-    // Reset answer timer
-    // ...
-}
-</script>
