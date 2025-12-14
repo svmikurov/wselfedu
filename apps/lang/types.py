@@ -84,7 +84,7 @@ class TranslationMeta(TypedDict):
     end_period: IdName | None
 
 
-class TranslationSettings(ProgressPhase):
+class TranslationSettings(TypedDict):
     """Translation settings type."""
 
     translation_order: CodeName | None
@@ -114,6 +114,7 @@ class WordLookup(TypedDict, total=False):
 
 class WordParameters(
     TranslationMeta,
+    ProgressPhase,
     TranslationSettings,
 ):
     """Word parameters type."""
@@ -121,7 +122,7 @@ class WordParameters(
 
 class StudyParameters(
     TranslationMeta,
-    TranslationSettings,
+    ProgressPhase,
     PresentationSettings,
 ):
     """Word study parameters types."""
@@ -130,6 +131,7 @@ class StudyParameters(
 class SetStudyParameters(
     Options,
     TranslationMeta,
+    ProgressPhase,
     TranslationSettings,
     PresentationSettings,
 ):
