@@ -1,1 +1,6 @@
-"""Contains storage services."""
+"""Core storage services."""
+
+__all__ = [
+    'TaskStorage',
+]
+from .task import TaskStorage
