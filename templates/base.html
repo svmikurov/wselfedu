@@ -34,18 +34,14 @@
   </header>
 
   <div class="container-xl">
-    <div class="row pt-2">
-      <div class="col">
-        <!--======= Django Messages =======-->
-        <section>
-          {% bootstrap_messages %}
-        </section><!-- End Django Messages -->
-        <!--======= Content =======-->
-        <main>
-          {% block content %}{% endblock %}
-        </main><!-- End Content -->
-      </div>
-    </div>
+    <!--======= Django Messages =======-->
+    <section>
+      {% bootstrap_messages %}
+    </section><!-- End Django Messages -->
+    <!--======= Content =======-->
+    <main>
+      {% block content %}{% endblock %}
+    </main><!-- End Content -->
   </div>
 
   <!--======= Scripts =======-->
