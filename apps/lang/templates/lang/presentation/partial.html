@@ -1,75 +1,37 @@
-<!--======= Presentation =======-->
-<div id="presentation-block" class="container p-0">
+<!--======= Presentation parameters =======-->
+<div
+  id="parameters-block"
+  data-question="{{ task.presentation_timeout }}"
+  data-answer="{{ task.answer_timeout }}"
+  data-url="{{ task.url }}"
+></div>
 
-  <!--======= Presentation case =======-->
-  <div id="case-block" 
-       data-id="{{ task.uuid }}">  
-   
-    <div id="question-block" class="card mb-1">
-      <div class="card-header pb-0">
-        <h3 class="h4">Вопрос:</h3>
-      </div>
-      <div class="card-body" style="height: 150px; overflow-y: auto;">
-        <div id="question" class="fs-1">
-          {{ definition }}
-        </div>
-      </div>
+<!--======= Presentation case =======-->
+<div id="case-block">
+  <div id="question-block" class="card mb-1">
+    <div class="card-header pb-0">
+      <h3 class="h4">Вопрос:</h3>
     </div>
-
-    <div id="answer-block" class="card mb-1">
-      <div class="card-header pb-0">
-        <h3 class="h4">Ответ:</h3>
-      </div>
-      <div class="card-body" style="height: 150px; overflow-y: auto;">
-        <div id="answer" class="invisible fs-1">
-          {{ explanation }}
-        </div>
-      </div>
+    <div class="card-body" style="height: 150px; overflow-y: auto">
+      <div id="question" class="fs-1">{{ definition }}</div>
     </div>
+  </div>
 
-    <div id="info-block" class="card">
-      <div class="card-header pb-0">
-        <h3 class="h4">Информация:</h3>
-      </div>
-      <div class="card-body" style="height: 150px; overflow-y: auto;">
-        <div id="info" class="fs-4">
-          {{ task.info }}
-        </div>
-      </div>
+  <div id="answer-block" class="card mb-1">
+    <div class="card-header pb-0">
+      <h3 class="h4">Ответ:</h3>
     </div>
-
-  <!--======= Presentation control =======-->
-  <div id="control-block">
-    
-    <div id="knowledge-block" class="row g-2 mt-0 mb-2">
-      <div class="col">
-        <button onclick="" class="btn btn-outline-primary btn-lg py-4 w-100">
-          Знаю
-        </button>
-      </div>
-      <div class="col">
-        <button onclick="" class="btn btn-outline-primary btn-lg py-4 w-100">
-          Не знаю
-        </button>
-      </div>
+    <div class="card-body" style="height: 150px; overflow-y: auto">
+      <div id="answer" class="invisible fs-1">{{ explanation }}</div>
     </div>
+  </div>
 
-    <div id="manage-block" class="row g-2">
-      <div class="col">
-        <button onclick="" class="btn btn-outline-primary btn-lg py-4 w-100">
-          Следующий вопрос
-        </button>
-      </div>
-      <div class="col">
-        <button onclick="showAnswer()" class="btn btn-outline-primary btn-lg py-4 w-100">
-          Показать
-        </button>
-      </div>
-      <div class="col">
-        <button onclick="" class="btn btn-outline-primary btn-lg py-4 w-100">
-          Пауза
-        </button>
-      </div>
+  <div id="info-block" class="card">
+    <div class="card-header pb-0">
+      <h3 class="h4">Информация:</h3>
+    </div>
+    <div class="card-body" style="height: 150px; overflow-y: auto">
+      <div id="info" class="fs-4">{{ task.info }}</div>
     </div>
   </div>
 </div>
