@@ -23,6 +23,7 @@ class EnglishTranslationStudyView(generic.TemplateView):
 
 
 # TODO: Fix type ignore
+# TODO: Implement retrieval of presentation user settings from database
 @inject
 @login_required
 def english_translation_case_htmx_view(
@@ -35,8 +36,17 @@ def english_translation_case_htmx_view(
     parameters = request.GET.get('parameters', {})  # type: ignore[var-annotated]
     user = request.user
 
+    case = service.get_presentation_case(user, parameters)  # type: ignore[arg-type]
+
     html = render_to_string(
         template_name='lang/presentation/partial.html',
-        context=service.get_presentation_case(user, parameters),  # type: ignore[arg-type]
+        context={
+            **case,
+            'task': {
+                'url': '/lang/translation/english/study/case/',
+                'presentation_timeout': 4000,
+                'answer_timeout': 2000,
+            },
+        },
     )
     return HttpResponse(html)
