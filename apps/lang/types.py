@@ -51,15 +51,6 @@ class ProgressEdge(TypedDict):
     know: int
 
 
-class ProgressPhase(TypedDict):
-    """Study progress phase type."""
-
-    is_study: bool
-    is_repeat: bool
-    is_examine: bool
-    is_know: bool
-
-
 # Translation
 # -----------
 
@@ -83,6 +74,14 @@ class TranslationMeta(TypedDict):
     start_period: IdName | None
     end_period: IdName | None
 
+
+class ProgressPhase(TypedDict):
+    """Study progress phase type."""
+
+    is_study: bool
+    is_repeat: bool
+    is_examine: bool
+    is_know: bool
 
 class TranslationSettings(TypedDict):
     """Translation settings type."""
