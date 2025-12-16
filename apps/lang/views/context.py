@@ -1,6 +1,11 @@
 """Language view context."""
 
-from typing import Any, TypedDict
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any, TypedDict
+
+if TYPE_CHECKING:
+    pass
 
 
 class ViewContext(TypedDict):
@@ -50,7 +55,11 @@ ENGLISH_TRANSLATION: TranslationContext = {
         'title': 'Изучение английских слов',
         'header': 'Изучение английских слов',
         'task': {
-            'task_path': '/lang/translation/english/study/case/',
+            # TODO: Use reverse
+            'url': '/lang/translation/english/study/case/',
+            'progress_url': '/api/v1/lang/study/progress/',
+            'presentation_timeout': 4000,
+            'answer_timeout': 2000,
         },
     },
 }
