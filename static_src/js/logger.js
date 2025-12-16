@@ -37,17 +37,17 @@
  */
 
 const isLocal =
-  window.location.hostname.includes("localhost") ||
-  window.location.hostname.includes("127.0.0.1");
+  window.location.hostname.includes('localhost') ||
+  window.location.hostname.includes('127.0.0.1');
 
 // Helper function to format timestamp
 const getTimestamp = () => {
   const now = new Date();
-  return now.toLocaleTimeString("en-US", {
+  return now.toLocaleTimeString('en-US', {
     hour12: false,
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
     fractionalSecondDigits: 3,
   });
 };
@@ -60,7 +60,7 @@ window.appLogger = {
    */
   log: (...args) =>
     (window._forceLogs || isLocal) &&
-    console.log(`[${getTimestamp()}]`, "[LOG]", ...args),
+    console.log(`[${getTimestamp()}]`, '[LOG]', ...args),
 
   /**
    * Debug log (console.debug equivalent)
@@ -69,7 +69,7 @@ window.appLogger = {
    */
   debug: (...args) =>
     (window._forceLogs || isLocal) &&
-    console.debug(`[${getTimestamp()}]`, "[DEBUG]", ...args),
+    console.debug(`[${getTimestamp()}]`, '[DEBUG]', ...args),
 
   /**
    * Info messages (console.info equivalent)
@@ -78,7 +78,7 @@ window.appLogger = {
    */
   info: (...args) =>
     (window._forceLogs || isLocal) &&
-    console.info(`[${getTimestamp()}]`, "[INFO]", ...args),
+    console.info(`[${getTimestamp()}]`, '[INFO]', ...args),
 
   /**
    * Warnings (console.warn equivalent)
@@ -87,14 +87,14 @@ window.appLogger = {
    */
   warn: (...args) =>
     (window._forceLogs || isLocal) &&
-    console.warn(`[${getTimestamp()}]`, "[WARN]", ...args),
+    console.warn(`[${getTimestamp()}]`, '[WARN]', ...args),
 
   /**
    * Critical errors (console.error equivalent)
    * Shown ALWAYS, even in production
    * Includes timestamp
    */
-  error: (...args) => console.error(`[${getTimestamp()}]`, "[ERROR]", ...args),
+  error: (...args) => console.error(`[${getTimestamp()}]`, '[ERROR]', ...args),
 
   /**
    * Log grouping (only on localhost)
@@ -120,7 +120,7 @@ window.appLogger = {
     if (force !== null) {
       window._forceLogs = force;
       console.log(
-        `[${getTimestamp()}] 🔍 Logging ${force ? "ENABLED" : "DISABLED"}`,
+        `[${getTimestamp()}] 🔍 Logging ${force ? 'ENABLED' : 'DISABLED'}`,
       );
     }
     return window._forceLogs || isLocal;
@@ -131,9 +131,9 @@ window.appLogger = {
    * @returns {string} 'local', 'production', or 'forced'
    */
   status: () => {
-    if (window._forceLogs) return "forced";
-    if (isLocal) return "local";
-    return "production";
+    if (window._forceLogs) return 'forced';
+    if (isLocal) return 'local';
+    return 'production';
   },
 
   /**
@@ -155,7 +155,7 @@ window.appLogger = {
 };
 
 // Auto-enable if localStorage flag is set
-if (localStorage.getItem("debug_logs") === "true") {
+if (localStorage.getItem('debug_logs') === 'true') {
   window._forceLogs = true;
   console.log(`[${getTimestamp()}] 🔍 Forced logging enabled via localStorage`);
 }
