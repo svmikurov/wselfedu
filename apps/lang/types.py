@@ -83,6 +83,7 @@ class ProgressPhase(TypedDict):
     is_examine: bool
     is_know: bool
 
+
 class TranslationSettings(TypedDict):
     """Translation settings type."""
 
@@ -141,7 +142,7 @@ class SetStudyParameters(
 # ----------------------------
 
 
-class CaseUUIDType(TypedDict):
+class CaseUUID(TypedDict):
     """Case UUID typed dict."""
 
     case_uuid: uuid.UUID
@@ -169,7 +170,7 @@ class PresentationDataT(
 
 
 class PresentationCaseT(
-    CaseUUIDType,
+    CaseUUID,
     PresentationDataT,
 ):
     """Word study Presentation case typed dict."""
@@ -179,7 +180,7 @@ class PresentationCaseT(
 # --------------------------------
 
 
-class ProgressCase(CaseUUIDType):
+class ProgressCase(CaseUUID):
     """Word study progress case type."""
 
     is_known: bool
