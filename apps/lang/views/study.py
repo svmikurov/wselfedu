@@ -1,29 +1,35 @@
 """English translation study view."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
+
 from dependency_injector.wiring import Provide, inject
 from django.contrib.auth.decorators import login_required
-from django.http.request import HttpRequest
-from django.http.response import (
-    HttpResponse,
-)
+from django.http.response import HttpResponse
 from django.template.loader import render_to_string
 from django.views import generic
+from rest_framework.renderers import JSONRenderer
 
+from apps.lang.api.v1 import serializers
 from di import MainContainer
 
-from .. import services
-from . import context
+from .context import ENGLISH_TRANSLATION
+
+if TYPE_CHECKING:
+    from django.http.request import HttpRequest
+
+    from .. import services, types
 
 
 class EnglishTranslationStudyView(generic.TemplateView):
     """English translation study view."""
 
-    template_name = 'lang/translation_study.html'
-    extra_context = context.ENGLISH_TRANSLATION['english_study']
+    template_name = 'lang/study/main.html'
+    extra_context = ENGLISH_TRANSLATION['english_study']
 
 
 # TODO: Fix type ignore
-# TODO: Implement retrieval of presentation user settings from database
 @inject
 @login_required
 def english_translation_case_htmx_view(
@@ -35,18 +41,30 @@ def english_translation_case_htmx_view(
     """Render translation case as partial template for HTMX request."""
     parameters = request.GET.get('parameters', {})  # type: ignore[var-annotated]
     user = request.user
-
     case = service.get_presentation_case(user, parameters)  # type: ignore[arg-type]
 
-    html = render_to_string(
-        template_name='lang/presentation/partial.html',
-        context={
-            **case,
-            'task': {
-                'url': '/lang/translation/english/study/case/',
-                'presentation_timeout': 4000,
-                'answer_timeout': 2000,
-            },
+    context: dict[str, Any] = {
+        **case,
+        'task': {
+            # TODO: Implement retrieve presentation settings form DB
+            **ENGLISH_TRANSLATION['english_study'],
+            'known': to_progress_payload(case, True),
+            'unknown': to_progress_payload(case, False),
         },
-    )
-    return HttpResponse(html)
+    }
+
+    case_html = render_to_string('lang/study/_case.html', context)
+    mark_html = render_to_string('lang/study/_mark_bar.html', context)
+
+    combined_html = f'{case_html}\n{mark_html}'
+    return HttpResponse(combined_html)
+
+
+def to_progress_payload(
+    case: types.CaseUUID, is_known: bool
+) -> dict[str, str | bool]:
+    """Build payload for study progress update request."""
+    data = {'case_uuid': case['case_uuid'], 'is_known': is_known}
+    serializer = serializers.WordStudyProgressSerializer(data=data)
+    serializer.is_valid()
+    return JSONRenderer().render(serializer.validated_data).decode('utf-8')  # type: ignore[no-any-return]
