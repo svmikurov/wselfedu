@@ -85,9 +85,6 @@ class TestUpdate:
 
         updated_data = repositories.WordStudyParametersRepository().fetch(user)
 
-        print(f'\n{to_update = }')
-        print(f'\n{payload = }')
-
         assert to_update.items() <= updated_data.items()
         assert to_update.items() <= response.data.items()
 
