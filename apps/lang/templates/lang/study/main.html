@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% load static %} 
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container p-0">
+  <h1>{{ header }}</h1>
+
+  {% include 'lang/study/_settings.html' %}
+
+  <div id="presentation-block">
+    {% include 'lang/study/_case.html' %}
+    {% include 'lang/study/_mark_bar.html' %}
+  </div>
+
+  {% include 'lang/study/control_bar.html' %}
+
+</div>
+{% endblock %}
+
+{% block script %}
+<script
+  type="module"
+  src="{% static 'js/lang/study/index.js' %}"
+></script>
+{% endblock %}

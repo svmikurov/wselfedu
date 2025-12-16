@@ -1,0 +1,33 @@
+<!--======= Mark translation =======-->
+<div id="knowledge-block" class="row g-2 mt-0 mb-2">
+  <div class="col">
+    <button
+        id="known-button"
+        class="btn btn-outline-primary btn-lg py-4 w-100"
+        hx-post="/api/v1/lang/study/progress/"
+        hx-vals="{{ task.known }}"
+        hx-trigger="click"
+        hx-on:htmx:after-request="
+          event.detail.successful 
+            ? appLogger.info('Progress updated') 
+            : appLogger.error('Progress not updated')"
+    >
+        Знаю
+    </button>
+  </div>
+  <div class="col">
+    <button
+        id="unknown-button"
+        class="btn btn-outline-primary btn-lg py-4 w-100"
+        hx-post="/api/v1/lang/study/progress/"
+        hx-vals="{{ task.unknown }}"
+        hx-trigger="click"
+        hx-on:htmx:after-request="
+          event.detail.successful 
+            ? appLogger.info('Progress updated') 
+            : appLogger.error('Progress not updated')"
+    >
+        Не знаю
+    </button>
+  </div>
+</div><!-- End Mark translation -->
