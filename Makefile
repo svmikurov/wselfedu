@@ -40,6 +40,10 @@ format:
 mypy:
 	mypy .
 
+js-style:
+	npx prettier --check static_src/js/ --write && \
+	npx eslint static_src/js/ --fix
+
 # Pytest
 pytest:
 	pytest
