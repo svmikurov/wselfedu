@@ -1,0 +1,24 @@
+<div class="d-flex align-items-center switch-field pb-2">
+    <div class="switch-wrapper me-3">
+        <div class="form-check form-switch">
+            {{ field }}
+        </div>
+    </div>
+    
+    {% if field.help_text %}
+    <div class="switch-help flex-grow-1">
+        <span class="text-muted fs-6">{{ field.help_text }}</span>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.switch-lg {
+    height: 2rem !important;
+    width: 4rem !important;
+}
+
+.switch-lg:checked::after {
+    transform: translateX(2.5rem) !important;
+}
+</style>
