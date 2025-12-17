@@ -1,4 +1,4 @@
-"""Core mixins.""" """Check user authentication a view mixins."""
+"""Check user authentication a view mixins."""
 
 from __future__ import annotations
 
@@ -8,9 +8,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import models
 from django.db.models.query import QuerySet
 
-ObjectT = TypeVar('ObjectT', bound=models.Model)
-
 from apps.users.models import Person
+
+ObjectT = TypeVar('ObjectT', bound=models.Model)
 
 
 class UserRequestMixin:
