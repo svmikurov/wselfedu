@@ -63,4 +63,12 @@ urlpatterns = [
         views.english_translation_case_htmx_view,
         name='translation_english_study_case',
     ),
+    # --------------
+    # Study settings
+    # --------------
+    path(
+        'settings/',
+        views.study_settings_vew,
+        name='settings',
+    ),
 ]
