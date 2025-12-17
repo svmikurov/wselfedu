@@ -22,7 +22,11 @@ from apps.lang import types
 from .category import LangCategory
 from .exercise import LangExercise
 from .mark import LangMark
-from .parameters import Parameters, PresentationSettings, TranslationSetting
+from .parameters import (
+    Parameters,
+    PresentationSettings,
+    TranslationSetting,
+)
 from .progress import EnglishProgress
 from .translation import EnglishTranslation
 from .word import EnglishWord, NativeWord
