@@ -1,50 +1,41 @@
 <!DOCTYPE html>
-
 {% load static %}
 {% load django_bootstrap5 %}
-{% bootstrap_css %}
 {% load django_htmx %}
 
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}{% endblock %}</title>
   {% bootstrap_css %}
-  {% bootstrap_javascript %}
-  {% htmx_script minified=False %}
-  {% block styles %}{% endblock %}
   <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
-  <style>
-      .fa-icon {
-          font-size: 1.2em;
-          margin: 0 5px;
-      }
-      .fa-trash { color: #dc3545; }
-      .fa-edit { color: #0d6efd; }
-  </style>
+  <link rel="stylesheet" href="{% static 'css/icons.css' %}">
+  <link rel="icon" href="{% static 'favicon.ico' %}">
+  {% block extra_css %}{% endblock %}
+  {% block meta %}{% endblock %}
+  {% block styles %}{% endblock %}
 </head>
 
 <body hx-headers='{"x-csrftoken": "{{ csrf_token }}"}'>
+  {% htmx_script minified=True %} 
+
+  {% include 'components/messages.html' %}
+    
+  <!--======= Header =======-->
   <header class="">
     <!--======= Navigation =======-->
     {% include 'components/navbar.html' %}
     <!-- End Navigation -->
-  </header>
+  </header><!-- End Header -->
 
-  <div class="container-xl">
-    <!--======= Django Messages =======-->
-    <section>
-      {% bootstrap_messages %}
-    </section><!-- End Django Messages -->
-    <!--======= Content =======-->
-    <main>
-      {% block content %}{% endblock %}
-    </main><!-- End Content -->
-  </div>
+  <!--======= Content =======-->
+  <main class="container-xl">
+  {% block content %}{% endblock %}
+  </main><!-- End Content -->
 
   <!--======= Scripts =======-->
+  {% bootstrap_javascript %}
   <script type="module" src="{% static 'js/logger.js' %}"></script>
   {% block script %}{% endblock script %}<!-- End Scripts -->
 </body>
