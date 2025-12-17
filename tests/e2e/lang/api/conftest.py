@@ -42,6 +42,6 @@ def public_parameters(
         'is_know': False,
         # Set parameter
         'word_count': None,
-        'question_timeout': None,
-        'answer_timeout': None,
+        'question_timeout': 3,
+        'answer_timeout': 3,
     }
