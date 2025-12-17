@@ -126,8 +126,8 @@ TRANSLATION_SETTINGS: Final[types.TranslationSettings] = {
 }
 
 PRESENTATION_SETTINGS: Final[types.PresentationSettings] = {
-    'question_timeout': 2.0,
-    'answer_timeout': 2.5,
+    'question_timeout': 2,
+    'answer_timeout': 5,
 }
 
 TRANSLATION_CASE_PARAMETERS: Final[types.WordParameters] = {

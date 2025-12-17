@@ -40,5 +40,5 @@ class PresentationSettingsSerializer(
 ):
     """Presentation settings serializer."""
 
-    question_timeout = serializers.FloatField(allow_null=True)
-    answer_timeout = serializers.FloatField(allow_null=True)
+    question_timeout = serializers.IntegerField(allow_null=True)
+    answer_timeout = serializers.IntegerField(allow_null=True)

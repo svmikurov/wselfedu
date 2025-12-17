@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Literal, TypeAlias
+from typing import TYPE_CHECKING, Final, Literal, TypeAlias
 
 from django.contrib.auth import get_user_model
 from django.core import validators
@@ -24,7 +24,7 @@ OptionT: TypeAlias = Literal[
 class Parameters(models.Model):
     """Word study parameters model."""
 
-    DEFAULTS: dict[ProgressT, bool] = {
+    DEFAULTS: Final[dict[ProgressT, bool]] = {
         'is_study': True,
         'is_repeat': True,
         'is_examine': True,
@@ -83,35 +83,34 @@ class Parameters(models.Model):
         blank=True,
         null=True,
         verbose_name='Вариант прогресса',
-        help_text='Вариант применяемого прогресса для изучения',
     )
     is_study = models.BooleanField(
         blank=True,
         null=True,
         default=DEFAULTS['is_study'],
         verbose_name='Изучаю',
-        help_text='Показывать слова для изучения',
+        help_text='Выбрать слова для изучения',
     )
     is_repeat = models.BooleanField(
         blank=True,
         null=True,
         default=DEFAULTS['is_repeat'],
         verbose_name='Повторяю',
-        help_text='Показывать слова для повторения',
+        help_text='Выбрать слова для повторения',
     )
     is_examine = models.BooleanField(
         blank=True,
         null=True,
         default=DEFAULTS['is_examine'],
         verbose_name='Проверяю',
-        help_text='Показывать слова для проверки',
+        help_text='Выбрать слова для проверки',
     )
     is_know = models.BooleanField(
         blank=True,
         null=True,
         default=DEFAULTS['is_know'],
         verbose_name='Знаю',
-        help_text='Показывать изученные слова',
+        help_text='Выбрать выученные слова',
     )
 
     created_at = models.DateTimeField(
@@ -197,7 +196,6 @@ class TranslationSetting(models.Model):
         choices=TranslateChoices.choices,
         default=TranslateChoices.TO_NATIVE,
         verbose_name='Порядок перевода',
-        help_text='Направление перевода при изучении слов',
     )
     word_count = models.PositiveSmallIntegerField(
         null=True,
@@ -251,6 +249,10 @@ class TranslationSetting(models.Model):
 class PresentationSettings(models.Model):
     """Presentation settings model."""
 
+    MIN_TIMEOUT: Final[int] = 1
+    DEFAULT_TIMEOUT: Final[int] = 3
+    MAX_TIMEOUT: Final[int] = 300
+
     user = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
@@ -258,27 +260,27 @@ class PresentationSettings(models.Model):
         related_name='user_presentation_settings',
     )
 
-    question_timeout = models.FloatField(
+    question_timeout = models.PositiveSmallIntegerField(
         blank=True,
         null=True,
+        default=DEFAULT_TIMEOUT,
         validators=[
-            validators.MinValueValidator(
-                0,
-                message='Время не может быть отрицательным',
-            ),
+            validators.MinValueValidator(MIN_TIMEOUT),
+            validators.MaxValueValidator(MAX_TIMEOUT),
         ],
         verbose_name='Время для вопроса (сек)',
+        help_text=f'От {MIN_TIMEOUT} до {MAX_TIMEOUT} секунд',
     )
-    answer_timeout = models.FloatField(
+    answer_timeout = models.PositiveSmallIntegerField(
         blank=True,
         null=True,
+        default=DEFAULT_TIMEOUT,
         validators=[
-            validators.MinValueValidator(
-                0,
-                message='Время не может быть отрицательным',
-            ),
+            validators.MinValueValidator(MIN_TIMEOUT),
+            validators.MaxValueValidator(MAX_TIMEOUT),
         ],
         verbose_name='Время для ответа (сек)',
+        help_text=f'От {MIN_TIMEOUT} до {MAX_TIMEOUT} секунд',
     )
 
     created_at = models.DateTimeField(

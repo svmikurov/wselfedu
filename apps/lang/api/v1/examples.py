@@ -35,8 +35,8 @@ SET_WORD_STUDY_PARAMETERS_DATA: types.SetStudyParameters = {
     'is_examine': True,
     'is_know': False,
     'word_count': 90,
-    'question_timeout': 2.0,
-    'answer_timeout': 2.5,
+    'question_timeout': 3,
+    'answer_timeout': 5,
 }
 
 WORD_STUDY_PARAMETERS_DATA: types.WordParameters = {
