@@ -1,4 +1,6 @@
-"""Check user authentication a view mixins."""
+"""Core mixins.""" """Check user authentication a view mixins."""
+
+from __future__ import annotations
 
 from typing import Generic, TypeVar
 
@@ -8,8 +10,29 @@ from django.db.models.query import QuerySet
 
 ObjectT = TypeVar('ObjectT', bound=models.Model)
 
+from apps.users.models import Person
+
+
+class UserRequestMixin:
+    """Provides the user who sent the request."""
+
+    @property
+    def user(self) -> Person:
+        """Get user who sent the request."""
+        if not isinstance(self.request.user, Person):  # type: ignore[attr-defined]
+            raise TypeError('User type error')
+        return self.request.user  # type: ignore[attr-defined]
+
+
+class OwnerMixin:
+    """Provides object owner."""
+
+    def _get_owner(self) -> Person:
+        return self.get_object().user  # type: ignore[no-any-return, attr-defined]
+
 
 class OwnershipRequiredMixin(
+    UserRequestMixin,
     LoginRequiredMixin,
     UserPassesTestMixin,
     Generic[ObjectT],
@@ -29,4 +52,4 @@ class OwnershipRequiredMixin(
 
     def test_func(self) -> bool:
         """Check that user is object owner."""
-        return bool(self.request.user == self.get_object().user)  # type: ignore[attr-defined]
+        return bool(self.user == self.get_object().user)  # type: ignore[attr-defined]

@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django_filters import views as filter_views
 
-from apps.core.generic.views import auth, htmx
+from apps.core.views import auth, htmx
 
 from .. import filters, forms, models
 from . import context, mixins

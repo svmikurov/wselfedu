@@ -1,1 +1,0 @@
-"""Contains custom generic components."""

@@ -10,12 +10,7 @@ from django.views.generic import DeleteView
 
 from apps.users.models import Person
 
-
-class OwnerMixin:
-    """Mixin provides object owner."""
-
-    def _get_owner(self) -> Person:
-        return self.get_object().user  # type: ignore[no-any-return, attr-defined]
+from . import OwnerMixin
 
 
 class HtmxDeleteView(

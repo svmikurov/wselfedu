@@ -7,7 +7,7 @@ from django.http.response import HttpResponse
 from django.urls import reverse_lazy
 from django.views import generic
 
-from apps.core.generic.views.auth import OwnershipRequiredMixin
+from apps.core.views.auth import OwnershipRequiredMixin
 from apps.users.models import Person
 
 from ..forms import TermForm
