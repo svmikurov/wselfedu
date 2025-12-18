@@ -98,7 +98,7 @@ class EnglishPresentation(PresentationABC):
             'definition': translation_data.english.word,
             'explanation': translation_data.native.word,
             'info': {
-                'progress': translation_data.user_progress,
+                'progress': translation_data.user_progress or 0,
             },
         }
         return data
