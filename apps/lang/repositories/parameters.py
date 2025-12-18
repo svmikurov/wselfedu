@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, Any, Literal, TypeAlias, override
 
 from django.db import transaction
 from django.db.models import QuerySet
+from django.forms.models import model_to_dict
 from django.urls import reverse
 
 from apps.core import models as models_core
@@ -177,8 +178,20 @@ class WordStudyParametersRepository(WordStudyParamsRepositoryABC):
             'url': reverse('lang:translation_english_study_case'),
             'progress_url': '/api/v1/lang/study/progress/',
         }
+        translation_parameters_q = models.Parameters.objects.filter(
+            user=user
+        ).first()
+        translation_parameters = (
+            model_to_dict(translation_parameters_q)
+            if translation_parameters_q
+            else {}
+        )
         presentation_settings = models.PresentationSettings.get_settings(user)
-        task_settings = {**urls, **presentation_settings}
+        task_settings = {
+            **urls,
+            **translation_parameters,
+            **presentation_settings,
+        }
         return task_settings
 
     @staticmethod
