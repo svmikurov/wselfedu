@@ -16,6 +16,10 @@ let questionTimer = null;
 let answerTimer = null;
 let isPaused = false;
 
+// Constants
+const SECONDS_TO_MS = 1000;
+const DEFAULT_TIMEOUT = 3; 
+
 /**
  * Updates to the next question.
  * Clears timers, resets UI state, and fetches new presentation case via HTMX.
@@ -24,15 +28,13 @@ let isPaused = false;
 export function updateQuestion() {
   const parameters = getParameters();
 
-  // Reset time management
+  // Reset state
   resetPause();
   clearTimers();
-
-  // Reset presentation widget state
   hideAnswer();
   updatePauseButtonText();
 
-  // Request presentation case
+  // Request bew case
   htmx
     .ajax('GET', parameters.url, SELECTORS.PRESENTATION_BLOCK)
     .catch((error) => {
@@ -64,6 +66,18 @@ export function skipToNext() {
 }
 
 /**
+ * Safely gets timeout value with fallback.
+ * @param {number} timeout - Timeout in seconds
+ * @returns {number} Timeout in milliseconds
+ */
+function getTimeoutMs(timeout) {
+  const value = Number(timeout);
+  return (!isNaN(value) && value > 0) 
+    ? value * SECONDS_TO_MS 
+    : DEFAULT_TIMEOUT * SECONDS_TO_MS;
+}
+
+/**
  * Sets timers for question and answer display sequence.
  * Uses questionTimeout for question, answerTimeout for answer.
  * Resets pause state and updates UI controls.
@@ -78,17 +92,19 @@ export function setTimers() {
   updatePauseButtonText();
 
   try {
+    const questionTimeoutMs = getTimeoutMs(parameters?.questionTimeout);
+    
     questionTimer = setTimeout(() => {
       showAnswer();
       startAnswerTimer();
-    }, parameters.questionTimeout);
+    }, questionTimeoutMs);
+    
+    console.log(`Timers set: question=${questionTimeoutMs}ms`);
   } catch (error) {
-    appLogger.error('Failed to set timers:', error);
+    console.error('Failed to set timers:', error);
     clearTimers();
     throw error;
   }
-
-  appLogger.log('Start timers');
 }
 
 /**
@@ -98,7 +114,10 @@ export function setTimers() {
  */
 function startAnswerTimer() {
   const parameters = getParameters();
-  answerTimer = setTimeout(updateQuestion, parameters.answerTimeout);
+  const answerTimeoutMs = getTimeoutMs(parameters?.answerTimeout);
+  
+  answerTimer = setTimeout(updateQuestion, answerTimeoutMs);
+  console.log(`Answer timer: ${answerTimeoutMs}ms`);
 }
 
 /**

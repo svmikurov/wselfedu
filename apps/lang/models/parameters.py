@@ -11,6 +11,8 @@ from django.db import models
 from apps.core.models import Period, Source
 
 if TYPE_CHECKING:
+    from apps.users.models import Person
+
     from .. import types
 
 ProgressT: TypeAlias = Literal[
@@ -307,3 +309,19 @@ class PresentationSettings(models.Model):
                 name='lang_presentation_settings_unique_user_name',
             ),
         ]
+
+    @classmethod
+    def get_settings(cls, user: Person) -> types.PresentationSettings:
+        """Get user presentation settings or return defaults."""
+        try:
+            settings = cls.objects.get(user=user)
+        except cls.DoesNotExist:
+            return {
+                'question_timeout': cls.DEFAULT_TIMEOUT,
+                'answer_timeout': cls.DEFAULT_TIMEOUT,
+            }
+        else:
+            return {
+                'question_timeout': settings.question_timeout,
+                'answer_timeout': settings.answer_timeout,
+            }

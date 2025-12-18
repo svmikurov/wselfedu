@@ -1,8 +1,8 @@
-"""Language view context."""
+"""Language discipline view context data."""
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, TypedDict
+from typing import TYPE_CHECKING, TypedDict
 
 if TYPE_CHECKING:
     pass
@@ -23,8 +23,6 @@ class SubmitViewContext(ViewContext):
 
 class PresentationViewContext(ViewContext):
     """View context with submit text."""
-
-    task: dict[str, Any]
 
 
 class TranslationContext(TypedDict):
@@ -59,12 +57,5 @@ ENGLISH_TRANSLATION: TranslationContext = {
     'english_study': {
         'title': 'Изучение английских слов',
         'header': 'Изучение английских слов',
-        'task': {
-            # TODO: Use reverse
-            'url': '/lang/translation/english/study/case/',
-            'progress_url': '/api/v1/lang/study/progress/',
-            'presentation_timeout': 4000,
-            'answer_timeout': 2000,
-        },
     },
 }

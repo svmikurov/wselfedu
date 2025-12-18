@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Literal, TypeAlias, override
+from typing import TYPE_CHECKING, Any, Literal, TypeAlias, override
 
 from django.db import transaction
 from django.db.models import QuerySet
+from django.urls import reverse
 
 from apps.core import models as models_core
 from apps.lang import models, types
@@ -167,6 +168,18 @@ class WordStudyParametersRepository(WordStudyParamsRepositoryABC):
             )
         )
         return self.fetch(user)
+
+    @override
+    def get_task_settings(self, user: Person) -> dict[str, Any]:
+        """Get study settings for presentation case."""
+        # TODO: Refactor, relocate path declaration
+        urls = {
+            'url': reverse('lang:translation_english_study_case'),
+            'progress_url': '/api/v1/lang/study/progress/',
+        }
+        presentation_settings = models.PresentationSettings.get_settings(user)
+        task_settings = {**urls, **presentation_settings}
+        return task_settings
 
     @staticmethod
     def _get_identifier(
