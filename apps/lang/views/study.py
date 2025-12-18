@@ -8,13 +8,12 @@ from dependency_injector.wiring import Provide, inject
 from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponse
 from django.template.loader import render_to_string
-from django.views import generic
 from rest_framework.renderers import JSONRenderer
 
 from apps.lang.api.v1 import serializers
 from di import MainContainer
 
-from . import _data
+from . import _data, base
 
 if TYPE_CHECKING:
     from django.http.request import HttpRequest
@@ -22,11 +21,17 @@ if TYPE_CHECKING:
     from .. import services, types
 
 
-class EnglishTranslationStudyView(generic.TemplateView):
+class EnglishTranslationStudyView(base.SettingsRepositoryBaseView):
     """English translation study view."""
 
     template_name = 'lang/study/index.html'
     extra_context = _data.ENGLISH_TRANSLATION['english_study']
+
+    def get_context_data(self, **kwargs: dict[str, Any]) -> dict[str, Any]:
+        """Add study settings to context."""
+        context = super().get_context_data(**kwargs)
+        context['task'] = self.repository.get_task_settings(self.user)
+        return context
 
 
 # TODO: Fix type ignore
