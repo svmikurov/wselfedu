@@ -1,0 +1,27 @@
+/* Presentation card */
+
+.presentation-card {
+    margin-bottom: 0.25rem;     /* mb-1 equivalent */
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.375rem;    /* Bootstrap default */
+    background-color: #fff;
+}
+
+.presentation-card-header {
+    padding: 0.4rem 1rem 0rem 1rem;
+    background-color: rgba(0,0,0,.03);
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    font-size: 1.125rem;        /* Base font size in rem */
+    line-height: 1.2;           /* Base line height */
+}
+
+.presentation-card-body {
+    height: 140px;              /* Fixed height in pixels */
+    padding: 0.4rem 1rem;       /* Inner spacing */
+    overflow-y: auto;           /* Vertical scroll if content overflows */
+}
+
+.presentation-card-content {
+    font-size: 2.5rem;          /* Large text size in rem */
+    line-height: 1.2;           /* Line spacing for large text */
+}
