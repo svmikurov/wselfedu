@@ -85,6 +85,7 @@ def study_settings_vew(request: HttpRequest) -> HttpResponse:
         'translation_formset': translation_formset,
         'presentation_formset': presentation_formset,
         'title': 'Настройки изучения',
+        'header': 'Настройки изучения',
     }
 
     return render(request, 'lang/settings/index.html', context)
