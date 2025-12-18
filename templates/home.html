@@ -1,8 +1,29 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}WSE Главная{% endblock %}
+{% block title %}Главная - WSE Образовательный проект{% endblock %}
+
+{% block description %}
+Бесплатная платформа для изучения иностранных языков и профессиональной терминологии.
+Начните обучение прямо сейчас!
+{% endblock %}
 
 {% block content %}
-<h1>Образовательный проект</h1>
+<div class="container p-0">
+  <h1 class="mt-4 mb-5 text-center">Образовательный проект</h1>
+
+  <div class="row g-4">
+    <div class="col-12 col-md-6">
+      <a href="{% url 'lang:index' %}" class="btn btn-outline-primary btn-huge">
+        Изучение языков
+      </a>
+    </div>
+    <div class="col-12 col-md-6">
+      <a href="{% url 'glossary:index' %}" class="btn btn-outline-primary btn-huge">
+        Изучение терминов
+      </a>
+    </div>
+  </div>
+
+</div>
 {% endblock %}
