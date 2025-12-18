@@ -8,6 +8,53 @@ app_name = 'lang'
 
 urlpatterns = [
     path('', views.IndexLangView.as_view(), name='index'),
+    # -----------
+    # Translation
+    # -----------
+    path(
+        'translation/english/create/',
+        views.EnglishTranslationCreateView.as_view(),
+        name='translation_english_create',
+    ),
+    path(
+        'translation/english/list/',
+        views.EnglishTranslationListView.as_view(),
+        name='translation_english_list',
+    ),
+    path(
+        'translation/english/<int:pk>/update/',
+        views.EnglishTranslationUpdateView.as_view(),
+        name='translation_english_update',
+    ),
+    path(
+        'translation/english/<int:pk>/delete/',
+        views.EnglishTranslationDeleteView.as_view(),
+        name='translation_english_delete',
+    ),
+    # -----------------
+    # Translation study
+    # -----------------
+    path(
+        'translation/english/study/',
+        views.EnglishTranslationStudyView.as_view(),
+        name='translation_english_study',
+    ),
+    path(
+        'translation/english/study/case/',
+        views.english_translation_case_htmx_view,
+        name='translation_english_study_case',
+    ),
+    # --------------
+    # Study settings
+    # --------------
+    path(
+        'settings/',
+        views.study_settings_vew,
+        name='settings',
+    ),
+    # ----
+    # Mark
+    # ----
     path(
         'mark/create/',
         views.MarkCreateView.as_view(),
@@ -32,43 +79,5 @@ urlpatterns = [
         'mark/list/',
         views.LabelListView.as_view(),
         name='mark_list',
-    ),
-    path(
-        'translation/english/create/',
-        views.EnglishTranslationCreateView.as_view(),
-        name='translation_english_create',
-    ),
-    path(
-        'translation/english/list/',
-        views.EnglishTranslationListView.as_view(),
-        name='translation_english_list',
-    ),
-    path(
-        'translation/english/<int:pk>/update/',
-        views.EnglishTranslationUpdateView.as_view(),
-        name='translation_english_update',
-    ),
-    path(
-        'translation/english/<int:pk>/delete/',
-        views.EnglishTranslationDeleteView.as_view(),
-        name='translation_english_delete',
-    ),
-    path(
-        'translation/english/study/',
-        views.EnglishTranslationStudyView.as_view(),
-        name='translation_english_study',
-    ),
-    path(
-        'translation/english/study/case/',
-        views.english_translation_case_htmx_view,
-        name='translation_english_study_case',
-    ),
-    # --------------
-    # Study settings
-    # --------------
-    path(
-        'settings/',
-        views.study_settings_vew,
-        name='settings',
     ),
 ]
