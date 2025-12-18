@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from dependency_injector.wiring import Provide, inject
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 
 from apps.core import views as core_views
@@ -17,11 +18,12 @@ if TYPE_CHECKING:
     from django.http.response import HttpResponseBase
 
 
-class SettingsRepositoryBaseView(
+class SettingsBaseView(
     core_views.UserRequestMixin,
+    LoginRequiredMixin,
     generic.TemplateView,
 ):
-    """Settings repository base view."""
+    """Settings base view."""
 
     _repository: repos.WordStudyParamsRepositoryABC | None = None
 

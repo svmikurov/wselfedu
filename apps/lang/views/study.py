@@ -24,7 +24,7 @@ if TYPE_CHECKING:
     from .. import services, types
 
 
-class EnglishTranslationStudyView(base.SettingsRepositoryBaseView):
+class EnglishTranslationStudyView(base.SettingsBaseView):
     """English translation study view."""
 
     template_name = 'lang/study/index.html'
