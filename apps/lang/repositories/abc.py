@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
@@ -66,6 +66,10 @@ class WordStudyParamsRepositoryABC(ABC):
         data: types.WordParameters,
     ) -> types.SetStudyParameters:
         """Update initial parameters."""
+
+    @abstractmethod
+    def get_task_settings(self, user: Person) -> dict[str, Any]:
+        """Get task settings."""
 
 
 class TranslationRepoABC(ABC):

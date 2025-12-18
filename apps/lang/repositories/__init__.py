@@ -3,6 +3,8 @@
 __all__ = [
     # ABC
     'PresentationABC',
+    'TranslationRepoABC',
+    'WordStudyParamsRepositoryABC',
     # Implementation
     'TranslationRepository',
     'WordStudyParametersRepository',
@@ -11,7 +13,11 @@ __all__ = [
     'TranslationRepository',
 ]
 
-from .abc import PresentationABC
+from .abc import (
+    PresentationABC,
+    TranslationRepoABC,
+    WordStudyParamsRepositoryABC,
+)
 from .parameters import WordStudyParametersRepository
 from .presentation import EnglishPresentation
 from .progress import Progress
