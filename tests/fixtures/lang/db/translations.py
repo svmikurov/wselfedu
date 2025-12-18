@@ -7,7 +7,7 @@ import pytest
 from apps.core import models as models_core
 from apps.lang import models, types
 from apps.users.models import Person
-from tests.fixtures.lang.no_db import translation as fixtures
+from tests.fixtures.lang.no_db import translations as fixtures
 
 
 @pytest.fixture

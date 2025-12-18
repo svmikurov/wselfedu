@@ -14,7 +14,7 @@ from apps.lang import types
 from apps.lang.api.v1.views.study import WordStudyViewSet
 from apps.lang.services.abc import WordPresentationServiceABC
 from di import container
-from tests.fixtures.lang.no_db import translation as fixtures
+from tests.fixtures.lang.no_db import translations as fixtures
 
 
 @pytest.fixture

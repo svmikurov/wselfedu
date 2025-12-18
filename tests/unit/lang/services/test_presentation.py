@@ -6,7 +6,7 @@ from unittest.mock import Mock
 import pytest
 
 from apps.lang import domain, repositories, services, types
-from tests.fixtures.lang.no_db import translation as fixtures
+from tests.fixtures.lang.no_db import translations as fixtures
 
 
 @pytest.fixture

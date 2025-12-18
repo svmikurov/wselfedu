@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 import pytest
 
 from apps.lang import types
-from tests.fixtures.lang.no_db import translation as fixtures
+from tests.fixtures.lang.no_db import translations as fixtures
 
 if TYPE_CHECKING:
     pass

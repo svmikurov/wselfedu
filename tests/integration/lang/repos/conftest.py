@@ -4,7 +4,7 @@ import pytest
 
 from apps.core import models as models_core
 from apps.lang import repositories, types
-from tests.fixtures.lang.no_db.translation import (
+from tests.fixtures.lang.no_db.translations import (
     EMPTY_TRANSLATION_PARAMETERS,
     PRESENTATION,
     PRESENTATION_CASE,

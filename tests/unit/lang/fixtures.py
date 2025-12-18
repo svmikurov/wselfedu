@@ -8,7 +8,7 @@ import pytest
 from apps.core.storage.services import TaskStorage
 from apps.lang import schemas, services, types
 from apps.lang.repositories.abc import ProgressABC
-from tests.fixtures.lang.no_db import translation as fixtures
+from tests.fixtures.lang.no_db import translations as fixtures
 
 from .api.v1.view.study import cases
 

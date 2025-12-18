@@ -5,7 +5,7 @@ from django.test.utils import CaptureQueriesContext
 
 from apps.lang import repositories, types
 from apps.users.models import Person
-from tests.fixtures.lang.no_db import translation as fixtures
+from tests.fixtures.lang.no_db import translations as fixtures
 
 pytestmark = pytest.mark.django_db
 

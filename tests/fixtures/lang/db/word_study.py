@@ -5,7 +5,7 @@ import pytest
 from apps.lang import models
 from apps.users.models import Person
 
-from ..no_db.translation import PRESENTATION
+from ..no_db.translations import PRESENTATION
 
 
 @pytest.fixture
