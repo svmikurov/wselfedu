@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 class EnglishTranslationStudyView(generic.TemplateView):
     """English translation study view."""
 
-    template_name = 'lang/study/main.html'
+    template_name = 'lang/study/index.html'
     extra_context = ENGLISH_TRANSLATION['english_study']
 
 
