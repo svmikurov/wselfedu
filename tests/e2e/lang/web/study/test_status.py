@@ -13,40 +13,24 @@ from apps.lang import models
 if TYPE_CHECKING:
     from django.test import Client
 
-    from apps.users.models import Person
 
-STUDY_URL_PATH = reverse('lang:translation_english_study')
-STUDY_CASE_URL_PATH = reverse('lang:translation_english_study_case')
+STUDY_URL = reverse('lang:translation_english_study')
+STUDY_CASE_URL = reverse('lang:translation_english_study_case')
 
 
 @pytest.mark.django_db
 class TestStudyStatus:
     """Translation study request status tests."""
 
-    def test_success_study_template(
-        self,
-        user: Person,
-        client: Client,
-        translations: list[models.EnglishTranslation],
-    ) -> None:
+    def test_success_study_template(self, auth_client: Client) -> None:
         """No translation to study test."""
-        # Arrange
-        client.force_login(user)
-
         # Act & Assert
-        assert client.get(STUDY_URL_PATH).status_code == HTTPStatus.OK
+        assert auth_client.get(STUDY_URL).status_code == HTTPStatus.OK
 
-    def test_no_translation(
-        self,
-        user: Person,
-        client: Client,
-    ) -> None:
+    def test_no_translation(self, auth_client: Client) -> None:
         """No translation to study test."""
-        # Arrange
-        client.force_login(user)
-
         # Act & Assert
-        assert client.get(STUDY_URL_PATH).status_code == HTTPStatus.OK
+        assert auth_client.get(STUDY_URL).status_code == HTTPStatus.OK
 
     def test_anonymous(
         self,
@@ -55,7 +39,7 @@ class TestStudyStatus:
     ) -> None:
         """Anonymous request test."""
         # Act & Assert
-        assert client.get(STUDY_URL_PATH).status_code == HTTPStatus.FOUND
+        assert client.get(STUDY_URL).status_code == HTTPStatus.FOUND
 
 
 @pytest.mark.django_db
@@ -64,28 +48,17 @@ class TestStudyCaseStatus:
 
     def test_success_study_case(
         self,
-        user: Person,
-        client: Client,
+        auth_client: Client,
         translations: list[models.EnglishTranslation],
     ) -> None:
         """No translation to study test."""
-        # Arrange
-        client.force_login(user)
-
         # Act & Assert
-        assert client.get(STUDY_CASE_URL_PATH).status_code == HTTPStatus.OK
+        assert auth_client.get(STUDY_CASE_URL).status_code == HTTPStatus.OK
 
-    def test_no_translation(
-        self,
-        user: Person,
-        client: Client,
-    ) -> None:
+    def test_no_translation(self, auth_client: Client) -> None:
         """No translation to study test."""
-        # Arrange
-        client.force_login(user)
-
         # Act & Assert
-        assert client.get(STUDY_CASE_URL_PATH).status_code == HTTPStatus.FOUND
+        assert auth_client.get(STUDY_CASE_URL).status_code == HTTPStatus.FOUND
 
     def test_anonymous(
         self,
@@ -94,4 +67,4 @@ class TestStudyCaseStatus:
     ) -> None:
         """Anonymous request test."""
         # Act & Assert
-        assert client.get(STUDY_CASE_URL_PATH).status_code == HTTPStatus.FOUND
+        assert client.get(STUDY_CASE_URL).status_code == HTTPStatus.FOUND

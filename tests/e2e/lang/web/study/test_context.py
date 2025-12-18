@@ -14,8 +14,6 @@ if TYPE_CHECKING:
     from django.http.response import HttpResponse
     from django.test import Client
 
-    from apps.users.models import Person
-
 
 STUDY_URL_PATH = reverse('lang:translation_english_study')
 STUDY_CASE_URL_PATH = reverse('lang:translation_english_study_case')
@@ -49,17 +47,10 @@ def extract_attributes(response: HttpResponse, tag_id: str) -> dict[str, Any]:
 class TestSettingsContext:
     """Translation study settings context tests."""
 
-    def test_contains_default_settings(
-        self,
-        user: Person,
-        client: Client,
-    ) -> None:
+    def test_contains_default_settings(self, auth_client: Client) -> None:
         """Context contains current study settings default data."""
-        # Arrange
-        client.force_login(user)
-
         # Act
-        response = client.get(STUDY_URL_PATH)
+        response = auth_client.get(STUDY_URL_PATH)
 
         # Assert
         data = extract_attributes(response, SETTINGS_TAG_ID)  # type: ignore[arg-type]
@@ -72,16 +63,12 @@ class TestInfoContext:
 
     def test_info(
         self,
-        user: Person,
-        client: Client,
+        auth_client: Client,
         english_progress: models.EnglishProgress,
     ) -> None:
         """Test info content."""
-        # Arrange
-        client.force_login(user)
-
         # Act
-        response = client.get(STUDY_CASE_URL_PATH)
+        response = auth_client.get(STUDY_CASE_URL_PATH)
 
         # Assert
         assert 'info' in response.context.keys()
