@@ -1,4 +1,4 @@
-"""Language view context."""
+"""Language discipline view context data."""
 
 from __future__ import annotations
 

@@ -14,7 +14,7 @@ from rest_framework.renderers import JSONRenderer
 from apps.lang.api.v1 import serializers
 from di import MainContainer
 
-from .context import ENGLISH_TRANSLATION
+from . import _data
 
 if TYPE_CHECKING:
     from django.http.request import HttpRequest
@@ -26,7 +26,7 @@ class EnglishTranslationStudyView(generic.TemplateView):
     """English translation study view."""
 
     template_name = 'lang/study/index.html'
-    extra_context = ENGLISH_TRANSLATION['english_study']
+    extra_context = _data.ENGLISH_TRANSLATION['english_study']
 
 
 # TODO: Fix type ignore
@@ -47,7 +47,7 @@ def english_translation_case_htmx_view(
         **case,
         'task': {
             # TODO: Implement retrieve presentation settings form DB
-            **ENGLISH_TRANSLATION['english_study'],
+            **_data.ENGLISH_TRANSLATION['english_study'],
             'known': to_progress_payload(case, True),
             'unknown': to_progress_payload(case, False),
         },
