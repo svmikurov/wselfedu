@@ -1,28 +1,35 @@
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/presentation.css' %}">
+{% endblock %}
+
+
 <!--======= Presentation case =======-->
 <div id="case-block">
-  <div id="question-block" class="card mb-1">
-    <div class="card-header pb-0">
+  <div id="question-block" class="presentation-card">
+    <div class="presentation-card-header">
       <h3 class="h5">Вопрос:</h3>
     </div>
-    <div class="card-body" style="height: 150px; overflow-y: auto">
-      <div id="question" class="fs-1">{{ definition }}</div>
+    <div class="presentation-card-body">
+      <div id="question" class="presentation-card-content">{{ definition }}</div>
     </div>
   </div>
 
-  <div id="answer-block" class="card mb-1">
-    <div class="card-header pb-0">
+  <div id="answer-block" class="presentation-card">
+    <div class="presentation-card-header">
       <h3 class="h5">Ответ:</h3>
     </div>
-    <div class="card-body" style="height: 150px; overflow-y: auto">
+    <div class="presentation-card-body">
       <div id="answer" class="invisible fs-1">{{ explanation }}</div>
     </div>
   </div>
 
-  <div id="info-block" class="card">
-    <div class="card-header pb-0">
+  <div id="info-block" class="presentation-card">
+    <div class="presentation-card-header">
       <h3 class="h5">Информация:</h3>
     </div>
-    <div class="card-body" style="height: 150px; overflow-y: auto">
+    <div class="presentation-card-body">
       <div id="info" class="fs-4">{{ task.info }}</div>
     </div>
   </div>
