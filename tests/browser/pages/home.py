@@ -6,5 +6,5 @@ from tests.browser.pages.base import BasePage
 class HomePage(BasePage):
     """Home page."""
 
-    title = 'WSE Главная'
+    title = 'Главная - WSE Образовательный проект'
     path = '/'
