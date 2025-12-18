@@ -5,11 +5,14 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 from dependency_injector.wiring import Provide, inject
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponse
+from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from rest_framework.renderers import JSONRenderer
 
+from apps.core.exceptions.info import NoTranslationsAvailableException
 from apps.lang.api.v1 import serializers
 from di import MainContainer
 
@@ -39,14 +42,19 @@ class EnglishTranslationStudyView(base.SettingsRepositoryBaseView):
 @login_required
 def english_translation_case_htmx_view(
     request: HttpRequest,
-    service: services.WordPresentationService = Provide[
+    service: services.WordPresentationServiceABC = Provide[
         MainContainer.lang.word_presentation_service
     ],
 ) -> HttpResponse:
     """Render translation case as partial template for HTMX request."""
     parameters = request.GET.get('parameters', {})  # type: ignore[var-annotated]
     user = request.user
-    case = service.get_presentation_case(user, parameters)  # type: ignore[arg-type]
+
+    try:
+        case = service.get_presentation_case(user, parameters)  # type: ignore[arg-type]
+    except NoTranslationsAvailableException:
+        messages.success(request, 'Нет переводов для изучения')
+        return redirect('lang:settings')
 
     context: dict[str, Any] = {
         **case,
