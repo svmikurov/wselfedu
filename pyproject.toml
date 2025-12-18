@@ -53,6 +53,7 @@ playwright = "^1.55.0"
 pytest-cov = "^6.2.1"
 pytest-django = "^4.11.1"
 pytest-mock = "^3.14.1"
+beautifulsoup4 = "^4.14.3"
 
 # Graphical overview of project
 [tool.poetry.group.graph.dependencies]
