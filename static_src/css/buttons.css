@@ -1,0 +1,80 @@
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+
+/**
+ * Huge Button Component
+ *
+ * A large, prominently sized button designed for primary actions and navigation.
+ * Features fixed height, full-width responsiveness, and subtle hover effects.
+ *
+ * Features:
+ * - Fixed height of 6rem (96px) for consistent layout
+ * - Full-width responsive design
+ * - Centered text alignment (both horizontally and vertically)
+ * - Subtle hover animation with lift and shadow
+ * - Proper overflow handling for multi-line text
+ *
+ * Usage:
+ * <a href="#" class="btn btn-outline-primary btn-huge">Button Text</a>
+ *
+ * Modifiers:
+ * Combine with Bootstrap button classes for styling:
+ * - .btn-primary / .btn-outline-primary / etc.
+ * - .btn-lg / .btn-sm for additional size variations
+ *
+ * Example:
+ * <button class="btn btn-primary btn-huge">Submit</button>
+ */
+
+.btn-huge {
+    /* Layout & Positioning */
+    display: flex;                /* Enables flexbox for centering */
+    align-items: center;          /* Vertically centers content */
+    justify-content: center;      /* Horizontally centers content */
+    
+    /* Dimensions */
+    height: 6rem;                 /* Fixed height: 6rem (96px at 16px base) */
+    min-height: 6rem;             /* Ensures minimum height is maintained */
+    width: 100%;                  /* Full width of parent container */
+    
+    /* Spacing */
+    padding: 0 1rem;              /* Horizontal padding only (16px left/right) */
+    
+    /* Typography */
+    font-size: 1.7rem;            /* Large text: 1.7rem (27.2px at 16px base) */
+    font-weight: 700;             /* Bold weight for emphasis */
+    line-height: 1.2;             /* Optimal line spacing for readability */
+    text-align: center;           /* Center-aligns text as fallback */
+    white-space: normal;          /* Allows text to wrap naturally */
+    
+    /* Box Model */
+    box-sizing: border-box;       /* Includes padding/border in element dimensions */
+    overflow: hidden;             /* Prevents content overflow outside bounds */
+    
+    /* Transitions */
+    transition: transform 0.2s ease, 
+                box-shadow 0.2s ease; /* Smooth hover animations */
+}
+
+/**
+ * Huge Button - Hover State
+ *
+ * Enhanced visual feedback on interaction with subtle 3D effect.
+ * Creates perception of button being lifted off the surface.
+ *
+ * Design Principles:
+ * - Small vertical movement (2px) for natural feel
+ * - Subtle shadow for depth perception
+ * - Fast transition (0.2s) for responsive feedback
+ *
+ * Accessibility:
+ * - Sufficient contrast maintained
+ * - No color-only state indication
+ * - Clear visual focus indicator
+ */
+
+.btn-huge:hover {
+    transform: translateY(-2px);   /* Lifts button slightly on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds soft shadow for depth */
+}

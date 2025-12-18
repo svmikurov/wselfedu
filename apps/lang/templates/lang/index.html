@@ -1,14 +1,56 @@
 {% extends 'base.html' %}
 
-{% block title %}Изучение языков{% endblock %}
+{% block title %}
+Изучение языков - Английский, Немецкий, Французский | WSE
+{% endblock %}
+
+{% block description %}
+Интерактивные курсы по изучению английского, немецкого, французского и 
+других языков. Грамматика, словарный запас, практика.
+{% endblock %}
 
 {% block content %}
-<h1>Изучение языков</h1>
-<a class="btn btn-outline-primary m-1" href="{% url 'lang:translation_parameters' %}">Настройки изучения слов</a><br>
-<a class="btn btn-outline-primary m-1" href="{% url 'lang:translation_english_study' %}">Изучение слов</a><br>
+<div class="container p-0 ">
+  <h1 class="mt-3 mb-5 text-center">Изучение языков</h1>
 
-<a class="btn btn-outline-primary m-1" href="{% url 'lang:translation_english_create' %}">Добавить перевод</a><br>
-<a class="btn btn-outline-primary m-1" href="{% url 'lang:translation_english_list' %}">Словарь переводов</a><br>
-<a class="btn btn-outline-primary m-1" href="{% url 'lang:mark_create' %}">Добавить маркер</a><br>
-<a class="btn btn-outline-primary m-1" href="{% url 'lang:mark_list' %}">Список маркеров</a><br>
+  <div class="row g-4 mb-4">
+    <div class="col-12 col-md-6">
+      <a href="{% url 'lang:settings' %}" class="btn btn-outline-primary btn-huge">
+        Настройка упражнения
+      </a>
+    </div>
+    <div class="col-12 col-md-6">
+      <a href="{% url 'lang:translation_english_study' %}" class="btn btn-outline-primary btn-huge">
+        Упражнение
+      </a>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-12 col-md-6">
+      <a href="{% url 'lang:translation_english_list' %}" class="btn btn-outline-primary btn-huge">
+        Словарь переводов
+      </a>
+    </div>
+    <div class="col-12 col-md-6">
+      <a href="{% url 'lang:translation_english_create' %}" class="btn btn-outline-primary btn-huge">
+        Добавить перевод
+      </a>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-12 col-md-6">
+      <a href="{% url 'lang:mark_list' %}" class="btn btn-outline-primary btn-huge">
+        Список маркеров
+      </a>
+    </div>
+    <div class="col-12 col-md-6">
+      <a href="{% url 'lang:mark_create' %}" class="btn btn-outline-primary btn-huge">
+        Добавить маркер
+      </a>
+    </div>
+  </div>
+
+</div>
 {% endblock %}
