@@ -1,7 +1,17 @@
-<!--======= Presentation settings =======-->
+<!--======= Study settings =======-->
 <div
   id="settings-block"
+  {# Translation parameters #}
+  data-category="{{ task.category }}"
+  data-mark="{{ task.mark }}"
+  data-source="{{ task.word_source }}"
+  data-start-period="{{ task.start_period }}"
+  data-end-period="{{ task.end_period }}"
+  {# Translation settings #}
+  data-translation-order="{{ task.translation_order }}"
+  data-word-count="{{ task.word_count }}"
+  {# Presentation settings #}
   data-question="{{ task.question_timeout }}"
   data-answer="{{ task.answer_timeout }}"
   data-url="{{ task.url }}"
-></div><!-- End Presentation settings -->
+></div><!-- End Study settings -->
