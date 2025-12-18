@@ -7,14 +7,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}{% endblock %}</title>
+  <title>{% block title %}WSE{% endblock %}</title>
+  <meta name="description" content="{% block description %}Образовательная платформа WSE{% endblock %}">
+  
   {% bootstrap_css %}
-  <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
-  <link rel="stylesheet" href="{% static 'css/icons.css' %}">
-  <link rel="icon" href="{% static 'favicon.ico' %}">
+  {% include 'css.html' %}
   {% block extra_css %}{% endblock %}
-  {% block meta %}{% endblock %}
   {% block styles %}{% endblock %}
+  {% block meta %}{% endblock %}
 </head>
 
 <body hx-headers='{"x-csrftoken": "{{ csrf_token }}"}'>
