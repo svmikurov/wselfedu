@@ -4,7 +4,11 @@
  * Manages timers, pause states, and question progression.
  */
 
-import { SELECTORS, getParameters } from '/static/js/lang/study/getters.js';
+import {
+  SELECTORS,
+  getParameters,
+  getAnswerElement
+} from '/static/js/lang/study/getters.js';
 import {
   showAnswer,
   hideAnswer,
@@ -50,7 +54,10 @@ export function updateQuestion() {
  * @returns {void}
  */
 export function skipToNext() {
-  if (questionTimer) {
+  const answerElement = getAnswerElement();
+  const isAnswerVisible = answerElement && !answerElement.classList.contains('invisible');
+
+  if (!isAnswerVisible) {
     clearTimers();
     showAnswer();
     startAnswerTimer();
