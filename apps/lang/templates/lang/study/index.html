@@ -6,13 +6,17 @@
 
 {% block content %}
 <div class="container p-0">
-  <div class="row align-items-center py-1">
+  <div id="header-block" class="row align-items-center py-1">
     <div class="col">
       <h1 class="mb-0">{{ header }}</h1>
     </div>
     <div class="col-auto">
+      <a href="{% url 'lang:settings' %}" class="btn btn-outline-primary fw-bold">
+         Настройки
+      </a>
       <a href="javascript:history.back()" class="btn btn-outline-primary fw-bold">
-         Назад</a>
+         Назад
+      </a>
     </div>
   </div>
 
