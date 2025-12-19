@@ -7,6 +7,7 @@
 import {
   SELECTORS,
   getParameters,
+  getCaseParameters,
   getAnswerElement
 } from '/static/js/lang/study/getters.js';
 import {
@@ -31,6 +32,9 @@ const DEFAULT_TIMEOUT = 3;
  */
 export function updateQuestion() {
   const parameters = getParameters();
+  const caseParameters = getCaseParameters();
+
+  appLogger.log(caseParameters)
 
   // Reset state
   resetPause();
@@ -38,9 +42,16 @@ export function updateQuestion() {
   hideAnswer();
   updatePauseButtonText();
 
-  // Request bew case
+  // Request new case
   htmx
-    .ajax('GET', parameters.url, SELECTORS.PRESENTATION_BLOCK)
+    .ajax(
+      'POST',
+      parameters.url,
+      {
+        values: caseParameters,
+        target: SELECTORS.PRESENTATION_BLOCK,
+      }
+    )
     .catch((error) => {
       appLogger.error('Failed to update presentation:', error);
     });
