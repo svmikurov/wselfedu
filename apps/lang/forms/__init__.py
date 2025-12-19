@@ -1,15 +1,22 @@
 """Language discipline forms."""
 
 __all__ = [
+    # Case
+    'CaseParametersForm',
+    # Parameters
+    'ParametersForm',
+    'PresentationSettingsForm',
+    'PresentationSettingsFormSet',
+    'TranslationSettingsForm',
+    'TranslationSettingsFormSet',
+    # Translation
     'EnglishCreateForm',
     'EnglishUpdateForm',
-    'ParametersForm',
-    'TranslationSettingsForm',
-    'PresentationSettingsForm',
-    'TranslationSettingsFormSet',
-    'PresentationSettingsFormSet',
 ]
 
+from .case import (
+    CaseParametersForm,
+)
 from .parameters import (
     ParametersForm,
     PresentationSettingsForm,
