@@ -72,3 +72,23 @@ export function getParameters() {
     url: block?.dataset.url,
   };
 }
+
+/**
+ * Retrieves translation study case parameters
+ * from the parameters block element
+ * to request presentation case.
+ * @returns {Object} Case parameters
+ */
+export function getCaseParameters() {
+  const block = document.getElementById(DOM_IDS.SETTINGS_BLOCK);
+
+  return {
+    category: block?.dataset.category,
+    mark: block?.dataset.mark,
+    source: block?.dataset.source,
+    start_period: block?.dataset.startPeriod,
+    end_period: block?.dataset.endPeriod,
+    translation_order: block?.dataset.translationOrder,
+    word_count: block?.dataset.wordCount,
+  };
+}
