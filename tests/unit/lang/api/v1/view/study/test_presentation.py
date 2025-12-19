@@ -1,6 +1,5 @@
 """Test the Word study ViewSet, `presentation` action."""
 
-import uuid
 from http import HTTPStatus
 from typing import Callable, TypedDict
 from unittest.mock import Mock
@@ -15,12 +14,6 @@ from apps.lang.api.v1.views.study import WordStudyViewSet
 from apps.lang.services.abc import WordPresentationServiceABC
 from di import container
 from tests.fixtures.lang.no_db import translations as fixtures
-
-
-@pytest.fixture
-def case_uuid() -> uuid.UUID:
-    """Provide Word study presentation case."""
-    return fixtures.TRANSLATION_CASE_UUID
 
 
 @pytest.fixture

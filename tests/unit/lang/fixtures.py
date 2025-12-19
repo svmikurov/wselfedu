@@ -8,7 +8,6 @@ import pytest
 from apps.core.storage.services import TaskStorage
 from apps.lang import schemas, services, types
 from apps.lang.repositories.abc import ProgressABC
-from tests.fixtures.lang.no_db import translations as fixtures
 
 from .api.v1.view.study import cases
 
@@ -48,12 +47,6 @@ def progress_case() -> types.ProgressCase:
 def mock_progress_repo() -> Mock:
     """Mock Word study progress repo fixture."""
     return Mock(spec=ProgressABC)
-
-
-@pytest.fixture
-def case_uuid() -> uuid.UUID:
-    """Provide Word study presentation case."""
-    return fixtures.TRANSLATION_CASE_UUID
 
 
 @pytest.fixture

@@ -10,12 +10,6 @@ from tests.fixtures.lang.no_db import translations as fixtures
 
 
 @pytest.fixture
-def case_uuid() -> uuid.UUID:
-    """Provide Word study presentation case."""
-    return fixtures.TRANSLATION_CASE_UUID
-
-
-@pytest.fixture
 def presentation() -> types.PresentationDataT:
     """Provide presentation data."""
     return fixtures.PRESENTATION
