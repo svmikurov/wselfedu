@@ -47,7 +47,7 @@ def english_translation_case_htmx_view(
     ],
 ) -> HttpResponse:
     """Render translation case as partial template for HTMX request."""
-    parameters = request.GET.get('parameters', {})  # type: ignore[var-annotated]
+    parameters = request.POST.get('parameters', {})  # type: ignore[var-annotated]
     user = request.user
 
     try:
