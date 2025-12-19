@@ -1,4 +1,4 @@
-"""Word study DB fixtures."""
+"""English translation fixtures."""
 
 import pytest
 

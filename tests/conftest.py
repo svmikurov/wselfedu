@@ -18,8 +18,8 @@ if TYPE_CHECKING:
 
 pytest_plugins = [
     'tests.fixtures.user',
+    'tests.fixtures.lang.db.translation',
     'tests.fixtures.lang.db.translations',
-    'tests.fixtures.lang.db.word_study',
     'tests.unit.lang.fixtures',
 ]
 
