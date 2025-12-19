@@ -28,7 +28,7 @@ def presentation_case() -> types.PresentationCaseT:
 
 
 @pytest.fixture
-def conditions() -> types.WordParameters:
+def conditions() -> types.CaseParameters:
     """Provide Word study lookup empty conditions."""
     return EMPTY_TRANSLATION_PARAMETERS.copy()
 
@@ -38,7 +38,7 @@ def conditions() -> types.WordParameters:
 
 
 @pytest.fixture
-def public_parameters() -> types.SetStudyParameters:
+def public_parameters() -> types.CaseSettings:
     """Provide public DB data."""
     # Create public parameter choices
     periods = models_core.Period.objects.bulk_create(

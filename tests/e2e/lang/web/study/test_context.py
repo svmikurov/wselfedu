@@ -2,13 +2,18 @@
 
 from __future__ import annotations
 
+import json
+import uuid
 from typing import TYPE_CHECKING, Any
+from unittest.mock import Mock
 
 import pytest
 from bs4 import BeautifulSoup
 from django.urls import reverse
 
+import di
 from apps.lang import models
+from apps.lang.services import WordPresentationServiceABC
 
 if TYPE_CHECKING:
     from django.http.response import HttpResponse
@@ -45,19 +50,30 @@ DEFAULT_SETTINGS = {
 
 @pytest.fixture
 def user_settings(
-    parameters_db_data: types.SetStudyParameters,
+    parameters_db_data: types.CaseSettings,
 ) -> dict[str, Any]:
-    """Provide user settings."""
+    """Provide translation study settings of user.
+
+    Populates the database with the translation study settings
+    set by the user.
+
+    Return:
+    ------
+        Translation study settings data.
+
+    """
     return {
-        # Translation parameters
+        # Translation meta
         'category': str(parameters_db_data['category']['id']),  # type: ignore[index]
         'mark': str(parameters_db_data['mark']['id']),  # type: ignore[index]
         'source': str(parameters_db_data['word_source']['id']),  # type: ignore[index]
         'start-period': str(parameters_db_data['start_period']['id']),  # type: ignore[index]
         'end-period': str(parameters_db_data['end_period']['id']),  # type: ignore[index]
         # Translation settings
-        'translation-order': '',
-        'word-count': '',
+        'translation-order': str(
+            parameters_db_data['translation_order']['code']  # type: ignore[index]
+        ),
+        'word-count': str(parameters_db_data['word_count']),
         # Presentation settings
         'answer': str(parameters_db_data['answer_timeout']),
         'question': str(parameters_db_data['question_timeout']),
@@ -80,7 +96,7 @@ def extract_attributes(response: HttpResponse, tag_id: str) -> dict[str, Any]:
 
 @pytest.mark.django_db
 class TestSettingsContext:
-    """Translation study settings context tests."""
+    """Translation study settings tests."""
 
     def test_contains_default_settings(self, auth_client: Client) -> None:
         """Context contains current study settings default data."""
@@ -94,7 +110,7 @@ class TestSettingsContext:
     def test_contains_settings(
         self,
         auth_client: Client,
-        user_settings: types.SetStudyParameters,
+        user_settings: types.CaseSettings,
     ) -> None:
         """Context contains current study settings data."""
         # Act
@@ -106,21 +122,54 @@ class TestSettingsContext:
 
 
 @pytest.mark.django_db
-class TestInfoContext:
-    """Translation study info context tests."""
+class TestCaseContext:
+    """Translation study settings case tests."""
 
-    def test_info(
+    def test_have_correct_context(
         self,
         auth_client: Client,
-        english_progress: models.EnglishProgress,
+        case_uuid: uuid.UUID,
+        parameters_db_data: dict[str, Any],
     ) -> None:
-        """Test info content."""
+        """Study settings response have correct context."""
+        # Arrange
+        # - set translation study data to return
+        #   by translation study service
+        case: types.PresentationCaseT = {
+            'case_uuid': case_uuid,
+            'definition': 'test',
+            'explanation': 'test',
+            'info': {
+                'progress': 1,
+            },
+        }
+        # - build study service mock
+        study_service_mock = Mock(spec=WordPresentationServiceABC)
+        study_service_mock.get_presentation_case.return_value = case
+
         # Act
-        response = auth_client.get(STUDY_CASE_URL_PATH)
+        # - mock study service
+        with di.container.lang.word_presentation_service.override(
+            study_service_mock
+        ):
+            context = auth_client.get(
+                STUDY_CASE_URL_PATH,
+                data=parameters_db_data,
+            ).context
 
         # Assert
-        assert 'info' in response.context.keys()
-        info = response.context.get('info')
+        # - translation study case is correct
+        assert context['case'] == case
 
-        assert info is not None
-        assert info.get('progress') == english_progress.progress
+        # - translation meta data is correct
+        assert context['info'] == case['info']
+
+        # - payload to update translation study progress is correct
+        assert json.loads(context['task']['known']) == {
+            'case_uuid': str(case_uuid),
+            'is_known': True,
+        }
+        assert json.loads(context['task']['unknown']) == {
+            'case_uuid': str(case_uuid),
+            'is_known': False,
+        }

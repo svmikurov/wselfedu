@@ -1,7 +1,12 @@
 """Translation form."""
 
 from crispy_forms.helper import FormHelper  # type: ignore
-from crispy_forms.layout import Field, Layout, Submit  # type: ignore
+from crispy_forms.layout import (  # type: ignore
+    HTML,
+    Column,
+    Layout,
+    Row,
+)
 from django import forms
 from django.db.models import QuerySet
 
@@ -40,14 +45,30 @@ class EnglishCreateForm(BaseEnglishForm):
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the form."""
         super().__init__(*args, **kwargs)  # type: ignore[arg-type]
+        self.fields['native'].label = 'Слово на русском'
+        self.fields['english'].label = 'Слово на английском'
+
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Field('native'),
-            Field('english'),
-            Field('category'),
-            Field('source'),
-            Field('marks'),
-            Submit('submit', 'Добавить'),
+            Row(
+                Column('native'),
+                Column('english'),
+            ),
+            Row(
+                Column('marks'),
+                Column(
+                    'category',
+                    'source',
+                    HTML("""
+                        <div class="d-flex justify-content-end pt-2">
+                            <button type="submit" name="submit"
+                                    class="wse-btn">
+                                Добавить
+                            </button>
+                        </div>
+                    """),
+                ),
+            ),
         )
 
 
@@ -57,6 +78,8 @@ class EnglishUpdateForm(BaseEnglishForm):
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the form."""
         super().__init__(*args, **kwargs)  # type: ignore[arg-type]
+        self.fields['native'].label = 'Слово на русском'
+        self.fields['english'].label = 'Слово на английском'
 
         if self.instance and self.instance.pk:
             self.fields['native'].initial = str(self.instance.native)
@@ -64,10 +87,23 @@ class EnglishUpdateForm(BaseEnglishForm):
 
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Field('native'),
-            Field('english'),
-            Field('category'),
-            Field('source'),
-            Field('marks'),
-            Submit('submit', 'Изменить'),
+            Row(
+                Column('native'),
+                Column('english'),
+            ),
+            Row(
+                Column('marks'),
+                Column(
+                    'category',
+                    'source',
+                    HTML("""
+                        <div class="d-flex justify-content-end pt-2">
+                            <button type="submit" name="submit"
+                                    class="wse-btn">
+                                Изменить
+                            </button>
+                        </div>
+                    """),
+                ),
+            ),
         )

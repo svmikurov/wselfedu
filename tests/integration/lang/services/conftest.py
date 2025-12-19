@@ -15,7 +15,7 @@ def presentation_repo() -> repositories.EnglishPresentation:
 
 
 @pytest.fixture
-def conditions() -> types.WordParameters:
+def conditions() -> types.CaseParameters:
     """Provide Word study lookup empty conditions."""
     return fixtures.EMPTY_TRANSLATION_PARAMETERS.copy()
 

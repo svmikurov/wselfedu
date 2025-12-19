@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Final, Literal, TypeAlias
+from typing import TYPE_CHECKING, Any, Final, Literal, TypeAlias
 
 from django.contrib.auth import get_user_model
 from django.core import validators
@@ -184,6 +184,8 @@ class TranslationSetting(models.Model):
         TO_NATIVE = 'to_native', 'На родной язык'
         RANDOM = 'random', 'Случайный порядок'
 
+    DEFAULT_TRANSLATION_ORDER = TranslateChoices.TO_NATIVE
+
     user = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
@@ -196,7 +198,7 @@ class TranslationSetting(models.Model):
         blank=True,
         null=True,
         choices=TranslateChoices.choices,
-        default=TranslateChoices.TO_NATIVE,
+        default=DEFAULT_TRANSLATION_ORDER,
         verbose_name='Порядок перевода',
     )
     word_count = models.PositiveSmallIntegerField(
@@ -246,6 +248,22 @@ class TranslationSetting(models.Model):
             else cls.TranslateChoices.TO_NATIVE
         )
         return choice.value, choice.label
+
+    @classmethod
+    def get_settings(cls, user: Person) -> dict[str, Any]:
+        """Get user translation settings or return defaults."""
+        try:
+            settings = cls.objects.get(user=user)
+        except cls.DoesNotExist:
+            return {
+                'translation_order': '',
+                'word_count': '',
+            }
+        else:
+            return {
+                'translation_order': settings.translation_order,
+                'word_count': settings.word_count,
+            }
 
 
 class PresentationSettings(models.Model):

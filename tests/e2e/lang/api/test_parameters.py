@@ -34,7 +34,7 @@ class TestGetSuccess:
         self,
         user: Person,
         api_client: APIClient,
-        parameters_db_data: types.SetStudyParameters,
+        parameters_db_data: types.CaseSettings,
     ) -> None:
         """Fetch Word study Presentation parameters empty data."""
         # Arrange
@@ -56,7 +56,7 @@ class TestUpdate:
         self,
         user: Person,
         api_client: APIClient,
-        parameters_db_data: types.SetStudyParameters,
+        parameters_db_data: types.CaseSettings,
     ) -> None:
         """Test that parameters updated."""
         # Arrange
@@ -110,8 +110,8 @@ class TestPermissions:
         self,
         api_client: APIClient,
         user_not_owner: Person,
-        parameters_db_data: types.SetStudyParameters,
-        public_parameters: types.SetStudyParameters,
+        parameters_db_data: types.CaseSettings,
+        public_parameters: types.CaseSettings,
     ) -> None:
         """Test the public parameters."""
         # Arrange

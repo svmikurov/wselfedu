@@ -45,7 +45,7 @@ class EnglishTranslationListView(
 ):
     """English translation list view."""
 
-    template_name = 'lang/translation_english_list.html'
+    template_name = 'lang/translation/list.html'
     filterset_class = filters.TranslationFilter
     context_object_name = 'translations'
     paginate_by = 20

@@ -22,7 +22,7 @@ class MarkCreateView(
     model = LangMark
     fields = ['name']
     success_url = reverse_lazy('lang:mark_create')
-    template_name = 'lang/mark_form.html'
+    template_name = 'lang/entities/mark_form.html'
 
     def form_valid(self, form: BaseModelForm) -> HttpResponse:  # type: ignore[type-arg]
         """Add current user to form."""
@@ -38,7 +38,7 @@ class MarkUpdateView(
 
     model = LangMark
     fields = ['name']
-    template_name = 'lang/mark_form.html'
+    template_name = 'lang/entities/mark_form.html'
     success_url = reverse_lazy('lang:mark_list')
 
 
@@ -50,7 +50,7 @@ class MarkDeleteView(
 
     model = LangMark
     success_url = reverse_lazy('lang:mark_list')
-    template_name = 'lang/mark_confirm_delete.html'
+    template_name = 'lang/entities/mark_confirm_delete.html'
 
 
 class MarkDetailView(
@@ -60,7 +60,7 @@ class MarkDetailView(
     """View for detail Language discipline mark."""
 
     model = LangMark
-    template_name = 'lang/mark_detail.html'
+    template_name = 'lang/entities/mark_detail.html'
 
 
 class LabelListView(
@@ -71,7 +71,7 @@ class LabelListView(
 
     paginate_by = 10
     context_object_name = 'marks'
-    template_name = 'lang/mark_list.html'
+    template_name = 'lang/entities/mark_list.html'
 
     def get_queryset(self) -> QuerySet[LangMark]:
         """Get Label list filtered by user."""

@@ -10,7 +10,7 @@ from .. import types
 
 
 class WordPresentationServiceABC(
-    StudyPresenterGenABC[types.WordParameters, types.PresentationCaseT],
+    StudyPresenterGenABC[types.CaseParameters, types.PresentationCaseT],
     ABC,
 ):
     """ABC fore Word study service."""
@@ -20,7 +20,7 @@ class WordPresentationServiceABC(
     def get_presentation_case(
         self,
         user: Person,
-        presentation_params: types.WordParameters,
+        presentation_params: types.CaseParameters,
     ) -> types.PresentationCaseT:
         """Get Word study presentation case."""
 

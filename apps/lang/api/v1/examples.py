@@ -2,7 +2,7 @@
 
 from apps.lang import types
 
-SET_WORD_STUDY_PARAMETERS_DATA: types.SetStudyParameters = {
+SET_WORD_STUDY_PARAMETERS_DATA: types.CaseSettings = {
     'categories': [
         {'id': 1, 'name': 'cat 1'},
         {'id': 2, 'name': 'cat 2'},
@@ -39,7 +39,7 @@ SET_WORD_STUDY_PARAMETERS_DATA: types.SetStudyParameters = {
     'answer_timeout': 5,
 }
 
-WORD_STUDY_PARAMETERS_DATA: types.WordParameters = {
+WORD_STUDY_PARAMETERS_DATA: types.CaseParameters = {
     'category': {'id': 1, 'name': 'cat 1'},
     'mark': {'id': 2, 'name': 'mark 2'},
     'word_source': {'id': 1, 'name': 'source 1'},

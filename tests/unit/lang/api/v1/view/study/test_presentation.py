@@ -38,7 +38,7 @@ def view() -> Callable[[Request], Response]:
 
 
 @pytest.fixture
-def valid_payload() -> types.WordParameters:
+def valid_payload() -> types.CaseParameters:
     """Provide Request payload."""
     return fixtures.EMPTY_TRANSLATION_PARAMETERS.copy()
 
@@ -74,7 +74,7 @@ class TestPresentation:
         api_request_factory: APIRequestFactory,
         view: Callable[[Request], Response],
         valid_response_data: PresentationResponse,
-        valid_payload: types.WordParameters,
+        valid_payload: types.CaseParameters,
     ) -> None:
         """Test successful presentation request."""
         # Arrange

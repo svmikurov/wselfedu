@@ -37,7 +37,7 @@ class TestFetch:
         self,
         user: Person,
         parameters_repo: repositories.WordStudyParametersRepository,
-        public_parameters: types.SetStudyParameters,
+        public_parameters: types.CaseSettings,
     ) -> None:
         """Test fetch public default data."""
         # Act & assert
@@ -47,7 +47,7 @@ class TestFetch:
         self,
         user: Person,
         parameters_repo: repositories.WordStudyParametersRepository,
-        parameters_db_data: types.SetStudyParameters,
+        parameters_db_data: types.CaseSettings,
         django_assert_num_queries: CaptureQueriesContext,
     ) -> None:
         """Test fetch initial data."""
@@ -63,7 +63,7 @@ class TestUpdate:
         self,
         user: Person,
         parameters_repo: repositories.WordStudyParametersRepository,
-        parameters_db_data: types.SetStudyParameters,
+        parameters_db_data: types.CaseSettings,
         django_assert_num_queries: CaptureQueriesContext,
     ) -> None:
         """Test update initial data."""
@@ -98,7 +98,7 @@ class TestUpdate:
         self,
         user: Person,
         parameters_repo: repositories.WordStudyParametersRepository,
-        parameters_db_data: types.SetStudyParameters,
+        parameters_db_data: types.CaseSettings,
     ) -> None:
         """Test that updated parameter is None."""
         # Arrange

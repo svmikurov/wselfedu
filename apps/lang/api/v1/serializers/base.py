@@ -16,7 +16,7 @@ class OptionsSerializer(serializers.Serializer[types.Options]):
     translation_orders = core.CodeNameSerializer(many=True)
 
 
-class TranslationMetaSerializer(serializers.Serializer[types.WordParameters]):
+class TranslationMetaSerializer(serializers.Serializer[types.CaseParameters]):
     """Translation meta serializer."""
 
     category = core.IdNameSerializer(allow_null=True)

@@ -61,7 +61,7 @@ MARKS: Final[tuple[str, ...]] = (
 # Translation parameters
 # ~~~~~~~~~~~~~~~~~~~~~~
 
-EMPTY_TRANSLATION_PARAMETERS: Final[types.WordParameters] = {
+EMPTY_TRANSLATION_PARAMETERS: Final[types.CaseParameters] = {
     'category': None,
     'mark': None,
     'word_source': None,
@@ -130,13 +130,13 @@ PRESENTATION_SETTINGS: Final[types.PresentationSettings] = {
     'answer_timeout': 5,
 }
 
-TRANSLATION_CASE_PARAMETERS: Final[types.WordParameters] = {
+TRANSLATION_CASE_PARAMETERS: Final[types.CaseParameters] = {
     **TRANSLATION_META,
     **PROGRESS_PHASE,
     **TRANSLATION_SETTINGS,
 }
 
-PRESENTATION_PARAMETERS: Final[types.SetStudyParameters] = {
+PRESENTATION_PARAMETERS: Final[types.CaseSettings] = {
     **OPTIONS,
     **TRANSLATION_CASE_PARAMETERS,
     **PRESENTATION_SETTINGS,

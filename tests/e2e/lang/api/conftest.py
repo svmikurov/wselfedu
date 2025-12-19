@@ -15,8 +15,8 @@ if TYPE_CHECKING:
 
 @pytest.fixture
 def public_parameters(
-    parameters_db_data: types.SetStudyParameters,
-) -> types.SetStudyParameters:
+    parameters_db_data: types.CaseSettings,
+) -> types.CaseSettings:
     """Provide public Parameters data.
 
     Contains fields for a user who has no saved settings

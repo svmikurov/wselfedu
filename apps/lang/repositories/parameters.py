@@ -60,7 +60,7 @@ class WordStudyParametersRepository(WordStudyParamsRepositoryABC):
         )
 
     @override
-    def fetch(self, user: Person) -> types.SetStudyParameters:
+    def fetch(self, user: Person) -> types.CaseSettings:
         """Fetch parameters with parameter choices."""
         options = self.get_options(user)
 
@@ -123,8 +123,8 @@ class WordStudyParametersRepository(WordStudyParamsRepositoryABC):
     def update(
         self,
         user: Person,
-        data: types.WordParameters,
-    ) -> types.SetStudyParameters:
+        data: types.CaseParameters,
+    ) -> types.CaseSettings:
         """Update initial parameters."""
         translation_meta_defaults = {
             'category_id': self._get_identifier(data, 'category'),
@@ -178,25 +178,27 @@ class WordStudyParametersRepository(WordStudyParamsRepositoryABC):
             'url': reverse('lang:translation_english_study_case'),
             'progress_url': '/api/v1/lang/study/progress/',
         }
-        translation_parameters_q = models.Parameters.objects.filter(
+        translation_meta_query = models.Parameters.objects.filter(
             user=user
         ).first()
-        translation_parameters = (
-            model_to_dict(translation_parameters_q)
-            if translation_parameters_q
+        translation_meta = (
+            model_to_dict(translation_meta_query)
+            if translation_meta_query
             else {}
         )
+        translation_settings = models.TranslationSetting.get_settings(user)
         presentation_settings = models.PresentationSettings.get_settings(user)
         task_settings = {
             **urls,
-            **translation_parameters,
+            **translation_meta,
+            **translation_settings,
             **presentation_settings,
         }
         return task_settings
 
     @staticmethod
     def _get_identifier(
-        data: types.WordParameters,
+        data: types.CaseParameters,
         field_name: OptionsT,
     ) -> int | str | None:
         """Get parameter identifier or return None."""

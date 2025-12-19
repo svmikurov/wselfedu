@@ -56,14 +56,15 @@ def english_translation_case_htmx_view(
         messages.success(request, 'Нет переводов для изучения')
         return redirect('lang:settings')
 
+    # TODO: Refactor after context build completion
     context: dict[str, Any] = {
-        **case,
+        **_data.ENGLISH_TRANSLATION['english_study'],
+        'case': case,
         'task': {
-            # TODO: Implement retrieve presentation settings form DB
-            **_data.ENGLISH_TRANSLATION['english_study'],
             'known': to_progress_payload(case, True),
             'unknown': to_progress_payload(case, False),
         },
+        'info': case.get('info'),
     }
 
     case_html = render_to_string('lang/study/_case.html', context)

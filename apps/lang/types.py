@@ -2,7 +2,6 @@
 
 import logging
 import uuid
-from datetime import datetime
 from typing import (
     Literal,
     NamedTuple,
@@ -17,6 +16,7 @@ Language: TypeAlias = Literal['native', 'english']
 TranslateOrder: TypeAlias = Literal['from_native', 'to_native', 'random']
 
 
+# ------------
 # Option types
 # ------------
 
@@ -42,17 +42,9 @@ class CodeName(TypedDict):
     name: str
 
 
-class ProgressEdge(TypedDict):
-    """Study progress phase edge value type."""
-
-    study: int
-    repeat: int
-    examine: int
-    know: int
-
-
-# Translation
-# -----------
+# -------
+# Options
+# -------
 
 
 class Options(TypedDict):
@@ -65,6 +57,34 @@ class Options(TypedDict):
     translation_orders: list[CodeName]
 
 
+# --------
+# Progress
+# --------
+
+
+class ProgressEdge(TypedDict):
+    """Study progress phase edge type."""
+
+    study: int
+    repeat: int
+    examine: int
+    know: int
+
+
+class ProgressPhase(TypedDict):
+    """Study progress phase include type."""
+
+    is_study: bool
+    is_repeat: bool
+    is_examine: bool
+    is_know: bool
+
+
+# -------------
+# Study setting
+# -------------
+
+
 class TranslationMeta(TypedDict):
     """Translation meta type."""
 
@@ -73,15 +93,6 @@ class TranslationMeta(TypedDict):
     word_source: IdName | None
     start_period: IdName | None
     end_period: IdName | None
-
-
-class ProgressPhase(TypedDict):
-    """Study progress phase type."""
-
-    is_study: bool
-    is_repeat: bool
-    is_examine: bool
-    is_know: bool
 
 
 class TranslationSettings(TypedDict):
@@ -98,44 +109,27 @@ class PresentationSettings(TypedDict):
     answer_timeout: float | None
 
 
-# Word study
+# ----------
+# Study case
 # ----------
 
 
-class WordLookup(TypedDict, total=False):
-    """Word lookup condition type."""
-
-    category: int | None
-    marks: int | None
-    source: int | None
-    start_period: datetime | None
-    end_period: datetime | None
-
-
-class WordParameters(
+class CaseParameters(
     TranslationMeta,
     ProgressPhase,
     TranslationSettings,
 ):
-    """Word parameters type."""
+    """Study case parameters type."""
 
 
-class StudyParameters(
-    TranslationMeta,
-    ProgressPhase,
-    PresentationSettings,
-):
-    """Word study parameters types."""
-
-
-class SetStudyParameters(
+class CaseSettings(
     Options,
     TranslationMeta,
     ProgressPhase,
     TranslationSettings,
     PresentationSettings,
 ):
-    """Set Word study parameters types."""
+    """Study case settings type."""
 
 
 # Word study Presentation case

@@ -109,7 +109,7 @@ def parameters_db_data(
     ],
     translation_settings: models.TranslationSetting,
     presentation_settings: models.PresentationSettings,
-) -> types.SetStudyParameters:
+) -> types.CaseSettings:
     """Provide Word study parameters."""
     categories, sources, marks, periods = translations_meta
 
