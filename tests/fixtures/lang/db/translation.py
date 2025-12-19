@@ -5,7 +5,7 @@ import pytest
 from apps.lang import models
 from apps.users.models import Person
 
-from ..no_db.translations import PRESENTATION
+from ..no_db import translations as fixtures
 
 
 @pytest.fixture
@@ -13,7 +13,7 @@ def native_word(user: Person) -> models.NativeWord:
     """Native word."""
     return models.NativeWord.objects.create(
         user=user,
-        word=PRESENTATION['explanation'],
+        word=fixtures.PRESENTATION['explanation'],
     )
 
 
@@ -22,7 +22,7 @@ def english_word(user: Person) -> models.EnglishWord:
     """English word."""
     return models.EnglishWord.objects.create(
         user=user,
-        word=PRESENTATION['definition'],
+        word=fixtures.PRESENTATION['definition'],
     )
 
 
@@ -49,5 +49,5 @@ def english_progress(
     return models.EnglishProgress.objects.create(  # type: ignore[misc]
         user=user,
         translation=word_translation,
-        progress=PRESENTATION['info']['progress'],
+        progress=fixtures.PRESENTATION['info']['progress'],
     )
