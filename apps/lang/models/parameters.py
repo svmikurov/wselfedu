@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Final, Literal, TypeAlias
+from typing import TYPE_CHECKING, Final, Literal, Self, TypeAlias
 
 from django.contrib.auth import get_user_model
 from django.core import validators
@@ -173,6 +173,14 @@ class Parameters(models.Model):
         """Is know."""
         return self.get_progress('is_know')
 
+    @classmethod
+    def get_instants(cls, user: Person) -> Self:
+        """Get user translation parameters or return defaults."""
+        try:
+            return cls.objects.get(user=user)
+        except cls.DoesNotExist:
+            return cls()
+
 
 class TranslationSetting(models.Model):
     """Translation study settings model."""
@@ -250,20 +258,13 @@ class TranslationSetting(models.Model):
         return choice.value, choice.label
 
     @classmethod
-    def get_settings(cls, user: Person) -> dict[str, Any]:
+    def get_instants(cls, user: Person) -> Self:
         """Get user translation settings or return defaults."""
         try:
-            settings = cls.objects.get(user=user)
+            instance = cls.objects.get(user=user)
         except cls.DoesNotExist:
-            return {
-                'translation_order': '',
-                'word_count': '',
-            }
-        else:
-            return {
-                'translation_order': settings.translation_order,
-                'word_count': settings.word_count,
-            }
+            return cls()
+        return instance
 
 
 class PresentationSettings(models.Model):
@@ -329,17 +330,9 @@ class PresentationSettings(models.Model):
         ]
 
     @classmethod
-    def get_settings(cls, user: Person) -> types.PresentationSettings:
+    def get_instants(cls, user: Person) -> Self:
         """Get user presentation settings or return defaults."""
         try:
-            settings = cls.objects.get(user=user)
+            return cls.objects.get(user=user)
         except cls.DoesNotExist:
-            return {
-                'question_timeout': cls.DEFAULT_TIMEOUT,
-                'answer_timeout': cls.DEFAULT_TIMEOUT,
-            }
-        else:
-            return {
-                'question_timeout': settings.question_timeout,
-                'answer_timeout': settings.answer_timeout,
-            }
+            return cls()
