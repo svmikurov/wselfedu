@@ -1,8 +1,13 @@
 """Development utility decorators."""
 
+from __future__ import annotations
+
 import logging
 from functools import wraps
-from typing import Any, Callable, TypeVar
+from typing import TYPE_CHECKING, Any, Callable, TypeVar
+
+if TYPE_CHECKING:
+    from django.http.request import HttpRequest
 
 F = TypeVar('F', bound=Callable[..., Any])
 
@@ -89,5 +94,20 @@ def log_implementation(func: F) -> F:
 
         audit.debug(f'End method: `{method_name}()`')
         return result
+
+    return wrapper  # type: ignore[return-value]
+
+
+def audit_form_data(view_func: F) -> F:  # noqa: ANN401
+    """Audit the case parameters request payload."""
+
+    @wraps(view_func)
+    def wrapper(request: HttpRequest, *args: object, **kwargs: object) -> Any:  # noqa: ANN401
+        from apps.lang.forms import CaseParametersForm
+
+        form = CaseParametersForm(request.POST)
+        form.is_valid()
+        print(f'{form.cleaned_data = }')
+        return view_func(request, *args, **kwargs)
 
     return wrapper  # type: ignore[return-value]
