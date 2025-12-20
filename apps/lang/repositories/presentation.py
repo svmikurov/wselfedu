@@ -44,7 +44,7 @@ class EnglishPresentation(PresentationABC):
 
     def get_candidates(
         self,
-        params: types.TranslationMeta,
+        params: types.TranslationParameters,
     ) -> types.WordStudyParameters:
         """Get candidates for Presentation."""
         english_word_ids = models.EnglishTranslation.objects.filter(
@@ -105,7 +105,7 @@ class EnglishPresentation(PresentationABC):
 
     @staticmethod
     def _get_conditions(
-        parameters_db_data: types.TranslationMeta,
+        parameters_db_data: types.TranslationParameters,
     ) -> Q:
         """Convert parameters to Q object represents an conditions."""
         conditions = Q()

@@ -85,8 +85,8 @@ class ProgressPhase(TypedDict):
 # -------------
 
 
-class TranslationMeta(TypedDict):
-    """Translation meta type."""
+class TranslationParameters(TypedDict):
+    """Translation parameters type."""
 
     category: IdName | None
     mark: IdName | None
@@ -115,7 +115,7 @@ class PresentationSettings(TypedDict):
 
 
 class CaseParameters(
-    TranslationMeta,
+    TranslationParameters,
     ProgressPhase,
     TranslationSettings,
 ):
@@ -124,7 +124,7 @@ class CaseParameters(
 
 class CaseSettings(
     Options,
-    TranslationMeta,
+    TranslationParameters,
     ProgressPhase,
     TranslationSettings,
     PresentationSettings,

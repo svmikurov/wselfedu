@@ -104,7 +104,7 @@ OPTIONS: types.Options = {
     'translation_orders': TRANSLATION_ORDERS,
 }
 
-TRANSLATION_META: Final[types.TranslationMeta] = {
+TRANSLATION_PARAMETERS: Final[types.TranslationParameters] = {
     'category': OPTIONS['categories'][0],
     'mark': OPTIONS['marks'][1],
     'word_source': OPTIONS['sources'][0],
@@ -131,7 +131,7 @@ PRESENTATION_SETTINGS: Final[types.PresentationSettings] = {
 }
 
 TRANSLATION_CASE_PARAMETERS: Final[types.CaseParameters] = {
-    **TRANSLATION_META,
+    **TRANSLATION_PARAMETERS,
     **PROGRESS_PHASE,
     **TRANSLATION_SETTINGS,
 }
