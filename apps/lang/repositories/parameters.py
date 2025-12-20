@@ -2,16 +2,17 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Literal, TypeAlias, override
+from typing import TYPE_CHECKING, Literal, TypeAlias, override
 
 from django.db import transaction
 from django.db.models import QuerySet
-from django.forms.models import model_to_dict
 from django.urls import reverse
 
 from apps.core import models as models_core
 from apps.lang import models, types
-from apps.lang.repositories.abc import StudyParametersRepositoryABC
+from apps.lang.repositories.abc import (
+    StudyParametersRepositoryABC,
+)
 
 if TYPE_CHECKING:
     from apps.users.models import Person
@@ -171,30 +172,38 @@ class StudyParametersRepository(StudyParametersRepositoryABC):
         return self.fetch(user)
 
     @override
-    def get_study_settings(self, user: Person) -> dict[str, Any]:
+    def get(self, user: Person) -> types.SettingsToContext:
         """Get study settings for presentation case."""
-        # TODO: Refactor, relocate path declaration
-        urls = {
-            'url': reverse('lang:translation_english_study_case'),
-            'progress_url': '/api/v1/lang/study/progress/',
-        }
-        translation_meta_query = models.Parameters.objects.filter(
-            user=user
-        ).first()
-        translation_meta = (
-            model_to_dict(translation_meta_query)
-            if translation_meta_query
-            else {}
+        translation_parameters = models.Parameters.get_instants(user)
+        translation_settings = models.TranslationSetting.get_instants(user)
+        presentation_settings = models.PresentationSettings.get_instants(user)
+
+        return types.SettingsToContext(
+            # Study urls
+            url=reverse('lang:translation_english_study_case'),
+            progress_url='/api/v1/lang/study/progress/',
+            #
+            # Translation parameters
+            category=self._get_pk(translation_parameters.category),
+            # TODO: Fix type ignore, fix mark getting
+            mark=self._get_pk(translation_parameters.mark) or '',
+            word_source=self._get_pk(translation_parameters.word_source),
+            start_period=self._get_pk(translation_parameters.start_period),
+            end_period=self._get_pk(translation_parameters.end_period),
+            #
+            # Translation settings
+            translation_order=translation_settings.translation_order,  # type: ignore[typeddict-item]
+            word_count=str(translation_settings.word_count or ''),
+            #
+            # Presentation settings
+            question_timeout=str(presentation_settings.question_timeout or ''),
+            answer_timeout=str(presentation_settings.answer_timeout or ''),
         )
-        translation_settings = models.TranslationSetting.get_settings(user)
-        presentation_settings = models.PresentationSettings.get_settings(user)
-        task_settings = {
-            **urls,
-            **translation_meta,
-            **translation_settings,
-            **presentation_settings,
-        }
-        return task_settings
+
+    # TODO: Fix type ignore
+    @staticmethod
+    def _get_pk(instance: object) -> str:
+        return str(instance.pk) if instance else ''  # type: ignore[attr-defined]
 
     @staticmethod
     def _get_identifier(
