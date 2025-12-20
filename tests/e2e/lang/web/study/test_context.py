@@ -44,6 +44,7 @@ DEFAULT_SETTINGS = {
     # Presentation settings
     'answer': str(models.PresentationSettings.DEFAULT_TIMEOUT),
     'question': str(models.PresentationSettings.DEFAULT_TIMEOUT),
+    # Meta
     'url': STUDY_CASE_URL_PATH,
 }
 
