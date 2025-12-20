@@ -105,8 +105,8 @@ class TranslationSettings(TypedDict):
 class PresentationSettings(TypedDict):
     """Presentation settings type."""
 
-    question_timeout: float | None
-    answer_timeout: float | None
+    question_timeout: int | None
+    answer_timeout: int | None
 
 
 # ----------
