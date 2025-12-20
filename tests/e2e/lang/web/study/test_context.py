@@ -39,7 +39,7 @@ DEFAULT_SETTINGS = {
     'start-period': '',
     'end-period': '',
     # Translation settings
-    'translation-order': '',
+    'translation-order': 'to_native',
     'word-count': '',
     # Presentation settings
     'answer': str(models.PresentationSettings.DEFAULT_TIMEOUT),
