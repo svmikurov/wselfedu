@@ -132,6 +132,29 @@ class CaseSettings(
     """Study case settings type."""
 
 
+class SettingsToContext(TypedDict):
+    """Type for settings to include into context for rendering."""
+
+    # Study urls
+    url: str
+    progress_url: str
+
+    # Translation parameters
+    category: str
+    mark: str
+    word_source: str
+    start_period: str
+    end_period: str
+
+    # Translation settings
+    translation_order: TranslateOrder
+    word_count: str
+
+    # Presentation settings
+    question_timeout: str
+    answer_timeout: str
+
+
 # Word study Presentation case
 # ----------------------------
 
