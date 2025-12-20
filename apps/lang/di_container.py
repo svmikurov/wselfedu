@@ -48,7 +48,7 @@ class LanguageContainer(containers.DeclarativeContainer):
     # ------------
 
     parameters_repository = providers.Factory(
-        repositories.WordStudyParametersRepository,
+        repositories.StudyParametersRepository,
     )
     word_repository = providers.Factory(
         repositories.EnglishPresentation,

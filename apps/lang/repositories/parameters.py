@@ -11,7 +11,7 @@ from django.urls import reverse
 
 from apps.core import models as models_core
 from apps.lang import models, types
-from apps.lang.repositories.abc import WordStudyParamsRepositoryABC
+from apps.lang.repositories.abc import StudyParametersRepositoryABC
 
 if TYPE_CHECKING:
     from apps.users.models import Person
@@ -33,7 +33,7 @@ OptionsQuerySetT: TypeAlias = QuerySet[
 ]
 
 
-class WordStudyParametersRepository(WordStudyParamsRepositoryABC):
+class StudyParametersRepository(StudyParametersRepositoryABC):
     """Word study params repository."""
 
     def _get_id_name(self, queryset: OptionsQuerySetT) -> list[types.IdName]:

@@ -48,7 +48,7 @@ class PresentationABC(ABC):
         """Get Presentation case word data."""
 
 
-class WordStudyParamsRepositoryABC(ABC):
+class StudyParametersRepositoryABC(ABC):
     """ABC for Word study params repository."""
 
     @abstractmethod

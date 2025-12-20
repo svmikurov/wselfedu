@@ -16,7 +16,7 @@ from rest_framework.viewsets import ViewSet
 
 import di
 from apps.core.api import renderers
-from apps.lang.repositories.abc import WordStudyParamsRepositoryABC
+from apps.lang.repositories.abc import StudyParametersRepositoryABC
 from apps.lang.services.abc import (
     WordPresentationServiceABC,
     WordProgressServiceABC,
@@ -92,7 +92,7 @@ class WordStudyViewSet(ViewSet):
     def parameters(
         self,
         request: Request,
-        repository: WordStudyParamsRepositoryABC = wiring.Provide[
+        repository: StudyParametersRepositoryABC = wiring.Provide[
             di.MainContainer.lang.parameters_repository,
         ],
     ) -> Response:
@@ -114,7 +114,7 @@ class WordStudyViewSet(ViewSet):
     def update_parameters(
         self,
         request: Request,
-        repository: WordStudyParamsRepositoryABC = wiring.Provide[
+        repository: StudyParametersRepositoryABC = wiring.Provide[
             di.MainContainer.lang.parameters_repository,
         ],
     ) -> Response:

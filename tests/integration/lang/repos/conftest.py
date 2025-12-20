@@ -84,9 +84,9 @@ def public_parameters() -> types.CaseSettings:
 
 
 @pytest.fixture
-def parameters_repo() -> repositories.WordStudyParametersRepository:
+def parameters_repo() -> repositories.StudyParametersRepository:
     """Provide Word study Presentation params repository."""
-    return repositories.WordStudyParametersRepository()
+    return repositories.StudyParametersRepository()
 
 
 @pytest.fixture

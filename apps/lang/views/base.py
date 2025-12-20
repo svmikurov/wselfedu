@@ -25,14 +25,14 @@ class SettingsBaseView(
 ):
     """Settings base view."""
 
-    _repository: repos.WordStudyParamsRepositoryABC | None = None
+    _repository: repos.StudyParametersRepositoryABC | None = None
 
     @inject
     def dispatch(
         self,
         request: HttpRequest,
         *args: object,
-        repository: repos.WordStudyParametersRepository = Provide[
+        repository: repos.StudyParametersRepository = Provide[
             MainContainer.lang.parameters_repository,
         ],
         **kwargs: object,
@@ -42,10 +42,8 @@ class SettingsBaseView(
         return super().dispatch(request, *args, **kwargs)
 
     @property
-    def repository(self) -> repos.WordStudyParametersRepository:
+    def repository(self) -> repos.StudyParametersRepository:
         """Get settings repository."""
-        if not isinstance(
-            self._repository, repos.WordStudyParametersRepository
-        ):
+        if not isinstance(self._repository, repos.StudyParametersRepository):
             raise AttributeError('Repository not initialized')
         return self._repository

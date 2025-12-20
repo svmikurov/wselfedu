@@ -83,7 +83,7 @@ class TestUpdate:
         # Assert
         assert response.status_code == HTTPStatus.OK
 
-        updated_data = repositories.WordStudyParametersRepository().fetch(user)
+        updated_data = repositories.StudyParametersRepository().fetch(user)
 
         assert to_update.items() <= updated_data.items()
         assert to_update.items() <= response.data.items()

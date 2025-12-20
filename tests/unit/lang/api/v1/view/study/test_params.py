@@ -11,14 +11,14 @@ from rest_framework.test import APIRequestFactory, force_authenticate
 
 import di
 from apps.lang.api.v1.views.study import WordStudyViewSet
-from apps.lang.repositories.abc import WordStudyParamsRepositoryABC
+from apps.lang.repositories.abc import StudyParametersRepositoryABC
 from tests.fixtures.lang.no_db import translations as fixtures
 
 
 @pytest.fixture
 def mock_repository() -> Mock:
     """Mock initial Word study parameters."""
-    mock = Mock(spec=WordStudyParamsRepositoryABC)
+    mock = Mock(spec=StudyParametersRepositoryABC)
     mock.fetch.return_value = fixtures.PRESENTATION_PARAMETERS
     return mock
 

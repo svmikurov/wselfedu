@@ -16,7 +16,7 @@ class TestCreate:
     def test_create_parameters_success(
         self,
         user: Person,
-        parameters_repo: repositories.WordStudyParametersRepository,
+        parameters_repo: repositories.StudyParametersRepository,
     ) -> None:
         """Parameters was successfully created."""
         # Arrange
@@ -36,7 +36,7 @@ class TestFetch:
     def test_fetch_public_parameters(
         self,
         user: Person,
-        parameters_repo: repositories.WordStudyParametersRepository,
+        parameters_repo: repositories.StudyParametersRepository,
         public_parameters: types.CaseSettings,
     ) -> None:
         """Test fetch public default data."""
@@ -46,7 +46,7 @@ class TestFetch:
     def test_fetch_data(
         self,
         user: Person,
-        parameters_repo: repositories.WordStudyParametersRepository,
+        parameters_repo: repositories.StudyParametersRepository,
         parameters_db_data: types.CaseSettings,
         django_assert_num_queries: CaptureQueriesContext,
     ) -> None:
@@ -62,7 +62,7 @@ class TestUpdate:
     def test_update_parameters(
         self,
         user: Person,
-        parameters_repo: repositories.WordStudyParametersRepository,
+        parameters_repo: repositories.StudyParametersRepository,
         parameters_db_data: types.CaseSettings,
         django_assert_num_queries: CaptureQueriesContext,
     ) -> None:
@@ -97,7 +97,7 @@ class TestUpdate:
     def test_update_with_none(
         self,
         user: Person,
-        parameters_repo: repositories.WordStudyParametersRepository,
+        parameters_repo: repositories.StudyParametersRepository,
         parameters_db_data: types.CaseSettings,
     ) -> None:
         """Test that updated parameter is None."""
