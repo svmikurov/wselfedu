@@ -68,7 +68,7 @@ class WordStudyParamsRepositoryABC(ABC):
         """Update initial parameters."""
 
     @abstractmethod
-    def get_task_settings(self, user: Person) -> dict[str, Any]:
+    def get_study_settings(self, user: Person) -> dict[str, Any]:
         """Get task settings."""
 
 

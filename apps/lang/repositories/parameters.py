@@ -171,7 +171,7 @@ class WordStudyParametersRepository(WordStudyParamsRepositoryABC):
         return self.fetch(user)
 
     @override
-    def get_task_settings(self, user: Person) -> dict[str, Any]:
+    def get_study_settings(self, user: Person) -> dict[str, Any]:
         """Get study settings for presentation case."""
         # TODO: Refactor, relocate path declaration
         urls = {

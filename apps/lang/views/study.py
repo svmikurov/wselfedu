@@ -33,7 +33,7 @@ class EnglishTranslationStudyView(base.SettingsBaseView):
     def get_context_data(self, **kwargs: dict[str, Any]) -> dict[str, Any]:
         """Add study settings to context."""
         context = super().get_context_data(**kwargs)
-        context['task'] = self.repository.get_task_settings(self.user)
+        context['task'] = self.repository.get_study_settings(self.user)
         return context
 
 
