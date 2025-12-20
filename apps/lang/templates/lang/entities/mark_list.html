@@ -3,7 +3,7 @@
 {% block title %}Маркеры{% endblock %}
 
 {% block content %}
-<div class="container p-0">
+<main class="container p-0">
   <div id="header-block" class="row align-items-center py-1">
     <div class="col">
       <h1 class="mb-0">Маркеры</h1>
@@ -13,12 +13,14 @@
          Назад
       </a>
     </div>
+  </div>
 
-<ul>
-{% for mark in marks %}
-    <li><a href="{{ mark.get_absolute_url }}">{{ mark.name }}</a></li>
-{% empty %}
-    <p>Маркеры еще не добавлены.</p>
-{% endfor %}
-</ul>
+  <ul>
+  {% for mark in marks %}
+      <li><a href="{{ mark.get_absolute_url }}">{{ mark.name }}</a></li>
+  {% empty %}
+      <p>Маркеры еще не добавлены.</p>
+  {% endfor %}
+  </ul>
+</main>
 {% endblock %}

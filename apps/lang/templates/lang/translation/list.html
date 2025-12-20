@@ -4,6 +4,7 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
+<main class="container-xl">
 <div id="header-block" class="row align-items-center py-1">
   <div class="col">
     <h1 class="mb-0">{{ header }}</h1>
@@ -63,6 +64,6 @@
   {% endfor %}
   </tbody>
 </table>
-
+</main>
 {% include 'components/pagination.html' %}
 {% endblock %}
