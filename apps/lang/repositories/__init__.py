@@ -15,8 +15,8 @@ __all__ = [
 
 from .abc import (
     PresentationABC,
-    TranslationRepoABC,
     StudyParametersRepositoryABC,
+    TranslationRepoABC,
 )
 from .parameters import StudyParametersRepository
 from .presentation import EnglishPresentation
