@@ -15,6 +15,7 @@ from rest_framework.renderers import JSONRenderer
 from apps.core.exceptions.info import NoTranslationsAvailableException
 from apps.lang.api.v1 import serializers
 from di import MainContainer
+from utils import decorators
 
 from . import _data, base
 
@@ -33,11 +34,12 @@ class EnglishTranslationStudyView(base.SettingsBaseView):
     def get_context_data(self, **kwargs: dict[str, Any]) -> dict[str, Any]:
         """Add study settings to context."""
         context = super().get_context_data(**kwargs)
-        context['task'] = self.repository.get_study_settings(self.user)
+        context['study_setting'] = self.repository.get(self.user)
         return context
 
 
 # TODO: Fix type ignore
+@decorators.audit_form_data
 @inject
 @login_required
 def english_translation_case_htmx_view(
