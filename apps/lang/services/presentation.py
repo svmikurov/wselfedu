@@ -34,7 +34,7 @@ class WordPresentationService(WordPresentationServiceABC):
         self,
         user: Person,
         presentation_params: types.CaseParameters,
-    ) -> types.PresentationCaseT:
+    ) -> types.TranslationCase:
         """Get Word study presentation case."""
         candidates = self._word_repo.get_candidates(presentation_params)
 

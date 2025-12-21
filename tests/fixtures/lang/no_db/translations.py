@@ -34,7 +34,7 @@ PRESENTATION: Final[types.PresentationDataT] = {
     'info': {'progress': 7},
 }
 
-PRESENTATION_CASE: Final[types.PresentationCaseT] = {
+PRESENTATION_CASE: Final[types.TranslationCase] = {
     'case_uuid': TRANSLATION_CASE_UUID,
     **PRESENTATION,
 }

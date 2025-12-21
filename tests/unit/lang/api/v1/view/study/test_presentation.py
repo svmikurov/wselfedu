@@ -17,7 +17,7 @@ from tests.fixtures.lang.no_db import translations as fixtures
 
 
 @pytest.fixture
-def presentation_case() -> types.PresentationCaseT:
+def presentation_case() -> types.TranslationCase:
     """Provide Word study presentation case."""
     return fixtures.PRESENTATION_CASE
 

@@ -24,7 +24,7 @@ def mock_presentation_repo(
     mock.get_candidates.return_value = types.WordStudyParameters(
         translation_ids=[1],
     )
-    mock.get_word_study_data.return_value = presentation
+    mock.get_translation.return_value = presentation
     return mock
 
 
@@ -52,9 +52,9 @@ def service(
 def expected_case(
     case_uuid: uuid.UUID,
     presentation: types.PresentationDataT,
-) -> types.PresentationCaseT:
+) -> types.TranslationCase:
     """Provide Word study Presentation case."""
-    case: types.PresentationCaseT = {'case_uuid': case_uuid, **presentation}
+    case: types.TranslationCase = {'case_uuid': case_uuid, **presentation}
     return case
 
 
@@ -72,7 +72,7 @@ class TestService:
         mock_user: Mock,
         service: services.WordPresentationService,
         params: Mock,
-        expected_case: types.PresentationCaseT,
+        expected_case: types.TranslationCase,
     ) -> None:
         """Test get Presentation case."""
         # Act

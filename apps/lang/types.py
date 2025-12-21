@@ -188,13 +188,34 @@ class InfoT(TypedDict):
     progress: int | None
 
 
-class CaseToContext(
-    CaseUUID,
-    PresentationT,
-):
+# ----------------
+# WEB presentation
+# ----------------
+
+
+class UpdateProgressT(TypedDict):
+    """Update progress typed dict."""
+
+    case_uuid: str
+    is_known: Literal['true', 'false']
+
+
+class ProgressT(TypedDict):
+    """Study progress type dict."""
+
+    current: str
+    update_url: str
+    increment_payload: str
+    decrement_payload: str
+
+
+class TranslationWEB(TypedDict):
     """Type for study case to include into context for rendering."""
 
-    info: InfoT
+    case_uuid: str
+    definition: str
+    explanation: str
+    progress: ProgressT
 
 
 # Word study Presentation case
@@ -209,7 +230,8 @@ class PresentationDataT(
     info: InfoT
 
 
-class PresentationCaseT(
+# TODO: Refactor, update to NamedTuple?
+class TranslationCase(
     CaseUUID,
     PresentationDataT,
 ):
