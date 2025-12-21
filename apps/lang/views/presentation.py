@@ -25,7 +25,7 @@ class EnglishTranslationStudyView(base.SettingsBaseView):
     The page requests a new study case as partial template to update.
     """
 
-    template_name = 'lang/study/index.html'
+    template_name = 'lang/presentation/index.html'
     extra_context = _data.ENGLISH_TRANSLATION['english_study']
 
     def get_context_data(self, **kwargs: dict[str, Any]) -> dict[str, Any]:
@@ -64,7 +64,7 @@ class EnglishTranslationStudyCaseView(base.CaseBaseView):
 
     def render_partial(self, context: dict[str, Any]) -> HttpResponse:
         """Return response with template for partial page update."""
-        case_html = render_to_string('lang/study/_case.html', context)
-        mark_html = render_to_string('lang/study/_mark_bar.html', context)
-        combined_html = f'{case_html}\n{mark_html}'
+        case = render_to_string('lang/presentation/_case.html', context)
+        mark = render_to_string('lang/presentation/_mark_bar.html', context)
+        combined_html = f'{case}\n{mark}'
         return HttpResponse(combined_html)

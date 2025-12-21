@@ -11,7 +11,7 @@ WIRED_MODULES: list[str] = [
     'apps.math.api.v1.views.calculation',
     'apps.lang.api.v1.views.study',
     'apps.lang.views.translation',
-    'apps.lang.views.study',
+    'apps.lang.views.presentation',
     'apps.study.api.v1.views.assigned',
     'apps.users.views.mentorship',
     'apps.users.views.assignation',

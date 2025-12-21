@@ -25,12 +25,12 @@ from .label import (
     MarkDetailView,
     MarkUpdateView,
 )
-from .settings import (
-    study_settings_vew,
-)
-from .study import (
+from .presentation import (
     EnglishTranslationStudyCaseView,
     EnglishTranslationStudyView,
+)
+from .settings import (
+    study_settings_vew,
 )
 from .translation import (
     EnglishTranslationCreateView,
