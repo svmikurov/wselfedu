@@ -6,7 +6,6 @@ from typing import TYPE_CHECKING, Literal, TypeAlias, override
 
 from django.db import transaction
 from django.db.models import QuerySet
-from django.urls import reverse
 
 from apps.core import models as models_core
 from apps.lang import models, types
@@ -171,39 +170,22 @@ class StudyParametersRepository(StudyParametersRepositoryABC):
         )
         return self.fetch(user)
 
-    @override
-    def get(self, user: Person) -> types.SettingsToContext:
-        """Get study settings for presentation case."""
-        translation_parameters = models.Parameters.get_instants(user)
-        translation_settings = models.TranslationSetting.get_instants(user)
-        presentation_settings = models.PresentationSettings.get_instants(user)
-
-        return types.SettingsToContext(
-            # Study urls
-            url=reverse('lang:translation_english_study_case'),
-            progress_url='/api/v1/lang/study/progress/',
-            #
-            # Translation parameters
-            category=self._get_pk(translation_parameters.category),
-            # TODO: Fix type ignore, fix mark getting
-            mark=self._get_pk(translation_parameters.mark) or '',
-            word_source=self._get_pk(translation_parameters.word_source),
-            start_period=self._get_pk(translation_parameters.start_period),
-            end_period=self._get_pk(translation_parameters.end_period),
-            #
-            # Translation settings
-            translation_order=translation_settings.translation_order,  # type: ignore[typeddict-item]
-            word_count=str(translation_settings.word_count or ''),
-            #
-            # Presentation settings
-            question_timeout=str(presentation_settings.question_timeout or ''),
-            answer_timeout=str(presentation_settings.answer_timeout or ''),
-        )
-
     # TODO: Fix type ignore
     @staticmethod
     def _get_pk(instance: object) -> str:
         return str(instance.pk) if instance else ''  # type: ignore[attr-defined]
+
+    @staticmethod
+    def _bool_to_str(value: bool | None) -> str:
+        match value:
+            case True:
+                return 'true'
+            case False:
+                return 'false'
+            case None:
+                return ''
+            case _:
+                raise TypeError(f'Unsupported type: {type(value).__name__}')
 
     @staticmethod
     def _get_identifier(

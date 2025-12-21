@@ -67,10 +67,6 @@ class StudyParametersRepositoryABC(ABC):
     ) -> types.CaseSettings:
         """Update initial parameters."""
 
-    @abstractmethod
-    def get(self, user: Person) -> types.SettingsToContext:
-        """Get task settings."""
-
 
 class TranslationRepoABC(ABC):
     """ABC for English translation repository."""
