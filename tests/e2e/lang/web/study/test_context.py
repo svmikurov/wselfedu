@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-import json
 import uuid
+from http import HTTPStatus
 from typing import TYPE_CHECKING, Any
 from unittest.mock import Mock
 
@@ -45,6 +45,7 @@ DEFAULT_SETTINGS = {
     'answer': str(models.PresentationSettings.DEFAULT_TIMEOUT),
     'question': str(models.PresentationSettings.DEFAULT_TIMEOUT),
     # Meta
+    # TODO: Rename to 'case_url'?
     'url': STUDY_CASE_URL_PATH,
 }
 
@@ -124,19 +125,35 @@ class TestSettingsContext:
 
 @pytest.mark.django_db
 class TestCaseContext:
-    """Translation study settings case tests."""
+    """Translation study case context tests."""
 
-    def test_have_correct_context(
+    @pytest.fixture
+    def study_settings(
         self,
-        auth_client: Client,
-        case_uuid: uuid.UUID,
         parameters_db_data: dict[str, Any],
-    ) -> None:
-        """Study settings response have correct context."""
-        # Arrange
-        # - set translation study data to return
-        #   by translation study service
-        case: types.PresentationCaseT = {
+    ) -> types.CaseSettingContext:
+        """Provide case study settings."""
+        return {
+            # Translation parameters
+            'category': '',
+            'word_source': '',
+            'mark': '',
+            'start_period': '',
+            'end_period': '',
+            # Progress phases
+            'is_study': '',
+            'is_repeat': '',
+            'is_examine': '',
+            'is_know': '',
+            # Translation settings
+            'translation_order': 'random',
+            'word_count': '',
+        }
+
+    @pytest.fixture
+    def case(self, case_uuid: uuid.UUID) -> types.PresentationCaseT:
+        """Provide case."""
+        return {
             'case_uuid': case_uuid,
             'definition': 'test',
             'explanation': 'test',
@@ -144,33 +161,95 @@ class TestCaseContext:
                 'progress': 1,
             },
         }
-        # - build study service mock
+
+    def test_status_code(
+        self,
+        auth_client: Client,
+        parameters_db_data: dict[str, Any],
+        study_settings: types.CaseSettingContext,  # Request case settings
+        case: types.PresentationCaseT,
+    ) -> None:
+        """Study response status code success test."""
         study_service_mock = Mock(spec=WordPresentationServiceABC)
-        study_service_mock.get_presentation_case.return_value = case
+        study_service_mock.get_case.return_value = case
 
         # Act
         # - mock study service
         with di.container.lang.word_presentation_service.override(
             study_service_mock
         ):
-            context = auth_client.get(
+            response = auth_client.post(
                 STUDY_CASE_URL_PATH,
-                data=parameters_db_data,
-            ).context
+                data=study_settings,
+            )
 
         # Assert
+        assert response.status_code == HTTPStatus.OK
+
+    def test_have_correct_context(
+        self,
+        auth_client: Client,
+        parameters_db_data: dict[str, Any],  # Populate DB
+        study_settings: types.CaseSettingContext,  # Request case settings
+        case: types.PresentationCaseT,  # Expected case
+        case_uuid: uuid.UUID,
+    ) -> None:
+        """Study settings response have correct context."""
+        study_service_mock = Mock(spec=WordPresentationServiceABC)
+        study_service_mock.get_case.return_value = case
+
+        # Act
+        # - mock study service
+        with di.container.lang.word_presentation_service.override(
+            study_service_mock
+        ):
+            response = auth_client.post(
+                STUDY_CASE_URL_PATH,
+                data=study_settings,
+            )
+
+        # Assert
+        context = response.context
+        assert context is not None
+
+        print(f'{context = }')
+
         # - translation study case is correct
-        assert context['case'] == case
+        assert context['case_uuid'] == case['case_uuid']
+        assert context['definition'] == case['definition']
+        assert context['explanation'] == case['explanation']
 
         # - translation meta data is correct
         assert context['info'] == case['info']
 
-        # - payload to update translation study progress is correct
-        assert json.loads(context['task']['known']) == {
-            'case_uuid': str(case_uuid),
-            'is_known': True,
-        }
-        assert json.loads(context['task']['unknown']) == {
-            'case_uuid': str(case_uuid),
-            'is_known': False,
-        }
+    def test_template_contains(
+        self,
+        auth_client: Client,
+        parameters_db_data: dict[str, Any],  # Populate DB
+        study_settings: types.CaseSettingContext,  # Request case settings
+        case: types.PresentationCaseT,  # Expected case
+    ) -> None:
+        """Test that template contains case data."""
+        study_service_mock = Mock(spec=WordPresentationServiceABC)
+        study_service_mock.get_case.return_value = case
+
+        # Act
+        # - mock study service
+        with di.container.lang.word_presentation_service.override(
+            study_service_mock
+        ):
+            response = auth_client.post(
+                STUDY_CASE_URL_PATH,
+                data=study_settings,
+            )
+
+        # Assert
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        # - template have correct question
+        question_tag = soup.find('div', {'id': 'question'})
+        assert question_tag.text == case['definition']  # type: ignore[union-attr]
+
+        # - template have correct answer
+        answer_tag = soup.find('div', {'id': 'answer'})
+        assert answer_tag.text == case['explanation']  # type: ignore[union-attr]
