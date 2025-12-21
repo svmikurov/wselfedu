@@ -60,7 +60,7 @@ def mock_service(
 ) -> Mock:
     """Mock Word study presentation service."""
     mock = Mock(spec=WordPresentationServiceABC)
-    mock.get_presentation_case.return_value = presentation_case
+    mock.get_case.return_value = presentation_case
     return mock
 
 
@@ -88,7 +88,7 @@ class TestPresentation:
         # Assert
         assert response.status_code == HTTPStatus.OK
         assert response.data == valid_response_data
-        mock_service.get_presentation_case.assert_called_once_with(
+        mock_service.get_case.assert_called_once_with(
             mock_user,
             valid_payload,
         )

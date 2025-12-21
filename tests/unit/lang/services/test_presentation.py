@@ -76,7 +76,7 @@ class TestService:
     ) -> None:
         """Test get Presentation case."""
         # Act
-        case = service.get_presentation_case(
+        case = service.get_case(
             user=mock_user,
             presentation_params=params,
         )

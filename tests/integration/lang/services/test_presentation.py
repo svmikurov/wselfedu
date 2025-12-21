@@ -33,4 +33,4 @@ class TestGetPresentationCase:
 
         # Act & Assert
         with pytest.raises(exceptions.NoTranslationsAvailableException):
-            service.get_presentation_case(user, conditions)
+            service.get_case(user, conditions)

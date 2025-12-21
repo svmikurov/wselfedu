@@ -65,7 +65,7 @@ class WordStudyViewSet(ViewSet):
         """Render the Word study presentation case."""
         parameters = ser.WordParametersSerializer(data=request.data)
         parameters.is_valid(raise_exception=True)
-        study_data = presentation_services.get_presentation_case(
+        study_data = presentation_services.get_case(
             self.request.user,  # type: ignore[arg-type]
             parameters.validated_data,
         )

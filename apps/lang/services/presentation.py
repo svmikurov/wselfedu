@@ -30,7 +30,7 @@ class WordPresentationService(WordPresentationServiceABC):
 
     # TODO: Refactor
     @override
-    def get_presentation_case(
+    def get_case(
         self,
         user: Person,
         presentation_params: types.CaseParameters,
