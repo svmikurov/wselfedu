@@ -36,6 +36,7 @@ class EnglishTranslationStudyView(base.SettingsBaseView):
 
 
 # TODO: Fix type ignore, update messages.
+# Add custom form view, without unused methods?
 class EnglishTranslationStudyCaseView(base.CaseBaseView):
     """English translation study case view.
 
@@ -54,7 +55,7 @@ class EnglishTranslationStudyCaseView(base.CaseBaseView):
             messages.success(self.request, 'Нет переводов для изучения')
             return redirect('lang:settings')
         else:
-            return self.render_partial(case)  # type: ignore[arg-type]
+            return self.render_partial(self.get_context_data(case=case))
 
     def form_invalid(self, form: forms.CaseRequestForm) -> HttpResponse:
         """Redirect to study settings if case request is invalid."""

@@ -212,15 +212,14 @@ class TestCaseContext:
         context = response.context
         assert context is not None
 
-        print(f'{context = }')
-
         # - translation study case is correct
-        assert context['case_uuid'] == case['case_uuid']
-        assert context['definition'] == case['definition']
-        assert context['explanation'] == case['explanation']
+        assert 'case' in context
+        assert context['case']['case_uuid'] == case['case_uuid']
+        assert context['case']['definition'] == case['definition']
+        assert context['case']['explanation'] == case['explanation']
 
         # - translation meta data is correct
-        assert context['info'] == case['info']
+        assert context['case']['info'] == case['info']
 
     def test_template_contains(
         self,
