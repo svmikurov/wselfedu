@@ -216,10 +216,9 @@ class TestGetWordByTranslation:
     ) -> None:
         """Test get Word study case data by translation ID."""
         # Act
-        result = presentation_repo.get_word_study_data(
+        result = presentation_repo.get_translation(
             user=user,
             translation_id=word_translation.pk,
-            language='english',
         )
 
         # Assert
@@ -239,10 +238,9 @@ class TestGetWordByTranslation:
 
         # Act & Assert
         with pytest.raises(ObjectDoesNotExist):
-            presentation_repo.get_word_study_data(
+            presentation_repo.get_translation(
                 user=user,
                 translation_id=no_exist_translation_id,
-                language='english',
             )
 
     def get_word_study_data_other_users(
@@ -254,10 +252,9 @@ class TestGetWordByTranslation:
         """Test that users can only access their own translations."""
         # Act & Assert - other user shouldn't see the translation
         with pytest.raises(ObjectDoesNotExist):
-            presentation_repo.get_word_study_data(
+            presentation_repo.get_translation(
                 user=user_not_owner,
                 translation_id=word_translation.pk,
-                language='english',
             )
 
     def get_word_study_data_query_count(
@@ -270,8 +267,7 @@ class TestGetWordByTranslation:
         """Test that only one query is executed."""
         # Act & Assert
         with django_assert_num_queries(1):  # type: ignore[operator]
-            presentation_repo.get_word_study_data(
+            presentation_repo.get_translation(
                 user=user,
                 translation_id=word_translation.pk,
-                language='english',
             )
