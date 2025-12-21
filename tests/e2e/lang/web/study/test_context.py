@@ -214,12 +214,14 @@ class TestCaseContext:
 
         # - translation study case is correct
         assert 'case' in context
-        assert context['case']['case_uuid'] == case['case_uuid']
+        assert context['case']['case_uuid'] == str(case['case_uuid'])
         assert context['case']['definition'] == case['definition']
         assert context['case']['explanation'] == case['explanation']
 
         # - translation meta data is correct
-        assert context['case']['info'] == case['info']
+        assert context['case']['progress']['current'] == str(
+            case['info']['progress']
+        )
 
     def test_template_contains(
         self,
