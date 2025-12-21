@@ -33,10 +33,10 @@ class WordPresentationService(WordPresentationServiceABC):
     def get_case(
         self,
         user: Person,
-        presentation_params: types.CaseParameters,
+        case_parameters: types.CaseParameters,
     ) -> types.TranslationCase:
         """Get Word study presentation case."""
-        candidates = self._word_repo.get_candidates(presentation_params)
+        candidates = self._word_repo.get_candidates(case_parameters)
 
         if not candidates.translation_ids:
             log.info('No translation to study for requested parameters')

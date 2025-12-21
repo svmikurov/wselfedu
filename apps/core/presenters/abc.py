@@ -46,6 +46,6 @@ class StudyPresenterGenABC(ABC, Generic[T_contra, T]):
     def get_case(
         self,
         user: Person,
-        presentation_params: T_contra,
+        case_parameters: T_contra,
     ) -> T:
         """Get item study presentation case."""

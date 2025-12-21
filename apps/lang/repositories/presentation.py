@@ -46,11 +46,11 @@ class EnglishPresentation(PresentationABC):
     @override
     def get_candidates(
         self,
-        params: types.TranslationParameters,
+        parameters: types.CaseParameters,
     ) -> types.CaseCandidates:
         """Get candidates for Presentation."""
         english_word_ids = models.EnglishTranslation.objects.filter(
-            self._get_conditions(params)
+            self._get_conditions(parameters)
         ).values_list('id', flat=True)
 
         return types.CaseCandidates(

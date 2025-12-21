@@ -20,7 +20,7 @@ class WordPresentationServiceABC(
     def get_case(
         self,
         user: Person,
-        presentation_params: types.CaseParameters,
+        case_parameters: types.CaseParameters,
     ) -> types.TranslationCase:
         """Get Word study presentation case."""
 

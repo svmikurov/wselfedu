@@ -68,7 +68,7 @@ class TestService:
         # Act
         case = service.get_case(
             user=mock_user,
-            presentation_params=parameters,
+            case_parameters=parameters,
         )
 
         # Assert
