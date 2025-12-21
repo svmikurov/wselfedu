@@ -10,7 +10,7 @@ from apps.core.storage import (
 )
 from apps.lang import schemas
 
-from . import repositories, services
+from . import adapters, repositories, services
 from .domain.presentation import WordStudyDomain
 from .services.presentation import WordPresentationService
 
@@ -22,6 +22,7 @@ TRANSLATION_CASE_STORAGE_TTL = 600
 class LanguageContainer(containers.DeclarativeContainer):
     """Language discipline DI container."""
 
+    # --------------
     # Configurations
     # --------------
 
@@ -31,6 +32,7 @@ class LanguageContainer(containers.DeclarativeContainer):
         decrement=1,
     )
 
+    # --------------------
     # Storage dependencies
     # --------------------
 
@@ -44,6 +46,7 @@ class LanguageContainer(containers.DeclarativeContainer):
         ttl=TRANSLATION_CASE_STORAGE_TTL,
     )
 
+    # ------------
     # Repositories
     # ------------
 
@@ -60,13 +63,13 @@ class LanguageContainer(containers.DeclarativeContainer):
         repositories.Progress,
     )
 
+    # ------
     # Domain
     # ------
 
-    word_study_domain = providers.Factory(
-        WordStudyDomain,
-    )
+    word_study_domain = providers.Factory(WordStudyDomain)
 
+    # --------
     # Services
     # --------
 
@@ -84,6 +87,10 @@ class LanguageContainer(containers.DeclarativeContainer):
         progress_config=progress_config,
     )
 
-    settings_service = providers.Factory(
-        services.StudySettingsService,
-    )
+    settings_service = providers.Factory(services.StudySettingsService)
+
+    # --------
+    # Adapters
+    # --------
+
+    web_presentation = providers.Factory(adapters.TranslationAdapterWEB)
