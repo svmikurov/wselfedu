@@ -41,7 +41,7 @@ urlpatterns = [
     ),
     path(
         'translation/english/study/case/',
-        views.english_translation_case_htmx_view,
+        views.EnglishTranslationStudyCaseView.as_view(),
         name='translation_english_study_case',
     ),
     # --------------
