@@ -50,18 +50,24 @@ class IntegerListField(forms.Field):
         return result
 
 
-class CaseParametersForm(forms.Form):
-    """Case parameters form.
+class CaseRequestForm(forms.Form):
+    """Case parameters request form.
 
-    Validated and converts request data to python dict.
+    Validates and converts to python dict the request data.
     """
 
-    # Translation meta
+    # Translation parameters
     category = forms.IntegerField(required=False)
     source = forms.IntegerField(required=False)
-    marks = IntegerListField(required=False)
+    mark = IntegerListField(required=False)
     start_period = forms.IntegerField(required=False)
     end_period = forms.IntegerField(required=False)
+
+    # - progress phases
+    is_study = forms.BooleanField(required=False)
+    is_repeat = forms.BooleanField(required=False)
+    is_examine = forms.BooleanField(required=False)
+    is_know = forms.BooleanField(required=False)
 
     # Translation settings
     translation_order = forms.ChoiceField(

@@ -40,7 +40,7 @@ class TestCaseParametersForm:
     def test_form_converts_request_to_python_types(self) -> None:
         """Form converts string request data to proper Python types."""
         # Act
-        form = forms.CaseParametersForm(REQUEST_QUERYDICT)
+        form = forms.CaseRequestForm(REQUEST_QUERYDICT)
 
         # Assert
         assert form.is_valid(), f'Form errors: {form.errors}'

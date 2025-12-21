@@ -2,7 +2,7 @@
 
 __all__ = [
     # Case
-    'CaseParametersForm',
+    'CaseRequestForm',
     # Parameters
     'ParametersForm',
     'PresentationSettingsForm',
@@ -15,7 +15,7 @@ __all__ = [
 ]
 
 from .case import (
-    CaseParametersForm,
+    CaseRequestForm,
 )
 from .parameters import (
     ParametersForm,
