@@ -6,7 +6,6 @@ from typing import TYPE_CHECKING
 
 from dependency_injector.wiring import Provide, inject
 
-from apps.users.models import Person
 from di import MainContainer
 
 from ..repositories.abc import TranslationRepoABC
@@ -14,6 +13,8 @@ from ..repositories.abc import TranslationRepoABC
 if TYPE_CHECKING:
     from django.http.request import HttpRequest as HttpRequest
     from django.http.response import HttpResponseBase
+
+    from apps.users.models import Person
 
 
 class TranslationViewMixin:
