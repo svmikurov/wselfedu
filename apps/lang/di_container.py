@@ -83,3 +83,7 @@ class LanguageContainer(containers.DeclarativeContainer):
         case_storage=translation_study_storage,
         progress_config=progress_config,
     )
+
+    settings_service = providers.Factory(
+        services.StudySettingsService,
+    )

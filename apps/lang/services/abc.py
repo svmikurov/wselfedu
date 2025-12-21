@@ -44,3 +44,14 @@ class WordProgressServiceABC(ABC):
             Update Word study progress data.
 
         """
+
+
+class StudySettingsServiceABC(ABC):
+    """Study settings service."""
+
+    @abstractmethod
+    def to_context(
+        self,
+        user: Person,
+    ) -> types.CaseStudySettingsContext:
+        """Get case settings to context adding."""
