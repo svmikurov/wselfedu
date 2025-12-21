@@ -5,8 +5,8 @@
     <button
         id="known-button"
         class="wse-btn full-width height-huge"
-        hx-post="/api/v1/lang/study/progress/"
-        hx-vals="{{ task.known }}"
+        hx-post="{{ progress.known_url }}"
+        hx-vals="{{ progress.known_payload }}"
         hx-trigger="click"
         hx-on:htmx:after-request="
           event.detail.successful 
@@ -21,8 +21,8 @@
     <button
         id="unknown-button"
         class="wse-btn full-width height-huge"
-        hx-post="/api/v1/lang/study/progress/"
-        hx-vals="{{ task.unknown }}"
+        hx-post="{{ progress.unknown_url }}"
+        hx-vals="{{ progress.unknown_payload }}"
         hx-trigger="click"
         hx-on:htmx:after-request="
           event.detail.successful 
