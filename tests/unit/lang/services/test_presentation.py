@@ -12,7 +12,7 @@ from tests.fixtures.lang.no_db import translations as fixtures
 def mock_presentation_repo() -> Mock:
     """Mock Word study Presentation repository."""
     mock = Mock(spec=repositories.PresentationABC)
-    mock.get_candidates.return_value = types.WordStudyParameters(
+    mock.get_candidates.return_value = types.CaseCandidates(
         translation_ids=[1],
     )
     mock.get_translation.return_value = fixtures.PRESENTATION

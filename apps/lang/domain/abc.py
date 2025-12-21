@@ -9,5 +9,5 @@ class WordStudyDomainABC(ABC):
     """Word study Presentation domain logic."""
 
     @abstractmethod
-    def create(self, params: types.WordStudyParameters) -> types.WordStudyCase:
+    def create(self, params: types.CaseCandidates) -> types.WordStudyCase:
         """Create Word study Presentation case."""

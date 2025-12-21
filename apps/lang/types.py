@@ -257,7 +257,7 @@ class WordStudyCase(NamedTuple):
     translation_id: int
 
 
-class WordStudyParameters(NamedTuple):
-    """Word study params."""
+class CaseCandidates(NamedTuple):
+    """Collection type of candidates to presentation case."""
 
     translation_ids: list[int]

@@ -13,7 +13,7 @@ from .abc import WordStudyDomainABC
 class WordStudyDomain(WordStudyDomainABC):
     """Word study case service."""
 
-    def create(self, params: types.WordStudyParameters) -> types.WordStudyCase:
+    def create(self, params: types.CaseCandidates) -> types.WordStudyCase:
         """Create Word study case.
 
         Creates Word study case from selected **translation IDs**.

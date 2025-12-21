@@ -35,7 +35,7 @@ class PresentationABC(ABC):
     def get_candidates(
         self,
         params: types.CaseParameters,
-    ) -> types.WordStudyParameters:
+    ) -> types.CaseCandidates:
         """Get candidates for Presentation."""
 
     @abstractmethod
