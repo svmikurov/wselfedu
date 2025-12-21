@@ -2,6 +2,7 @@
 
 import logging
 from datetime import datetime, timedelta
+from typing import override
 
 from django.db.models import IntegerField, OuterRef, Q, Subquery
 from django.utils import timezone
@@ -42,6 +43,7 @@ def get_period(id: int) -> datetime | None:
 class EnglishPresentation(PresentationABC):
     """English word study Presentation repository."""
 
+    @override
     def get_candidates(
         self,
         params: types.TranslationParameters,
@@ -55,24 +57,21 @@ class EnglishPresentation(PresentationABC):
             translation_ids=list(english_word_ids),
         )
 
-    def get_word_study_data(
+    @override
+    def get_translation(
         self,
         user: Person,
         translation_id: int,
-        language: types.Language,
     ) -> types.PresentationDataT:
         """Get Presentation case."""
-        translation_model = models.TRANSLATION_MODELS[language]
-        progress_model = models.PROGRESS_MODELS[language]
-
         try:
-            progress_subquery = progress_model.objects.filter(  # type: ignore[attr-defined]
+            progress_subquery = models.EnglishProgress.objects.filter(
                 user=user,
                 translation_id=OuterRef('id'),
             ).values('progress')[:1]
 
-            translation_data = (
-                translation_model.objects.filter(  # type: ignore[attr-defined]
+            translation = (
+                models.EnglishTranslation.objects.filter(
                     user=user,
                     id=translation_id,
                 )
@@ -86,7 +85,7 @@ class EnglishPresentation(PresentationABC):
                 .get()
             )
 
-        except translation_model.DoesNotExist:  # type: ignore[attr-defined]
+        except models.EnglishTranslation.DoesNotExist:
             log.info('No case for word study params')
             raise
 
@@ -94,20 +93,25 @@ class EnglishPresentation(PresentationABC):
             log.error(f'Unexpected error: {exc}')
             raise
 
-        data: types.PresentationDataT = {
-            'definition': translation_data.english.word,
-            'explanation': translation_data.native.word,
+        return self._build_case(translation)
+
+    @staticmethod
+    def _build_case(
+        translation: models.EnglishTranslation,
+    ) -> types.PresentationDataT:
+        return {
+            'definition': translation.english.word,
+            'explanation': translation.native.word,
             'info': {
-                'progress': translation_data.user_progress or 0,
+                'progress': translation.user_progress or 0,  # type: ignore[attr-defined]
             },
         }
-        return data
 
     @staticmethod
     def _get_conditions(
         parameters_db_data: types.TranslationParameters,
     ) -> Q:
-        """Convert parameters to Q object represents an conditions."""
+        """Convert parameters to Q object represents of conditions."""
         conditions = Q()
 
         for key, value in parameters_db_data.items():

@@ -51,11 +51,15 @@ class EnglishTranslationStudyCaseView(base.CaseBaseView):
         """If the case settings is valid, get and render the case."""
         try:
             case = self.service.get_case(self.user, form.cleaned_data)  # type: ignore[arg-type]
+
         except NoTranslationsAvailableException:
             messages.success(self.request, 'Нет переводов для изучения')
             return redirect('lang:settings')
+
         else:
-            return self.render_partial(self.get_context_data(case=case))
+            case_context = self.adapter.to_context(case)
+
+        return self.render_partial(self.get_context_data(case=case_context))
 
     def form_invalid(self, form: forms.CaseRequestForm) -> HttpResponse:
         """Redirect to study settings if case request is invalid."""
