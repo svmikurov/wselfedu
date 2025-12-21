@@ -11,9 +11,10 @@ __all__ = [
     'EnglishTranslationListView',
     'EnglishTranslationUpdateView',
     'EnglishTranslationDeleteView',
-    'EnglishTranslationStudyView',
-    'english_translation_case_htmx_view',
     'study_settings_vew',
+    # Study
+    'EnglishTranslationStudyView',
+    'EnglishTranslationStudyCaseView',
 ]
 
 from .index import IndexLangView
@@ -28,8 +29,8 @@ from .settings import (
     study_settings_vew,
 )
 from .study import (
+    EnglishTranslationStudyCaseView,
     EnglishTranslationStudyView,
-    english_translation_case_htmx_view,
 )
 from .translation import (
     EnglishTranslationCreateView,
