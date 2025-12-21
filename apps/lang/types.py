@@ -124,39 +124,49 @@ class CaseParameters(
 
 class CaseSettings(
     Options,
-    TranslationParameters,
-    ProgressPhase,
-    TranslationSettings,
+    CaseParameters,
     PresentationSettings,
 ):
     """Study case settings type."""
 
 
-class SettingsToContext(TypedDict):
-    """Type for settings to include into context for rendering."""
+# ----------------------------------------
+# Study settings types in response context
+# ----------------------------------------
 
-    # Study urls
-    url: str
-    progress_url: str
+
+class CaseSettingContext(TypedDict):
+    """Case settings context type."""
 
     # Translation parameters
     category: str
-    mark: str
     word_source: str
+    mark: str
     start_period: str
     end_period: str
+
+    # Progress phases
+    is_study: str
+    is_repeat: str
+    is_examine: str
+    is_know: str
 
     # Translation settings
     translation_order: TranslateOrder
     word_count: str
+
+
+class CaseStudySettingsContext(
+    CaseSettingContext,
+):
+    """Case study settings context type."""
 
     # Presentation settings
     question_timeout: str
     answer_timeout: str
 
 
-# Word study Presentation case
-# ----------------------------
+# Case date
 
 
 class CaseUUID(TypedDict):
@@ -176,6 +186,19 @@ class InfoT(TypedDict):
     """Word study Presentation info typed dict."""
 
     progress: int | None
+
+
+class CaseToContext(
+    CaseUUID,
+    PresentationT,
+):
+    """Type for study case to include into context for rendering."""
+
+    info: InfoT
+
+
+# Word study Presentation case
+# ----------------------------
 
 
 class PresentationDataT(
