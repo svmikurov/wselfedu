@@ -1,6 +1,5 @@
 """Word study Presentation service tests."""
 
-import uuid
 from unittest.mock import Mock
 
 import pytest
@@ -10,21 +9,13 @@ from tests.fixtures.lang.no_db import translations as fixtures
 
 
 @pytest.fixture
-def presentation() -> types.PresentationDataT:
-    """Provide presentation data."""
-    return fixtures.PRESENTATION
-
-
-@pytest.fixture
-def mock_presentation_repo(
-    presentation: types.PresentationT,
-) -> Mock:
+def mock_presentation_repo() -> Mock:
     """Mock Word study Presentation repository."""
     mock = Mock(spec=repositories.PresentationABC)
     mock.get_candidates.return_value = types.WordStudyParameters(
         translation_ids=[1],
     )
-    mock.get_translation.return_value = presentation
+    mock.get_translation.return_value = fixtures.PRESENTATION
     return mock
 
 
@@ -49,17 +40,16 @@ def service(
 
 
 @pytest.fixture
-def expected_case(
-    case_uuid: uuid.UUID,
-    presentation: types.PresentationDataT,
-) -> types.TranslationCase:
+def expected_case() -> types.TranslationCase:
     """Provide Word study Presentation case."""
-    case: types.TranslationCase = {'case_uuid': case_uuid, **presentation}
-    return case
+    return {
+        'case_uuid': fixtures.TRANSLATION_CASE_UUID,
+        **fixtures.PRESENTATION,
+    }
 
 
 @pytest.fixture
-def params() -> Mock:
+def parameters() -> Mock:
     """Provide Word study Presentation params."""
     return Mock(spec=types.Options)
 
@@ -71,14 +61,14 @@ class TestService:
         self,
         mock_user: Mock,
         service: services.WordPresentationService,
-        params: Mock,
+        parameters: Mock,
         expected_case: types.TranslationCase,
     ) -> None:
         """Test get Presentation case."""
         # Act
         case = service.get_case(
             user=mock_user,
-            presentation_params=params,
+            presentation_params=parameters,
         )
 
         # Assert
