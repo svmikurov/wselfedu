@@ -43,6 +43,8 @@ class EnglishTranslationStudyCaseView(base.CaseBaseView):
     """
 
     form_class = forms.CaseRequestForm
+    """Validates case parameters and converts its to python dict.
+    """
 
     def form_valid(self, form: forms.CaseRequestForm) -> HttpResponse:
         """If the case settings is valid, get and render the case."""
@@ -55,7 +57,7 @@ class EnglishTranslationStudyCaseView(base.CaseBaseView):
             return self.render_partial(case)  # type: ignore[arg-type]
 
     def form_invalid(self, form: forms.CaseRequestForm) -> HttpResponse:
-        """Redirect to study settings in case request is invalid."""
+        """Redirect to study settings if case request is invalid."""
         messages.success(self.request, 'Нет переводов для изучения')
         return redirect('lang:settings')
 
