@@ -21,8 +21,11 @@ class SubmitViewContext(ViewContext):
     submit_text: str
 
 
+# TODO: Move ''case_url' to service?
 class PresentationViewContext(ViewContext):
     """View context with submit text."""
+
+    case_url: str
 
 
 class TranslationContext(TypedDict):
@@ -57,5 +60,6 @@ ENGLISH_TRANSLATION: TranslationContext = {
     'english_study': {
         'title': 'Изучение английских слов',
         'header': 'Изучение английских слов',
+        'case_url': '/lang/translation/english/study/case/',
     },
 }
