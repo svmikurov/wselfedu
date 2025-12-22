@@ -14,6 +14,10 @@ log = logging.getLogger(__name__)
 
 Language: TypeAlias = Literal['native', 'english']
 TranslateOrder: TypeAlias = Literal['from_native', 'to_native', 'random']
+Progress: TypeAlias = Literal['is_study', 'is_repeat', 'is_examine', 'is_know']
+OptionT: TypeAlias = Literal[
+    'category', 'mark', 'word_source', 'start_period', 'end_period'
+]
 
 
 # ------------
@@ -38,7 +42,7 @@ class IdName(TypedDict):
 class CodeName(TypedDict):
     """Code-name option type."""
 
-    code: str
+    code: TranslateOrder
     name: str
 
 
@@ -89,7 +93,7 @@ class TranslationParametersAPI(TypedDict):
     """Translation parameters API type."""
 
     category: IdName | None
-    mark: IdName | None
+    mark: list[IdName]
     word_source: IdName | None
     start_period: IdName | None
     end_period: IdName | None
@@ -130,12 +134,38 @@ class CaseSettingsAPI(
     """Study case settings API type."""
 
 
-# ----------------------------------------
-# Study settings types in response context
-# ----------------------------------------
+# ---------------------------
+# Study settings domain types
+# ---------------------------
 
 
-class CaseSettingWEB(TypedDict):
+class CaseSettingsDomain(TypedDict):
+    """Case settings context type."""
+
+    # Translation parameters
+    category: int | None
+    word_source: int | None | None
+    mark: list[int]
+    start_period: int | None
+    end_period: int | None
+
+    # Progress phases
+    is_study: bool
+    is_repeat: bool
+    is_examine: bool
+    is_know: bool
+
+    # Translation settings
+    translation_order: TranslateOrder | None
+    word_count: int | None
+
+
+# ------------------------
+# Study settings WEB types
+# ------------------------
+
+
+class CaseSettingsWEB(TypedDict):
     """Case settings context type."""
 
     # Translation parameters
@@ -157,7 +187,7 @@ class CaseSettingWEB(TypedDict):
 
 
 class CaseStudySettingsWEB(
-    CaseSettingWEB,
+    CaseSettingsWEB,
 ):
     """Case study settings context type."""
 

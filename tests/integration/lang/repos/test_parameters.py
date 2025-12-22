@@ -83,7 +83,7 @@ class TestUpdate:
 
         # - Expected new parameter data
         expected = parameters_db_data.copy()
-        expected['mark'] = mark
+        expected['mark'] = [mark]
         expected['word_count'] = 76
 
         # Act

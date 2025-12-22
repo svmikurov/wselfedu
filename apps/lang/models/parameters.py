@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Final, Literal, Self, TypeAlias
+from typing import TYPE_CHECKING, Final, Self
 
 from django.contrib.auth import get_user_model
 from django.core import validators
@@ -15,18 +15,11 @@ if TYPE_CHECKING:
 
     from .. import types
 
-ProgressT: TypeAlias = Literal[
-    'is_study', 'is_repeat', 'is_examine', 'is_know'
-]
-OptionT: TypeAlias = Literal[
-    'category', 'mark', 'word_source', 'start_period', 'end_period'
-]
-
 
 class Parameters(models.Model):
     """Word study parameters model."""
 
-    DEFAULTS: Final[dict[ProgressT, bool]] = {
+    DEFAULTS: Final[dict[types.Progress, bool]] = {
         'is_study': True,
         'is_repeat': True,
         'is_examine': True,
@@ -140,14 +133,14 @@ class Parameters(models.Model):
             ),
         ]
 
-    def obj_to_id_name(self, field: OptionT) -> types.IdName | None:
+    def obj_to_id_name(self, field: types.OptionT) -> types.IdName | None:
         """Convert object to {id, name} dict."""
         obj = getattr(self, field, None)
         if obj and hasattr(obj, 'id') and hasattr(obj, 'name') and obj.id:
             return {'id': obj.id, 'name': obj.name}
         return None
 
-    def get_progress(self, field: ProgressT) -> bool:
+    def get_progress(self, field: types.Progress) -> bool:
         """Get progress user value if it set or return default."""
         # Check if an attribute exists (for an empty instance)
         attr = getattr(self, field, None)

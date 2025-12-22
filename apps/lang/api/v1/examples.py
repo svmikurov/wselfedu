@@ -25,7 +25,7 @@ SET_WORD_STUDY_PARAMETERS_DATA: types.CaseSettingsAPI = {
         {'code': 'random', 'name': 'Случайный порядок'},
     ],
     'category': {'id': 1, 'name': 'cat 1'},
-    'mark': {'id': 2, 'name': 'mark 2'},
+    'mark': [{'id': 2, 'name': 'mark 2'}],
     'word_source': {'id': 1, 'name': 'source 1'},
     'start_period': {'id': 2, 'name': 'week_before'},
     'end_period': {'id': 1, 'name': 'today'},
@@ -41,7 +41,7 @@ SET_WORD_STUDY_PARAMETERS_DATA: types.CaseSettingsAPI = {
 
 WORD_STUDY_PARAMETERS_DATA: types.CaseParametersAPI = {
     'category': {'id': 1, 'name': 'cat 1'},
-    'mark': {'id': 2, 'name': 'mark 2'},
+    'mark': [{'id': 2, 'name': 'mark 2'}],
     'word_source': {'id': 1, 'name': 'source 1'},
     'start_period': {'id': 2, 'name': 'week_before'},
     'end_period': {'id': 1, 'name': 'today'},

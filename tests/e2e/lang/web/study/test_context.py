@@ -67,7 +67,7 @@ def user_settings(
     return {
         # Translation meta
         'category': str(parameters_db_data['category']['id']),  # type: ignore[index]
-        'mark': str(parameters_db_data['mark']['id']),  # type: ignore[index]
+        'mark': [str(parameters_db_data['mark']['id'])],  # type: ignore[call-overload]
         'source': str(parameters_db_data['word_source']['id']),  # type: ignore[index]
         'start-period': str(parameters_db_data['start_period']['id']),  # type: ignore[index]
         'end-period': str(parameters_db_data['end_period']['id']),  # type: ignore[index]
@@ -131,7 +131,7 @@ class TestCaseContext:
     def study_settings(
         self,
         parameters_db_data: dict[str, Any],
-    ) -> types.CaseSettingWEB:
+    ) -> types.CaseSettingsWEB:
         """Provide case study settings."""
         return {
             # Translation parameters
@@ -166,7 +166,7 @@ class TestCaseContext:
         self,
         auth_client: Client,
         parameters_db_data: dict[str, Any],
-        study_settings: types.CaseSettingWEB,  # Request case settings
+        study_settings: types.CaseSettingsWEB,  # Request case settings
         case: types.TranslationCase,
     ) -> None:
         """Study response status code success test."""
@@ -190,7 +190,7 @@ class TestCaseContext:
         self,
         auth_client: Client,
         parameters_db_data: dict[str, Any],  # Populate DB
-        study_settings: types.CaseSettingWEB,  # Request case settings
+        study_settings: types.CaseSettingsWEB,  # Request case settings
         case: types.TranslationCase,  # Expected case
         case_uuid: uuid.UUID,
     ) -> None:
@@ -227,7 +227,7 @@ class TestCaseContext:
         self,
         auth_client: Client,
         parameters_db_data: dict[str, Any],  # Populate DB
-        study_settings: types.CaseSettingWEB,  # Request case settings
+        study_settings: types.CaseSettingsWEB,  # Request case settings
         case: types.TranslationCase,  # Expected case
     ) -> None:
         """Test that template contains case data."""

@@ -31,7 +31,7 @@ def public_parameters(
         'translation_orders': fixtures.TRANSLATION_ORDERS,
         # Selected parameter
         'category': None,
-        'mark': None,
+        'mark': [],
         'word_source': None,
         'start_period': None,
         'end_period': None,

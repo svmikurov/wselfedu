@@ -63,7 +63,7 @@ def public_parameters() -> types.CaseSettingsAPI:
         'translation_orders': TRANSLATION_ORDERS,
         # Selected parameter
         'category': None,
-        'mark': None,
+        'mark': [],
         'word_source': None,
         'start_period': None,
         'end_period': None,

@@ -63,7 +63,7 @@ MARKS: Final[tuple[str, ...]] = (
 
 EMPTY_TRANSLATION_PARAMETERS: Final[types.CaseParametersAPI] = {
     'category': None,
-    'mark': None,
+    'mark': [],
     'word_source': None,
     'start_period': None,
     'end_period': None,
@@ -106,7 +106,7 @@ OPTIONS: types.OptionsAPI = {
 
 TRANSLATION_PARAMETERS: Final[types.TranslationParametersAPI] = {
     'category': OPTIONS['categories'][0],
-    'mark': OPTIONS['marks'][1],
+    'mark': [OPTIONS['marks'][1]],
     'word_source': OPTIONS['sources'][0],
     'start_period': OPTIONS['periods'][0],
     'end_period': OPTIONS['periods'][1],
@@ -135,6 +135,34 @@ TRANSLATION_CASE_PARAMETERS: Final[types.CaseParametersAPI] = {
     **PROGRESS_PHASE,
     **TRANSLATION_SETTINGS,
 }
+
+
+# TODO: Fix type ignore
+def _get_parameters_id(key: str) -> int | None:
+    return TRANSLATION_PARAMETERS[key] if TRANSLATION_PARAMETERS[key] else None  # type: ignore
+
+
+TRANSLATION_CASE_PARAMETERS_TO_PYTHON: types.CaseSettingsDomain = {
+    # Translation parameters
+    'category': _get_parameters_id('category'),
+    'mark': [mark['id'] for mark in TRANSLATION_PARAMETERS['mark']]
+    if TRANSLATION_PARAMETERS['mark']
+    else [],
+    'word_source': _get_parameters_id('category'),
+    'start_period': _get_parameters_id('word_source'),
+    'end_period': _get_parameters_id('end_period'),
+    # Progress phases
+    'is_study': PROGRESS_PHASE['is_study'],
+    'is_repeat': PROGRESS_PHASE['is_repeat'],
+    'is_examine': PROGRESS_PHASE['is_examine'],
+    'is_know': PROGRESS_PHASE['is_know'],
+    # Translation settings
+    'translation_order': TRANSLATION_SETTINGS['translation_order']['code']
+    if TRANSLATION_SETTINGS['translation_order']
+    else None,
+    'word_count': TRANSLATION_SETTINGS['word_count'],
+}
+
 
 PRESENTATION_PARAMETERS: Final[types.CaseSettingsAPI] = {
     **OPTIONS,

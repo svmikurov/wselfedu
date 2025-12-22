@@ -139,7 +139,7 @@ def parameters_db_data(
         'translation_orders': fixtures.TRANSLATION_ORDERS,
         # Translation meta
         'category': {'id': categories[0].pk, 'name': categories[0].name},
-        'mark': {'id': marks[1].pk, 'name': marks[1].name},
+        'mark': [{'id': marks[1].pk, 'name': marks[1].name}],
         'word_source': {'id': sources[0].pk, 'name': sources[0].name},
         'start_period': {'id': periods[0].pk, 'name': periods[0].name},
         'end_period': {'id': periods[1].pk, 'name': periods[1].name},

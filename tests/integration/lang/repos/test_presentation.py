@@ -174,7 +174,7 @@ class TestGetByRelationships:
 
         # - Word study lookup conditions
         conditions['category'] = types.IdName(id=desired_category.pk, name='')
-        conditions['mark'] = types.IdName(id=desired_mark.pk, name='')
+        conditions['mark'] = [types.IdName(id=desired_mark.pk, name='')]
         conditions['word_source'] = types.IdName(id=desired_source.pk, name='')
 
         # Act
