@@ -34,7 +34,7 @@ SETTINGS_TAG_ID = 'settings-block'
 DEFAULT_SETTINGS = {
     # Translation parameters
     'category': '',
-    'mark': '',
+    'mark': '[]',
     'source': '',
     'start-period': '',
     'end-period': '',
@@ -64,10 +64,11 @@ def user_settings(
         Translation study settings data.
 
     """
+    mark = [str(item['id']) for item in parameters_db_data['mark']]
     return {
         # Translation meta
         'category': str(parameters_db_data['category']['id']),  # type: ignore[index]
-        'mark': [str(parameters_db_data['mark']['id'])],  # type: ignore[call-overload]
+        'mark': f'{mark}',
         'source': str(parameters_db_data['word_source']['id']),  # type: ignore[index]
         'start-period': str(parameters_db_data['start_period']['id']),  # type: ignore[index]
         'end-period': str(parameters_db_data['end_period']['id']),  # type: ignore[index]
@@ -137,7 +138,7 @@ class TestCaseContext:
             # Translation parameters
             'category': '',
             'word_source': '',
-            'mark': '',
+            'mark': '[]',
             'start_period': '',
             'end_period': '',
             # Progress phases

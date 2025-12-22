@@ -22,11 +22,12 @@ class StudySettingsService(StudySettingsServiceABC):
         translation_settings = models.TranslationSetting.get_instants(user)
         presentation_settings = models.PresentationSettings.get_instants(user)
 
+        mark = self._get_pk(translation_parameters.mark)
         return types.CaseStudySettingsWEB(
             # Translation parameters
             category=self._get_pk(translation_parameters.category),
-            # TODO: Fix type ignore, fix mark getting
-            mark=self._get_pk(translation_parameters.mark) or '',
+            # TODO: Fix mark getting
+            mark=[mark] if mark else '[]',  # type: ignore[typeddict-item]
             word_source=self._get_pk(translation_parameters.word_source),
             start_period=self._get_pk(translation_parameters.start_period),
             end_period=self._get_pk(translation_parameters.end_period),
@@ -38,6 +39,7 @@ class StudySettingsService(StudySettingsServiceABC):
             is_know=self._bool_to_str(translation_parameters.is_know),
             #
             # Translation settings
+            # TODO: Fix type ignore
             translation_order=translation_settings.translation_order,  # type: ignore[typeddict-item]
             word_count=str(translation_settings.word_count or ''),
             #

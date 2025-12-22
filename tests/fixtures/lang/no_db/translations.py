@@ -139,7 +139,11 @@ TRANSLATION_CASE_PARAMETERS: Final[types.CaseParametersAPI] = {
 
 # TODO: Fix type ignore
 def _get_parameters_id(key: str) -> int | None:
-    return TRANSLATION_PARAMETERS[key] if TRANSLATION_PARAMETERS[key] else None  # type: ignore
+    return (
+        TRANSLATION_PARAMETERS[key]['id']  # type: ignore[literal-required]
+        if TRANSLATION_PARAMETERS[key]  # type: ignore[literal-required]
+        else None
+    )
 
 
 TRANSLATION_CASE_PARAMETERS_TO_PYTHON: types.CaseSettingsDomain = {

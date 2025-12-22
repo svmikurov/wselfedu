@@ -94,12 +94,13 @@ class StudyParametersRepository(StudyParametersRepositoryABC):
             )
         )
 
+        mark = parameters.obj_to_id_name('mark')
         data = {
             **options,
             #
             # Translation meta
             'category': parameters.obj_to_id_name('category'),
-            'mark': parameters.obj_to_id_name('mark'),
+            'mark': [mark] if mark else [],
             'word_source': parameters.obj_to_id_name('word_source'),
             'start_period': parameters.obj_to_id_name('start_period'),
             'end_period': parameters.obj_to_id_name('end_period'),

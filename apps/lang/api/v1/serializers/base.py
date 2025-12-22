@@ -22,7 +22,7 @@ class TranslationMetaSerializer(
     """Translation meta serializer."""
 
     category = core.IdNameSerializer(allow_null=True)
-    mark = core.IdNameSerializer(allow_null=True)
+    mark = core.IdNameSerializer(allow_null=True, many=True)
     word_source = core.IdNameSerializer(allow_null=True)
     start_period = core.IdNameSerializer(allow_null=True)
     end_period = core.IdNameSerializer(allow_null=True)
