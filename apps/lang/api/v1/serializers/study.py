@@ -49,7 +49,7 @@ class WordStudyInfoSerializer(serializers.Serializer[types.InfoT]):
     progress = serializers.IntegerField()
 
 
-class WordStudyCaseSerializer(serializers.Serializer[types.PresentationCaseT]):
+class WordStudyCaseSerializer(serializers.Serializer[types.TranslationCase]):
     """Serializer for Word study case."""
 
     case_uuid = serializers.UUIDField()

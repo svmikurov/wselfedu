@@ -33,10 +33,10 @@ class WordPresentationService(WordPresentationServiceABC):
     def get_case(
         self,
         user: Person,
-        presentation_params: types.CaseParameters,
-    ) -> types.PresentationCaseT:
+        case_parameters: types.CaseParameters,
+    ) -> types.TranslationCase:
         """Get Word study presentation case."""
-        candidates = self._word_repo.get_candidates(presentation_params)
+        candidates = self._word_repo.get_candidates(case_parameters)
 
         if not candidates.translation_ids:
             log.info('No translation to study for requested parameters')
@@ -44,13 +44,12 @@ class WordPresentationService(WordPresentationServiceABC):
 
         case = self._domain.create(candidates)
         case_uuid = self._store_case(case)
-        case_data = self._word_repo.get_word_study_data(
+        case_data = self._word_repo.get_translation(
             user=user,
             translation_id=case.translation_id,
-            language='english',
         )
 
-        return self._build_case_data(case_uuid, case_data)
+        return {'case_uuid': case_uuid, **case_data}
 
     def _store_case(self, case: types.WordStudyCase) -> uuid.UUID:
         schema = schemas.WordStudyStoredCase(
@@ -59,19 +58,3 @@ class WordPresentationService(WordPresentationServiceABC):
         )
         case_uuid = self._case_storage.save_task(schema)
         return case_uuid
-
-    @staticmethod
-    def _build_case_data(
-        case_uuid: uuid.UUID,
-        case_data: types.PresentationDataT,
-    ) -> types.PresentationCaseT:
-        """Build Presentation case."""
-        case: types.PresentationCaseT = {
-            'case_uuid': case_uuid,
-            'definition': case_data['definition'],
-            'explanation': case_data['explanation'],
-            'info': {
-                'progress': case_data['info']['progress'],
-            },
-        }
-        return case

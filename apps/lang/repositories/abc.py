@@ -34,16 +34,15 @@ class PresentationABC(ABC):
     @abstractmethod
     def get_candidates(
         self,
-        params: types.CaseParameters,
-    ) -> types.WordStudyParameters:
+        parameters: types.CaseParameters,
+    ) -> types.CaseCandidates:
         """Get candidates for Presentation."""
 
     @abstractmethod
-    def get_word_study_data(
+    def get_translation(
         self,
         user: Person,
         translation_id: int,
-        language: types.Language,
     ) -> types.PresentationDataT:
         """Get Presentation case word data."""
 

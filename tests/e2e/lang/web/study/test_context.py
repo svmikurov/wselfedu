@@ -151,7 +151,7 @@ class TestCaseContext:
         }
 
     @pytest.fixture
-    def case(self, case_uuid: uuid.UUID) -> types.PresentationCaseT:
+    def case(self, case_uuid: uuid.UUID) -> types.TranslationCase:
         """Provide case."""
         return {
             'case_uuid': case_uuid,
@@ -167,7 +167,7 @@ class TestCaseContext:
         auth_client: Client,
         parameters_db_data: dict[str, Any],
         study_settings: types.CaseSettingContext,  # Request case settings
-        case: types.PresentationCaseT,
+        case: types.TranslationCase,
     ) -> None:
         """Study response status code success test."""
         study_service_mock = Mock(spec=WordPresentationServiceABC)
@@ -191,7 +191,7 @@ class TestCaseContext:
         auth_client: Client,
         parameters_db_data: dict[str, Any],  # Populate DB
         study_settings: types.CaseSettingContext,  # Request case settings
-        case: types.PresentationCaseT,  # Expected case
+        case: types.TranslationCase,  # Expected case
         case_uuid: uuid.UUID,
     ) -> None:
         """Study settings response have correct context."""
@@ -214,19 +214,21 @@ class TestCaseContext:
 
         # - translation study case is correct
         assert 'case' in context
-        assert context['case']['case_uuid'] == case['case_uuid']
+        assert context['case']['case_uuid'] == str(case['case_uuid'])
         assert context['case']['definition'] == case['definition']
         assert context['case']['explanation'] == case['explanation']
 
         # - translation meta data is correct
-        assert context['case']['info'] == case['info']
+        assert context['case']['progress']['current'] == str(
+            case['info']['progress']
+        )
 
     def test_template_contains(
         self,
         auth_client: Client,
         parameters_db_data: dict[str, Any],  # Populate DB
         study_settings: types.CaseSettingContext,  # Request case settings
-        case: types.PresentationCaseT,  # Expected case
+        case: types.TranslationCase,  # Expected case
     ) -> None:
         """Test that template contains case data."""
         study_service_mock = Mock(spec=WordPresentationServiceABC)
