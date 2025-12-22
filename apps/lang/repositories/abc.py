@@ -33,7 +33,7 @@ class PresentationABC(ABC):
     @abstractmethod
     def get_candidates(
         self,
-        parameters: types.CaseParameters,
+        parameters: types.CaseParametersAPI,
     ) -> types.CaseCandidates:
         """Get candidates for Presentation."""
 
@@ -50,19 +50,19 @@ class StudyParametersRepositoryABC(ABC):
     """ABC for Word study params repository."""
 
     @abstractmethod
-    def fetch(self, user: Person) -> types.CaseSettings:
+    def fetch(self, user: Person) -> types.CaseSettingsAPI:
         """Fetch initial params."""
 
     @abstractmethod
-    def get_options(self, user: Person) -> types.Options:
+    def get_options(self, user: Person) -> types.OptionsAPI:
         """Get word study options."""
 
     @abstractmethod
     def update(
         self,
         user: Person,
-        data: types.CaseParameters,
-    ) -> types.CaseSettings:
+        data: types.CaseParametersAPI,
+    ) -> types.CaseSettingsAPI:
         """Update initial parameters."""
 
 

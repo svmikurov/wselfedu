@@ -52,7 +52,7 @@ DEFAULT_SETTINGS = {
 
 @pytest.fixture
 def user_settings(
-    parameters_db_data: types.CaseSettings,
+    parameters_db_data: types.CaseSettingsAPI,
 ) -> dict[str, Any]:
     """Provide translation study settings of user.
 
@@ -112,7 +112,7 @@ class TestSettingsContext:
     def test_contains_settings(
         self,
         auth_client: Client,
-        user_settings: types.CaseSettings,
+        user_settings: types.CaseSettingsAPI,
     ) -> None:
         """Context contains current study settings data."""
         # Act
@@ -131,7 +131,7 @@ class TestCaseContext:
     def study_settings(
         self,
         parameters_db_data: dict[str, Any],
-    ) -> types.CaseSettingContext:
+    ) -> types.CaseSettingWEB:
         """Provide case study settings."""
         return {
             # Translation parameters
@@ -166,7 +166,7 @@ class TestCaseContext:
         self,
         auth_client: Client,
         parameters_db_data: dict[str, Any],
-        study_settings: types.CaseSettingContext,  # Request case settings
+        study_settings: types.CaseSettingWEB,  # Request case settings
         case: types.TranslationCase,
     ) -> None:
         """Study response status code success test."""
@@ -190,7 +190,7 @@ class TestCaseContext:
         self,
         auth_client: Client,
         parameters_db_data: dict[str, Any],  # Populate DB
-        study_settings: types.CaseSettingContext,  # Request case settings
+        study_settings: types.CaseSettingWEB,  # Request case settings
         case: types.TranslationCase,  # Expected case
         case_uuid: uuid.UUID,
     ) -> None:
@@ -227,7 +227,7 @@ class TestCaseContext:
         self,
         auth_client: Client,
         parameters_db_data: dict[str, Any],  # Populate DB
-        study_settings: types.CaseSettingContext,  # Request case settings
+        study_settings: types.CaseSettingWEB,  # Request case settings
         case: types.TranslationCase,  # Expected case
     ) -> None:
         """Test that template contains case data."""

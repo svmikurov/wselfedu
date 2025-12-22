@@ -61,7 +61,7 @@ MARKS: Final[tuple[str, ...]] = (
 # Translation parameters
 # ~~~~~~~~~~~~~~~~~~~~~~
 
-EMPTY_TRANSLATION_PARAMETERS: Final[types.CaseParameters] = {
+EMPTY_TRANSLATION_PARAMETERS: Final[types.CaseParametersAPI] = {
     'category': None,
     'mark': None,
     'word_source': None,
@@ -87,7 +87,7 @@ PERIODS: Final[list[types.IdName]] = [
     {'id': 3, 'name': 'to days before'},
 ]
 
-OPTIONS: types.Options = {
+OPTIONS: types.OptionsAPI = {
     'categories': [
         {'id': 1, 'name': 'cat 1'},
         {'id': 2, 'name': 'cat 2'},
@@ -104,7 +104,7 @@ OPTIONS: types.Options = {
     'translation_orders': TRANSLATION_ORDERS,
 }
 
-TRANSLATION_PARAMETERS: Final[types.TranslationParameters] = {
+TRANSLATION_PARAMETERS: Final[types.TranslationParametersAPI] = {
     'category': OPTIONS['categories'][0],
     'mark': OPTIONS['marks'][1],
     'word_source': OPTIONS['sources'][0],
@@ -119,7 +119,7 @@ PROGRESS_PHASE: Final[types.ProgressPhase] = {
     'is_know': False,
 }
 
-TRANSLATION_SETTINGS: Final[types.TranslationSettings] = {
+TRANSLATION_SETTINGS: Final[types.TranslationSettingsAPI] = {
     # Database default translation order: to native
     'translation_order': TRANSLATION_ORDERS[1],
     'word_count': 90,
@@ -130,13 +130,13 @@ PRESENTATION_SETTINGS: Final[types.PresentationSettings] = {
     'answer_timeout': 5,
 }
 
-TRANSLATION_CASE_PARAMETERS: Final[types.CaseParameters] = {
+TRANSLATION_CASE_PARAMETERS: Final[types.CaseParametersAPI] = {
     **TRANSLATION_PARAMETERS,
     **PROGRESS_PHASE,
     **TRANSLATION_SETTINGS,
 }
 
-PRESENTATION_PARAMETERS: Final[types.CaseSettings] = {
+PRESENTATION_PARAMETERS: Final[types.CaseSettingsAPI] = {
     **OPTIONS,
     **TRANSLATION_CASE_PARAMETERS,
     **PRESENTATION_SETTINGS,

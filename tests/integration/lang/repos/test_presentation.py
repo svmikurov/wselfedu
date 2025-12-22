@@ -20,7 +20,7 @@ class TestGetByStartPeriod:
     def test_filter_when_end_older_that_start_edge(
         self,
         presentation_repo: repositories.EnglishPresentation,
-        conditions: types.CaseParameters,
+        conditions: types.CaseParametersAPI,
     ) -> None:
         """Repository correctly fetch data when end older start."""
         # Arrange
@@ -36,7 +36,7 @@ class TestGetByStartPeriod:
     def test_filter_bad_edge_period(
         self,
         presentation_repo: repositories.EnglishPresentation,
-        conditions: types.CaseParameters,
+        conditions: types.CaseParametersAPI,
     ) -> None:
         """Repository correctly fetch data by bad edge period."""
         # Arrange
@@ -51,7 +51,7 @@ class TestGetByStartPeriod:
         self,
         presentation_repo: repositories.EnglishPresentation,
         translations: list[models.EnglishTranslation],
-        conditions: types.CaseParameters,
+        conditions: types.CaseParametersAPI,
     ) -> None:
         """Repository correctly fetch data by edge periods."""
         today = timezone.now()
@@ -89,7 +89,7 @@ class TestGetByStartPeriod:
         self,
         presentation_repo: repositories.EnglishPresentation,
         translations: list[models.EnglishTranslation],
-        conditions: types.CaseParameters,
+        conditions: types.CaseParametersAPI,
     ) -> None:
         """Repository correctly fetch data by better period."""
         # Arrange
@@ -106,7 +106,7 @@ class TestGetByStartPeriod:
         self,
         presentation_repo: repositories.EnglishPresentation,
         translations: list[models.EnglishTranslation],
-        conditions: types.CaseParameters,
+        conditions: types.CaseParametersAPI,
     ) -> None:
         """Repository correctly fetch data by start period 'today'."""
         # Arrange
@@ -134,7 +134,7 @@ class TestGetByRelationships:
             list[models.LangMark],
             list[models_core.Period],
         ],
-        conditions: types.CaseParameters,
+        conditions: types.CaseParametersAPI,
     ) -> None:
         """Repository correctly fetch data by relationship."""
         categories, sources, marks, _ = translations_meta
@@ -189,7 +189,7 @@ class TestGetByRelationships:
         self,
         presentation_repo: repositories.EnglishPresentation,
         translations: list[models.EnglishTranslation],
-        conditions: types.CaseParameters,
+        conditions: types.CaseParametersAPI,
     ) -> None:
         """Repository correctly fetch valid data from DB."""
         # Act

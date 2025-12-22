@@ -47,8 +47,8 @@ class CodeName(TypedDict):
 # -------
 
 
-class Options(TypedDict):
-    """Translation options type."""
+class OptionsAPI(TypedDict):
+    """Translation options API type."""
 
     categories: list[IdName]
     marks: list[IdName]
@@ -85,8 +85,8 @@ class ProgressPhase(TypedDict):
 # -------------
 
 
-class TranslationParameters(TypedDict):
-    """Translation parameters type."""
+class TranslationParametersAPI(TypedDict):
+    """Translation parameters API type."""
 
     category: IdName | None
     mark: IdName | None
@@ -95,8 +95,8 @@ class TranslationParameters(TypedDict):
     end_period: IdName | None
 
 
-class TranslationSettings(TypedDict):
-    """Translation settings type."""
+class TranslationSettingsAPI(TypedDict):
+    """Translation settings API type."""
 
     translation_order: CodeName | None
     word_count: int | None
@@ -114,20 +114,20 @@ class PresentationSettings(TypedDict):
 # ----------
 
 
-class CaseParameters(
-    TranslationParameters,
+class CaseParametersAPI(
+    TranslationParametersAPI,
     ProgressPhase,
-    TranslationSettings,
+    TranslationSettingsAPI,
 ):
     """Study case parameters type."""
 
 
-class CaseSettings(
-    Options,
-    CaseParameters,
+class CaseSettingsAPI(
+    OptionsAPI,
+    CaseParametersAPI,
     PresentationSettings,
 ):
-    """Study case settings type."""
+    """Study case settings API type."""
 
 
 # ----------------------------------------
@@ -135,7 +135,7 @@ class CaseSettings(
 # ----------------------------------------
 
 
-class CaseSettingContext(TypedDict):
+class CaseSettingWEB(TypedDict):
     """Case settings context type."""
 
     # Translation parameters
@@ -156,8 +156,8 @@ class CaseSettingContext(TypedDict):
     word_count: str
 
 
-class CaseStudySettingsContext(
-    CaseSettingContext,
+class CaseStudySettingsWEB(
+    CaseSettingWEB,
 ):
     """Case study settings context type."""
 

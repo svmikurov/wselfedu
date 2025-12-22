@@ -6,7 +6,7 @@ from apps.core.api.v1 import serializers as core
 from apps.lang import types
 
 
-class OptionsSerializer(serializers.Serializer[types.Options]):
+class OptionsSerializer(serializers.Serializer[types.OptionsAPI]):
     """Translation options serializer."""
 
     categories = core.IdNameSerializer(many=True)
@@ -16,7 +16,9 @@ class OptionsSerializer(serializers.Serializer[types.Options]):
     translation_orders = core.CodeNameSerializer(many=True)
 
 
-class TranslationMetaSerializer(serializers.Serializer[types.CaseParameters]):
+class TranslationMetaSerializer(
+    serializers.Serializer[types.CaseParametersAPI]
+):
     """Translation meta serializer."""
 
     category = core.IdNameSerializer(allow_null=True)
@@ -27,7 +29,7 @@ class TranslationMetaSerializer(serializers.Serializer[types.CaseParameters]):
 
 
 class TranslationSettingsSerializer(
-    serializers.Serializer[types.TranslationSettings]
+    serializers.Serializer[types.TranslationSettingsAPI]
 ):
     """Translation settings serializer."""
 

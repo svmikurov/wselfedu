@@ -40,7 +40,7 @@ class StudyParametersRepository(StudyParametersRepositoryABC):
         return list(queryset.values('id', 'name'))  # type: ignore[arg-type]
 
     @override
-    def get_options(self, user: Person) -> types.Options:
+    def get_options(self, user: Person) -> types.OptionsAPI:
         """Get word study options."""
         categories = models.LangCategory.objects.filter(user=user)
         marks = models.LangMark.objects.filter(user=user)
@@ -48,7 +48,7 @@ class StudyParametersRepository(StudyParametersRepositoryABC):
         periods = models_core.Period.objects.all()
         orders = models.TranslationSetting.TranslateChoices.choices
 
-        return types.Options(
+        return types.OptionsAPI(
             categories=self._get_id_name(categories),
             marks=self._get_id_name(marks),
             sources=self._get_id_name(sources),
@@ -60,7 +60,7 @@ class StudyParametersRepository(StudyParametersRepositoryABC):
         )
 
     @override
-    def fetch(self, user: Person) -> types.CaseSettings:
+    def fetch(self, user: Person) -> types.CaseSettingsAPI:
         """Fetch parameters with parameter choices."""
         options = self.get_options(user)
 
@@ -123,8 +123,8 @@ class StudyParametersRepository(StudyParametersRepositoryABC):
     def update(
         self,
         user: Person,
-        data: types.CaseParameters,
-    ) -> types.CaseSettings:
+        data: types.CaseParametersAPI,
+    ) -> types.CaseSettingsAPI:
         """Update initial parameters."""
         translation_meta_defaults = {
             'category_id': self._get_identifier(data, 'category'),
@@ -189,7 +189,7 @@ class StudyParametersRepository(StudyParametersRepositoryABC):
 
     @staticmethod
     def _get_identifier(
-        data: types.CaseParameters,
+        data: types.CaseParametersAPI,
         field_name: OptionsT,
     ) -> int | str | None:
         """Get parameter identifier or return None."""

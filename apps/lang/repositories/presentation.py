@@ -46,7 +46,7 @@ class EnglishPresentation(PresentationABC):
     @override
     def get_candidates(
         self,
-        parameters: types.CaseParameters,
+        parameters: types.CaseParametersAPI,
     ) -> types.CaseCandidates:
         """Get candidates for Presentation."""
         english_word_ids = models.EnglishTranslation.objects.filter(
@@ -98,7 +98,7 @@ class EnglishPresentation(PresentationABC):
 
     @staticmethod
     def _get_conditions(
-        parameters_db_data: types.TranslationParameters,
+        parameters_db_data: types.TranslationParametersAPI,
     ) -> Q:
         """Convert parameters to Q object represents of conditions."""
         conditions = Q()

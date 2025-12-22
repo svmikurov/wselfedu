@@ -33,7 +33,7 @@ class WordPresentationService(WordPresentationServiceABC):
     def get_case(
         self,
         user: Person,
-        case_parameters: types.CaseParameters,
+        case_parameters: types.CaseParametersAPI,
     ) -> types.TranslationCase:
         """Get Word study presentation case."""
         candidates = self._word_repo.get_candidates(case_parameters)

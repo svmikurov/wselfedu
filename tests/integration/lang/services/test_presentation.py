@@ -22,7 +22,7 @@ class TestGetPresentationCase:
             list[models.LangMark],
             list[models_core.Period],
         ],
-        conditions: types.CaseParameters,
+        conditions: types.CaseParametersAPI,
     ) -> None:
         """Test that raises exception when no case for conditions."""
         categories, _, _, _ = translations_meta

@@ -16,13 +16,13 @@ class StudySettingsService(StudySettingsServiceABC):
     """Provides study settings."""
 
     @override
-    def to_context(self, user: Person) -> types.CaseStudySettingsContext:
+    def to_context(self, user: Person) -> types.CaseStudySettingsWEB:
         """Get study settings for presentation case."""
         translation_parameters = models.Parameters.get_instants(user)
         translation_settings = models.TranslationSetting.get_instants(user)
         presentation_settings = models.PresentationSettings.get_instants(user)
 
-        return types.CaseStudySettingsContext(
+        return types.CaseStudySettingsWEB(
             # Translation parameters
             category=self._get_pk(translation_parameters.category),
             # TODO: Fix type ignore, fix mark getting
