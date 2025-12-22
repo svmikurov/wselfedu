@@ -211,7 +211,6 @@ class TestGetWordByTranslation:
         word_translation: models.EnglishTranslation,
         native_word: models.NativeWord,
         english_word: models.EnglishWord,
-        english_progress: models.EnglishProgress,  # Adds progress to DB
         presentation_repo: repositories.EnglishPresentation,
     ) -> None:
         """Test get Word study case data by translation ID."""
@@ -224,7 +223,7 @@ class TestGetWordByTranslation:
         # Assert
         assert result['definition'] == english_word.word
         assert result['explanation'] == native_word.word
-        assert result['info']['progress'] == english_progress.progress
+        assert result['info']['progress'] == word_translation.progress
         assert len(result) == 3
 
     def get_word_study_data_not_found(

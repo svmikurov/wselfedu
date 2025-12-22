@@ -56,7 +56,6 @@ class UpdateWordProgressService(WordProgressServiceABC):
             self._progress_repo.update(
                 user=user,
                 translation_id=case_data.translation_id,
-                language=case_data.language,
                 progress_delta=progress_delta,
             )
         except Exception as exc:

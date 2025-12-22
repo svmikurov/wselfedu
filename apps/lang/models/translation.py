@@ -7,6 +7,8 @@ from django.db import models
 class EnglishTranslation(models.Model):
     """Translation of English word."""
 
+    DEFAULT_PROGRESS = 0
+
     user = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
@@ -43,6 +45,10 @@ class EnglishTranslation(models.Model):
         through_fields=('translation', 'mark'),
         blank=True,
         verbose_name='Маркеры',
+    )
+    progress = models.PositiveSmallIntegerField(
+        default=DEFAULT_PROGRESS,
+        verbose_name='Прогресс изучения',
     )
     created_at = models.DateTimeField(
         auto_now_add=True,

@@ -22,7 +22,6 @@ class ProgressABC(ABC):
         self,
         user: Person,
         translation_id: int,
-        language: types.Language,
         progress_delta: int,
     ) -> None:
         """Update Word study Progress."""

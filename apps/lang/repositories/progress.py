@@ -6,7 +6,7 @@ from typing import override
 from django.db import transaction
 from django.db.utils import IntegrityError
 
-from apps.lang import models, types
+from apps.lang import models
 from apps.study import models as study_models
 from apps.users.models import Person
 
@@ -24,27 +24,16 @@ class Progress(ProgressABC):
         self,
         user: Person,
         translation_id: int,
-        language: types.Language,
         progress_delta: int,
     ) -> None:
         """Update Word study Progress."""
-        model = models.PROGRESS_MODELS[language]
-
         max_progress = self._get_max_progress(user)
 
         try:
-            # Get or create translation progress
-            obj, created = model.objects.select_for_update().get_or_create(  # type: ignore[attr-defined]
-                user=user,
-                translation_id=translation_id,
-                defaults={'progress': 0},
+            obj = models.EnglishTranslation.objects.select_for_update().get(
+                pk=translation_id
             )
-
-            if created:
-                new_progress = progress_delta
-            else:
-                new_progress = obj.progress + progress_delta
-
+            new_progress = obj.progress + progress_delta
             obj.progress = max(0, min(new_progress, max_progress))
             obj.save()
 

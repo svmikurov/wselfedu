@@ -34,6 +34,7 @@ class EnglishTranslationAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
         'user',
         'english',
         'native',
+        'progress',
         'created_at',
         'category',
         'source',
@@ -87,10 +88,3 @@ class PresentationSettingsAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
         'question_timeout',
         'answer_timeout',
     ]
-
-
-@admin.register(models.EnglishProgress)
-class EnglishProgressAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
-    """Native-English study progress model administration."""
-
-    list_display = ['user', 'translation', 'progress']

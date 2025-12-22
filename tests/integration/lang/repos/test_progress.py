@@ -12,40 +12,6 @@ class TestRepository:
     """Test Word study progress repository."""
 
     @pytest.mark.parametrize(
-        'progress_delta, expected_progress',
-        [
-            (1, 1),
-            (-1, 0),
-            (
-                study_models.Progress.KNOW_DEFAULT + 1,
-                study_models.Progress.KNOW_DEFAULT,
-            ),
-        ],
-    )
-    def test_create_progress(
-        self,
-        progress_delta: int,
-        expected_progress: int,
-        user: Person,
-        word_translation: models.EnglishTranslation,
-        progress_repo: repositories.Progress,
-    ) -> None:
-        """Test create the Word study progress."""
-        # Act
-        progress_repo.update(
-            user=user,
-            translation_id=word_translation.pk,
-            language='english',
-            progress_delta=progress_delta,
-        )
-
-        # Assert
-        progress = models.EnglishProgress.objects.get(
-            translation_id=word_translation.pk,
-        )
-        assert progress.progress == expected_progress
-
-    @pytest.mark.parametrize(
         'initial_progress, progress_delta, expected_progress',
         [
             (0, 1, 1),
@@ -69,22 +35,18 @@ class TestRepository:
     ) -> None:
         """Test update the Word study progress."""
         # Average
-        models.EnglishProgress.objects.create(
-            user=user,
-            translation_id=word_translation.pk,
-            progress=initial_progress,
-        )
+        word_translation.progress = initial_progress
+        word_translation.save()
 
         # Act
         progress_repo.update(
             user=user,
             translation_id=word_translation.pk,
-            language='english',
             progress_delta=progress_delta,
         )
 
         # Assert
-        progress = models.EnglishProgress.objects.get(
-            translation_id=word_translation.pk,
+        progress = models.EnglishTranslation.objects.get(
+            pk=word_translation.pk,
         )
         assert progress.progress == expected_progress

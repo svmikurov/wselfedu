@@ -38,16 +38,3 @@ def word_translation(
         native=native_word,
         english=english_word,
     )
-
-
-@pytest.fixture
-def english_progress(
-    user: Person,
-    word_translation: models.EnglishTranslation,
-) -> models.EnglishProgress:
-    """Get english word translation."""
-    return models.EnglishProgress.objects.create(  # type: ignore[misc]
-        user=user,
-        translation=word_translation,
-        progress=fixtures.PRESENTATION['info']['progress'],
-    )

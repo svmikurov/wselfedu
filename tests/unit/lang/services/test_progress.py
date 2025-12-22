@@ -33,6 +33,5 @@ class TestService:
         mock_progress_repo.update.assert_called_once_with(
             user=mock_user,
             translation_id=stored_case.translation_id,
-            language=stored_case.language,
             progress_delta=progress_config.increment,
         )

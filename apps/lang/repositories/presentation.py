@@ -4,7 +4,7 @@ import logging
 from datetime import datetime, timedelta
 from typing import override
 
-from django.db.models import IntegerField, OuterRef, Q, Subquery
+from django.db.models import Q
 from django.utils import timezone
 
 from apps.users.models import Person
@@ -65,23 +65,12 @@ class EnglishPresentation(PresentationABC):
     ) -> types.PresentationDataT:
         """Get Presentation case."""
         try:
-            progress_subquery = models.EnglishProgress.objects.filter(
-                user=user,
-                translation_id=OuterRef('id'),
-            ).values('progress')[:1]
-
             translation = (
                 models.EnglishTranslation.objects.filter(
                     user=user,
                     id=translation_id,
                 )
                 .select_related('native', 'english')
-                .annotate(
-                    user_progress=Subquery(
-                        progress_subquery,
-                        output_field=IntegerField(),
-                    )
-                )
                 .get()
             )
 
@@ -103,7 +92,7 @@ class EnglishPresentation(PresentationABC):
             'definition': translation.english.word,
             'explanation': translation.native.word,
             'info': {
-                'progress': translation.user_progress or 0,  # type: ignore[attr-defined]
+                'progress': translation.progress,
             },
         }
 
