@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Literal, TypeAlias, override
+from typing import TYPE_CHECKING, Literal, override
 
 from django.db import transaction
 from django.db.models import QuerySet
@@ -16,7 +16,7 @@ from apps.lang.repositories.abc import (
 if TYPE_CHECKING:
     from apps.users.models import Person
 
-OptionsT: TypeAlias = Literal[
+type OptionsT = Literal[
     'category',
     'mark',
     'word_source',
@@ -25,7 +25,7 @@ OptionsT: TypeAlias = Literal[
     'translation_order',
 ]
 
-OptionsQuerySetT: TypeAlias = QuerySet[
+type OptionsQuerySetT = QuerySet[
     models.LangCategory
     | models.LangMark
     | models_core.Source

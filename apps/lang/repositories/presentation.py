@@ -1,24 +1,33 @@
-"""Word study repositories."""
+"""Presentation repositories."""
+
+from __future__ import annotations
 
 import logging
 from datetime import datetime, timedelta
-from typing import override
+from typing import TYPE_CHECKING
 
-from django.db.models import Q
+from django.db.models import Q, QuerySet
 from django.utils import timezone
 
-from apps.users.models import Person
+from apps.study.models import Progress
 
-from .. import models, types
-from .abc import PresentationABC
+from .. import models
+
+if TYPE_CHECKING:
+    from apps.users.models import Person
+
+    from .. import schemas, types
+
+    type Parameters = schemas.ParametersModel
+    type Translations = QuerySet[models.EnglishTranslation]
 
 log = logging.getLogger(__name__)
 
 
-def get_period(id: int) -> datetime | None:
-    """Get edge period."""
+def get_period_delta(id: int) -> datetime:
+    """Get period delta."""
     today = timezone.now()
-    periods = {
+    periods: dict[int, datetime] = {
         1: today,
         2: today - timedelta(days=1),
         3: today - timedelta(days=2),
@@ -36,101 +45,67 @@ def get_period(id: int) -> datetime | None:
     try:
         return periods[id]
     except KeyError:
-        log.error(f'Unsupported edge period id: {id}')
+        log.error(f'Unsupported edge period identifier: {id}')
         raise
 
 
-class EnglishPresentation(PresentationABC):
+class EnglishTranslation:
     """English word study Presentation repository."""
 
-    @override
-    def get_candidates(
-        self,
-        parameters: types.CaseParametersAPI,
-    ) -> types.CaseCandidates:
-        """Get candidates for Presentation."""
-        english_word_ids = models.EnglishTranslation.objects.filter(
-            self._get_conditions(parameters)
-        ).values_list('id', flat=True)
+    @classmethod
+    def fetch(cls, user: Person, parameters: Parameters) -> Translations:
+        """Get candidates for Translation presentation."""
+        return models.EnglishTranslation.objects.filter(
+            cls._get_conditions(user, parameters)
+        ).distinct()
 
-        return types.CaseCandidates(
-            translation_ids=list(english_word_ids),
-        )
+    @classmethod
+    def _get_conditions(cls, user: Person, parameters: Parameters) -> Q:
+        """Convert to Q object representation of lookup conditions."""
+        conditions = Q(user=user)
 
-    @override
-    def get_translation(
-        self,
-        user: Person,
-        translation_id: int,
-    ) -> types.PresentationDataT:
-        """Get Presentation case."""
-        try:
-            translation = (
-                models.EnglishTranslation.objects.filter(
-                    user=user,
-                    id=translation_id,
-                )
-                .select_related('native', 'english')
-                .get()
-            )
+        for field, value in parameters.model_dump().items():
+            match field, value:
+                # - `False` adds a condition to exclude translation.
+                # - `True` is the default value for a Boolean
+                #    condition field.
+                # - None and an empty `list` are field values ​​without
+                #   a condition.
 
-        except models.EnglishTranslation.DoesNotExist:
-            log.info('No case for word study params')
-            raise
-
-        except Exception as exc:
-            log.error(f'Unexpected error: {exc}')
-            raise
-
-        return self._build_case(translation)
-
-    @staticmethod
-    def _build_case(
-        translation: models.EnglishTranslation,
-    ) -> types.PresentationDataT:
-        return {
-            'definition': translation.english.word,
-            'explanation': translation.native.word,
-            'info': {
-                'progress': translation.progress,
-            },
-        }
-
-    @staticmethod
-    def _get_conditions(
-        parameters_db_data: types.TranslationParametersAPI,
-    ) -> Q:
-        """Convert parameters to Q object represents of conditions."""
-        conditions = Q()
-
-        for key, value in parameters_db_data.items():
-            match key, value:
-                case _, None:
+                case _, True | None | []:
                     continue
 
-                case 'category', {'id': int(id), 'name': _}:
+                case 'category', int(id):
                     conditions &= Q(category=id)
 
-                case 'mark', {'id': int(id), 'name': _}:
-                    conditions &= Q(marks=id)
-
-                case 'word_source', {'id': int(id), 'name': _}:
+                case 'source', int(id):
                     conditions &= Q(source=id)
 
-                case 'start_period', {'id': int(id), 'name': _}:
-                    conditions &= Q(created_at__date__gte=get_period(id))
+                case 'mark', list():
+                    conditions &= Q(englishmark__mark_id__in=value)
 
-                case 'end_period', {'id': int(id), 'name': _}:
-                    conditions &= Q(created_at__date__lte=get_period(id))
+                case 'start_period', int(id):
+                    conditions &= Q(created_at__date__gte=get_period_delta(id))
 
-                # TODO: Fix
-                case 'translation_order', {'code': _, 'name': _}:
-                    pass
+                case 'end_period', int(id):
+                    conditions &= Q(created_at__date__lte=get_period_delta(id))
+
+                case (
+                    ('is_study' | 'is_repeat' | 'is_examine' | 'is_know'),
+                    False,
+                ):
+                    conditions &= ~cls._get_progress_condition(field)
 
                 case _, _:
                     log.warning(
-                        f'Unsupported lookup condition: {key!r}: {value!r}'
+                        f'Unsupported lookup condition: {field!r}: {value!r}'
                     )
                     continue
 
         return conditions
+
+    @staticmethod
+    def _get_progress_condition(parameter: types.Progress) -> Q:
+        """Get translation study progress condition."""
+        # TODO: Implement user specific progress
+        return Q(progress__in=Progress.DEFAULT_PROGRESS_RANGES[parameter])

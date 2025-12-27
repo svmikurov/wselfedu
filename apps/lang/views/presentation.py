@@ -2,20 +2,18 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from http import HTTPStatus
+from typing import Any
 
 from django.contrib import messages
-from django.http.response import HttpResponse
-from django.shortcuts import redirect
+from django.http.request import HttpRequest
+from django.http.response import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
+from django.urls import reverse
 
 from apps.core.exceptions.info import NoTranslationsAvailableException
 
-from .. import forms
 from . import _data, base
-
-if TYPE_CHECKING:
-    from django.http.response import HttpResponse
 
 
 class EnglishTranslationStudyView(base.SettingsBaseView):
@@ -35,36 +33,19 @@ class EnglishTranslationStudyView(base.SettingsBaseView):
         return context
 
 
-# TODO: Fix type ignore, update messages.
-# Add custom form view, without unused methods?
 class EnglishTranslationStudyCaseView(base.CaseBaseView):
-    """English translation study case view.
+    """English translation study case view."""
 
-    Renders the partial template with new study case.
-    """
-
-    form_class = forms.CaseRequestForm
-    """Validates case parameters and converts its to python dict.
-    """
-
-    def form_valid(self, form: forms.CaseRequestForm) -> HttpResponse:
+    def post(self, request: HttpRequest) -> HttpResponse:
         """If the case settings is valid, get and render the case."""
         try:
-            case = self.service.get_case(self.user, form.cleaned_data)  # type: ignore[arg-type]
+            case = self.use_case.execute(self.user, self.request.POST.dict())
 
         except NoTranslationsAvailableException:
             messages.success(self.request, 'Нет переводов для изучения')
-            return redirect('lang:settings')
+            return self.handle_no_presentation_case()
 
-        else:
-            case_context = self.adapter.to_context(case)
-
-        return self.render_partial(self.get_context_data(case=case_context))
-
-    def form_invalid(self, form: forms.CaseRequestForm) -> HttpResponse:
-        """Redirect to study settings if case request is invalid."""
-        messages.success(self.request, 'Нет переводов для изучения')
-        return redirect('lang:settings')
+        return self.render_partial(self.get_context_data(case=case))
 
     def render_partial(self, context: dict[str, Any]) -> HttpResponse:
         """Return response with template for partial page update."""
@@ -72,3 +53,14 @@ class EnglishTranslationStudyCaseView(base.CaseBaseView):
         mark = render_to_string('lang/presentation/_mark_bar.html', context)
         combined_html = f'{case}\n{mark}'
         return HttpResponse(combined_html)
+
+    def handle_no_presentation_case(self) -> JsonResponse:
+        """Render json response if no presentation case."""
+        return JsonResponse(
+            data={
+                'status': 'error',
+                'message': 'No presentation case',
+                'next': reverse('lang:settings'),
+            },
+            status=HTTPStatus.OK,
+        )

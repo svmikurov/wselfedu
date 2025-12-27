@@ -10,6 +10,8 @@ from . import StudySettingsServiceABC
 if TYPE_CHECKING:
     from apps.users.models import Person
 
+# TODO: Refactor
+
 
 # TODO: Inject repositories
 class StudySettingsService(StudySettingsServiceABC):

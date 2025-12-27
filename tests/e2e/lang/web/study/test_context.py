@@ -12,8 +12,7 @@ from bs4 import BeautifulSoup
 from django.urls import reverse
 
 import di
-from apps.lang import models
-from apps.lang.services import WordPresentationServiceABC
+from apps.lang import models, use_cases
 
 if TYPE_CHECKING:
     from django.http.response import HttpResponse
@@ -156,8 +155,8 @@ class TestCaseContext:
         """Provide case."""
         return {
             'case_uuid': case_uuid,
-            'definition': 'test',
-            'explanation': 'test',
+            'question': 'test',
+            'answer': 'test',
             'info': {
                 'progress': 1,
             },
@@ -171,12 +170,12 @@ class TestCaseContext:
         case: types.TranslationCase,
     ) -> None:
         """Study response status code success test."""
-        study_service_mock = Mock(spec=WordPresentationServiceABC)
-        study_service_mock.get_case.return_value = case
+        study_service_mock = Mock(spec=use_cases.WebPresentationUseCase)
+        study_service_mock.execute.return_value = case
 
         # Act
         # - mock study service
-        with di.container.lang.word_presentation_service.override(
+        with di.container.lang.web_presentation_use_case.override(
             study_service_mock
         ):
             response = auth_client.post(
@@ -187,43 +186,6 @@ class TestCaseContext:
         # Assert
         assert response.status_code == HTTPStatus.OK
 
-    def test_have_correct_context(
-        self,
-        auth_client: Client,
-        parameters_db_data: dict[str, Any],  # Populate DB
-        study_settings: types.CaseSettingsWEB,  # Request case settings
-        case: types.TranslationCase,  # Expected case
-        case_uuid: uuid.UUID,
-    ) -> None:
-        """Study settings response have correct context."""
-        study_service_mock = Mock(spec=WordPresentationServiceABC)
-        study_service_mock.get_case.return_value = case
-
-        # Act
-        # - mock study service
-        with di.container.lang.word_presentation_service.override(
-            study_service_mock
-        ):
-            response = auth_client.post(
-                STUDY_CASE_URL_PATH,
-                data=study_settings,
-            )
-
-        # Assert
-        context = response.context
-        assert context is not None
-
-        # - translation study case is correct
-        assert 'case' in context
-        assert context['case']['case_uuid'] == str(case['case_uuid'])
-        assert context['case']['definition'] == case['definition']
-        assert context['case']['explanation'] == case['explanation']
-
-        # - translation meta data is correct
-        assert context['case']['progress']['current'] == str(
-            case['info']['progress']
-        )
-
     def test_template_contains(
         self,
         auth_client: Client,
@@ -232,14 +194,12 @@ class TestCaseContext:
         case: types.TranslationCase,  # Expected case
     ) -> None:
         """Test that template contains case data."""
-        study_service_mock = Mock(spec=WordPresentationServiceABC)
-        study_service_mock.get_case.return_value = case
+        mock = Mock(spec=use_cases.PresentationUseCase)
+        mock.execute.return_value = case
 
         # Act
         # - mock study service
-        with di.container.lang.word_presentation_service.override(
-            study_service_mock
-        ):
+        with di.container.lang.web_presentation_use_case.override(mock):
             response = auth_client.post(
                 STUDY_CASE_URL_PATH,
                 data=study_settings,
@@ -250,8 +210,8 @@ class TestCaseContext:
 
         # - template have correct question
         question_tag = soup.find('div', {'id': 'question'})
-        assert question_tag.text == case['definition']  # type: ignore[union-attr]
+        assert question_tag.text == case['question']  # type: ignore[union-attr]
 
         # - template have correct answer
         answer_tag = soup.find('div', {'id': 'answer'})
-        assert answer_tag.text == case['explanation']  # type: ignore[union-attr]
+        assert answer_tag.text == case['answer']  # type: ignore[union-attr]

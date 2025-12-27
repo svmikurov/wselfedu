@@ -90,12 +90,6 @@ def parameters_repo() -> repositories.StudyParametersRepository:
 
 
 @pytest.fixture
-def presentation_repo() -> repositories.EnglishPresentation:
-    """Provide Word study Presentation repository."""
-    return repositories.EnglishPresentation()
-
-
-@pytest.fixture
 def progress_repo() -> repositories.Progress:
     """Provide Word study Progress repository."""
     return repositories.Progress()

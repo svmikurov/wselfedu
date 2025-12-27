@@ -1,1 +1,0 @@
-"""Language discipline DI tests."""

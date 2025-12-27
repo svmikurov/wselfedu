@@ -8,6 +8,7 @@ import pytest
 from apps.core.storage.services import TaskStorage
 from apps.lang import schemas, services, types
 from apps.lang.repositories.abc import ProgressABC
+from apps.lang.schemas import dto
 
 from .api.v1.view.study import cases
 
@@ -16,11 +17,10 @@ from .api.v1.view.study import cases
 
 
 @pytest.fixture
-def stored_case() -> schemas.WordStudyStoredCase:
+def stored_case() -> dto.CaseMeta:
     """Provide Word study case data."""
-    return schemas.WordStudyStoredCase(
-        translation_id=1,
-        language='english',
+    return dto.CaseMeta(
+        id=1,
     )
 
 

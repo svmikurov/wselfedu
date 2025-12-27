@@ -8,6 +8,7 @@ from apps.users.models import Person
 
 from .. import schemas, types
 from ..repositories.abc import ProgressABC
+from ..schemas import dto
 from .abc import WordProgressServiceABC
 
 log = logging.getLogger(__name__)
@@ -19,7 +20,7 @@ class UpdateWordProgressService(WordProgressServiceABC):
     def __init__(
         self,
         progress_repo: ProgressABC,
-        case_storage: storage.TaskStorage[schemas.WordStudyStoredCase],
+        case_storage: storage.TaskStorage[dto.CaseMeta],
         progress_config: schemas.ProgressConfigSchema,
     ) -> None:
         """Construct the service."""
@@ -43,8 +44,8 @@ class UpdateWordProgressService(WordProgressServiceABC):
         }[is_known]
 
         try:
-            case_data: schemas.WordStudyStoredCase = (
-                self._case_storage.retrieve_task(uid=data['case_uuid'])
+            case_meta: dto.CaseMeta = self._case_storage.retrieve_task(
+                uid=data['case_uuid']
             )
         except KeyError as exc:
             log.warning('Case not found in storage: %s', case_uuid)
@@ -55,7 +56,7 @@ class UpdateWordProgressService(WordProgressServiceABC):
         try:
             self._progress_repo.update(
                 user=user,
-                translation_id=case_data.translation_id,
+                translation_id=case_meta.id,
                 progress_delta=progress_delta,
             )
         except Exception as exc:

@@ -3,6 +3,7 @@
 from unittest.mock import Mock
 
 from apps.lang import schemas, types
+from apps.lang.schemas import dto
 from apps.lang.services.abc import WordProgressServiceABC
 
 
@@ -16,7 +17,7 @@ class TestService:
         mock_task_storage: Mock,
         progress_config: schemas.ProgressConfigSchema,
         progress_case: types.ProgressCase,
-        stored_case: schemas.WordStudyStoredCase,
+        stored_case: dto.CaseMeta,
         progress_service_di_mock: WordProgressServiceABC,
     ) -> None:
         """Test Word study progress update service."""
@@ -32,6 +33,6 @@ class TestService:
         )
         mock_progress_repo.update.assert_called_once_with(
             user=mock_user,
-            translation_id=stored_case.translation_id,
+            translation_id=stored_case.id,
             progress_delta=progress_config.increment,
         )

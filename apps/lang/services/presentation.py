@@ -1,60 +1,46 @@
-"""Word study service."""
+"""Get presentation service."""
 
-import logging
-import uuid
-from typing import override
+from __future__ import annotations
 
-from apps.core.exceptions import info
-from apps.core.storage import services as storage
-from apps.users.models import Person
+from dataclasses import asdict
+from typing import TYPE_CHECKING
 
-from .. import domain, repositories, schemas, types
-from .abc import WordPresentationServiceABC
+from ..schemas import dto
 
-log = logging.getLogger(__name__)
+if TYPE_CHECKING:
+    from apps.core.storage import services as storage
+    from apps.users.models import Person
+
+    from .. import domain, repositories, schemas
+
+    # Dependencies
+    type Repository = repositories.EnglishTranslation
+    type Domain = domain.PresentationDomain
+    type Storage = storage.TaskStorage[CaseMeta]
+
+    # Data
+    type PresentationRequest = schemas.PresentationRequest
+    type Case = dto.PresentationCase
+    type CaseMeta = dto.CaseMeta
 
 
-class WordPresentationService(WordPresentationServiceABC):
-    """Word study Presentation service."""
+class PresentationService:
+    """Get presentation service."""
 
     def __init__(
         self,
-        word_repo: repositories.PresentationABC,
-        case_storage: storage.TaskStorage[schemas.WordStudyStoredCase],
-        domain: domain.WordStudyDomainABC,
+        repository: Repository,
+        domain: Domain,
+        storage: Storage,
     ) -> None:
         """Construct the service."""
-        self._word_repo = word_repo
-        self._case_storage = case_storage
+        self._repository = repository
         self._domain = domain
+        self._storage = storage
 
-    # TODO: Refactor
-    @override
-    def get_case(
-        self,
-        user: Person,
-        case_parameters: types.CaseParametersAPI,
-    ) -> types.TranslationCase:
-        """Get Word study presentation case."""
-        candidates = self._word_repo.get_candidates(case_parameters)
-
-        if not candidates.translation_ids:
-            log.info('No translation to study for requested parameters')
-            raise info.NoTranslationsAvailableException
-
-        case = self._domain.create(candidates)
-        case_uuid = self._store_case(case)
-        case_data = self._word_repo.get_translation(
-            user=user,
-            translation_id=case.translation_id,
-        )
-
-        return {'case_uuid': case_uuid, **case_data}
-
-    def _store_case(self, case: types.WordStudyCase) -> uuid.UUID:
-        schema = schemas.WordStudyStoredCase(
-            translation_id=case.translation_id,
-            language='english',
-        )
-        case_uuid = self._case_storage.save_task(schema)
-        return case_uuid
+    def execute(self, user: Person, request: PresentationRequest) -> Case:
+        """Build and return presentation case."""
+        candidates = self._repository.fetch(user, request.parameters)
+        case, case_meta = self._domain.get_case(candidates, request.settings)
+        case_uuid = self._storage.save_task(case_meta)
+        return dto.PresentationCase(**asdict(case), case_uuid=case_uuid)

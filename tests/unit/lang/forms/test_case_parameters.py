@@ -8,8 +8,6 @@ from typing import Final, Mapping
 
 from django.http import QueryDict
 
-from apps.lang import forms
-
 REQUEST_DATA: Final[Mapping[str, str]] = {
     # Translation parameters
     'category': '1',
@@ -50,15 +48,3 @@ EXPECTED_CLEANED_DATA: dict[str, int | str | list[int] | None] = {
     'translation_order': 'random',
     'word_count': None,
 }
-
-
-class TestCaseParametersForm:
-    """Case parameters form test."""
-
-    def test_form_converts_request_to_python_types(self) -> None:
-        """Form converts string request data to proper Python types."""
-        # Act
-        form = forms.CaseRequestForm(REQUEST_QUERYDICT)
-
-        # Assert
-        assert form.is_valid(), f'Form errors: {form.errors}'

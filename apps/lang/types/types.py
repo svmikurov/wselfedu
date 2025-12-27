@@ -6,16 +6,15 @@ from typing import (
     Literal,
     NamedTuple,
     Protocol,
-    TypeAlias,
     TypedDict,
 )
 
 log = logging.getLogger(__name__)
 
-Language: TypeAlias = Literal['native', 'english']
-TranslateOrder: TypeAlias = Literal['from_native', 'to_native', 'random']
-Progress: TypeAlias = Literal['is_study', 'is_repeat', 'is_examine', 'is_know']
-OptionT: TypeAlias = Literal[
+type Language = Literal['native', 'english']
+type TranslateOrder = Literal['from_native', 'to_native', 'random']
+type Progress = Literal['is_study', 'is_repeat', 'is_examine', 'is_know']
+type Option = Literal[
     'category', 'mark', 'word_source', 'start_period', 'end_period'
 ]
 
@@ -208,8 +207,8 @@ class CaseUUID(TypedDict):
 class PresentationT(TypedDict):
     """Word study Presentation typed dict."""
 
-    definition: str
-    explanation: str
+    question: str
+    answer: str
 
 
 class InfoT(TypedDict):
@@ -243,9 +242,18 @@ class TranslationWEB(TypedDict):
     """Type for study case to include into context for rendering."""
 
     case_uuid: str
-    definition: str
-    explanation: str
+    question: str
+    answer: str
     progress: ProgressT
+
+
+class TranslationAPI(TypedDict):
+    """Type for study case to include into context for rendering."""
+
+    case_uuid: uuid.UUID
+    question: str
+    answer: str
+    progress: str
 
 
 # Word study Presentation case
@@ -266,6 +274,14 @@ class TranslationCase(
     PresentationDataT,
 ):
     """Word study Presentation case typed dict."""
+
+
+class TranslationCaseFixed(
+    PresentationDataT,
+):
+    """Word study Presentation case typed dict."""
+
+    case_uuid: str
 
 
 # Word study Presentation progress

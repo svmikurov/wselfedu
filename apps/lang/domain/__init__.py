@@ -1,11 +1,7 @@
-"""Language app domain logic."""
+"""Language discipline domain."""
 
 __all__ = [
-    # ABC
-    'WordStudyDomainABC',
-    # Implementation
-    'WordStudyDomain',
+    'PresentationDomain',
 ]
 
-from .abc import WordStudyDomainABC
-from .presentation import WordStudyDomain
+from .presentation import PresentationDomain

@@ -8,9 +8,11 @@ __all__ = [
     # Implementation
     'TranslationRepository',
     'StudyParametersRepository',
-    'EnglishPresentation',
+    'EnglishTranslation',
     'Progress',
     'TranslationRepository',
+    # Functions
+    'get_period_delta',
 ]
 
 from .abc import (
@@ -19,6 +21,6 @@ from .abc import (
     TranslationRepoABC,
 )
 from .parameters import StudyParametersRepository
-from .presentation import EnglishPresentation
+from .presentation import EnglishTranslation, get_period_delta
 from .progress import Progress
 from .translation import TranslationRepository

@@ -13,7 +13,7 @@ def native_word(user: Person) -> models.NativeWord:
     """Native word."""
     return models.NativeWord.objects.create(
         user=user,
-        word=fixtures.PRESENTATION['explanation'],
+        word=fixtures.PRESENTATION['answer'],
     )
 
 
@@ -22,7 +22,7 @@ def english_word(user: Person) -> models.EnglishWord:
     """English word."""
     return models.EnglishWord.objects.create(
         user=user,
-        word=fixtures.PRESENTATION['definition'],
+        word=fixtures.PRESENTATION['question'],
     )
 
 

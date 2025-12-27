@@ -51,14 +51,14 @@ class TestStudyCaseStatus:
         auth_client: Client,
         translations: list[models.EnglishTranslation],
     ) -> None:
-        """No translation to study test."""
+        """Status code success."""
         # Act & Assert
         assert auth_client.post(STUDY_CASE_URL).status_code == HTTPStatus.OK
 
     def test_no_translation(self, auth_client: Client) -> None:
         """No translation to study test."""
         # Act & Assert
-        assert auth_client.post(STUDY_CASE_URL).status_code == HTTPStatus.FOUND
+        assert auth_client.post(STUDY_CASE_URL).status_code == HTTPStatus.OK
 
     def test_anonymous(
         self,
@@ -67,4 +67,6 @@ class TestStudyCaseStatus:
     ) -> None:
         """Anonymous request test."""
         # Act & Assert
-        assert client.post(STUDY_CASE_URL).status_code == HTTPStatus.FOUND
+        assert (
+            client.post(STUDY_CASE_URL).status_code == HTTPStatus.UNAUTHORIZED
+        )

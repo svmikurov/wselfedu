@@ -44,6 +44,35 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
+ * Global HTMX beforeSwap handler for presentation block.
+ * 1. Clears timers before content swap
+ * 2. Prevents template insertion on business logic errors
+ * @listens htmx:beforeSwap
+ * @param {Event} event - HTMX beforeSwap event
+ */
+document.addEventListener('htmx:beforeSwap', (event) => {
+  const { target, xhr } = event.detail;
+  
+  if (target?.id === DOM_IDS.PRESENTATION_BLOCK) {
+    clearTimers();
+    
+    if (xhr?.status === 200) {
+      try {
+        const data = JSON.parse(xhr.responseText);
+        
+        if (data.status === 'error') {
+          event.detail.shouldSwap = false;
+          appLogger.warn('[addEventListener] Response data status is error');
+        }
+
+      } catch (e) {
+        appLogger.warn('[addEventListener] Failed to parse response:', e);
+      }
+    }
+  }
+});
+
+/**
  * Handles presentation block content updates via HTMX.
  * Starts presentation timers after successful content swap.
  * @param {Event} event - HTMX afterSwap event object
@@ -60,21 +89,6 @@ function onPresentationBlockUpdate(event) {
   // Start presentation with timeout
   setTimers();
 }
-
-/**
- * Clears timers when presentation block is about to be swapped.
- * Prevents timer leaks during dynamic content updates.
- * @listens htmx:beforeSwap
- * @param {Event} event - HTMX beforeSwap event
- * @property {Object} event.detail - Event details
- * @property {Object} event.detail.target - Target element
- * @property {string} event.detail.target.id - Target element ID
- */
-document.addEventListener('htmx:beforeSwap', (event) => {
-  if (event.detail?.target?.id === DOM_IDS.PRESENTATION_BLOCK) {
-    clearTimers();
-  }
-});
 
 // Cleanup event listeners
 window.addEventListener('beforeunload', clearTimers);

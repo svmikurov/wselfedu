@@ -7,13 +7,13 @@ __all__ = [
     'StudySettingsService',
     # Implementation
     'UpdateWordProgressService',
-    'WordPresentationService',
+    'PresentationService',
 ]
 
 from .abc import (
     StudySettingsServiceABC,
     WordPresentationServiceABC,
 )
-from .presentation import WordPresentationService
+from .presentation import PresentationService
 from .progress import UpdateWordProgressService
 from .study_settings import StudySettingsService

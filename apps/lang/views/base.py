@@ -2,27 +2,40 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from http import HTTPStatus
+from typing import TYPE_CHECKING, Any
 
 from dependency_injector.wiring import Provide, inject
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import generic
-from django.views.generic import edit
+from django.http.response import JsonResponse
+from django.views import View, generic
+from django.views.generic.base import ContextMixin
 
 from apps.core import views as core_views
+from apps.lang import schemas, use_cases
 from di import MainContainer
 
-from .. import adapters, services
+from .. import services
 
 if TYPE_CHECKING:
     from django.http.request import HttpRequest
     from django.http.response import HttpResponseBase
 
+    from apps.lang import types
+    from apps.lang.schemas import dto
+
+    type Presentation = use_cases.PresentationUseCase[
+        dict[str, Any],
+        schemas.PresentationRequest,
+        dto.PresentationCase,
+        types.TranslationWEB,
+    ]
+
 
 class SettingsBaseView(
-    core_views.UserRequestMixin,
     LoginRequiredMixin,
     generic.TemplateView,
+    core_views.UserRequestMixin,
 ):
     """Settings base view."""
 
@@ -51,45 +64,45 @@ class SettingsBaseView(
 
 
 class CaseBaseView(
-    core_views.UserRequestMixin,
+    ContextMixin,
     LoginRequiredMixin,
-    edit.BaseFormView,  # type: ignore[type-arg]
+    core_views.UserRequestMixin,
+    View,
 ):
     """Study case base view."""
 
-    _service: services.WordPresentationServiceABC | None = None
-    _adapter: adapters.BaseTranslationAdapterWEB | None = None
+    _use_case: Presentation | None = None
 
     @inject
     def dispatch(
         self,
         request: HttpRequest,
         *args: object,
-        service: services.WordPresentationServiceABC = Provide[
-            MainContainer.lang.word_presentation_service,
-        ],
-        adapter: adapters.BaseTranslationAdapterWEB = Provide[
-            MainContainer.lang.web_presentation,
+        use_case: Presentation = Provide[
+            MainContainer.lang.web_presentation_use_case
         ],
         **kwargs: object,
     ) -> HttpResponseBase:
-        """Inject dependencies."""
-        self._service = service
-        self._adapter = adapter
-        if request.method != 'POST':
-            return self.http_method_not_allowed(request)
+        """Inject presentation use case."""
+        self._use_case = use_case
         return super().dispatch(request, *args, **kwargs)
 
     @property
-    def service(self) -> services.WordPresentationServiceABC:
-        """Get case service."""
-        if not isinstance(self._service, services.WordPresentationServiceABC):
+    def use_case(self) -> Presentation:
+        """Get presentation use case."""
+        if not isinstance(self._use_case, use_cases.PresentationUseCase):
             raise AttributeError('Service not initialized')
-        return self._service
+        return self._use_case
 
-    @property
-    def adapter(self) -> adapters.BaseTranslationAdapterWEB:
-        """Get case service."""
-        if not isinstance(self._adapter, adapters.BaseTranslationAdapterWEB):
-            raise AttributeError('Adapter not initialized')
-        return self._adapter
+    def handle_no_permission(self) -> JsonResponse:  # type: ignore[override]
+        """Render json response if user have no permissions."""
+        return JsonResponse(
+            data={
+                'status': 'error',
+                'message': 'authentication required',
+                'authenticated': False,
+                'login_url': self.get_login_url(),
+                'next': self.request.get_full_path(),
+            },
+            status=HTTPStatus.UNAUTHORIZED,
+        )

@@ -1,6 +1,7 @@
 """Language application DI container."""
 
 from dependency_injector import containers, providers
+from dependency_injector.providers import Container
 
 from apps.core.storage import (
     clients as storage_clients,
@@ -10,9 +11,8 @@ from apps.core.storage import (
 )
 from apps.lang import schemas
 
-from . import adapters, repositories, services
-from .domain.presentation import WordStudyDomain
-from .services.presentation import WordPresentationService
+from .. import repositories, services
+from .presentation import PresentationContainer
 
 # TODO: Implement dynamic ttl in dependency
 # as the sum of the question time and the answer time.
@@ -21,6 +21,15 @@ TRANSLATION_CASE_STORAGE_TTL = 600
 
 class LanguageContainer(containers.DeclarativeContainer):
     """Language discipline DI container."""
+
+    # ---------
+    # Use cases
+    # ---------
+
+    presentation_container = Container(PresentationContainer)
+
+    web_presentation_use_case = presentation_container.web_use_case
+    api_presentation_use_case = presentation_container.api_use_case
 
     # --------------
     # Configurations
@@ -53,9 +62,6 @@ class LanguageContainer(containers.DeclarativeContainer):
     parameters_repository = providers.Factory(
         repositories.StudyParametersRepository,
     )
-    word_repository = providers.Factory(
-        repositories.EnglishPresentation,
-    )
     translation_repository = providers.Factory(
         repositories.TranslationRepository,
     )
@@ -63,22 +69,9 @@ class LanguageContainer(containers.DeclarativeContainer):
         repositories.Progress,
     )
 
-    # ------
-    # Domain
-    # ------
-
-    word_study_domain = providers.Factory(WordStudyDomain)
-
     # --------
     # Services
     # --------
-
-    word_presentation_service = providers.Factory(
-        WordPresentationService,
-        word_repo=word_repository,
-        case_storage=translation_study_storage,
-        domain=word_study_domain,
-    )
 
     progress_service = providers.Factory(
         services.UpdateWordProgressService,
@@ -88,9 +81,3 @@ class LanguageContainer(containers.DeclarativeContainer):
     )
 
     settings_service = providers.Factory(services.StudySettingsService)
-
-    # --------
-    # Adapters
-    # --------
-
-    web_presentation = providers.Factory(adapters.TranslationAdapterWEB)

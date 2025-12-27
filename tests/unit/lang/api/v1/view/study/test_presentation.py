@@ -11,23 +11,23 @@ from rest_framework.test import APIRequestFactory, force_authenticate
 
 from apps.lang import types
 from apps.lang.api.v1.views.study import WordStudyViewSet
-from apps.lang.services.abc import WordPresentationServiceABC
+from apps.lang.services.presentation import PresentationService
 from di import container
 from tests.fixtures.lang.no_db import translations as fixtures
 
 
 @pytest.fixture
-def presentation_case() -> types.TranslationCase:
+def presentation_case() -> types.TranslationCaseFixed:
     """Provide Word study presentation case."""
-    return fixtures.PRESENTATION_CASE
+    return fixtures.PRESENTATION_CASE_FIXED
 
 
 class PresentationResponse(TypedDict):
     """Word study Presentation response data typed dict."""
 
     case_uuid: str
-    definition: str
-    explanation: str
+    question: str
+    answer: str
     info: types.InfoT
 
 
@@ -48,8 +48,8 @@ def valid_response_data() -> PresentationResponse:
     """Provide Word study success Response data."""
     return {
         'case_uuid': '5b518a3e-45a4-4147-a097-0ed28211d8a4',
-        'definition': 'house',
-        'explanation': 'дом',
+        'question': 'house',
+        'answer': 'дом',
         'info': {'progress': 7},
     }
 
@@ -59,8 +59,8 @@ def mock_service(
     presentation_case: types.PresentationT,
 ) -> Mock:
     """Mock Word study presentation service."""
-    mock = Mock(spec=WordPresentationServiceABC)
-    mock.get_case.return_value = presentation_case
+    mock = Mock(spec=PresentationService)
+    mock.execute.return_value = presentation_case
     return mock
 
 
@@ -82,13 +82,13 @@ class TestPresentation:
         force_authenticate(request, mock_user)
 
         # Act
-        with container.lang.word_presentation_service.override(mock_service):
+        with container.lang.api_presentation_use_case.override(mock_service):
             response = view(request)
 
         # Assert
         assert response.status_code == HTTPStatus.OK
         assert response.data == valid_response_data
-        mock_service.get_case.assert_called_once_with(
+        mock_service.execute.assert_called_once_with(
             mock_user,
             valid_payload,
         )

@@ -1,11 +1,17 @@
 """Word study test case data."""
 
 import uuid
-from typing import TypeAlias
 
 from rest_framework.exceptions import ErrorDetail
 
 from apps.lang.types import ProgressCase
+
+type InvalidPayload = dict[str, uuid.UUID | bool]
+type InvalidPayloadCases = list[tuple[InvalidPayload, SerializerErrors]]
+type SerializerErrors = dict[str, list[ErrorDetail]]
+
+type ServiceErrors = ValueError | LookupError
+type ServiceErrorCases = list[tuple[ServiceErrors, str]]
 
 # Progress cases
 # --------------
@@ -15,9 +21,6 @@ VALID_PAYLOAD: ProgressCase = {
     'is_known': True,
 }
 
-InvalidPayload: TypeAlias = dict[str, uuid.UUID | bool]
-SerializerErrors: TypeAlias = dict[str, list[ErrorDetail]]
-InvalidPayloadCases: TypeAlias = list[tuple[InvalidPayload, SerializerErrors]]
 
 INVALID_PAYLOAD: InvalidPayloadCases = [
     (
@@ -51,9 +54,6 @@ INVALID_PAYLOAD: InvalidPayloadCases = [
         },
     ),
 ]
-
-ServiceErrors: TypeAlias = ValueError | LookupError
-ServiceErrorCases: TypeAlias = list[tuple[ServiceErrors, str]]
 
 SERVICE_ERROR: ServiceErrorCases = [
     (ValueError('Invalid progress'), 'Invalid progress'),

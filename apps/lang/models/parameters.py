@@ -133,7 +133,7 @@ class Parameters(models.Model):
             ),
         ]
 
-    def obj_to_id_name(self, field: types.OptionT) -> types.IdName | None:
+    def obj_to_id_name(self, field: types.Option) -> types.IdName | None:
         """Convert object to {id, name} dict."""
         obj = getattr(self, field, None)
         if obj and hasattr(obj, 'id') and hasattr(obj, 'name') and obj.id:

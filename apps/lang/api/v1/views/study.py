@@ -15,12 +15,13 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
 import di
+from apps.core import views as core_views
 from apps.core.api import renderers
 from apps.lang.repositories.abc import StudyParametersRepositoryABC
 from apps.lang.services.abc import (
-    WordPresentationServiceABC,
     WordProgressServiceABC,
 )
+from apps.lang.use_cases import ApiPresentationUseCase
 
 from .. import examples
 from .. import serializers as ser
@@ -28,7 +29,10 @@ from .. import serializers as ser
 log = logging.getLogger(__name__)
 
 
-class WordStudyViewSet(ViewSet):
+class WordStudyViewSet(
+    core_views.UserRequestMixin,
+    ViewSet,
+):
     """Word study ViewSet."""
 
     renderer_classes = [renderers.WrappedJSONRenderer]
@@ -58,18 +62,13 @@ class WordStudyViewSet(ViewSet):
     def presentation(
         self,
         request: Request,
-        presentation_services: WordPresentationServiceABC = wiring.Provide[
-            di.MainContainer.lang.word_presentation_service,
+        presentation_services: ApiPresentationUseCase = wiring.Provide[
+            di.MainContainer.lang.api_presentation_use_case,
         ],
     ) -> Response:
         """Render the Word study presentation case."""
-        parameters = ser.WordParametersSerializer(data=request.data)
-        parameters.is_valid(raise_exception=True)
-        study_data = presentation_services.get_case(
-            self.request.user,  # type: ignore[arg-type]
-            parameters.validated_data,
-        )
-        return Response(ser.WordStudyCaseSerializer(study_data).data)
+        presentation = presentation_services.execute(self.user, request.data)
+        return Response(presentation)
 
     # ---------------------
     # Word study parameters

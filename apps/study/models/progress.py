@@ -1,8 +1,15 @@
 """Item study progress phase model."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Literal
+
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import F, Q
+
+if TYPE_CHECKING:
+    type ProgressT = Literal['is_study', 'is_repeat', 'is_examine', 'is_know']
 
 
 class Progress(models.Model):
@@ -11,8 +18,15 @@ class Progress(models.Model):
     # Max progress phase values
     STUDY_DEFAULT = 7
     REPEAT_DEFAULT = 10
-    EXAMINE_DEFAULT = 13
+    EXAMINE_DEFAULT = 16
     KNOW_DEFAULT = 17
+
+    DEFAULT_PROGRESS_RANGES: dict[ProgressT, list[int]] = {
+        'is_study': [*range(0, STUDY_DEFAULT + 1)],
+        'is_repeat': [*range(STUDY_DEFAULT + 1, REPEAT_DEFAULT + 1)],
+        'is_examine': [*range(REPEAT_DEFAULT + 1, EXAMINE_DEFAULT + 1)],
+        'is_know': [KNOW_DEFAULT],
+    }
 
     user = models.ForeignKey(
         'users.Person',

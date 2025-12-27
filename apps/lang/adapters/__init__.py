@@ -1,11 +1,9 @@
-"""Language discipline adapters."""
+"""Language discipline API & WEB response adapters."""
 
 __all__ = [
-    # ABC
-    'BaseTranslationAdapterWEB',
-    # Implementation
-    'TranslationAdapterWEB',
+    'WebPresentationAdapter',
+    'ApiPresentationAdapter',
 ]
 
-from .web.base import BaseTranslationAdapterWEB
-from .web.presentation import TranslationAdapterWEB
+from .api_presentation import ApiPresentationAdapter
+from .web_presentation import WebPresentationAdapter

@@ -29,13 +29,18 @@ TRANSLATION_CASE_UUID: Final[uuid.UUID] = uuid.UUID(
 )
 
 PRESENTATION: Final[types.PresentationDataT] = {
-    'definition': 'house',
-    'explanation': 'дом',
+    'question': 'house',
+    'answer': 'дом',
     'info': {'progress': 7},
 }
 
 PRESENTATION_CASE: Final[types.TranslationCase] = {
     'case_uuid': TRANSLATION_CASE_UUID,
+    **PRESENTATION,
+}
+
+PRESENTATION_CASE_FIXED: Final[types.TranslationCaseFixed] = {
+    'case_uuid': str(TRANSLATION_CASE_UUID),
     **PRESENTATION,
 }
 
@@ -56,6 +61,7 @@ SOURCES: Final[tuple[str, ...]] = (
 MARKS: Final[tuple[str, ...]] = (
     'Edible',
     'Inedible',
+    'Favorite',
 )
 
 # Translation parameters
