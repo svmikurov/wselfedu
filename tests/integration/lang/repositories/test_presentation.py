@@ -6,14 +6,15 @@ from typing import TYPE_CHECKING
 
 import pytest
 
+from apps.core import models as core_models
+from apps.lang import models as lang_models
+from apps.lang import repositories
 from apps.lang.repositories import get_period_delta, presentation
 from apps.study import models as study_models
-
-from .fixtures import EMPTY_PARAMETERS_DTO
+from tests.fixtures.lang.no_db import translations as fixtures
+from tests.fixtures.lang.no_db.presentation import EMPTY_PARAMETERS_DTO
 
 if TYPE_CHECKING:
-    from apps.core import models as core_models
-    from apps.lang import models as lang_models
     from apps.users.models import Person
 
     type Repository = presentation.EnglishTranslation
@@ -21,6 +22,43 @@ if TYPE_CHECKING:
     type Categories = list[lang_models.LangCategory]
     type Sources = list[core_models.Source]
     type Marks = list[lang_models.LangMark]
+
+
+@pytest.fixture
+def sources(user: Person) -> Sources:
+    """Provide added to DB translation categories."""
+    source_objs = [
+        core_models.Source(user=user, name=name) for name in fixtures.SOURCES
+    ]
+    core_models.Source.objects.bulk_create(source_objs)
+    return source_objs
+
+
+@pytest.fixture
+def categories(user: Person) -> Categories:
+    """Provide added to DB translation categories."""
+    category_objs = [
+        lang_models.LangCategory(user=user, name=name)
+        for name in fixtures.CATEGORIES
+    ]
+    lang_models.LangCategory.objects.bulk_create(category_objs)
+    return category_objs
+
+
+@pytest.fixture
+def marks(user: Person) -> Marks:
+    """Provide added to DB translation categories."""
+    marks_objs = [
+        lang_models.LangMark(user=user, name=name) for name in fixtures.MARKS
+    ]
+    lang_models.LangMark.objects.bulk_create(marks_objs)
+    return marks_objs
+
+
+@pytest.fixture
+def repository() -> repositories.EnglishTranslation:
+    """Provide presentation repository."""
+    return repositories.EnglishTranslation()
 
 
 class TestProgressFilter:

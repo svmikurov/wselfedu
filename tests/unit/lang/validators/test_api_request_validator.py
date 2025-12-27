@@ -5,7 +5,7 @@ from rest_framework.exceptions import ValidationError as DRFValidationError
 
 from apps.lang.validators import api_validator
 
-from .fixtures import API_REQUEST, REQUEST_DTO
+from ....fixtures.lang.no_db.presentation import API_REQUEST, REQUEST_DTO
 
 
 class TestValidator:

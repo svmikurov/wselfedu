@@ -11,8 +11,7 @@ from apps.core import models as core_models
 from apps.lang import di, domain, models, repositories, services
 from apps.lang.types import presentation
 from tests.fixtures.lang.no_db import translations as fixtures
-
-from .fixtures import EMPTY_PARAMETERS_DTO
+from tests.fixtures.lang.no_db.presentation import EMPTY_PARAMETERS_DTO
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet

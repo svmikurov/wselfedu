@@ -10,13 +10,10 @@ from django.http import QueryDict
 
 from apps.lang import use_cases
 from apps.lang.schemas import dto
+from tests.fixtures.lang.no_db import presentation as fixtures
 from tests.fixtures.lang.no_db.translations import TRANSLATIONS
 
-from . import fixtures
-
 if TYPE_CHECKING:
-    from unittest.mock import Mock
-
     from apps.lang import models
     from apps.users.models import Person
 
@@ -63,20 +60,3 @@ class TestWebUseCase:
         assert result['question'] == expected.question
         assert result['answer'] == expected.answer
         assert result['progress']['current'] == expected.progress
-
-    def test_initialize(
-        self,
-        mock_validator: Mock,
-        mock_service: Mock,
-        mock_response_adapter: Mock,
-    ) -> None:
-        """Web get presentation UseCase initialization."""
-        # Act
-        use_case = use_cases.WebPresentationUseCase(
-            validator=mock_validator,
-            service=mock_service,
-            response_adapter=mock_response_adapter,
-        )
-
-        # Assert
-        assert use_case is not None

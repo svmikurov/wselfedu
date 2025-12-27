@@ -5,7 +5,7 @@ from pydantic import ValidationError
 
 from apps.lang.validators import web_validator
 
-from .fixtures import (
+from ....fixtures.lang.no_db.presentation import (
     REQUEST_DTO,
     WEB_REQUEST,
 )

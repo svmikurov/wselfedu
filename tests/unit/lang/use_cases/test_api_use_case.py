@@ -2,12 +2,30 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from unittest.mock import Mock
 
+import pytest
+
+from apps.lang.types import presentation
 from apps.lang.use_cases import ApiPresentationUseCase
 
-if TYPE_CHECKING:
-    from unittest.mock import Mock
+
+@pytest.fixture
+def mock_service() -> Mock:
+    """Provide business service mock."""
+    return Mock(spec=presentation.BusinessService)
+
+
+@pytest.fixture
+def mock_validator() -> Mock:
+    """Provide validator mock."""
+    return Mock(spec=presentation.Validator)
+
+
+@pytest.fixture
+def mock_response_adapter() -> Mock:
+    """Provide response adapter mock."""
+    return Mock(spec=presentation.ResponseAdapter)
 
 
 class TestWebUseCase:
