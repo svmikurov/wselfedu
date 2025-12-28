@@ -24,7 +24,7 @@ if TYPE_CHECKING:
     from apps.lang import types
     from apps.lang.schemas import dto
 
-    type Presentation = use_cases.PresentationUseCase[
+    type Presentation = use_cases.BaseUseCase[
         dict[str, Any],
         schemas.PresentationRequest,
         dto.PresentationCase,
@@ -90,7 +90,7 @@ class CaseBaseView(
     @property
     def use_case(self) -> Presentation:
         """Get presentation use case."""
-        if not isinstance(self._use_case, use_cases.PresentationUseCase):
+        if not isinstance(self._use_case, use_cases.BaseUseCase):
             raise AttributeError('Service not initialized')
         return self._use_case
 

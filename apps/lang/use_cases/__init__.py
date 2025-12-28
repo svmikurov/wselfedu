@@ -4,13 +4,13 @@ Delete after refactoring is complete.
 """
 
 __all__ = [
-    'PresentationUseCase',
+    'BaseUseCase',
     'ApiPresentationUseCase',
     'WebPresentationUseCase',
 ]
 
+from .base import BaseUseCase
 from .presentation import (
     ApiPresentationUseCase,
-    PresentationUseCase,
     WebPresentationUseCase,
 )
