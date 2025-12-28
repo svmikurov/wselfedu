@@ -2,12 +2,11 @@
 
 from typing import Any
 
-from .. import schemas
-from ..types import presentation
+from .. import schemas, types
 
 
 class WebPresentationValidator(
-    presentation.Validator[dict[str, Any], schemas.PresentationRequest]
+    types.Validator[dict[str, Any], schemas.PresentationRequest]
 ):
     """Web request presentation validator."""
 

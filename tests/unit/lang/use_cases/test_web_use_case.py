@@ -6,26 +6,25 @@ from unittest.mock import Mock
 
 import pytest
 
-from apps.lang import use_cases
-from apps.lang.types import presentation
+from apps.lang import types, use_cases
 
 
 @pytest.fixture
 def mock_validator() -> Mock:
     """Provide validator mock."""
-    return Mock(spec=presentation.Validator)
+    return Mock(spec=types.Validator)
 
 
 @pytest.fixture
 def mock_service() -> Mock:
     """Provide business service mock."""
-    return Mock(spec=presentation.BusinessService)
+    return Mock(spec=types.BusinessService)
 
 
 @pytest.fixture
 def mock_response_adapter() -> Mock:
     """Provide response adapter mock."""
-    return Mock(spec=presentation.ResponseAdapter)
+    return Mock(spec=types.ResponseAdapter)
 
 
 class TestWebUseCase:
