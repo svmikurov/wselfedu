@@ -1,5 +1,5 @@
 /**
- * @module translation/initializer
+ * @module presentation/initializer
  * Module for initializing and managing the translation presentation lifecycle.
  * Handles DOM setup, HTMX event integration, and resource cleanup.
  */
@@ -9,13 +9,13 @@
 import {
   DOM_IDS,
   getPresentationBlock,
-} from '/static/js/lang/study/getters.js';
+} from '/static/js/lang/presentation/getters.js';
 import {
   setTimers,
   clearTimers,
   updateQuestion,
-} from '/static/js/lang/study/presentation.js';
-import { setupEventDelegation } from '/static/js/lang/study/handlers.js';
+} from '/static/js/lang/presentation/presentation.js';
+import { setupEventDelegation } from '/static/js/lang/presentation/handlers.js';
 
 /**
  * Initializes presentation block functionality.

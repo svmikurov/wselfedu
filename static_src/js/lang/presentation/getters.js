@@ -1,5 +1,5 @@
 /**
- * @module translation/getters
+ * @module presentation/getters
  * DOM element selectors, IDs, and getter functions for the translation presentation.
  * Provides centralized access to DOM elements and configuration parameters.
  */

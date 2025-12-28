@@ -1,10 +1,10 @@
 /**
- * @module translation/controls
+ * @module presentation/controls
  * Module for handling UI control interactions in the translation presentation.
  * Uses event delegation to manage dynamic buttons and controls presentation state.
  */
 
-import { DOM_IDS } from '/static/js/lang/study/getters.js';
+import { DOM_IDS } from '/static/js/lang/presentation/getters.js';
 import {
   updateQuestion,
   getPauseState,
@@ -12,11 +12,11 @@ import {
   clearTimers,
   setTimers,
   skipToNext,
-} from '/static/js/lang/study/presentation.js';
+} from '/static/js/lang/presentation/presentation.js';
 import {
   updatePauseButtonText,
   disableMarkKnown,
-} from '/static/js/lang/study/helpers.js';
+} from '/static/js/lang/presentation/helpers.js';
 
 /**
  * Sets up event delegation for all control buttons.

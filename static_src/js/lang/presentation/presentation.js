@@ -1,5 +1,5 @@
 /**
- * @module translation/presentation
+ * @module presentation/presentation
  * Core presentation logic for translation question flow.
  * Manages timers, pause states, and question progression.
  */
@@ -9,12 +9,12 @@ import {
   getParameters,
   getCaseParameters,
   getAnswerElement
-} from '/static/js/lang/study/getters.js';
+} from '/static/js/lang/presentation/getters.js';
 import {
   showAnswer,
   hideAnswer,
   updatePauseButtonText,
-} from '/static/js/lang/study/helpers.js';
+} from '/static/js/lang/presentation/helpers.js';
 
 // Timer references
 let questionTimer = null;
