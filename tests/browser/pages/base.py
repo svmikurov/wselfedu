@@ -1,10 +1,17 @@
-"""Defines base page for browser POM testing."""
+"""Base Playwright POM page."""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from playwright.sync_api import Page
 
+if TYPE_CHECKING:
+    from playwright.sync_api import Response
+
 
 class BasePage:
-    """Base page for POM browser testing."""
+    """Base Playwright POM page."""
 
     title: str
     path: str
@@ -27,6 +34,7 @@ class BasePage:
         """
         pass
 
-    def open(self) -> None:
-        """Open current page."""
-        self._page.goto(self.path)
+    def open(self) -> Response | None:
+        """Open page and return response."""
+        response = self._page.goto(self.path)
+        return response
