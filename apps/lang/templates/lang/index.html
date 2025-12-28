@@ -16,12 +16,22 @@
   <div class="row g-2 mb-2">
     <div class="col-12 col-md-6">
       <a href="{% url 'lang:settings' %}" class="wse-btn full-width height-huge">
-        Настройка упражнения
+        Настроить изучение слов
       </a>
     </div>
     <div class="col-12 col-md-6">
+    </div>
+  </div>
+
+    <div class="row g-2 mb-2">
+    <div class="col-12 col-md-6">
       <a href="{% url 'lang:translation_english_study' %}" class="wse-btn full-width height-huge">
-        Упражнение
+        Изучение английских слов
+      </a>
+    </div>
+    <div class="col-12 col-md-6">
+      <a href={% url "lang:translation_english_test" %} class="wse-btn full-width height-huge">
+        Тест по словам
       </a>
     </div>
   </div>
@@ -29,7 +39,7 @@
   <div class="row g-2 mb-2">
     <div class="col-12 col-md-6">
       <a href="{% url 'lang:translation_english_list' %}" class="wse-btn height-huge full-width">
-        Словарь переводов
+        Англо-Русский словарь
       </a>
     </div>
     <div class="col-12 col-md-6">
