@@ -34,6 +34,7 @@ urlpatterns = [
     # -----------------
     # Translation study
     # -----------------
+    # - Presentation
     path(
         'translation/english/study/',
         views.EnglishTranslationStudyView.as_view(),
@@ -43,6 +44,12 @@ urlpatterns = [
         'translation/english/study/case/',
         views.EnglishTranslationStudyCaseView.as_view(),
         name='translation_english_study_case',
+    ),
+    # - Test
+    path(
+        'translation/english/test/',
+        views.TranslationTestView.as_view(),
+        name='translation_english_test',
     ),
     # --------------
     # Study settings
