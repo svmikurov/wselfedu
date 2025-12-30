@@ -1,4 +1,4 @@
-"""Base UseCase."""
+"""Language discipline base UseCase."""
 
 from __future__ import annotations
 
