@@ -15,6 +15,8 @@ __all__ = [
     # Study
     'EnglishTranslationStudyView',
     'EnglishTranslationStudyCaseView',
+    # Test
+    'TranslationTestView',
 ]
 
 from .index import IndexLangView
@@ -37,4 +39,7 @@ from .translation import (
     EnglishTranslationDeleteView,
     EnglishTranslationListView,
     EnglishTranslationUpdateView,
+)
+from .translation_test import (
+    TranslationTestView,
 )
