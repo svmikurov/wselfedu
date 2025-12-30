@@ -8,13 +8,13 @@ import pytest
 from django.http import QueryDict
 
 from apps.core import exceptions
-from apps.lang.di import presentation
+from apps.lang.di import PresentationContainer
 
 if TYPE_CHECKING:
     from apps.lang import models, use_cases
     from apps.users.models import Person
 
-    type Container = presentation.PresentationContainer
+    type Container = PresentationContainer
     type WebUseCase = use_cases.WebPresentationUseCase
     type Translations = list[models.EnglishTranslation]
 
@@ -44,4 +44,4 @@ class TestUseCaseContainer:
 
     def test_create_container(self) -> None:
         """Create use case DI container."""
-        assert presentation.PresentationContainer() is not None
+        assert PresentationContainer() is not None
