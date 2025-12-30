@@ -1,9 +1,13 @@
 """Language app DI container."""
 
 __all__ = [
+    # Language app main DI container
     'LanguageContainer',
+    # Language app DI containers
     'PresentationContainer',
+    'TranslationTestContainer',
 ]
 
-from .lang_container import LanguageContainer
-from .presentation import PresentationContainer
+from .container import LanguageContainer
+from .translation_presentation import PresentationContainer
+from .translation_test import TranslationTestContainer

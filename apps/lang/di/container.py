@@ -12,7 +12,8 @@ from apps.core.storage import (
 from apps.lang import schemas
 
 from .. import repositories, services
-from .presentation import PresentationContainer
+from .translation_presentation import PresentationContainer
+from .translation_test import TranslationTestContainer
 
 # TODO: Implement dynamic ttl in dependency
 # as the sum of the question time and the answer time.
@@ -27,9 +28,11 @@ class LanguageContainer(containers.DeclarativeContainer):
     # ---------
 
     presentation_container = Container(PresentationContainer)
-
     web_presentation_use_case = presentation_container.web_use_case
     api_presentation_use_case = presentation_container.api_use_case
+
+    test_container = Container(TranslationTestContainer)
+    web_test = test_container.web_test
 
     # --------------
     # Configurations

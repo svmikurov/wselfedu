@@ -11,11 +11,11 @@ from ..schemas import dto
 
 type StoryCase = dto.CaseMeta
 
-TRANSLATION_CASE_STORAGE_TTL = 600
+CASE_STORAGE_TTL = 600
 
 
 class PresentationContainer(containers.DeclarativeContainer):
-    """Get english presentation DI UseCase container."""
+    """Translation study presentation DI container."""
 
     # ----------------------------------------
     # Validators for presentation case request
@@ -42,7 +42,7 @@ class PresentationContainer(containers.DeclarativeContainer):
     cache_storage = providers.Factory(
         storage.TaskStorage[StoryCase],
         storage=cache_client,
-        ttl=TRANSLATION_CASE_STORAGE_TTL,
+        ttl=CASE_STORAGE_TTL,
     )
 
     # Service
