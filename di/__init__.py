@@ -12,6 +12,7 @@ WIRED_MODULES: list[str] = [
     'apps.lang.api.v1.views.study',
     'apps.lang.views.translation',
     'apps.lang.views.presentation',
+    'apps.lang.views.translation_test',
     'apps.study.api.v1.views.assigned',
     'apps.users.views.mentorship',
     'apps.users.views.assignation',
