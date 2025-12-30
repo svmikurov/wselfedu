@@ -1,17 +1,21 @@
-"""Get presentation UseCase."""
-
-from __future__ import annotations
+"""Language discipline UseCase."""
 
 from typing import Any
 
 from .. import schemas, types
 from ..schemas import dto
-from .base import BaseUseCase
+from . import BaseUseCase
+
+type RequestData = dict[str, Any]
+
+# ------------
+# Presentation
+# ------------
 
 
 class ApiPresentationUseCase(
     BaseUseCase[
-        dict[str, Any],
+        RequestData,
         schemas.PresentationRequest,
         dto.PresentationCase,
         types.TranslationAPI,
@@ -22,10 +26,26 @@ class ApiPresentationUseCase(
 
 class WebPresentationUseCase(
     BaseUseCase[
-        dict[str, Any],
+        RequestData,
         schemas.PresentationRequest,
         dto.PresentationCase,
         types.TranslationWEB,
     ]
 ):
     """Web presentation UseCase."""
+
+
+# ----
+# Test
+# ----
+
+
+class WebTestUseCase(
+    BaseUseCase[
+        RequestData,
+        schemas.TestRequestDTO,
+        schemas.Case | schemas.Explanation,
+        schemas.TestResponseData,
+    ]
+):
+    """Web translation study test exercise UseCase."""
