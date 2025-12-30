@@ -57,7 +57,7 @@ class Progress(ProgressABC):
             .first()
         )
 
-        # Get 'know' progress value as mak progress
+        # Get 'know' progress value as max progress
         max_progress = (
             parameters.progress.know
             if parameters and parameters.progress
