@@ -8,5 +8,5 @@ from .. import base
 class TranslationTestPage(base.BasePage):
     """Translation study test browser POM tests."""
 
-    title = 'Тест по словам'
+    title = 'Словарный тест'
     path = str(reverse_lazy('lang:translation_english_test'))
