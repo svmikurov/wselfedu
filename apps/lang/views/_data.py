@@ -36,6 +36,7 @@ class TranslationContext(TypedDict):
     list: ViewContext
     parameters: ViewContext
     english_study: PresentationViewContext
+    translation_test: ViewContext
 
 
 ENGLISH_TRANSLATION: TranslationContext = {
@@ -61,5 +62,10 @@ ENGLISH_TRANSLATION: TranslationContext = {
         'title': 'Изучение английских слов',
         'header': 'Изучение английских слов',
         'case_url': '/lang/translation/english/study/case/',
+    },
+    # English translation tests
+    'translation_test': {
+        'title': 'Словарный тест',
+        'header': 'Словарный тест',
     },
 }
