@@ -10,6 +10,12 @@ __all__ = [
     'SettingsSchema',
     'PresentationRequest',
     'UpdateProgress',
+    # Test
+    'Case',
+    'CaseStatus',
+    'Explanation',
+    'TestRequestDTO',
+    'TestResponseData',
 ]
 
 from .presentation import (
@@ -21,3 +27,10 @@ from .presentation import (
 )
 from .progress import UpdateProgress
 from .schemas import ProgressConfigSchema, WordStudyStoredCase
+from .test import (
+    Case,
+    CaseStatus,
+    Explanation,
+    TestRequestDTO,
+    TestResponseData,
+)
