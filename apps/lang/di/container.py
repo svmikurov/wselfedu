@@ -33,6 +33,7 @@ class LanguageContainer(containers.DeclarativeContainer):
 
     test_container = Container(TranslationTestContainer)
     web_test = test_container.web_test
+    web_test_progress = test_container.web_test_progress
 
     # --------------
     # Configurations
