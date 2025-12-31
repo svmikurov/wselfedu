@@ -8,6 +8,7 @@ from apps.core.storage.clients import DjangoCache
 from .. import adapters, repositories, services, use_cases, validators
 from ..schemas.test import StoryDomainResult
 
+# TODO: Move case storage ttl to test settings.
 CASE_STORAGE_TTL = 600
 
 
@@ -77,6 +78,15 @@ class TranslationTestContainer(containers.DeclarativeContainer):
 
     # Adds tracking of the translation study progress.
     web_test_progress = providers.Factory(
+        use_cases.WebTestUseCase,
+        validator=web_validator,
+        service=eng_service_progress,
+        response_adapter=web_adapter,
+    )
+
+    # HACK: Replace service stub
+    # Test assigned by the mentor.
+    web_test_mentorship = providers.Factory(
         use_cases.WebTestUseCase,
         validator=web_validator,
         service=eng_service_progress,
