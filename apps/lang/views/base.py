@@ -3,19 +3,20 @@
 from __future__ import annotations
 
 from http import HTTPStatus
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
+from dependency_injector.providers import Container
 from dependency_injector.wiring import Provide, inject
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import JsonResponse
-from django.views import View, generic
-from django.views.generic.base import ContextMixin
+from django.views import generic
 
 from apps.core import views as core_views
 from apps.lang import schemas, use_cases
+from apps.lang.di import LanguageContainer
 from di import MainContainer
 
-from .. import services
+from ..services import StudySettingsServiceABC
 
 if TYPE_CHECKING:
     from django.http.request import HttpRequest
@@ -24,12 +25,16 @@ if TYPE_CHECKING:
     from apps.lang import types
     from apps.lang.schemas import dto
 
-    type Presentation = use_cases.BaseUseCase[
-        dict[str, Any],
-        schemas.PresentationRequest,
-        dto.PresentationCase,
-        types.TranslationWEB,
-    ]
+type Presentation = use_cases.BaseUseCase[
+    dict[str, Any],
+    schemas.PresentationRequest,
+    dto.PresentationCase,
+    types.TranslationWEB,
+]
+
+T = TypeVar('T')
+
+CONTAINER: Container[LanguageContainer] = MainContainer.lang
 
 
 class SettingsBaseView(
@@ -39,16 +44,14 @@ class SettingsBaseView(
 ):
     """Settings base view."""
 
-    _service: services.StudySettingsServiceABC | None = None
+    _service: StudySettingsServiceABC | None = None
 
     @inject
     def dispatch(
         self,
         request: HttpRequest,
         *args: object,
-        service: services.StudySettingsServiceABC = Provide[
-            MainContainer.lang.settings_service,
-        ],
+        service: StudySettingsServiceABC = Provide[CONTAINER.settings_service],
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject settings repository."""
@@ -56,43 +59,45 @@ class SettingsBaseView(
         return super().dispatch(request, *args, **kwargs)
 
     @property
-    def service(self) -> services.StudySettingsServiceABC:
+    def service(self) -> StudySettingsServiceABC:
         """Get settings repository."""
-        if not isinstance(self._service, services.StudySettingsServiceABC):
+        if not isinstance(self._service, StudySettingsServiceABC):
             raise AttributeError('Repository not initialized')
         return self._service
 
 
-class CaseBaseView(
-    ContextMixin,
+class BaseUseCaseView(
     LoginRequiredMixin,
+    generic.TemplateView,
     core_views.UserRequestMixin,
-    View,
+    Generic[T],
 ):
-    """Study case base view."""
+    """Base view provides user verification and UseCase."""
 
-    _use_case: Presentation | None = None
+    _use_case: None | T = None
+
+    @property
+    def use_case(self) -> T:
+        """Get presentation use case."""
+        if self._use_case is None:
+            raise AttributeError('UseCase not initialized')
+        return self._use_case
+
+
+class CaseBaseView(BaseUseCaseView[Presentation]):
+    """Study case base view."""
 
     @inject
     def dispatch(
         self,
         request: HttpRequest,
         *args: object,
-        use_case: Presentation = Provide[
-            MainContainer.lang.web_presentation_use_case
-        ],
+        use_case: Presentation = Provide[CONTAINER.web_presentation_use_case],
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject presentation use case."""
         self._use_case = use_case
         return super().dispatch(request, *args, **kwargs)
-
-    @property
-    def use_case(self) -> Presentation:
-        """Get presentation use case."""
-        if not isinstance(self._use_case, use_cases.BaseUseCase):
-            raise AttributeError('Service not initialized')
-        return self._use_case
 
     def handle_no_permission(self) -> JsonResponse:  # type: ignore[override]
         """Render json response if user have no permissions."""
