@@ -18,6 +18,7 @@ class TranslationTestContainer(containers.DeclarativeContainer):
     # Test configuration
     # ------------------
 
+    # TODO: Replace temporary workaround - Apply pydantic model
     config = {
         'option_count': 7,
         'limit': 100,
@@ -29,6 +30,9 @@ class TranslationTestContainer(containers.DeclarativeContainer):
 
     repository = providers.Factory(
         repositories.TranslationRepository,
+    )
+    progress_repository = providers.Factory(
+        repositories.Progress,
     )
 
     cache_client = providers.Factory(DjangoCache[StoryDomainResult])
@@ -50,6 +54,17 @@ class TranslationTestContainer(containers.DeclarativeContainer):
         storage=cache_storage,
         config=config,
     )
+    eng_service_progress = providers.Factory(
+        services.TestProgressService,
+        repository=repository,
+        progress_repository=progress_repository,
+        storage=cache_storage,
+        config=config,
+    )
+
+    # -------------------------------
+    # Translation study test UseCases
+    # -------------------------------
 
     web_adapter = providers.Factory(adapters.WebTestAdapter)
 
@@ -57,5 +72,13 @@ class TranslationTestContainer(containers.DeclarativeContainer):
         use_cases.WebTestUseCase,
         validator=web_validator,
         service=eng_service,
+        response_adapter=web_adapter,
+    )
+
+    # Adds tracking of the translation study progress.
+    web_test_progress = providers.Factory(
+        use_cases.WebTestUseCase,
+        validator=web_validator,
+        service=eng_service_progress,
         response_adapter=web_adapter,
     )
