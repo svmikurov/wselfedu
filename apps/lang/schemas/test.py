@@ -10,6 +10,7 @@ from ..models import EnglishTranslation
 class CaseStatus(Enum):
     """Translation test status enumeration."""
 
+    BAR = 'choice test bar'
     NEW = 'new_case'
     ANSWER = 'user_answer'
     WRONG = 'wrong_answer'
@@ -87,7 +88,7 @@ class StoryDomainResult(BaseModel):
     translations: tuple[Translation, ...]
     question: str
     answer: str
-    id: int
+    id: int = Field(description='Database question translation ID')
     option_value: int
     option_ids: list[OptionId]
 
