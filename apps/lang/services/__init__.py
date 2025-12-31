@@ -9,6 +9,7 @@ __all__ = [
     'UpdateWordProgressService',
     'PresentationService',
     'TestService',
+    'TestProgressService',
 ]
 
 from .abc import (
@@ -18,4 +19,4 @@ from .abc import (
 from .presentation import PresentationService
 from .progress import UpdateWordProgressService
 from .study_settings import StudySettingsService
-from .test import TestService
+from .test import TestProgressService, TestService
