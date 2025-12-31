@@ -13,7 +13,7 @@ PASSWORD = 'test_pass123'
 REDIRECT_TITLE = HomePage.title
 
 
-class TestLoginPage(BaseTest[LoginPage]):
+class TestLoginPage(BaseTest):
     """Browser testing of the login page."""
 
     page_type = LoginPage
