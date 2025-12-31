@@ -51,6 +51,16 @@ urlpatterns = [
         views.TranslationTestView.as_view(),
         name='translation_english_test',
     ),
+    path(
+        'translation/english/test/progress/',
+        views.TranslationTestProgressView.as_view(),
+        name='translation_english_test_progress',
+    ),
+    path(
+        'translation/english/test/mentorship/',
+        views.TranslationTestMentorshipView.as_view(),
+        name='translation_english_test_mentorship',
+    ),
     # --------------
     # Study settings
     # --------------
