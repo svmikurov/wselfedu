@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}{{ title }}{% endblock title %}
+
+{% block content %}
+<main class="container p-0">
+  <div id="header-block" class="row align-items-center py-1">
+    <div class="col">
+      <h1 class="mb-0">{{ header }}</h1>
+    </div>
+    <div class="col-auto">
+      <a href="{% url 'lang:settings' %}" class="wse-btn">
+         Настройки
+      </a>
+      <a href="javascript:history.back()" class="wse-btn">
+         Назад
+      </a>
+    </div>
+  </div>
+
+  {% include 'lang/test/_settings.html' %}
+
+  {# Target to insert 'Translation test exercise' partial template #}
+  <div id="test-block"></div>
+
+</main>
+{% endblock content %}
+
+{% block script %}
+<script
+  type="module"
+  src="{% static 'js/lang/test/index.js' %}"
+></script>
+{% endblock script %}

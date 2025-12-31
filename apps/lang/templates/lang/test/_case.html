@@ -1,0 +1,32 @@
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/presentation.css' %}">
+{% endblock extra_css %}
+
+<!--======= Test case =======-->
+<div id="case-block">
+  <div>
+    <div class="presentation-card-body">
+      <div id="question" class="presentation-card-content">
+        {{ question }}
+      </div>
+    </div>
+  </div>
+
+  <div>
+    {% for option in options %}
+      <div class="py-1">
+        <button class="wse-btn full-width height-huge"
+                style="justify-content: start; min-height: 5rem;"
+                data-testid="answer-btn-{{ option.value }}"
+                hx-post=""
+                hx-vals='{"status": "user_answer", "case_uuid": "{{ case_uuid }}", "option_value": "{{ option.value }}"}'
+                hx-target="#test-block">
+          {{ option.text }}
+        </button><br>
+      </div>  
+    {% endfor %}
+  </div>
+
+</div>  
