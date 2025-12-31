@@ -3,6 +3,7 @@
 __all__ = [
     # ABC
     'PresentationABC',
+    'ProgressABC',
     'TranslationRepoABC',
     'StudyParametersRepositoryABC',
     # Implementation
@@ -17,6 +18,7 @@ __all__ = [
 
 from .abc import (
     PresentationABC,
+    ProgressABC,
     StudyParametersRepositoryABC,
     TranslationRepoABC,
 )
