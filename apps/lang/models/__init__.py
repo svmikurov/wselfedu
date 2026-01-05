@@ -10,6 +10,9 @@ __all__ = [
     'Parameters',
     'TranslationSetting',
     'PresentationSettings',
+    # Language rule
+    'Rule',
+    'RuleClause',
 ]
 
 from .category import LangCategory
@@ -19,6 +22,10 @@ from .parameters import (
     Parameters,
     PresentationSettings,
     TranslationSetting,
+)
+from .rules import (
+    Rule,
+    RuleClause,
 )
 from .translation import EnglishTranslation
 from .word import EnglishWord, NativeWord
