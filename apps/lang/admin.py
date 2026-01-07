@@ -178,3 +178,22 @@ class EnglishRuleExceptionAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     def answer(self, obj: models.EnglishRuleExample) -> str:
         """Get rule answer word."""
         return obj.answer_translation.english.word
+
+
+@admin.register(models.MentorshipEnglishRule)
+class MentorshipEnglishRuleAdmin(admin.ModelAdmin):
+    """English rule study via mentorship model administration."""
+
+    list_display = [
+        'mentor',
+        'student',
+        'rule',
+    ]
+
+    def mentor(self, obj: models.MentorshipEnglishRule) -> str:
+        """Get mentor."""
+        return obj.mentorship.mentor
+
+    def student(self, obj: models.MentorshipEnglishRule) -> str:
+        """Get mentor."""
+        return obj.mentorship.student
