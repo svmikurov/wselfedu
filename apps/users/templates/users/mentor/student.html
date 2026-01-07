@@ -3,6 +3,8 @@
 {% block title %}Студент: {{ object.student.username }}{% endblock%}
 
 {% block content %}
-<h1>Карточка студента: {{ object.student.username }}</h1>
+<main class="container">
+  <h1>Карточка студента: {{ object.student.username }}</h1>
   {% include 'users/mentor/table_student_exercises.html' %}
+</main>
 {% endblock %}
