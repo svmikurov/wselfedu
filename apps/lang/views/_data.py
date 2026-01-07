@@ -39,6 +39,16 @@ class TranslationContext(TypedDict):
     translation_test: ViewContext
 
 
+class RuleContext(TypedDict):
+    """Language rule context types."""
+
+    index: ViewContext
+    list: ViewContext
+    create_rule: ViewContext
+    update_rule: ViewContext
+    detail_rule: ViewContext
+
+
 ENGLISH_TRANSLATION: TranslationContext = {
     'create': {
         'title': 'Добавление перевода',
@@ -67,5 +77,28 @@ ENGLISH_TRANSLATION: TranslationContext = {
     'translation_test': {
         'title': 'Словарный тест',
         'header': 'Словарный тест',
+    },
+}
+
+ENGLISH_RULE: RuleContext = {
+    'index': {
+        'title': 'Английский язык',
+        'header': 'Английский язык',
+    },
+    'list': {
+        'title': 'Правила английского языка',
+        'header': 'Правила английского языка',
+    },
+    'create_rule': {
+        'title': 'Добавление правила английского языка',
+        'header': 'Добавление правила английского языка',
+    },
+    'update_rule': {
+        'title': 'Изменение правила английского языка',
+        'header': 'Изменение правила английского языка',
+    },
+    'detail_rule': {
+        'title': 'Правило английского языка',
+        'header': 'Правило английского языка',
     },
 }
