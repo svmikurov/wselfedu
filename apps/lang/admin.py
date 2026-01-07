@@ -131,8 +131,8 @@ class RuleClauseAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     ]
 
 
-@admin.register(models.EnglishRuleExample)
-class EnglishRuleExampleAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+@admin.register(models.RuleClauseExample)
+class RuleClauseExampleAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Rule clause model administration."""
 
     list_display = [
@@ -147,18 +147,18 @@ class EnglishRuleExampleAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
         'question_translation__english__word',
     ]
 
-    def question(self, obj: models.EnglishRuleExample) -> str:
+    def question(self, obj: models.RuleClauseExample) -> str:
         """Get rule question word."""
         return obj.question_translation.english.word
 
-    def answer(self, obj: models.EnglishRuleExample) -> str:
+    def answer(self, obj: models.RuleClauseExample) -> str:
         """Get rule answer word."""
         return obj.answer_translation.english.word
 
 
-@admin.register(models.EnglishRuleException)
-class EnglishRuleExceptionAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
-    """English rule translation exception model administration."""
+@admin.register(models.RuleException)
+class RuleExceptionAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """Language rule translation exception model administration."""
 
     list_display = [
         'created_at',
@@ -171,11 +171,11 @@ class EnglishRuleExceptionAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
         'question_translation__english__word',
     ]
 
-    def question(self, obj: models.EnglishRuleExample) -> str:
+    def question(self, obj: models.RuleException) -> str:
         """Get rule question word."""
         return obj.question_translation.english.word
 
-    def answer(self, obj: models.EnglishRuleExample) -> str:
+    def answer(self, obj: models.RuleException) -> str:
         """Get rule answer word."""
         return obj.answer_translation.english.word
 

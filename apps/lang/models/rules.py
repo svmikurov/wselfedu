@@ -1,10 +1,10 @@
-"""English language rules models."""
+"""Language rules models."""
 
 from django.db import models
 
 
 class Rule(models.Model):
-    """English language rules models."""
+    """Language rule model."""
 
     title = models.CharField(
         max_length=255,
@@ -13,14 +13,14 @@ class Rule(models.Model):
     description = models.CharField(
         max_length=255,
         blank=True,
-        verbose_name='Описание',
+        verbose_name='Описание правила',
     )
     source = models.ForeignKey(
         'core.Source',
         blank=True,
         null=True,
         on_delete=models.CASCADE,
-        verbose_name='Источник',
+        verbose_name='Источник правила',
     )
 
     tag = models.CharField(
@@ -44,22 +44,22 @@ class Rule(models.Model):
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name='Дата создания',
+        verbose_name='Дата добавления',
     )
     updated_at = models.DateTimeField(
         auto_now=True,
-        verbose_name='Дата обновления',
+        verbose_name='Дата изменения',
     )
 
     class Meta:
         """Model configuration."""
 
-        verbose_name = 'Правило'
-        verbose_name_plural = 'Правила'
+        verbose_name = 'Правило пользователя'
+        verbose_name_plural = 'Правила пользователя'
 
         ordering = ['created_at']
 
-        db_table = 'lang_english_rule'
+        db_table = 'lang_rule'
 
     def __str__(self) -> str:
         """Return the string representation."""
@@ -103,7 +103,7 @@ class RuleClause(models.Model):
     exception_content = models.TextField(
         null=True,
         blank=True,
-        verbose_name='исключение',
+        verbose_name='Исключение пункта правила',
     )
 
     user = models.ForeignKey(
@@ -115,11 +115,11 @@ class RuleClause(models.Model):
 
     created_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name='Дата создания',
+        verbose_name='Дата добавления',
     )
     updated_at = models.DateTimeField(
         auto_now=True,
-        verbose_name='Дата обновления',
+        verbose_name='Дата изменения',
     )
 
     class Meta:
@@ -128,7 +128,7 @@ class RuleClause(models.Model):
         verbose_name = 'Пункт правила'
         verbose_name_plural = 'Пункты правил'
 
-        ordering = ['rule', 'created_at', 'ordinal']
+        ordering = ['rule', 'ordinal', 'created_at']
         unique_together = [['rule', 'content']]
 
     def __str__(self) -> str:
@@ -136,8 +136,10 @@ class RuleClause(models.Model):
         return str(self.content)
 
 
-class EnglishRuleException(models.Model):
-    """English rule translation exception."""
+
+
+class RuleException(models.Model):
+    """Rule exception."""
 
     rule = models.ForeignKey(
         Rule,
@@ -184,9 +186,8 @@ class EnglishRuleException(models.Model):
             ['question_translation', 'answer_translation'],
         ]
 
-
-class EnglishRuleExample(models.Model):
-    """English rule clause translation example/exception."""
+class RuleClauseExample(models.Model):
+    """Language rule clause word translation example/exception."""
 
     class ExampleType(models.TextChoices):
         """Example type enumeration."""
@@ -198,7 +199,7 @@ class EnglishRuleExample(models.Model):
         'RuleClause',
         on_delete=models.CASCADE,
         related_name='examples',
-        verbose_name='Пункт правила английского языка',
+        verbose_name='Пункт правила языка',
     )
 
     question_translation = models.ForeignKey(
@@ -219,40 +220,31 @@ class EnglishRuleExample(models.Model):
         choices=ExampleType.choices,
         default=ExampleType.EXAMPLE,
         verbose_name='Тип примера',
+        help_text='Тип примера пункта правила: "пример"/"исключение"',
     )
 
     user = models.ForeignKey(
         'users.Person',
         on_delete=models.CASCADE,
         verbose_name='Пользователь',
-        help_text='Пользователь, добавивший пример или исключение',
+        help_text='Пользователь, добавивший пример/исключение',
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name='Дата создания',
+        verbose_name='Дата добавления',
     )
     updated_at = models.DateTimeField(
         auto_now=True,
-        verbose_name='Дата обновления',
+        verbose_name='Дата изменения',
     )
 
     class Meta:
         """Model configuration."""
 
-        verbose_name = 'Пример правила'
-        verbose_name_plural = 'Примеры правил'
+        verbose_name = 'Пример/исключение пункта правила'
+        verbose_name_plural = 'Примеры/исключения пункта правила'
 
         ordering = ['clause', 'created_at']
         unique_together = [
             ['question_translation', 'answer_translation'],
         ]
-
-    @property
-    def is_exception(self) -> bool:
-        """Is exception."""
-        return self.example_type == self.ExampleType.EXCEPTION
-
-    @property
-    def is_example(self) -> bool:
-        """Is example."""
-        return self.example_type == self.ExampleType.EXAMPLE

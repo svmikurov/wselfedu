@@ -18,8 +18,8 @@ __all__ = [
     # Rule
     'Rule',
     'RuleClause',
-    'EnglishRuleExample',
-    'EnglishRuleException',
+    'RuleClauseExample',
+    'RuleException',
     'MentorshipEnglishRule',
 ]
 
@@ -35,8 +35,8 @@ from .parameters import (
     TranslationSetting,
 )
 from .rules import (
-    EnglishRuleExample,
-    EnglishRuleException,
+    RuleClauseExample,
+    RuleException,
     Rule,
     RuleClause,
 )
