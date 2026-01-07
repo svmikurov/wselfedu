@@ -15,6 +15,8 @@ load_order:
   - db/fixtures/sensitive/mentorship_users.json
   - db/fixtures/sensitive/mentorship_request.json
   - db/fixtures/sensitive/mentorship.json
+  ## Core
+  - db/fixtures/sensitive/core_source.json
   ## Study
   - db/fixtures/sensitive/study_assigned.json
   - db/fixtures/sensitive/study_math_condition.json
@@ -34,7 +36,12 @@ load_order:
   - db/fixtures/sensitive/lang_english_translation.json
   - db/fixtures/sensitive/lang_category.json
   - db/fixtures/sensitive/lang_mark.json
-
+  - db/fixtures/sensitive/lang_english_mark.json
+  #### Rules
+  - db/fixtures/sensitive/lang_rule.json
+  - db/fixtures/sensitive/lang_ruleclause.json
+  - db/fixtures/sensitive/lang_english_rule_example.json
+  
 options:
   default_database: "default"
   ignore_nonexistent: false
