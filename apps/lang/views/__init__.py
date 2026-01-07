@@ -26,6 +26,10 @@ __all__ = [
     'EnglishRuleUpdateView',
     'EnglishRuleDeleteView',
     'EnglishRuleDetailView',
+    'EnglishRuleStudentView',
+    # mentorship
+    'EnglishRuleStudentListView',
+    'EnglishRuleMentorListView',
     # rule clause edit example
     'EditRuleClauseExampleView',
     'EditRuleExceptionView',
@@ -51,7 +55,10 @@ from .rule import (
     EnglishRuleDetailView,
     EnglishRuleIndexView,
     EnglishRuleListView,
+    EnglishRuleMentorListView,
+    EnglishRuleStudentListView,
     EnglishRuleUpdateView,
+    EnglishRuleStudentView,
 )
 from .settings import (
     study_settings_vew,
