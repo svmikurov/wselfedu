@@ -4,6 +4,10 @@ from django.contrib import admin
 
 from apps.lang import models
 
+# ----------------
+# Word translation
+# ----------------
+
 
 @admin.register(models.LangExercise)
 class LangExerciseAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
@@ -24,6 +28,7 @@ class EnglishWordAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """English word model administration."""
 
     list_display = ['user', 'word', 'created_at']
+    search_fields = ['word']
 
 
 @admin.register(models.EnglishTranslation)
@@ -46,6 +51,17 @@ class LangMarkAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Lang app mark model administration."""
 
     list_display = ['name']
+
+
+@admin.register(models.EnglishMark)
+class EnglishMarkAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """Lang app mark model administration."""
+
+    list_display = [
+        'translation',
+        'mark',
+        'created_at',
+    ]
 
 
 @admin.register(models.LangCategory)
@@ -88,3 +104,77 @@ class PresentationSettingsAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
         'question_timeout',
         'answer_timeout',
     ]
+
+
+# ------------------------------------
+# English language rule administration
+# ------------------------------------
+
+
+@admin.register(models.Rule)
+class RuleAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """Rule model administration."""
+
+    list_display = [
+        'title',
+    ]
+
+
+@admin.register(models.RuleClause)
+class RuleClauseAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """Rule clause model administration."""
+
+    list_display = [
+        'rule',
+        'content',
+        'exception_content',
+    ]
+
+
+@admin.register(models.EnglishRuleExample)
+class EnglishRuleExampleAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """Rule clause model administration."""
+
+    list_display = [
+        'created_at',
+        'question',
+        'answer',
+        'example_type',
+        'user',
+        'clause',
+    ]
+    search_fields = [
+        'question_translation__english__word',
+    ]
+
+    def question(self, obj: models.EnglishRuleExample) -> str:
+        """Get rule question word."""
+        return obj.question_translation.english.word
+
+    def answer(self, obj: models.EnglishRuleExample) -> str:
+        """Get rule answer word."""
+        return obj.answer_translation.english.word
+
+
+@admin.register(models.EnglishRuleException)
+class EnglishRuleExceptionAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """English rule translation exception model administration."""
+
+    list_display = [
+        'created_at',
+        'question',
+        'answer',
+        'user',
+        'rule',
+    ]
+    search_fields = [
+        'question_translation__english__word',
+    ]
+
+    def question(self, obj: models.EnglishRuleExample) -> str:
+        """Get rule question word."""
+        return obj.question_translation.english.word
+
+    def answer(self, obj: models.EnglishRuleExample) -> str:
+        """Get rule answer word."""
+        return obj.answer_translation.english.word
