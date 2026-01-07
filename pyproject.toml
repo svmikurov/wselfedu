@@ -65,6 +65,7 @@ pyparsing = "^3.2.3"
 termcolor = "^3.1.0"
 sqlparse = "^0.5.3"
 rich = "^14.0.0"
+django-debug-toolbar = "^6.1.0"
 
 # Settings for building a Python package
 [build-system]
