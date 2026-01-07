@@ -2,7 +2,7 @@
 
 import logging
 
-import sqlparse  # type: ignore[import-untyped]
+import sqlparse
 
 
 class SimpleSQLFormatter(logging.Formatter):
