@@ -19,20 +19,19 @@ __all__ = [
     'TranslationTestView',
     'TranslationTestProgressView',
     'TranslationTestMentorshipView',
-    # Language rule views
-    'EnglishRuleIndexView',
-    'EnglishRuleListView',
-    'EnglishRuleCreateView',
-    'EnglishRuleUpdateView',
-    'EnglishRuleDeleteView',
-    'EnglishRuleDetailView',
-    'EnglishRuleStudentView',
-    # mentorship
-    'EnglishRuleStudentListView',
-    'EnglishRuleMentorListView',
-    # rule clause edit example
-    'EditRuleClauseExampleView',
-    'EditRuleExceptionView',
+    # Rule
+    'RuleIndexView',
+    'RuleListView',
+    'RuleDetailView',
+    'RuleCreateView',
+    'RuleUpdateView',
+    'RuleDeleteView',
+    'RuleExampleView',
+    'RuleExceptionView',
+    # Rule for mentorship
+    'RuleStudentView',
+    'RuleStudentListView',
+    'RuleMentorListView',
 ]
 
 from .index import IndexLangView
@@ -48,17 +47,17 @@ from .presentation import (
     EnglishTranslationStudyView,
 )
 from .rule import (
-    EditRuleClauseExampleView,
-    EditRuleExceptionView,
-    EnglishRuleCreateView,
-    EnglishRuleDeleteView,
-    EnglishRuleDetailView,
-    EnglishRuleIndexView,
-    EnglishRuleListView,
-    EnglishRuleMentorListView,
-    EnglishRuleStudentListView,
-    EnglishRuleUpdateView,
-    EnglishRuleStudentView,
+    RuleExampleView,
+    RuleExceptionView,
+    RuleDetailView,
+    RuleCreateView,
+    RuleDeleteView,
+    RuleIndexView,
+    RuleListView,
+    RuleUpdateView,
+    RuleStudentView,
+    RuleStudentListView,
+    RuleMentorListView,
 )
 from .settings import (
     study_settings_vew,

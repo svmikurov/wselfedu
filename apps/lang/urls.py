@@ -13,58 +13,58 @@ urlpatterns = [
     # ----------------------
     path(
         'rule/index/',
-        views.EnglishRuleIndexView.as_view(),
+        views.RuleIndexView.as_view(),
         name='english_rule_index',
     ),
     path(
         'rule/list/',
-        views.EnglishRuleListView.as_view(),
+        views.RuleListView.as_view(),
         name='english_rule_list',
     ),
     path(
         'rule/create/',
-        views.EnglishRuleCreateView.as_view(),
+        views.RuleCreateView.as_view(),
         name='english_rule_create',
+    ),
+    path(  # English language rule for user
+        'rule/<int:pk>/detail/',
+        views.RuleDetailView.as_view(),
+        name='english_rule_detail',
     ),
     path(  # English language rule for students
         'rule/<int:pk>/detail/',
-        views.EnglishRuleStudentView.as_view(),
-        name='english_rule_detail',
-    ),
-    path(
-        'rule/<int:pk>/detail/',
-        views.EnglishRuleDetailView.as_view(),
-        name='english_rule_detail',
+        views.RuleStudentView.as_view(),
+        name='english_rule_detail_student',
     ),
     path(
         'rule/<int:pk>/update/',
-        views.EnglishRuleUpdateView.as_view(),
+        views.RuleUpdateView.as_view(),
         name='english_rule_update',
     ),
     path(
         'rule/<int:pk>/delete/',
-        views.EnglishRuleDeleteView.as_view(),
+        views.RuleDeleteView.as_view(),
         name='english_rule_delete',
     ),
     # Rule clause example & exception edit
     path(
         'rule/<int:pk>/edit-example/',
-        views.EditRuleClauseExampleView.as_view(),
+        views.RuleExampleView.as_view(),
         name='english_rule_edit_example',
     ),
     path(
         'rule/<int:pk>/edit-exception/',
-        views.EditRuleExceptionView.as_view(),
+        views.RuleExceptionView.as_view(),
         name='english_rule_edit_exception',
     ),
-    path(  # English language rule list for mentor
+    path(  # Language rule list for mentor
         'rule/list/mentor/',
-        views.EnglishRuleMentorListView.as_view(),
+        views.RuleMentorListView.as_view(),
         name='english_rule_list_mentor',
     ),
-    path(  # English language rule list for student
+    path(  # Language rule list for student
         'rule/list/student/',
-        views.EnglishRuleStudentListView.as_view(),
+        views.RuleStudentListView.as_view(),
         name='english_rule_list_student',
     ),
     # -----------
