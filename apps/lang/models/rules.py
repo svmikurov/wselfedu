@@ -62,7 +62,7 @@ class Rule(models.Model):
         db_table = 'lang_english_rule'
 
     def __str__(self) -> str:
-        """Return the model string representation."""
+        """Return the string representation."""
         return str(self.title)
 
 
@@ -100,24 +100,17 @@ class RuleClause(models.Model):
     content = models.TextField(
         verbose_name='Содержание',
     )
-
-    example = models.ManyToManyField(  # type: ignore[var-annotated]
-        'EnglishTranslation',
-        through='EnglishTranslationExample',
-        through_fields=('clause', 'translation'),
-        related_name='example_rule_clauses',
+    exception_content = models.TextField(
+        null=True,
         blank=True,
-        verbose_name='Пример',
-        help_text='Пример пункта правила (слово)',
+        verbose_name='исключение',
     )
-    exception = models.ManyToManyField(  # type: ignore[var-annotated]
-        'EnglishTranslation',
-        through='EnglishTranslationException',
-        through_fields=('clause', 'translation'),
-        related_name='exception_rule_clauses',
-        blank=True,
-        verbose_name='Исключение',
-        help_text='Исключение из пункта правила (слово)',
+
+    user = models.ForeignKey(
+        'users.Person',
+        on_delete=models.CASCADE,
+        verbose_name='Пользователь',
+        help_text='Пользователь (собственник) добавивший пункт',
     )
 
     created_at = models.DateTimeField(
@@ -135,29 +128,41 @@ class RuleClause(models.Model):
         verbose_name = 'Пункт правила'
         verbose_name_plural = 'Пункты правил'
 
-        ordering = ['rule', 'ordinal']
+        ordering = ['rule', 'created_at', 'ordinal']
         unique_together = [['rule', 'content']]
 
+    def __str__(self) -> str:
+        """Return the string representation."""
+        return str(self.content)
 
-class EnglishTranslationExample(models.Model):
-    """English rule clause the translation example."""
 
-    clause = models.ForeignKey(
-        'RuleClause',
+class EnglishRuleException(models.Model):
+    """English rule translation exception."""
+
+    rule = models.ForeignKey(
+        Rule,
         on_delete=models.CASCADE,
-        verbose_name='Пункт правила английского языка',
+        related_name='exceptions',
+        verbose_name='Правило',
     )
-    translation = models.ForeignKey(
+    question_translation = models.ForeignKey(
         'EnglishTranslation',
         on_delete=models.CASCADE,
-        verbose_name='Пример',
-        help_text='Перевод слова, используемого для примера',
+        related_name='exception_question_translation',
+        verbose_name='Перевод вопроса',
+    )
+    answer_translation = models.ForeignKey(
+        'EnglishTranslation',
+        on_delete=models.CASCADE,
+        related_name='exception_answer_translation',
+        verbose_name='Перевод ответа',
     )
 
     user = models.ForeignKey(
         'users.Person',
         on_delete=models.CASCADE,
-        verbose_name='Пользователь добавивший пример',
+        verbose_name='Пользователь',
+        help_text='Пользователь, добавивший исключение',
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -168,26 +173,59 @@ class EnglishTranslationExample(models.Model):
         verbose_name='Дата обновления',
     )
 
+    class Meta:
+        """Model configuration."""
 
-class EnglishTranslationException(models.Model):
-    """English rule clause the translation exception."""
+        verbose_name = 'Исключение правила'
+        verbose_name_plural = 'Исключения правил'
+
+        ordering = ['rule', 'created_at']
+        unique_together = [
+            ['question_translation', 'answer_translation'],
+        ]
+
+
+class EnglishRuleExample(models.Model):
+    """English rule clause translation example/exception."""
+
+    class ExampleType(models.TextChoices):
+        """Example type enumeration."""
+
+        EXAMPLE = 'example', 'Пример'
+        EXCEPTION = 'exception', 'Исключение'
 
     clause = models.ForeignKey(
         'RuleClause',
         on_delete=models.CASCADE,
+        related_name='examples',
         verbose_name='Пункт правила английского языка',
     )
-    translation = models.ForeignKey(
+
+    question_translation = models.ForeignKey(
         'EnglishTranslation',
         on_delete=models.CASCADE,
-        verbose_name='Исключение',
-        help_text='Перевод слова, используемого для исключения',
+        related_name='rule_question_translation',
+        verbose_name='Перевод вопроса',
+    )
+    answer_translation = models.ForeignKey(
+        'EnglishTranslation',
+        on_delete=models.CASCADE,
+        related_name='rule_answer_translation',
+        verbose_name='Перевод ответа',
+    )
+
+    example_type = models.CharField(
+        max_length=10,
+        choices=ExampleType.choices,
+        default=ExampleType.EXAMPLE,
+        verbose_name='Тип примера',
     )
 
     user = models.ForeignKey(
         'users.Person',
         on_delete=models.CASCADE,
-        verbose_name='Пользователь добавивший исключение',
+        verbose_name='Пользователь',
+        help_text='Пользователь, добавивший пример или исключение',
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -197,3 +235,24 @@ class EnglishTranslationException(models.Model):
         auto_now=True,
         verbose_name='Дата обновления',
     )
+
+    class Meta:
+        """Model configuration."""
+
+        verbose_name = 'Пример правила'
+        verbose_name_plural = 'Примеры правил'
+
+        ordering = ['clause', 'created_at']
+        unique_together = [
+            ['question_translation', 'answer_translation'],
+        ]
+
+    @property
+    def is_exception(self) -> bool:
+        """Is exception."""
+        return self.example_type == self.ExampleType.EXCEPTION
+
+    @property
+    def is_example(self) -> bool:
+        """Is example."""
+        return self.example_type == self.ExampleType.EXAMPLE
