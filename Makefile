@@ -117,3 +117,18 @@ graph_models:
 		-o temp/graph_models/models.png \
 		--verbose-names \
 		--inheritance
+
+# Dump language application models in development mode
+dump-lang:
+	python manage.py dumpdata \
+	lang.nativeword \
+	lang.englishword \
+	lang.englishtranslation \
+	lang.rule \
+	lang.ruleclause \
+	lang.englishruleexample \
+	lang.englishruleexception \
+	lang.langmark \
+	lang.englishmark \
+	lang.langcategory \
+	--indent 2 > temp/lang_english_related.json
