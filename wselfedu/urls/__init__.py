@@ -1,5 +1,6 @@
 """Contains project url paths."""
 
+from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
 
@@ -10,3 +11,10 @@ urlpatterns = [
     path('api/v1/', include('wselfedu.urls.api_v1')),
     path('docs/', include('wselfedu.urls.docs')),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar  # type: ignore[import-untyped]
+
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
