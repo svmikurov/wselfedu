@@ -33,7 +33,7 @@ class LangMark(models.Model):
         """Model configuration."""
 
         verbose_name = 'Маркер'
-        verbose_name_plural = 'Маркеру'
+        verbose_name_plural = 'Маркеры'
         db_table = 'lang_mark'
 
     def __str__(self) -> str:
@@ -49,6 +49,9 @@ class LangMark(models.Model):
 class EnglishMark(models.Model):
     """English translation relationship with the marker."""
 
+    user = models.ForeignKey(
+        'users.Person', on_delete=models.CASCADE, verbose_name='Пользователь'
+    )
     translation = models.ForeignKey(
         'EnglishTranslation',
         on_delete=models.CASCADE,
