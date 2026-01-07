@@ -8,6 +8,8 @@ fixtures_config.yaml
 
 # Temporary files
 temp/
+*.drawio.dtmp
+*.drawio.bkp
 
 # Static files
 static/
