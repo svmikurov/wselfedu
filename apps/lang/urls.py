@@ -26,6 +26,11 @@ urlpatterns = [
         views.EnglishRuleCreateView.as_view(),
         name='english_rule_create',
     ),
+    path(  # English language rule for students
+        'rule/<int:pk>/detail/',
+        views.EnglishRuleStudentView.as_view(),
+        name='english_rule_detail',
+    ),
     path(
         'rule/<int:pk>/detail/',
         views.EnglishRuleDetailView.as_view(),
@@ -51,6 +56,16 @@ urlpatterns = [
         'rule/<int:pk>/edit-exception/',
         views.EditRuleExceptionView.as_view(),
         name='english_rule_edit_exception',
+    ),
+    path(  # English language rule list for mentor
+        'rule/list/mentor/',
+        views.EnglishRuleMentorListView.as_view(),
+        name='english_rule_list_mentor',
+    ),
+    path(  # English language rule list for student
+        'rule/list/student/',
+        views.EnglishRuleStudentListView.as_view(),
+        name='english_rule_list_student',
     ),
     # -----------
     # Translation
