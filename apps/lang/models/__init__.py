@@ -20,11 +20,15 @@ __all__ = [
     'RuleClause',
     'EnglishRuleExample',
     'EnglishRuleException',
+    'MentorshipEnglishRule',
 ]
 
 from .category import LangCategory
 from .exercise import LangExercise
 from .mark import EnglishMark, LangMark
+from .mentorship import (
+    MentorshipEnglishRule,
+)
 from .parameters import (
     Parameters,
     PresentationSettings,
