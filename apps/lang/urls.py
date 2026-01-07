@@ -8,6 +8,50 @@ app_name = 'lang'
 
 urlpatterns = [
     path('', views.IndexLangView.as_view(), name='index'),
+    # ----------------------
+    # English language rules
+    # ----------------------
+    path(
+        'rule/index/',
+        views.EnglishRuleIndexView.as_view(),
+        name='english_rule_index',
+    ),
+    path(
+        'rule/list/',
+        views.EnglishRuleListView.as_view(),
+        name='english_rule_list',
+    ),
+    path(
+        'rule/create/',
+        views.EnglishRuleCreateView.as_view(),
+        name='english_rule_create',
+    ),
+    path(
+        'rule/<int:pk>/detail/',
+        views.EnglishRuleDetailView.as_view(),
+        name='english_rule_detail',
+    ),
+    path(
+        'rule/<int:pk>/update/',
+        views.EnglishRuleUpdateView.as_view(),
+        name='english_rule_update',
+    ),
+    path(
+        'rule/<int:pk>/delete/',
+        views.EnglishRuleDeleteView.as_view(),
+        name='english_rule_delete',
+    ),
+    # Rule clause example & exception edit
+    path(
+        'rule/<int:pk>/edit-example/',
+        views.EditRuleClauseExampleView.as_view(),
+        name='english_rule_edit_example',
+    ),
+    path(
+        'rule/<int:pk>/edit-exception/',
+        views.EditRuleExceptionView.as_view(),
+        name='english_rule_edit_exception',
+    ),
     # -----------
     # Translation
     # -----------
