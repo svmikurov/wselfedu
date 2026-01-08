@@ -73,6 +73,9 @@ class LanguageContainer(containers.DeclarativeContainer):
     progress_repository = providers.Factory(
         repositories.Progress,
     )
+    rule_repository = providers.Factory(
+        repositories.RuleRepository,
+    )
 
     # --------
     # Services
