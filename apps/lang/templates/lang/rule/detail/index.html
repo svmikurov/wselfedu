@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock title %}{{ title }}
+
+{% block content %}
+<main class="container">
+  <div class="row py-3">
+    <div class="col">
+      <h1>{{ header }}</h1>
+    </div>
+    <div class="col-auto">
+      <a href="javascript:history.back()" class="wse-btn"
+        >
+         Назад
+      </a>
+    </div>
+  </div>
+
+  <div>
+    <h3>{{ rule.title }}</h3>
+  </div>
+
+  <!--======= Rule clauses =======-->
+  <div>
+    <ul>
+      {% for clause in rule.clauses.all %}
+        <li class="py-1">
+          {# Rule clause content #}
+          <div>
+            {{ clause.content }}
+          </div>
+
+          {# Rule example words #}
+          {% with clause.examples.all as examples %}
+            {% if examples %}
+              <div class="py-1">
+                <i>
+                  {% for example in examples %}
+                    {% if example.example_type == 'example' %}
+                      {{ example.question_translation.english.word }} -
+                      {{ example.answer_translation.english.word }}
+                      {% if not forloop.last %}, {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                </i>
+              </div>
+            {% endif %}
+          {% endwith %}
+        
+          {# Rule exception clause content #}
+          {% if clause.exception_content %}
+            <div>
+              {{ clause.exception_content }}
+            </div>
+          {% endif %}
+    
+          {# Rule exception words #}
+          {% with clause.examples.all as examples %}
+            {% if examples %}
+              <div class="py-1">
+                <i>
+                  {% for example in examples %}
+                    {% if example.example_type == 'exception' %}
+                      {{ example.question_translation.english.word }} -
+                      {{ example.answer_translation.english.word }}
+                      {% if not forloop.last %}, {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                </i>
+              </div>
+            {% endif %}
+          {% endwith %}
+
+        </li>
+      {% empty %}
+        <li class="py-1">Нет доступных правил</li>
+      {% endfor %}
+    </ul>
+  </div><!-- End Rule clauses -->
+
+  <div class="pb-5">
+    <h3>Исключения</h3>
+    {% with rule.exceptions.all as exceptions %}
+      {% if exceptions %}
+        <div class="py-1">
+          <i>
+            {% for exception in exceptions %}
+                {{ exception.question_translation.english.word }} -
+                {{ exception.answer_translation.english.word }}
+                {% if not forloop.last %}, {% endif %}
+            {% endfor %}
+          </i>
+        </div>
+      {% endif %}
+    {% endwith %}
+  </div>
+
+</main>
+{% endblock content %}
