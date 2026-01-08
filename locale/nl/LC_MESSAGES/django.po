@@ -1,0 +1,74 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-08 23:47+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: apps/lang/templates/lang/index.html:4
+msgid "lang.english.page.index.title"
+msgstr "Engelse taal | WSE"
+
+#: apps/lang/templates/lang/index.html:10
+msgid "lang.english.page.index.header"
+msgstr "Engelse taal"
+
+#: apps/lang/templates/lang/rule/index.html:4
+msgid "lang.english.rule.page.index.title"
+msgstr "Regels van de Engelse taal | WSE"
+
+#: apps/lang/templates/lang/rule/index.html:10
+msgid "lang.english.rule.page.index.header"
+msgstr "Regels van de Engelse taal"
+
+#: apps/lang/templates/lang/rule/list/_table_student.html:6
+#: apps/lang/templates/lang/rule/list/_table_user.html:6
+msgid "rule"
+msgstr "Regel"
+
+#: apps/lang/templates/lang/rule/list/_table_student.html:22
+#: apps/lang/templates/lang/rule/list/_table_user.html:22
+msgid "empty.rule"
+msgstr "Geen regels beschikbaar"
+
+#: apps/lang/templates/lang/rule/list/index_student.html:4
+#, fuzzy
+#| msgid "lang.english.rule.page.index.title"
+msgid "lang.english.rule.list.student.title"
+msgstr "Te leren regels | WSE"
+
+#: apps/lang/templates/lang/rule/list/index_student.html:10
+#, fuzzy
+#| msgid "lang.english.rule.page.index.header"
+msgid "lang.english.rule.list.student.header"
+msgstr "Te leren regels"
+
+#: apps/lang/templates/lang/rule/list/index_student.html:15
+#: apps/lang/templates/lang/rule/list/index_user.html:15
+msgid "button.back"
+msgstr "Rug"
+
+#: apps/lang/templates/lang/rule/list/index_user.html:4
+#, fuzzy
+#| msgid "lang.english.rule.page.index.title"
+msgid "lang.english.rule.list.user.title"
+msgstr "Mijn regels | WSE"
+
+#: apps/lang/templates/lang/rule/list/index_user.html:10
+#, fuzzy
+#| msgid "lang.english.rule.page.index.header"
+msgid "lang.english.rule.list.user.header"
+msgstr "Mijn regels"
