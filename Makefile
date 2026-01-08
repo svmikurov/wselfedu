@@ -126,8 +126,8 @@ dump-lang:
 	lang.englishtranslation \
 	lang.rule \
 	lang.ruleclause \
-	lang.englishruleexample \
-	lang.englishruleexception \
+	lang.ruleexample \
+	lang.ruleexception \
 	lang.langmark \
 	lang.englishmark \
 	lang.langcategory \
