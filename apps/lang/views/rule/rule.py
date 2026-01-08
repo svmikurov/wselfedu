@@ -7,7 +7,6 @@ from django.views import generic
 
 from apps.lang import models
 from apps.lang.adapters import dto
-from apps.lang.adapters.rule import WebRuleAdapter
 from apps.lang.di import LanguageContainer
 from di import MainContainer
 
@@ -42,7 +41,7 @@ class RuleDetailView(base.BaseRuleDetailView[dto.RuleSchema]):
 
     def _convert_to_dto(self, rule_object: models.Rule) -> dto.RuleSchema:
         """Convert rule object to DTO."""
-        return WebRuleAdapter.to_response(rule_object)
+        return self.adapter.to_response(rule_object)
 
 
 class RuleUpdateView(generic.TemplateView):
