@@ -3,7 +3,7 @@
 <table class="table table-hover">
   <thead>
     <tr>
-      <th>Правило</th>
+      <th>{% trans 'rule' %}</th>
     </tr>
   </thead>
 
@@ -19,7 +19,7 @@
     </tr>
     {% empty %}
     <tr>
-       <td>{% trans 'table.empty.rule' %}</td>
+       <td>{% trans 'empty.rule' %}</td>
     </tr>
     {% endfor %}
   </tbody>
