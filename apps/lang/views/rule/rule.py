@@ -1,23 +1,17 @@
 """Language rule views."""
 
-from functools import cached_property
-from typing import Any
-
 from dependency_injector.providers import Container
-from dependency_injector.wiring import Provide, inject
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import QuerySet
-from django.http.request import HttpRequest
-from django.http.response import HttpResponseBase
 from django.views import generic
 
-from apps.lang.adapters.rule import WebRuleAdapter, RuleSchema
-from apps.core.views.auth import UserRequestMixin
 from apps.lang import models
+from apps.lang.adapters import dto
+from apps.lang.adapters.rule import WebRuleAdapter
 from apps.lang.di import LanguageContainer
-from apps.lang.repositories import RuleRepositoryABC
 from di import MainContainer
 
+from . import base
 from ._data import CONTEXT
 
 CONTAINER: Container[LanguageContainer] = MainContainer.lang
@@ -36,40 +30,19 @@ class RuleCreateView(generic.TemplateView):
     template_name = 'lang/rule/create/index.html'
 
 
-class RuleDetailView(UserRequestMixin, generic.TemplateView):  # type: ignore[type-arg]
+class RuleDetailView(base.BaseRuleDetailView[dto.RuleSchema]):
     """Language rule detail view."""
 
     template_name = 'lang/rule/detail/index.html'
     extra_context = CONTEXT['rule_detail']
 
-    _repo: RuleRepositoryABC | None = None
+    def _get_rule_object(self) -> models.Rule:
+        """Get rule object from repository."""
+        return self.repository.get_for_user(self.user, self.rule_pk)
 
-    @inject
-    def dispatch(
-        self,
-        request: HttpRequest,
-        *args: object,
-        repo: RuleRepositoryABC = Provide[CONTAINER.rule_repository],
-        **kwargs: object,
-    ) -> HttpResponseBase:
-        """Inject rule repository."""
-        self._repo = repo
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs: dict[str, Any]) -> dict[str, Any]:
-        """Add data to context."""
-        context = super().get_context_data(**kwargs)
-        context['rule'] = self.rule
-        return context
-
-    @cached_property
-    def rule(self) -> RuleSchema:
-        """Get rule repository."""
-        if self._repo is None:
-            raise AttributeError('Repository not initialized')
-        rule_q = self._repo.get_for_user(self.user, self.kwargs['pk'])
-        rule_dto = WebRuleAdapter.to_response(rule_q)
-        return rule_dto
+    def _convert_to_dto(self, rule_object: models.Rule) -> dto.RuleSchema:
+        """Convert rule object to DTO."""
+        return WebRuleAdapter.to_response(rule_object)
 
 
 class RuleUpdateView(generic.TemplateView):
