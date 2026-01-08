@@ -52,7 +52,7 @@ class RuleUpdateView(generic.TemplateView):
 class RuleListView(LoginRequiredMixin, generic.ListView):  # type: ignore[type-arg]
     """Language rule list view."""
 
-    template_name = 'lang/rule/list/index.html'
+    template_name = 'lang/rule/list/index_user.html'
     extra_context = CONTEXT['rule_list']
     context_object_name = 'rules'
 
