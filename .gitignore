@@ -18,6 +18,7 @@ static/
 db.sqlite3
 .coverage
 *__pycache__
+*.mo
 
 # IDE
 .idea/
