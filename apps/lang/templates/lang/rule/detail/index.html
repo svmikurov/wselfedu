@@ -16,84 +16,57 @@
     </div>
   </div>
 
+  <!--=== Rule title ====-->
   <div>
     <h3>{{ rule.title }}</h3>
-  </div>
+  </div><!-- End Rule title-->
 
-  <!--======= Rule clauses =======-->
+  <!--=== Rule clauses ===-->
   <div>
     <ul>
-      {% for clause in rule.clauses.all %}
+      {% for clause in rule.clauses %}
         <li class="py-1">
-          {# Rule clause content #}
+          <!-- Rule clause content -->
           <div>
             {{ clause.content }}
           </div>
 
-          {# Rule example words #}
-          {% with clause.examples.all as examples %}
-            {% if examples %}
-              <div class="py-1">
-                <i>
-                  {% for example in examples %}
-                    {% if example.example_type == 'example' %}
-                      {{ example.question_translation.english.word }} -
-                      {{ example.answer_translation.english.word }}
-                      {% if not forloop.last %}, {% endif %}
-                    {% endif %}
-                  {% endfor %}
-                </i>
-              </div>
-            {% endif %}
-          {% endwith %}
-        
-          {# Rule exception clause content #}
+          <!-- Rule clause examples -->
+          <div class="py-1">
+            <i>
+              {{ clause.examples }}
+            </i>
+          </div>
+
           {% if clause.exception_content %}
+            <!-- Rule clause exception content -->
             <div>
               {{ clause.exception_content }}
             </div>
-          {% endif %}
-    
-          {# Rule exception words #}
-          {% with clause.examples.all as examples %}
-            {% if examples %}
-              <div class="py-1">
-                <i>
-                  {% for example in examples %}
-                    {% if example.example_type == 'exception' %}
-                      {{ example.question_translation.english.word }} -
-                      {{ example.answer_translation.english.word }}
-                      {% if not forloop.last %}, {% endif %}
-                    {% endif %}
-                  {% endfor %}
-                </i>
-              </div>
-            {% endif %}
-          {% endwith %}
 
+            <!-- Rule clause exceptions -->
+            <div class="py-1">
+              <i>
+                {{ clause.exceptions }}
+              </i>
+            </div>
+          {% endif %}
         </li>
+
       {% empty %}
         <li class="py-1">Нет доступных правил</li>
       {% endfor %}
     </ul>
   </div><!-- End Rule clauses -->
 
+  <!--=== Rule exceptions ===-->
   <div class="pb-5">
     <h3>Исключения</h3>
-    {% with rule.exceptions.all as exceptions %}
-      {% if exceptions %}
         <div class="py-1">
           <i>
-            {% for exception in exceptions %}
-                {{ exception.question_translation.english.word }} -
-                {{ exception.answer_translation.english.word }}
-                {% if not forloop.last %}, {% endif %}
-            {% endfor %}
+            {{ rule.exceptions }}
           </i>
         </div>
-      {% endif %}
-    {% endwith %}
-  </div>
-
+  </div><!-- End Rule exceptions -->
 </main>
 {% endblock content %}
