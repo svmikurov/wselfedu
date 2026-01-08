@@ -131,7 +131,7 @@ class RuleClauseAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     ]
 
 
-@admin.register(models.RuleClauseExample)
+@admin.register(models.RuleExample)
 class RuleClauseExampleAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Rule clause model administration."""
 
@@ -147,11 +147,11 @@ class RuleClauseExampleAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
         'question_translation__english__word',
     ]
 
-    def question(self, obj: models.RuleClauseExample) -> str:
+    def question(self, obj: models.RuleExample) -> str:
         """Get rule question word."""
         return obj.question_translation.english.word
 
-    def answer(self, obj: models.RuleClauseExample) -> str:
+    def answer(self, obj: models.RuleExample) -> str:
         """Get rule answer word."""
         return obj.answer_translation.english.word
 
