@@ -37,7 +37,7 @@ class EnglishTranslationAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
 
     list_display = [
         'user',
-        'english',
+        'foreign',
         'native',
         'progress',
         'created_at',
@@ -144,16 +144,16 @@ class RuleClauseExampleAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
         'clause',
     ]
     search_fields = [
-        'question_translation__english__word',
+        'question_translation__foreign__word',
     ]
 
     def question(self, obj: models.RuleExample) -> str:
         """Get rule question word."""
-        return obj.question_translation.english.word
+        return obj.question_translation.foreign.word
 
     def answer(self, obj: models.RuleExample) -> str:
         """Get rule answer word."""
-        return obj.answer_translation.english.word
+        return obj.answer_translation.foreign.word
 
 
 @admin.register(models.RuleException)
@@ -168,16 +168,16 @@ class RuleExceptionAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
         'rule',
     ]
     search_fields = [
-        'question_translation__english__word',
+        'question_translation__foreign__word',
     ]
 
     def question(self, obj: models.RuleException) -> str:
         """Get rule question word."""
-        return obj.question_translation.english.word
+        return obj.question_translation.foreign.word
 
     def answer(self, obj: models.RuleException) -> str:
         """Get rule answer word."""
-        return obj.answer_translation.english.word
+        return obj.answer_translation.foreign.word
 
 
 @admin.register(models.MentorshipEnglishRule)

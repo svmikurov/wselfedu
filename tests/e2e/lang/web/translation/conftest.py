@@ -20,5 +20,5 @@ def translation(
     return models.EnglishTranslation.objects.create(
         user=user,
         native=models.NativeWord.objects.create(user=user, word='привет'),
-        english=models.EnglishWord.objects.create(user=user, word='hello'),
+        foreign=models.EnglishWord.objects.create(user=user, word='hello'),
     )

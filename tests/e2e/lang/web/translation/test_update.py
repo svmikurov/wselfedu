@@ -46,7 +46,7 @@ class TestUpdateEnglishTranslation:
 
         # - fields has words to update
         assert form['native'].value() == 'привет'
-        assert form['english'].value() == 'hello'
+        assert form['foreign'].value() == 'hello'
 
     def test_post_method_success(
         self,
@@ -58,7 +58,7 @@ class TestUpdateEnglishTranslation:
         # Arrange
         client.force_login(user)
         update_url = reverse(UPDATE_PATH_NAME, kwargs={'pk': translation.pk})
-        form_data = {'native': 'привет', 'english': 'hi'}
+        form_data = {'native': 'привет', 'foreign': 'hi'}
 
         # Act
         response = client.post(update_url, data=form_data, follow=True)
@@ -69,7 +69,7 @@ class TestUpdateEnglishTranslation:
 
         # - translated word has been updated
         updated = models.EnglishTranslation.objects.get(pk=translation.pk)
-        assert updated.english.word == 'hi'
+        assert updated.foreign.word == 'hi'
 
 
 @pytest.mark.django_db
@@ -104,7 +104,7 @@ class TestPermissions:
         # Arrange
         client.force_login(user_not_owner)
         update_url = reverse(UPDATE_PATH_NAME, kwargs={'pk': translation.pk})
-        form_data = {'native': 'привет', 'english': 'hi'}
+        form_data = {'native': 'привет', 'foreign': 'hi'}
 
         # Act
         response = client.post(update_url, data=form_data)
@@ -114,7 +114,7 @@ class TestPermissions:
 
         # - the translation has not been updated
         original = models.EnglishTranslation.objects.get(pk=translation.pk)
-        assert original.english.word == 'hello'
-        assert original.english.word != 'hi'
+        assert original.foreign.word == 'hello'
+        assert original.foreign.word != 'hi'
         assert original.user == user
         assert original.native.word == 'привет'

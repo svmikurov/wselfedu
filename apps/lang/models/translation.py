@@ -19,8 +19,7 @@ class EnglishTranslation(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Слово на родном языке',
     )
-    # TODO: Rename 'english' field to 'foreign'?
-    english = models.ForeignKey(
+    foreign = models.ForeignKey(
         'EnglishWord',
         on_delete=models.CASCADE,
         verbose_name='Слово на английском',
@@ -69,4 +68,4 @@ class EnglishTranslation(models.Model):
 
     def __str__(self) -> str:
         """Get the string representation of model instance."""
-        return str(f'{self.native} - {self.english}')
+        return str(f'{self.native} - {self.foreign}')

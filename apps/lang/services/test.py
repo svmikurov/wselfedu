@@ -74,7 +74,7 @@ class TestService:
 
         translations = self._get_translations(user)
         translation = translations[question_option]
-        question = translation.english.word
+        question = translation.foreign.word
         answer = translation.native.word
 
         option_ids: list[OptionId] = []
@@ -120,7 +120,7 @@ class TestService:
             case_question=from_story.question,
             case_answer=from_story.answer,
             selected_question=selected_translation.native.word,
-            selected_answer=selected_translation.english.word,
+            selected_answer=selected_translation.foreign.word,
         )
 
     # TODO: Exclude word translation duplicates.
@@ -181,7 +181,7 @@ class TestProgressService:
 
         translations = self._get_translations(user)
         translation = translations[question_option]
-        question = translation.english.word
+        question = translation.foreign.word
         answer = translation.native.word
 
         option_ids: list[OptionId] = []
@@ -254,7 +254,7 @@ class TestProgressService:
             case_question=from_story.question,
             case_answer=from_story.answer,
             selected_question=selected_translation.native.word,
-            selected_answer=selected_translation.english.word,
+            selected_answer=selected_translation.foreign.word,
         )
 
     # TODO: Exclude word translation duplicates.

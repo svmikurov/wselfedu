@@ -77,12 +77,12 @@ class PresentationDomain:
         current_order = order or 'to_native'
         orders = {
             'to_native': {
-                'question': translation.english,
+                'question': translation.foreign,
                 'answer': translation.native,
             },
             'to_foreign': {
                 'question': translation.native,
-                'answer': translation.english,
+                'answer': translation.foreign,
             },
         }
         return dto.TranslationCase(

@@ -61,8 +61,8 @@ class WebRuleAdapter:
     ) -> str:
         """Build a string representation of the example/exception."""
         return (
-            f'{example.question_translation.english} - '
-            f'{example.answer_translation.english}'
+            f'{example.question_translation.foreign} - '
+            f'{example.answer_translation.foreign}'
         )
 
     @staticmethod

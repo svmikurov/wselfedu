@@ -14,12 +14,12 @@ from .. import models
 
 
 class BaseEnglishForm(forms.ModelForm):  # type: ignore[type-arg]
-    """Base english translation form."""
+    """Base foreign translation form."""
 
     native = forms.CharField(
         max_length=models.EnglishWord.WORD_LENGTH,
     )
-    english = forms.CharField(
+    foreign = forms.CharField(
         max_length=models.NativeWord.WORD_LENGTH,
     )
 
@@ -46,13 +46,13 @@ class EnglishCreateForm(BaseEnglishForm):
         """Construct the form."""
         super().__init__(*args, **kwargs)  # type: ignore[arg-type]
         self.fields['native'].label = 'Слово на русском'
-        self.fields['english'].label = 'Слово на английском'
+        self.fields['foreign'].label = 'Слово на английском'
 
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Row(
                 Column('native'),
-                Column('english'),
+                Column('foreign'),
             ),
             Row(
                 Column('marks'),
@@ -79,17 +79,17 @@ class EnglishUpdateForm(BaseEnglishForm):
         """Construct the form."""
         super().__init__(*args, **kwargs)  # type: ignore[arg-type]
         self.fields['native'].label = 'Слово на русском'
-        self.fields['english'].label = 'Слово на английском'
+        self.fields['foreign'].label = 'Слово на английском'
 
         if self.instance and self.instance.pk:
             self.fields['native'].initial = str(self.instance.native)
-            self.fields['english'].initial = str(self.instance.english)
+            self.fields['foreign'].initial = str(self.instance.foreign)
 
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Row(
                 Column('native'),
-                Column('english'),
+                Column('foreign'),
             ),
             Row(
                 Column('marks'),

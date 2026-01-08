@@ -24,12 +24,12 @@ class TestCreateTranslationView:
 
         form_data = {
             'native': 'native text',
-            'english': 'english text',
+            'foreign': 'english text',
         }
 
         expected_call = {  # type: ignore[var-annotated]
             'native': 'native text',
-            'english': 'english text',
+            'foreign': 'english text',
             'category': None,
             'source': None,
             'user': mock_user,

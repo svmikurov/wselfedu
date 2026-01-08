@@ -66,7 +66,7 @@ class TestTranslationOrder:
         )
 
         # Assert
-        assert result.answer == first_translation.english.word
+        assert result.answer == first_translation.foreign.word
 
 
 class TestTranslationCount:

@@ -24,7 +24,7 @@ def remain_translation(user: Person) -> models.EnglishTranslation:
     return models.EnglishTranslation.objects.create(
         user=user,
         native=models.NativeWord.objects.create(user=user, word='слово'),
-        english=models.EnglishWord.objects.create(user=user, word='word'),
+        foreign=models.EnglishWord.objects.create(user=user, word='word'),
     )
 
 

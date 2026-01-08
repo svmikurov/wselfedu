@@ -40,13 +40,13 @@ class RuleExampleForm(forms.ModelForm):  # type: ignore[type-arg]
 
     MAX_WORD_LENGTH = models.AbstractWordModel.WORD_LENGTH
 
-    question_english_word = forms.CharField(
+    question_foreign_word = forms.CharField(
         max_length=MAX_WORD_LENGTH, label='Английское слово (вопрос)'
     )
     question_native_word = forms.CharField(
         max_length=MAX_WORD_LENGTH, label='Родное слово (вопрос)'
     )
-    answer_english_word = forms.CharField(
+    answer_foreign_word = forms.CharField(
         max_length=MAX_WORD_LENGTH, label='Английское слово (ответ)'
     )
     answer_native_word = forms.CharField(
@@ -114,13 +114,13 @@ class RuleExampleForm(forms.ModelForm):  # type: ignore[type-arg]
                 Column(
                     HTML('<p class="h4 text-center">Вопрос</p>'),
                     'question_marks',
-                    'question_english_word',
+                    'question_foreign_word',
                     'question_native_word',
                 ),
                 Column(
                     HTML('<p class="h4 text-center">Ответ</p>'),
                     'answer_marks',
-                    'answer_english_word',
+                    'answer_foreign_word',
                     'answer_native_word',
                 ),
             ),
@@ -140,10 +140,10 @@ class RuleExampleForm(forms.ModelForm):  # type: ignore[type-arg]
             rule.save()
             user = rule.user
 
-            # Native and english words
+            # Native and foreign words
             question_eng_word, _ = models.EnglishWord.objects.get_or_create(
                 user=user,
-                word=self.cleaned_data['question_english_word'],
+                word=self.cleaned_data['question_foreign_word'],
             )
             question_native_word, _ = models.NativeWord.objects.get_or_create(
                 user=user,
@@ -151,7 +151,7 @@ class RuleExampleForm(forms.ModelForm):  # type: ignore[type-arg]
             )
             answer_eng_word, _ = models.EnglishWord.objects.get_or_create(
                 user=user,
-                word=self.cleaned_data['answer_english_word'],
+                word=self.cleaned_data['answer_foreign_word'],
             )
             answer_native_word, _ = models.NativeWord.objects.get_or_create(
                 user=user,
@@ -163,7 +163,7 @@ class RuleExampleForm(forms.ModelForm):  # type: ignore[type-arg]
                 models.EnglishTranslation.objects.get_or_create(
                     user=user,
                     native=question_native_word,
-                    english=question_eng_word,
+                    foreign=question_eng_word,
                     source=self.cleaned_data['source'],
                 )
             )
@@ -178,7 +178,7 @@ class RuleExampleForm(forms.ModelForm):  # type: ignore[type-arg]
                 models.EnglishTranslation.objects.get_or_create(
                     user=user,
                     native=answer_native_word,
-                    english=answer_eng_word,
+                    foreign=answer_eng_word,
                     source=self.cleaned_data['source'],
                 )
             )
@@ -207,13 +207,13 @@ class RuleExceptionForm(forms.ModelForm):  # type: ignore[type-arg]
 
     MAX_WORD_LENGTH = models.AbstractWordModel.WORD_LENGTH
 
-    question_english_word = forms.CharField(
+    question_foreign_word = forms.CharField(
         max_length=MAX_WORD_LENGTH, label='Английское слово (вопрос)'
     )
     question_native_word = forms.CharField(
         max_length=MAX_WORD_LENGTH, label='Родное слово (вопрос)'
     )
-    answer_english_word = forms.CharField(
+    answer_foreign_word = forms.CharField(
         max_length=MAX_WORD_LENGTH, label='Английское слово (ответ)'
     )
     answer_native_word = forms.CharField(
@@ -265,13 +265,13 @@ class RuleExceptionForm(forms.ModelForm):  # type: ignore[type-arg]
                 Column(
                     HTML('<p class="h4 text-center">Вопрос</p>'),
                     'question_marks',
-                    'question_english_word',
+                    'question_foreign_word',
                     'question_native_word',
                 ),
                 Column(
                     HTML('<p class="h4 text-center">Ответ</p>'),
                     'answer_marks',
-                    'answer_english_word',
+                    'answer_foreign_word',
                     'answer_native_word',
                 ),
             ),
@@ -291,10 +291,10 @@ class RuleExceptionForm(forms.ModelForm):  # type: ignore[type-arg]
             rule.save()
             user = rule.user
 
-            # Native and english words
+            # Native and foreign words
             question_eng_word, _ = models.EnglishWord.objects.get_or_create(
                 user=user,
-                word=self.cleaned_data['question_english_word'],
+                word=self.cleaned_data['question_foreign_word'],
             )
             question_native_word, _ = models.NativeWord.objects.get_or_create(
                 user=user,
@@ -302,7 +302,7 @@ class RuleExceptionForm(forms.ModelForm):  # type: ignore[type-arg]
             )
             answer_eng_word, _ = models.EnglishWord.objects.get_or_create(
                 user=user,
-                word=self.cleaned_data['answer_english_word'],
+                word=self.cleaned_data['answer_foreign_word'],
             )
             answer_native_word, _ = models.NativeWord.objects.get_or_create(
                 user=user,
@@ -314,7 +314,7 @@ class RuleExceptionForm(forms.ModelForm):  # type: ignore[type-arg]
                 models.EnglishTranslation.objects.get_or_create(
                     user=user,
                     native=question_native_word,
-                    english=question_eng_word,
+                    foreign=question_eng_word,
                     source=self.cleaned_data['source'],
                 )
             )
@@ -329,7 +329,7 @@ class RuleExceptionForm(forms.ModelForm):  # type: ignore[type-arg]
                 models.EnglishTranslation.objects.get_or_create(
                     user=user,
                     native=answer_native_word,
-                    english=answer_eng_word,
+                    foreign=answer_eng_word,
                     source=self.cleaned_data['source'],
                 )
             )

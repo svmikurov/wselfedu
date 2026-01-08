@@ -20,7 +20,7 @@ class _TranslationWords(NamedTuple):
     """Native and foreign words of translation."""
 
     native: models.NativeWord
-    english: models.EnglishWord
+    foreign: models.EnglishWord
 
 
 def _normalize_word(word: str) -> str:
@@ -37,19 +37,19 @@ class TranslationRepository(base.TranslationRepoABC):
         self,
         user: Person,
         native: str,
-        english: str,
+        foreign: str,
         category: models.LangCategory,
         source: core_models.Source,
         marks: QuerySet[models.LangMark],
         normalize: bool = True,
     ) -> None:
         """Create english translation."""
-        words = self._get_or_create_words(user, native, english, normalize)
+        words = self._get_or_create_words(user, native, foreign, normalize)
 
         translation, _ = models.EnglishTranslation.objects.get_or_create(
             user=user,
             native=words.native,
-            english=words.english,
+            foreign=words.foreign,
             category=category,
             source=source,
         )
@@ -64,17 +64,17 @@ class TranslationRepository(base.TranslationRepoABC):
         user: Person,
         instance: models.EnglishTranslation,
         native: str,
-        english: str,
+        foreign: str,
         category: models.LangCategory,
         source: core_models.Source,
         marks: QuerySet[models.LangMark],
         normalize: bool = True,
     ) -> None:
         """Update english translation."""
-        words = self._get_or_create_words(user, native, english, normalize)
+        words = self._get_or_create_words(user, native, foreign, normalize)
 
         instance.native = words.native
-        instance.english = words.english
+        instance.foreign = words.foreign
         instance.category = category
         instance.source = source
         instance.marks.set(marks)
@@ -102,16 +102,16 @@ class TranslationRepository(base.TranslationRepoABC):
     def _get_or_create_words(
         user: Person,
         native: str,
-        english: str,
+        foreign: str,
         normalize: bool = True,
     ) -> _TranslationWords:
         """Get or create native and foreign words for translation."""
         native_to_store = native
-        english_to_store = english
+        foreign_to_store = foreign
 
         if normalize:
             native_to_store = _normalize_word(native)
-            english_to_store = _normalize_word(english)
+            foreign_to_store = _normalize_word(foreign)
 
         native_obj, _ = models.NativeWord.objects.get_or_create(
             user=user,
@@ -119,6 +119,6 @@ class TranslationRepository(base.TranslationRepoABC):
         )
         english_obj, _ = models.EnglishWord.objects.get_or_create(
             user=user,
-            word=english_to_store,
+            word=foreign_to_store,
         )
         return _TranslationWords(native_obj, english_obj)

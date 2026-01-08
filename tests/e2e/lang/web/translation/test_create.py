@@ -40,7 +40,7 @@ class TestCreate:
 
         # - fields are empty
         assert form['native'].value() is None
-        assert form['english'].value() is None
+        assert form['foreign'].value() is None
 
         # - the form is not bound to data
         assert not form.is_bound
@@ -54,7 +54,7 @@ class TestCreate:
         # Arrange
         client.force_login(user)
         initial_count = models.EnglishTranslation.objects.count()
-        form_data = {'native': 'привет', 'english': 'hello'}
+        form_data = {'native': 'привет', 'foreign': 'hello'}
 
         # Act
         response = client.post(
@@ -75,7 +75,7 @@ class TestCreate:
             native__word='привет'
         ).first()
         assert translation is not None
-        assert translation.english.word == 'hello'
+        assert translation.foreign.word == 'hello'
 
         # - redirect success
         assert response.resolver_match.view_name == CREATE_PATH_NAME
@@ -96,7 +96,7 @@ class TestPermissions:
     def test_post_method_anonymous(self, client: Client) -> None:
         """Authorization is required to add a translation."""
         # Arrange
-        form_data = {'native': 'привет', 'english': 'hello'}
+        form_data = {'native': 'привет', 'foreign': 'hello'}
 
         # Act
         response = client.post(reverse(CREATE_PATH_NAME), data=form_data)

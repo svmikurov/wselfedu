@@ -20,8 +20,8 @@ class RuleRepository(RuleRepositoryABC):
     def _fetch(user: Person, rule_id: int) -> models.Rule:
         """Get rule queryset with clauses, examples and exceptions."""
         examples_qs = models.RuleExample.objects.select_related(
-            'question_translation__english',
-            'answer_translation__english',
+            'question_translation__foreign',
+            'answer_translation__foreign',
         )
         return models.Rule.objects.prefetch_related(
             Prefetch(
@@ -33,8 +33,8 @@ class RuleRepository(RuleRepositoryABC):
             Prefetch(
                 'exceptions',
                 queryset=models.RuleException.objects.select_related(
-                    'question_translation__english',
-                    'answer_translation__english',
+                    'question_translation__foreign',
+                    'answer_translation__foreign',
                 ),
             ),
         ).get(pk=rule_id, user=user)

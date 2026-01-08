@@ -36,5 +36,5 @@ def word_translation(
     return models.EnglishTranslation.objects.create(
         user=user,
         native=native_word,
-        english=english_word,
+        foreign=english_word,
     )

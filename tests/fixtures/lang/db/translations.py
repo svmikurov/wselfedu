@@ -31,7 +31,7 @@ def translations(
 
     # Create native-english translation model objects
     translations_objs = [
-        models.EnglishTranslation(user=user, native=nat, english=eng)
+        models.EnglishTranslation(user=user, native=nat, foreign=eng)
         for nat, eng in zip(native_objs, english_objs, strict=True)
     ]
     # Populate native-english translation model objects
