@@ -1,7 +1,14 @@
 """English language rule forms."""
 
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import HTML, Column, Div, Layout, Row, Submit
+from crispy_forms.helper import FormHelper  # type: ignore[import-untyped]
+from crispy_forms.layout import (  # type: ignore[import-untyped]
+    HTML,
+    Column,
+    Div,
+    Layout,
+    Row,
+    Submit,
+)
 from django import forms
 from django.db import transaction
 from django.urls import reverse_lazy
@@ -54,7 +61,7 @@ class RuleExampleForm(forms.ModelForm):  # type: ignore[type-arg]
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the form."""
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)  # type: ignore[arg-type]
         form_action = reverse_lazy(
             'lang:english_rule_edit_example', kwargs={'pk': self.instance.pk}
         )
@@ -65,7 +72,7 @@ class RuleExampleForm(forms.ModelForm):  # type: ignore[type-arg]
             label='Пункт правила',
         )
         self.fields['example_type'] = forms.ChoiceField(
-            choices=models.EnglishRuleExample.ExampleType,
+            choices=models.EnglishRuleExample.ExampleType,  # type: ignore[attr-defined]
             label='Пример / Исключение',
         )
         self.fields['source'] = forms.ModelChoiceField(
@@ -184,7 +191,7 @@ class RuleExampleForm(forms.ModelForm):  # type: ignore[type-arg]
                     )
 
             # Rule case translation examples
-            _ = models.EnglishRuleExample.objects.get_or_create(
+            _, _ = models.RuleExample.objects.get_or_create(
                 clause=self.cleaned_data['clause'],
                 example_type=self.cleaned_data['example_type'],
                 question_translation=question_translation,
@@ -192,7 +199,7 @@ class RuleExampleForm(forms.ModelForm):  # type: ignore[type-arg]
                 user=user,
             )
 
-        return rule
+        return rule  # type: ignore[no-any-return]
 
 
 class RuleExceptionForm(forms.ModelForm):  # type: ignore[type-arg]
@@ -221,7 +228,7 @@ class RuleExceptionForm(forms.ModelForm):  # type: ignore[type-arg]
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the form."""
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)  # type: ignore[arg-type]
         form_action = reverse_lazy(
             'lang:english_rule_edit_exception', kwargs={'pk': self.instance.pk}
         )
@@ -335,11 +342,11 @@ class RuleExceptionForm(forms.ModelForm):  # type: ignore[type-arg]
                     )
 
             # Rule case translation examples
-            _ = models.EnglishRuleException.objects.get_or_create(
+            _ = models.EnglishRuleException.objects.get_or_create(  # type: ignore[attr-defined]
                 rule=self.instance,
                 question_translation=question_translation,
                 answer_translation=answer_translation,
                 user=user,
             )
 
-        return rule
+        return rule  # type: ignore[no-any-return]

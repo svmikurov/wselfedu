@@ -38,7 +38,7 @@ class AssignedExercisesViewSet(viewsets.ViewSet):
     def list(self, request: Request) -> Response:
         """Render the exercises assigned by mentor."""
         queryset = self.presenter.get_assigned_all(self.user)
-        serializer = AssignedMentorSerializer(queryset, many=True)  # type: ignore[arg-type]
+        serializer = AssignedMentorSerializer(queryset, many=True)
         return Response(data=serializer.data)
 
     @extend_schema(

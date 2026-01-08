@@ -181,7 +181,7 @@ class RuleExceptionAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
 
 
 @admin.register(models.MentorshipEnglishRule)
-class MentorshipEnglishRuleAdmin(admin.ModelAdmin):
+class MentorshipEnglishRuleAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """English rule study via mentorship model administration."""
 
     list_display = [
@@ -192,8 +192,8 @@ class MentorshipEnglishRuleAdmin(admin.ModelAdmin):
 
     def mentor(self, obj: models.MentorshipEnglishRule) -> str:
         """Get mentor."""
-        return obj.mentorship.mentor
+        return obj.mentorship.mentor  # type: ignore[return-value]
 
     def student(self, obj: models.MentorshipEnglishRule) -> str:
         """Get mentor."""
-        return obj.mentorship.student
+        return obj.mentorship.student  # type: ignore[return-value]

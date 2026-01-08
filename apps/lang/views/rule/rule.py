@@ -22,7 +22,7 @@ class RuleCreateView(generic.TemplateView):
     template_name = 'lang/rule/create/index.html'
 
 
-class RuleDetailView(generic.DetailView):  # type: ignore[arg-type]
+class RuleDetailView(generic.DetailView):  # type: ignore[type-arg]
     """Language rule detail view."""
 
     template_name = 'lang/rule/detail/index.html'
@@ -65,7 +65,7 @@ class RuleListView(LoginRequiredMixin, generic.ListView):  # type: ignore[type-a
 
     def get_queryset(self) -> QuerySet[models.Rule]:
         """Get rule queryset."""
-        return models.Rule.objects.filter(
+        return models.Rule.objects.filter(  # type: ignore[misc]
             user=self.request.user,
         )
 

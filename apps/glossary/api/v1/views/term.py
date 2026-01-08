@@ -48,7 +48,7 @@ class TermViewSet(viewsets.ModelViewSet[Term]):
     permission_classes = [IsAuthenticated, IsOwnerOnly]
     renderer_classes = [WrappedJSONRenderer]
 
-    def get_queryset(self) -> QuerySet[Term]:  # type: ignore[override]
+    def get_queryset(self) -> QuerySet[Term]:
         """Get Term queryset filtered by owner."""
         if isinstance(self.request.user, Person):
             return self.request.user.user_terms.all()
