@@ -14,6 +14,19 @@ if TYPE_CHECKING:
     from .. import models, types
 
 
+class RuleRepositoryABC(ABC):
+    """ABC for rule repository."""
+
+    @classmethod
+    @abstractmethod
+    def get_for_user(
+        cls,
+        user: Person,
+        rule_id: int,
+    ) -> models.Rule:
+        """Get rule with all examples and exceptions."""
+
+
 class ProgressABC(ABC):
     """ABC for Word study Progress repository."""
 
