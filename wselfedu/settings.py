@@ -57,6 +57,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    # Internationalization
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -291,3 +293,25 @@ DEBUG_TOOLBAR_CONFIG = {
     'RENDER_PANELS': True,
     'INSERT_BEFORE': '</body>',
 }
+
+# --------------------
+# Internationalization
+# --------------------
+
+# Enable i18n
+USE_I18N = True
+
+# Supported languages
+LANGUAGES = [
+    ('en', 'English'),
+    ('ru', 'Russian'),
+    ('nl', 'Nederlands'),
+]
+
+# Default language
+LANGUAGE_CODE = os.getenv('LANGUAGE_CODE', 'en')
+
+# Path to translation files
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+]
