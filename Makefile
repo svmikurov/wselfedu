@@ -132,3 +132,9 @@ dump-lang:
 	lang.englishmark \
 	lang.langcategory \
 	--indent 2 > temp/lang_english_related.json
+
+# Localization
+locale-make:
+	python manage.py makemessages -l ru -l nl -l en
+locale-compile:
+	python manage.py compilemessages -l ru -l nl -l en
