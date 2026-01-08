@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock title %}{{ title }}
+
+{% block content %}
+<main class="container">
+  <div class="row py-3">
+    <div class="col">
+      <h1>{{ header }}</h1>
+    </div>
+    <div class="col-auto">
+      <a href="javascript:history.back()" class="wse-btn"
+        >
+         Назад
+      </a>
+    </div>
+  </div>
+
+  <div>
+    {% include 'lang/rule/list/_table_user.html' %}
+  </div>
+</main>
+{% endblock content %}
