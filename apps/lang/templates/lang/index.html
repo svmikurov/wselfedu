@@ -1,17 +1,21 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}
-Изучение языков - Английский, Немецкий, Французский | WSE
-{% endblock %}
-
-{% block description %}
-Интерактивные курсы по изучению английского, немецкого, французского и 
-других языков. Грамматика, словарный запас, практика.
-{% endblock %}
+{% block title %}{% trans "lang.english.page.index.title" %}{% endblock title %}
 
 {% block content %}
-<main class="container p-0 ">
-  <h1 class="mt-3 mb-5 text-center">Изучение языков</h1>
+<main class="container">
+  <div class="row py-3">
+    <div class="col">
+      <h1>{% trans "lang.english.page.index.header" %}</h1>
+    </div>
+    <div class="col-auto">
+      <a href="javascript:history.back()" class="wse-btn"
+        >
+         Назад
+      </a>
+    </div>
+  </div>
 
   <div class="row g-2 mb-2">
     <div class="col-12 col-md-6">
