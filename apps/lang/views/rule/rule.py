@@ -20,7 +20,6 @@ class RuleIndexView(generic.TemplateView):
     """Language rule create view."""
 
     template_name = 'lang/rule/index.html'
-    extra_context = CONTEXT['user_rule_index']
 
 
 class RuleCreateView(generic.TemplateView):
