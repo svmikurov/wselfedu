@@ -18,7 +18,7 @@ __all__ = [
     # Rule
     'Rule',
     'RuleClause',
-    'RuleClauseExample',
+    'RuleExample',
     'RuleException',
     'MentorshipEnglishRule',
 ]
@@ -35,10 +35,10 @@ from .parameters import (
     TranslationSetting,
 )
 from .rules import (
-    RuleClauseExample,
-    RuleException,
     Rule,
     RuleClause,
+    RuleExample,
+    RuleException,
 )
 from .translation import EnglishTranslation
 from .word import AbstractWordModel, EnglishWord, NativeWord

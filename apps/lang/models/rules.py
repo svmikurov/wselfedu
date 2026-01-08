@@ -131,11 +131,11 @@ class RuleClause(models.Model):
         ordering = ['rule', 'ordinal', 'created_at']
         unique_together = [['rule', 'content']]
 
+        db_table = 'lang_rule_clause'
+
     def __str__(self) -> str:
         """Return the string representation."""
         return str(self.content)
-
-
 
 
 class RuleException(models.Model):
@@ -186,7 +186,10 @@ class RuleException(models.Model):
             ['question_translation', 'answer_translation'],
         ]
 
-class RuleClauseExample(models.Model):
+        db_table = 'lang_rule_exception'
+
+
+class RuleExample(models.Model):
     """Language rule clause word translation example/exception."""
 
     class ExampleType(models.TextChoices):
@@ -248,3 +251,5 @@ class RuleClauseExample(models.Model):
         unique_together = [
             ['question_translation', 'answer_translation'],
         ]
+
+        db_table = 'lang_rule_example'
