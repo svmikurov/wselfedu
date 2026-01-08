@@ -23,12 +23,12 @@ class WebRuleAdapter:
             examples, exceptions = [], []
             for item in clause.examples.all():
                 if item.example_type == models.RuleExample.ExampleType.EXAMPLE:
-                    examples.append(cls._create_example(item))
+                    examples.append(cls._build_example(item))
                 elif (
                     item.example_type
                     == models.RuleExample.ExampleType.EXCEPTION
                 ):
-                    exceptions.append(cls._create_example(item))
+                    exceptions.append(cls._build_example(item))
 
             clauses.append(
                 dto.ClauseSchema(
@@ -42,17 +42,24 @@ class WebRuleAdapter:
         return dto.RuleSchema(
             title=title,
             clauses=clauses,
-            exceptions=cls._build_examples_string(exceptions_qs),
+            exceptions=cls._convert_examples(exceptions_qs.all()),
         )
 
     @classmethod
-    def _build_examples_string(cls, examples: QuerySet[models.Rule]) -> str:
-        examples = [cls._create_example(item) for item in examples.all()]
-
-        return cls._join_examples(examples)
+    def _convert_examples(
+        cls,
+        examples: QuerySet[models.RuleExample] | QuerySet[models.RuleExample],
+    ) -> str:
+        """Convert rule examples/exceptions queryset to string."""
+        examples = [cls._build_example(item) for item in examples]  # type: ignore[assignment]
+        result = cls._join_examples(examples)  # type: ignore[arg-type]
+        return result
 
     @staticmethod
-    def _create_example(example: QuerySet[models.Rule]) -> str:
+    def _build_example(
+        example: models.RuleExample | models.RuleException,
+    ) -> str:
+        """Build a string representation of the example/exception."""
         return (
             f'{example.question_translation.english} - '
             f'{example.answer_translation.english}'
@@ -60,5 +67,6 @@ class WebRuleAdapter:
 
     @staticmethod
     def _join_examples(items: list[str]) -> str:
+        """Combine examples/exceptions into a string representation."""
         example_count = 5
         return ', '.join(items[:example_count])
