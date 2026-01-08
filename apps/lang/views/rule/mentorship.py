@@ -12,7 +12,7 @@ class RuleStudentView(generic.TemplateView):
 class RuleStudentListView(generic.TemplateView):
     """Language rule student view."""
 
-    template_name = 'lang/rule/list/student.html'
+    template_name = 'lang/rule/list/index_student.html'
 
 
 class RuleMentorListView(generic.TemplateView):
