@@ -1,7 +1,7 @@
 """Language rule views."""
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import QuerySet
+from django.db.models import Prefetch, QuerySet
 from django.views import generic
 
 from apps.lang import models
@@ -22,10 +22,32 @@ class RuleCreateView(generic.TemplateView):
     template_name = 'lang/rule/create/index.html'
 
 
-class RuleDetailView(generic.TemplateView):
+class RuleDetailView(generic.DetailView):  # type: ignore[arg-type]
     """Language rule detail view."""
 
     template_name = 'lang/rule/detail/index.html'
+    extra_context = CONTEXT['rule_detail']
+    context_object_name = 'rule'
+    model = models.Rule
+
+    def get_queryset(self) -> QuerySet[models.Rule]:
+        """Get rule clauses with examples and exceptions."""
+        examples_qs = models.RuleExample.objects.select_related(
+            'question_translation__english',
+            'answer_translation__english',
+        )
+        return (
+            super()
+            .get_queryset()
+            .prefetch_related(
+                Prefetch(
+                    'clauses',
+                    queryset=models.RuleClause.objects.prefetch_related(
+                        Prefetch('examples', queryset=examples_qs)
+                    ),
+                )
+            )
+        )
 
 
 class RuleUpdateView(generic.TemplateView):
