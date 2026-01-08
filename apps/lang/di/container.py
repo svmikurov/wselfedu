@@ -11,7 +11,7 @@ from apps.core.storage import (
 )
 from apps.lang import schemas
 
-from .. import repositories, services
+from .. import adapters, repositories, services
 from .translation_presentation import PresentationContainer
 from .translation_test import TranslationTestContainer
 
@@ -75,6 +75,14 @@ class LanguageContainer(containers.DeclarativeContainer):
     )
     rule_repository = providers.Factory(
         repositories.RuleRepository,
+    )
+
+    # --------
+    # Adapters
+    # --------
+
+    rule_web_adapter = providers.Factory(
+        adapters.WebRuleAdapter,
     )
 
     # --------
