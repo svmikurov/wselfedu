@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <table class="table table-hover">
   <thead>
     <tr>
@@ -14,6 +16,10 @@
           {{ rule.title }}
         </a>
       </td>
+    </tr>
+    {% empty %}
+    <tr>
+       <td>{% trans 'table.empty.rule' %}</td>
     </tr>
     {% endfor %}
   </tbody>
