@@ -11,10 +11,21 @@ __all__ = [
     # Rule example/exception
     'RuleExampleView',
     'RuleExceptionView',
-    # Student
+    # Mentorship
     'RuleStudentView',
+    'RuleMentorListView',
+    'RuleStudentListView',
 ]
 
+from .example import (
+    RuleExampleView,
+    RuleExceptionView,
+)
+from .mentorship import (
+    RuleMentorListView,
+    RuleStudentListView,
+    RuleStudentView,
+)
 from .rule import (
     RuleCreateView,
     RuleDeleteView,
@@ -22,13 +33,4 @@ from .rule import (
     RuleIndexView,
     RuleListView,
     RuleUpdateView,
-)
-from .example import (
-    RuleExampleView,
-    RuleExceptionView,
-)
-from .mentorship import (
-    RuleStudentView,
-    RuleStudentListView,
-    RuleMentorListView,
 )

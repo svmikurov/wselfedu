@@ -47,17 +47,17 @@ from .presentation import (
     EnglishTranslationStudyView,
 )
 from .rule import (
-    RuleExampleView,
-    RuleExceptionView,
-    RuleDetailView,
     RuleCreateView,
     RuleDeleteView,
+    RuleDetailView,
+    RuleExampleView,
+    RuleExceptionView,
     RuleIndexView,
     RuleListView,
-    RuleUpdateView,
-    RuleStudentView,
-    RuleStudentListView,
     RuleMentorListView,
+    RuleStudentListView,
+    RuleStudentView,
+    RuleUpdateView,
 )
 from .settings import (
     study_settings_vew,
