@@ -1,6 +1,8 @@
 """Language rule views."""
 
 __all__ = [
+    # Base
+    'BaseRuleDetailView',
     # Rule
     'RuleIndexView',
     'RuleListView',
@@ -17,6 +19,9 @@ __all__ = [
     'RuleStudentListView',
 ]
 
+from .base import (
+    BaseRuleDetailView,
+)
 from .example import (
     RuleExampleView,
     RuleExceptionView,
