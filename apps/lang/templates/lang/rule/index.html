@@ -12,7 +12,7 @@
     <div class="col-auto">
       <a href="javascript:history.back()" class="wse-btn"
         >
-         Назад
+         {% trans 'button.back' %}
       </a>
     </div>
   </div>
@@ -22,31 +22,31 @@
       <a href="#"
          class="wse-btn full-width height-huge"
         >
-        Добавить правило
+        {% trans 'button.rule.add' %}
       </a>
     </div>
     <div class="col-12 col-md-6">
       <a href={% url 'lang:english_rule_list' %}
          class="wse-btn full-width height-huge"
         >
-        Мои правил
+        {% trans 'button.rule.list.user' %}
       </a>
     </div>
   </div>
 
   <div class="row g-2 mb-2">
     <div class="col-12 col-md-6">
-      <a href="#"
+      <a href={% url 'lang:english_rule_list_mentor' %}
          class="wse-btn full-width height-huge"
         >
-        Empty
+        {% trans 'button.rule.list.mentor' %}
       </a>
     </div>
     <div class="col-12 col-md-6">
       <a href={% url 'lang:english_rule_list_student' %}
          class="wse-btn full-width height-huge"
         >
-        Изучаемые правила
+        {% trans 'button.rule.list.student' %}
       </a>
     </div>
   </div>
