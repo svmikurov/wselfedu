@@ -18,6 +18,7 @@
   </div>
 
   <div class="row g-2 mb-2">
+    {# Add rule #}
     <div class="col-12 col-md-6">
       <a href="#"
          class="wse-btn full-width height-huge"
@@ -26,27 +27,44 @@
       </a>
     </div>
     <div class="col-12 col-md-6">
+      {# Empty column #}
+    </div>
+  </div>
+
+  <div class="row g-2 mb-2">
+    {# Goto my rule list #}
+    <div class="col-12 col-md-6">
       <a href={% url 'lang:english_rule_list' %}
          class="wse-btn full-width height-huge"
         >
         {% trans 'button.rule.list.user' %}
       </a>
     </div>
-  </div>
-
-  <div class="row g-2 mb-2">
-    <div class="col-12 col-md-6">
-      <a href={% url 'lang:english_rule_list_mentor' %}
-         class="wse-btn full-width height-huge"
-        >
-        {% trans 'button.rule.list.mentor' %}
-      </a>
-    </div>
+    {# Goto study rule list assigned by mentor #}
     <div class="col-12 col-md-6">
       <a href={% url 'lang:english_rule_list_student' %}
          class="wse-btn full-width height-huge"
         >
         {% trans 'button.rule.list.student' %}
+      </a>
+    </div>
+  </div>
+
+  <div class="row g-2 mb-2">
+    {# Goto rule list for assignation #}
+    <div class="col-12 col-md-6">
+      <a href="#"
+         class="wse-btn full-width height-huge"
+        >
+        Правила для назначения ученикам
+      </a>
+    </div>
+    {# Goto assigned for students rule list #}
+    <div class="col-12 col-md-6">
+      <a href={% url 'lang:english_rule_list_mentor' %}
+         class="wse-btn full-width height-huge"
+        >
+        {% trans 'button.rule.list.mentor' %}
       </a>
     </div>
   </div>
