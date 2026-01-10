@@ -1,21 +1,39 @@
 """Language rule view for student."""
 
+from typing import Any
+
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
 from django.views import generic
 
-
-class RuleStudentView(generic.TemplateView):
-    """Language rule student view."""
-
-    template_name = 'lang/rule/detail/student.html'
+from apps.core.views.auth import UserRequestMixin
+from apps.lang.forms import RuleAssignmentForm
+from apps.lang.models import Rule
 
 
-class RuleStudentListView(generic.TemplateView):
-    """Language rule student view."""
+class RuleAssignmentCreate(
+    UserRequestMixin,
+    generic.CreateView,  # type: ignore[type-arg]
+):
+    """Language rule assignment create view."""
 
-    template_name = 'lang/rule/list/index_student.html'
+    template_name = 'lang/rule/mentorship/index.html'
+    form_class = RuleAssignmentForm
 
+    def get_form_kwargs(self) -> dict[str, Any]:
+        """Add request and rule id to form kwargs."""
+        kwargs = super().get_form_kwargs()
 
-class RuleMentorListView(generic.TemplateView):
-    """Language rule student view."""
+        rule = get_object_or_404(
+            Rule,
+            pk=self.kwargs['pk'],
+            user=self.user,
+        )
 
-    template_name = 'lang/rule/list/index_mentor.html'
+        kwargs['user'] = self.user
+        kwargs['rule'] = rule
+        return kwargs
+
+    def get_success_url(self) -> str:
+        """Get success url."""
+        return str(reverse_lazy('lang:english_rule_list'))
