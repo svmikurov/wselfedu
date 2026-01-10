@@ -23,18 +23,20 @@ class RuleRepository(RuleRepositoryABC):
             'question_translation__foreign',
             'answer_translation__foreign',
         )
+        children_qs = models.RuleClause.objects.all()
+        clauses_qs = models.RuleClause.objects.select_related(
+            'parent'
+        ).prefetch_related(
+            Prefetch('examples', queryset=examples_qs),
+            Prefetch('children', queryset=children_qs),
+        )
+
+        exceptions_qs = models.RuleException.objects.select_related(
+            'question_translation__foreign',
+            'answer_translation__foreign',
+        )
+
         return models.Rule.objects.prefetch_related(
-            Prefetch(
-                'clauses',
-                queryset=models.RuleClause.objects.prefetch_related(
-                    Prefetch('examples', queryset=examples_qs)
-                ),
-            ),
-            Prefetch(
-                'exceptions',
-                queryset=models.RuleException.objects.select_related(
-                    'question_translation__foreign',
-                    'answer_translation__foreign',
-                ),
-            ),
+            Prefetch('clauses', queryset=clauses_qs),
+            Prefetch('exceptions', queryset=exceptions_qs),
         ).get(pk=rule_id, user=user)
