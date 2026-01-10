@@ -9,7 +9,6 @@ from . import dto
 class WebRuleAdapterABC(ABC):
     """ABC for language rule web adapter."""
 
-    @classmethod
     @abstractmethod
-    def to_response(cls, query: models.Rule) -> dto.RuleSchema:
+    def to_response(self, query: models.Rule) -> dto.RuleSchema:
         """Convert rule queryset to web representation context."""
