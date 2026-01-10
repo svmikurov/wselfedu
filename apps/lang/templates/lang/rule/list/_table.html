@@ -1,0 +1,81 @@
+{% load i18n %}
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>{% trans 'rule' %}</th>
+      <th>{# Icons #}</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for rule in rules  %}
+    <tr id="row-{{ rule.id }}">
+      <td>
+        <a href={% url 'lang:english_rule_detail' rule.pk %}
+          >
+          {{ rule.title }}
+        </a>
+      </td>
+      <td>
+        {% if rule.user_is_mentor %}
+          <a class="text-decoration-none me-3"
+            href={% url 'lang:english_rule_assignment_create' rule.id %}
+            data-testid="edit-btn-{{ rule.id }}"
+            title={% trans 'button.assign' %}>
+            <i class="fas fa-graduation-cap fa-lg"></i>
+          </a>
+        {% endif %}
+        <a class="text-decoration-none me-3"
+          {# TODO: Add ref #}
+          {# Self education #}
+          href="#"
+          data-testid="edit-btn-{{ rule.id }}"
+          title={% trans 'button.selfedu' %}>
+          <i class="fas fa-clipboard-check fa-lg"></i>
+        </a>
+        <a class="text-decoration-none me-3"
+           {# TODO: Add ref #}
+           href="#"
+           data-testid="edit-btn-{{ rule.id }}"
+           title={% trans 'button.update' %}>
+          <i class="fas fa-edit fa-lg"></i>
+        </a>
+        <button class="btn btn-link p-0 border-0"
+                data-testid="delete-btn-{{ rule.id }}"
+                title={% trans 'button.delete' %}
+                hx-delete="{% url 'lang:english_rule_delete' rule.id %}"
+                hx-target="#row-{{ rule.id }}"
+                hx-swap="outerHTML"
+                hx-confirm={% trans 'button.delete.confirm' %}>
+            <i class="fas fa-trash fa-lg"></i>
+        </button>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+       <td>{% trans 'empty.rule' %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Explanation of the use of icons -->
+<div class="d-flex gap-4">
+  <div>
+    <i class="fas fa-graduation-cap fa-lg me-1"></i>
+    <span>{% trans 'button.assign' %}</span>
+  </div>
+  <div>
+    <i class="fas fa-clipboard-check fa-lg me-1"></i>
+    <span>{% trans 'button.selfedu' %}</span>
+  </div>
+  <div>
+    <i class="fas fa-edit fa-lg me-1"></i>
+    <span>{% trans 'button.update' %}</span>
+  </div>
+  <div>
+    <i class="fas fa-trash fa-lg me-1"></i>
+    <span>{% trans 'button.delete' %}</span>
+  </div>
+</div>

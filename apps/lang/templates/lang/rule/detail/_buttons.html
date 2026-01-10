@@ -1,0 +1,33 @@
+{% load i18n %}
+
+<!--=== Button row ====-->
+<div class="row gap-2">
+  {% comment %} {% if rule.user_is_mentor %} {% endcomment %}
+  {# Assign rule study to student #}
+  <a class="wse-btn"
+     href={% url 'lang:english_rule_assignment_create' rule.id %}
+    >
+      {% trans 'button.assign' %}
+  </a>
+  {% comment %} {% endif %} {% endcomment %}
+
+  {% comment %} {% if rule.user_is_owner %} {% endcomment %}
+  {# Create rule clause #}
+  <button class="wse-btn"
+          hx-get={% url 'lang:english_clause_create' rule.id %}
+          hx-target="#update-form"
+          hx-swap="innerHTML">
+    {% trans 'button.create' %}
+  </button>
+
+  {# Add rule example/exception #}
+  <button class="wse-btn">
+    {% trans 'button.add.example' %}
+  </button>
+
+  {# Add rule clause exception #}
+  <button class="wse-btn">
+    {% trans 'button.add.exception' %}
+  </button>
+  {% comment %} {% endif %} {% endcomment %}
+</div><!-- End Button row -->

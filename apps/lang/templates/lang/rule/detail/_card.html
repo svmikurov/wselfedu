@@ -1,0 +1,104 @@
+{% load i18n %}
+
+<!--=== Data attributes ====-->
+{# Script configuration #}
+<div id="scroll-config"
+     data-form-id="update-form"
+     style="display: none;">
+</div><!-- End Data attributes -->
+
+<!--=== Rule title ====-->
+<div class="d-flex justify-content-between">
+  <span>
+    <h3>{{ rule.title }}</h3>
+  </span>
+  <div>
+    <button class="btn btn-link p-0 border-0"
+        hx-get={% url 'lang:english_rule_update' rule.id %}
+        hx-target="#update-form"
+        hx-swap="innerHTML">
+      <i class="fas fa-edit fa-lg"></i>
+    </button>
+  </div>
+</div><!-- End Rule title -->
+
+<!--=== Rule clauses ===-->
+<div>
+  <ul>
+    {% for clause in rule.clauses %}
+    <li class="py-1">
+      <!-- Rule clause content -->
+      <div class="d-flex">
+        <span class="flex-grow-1 me-2">
+          {{ clause.content }}
+        </span>
+        <div class="ms-auto">
+          {# Adds clause update form #}
+          <button class="btn btn-link p-0 border-0"
+                  hx-get="{% url 'lang:english_clause_update' clause.id %}"
+                  hx-target="#update-form"
+                  hx-swap="innerHTML">
+              <i class="fas fa-edit fa-lg"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Rule clause examples -->
+      <div class="py-1">
+        <i>
+          {{ clause.examples }}
+        </i>
+      </div>
+      
+      <ul>
+        {% for subclause in clause.children %}
+          <li class="py-1">
+          <!-- Rule clause content -->
+          <div class="d-flex">
+            <span class="flex-grow-1 me-2">
+              {{ subclause.content }}
+            </span>
+            <div class="ms-auto">
+            {# Adds clause update form #}
+            <button class="btn btn-link p-0 border-0"
+                    hx-get="{% url 'lang:english_clause_update' subclause.id %}"
+                    hx-target="#update-form"
+                    hx-swap="innerHTML">
+              <i class="fas fa-edit fa-lg"></i>
+            </button>
+          </div>
+        </div>
+      {% endfor %}
+      </ul>
+      {% if clause.exception_content %}
+      <!-- Rule clause exception content -->
+      <div>
+          {{ clause.exception_content }}
+      </div>
+
+      <!-- Rule clause exceptions -->
+      <div class="py-1">
+        <i>
+          {{ clause.exceptions }}
+        </i>
+      </div>
+      {% endif %}
+    </li>
+
+    {% empty %}
+    <li class="py-1">Нет доступных правил</li>
+    {% endfor %}
+  </ul>
+</div><!-- End Rule clauses -->
+
+<!--=== Rule exceptions ===-->
+<div class="pb-3">
+  {% if rule.clauses and rule.exceptions %}
+  <h3>Исключения</h3>
+  <div class="py-1">
+    <i>
+      {{ rule.exceptions }}
+    </i>
+  </div>
+{% endif %}
+</div><!-- End Rule exceptions -->

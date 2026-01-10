@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
 
-{% block title %}{{ title }}{% endblock title %}{{ title }}
+{% block title %}{{ title }}{% endblock title %}
 
 {% block content %}
 <main class="container">
@@ -11,62 +13,27 @@
     <div class="col-auto">
       <a href="javascript:history.back()" class="wse-btn"
         >
-         Назад
+         {% trans 'button.back' %}
       </a>
     </div>
   </div>
 
-  <!--=== Rule title ====-->
-  <div>
-    <h3>{{ rule.title }}</h3>
-  </div><!-- End Rule title-->
+  {# Target to include the rule card via HTMX after rule update event #}
+  <div id="rule-card">
+    {% include 'lang/rule/detail/_card.html' %}
+  </div>
 
-  <!--=== Rule clauses ===-->
-  <div>
-    <ul>
-      {% for clause in rule.clauses %}
-        <li class="py-1">
-          <!-- Rule clause content -->
-          <div>
-            {{ clause.content }}
-          </div>
+  {# Button row #}
+  {% include 'lang/rule/detail/_buttons.html' %}
 
-          <!-- Rule clause examples -->
-          <div class="py-1">
-            <i>
-              {{ clause.examples }}
-            </i>
-          </div>
-
-          {% if clause.exception_content %}
-            <!-- Rule clause exception content -->
-            <div>
-              {{ clause.exception_content }}
-            </div>
-
-            <!-- Rule clause exceptions -->
-            <div class="py-1">
-              <i>
-                {{ clause.exceptions }}
-              </i>
-            </div>
-          {% endif %}
-        </li>
-
-      {% empty %}
-        <li class="py-1">Нет доступных правил</li>
-      {% endfor %}
-    </ul>
-  </div><!-- End Rule clauses -->
-
-  <!--=== Rule exceptions ===-->
-  <div class="pb-5">
-    <h3>Исключения</h3>
-        <div class="py-1">
-          <i>
-            {{ rule.exceptions }}
-          </i>
-        </div>
-  </div><!-- End Rule exceptions -->
+  {# Target to include the rule form via HTMX before rule update event #}
+  <div id="update-form" class="py-4"></div>
 </main>
 {% endblock content %}
+
+{% block script %}
+<script
+  type="module"
+  src="{% static 'js/scroll_to_form.js' %}"
+></script>
+{% endblock script %}

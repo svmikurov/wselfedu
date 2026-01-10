@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans 'lang.english.rule.list.user.title' %}{% endblock title %}
+
+{% block content %}
+<main class="container">
+  <div class="row py-3">
+    <div class="col">
+      <h1>{% trans 'lang.english.rule.list.user.header' %}</h1>
+    </div>
+    <div class="col-auto">
+      <a href="javascript:history.back()" class="wse-btn"
+        >
+         {% trans 'button.back' %}
+      </a>
+    </div>
+  </div>
+
+  <!--=== Rule table ===-->
+  <div>
+    {% include 'lang/rule/list/_table.html' %}
+  </div><!-- End Rule table -->
+
+  <!--=== Buttons row ===-->
+  <div class="py-3">
+    <button class="wse-btn"
+            hx-get={% url 'lang:english_rule_create' %}
+            hx-target="#form-create"
+            hx-swap="innerHTML">
+      {% trans 'button.create' %}
+    </button>
+  </div><!-- Buttons row -->
+
+  <div id="form-create"></div>
+</main>
+{% endblock content %}
