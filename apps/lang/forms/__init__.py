@@ -10,10 +10,13 @@ __all__ = [
     # Translation
     'EnglishCreateForm',
     'EnglishUpdateForm',
-    # English language rule
+    # Rule
+    'ClauseForm',
+    'ClauseExampleForm',
     'RuleForm',
-    'RuleExampleForm',
     'RuleExceptionForm',
+    # Mentorship
+    'RuleAssignmentForm',
 ]
 
 from .parameters import (
@@ -24,7 +27,9 @@ from .parameters import (
     TranslationSettingsFormSet,
 )
 from .rule import (
-    RuleExampleForm,
+    ClauseExampleForm,
+    ClauseForm,
+    RuleAssignmentForm,
     RuleExceptionForm,
     RuleForm,
 )
