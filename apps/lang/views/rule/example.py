@@ -3,7 +3,7 @@
 from django.views import generic
 
 
-class RuleExampleView(generic.TemplateView):
+class ClauseExampleView(generic.TemplateView):
     """Rule example view."""
 
 
