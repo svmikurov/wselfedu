@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 00:51+0000\n"
+"POT-Creation-Date: 2026-01-09 07:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,6 +28,27 @@ msgstr "Английский язык | WSE"
 msgid "lang.english.page.index.header"
 msgstr "Английский язык"
 
+#: apps/lang/templates/lang/rule/detail/_buttons.html:11
+#: apps/lang/templates/lang/rule/list/_table.html:25
+#: apps/lang/templates/lang/rule/list/_table.html:67
+msgid "button.assign"
+msgstr "Назначить"
+
+#: apps/lang/templates/lang/rule/detail/_buttons.html:27
+msgid "button.add.example"
+msgstr "Добавить пример"
+
+#: apps/lang/templates/lang/rule/detail/_buttons.html:33
+msgid "button.add.exception"
+msgstr "Добавить исключение"
+
+#: apps/lang/templates/lang/rule/detail/index.html:15
+#: apps/lang/templates/lang/rule/index.html:15
+#: apps/lang/templates/lang/rule/list/index.html:15
+#: apps/lang/templates/lang/rule/mentorship/index.html:15
+msgid "button.back"
+msgstr "Назад"
+
 #: apps/lang/templates/lang/rule/index.html:4
 msgid "lang.english.rule.page.index.title"
 msgstr "Правила Английского языка | WSE"
@@ -36,61 +57,72 @@ msgstr "Правила Английского языка | WSE"
 msgid "lang.english.rule.page.index.header"
 msgstr "Правила Английского языка"
 
-#: apps/lang/templates/lang/rule/index.html:15
-#: apps/lang/templates/lang/rule/list/index_mentor.html:15
-#: apps/lang/templates/lang/rule/list/index_student.html:15
-#: apps/lang/templates/lang/rule/list/index_user.html:15
-msgid "button.back"
-msgstr "Назад"
-
-#: apps/lang/templates/lang/rule/index.html:25
+#: apps/lang/templates/lang/rule/index.html:26
 msgid "button.rule.add"
 msgstr "Добавить правило"
 
-#: apps/lang/templates/lang/rule/index.html:32
+#: apps/lang/templates/lang/rule/index.html:40
 msgid "button.rule.list.user"
 msgstr "Мои правила"
 
-#: apps/lang/templates/lang/rule/index.html:42
-msgid "button.rule.list.mentor"
-msgstr "Назначенные правила ученикам"
-
-#: apps/lang/templates/lang/rule/index.html:49
+#: apps/lang/templates/lang/rule/index.html:48
 msgid "button.rule.list.student"
 msgstr "Изучаемые правила"
 
-#: apps/lang/templates/lang/rule/list/_table_mentor.html:6
-#: apps/lang/templates/lang/rule/list/_table_student.html:6
-#: apps/lang/templates/lang/rule/list/_table_user.html:6
+#: apps/lang/templates/lang/rule/list/_table.html:6
 msgid "rule"
 msgstr "Правило"
 
-#: apps/lang/templates/lang/rule/list/_table_mentor.html:22
-#: apps/lang/templates/lang/rule/list/_table_student.html:22
-#: apps/lang/templates/lang/rule/list/_table_user.html:22
+#: apps/lang/templates/lang/rule/list/_table.html:34
+#: apps/lang/templates/lang/rule/list/_table.html:71
+msgid "button.selfedu"
+msgstr "Запланировать"
+
+#: apps/lang/templates/lang/rule/list/_table.html:41
+#: apps/lang/templates/lang/rule/list/_table.html:75
+msgid "button.update"
+msgstr "Изменить"
+
+#: apps/lang/templates/lang/rule/list/_table.html:46
+#: apps/lang/templates/lang/rule/list/_table.html:79
+msgid "button.delete"
+msgstr "Удалить"
+
+#: apps/lang/templates/lang/rule/list/_table.html:50
+msgid "button.delete.confirm"
+msgstr "Отправить"
+
+#: apps/lang/templates/lang/rule/list/_table.html:57
 msgid "empty.rule"
 msgstr "Нет доступных правил"
 
-#: apps/lang/templates/lang/rule/list/index_mentor.html:4
-msgid "lang.english.rule.list.mentor.title"
-msgstr "Назначенные правила ученикам | WSE"
-
-#: apps/lang/templates/lang/rule/list/index_mentor.html:10
-msgid "lang.english.rule.list.mentor.header"
-msgstr "Назначенные правила ученикам"
-
-#: apps/lang/templates/lang/rule/list/index_student.html:4
-msgid "lang.english.rule.list.student.title"
-msgstr "Изучаемые правила | WSE"
-
-#: apps/lang/templates/lang/rule/list/index_student.html:10
-msgid "lang.english.rule.list.student.header"
-msgstr "Изучаемые правила"
-
-#: apps/lang/templates/lang/rule/list/index_user.html:4
+#: apps/lang/templates/lang/rule/list/index.html:4
 msgid "lang.english.rule.list.user.title"
 msgstr "Мои правила | WSE"
 
-#: apps/lang/templates/lang/rule/list/index_user.html:10
+#: apps/lang/templates/lang/rule/list/index.html:10
 msgid "lang.english.rule.list.user.header"
 msgstr "Мои правила"
+
+#: apps/lang/templates/lang/rule/mentorship/index.html:4
+msgid "lang.english.rule.assignation.title"
+msgstr "Назначить изучение правила | WSE"
+
+#: apps/lang/templates/lang/rule/mentorship/index.html:10
+msgid "lang.english.rule.assignation.header"
+msgstr "Назначить изучение правила"
+
+#~ msgid "button.rule.list.mentor"
+#~ msgstr "Назначенные правила ученикам"
+
+#~ msgid "lang.english.rule.list.mentor.title"
+#~ msgstr "Назначенные правила ученикам | WSE"
+
+#~ msgid "lang.english.rule.list.mentor.header"
+#~ msgstr "Назначенные правила ученикам"
+
+#~ msgid "lang.english.rule.list.student.title"
+#~ msgstr "Изучаемые правила | WSE"
+
+#~ msgid "lang.english.rule.list.student.header"
+#~ msgstr "Изучаемые правила"

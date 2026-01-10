@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 00:51+0000\n"
+"POT-Creation-Date: 2026-01-09 07:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,6 +26,27 @@ msgstr "Engelse taal | WSE"
 msgid "lang.english.page.index.header"
 msgstr "Engelse taal"
 
+#: apps/lang/templates/lang/rule/detail/_buttons.html:11
+#: apps/lang/templates/lang/rule/list/_table.html:25
+#: apps/lang/templates/lang/rule/list/_table.html:67
+msgid "button.assign"
+msgstr "Toewijzen"
+
+#: apps/lang/templates/lang/rule/detail/_buttons.html:27
+msgid "button.add.example"
+msgstr "Voeg een voorbeeld toe"
+
+#: apps/lang/templates/lang/rule/detail/_buttons.html:33
+msgid "button.add.exception"
+msgstr "Een uitzondering toevoegen"
+
+#: apps/lang/templates/lang/rule/detail/index.html:15
+#: apps/lang/templates/lang/rule/index.html:15
+#: apps/lang/templates/lang/rule/list/index.html:15
+#: apps/lang/templates/lang/rule/mentorship/index.html:15
+msgid "button.back"
+msgstr "Rug"
+
 #: apps/lang/templates/lang/rule/index.html:4
 msgid "lang.english.rule.page.index.title"
 msgstr "Regels van de Engelse taal | WSE"
@@ -34,61 +55,73 @@ msgstr "Regels van de Engelse taal | WSE"
 msgid "lang.english.rule.page.index.header"
 msgstr "Regels van de Engelse taal"
 
-#: apps/lang/templates/lang/rule/index.html:15
-#: apps/lang/templates/lang/rule/list/index_mentor.html:15
-#: apps/lang/templates/lang/rule/list/index_student.html:15
-#: apps/lang/templates/lang/rule/list/index_user.html:15
-msgid "button.back"
-msgstr "Voeg een regel toe"
-
-#: apps/lang/templates/lang/rule/index.html:25
+#: apps/lang/templates/lang/rule/index.html:26
 msgid "button.rule.add"
 msgstr "Voeg een regel toe"
 
-#: apps/lang/templates/lang/rule/index.html:32
+#: apps/lang/templates/lang/rule/index.html:40
 msgid "button.rule.list.user"
 msgstr "Mijn regels"
 
-#: apps/lang/templates/lang/rule/index.html:42
-msgid "button.rule.list.mentor"
-msgstr "Toegewezen regels aan studenten"
-
-#: apps/lang/templates/lang/rule/index.html:49
+#: apps/lang/templates/lang/rule/index.html:48
 msgid "button.rule.list.student"
 msgstr "Te leren regels"
 
-#: apps/lang/templates/lang/rule/list/_table_mentor.html:6
-#: apps/lang/templates/lang/rule/list/_table_student.html:6
-#: apps/lang/templates/lang/rule/list/_table_user.html:6
+#: apps/lang/templates/lang/rule/list/_table.html:6
 msgid "rule"
 msgstr "Regel"
 
-#: apps/lang/templates/lang/rule/list/_table_mentor.html:22
-#: apps/lang/templates/lang/rule/list/_table_student.html:22
-#: apps/lang/templates/lang/rule/list/_table_user.html:22
+#: apps/lang/templates/lang/rule/list/_table.html:34
+#: apps/lang/templates/lang/rule/list/_table.html:71
+msgid "button.selfedu"
+msgstr "Schema"
+
+#: apps/lang/templates/lang/rule/list/_table.html:41
+#: apps/lang/templates/lang/rule/list/_table.html:75
+msgid "button.update"
+msgstr "Wijziging"
+
+#: apps/lang/templates/lang/rule/list/_table.html:46
+#: apps/lang/templates/lang/rule/list/_table.html:79
+msgid "button.delete"
+msgstr "Verdwalen"
+
+#: apps/lang/templates/lang/rule/list/_table.html:50
+msgid "button.delete.confirm"
+msgstr "Versturen"
+
+#: apps/lang/templates/lang/rule/list/_table.html:57
 msgid "empty.rule"
 msgstr "Geen regels beschikbaar"
 
-#: apps/lang/templates/lang/rule/list/index_mentor.html:4
-msgid "lang.english.rule.list.mentor.title"
-msgstr "Toegewezen regels aan studenten | WSE"
-
-#: apps/lang/templates/lang/rule/list/index_mentor.html:10
-msgid "lang.english.rule.list.mentor.header"
-msgstr "Toegewezen regels aan studenten"
-
-#: apps/lang/templates/lang/rule/list/index_student.html:4
-msgid "lang.english.rule.list.student.title"
-msgstr "Te leren regels | WSE"
-
-#: apps/lang/templates/lang/rule/list/index_student.html:10
-msgid "lang.english.rule.list.student.header"
-msgstr "Te leren regels"
-
-#: apps/lang/templates/lang/rule/list/index_user.html:4
+#: apps/lang/templates/lang/rule/list/index.html:4
 msgid "lang.english.rule.list.user.title"
 msgstr "Mijn regels | WSE"
 
-#: apps/lang/templates/lang/rule/list/index_user.html:10
+#: apps/lang/templates/lang/rule/list/index.html:10
 msgid "lang.english.rule.list.user.header"
 msgstr "Mijn regels"
+
+#: apps/lang/templates/lang/rule/mentorship/index.html:4
+msgid "lang.english.rule.assignation.title"
+msgstr "Wijs een regelonderzoek toe | WSE"
+
+#: apps/lang/templates/lang/rule/mentorship/index.html:10
+
+msgid "lang.english.rule.assignation.header"
+msgstr "Wijs een regelonderzoek toe"
+
+#~ msgid "button.rule.list.mentor"
+#~ msgstr "Toegewezen regels aan studenten"
+
+#~ msgid "lang.english.rule.list.mentor.title"
+#~ msgstr "Toegewezen regels aan studenten | WSE"
+
+#~ msgid "lang.english.rule.list.mentor.header"
+#~ msgstr "Toegewezen regels aan studenten"
+
+#~ msgid "lang.english.rule.list.student.title"
+#~ msgstr "Te leren regels | WSE"
+
+#~ msgid "lang.english.rule.list.student.header"
+#~ msgstr "Te leren regels"
