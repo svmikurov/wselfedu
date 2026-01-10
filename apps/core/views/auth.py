@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from functools import cached_property
 from typing import Generic, TypeVar
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -13,10 +14,10 @@ from apps.users.models import Person
 ObjectT = TypeVar('ObjectT', bound=models.Model)
 
 
-class UserRequestMixin:
+class UserRequestMixin(LoginRequiredMixin):
     """Provides the user who sent the request."""
 
-    @property
+    @cached_property
     def user(self) -> Person:
         """Get user who sent the request."""
         if not isinstance(self.request.user, Person):  # type: ignore[attr-defined]
@@ -33,7 +34,6 @@ class OwnerMixin:
 
 class OwnershipRequiredMixin(
     UserRequestMixin,
-    LoginRequiredMixin,
     UserPassesTestMixin,
     Generic[ObjectT],
 ):
