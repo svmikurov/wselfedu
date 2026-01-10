@@ -1,6 +1,8 @@
 """Language rules models."""
 
+from django.core.exceptions import ValidationError
 from django.db import models
+from django.urls import reverse
 
 
 class Rule(models.Model):
@@ -64,6 +66,10 @@ class Rule(models.Model):
     def __str__(self) -> str:
         """Return the string representation."""
         return str(self.title)
+
+    def get_absolute_url(self) -> str:
+        """Get rule detail url path."""
+        return reverse('lang:english_rule_detail', kwargs={'pk': self.pk})
 
 
 class RuleClause(models.Model):
@@ -136,6 +142,17 @@ class RuleClause(models.Model):
     def __str__(self) -> str:
         """Return the string representation."""
         return str(self.content)
+
+    def validate_depth(self) -> None:
+        """Validate clause depth.
+
+        Raises validation error if parent has parent.
+        """
+        if self.parent and self.parent.parent:
+            raise ValidationError(
+                'Maximum one level of nesting.'
+                'You cannot create sub-items within sub-items.'
+            )
 
 
 class RuleException(models.Model):
