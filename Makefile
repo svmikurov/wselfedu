@@ -132,6 +132,12 @@ dump-lang:
 	lang.englishmark \
 	lang.langcategory \
 	--indent 2 > temp/lang_english_related.json
+	python manage.py dumpdata \
+	users.person \
+	users.mentorship \
+	users.mentorshiprequest \
+	sessions.session \
+	--indent 2 > temp/users_related.json
 
 # Localization
 locale-make:
