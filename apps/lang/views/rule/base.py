@@ -86,7 +86,7 @@ class BaseRuleDetailView(
         adapter: WebRuleAdapterABC = Provide[CONTAINER.rule_web_adapter],
         **kwargs: object,
     ) -> HttpResponseBase:
-        """Inject rule repository."""
+        """Inject the dependencies."""
         self._repository = repository
         self._adapter = adapter
         return super().dispatch(request, *args, **kwargs)
