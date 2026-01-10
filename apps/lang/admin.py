@@ -125,10 +125,25 @@ class RuleClauseAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Rule clause model administration."""
 
     list_display = [
-        'rule',
+        'rule_str',
+        'parent_str',
         'content',
         'exception_content',
     ]
+    list_select_related = ['rule', 'parent']
+
+    def parent_str(self, obj: models.RuleClause) -> str:
+        """Get string representation of parent."""
+        return str(obj.parent)
+
+    def rule_str(self, obj: models.RuleClause) -> str:
+        """Get string representation of rule."""
+        return str(obj.rule)
+
+    rule_str.short_description = 'Правило'  # type: ignore[attr-defined]
+    rule_str.admin_order_field = 'rule'  # type: ignore[attr-defined]
+    parent_str.short_description = 'Родительский пункт'  # type: ignore[attr-defined]
+    parent_str.admin_order_field = 'parent'  # type: ignore[attr-defined]
 
 
 @admin.register(models.RuleExample)
