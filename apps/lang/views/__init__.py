@@ -26,12 +26,12 @@ __all__ = [
     'RuleCreateView',
     'RuleUpdateView',
     'RuleDeleteView',
-    'RuleExampleView',
+    'ClauseCreateView',
+    'ClauseExampleView',
     'RuleExceptionView',
-    # Rule for mentorship
-    'RuleStudentView',
-    'RuleStudentListView',
-    'RuleMentorListView',
+    # Mentorship
+    'RuleAssignmentCreate',
+    'ClauseUpdateView',
 ]
 
 from .index import IndexLangView
@@ -47,16 +47,16 @@ from .presentation import (
     EnglishTranslationStudyView,
 )
 from .rule import (
+    ClauseCreateView,
+    ClauseExampleView,
+    ClauseUpdateView,
+    RuleAssignmentCreate,
     RuleCreateView,
     RuleDeleteView,
     RuleDetailView,
-    RuleExampleView,
     RuleExceptionView,
     RuleIndexView,
     RuleListView,
-    RuleMentorListView,
-    RuleStudentListView,
-    RuleStudentView,
     RuleUpdateView,
 )
 from .settings import (
