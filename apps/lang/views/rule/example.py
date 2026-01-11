@@ -39,7 +39,7 @@ class ClauseTaskExampleView(UserRequestMixin, generic.CreateView):  # type: igno
         return reverse(
             'lang:english_rule_detail', kwargs={'pk': self.kwargs['pk']}
         )
-    
+
 
 class ClauseExampleView(UserRequestMixin, generic.FormView):  # type: ignore[type-arg]
     """Rule example view."""
