@@ -61,19 +61,19 @@ urlpatterns = [
         name='english_clause_update',
     ),
     path(
-        'rule/<int:pk>/edit-example/',
-        views.ClauseExampleView.as_view(),
-        name='english_rule_edit_example',
+        'rule/<int:pk>/add-word-example/',
+        views.WordExampleAddView.as_view(),
+        name='english_example_word_add',
     ),
     path(
-        'rule/<int:pk>/edit-task-example/',
-        views.ClauseTaskExampleView.as_view(),
-        name='english_rule_edit_task_example',
+        'rule/<int:pk>/add-task-example/',
+        views.TaskExampleAddView.as_view(),
+        name='english_example_task_add',
     ),
     path(
-        'rule/<int:pk>/edit-exception/',
-        views.RuleExceptionView.as_view(),
-        name='english_rule_edit_exception',
+        'rule/<int:pk>/add-exception/',
+        views.ExceptionAddView.as_view(),
+        name='english_exception_add',
     ),
     # -----------
     # Translation
