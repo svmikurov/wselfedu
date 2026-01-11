@@ -14,7 +14,7 @@ from apps.lang import forms, models
 """Rule example/exception views."""
 
 
-class ClauseTaskExampleView(UserRequestMixin, generic.CreateView):  # type: ignore[type-arg]
+class TaskExampleAddView(UserRequestMixin, generic.CreateView):  # type: ignore[type-arg]
     """Rule example view."""
 
     template_name = 'lang/rule/detail/_form.html'
@@ -41,8 +41,11 @@ class ClauseTaskExampleView(UserRequestMixin, generic.CreateView):  # type: igno
         )
 
 
-class ClauseExampleView(UserRequestMixin, generic.FormView):  # type: ignore[type-arg]
-    """Rule example view."""
+class WordExampleAddView(
+    UserRequestMixin,
+    generic.FormView,  # type: ignore[type-arg]
+):
+    """Rule clause translation example edit view."""
 
     template_name = 'lang/rule/detail/_form.html'
     form_class = forms.ClauseTranslationForm
@@ -52,7 +55,7 @@ class ClauseExampleView(UserRequestMixin, generic.FormView):  # type: ignore[typ
         kwargs = super().get_form_kwargs()
 
         rule = get_object_or_404(
-            models.Rule,
+            models.RuleClause,
             pk=self.kwargs['pk'],
             user=self.user,
         )
@@ -76,5 +79,5 @@ class ClauseExampleView(UserRequestMixin, generic.FormView):  # type: ignore[typ
         )
 
 
-class RuleExceptionView(generic.TemplateView):
+class ExceptionAddView(generic.TemplateView):
     """Rule example view."""
