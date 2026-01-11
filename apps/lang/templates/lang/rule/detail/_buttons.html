@@ -1,17 +1,16 @@
 {% load i18n %}
 
 <!--=== Button row ====-->
-<div class="row gap-2">
-  {% comment %} {% if rule.user_is_mentor %} {% endcomment %}
+{# Rule clause buttons #}
+<div class="row gap-2 mb-2">
+
   {# Assign rule study to student #}
   <a class="wse-btn"
      href={% url 'lang:english_rule_assignment_create' rule.id %}
     >
       {% trans 'button.assign' %}
   </a>
-  {% comment %} {% endif %} {% endcomment %}
 
-  {% comment %} {% if rule.user_is_owner %} {% endcomment %}
   {# Create rule clause #}
   <button class="wse-btn"
           hx-get={% url 'lang:english_clause_create' rule.id %}
@@ -19,18 +18,30 @@
           hx-swap="innerHTML">
     {% trans 'button.create' %}
   </button>
+</div>
+
+{# Rule clause example buttons #}
+<div class="row gap-2 my-2">
+
+  {# Add rule task example/exception #}
+  <button class="wse-btn"
+          hx-get={% url 'lang:english_rule_edit_task_example' rule.id %}
+          hx-target="#update-form"
+          hx-swap="innerHTML">
+    {% trans 'button.add.example.task' %}
+  </button>
 
   {# Add rule example/exception #}
   <button class="wse-btn"
           hx-get={% url 'lang:english_rule_edit_example' rule.id %}
           hx-target="#update-form"
           hx-swap="innerHTML">
-    {% trans 'button.add.example' %}
+    {% trans 'button.add.example.word' %}
   </button>
 
   {# Add rule clause exception #}
   <button class="wse-btn">
     {% trans 'button.add.exception' %}
   </button>
-  {% comment %} {% endif %} {% endcomment %}
+
 </div><!-- End Button row -->
