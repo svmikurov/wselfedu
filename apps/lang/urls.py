@@ -21,7 +21,7 @@ urlpatterns = [
     # ----------------------
     path(
         'rule/',
-        views.RuleIndexView.as_view(),
+        views.RuleView.as_view(),
         name='english_rule',
     ),
     path(
