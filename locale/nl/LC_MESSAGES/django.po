@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 07:40+0000\n"
+"POT-Creation-Date: 2026-01-11 01:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: apps/lang/forms/layouts.py:15
+msgid "button.cancel"
+msgstr "Annuleren"
+
+#: apps/lang/forms/layouts.py:25
+msgid "button.submit"
+msgstr "Indienen"
 
 #: apps/lang/templates/lang/index.html:4
 msgid "lang.english.page.index.title"
@@ -32,15 +40,24 @@ msgstr "Engelse taal"
 msgid "button.assign"
 msgstr "Toewijzen"
 
-#: apps/lang/templates/lang/rule/detail/_buttons.html:27
-msgid "button.add.example"
-msgstr "Voeg een voorbeeld toe"
+#: apps/lang/templates/lang/rule/detail/_buttons.html:19
+#: apps/lang/templates/lang/rule/list/index.html:31
+msgid "button.create"
+msgstr "Creëren"
 
-#: apps/lang/templates/lang/rule/detail/_buttons.html:33
+#: apps/lang/templates/lang/rule/detail/_buttons.html:31
+msgid "button.add.example.task"
+msgstr "Voeg een voorbeeldvraag toe"
+
+#: apps/lang/templates/lang/rule/detail/_buttons.html:39
+msgid "button.add.example.word"
+msgstr "Voeg een voorbeeldwoord toe"
+
+#: apps/lang/templates/lang/rule/detail/_buttons.html:44
 msgid "button.add.exception"
 msgstr "Een uitzondering toevoegen"
 
-#: apps/lang/templates/lang/rule/detail/index.html:15
+#: apps/lang/templates/lang/rule/detail/index.html:16
 #: apps/lang/templates/lang/rule/index.html:15
 #: apps/lang/templates/lang/rule/list/index.html:15
 #: apps/lang/templates/lang/rule/mentorship/index.html:15
@@ -107,7 +124,6 @@ msgid "lang.english.rule.assignation.title"
 msgstr "Wijs een regelonderzoek toe | WSE"
 
 #: apps/lang/templates/lang/rule/mentorship/index.html:10
-
 msgid "lang.english.rule.assignation.header"
 msgstr "Wijs een regelonderzoek toe"
 
