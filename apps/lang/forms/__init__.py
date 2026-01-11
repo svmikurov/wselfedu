@@ -30,10 +30,10 @@ from .parameters import (
 from .rule import (
     ClauseExampleForm,
     ClauseForm,
+    ClauseTranslationForm,
     RuleAssignmentForm,
     RuleExceptionForm,
     RuleForm,
-    ClauseTranslationForm,
 )
 from .translation import (
     EnglishCreateForm,
