@@ -107,7 +107,7 @@ class WebRuleAdapter(WebRuleAdapterABC):
             if instance.example_type == models.RuleExample.ExampleType.EXAMPLE:  # type: ignore[union-attr]
                 examples.append(self._build_example(instance))
             elif (
-                instance.example_type  # type: ignore[union-attr]
+                instance.example_type  # type: ignore[attr-defined]
                 == models.RuleExample.ExampleType.EXCEPTION
             ):
                 exceptions.append(self._build_example(instance))
