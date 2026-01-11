@@ -29,6 +29,7 @@ __all__ = [
     'ClauseCreateView',
     'ClauseExampleView',
     'RuleExceptionView',
+    'ClauseTaskExampleView',
     # Mentorship
     'RuleAssignmentCreate',
     'ClauseUpdateView',
@@ -49,6 +50,7 @@ from .presentation import (
 from .rule import (
     ClauseCreateView,
     ClauseExampleView,
+    ClauseTaskExampleView,
     ClauseUpdateView,
     RuleAssignmentCreate,
     RuleCreateView,
