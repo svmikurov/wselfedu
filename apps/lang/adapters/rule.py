@@ -126,13 +126,13 @@ class WebRuleAdapter(WebRuleAdapterABC):
         for instance in examples_qs:
             if (
                 instance.example_type  # type: ignore[union-attr]:
-                == models.RuleTaskExample.ExampleType.EXAMPLE
+                == models.ExampleType.EXAMPLE
             ):
                 examples.append(self._build_task_example(instance))
 
             elif (
                 instance.example_type  # type: ignore[union-attr]
-                == models.RuleTaskExample.ExampleType.EXCEPTION
+                == models.ExampleType.EXCEPTION
             ):
                 exceptions.append(self._build_task_example(instance))
 
