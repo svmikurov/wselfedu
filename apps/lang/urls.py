@@ -66,6 +66,11 @@ urlpatterns = [
         name='english_rule_edit_example',
     ),
     path(
+        'rule/<int:pk>/edit-task-example/',
+        views.ClauseTaskExampleView.as_view(),
+        name='english_rule_edit_task_example',
+    ),
+    path(
         'rule/<int:pk>/edit-exception/',
         views.RuleExceptionView.as_view(),
         name='english_rule_edit_exception',
