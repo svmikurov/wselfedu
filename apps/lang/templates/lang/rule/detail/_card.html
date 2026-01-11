@@ -44,58 +44,39 @@
       </div>
 
       <!-- Rule clause task examples -->
-      <div class="py-1">
-        <i>
-          {{ clause.task_examples }}
-        </i>
-      </div>
-
-      <!-- Rule clause examples -->
-      <div class="py-1">
-        <i>
-          {{ clause.examples }}
-        </i>
-      </div>
+      {% include 'lang/rule/detail/_examples.html' %}
       
       <ul>
-        {% for subclause in clause.children %}
+        {% for clause in clause.children %}
           <li class="py-1">
           <!-- Rule clause content -->
           <div class="d-flex">
             <span class="flex-grow-1 me-2">
-              {{ subclause.content }}
+              {{ clause.content }}
             </span>
             <div class="ms-auto">
-            {# Adds clause update form #}
-            <button class="btn btn-link p-0 border-0"
-                    hx-get="{% url 'lang:english_clause_update' subclause.id %}"
-                    hx-target="#update-form"
-                    hx-swap="innerHTML">
-              <i class="fas fa-edit fa-lg"></i>
-            </button>
+              {# Adds clause update form #}
+              <button class="btn btn-link p-0 border-0"
+                      hx-get="{% url 'lang:english_clause_update' clause.id %}"
+                      hx-target="#update-form"
+                      hx-swap="innerHTML">
+                <i class="fas fa-edit fa-lg"></i>
+              </button>
+            </div>
           </div>
-        </div>
-      {% endfor %}
+
+          <!-- Rule clause task examples -->
+          {% include 'lang/rule/detail/_examples.html' %}
+        {% endfor %}
       </ul>
+  
       {% if clause.exception_content %}
-      <!-- Rule clause exception content -->
-      <div>
+        <!-- Rule clause exception content -->
+        <div>
           {{ clause.exception_content }}
-      </div>
+        </div>
 
-      <!-- Rule clause exceptions -->
-      <div class="py-1">
-        <i>
-          {{ clause.exceptions }}
-        </i>
-      </div>
-
-      <!-- Rule clause task exceptions -->
-      <div class="py-1">
-        <i>
-          {{ clause.task_exceptions }}
-        </i>
-      </div>
+        {% include 'lang/rule/detail/_exceptions.html' %}
       {% endif %}
     </li>
 
@@ -109,7 +90,7 @@
 <div class="pb-3">
   {% if rule.clauses and rule.exceptions %}
   <h3>Исключения</h3>
-  <div class="py-1">
+  <div>
     <i>
       {{ rule.exceptions }}
     </i>
