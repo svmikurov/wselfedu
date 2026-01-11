@@ -10,7 +10,6 @@ from .. import models
 from . import queries
 
 if TYPE_CHECKING:
-
     from apps.users.models import Person
 
 
