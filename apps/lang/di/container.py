@@ -83,6 +83,8 @@ class LanguageContainer(containers.DeclarativeContainer):
 
     rule_web_adapter = providers.Factory(
         adapters.WebRuleAdapter,
+        # HACK: Implement language rule configuration
+        config={'example_count': None},
     )
 
     # --------
