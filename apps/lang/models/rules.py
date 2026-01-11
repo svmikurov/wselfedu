@@ -2,6 +2,7 @@
 
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.urls import reverse
 
 
 class Rule(models.Model):
@@ -265,7 +266,6 @@ class RuleTaskExample(models.Model):
 
         ordering = ['clause', 'created_at']
         unique_together = [
-            ['question_translation', 'answer_translation'],
             ['clause', 'question_translation', 'answer_translation'],
         ]
 
