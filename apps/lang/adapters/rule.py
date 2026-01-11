@@ -9,10 +9,11 @@ from . import WebRuleAdapterABC, dto
 
 # TODO: Refactor this code
 
+
 class WebRuleAdapter(WebRuleAdapterABC):
     """Language rule web adapter."""
 
-    example_count = 5
+    EXAMPLE_COUNT: int | None = 5
 
     def __init__(self, config: dict[str, Any] | None = None) -> None:
         """Construct the adapter."""
@@ -84,8 +85,10 @@ class WebRuleAdapter(WebRuleAdapterABC):
 
     def _join_examples(self, items: list[str]) -> str:
         """Combine examples/exceptions into a string representation."""
-        example_count = self._config.get('example_count', self.example_count)
+        example_count = self._config.get('example_count', self.EXAMPLE_COUNT)
+        if example_count:
         return ', '.join(items[:example_count])
+        return ', '.join(items)
 
     def _get_examples(
         self,
