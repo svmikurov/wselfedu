@@ -11,7 +11,7 @@ from crispy_forms.layout import (  # type: ignore[import-untyped]
 )
 from django import forms
 from django.db import transaction
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse
 
 from apps.core import models as core_models
 from apps.users.models import Mentorship
@@ -161,12 +161,12 @@ class ClauseExampleForm(forms.ModelForm):  # type: ignore[type-arg]
         super().__init__(*args, **kwargs)  # type: ignore
 
         form_action = reverse(
-            'lang:english_rule_edit_example',
+            'lang:english_rule_edit_task_example',
             kwargs={'pk': rule.pk},
         )
 
         self.initial['title'] = rule
-        
+
         # Rule clause choice field
         self.fields['clause'] = forms.ModelChoiceField(
             queryset=models.RuleClause.objects.filter(rule=rule),
@@ -177,9 +177,7 @@ class ClauseExampleForm(forms.ModelForm):  # type: ignore[type-arg]
             label='Пример / Исключение',
         )
         self.fields['source'] = forms.ModelChoiceField(
-            queryset=core_models.Source.objects.filter(
-                user=self.user
-            ),
+            queryset=core_models.Source.objects.filter(user=self.user),
             label='Источник',
             required=False,
         )
@@ -229,74 +227,72 @@ class ClauseExampleForm(forms.ModelForm):  # type: ignore[type-arg]
 
     # HACK: Fix user getting
     @transaction.atomic
-    def save(self, commit: bool = True) -> models.Rule:
+    def save(self, commit: bool = True) -> models.RuleTaskExample:
         """Save."""
-        rule = super().save(commit=False)
+        user = self.user
+        cleaned_data = self.cleaned_data
 
-        if commit:
-            rule.save()
-            user = rule.user
+        # Native and foreign words
+        question_eng_word, _ = models.EnglishWord.objects.get_or_create(
+            user=user,
+            word=cleaned_data['question_foreign_word'],
+        )
+        question_native_word, _ = models.NativeWord.objects.get_or_create(
+            user=user,
+            word=cleaned_data['question_native_word'],
+        )
+        answer_eng_word, _ = models.EnglishWord.objects.get_or_create(
+            user=user,
+            word=cleaned_data['answer_foreign_word'],
+        )
+        answer_native_word, _ = models.NativeWord.objects.get_or_create(
+            user=user,
+            word=cleaned_data['answer_native_word'],
+        )
 
-            # Native and foreign words
-            question_eng_word, _ = models.EnglishWord.objects.get_or_create(
+        # Word translations
+        question_translation, _ = (
+            models.EnglishTranslation.objects.get_or_create(
                 user=user,
-                word=self.cleaned_data['question_foreign_word'],
+                native=question_native_word,
+                foreign=question_eng_word,
+                source=cleaned_data['source'],
             )
-            question_native_word, _ = models.NativeWord.objects.get_or_create(
-                user=user,
-                word=self.cleaned_data['question_native_word'],
-            )
-            answer_eng_word, _ = models.EnglishWord.objects.get_or_create(
-                user=user,
-                word=self.cleaned_data['answer_foreign_word'],
-            )
-            answer_native_word, _ = models.NativeWord.objects.get_or_create(
-                user=user,
-                word=self.cleaned_data['answer_native_word'],
-            )
-
-            # Word translations
-            question_translation, _ = (
-                models.EnglishTranslation.objects.get_or_create(
+        )
+        for mark in cleaned_data.get('question_marks', []):
+            if mark.user == user:
+                models.EnglishMark.objects.get_or_create(
                     user=user,
-                    native=question_native_word,
-                    foreign=question_eng_word,
-                    source=self.cleaned_data['source'],
+                    translation=question_translation,
+                    mark=mark,
                 )
-            )
-            for mark in self.cleaned_data.get('question_marks', []):
-                if mark.user == user:
-                    models.EnglishMark.objects.get_or_create(
-                        user=user,
-                        translation=question_translation,
-                        mark=mark,
-                    )
-            answer_translation, _ = (
-                models.EnglishTranslation.objects.get_or_create(
-                    user=user,
-                    native=answer_native_word,
-                    foreign=answer_eng_word,
-                    source=self.cleaned_data['source'],
-                )
-            )
-            for mark in self.cleaned_data.get('answer_marks', []):
-                if mark.user == user:
-                    models.EnglishMark.objects.get_or_create(
-                        user=user,
-                        translation=answer_translation,
-                        mark=mark,
-                    )
-
-            # Rule case translation examples
-            _, _ = models.RuleTaskExample.objects.get_or_create(
-                clause=self.cleaned_data['clause'],
-                example_type=self.cleaned_data['example_type'],
-                question_translation=question_translation,
-                answer_translation=answer_translation,
+        answer_translation, _ = (
+            models.EnglishTranslation.objects.get_or_create(
                 user=user,
+                native=answer_native_word,
+                foreign=answer_eng_word,
+                source=self.cleaned_data['source'],
             )
+        )
+        for mark in self.cleaned_data.get('answer_marks', []):
+            if mark.user == user:
+                models.EnglishMark.objects.get_or_create(
+                    user=user,
+                    translation=answer_translation,
+                    mark=mark,
+                )
 
-        return rule  # type: ignore[no-any-return]
+        # Rule case translation examples
+        rule_example, _ = models.RuleTaskExample.objects.get_or_create(
+            clause=self.cleaned_data['clause'],
+            example_type=self.cleaned_data['example_type'],
+            question_translation=question_translation,
+            answer_translation=answer_translation,
+            user=user,
+        )
+
+        return rule_example  # type: ignore[no-any-return]
+
 
 class ClauseTranslationForm(forms.Form):  # type: ignore[type-arg]
     """Clause rule translation examples form."""
@@ -332,9 +328,7 @@ class ClauseTranslationForm(forms.Form):  # type: ignore[type-arg]
             label='Пример / Исключение',
         )
         self.fields['source'] = forms.ModelChoiceField(
-            queryset=core_models.Source.objects.filter(
-                user=self.user
-            ),
+            queryset=core_models.Source.objects.filter(user=self.user),
             label='Источник',
             required=False,
         )
@@ -377,7 +371,7 @@ class ClauseTranslationForm(forms.Form):  # type: ignore[type-arg]
             user=user,
             word=cleaned_data['native_word'],
         )
-        
+
         # Word translations
         translation, _ = models.EnglishTranslation.objects.get_or_create(
             user=user,
@@ -385,7 +379,7 @@ class ClauseTranslationForm(forms.Form):  # type: ignore[type-arg]
             foreign=foreign_word,
             source=cleaned_data['source'],
         )
-        
+
         # Add marks if any
         for mark in cleaned_data.get('marks', []):
             if mark.user == user:
@@ -402,7 +396,7 @@ class ClauseTranslationForm(forms.Form):  # type: ignore[type-arg]
             example_type=cleaned_data['example_type'],
             user=user,
         )
-        
+
         return rule_example
 
 
@@ -433,7 +427,7 @@ class RuleExceptionForm(forms.ModelForm):  # type: ignore[type-arg]
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the form."""
         super().__init__(*args, **kwargs)  # type: ignore[arg-type]
-        form_action = reverse_lazy(
+        form_action = reverse(
             'lang:english_rule_edit_exception', kwargs={'pk': self.instance.pk}
         )
 
@@ -569,7 +563,7 @@ class RuleAssignmentForm(forms.ModelForm):  # type: ignore[type-arg]
         rule = kwargs.pop('rule')
         super().__init__(*args, **kwargs)  # type: ignore
 
-        form_action = reverse_lazy(
+        form_action = reverse(
             'lang:english_rule_assignment_create',
             kwargs={'pk': rule.pk},  # type: ignore[attr-defined]
         )
