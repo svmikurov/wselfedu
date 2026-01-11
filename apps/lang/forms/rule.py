@@ -336,7 +336,7 @@ class ClauseTranslationForm(forms.Form):  # type: ignore[type-arg]
             queryset=models.LangMark.objects.filter(
                 user=self.user,
             ),
-            label='Маркировка вопроса',
+            label='Маркер примера',
             required=False,
         )
 
@@ -345,8 +345,8 @@ class ClauseTranslationForm(forms.Form):  # type: ignore[type-arg]
         self.helper.layout = Layout(
             'clause',
             Row(
-                Column('source'),
-                Column('example_type'),
+                Column('source', 'example_type'),
+                Column('marks'),
             ),
             'foreign_word',
             'native_word',
