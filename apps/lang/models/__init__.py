@@ -39,8 +39,8 @@ from .rules import (
     Rule,
     RuleClause,
     RuleExample,
-    RuleTaskExample,
     RuleException,
+    RuleTaskExample,
 )
 from .translation import EnglishTranslation
 from .word import AbstractWordModel, EnglishWord, NativeWord
