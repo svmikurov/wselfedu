@@ -44,13 +44,16 @@ class WebRuleAdapter(WebRuleAdapterABC):
             title=query.title,
             clauses=clauses,
             exceptions=self._convert_task_examples(query.exceptions.all()),  # type: ignore[arg-type]
-            task_exceptions=self._convert_task_examples(query.exceptions.all()),  # type: ignore[arg-type]
+            task_exceptions=self._convert_task_examples(
+                query.exceptions.all()
+            ),  # type: ignore[arg-type]
         )
         return rule_dto
 
     def _convert_examples(
         self,
-        examples: QuerySet[models.RuleExample] | QuerySet[models.RuleException],
+        examples: QuerySet[models.RuleExample]
+        | QuerySet[models.RuleException],
     ) -> str:
         """Convert rule examples/exceptions queryset to string."""
         examples = [self._build_example(item) for item in examples]  # type: ignore[assignment]
@@ -59,7 +62,8 @@ class WebRuleAdapter(WebRuleAdapterABC):
 
     def _convert_task_examples(
         self,
-        examples: QuerySet[models.RuleTaskExample] | QuerySet[models.RuleTaskExample],
+        examples: QuerySet[models.RuleTaskExample]
+        | QuerySet[models.RuleTaskExample],
     ) -> str:
         """Convert rule task examples/exceptions queryset to string."""
         examples = [self._build_task_example(item) for item in examples]  # type: ignore[assignment]
@@ -70,14 +74,14 @@ class WebRuleAdapter(WebRuleAdapterABC):
     def _build_example(
         example: models.RuleExample | models.RuleException,
     ) -> str:
-        """Build a string representation of the word example/exception."""
+        """Return a word example/exception."""
         return example.translation.foreign.word
 
     @staticmethod
     def _build_task_example(
         example: models.RuleTaskExample | models.RuleException,
     ) -> str:
-        """Build a string representation of the task example/exception."""
+        """Build a string repr of the task example/exception."""
         return (
             f'{example.question_translation.foreign} - '
             f'{example.answer_translation.foreign}'
@@ -87,7 +91,7 @@ class WebRuleAdapter(WebRuleAdapterABC):
         """Combine examples/exceptions into a string representation."""
         example_count = self._config.get('example_count', self.EXAMPLE_COUNT)
         if example_count:
-        return ', '.join(items[:example_count])
+            return ', '.join(items[:example_count])
         return ', '.join(items)
 
     def _get_examples(
@@ -120,8 +124,12 @@ class WebRuleAdapter(WebRuleAdapterABC):
         exceptions: list[str] = []
 
         for instance in examples_qs:
-            if instance.example_type == models.RuleTaskExample.ExampleType.EXAMPLE:  # type: ignore[union-attr]
+            if (
+                instance.example_type  # type: ignore[union-attr]:
+                == models.RuleTaskExample.ExampleType.EXAMPLE
+            ):
                 examples.append(self._build_task_example(instance))
+
             elif (
                 instance.example_type  # type: ignore[union-attr]
                 == models.RuleTaskExample.ExampleType.EXCEPTION
