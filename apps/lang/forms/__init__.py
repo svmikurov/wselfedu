@@ -15,6 +15,7 @@ __all__ = [
     'ClauseExampleForm',
     'RuleForm',
     'RuleExceptionForm',
+    'ClauseTranslationForm',
     # Mentorship
     'RuleAssignmentForm',
 ]
@@ -32,6 +33,7 @@ from .rule import (
     RuleAssignmentForm,
     RuleExceptionForm,
     RuleForm,
+    ClauseTranslationForm,
 )
 from .translation import (
     EnglishCreateForm,
