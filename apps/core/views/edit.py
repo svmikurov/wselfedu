@@ -18,7 +18,7 @@ class BaseAddView(UserRequestMixin, generic.FormView):  # type: ignore[type-arg]
     """
 
     template_name = 'components/crispy_form.html'
-    form_class = None
+    form_class: Any | None = None
 
     def get_form_kwargs(self) -> dict[str, Any]:
         """Add data to form."""
