@@ -14,10 +14,12 @@ __all__ = [
     'RuleDeleteView',
     # Rule example/exception
     'WordExampleAddView',
-    'ExceptionAddView',
-    'TaskExampleAddView',
     'WordExampleListView',
     'WordExampleDeleteView',
+    'TaskExampleAddView',
+    'TaskExampleListView',
+    'TaskExampleDeleteView',
+    'ExceptionAddView',
     # Mentorship
     'RuleAssignmentCreate',
 ]
@@ -31,6 +33,8 @@ from .example import (
     WordExampleAddView,
     WordExampleDeleteView,
     WordExampleListView,
+    TaskExampleDeleteView,
+    TaskExampleListView,
 )
 from .mentorship import (
     RuleAssignmentCreate,

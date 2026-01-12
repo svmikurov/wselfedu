@@ -1,0 +1,60 @@
+{% load i18n %}
+
+<!--======= Pagination =======-->
+{% if page_obj.paginator.num_pages > 1 %}
+<div class="pagination py-3 d-flex justify-content-center align-items-center">
+  <nav aria-label="Page navigation">
+    <ul class="pagination mb-0">
+      {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link"
+            href="#"
+            hx-get="{{ url_path }}?page=1"
+            hx-target="#update-form"
+            hx-swap="innerHTML"
+            aria-label="First">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item">
+        <a class="page-link"
+            href="#"
+            hx-get="{{ url_path }}?page={{ page_obj.previous_page_number }}"
+            hx-target="#update-form"
+            hx-swap="innerHTML">
+          {% trans 'button.previous' %}
+        </a>
+      </li>
+      {% endif %}
+
+      <li class="page-item disabled">
+        <span class="page-link">
+          {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+        </span>
+      </li>
+
+      {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link"
+            href="#"
+            hx-get="{{ url_path }}?page={{ page_obj.next_page_number }}"
+            hx-target="#update-form"
+            hx-swap="innerHTML">
+          {% trans 'button.next' %}
+        </a>
+      </li>
+      <li class="page-item">
+        <a class="page-link"
+            href="#"
+            hx-get="{{ url_path }}?page={{ page_obj.paginator.num_pages }}"
+            hx-target="#update-form"
+            hx-swap="innerHTML"
+            aria-label="Last">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+</div>
+{% endif %}<!-- End Pagination -->

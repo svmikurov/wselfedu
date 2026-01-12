@@ -1,0 +1,10 @@
+{% load i18n %}
+
+<div class="d-flex justify-content-end gap-2">
+  {# The button to remove component by `layout_id` #}
+  <button type="button"
+          class="wse-btn"
+          onclick='document.getElementById("{{ layout_id }}").remove()'>
+    {% trans 'button.close' %}
+  </button>
+</div>

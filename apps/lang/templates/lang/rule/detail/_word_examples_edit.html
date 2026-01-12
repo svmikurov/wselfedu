@@ -1,0 +1,39 @@
+{% load i18n %}
+
+<!--======= Edit rule clause examples table =======-->
+{# `layout_id` uses to remove table on 'close' button click #}
+{% with layout_id='rule-clause-examples-edit' %}
+<div id="{{ layout_id }}">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{% trans 'example' %}</th>  
+        <th></th>  
+      </tr>
+    </thead>
+
+    <tbody hx-confirm={% trans 'button.delete.confirm' %}
+           hx-target="closest tr"
+           hx-swap="outerHTML swap:1s">
+      {% for example in examples %}
+      <tr>
+        <td>{{ example.foreign }} - {{ example.native }}</td>
+        <td class="text-end">
+          <button class="btn btn-danger"
+                  hx-delete={% url 'lang:english_example_word_delete' example.id %}>
+            {% trans 'button.delete' %}
+          </button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {# Pagination #}
+  {% url 'lang:english_example_word_list' request.resolver_match.kwargs.pk as url_path %}
+  {% include 'lang/rule/detail/_pagination.html' %}
+
+  {# Close (remove) button #}
+  {% include 'lang/rule/detail/_close_btn.html' %}
+</div>
+{% endwith %}<!-- End Edit rule clause examples table -->
