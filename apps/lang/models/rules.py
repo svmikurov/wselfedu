@@ -5,6 +5,13 @@ from django.db import models
 from django.urls import reverse
 
 
+class ExampleType(models.TextChoices):
+    """Example type enumeration."""
+
+    EXAMPLE = 'example', 'Пример'
+    EXCEPTION = 'exception', 'Исключение'
+
+
 class Rule(models.Model):
     """Language rule model."""
 
@@ -209,12 +216,6 @@ class RuleException(models.Model):
 class RuleTaskExample(models.Model):
     """Language rule clause task example/exception."""
 
-    class ExampleType(models.TextChoices):
-        """Example type enumeration."""
-
-        EXAMPLE = 'example', 'Пример'
-        EXCEPTION = 'exception', 'Исключение'
-
     clause = models.ForeignKey(
         'RuleClause',
         on_delete=models.CASCADE,
@@ -274,12 +275,6 @@ class RuleTaskExample(models.Model):
 
 class RuleExample(models.Model):
     """Language rule clause word translation example/exception."""
-
-    class ExampleType(models.TextChoices):
-        """Example type enumeration."""
-
-        EXAMPLE = 'example', 'Пример'
-        EXCEPTION = 'exception', 'Исключение'
 
     clause = models.ForeignKey(
         'RuleClause',
