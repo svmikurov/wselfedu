@@ -272,6 +272,13 @@ class RuleTaskExample(models.Model):
 
         db_table = 'lang_rule_task_example'
 
+    def __str__(self) -> str:
+        """Get the string representation of task example."""
+        return (
+            f'{self.question_translation.word} - '
+            f'{self.answer_translation.word}'
+        )
+
 
 class RuleExample(models.Model):
     """Language rule clause word translation example/exception."""
@@ -325,3 +332,15 @@ class RuleExample(models.Model):
         ]
 
         db_table = 'lang_rule_translation_example'
+
+    def __str__(self) -> str:
+        """Get the string representation of translation."""
+        return f'{self.foreign} - {self.native}'
+
+    def foreign(self) -> str:
+        """Get the string representation of foreign word."""
+        return str(self.translation.foreign.word)
+
+    def native(self) -> str:
+        """Get the string representation of native word."""
+        return str(self.translation.native.word)
