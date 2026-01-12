@@ -1,12 +1,22 @@
 <div class="d-flex">
+  {# Word example #}
   {% if clause.examples %}
   <div class="flex-grow-1 me-2 py-1" translate="no">
     <i>{{ clause.examples }}</i>
   </div>
   <div class="ms-auto">
-    <button class="btn btn-link p-0 border-0"
+    {# Add #}
+    <button class="btn btn-link p-0 border-0 me-2"
             id="rule-word-example-edit-button"
             hx-get="{% url 'lang:english_example_word_add' clause.id %}"
+            hx-target="#update-form"
+            hx-swap="innerHTML">
+        <i class="fas fa-plus fa-lg"></i>
+    </button>
+    {# Edit #}
+    <button class="btn btn-link p-0 border-0"
+            id="rule-word-example-edit-button"
+            hx-get="{% url 'lang:english_example_word_list' clause.id %}"
             hx-target="#update-form"
             hx-swap="innerHTML">
         <i class="fas fa-edit fa-lg"></i>
@@ -14,11 +24,21 @@
   </div>
   {% endif %}
 
+  {# Task example #}
   {% if clause.task_examples %}
   <div class="py-1" translate="no">
     <i>{{ clause.task_examples }}</i>
   </div>
   <div class="ms-auto">
+    {# Add #}
+    <button class="btn btn-link p-0 border-0 me-2"
+        id="rule-word-example-edit-button"
+        hx-get="{% url 'lang:english_example_task_add' clause.id %}"
+        hx-target="#update-form"
+        hx-swap="innerHTML">
+    <i class="fas fa-plus fa-lg"></i>
+    </button>
+    {# Edit #}
     <button class="btn btn-link p-0 border-0"
             id="rule-task-example-edit-button"
             hx-get="{% url 'lang:english_example_task_add' clause.id %}"
