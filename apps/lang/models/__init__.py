@@ -22,6 +22,7 @@ __all__ = [
     'RuleTaskExample',
     'RuleException',
     'MentorshipEnglishRule',
+    'ExampleType',
 ]
 
 from .category import LangCategory
@@ -36,6 +37,7 @@ from .parameters import (
     TranslationSetting,
 )
 from .rules import (
+    ExampleType,
     Rule,
     RuleClause,
     RuleExample,
