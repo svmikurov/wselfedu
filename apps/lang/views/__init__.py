@@ -30,6 +30,7 @@ __all__ = [
     'WordExampleAddView',
     'ExceptionAddView',
     'TaskExampleAddView',
+    'WordExampleListView',
     # Mentorship
     'RuleAssignmentCreate',
     'ClauseUpdateView',
@@ -60,6 +61,7 @@ from .rule import (
     RuleView,
     TaskExampleAddView,
     WordExampleAddView,
+    WordExampleListView,
 )
 from .settings import (
     study_settings_vew,
