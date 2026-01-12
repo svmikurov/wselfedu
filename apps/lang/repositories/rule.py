@@ -46,5 +46,5 @@ class RuleRepository(RuleRepositoryABC):
             Prefetch('clauses', queryset=clauses_qs),
             Prefetch('exceptions', queryset=exceptions_qs),
         ).get(pk=rule_id, user=user)
-        
+
         return rule_context
