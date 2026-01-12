@@ -1,0 +1,39 @@
+<!--======= Edit rule clause examples table =======-->
+<div id="rule-clause-examples-edit">
+  <table>
+    <thead>
+      <tr>
+        <th>{% trans 'example' %}</th>  
+        <th></th>  
+      </tr>
+    </thead>
+
+    <tbody hx-confirm={% trans 'button.delete.confirm' %}
+           hx-target="closest tr"
+           hx-swap="outerHTML swap:1s">
+      {% for example in examples %}
+      <tr>
+        <td>
+          {{ example.text }}
+        </td>
+        <td>
+          <button class="btn danger"
+                  hx-delete={% url 'lang:english_rule_word_example_delete' example.id %}>
+            {% trans 'button.delete' %}
+          </button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="d-flex gap-2 justify-center-end">
+  {# The button to remove this table #}
+    <button type="button"
+            class="wse-btn"
+            onclick=f'document.getElementById("rule-clause-examples-edit").remove()'>
+      {% trans 'button.close' %}
+    </button>
+  </div>
+</div>
+<!-- End Edit rule clause examples table -->
