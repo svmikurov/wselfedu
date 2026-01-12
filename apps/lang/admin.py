@@ -148,7 +148,27 @@ class RuleClauseAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
 
 @admin.register(models.RuleExample)
 class RuleClauseExampleAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
-    """Rule clause model administration."""
+    """Rule clause english word model administration."""
+
+    list_display = [
+        'created_at',
+        'word',
+        'example_type',
+        'user',
+        'clause',
+    ]
+    search_fields = [
+        'question_translation__foreign__word',
+    ]
+
+    def word(self, obj: models.RuleExample) -> str:
+        """Get rule translation word."""
+        return obj.translation.foreign.word
+
+
+@admin.register(models.RuleTaskExample)
+class RuleClauseTaskExampleAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """Rule clause task model administration."""
 
     list_display = [
         'created_at',
