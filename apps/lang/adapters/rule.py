@@ -7,6 +7,7 @@ from django.db.models import QuerySet
 from .. import models
 from . import WebRuleAdapterABC, dto
 
+# TODO: Refactor this code
 
 class WebRuleAdapter(WebRuleAdapterABC):
     """Language rule web adapter."""
@@ -44,11 +45,6 @@ class WebRuleAdapter(WebRuleAdapterABC):
             exceptions=self._convert_task_examples(query.exceptions.all()),  # type: ignore[arg-type]
             task_exceptions=self._convert_task_examples(query.exceptions.all()),  # type: ignore[arg-type]
         )
-        print(
-            f'*********************************************************************\n'
-            f'{rule_dto.clauses[0] = }'
-            # f'{query.clauses.all()[0].__dict__ = }'
-        )
         return rule_dto
 
     def _convert_examples(
@@ -56,7 +52,7 @@ class WebRuleAdapter(WebRuleAdapterABC):
         examples: QuerySet[models.RuleExample] | QuerySet[models.RuleException],
     ) -> str:
         """Convert rule examples/exceptions queryset to string."""
-        examples = [translation.foreign.word for translation in examples]  # type: ignore[assignment]
+        examples = [self._build_example(item) for item in examples]  # type: ignore[assignment]
         result = self._join_examples(examples)  # type: ignore[arg-type]
         return result
 
@@ -68,6 +64,13 @@ class WebRuleAdapter(WebRuleAdapterABC):
         examples = [self._build_task_example(item) for item in examples]  # type: ignore[assignment]
         result = self._join_examples(examples)  # type: ignore[arg-type]
         return result
+
+    @staticmethod
+    def _build_example(
+        example: models.RuleExample | models.RuleException,
+    ) -> str:
+        """Build a string representation of the word example/exception."""
+        return example.translation.foreign.word
 
     @staticmethod
     def _build_task_example(
@@ -92,6 +95,15 @@ class WebRuleAdapter(WebRuleAdapterABC):
         """Get clause examples with exceptions."""
         examples: list[str] = []
         exceptions: list[str] = []
+
+        for instance in examples_qs:
+            if instance.example_type == models.RuleExample.ExampleType.EXAMPLE:  # type: ignore[union-attr]
+                examples.append(self._build_example(instance))
+            elif (
+                instance.example_type  # type: ignore[union-attr]
+                == models.RuleExample.ExampleType.EXCEPTION
+            ):
+                exceptions.append(self._build_example(instance))
 
         return examples, exceptions
 
