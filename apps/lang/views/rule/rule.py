@@ -5,10 +5,11 @@ from typing import Any
 from dependency_injector.providers import Container
 from django.db.models import Exists, OuterRef, QuerySet
 from django.shortcuts import get_object_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import generic
 
 from apps.core.views.auth import OwnershipRequiredMixin, UserRequestMixin
+from apps.core.views.htmx import HtmxOwnerDeleteView
 from apps.lang import forms, models
 from apps.lang.adapters import dto
 from apps.lang.di import LanguageContainer
@@ -21,23 +22,52 @@ from ._data import CONTEXT
 CONTAINER: Container[LanguageContainer] = MainContainer.lang
 
 
-class RuleIndexView(generic.TemplateView):
-    """Language rule create view."""
+class RuleView(generic.TemplateView):
+    """English language rule index view."""
 
     template_name = 'lang/rule/index.html'
 
 
-class RuleCreateView(generic.CreateView):  # type: ignore[type-arg]
-    """Language rule create view."""
+class RuleCreateView(UserRequestMixin, generic.CreateView):  # type: ignore[type-arg]
+    """English language rule create view."""
 
-    template_name = 'lang/rule/list/_rule_form.html'
+    template_name = 'components/crispy_form.html'
     form_class = forms.RuleForm
+
+    def get_form_kwargs(self) -> dict[str, Any]:
+        """Add data to form kwargs."""
+        kwargs = super().get_form_kwargs()
+        kwargs['form_action'] = self.request.path
+        kwargs['user'] = self.user
+        return kwargs
+
+
+class RuleDeleteView(HtmxOwnerDeleteView):
+    """English language rule delete view."""
+
+    model = models.Rule
+
+
+class RuleUpdateView(OwnershipRequiredMixin[models.Rule], generic.UpdateView):  # type: ignore[type-arg]
+    """English language rule update view."""
+
+    template_name = 'components/crispy_form.html'
+    form_class = forms.RuleForm
+    model = models.Rule
+    success_url = reverse_lazy('lang:english_rule_list')
+
+    def get_form_kwargs(self) -> dict[str, Any]:
+        """Add data to form kwargs."""
+        kwargs = super().get_form_kwargs()
+        kwargs['form_action'] = self.request.path
+        return kwargs
 
 
 class RuleDetailView(base.BaseRuleDetailView[dto.RuleSchema]):
-    """Language rule detail view."""
+    """English language rule detail view."""
 
     template_name = 'lang/rule/detail/index.html'
+    # TODO: Relocate context to adapter?
     extra_context = CONTEXT['rule_detail']
 
     def _get_rule_object(self) -> models.Rule:
@@ -49,18 +79,36 @@ class RuleDetailView(base.BaseRuleDetailView[dto.RuleSchema]):
         return self.adapter.to_response(rule_object)
 
 
-class RuleUpdateView(OwnershipRequiredMixin[models.Rule], generic.UpdateView):  # type: ignore[type-arg]
-    """Language rule update view."""
+class RuleListView(UserRequestMixin, generic.ListView):  # type: ignore[type-arg]
+    """English language rule list view."""
 
-    template_name = 'lang/rule/detail/_form.html'
-    form_class = forms.RuleForm
-    model = models.Rule
+    template_name = 'lang/rule/list/index.html'
+    context_object_name = 'rules'
+    extra_context = CONTEXT['rule_list']
+
+    def get_queryset(self) -> QuerySet[models.Rule]:
+        """Get rule list queryset."""
+        mentor_exists = Exists(
+            Mentorship.objects.filter(mentor=OuterRef('user'))
+        )
+        student_exists = Exists(
+            Mentorship.objects.filter(student=OuterRef('user'))
+        )
+        return (
+            models.Rule.objects.filter(user=self.user)
+            .select_related('user')
+            .annotate(
+                user_is_mentor=mentor_exists,
+                user_is_student=student_exists,
+            )
+            .only('id', 'title', 'user_id')
+        )
 
 
 class ClauseCreateView(UserRequestMixin, generic.CreateView):  # type: ignore[type-arg]
-    """Create rule clause view."""
+    """English language rule clause create view."""
 
-    template_name = 'lang/rule/detail/_form.html'
+    template_name = 'components/crispy_form.html'
     form_class = forms.ClauseForm
 
     def get_form_kwargs(self) -> dict[str, Any]:
@@ -91,9 +139,9 @@ class ClauseUpdateView(
     OwnershipRequiredMixin[models.RuleClause],
     generic.UpdateView,  # type: ignore[type-arg]
 ):
-    """Update rule clause view."""
+    """English language rule clause update view."""
 
-    template_name = 'lang/rule/detail/_form.html'
+    template_name = 'components/crispy_form.html'
     form_class = forms.ClauseForm
     model = models.RuleClause
 
@@ -112,33 +160,3 @@ class ClauseUpdateView(
     def get_success_url(self) -> str:
         """Return clause rule detail url path."""
         return self.object.rule.get_absolute_url()  # type: ignore[no-any-return]
-
-
-class RuleListView(UserRequestMixin, generic.ListView):  # type: ignore[type-arg]
-    """Language rule list view."""
-
-    template_name = 'lang/rule/list/index.html'
-    extra_context = CONTEXT['rule_list']
-    context_object_name = 'rules'
-
-    def get_queryset(self) -> QuerySet[models.Rule]:
-        """Get rule list queryset."""
-        mentor_exists = Exists(
-            Mentorship.objects.filter(mentor=OuterRef('user'))
-        )
-        student_exists = Exists(
-            Mentorship.objects.filter(student=OuterRef('user'))
-        )
-        return (
-            models.Rule.objects.filter(user=self.user)
-            .select_related('user')
-            .annotate(
-                user_is_mentor=mentor_exists,
-                user_is_student=student_exists,
-            )
-            .only('id', 'title', 'user_id')
-        )
-
-
-class RuleDeleteView(generic.TemplateView):
-    """Language rule delete view."""
