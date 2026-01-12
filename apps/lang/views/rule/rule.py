@@ -104,6 +104,7 @@ class ClauseUpdateView(
             'lang:english_clause_update',
             kwargs={'pk': self.object.pk},
         )
+        kwargs['rule'] = self.object.rule
         kwargs['user'] = self.user
         kwargs['form_action'] = form_action
         return kwargs
