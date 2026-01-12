@@ -13,27 +13,27 @@
 
   {# Create rule clause #}
   <button class="wse-btn"
-          hx-get={% url 'lang:english_clause_create' rule.id %}
+          hx-get={% url 'lang:english_clause_create' rule.id %} 
           hx-target="#update-form"
           hx-swap="innerHTML">
     {% trans 'button.create' %}
   </button>
 </div>
 
-{# Rule clause example buttons #}
+{# Add rule clause example buttons #}
 <div class="row gap-2 my-2">
 
-  {# Add rule task example/exception #}
+  {# Add rule clause task example/exception #}
   <button class="wse-btn"
-          hx-get={% url 'lang:english_rule_edit_task_example' rule.id %}
+          hx-get={% url 'lang:english_example_task_add' rule.id %}
           hx-target="#update-form"
           hx-swap="innerHTML">
     {% trans 'button.add.example.task' %}
   </button>
 
-  {# Add rule example/exception #}
+  {# Add rule clause word example/exception #}
   <button class="wse-btn"
-          hx-get={% url 'lang:english_rule_edit_example' rule.id %}
+          hx-get={% url 'lang:english_example_word_add' rule.id %}
           hx-target="#update-form"
           hx-swap="innerHTML">
     {% trans 'button.add.example.word' %}
