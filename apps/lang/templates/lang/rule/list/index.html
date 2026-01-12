@@ -26,12 +26,13 @@
   <div class="py-3">
     <button class="wse-btn"
             hx-get={% url 'lang:english_rule_create' %}
-            hx-target="#form-create"
+            hx-target="#form"
             hx-swap="innerHTML">
       {% trans 'button.create' %}
     </button>
   </div><!-- Buttons row -->
 
-  <div id="form-create"></div>
+  <!--=== Target to form include ===-->
+  <div id="form"></div>
 </main>
 {% endblock content %}
