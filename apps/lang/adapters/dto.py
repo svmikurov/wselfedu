@@ -10,9 +10,11 @@ class ClauseSchema(BaseModel):
 
     id: int
     content: str
-    examples: str
     exception_content: str | None
+    examples: str
+    task_examples: str
     exceptions: str
+    task_exceptions: str
 
     children: list[ClauseSchema]
 
@@ -24,3 +26,4 @@ class RuleSchema(BaseModel):
     title: str
     clauses: list[ClauseSchema]
     exceptions: str
+    task_exceptions: str
