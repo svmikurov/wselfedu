@@ -13,6 +13,7 @@ from django.http.response import Http404
 from django.views import generic
 
 from apps.core.views.auth import UserRequestMixin
+from apps.lang import models
 from di import MainContainer
 
 if TYPE_CHECKING:
@@ -20,7 +21,6 @@ if TYPE_CHECKING:
     from django.http.request import HttpRequest
     from django.http.response import HttpResponseBase
 
-    from apps.lang import models
     from apps.lang.adapters import WebRuleAdapterABC
     from apps.lang.di import LanguageContainer
     from apps.lang.repositories import RuleRepositoryABC
