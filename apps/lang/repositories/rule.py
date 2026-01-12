@@ -26,7 +26,9 @@ class RuleRepository(RuleRepositoryABC):
             'question_translation__foreign',
             'answer_translation__foreign',
         )
+        
         children_qs = models.RuleClause.objects.all()
+        
         clauses_qs = models.RuleClause.objects.select_related(
             'parent'
         ).prefetch_related(
@@ -44,3 +46,5 @@ class RuleRepository(RuleRepositoryABC):
             Prefetch('clauses', queryset=clauses_qs),
             Prefetch('exceptions', queryset=exceptions_qs),
         ).get(pk=rule_id, user=user)
+        
+        return rule_context
