@@ -19,6 +19,7 @@ __all__ = [
     'Rule',
     'RuleClause',
     'RuleExample',
+    'RuleTaskExample',
     'RuleException',
     'MentorshipEnglishRule',
 ]
@@ -38,6 +39,7 @@ from .rules import (
     Rule,
     RuleClause,
     RuleExample,
+    RuleTaskExample,
     RuleException,
 )
 from .translation import EnglishTranslation
