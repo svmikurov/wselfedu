@@ -21,7 +21,10 @@
   </button>
 
   {# Add rule example/exception #}
-  <button class="wse-btn">
+  <button class="wse-btn"
+          hx-get={% url 'lang:english_rule_edit_example' rule.id %}
+          hx-target="#update-form"
+          hx-swap="innerHTML">
     {% trans 'button.add.example' %}
   </button>
 
