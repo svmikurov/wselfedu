@@ -17,50 +17,6 @@ class WebRuleAdapter(WebRuleAdapterABC):
         """Construct the adapter."""
         self._config = config if config else {}
 
-    def _convert_examples(
-        self,
-        examples: QuerySet[models.RuleExample] | QuerySet[models.RuleExample],
-    ) -> str:
-        """Convert rule examples/exceptions queryset to string."""
-        examples = [self._build_example(item) for item in examples]  # type: ignore[assignment]
-        result = self._join_examples(examples)  # type: ignore[arg-type]
-        return result
-
-    @staticmethod
-    def _build_example(
-        example: models.RuleExample | models.RuleException,
-    ) -> str:
-        """Build a string representation of the example/exception."""
-        return (
-            f'{example.question_translation.foreign} - '
-            f'{example.answer_translation.foreign}'
-        )
-
-    def _join_examples(self, items: list[str]) -> str:
-        """Combine examples/exceptions into a string representation."""
-        example_count = self._config.get('example_count', self.example_count)
-        return ', '.join(items[:example_count])
-
-    def _get_examples(
-        self,
-        examples_qs: QuerySet[models.RuleExample]
-        | QuerySet[models.RuleException],
-    ) -> tuple[list[str], list[str]]:
-        """Get clause examples with exceptions."""
-        examples: list[str] = []
-        exceptions: list[str] = []
-
-        for instance in examples_qs:
-            if instance.example_type == models.RuleExample.ExampleType.EXAMPLE:  # type: ignore[union-attr]
-                examples.append(self._build_example(instance))
-            elif (
-                instance.example_type  # type: ignore[union-attr]
-                == models.RuleExample.ExampleType.EXCEPTION
-            ):
-                exceptions.append(self._build_example(instance))
-
-        return examples, exceptions
-
     def to_response(self, query: models.Rule) -> dto.RuleSchema:
         """Get nested DTO."""
         clauses_qs: QuerySet[models.RuleClause] = query.clauses.all()
@@ -77,29 +33,109 @@ class WebRuleAdapter(WebRuleAdapterABC):
 
             for child in mapping.get(clause.pk, []):
                 if child:
-                    children.append(self.build_clause_dto(child))
+                    children.append(self._build_clause_dto(child))
 
-            clauses.append(self.build_clause_dto(clause, children))
+            clauses.append(self._build_clause_dto(clause, children))
 
-        return dto.RuleSchema(
+        rule_dto = dto.RuleSchema(
             id=query.pk,
             title=query.title,
             clauses=clauses,
-            exceptions=self._convert_examples(query.exceptions.all()),  # type: ignore[arg-type]
+            exceptions=self._convert_task_examples(query.exceptions.all()),  # type: ignore[arg-type]
+            task_exceptions=self._convert_task_examples(query.exceptions.all()),  # type: ignore[arg-type]
+        )
+        print(
+            f'*********************************************************************\n'
+            f'{rule_dto.clauses[0] = }'
+            # f'{query.clauses.all()[0].__dict__ = }'
+        )
+        return rule_dto
+
+    def _convert_examples(
+        self,
+        examples: QuerySet[models.RuleExample] | QuerySet[models.RuleException],
+    ) -> str:
+        """Convert rule examples/exceptions queryset to string."""
+        examples = [translation.foreign.word for translation in examples]  # type: ignore[assignment]
+        result = self._join_examples(examples)  # type: ignore[arg-type]
+        return result
+
+    def _convert_task_examples(
+        self,
+        examples: QuerySet[models.RuleTaskExample] | QuerySet[models.RuleTaskExample],
+    ) -> str:
+        """Convert rule task examples/exceptions queryset to string."""
+        examples = [self._build_task_example(item) for item in examples]  # type: ignore[assignment]
+        result = self._join_examples(examples)  # type: ignore[arg-type]
+        return result
+
+    @staticmethod
+    def _build_task_example(
+        example: models.RuleTaskExample | models.RuleException,
+    ) -> str:
+        """Build a string representation of the task example/exception."""
+        return (
+            f'{example.question_translation.foreign} - '
+            f'{example.answer_translation.foreign}'
         )
 
-    def build_clause_dto(
+    def _join_examples(self, items: list[str]) -> str:
+        """Combine examples/exceptions into a string representation."""
+        example_count = self._config.get('example_count', self.example_count)
+        return ', '.join(items[:example_count])
+
+    def _get_examples(
+        self,
+        examples_qs: QuerySet[models.RuleTaskExample]
+        | QuerySet[models.RuleException],
+    ) -> tuple[list[str], list[str]]:
+        """Get clause examples with exceptions."""
+        examples: list[str] = []
+        exceptions: list[str] = []
+
+        return examples, exceptions
+
+    def _get_task_examples(
+        self,
+        examples_qs: QuerySet[models.RuleTaskExample]
+        | QuerySet[models.RuleException],
+    ) -> tuple[list[str], list[str]]:
+        """Get clause task examples with exceptions."""
+        examples: list[str] = []
+        exceptions: list[str] = []
+
+        for instance in examples_qs:
+            if instance.example_type == models.RuleTaskExample.ExampleType.EXAMPLE:  # type: ignore[union-attr]
+                examples.append(self._build_task_example(instance))
+            elif (
+                instance.example_type  # type: ignore[union-attr]
+                == models.RuleTaskExample.ExampleType.EXCEPTION
+            ):
+                exceptions.append(self._build_task_example(instance))
+
+        return examples, exceptions
+
+    def _build_clause_dto(
         self,
         clause: models.RuleClause,
         children: list[dto.ClauseSchema] | None = None,
     ) -> dto.ClauseSchema:
         """Build clause DTO."""
-        examples, exceptions = self._get_examples(clause.examples.all())
+        # Rule clause task examples & exceptions
+        task_examples, task_exceptions = self._get_task_examples(
+            clause.rule_task_examples.all()
+        )
+        # Rule clause translation examples & exceptions
+        examples, exceptions = self._get_examples(
+            clause.rule_translation_examples.all()
+        )
         return dto.ClauseSchema(
             id=clause.pk,
             content=clause.content,
-            examples=self._join_examples(examples),
             exception_content=clause.exception_content,
+            examples=self._join_examples(examples),
+            task_examples=self._join_examples(task_examples),
             exceptions=self._join_examples(exceptions),
+            task_exceptions=self._join_examples(task_exceptions),
             children=children if children is not None else [],
         )
