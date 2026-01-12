@@ -104,11 +104,11 @@ class WebRuleAdapter(WebRuleAdapterABC):
         exceptions: list[str] = []
 
         for instance in examples_qs:
-            if instance.example_type == models.RuleExample.ExampleType.EXAMPLE:  # type: ignore[union-attr]
+            if instance.example_type == models.ExampleType.EXAMPLE:  # type: ignore[union-attr]
                 examples.append(self._build_example(instance))
             elif (
                 instance.example_type  # type: ignore[attr-defined]
-                == models.RuleExample.ExampleType.EXCEPTION
+                == models.ExampleType.EXCEPTION
             ):
                 exceptions.append(self._build_example(instance))
 
