@@ -12,10 +12,10 @@ __all__ = [
     'EnglishUpdateForm',
     # Rule
     'ClauseForm',
-    'ClauseExampleForm',
+    'TaskExampleForm',
     'RuleForm',
     'RuleExceptionForm',
-    'ClauseTranslationForm',
+    'WordExampleForm',
     # Mentorship
     'RuleAssignmentForm',
 ]
@@ -28,12 +28,12 @@ from .parameters import (
     TranslationSettingsFormSet,
 )
 from .rule import (
-    ClauseExampleForm,
     ClauseForm,
-    ClauseTranslationForm,
     RuleAssignmentForm,
     RuleExceptionForm,
     RuleForm,
+    TaskExampleForm,
+    WordExampleForm,
 )
 from .translation import (
     EnglishCreateForm,
