@@ -2,7 +2,6 @@
 
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.urls import reverse
 
 
 class Rule(models.Model):
@@ -206,8 +205,8 @@ class RuleException(models.Model):
         db_table = 'lang_rule_exception'
 
 
-class RuleExample(models.Model):
-    """Language rule clause word translation example/exception."""
+class RuleTaskExample(models.Model):
+    """Language rule clause task example/exception."""
 
     class ExampleType(models.TextChoices):
         """Example type enumeration."""
@@ -218,20 +217,20 @@ class RuleExample(models.Model):
     clause = models.ForeignKey(
         'RuleClause',
         on_delete=models.CASCADE,
-        related_name='examples',
+        related_name='rule_task_examples',
         verbose_name='Пункт правила языка',
     )
 
     question_translation = models.ForeignKey(
         'EnglishTranslation',
         on_delete=models.CASCADE,
-        related_name='rule_question_translation',
+        related_name='task_rule_questions',
         verbose_name='Перевод вопроса',
     )
     answer_translation = models.ForeignKey(
         'EnglishTranslation',
         on_delete=models.CASCADE,
-        related_name='rule_answer_translation',
+        related_name='task_rule_answers',
         verbose_name='Перевод ответа',
     )
 
@@ -261,12 +260,73 @@ class RuleExample(models.Model):
     class Meta:
         """Model configuration."""
 
-        verbose_name = 'Пример/исключение пункта правила'
-        verbose_name_plural = 'Примеры/исключения пункта правила'
+        verbose_name = 'Пример/исключение задания пункта правила'
+        verbose_name_plural = 'Примеры/исключения заданий пунктов правил'
 
         ordering = ['clause', 'created_at']
         unique_together = [
             ['question_translation', 'answer_translation'],
+            ['clause', 'question_translation', 'answer_translation'],
         ]
 
-        db_table = 'lang_rule_example'
+        db_table = 'lang_rule_task_example'
+
+
+class RuleExample(models.Model):
+    """Language rule clause word translation example/exception."""
+
+    class ExampleType(models.TextChoices):
+        """Example type enumeration."""
+
+        EXAMPLE = 'example', 'Пример'
+        EXCEPTION = 'exception', 'Исключение'
+
+    clause = models.ForeignKey(
+        'RuleClause',
+        on_delete=models.CASCADE,
+        related_name='rule_translation_examples',
+        verbose_name='Пункт правила языка',
+    )
+
+    translation = models.ForeignKey(
+        'EnglishTranslation',
+        on_delete=models.CASCADE,
+        related_name='translation_rule_examples',
+        verbose_name='Перевод вопроса',
+    )
+
+    example_type = models.CharField(
+        max_length=10,
+        choices=ExampleType.choices,
+        default=ExampleType.EXAMPLE,
+        verbose_name='Тип примера',
+        help_text='Тип примера пункта правила: "пример"/"исключение"',
+    )
+
+    user = models.ForeignKey(
+        'users.Person',
+        on_delete=models.CASCADE,
+        verbose_name='Пользователь',
+        help_text='Пользователь, добавивший пример/исключение',
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата добавления',
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Дата изменения',
+    )
+
+    class Meta:
+        """Model configuration."""
+
+        verbose_name = 'Пример/исключение слова пункта правила'
+        verbose_name_plural = 'Примеры/исключения слов пунктов правил'
+
+        ordering = ['clause', 'created_at']
+        unique_together = [
+            ['clause', 'translation'],
+        ]
+
+        db_table = 'lang_rule_translation_example'
