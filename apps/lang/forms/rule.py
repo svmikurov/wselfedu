@@ -11,7 +11,7 @@ from crispy_forms.layout import (  # type: ignore[import-untyped]
 )
 from django import forms
 from django.db import transaction
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
 from apps.core import models as core_models
 from apps.users.models import Mentorship
@@ -156,37 +156,43 @@ class ClauseExampleForm(forms.ModelForm):  # type: ignore[type-arg]
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the form."""
-        super().__init__(*args, **kwargs)  # type: ignore[arg-type]
-        form_action = reverse_lazy(
-            'lang:english_rule_edit_example', kwargs={'pk': self.instance.pk}
+        self.user = kwargs.pop('user', None)
+        rule = kwargs.pop('rule', None)
+        super().__init__(*args, **kwargs)  # type: ignore
+
+        form_action = reverse(
+            'lang:english_rule_edit_example',
+            kwargs={'pk': rule.pk},
         )
 
+        self.initial['title'] = rule
+        
         # Rule clause choice field
         self.fields['clause'] = forms.ModelChoiceField(
-            queryset=models.RuleClause.objects.filter(rule=self.instance),
+            queryset=models.RuleClause.objects.filter(rule=rule),
             label='Пункт правила',
         )
         self.fields['example_type'] = forms.ChoiceField(
-            choices=models.EnglishRuleExample.ExampleType,  # type: ignore[attr-defined]
+            choices=models.RuleTaskExample.ExampleType,
             label='Пример / Исключение',
         )
         self.fields['source'] = forms.ModelChoiceField(
             queryset=core_models.Source.objects.filter(
-                user=self.instance.user
+                user=self.user
             ),
             label='Источник',
             required=False,
         )
         self.fields['question_marks'] = forms.ModelMultipleChoiceField(
             queryset=models.LangMark.objects.filter(
-                user=self.instance.user,
+                user=self.user,
             ),
             label='Маркировка вопроса',
             required=False,
         )
         self.fields['answer_marks'] = forms.ModelMultipleChoiceField(
             queryset=models.LangMark.objects.filter(
-                user=self.instance.user,
+                user=self.user,
             ),
             label='Маркировка ответа',
             required=False,
@@ -282,7 +288,7 @@ class ClauseExampleForm(forms.ModelForm):  # type: ignore[type-arg]
                     )
 
             # Rule case translation examples
-            _, _ = models.RuleExample.objects.get_or_create(
+            _, _ = models.RuleTaskExample.objects.get_or_create(
                 clause=self.cleaned_data['clause'],
                 example_type=self.cleaned_data['example_type'],
                 question_translation=question_translation,
@@ -291,6 +297,113 @@ class ClauseExampleForm(forms.ModelForm):  # type: ignore[type-arg]
             )
 
         return rule  # type: ignore[no-any-return]
+
+class ClauseTranslationForm(forms.Form):  # type: ignore[type-arg]
+    """Clause rule translation examples form."""
+
+    MAX_WORD_LENGTH = models.AbstractWordModel.WORD_LENGTH
+
+    foreign_word = forms.CharField(
+        max_length=MAX_WORD_LENGTH, label='Английское слово (вопрос)'
+    )
+    native_word = forms.CharField(
+        max_length=MAX_WORD_LENGTH, label='Родное слово (вопрос)'
+    )
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the form."""
+        self.user = kwargs.pop('user', None)
+        # Available rule clauses are filtered by the rule
+        rule = kwargs.pop('rule', None)
+        super().__init__(*args, **kwargs)  # type: ignore
+
+        form_action = reverse(
+            'lang:english_rule_edit_example',
+            kwargs={'pk': rule.pk},
+        )
+
+        # Rule clause choice field
+        self.fields['clause'] = forms.ModelChoiceField(
+            queryset=models.RuleClause.objects.filter(rule=rule),
+            label='Пункт правила',
+        )
+        self.fields['example_type'] = forms.ChoiceField(
+            choices=models.RuleTaskExample.ExampleType,
+            label='Пример / Исключение',
+        )
+        self.fields['source'] = forms.ModelChoiceField(
+            queryset=core_models.Source.objects.filter(
+                user=self.user
+            ),
+            label='Источник',
+            required=False,
+        )
+        self.fields['marks'] = forms.ModelMultipleChoiceField(
+            queryset=models.LangMark.objects.filter(
+                user=self.user,
+            ),
+            label='Маркировка вопроса',
+            required=False,
+        )
+
+        self.helper = FormHelper()
+        self.helper.form_action = form_action
+        self.helper.layout = Layout(
+            'clause',
+            Row(
+                Column('source'),
+                Column('example_type'),
+            ),
+            'foreign_word',
+            'native_word',
+            Div(
+                Submit('submit', 'Сохранить', css_class='wse-btn'),
+                css_class='d-flex justify-content-end pt-3',
+            ),
+        )
+
+    @transaction.atomic
+    def save(self) -> models.RuleExample:
+        """Save the form data and create related objects."""
+        user = self.user
+        cleaned_data = self.cleaned_data
+
+        # Native and foreign words
+        foreign_word, _ = models.EnglishWord.objects.get_or_create(
+            user=user,
+            word=cleaned_data['foreign_word'],
+        )
+        native_word, _ = models.NativeWord.objects.get_or_create(
+            user=user,
+            word=cleaned_data['native_word'],
+        )
+        
+        # Word translations
+        translation, _ = models.EnglishTranslation.objects.get_or_create(
+            user=user,
+            native=native_word,
+            foreign=foreign_word,
+            source=cleaned_data['source'],
+        )
+        
+        # Add marks if any
+        for mark in cleaned_data.get('marks', []):
+            if mark.user == user:
+                models.EnglishMark.objects.get_or_create(
+                    user=user,
+                    translation=translation,
+                    mark=mark,
+                )
+
+        # Create and return RuleExample
+        rule_example, _ = models.RuleExample.objects.get_or_create(
+            clause=cleaned_data['clause'],
+            translation=translation,
+            example_type=cleaned_data['example_type'],
+            user=user,
+        )
+        
+        return rule_example
 
 
 class RuleExceptionForm(forms.ModelForm):  # type: ignore[type-arg]
