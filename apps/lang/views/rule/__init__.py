@@ -4,6 +4,8 @@ __all__ = [
     # Base
     'BaseRuleDetailView',
     # Rule
+    'ClauseCreateView',
+    'ClauseUpdateView',
     'RuleView',
     'RuleListView',
     'RuleDetailView',
@@ -11,11 +13,11 @@ __all__ = [
     'RuleUpdateView',
     'RuleDeleteView',
     # Rule example/exception
-    'ClauseCreateView',
-    'ClauseUpdateView',
     'WordExampleAddView',
     'ExceptionAddView',
     'TaskExampleAddView',
+    'WordExampleListView',
+    'WordExampleDeleteView',
     # Mentorship
     'RuleAssignmentCreate',
 ]
@@ -27,6 +29,8 @@ from .example import (
     ExceptionAddView,
     TaskExampleAddView,
     WordExampleAddView,
+    WordExampleDeleteView,
+    WordExampleListView,
 )
 from .mentorship import (
     RuleAssignmentCreate,
