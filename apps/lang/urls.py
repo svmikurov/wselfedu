@@ -3,6 +3,7 @@
 from django.urls import path
 
 from . import views
+from .views import rule
 
 app_name = 'lang'
 
@@ -60,12 +61,22 @@ urlpatterns = [
         views.ClauseUpdateView.as_view(),
         name='english_clause_update',
     ),
-    path(
+    path(  # Add word example
         'rule/<int:pk>/add-word-example/',
         views.WordExampleAddView.as_view(),
         name='english_example_word_add',
     ),
-    path(
+    path(  # List of word example
+        'rule/<int:pk>/word-example-list/',
+        views.WordExampleListView.as_view(),
+        name='english_example_word_list',
+    ),
+    path(  # Delete the word example
+        'rule/<int:pk>/delete-word-example/',
+        rule.WordExampleDeleteView.as_view(),
+        name='english_example_word_delete',
+    ),
+    path(  # Add task example
         'rule/<int:pk>/add-task-example/',
         views.TaskExampleAddView.as_view(),
         name='english_example_task_add',
