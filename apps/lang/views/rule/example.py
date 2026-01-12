@@ -24,7 +24,7 @@ class WordExampleAddView(BaseAddView):
 class WordExampleListView(UserRequestMixin, generic.ListView):  # type: ignore[type-arg]
     """Rule clause word example list view."""
 
-    template_name = 'lang/rule/detail/_examples_edit.html'
+    template_name = 'lang/rule/detail/_word_examples_edit.html'
     context_object_name = 'examples'
     paginate_by = 10
 
