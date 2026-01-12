@@ -20,7 +20,7 @@ __all__ = [
     'TranslationTestProgressView',
     'TranslationTestMentorshipView',
     # Rule
-    'RuleIndexView',
+    'RuleView',
     'RuleListView',
     'RuleDetailView',
     'RuleCreateView',
@@ -49,17 +49,17 @@ from .presentation import (
 )
 from .rule import (
     ClauseCreateView,
-    TaskExampleAddView,
-    WordExampleAddView,
     ClauseUpdateView,
+    ExceptionAddView,
     RuleAssignmentCreate,
     RuleCreateView,
     RuleDeleteView,
     RuleDetailView,
-    ExceptionAddView,
-    RuleIndexView,
     RuleListView,
     RuleUpdateView,
+    RuleView,
+    TaskExampleAddView,
+    WordExampleAddView,
 )
 from .settings import (
     study_settings_vew,
