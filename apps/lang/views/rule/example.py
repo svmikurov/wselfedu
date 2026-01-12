@@ -1,83 +1,23 @@
-"""Rule example/exception views."""
+"""Rule clause edit example/exception views."""
 
-from typing import Any
-
-from django.forms import BaseForm
-from django.http.response import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404
-from django.urls import reverse
-from django.views import generic
-
-from apps.core.views.auth import UserRequestMixin
-from apps.lang import forms, models
-
-"""Rule example/exception views."""
+from apps.core.views.edit import BaseAddView
+from apps.lang import forms
 
 
-class TaskExampleAddView(UserRequestMixin, generic.CreateView):  # type: ignore[type-arg]
-    """Rule example view."""
+class TaskExampleAddView(BaseAddView):
+    """Add rule clause task example view."""
 
-    template_name = 'lang/rule/detail/_form.html'
-    form_class = forms.ClauseExampleForm
-
-    def get_form_kwargs(self) -> dict[str, Any]:
-        """Add data to form."""
-        kwargs = super().get_form_kwargs()
-
-        rule = get_object_or_404(
-            models.Rule,
-            pk=self.kwargs['pk'],
-            user=self.user,
-        )
-
-        kwargs['user'] = self.user
-        kwargs['rule'] = rule
-        return kwargs
-
-    def get_success_url(self) -> str:
-        """Return URL to redirect after successful form submission."""
-        return reverse(
-            'lang:english_rule_detail', kwargs={'pk': self.kwargs['pk']}
-        )
+    form_class = forms.TaskExampleForm
 
 
-class WordExampleAddView(
-    UserRequestMixin,
-    generic.FormView,  # type: ignore[type-arg]
-):
-    """Rule clause translation example edit view."""
+class WordExampleAddView(BaseAddView):
+    """Add rule clause word example view."""
 
-    template_name = 'lang/rule/detail/_form.html'
-    form_class = forms.ClauseTranslationForm
-
-    def get_form_kwargs(self) -> dict[str, Any]:
-        """Add data to form."""
-        kwargs = super().get_form_kwargs()
-
-        rule = get_object_or_404(
-            models.RuleClause,
-            pk=self.kwargs['pk'],
-            user=self.user,
-        )
-
-        kwargs['user'] = self.user
-        kwargs['rule'] = rule
-        return kwargs
-
-    def form_valid(self, form: BaseForm) -> HttpResponse:
-        """Handle valid form submission."""
-        try:
-            form.save()
-            return HttpResponseRedirect(self.get_success_url())
-        except Exception:
-            return self.form_invalid(form)
-
-    def get_success_url(self) -> str:
-        """Return URL to redirect after successful form submission."""
-        return reverse(
-            'lang:english_rule_detail', kwargs={'pk': self.kwargs['pk']}
-        )
+    form_class = forms.WordExampleForm
 
 
-class ExceptionAddView(generic.TemplateView):
-    """Rule example view."""
+class ExceptionAddView(BaseAddView):
+    """Add rule clause word example view."""
+
+    # TODO: Implement a view to add an exception to a rule clause
+    # Add `form_class`
