@@ -81,6 +81,16 @@ urlpatterns = [
         views.TaskExampleAddView.as_view(),
         name='english_example_task_add',
     ),
+    path(  # List of task example
+        'rule/<int:pk>/task-example-list/',
+        rule.TaskExampleListView.as_view(),
+        name='english_example_task_list',
+    ),
+    path(  # Delete the task example
+        'rule/<int:pk>/delete-task-example/',
+        rule.TaskExampleDeleteView.as_view(),
+        name='english_example_task_delete',
+    ),
     path(
         'rule/<int:pk>/add-exception/',
         views.ExceptionAddView.as_view(),
