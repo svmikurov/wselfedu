@@ -182,11 +182,11 @@ class RuleClauseTaskExampleAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
         'question_translation__foreign__word',
     ]
 
-    def question(self, obj: models.RuleExample) -> str:
+    def question(self, obj: models.RuleTaskExample) -> str:
         """Get rule question word."""
         return obj.question_translation.foreign.word
 
-    def answer(self, obj: models.RuleExample) -> str:
+    def answer(self, obj: models.RuleTaskExample) -> str:
         """Get rule answer word."""
         return obj.answer_translation.foreign.word
 
