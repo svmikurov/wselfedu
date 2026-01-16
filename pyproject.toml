@@ -21,7 +21,7 @@ dependencies = [
     "python-dotenv (>=1.1.1,<2.0.0)",
     "wse-exercises (>=0.5.0,<1.0.0)",
     "django-filter (>=25.2,<26.0)",
-    "types-django-filter (>=25.2.0.20251010,<26.0.0.0)",
+    "gunicorn (>=23.0.0,<24.0.0)",
 ]
 
 
@@ -33,6 +33,7 @@ package-mode = false
 [tool.poetry.group.typecheck.dependencies]
 django-stubs = "^5.2.1"
 djangorestframework-stubs = "^3.16.0"
+types-django-filter = "^25.2.0.20251010"
 mypy = "^1.16.1"
 
 # Dependencies for documenting project
