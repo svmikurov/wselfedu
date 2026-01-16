@@ -1,0 +1,78 @@
+# .dockerignore
+
+# ====================
+# SECRETS & CONFIGS
+# ====================
+.env
+.ebv.example
+docker-compose.prod.yml
+
+# ====================
+# VERSION CONTROL
+# ====================
+.git/
+.github/
+.gitignore
+
+# ====================
+# PYTHON & DJANGO
+# ====================
+# Byte-compiled
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.sqlite3
+.pytest_cache/
+
+# Django files
+static/
+media/
+
+# Testing & coverage
+.coverage
+.coveragerc
+.pytest.ini
+htmlcov/
+tests/
+
+# Type/lint configs
+.mypy.ini
+.prettierrc
+.ruff.toml
+eslint.config.mjs
+
+# Package management
+poetry.lock
+pyproject.toml 
+
+# ====================
+# VIRTUAL ENVS & BUILDS
+# ====================
+.venv_wselfedu/
+.venv/
+venv/
+env/
+build/
+dist/
+
+# ====================
+# IDE & EDITORS
+# ====================
+.idea/
+.vscode/
+
+# ====================
+# DOCS & DATA
+# ====================
+docs/
+README.md
+postgres_data/
+
+# ====================
+# OTHER
+# ====================
+*.log
+logs/
+temp/

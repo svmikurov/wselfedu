@@ -1,0 +1,59 @@
+services:
+
+  wse-project:
+    container_name: wse-project-prod
+    image: wse-project
+    build:
+      context: .
+      dockerfile: ./docker/project/Dockerfile.prod
+    volumes:
+      - static_volume:/wselfedu/static
+    expose:
+      - 8000
+    env_file:
+      - .env
+    command: >
+      sh -c "python manage.py collectstatic --noinput &&
+             python manage.py migrate --noinput &&
+             gunicorn wselfedu.wsgi:application --bind 0.0.0.0:8000 --workers 3"
+    depends_on:
+      wse-db-postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  wse-db-postgres:
+    container_name: wse-db-postgres
+    image: wse-db-postgres
+    build:
+      context: .
+      dockerfile: ./docker/postgres/Dockerfile
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    ports:
+      - 6543:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  wse-server:
+    container_name: wse-server
+    image: wse-server
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    volumes:
+      - static_volume:/wselfedu/static
+    ports:
+      - 80:80
+    depends_on:
+      - wse-project
+    restart: unless-stopped
+    
+volumes:
+  postgres_data:
+  static_volume:

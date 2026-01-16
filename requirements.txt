@@ -1,0 +1,31 @@
+# Name: wselfedu production requirements
+# Version: 0.1
+# Created: 2026-01-14
+# Last updated:
+# requires-python >= 3.13, <4.0
+
+# DJANGO & CORE
+djangorestframework==3.16.0
+djangorestframework-simplejwt==5.5.0
+
+# DATABASE
+psycopg2-binary==2.9.10
+
+# FRONTEND & UI
+django-bootstrap5==25.1
+django-crispy-forms==2.4
+crispy-bootstrap5==2025.6
+django-htmx==1.23.2
+
+# UTILITIES
+dependency-injector==4.48.1
+django-extensions==4.1
+django-filter==25.2
+python-dotenv==1.1.1
+drf-spectacular==0.28.0
+
+# PROJECT MODULES
+wse-exercises==0.5.0
+
+# PRODUCTION SERVER
+gunicorn==23.0.0
