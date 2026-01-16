@@ -4,7 +4,6 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-import dj_database_url
 from dotenv import load_dotenv
 
 from utils.load import get_boolean_value
@@ -33,7 +32,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'debug_toolbar',
     'django.contrib.staticfiles',
     # Installed apps
     'rest_framework',
@@ -61,13 +59,27 @@ MIDDLEWARE = [
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     # https://django-htmx.readthedocs.io/en/latest/installation.html#id1
     'django_htmx.middleware.HtmxMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+if DEBUG:
+    # Add 'debug_toolbar' to `INSTALLED_APPS` & `MIDDLEWARE`
+    try:
+        app_index = INSTALLED_APPS.index('django.contrib.staticfiles')
+        INSTALLED_APPS.insert(app_index, 'debug_toolbar')
+    except ValueError:
+        INSTALLED_APPS.append('debug_toolbar')
+
+    middleware = 'debug_toolbar.middleware.DebugToolbarMiddleware'
+    try:
+        middleware_index = INSTALLED_APPS.index('django.contrib.staticfiles')
+        INSTALLED_APPS.insert(middleware_index, middleware)
+    except ValueError:
+        INSTALLED_APPS.insert(0, middleware)
 
 ROOT_URLCONF = 'wselfedu.urls'
 
@@ -93,14 +105,19 @@ WSGI_APPLICATION = 'wselfedu.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgres://username:password@localhost:5432/dbname',
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('POSTGRES_DB'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv(
+            'DB_HOST', 'wse-db-postgres'
+        ),  # Default is the Docker Compose service name
+        'PORT': os.getenv('DB_PORT', '5432'),
+        'CONN_MAX_AGE': 600,
+        'CONN_HEALTH_CHECKS': True,
+    }
 }
 
 
