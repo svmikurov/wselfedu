@@ -30,11 +30,11 @@ from .base import (
 from .example import (
     ExceptionAddView,
     TaskExampleAddView,
+    TaskExampleDeleteView,
+    TaskExampleListView,
     WordExampleAddView,
     WordExampleDeleteView,
     WordExampleListView,
-    TaskExampleDeleteView,
-    TaskExampleListView,
 )
 from .mentorship import (
     RuleAssignmentCreate,
