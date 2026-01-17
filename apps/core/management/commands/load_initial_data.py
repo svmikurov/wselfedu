@@ -13,7 +13,7 @@ from typing_extensions import override
 from apps.core.mixins.command import DjangoStyledMessageMixin
 from utils.load import get_boolean_value
 
-PRODUCTION: bool = get_boolean_value('PRODUCTION')
+PRODUCTION: bool = settings.PRODUCTION
 FORCE_PRODUCTION: bool = get_boolean_value('FORCE_PRODUCTION')
 FIXTURES_CONFIG_PATH = 'db/fixtures/fixtures_config.yaml'
 DESCRIPTION = """
