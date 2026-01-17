@@ -14,14 +14,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-PRODUCTION = get_boolean_value('PRODUCTION')
+DJANGO_ENV = os.getenv('DJANGO_ENV')
+PRODUCTION = DJANGO_ENV in {'production'}
 
 DEBUG = get_boolean_value('DEBUG')
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-]
+if PRODUCTION:
+    ALLOWED_HOSTS = [
+        'wselfedu.ru',
+    ]
+else:
+    ALLOWED_HOSTS = [
+        'localhost',
+        '127.0.0.1',
+    ]
 
 
 # Application definition
