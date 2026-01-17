@@ -19,16 +19,7 @@ PRODUCTION = DJANGO_ENV in {'production'}
 
 DEBUG = get_boolean_value('DEBUG')
 
-if PRODUCTION:
-    ALLOWED_HOSTS = [
-        'wselfedu.ru',
-    ]
-else:
-    ALLOWED_HOSTS = [
-        'localhost',
-        '127.0.0.1',
-    ]
-
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 # Application definition
 
