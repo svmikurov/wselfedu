@@ -4,6 +4,7 @@ import os
 import re
 
 USERNAME_PATTERN = r'^[a-zA-Z_][a-zA-Z0-9_]*$'
+TRUE_BOOLEAN_VALUES = {'true', 't', '1'}
 
 
 def get_boolean_value(env_var: str) -> bool:
@@ -18,7 +19,7 @@ def get_boolean_value(env_var: str) -> bool:
 
     """
     value = os.getenv(env_var, 'False').strip().lower()
-    return value in ('true', 't', '1')
+    return value in TRUE_BOOLEAN_VALUES
 
 
 def validate_username(username: str) -> None:
