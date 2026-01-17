@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class ClauseSchema(BaseModel):
@@ -25,5 +25,9 @@ class RuleSchema(BaseModel):
     id: int
     title: str
     clauses: list[ClauseSchema]
-    exceptions: str
-    task_exceptions: str
+    exceptions: str = Field(
+        examples=['child', 'man'],
+    )
+    task_exceptions: str = Field(
+        examples=['child - children', 'man - men'],
+    )
