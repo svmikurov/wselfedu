@@ -90,7 +90,7 @@ class RuleForm(forms.ModelForm):  # type: ignore[type-arg]
             instance.user = self.user
         if commit:
             instance.save()
-        return instance
+        return instance  # type: ignore[no-any-return]
 
 
 class ClauseForm(forms.ModelForm):  # type: ignore[type-arg]
@@ -122,7 +122,7 @@ class ClauseForm(forms.ModelForm):  # type: ignore[type-arg]
         if rule:
             self.initial['rule'] = rule
 
-        self.fields['parent'].queryset = models.RuleClause.objects.filter(  # type: ignore[attr-defined]
+        self.fields['parent'].queryset = models.RuleClause.objects.filter(  # type: ignore[attr-defined, misc]
             rule=rule,
             parent=None,
         )
@@ -249,10 +249,10 @@ class TaskExampleForm(WordExampleFieldsMixin, forms.Form):
             user=user,
         )
 
-        return rule_example  # type: ignore[no-any-return]
+        return rule_example
 
 
-class WordExampleForm(forms.Form):  # type: ignore[type-arg]
+class WordExampleForm(forms.Form):
     """Clause rule translation examples form."""
 
     MAX_WORD_LENGTH = models.AbstractWordModel.WORD_LENGTH
