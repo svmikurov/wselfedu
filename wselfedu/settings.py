@@ -67,16 +67,21 @@ if DEBUG:
     # Add 'debug_toolbar' to `INSTALLED_APPS` & `MIDDLEWARE`
     try:
         app_index = INSTALLED_APPS.index('django.contrib.staticfiles')
-        INSTALLED_APPS.insert(app_index, 'debug_toolbar')
+        INSTALLED_APPS.insert(app_index + 1, 'debug_toolbar')
     except ValueError:
         INSTALLED_APPS.append('debug_toolbar')
 
     middleware = 'debug_toolbar.middleware.DebugToolbarMiddleware'
+    session_middleware = 'django.contrib.sessions.middleware.SessionMiddleware'
     try:
-        middleware_index = INSTALLED_APPS.index('django.contrib.staticfiles')
-        INSTALLED_APPS.insert(middleware_index, middleware)
+        middleware_index = MIDDLEWARE.index('django.contrib.staticfiles')
+        MIDDLEWARE.insert(middleware_index, middleware)
     except ValueError:
-        INSTALLED_APPS.insert(0, middleware)
+        try:
+            session_index = MIDDLEWARE.index(session_middleware)
+            MIDDLEWARE.insert(session_index + 1, middleware)
+        except ValueError:
+            MIDDLEWARE.insert(1, middleware)
 
 ROOT_URLCONF = 'wselfedu.urls'
 
