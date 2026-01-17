@@ -4,7 +4,9 @@
 # SECRETS & CONFIGS
 # ====================
 .env
-.ebv.example
+.env.example
+.env.postgres
+.env.postgres.example
 docker-compose.prod.yml
 
 # ====================
