@@ -16,28 +16,28 @@ from apps.lang.repositories.abc import (
 if TYPE_CHECKING:
     from apps.users.models import Person
 
-type OptionsT = Literal[
-    'category',
-    'mark',
-    'word_source',
-    'start_period',
-    'end_period',
-    'translation_order',
-]
+    type OptionsT = Literal[
+        'category',
+        'mark',
+        'word_source',
+        'start_period',
+        'end_period',
+        'translation_order',
+    ]
 
-type OptionsQuerySetT = QuerySet[
-    models.LangCategory
-    | models.LangMark
-    | models_core.Source
-    | models_core.Period
-]
+    OptionsQuerySetT = (
+        QuerySet[models.LangCategory]
+        | QuerySet[models.LangMark]
+        | QuerySet[models_core.Source]
+        | QuerySet[models_core.Period]
+    )
 
 
 class StudyParametersRepository(StudyParametersRepositoryABC):
     """Word study params repository."""
 
     def _get_id_name(self, queryset: OptionsQuerySetT) -> list[types.IdName]:
-        return list(queryset.values('id', 'name'))  # type: ignore[arg-type]
+        return list(queryset.values('id', 'name'))
 
     @override
     def get_options(self, user: Person) -> types.OptionsAPI:
