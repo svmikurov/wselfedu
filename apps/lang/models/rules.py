@@ -275,8 +275,8 @@ class RuleTaskExample(models.Model):
     def __str__(self) -> str:
         """Get the string representation of task example."""
         return (
-            f'{self.question_translation.word} - '
-            f'{self.answer_translation.word}'
+            f'{self.question_translation.foreign.word} - '
+            f'{self.answer_translation.foreign.word}'
         )
 
 
