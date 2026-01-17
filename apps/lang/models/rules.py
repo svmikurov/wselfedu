@@ -4,6 +4,9 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 
+# REVIEW: Review models methods/properties
+# after completing the formation of business logic
+
 
 class ExampleType(models.TextChoices):
     """Example type enumeration."""
@@ -212,6 +215,21 @@ class RuleException(models.Model):
 
         db_table = 'lang_rule_exception'
 
+    @property
+    def question_in_foreign(self) -> str:
+        """Get the question in foreign language."""
+        return str(self.question_translation.foreign.word)
+
+    @property
+    def answer_in_foreign(self) -> str:
+        """Get the answer in foreign language."""
+        return str(self.answer_translation.foreign.word)
+
+    @property
+    def task(self) -> str:
+        """Get the task in a foreign language."""
+        return f'{self.question_in_foreign} - {self.answer_in_foreign}'
+
 
 class RuleTaskExample(models.Model):
     """Language rule clause task example/exception."""
@@ -279,6 +297,21 @@ class RuleTaskExample(models.Model):
             f'{self.answer_translation.foreign.word}'
         )
 
+    @property
+    def question_in_foreign(self) -> str:
+        """Get the question in foreign language."""
+        return str(self.question_translation.foreign.word)
+
+    @property
+    def answer_in_foreign(self) -> str:
+        """Get the answer in foreign language."""
+        return str(self.answer_translation.foreign.word)
+
+    @property
+    def task(self) -> str:
+        """Get the task in a foreign language."""
+        return f'{self.question_in_foreign} - {self.answer_in_foreign}'
+
 
 class RuleExample(models.Model):
     """Language rule clause word translation example/exception."""
@@ -337,10 +370,17 @@ class RuleExample(models.Model):
         """Get the string representation of translation."""
         return f'{self.foreign} - {self.native}'
 
+    @property
+    def question_in_foreign(self) -> str:
+        """Get the question in foreign language."""
+        return str(self.translation.foreign.word)
+
+    @property
     def foreign(self) -> str:
         """Get the string representation of foreign word."""
         return str(self.translation.foreign.word)
 
+    @property
     def native(self) -> str:
         """Get the string representation of native word."""
         return str(self.translation.native.word)
