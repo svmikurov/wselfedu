@@ -34,7 +34,7 @@ RUN adduser --disabled-password --gecos "" app-user
 # Set working directory
 WORKDIR /wselfedu
 
-# Copy app code as app-user
+# Copy project code
 COPY wselfedu/ wselfedu/
 COPY apps/ apps/
 COPY templates/ templates/
