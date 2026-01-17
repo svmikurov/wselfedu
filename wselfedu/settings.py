@@ -19,7 +19,8 @@ PRODUCTION = DJANGO_ENV in {'production'}
 
 DEBUG = get_boolean_value('DEBUG')
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+_LOCALE_HOSTS = 'localhost,127.0.0.1'
+ALLOWED_HOSTS = str(os.getenv('ALLOWED_HOSTS') or _LOCALE_HOSTS).split(',')
 
 # Application definition
 
