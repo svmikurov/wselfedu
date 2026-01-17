@@ -30,6 +30,7 @@ logs/
 # Secret
 .env
 .env_db
+.env.postgres
 sensitive/
 
 # JS
