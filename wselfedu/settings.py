@@ -147,19 +147,6 @@ LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
-
-LANGUAGE_CODE = 'ru'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_TZ = True
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
@@ -314,6 +301,11 @@ DEBUG_TOOLBAR_CONFIG = {
 # --------------------
 # Internationalization
 # --------------------
+
+# https://docs.djangoproject.com/en/5.2/topics/i18n/
+
+TIME_ZONE = 'UTC'
+USE_TZ = True
 
 # Enable i18n
 USE_I18N = True
