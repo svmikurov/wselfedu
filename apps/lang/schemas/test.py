@@ -1,13 +1,13 @@
 """Translation study test exercise schemas."""
 
-from enum import Enum
-
 from pydantic import BaseModel, ConfigDict, Field
+
+from apps.core.enums import BaseEnum
 
 from ..models import EnglishTranslation
 
 
-class CaseStatus(Enum):
+class CaseStatus(BaseEnum):
     """Translation test status enumeration."""
 
     BAR = 'choice test bar'
