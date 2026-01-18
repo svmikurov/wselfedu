@@ -1,46 +1,68 @@
-name: Pytest
+name: Django Tests
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "dev" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "dev" ]
 
 jobs:
   test:
+    timeout-minutes: 60
     runs-on: ubuntu-latest
 
     services:
       postgres:
-        image: postgres:13
+        image: postgres:17
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: test_db
+          POSTGRES_DB: ${{ secrets.DB_NAME }}
+          POSTGRES_USER: ${{ secrets.DB_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASS }}
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
         ports:
           - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
-    env:
-      SECRET_KEY: ${{ secrets.SECRET_KEY }}
-      DB_NAME: ${{ secrets.DB_NAME }}
-      DB_USER: ${{ secrets.DB_USER }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v6
         with:
           python-version: "3.13"
 
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
+      - name: Create environment file
+        run: |
+          echo "DEBUG=True" > .env
+          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+          echo "DB_PASS=${{ secrets.DB_PASS }}" >> .env
+          echo "DB_HOST=localhost" >> .env
+          echo "DB_PORT=5432" >> .env
+          echo "LANGUAGE_CODE=ru" >> .env
 
       - name: Install dependencies
-        run: poetry install --all-extras
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gettext
 
-      - name: Copy config
-        run: cp utils/sql/report/config.yml.example utils/sql/report/config.yml
+      - name: Install Poetry
+        uses: snok/install-poetry@v1  
+
+      - name: Install python dependencies
+        run: poetry install --all-extras
+        
+      - name: Install Playwright browsers
+        run: poetry run playwright install chromium
+      
+      - name: Install system dependencies for browsers
+        run: poetry run playwright install-deps
+      
+      - name: Compile locale translations
+        run: poetry run django-admin compilemessages -l ru -l nl -l en
 
       - name: Run Pytest
         run: poetry run pytest
