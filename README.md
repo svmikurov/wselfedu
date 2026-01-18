@@ -10,18 +10,9 @@ poetry install --all-extras
 playwright install
 ```
 
-#### Update environment values
-- update secret key
-- update `username`, `password`, `dbname` to connet to database
-- debug mode
-
-.env:
-```text
-DB_NAME=db_name
-DB_USER=username
-DB_PASSWORD=password
-SECRET_KEY=secret_key
-DATABASE_URL=postgres://username:password@localhost:5432/dbname
+#### Update or copy environment values
+```commandline
+cp .env.example .env
 ```
 
 #### Add  fixtures_config.yaml
