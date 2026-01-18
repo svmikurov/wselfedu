@@ -8,8 +8,12 @@ from typing import TYPE_CHECKING
 import pytest
 from django.urls import reverse_lazy
 
+from apps.lang.schemas import CaseStatus
+
 if TYPE_CHECKING:
     from django.test import Client
+
+    from apps.lang import models
 
 TRANSLATION_TEST_URL = reverse_lazy('lang:translation_english_test')
 
@@ -32,10 +36,14 @@ class TestHttpStatus:
     def test_request_case_success(
         self,
         auth_client: Client,
+        translations: list[models.EnglishTranslation],
     ) -> None:
         """Translation test case http status is success."""
+        # Arrange
+        data = {'status': CaseStatus.NEW}
+
         # Act
-        response = auth_client.post(TRANSLATION_TEST_URL)
+        response = auth_client.post(TRANSLATION_TEST_URL, data=data)
 
         # Assert
         assert response.status_code == HTTPStatus.OK
