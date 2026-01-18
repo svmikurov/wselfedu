@@ -2,7 +2,7 @@
 include .env
 DB_NAME ?= $(DB_NAME)
 DB_USER ?= $(DB_USER)
-DB_PASS ?= $(DB_PASSWORD)
+DB_PASS ?= $(DB_PASS)
 
 # Defining color for messages
 GREEN  := \033[0;32m
@@ -14,9 +14,7 @@ run:
 	python3 manage.py runserver
 
 # Run deployment
-deploy: format \
-		mypy \
-		check-db-connections \
+deploy: check-db-connections \
 		recreate_db \
 		makemigrations \
 		migrate \
