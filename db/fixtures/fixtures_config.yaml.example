@@ -9,38 +9,6 @@ load_order:
   - db/fixtures/public/core_task_io.json
   - db/fixtures/public/core_exercise.json
   - db/fixtures/public/core_periods.json
-  # Sensitive
-  ## User
-  - db/fixtures/sensitive/users.json
-  - db/fixtures/sensitive/mentorship_users.json
-  - db/fixtures/sensitive/mentorship_request.json
-  - db/fixtures/sensitive/mentorship.json
-  ## Core
-  - db/fixtures/sensitive/core_source.json
-  ## Study
-  - db/fixtures/sensitive/study_assigned.json
-  - db/fixtures/sensitive/study_math_condition.json
-  - db/fixtures/sensitive/study_active.json
-  - db/fixtures/sensitive/study_expiration.json
-  - db/fixtures/sensitive/study_task_award.json
-  - db/fixtures/sensitive/study_task_count.json
-  ## Glossary
-  ### Users data
-  - db/fixtures/sensitive/glossary.json
-  ## Authorization
-  - db/fixtures/sensitive/session.json
-  ## Language
-  ### Development data
-  - db/fixtures/sensitive/lang_english_word.json
-  - db/fixtures/sensitive/lang_native_word.json
-  - db/fixtures/sensitive/lang_english_translation.json
-  - db/fixtures/sensitive/lang_category.json
-  - db/fixtures/sensitive/lang_mark.json
-  - db/fixtures/sensitive/lang_english_mark.json
-  #### Rules
-  - db/fixtures/sensitive/lang_rule.json
-  - db/fixtures/sensitive/lang_ruleclause.json
-  - db/fixtures/sensitive/lang_english_rule_example.json
   
 options:
   default_database: "default"
