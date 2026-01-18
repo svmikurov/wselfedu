@@ -49,9 +49,6 @@ class LangMark(models.Model):
 class EnglishMark(models.Model):
     """English translation relationship with the marker."""
 
-    user = models.ForeignKey(
-        'users.Person', on_delete=models.CASCADE, verbose_name='Пользователь'
-    )
     translation = models.ForeignKey(
         'EnglishTranslation',
         on_delete=models.CASCADE,
