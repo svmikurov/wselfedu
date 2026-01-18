@@ -2,6 +2,7 @@
 
 from typing import Any
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
@@ -13,6 +14,7 @@ from apps.lang.models import Rule
 
 class RuleAssignmentCreate(
     UserRequestMixin,
+    LoginRequiredMixin,
     generic.CreateView,  # type: ignore[type-arg]
 ):
     """Language rule assignment create view."""

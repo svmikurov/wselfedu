@@ -3,6 +3,7 @@
 from typing import Any
 
 from dependency_injector.providers import Container
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Exists, OuterRef, QuerySet
 from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
@@ -28,7 +29,11 @@ class RuleView(generic.TemplateView):
     template_name = 'lang/rule/index.html'
 
 
-class RuleCreateView(UserRequestMixin, generic.CreateView):  # type: ignore[type-arg]
+class RuleCreateView(
+    UserRequestMixin,
+    LoginRequiredMixin,
+    generic.CreateView,  # type: ignore[type-arg]
+):
     """English language rule create view."""
 
     template_name = 'components/crispy_form.html'
@@ -79,7 +84,11 @@ class RuleDetailView(base.BaseRuleDetailView[dto.RuleSchema]):
         return self.adapter.to_response(rule_object)
 
 
-class RuleListView(UserRequestMixin, generic.ListView):  # type: ignore[type-arg]
+class RuleListView(
+    UserRequestMixin,
+    LoginRequiredMixin,
+    generic.ListView,  # type: ignore[type-arg]
+):
     """English language rule list view."""
 
     template_name = 'lang/rule/list/index.html'
@@ -105,7 +114,11 @@ class RuleListView(UserRequestMixin, generic.ListView):  # type: ignore[type-arg
         )
 
 
-class ClauseCreateView(UserRequestMixin, generic.CreateView):  # type: ignore[type-arg]
+class ClauseCreateView(
+    UserRequestMixin,
+    LoginRequiredMixin,
+    generic.CreateView,  # type: ignore[type-arg]
+):
     """English language rule clause create view."""
 
     template_name = 'components/crispy_form.html'

@@ -8,6 +8,7 @@ from functools import cached_property
 from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
 from dependency_injector.wiring import Provide, inject
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import BadRequest, PermissionDenied
 from django.http.response import Http404
 from django.views import generic
@@ -36,6 +37,7 @@ T = TypeVar('T')
 
 class BaseRuleDetailView(
     UserRequestMixin,
+    LoginRequiredMixin,
     generic.TemplateView,
     ABC,
     Generic[T],

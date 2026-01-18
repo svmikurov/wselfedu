@@ -1,5 +1,6 @@
 """Rule clause edit example/exception views."""
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.query import QuerySet
 from django.views import generic
 
@@ -21,7 +22,11 @@ class WordExampleAddView(BaseAddView):
     form_class = forms.WordExampleForm
 
 
-class WordExampleListView(UserRequestMixin, generic.ListView):  # type: ignore[type-arg]
+class WordExampleListView(
+    UserRequestMixin,
+    LoginRequiredMixin,
+    generic.ListView,  # type: ignore[type-arg]
+):
     """Rule clause word example list view."""
 
     template_name = 'lang/rule/detail/_word_examples_edit.html'
@@ -52,7 +57,11 @@ class WordExampleDeleteView(HtmxOwnerDeleteView):
     model = models.RuleExample
 
 
-class TaskExampleListView(UserRequestMixin, generic.ListView):  # type: ignore[type-arg]
+class TaskExampleListView(
+    UserRequestMixin,
+    LoginRequiredMixin,
+    generic.ListView,  # type: ignore[type-arg]
+):
     """Rule clause task example list view."""
 
     template_name = 'lang/rule/detail/_task_examples_edit.html'

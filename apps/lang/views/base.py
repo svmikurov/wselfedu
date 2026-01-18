@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
 from dependency_injector.providers import Container
 from dependency_injector.wiring import Provide, inject
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import JsonResponse
 from django.views import generic
 
@@ -37,8 +38,9 @@ CONTAINER: Container[LanguageContainer] = MainContainer.lang
 
 
 class SettingsBaseView(
-    generic.TemplateView,
+    LoginRequiredMixin,
     core_views.UserRequestMixin,
+    generic.TemplateView,
 ):
     """Settings base view."""
 
@@ -65,8 +67,9 @@ class SettingsBaseView(
 
 
 class BaseUseCaseView(
-    generic.TemplateView,
     core_views.UserRequestMixin,
+    LoginRequiredMixin,
+    generic.TemplateView,
     Generic[T],
 ):
     """Base view provides user verification and UseCase."""
