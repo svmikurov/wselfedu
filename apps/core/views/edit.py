@@ -2,12 +2,17 @@
 
 from typing import Any
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 
 from .auth import UserRequestMixin
 
 
-class BaseAddView(UserRequestMixin, generic.FormView):  # type: ignore[type-arg]
+class BaseAddView(
+    UserRequestMixin,
+    LoginRequiredMixin,
+    generic.FormView,  # type: ignore[type-arg]
+):
     """Base view to add related entities via form.
 
     Override `form_class` attribute.

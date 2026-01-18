@@ -14,7 +14,7 @@ from apps.users.models import Person
 ObjectT = TypeVar('ObjectT', bound=models.Model)
 
 
-class UserRequestMixin(LoginRequiredMixin):
+class UserRequestMixin:
     """Provides the user who sent the request."""
 
     @cached_property
@@ -34,6 +34,7 @@ class OwnerMixin:
 
 class OwnershipRequiredMixin(
     UserRequestMixin,
+    LoginRequiredMixin,
     UserPassesTestMixin,
     Generic[ObjectT],
 ):
