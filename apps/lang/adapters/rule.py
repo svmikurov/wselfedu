@@ -45,7 +45,7 @@ class WebRuleAdapter(WebRuleAdapterABC):
             title=query.title,
             clauses=root_clauses,
             exceptions=self._convert_exceptions(exceptions_qs),
-            task_exceptions=self._convert_task_examples(exceptions_qs),
+            task_exceptions=self._convert_examples(exceptions_qs),
         )
         return rule_dto
 
@@ -54,24 +54,22 @@ class WebRuleAdapter(WebRuleAdapterABC):
     # ----------------------------------------------------------
 
     def _convert_exceptions(
-        self, examples_qs: QuerySet[models.RuleException]
+        self, exception_qs: QuerySet[models.RuleException]
     ) -> str:
-        """Convert rule examples/exceptions queryset to string."""
-        examples = [example.question_in_foreign for example in examples_qs]
-        result = self._join_examples(examples)
-        return result
+        """Convert rule exceptions queryset to string."""
+        exceptions = [exc.question_in_foreign for exc in exception_qs]
+        return self._to_string(exceptions)
 
-    def _convert_task_examples(
+    def _convert_examples(
         self,
         examples_qs: QuerySet[models.RuleTaskExample]
         | QuerySet[models.RuleException],
     ) -> str:
         """Convert rule task examples/exceptions queryset to string."""
         examples = [example.task for example in examples_qs]
-        result = self._join_examples(examples)
-        return result
+        return self._to_string(examples)
 
-    def _join_examples(self, items: list[str]) -> str:
+    def _to_string(self, items: list[str]) -> str:
         """Combine examples/exceptions into a string representation."""
         example_count = self._config.get('example_count', self.EXAMPLE_COUNT)
         if example_count:
@@ -134,9 +132,9 @@ class WebRuleAdapter(WebRuleAdapterABC):
             id=clause.pk,
             content=clause.content,
             exception_content=clause.exception_content,
-            examples=self._join_examples(examples),
-            task_examples=self._join_examples(task_examples),
-            exceptions=self._join_examples(exceptions),
-            task_exceptions=self._join_examples(task_exceptions),
+            examples=self._to_string(examples),
+            task_examples=self._to_string(task_examples),
+            exceptions=self._to_string(exceptions),
+            task_exceptions=self._to_string(task_exceptions),
             children=children if children is not None else [],
         )
