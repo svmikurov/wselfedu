@@ -6,7 +6,7 @@ from .. import base, mixins
 
 class TestTranslationTestPage(
     mixins.OpenPageMixin,
-    base.BaseTest,
+    base.BaseAuthTest,
 ):
     """Translation test page tests."""
 
