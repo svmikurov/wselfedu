@@ -48,7 +48,7 @@ class TestTranslationOrder:
         assert result.answer == first_translation.native.word
 
     @pytest.mark.django_db
-    def test_to_foreign(
+    def test_from_native(
         self,
         presentation_domain: Domain,
         translations: Translations,
@@ -58,7 +58,7 @@ class TestTranslationOrder:
         first_translation = translations[0]
 
         settings = schemas.SettingsModel(
-            translation_order='to_foreign',
+            translation_order='from_native',
             word_count=1,
         )
         result, _ = presentation_domain.get_case(

@@ -2,7 +2,7 @@
 
 from typing import Literal, TypedDict
 
-type TranslationOrder = Literal['to_native', 'to_foreign', 'random']
+type TranslationOrder = Literal['from_native', 'to_native', 'random']
 
 
 # --------------

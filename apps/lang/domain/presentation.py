@@ -20,8 +20,8 @@ if TYPE_CHECKING:
 
     # Presentation parameters & settings
     type Settings = schemas.SettingsModel
-    type Order = Literal['to_native', 'to_foreign', 'random']
-    type Ordered = Literal['to_native', 'to_foreign']
+    type Order = Literal['to_native', 'from_native', 'random']
+    type Ordered = Literal['to_native', 'from_native']
 
     # Presentation case
     type DomainResult = tuple[Case, CaseMeta]
@@ -68,7 +68,7 @@ class PresentationDomain:
     def _get_order(order: Order) -> Ordered:
         """Build translation order."""
         if order == 'random':
-            return choice(['to_native', 'to_foreign'])
+            return choice(['to_native', 'from_native'])
         return order
 
     @staticmethod
@@ -80,7 +80,7 @@ class PresentationDomain:
                 'question': translation.foreign,
                 'answer': translation.native,
             },
-            'to_foreign': {
+            'from_native': {
                 'question': translation.native,
                 'answer': translation.foreign,
             },
