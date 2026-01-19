@@ -22,7 +22,7 @@
             hx-get="{{ url_path }}?page={{ page_obj.previous_page_number }}"
             hx-target="#update-form"
             hx-swap="innerHTML">
-          {% trans 'button.previous' %}
+          {% trans 'button.pagination.previous' %}
         </a>
       </li>
       {% endif %}
@@ -40,7 +40,7 @@
             hx-get="{{ url_path }}?page={{ page_obj.next_page_number }}"
             hx-target="#update-form"
             hx-swap="innerHTML">
-          {% trans 'button.next' %}
+          {% trans 'button.pagination.next' %}
         </a>
       </li>
       <li class="page-item">
