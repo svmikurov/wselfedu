@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "lang.english.tasks.page.index.title" %}{% endblock title %}
+
+{% block content %}
+<main class="container">
+  <div class="row py-3">
+    <div class="col">
+      <h1>{% trans "lang.english.tasks.page.index.header" %}</h1>
+    </div>
+    <div class="col-auto">
+      <a href="javascript:history.back()" class="wse-btn"
+        >
+         {% trans 'button.back' %}
+      </a>
+    </div>
+  </div>
+
+</main>
+{% endblock content %}
