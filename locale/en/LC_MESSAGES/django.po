@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-11 01:31+0000\n"
+"POT-Creation-Date: 2026-01-19 17:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,9 +34,13 @@ msgstr "English language | WSE"
 msgid "lang.english.page.index.header"
 msgstr "English language"
 
+#: apps/lang/templates/lang/index.html:23
+msgid "button.title.exercises_for_today"
+msgstr "Exercises for today"
+
 #: apps/lang/templates/lang/rule/detail/_buttons.html:11
-#: apps/lang/templates/lang/rule/list/_table.html:25
-#: apps/lang/templates/lang/rule/list/_table.html:67
+#: apps/lang/templates/lang/rule/list/_table.html:26
+#: apps/lang/templates/lang/rule/list/_table.html:71
 msgid "button.assign"
 msgstr "Assign"
 
@@ -57,10 +61,41 @@ msgstr "Add example"
 msgid "button.add.exception"
 msgstr "Add exception"
 
-#: apps/lang/templates/lang/rule/detail/index.html:16
+#: apps/lang/templates/lang/rule/detail/_close_btn.html:8
+msgid "button.close"
+msgstr "Close"
+
+#: apps/lang/templates/lang/rule/detail/_pagination.html:25
+msgid "button.pagination.previous"
+msgstr "Previous"
+
+#: apps/lang/templates/lang/rule/detail/_pagination.html:43
+msgid "button.pagination.next"
+msgstr "Next"
+
+#: apps/lang/templates/lang/rule/detail/_task_examples_edit.html:10
+#: apps/lang/templates/lang/rule/detail/_word_examples_edit.html:10
+msgid "example"
+msgstr ""
+
+#: apps/lang/templates/lang/rule/detail/_task_examples_edit.html:15
+#: apps/lang/templates/lang/rule/detail/_word_examples_edit.html:15
+#: apps/lang/templates/lang/rule/list/_table.html:52
+msgid "button.delete.confirm"
+msgstr "Confirm"
+
+#: apps/lang/templates/lang/rule/detail/_task_examples_edit.html:24
+#: apps/lang/templates/lang/rule/detail/_word_examples_edit.html:24
+#: apps/lang/templates/lang/rule/list/_table.html:48
+#: apps/lang/templates/lang/rule/list/_table.html:83
+msgid "button.delete"
+msgstr "Delete"
+
+#: apps/lang/templates/lang/rule/detail/index.html:15
 #: apps/lang/templates/lang/rule/index.html:15
 #: apps/lang/templates/lang/rule/list/index.html:15
 #: apps/lang/templates/lang/rule/mentorship/index.html:15
+#: apps/lang/templates/lang/tasks/index.html:15
 msgid "button.back"
 msgstr "Back"
 
@@ -88,26 +123,17 @@ msgstr "Rules to be learned"
 msgid "rule"
 msgstr "Rule"
 
-#: apps/lang/templates/lang/rule/list/_table.html:34
-#: apps/lang/templates/lang/rule/list/_table.html:71
+#: apps/lang/templates/lang/rule/list/_table.html:35
+#: apps/lang/templates/lang/rule/list/_table.html:75
 msgid "button.selfedu"
 msgstr "Schedule"
 
-#: apps/lang/templates/lang/rule/list/_table.html:41
-#: apps/lang/templates/lang/rule/list/_table.html:75
+#: apps/lang/templates/lang/rule/list/_table.html:40
+#: apps/lang/templates/lang/rule/list/_table.html:79
 msgid "button.update"
 msgstr "Update"
 
-#: apps/lang/templates/lang/rule/list/_table.html:46
-#: apps/lang/templates/lang/rule/list/_table.html:79
-msgid "button.delete"
-msgstr "Delete"
-
-#: apps/lang/templates/lang/rule/list/_table.html:50
-msgid "button.delete.confirm"
-msgstr "Confirm"
-
-#: apps/lang/templates/lang/rule/list/_table.html:57
+#: apps/lang/templates/lang/rule/list/_table.html:61
 msgid "empty.rule"
 msgstr "No rules available"
 
@@ -126,6 +152,98 @@ msgstr "Assign a rule study | WSE"
 #: apps/lang/templates/lang/rule/mentorship/index.html:10
 msgid "lang.english.rule.assignation.header"
 msgstr "Assign a rule study"
+
+#: apps/lang/templates/lang/tasks/index.html:4
+msgid "lang.english.tasks.page.index.title"
+msgstr "English language for today | WSE"
+
+#: apps/lang/templates/lang/tasks/index.html:10
+msgid "lang.english.tasks.page.index.header"
+msgstr "English language for today"
+
+#: templates/components/language_selector.html:13
+msgid "Language"
+msgstr "Language"
+
+#: templates/components/language_selector.html:28
+msgid "Selection changes immediately"
+msgstr "Selection changes immediately"
+
+#: templates/components/navbar.html:25
+msgid "Disciplines"
+msgstr "Disciplines"
+
+#: templates/components/navbar.html:28
+msgid "Mathematics"
+msgstr "Mathematics"
+
+#: templates/components/navbar.html:31
+msgid "Glossary"
+msgstr "Glossary"
+
+#: templates/components/navbar.html:34
+msgid "Language learning"
+msgstr "Language learning"
+
+#: templates/components/navbar.html:41
+msgid "Project"
+msgstr "Project"
+
+#: templates/components/navbar.html:44
+msgid "Home"
+msgstr "Home"
+
+#: templates/components/navbar.html:48
+msgid "About"
+msgstr "About"
+
+#: templates/components/navbar.html:52
+msgid "Android application"
+msgstr "Android application"
+
+#: templates/components/navbar.html:55
+msgid "Windows application"
+msgstr "Windows application"
+
+#: templates/components/navbar.html:58
+msgid "Linux application"
+msgstr "Linux application"
+
+#: templates/components/navbar.html:69
+msgid "Profile"
+msgstr "Profile"
+
+#: templates/components/navbar.html:73
+msgid "Mentorship"
+msgstr "Mentorship"
+
+#: templates/components/navbar.html:79
+msgid "Logout"
+msgstr "Logout"
+
+#: templates/components/navbar.html:86
+msgid "Registration"
+msgstr "Registration"
+
+#: templates/components/navbar.html:89
+msgid "Login"
+msgstr "Login"
+
+#: templates/home.html:5 tests/browser/pages/home.py:11
+msgid "home.page.title"
+msgstr "Home - WSE Educational Project"
+
+#: templates/home.html:13
+msgid "home.page.header"
+msgstr "Educational project"
+
+#: templates/home.html:18
+msgid "button.lang.title"
+msgstr "Language learning"
+
+#: templates/home.html:23
+msgid "button.glossary.title"
+msgstr "Learning the terms"
 
 #~ msgid "button.rule.list.mentor"
 #~ msgstr "Assigned rules to students"
