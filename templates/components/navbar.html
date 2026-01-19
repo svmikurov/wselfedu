@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <nav id="nav" class="navbar navbar-expand-sm navbar-dark bg-dark">
   <div class="container-fluid">
 
@@ -20,40 +22,40 @@
 
         <!--======= Disciplines =======-->
         <li class="nav-item dropdown" id="navbarDiscipline">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Дисциплины</a>
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans 'Disciplines' %}</a>
           <ul class="dropdown-menu">
             <li class="nav-item">
-              <a class="dropdown-item" id="math-nav" href="#">Математика</a>
+              <a class="dropdown-item" id="math-nav" href="#">{% trans 'Mathematics' %}</a>
             </li>
             <li class="nav-item">
-              <a class="dropdown-item" id="glos-nav" href="{% url 'glossary:index' %}">Глоссарий</a>
+              <a class="dropdown-item" id="glos-nav" href="{% url 'glossary:index' %}">{% trans 'Glossary' %}</a>
             </li>
             <li class="nav-item">
-              <a class="dropdown-item" id="lang-nav" href="{% url 'lang:index' %}">Изучение языков</a>
+              <a class="dropdown-item" id="lang-nav" href="{% url 'lang:index' %}">{% trans 'Language learning' %}</a>
             </li>
           </ul>
         </li><!-- End Disciplines -->
 
         <!--======= Project =======-->
         <li class="nav-item dropdown" id="navbarProject">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Проект</a>
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans 'Project' %}</a>
           <ul class="dropdown-menu" aria-labelledby="navbarProjectMenu">
             <li class="nav-item">
-              <a class="dropdown-item" id="home-nav" href="{% url 'home' %}">Главная</a>
+              <a class="dropdown-item" id="home-nav" href="{% url 'home' %}">{% trans 'Home' %}</a>
             </li>
             <li><hr class="dropdown-divider"></li>
             <li>
-              <a class="dropdown-item" id="about-nav" href="#">О проекте</a>
+              <a class="dropdown-item" id="about-nav" href="#">{% trans 'About' %}</a>
             </li>
             <li class="nav-item"><hr class="dropdown-divider"></li>
             <li>
-              <a class="dropdown-item" id="android-nav" href="#">Android приложение</a>
+              <a class="dropdown-item" id="android-nav" href="#">{% trans 'Android application' %}</a>
             </li>
             <li class="nav-item">
-              <a class="dropdown-item" id="windows-nav" href="#">Приложение для Windows</a>
+              <a class="dropdown-item" id="windows-nav" href="#">{% trans 'Windows application' %}</a>
             </li>
             <li class="nav-item">
-              <a class="dropdown-item" id="linux-nav" href="#">Приложение для Linux</a>
+              <a class="dropdown-item" id="linux-nav" href="#">{% trans 'Linux application' %}</a>
             </li>
           </ul>
         </li><!-- End Project -->
@@ -64,27 +66,27 @@
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ user.username }}</a>
           <ul class="dropdown-menu">
             <li class="nav-item">
-              <a class="dropdown-item" id="user-nav" href="{% url 'users:profile' user.pk %}">Профиль</a>
+              <a class="dropdown-item" id="user-nav" href="{% url 'users:profile' user.pk %}">{% trans 'Profile' %}</a>
             </li>
             <li class="nav-item"><hr class="dropdown-divider"></li>
             <li class="nav-item">
-              <a class="dropdown-item" id="profile-nav" href="{% url 'users:mentorship' user.pk %}">Наставничество</a>
+              <a class="dropdown-item" id="profile-nav" href="{% url 'users:mentorship' user.pk %}">{% trans 'Mentorship' %}</a>
             </li>
             <li class="nav-item"><hr class="dropdown-divider"></li>
             <li class="nav-item">
               <form action="{% url 'logout' %}" method="post" class="d-inline dropdown-item">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-link text-dark text-decoration-none p-0 border-0">Выйти</button>
+                <button type="submit" class="btn btn-link text-dark text-decoration-none p-0 border-0">{% trans 'Logout' %}</button>
               </form>
             </li>
           </ul>
         </li>
         {% else %}
         <li class="nav-item">
-          <a id="register-nav" class="nav-link" href="{% url 'signup' %}">Регистрация</a>
+          <a id="register-nav" class="nav-link" href="{% url 'signup' %}">{% trans 'Registration' %}</a>
         </li>
         <li class="nav-item">
-          <a id="login-nav" class="nav-link" href="{% url 'login' %}">Войти</a>
+          <a id="login-nav" class="nav-link" href="{% url 'login' %}">{% trans 'Login' %}</a>
         </li>
         {% endif %}<!-- End User -->
 
