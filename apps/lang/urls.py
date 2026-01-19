@@ -3,12 +3,20 @@
 from django.urls import path
 
 from . import views
-from .views import rule
+from .views import curriculum, rule
 
 app_name = 'lang'
 
 urlpatterns = [
     path('', views.IndexLangView.as_view(), name='index'),
+    # -----------------~~~~~~~~~~~~~~~~
+    # English language study curriculum
+    # -----------------~~~~~~~~~~~~~~~~
+    path(
+        'tasks/',
+        curriculum.ExercisesForTodayView.as_view(),
+        name='english_tasks',
+    ),
     # -----------------~~~~~~~~~~~~~~~~
     # English language study mentorship
     # -----------------~~~~~~~~~~~~~~~~
