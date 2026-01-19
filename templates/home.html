@@ -1,26 +1,26 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Главная - WSE Образовательный проект{% endblock %}
+{% block title %}{% trans 'home.page.title' %}{% endblock %}
 
 {% block description %}
-Бесплатная платформа для изучения иностранных языков и профессиональной терминологии.
-Начните обучение прямо сейчас!
+{# TODO: Add description #}
 {% endblock %}
 
 {% block content %}
 <div class="container p-0">
-  <h1 class="mt-4 mb-5 text-center">Образовательный проект</h1>
+  <h1 class="mt-4 mb-5 text-center">{% trans 'home.page.header' %}</h1>
 
   <div class="row g-2 mb-2">
     <div class="col-12 col-md-6">
       <a href="{% url 'lang:index' %}" class="wse-btn full-width height-huge">
-        Изучение языков
+        {% trans 'button.lang.title' %}
       </a>
     </div>
     <div class="col-12 col-md-6">
       <a href="{% url 'glossary:index' %}" class="wse-btn full-width height-huge">
-        Изучение терминов
+        {% trans 'button.glossary.title' %}
       </a>
     </div>
   </div>
