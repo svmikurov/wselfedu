@@ -23,7 +23,8 @@
         {% trans 'button.title.exercises_for_today' %}
       </a>
     </div>
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-6 d-none d-md-block">
+      <span>{# Empty space for alignment #}</span>
     </div>
   </div>
 
@@ -33,7 +34,8 @@
         Правила английского языка
       </a>
     </div>
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-6 d-none d-md-block">
+      <span>{# Empty space for alignment #}</span>
     </div>
   </div>
 
@@ -43,7 +45,8 @@
         Настроить изучение слов
       </a>
     </div>
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-6 d-none d-md-block">
+      <span>{# Empty space for alignment #}</span>
     </div>
   </div>
 
@@ -73,7 +76,7 @@
     </div>
   </div>
 
-  <div class="row g-2">
+  <div class="row g-2 mb-2">
     <div class="col-12 col-md-6">
       <a href={% url 'lang:mark_list' %} class="wse-btn full-width height-huge">
         Список маркеров
