@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-19 17:37+0000\n"
+"POT-Creation-Date: 2026-01-21 12:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,6 +26,49 @@ msgstr "Annuleren"
 msgid "button.submit"
 msgstr "Indienen"
 
+#: apps/lang/templates/lang/exercise/mentor/translation/_table.html:7
+msgid "Translation"
+msgstr "Vertaling"
+
+#: apps/lang/templates/lang/exercise/mentor/translation/_table.html:8
+msgid "Is assigned"
+msgstr "Wordt toegewezen"
+
+#: apps/lang/templates/lang/exercise/mentor/translation/index.html:5
+msgid "lang.english.page.assign.translation.title"
+msgstr "Een vertaling toevoegen aan een oefening | WSE"
+
+#: apps/lang/templates/lang/exercise/mentor/translation/index.html:11
+#, fuzzy
+#| msgid "lang.english.rule.assignation.title"
+msgid "lang.english.page.assign.translation.header"
+msgstr "Een vertaling toevoegen aan een oefening | WSE"
+
+#: apps/lang/templates/lang/exercise/mentor/translation/index.html:15
+#: apps/lang/templates/lang/exercise/student/index.html:15
+#: apps/lang/templates/lang/rule/detail/index.html:15
+#: apps/lang/templates/lang/rule/index.html:15
+#: apps/lang/templates/lang/rule/list/index.html:15
+#: apps/lang/templates/lang/rule/mentorship/index.html:15
+msgid "button.back"
+msgstr "Rug"
+
+#: apps/lang/templates/lang/exercise/student/index.html:4
+msgid "lang.english.tasks.page.index.title"
+msgstr "Engels voor vandaag | WSE"
+
+#: apps/lang/templates/lang/exercise/student/index.html:10
+msgid "lang.english.tasks.page.index.header"
+msgstr "Engels voor vandaag"
+
+#: apps/lang/templates/lang/exercise/student/index.html:23
+msgid "exercise.name"
+msgstr "Oefeningnaam"
+
+#: apps/lang/templates/lang/exercise/student/index.html:24
+msgid "exercise.updated_at"
+msgstr "Gewijzigd"
+
 #: apps/lang/templates/lang/index.html:4
 msgid "lang.english.page.index.title"
 msgstr "Engelse taal | WSE"
@@ -34,9 +77,13 @@ msgstr "Engelse taal | WSE"
 msgid "lang.english.page.index.header"
 msgstr "Engelse taal"
 
-#: apps/lang/templates/lang/index.html:23
+#: apps/lang/templates/lang/index.html:24
 msgid "button.title.exercises_for_today"
 msgstr "Oefeningen voor vandaag"
+
+#: apps/lang/templates/lang/index.html:30
+msgid "button.title.assign_exercises"
+msgstr "Oefenopdracht"
 
 #: apps/lang/templates/lang/rule/detail/_buttons.html:11
 #: apps/lang/templates/lang/rule/list/_table.html:26
@@ -90,14 +137,6 @@ msgstr "Versturen"
 #: apps/lang/templates/lang/rule/list/_table.html:83
 msgid "button.delete"
 msgstr "Verdwalen"
-
-#: apps/lang/templates/lang/rule/detail/index.html:15
-#: apps/lang/templates/lang/rule/index.html:15
-#: apps/lang/templates/lang/rule/list/index.html:15
-#: apps/lang/templates/lang/rule/mentorship/index.html:15
-#: apps/lang/templates/lang/tasks/index.html:15
-msgid "button.back"
-msgstr "Rug"
 
 #: apps/lang/templates/lang/rule/index.html:4
 msgid "lang.english.rule.page.index.title"
@@ -153,21 +192,9 @@ msgstr "Wijs een regelonderzoek toe | WSE"
 msgid "lang.english.rule.assignation.header"
 msgstr "Wijs een regelonderzoek toe"
 
-#: apps/lang/templates/lang/tasks/index.html:4
-msgid "lang.english.tasks.page.index.title"
-msgstr "Engels voor vandaag | WSE"
-
-#: apps/lang/templates/lang/tasks/index.html:10
-msgid "lang.english.tasks.page.index.header"
-msgstr "Engels voor vandaag"
-
 #: templates/components/language_selector.html:13
 msgid "Language"
 msgstr "Taal"
-
-#: templates/components/language_selector.html:28
-msgid "Selection changes immediately"
-msgstr "De selectie verandert onmiddellijk"
 
 #: templates/components/navbar.html:25
 msgid "Disciplines"
@@ -244,6 +271,9 @@ msgstr "Taal leren"
 #: templates/home.html:23
 msgid "button.glossary.title"
 msgstr "De termen leren"
+
+#~ msgid "Selection changes immediately"
+#~ msgstr "De selectie verandert onmiddellijk"
 
 #~ msgid "button.rule.list.mentor"
 #~ msgstr "Toegewezen regels aan studenten"
