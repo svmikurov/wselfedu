@@ -232,3 +232,17 @@ class MentorshipEnglishRuleAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     def student(self, obj: models.MentorshipEnglishRule) -> str:
         """Get mentor."""
         return obj.mentorship.student  # type: ignore[return-value]
+
+
+@admin.register(models.EnglishAssignedExercise)
+class EnglishAssignedExerciseAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """English exercise assign model administration."""
+
+    list_display = ['mentorship', 'exercise']
+
+
+@admin.register(models.EnglishExerciseTranslation)
+class EnglishExerciseTranslationAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """English exercise translation model administration."""
+
+    list_display = ['exercise', 'translation']
