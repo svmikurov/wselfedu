@@ -18,8 +18,12 @@ __all__ = [
     'WordExampleForm',
     # Mentorship
     'RuleAssignmentForm',
+    'AssignTranslationForm',
 ]
 
+from .assignment import (
+    AssignTranslationForm,
+)
 from .parameters import (
     ParametersForm,
     PresentationSettingsForm,
