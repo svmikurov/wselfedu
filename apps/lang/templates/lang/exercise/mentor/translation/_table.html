@@ -1,0 +1,24 @@
+{% load i18n %}
+
+<table id="translations-table"
+       class="table">
+  <thead>
+    <tr>
+    <th>{% trans 'Translation' %}</th>
+    <th>{% trans 'Is assigned' %}</th>
+    </tr>
+  </thead>
+
+  <tbody id="tbody">
+    {% for translation in translations %}
+    <tr>
+      <td>{{ translation.display_name }}</td>
+      <td>
+        <input type="checkbox"
+               name="active:{{ translation.id }}"
+               {% if translation.is_active %}checked{% endif %}>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

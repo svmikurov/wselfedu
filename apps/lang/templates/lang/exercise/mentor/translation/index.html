@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block title %}{% trans 'lang.english.page.assign.translation.title' %}{% endblock title %}
+
+{% block content %}
+<main class="container">
+  <div class="row py-3">
+    <div class="col">
+      <h1>{% trans 'lang.english.page.assign.translation.header' %}</h1>
+    </div>
+    <div class="col-auto">
+      <a href="javascript:history.back()" class="wse-btn">
+        {% trans 'button.back' %}
+      </a>
+    </div>
+  </div>
+
+  <form id="assigned-translations"
+      hx-post=""
+      hx-swap="innerHTML settle:3s"
+      hx-target="#toast"
+      hx-include="#translations-data"
+      >
+
+    <input type="hidden"
+           name="page_translation_ids"
+           value="{% for t in translations %}{{ t.id }}{% if not forloop.last %},{% endif%}{% endfor %}">
+
+    {{ form }}
+
+    <div>  
+      {% include 'lang/exercise/mentor/translation/_table.html' %}
+    </div>  
+    <input type="submit" value="Bulk Update" class="wse-btn">
+  </form>
+  <output id="toast"></output>
+</main>
+
+<style>
+#toast.htmx-settling {
+  opacity: 100;
+}
+
+#toast {
+  background: #E1F0DA;
+  opacity: 0;
+  transition: opacity 3s ease-out;
+}
+</style>
+{% endblock content %}
