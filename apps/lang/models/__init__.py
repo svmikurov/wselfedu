@@ -12,6 +12,9 @@ __all__ = [
     'LangCategory',
     # Exercise
     'LangExercise',
+    'EnglishAssignedExercise',
+    'EnglishExerciseTranslation',
+    # Parameters
     'Parameters',
     'TranslationSetting',
     'PresentationSettings',
@@ -26,7 +29,11 @@ __all__ = [
 ]
 
 from .category import LangCategory
-from .exercise import LangExercise
+from .exercise import (
+    EnglishAssignedExercise,
+    EnglishExerciseTranslation,
+    LangExercise,
+)
 from .mark import EnglishMark, LangMark
 from .mentorship import (
     MentorshipEnglishRule,
