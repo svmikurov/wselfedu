@@ -19,12 +19,16 @@
 
   <div class="row g-2 mb-2">
     <div class="col-12 col-md-6">
+      {# Student's exercises in english for today #}
       <a href={% url 'lang:english_tasks' %} class="wse-btn full-width height-huge">
         {% trans 'button.title.exercises_for_today' %}
       </a>
     </div>
-    <div class="col-12 col-md-6 d-none d-md-block">
-      <span>{# Empty space for alignment #}</span>
+    <div class="col-12 col-md-6">
+      {# Assign exercises for student #}
+      <a href={% url 'lang:english_assign_exercises' %} class="wse-btn full-width height-huge">
+        {% trans 'button.title.assign_exercises' %}
+      </a>
     </div>
   </div>
 
