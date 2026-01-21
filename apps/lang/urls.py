@@ -3,7 +3,8 @@
 from django.urls import path
 
 from . import views
-from .views import curriculum, rule
+from .views import rule
+from .views.exercise import assignments, curriculum
 
 app_name = 'lang'
 
@@ -16,6 +17,11 @@ urlpatterns = [
         'tasks/',
         curriculum.ExercisesForTodayView.as_view(),
         name='english_tasks',
+    ),
+    path(
+        'assign/',
+        assignments.AssignedTranslationView.as_view(),
+        name='english_assign_exercises',
     ),
     # -----------------~~~~~~~~~~~~~~~~
     # English language study mentorship
