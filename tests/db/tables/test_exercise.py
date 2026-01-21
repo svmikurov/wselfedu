@@ -1,7 +1,9 @@
 """Contains tests of exercise tables with ORM and SQL queries."""
 
+from __future__ import annotations
+
 from datetime import timedelta
-from typing import Type
+from typing import TYPE_CHECKING, Type, Union
 
 import pytest
 from django.utils import timezone
@@ -9,6 +11,11 @@ from django.utils import timezone
 from apps.core.models import Discipline
 from apps.lang.models import LangExercise
 from apps.math.models import MathExercise
+
+if TYPE_CHECKING:
+    from apps.users.models import Person
+
+    type ExerciseType = Union[Type[LangExercise], Type[MathExercise]]
 
 EXERCISES = (
     'schema, exercise',
@@ -21,6 +28,9 @@ INITIAL_NAME = 'initial exercise name'
 UPDATED_NAME = 'updated exercise name'
 TOLERANCE = timedelta(seconds=1)
 
+# HACK: Remove type condition in tests and type ignoring
+# after adding user to mathematical exercise model
+
 
 @pytest.fixture
 def discipline() -> Discipline:
@@ -32,8 +42,9 @@ def discipline() -> Discipline:
 @pytest.mark.django_db
 def test_create_exercise(
     schema: str,
-    exercise: Type[MathExercise],
+    exercise: ExerciseType,
     discipline: Discipline,
+    user: Person,
 ) -> None:
     """Test the auto-fill timestamp on create with ORM.
 
@@ -45,7 +56,12 @@ def test_create_exercise(
     now = timezone.now()
 
     # Create exercise
-    exercise.objects.create(discipline=discipline, name=INITIAL_NAME)
+    if exercise is LangExercise:
+        exercise.objects.create(  # type: ignore[misc]
+            user=user, discipline=discipline, name=INITIAL_NAME
+        )
+    else:
+        exercise.objects.create(discipline=discipline, name=INITIAL_NAME)
 
     # Exercise created
     obj = exercise.objects.get(name=INITIAL_NAME)
@@ -61,8 +77,9 @@ def test_create_exercise(
 @pytest.mark.django_db
 def test_update_exercise(
     schema: str,
-    exercise: Type[MathExercise],
+    exercise: ExerciseType,
     discipline: Discipline,
+    user: Person,
 ) -> None:
     """Test the auto-fill timestamp on update with ORM request.
 
@@ -73,7 +90,12 @@ def test_update_exercise(
         - created_at
     """
     # Set exercise
-    obj = exercise.objects.create(discipline=discipline, name=INITIAL_NAME)
+    if exercise is LangExercise:
+        obj = exercise.objects.create(  # type: ignore[misc]
+            user=user, discipline=discipline, name=INITIAL_NAME
+        )
+    else:
+        obj = exercise.objects.create(discipline=discipline, name=INITIAL_NAME)
 
     # Update exercise name
     exercise.objects.filter(name=INITIAL_NAME).update(name=UPDATED_NAME)
