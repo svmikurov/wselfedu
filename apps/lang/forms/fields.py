@@ -45,3 +45,16 @@ def create_marks_field(user: Person) -> forms.ModelMultipleChoiceField:  # type:
         label='Маркер примера',
         required=False,
     )
+
+
+def create_translation_choices(
+    user: Person,
+) -> forms.MultipleChoiceField:
+    """Create marks field."""
+    translation_choices = queries.get_translations(user)
+    return forms.MultipleChoiceField(
+        choices=list(translation_choices),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+        label='Выберите элементы',
+    )
