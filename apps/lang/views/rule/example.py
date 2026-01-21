@@ -1,5 +1,7 @@
 """Rule clause edit example/exception views."""
 
+from typing import Any
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.query import QuerySet
 from django.views import generic
@@ -68,7 +70,7 @@ class TaskExampleListView(
     context_object_name = 'examples'
     paginate_by = 10
 
-    def get_queryset(self) -> QuerySet[models.RuleTaskExample]:
+    def get_queryset(self) -> QuerySet[models.RuleTaskExample, Any]:
         """Add filters and optimize query."""
         return (
             models.RuleTaskExample.objects.filter(
