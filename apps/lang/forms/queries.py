@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
+
+from django.db.models import Exists, OuterRef, Value
+from django.db.models.functions import Concat
 
 from apps.core import models as core_models
 
@@ -45,3 +48,33 @@ def get_native(user: Person, word: str) -> models.NativeWord:
     """
     obj, _ = models.NativeWord.objects.get_or_create(user=user, word=word)
     return obj
+
+
+def get_translations(user: Person) -> QuerySet[models.EnglishTranslation, Any]:
+    """Get user translations."""
+    return models.EnglishTranslation.objects.filter(user=user).annotate(
+        display_name=Concat(
+            'foreign__word',
+            Value(' - '),
+            'native__word',
+        )
+    )
+
+
+def get_exercise_translations(
+    user: Person,
+    exercise_id: int | None = None,
+) -> QuerySet[models.EnglishTranslation, Any]:
+    """Get user translations."""
+    translations = get_translations(user)
+
+    if exercise_id:
+        subquery = models.EnglishExerciseTranslation.objects.filter(
+            exercise=exercise_id,
+            translation=OuterRef('pk'),
+        )
+        return translations.annotate(
+            is_active=Exists(subquery),
+        )
+
+    return translations
