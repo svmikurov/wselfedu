@@ -24,12 +24,15 @@
         <li class="nav-item dropdown" id="navbarDiscipline">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans 'Disciplines' %}</a>
           <ul class="dropdown-menu">
+            {# Mathematics #}
             <li class="nav-item">
               <a class="dropdown-item" id="math-nav" href="#">{% trans 'Mathematics' %}</a>
             </li>
+            {# Glossary #}
             <li class="nav-item">
               <a class="dropdown-item" id="glos-nav" href="{% url 'glossary:index' %}">{% trans 'Glossary' %}</a>
             </li>
+            {# Language #}
             <li class="nav-item">
               <a class="dropdown-item" id="lang-nav" href="{% url 'lang:index' %}">{% trans 'Language learning' %}</a>
             </li>
@@ -40,20 +43,25 @@
         <li class="nav-item dropdown" id="navbarProject">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans 'Project' %}</a>
           <ul class="dropdown-menu" aria-labelledby="navbarProjectMenu">
+            {# Home #}
             <li class="nav-item">
               <a class="dropdown-item" id="home-nav" href="{% url 'home' %}">{% trans 'Home' %}</a>
             </li>
             <li><hr class="dropdown-divider"></li>
+            {# About #}
             <li>
               <a class="dropdown-item" id="about-nav" href="#">{% trans 'About' %}</a>
             </li>
             <li class="nav-item"><hr class="dropdown-divider"></li>
+            {# Android application #}
             <li>
               <a class="dropdown-item" id="android-nav" href="#">{% trans 'Android application' %}</a>
             </li>
+            {# Windows application #}
             <li class="nav-item">
               <a class="dropdown-item" id="windows-nav" href="#">{% trans 'Windows application' %}</a>
             </li>
+            {# Linux application #}
             <li class="nav-item">
               <a class="dropdown-item" id="linux-nav" href="#">{% trans 'Linux application' %}</a>
             </li>
@@ -65,15 +73,18 @@
         <li class="nav-item dropdown" id="navbarAccount">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ user.username }}</a>
           <ul class="dropdown-menu">
+            {# Profile #}
             <li class="nav-item">
               <a class="dropdown-item" id="user-nav" href="{% url 'users:profile' user.pk %}">{% trans 'Profile' %}</a>
             </li>
             <li class="nav-item"><hr class="dropdown-divider"></li>
+            {# Mentorship #}
             <li class="nav-item">
               <a class="dropdown-item" id="profile-nav" href="{% url 'users:mentorship' user.pk %}">{% trans 'Mentorship' %}</a>
             </li>
             <li class="nav-item"><hr class="dropdown-divider"></li>
             <li class="nav-item">
+              {# Logout #}
               <form action="{% url 'logout' %}" method="post" class="d-inline dropdown-item">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-link text-dark text-decoration-none p-0 border-0">{% trans 'Logout' %}</button>
@@ -82,11 +93,13 @@
           </ul>
         </li>
         {% else %}
-        <li class="nav-item">
-          <a id="register-nav" class="nav-link" href="{% url 'signup' %}">{% trans 'Registration' %}</a>
-        </li>
+        {# Login #}
         <li class="nav-item">
           <a id="login-nav" class="nav-link" href="{% url 'login' %}">{% trans 'Login' %}</a>
+        </li>
+        {# Registration #}
+        <li class="nav-item">
+          <a id="register-nav" class="nav-link" href="{% url 'signup' %}">{% trans 'Registration' %}</a>
         </li>
         {% endif %}<!-- End User -->
 
