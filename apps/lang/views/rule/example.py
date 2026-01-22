@@ -1,32 +1,35 @@
 """Rule clause edit example/exception views."""
 
-from typing import Any
+from __future__ import annotations
 
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models.query import QuerySet
+from typing import TYPE_CHECKING, Any
+
 from django.views import generic
 
-from apps.core.views.auth import UserRequestMixin
-from apps.core.views.crud import BaseAddView
-from apps.core.views.htmx import HtmxOwnerDeleteView
+from apps.core.views import auth, crud
 from apps.lang import forms, models
 
+if TYPE_CHECKING:
+    from django.db.models.query import QuerySet
 
-class TaskExampleAddView(BaseAddView):
-    """Add rule clause task example view."""
+__all__ = [
+    'TaskExampleListView',
+    'TaskExampleAddView',
+    'TaskExampleDeleteView',
+    'WordExampleListView',
+    'WordExampleAddView',
+    'WordExampleDeleteView',
+    'ExceptionAddView',
+]
 
-    form_class = forms.TaskExampleForm
 
-
-class WordExampleAddView(BaseAddView):
-    """Add rule clause word example view."""
-
-    form_class = forms.WordExampleForm
+# ------------
+# Word example
+# ------------
 
 
 class WordExampleListView(
-    UserRequestMixin,
-    LoginRequiredMixin,
+    auth.UserLoginRequiredMixin,
     generic.ListView,  # type: ignore[type-arg]
 ):
     """Rule clause word example list view."""
@@ -53,15 +56,25 @@ class WordExampleListView(
         )
 
 
-class WordExampleDeleteView(HtmxOwnerDeleteView):
+class WordExampleAddView(crud.BaseAddView):
+    """Add rule clause word example view."""
+
+    form_class = forms.WordExampleForm
+
+
+class WordExampleDeleteView(crud.HtmxOwnerDeleteView):
     """Rule clause word example delete view."""
 
     model = models.RuleExample
 
 
+# ------------
+# Task example
+# ------------
+
+
 class TaskExampleListView(
-    UserRequestMixin,
-    LoginRequiredMixin,
+    auth.UserLoginRequiredMixin,
     generic.ListView,  # type: ignore[type-arg]
 ):
     """Rule clause task example list view."""
@@ -88,13 +101,24 @@ class TaskExampleListView(
         )
 
 
-class TaskExampleDeleteView(HtmxOwnerDeleteView):
+class TaskExampleAddView(crud.BaseAddView):
+    """Add rule clause task example view."""
+
+    form_class = forms.TaskExampleForm
+
+
+class TaskExampleDeleteView(crud.HtmxOwnerDeleteView):
     """Rule clause task example delete view."""
 
     model = models.RuleExample
 
 
-class ExceptionAddView(BaseAddView):
+# ---------
+# Exception
+# ---------
+
+
+class ExceptionAddView(crud.BaseAddView):
     """Add rule clause word example view."""
 
     # TODO: Implement a view to add an exception to a rule clause

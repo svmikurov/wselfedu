@@ -88,4 +88,4 @@ def study_settings_view(request: HttpRequest) -> HttpResponse:
         'header': 'Настройки изучения',
     }
 
-    return render(request, 'lang/settings/index.html', context)
+    return render(request, 'lang/exercise/settings/index.html', context)

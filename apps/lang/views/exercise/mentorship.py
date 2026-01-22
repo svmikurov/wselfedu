@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 from django.urls import reverse_lazy
 from django.views import generic
 
-from apps.core.views import auth, crud, htmx
+from apps.core.views import auth, crud
 from apps.lang.forms import LangExerciseForm
 from apps.lang.forms.queries import get_exercises
 from apps.lang.models import LangExercise
@@ -74,7 +74,7 @@ class MentorExerciseUpdateView(
 
 
 class MentorExerciseDeleteView(
-    htmx.HtmxOwnerDeleteView,
+    crud.HtmxOwnerDeleteView,
 ):
     """Mentor exercise delete view."""
 

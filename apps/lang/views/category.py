@@ -2,7 +2,7 @@
 
 from django.urls import reverse_lazy
 
-from apps.core import views as core_views
+from apps.core.views import crud
 
 from ..forms import CategoryForm
 from ..models import Category
@@ -15,16 +15,16 @@ __all__ = [
 ]
 
 
-class CategoryListView(core_views.BaseListView[Category]):
+class CategoryListView(crud.BaseListView[Category]):
     """Category list view."""
 
     template_name = 'lang/category/index.html'
     context_object_name = 'categories'
-    model = Category
     paginate_by = 15
+    model = Category
 
 
-class CategoryCreateView(core_views.BaseCreateView):
+class CategoryCreateView(crud.BaseCreateView):
     """Category create view."""
 
     template_name = 'components/crispy_form.html'
@@ -32,16 +32,16 @@ class CategoryCreateView(core_views.BaseCreateView):
     form_class = CategoryForm
 
 
-class CategoryUpdateView(core_views.BaseUpdateView[Category]):
+class CategoryUpdateView(crud.BaseUpdateView[Category]):
     """Category update view."""
 
     template_name = 'components/crispy_form.html'
     success_url = reverse_lazy('lang:category_list')
-    model = Category
     form_class = CategoryForm
+    model = Category
 
 
-class CategoryDeleteView(core_views.HtmxOwnerDeleteView):
+class CategoryDeleteView(crud.HtmxOwnerDeleteView):
     """Category delete view."""
 
     model = Category

@@ -31,7 +31,7 @@ __all__ = [
 # REVIEW:
 
 
-class TranslationViewMixin:
+class _TranslationViewMixin:
     """Provides repository injection and user property."""
 
     _repository: TranslationRepoABC | None = None
@@ -70,7 +70,7 @@ class EnglishTranslationIndexView(
 # TODO: Fix database query count
 class EnglishTranslationListView(
     core_views.UserLoginRequiredMixin,
-    TranslationViewMixin,
+    _TranslationViewMixin,
     filter_views.FilterView,
 ):
     """English translation list view."""
@@ -95,7 +95,7 @@ class EnglishTranslationListView(
 
 class EnglishTranslationCreateView(
     core_views.UserLoginRequiredMixin,
-    TranslationViewMixin,
+    _TranslationViewMixin,
     generic.FormView,  # type: ignore[type-arg]
 ):
     """English translation create view."""
@@ -111,7 +111,7 @@ class EnglishTranslationCreateView(
 
 
 class EnglishTranslationUpdateView(
-    TranslationViewMixin,
+    _TranslationViewMixin,
     core_views.OwnershipRequiredMixin[models.EnglishTranslation],
     generic.UpdateView,  # type: ignore[type-arg]
 ):
