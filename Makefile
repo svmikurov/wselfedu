@@ -127,9 +127,9 @@ dump-lang:
 	lang.ruletaskexample \
 	lang.ruleexample \
 	lang.ruleexception \
-	lang.langmark \
-	lang.englishmark \
-	lang.langcategory \
+	lang.mark \
+	lang.translationmark \
+	lang.category \
 	--indent 2 > temp/lang_english_related.json
 	python manage.py dumpdata \
 	users.person \
