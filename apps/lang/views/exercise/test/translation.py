@@ -14,8 +14,6 @@ from apps.lang.schemas.test import CaseStatus
 from apps.lang.use_cases import BaseUseCase
 from di import MainContainer
 
-from ..._data import ENGLISH_TRANSLATION
-
 if TYPE_CHECKING:
     from dependency_injector.providers import Container
     from django.http.request import HttpRequest
@@ -89,8 +87,6 @@ class _BaseTranslationTestView(BaseUseCaseView[UseCase]):
 class TranslationTestView(_BaseTranslationTestView):
     """Translation study test exercise view."""
 
-    extra_context = ENGLISH_TRANSLATION['translation_test']
-
     @inject
     def dispatch(
         self,
@@ -107,8 +103,6 @@ class TranslationTestView(_BaseTranslationTestView):
 class TranslationTestProgressView(_BaseTranslationTestView):
     """Translation study test exercise view with progress tracking."""
 
-    extra_context = ENGLISH_TRANSLATION['translation_test']
-
     @inject
     def dispatch(
         self,
@@ -124,8 +118,6 @@ class TranslationTestProgressView(_BaseTranslationTestView):
 
 class TranslationTestMentorshipView(_BaseTranslationTestView):
     """Translation study test exercise view for mentorship."""
-
-    extra_context = ENGLISH_TRANSLATION['translation_test']
 
     @inject
     def dispatch(

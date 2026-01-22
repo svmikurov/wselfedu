@@ -14,7 +14,6 @@ from di import MainContainer
 
 from .. import filters, forms, models
 from ..repositories.abc import TranslationRepoABC
-from . import _data
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
@@ -80,7 +79,6 @@ class EnglishTranslationListView(
     filterset_class = filters.TranslationFilter
     context_object_name = 'translations'
     paginate_by = 20
-    extra_context = _data.ENGLISH_TRANSLATION['list']
 
     def get_queryset(self) -> QuerySet[models.EnglishTranslation]:
         """Get translation queryset."""
@@ -105,7 +103,6 @@ class EnglishTranslationCreateView(
     form_class = forms.EnglishCreateForm
     template_name = 'lang/form.html'
     success_url = reverse_lazy('lang:english_translation_create')
-    extra_context = _data.ENGLISH_TRANSLATION['create']
 
     def form_valid(self, form: forms.EnglishCreateForm) -> HttpResponse:
         """Save translation."""
@@ -124,7 +121,6 @@ class EnglishTranslationUpdateView(
     form_class = forms.EnglishUpdateForm
     template_name = 'lang/form.html'
     success_url = reverse_lazy('lang:english_translation_list')
-    extra_context = _data.ENGLISH_TRANSLATION['update']
 
     def form_valid(self, form: forms.EnglishUpdateForm) -> HttpResponse:
         """Save translation."""

@@ -21,7 +21,6 @@ from apps.lang.di import LanguageContainer
 from di import MainContainer
 
 from ....services import StudySettingsServiceABC
-from ... import _data
 
 if TYPE_CHECKING:
     from django.http.request import HttpRequest
@@ -125,7 +124,12 @@ class EnglishTranslationStudyView(SettingsBaseView):
     """
 
     template_name = 'lang/presentation/index.html'
-    extra_context = _data.ENGLISH_TRANSLATION['english_study']
+    # HACK: Remove extra context
+    extra_context = {
+        'title': 'Изучение английских слов',
+        'header': 'Изучение английских слов',
+        'case_url': '/lang/translation/english/study/case/',
+    }
 
     def get_context_data(self, **kwargs: dict[str, Any]) -> dict[str, Any]:
         """Add study settings to context."""

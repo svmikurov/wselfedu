@@ -1,14 +1,15 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load i18n %}
 
-{% block title %}{{ title }}{% endblock title %}
+{% block title %}{% trans 'lang.page.translation.test.title' %}{% endblock title %}
 
 {% block content %}
-<main class="container p-0">
+<main class="container">
   <div id="header-block" class="row align-items-start py-1">
     <div class="col">
-      <h1 class="mb-0">{{ header }}</h1>
+      <h1 class="mb-0">{% trans 'lang.page.translation.test.header' %}</h1>
     </div>
     <div class="col-auto">
       <a href="{% url 'lang:settings' %}" class="wse-btn">
