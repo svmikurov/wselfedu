@@ -123,7 +123,7 @@ class EnglishTranslationStudyView(SettingsBaseView):
     The page requests a new study case as partial template to update.
     """
 
-    template_name = 'lang/presentation/index.html'
+    template_name = 'lang/exercise/presentation/index.html'
     # HACK: Remove extra context
     extra_context = {
         'title': 'Изучение английских слов',
@@ -154,8 +154,9 @@ class EnglishTranslationStudyCaseView(CaseBaseView):
 
     def render_partial(self, context: dict[str, Any]) -> HttpResponse:
         """Return response with template for partial page update."""
-        case = render_to_string('lang/presentation/_case.html', context)
-        mark = render_to_string('lang/presentation/_mark_bar.html', context)
+        template_dir = 'lang/exercise/presentation/'
+        case = render_to_string(f'{template_dir}_case.html', context)
+        mark = render_to_string(f'{template_dir}_mark_bar.html', context)
         combined_html = f'{case}\n{mark}'
         return HttpResponse(combined_html)
 

@@ -20,14 +20,14 @@
     </div>
   </div>
 
-  {% include 'lang/presentation/_settings.html' %}
+  {% include 'lang/exercise/presentation/_settings.html' %}
 
   <div id="presentation-block">
-    {% include 'lang/presentation/_case.html' %}
-    {% include 'lang/presentation/_mark_bar.html' %}
+    {% include 'lang/exercise/presentation/_case.html' %}
+    {% include 'lang/exercise/presentation/_mark_bar.html' %}
   </div>
 
-  {% include 'lang/presentation/control_bar.html' %}
+  {% include 'lang/exercise/presentation/control_bar.html' %}
 
 </main>
 {% endblock %}
@@ -35,6 +35,6 @@
 {% block script %}
 <script
   type="module"
-  src="{% static 'js/lang/presentation/index.js' %}"
+  src="{% static 'js/lang/exercise/presentation/index.js' %}"
 ></script>
 {% endblock %}

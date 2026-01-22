@@ -39,9 +39,9 @@ T = TypeVar('T')
 CONTAINER: Container[LanguageContainer] = MainContainer.lang
 
 PARTIAL_TEMPLATES: CaseTemplates = {
-    CaseStatus.BAR: 'lang/test/_bar.html',
-    CaseStatus.NEW: 'lang/test/_case.html',
-    CaseStatus.EXPLANATION: 'lang/test/_explanation.html',
+    CaseStatus.BAR: 'lang/exercise/test/_bar.html',
+    CaseStatus.NEW: 'lang/exercise/test/_case.html',
+    CaseStatus.EXPLANATION: 'lang/exercise/test/_explanation.html',
 }
 
 
@@ -65,7 +65,7 @@ class BaseUseCaseView(
 class _BaseTranslationTestView(BaseUseCaseView[UseCase]):
     """Translation study test exercise base view."""
 
-    template_name = 'lang/test/index.html'
+    template_name = 'lang/exercise/test/index.html'
 
     def post(self, request: HttpRequest) -> HttpResponse:
         """Render translation study test case via partial template."""
