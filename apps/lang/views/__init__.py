@@ -2,14 +2,6 @@
 
 __all__ = [
     'IndexLangView',
-    'MarkCreateView',
-    'MarkUpdateView',
-    'MarkDeleteView',
-    'MarkListView',
-    'EnglishTranslationCreateView',
-    'EnglishTranslationListView',
-    'EnglishTranslationUpdateView',
-    'EnglishTranslationDeleteView',
     'study_settings_view',
     # Study
     'EnglishTranslationStudyView',
@@ -36,12 +28,6 @@ __all__ = [
 ]
 
 from .index import IndexLangView
-from .mark import (
-    MarkCreateView,
-    MarkDeleteView,
-    MarkListView,
-    MarkUpdateView,
-)
 from .presentation import (
     EnglishTranslationStudyCaseView,
     EnglishTranslationStudyView,
@@ -63,12 +49,6 @@ from .rule import (
 )
 from .settings import (
     study_settings_view,
-)
-from .translation import (
-    EnglishTranslationCreateView,
-    EnglishTranslationDeleteView,
-    EnglishTranslationListView,
-    EnglishTranslationUpdateView,
 )
 from .translation_test import (
     TranslationTestMentorshipView,
