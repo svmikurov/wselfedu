@@ -4,15 +4,12 @@ from typing import Any
 
 from dependency_injector.wiring import Provide, inject
 from django import forms
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import PermissionDenied
-from django.http.request import HttpRequest
-from django.http.response import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from django.template.loader import render_to_string
 from django.views import View
 from django.views.generic import FormView
 
-from apps.core.views.htmx import HtmxDeleteView
+from apps.core.views import auth, crud
 from di import MainContainer as Container
 
 from ..exception import MentorshipError
@@ -21,8 +18,17 @@ from ..models import Mentorship, MentorshipRequest, Person
 from ..presenters.iabc import IMentorshipPresenter
 from ..services.iabc import IMentorshipService
 
+__all__ = [
+    'MentorshipView',
+    'AcceptMentorshipRequest',
+    'DeleteStudentView',
+    'DeleteMentorView',
+    'DeleteStudentRequestView',
+    'DeleteMentorRequestView',
+]
 
-class MentorshipView(LoginRequiredMixin, FormView):  # type: ignore[type-arg]
+
+class MentorshipView(auth.UserLoginRequiredMixin, FormView):  # type: ignore[type-arg]
     """Mentorship view."""
 
     form_class = SendMentorshipRequestForm
@@ -72,14 +78,6 @@ class MentorshipView(LoginRequiredMixin, FormView):  # type: ignore[type-arg]
             return HttpResponse(self._get_html(form=form))
         return super().form_invalid(form)
 
-    @property
-    def user(self) -> Person:
-        """Get user."""
-        user = self.request.user
-        if not isinstance(user, Person):
-            raise PermissionDenied('Invalid user type')
-        return user
-
     @inject
     def _get_html(
         self,
@@ -102,7 +100,7 @@ class MentorshipView(LoginRequiredMixin, FormView):  # type: ignore[type-arg]
         )
 
 
-class AcceptMentorshipRequest(LoginRequiredMixin, View):
+class AcceptMentorshipRequest(auth.UserLoginRequiredMixin, View):
     """Accept the student request to mentorships."""
 
     @inject
@@ -117,7 +115,7 @@ class AcceptMentorshipRequest(LoginRequiredMixin, View):
         **kwargs: object,
     ) -> HttpResponse:
         """Send POST request."""
-        service.accept_mentorship_request(request_id=pk, mentor=self.mentor)
+        service.accept_mentorship_request(request_id=pk, mentor=self.user)
         return HttpResponse(self._get_html())
 
     def _get_html(
@@ -131,59 +129,47 @@ class AcceptMentorshipRequest(LoginRequiredMixin, View):
             'users/mentorship/partials/tables_mentorships.html',
             {
                 'mentor_mentorships': presenter.get_students(
-                    self.mentor,
+                    self.user,
                 ),
                 'request_from_students': presenter.get_requests_from_students(
-                    self.mentor,
+                    self.user,
                 ),
             },
             request=self.request,
         )
 
-    @property
-    def mentor(self) -> Person:
-        """Get mentor."""
-        mentor = self.request.user
-        if not isinstance(mentor, Person):
-            raise PermissionDenied('Invalid user type')
-        return mentor
 
-
-class DeleteStudentView(HtmxDeleteView):
+class DeleteStudentView(crud.HtmxDeleteView):
     """Delete the student from mentorship."""
 
     model = Mentorship
 
     def _get_owner(self) -> Person:
-        owner: Person = self.get_object().mentor
-        return owner
+        return self.get_object().mentor  # type: ignore[no-any-return]
 
 
-class DeleteMentorView(HtmxDeleteView):
+class DeleteMentorView(crud.HtmxDeleteView):
     """Delete the mentor from mentorship."""
 
     model = Mentorship
 
     def _get_owner(self) -> Person:
-        owner: Person = self.get_object().student
-        return owner
+        return self.get_object().student  # type: ignore[no-any-return]
 
 
-class DeleteStudentRequestView(HtmxDeleteView):
+class DeleteStudentRequestView(crud.HtmxDeleteView):
     """Delete by mentor the mentorship request from student."""
 
     model = MentorshipRequest
 
     def _get_owner(self) -> Person:
-        owner: Person = self.get_object().to_user
-        return owner
+        return self.get_object().to_user  # type: ignore[no-any-return]
 
 
-class DeleteMentorRequestView(HtmxDeleteView):
+class DeleteMentorRequestView(crud.HtmxDeleteView):
     """Delete by student the mentorship request to mentor."""
 
     model = MentorshipRequest
 
     def _get_owner(self) -> Person:
-        owner: Person = self.get_object().from_user
-        return owner
+        return self.get_object().from_user  # type: ignore[no-any-return]
