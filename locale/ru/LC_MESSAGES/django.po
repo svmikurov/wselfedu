@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-21 12:19+0000\n"
+"POT-Creation-Date: 2026-01-22 14:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,17 +20,179 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: apps/lang/forms/layouts.py:15
+#: apps/core/forms/layouts.py:15
 msgid "button.cancel"
 msgstr "Отменить"
 
-#: apps/lang/forms/layouts.py:25
+#: apps/core/forms/layouts.py:25
 msgid "button.submit"
 msgstr "Отправить"
 
+#: apps/core/models/abstract/base.py:12
+msgid "Created at"
+msgstr "Дата добавления"
+
+#: apps/core/models/abstract/base.py:16
+msgid "Updated at"
+msgstr "Дата обновления"
+
+#: apps/core/models/abstract/category.py:18
+#: apps/core/models/abstract/mark.py:18
+msgid "User"
+msgstr "Пользователь"
+
+#: apps/core/models/abstract/category.py:23 apps/lang/models/category.py:14
+#: apps/lang/templates/lang/category/_table.html:8
+msgid "Category"
+msgstr "Категория"
+
+#: apps/core/models/abstract/exercise.py:15
+msgid "Discipline"
+msgstr "Дисциплина"
+
+#: apps/core/models/abstract/exercise.py:19
+#: apps/lang/templates/lang/exercise/mentor/assignation/index.html:23
+#: apps/lang/templates/lang/exercise/mentor/management/index.html:23
+msgid "Exercise"
+msgstr "Упражнение"
+
+#: apps/core/models/abstract/mark.py:23 apps/lang/models/mark.py:16
+#: apps/lang/models/mark.py:31 apps/lang/templates/lang/mark/_table.html:8
+msgid "Mark"
+msgstr "Маркер"
+
+#: apps/lang/forms/exercise.py:83
+msgid "Select the exercise"
+msgstr "Выберите упражнение"
+
+#: apps/lang/forms/exercise.py:89
+msgid "Student"
+msgstr "Студент"
+
+#: apps/lang/forms/exercise.py:90
+msgid "Select the student"
+msgstr "Выберите студента"
+
+#: apps/lang/models/category.py:15
+msgid "Categories"
+msgstr "Категории"
+
+#: apps/lang/models/mark.py:17
+msgid "Marks"
+msgstr "Маркеры"
+
+#: apps/lang/models/mark.py:26
 #: apps/lang/templates/lang/exercise/mentor/translation/_table.html:7
 msgid "Translation"
 msgstr "Перевод"
+
+#: apps/lang/templates/lang/category/_table.html:23
+#: apps/lang/templates/lang/exercise/mentor/management/index.html:38
+#: apps/lang/templates/lang/mark/_table.html:23
+#: apps/lang/templates/lang/rule/list/_table.html:40
+#: apps/lang/templates/lang/rule/list/_table.html:79
+msgid "button.update"
+msgstr "Изменить"
+
+#: apps/lang/templates/lang/category/_table.html:32
+#: apps/lang/templates/lang/exercise/mentor/assignation/index.html:38
+#: apps/lang/templates/lang/exercise/mentor/management/index.html:46
+#: apps/lang/templates/lang/mark/_table.html:32
+#: apps/lang/templates/lang/rule/detail/_task_examples_edit.html:24
+#: apps/lang/templates/lang/rule/detail/_word_examples_edit.html:24
+#: apps/lang/templates/lang/rule/list/_table.html:48
+#: apps/lang/templates/lang/rule/list/_table.html:83
+msgid "button.delete"
+msgstr "Удалить"
+
+#: apps/lang/templates/lang/category/_table.html:34
+#: apps/lang/templates/lang/exercise/mentor/assignation/index.html:42
+#: apps/lang/templates/lang/exercise/mentor/management/index.html:50
+#: apps/lang/templates/lang/mark/_table.html:34
+#: apps/lang/templates/lang/rule/detail/_task_examples_edit.html:15
+#: apps/lang/templates/lang/rule/detail/_word_examples_edit.html:15
+#: apps/lang/templates/lang/rule/list/_table.html:52
+msgid "button.delete.confirm"
+msgstr "Отправить"
+
+#: apps/lang/templates/lang/category/index.html:7
+msgid "lang.page.category.title"
+msgstr "Категории"
+
+#: apps/lang/templates/lang/category/index.html:13
+msgid "lang.page.category.header"
+msgstr "Категории"
+
+#: apps/lang/templates/lang/category/index.html:17
+#: apps/lang/templates/lang/exercise/mentor/index.html:15
+#: apps/lang/templates/lang/exercise/mentor/translation/index.html:15
+#: apps/lang/templates/lang/exercise/student/index.html:15
+#: apps/lang/templates/lang/index.html:16
+#: apps/lang/templates/lang/mark/index.html:17
+#: apps/lang/templates/lang/rule/detail/index.html:15
+#: apps/lang/templates/lang/rule/index.html:15
+#: apps/lang/templates/lang/rule/list/index.html:15
+#: apps/lang/templates/lang/rule/mentorship/index.html:15
+#: apps/lang/templates/lang/settings/index.html:21
+#: apps/lang/templates/lang/translation/index.html:17
+msgid "button.back"
+msgstr "Назад"
+
+#: apps/lang/templates/lang/category/index.html:34
+#: apps/lang/templates/lang/category/index.html:38
+#: apps/lang/templates/lang/mark/index.html:34
+#: apps/lang/templates/lang/mark/index.html:38
+#: apps/lang/templates/lang/rule/detail/_buttons.html:19
+#: apps/lang/templates/lang/rule/list/index.html:31
+msgid "button.create"
+msgstr "Добавить"
+
+#: apps/lang/templates/lang/exercise/mentor/assignation/index.html:4
+msgid "lang.english.page.assignations.index.title"
+msgstr "Назначение упражнений | WSE"
+
+#: apps/lang/templates/lang/exercise/mentor/assignation/index.html:10
+msgid "lang.english.page.assignations.index.header"
+msgstr "Назначение упражнений"
+
+#: apps/lang/templates/lang/exercise/mentor/index.html:5
+msgid "lang.english.mentor.exercises.title"
+msgstr "Упражнения по Английскому языку | WSE"
+
+#: apps/lang/templates/lang/exercise/mentor/index.html:11
+msgid "lang.english.mentor.exercises.header"
+msgstr "Упражнения по Английскому языку"
+
+#: apps/lang/templates/lang/exercise/mentor/index.html:24
+msgid "button.title.mentor.exercises.management"
+msgstr "Упражнения"
+
+#: apps/lang/templates/lang/exercise/mentor/index.html:30
+msgid "button.title.assign_exercises"
+msgstr "Переводы для упражнений"
+
+#: apps/lang/templates/lang/exercise/mentor/index.html:39
+msgid "button.title.mentor.exercises.assigned"
+msgstr "Назначение упражнений"
+
+#: apps/lang/templates/lang/exercise/mentor/management/index.html:4
+msgid "lang.english.page.management.index.title"
+msgstr "Управление упражнениями по Английскому языку | WSE"
+
+#: apps/lang/templates/lang/exercise/mentor/management/index.html:10
+msgid "lang.english.page.management.index.header"
+msgstr "Управление упражнениями по Английскому языку"
+
+#: apps/lang/templates/lang/exercise/mentor/management/index.html:69
+msgid "button.add"
+msgstr "Добавить"
+
+#: apps/lang/templates/lang/exercise/mentor/management/index.html:76
+#: apps/lang/templates/lang/rule/detail/_buttons.html:11
+#: apps/lang/templates/lang/rule/list/_table.html:26
+#: apps/lang/templates/lang/rule/list/_table.html:71
+msgid "button.assign"
+msgstr "Назначить"
 
 #: apps/lang/templates/lang/exercise/mentor/translation/_table.html:8
 msgid "Is assigned"
@@ -43,15 +205,6 @@ msgstr "Добавление перевода в упражнение | WSE"
 #: apps/lang/templates/lang/exercise/mentor/translation/index.html:11
 msgid "lang.english.page.assign.translation.header"
 msgstr "Добавление перевода в упражнение"
-
-#: apps/lang/templates/lang/exercise/mentor/translation/index.html:15
-#: apps/lang/templates/lang/exercise/student/index.html:15
-#: apps/lang/templates/lang/rule/detail/index.html:15
-#: apps/lang/templates/lang/rule/index.html:15
-#: apps/lang/templates/lang/rule/list/index.html:15
-#: apps/lang/templates/lang/rule/mentorship/index.html:15
-msgid "button.back"
-msgstr "Назад"
 
 #: apps/lang/templates/lang/exercise/student/index.html:4
 msgid "lang.english.tasks.page.index.title"
@@ -73,28 +226,41 @@ msgstr "Изменено"
 msgid "lang.english.page.index.title"
 msgstr "Английский язык | WSE"
 
-#: apps/lang/templates/lang/index.html:10
+#: apps/lang/templates/lang/index.html:11
 msgid "lang.english.page.index.header"
 msgstr "Английский язык"
 
-#: apps/lang/templates/lang/index.html:24
-msgid "button.title.exercises_for_today"
-msgstr "Упражнения на сегодня"
+#: apps/lang/templates/lang/index.html:25
+msgid "button.title.exercises"
+msgstr "Упражнения"
 
-#: apps/lang/templates/lang/index.html:30
-msgid "button.title.assign_exercises"
-msgstr "Назначение упражнений"
+#: apps/lang/templates/lang/index.html:32
+msgid "button.title.assignments"
+msgstr "Задания"
 
-#: apps/lang/templates/lang/rule/detail/_buttons.html:11
-#: apps/lang/templates/lang/rule/list/_table.html:26
-#: apps/lang/templates/lang/rule/list/_table.html:71
-msgid "button.assign"
-msgstr "Назначить"
+#: apps/lang/templates/lang/index.html:41
+msgid "button.title.rules.index"
+msgstr "Правила"
 
-#: apps/lang/templates/lang/rule/detail/_buttons.html:19
-#: apps/lang/templates/lang/rule/list/index.html:31
-msgid "button.create"
-msgstr "Добавить"
+#: apps/lang/templates/lang/index.html:47
+msgid "button.title.translation.index"
+msgstr "Переводы"
+
+#: apps/lang/templates/lang/index.html:56
+msgid "button.mark"
+msgstr "Маркеры"
+
+#: apps/lang/templates/lang/index.html:62
+msgid "button.category"
+msgstr "Категории"
+
+#: apps/lang/templates/lang/mark/index.html:7
+msgid "lang.page.mark.title"
+msgstr "Маркеры | WSE"
+
+#: apps/lang/templates/lang/mark/index.html:13
+msgid "lang.page.mark.header"
+msgstr "Маркеры"
 
 #: apps/lang/templates/lang/rule/detail/_buttons.html:31
 msgid "button.add.example.task"
@@ -125,19 +291,6 @@ msgstr "Следующие"
 msgid "example"
 msgstr "Пример"
 
-#: apps/lang/templates/lang/rule/detail/_task_examples_edit.html:15
-#: apps/lang/templates/lang/rule/detail/_word_examples_edit.html:15
-#: apps/lang/templates/lang/rule/list/_table.html:52
-msgid "button.delete.confirm"
-msgstr "Отправить"
-
-#: apps/lang/templates/lang/rule/detail/_task_examples_edit.html:24
-#: apps/lang/templates/lang/rule/detail/_word_examples_edit.html:24
-#: apps/lang/templates/lang/rule/list/_table.html:48
-#: apps/lang/templates/lang/rule/list/_table.html:83
-msgid "button.delete"
-msgstr "Удалить"
-
 #: apps/lang/templates/lang/rule/index.html:4
 msgid "lang.english.rule.page.index.title"
 msgstr "Правила Английского языка | WSE"
@@ -167,11 +320,6 @@ msgstr "Правило"
 msgid "button.selfedu"
 msgstr "Запланировать"
 
-#: apps/lang/templates/lang/rule/list/_table.html:40
-#: apps/lang/templates/lang/rule/list/_table.html:79
-msgid "button.update"
-msgstr "Изменить"
-
 #: apps/lang/templates/lang/rule/list/_table.html:61
 msgid "empty.rule"
 msgstr "Нет доступных правил"
@@ -191,6 +339,34 @@ msgstr "Назначить изучение правила | WSE"
 #: apps/lang/templates/lang/rule/mentorship/index.html:10
 msgid "lang.english.rule.assignation.header"
 msgstr "Назначить изучение правила"
+
+#: apps/lang/templates/lang/translation/index.html:7
+msgid "lang.page.translation.title"
+msgstr "Переводы Английских слов | WSE"
+
+#: apps/lang/templates/lang/translation/index.html:13
+msgid "lang.page.translation.header"
+msgstr "Переводы Английских слов"
+
+#: apps/lang/templates/lang/translation/index.html:26
+msgid "button.title.translation.create"
+msgstr "Добавить"
+
+#: apps/lang/templates/lang/translation/index.html:32
+msgid "button.title.translation.list"
+msgstr "Список"
+
+#: apps/lang/templates/lang/translation/index.html:41
+msgid "button.title.translation.study.presentation"
+msgstr "Презентация"
+
+#: apps/lang/templates/lang/translation/index.html:47
+msgid "button.title.translation.study.test"
+msgstr "Тест"
+
+#: apps/lang/templates/lang/translation/index.html:56
+msgid "button.title.translation.study.settings"
+msgstr "Настройки"
 
 #: templates/components/language_selector.html:13
 msgid "Language"
@@ -226,19 +402,15 @@ msgstr "О проекте"
 
 #: templates/components/navbar.html:52
 msgid "Android application"
-msgstr "Приложения для андроид"
+msgstr "Приложения для Android"
 
 #: templates/components/navbar.html:55
-#, fuzzy
-#| msgid "Android application"
 msgid "Windows application"
-msgstr "Приложения для андроид"
+msgstr "Приложения для Windows"
 
 #: templates/components/navbar.html:58
-#, fuzzy
-#| msgid "Android application"
 msgid "Linux application"
-msgstr "Приложения для андроид"
+msgstr "Приложения для Linux"
 
 #: templates/components/navbar.html:69
 msgid "Profile"
@@ -275,6 +447,12 @@ msgstr "Изучение языков"
 #: templates/home.html:23
 msgid "button.glossary.title"
 msgstr "Изучение терминов"
+
+#~ msgid "button.title.exercises_for_today"
+#~ msgstr "Упражнения на сегодня"
+
+#~ msgid "button.title.student.exercises"
+#~ msgstr "Упражнения по Английскому языку"
 
 #~ msgid "Selection changes immediately"
 #~ msgstr "Изменения в выборе происходят немедленно"
