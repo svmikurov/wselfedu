@@ -1,6 +1,6 @@
 """Defines math app exercise type model."""
 
-from apps.core.models.base import BaseExercise
+from apps.core.models.abstract import BaseExercise
 
 
 class MathExercise(BaseExercise):
