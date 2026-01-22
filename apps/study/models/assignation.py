@@ -4,7 +4,7 @@ from typing import Any
 
 from django.db import models
 
-from apps.core.models.base import BaseExercise
+from apps.core.models.abstract import BaseExercise
 from apps.core.models.exercise import Exercise
 from apps.users.models import Mentorship
 
