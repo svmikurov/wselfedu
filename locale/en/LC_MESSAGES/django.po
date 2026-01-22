@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-21 12:19+0000\n"
+"POT-Creation-Date: 2026-01-22 14:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,17 +18,205 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: apps/lang/forms/layouts.py:15
+#: apps/core/forms/layouts.py:15
 msgid "button.cancel"
 msgstr "Cancel"
 
-#: apps/lang/forms/layouts.py:25
+#: apps/core/forms/layouts.py:25
 msgid "button.submit"
 msgstr "Submit"
 
+#: apps/core/models/abstract/base.py:12
+msgid "Created at"
+msgstr ""
+
+#: apps/core/models/abstract/base.py:16
+msgid "Updated at"
+msgstr ""
+
+#: apps/core/models/abstract/category.py:18
+#: apps/core/models/abstract/mark.py:18
+msgid "User"
+msgstr ""
+
+#: apps/core/models/abstract/category.py:23 apps/lang/models/category.py:14
+#: apps/lang/templates/lang/category/_table.html:8
+msgid "Category"
+msgstr ""
+
+#: apps/core/models/abstract/exercise.py:15
+#, fuzzy
+#| msgid "Disciplines"
+msgid "Discipline"
+msgstr "Disciplines"
+
+#: apps/core/models/abstract/exercise.py:19
+#: apps/lang/templates/lang/exercise/mentor/assignation/index.html:23
+#: apps/lang/templates/lang/exercise/mentor/management/index.html:23
+#, fuzzy
+#| msgid "exercise.name"
+msgid "Exercise"
+msgstr "Exercise name"
+
+#: apps/core/models/abstract/mark.py:23 apps/lang/models/mark.py:16
+#: apps/lang/models/mark.py:31 apps/lang/templates/lang/mark/_table.html:8
+msgid "Mark"
+msgstr ""
+
+#: apps/lang/forms/exercise.py:83
+msgid "Select the exercise"
+msgstr ""
+
+#: apps/lang/forms/exercise.py:89
+msgid "Student"
+msgstr ""
+
+#: apps/lang/forms/exercise.py:90
+msgid "Select the student"
+msgstr ""
+
+#: apps/lang/models/category.py:15
+msgid "Categories"
+msgstr ""
+
+#: apps/lang/models/mark.py:17
+msgid "Marks"
+msgstr ""
+
+#: apps/lang/models/mark.py:26
 #: apps/lang/templates/lang/exercise/mentor/translation/_table.html:7
 msgid "Translation"
 msgstr "Translation"
+
+#: apps/lang/templates/lang/category/_table.html:23
+#: apps/lang/templates/lang/exercise/mentor/management/index.html:38
+#: apps/lang/templates/lang/mark/_table.html:23
+#: apps/lang/templates/lang/rule/list/_table.html:40
+#: apps/lang/templates/lang/rule/list/_table.html:79
+msgid "button.update"
+msgstr "Update"
+
+#: apps/lang/templates/lang/category/_table.html:32
+#: apps/lang/templates/lang/exercise/mentor/assignation/index.html:38
+#: apps/lang/templates/lang/exercise/mentor/management/index.html:46
+#: apps/lang/templates/lang/mark/_table.html:32
+#: apps/lang/templates/lang/rule/detail/_task_examples_edit.html:24
+#: apps/lang/templates/lang/rule/detail/_word_examples_edit.html:24
+#: apps/lang/templates/lang/rule/list/_table.html:48
+#: apps/lang/templates/lang/rule/list/_table.html:83
+msgid "button.delete"
+msgstr "Delete"
+
+#: apps/lang/templates/lang/category/_table.html:34
+#: apps/lang/templates/lang/exercise/mentor/assignation/index.html:42
+#: apps/lang/templates/lang/exercise/mentor/management/index.html:50
+#: apps/lang/templates/lang/mark/_table.html:34
+#: apps/lang/templates/lang/rule/detail/_task_examples_edit.html:15
+#: apps/lang/templates/lang/rule/detail/_word_examples_edit.html:15
+#: apps/lang/templates/lang/rule/list/_table.html:52
+msgid "button.delete.confirm"
+msgstr "Confirm"
+
+#: apps/lang/templates/lang/category/index.html:7
+#, fuzzy
+#| msgid "lang.english.page.index.title"
+msgid "lang.page.category.title"
+msgstr "English language | WSE"
+
+#: apps/lang/templates/lang/category/index.html:13
+#, fuzzy
+#| msgid "lang.english.page.index.header"
+msgid "lang.page.category.header"
+msgstr "English language"
+
+#: apps/lang/templates/lang/category/index.html:17
+#: apps/lang/templates/lang/exercise/mentor/index.html:15
+#: apps/lang/templates/lang/exercise/mentor/translation/index.html:15
+#: apps/lang/templates/lang/exercise/student/index.html:15
+#: apps/lang/templates/lang/index.html:16
+#: apps/lang/templates/lang/mark/index.html:17
+#: apps/lang/templates/lang/rule/detail/index.html:15
+#: apps/lang/templates/lang/rule/index.html:15
+#: apps/lang/templates/lang/rule/list/index.html:15
+#: apps/lang/templates/lang/rule/mentorship/index.html:15
+#: apps/lang/templates/lang/settings/index.html:21
+#: apps/lang/templates/lang/translation/index.html:17
+msgid "button.back"
+msgstr "Back"
+
+#: apps/lang/templates/lang/category/index.html:34
+#: apps/lang/templates/lang/category/index.html:38
+#: apps/lang/templates/lang/mark/index.html:34
+#: apps/lang/templates/lang/mark/index.html:38
+#: apps/lang/templates/lang/rule/detail/_buttons.html:19
+#: apps/lang/templates/lang/rule/list/index.html:31
+msgid "button.create"
+msgstr "Create"
+
+#: apps/lang/templates/lang/exercise/mentor/assignation/index.html:4
+#, fuzzy
+#| msgid "lang.english.page.assign.translation.title"
+msgid "lang.english.page.assignations.index.title"
+msgstr "Adding a translation to an exercise | WSE"
+
+#: apps/lang/templates/lang/exercise/mentor/assignation/index.html:10
+#, fuzzy
+#| msgid "lang.english.page.assign.translation.header"
+msgid "lang.english.page.assignations.index.header"
+msgstr "Adding a translation to an exercise"
+
+#: apps/lang/templates/lang/exercise/mentor/index.html:5
+#, fuzzy
+#| msgid "lang.english.page.index.title"
+msgid "lang.english.mentor.exercises.title"
+msgstr "English language | WSE"
+
+#: apps/lang/templates/lang/exercise/mentor/index.html:11
+#, fuzzy
+#| msgid "lang.english.page.index.header"
+msgid "lang.english.mentor.exercises.header"
+msgstr "English language"
+
+#: apps/lang/templates/lang/exercise/mentor/index.html:24
+#, fuzzy
+#| msgid "button.title.assign_exercises"
+msgid "button.title.mentor.exercises.management"
+msgstr "Exercise assignment"
+
+#: apps/lang/templates/lang/exercise/mentor/index.html:30
+msgid "button.title.assign_exercises"
+msgstr "Exercise assignment"
+
+#: apps/lang/templates/lang/exercise/mentor/index.html:39
+#, fuzzy
+#| msgid "button.title.assign_exercises"
+msgid "button.title.mentor.exercises.assigned"
+msgstr "Exercise assignment"
+
+#: apps/lang/templates/lang/exercise/mentor/management/index.html:4
+#, fuzzy
+#| msgid "lang.english.page.index.title"
+msgid "lang.english.page.management.index.title"
+msgstr "English language | WSE"
+
+#: apps/lang/templates/lang/exercise/mentor/management/index.html:10
+#, fuzzy
+#| msgid "lang.english.page.index.header"
+msgid "lang.english.page.management.index.header"
+msgstr "English language"
+
+#: apps/lang/templates/lang/exercise/mentor/management/index.html:69
+#, fuzzy
+#| msgid "button.rule.add"
+msgid "button.add"
+msgstr "Add rule"
+
+#: apps/lang/templates/lang/exercise/mentor/management/index.html:76
+#: apps/lang/templates/lang/rule/detail/_buttons.html:11
+#: apps/lang/templates/lang/rule/list/_table.html:26
+#: apps/lang/templates/lang/rule/list/_table.html:71
+msgid "button.assign"
+msgstr "Assign"
 
 #: apps/lang/templates/lang/exercise/mentor/translation/_table.html:8
 msgid "Is assigned"
@@ -41,15 +229,6 @@ msgstr "Adding a translation to an exercise | WSE"
 #: apps/lang/templates/lang/exercise/mentor/translation/index.html:11
 msgid "lang.english.page.assign.translation.header"
 msgstr "Adding a translation to an exercise"
-
-#: apps/lang/templates/lang/exercise/mentor/translation/index.html:15
-#: apps/lang/templates/lang/exercise/student/index.html:15
-#: apps/lang/templates/lang/rule/detail/index.html:15
-#: apps/lang/templates/lang/rule/index.html:15
-#: apps/lang/templates/lang/rule/list/index.html:15
-#: apps/lang/templates/lang/rule/mentorship/index.html:15
-msgid "button.back"
-msgstr "Back"
 
 #: apps/lang/templates/lang/exercise/student/index.html:4
 msgid "lang.english.tasks.page.index.title"
@@ -71,28 +250,57 @@ msgstr "Updated"
 msgid "lang.english.page.index.title"
 msgstr "English language | WSE"
 
-#: apps/lang/templates/lang/index.html:10
+#: apps/lang/templates/lang/index.html:11
 msgid "lang.english.page.index.header"
 msgstr "English language"
 
-#: apps/lang/templates/lang/index.html:24
-msgid "button.title.exercises_for_today"
-msgstr "Exercises for today"
-
-#: apps/lang/templates/lang/index.html:30
-msgid "button.title.assign_exercises"
+#: apps/lang/templates/lang/index.html:25
+#, fuzzy
+#| msgid "button.title.assign_exercises"
+msgid "button.title.exercises"
 msgstr "Exercise assignment"
 
-#: apps/lang/templates/lang/rule/detail/_buttons.html:11
-#: apps/lang/templates/lang/rule/list/_table.html:26
-#: apps/lang/templates/lang/rule/list/_table.html:71
-msgid "button.assign"
-msgstr "Assign"
+#: apps/lang/templates/lang/index.html:32
+#, fuzzy
+#| msgid "button.title.assign_exercises"
+msgid "button.title.assignments"
+msgstr "Exercise assignment"
 
-#: apps/lang/templates/lang/rule/detail/_buttons.html:19
-#: apps/lang/templates/lang/rule/list/index.html:31
-msgid "button.create"
+#: apps/lang/templates/lang/index.html:41
+#, fuzzy
+#| msgid "button.title.assign_exercises"
+msgid "button.title.rules.index"
+msgstr "Exercise assignment"
+
+#: apps/lang/templates/lang/index.html:47
+#, fuzzy
+#| msgid "button.pagination.next"
+msgid "button.title.translation.index"
+msgstr "Next"
+
+#: apps/lang/templates/lang/index.html:56
+#, fuzzy
+#| msgid "button.back"
+msgid "button.mark"
+msgstr "Back"
+
+#: apps/lang/templates/lang/index.html:62
+#, fuzzy
+#| msgid "button.create"
+msgid "button.category"
 msgstr "Create"
+
+#: apps/lang/templates/lang/mark/index.html:7
+#, fuzzy
+#| msgid "lang.english.page.index.title"
+msgid "lang.page.mark.title"
+msgstr "English language | WSE"
+
+#: apps/lang/templates/lang/mark/index.html:13
+#, fuzzy
+#| msgid "lang.english.page.index.header"
+msgid "lang.page.mark.header"
+msgstr "English language"
 
 #: apps/lang/templates/lang/rule/detail/_buttons.html:31
 msgid "button.add.example.task"
@@ -123,19 +331,6 @@ msgstr "Next"
 msgid "example"
 msgstr ""
 
-#: apps/lang/templates/lang/rule/detail/_task_examples_edit.html:15
-#: apps/lang/templates/lang/rule/detail/_word_examples_edit.html:15
-#: apps/lang/templates/lang/rule/list/_table.html:52
-msgid "button.delete.confirm"
-msgstr "Confirm"
-
-#: apps/lang/templates/lang/rule/detail/_task_examples_edit.html:24
-#: apps/lang/templates/lang/rule/detail/_word_examples_edit.html:24
-#: apps/lang/templates/lang/rule/list/_table.html:48
-#: apps/lang/templates/lang/rule/list/_table.html:83
-msgid "button.delete"
-msgstr "Delete"
-
 #: apps/lang/templates/lang/rule/index.html:4
 msgid "lang.english.rule.page.index.title"
 msgstr "Rules of the English language | WSE"
@@ -165,11 +360,6 @@ msgstr "Rule"
 msgid "button.selfedu"
 msgstr "Schedule"
 
-#: apps/lang/templates/lang/rule/list/_table.html:40
-#: apps/lang/templates/lang/rule/list/_table.html:79
-msgid "button.update"
-msgstr "Update"
-
 #: apps/lang/templates/lang/rule/list/_table.html:61
 msgid "empty.rule"
 msgstr "No rules available"
@@ -189,6 +379,46 @@ msgstr "Assign a rule study | WSE"
 #: apps/lang/templates/lang/rule/mentorship/index.html:10
 msgid "lang.english.rule.assignation.header"
 msgstr "Assign a rule study"
+
+#: apps/lang/templates/lang/translation/index.html:7
+#, fuzzy
+#| msgid "lang.english.page.assign.translation.title"
+msgid "lang.page.translation.title"
+msgstr "Adding a translation to an exercise | WSE"
+
+#: apps/lang/templates/lang/translation/index.html:13
+#, fuzzy
+#| msgid "lang.english.page.assign.translation.header"
+msgid "lang.page.translation.header"
+msgstr "Adding a translation to an exercise"
+
+#: apps/lang/templates/lang/translation/index.html:26
+#, fuzzy
+#| msgid "button.pagination.next"
+msgid "button.title.translation.create"
+msgstr "Next"
+
+#: apps/lang/templates/lang/translation/index.html:32
+#, fuzzy
+#| msgid "button.title.assign_exercises"
+msgid "button.title.translation.list"
+msgstr "Exercise assignment"
+
+#: apps/lang/templates/lang/translation/index.html:41
+msgid "button.title.translation.study.presentation"
+msgstr ""
+
+#: apps/lang/templates/lang/translation/index.html:47
+#, fuzzy
+#| msgid "button.rule.list.student"
+msgid "button.title.translation.study.test"
+msgstr "Rules to be learned"
+
+#: apps/lang/templates/lang/translation/index.html:56
+#, fuzzy
+#| msgid "button.rule.list.student"
+msgid "button.title.translation.study.settings"
+msgstr "Rules to be learned"
 
 #: templates/components/language_selector.html:13
 msgid "Language"
@@ -269,6 +499,9 @@ msgstr "Language learning"
 #: templates/home.html:23
 msgid "button.glossary.title"
 msgstr "Learning the terms"
+
+#~ msgid "button.title.exercises_for_today"
+#~ msgstr "Exercises for today"
 
 #~ msgid "Selection changes immediately"
 #~ msgstr "Selection changes immediately"
