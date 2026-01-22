@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 from django.db import transaction
-from django.http.response import HttpResponse
+from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -15,71 +15,11 @@ from apps.lang.forms import queries
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
-    from django.http.request import HttpRequest
+    from django.http import HttpRequest
 
     from apps.users.models import Person
 
 # HACK: Refactor this code
-
-# --------------------------
-# Mentor exercise management
-# --------------------------
-
-
-class MentorExercisesIndexView(
-    core_views.UserLoginRequiredMixin,
-    generic.TemplateView,
-):
-    """Mentor exercises index view."""
-
-    template_name = 'lang/exercise/mentor/index.html'
-
-
-class MentorExerciseListView(
-    core_views.UserLoginRequiredMixin,
-    core_views.CsrfProtectMixin,
-    generic.ListView,  # type: ignore[type-arg]
-):
-    """Mentor exercises list view."""
-
-    template_name = 'lang/exercise/mentor/management/index.html'
-    context_object_name = 'exercises'
-
-    def get_queryset(self) -> QuerySet[models.LangExercise]:
-        """Get exercises queryset."""
-        return queries.get_exercises(self.user)
-
-
-class MentorExerciseCreateView(
-    core_views.UserLoginRequiredMixin,
-    core_views.UserActionKwargsFormMixin,
-    generic.CreateView,  # type: ignore[type-arg]
-):
-    """Mentor exercise create view."""
-
-    template_name = 'components/crispy_form.html'
-    form_class = forms.LangExerciseForm
-    success_url = reverse_lazy('lang:english_mentor_exercises_management')
-
-
-class MentorExerciseUpdateView(
-    core_views.UserActionKwargsFormMixin,
-    core_views.OwnershipRequiredMixin[models.LangExercise],
-    generic.UpdateView,  # type: ignore[type-arg]
-):
-    """Mentor exercise update view."""
-
-    template_name = 'components/crispy_form.html'
-    model = models.LangExercise
-    form_class = forms.LangExerciseForm
-    success_url = reverse_lazy('lang:english_mentor_exercises_management')
-
-
-class MentorExerciseDeleteView(core_views.HtmxOwnerDeleteView):
-    """Mentor exercise delete view."""
-
-    model = models.LangExercise
-
 
 # --------------------------------------
 # Mentor exercise assignation management
@@ -95,7 +35,7 @@ class ExerciseAssignationCreateView(
 
     template_name = 'components/crispy_form.html'
     form_class = forms.ExerciseAssignationForm
-    success_url = reverse_lazy('lang:english_mentor_exercises_management')
+    success_url = reverse_lazy('lang:english_mentor_exercises_list')
 
 
 class ExerciseAssignationListView(

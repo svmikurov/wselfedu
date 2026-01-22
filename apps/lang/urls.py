@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 
 from . import views
 from .views import category, mark, rule, translation
-from .views.exercise import assignments, curriculum
+from .views.exercise import assignments, curriculum, mentorship
 
 app_name = 'lang'
 
@@ -28,36 +28,10 @@ urlpatterns = [
         assignments.AssignedTranslationView.as_view(),
         name='english_assign_exercises',
     ),
-    path(
-        'english/mentor/exercises/',
-        assignments.MentorExercisesIndexView.as_view(),
-        name='english_mentor_exercises',
-    ),
-    path(
-        'english/mentor/exercises/management/',
-        assignments.MentorExerciseListView.as_view(),
-        name='english_mentor_exercises_management',
-    ),
-    path(
-        'english/mentor/exercises/create/',
-        assignments.MentorExerciseCreateView.as_view(),
-        name='english_mentor_exercise_create',
-    ),
-    # Exercise update, delete
-    path(
-        'english/mentor/exercise/<int:pk>/update/',
-        assignments.MentorExerciseUpdateView.as_view(),
-        name='english_mentor_exercise_update',
-    ),
-    path(
-        'english/mentor/exercise/<int:pk>/delete/',
-        assignments.MentorExerciseDeleteView.as_view(),
-        name='english_mentor_exercise_delete',
-    ),
     # Exercise assignation
     path(
         'english/mentor/exercise/<int:pk>/assignation/',
-        assignments.MentorExerciseUpdateView.as_view(),
+        mentorship.MentorExerciseUpdateView.as_view(),
         name='english_mentor_exercise_assign',
     ),
     path(
@@ -203,6 +177,34 @@ urlpatterns = [
     #
     # ==================== Refactored ====================
     #
+    # -------------------------
+    # Mentor-assigned exercises
+    # -------------------------
+    path(
+        'english/mentor/exercises/',
+        mentorship.MentorExerciseIndexView.as_view(),
+        name='english_mentor_exercises',
+    ),
+    path(
+        'english/mentor/exercises/list/',
+        mentorship.MentorExerciseListView.as_view(),
+        name='english_mentor_exercises_list',
+    ),
+    path(
+        'english/mentor/exercises/create/',
+        mentorship.MentorExerciseCreateView.as_view(),
+        name='english_mentor_exercise_create',
+    ),
+    path(
+        'english/mentor/exercise/<int:pk>/update/',
+        mentorship.MentorExerciseUpdateView.as_view(),
+        name='english_mentor_exercise_update',
+    ),
+    path(
+        'english/mentor/exercise/<int:pk>/delete/',
+        mentorship.MentorExerciseDeleteView.as_view(),
+        name='english_mentor_exercise_delete',
+    ),
     # -----------
     # Translation
     # -----------
