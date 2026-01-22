@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
     from apps.users.models import Person
 
-UPDATE_PATH_NAME = 'lang:translation_english_update'
+UPDATE_PATH_NAME = 'lang:english_translation_update'
 
 
 @pytest.mark.django_db

@@ -45,34 +45,31 @@ def translations(
 def translations_meta(
     user: Person,
 ) -> tuple[
-    list[models.LangCategory],
+    list[models.Category],
     list[models_core.Source],
-    list[models.LangMark],
+    list[models.Mark],
     list[models_core.Period],
 ]:
     """Populate DB with translations meta."""
     # Create translation category model objects
     category_objs = [
-        models.LangCategory(user=user, name=name)
-        for name in fixtures.CATEGORIES
+        models.Category(user=user, name=name) for name in fixtures.CATEGORIES
     ]
     # Create translation source model objects
     source_objs = [
         models_core.Source(user=user, name=name) for name in fixtures.SOURCES
     ]
     # Create translation mark model objects
-    marks_objs = [
-        models.LangMark(user=user, name=name) for name in fixtures.MARKS
-    ]
+    marks_objs = [models.Mark(user=user, name=name) for name in fixtures.MARKS]
 
     period_objs = [
         models_core.Period(name=period['name']) for period in fixtures.PERIODS
     ]
 
     # Populate DB with translation meta data objects
-    models.LangCategory.objects.bulk_create(category_objs)
+    models.Category.objects.bulk_create(category_objs)
     models_core.Source.objects.bulk_create(source_objs)
-    models.LangMark.objects.bulk_create(marks_objs)
+    models.Mark.objects.bulk_create(marks_objs)
     models_core.Period.objects.bulk_create(period_objs)
 
     # Return translation meta data objects
@@ -102,9 +99,9 @@ def presentation_settings(user: Person) -> models.PresentationSettings:
 def parameters_db_data(
     user: Person,
     translations_meta: tuple[
-        list[models.LangCategory],
+        list[models.Category],
         list[models_core.Source],
-        list[models.LangMark],
+        list[models.Mark],
         list[models_core.Period],
     ],
     translation_settings: models.TranslationSetting,

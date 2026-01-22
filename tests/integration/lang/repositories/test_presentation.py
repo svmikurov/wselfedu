@@ -19,9 +19,9 @@ if TYPE_CHECKING:
 
     type Repository = presentation.EnglishTranslation
     type Translations = list[lang_models.EnglishTranslation]
-    type Categories = list[lang_models.LangCategory]
+    type Categories = list[lang_models.Category]
     type Sources = list[core_models.Source]
-    type Marks = list[lang_models.LangMark]
+    type Marks = list[lang_models.Mark]
 
 
 @pytest.fixture
@@ -38,10 +38,10 @@ def sources(user: Person) -> Sources:
 def categories(user: Person) -> Categories:
     """Provide added to DB translation categories."""
     category_objs = [
-        lang_models.LangCategory(user=user, name=name)
+        lang_models.Category(user=user, name=name)
         for name in fixtures.CATEGORIES
     ]
-    lang_models.LangCategory.objects.bulk_create(category_objs)
+    lang_models.Category.objects.bulk_create(category_objs)
     return category_objs
 
 
@@ -49,9 +49,9 @@ def categories(user: Person) -> Categories:
 def marks(user: Person) -> Marks:
     """Provide added to DB translation categories."""
     marks_objs = [
-        lang_models.LangMark(user=user, name=name) for name in fixtures.MARKS
+        lang_models.Mark(user=user, name=name) for name in fixtures.MARKS
     ]
-    lang_models.LangMark.objects.bulk_create(marks_objs)
+    lang_models.Mark.objects.bulk_create(marks_objs)
     return marks_objs
 
 

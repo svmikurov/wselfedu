@@ -27,9 +27,9 @@ if TYPE_CHECKING:
 
     # Data types
     type Translations = list[models.EnglishTranslation]
-    type Categories = list[models.LangCategory]
+    type Categories = list[models.Category]
     type Sources = list[core_models.Source]
-    type Marks = list[models.LangMark]
+    type Marks = list[models.Mark]
     type TranslationsQuerySet = QuerySet[models.EnglishTranslation]
 
 # -----------------
@@ -104,10 +104,9 @@ def web_use_case(container: Container) -> WebUseCase:
 def categories(user: Person) -> Categories:
     """Provide added to DB translation categories."""
     category_objs = [
-        models.LangCategory(user=user, name=name)
-        for name in fixtures.CATEGORIES
+        models.Category(user=user, name=name) for name in fixtures.CATEGORIES
     ]
-    models.LangCategory.objects.bulk_create(category_objs)
+    models.Category.objects.bulk_create(category_objs)
     return category_objs
 
 
@@ -124,10 +123,8 @@ def sources(user: Person) -> Sources:
 @pytest.fixture
 def marks(user: Person) -> Marks:
     """Provide added to DB translation categories."""
-    marks_objs = [
-        models.LangMark(user=user, name=name) for name in fixtures.MARKS
-    ]
-    models.LangMark.objects.bulk_create(marks_objs)
+    marks_objs = [models.Mark(user=user, name=name) for name in fixtures.MARKS]
+    models.Mark.objects.bulk_create(marks_objs)
     return marks_objs
 
 

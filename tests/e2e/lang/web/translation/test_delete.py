@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
     from apps.users.models import Person
 
-DELETE_PATH_NAME = 'lang:translation_english_delete'
+DELETE_PATH_NAME = 'lang:english_translation_delete'
 
 
 @pytest.fixture
