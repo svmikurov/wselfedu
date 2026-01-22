@@ -2,7 +2,7 @@
 
 from django.db import models
 
-from apps.core.models.base import BaseExercise
+from apps.core.models.abstract import BaseExercise
 
 
 class LangExercise(BaseExercise):

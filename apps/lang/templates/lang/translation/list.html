@@ -43,7 +43,7 @@
       <td>{{ translation.native }}</td>
       <td>
         <a class="text-decoration-none me-3"
-           href="{% url 'lang:translation_english_update' translation.id %}"
+           href="{% url 'lang:english_translation_update' translation.id %}"
            data-testid="edit-btn-{{ translation.id }}"
            title="Изменить">
           <i class="fas fa-edit fa-lg"></i>
@@ -51,7 +51,7 @@
         <button class="btn btn-link p-0 border-0"
                 data-testid="delete-btn-{{ translation.id }}"
                 title="Удалить"
-                hx-delete="{% url 'lang:translation_english_delete' translation.id %}"
+                hx-delete="{% url 'lang:english_translation_delete' translation.id %}"
                 hx-target="#row-{{ translation.id }}"
                 hx-swap="outerHTML"
                 hx-confirm="Удалить перевод?">

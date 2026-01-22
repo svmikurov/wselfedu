@@ -34,7 +34,7 @@ class Parameters(models.Model):
     )
 
     category = models.ForeignKey(
-        'LangCategory',
+        'Category',
         on_delete=models.CASCADE,
         null=True,
         blank=True,
@@ -42,7 +42,7 @@ class Parameters(models.Model):
         related_name='category_params',
     )
     mark = models.ForeignKey(
-        'LangMark',
+        'Mark',
         on_delete=models.CASCADE,
         blank=True,
         null=True,

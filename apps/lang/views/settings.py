@@ -17,7 +17,7 @@ from .. import forms, models
 
 # TODO: Refactor
 @login_required
-def study_settings_vew(request: HttpRequest) -> HttpResponse:
+def study_settings_view(request: HttpRequest) -> HttpResponse:
     """Render translation study parameters."""
     user = request.user
     parameters, _ = models.Parameters.objects.get_or_create(user=user)

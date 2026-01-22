@@ -22,9 +22,9 @@ def get_source_qs(user: Person) -> QuerySet[core_models.Source]:
     return core_models.Source.objects.filter(user=user)
 
 
-def get_marks_qs(user: Person) -> QuerySet[models.LangMark]:
+def get_marks_qs(user: Person) -> QuerySet[models.Mark]:
     """Get the user's marks queryset."""
-    return models.LangMark.objects.filter(user=user)
+    return models.Mark.objects.filter(user=user)
 
 
 def get_clauses_qs(user: Person, pk: int) -> QuerySet[models.RuleClause]:
@@ -78,3 +78,21 @@ def get_exercise_translations(
         )
 
     return translations
+
+
+def get_exercises(
+    user: Person,
+) -> QuerySet[models.LangExercise]:
+    """Get mentor exercises."""
+    return models.LangExercise.objects.filter(
+        user=user,
+    )
+
+
+def get_assignations(
+    user: Person,
+) -> QuerySet[models.EnglishAssignedExercise]:
+    """Get mentor assigned exercises."""
+    return models.EnglishAssignedExercise.objects.filter(
+        mentorship__mentor=user,
+    )

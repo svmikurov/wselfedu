@@ -46,16 +46,16 @@ class EnglishTranslationAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     ]
 
 
-@admin.register(models.LangMark)
-class LangMarkAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+@admin.register(models.Mark)
+class MarkAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Lang app mark model administration."""
 
     list_display = ['name']
 
 
-@admin.register(models.EnglishMark)
-class EnglishMarkAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
-    """Lang app mark model administration."""
+@admin.register(models.TranslationMark)
+class TranslationMarkAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """Translation mark model administration."""
 
     list_display = [
         'translation',
@@ -64,8 +64,8 @@ class EnglishMarkAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     ]
 
 
-@admin.register(models.LangCategory)
-class LangCategoryAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+@admin.register(models.Category)
+class CategoryAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Lang app category model administration."""
 
     list_display = ['name']

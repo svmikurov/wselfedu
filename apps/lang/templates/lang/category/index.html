@@ -1,0 +1,42 @@
+{# Category index template #}
+{# Provides list and edit UI #}
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block title %}{% trans 'lang.page.category.title' %}{% endblock title %}
+
+{% block content %}
+<main class="container">
+  <div class="row py-3">
+    <div class="col">
+      <h1>{% trans 'lang.page.category.header' %}</h1>
+    </div>
+    <div class="col-auto">
+      <a href="javascript:history.back()" class="wse-btn">
+        {% trans 'button.back' %}
+      </a>
+    </div>
+  </div>
+
+  <!-- Category table -->
+  <div>{% include 'lang/category/_table.html' %}</div><!-- End Category table -->
+
+  <!-- Category form -->
+  {# Target for category edit form insert #}
+  <div id="form-holder"></div><!-- End Category form -->
+
+  <!-- Button row -->
+  <div>
+    {# Create category button #}
+    <button class="wse-btn"
+            data-testid="create-btn"
+            title={% trans 'button.create' %}
+            hx-get={% url 'lang:category_create' %}
+            hx-swap="innerHTML"
+            hx-target="#form-holder">
+      {% trans 'button.create' %}
+    </button>
+  </div><!-- End Button row -->
+</main>
+{% endblock content %}

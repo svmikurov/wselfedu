@@ -3,14 +3,12 @@
 from typing import Any
 
 from dependency_injector.providers import Container
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Exists, OuterRef, QuerySet
 from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 
-from apps.core.views.auth import OwnershipRequiredMixin, UserRequestMixin
-from apps.core.views.htmx import HtmxOwnerDeleteView
+from apps.core import views as core_views
 from apps.lang import forms, models
 from apps.lang.adapters import dto
 from apps.lang.di import LanguageContainer
@@ -30,8 +28,8 @@ class RuleView(generic.TemplateView):
 
 
 class RuleCreateView(
-    UserRequestMixin,
-    LoginRequiredMixin,
+    core_views.UserLoginRequiredMixin,
+    core_views.UserActionKwargsFormMixin,
     generic.CreateView,  # type: ignore[type-arg]
 ):
     """English language rule create view."""
@@ -39,21 +37,17 @@ class RuleCreateView(
     template_name = 'components/crispy_form.html'
     form_class = forms.RuleForm
 
-    def get_form_kwargs(self) -> dict[str, Any]:
-        """Add data to form kwargs."""
-        kwargs = super().get_form_kwargs()
-        kwargs['form_action'] = self.request.path
-        kwargs['user'] = self.user
-        return kwargs
 
-
-class RuleDeleteView(HtmxOwnerDeleteView):
+class RuleDeleteView(core_views.HtmxOwnerDeleteView):
     """English language rule delete view."""
 
     model = models.Rule
 
 
-class RuleUpdateView(OwnershipRequiredMixin[models.Rule], generic.UpdateView):  # type: ignore[type-arg]
+class RuleUpdateView(
+    core_views.OwnershipRequiredMixin[models.Rule],
+    generic.UpdateView,  # type: ignore[type-arg]
+):
     """English language rule update view."""
 
     template_name = 'components/crispy_form.html'
@@ -85,8 +79,7 @@ class RuleDetailView(base.BaseRuleDetailView[dto.RuleSchema]):
 
 
 class RuleListView(
-    UserRequestMixin,
-    LoginRequiredMixin,
+    core_views.UserLoginRequiredMixin,
     generic.ListView,  # type: ignore[type-arg]
 ):
     """English language rule list view."""
@@ -115,8 +108,7 @@ class RuleListView(
 
 
 class ClauseCreateView(
-    UserRequestMixin,
-    LoginRequiredMixin,
+    core_views.UserLoginRequiredMixin,
     generic.CreateView,  # type: ignore[type-arg]
 ):
     """English language rule clause create view."""
@@ -149,7 +141,7 @@ class ClauseCreateView(
 
 
 class ClauseUpdateView(
-    OwnershipRequiredMixin[models.RuleClause],
+    core_views.OwnershipRequiredMixin[models.RuleClause],
     generic.UpdateView,  # type: ignore[type-arg]
 ):
     """English language rule clause update view."""

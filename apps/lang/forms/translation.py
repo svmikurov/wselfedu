@@ -23,7 +23,7 @@ class BaseEnglishForm(forms.ModelForm):  # type: ignore[type-arg]
         max_length=models.NativeWord.WORD_LENGTH,
     )
 
-    def clean_marks(self) -> list[models.LangMark] | None:
+    def clean_marks(self) -> list[models.Mark] | None:
         """Convert QuerySet to list for cleaned_data."""
         marks = self.cleaned_data.get('marks')
         if not marks:

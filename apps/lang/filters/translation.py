@@ -11,7 +11,7 @@ class TranslationFilter(django_filters.FilterSet):
     """Translation filter."""
 
     category = django_filters.ModelChoiceFilter(
-        queryset=models.LangCategory.objects.all(),
+        queryset=models.Category.objects.all(),
         empty_label='Все категории',
         label='Категория',
     )
@@ -35,7 +35,7 @@ class TranslationFilter(django_filters.FilterSet):
         if user:
             self.filters[  # type: ignore[attr-defined]
                 'category'
-            ].queryset = models.LangCategory.objects.filter(user=user)  # type: ignore[misc]
+            ].queryset = models.Category.objects.filter(user=user)  # type: ignore[misc]
             self.filters[  # type: ignore[attr-defined]
                 'source'
             ].queryset = core_models.Source.objects.filter(user=user)  # type: ignore[misc]

@@ -6,89 +6,60 @@
 {% block content %}
 <main class="container">
   <div class="row py-3">
+    {# Page header #}
     <div class="col">
       <h1>{% trans "lang.english.page.index.header" %}</h1>
     </div>
+    {# Back button #}
     <div class="col-auto">
-      <a href="javascript:history.back()" class="wse-btn"
-        >
-         Назад
+      <a href="javascript:history.back()" class="wse-btn">
+        {% trans 'button.back' %}
       </a>
     </div>
   </div>
 
   <div class="row g-2 mb-2">
+    {# Exercises for self-education #}
     <div class="col-12 col-md-6">
-      {# Student's exercises in english for today #}
+      <a href={% url 'lang:english_mentor_exercises' %} class="wse-btn full-width height-huge">
+        {% trans 'button.title.exercises' %}
+      </a>
+    </div>
+    {# Assignments from mentors #}
+    <div class="col-12 col-md-6">
+      {# HACK: Update url #}
       <a href={% url 'lang:english_tasks' %} class="wse-btn full-width height-huge">
-        {% trans 'button.title.exercises_for_today' %}
-      </a>
-    </div>
-    <div class="col-12 col-md-6">
-      {# Assign exercises for student #}
-      <a href={% url 'lang:english_assign_exercises' %} class="wse-btn full-width height-huge">
-        {% trans 'button.title.assign_exercises' %}
+        {% trans 'button.title.assignments' %}
       </a>
     </div>
   </div>
 
   <div class="row g-2 mb-2">
+    {# English rules #}
     <div class="col-12 col-md-6">
       <a href={% url 'lang:english_rule' %} class="wse-btn full-width height-huge">
-        Правила английского языка
+        {% trans 'button.title.rules.index' %}
       </a>
     </div>
-    <div class="col-12 col-md-6 d-none d-md-block">
-      <span>{# Empty space for alignment #}</span>
-    </div>
-  </div>
-
-  <div class="row g-2 mb-2">
+    {# English translations #}
     <div class="col-12 col-md-6">
-      <a href={% url 'lang:settings' %} class="wse-btn full-width height-huge">
-        Настроить изучение слов
-      </a>
-    </div>
-    <div class="col-12 col-md-6 d-none d-md-block">
-      <span>{# Empty space for alignment #}</span>
-    </div>
-  </div>
-
-  <div class="row g-2 mb-2">
-    <div class="col-12 col-md-6">
-      <a href={% url 'lang:translation_english_study' %} class="wse-btn full-width height-huge">
-        Изучение слов
-      </a>
-    </div>
-    <div class="col-12 col-md-6">
-      <a href={% url "lang:translation_english_test" %} class="wse-btn full-width height-huge">
-        Тест по словам
+      <a href={% url 'lang:english_translation_index' %} class="wse-btn full-width height-huge">
+        {% trans 'button.title.translation.index' %}
       </a>
     </div>
   </div>
 
   <div class="row g-2 mb-2">
-    <div class="col-12 col-md-6">
-      <a href={% url 'lang:translation_english_list' %} class="wse-btn height-huge full-width">
-        Англо-Русский словарь
-      </a>
-    </div>
-    <div class="col-12 col-md-6">
-      <a href={% url 'lang:translation_english_create' %} class="wse-btn full-width height-huge">
-        Добавить перевод
-      </a>
-    </div>
-  </div>
-
-  <div class="row g-2 mb-2">
+    {# Marks #}
     <div class="col-12 col-md-6">
       <a href={% url 'lang:mark_list' %} class="wse-btn full-width height-huge">
-        Список маркеров
+        {% trans 'button.mark' %}
       </a>
     </div>
+    {# Categories #}
     <div class="col-12 col-md-6">
-      <a href={% url 'lang:mark_create' %} class="wse-btn full-width height-huge">
-        Добавить маркер
+      <a href={% url 'lang:category_list' %} class="wse-btn full-width height-huge">
+        {% trans 'button.category' %}
       </a>
     </div>
   </div>

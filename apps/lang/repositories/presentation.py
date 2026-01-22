@@ -82,7 +82,7 @@ class EnglishTranslation:
                     conditions &= Q(source=id)
 
                 case 'mark', list():
-                    conditions &= Q(englishmark__mark_id__in=value)
+                    conditions &= Q(translationmark__mark_id__in=value)
 
                 case 'start_period', int(id):
                     conditions &= Q(created_at__date__gte=get_period_delta(id))

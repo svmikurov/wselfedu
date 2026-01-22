@@ -1,0 +1,45 @@
+{# Category list table with edit icons #}
+
+{% load i18n %}
+
+<table class='table table-hover'>
+  <thead>
+    <tr>
+      <th>{% trans 'Category' %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for category in categories %}
+      <tr id="row-{{ category.id }}">
+        <td>
+          <div class="d-flex">
+            <span class="flex-grow-1 me-2">
+              {{ category }}
+            </span>
+            <span class="ms-auto">
+              {# Update category icon #}
+              <button class="btn btn-link border-0 p-0"
+                      data-testid="update-btn-{{ category.id }}"
+                      title={% trans 'button.update' %}
+                      hx-get={% url 'lang:category_update' category.id %}
+                      hx-swap="innerHTML"
+                      hx-target="#form-holder">
+                <i class="fas fa-edit fa-lg"></i>
+              </button>
+              {# Delete category icon #}
+              <button class="btn btn-link border-0"
+                      data-testid="delete-btn-{{ category.id }}"
+                      title={% trans 'button.delete' %}
+                      hx-delete="{% url 'lang:category_delete' category.id %}"
+                      hx-confirm={% trans 'button.delete.confirm' %}
+                      hx-swap="outerHTML"
+                      hx-target="#row-{{ category.id }}">
+                <i class="fas fa-trash fa-lg"></i>
+              </button>
+            </span>
+          </div>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

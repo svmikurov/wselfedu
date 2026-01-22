@@ -19,11 +19,22 @@ __all__ = [
     # Mentorship
     'RuleAssignmentForm',
     'AssignTranslationForm',
+    'LangExerciseForm',
+    'ExerciseAssignationForm',
+    # Meta
+    'MarkForm',
+    'CategoryForm',
 ]
 
 from .assignment import (
     AssignTranslationForm,
 )
+from .category import CategoryForm
+from .exercise import (
+    ExerciseAssignationForm,
+    LangExerciseForm,
+)
+from .mark import MarkForm
 from .parameters import (
     ParametersForm,
     PresentationSettingsForm,

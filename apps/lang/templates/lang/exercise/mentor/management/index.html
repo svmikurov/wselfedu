@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "lang.english.page.management.index.title" %}{% endblock title %}
+
+{% block content %}
+<main class="container">
+  <div class="row py-3">
+    <div class="col">
+      <h1>{% trans "lang.english.page.management.index.header" %}</h1>
+    </div>
+    <div class="col-auto">
+      <a href="javascript:history.back()" class="wse-btn"
+        >
+         Назад
+      </a>
+    </div>
+  </div>
+
+  <table class='table table-hover'>
+    <thead>
+      <tr>
+        <th>{% trans 'Exercise' %}</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for exercise in exercises %}
+      <tr id="row-{{ exercise.id }}">
+        <td>
+          <div class="d-flex">
+            <span class="flex-grow-1 me-2">
+              {{ exercise }}
+            </span>
+            <span class="ms-auto">
+              <button class="btn btn-link border-0 p-0"
+                      data-testid="update-btn-{{ exercise.id }}"
+                      title={% trans 'button.update' %}
+                      hx-get={% url 'lang:english_mentor_exercise_update' exercise.id %}
+                      hx-swap="outerHTML"
+                      hx-target="#form">
+                <i class="fas fa-edit fa-lg"></i>
+              </button>
+              <button class="btn btn-link border-0"
+                      data-testid="delete-btn-{{ exercise.id }}"
+                      title={% trans 'button.delete' %}
+                      hx-delete="{% url 'lang:english_mentor_exercise_delete' exercise.id %}"
+                      hx-target="#row-{{ exercise.id }}"
+                      hx-swap="outerHTML"
+                      hx-confirm={% trans 'button.delete.confirm' %}>
+                <i class="fas fa-trash fa-lg"></i>
+              </button>
+            </span>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div id="management-buttons-row">
+    <div class="col-auto">
+      {# Add exercise #}
+      <button class="wse-btn"
+              hx-get={% url 'lang:english_mentor_exercise_create' %}
+              {# Adds exercise form on button click #}
+              hx-target="#form"
+              hx-swap="innerHTML">
+        {% trans 'button.add' %}
+      </button>
+      {# Assign exercise to student #}
+      <button class="wse-btn"
+              hx-get={% url 'lang:english_mentor_exercise_assignation_create' %}
+              hx-target="#form"
+              hx-swap="innerHTML">
+        {% trans 'button.assign' %}
+      </button>
+    </div>
+  </div>
+
+  <div id="form">
+    {# Target to insert a form #}
+  </div>
+</main>
+{% endblock content %}

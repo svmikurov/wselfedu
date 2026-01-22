@@ -26,8 +26,8 @@ if TYPE_CHECKING:
     ]
 
     OptionsQuerySetT = (
-        QuerySet[models.LangCategory]
-        | QuerySet[models.LangMark]
+        QuerySet[models.Category]
+        | QuerySet[models.Mark]
         | QuerySet[models_core.Source]
         | QuerySet[models_core.Period]
     )
@@ -42,8 +42,8 @@ class StudyParametersRepository(StudyParametersRepositoryABC):
     @override
     def get_options(self, user: Person) -> types.OptionsAPI:
         """Get word study options."""
-        categories = models.LangCategory.objects.filter(user=user)
-        marks = models.LangMark.objects.filter(user=user)
+        categories = models.Category.objects.filter(user=user)
+        marks = models.Mark.objects.filter(user=user)
         sources = models_core.Source.objects.filter(user=user)
         periods = models_core.Period.objects.all()
         orders = models.TranslationSetting.TranslateChoices.choices

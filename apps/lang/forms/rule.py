@@ -12,10 +12,10 @@ from django.db import transaction
 from django.urls import reverse
 
 from apps.core import models as core_models
+from apps.core.forms import layouts
 from apps.users.models import Mentorship, Person
 
 from .. import models
-from . import layouts
 from .fields import (
     create_clause_field,
     create_example_type_field,
@@ -220,7 +220,7 @@ class TaskExampleForm(WordExampleFieldsMixin, forms.Form):
         )
         for mark in data.get('question_marks', []):
             if mark.user == user:
-                models.EnglishMark.objects.get_or_create(
+                models.TranslationMark.objects.get_or_create(
                     user=user,
                     translation=question_translation,
                     mark=mark,
@@ -235,7 +235,7 @@ class TaskExampleForm(WordExampleFieldsMixin, forms.Form):
         )
         for mark in self.cleaned_data.get('answer_marks', []):
             if mark.user == user:
-                models.EnglishMark.objects.get_or_create(
+                models.TranslationMark.objects.get_or_create(
                     user=user,
                     translation=answer_translation,
                     mark=mark,
@@ -323,7 +323,7 @@ class WordExampleForm(forms.Form):
         # Add marks if any
         for mark in cleaned_data.get('marks', []):
             if mark.user == user:
-                models.EnglishMark.objects.get_or_create(
+                models.TranslationMark.objects.get_or_create(
                     user=user,
                     translation=translation,
                     mark=mark,
@@ -364,14 +364,14 @@ class RuleExceptionForm(WordExampleFieldsMixin, forms.ModelForm):  # type: ignor
             required=False,
         )
         self.fields['question_marks'] = forms.ModelMultipleChoiceField(
-            queryset=models.LangMark.objects.filter(
+            queryset=models.Mark.objects.filter(
                 user=self.instance.user,
             ),
             label='Маркировка вопроса',
             required=False,
         )
         self.fields['answer_marks'] = forms.ModelMultipleChoiceField(
-            queryset=models.LangMark.objects.filter(
+            queryset=models.Mark.objects.filter(
                 user=self.instance.user,
             ),
             label='Маркировка ответа',
@@ -424,7 +424,7 @@ class RuleExceptionForm(WordExampleFieldsMixin, forms.ModelForm):  # type: ignor
             )
             for mark in self.cleaned_data.get('question_marks', []):
                 if mark.user == user:
-                    models.EnglishMark.objects.get_or_create(
+                    models.TranslationMark.objects.get_or_create(
                         user=user,
                         translation=question_translation,
                         mark=mark,
@@ -439,7 +439,7 @@ class RuleExceptionForm(WordExampleFieldsMixin, forms.ModelForm):  # type: ignor
             )
             for mark in self.cleaned_data.get('answer_marks', []):
                 if mark.user == user:
-                    models.EnglishMark.objects.get_or_create(
+                    models.TranslationMark.objects.get_or_create(
                         user=user,
                         translation=answer_translation,
                         mark=mark,

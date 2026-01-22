@@ -1,0 +1,65 @@
+{# English translation index template #}
+{# Provides navigation on translation study #}
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block title %}{% trans 'lang.page.translation.title' %}{% endblock title %}
+
+{% block content %}
+<main class="container">
+  <div class="row py-3">
+    <div class="col">
+      <h1>{% trans 'lang.page.translation.header' %}</h1>
+    </div>
+    <div class="col-auto">
+      <a href="javascript:history.back()" class="wse-btn">
+        {% trans 'button.back' %}
+      </a>
+    </div>
+  </div>
+
+  <div class="row g-2 mb-2">
+    <div class="col-12 col-md-6">
+      {# Create translation #}
+      <a href={% url 'lang:english_translation_create' %} class="wse-btn full-width height-huge">
+        {% trans 'button.title.translation.create' %}
+      </a>
+    </div>
+    <div class="col-12 col-md-6">
+      {# List & Edit translation #}
+      <a href={% url 'lang:english_translation_list' %} class="wse-btn height-huge full-width">
+        {% trans 'button.title.translation.list' %}
+      </a>
+    </div>
+  </div>
+
+  <div class="row g-2 mb-2">
+    {# Translation study via Presentation exercise #}
+    <div class="col-12 col-md-6">
+      <a href={% url 'lang:translation_english_study' %} class="wse-btn full-width height-huge">
+        {% trans 'button.title.translation.study.presentation' %}
+      </a>
+    </div>
+    {# Translation study via Test exercise #}
+    <div class="col-12 col-md-6">
+      <a href={% url "lang:translation_english_test" %} class="wse-btn full-width height-huge">
+        {% trans 'button.title.translation.study.test' %}
+      </a>
+    </div>
+  </div>
+
+  <div class="row g-2 mb-2">
+    {# Translation study settings #}
+    <div class="col-12 col-md-6">
+      <a href={% url 'lang:settings' %} class="wse-btn full-width height-huge">
+        {% trans 'button.title.translation.study.settings' %}
+      </a>
+    </div>
+    {# Empty #}
+    <div class="col-12 col-md-6 d-none d-md-block">
+      <span>{# Empty space for alignment #}</span>
+    </div>
+  </div>
+</main>
+{% endblock content %}

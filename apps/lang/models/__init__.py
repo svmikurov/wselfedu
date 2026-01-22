@@ -7,9 +7,9 @@ __all__ = [
     'NativeWord',
     'EnglishWord',
     'EnglishTranslation',
-    'LangMark',
-    'EnglishMark',
-    'LangCategory',
+    'Mark',
+    'TranslationMark',
+    'Category',
     # Exercise
     'LangExercise',
     'EnglishAssignedExercise',
@@ -28,13 +28,13 @@ __all__ = [
     'ExampleType',
 ]
 
-from .category import LangCategory
+from .category import Category
 from .exercise import (
     EnglishAssignedExercise,
     EnglishExerciseTranslation,
     LangExercise,
 )
-from .mark import EnglishMark, LangMark
+from .mark import Mark, TranslationMark
 from .mentorship import (
     MentorshipEnglishRule,
 )

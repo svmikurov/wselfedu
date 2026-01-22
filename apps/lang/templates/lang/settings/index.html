@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+
+{% load i18n %}
 {% load crispy_forms_tags %}
 
 {% block title %}Настройки изучения{% endblock %}
@@ -15,11 +17,8 @@
                     <h1 class="mb-0">{{ header }}</h1>
                     </div>
                     <div class="col-auto">
-                    <a href="{% url 'lang:translation_english_study' %}" class="wse-btn">
-                        Упражнение
-                    </a>
                     <a href="javascript:history.back()" class="wse-btn">
-                        Назад
+                        {% trans 'button.back' %}
                     </a>
                     </div>
                 </div>

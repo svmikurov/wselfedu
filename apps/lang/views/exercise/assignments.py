@@ -4,43 +4,139 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.http.response import HttpResponse
-from django.utils.decorators import method_decorator
+from django.urls import reverse_lazy
 from django.views import generic
-from django.views.decorators.csrf import csrf_protect
 
-from apps.core.views.auth import UserRequestMixin
+from apps.core import views as core_views
 from apps.lang import forms, models
-from apps.lang.forms.queries import get_exercise_translations
+from apps.lang.forms import queries
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
     from django.http.request import HttpRequest
-    from django.http.response import HttpResponseBase
+
+    from apps.users.models import Person
 
 # HACK: Refactor this code
 
+# --------------------------
+# Mentor exercise management
+# --------------------------
 
-class AssignedTranslationView(
-    UserRequestMixin,
-    LoginRequiredMixin,
+
+class MentorExercisesIndexView(
+    core_views.UserLoginRequiredMixin,
+    generic.TemplateView,
+):
+    """Mentor exercises index view."""
+
+    template_name = 'lang/exercise/mentor/index.html'
+
+
+class MentorExerciseListView(
+    core_views.UserLoginRequiredMixin,
+    core_views.CsrfProtectMixin,
     generic.ListView,  # type: ignore[type-arg]
 ):
-    """Assigned translations to exercise."""
+    """Mentor exercises list view."""
+
+    template_name = 'lang/exercise/mentor/management/index.html'
+    context_object_name = 'exercises'
+
+    def get_queryset(self) -> QuerySet[models.LangExercise]:
+        """Get exercises queryset."""
+        return queries.get_exercises(self.user)
+
+
+class MentorExerciseCreateView(
+    core_views.UserLoginRequiredMixin,
+    core_views.UserActionKwargsFormMixin,
+    generic.CreateView,  # type: ignore[type-arg]
+):
+    """Mentor exercise create view."""
+
+    template_name = 'components/crispy_form.html'
+    form_class = forms.LangExerciseForm
+    success_url = reverse_lazy('lang:english_mentor_exercises_management')
+
+
+class MentorExerciseUpdateView(
+    core_views.UserActionKwargsFormMixin,
+    core_views.OwnershipRequiredMixin[models.LangExercise],
+    generic.UpdateView,  # type: ignore[type-arg]
+):
+    """Mentor exercise update view."""
+
+    template_name = 'components/crispy_form.html'
+    model = models.LangExercise
+    form_class = forms.LangExerciseForm
+    success_url = reverse_lazy('lang:english_mentor_exercises_management')
+
+
+class MentorExerciseDeleteView(core_views.HtmxOwnerDeleteView):
+    """Mentor exercise delete view."""
+
+    model = models.LangExercise
+
+
+# --------------------------------------
+# Mentor exercise assignation management
+# --------------------------------------
+
+
+class ExerciseAssignationCreateView(
+    core_views.UserLoginRequiredMixin,
+    core_views.UserActionKwargsFormMixin,
+    generic.CreateView,  # type: ignore[type-arg]
+):
+    """Exercise assignation create view."""
+
+    template_name = 'components/crispy_form.html'
+    form_class = forms.ExerciseAssignationForm
+    success_url = reverse_lazy('lang:english_mentor_exercises_management')
+
+
+class ExerciseAssignationListView(
+    core_views.UserLoginRequiredMixin,
+    core_views.CsrfProtectMixin,
+    generic.ListView,  # type: ignore[type-arg]
+):
+    """Exercise assignation list view."""
+
+    template_name = 'lang/exercise/mentor/assignation/index.html'
+    context_object_name = 'assignations'
+
+    def get_queryset(self) -> QuerySet[models.EnglishAssignedExercise]:
+        """Get exercises queryset."""
+        return queries.get_assignations(self.user)
+
+
+class EnglishAssignedExerciseDeleteView(core_views.HtmxDeleteView):
+    """Mentor exercise delete view."""
+
+    model = models.EnglishAssignedExercise
+
+    def _get_owner(self) -> Person:
+        obj = self.get_object()
+        return obj.mentorship.mentor  # type: ignore[no-any-return]
+
+
+class AssignedTranslationView(
+    core_views.UserLoginRequiredMixin,
+    core_views.CsrfProtectMixin,
+    generic.ListView,  # type: ignore[type-arg]
+):
+    """Assigned translations to exercise.
+
+    Adds translation to exercises.
+    """
 
     template_name = 'lang/exercise/mentor/translation/index.html'
     partial_template_name = 'lang/exercise/mentor/translation/_table.html'
     context_object_name = 'translations'
-    paginate_by = 3
-
-    @method_decorator(csrf_protect)
-    def dispatch(
-        self, request: HttpRequest, *args: object, **kwargs: object
-    ) -> HttpResponseBase:
-        """Add CSRF protection for POST request."""
-        return super().dispatch(request, *args, **kwargs)
+    paginate_by = 15
 
     def get_template_names(self) -> list[str]:
         """Return partial template for HTMX queries."""
@@ -58,8 +154,10 @@ class AssignedTranslationView(
     def get_queryset(self) -> QuerySet[models.EnglishTranslation]:
         """Get translations queryset."""
         if exercise_id := self.request.GET.get('exercise_id', None):
-            return get_exercise_translations(self.user, int(exercise_id))
-        return get_exercise_translations(self.user)
+            return queries.get_exercise_translations(
+                self.user, int(exercise_id)
+            )
+        return queries.get_exercise_translations(self.user)
 
     def post(self, request: HttpRequest) -> HttpResponse:
         """Update assignations."""

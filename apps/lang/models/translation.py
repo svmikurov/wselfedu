@@ -25,7 +25,7 @@ class EnglishTranslation(models.Model):
         verbose_name='Слово на английском',
     )
     category = models.ForeignKey(
-        'LangCategory',
+        'Category',
         on_delete=models.CASCADE,
         null=True,
         blank=True,
@@ -39,8 +39,8 @@ class EnglishTranslation(models.Model):
         verbose_name='Источник',
     )
     marks = models.ManyToManyField(  # type: ignore[var-annotated]
-        'LangMark',
-        through='EnglishMark',
+        'Mark',
+        through='TranslationMark',
         through_fields=('translation', 'mark'),
         blank=True,
         verbose_name='Маркеры',

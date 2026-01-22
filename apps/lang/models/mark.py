@@ -1,77 +1,42 @@
-"""Translation relationship with the marker model."""
+"""Language discipline mark."""
 
-from django.contrib.auth import get_user_model
 from django.db import models
-from django.urls import reverse_lazy
+from django.utils.translation import gettext as _
 
-LABEL_LENGTH = 70
+from apps.core.models import AbstractBaseModel
+from apps.core.models.abstract.mark import AbstractMark
 
 
-class LangMark(models.Model):
+class Mark(AbstractMark):
     """Language discipline mark."""
-
-    user = models.ForeignKey(
-        get_user_model(),
-        on_delete=models.CASCADE,
-        verbose_name='Пользователь',
-    )
-    name = models.CharField(
-        max_length=LABEL_LENGTH,
-        unique=True,
-        verbose_name='Маркер',
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Добавлено',
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name='Изменено',
-    )
 
     class Meta:
         """Model configuration."""
 
-        verbose_name = 'Маркер'
-        verbose_name_plural = 'Маркеры'
-        db_table = 'lang_mark'
-
-    def __str__(self) -> str:
-        """Get string representation."""
-        return self.name
-
-    def get_absolute_url(self) -> str:
-        """Get object url path."""
-        url = reverse_lazy('lang:mark_detail', kwargs={'pk': self.pk})
-        return str(url)
+        verbose_name = _('Mark')
+        verbose_name_plural = _('Marks')
 
 
-class EnglishMark(models.Model):
-    """English translation relationship with the marker."""
+class TranslationMark(AbstractBaseModel):
+    """English translation mark."""
 
     translation = models.ForeignKey(
         'EnglishTranslation',
         on_delete=models.CASCADE,
-        verbose_name='Перевод',
+        verbose_name=_('Translation'),
     )
     mark = models.ForeignKey(
-        'LangMark',
+        'Mark',
         on_delete=models.CASCADE,
-        verbose_name='Маркер',
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Добавлено',
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name='Изменено',
+        verbose_name=_('Mark'),
     )
 
     class Meta:
         """Model configuration."""
 
-        unique_together = ['translation', 'mark']
         verbose_name = 'Маркировка перевода'
         verbose_name_plural = 'Маркировки переводов'
-        db_table = 'lang_english_mark'
+
+        unique_together = ['translation', 'mark']
+
+        db_table = 'lang_translation_mark'

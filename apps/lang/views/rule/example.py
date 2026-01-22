@@ -7,7 +7,7 @@ from django.db.models.query import QuerySet
 from django.views import generic
 
 from apps.core.views.auth import UserRequestMixin
-from apps.core.views.edit import BaseAddView
+from apps.core.views.crud import BaseAddView
 from apps.core.views.htmx import HtmxOwnerDeleteView
 from apps.lang import forms, models
 

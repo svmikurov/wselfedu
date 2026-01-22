@@ -1,0 +1,45 @@
+{# Mark list table with edit icons #}
+
+{% load i18n %}
+
+<table class='table table-hover'>
+  <thead>
+    <tr>
+      <th>{% trans 'Mark' %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for mark in marks %}
+      <tr id="row-{{ mark.id }}">
+        <td>
+          <div class="d-flex">
+            <span class="flex-grow-1 me-2">
+              {{ mark }}
+            </span>
+            <span class="ms-auto">
+              {# Update mark icon #}
+              <button class="btn btn-link border-0 p-0"
+                      data-testid="update-btn-{{ mark.id }}"
+                      title={% trans 'button.update' %}
+                      hx-get={% url 'lang:mark_update' mark.id %}
+                      hx-swap="innerHTML"
+                      hx-target="#form-holder">
+                <i class="fas fa-edit fa-lg"></i>
+              </button>
+              {# Delete mark icon #}
+              <button class="btn btn-link border-0"
+                      data-testid="delete-btn-{{ mark.id }}"
+                      title={% trans 'button.delete' %}
+                      hx-delete="{% url 'lang:mark_delete' mark.id %}"
+                      hx-confirm={% trans 'button.delete.confirm' %}
+                      hx-swap="outerHTML"
+                      hx-target="#row-{{ mark.id }}">
+                <i class="fas fa-trash fa-lg"></i>
+              </button>
+            </span>
+          </div>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

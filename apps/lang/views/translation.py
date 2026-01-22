@@ -1,46 +1,67 @@
-"""English translation CRUD views."""
+"""English translation views."""
 
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from dependency_injector.wiring import Provide, inject
 from django.urls import reverse_lazy
 from django.views import generic
 from django_filters import views as filter_views
 
-from apps.core.views import auth, htmx
+from apps.core import views as core_views
+from di import MainContainer
 
 from .. import filters, forms, models
-from . import _data, mixins
+from ..repositories.abc import TranslationRepoABC
+from . import _data
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
-    from django.http import HttpResponse
+    from django.http import HttpRequest, HttpResponse, HttpResponseBase
     from django_filters.filterset import FilterSet
 
 
-class EnglishTranslationCreateView(
-    mixins.TranslationViewMixin,
-    LoginRequiredMixin,
-    generic.FormView,  # type: ignore[type-arg]
+class TranslationViewMixin:
+    """Provides repository injection and user property."""
+
+    _repository: TranslationRepoABC | None = None
+
+    @inject
+    def dispatch(
+        self,
+        request: HttpRequest,
+        *args: object,
+        repository: TranslationRepoABC = Provide[
+            MainContainer.lang.translation_repository
+        ],
+        **kwargs: object,
+    ) -> HttpResponseBase:
+        """Inject repository before processing request."""
+        self._repository = repository
+        return super().dispatch(request, *args, **kwargs)  # type: ignore[no-any-return, misc]
+
+    @property
+    def repository(self) -> TranslationRepoABC:
+        """Get translation repository."""
+        if not isinstance(self._repository, TranslationRepoABC):
+            raise AttributeError('Repository not initialized')
+        return self._repository
+
+
+class EnglishTranslationIndexView(
+    core_views.UserLoginRequiredMixin,
+    generic.TemplateView,
 ):
-    """English translation create view."""
+    """English translation index view."""
 
-    form_class = forms.EnglishCreateForm
-    template_name = 'lang/form.html'
-    success_url = reverse_lazy('lang:translation_english_create')
-    extra_context = _data.ENGLISH_TRANSLATION['create']
-
-    def form_valid(self, form: forms.EnglishCreateForm) -> HttpResponse:
-        """Save translation."""
-        self.repository.create(user=self.user, **form.cleaned_data)
-        return super().form_valid(form)
+    template_name = 'lang/translation/index.html'
 
 
+# TODO: Fix database query count
 class EnglishTranslationListView(
-    mixins.TranslationViewMixin,
-    LoginRequiredMixin,
+    core_views.UserLoginRequiredMixin,
+    TranslationViewMixin,
     filter_views.FilterView,
 ):
     """English translation list view."""
@@ -64,9 +85,27 @@ class EnglishTranslationListView(
         return kwargs
 
 
+class EnglishTranslationCreateView(
+    core_views.UserLoginRequiredMixin,
+    TranslationViewMixin,
+    generic.FormView,  # type: ignore[type-arg]
+):
+    """English translation create view."""
+
+    form_class = forms.EnglishCreateForm
+    template_name = 'lang/form.html'
+    success_url = reverse_lazy('lang:english_translation_create')
+    extra_context = _data.ENGLISH_TRANSLATION['create']
+
+    def form_valid(self, form: forms.EnglishCreateForm) -> HttpResponse:
+        """Save translation."""
+        self.repository.create(user=self.user, **form.cleaned_data)
+        return super().form_valid(form)
+
+
 class EnglishTranslationUpdateView(
-    mixins.TranslationViewMixin,
-    auth.OwnershipRequiredMixin[models.EnglishTranslation],
+    TranslationViewMixin,
+    core_views.OwnershipRequiredMixin[models.EnglishTranslation],
     generic.UpdateView,  # type: ignore[type-arg]
 ):
     """English translation update view."""
@@ -74,7 +113,7 @@ class EnglishTranslationUpdateView(
     model = models.EnglishTranslation
     form_class = forms.EnglishUpdateForm
     template_name = 'lang/form.html'
-    success_url = reverse_lazy('lang:translation_english_list')
+    success_url = reverse_lazy('lang:english_translation_list')
     extra_context = _data.ENGLISH_TRANSLATION['update']
 
     def form_valid(self, form: forms.EnglishUpdateForm) -> HttpResponse:
@@ -84,7 +123,7 @@ class EnglishTranslationUpdateView(
         return super().form_valid(form)
 
 
-class EnglishTranslationDeleteView(htmx.HtmxOwnerDeleteView):
+class EnglishTranslationDeleteView(core_views.HtmxOwnerDeleteView):
     """English translation delete view."""
 
     model = models.EnglishTranslation

@@ -2,18 +2,19 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
 from dependency_injector.wiring import Provide, inject
 from django.http.response import HttpResponse
 from django.template.loader import render_to_string
+from django.views import generic
 
+from apps.core import views as core_views
 from di import MainContainer
 
 from ..schemas.test import CaseStatus
 from ..use_cases import BaseUseCase
 from ._data import ENGLISH_TRANSLATION
-from .base import BaseUseCaseView
 
 if TYPE_CHECKING:
     from dependency_injector.providers import Container
@@ -33,8 +34,9 @@ if TYPE_CHECKING:
     type DomainResult = test.Case | test.Explanation
     type ResponseData = test.TestResponseData
 
-
 type UseCase = BaseUseCase[RequestData, RequestDTO, DomainResult, ResponseData]
+
+T = TypeVar('T')
 
 CONTAINER: Container[LanguageContainer] = MainContainer.lang
 
@@ -43,6 +45,23 @@ PARTIAL_TEMPLATES: CaseTemplates = {
     CaseStatus.NEW: 'lang/test/_case.html',
     CaseStatus.EXPLANATION: 'lang/test/_explanation.html',
 }
+
+
+class BaseUseCaseView(
+    core_views.UserRequestMixin,
+    generic.TemplateView,
+    Generic[T],
+):
+    """Base view provides user verification and UseCase."""
+
+    _use_case: None | T = None
+
+    @property
+    def use_case(self) -> T:
+        """Get presentation use case."""
+        if self._use_case is None:
+            raise AttributeError('UseCase not initialized')
+        return self._use_case
 
 
 class _BaseTranslationTestView(BaseUseCaseView[UseCase]):

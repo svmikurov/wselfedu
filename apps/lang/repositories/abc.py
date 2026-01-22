@@ -88,9 +88,9 @@ class TranslationRepoABC(ABC):
         user: Person,
         native: str,
         foreign: str,
-        category: models.LangCategory,
+        category: models.Category,
         source: core_models.Source,
-        marks: QuerySet[models.LangMark],
+        marks: QuerySet[models.Mark],
         normalize: bool = True,
     ) -> None:
         """Create English translation."""
@@ -102,9 +102,9 @@ class TranslationRepoABC(ABC):
         instance: models.EnglishTranslation,
         native: str,
         foreign: str,
-        category: models.LangCategory,
+        category: models.Category,
         source: core_models.Source,
-        marks: QuerySet[models.LangMark],
+        marks: QuerySet[models.Mark],
         normalize: bool = True,
     ) -> None:
         """Update English translation."""
