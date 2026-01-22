@@ -30,9 +30,7 @@ from .crud import (
     BaseListView,
     BaseUpdateView,
     CsrfProtectMixin,
-    UserActionKwargsFormMixin,
-)
-from .htmx import (
     HtmxDeleteView,
     HtmxOwnerDeleteView,
+    UserActionKwargsFormMixin,
 )

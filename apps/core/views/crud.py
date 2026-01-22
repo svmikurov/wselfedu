@@ -4,19 +4,33 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Model
+from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 
-from .auth import OwnershipRequiredMixin, UserLoginRequiredMixin
+from . import auth
 
 if TYPE_CHECKING:
     from django.db.models.query import QuerySet
-    from django.http.request import HttpRequest
-    from django.http.response import HttpResponseBase
+    from django.http import HttpRequest, HttpResponseBase
+
+    from apps.users.models import Person
 
 M = TypeVar('M', bound=Model)
+
+__all__ = [
+    'CsrfProtectMixin',
+    'UserActionKwargsFormMixin',
+    'BaseAddView',
+    'BaseListView',
+    'BaseCreateView',
+    'BaseUpdateView',
+    'HtmxDeleteView',
+    'HtmxOwnerDeleteView',
+]
 
 
 class CsrfProtectMixin:
@@ -43,7 +57,7 @@ class UserActionKwargsFormMixin:
         return kwargs  # type: ignore[no-any-return]
 
 
-class BaseAddView(UserLoginRequiredMixin, generic.FormView):  # type: ignore[type-arg]
+class BaseAddView(auth.UserLoginRequiredMixin, generic.FormView):  # type: ignore[type-arg]
     """Base view to add related entities via form.
 
     Override `form_class` attribute.
@@ -70,7 +84,7 @@ class BaseAddView(UserLoginRequiredMixin, generic.FormView):  # type: ignore[typ
 
 
 class BaseListView(
-    UserLoginRequiredMixin,
+    auth.UserLoginRequiredMixin,
     CsrfProtectMixin,
     generic.ListView,  # type: ignore[type-arg]
     Generic[M],
@@ -88,7 +102,7 @@ class BaseListView(
 
 
 class BaseCreateView(
-    UserLoginRequiredMixin,
+    auth.UserLoginRequiredMixin,
     UserActionKwargsFormMixin,
     generic.CreateView,  # type: ignore[type-arg]
 ):
@@ -96,9 +110,45 @@ class BaseCreateView(
 
 
 class BaseUpdateView(
+    auth.OwnershipRequiredMixin[M],
     UserActionKwargsFormMixin,
-    OwnershipRequiredMixin[M],
     generic.UpdateView,  # type: ignore[type-arg]
     Generic[M],
 ):
     """Base update view provides ownership protection."""
+
+
+# ----
+# HTMX
+# ----
+
+
+class HtmxDeleteView(
+    auth.UserLoginRequiredMixin,
+    UserPassesTestMixin,
+    generic.DeleteView,  # type: ignore[type-arg]
+):
+    """Delete the object with HTMX request."""
+
+    def test_func(self) -> bool:
+        """Check if the user is the owner of the object."""
+        return bool(self.user == self._get_owner())
+
+    def delete(
+        self,
+        request: HttpRequest,
+        *args: object,
+        **kwargs: object,
+    ) -> HttpResponse:
+        """Delete object with HTMX request."""
+        self.object = self.get_object()
+        self.object.delete()
+        # HTMX does not update the template with response status 204
+        return HttpResponse(status=200)
+
+    def _get_owner(self) -> Person:
+        raise NotImplementedError('Must implement `_get_owner()` in subclass')
+
+
+class HtmxOwnerDeleteView(auth.OwnerMixin, HtmxDeleteView):
+    """Delete the object with HTMX request by owner."""

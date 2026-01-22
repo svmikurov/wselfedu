@@ -3,15 +3,24 @@
 from __future__ import annotations
 
 from functools import cached_property
-from typing import Generic, TypeVar
+from typing import TYPE_CHECKING, Generic, TypeVar
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.db import models
-from django.db.models.query import QuerySet
+from django.db.models import Model
 
 from apps.users.models import Person
 
-ObjectT = TypeVar('ObjectT', bound=models.Model)
+if TYPE_CHECKING:
+    from django.db.models.query import QuerySet
+
+__all__ = [
+    'UserRequestMixin',
+    'UserLoginRequiredMixin',
+    'OwnerMixin',
+    'OwnershipRequiredMixin',
+]
+
+M = TypeVar('M', bound=Model)
 
 
 class UserRequestMixin:
@@ -42,16 +51,16 @@ class OwnerMixin:
 class OwnershipRequiredMixin(
     UserLoginRequiredMixin,
     UserPassesTestMixin,
-    Generic[ObjectT],
+    Generic[M],
 ):
     """Verify that the current user is owner of query object."""
 
-    _object: ObjectT | None = None
+    _object: M | None = None
 
     def get_object(
         self,
-        queryset: QuerySet[ObjectT] | None = None,
-    ) -> ObjectT:
+        queryset: QuerySet[M] | None = None,
+    ) -> M:
         """Cache the object after the first query."""
         if self._object is None:
             self._object = super().get_object(queryset)  # type: ignore[misc]
