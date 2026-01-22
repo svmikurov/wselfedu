@@ -1,6 +1,7 @@
 """Language discipline web urls paths."""
 
 from django.urls import path
+from django.views.generic import TemplateView
 
 from . import views
 from .views import category, mark, rule, translation
@@ -9,7 +10,11 @@ from .views.exercise import assignments, curriculum
 app_name = 'lang'
 
 urlpatterns = [
-    path('', views.IndexLangView.as_view(), name='index'),
+    path(
+        '',
+        TemplateView.as_view(template_name='lang/index.html'),
+        name='index',
+    ),
     # -----------------~~~~~~~~~~~~~~~~
     # English language study curriculum
     # -----------------~~~~~~~~~~~~~~~~

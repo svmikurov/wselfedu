@@ -20,8 +20,8 @@ from apps.lang import schemas, use_cases
 from apps.lang.di import LanguageContainer
 from di import MainContainer
 
-from ..services import StudySettingsServiceABC
-from . import _data
+from ....services import StudySettingsServiceABC
+from ... import _data
 
 if TYPE_CHECKING:
     from django.http.request import HttpRequest

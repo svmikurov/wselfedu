@@ -1,6 +1,4 @@
-"""Language discipline category views."""
-
-from __future__ import annotations
+"""Language discipline category CRUD views."""
 
 from django.urls import reverse_lazy
 
@@ -8,6 +6,13 @@ from apps.core import views as core_views
 
 from ..forms import CategoryForm
 from ..models import Category
+
+__all__ = [
+    'CategoryListView',
+    'CategoryCreateView',
+    'CategoryUpdateView',
+    'CategoryDeleteView',
+]
 
 
 class CategoryListView(core_views.BaseListView[Category]):

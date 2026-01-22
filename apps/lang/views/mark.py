@@ -1,6 +1,4 @@
-"""Language discipline mark views."""
-
-from __future__ import annotations
+"""Language discipline mark CRUD views."""
 
 from django.urls import reverse_lazy
 
@@ -8,6 +6,13 @@ from apps.core import views as core_views
 
 from ..forms import MarkForm
 from ..models import Mark
+
+__all__ = [
+    'MarkListView',
+    'MarkCreateView',
+    'MarkUpdateView',
+    'MarkDeleteView',
+]
 
 
 class MarkListView(core_views.BaseListView[Mark]):

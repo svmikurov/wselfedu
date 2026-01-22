@@ -7,8 +7,8 @@ import pytest
 from django.test import RequestFactory
 
 import di
-from apps.lang import views
 from apps.lang.repositories.abc import TranslationRepoABC
+from apps.lang.views.translation import EnglishTranslationCreateView
 from apps.users.models import Person
 
 
@@ -41,7 +41,7 @@ class TestCreateTranslationView:
 
         # Act
         with di.container.lang.translation_repository.override(mock_repo):
-            response = views.EnglishTranslationCreateView.as_view()(request)
+            response = EnglishTranslationCreateView.as_view()(request)
 
         # Assert
         assert response.status_code == HTTPStatus.FOUND

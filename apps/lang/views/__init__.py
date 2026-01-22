@@ -1,7 +1,6 @@
 """Language discipline views."""
 
 __all__ = [
-    'IndexLangView',
     'study_settings_view',
     # Study
     'EnglishTranslationStudyView',
@@ -27,10 +26,17 @@ __all__ = [
     'ClauseUpdateView',
 ]
 
-from .index import IndexLangView
-from .presentation import (
+from .exercise.presentation.translation import (
     EnglishTranslationStudyCaseView,
     EnglishTranslationStudyView,
+)
+from .exercise.settings import (
+    study_settings_view,
+)
+from .exercise.test.translation import (
+    TranslationTestMentorshipView,
+    TranslationTestProgressView,
+    TranslationTestView,
 )
 from .rule import (
     ClauseCreateView,
@@ -46,12 +52,4 @@ from .rule import (
     TaskExampleAddView,
     WordExampleAddView,
     WordExampleListView,
-)
-from .settings import (
-    study_settings_view,
-)
-from .translation_test import (
-    TranslationTestMentorshipView,
-    TranslationTestProgressView,
-    TranslationTestView,
 )

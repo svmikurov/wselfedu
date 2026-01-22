@@ -10,19 +10,19 @@ from django.template.loader import render_to_string
 from django.views import generic
 
 from apps.core import views as core_views
+from apps.lang.schemas.test import CaseStatus
+from apps.lang.use_cases import BaseUseCase
 from di import MainContainer
 
-from ..schemas.test import CaseStatus
-from ..use_cases import BaseUseCase
-from ._data import ENGLISH_TRANSLATION
+from ..._data import ENGLISH_TRANSLATION
 
 if TYPE_CHECKING:
     from dependency_injector.providers import Container
     from django.http.request import HttpRequest
     from django.http.response import HttpResponseBase
 
-    from ..di.container import LanguageContainer
-    from ..schemas import test
+    from ....di.container import LanguageContainer
+    from ....schemas import test
 
     # Template types
     type Template = str

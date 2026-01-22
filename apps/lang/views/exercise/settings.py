@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from django.http.request import HttpRequest
     from django.http.response import HttpResponse
 
-from .. import forms, models
+from ... import forms, models
 
 
 # TODO: Refactor

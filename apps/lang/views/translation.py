@@ -1,4 +1,4 @@
-"""English translation views."""
+"""English translation CRUD views."""
 
 from __future__ import annotations
 
@@ -20,6 +20,16 @@ if TYPE_CHECKING:
     from django.db.models import QuerySet
     from django.http import HttpRequest, HttpResponse, HttpResponseBase
     from django_filters.filterset import FilterSet
+
+__all__ = [
+    'EnglishTranslationIndexView',
+    'EnglishTranslationListView',
+    'EnglishTranslationCreateView',
+    'EnglishTranslationUpdateView',
+    'EnglishTranslationDeleteView',
+]
+
+# REVIEW:
 
 
 class TranslationViewMixin:
