@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-22 14:41+0000\n"
+"POT-Creation-Date: 2026-01-22 17:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -300,14 +300,10 @@ msgid "lang.english.rule.page.index.header"
 msgstr "Правила Английского языка"
 
 #: apps/lang/templates/lang/rule/index.html:26
-msgid "button.rule.add"
-msgstr "Добавить правило"
-
-#: apps/lang/templates/lang/rule/index.html:40
 msgid "button.rule.list.user"
 msgstr "Мои правила"
 
-#: apps/lang/templates/lang/rule/index.html:48
+#: apps/lang/templates/lang/rule/index.html:34
 msgid "button.rule.list.student"
 msgstr "Изучаемые правила"
 
@@ -339,6 +335,15 @@ msgstr "Назначить изучение правила | WSE"
 #: apps/lang/templates/lang/rule/mentorship/index.html:10
 msgid "lang.english.rule.assignation.header"
 msgstr "Назначить изучение правила"
+
+#: apps/lang/templates/lang/test/index.html:6
+#: tests/browser/pages/lang/translation_test.py:11
+msgid "lang.page.translation.test.title"
+msgstr "Словарный тест | WSE"
+
+#: apps/lang/templates/lang/test/index.html:12
+msgid "lang.page.translation.test.header"
+msgstr "Словарный тест"
 
 #: apps/lang/templates/lang/translation/index.html:7
 msgid "lang.page.translation.title"
@@ -447,6 +452,9 @@ msgstr "Изучение языков"
 #: templates/home.html:23
 msgid "button.glossary.title"
 msgstr "Изучение терминов"
+
+#~ msgid "button.rule.add"
+#~ msgstr "Добавить правило"
 
 #~ msgid "button.title.exercises_for_today"
 #~ msgstr "Упражнения на сегодня"
