@@ -1,6 +1,7 @@
 """Contains Core app models."""
 
 __all__ = [
+    'AbstractBaseModel',
     'Discipline',
     'Exercise',
     'TaskIO',
@@ -8,6 +9,7 @@ __all__ = [
     'Period',
 ]
 
+from .abstract.base import AbstractBaseModel
 from .discipline import Discipline
 from .exercise import Exercise
 from .period import Period

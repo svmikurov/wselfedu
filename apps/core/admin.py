@@ -4,7 +4,7 @@ from django.apps import apps
 from django.contrib import admin
 
 from . import models
-from .models.base import BaseExercise
+from .models.abstract import BaseExercise
 
 
 @admin.register(models.Discipline)

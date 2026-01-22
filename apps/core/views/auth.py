@@ -25,6 +25,13 @@ class UserRequestMixin:
         return self.request.user  # type: ignore[attr-defined]
 
 
+class UserLoginRequiredMixin(
+    UserRequestMixin,
+    LoginRequiredMixin,
+):
+    """Mixin provides authenticated user."""
+
+
 class OwnerMixin:
     """Provides object owner."""
 
@@ -33,8 +40,7 @@ class OwnerMixin:
 
 
 class OwnershipRequiredMixin(
-    UserRequestMixin,
-    LoginRequiredMixin,
+    UserLoginRequiredMixin,
     UserPassesTestMixin,
     Generic[ObjectT],
 ):
