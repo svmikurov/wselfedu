@@ -241,7 +241,7 @@ class EnglishAssignedExerciseAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     list_display = ['mentorship', 'exercise']
 
 
-@admin.register(models.EnglishExerciseTranslation)
+@admin.register(models.EnglishTranslationExercise)
 class EnglishExerciseTranslationAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """English exercise translation model administration."""
 
