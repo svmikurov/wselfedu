@@ -89,6 +89,6 @@ class TranslationTestContainer(containers.DeclarativeContainer):
     web_test_mentorship = providers.Factory(
         use_cases.WebTestUseCase,
         validator=web_validator,
-        service=eng_service_progress,
+        service=eng_service,
         response_adapter=web_adapter,
     )
