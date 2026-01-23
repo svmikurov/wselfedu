@@ -27,11 +27,12 @@ db.sqlite3
 # WSE log files
 logs/
 
-# Secret
+# Secret & Sensitive
 .env
 .env_db
 .env.postgres
 sensitive/
+db*
 
 # JS
 node_modules/
