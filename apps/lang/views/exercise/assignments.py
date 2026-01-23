@@ -136,20 +136,20 @@ class AssignedTranslationView(
         active_set = set(active_translation_ids)
 
         to_remove = all_set - active_set
-        models.EnglishExerciseTranslation.objects.filter(
+        models.EnglishTranslationExercise.objects.filter(
             exercise_id=exercise_id, translation_id__in=to_remove
         ).delete()
 
         to_add = active_set
-        existing = models.EnglishExerciseTranslation.objects.filter(
+        existing = models.EnglishTranslationExercise.objects.filter(
             exercise_id=exercise_id, translation_id__in=to_add
         ).values_list('translation_id', flat=True)
 
         new_ids = to_add - set(existing)
         if new_ids:
-            models.EnglishExerciseTranslation.objects.bulk_create(
+            models.EnglishTranslationExercise.objects.bulk_create(
                 [
-                    models.EnglishExerciseTranslation(
+                    models.EnglishTranslationExercise(
                         exercise_id=exercise_id, translation_id=tid
                     )
                     for tid in new_ids
