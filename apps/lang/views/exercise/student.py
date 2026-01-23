@@ -20,7 +20,7 @@ class ExercisesForTodayView(
     UserRequestMixin,
     generic.ListView,  # type: ignore[type-arg]
 ):
-    """Exercise page for today study."""
+    """Assigned to student exercise list view."""
 
     template_name = 'lang/exercise/student/index.html'
     context_object_name = 'exercises'

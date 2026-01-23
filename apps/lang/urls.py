@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 
 from . import views
 from .views import category, mark, rule, translation
-from .views.exercise import assignments, curriculum, mentorship
+from .views.exercise import assignments, mentorship, student
 
 app_name = 'lang'
 
@@ -20,7 +20,7 @@ urlpatterns = [
     # -----------------~~~~~~~~~~~~~~~~
     path(
         'tasks/',
-        curriculum.ExercisesForTodayView.as_view(),
+        student.ExercisesForTodayView.as_view(),
         name='english_tasks',
     ),
     path(
@@ -162,7 +162,7 @@ urlpatterns = [
         name='translation_english_test_progress',
     ),
     path(
-        'translation/english/test/mentorship/',
+        'translation/english/test/<int:pk>/mentorship/',
         views.TranslationTestMentorshipView.as_view(),
         name='translation_english_test_mentorship',
     ),
