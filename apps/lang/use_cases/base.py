@@ -31,7 +31,12 @@ class BaseUseCase(
         self._service = service
         self._response_adapter = response_adapter
 
-    def execute(self, user: Person, request_data: RequestData) -> ResponseData:
+    def execute(
+        self,
+        user: Person,
+        request_data: RequestData,
+        **kwargs: object,
+    ) -> ResponseData:
         """Execute the UseCase."""
         validated = self._validator.validate(request_data)
         domain_result = self._service.execute(user, validated)
