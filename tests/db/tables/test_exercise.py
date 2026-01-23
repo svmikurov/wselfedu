@@ -9,19 +9,19 @@ import pytest
 from django.utils import timezone
 
 from apps.core.models import Discipline
-from apps.lang.models import LangExercise
+from apps.lang.models import Exercise
 from apps.math.models import MathExercise
 
 if TYPE_CHECKING:
     from apps.users.models import Person
 
-    type ExerciseType = Union[Type[LangExercise], Type[MathExercise]]
+    type ExerciseType = Union[Type[Exercise], Type[MathExercise]]
 
 EXERCISES = (
     'schema, exercise',
     [
         ('math', MathExercise),
-        ('lang', LangExercise),
+        ('lang', Exercise),
     ],
 )
 INITIAL_NAME = 'initial exercise name'
@@ -56,7 +56,7 @@ def test_create_exercise(
     now = timezone.now()
 
     # Create exercise
-    if exercise is LangExercise:
+    if exercise is Exercise:
         exercise.objects.create(  # type: ignore[misc]
             user=user, discipline=discipline, name=INITIAL_NAME
         )
@@ -90,7 +90,7 @@ def test_update_exercise(
         - created_at
     """
     # Set exercise
-    if exercise is LangExercise:
+    if exercise is Exercise:
         obj = exercise.objects.create(  # type: ignore[misc]
             user=user, discipline=discipline, name=INITIAL_NAME
         )

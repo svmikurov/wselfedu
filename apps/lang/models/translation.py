@@ -1,19 +1,25 @@
-"""Word translation models."""
+"""Language discipline word translation model."""
 
-from django.contrib.auth import get_user_model
 from django.db import models
 
+from apps.core.models import AbstractBaseModel
 
-class EnglishTranslation(models.Model):
-    """Translation of English word."""
+__all__ = [
+    'EnglishTranslation',
+]
+
+
+class EnglishTranslation(AbstractBaseModel):
+    """English translation of the word."""
 
     DEFAULT_PROGRESS = 0
 
     user = models.ForeignKey(
-        get_user_model(),
+        'users.Person',
         on_delete=models.CASCADE,
         verbose_name='Пользователь',
     )
+
     native = models.ForeignKey(
         'NativeWord',
         on_delete=models.CASCADE,
@@ -24,6 +30,12 @@ class EnglishTranslation(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Слово на английском',
     )
+
+    progress = models.PositiveSmallIntegerField(
+        default=DEFAULT_PROGRESS,
+        verbose_name='Прогресс изучения',
+    )
+
     category = models.ForeignKey(
         'Category',
         on_delete=models.CASCADE,
@@ -45,23 +57,13 @@ class EnglishTranslation(models.Model):
         blank=True,
         verbose_name='Маркеры',
     )
-    progress = models.PositiveSmallIntegerField(
-        default=DEFAULT_PROGRESS,
-        verbose_name='Прогресс изучения',
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Добавлен',
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name='Изменен',
-    )
 
     class Meta:
-        """Configure the model."""
+        """Model configuration."""
 
         verbose_name = 'Перевод слова на английский'
         verbose_name_plural = 'Переводы слов на английский'
-        db_table = 'lang_translation_english'
+
         ordering = ['-created_at']
+
+        db_table = 'lang_english_translation'

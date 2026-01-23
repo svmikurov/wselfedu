@@ -1,11 +1,11 @@
 """Language discipline exercises."""
 
 __all__ = [
-    'LangExercise',
-    'EnglishExerciseTranslation',
+    'Exercise',
+    'EnglishTranslationExercise',
     'EnglishAssignedExercise',
 ]
 
-from .assigned import EnglishAssignedExercise
-from .exercise import LangExercise
-from .translation import EnglishExerciseTranslation
+from ..assignment.mentorship.exercise import EnglishAssignedExercise
+from .exercise import Exercise
+from .translation import EnglishTranslationExercise

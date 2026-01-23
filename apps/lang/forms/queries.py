@@ -82,9 +82,9 @@ def get_exercise_translations(
 
 def get_exercises(
     user: Person,
-) -> QuerySet[models.LangExercise]:
+) -> QuerySet[models.Exercise]:
     """Get mentor exercises."""
-    return models.LangExercise.objects.filter(
+    return models.Exercise.objects.filter(
         user=user,
     )
 

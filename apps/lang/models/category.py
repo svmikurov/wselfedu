@@ -1,8 +1,12 @@
-"""Language discipline category."""
+"""Language discipline category model."""
 
 from django.utils.translation import gettext as _
 
 from apps.core.models.abstract.category import AbstractCategory
+
+__all__ = [
+    'Category',
+]
 
 
 class Category(AbstractCategory):

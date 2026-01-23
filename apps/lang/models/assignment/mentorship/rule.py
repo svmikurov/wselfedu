@@ -1,9 +1,15 @@
-"""English language rule to study via mentorship."""
+"""English language rule to study via mentorship model."""
 
 from django.db import models
 
+from apps.core.models import AbstractBaseModel
 
-class MentorshipEnglishRule(models.Model):
+__all__ = [
+    'MentorshipEnglishRule',
+]
+
+
+class MentorshipEnglishRule(AbstractBaseModel):
     """English rule study via mentorship."""
 
     mentorship = models.ForeignKey(
@@ -14,20 +20,11 @@ class MentorshipEnglishRule(models.Model):
         help_text='Наставничество для изучения правила',
     )
     rule = models.ForeignKey(
-        'Rule',
+        'lang.Rule',
         on_delete=models.CASCADE,
         related_name='mentorships',
         verbose_name='Правило для изучения',
         help_text='Правило для изучения в наставничестве',
-    )
-
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Дата добавления',
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name='Дата изменения',
     )
 
     class Meta:
@@ -41,6 +38,7 @@ class MentorshipEnglishRule(models.Model):
         )
 
         ordering = ['mentorship', 'created_at']
+
         unique_together = ['mentorship', 'rule']
 
         db_table = 'lang_english_mentorship_rule'

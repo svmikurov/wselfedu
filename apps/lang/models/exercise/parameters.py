@@ -4,19 +4,23 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Final, Self
 
-from django.contrib.auth import get_user_model
 from django.core import validators
 from django.db import models
 
-from apps.core.models import Period, Source
+from apps.core.models import AbstractBaseModel
 
 if TYPE_CHECKING:
+    from apps.lang import types
     from apps.users.models import Person
 
-    from .. import types
+__all__ = [
+    'Parameters',
+    'TranslationSetting',
+    'PresentationSettings',
+]
 
 
-class Parameters(models.Model):
+class Parameters(AbstractBaseModel):
     """Word study parameters model."""
 
     DEFAULTS: Final[dict[types.Progress, bool]] = {
@@ -27,7 +31,7 @@ class Parameters(models.Model):
     }
 
     user = models.ForeignKey(
-        get_user_model(),
+        'users.Person',
         on_delete=models.CASCADE,
         verbose_name='Пользователь',
         related_name='user_parameters',
@@ -50,14 +54,16 @@ class Parameters(models.Model):
         related_name='mark_params',
     )
     word_source = models.ForeignKey(
-        Source,
+        'core.Source',
         on_delete=models.CASCADE,
         blank=True,
         null=True,
         verbose_name='Источник',
     )
+
+    # Word adding period
     start_period = models.ForeignKey(
-        Period,
+        'core.Period',
         on_delete=models.CASCADE,
         blank=True,
         null=True,
@@ -65,13 +71,15 @@ class Parameters(models.Model):
         related_name='after_params',
     )
     end_period = models.ForeignKey(
-        Period,
+        'core.Period',
         on_delete=models.CASCADE,
         blank=True,
         null=True,
         verbose_name='Период до',
         related_name='before_params',
     )
+
+    # Study progress
     progress = models.ForeignKey(
         'study.Progress',
         on_delete=models.CASCADE,
@@ -108,22 +116,11 @@ class Parameters(models.Model):
         help_text='Выбрать выученные слова',
     )
 
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Добавлен',
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name='Изменен',
-    )
-
     class Meta:
         """Model configuration."""
 
         verbose_name = 'Параметр изучения слов'
         verbose_name_plural = 'Параметры изучения слов'
-
-        db_table = 'lang_parameters'
 
         # TODO: Add constrains after Period model improve
         constraints = [
@@ -132,6 +129,8 @@ class Parameters(models.Model):
                 name='lang_parameters_unique_user_name',
             ),
         ]
+
+        db_table = 'lang_parameters'
 
     def obj_to_id_name(self, field: types.Option) -> types.IdName | None:
         """Convert object to {id, name} dict."""
@@ -175,7 +174,7 @@ class Parameters(models.Model):
             return cls()
 
 
-class TranslationSetting(models.Model):
+class TranslationSetting(AbstractBaseModel):
     """Translation study settings model."""
 
     class TranslateChoices(models.TextChoices):
@@ -188,7 +187,7 @@ class TranslationSetting(models.Model):
     DEFAULT_TRANSLATION_ORDER = TranslateChoices.TO_NATIVE
 
     user = models.ForeignKey(
-        get_user_model(),
+        'users.Person',
         on_delete=models.CASCADE,
         verbose_name='Пользователь',
         related_name='user_translation_settings',
@@ -206,15 +205,6 @@ class TranslationSetting(models.Model):
         null=True,
         blank=True,
         verbose_name='Максимальное количество слов',
-    )
-
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Добавлены',
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name='Изменены',
     )
 
     class Meta:
@@ -260,7 +250,7 @@ class TranslationSetting(models.Model):
         return instance
 
 
-class PresentationSettings(models.Model):
+class PresentationSettings(AbstractBaseModel):
     """Presentation settings model."""
 
     MIN_TIMEOUT: Final[int] = 1
@@ -268,7 +258,7 @@ class PresentationSettings(models.Model):
     MAX_TIMEOUT: Final[int] = 300
 
     user = models.ForeignKey(
-        get_user_model(),
+        'users.Person',
         on_delete=models.CASCADE,
         verbose_name='Пользователь',
         related_name='user_presentation_settings',
@@ -297,22 +287,11 @@ class PresentationSettings(models.Model):
         help_text=f'От {MIN_TIMEOUT} до {MAX_TIMEOUT} секунд',
     )
 
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Добавлены',
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name='Изменены',
-    )
-
     class Meta:
         """Model configuration."""
 
         verbose_name = 'Настройки презентации'
         verbose_name_plural = 'Настройки презентации'
-
-        db_table = 'lang_presentation_settings'
 
         # TODO: Add constrains after Period model improve
         constraints = [
@@ -321,6 +300,8 @@ class PresentationSettings(models.Model):
                 name='lang_presentation_settings_unique_user_name',
             ),
         ]
+
+        db_table = 'lang_presentation_settings'
 
     @classmethod
     def get_instants(cls, user: Person) -> Self:

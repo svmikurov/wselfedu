@@ -4,8 +4,12 @@ from django.db import models
 
 from apps.core.models.abstract import BaseExercise
 
+__all__ = [
+    'Exercise',
+]
 
-class LangExercise(BaseExercise):
+
+class Exercise(BaseExercise):
     """Lang app exercise model."""
 
     user = models.ForeignKey(
@@ -21,5 +25,3 @@ class LangExercise(BaseExercise):
         verbose_name_plural = 'Упражнения'
 
         unique_together = ['name', 'user']
-
-        db_table = 'lang_exercise'

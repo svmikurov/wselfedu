@@ -1,9 +1,15 @@
-"""Assigned exercise."""
+"""Assigned exercise model."""
 
 from django.db import models
 
+from apps.core.models import AbstractBaseModel
 
-class EnglishAssignedExercise(models.Model):
+__all__ = [
+    'EnglishAssignedExercise',
+]
+
+
+class EnglishAssignedExercise(AbstractBaseModel):
     """Assigned English exercise."""
 
     mentorship = models.ForeignKey(
@@ -12,18 +18,9 @@ class EnglishAssignedExercise(models.Model):
         verbose_name='Наставничество',
     )
     exercise = models.ForeignKey(
-        'LangExercise',
+        'lang.Exercise',
         on_delete=models.CASCADE,
         verbose_name='Упражнение',
-    )
-
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Добавлено',
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name='Изменено',
     )
 
     class Meta:

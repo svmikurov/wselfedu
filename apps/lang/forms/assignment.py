@@ -19,7 +19,7 @@ class AssignTranslationForm(forms.Form):
         super().__init__(*args, **kwargs)  # type: ignore[arg-type]
 
         self.fields['exercise_id'] = forms.ModelChoiceField(
-            queryset=models.LangExercise.objects.filter(
+            queryset=models.Exercise.objects.filter(
                 user=self.mentor,
             ),
             label='Упражнение',

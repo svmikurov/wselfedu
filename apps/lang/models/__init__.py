@@ -1,19 +1,14 @@
-"""Contains Lang app models."""
+"""Language discipline models."""
 
 __all__ = [
-    # Abstract
-    'AbstractWordModel',
     # Translation
     'NativeWord',
     'EnglishWord',
     'EnglishTranslation',
-    'Mark',
-    'TranslationMark',
-    'Category',
     # Exercise
-    'LangExercise',
+    'Exercise',
     'EnglishAssignedExercise',
-    'EnglishExerciseTranslation',
+    'EnglishTranslationExercise',
     # Parameters
     'Parameters',
     'TranslationSetting',
@@ -21,29 +16,33 @@ __all__ = [
     # Rule
     'Rule',
     'RuleClause',
+    'RuleException',
+    'ExampleType',
     'RuleExample',
     'RuleTaskExample',
-    'RuleException',
     'MentorshipEnglishRule',
-    'ExampleType',
+    # Meta
+    'Mark',
+    'TranslationMark',
+    'Category',
 ]
 
+from .assignment.mentorship.rule import (
+    MentorshipEnglishRule,
+)
 from .category import Category
 from .exercise import (
     EnglishAssignedExercise,
-    EnglishExerciseTranslation,
-    LangExercise,
+    EnglishTranslationExercise,
 )
-from .mark import Mark, TranslationMark
-from .mentorship import (
-    MentorshipEnglishRule,
-)
-from .parameters import (
+from .exercise.exercise import Exercise
+from .exercise.parameters import (
     Parameters,
     PresentationSettings,
     TranslationSetting,
 )
-from .rules import (
+from .mark import Mark, TranslationMark
+from .rule import (
     ExampleType,
     Rule,
     RuleClause,
@@ -52,4 +51,4 @@ from .rules import (
     RuleTaskExample,
 )
 from .translation import EnglishTranslation
-from .word import AbstractWordModel, EnglishWord, NativeWord
+from .word import EnglishWord, NativeWord

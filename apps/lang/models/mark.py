@@ -1,10 +1,15 @@
-"""Language discipline mark."""
+"""Language discipline mark models."""
 
 from django.db import models
 from django.utils.translation import gettext as _
 
 from apps.core.models import AbstractBaseModel
 from apps.core.models.abstract.mark import AbstractMark
+
+__all__ = [
+    'Mark',
+    'TranslationMark',
+]
 
 
 class Mark(AbstractMark):

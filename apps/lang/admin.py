@@ -9,7 +9,7 @@ from apps.lang import models
 # ----------------
 
 
-@admin.register(models.LangExercise)
+@admin.register(models.Exercise)
 class LangExerciseAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Lang app exercise model administration."""
 

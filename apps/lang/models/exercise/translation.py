@@ -1,29 +1,27 @@
-"""Translation exercise."""
+"""Translation exercise models."""
 
 from django.db import models
 
+from apps.core.models import AbstractBaseModel
 
-class EnglishExerciseTranslation(models.Model):
+__all__ = [
+    'EnglishTranslationExercise',
+    'EnglishTranslationProgress',
+]
+
+
+class EnglishTranslationExercise(AbstractBaseModel):
     """English exercise translation."""
 
     exercise = models.ForeignKey(
-        'LangExercise',
+        'lang.Exercise',
         on_delete=models.CASCADE,
         verbose_name='Упражнение',
     )
     translation = models.ForeignKey(
-        'EnglishTranslation',
+        'lang.EnglishTranslation',
         on_delete=models.CASCADE,
         verbose_name='Перевод',
-    )
-
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Добавлено',
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name='Изменено',
     )
 
     class Meta:
@@ -37,7 +35,7 @@ class EnglishExerciseTranslation(models.Model):
         db_table = 'lang_english_exercise_translation'
 
 
-class EnglishTranslationProgress(models.Model):
+class EnglishTranslationProgress(AbstractBaseModel):
     """User progress in learning English translation."""
 
     user = models.ForeignKey(
@@ -46,17 +44,12 @@ class EnglishTranslationProgress(models.Model):
         verbose_name='Студент',
     )
     translation = models.ForeignKey(
-        'EnglishTranslation', on_delete=models.CASCADE, verbose_name='Перевод'
+        'lang.EnglishTranslation',
+        on_delete=models.CASCADE,
+        verbose_name='Перевод',
     )
-    value = models.PositiveSmallIntegerField(verbose_name='Значение')
-
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Добавлено',
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name='Изменено',
+    value = models.PositiveSmallIntegerField(
+        verbose_name='Значение',
     )
 
     class Meta:

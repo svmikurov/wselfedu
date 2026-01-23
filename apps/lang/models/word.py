@@ -1,40 +1,20 @@
-"""Word model."""
+"""Word models."""
 
-from django.contrib.auth import get_user_model
 from django.db import models
 
+from .abstract.word import AbstractWordModel
 
-class AbstractWordModel(models.Model):
-    """Base word model."""
-
-    WORD_LENGTH = 70
-
-    word: models.CharField  # type: ignore[type-arg]
-
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Добавлено',
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name='Изменено',
-    )
-
-    class Meta:
-        """Model configuration."""
-
-        abstract = True
-
-    def __str__(self) -> str:
-        """Get string representation."""
-        return str(self.word)
+__all__ = [
+    'NativeWord',
+    'EnglishWord',
+]
 
 
 class NativeWord(AbstractWordModel):
     """Native word."""
 
     user = models.ForeignKey(
-        get_user_model(),
+        'users.Person',
         on_delete=models.CASCADE,
         verbose_name='Пользователь',
         related_name='native_word',
@@ -49,7 +29,9 @@ class NativeWord(AbstractWordModel):
 
         verbose_name = 'Слово родного языка'
         verbose_name_plural = 'Слова родного языка'
+
         unique_together = ['user', 'word']
+
         db_table = 'lang_word_native'
 
 
@@ -57,7 +39,7 @@ class EnglishWord(AbstractWordModel):
     """English word."""
 
     user = models.ForeignKey(
-        get_user_model(),
+        'users.Person',
         on_delete=models.CASCADE,
         verbose_name='Пользователь',
         related_name='english_word',
@@ -72,5 +54,7 @@ class EnglishWord(AbstractWordModel):
 
         verbose_name = 'Английское слово'
         verbose_name_plural = 'Английские слова'
+
         unique_together = ['user', 'word']
-        db_table = 'lang_word_english'
+
+        db_table = 'lang_english_word'

@@ -1,9 +1,19 @@
-"""Language rules models."""
+"""Language discipline rule models."""
 
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 
+from apps.core.models import AbstractBaseModel
+
+__all__ = [
+    'Rule',
+    'RuleClause',
+    'RuleException',
+    'ExampleType',
+    'RuleTaskExample',
+    'RuleExample',
+]
 # REVIEW: Review models methods/properties
 # after completing the formation of business logic
 
@@ -15,8 +25,14 @@ class ExampleType(models.TextChoices):
     EXCEPTION = 'exception', 'Исключение'
 
 
-class Rule(models.Model):
+class Rule(AbstractBaseModel):
     """Language rule model."""
+
+    user = models.ForeignKey(
+        'users.Person',
+        on_delete=models.CASCADE,
+        verbose_name='Пользователь добавивший правило',
+    )
 
     title = models.CharField(
         max_length=255,
@@ -27,6 +43,7 @@ class Rule(models.Model):
         blank=True,
         verbose_name='Описание правила',
     )
+
     source = models.ForeignKey(
         'core.Source',
         blank=True,
@@ -49,20 +66,6 @@ class Rule(models.Model):
         help_text='Уникальный буквенно-цифровой код (например, PROC-001)',
     )
 
-    user = models.ForeignKey(
-        'users.Person',
-        on_delete=models.CASCADE,
-        verbose_name='Пользователь добавивший правило',
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Дата добавления',
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name='Дата изменения',
-    )
-
     class Meta:
         """Model configuration."""
 
@@ -82,11 +85,18 @@ class Rule(models.Model):
         return reverse('lang:english_rule_detail', kwargs={'pk': self.pk})
 
 
-class RuleClause(models.Model):
+class RuleClause(AbstractBaseModel):
     """Model for storing clauses and subclauses of rules.
 
     Recursive structure.
     """
+
+    user = models.ForeignKey(
+        'users.Person',
+        on_delete=models.CASCADE,
+        verbose_name='Пользователь',
+        help_text='Пользователь (собственник) добавивший пункт',
+    )
 
     rule = models.ForeignKey(
         Rule,
@@ -105,7 +115,6 @@ class RuleClause(models.Model):
         blank=True,
         verbose_name='Родительский пункт',
     )
-
     # The ordinal number within the parent element
     # (or rule, if parent=None)
     ordinal = models.PositiveIntegerField(
@@ -113,6 +122,7 @@ class RuleClause(models.Model):
         blank=True,
         verbose_name='Порядковый номер',
     )
+
     content = models.TextField(
         verbose_name='Содержание',
     )
@@ -120,22 +130,6 @@ class RuleClause(models.Model):
         null=True,
         blank=True,
         verbose_name='Исключение пункта правила',
-    )
-
-    user = models.ForeignKey(
-        'users.Person',
-        on_delete=models.CASCADE,
-        verbose_name='Пользователь',
-        help_text='Пользователь (собственник) добавивший пункт',
-    )
-
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Дата добавления',
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name='Дата изменения',
     )
 
     class Meta:
@@ -165,8 +159,15 @@ class RuleClause(models.Model):
             )
 
 
-class RuleException(models.Model):
+class RuleException(AbstractBaseModel):
     """Rule exception."""
+
+    user = models.ForeignKey(
+        'users.Person',
+        on_delete=models.CASCADE,
+        verbose_name='Пользователь',
+        help_text='Пользователь, добавивший исключение',
+    )
 
     rule = models.ForeignKey(
         Rule,
@@ -187,21 +188,6 @@ class RuleException(models.Model):
         verbose_name='Перевод ответа',
     )
 
-    user = models.ForeignKey(
-        'users.Person',
-        on_delete=models.CASCADE,
-        verbose_name='Пользователь',
-        help_text='Пользователь, добавивший исключение',
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Дата создания',
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name='Дата обновления',
-    )
-
     class Meta:
         """Model configuration."""
 
@@ -209,6 +195,7 @@ class RuleException(models.Model):
         verbose_name_plural = 'Исключения правил'
 
         ordering = ['rule', 'created_at']
+
         unique_together = [
             ['question_translation', 'answer_translation'],
         ]
@@ -231,8 +218,15 @@ class RuleException(models.Model):
         return f'{self.question_in_foreign} - {self.answer_in_foreign}'
 
 
-class RuleTaskExample(models.Model):
+class RuleTaskExample(AbstractBaseModel):
     """Language rule clause task example/exception."""
+
+    user = models.ForeignKey(
+        'users.Person',
+        on_delete=models.CASCADE,
+        verbose_name='Пользователь',
+        help_text='Пользователь, добавивший пример/исключение',
+    )
 
     clause = models.ForeignKey(
         'RuleClause',
@@ -240,7 +234,6 @@ class RuleTaskExample(models.Model):
         related_name='rule_task_examples',
         verbose_name='Пункт правила языка',
     )
-
     question_translation = models.ForeignKey(
         'EnglishTranslation',
         on_delete=models.CASCADE,
@@ -262,21 +255,6 @@ class RuleTaskExample(models.Model):
         help_text='Тип примера пункта правила: "пример"/"исключение"',
     )
 
-    user = models.ForeignKey(
-        'users.Person',
-        on_delete=models.CASCADE,
-        verbose_name='Пользователь',
-        help_text='Пользователь, добавивший пример/исключение',
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Дата добавления',
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name='Дата изменения',
-    )
-
     class Meta:
         """Model configuration."""
 
@@ -284,6 +262,7 @@ class RuleTaskExample(models.Model):
         verbose_name_plural = 'Примеры/исключения заданий пунктов правил'
 
         ordering = ['clause', 'created_at']
+
         unique_together = [
             ['clause', 'question_translation', 'answer_translation'],
         ]
@@ -313,30 +292,8 @@ class RuleTaskExample(models.Model):
         return f'{self.question_in_foreign} - {self.answer_in_foreign}'
 
 
-class RuleExample(models.Model):
+class RuleExample(AbstractBaseModel):
     """Language rule clause word translation example/exception."""
-
-    clause = models.ForeignKey(
-        'RuleClause',
-        on_delete=models.CASCADE,
-        related_name='rule_translation_examples',
-        verbose_name='Пункт правила языка',
-    )
-
-    translation = models.ForeignKey(
-        'EnglishTranslation',
-        on_delete=models.CASCADE,
-        related_name='translation_rule_examples',
-        verbose_name='Перевод вопроса',
-    )
-
-    example_type = models.CharField(
-        max_length=10,
-        choices=ExampleType.choices,
-        default=ExampleType.EXAMPLE,
-        verbose_name='Тип примера',
-        help_text='Тип примера пункта правила: "пример"/"исключение"',
-    )
 
     user = models.ForeignKey(
         'users.Person',
@@ -344,13 +301,25 @@ class RuleExample(models.Model):
         verbose_name='Пользователь',
         help_text='Пользователь, добавивший пример/исключение',
     )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Дата добавления',
+
+    clause = models.ForeignKey(
+        'RuleClause',
+        on_delete=models.CASCADE,
+        related_name='rule_translation_examples',
+        verbose_name='Пункт правила языка',
     )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name='Дата изменения',
+    translation = models.ForeignKey(
+        'EnglishTranslation',
+        on_delete=models.CASCADE,
+        related_name='translation_rule_examples',
+        verbose_name='Перевод вопроса',
+    )
+    example_type = models.CharField(
+        max_length=10,
+        choices=ExampleType.choices,
+        default=ExampleType.EXAMPLE,
+        verbose_name='Тип примера',
+        help_text='Тип примера пункта правила: "пример"/"исключение"',
     )
 
     class Meta:
@@ -360,6 +329,7 @@ class RuleExample(models.Model):
         verbose_name_plural = 'Примеры/исключения слов пунктов правил'
 
         ordering = ['clause', 'created_at']
+
         unique_together = [
             ['clause', 'translation'],
         ]
