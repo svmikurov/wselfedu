@@ -1,5 +1,7 @@
 """Word model."""
 
+from django.db import models
+
 from apps.core.models import AbstractBaseModel
 
 __all__ = [
@@ -11,6 +13,8 @@ class AbstractWordModel(AbstractBaseModel):
     """Base word model."""
 
     WORD_LENGTH = 70
+
+    word = models.CharField(max_length=WORD_LENGTH)
 
     class Meta:
         """Model configuration."""
