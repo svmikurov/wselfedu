@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-22 14:41+0000\n"
+"POT-Creation-Date: 2026-01-23 06:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,11 +27,11 @@ msgid "button.submit"
 msgstr "Indienen"
 
 #: apps/core/models/abstract/base.py:12
-msgid "Created at"
+msgid "Created"
 msgstr ""
 
 #: apps/core/models/abstract/base.py:16
-msgid "Updated at"
+msgid "Updated"
 msgstr ""
 
 #: apps/core/models/abstract/category.py:18
@@ -39,7 +39,7 @@ msgstr ""
 msgid "User"
 msgstr ""
 
-#: apps/core/models/abstract/category.py:23 apps/lang/models/category.py:14
+#: apps/core/models/abstract/category.py:23 apps/lang/models/category.py:18
 #: apps/lang/templates/lang/category/_table.html:8
 msgid "Category"
 msgstr ""
@@ -58,8 +58,8 @@ msgstr "Disciplines"
 msgid "Exercise"
 msgstr "Oefeningnaam"
 
-#: apps/core/models/abstract/mark.py:23 apps/lang/models/mark.py:16
-#: apps/lang/models/mark.py:31 apps/lang/templates/lang/mark/_table.html:8
+#: apps/core/models/abstract/mark.py:23 apps/lang/models/mark.py:21
+#: apps/lang/models/mark.py:36 apps/lang/templates/lang/mark/_table.html:8
 msgid "Mark"
 msgstr ""
 
@@ -75,15 +75,15 @@ msgstr ""
 msgid "Select the student"
 msgstr ""
 
-#: apps/lang/models/category.py:15
+#: apps/lang/models/category.py:19
 msgid "Categories"
 msgstr ""
 
-#: apps/lang/models/mark.py:17
+#: apps/lang/models/mark.py:22
 msgid "Marks"
 msgstr ""
 
-#: apps/lang/models/mark.py:26
+#: apps/lang/models/mark.py:31
 #: apps/lang/templates/lang/exercise/mentor/translation/_table.html:7
 msgid "Translation"
 msgstr "Vertaling"
@@ -132,6 +132,7 @@ msgstr "Engelse taal"
 #: apps/lang/templates/lang/category/index.html:17
 #: apps/lang/templates/lang/exercise/mentor/index.html:15
 #: apps/lang/templates/lang/exercise/mentor/translation/index.html:15
+#: apps/lang/templates/lang/exercise/settings/index.html:21
 #: apps/lang/templates/lang/exercise/student/index.html:15
 #: apps/lang/templates/lang/index.html:16
 #: apps/lang/templates/lang/mark/index.html:17
@@ -139,8 +140,10 @@ msgstr "Engelse taal"
 #: apps/lang/templates/lang/rule/index.html:15
 #: apps/lang/templates/lang/rule/list/index.html:15
 #: apps/lang/templates/lang/rule/mentorship/index.html:15
-#: apps/lang/templates/lang/settings/index.html:21
+#: apps/lang/templates/lang/translation/create.html:17
 #: apps/lang/templates/lang/translation/index.html:17
+#: apps/lang/templates/lang/translation/list.html:17
+#: apps/lang/templates/lang/translation/update.html:17
 msgid "button.back"
 msgstr "Rug"
 
@@ -248,6 +251,19 @@ msgstr "Oefeningnaam"
 msgid "exercise.updated_at"
 msgstr "Gewijzigd"
 
+#: apps/lang/templates/lang/exercise/test/index.html:6
+#: tests/browser/pages/lang/translation_test.py:12
+#, fuzzy
+#| msgid "lang.english.page.assign.translation.title"
+msgid "lang.page.translation.test.title"
+msgstr "Een vertaling toevoegen aan een oefening | WSE"
+
+#: apps/lang/templates/lang/exercise/test/index.html:12
+#, fuzzy
+#| msgid "lang.english.rule.assignation.title"
+msgid "lang.page.translation.test.header"
+msgstr "Een vertaling toevoegen aan een oefening | WSE"
+
 #: apps/lang/templates/lang/index.html:4
 msgid "lang.english.page.index.title"
 msgstr "Engelse taal | WSE"
@@ -342,14 +358,10 @@ msgid "lang.english.rule.page.index.header"
 msgstr "Regels van de Engelse taal"
 
 #: apps/lang/templates/lang/rule/index.html:26
-msgid "button.rule.add"
-msgstr "Voeg een regel toe"
-
-#: apps/lang/templates/lang/rule/index.html:40
 msgid "button.rule.list.user"
 msgstr "Mijn regels"
 
-#: apps/lang/templates/lang/rule/index.html:48
+#: apps/lang/templates/lang/rule/index.html:34
 msgid "button.rule.list.student"
 msgstr "Te leren regels"
 
@@ -381,6 +393,18 @@ msgstr "Wijs een regelonderzoek toe | WSE"
 #: apps/lang/templates/lang/rule/mentorship/index.html:10
 msgid "lang.english.rule.assignation.header"
 msgstr "Wijs een regelonderzoek toe"
+
+#: apps/lang/templates/lang/translation/create.html:7
+#, fuzzy
+#| msgid "lang.english.page.assign.translation.title"
+msgid "lang.page.english.translation.create.title"
+msgstr "Een vertaling toevoegen aan een oefening | WSE"
+
+#: apps/lang/templates/lang/translation/create.html:13
+#, fuzzy
+#| msgid "lang.english.rule.assignation.title"
+msgid "lang.page.english.translation.create.header"
+msgstr "Een vertaling toevoegen aan een oefening | WSE"
 
 #: apps/lang/templates/lang/translation/index.html:7
 #, fuzzy
@@ -422,6 +446,30 @@ msgstr "Te leren regels"
 msgid "button.title.translation.study.settings"
 msgstr "Te leren regels"
 
+#: apps/lang/templates/lang/translation/list.html:7
+#, fuzzy
+#| msgid "lang.english.page.assign.translation.title"
+msgid "lang.english.translation.list.title"
+msgstr "Een vertaling toevoegen aan een oefening | WSE"
+
+#: apps/lang/templates/lang/translation/list.html:13
+#, fuzzy
+#| msgid "lang.english.rule.assignation.title"
+msgid "lang.english.translation.list.header"
+msgstr "Een vertaling toevoegen aan een oefening | WSE"
+
+#: apps/lang/templates/lang/translation/update.html:7
+#, fuzzy
+#| msgid "lang.english.page.assign.translation.title"
+msgid "lang.page.english.translation.update.title"
+msgstr "Een vertaling toevoegen aan een oefening | WSE"
+
+#: apps/lang/templates/lang/translation/update.html:13
+#, fuzzy
+#| msgid "lang.english.rule.assignation.title"
+msgid "lang.page.english.translation.update.header"
+msgstr "Een vertaling toevoegen aan een oefening | WSE"
+
 #: templates/components/language_selector.html:13
 msgid "Language"
 msgstr "Taal"
@@ -430,61 +478,61 @@ msgstr "Taal"
 msgid "Disciplines"
 msgstr "Disciplines"
 
-#: templates/components/navbar.html:28
+#: templates/components/navbar.html:29
 msgid "Mathematics"
 msgstr "Wiskunde"
 
-#: templates/components/navbar.html:31
+#: templates/components/navbar.html:33
 msgid "Glossary"
 msgstr "Glossarium"
 
-#: templates/components/navbar.html:34
+#: templates/components/navbar.html:37
 msgid "Language learning"
 msgstr "Taal leren"
 
-#: templates/components/navbar.html:41
+#: templates/components/navbar.html:44
 msgid "Project"
 msgstr "Project"
 
-#: templates/components/navbar.html:44
+#: templates/components/navbar.html:48
 msgid "Home"
 msgstr "Startpagina"
 
-#: templates/components/navbar.html:48
+#: templates/components/navbar.html:53
 msgid "About"
 msgstr "Over"
 
-#: templates/components/navbar.html:52
+#: templates/components/navbar.html:58
 msgid "Android application"
 msgstr "Android-applicatie"
 
-#: templates/components/navbar.html:55
+#: templates/components/navbar.html:62
 msgid "Windows application"
 msgstr "Windows-applicatie"
 
-#: templates/components/navbar.html:58
+#: templates/components/navbar.html:66
 msgid "Linux application"
 msgstr "Linux-applicatie"
 
-#: templates/components/navbar.html:69
+#: templates/components/navbar.html:78
 msgid "Profile"
 msgstr "Profiel"
 
-#: templates/components/navbar.html:73
+#: templates/components/navbar.html:83
 msgid "Mentorship"
 msgstr "Mentorschap"
 
-#: templates/components/navbar.html:79
+#: templates/components/navbar.html:90
 msgid "Logout"
 msgstr "Uitloggen"
 
-#: templates/components/navbar.html:86
-msgid "Registration"
-msgstr "Registratie"
-
-#: templates/components/navbar.html:89
+#: templates/components/navbar.html:98
 msgid "Login"
 msgstr "Login"
+
+#: templates/components/navbar.html:102
+msgid "Registration"
+msgstr "Registratie"
 
 #: templates/home.html:5 tests/browser/pages/home.py:11
 msgid "home.page.title"
@@ -501,6 +549,9 @@ msgstr "Taal leren"
 #: templates/home.html:23
 msgid "button.glossary.title"
 msgstr "De termen leren"
+
+#~ msgid "button.rule.add"
+#~ msgstr "Voeg een regel toe"
 
 #~ msgid "button.title.exercises_for_today"
 #~ msgstr "Oefeningen voor vandaag"

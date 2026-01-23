@@ -1,69 +1,73 @@
+{# English translation list page#}
 {% extends 'base.html' %}
+
+{% load i18n %}
 {% load crispy_forms_tags %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}{% trans 'lang.english.translation.list.title' %}{% endblock %}
 
 {% block content %}
-<main class="container-xl">
-<div id="header-block" class="row py-3">
-  <div class="col">
-    <h1 class="mb-0">{{ header }}</h1>
+<main class="container">
+  <div id="header-block" class="row py-3">
+    <div class="col">
+      <h1 class="mb-0">{% trans 'lang.english.translation.list.header' %}</h1>
+    </div>
+    <div class="col-auto">
+      <a href="javascript:history.back()" class="wse-btn">
+        {% trans 'button.back' %}
+      </a>
+    </div>
   </div>
-  <div class="col-auto">
-    <a href="javascript:history.back()" class="wse-btn">
-        Назад
-    </a>
-  </div>
-</div>
 
-<form method="get" class="mb-4">
-  <div class="row">
-    <div class="col">{{ filter.form.category|as_crispy_field }}</div>
-    <div class="col">{{ filter.form.source|as_crispy_field }}</div>
-    <div class="col"><!--TODO: Add marks--></div>
-    <div class="col"><!--TODO: Add progress--></div>
-  </div>
-    <button type="submit" class="wse-btn">Фильтровать</button>
-    <a href="{{ request.path }}" class="wse-btn">Сбросить</a>
-</form>
+  <form method="get" class="mb-4">
+    <div class="row">
+      <div class="col">{{ filter.form.category|as_crispy_field }}</div>
+      <div class="col">{{ filter.form.source|as_crispy_field }}</div>
+      <div class="col"><!--TODO: Add marks--></div>
+      <div class="col"><!--TODO: Add progress--></div>
+    </div>
+      <button type="submit" class="wse-btn">Фильтровать</button>
+      <a href="{{ request.path }}" class="wse-btn">Сбросить</a>
+     </div>
+   </form>
 
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th>На английском</th>  
-      <th>На родном</th>  
-      <th><!--Icons--></th>  
-    </tr>    
-  </thead>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>На английском</th>  
+        <th>На родном</th>  
+        <th><!--Icons--></th>  
+      </tr>    
+    </thead>
 
-  <tbody>
-  {% for translation in translations %}
-    <tr id="row-{{ translation.id }}">
-      <td>{{ translation.foreign }}</td>
-      <td>{{ translation.native }}</td>
-      <td>
-        <a class="text-decoration-none me-3"
-           href="{% url 'lang:english_translation_update' translation.id %}"
-           data-testid="edit-btn-{{ translation.id }}"
-           title="Изменить">
-          <i class="fas fa-edit fa-lg"></i>
-        </a>
-        <button class="btn btn-link p-0 border-0"
-                data-testid="delete-btn-{{ translation.id }}"
-                title="Удалить"
-                hx-delete="{% url 'lang:english_translation_delete' translation.id %}"
-                hx-target="#row-{{ translation.id }}"
-                hx-swap="outerHTML"
-                hx-confirm="Удалить перевод?">
-            <i class="fas fa-trash fa-lg"></i>
-        </button>
-      </td>
-    </tr>
-  {% empty %}
-    <p>Переводы еще не добавлены.</p>
-  {% endfor %}
-  </tbody>
-</table>
+    <tbody>
+    {% for translation in translations %}
+      <tr id="row-{{ translation.id }}">
+        <td>{{ translation.foreign }}</td>
+        <td>{{ translation.native }}</td>
+        <td>
+          <a class="text-decoration-none me-3"
+            href="{% url 'lang:english_translation_update' translation.id %}"
+            data-testid="edit-btn-{{ translation.id }}"
+            title="Изменить">
+            <i class="fas fa-edit fa-lg"></i>
+          </a>
+          <button class="btn btn-link p-0 border-0"
+                  data-testid="delete-btn-{{ translation.id }}"
+                  title="Удалить"
+                  hx-delete="{% url 'lang:english_translation_delete' translation.id %}"
+                  hx-target="#row-{{ translation.id }}"
+                  hx-swap="outerHTML"
+                  hx-confirm="Удалить перевод?">
+              <i class="fas fa-trash fa-lg"></i>
+          </button>
+        </td>
+      </tr>
+    {% empty %}
+      <p>Переводы еще не добавлены.</p>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% include 'components/pagination.html' %}
 </main>
-{% include 'components/pagination.html' %}
 {% endblock %}

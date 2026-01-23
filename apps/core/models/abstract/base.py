@@ -9,11 +9,11 @@ class AbstractBaseModel(models.Model):
 
     created_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name=_('Created at'),
+        verbose_name=_('Created'),
     )
     updated_at = models.DateTimeField(
         auto_now=True,
-        verbose_name=_('Updated at'),
+        verbose_name=_('Updated'),
     )
 
     class Meta:

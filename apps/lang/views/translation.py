@@ -76,8 +76,8 @@ class EnglishTranslationListView(
     """English translation list view."""
 
     template_name = 'lang/translation/list.html'
-    filterset_class = filters.TranslationFilter
     context_object_name = 'translations'
+    filterset_class = filters.TranslationFilter
     paginate_by = 20
 
     def get_queryset(self) -> QuerySet[models.EnglishTranslation]:
@@ -100,9 +100,9 @@ class EnglishTranslationCreateView(
 ):
     """English translation create view."""
 
-    form_class = forms.EnglishCreateForm
-    template_name = 'lang/form.html'
+    template_name = 'lang/translation/create.html'
     success_url = reverse_lazy('lang:english_translation_create')
+    form_class = forms.EnglishCreateForm
 
     def form_valid(self, form: forms.EnglishCreateForm) -> HttpResponse:
         """Save translation."""
@@ -117,10 +117,10 @@ class EnglishTranslationUpdateView(
 ):
     """English translation update view."""
 
-    model = models.EnglishTranslation
-    form_class = forms.EnglishUpdateForm
-    template_name = 'lang/form.html'
+    template_name = 'lang/translation/update.html'
     success_url = reverse_lazy('lang:english_translation_list')
+    form_class = forms.EnglishUpdateForm
+    model = models.EnglishTranslation
 
     def form_valid(self, form: forms.EnglishUpdateForm) -> HttpResponse:
         """Save translation."""
