@@ -1,3 +1,4 @@
+{# Translation test exercise page #}
 {% extends "base.html" %}
 
 {% load static %}
@@ -13,10 +14,10 @@
     </div>
     <div class="col-auto">
       <a href="{% url 'lang:settings' %}" class="wse-btn">
-         Настройки
+         {% trans 'button.title.exercise.settings' %}
       </a>
       <a href="javascript:history.back()" class="wse-btn">
-         Назад
+         {% trans 'button.back' %}
       </a>
     </div>
   </div>
