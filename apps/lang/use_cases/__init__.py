@@ -3,15 +3,18 @@
 __all__ = [
     # Base
     'BaseUseCase',
-    # Implementation
+    # Presentation
     'ApiPresentationUseCase',
     'WebPresentationUseCase',
+    # Test exercise
     'WebTestUseCase',
 ]
 
 from .base import BaseUseCase
-from .cases import (
+from .presentation import (
     ApiPresentationUseCase,
     WebPresentationUseCase,
+)
+from .test import (
     WebTestUseCase,
 )

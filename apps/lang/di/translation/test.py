@@ -63,13 +63,19 @@ class TranslationTestContainer(containers.DeclarativeContainer):
         config=config,
     )
 
-    # -------------------------------
-    # Translation study test UseCases
-    # -------------------------------
+    # -----------------
+    # Response adapters
+    # -----------------
 
-    web_adapter = providers.Factory(adapters.WebTestAdapter)
+    web_adapter = providers.Factory(
+        adapters.WebTestAdapter,
+    )
 
-    web_test = providers.Factory(
+    # ----------------------------------------
+    # Translation study test exercise UseCases
+    # ----------------------------------------
+
+    web_use_case = providers.Factory(
         use_cases.WebTestUseCase,
         validator=web_validator,
         service=eng_service,
@@ -77,16 +83,15 @@ class TranslationTestContainer(containers.DeclarativeContainer):
     )
 
     # Adds tracking of the translation study progress.
-    web_test_progress = providers.Factory(
+    web_use_case_progress = providers.Factory(
         use_cases.WebTestUseCase,
         validator=web_validator,
         service=eng_service_progress,
         response_adapter=web_adapter,
     )
 
-    # HACK: Replace service stub
     # Test assigned by the mentor.
-    web_test_mentorship = providers.Factory(
+    web_use_case_assigned = providers.Factory(
         use_cases.WebTestUseCase,
         validator=web_validator,
         service=eng_service,

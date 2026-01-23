@@ -1,4 +1,4 @@
-"""Language discipline UseCase."""
+"""Language discipline presentation exercise UseCase."""
 
 from typing import Any
 
@@ -33,19 +33,3 @@ class WebPresentationUseCase(
     ]
 ):
     """Web presentation UseCase."""
-
-
-# ----
-# Test
-# ----
-
-
-class WebTestUseCase(
-    BaseUseCase[
-        RequestData,
-        schemas.TestRequestDTO,
-        schemas.Case | schemas.Explanation,
-        schemas.TestResponseData,
-    ]
-):
-    """Web translation study test exercise UseCase."""
