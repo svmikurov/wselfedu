@@ -9,12 +9,12 @@ import {
   getParameters,
   getCaseParameters,
   getAnswerElement
-} from '/static/js/lang/presentation/getters.js';
+} from '/static/js/lang/exercise/presentation/getters.js';
 import {
   showAnswer,
   hideAnswer,
   updatePauseButtonText,
-} from '/static/js/lang/presentation/helpers.js';
+} from '/static/js/lang/exercise/presentation/helpers.js';
 
 // Timer references
 let questionTimer = null;

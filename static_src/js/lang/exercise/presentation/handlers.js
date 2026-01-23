@@ -4,7 +4,7 @@
  * Uses event delegation to manage dynamic buttons and controls presentation state.
  */
 
-import { DOM_IDS } from '/static/js/lang/presentation/getters.js';
+import { DOM_IDS } from '/static/js/lang/exercise/presentation/getters.js';
 import {
   updateQuestion,
   getPauseState,
@@ -12,11 +12,11 @@ import {
   clearTimers,
   setTimers,
   skipToNext,
-} from '/static/js/lang/presentation/presentation.js';
+} from '/static/js/lang/exercise/presentation/presentation.js';
 import {
   updatePauseButtonText,
   disableMarkKnown,
-} from '/static/js/lang/presentation/helpers.js';
+} from '/static/js/lang/exercise/presentation/helpers.js';
 
 /**
  * Sets up event delegation for all control buttons.

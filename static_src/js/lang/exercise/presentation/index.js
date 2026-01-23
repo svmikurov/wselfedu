@@ -9,13 +9,13 @@
 import {
   DOM_IDS,
   getPresentationBlock,
-} from '/static/js/lang/presentation/getters.js';
+} from '/static/js/lang/exercise/presentation/getters.js';
 import {
   setTimers,
   clearTimers,
   updateQuestion,
-} from '/static/js/lang/presentation/presentation.js';
-import { setupEventDelegation } from '/static/js/lang/presentation/handlers.js';
+} from '/static/js/lang/exercise/presentation/presentation.js';
+import { setupEventDelegation } from '/static/js/lang/exercise/presentation/handlers.js';
 
 /**
  * Initializes presentation block functionality.
