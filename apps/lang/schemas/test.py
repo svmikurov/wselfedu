@@ -77,7 +77,7 @@ class Explanation(BaseModel):
 class TestRequestDTO(BaseModel):
     """Translation study test exercise the request schema."""
 
-    status: CaseStatus
+    status: CaseStatus = Field(default=CaseStatus.NEW)
     case_uuid: str | None = None
     option_value: str | None = None
 
