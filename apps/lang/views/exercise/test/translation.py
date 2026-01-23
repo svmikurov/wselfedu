@@ -116,7 +116,7 @@ class TranslationTestMentorshipView(
     """Translation study test exercise view for mentorship."""
 
     template_name = 'lang/exercise/test/index.html'
-    
+
     @inject
     def dispatch(
         self,

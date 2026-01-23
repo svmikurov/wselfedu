@@ -3,11 +3,9 @@
 from django.urls import path
 from django.views.generic import TemplateView
 
-from . import views
-from .views import category, mark, rule, translation
-from .views.exercise import assignments, mentorship, student
-
-app_name = 'lang'
+from .. import views
+from ..views import rule
+from ..views.exercise import assignments, mentorship, student
 
 urlpatterns = [
     path(
@@ -136,36 +134,6 @@ urlpatterns = [
         views.ExceptionAddView.as_view(),
         name='english_exception_add',
     ),
-    # -----------------
-    # Translation study
-    # -----------------
-    # - Presentation
-    path(
-        'translation/english/study/',
-        views.EnglishTranslationStudyView.as_view(),
-        name='translation_english_study',
-    ),
-    path(
-        'translation/english/study/case/',
-        views.EnglishTranslationStudyCaseView.as_view(),
-        name='translation_english_study_case',
-    ),
-    # - Test
-    path(
-        'translation/english/test/',
-        views.TranslationTestView.as_view(),
-        name='translation_english_test',
-    ),
-    path(
-        'translation/english/test/progress/',
-        views.TranslationTestProgressView.as_view(),
-        name='translation_english_test_progress',
-    ),
-    path(
-        'translation/english/test/<int:pk>/mentorship/',
-        views.TranslationTestMentorshipView.as_view(),
-        name='translation_english_test_mentorship',
-    ),
     # --------------
     # Study settings
     # --------------
@@ -204,79 +172,5 @@ urlpatterns = [
         'english/mentor/exercise/<int:pk>/delete/',
         mentorship.MentorExerciseDeleteView.as_view(),
         name='english_mentor_exercise_delete',
-    ),
-    # -----------
-    # Translation
-    # -----------
-    path(
-        'english/translation/',
-        translation.EnglishTranslationIndexView.as_view(),
-        name='english_translation_index',
-    ),
-    path(
-        'english/translation/list/',
-        translation.EnglishTranslationListView.as_view(),
-        name='english_translation_list',
-    ),
-    path(
-        'english/translation/create/',
-        translation.EnglishTranslationCreateView.as_view(),
-        name='english_translation_create',
-    ),
-    path(
-        'english/translation/<int:pk>/update/',
-        translation.EnglishTranslationUpdateView.as_view(),
-        name='english_translation_update',
-    ),
-    path(
-        'english/translation/<int:pk>/delete/',
-        translation.EnglishTranslationDeleteView.as_view(),
-        name='english_translation_delete',
-    ),
-    # ----
-    # Mark
-    # ----
-    path(
-        'mark/list/',
-        mark.MarkListView.as_view(),
-        name='mark_list',
-    ),
-    path(
-        'mark/create/',
-        mark.MarkCreateView.as_view(),
-        name='mark_create',
-    ),
-    path(
-        'mark/<int:pk>/update/',
-        mark.MarkUpdateView.as_view(),
-        name='mark_update',
-    ),
-    path(
-        'mark/<int:pk>/delete/',
-        mark.MarkDeleteView.as_view(),
-        name='mark_delete',
-    ),
-    # --------
-    # Category
-    # --------
-    path(
-        'category/list/',
-        category.CategoryListView.as_view(),
-        name='category_list',
-    ),
-    path(
-        'category/create/',
-        category.CategoryCreateView.as_view(),
-        name='category_create',
-    ),
-    path(
-        'category/<int:pk>/update/',
-        category.CategoryUpdateView.as_view(),
-        name='category_update',
-    ),
-    path(
-        'category/<int:pk>/delete/',
-        category.CategoryDeleteView.as_view(),
-        name='category_delete',
     ),
 ]
