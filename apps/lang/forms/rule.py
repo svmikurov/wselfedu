@@ -13,6 +13,7 @@ from django.urls import reverse
 
 from apps.core import models as core_models
 from apps.core.forms import layouts
+from apps.lang.models.abstract import AbstractWordModel
 from apps.users.models import Mentorship, Person
 
 from .. import models
@@ -27,11 +28,20 @@ from .queries import (
     get_native,
 )
 
+__all__ = [
+    'RuleForm',
+    'ClauseForm',
+    'TaskExampleForm',
+    'WordExampleForm',
+    'RuleExceptionForm',
+    'RuleAssignmentForm',
+]
 
-class WordExampleFieldsMixin(forms.Form):
+
+class _WordExampleFieldsMixin(forms.Form):
     """Provides fields for translation."""
 
-    MAX_WORD_LENGTH = models.AbstractWordModel.WORD_LENGTH
+    MAX_WORD_LENGTH = AbstractWordModel.WORD_LENGTH
 
     question_foreign_word = forms.CharField(
         max_length=MAX_WORD_LENGTH, label='Английское слово (вопрос)'
@@ -150,7 +160,7 @@ class ClauseForm(forms.ModelForm):  # type: ignore[type-arg]
         return clause  # type: ignore[no-any-return]
 
 
-class TaskExampleForm(WordExampleFieldsMixin, forms.Form):
+class TaskExampleForm(_WordExampleFieldsMixin, forms.Form):
     """Rule examples form."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
@@ -255,7 +265,7 @@ class TaskExampleForm(WordExampleFieldsMixin, forms.Form):
 class WordExampleForm(forms.Form):
     """Clause rule translation examples form."""
 
-    MAX_WORD_LENGTH = models.AbstractWordModel.WORD_LENGTH
+    MAX_WORD_LENGTH = AbstractWordModel.WORD_LENGTH
 
     foreign_word = forms.CharField(
         max_length=MAX_WORD_LENGTH, label='Английское слово (вопрос)'
@@ -340,7 +350,7 @@ class WordExampleForm(forms.Form):
         return rule_example
 
 
-class RuleExceptionForm(WordExampleFieldsMixin, forms.ModelForm):  # type: ignore[type-arg]
+class RuleExceptionForm(_WordExampleFieldsMixin, forms.ModelForm):  # type: ignore[type-arg]
     """Rule exception form."""
 
     class Meta:

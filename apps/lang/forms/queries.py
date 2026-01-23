@@ -69,7 +69,7 @@ def get_exercise_translations(
     translations = get_translations(user)
 
     if exercise_id:
-        subquery = models.EnglishExerciseTranslation.objects.filter(
+        subquery = models.EnglishTranslationExercise.objects.filter(
             exercise=exercise_id,
             translation=OuterRef('pk'),
         )
