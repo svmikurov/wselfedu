@@ -56,7 +56,7 @@ class MentorExerciseCreateView(
     """Mentor exercise create view."""
 
     template_name = 'components/crispy_form.html'
-    success_url = reverse_lazy('lang:english_mentor_exercises_management')
+    success_url = reverse_lazy('lang:english_mentor_exercises_list')
     form_class = LangExerciseForm
 
 
@@ -68,7 +68,7 @@ class MentorExerciseUpdateView(
     """Mentor exercise update view."""
 
     template_name = 'components/crispy_form.html'
-    success_url = reverse_lazy('lang:english_mentor_exercises_management')
+    success_url = reverse_lazy('lang:english_mentor_exercises_list')
     model = Exercise
     form_class = LangExerciseForm
 
