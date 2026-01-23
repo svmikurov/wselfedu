@@ -89,6 +89,7 @@ def get_exercises(
     )
 
 
+# HACK: Fix N+1 database query
 def get_assignations(
     user: Person,
 ) -> QuerySet[models.EnglishAssignedExercise]:
