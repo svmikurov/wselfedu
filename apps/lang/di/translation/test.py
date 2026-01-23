@@ -5,8 +5,8 @@ from dependency_injector import containers, providers
 from apps.core.storage import services as storage
 from apps.core.storage.clients import DjangoCache
 
-from .. import adapters, repositories, services, use_cases, validators
-from ..schemas.test import StoryDomainResult
+from ... import adapters, repositories, services, use_cases, validators
+from ...schemas.test import StoryDomainResult
 
 # TODO: Move case storage ttl to test settings.
 CASE_STORAGE_TTL = 600

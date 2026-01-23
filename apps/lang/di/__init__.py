@@ -9,5 +9,5 @@ __all__ = [
 ]
 
 from .container import LanguageContainer
-from .translation_presentation import PresentationContainer
-from .translation_test import TranslationTestContainer
+from .translation.presentation import PresentationContainer
+from .translation.test import TranslationTestContainer

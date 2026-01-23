@@ -6,8 +6,8 @@ from apps.core.storage import clients as storage_clients
 from apps.core.storage import services as storage
 from apps.lang.domain import presentation
 
-from .. import adapters, repositories, services, use_cases, validators
-from ..schemas import dto
+from ... import adapters, repositories, services, use_cases, validators
+from ...schemas import dto
 
 type StoryCase = dto.CaseMeta
 
