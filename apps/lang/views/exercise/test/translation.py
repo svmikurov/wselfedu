@@ -39,7 +39,7 @@ T = TypeVar('T')
 CONTAINER: Container[LanguageContainer] = MainContainer.lang
 
 PARTIAL_TEMPLATES: CaseTemplates = {
-    CaseStatus.BAR: 'lang/exercise/test/_bar.html',
+    CaseStatus.NO_CASE: 'lang/exercise/test/_no_cases.html',
     CaseStatus.NEW: 'lang/exercise/test/_case.html',
     CaseStatus.EXPLANATION: 'lang/exercise/test/_explanation.html',
 }

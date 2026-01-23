@@ -10,7 +10,7 @@ from ..models import EnglishTranslation
 class CaseStatus(BaseEnum):
     """Translation test status enumeration."""
 
-    BAR = 'choice test bar'
+    NO_CASE = 'no available cases'
     NEW = 'new_case'
     ANSWER = 'user_answer'
     WRONG = 'wrong_answer'
