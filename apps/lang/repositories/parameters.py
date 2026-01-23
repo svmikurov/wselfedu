@@ -48,7 +48,6 @@ class StudyParametersRepository(StudyParametersRepositoryABC):
         periods = models_core.Period.objects.all()
         orders = models.TranslationSetting.TranslateChoices.choices
 
-        # TODO: Fix type ignore
         return types.OptionsAPI(
             categories=self._get_id_name(categories),
             marks=self._get_id_name(marks),
