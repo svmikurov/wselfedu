@@ -29,7 +29,7 @@
       {% for exercise in exercises %}
         <tr>
           <td>
-            <a href="#" class="text-decoration-none">
+            <a href="{{ exercise.get_exercise_url }}" class="text-decoration-none">
               {{ exercise.exercise }}
             </a>
           </td>
