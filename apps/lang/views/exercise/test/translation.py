@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Generic, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from dependency_injector.wiring import Provide, inject
 from django.http.response import HttpResponse
 from django.template.loader import render_to_string
 from django.views import generic
 
-from apps.core import views as core_views
+from apps.core.views import auth, mixins
 from apps.lang.schemas.test import CaseStatus
 from apps.lang.use_cases import BaseUseCase
 from di import MainContainer
@@ -19,8 +19,8 @@ if TYPE_CHECKING:
     from django.http.request import HttpRequest
     from django.http.response import HttpResponseBase
 
-    from ....di.container import LanguageContainer
-    from ....schemas import test
+    from apps.lang.di.container import LanguageContainer
+    from apps.lang.schemas import test
 
     # Template types
     type Template = str
@@ -34,6 +34,12 @@ if TYPE_CHECKING:
 
 type UseCase = BaseUseCase[RequestData, RequestDTO, DomainResult, ResponseData]
 
+__all__ = [
+    'TranslationTestView',
+    'TranslationTestProgressView',
+    'TranslationTestMentorshipView',
+]
+
 T = TypeVar('T')
 
 CONTAINER: Container[LanguageContainer] = MainContainer.lang
@@ -44,44 +50,30 @@ PARTIAL_TEMPLATES: CaseTemplates = {
     CaseStatus.EXPLANATION: 'lang/exercise/test/_explanation.html',
 }
 
+# REVIEW: Current implementation have duplicated dispatch method
+#         with different use case injection.
 
-class BaseUseCaseView(
-    core_views.UserRequestMixin,
+
+class _BaseTranslationTestView(
+    auth.UserLoginRequiredMixin,
+    mixins.GetUseCaseMixin[UseCase],
     generic.TemplateView,
-    Generic[T],
 ):
-    """Base view provides user verification and UseCase."""
-
-    _use_case: None | T = None
-
-    @property
-    def use_case(self) -> T:
-        """Get presentation use case."""
-        if self._use_case is None:
-            raise AttributeError('UseCase not initialized')
-        return self._use_case
-
-
-class _BaseTranslationTestView(BaseUseCaseView[UseCase]):
     """Translation study test exercise base view."""
 
     template_name = 'lang/exercise/test/index.html'
 
     def post(self, request: HttpRequest) -> HttpResponse:
         """Render translation study test case via partial template."""
-        case = self.use_case.execute(self.user, request.POST.dict())
+        try:
+            case = self.use_case.execute(self.user, request.POST.dict())
+        except ValueError:
+            template_name = PARTIAL_TEMPLATES[CaseStatus.NO_CASE]
+            return HttpResponse(render_to_string(template_name))
+
         template_name = PARTIAL_TEMPLATES[case.status]
         context = case.data.model_dump()
         return HttpResponse(render_to_string(template_name, context))
-
-
-# TODO: Remove duplicate code
-# Reason: Current implementation have duplicated dispatch method
-#         with different use case injection.
-
-# TODO: Remove duplicate code
-# Reason: Current implementation have duplicated extra context.
-# Question: Perhaps should move context to web adapter schema?
 
 
 class TranslationTestView(_BaseTranslationTestView):
@@ -116,9 +108,15 @@ class TranslationTestProgressView(_BaseTranslationTestView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class TranslationTestMentorshipView(_BaseTranslationTestView):
+class TranslationTestMentorshipView(
+    auth.UserLoginRequiredMixin,
+    mixins.GetUseCaseMixin[UseCase],
+    generic.TemplateView,
+):
     """Translation study test exercise view for mentorship."""
 
+    template_name = 'lang/exercise/test/index.html'
+    
     @inject
     def dispatch(
         self,
@@ -130,3 +128,19 @@ class TranslationTestMentorshipView(_BaseTranslationTestView):
         """Inject translation study test exercise UseCase."""
         self._use_case = use_case
         return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request: HttpRequest, pk: int) -> HttpResponse:
+        """Render translation study test case via partial template."""
+        try:
+            case = self.use_case.execute(
+                self.user,
+                request.POST.dict(),
+                pk=pk,
+            )
+        except ValueError:
+            template_name = PARTIAL_TEMPLATES[CaseStatus.NO_CASE]
+            return HttpResponse(render_to_string(template_name))
+
+        template_name = PARTIAL_TEMPLATES[case.status]
+        context = case.data.model_dump()
+        return HttpResponse(render_to_string(template_name, context))
