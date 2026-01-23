@@ -19,6 +19,14 @@ class Validator(Protocol[T_contra, T_co]):
         """Validate raw data."""
 
 
+class AssignmentValidator(Protocol[T_contra, T_co]):
+    """Protocol for validator with additional name args interface."""
+
+    @classmethod
+    def validate(cls, raw_data: T_contra, assignment_id: int) -> T_co:
+        """Validate raw data."""
+
+
 class BusinessService(Protocol[T_contra, T_co]):
     """Protocol for business service interface."""
 

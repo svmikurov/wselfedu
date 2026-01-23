@@ -82,6 +82,12 @@ class TestRequestDTO(BaseModel):
     option_value: str | None = None
 
 
+class TestAssignedRequestDTO(TestRequestDTO):
+    """Translation assigned test exercise the request schema."""
+
+    assignment_id: int = Field(description='Assigned exercise DB identifier')
+
+
 class StoryDomainResult(BaseModel):
     """Domain result to story for user answer validation."""
 

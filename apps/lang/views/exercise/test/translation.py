@@ -133,9 +133,7 @@ class TranslationTestMentorshipView(
         """Render translation study test case via partial template."""
         try:
             case = self.use_case.execute(
-                self.user,
-                request.POST.dict(),
-                pk=pk,
+                self.user, request.POST.dict(), assignment_id=pk
             )
         except ValueError:
             template_name = PARTIAL_TEMPLATES[CaseStatus.NO_CASE]

@@ -28,3 +28,18 @@ class WebTestValidator(types.Validator[RequestData, schemas.TestRequestDTO]):
     def validate(cls, raw_data: RequestData) -> schemas.TestRequestDTO:
         """Validate the web request data."""
         return schemas.TestRequestDTO(**raw_data)
+
+
+class WebAssignedExerciseValidator(
+    types.AssignmentValidator[RequestData, schemas.TestAssignedRequestDTO]
+):
+    """Web request test validator with additional named args."""
+
+    @classmethod
+    def validate(
+        cls, raw_data: RequestData, assignment_id: int
+    ) -> schemas.TestAssignedRequestDTO:
+        """Validate the web request data."""
+        return schemas.TestAssignedRequestDTO(
+            **raw_data, assignment_id=assignment_id
+        )

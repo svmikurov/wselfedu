@@ -25,6 +25,17 @@ class TranslationTestContainer(containers.DeclarativeContainer):
         'limit': 100,
     }
 
+    # ------------------
+    # Request validators
+    # ------------------
+
+    web_validator = providers.Factory(
+        validators.WebTestValidator,
+    )
+    web_validator_assigned = providers.Factory(
+        validators.WebAssignedExerciseValidator,
+    )
+
     # --------------------
     # Service dependencies
     # --------------------
@@ -43,11 +54,9 @@ class TranslationTestContainer(containers.DeclarativeContainer):
         ttl=CASE_STORAGE_TTL,
     )
 
-    # --------------------
-    # UseCase dependencies
-    # --------------------
-
-    web_validator = providers.Factory(validators.WebTestValidator)
+    # --------
+    # Services
+    # --------
 
     eng_service = providers.Factory(
         services.TestService,
@@ -92,8 +101,8 @@ class TranslationTestContainer(containers.DeclarativeContainer):
 
     # Test assigned by the mentor.
     web_use_case_assigned = providers.Factory(
-        use_cases.WebTestUseCase,
-        validator=web_validator,
+        use_cases.AssignmentUseCase,
+        validator=web_validator_assigned,
         service=eng_service,
         response_adapter=web_adapter,
     )

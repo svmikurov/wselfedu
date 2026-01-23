@@ -16,6 +16,7 @@ __all__ = [
     'Explanation',
     'TestRequestDTO',
     'TestResponseData',
+    'TestAssignedRequestDTO',
 ]
 
 from .presentation import (
@@ -31,6 +32,7 @@ from .test import (
     Case,
     CaseStatus,
     Explanation,
+    TestAssignedRequestDTO,
     TestRequestDTO,
     TestResponseData,
 )

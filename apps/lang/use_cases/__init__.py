@@ -8,6 +8,7 @@ __all__ = [
     'WebPresentationUseCase',
     # Test exercise
     'WebTestUseCase',
+    'AssignmentUseCase',
 ]
 
 from .base import BaseUseCase
@@ -16,5 +17,6 @@ from .presentation import (
     WebPresentationUseCase,
 )
 from .test import (
+    AssignmentUseCase,
     WebTestUseCase,
 )
