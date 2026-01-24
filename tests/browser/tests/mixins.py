@@ -3,25 +3,29 @@
 from __future__ import annotations
 
 from http import HTTPStatus
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Generic, TypeVar
 
-from playwright.sync_api import expect
+from playwright.sync_api import Page, expect
+
+from ..pages.base import BasePage
 
 if TYPE_CHECKING:
-    from playwright.sync_api import Page, Response
+    from playwright.sync_api import Response
 
-    from ..pages.base import BasePage
-
-    type PageAttributes = BasePage
-    type PageState = Page
+T = TypeVar('T', bound=BasePage)
 
 
-class OpenPageMixin:
-    """Provides open page browser POM test."""
+class OpenPageMixin(Generic[T]):
+    """Provides open page browser POM test.
+
+    Test via mixin:
+        - status code is OK
+        - page have correct title
+    """
 
     response: Response
-    page: PageAttributes
-    _page: PageState
+    page: T
+    _page: Page
 
     def test_open_page(self) -> None:
         """Page opens success."""
