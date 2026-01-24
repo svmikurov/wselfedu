@@ -15,9 +15,7 @@ DomainResult = TypeVar('DomainResult')
 ResponseData = TypeVar('ResponseData')
 
 
-class BaseUseCase(
-    Generic[RequestData, RequestDTO, DomainResult, ResponseData]
-):
+class UseCase(Generic[RequestData, RequestDTO, DomainResult, ResponseData]):
     """Base UseCase."""
 
     def __init__(

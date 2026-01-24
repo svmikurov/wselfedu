@@ -25,7 +25,7 @@ if TYPE_CHECKING:
     from apps.lang import schemas, types
     from apps.lang.schemas import dto
 
-type Presentation = use_cases.BaseUseCase[
+type Presentation = use_cases.UseCase[
     dict[str, Any],
     schemas.PresentationRequest,
     dto.PresentationCase,

@@ -4,7 +4,7 @@ from typing import Any
 
 from .. import schemas, types
 from ..schemas import dto
-from . import BaseUseCase
+from . import UseCase
 
 type RequestData = dict[str, Any]
 
@@ -14,7 +14,7 @@ type RequestData = dict[str, Any]
 
 
 class ApiPresentationUseCase(
-    BaseUseCase[
+    UseCase[
         RequestData,
         schemas.PresentationRequest,
         dto.PresentationCase,
@@ -25,7 +25,7 @@ class ApiPresentationUseCase(
 
 
 class WebPresentationUseCase(
-    BaseUseCase[
+    UseCase[
         RequestData,
         schemas.PresentationRequest,
         dto.PresentationCase,

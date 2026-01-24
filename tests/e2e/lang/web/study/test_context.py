@@ -194,7 +194,7 @@ class TestCaseContext:
         case: types.TranslationCase,  # Expected case
     ) -> None:
         """Test that template contains case data."""
-        mock = Mock(spec=use_cases.BaseUseCase)
+        mock = Mock(spec=use_cases.UseCase)
         mock.execute.return_value = case
 
         # Act

@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 from .. import schemas
-from . import BaseUseCase
+from . import UseCase
 
 if TYPE_CHECKING:
     from apps.users.models import Person
@@ -17,13 +17,13 @@ if TYPE_CHECKING:
     )
 
 type RequestData = dict[str, Any]
-type RequestDTO = schemas.TestRequestDTO
+type RequestDTO = schemas.TestAssignedRequestDTO
 type DomainResult = schemas.Case | schemas.Explanation
 type ResponseData = schemas.TestResponseData
 
 
 class WebTestUseCase(
-    BaseUseCase[RequestData, RequestDTO, DomainResult, ResponseData]
+    UseCase[RequestData, RequestDTO, DomainResult, ResponseData]
 ):
     """Web translation study test exercise UseCase."""
 

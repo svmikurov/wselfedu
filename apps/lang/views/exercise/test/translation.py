@@ -12,7 +12,7 @@ from django.views import generic
 from apps.core.exceptions import info
 from apps.core.views import auth, mixins
 from apps.lang.schemas.test import CaseStatus
-from apps.lang.use_cases import BaseUseCase
+from apps.lang.use_cases import UseCase
 from di import MainContainer
 
 if TYPE_CHECKING:
@@ -33,7 +33,7 @@ if TYPE_CHECKING:
     type DomainResult = test.Case | test.Explanation
     type ResponseData = test.TestResponseData
 
-type UseCase = BaseUseCase[RequestData, RequestDTO, DomainResult, ResponseData]
+type TestUseCase = UseCase[RequestData, RequestDTO, DomainResult, ResponseData]
 
 __all__ = [
     'TranslationTestView',
@@ -57,7 +57,7 @@ PARTIAL_TEMPLATES: CaseTemplates = {
 
 class _BaseTranslationTestView(
     auth.UserLoginRequiredMixin,
-    mixins.GetUseCaseMixin[UseCase],
+    mixins.GetUseCaseMixin[TestUseCase],
     generic.TemplateView,
 ):
     """Translation study test exercise base view."""
@@ -85,7 +85,7 @@ class TranslationTestView(_BaseTranslationTestView):
         self,
         request: HttpRequest,
         *args: object,
-        use_case: UseCase = Provide[CONTAINER.web_test],
+        use_case: TestUseCase = Provide[CONTAINER.web_test],
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject translation study test exercise UseCase."""
@@ -101,7 +101,7 @@ class TranslationTestProgressView(_BaseTranslationTestView):
         self,
         request: HttpRequest,
         *args: object,
-        use_case: UseCase = Provide[CONTAINER.web_test_progress],
+        use_case: TestUseCase = Provide[CONTAINER.web_test_progress],
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject translation study test exercise UseCase."""
@@ -111,7 +111,7 @@ class TranslationTestProgressView(_BaseTranslationTestView):
 
 class TranslationTestMentorshipView(
     auth.UserLoginRequiredMixin,
-    mixins.GetUseCaseMixin[UseCase],
+    mixins.GetUseCaseMixin[TestUseCase],
     generic.TemplateView,
 ):
     """Translation study test exercise view for mentorship."""
@@ -123,7 +123,7 @@ class TranslationTestMentorshipView(
         self,
         request: HttpRequest,
         *args: object,
-        use_case: UseCase = Provide[CONTAINER.web_test_mentorship],
+        use_case: TestUseCase = Provide[CONTAINER.web_test_mentorship],
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject translation study test exercise UseCase."""
