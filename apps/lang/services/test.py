@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING, Any
 
 from django.db.models import QuerySet
 
+from apps.core.exceptions import info
 from apps.core.storage.services import TaskStorage
 
 from ..models import EnglishTranslation
@@ -138,7 +139,9 @@ class TestService:
                 tuple(latest_translations), option_count
             )
         else:
-            raise ValueError('Not enough translations')
+            raise info.NoTranslationsAvailableException(
+                'Not enough translations'
+            )
 
         return case_translations
 
@@ -272,6 +275,8 @@ class TestProgressService:
                 tuple(latest_translations), option_count
             )
         else:
-            raise ValueError('Not enough translations')
+            raise info.NoTranslationsAvailableException(
+                'Not enough translations'
+            )
 
         return case_translations

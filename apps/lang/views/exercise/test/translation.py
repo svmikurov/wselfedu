@@ -9,6 +9,7 @@ from django.http.response import HttpResponse
 from django.template.loader import render_to_string
 from django.views import generic
 
+from apps.core.exceptions import info
 from apps.core.views import auth, mixins
 from apps.lang.schemas.test import CaseStatus
 from apps.lang.use_cases import BaseUseCase
@@ -135,7 +136,7 @@ class TranslationTestMentorshipView(
             case = self.use_case.execute(
                 self.user, request.POST.dict(), assignment_id=pk
             )
-        except ValueError:
+        except info.NoTranslationsAvailableException:
             template_name = PARTIAL_TEMPLATES[CaseStatus.NO_CASE]
             return HttpResponse(render_to_string(template_name))
 
