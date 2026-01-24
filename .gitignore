@@ -32,7 +32,7 @@ logs/
 .env_db
 .env.postgres
 sensitive/
-db*
+db*.json
 
 # JS
 node_modules/
