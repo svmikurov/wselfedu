@@ -19,7 +19,8 @@ if TYPE_CHECKING:
 pytest_plugins = [
     'tests.fixtures.user',
     'tests.fixtures.lang.db.case',
-    'tests.fixtures.lang.db.translation',
+    'tests.fixtures.lang.db.assignment',
+    'tests.fixtures.lang.db.parameters',
     'tests.fixtures.lang.db.translations',
     'tests.unit.lang.fixtures',
 ]
