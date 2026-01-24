@@ -12,7 +12,7 @@ from django.views import generic
 from apps.core.exceptions import info
 from apps.core.views import auth, mixins
 from apps.lang.schemas.test import CaseStatus
-from apps.lang.use_cases import UseCase
+from apps.lang.use_cases import DetailUseCase, UseCase
 from di import MainContainer
 
 if TYPE_CHECKING:
@@ -30,10 +30,16 @@ if TYPE_CHECKING:
     # UseCase generic types
     type RequestData = dict[str, Any]
     type RequestDTO = test.TestRequestDTO
+    type DetailRequestDTO = test.DetailTestRequestDTO
     type DomainResult = test.Case | test.Explanation
     type ResponseData = test.TestResponseData
 
+# UseCase type hint
 type TestUseCase = UseCase[RequestData, RequestDTO, DomainResult, ResponseData]
+type AssignedUseCase = DetailUseCase[
+    RequestData, DetailRequestDTO, DomainResult, ResponseData
+]
+
 
 __all__ = [
     'TranslationTestView',
@@ -111,7 +117,7 @@ class TranslationTestProgressView(_BaseTranslationTestView):
 
 class TranslationTestMentorshipView(
     auth.UserLoginRequiredMixin,
-    mixins.GetUseCaseMixin[TestUseCase],
+    mixins.GetUseCaseMixin[AssignedUseCase],
     generic.TemplateView,
 ):
     """Translation study test exercise view for mentorship."""
@@ -123,7 +129,7 @@ class TranslationTestMentorshipView(
         self,
         request: HttpRequest,
         *args: object,
-        use_case: TestUseCase = Provide[CONTAINER.web_test_mentorship],
+        use_case: AssignedUseCase = Provide[CONTAINER.web_test_mentorship],
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject translation study test exercise UseCase."""
@@ -133,9 +139,7 @@ class TranslationTestMentorshipView(
     def post(self, request: HttpRequest, pk: int) -> HttpResponse:
         """Render translation study test case via partial template."""
         try:
-            case = self.use_case.execute(
-                self.user, request.POST.dict(), assignment_id=pk
-            )
+            case = self.use_case.execute(self.user, request.POST.dict(), pk=pk)
         except info.NoTranslationsAvailableException:
             template_name = PARTIAL_TEMPLATES[CaseStatus.NO_CASE]
             return HttpResponse(render_to_string(template_name))

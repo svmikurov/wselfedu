@@ -32,7 +32,7 @@ __all__ = [
     'BusinessService',
     'ResponseAdapter',
     'ApiRequest',
-    'AssignmentValidator',
+    'DetailValidator',
 ]
 
 from .presentation import ApiRequest
@@ -65,8 +65,8 @@ from .types import (
     UpdateProgressT,
 )
 from .use_case import (
-    AssignmentValidator,
     BusinessService,
+    DetailValidator,
     ResponseAdapter,
     Validator,
 )

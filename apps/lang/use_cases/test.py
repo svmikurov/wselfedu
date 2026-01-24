@@ -11,13 +11,13 @@ if TYPE_CHECKING:
     from apps.users.models import Person
 
     from ..types.use_case import (
-        AssignmentValidator,
         BusinessService,
+        DetailValidator,
         ResponseAdapter,
     )
 
 type RequestData = dict[str, Any]
-type RequestDTO = schemas.TestAssignedRequestDTO
+type RequestDTO = schemas.DetailTestRequestDTO
 type DomainResult = schemas.Case | schemas.Explanation
 type ResponseData = schemas.TestResponseData
 
@@ -33,7 +33,7 @@ class AssignmentUseCase:
 
     def __init__(
         self,
-        validator: AssignmentValidator[RequestData, RequestDTO],
+        validator: DetailValidator[RequestData, RequestDTO],
         service: BusinessService[RequestDTO, DomainResult],
         response_adapter: ResponseAdapter[DomainResult, ResponseData],
     ) -> None:

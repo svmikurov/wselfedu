@@ -16,7 +16,7 @@ __all__ = [
     'Explanation',
     'TestRequestDTO',
     'TestResponseData',
-    'TestAssignedRequestDTO',
+    'DetailTestRequestDTO',
 ]
 
 from .presentation import (
@@ -31,8 +31,8 @@ from .schemas import ProgressConfigSchema, WordStudyStoredCase
 from .test import (
     Case,
     CaseStatus,
+    DetailTestRequestDTO,
     Explanation,
-    TestAssignedRequestDTO,
     TestRequestDTO,
     TestResponseData,
 )

@@ -3,6 +3,7 @@
 __all__ = [
     # Base
     'UseCase',
+    'DetailUseCase',
     # Presentation
     'ApiPresentationUseCase',
     'WebPresentationUseCase',
@@ -11,7 +12,7 @@ __all__ = [
     'AssignmentUseCase',
 ]
 
-from .base import UseCase
+from .base import DetailUseCase, UseCase
 from .presentation import (
     ApiPresentationUseCase,
     WebPresentationUseCase,

@@ -7,7 +7,12 @@ from typing import TYPE_CHECKING, Generic, TypeVar
 if TYPE_CHECKING:
     from apps.users.models import Person
 
-    from ..types.use_case import BusinessService, ResponseAdapter, Validator
+    from ..types.use_case import (
+        BusinessService,
+        DetailValidator,
+        ResponseAdapter,
+        Validator,
+    )
 
 RequestData = TypeVar('RequestData')
 RequestDTO = TypeVar('RequestDTO')
@@ -33,10 +38,38 @@ class UseCase(Generic[RequestData, RequestDTO, DomainResult, ResponseData]):
         self,
         user: Person,
         request_data: RequestData,
-        **kwargs: object,
     ) -> ResponseData:
         """Execute the UseCase."""
         validated = self._validator.validate(request_data)
+        domain_result = self._service.execute(user, validated)
+        result = self._response_adapter.to_response(domain_result)
+        return result
+
+
+class DetailUseCase(
+    Generic[RequestData, RequestDTO, DomainResult, ResponseData]
+):
+    """Base UseCase for request with identifier."""
+
+    def __init__(
+        self,
+        validator: DetailValidator[RequestData, RequestDTO],
+        service: BusinessService[RequestDTO, DomainResult],
+        response_adapter: ResponseAdapter[DomainResult, ResponseData],
+    ) -> None:
+        """Construct the UseCase."""
+        self._validator = validator
+        self._service = service
+        self._response_adapter = response_adapter
+
+    def execute(
+        self,
+        user: Person,
+        request_data: RequestData,
+        pk: int,
+    ) -> ResponseData:
+        """Execute the UseCase."""
+        validated = self._validator.validate(request_data, pk=pk)
         domain_result = self._service.execute(user, validated)
         result = self._response_adapter.to_response(domain_result)
         return result
