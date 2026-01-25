@@ -32,9 +32,9 @@ class LanguageContainer(containers.DeclarativeContainer):
     api_presentation_use_case = presentation_container.api_use_case
 
     test_container = Container(TranslationTestContainer)
-    web_test = test_container.web_use_case
-    web_test_progress = test_container.web_use_case_progress
-    web_test_mentorship = test_container.web_use_case_assigned
+    web_test = test_container.web_regular_use_case
+    web_test_progress = test_container.web_progress_use_case
+    web_test_mentorship = test_container.web_assigned_use_case
 
     # --------------
     # Configurations
