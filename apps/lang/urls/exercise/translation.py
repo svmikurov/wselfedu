@@ -3,6 +3,7 @@
 from django.urls import path
 
 from ... import views
+from ...views.exercise.test import progress, translation
 
 urlpatterns = [
     # ------------
@@ -24,18 +25,19 @@ urlpatterns = [
     # Self-education
     path(
         'translation/english/test/',
-        views.TranslationTestView.as_view(),
+        translation.TranslationTestView.as_view(),
         name='translation_english_test',
     ),
+    # REVIEW: Replace progress path definition?
     path(
         'translation/english/test/progress/',
-        views.TranslationTestProgressView.as_view(),
+        progress.TranslationTestProgressView.as_view(),
         name='translation_english_test_progress',
     ),
     # Mentorship
     path(
         'translation/english/test/<int:pk>/mentorship/',
-        views.TranslationTestMentorshipView.as_view(),
+        translation.TranslationTestMentorshipView.as_view(),
         name='translation_english_test_mentorship',
     ),
 ]

@@ -7,12 +7,11 @@ from typing import TYPE_CHECKING, TypeVar
 from dependency_injector.wiring import Provide, inject
 from django.http.response import HttpResponse
 from django.template.loader import render_to_string
-from django.views import generic
+from django.views import View
 
-from apps.core.exceptions import info
 from apps.core.views import auth, mixins
 from apps.lang.schemas.test import CaseStatus
-from apps.lang.use_cases.types import WebAssignedTest, WebTest
+from apps.lang.use_cases.types import WebTest
 from di import MainContainer
 
 if TYPE_CHECKING:
@@ -23,8 +22,7 @@ if TYPE_CHECKING:
     from apps.lang.di.container import LanguageContainer
 
 __all__ = [
-    'TranslationTestView',
-    'TranslationTestMentorshipView',
+    'TranslationTestProgressView',
 ]
 
 T = TypeVar('T')
@@ -37,25 +35,22 @@ PARTIAL_TEMPLATES: dict[CaseStatus, str] = {
     CaseStatus.EXPLANATION: 'lang/exercise/test/_explanation.html',
 }
 
-# REVIEW: Current implementation have duplicated dispatch method
-#         with different use case injection.
+# REVIEW: Relocate view definition?
 
 
-class TranslationTestView(
+class TranslationTestProgressView(
     auth.UserLoginRequiredMixin,
     mixins.GetUseCaseMixin[WebTest],
-    generic.TemplateView,
+    View,
 ):
-    """Translation study test exercise view."""
-
-    template_name = 'lang/exercise/test/index.html'
+    """Translation study test exercise view with progress tracking."""
 
     @inject
     def dispatch(
         self,
         request: HttpRequest,
         *args: object,
-        use_case: WebTest = Provide[CONTAINER.web_test],
+        use_case: WebTest = Provide[CONTAINER.web_test_progress],
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject translation study test exercise UseCase."""
@@ -67,40 +62,6 @@ class TranslationTestView(
         try:
             case = self.use_case.execute(self.user, request.POST.dict())
         except ValueError:
-            template_name = PARTIAL_TEMPLATES[CaseStatus.NO_CASE]
-            return HttpResponse(render_to_string(template_name))
-
-        template_name = PARTIAL_TEMPLATES[case.status]
-        context = case.data.model_dump()
-        return HttpResponse(render_to_string(template_name, context))
-
-
-class TranslationTestMentorshipView(
-    auth.UserLoginRequiredMixin,
-    mixins.GetUseCaseMixin[WebAssignedTest],
-    generic.TemplateView,
-):
-    """Translation study test exercise view for mentorship."""
-
-    template_name = 'lang/exercise/test/index.html'
-
-    @inject
-    def dispatch(
-        self,
-        request: HttpRequest,
-        *args: object,
-        use_case: WebAssignedTest = Provide[CONTAINER.web_test_mentorship],
-        **kwargs: object,
-    ) -> HttpResponseBase:
-        """Inject translation study test exercise UseCase."""
-        self._use_case = use_case
-        return super().dispatch(request, *args, **kwargs)
-
-    def post(self, request: HttpRequest, pk: int) -> HttpResponse:
-        """Render translation study test case via partial template."""
-        try:
-            case = self.use_case.execute(self.user, request.POST.dict(), pk=pk)
-        except info.NoTranslationsAvailableException:
             template_name = PARTIAL_TEMPLATES[CaseStatus.NO_CASE]
             return HttpResponse(render_to_string(template_name))
 
