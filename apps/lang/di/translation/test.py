@@ -71,6 +71,13 @@ class TranslationTestContainer(containers.DeclarativeContainer):
         storage=cache_storage,
         config=config,
     )
+    # Assigned test exercise service
+    eng_service_assigned = providers.Factory(
+        services.AssignedTestService,
+        repository=repository,
+        storage=cache_storage,
+        config=config,
+    )
 
     # -----------------
     # Response adapters
@@ -85,7 +92,7 @@ class TranslationTestContainer(containers.DeclarativeContainer):
     # ----------------------------------------
 
     web_use_case = providers.Factory(
-        use_cases.WebTestUseCase,
+        use_cases.UseCase,
         validator=web_validator,
         service=eng_service,
         response_adapter=web_adapter,
@@ -93,7 +100,7 @@ class TranslationTestContainer(containers.DeclarativeContainer):
 
     # Adds tracking of the translation study progress.
     web_use_case_progress = providers.Factory(
-        use_cases.WebTestUseCase,
+        use_cases.UseCase,
         validator=web_validator,
         service=eng_service_progress,
         response_adapter=web_adapter,
@@ -101,8 +108,8 @@ class TranslationTestContainer(containers.DeclarativeContainer):
 
     # Test assigned by the mentor.
     web_use_case_assigned = providers.Factory(
-        use_cases.AssignmentUseCase,
+        use_cases.DetailUseCase,
         validator=web_validator_assigned,
-        service=eng_service,
+        service=eng_service_assigned,
         response_adapter=web_adapter,
     )
