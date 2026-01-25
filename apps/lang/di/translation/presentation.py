@@ -1,6 +1,18 @@
-"""Get presentation UseCase DI container."""
+"""DI container for translation study via Presentation exercises.
 
-from dependency_injector import containers, providers
+Provides dependencies for handling WEB and API requests for exercises,
+including:
+    - Input validation for WEB and API requests
+    - Exercise creation and progress tracking
+    - Domain result adaptation for WEB and API responses
+"""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+from dependency_injector.containers import DeclarativeContainer
+from dependency_injector.providers import Configuration, Factory
 
 from apps.core.storage import clients as storage_clients
 from apps.core.storage import services as storage
@@ -11,74 +23,140 @@ from ...schemas import dto
 
 type StoryCase = dto.CaseMeta
 
-CASE_STORAGE_TTL = 600
+# HACK: Update on abstract a hint container dependency types
+# REVIEW: Relocate the type hint definition to a separate module?
+if TYPE_CHECKING:
+    from apps.core.storage.clients import DjangoCache
+    from apps.core.storage.services import TaskStorage
+
+    from ...adapters import ApiPresentationAdapter, WebPresentationAdapter
+    from ...domain import PresentationDomain
+    from ...repositories import EnglishTranslation
+    from ...services import PresentationService
+    from ...use_cases import ApiPresentationUseCase, WebPresentationUseCase
+    from ...validators import (
+        ApiPresentationValidator,
+        WebPresentationValidator,
+    )
+
+    # --------------------------------
+    # Container dependencies type hint
+    # --------------------------------
+
+    # Validators
+    type RegularValidatorFactory = Factory[WebPresentationValidator]
+    type AssignedValidatorFactory = Factory[ApiPresentationValidator]
+
+    # Service dependencies
+    type DomainFactory = Factory[PresentationDomain]
+    type TranslationRepositoryFactory = Factory[EnglishTranslation]
+    type ProgressRepositoryFactory = Factory[DjangoCache[StoryCase]]
+    type StorageFactory = Factory[TaskStorage[StoryCase]]
+
+    # Services
+    type ServiceFactory = Factory[PresentationService]
+
+    # Adapters
+    type WebAdapterFactory = Factory[WebPresentationAdapter]
+    type ApiAdapterFactory = Factory[ApiPresentationAdapter]
+
+    # UseCases
+    type WebUseCaseFactory = Factory[WebPresentationUseCase]
+    type ApiUseCaseFactory = Factory[ApiPresentationUseCase]
 
 
-class PresentationContainer(containers.DeclarativeContainer):
+class PresentationContainer(DeclarativeContainer):
     """Translation study presentation DI container."""
 
-    # ----------------------------------------
-    # Validators for presentation case request
-    # ----------------------------------------
+    # ---------------------------
+    # Test exercise configuration
+    # ---------------------------
+
+    config = Configuration()
+
+    config.from_dict(
+        {
+            'case_storage_ttl': 600,
+        }
+    )
+
+    # ------------------
+    # Request Validators
+    # ------------------
 
     # Validates presentation request, returns domain DTO.
-    web_validator = providers.Factory(validators.WebPresentationValidator)
-    api_validator = providers.Factory(validators.ApiPresentationValidator)
+    web_validator: RegularValidatorFactory = Factory(
+        validators.WebPresentationValidator,
+    )
+    api_validator: AssignedValidatorFactory = Factory(
+        validators.ApiPresentationValidator,
+    )
 
-    # --------------------------------
-    # Service to get presentation case
-    # --------------------------------
+    # --------------------
+    # Service dependencies
+    # --------------------
 
     # Repository to get presentation case candidates
-    eng_repository = providers.Factory(repositories.EnglishTranslation)
+    translation_repository = Factory(
+        repositories.EnglishTranslation,
+    )
 
     # Domain logic to get presentation case from candidates
-    domain = providers.Factory(presentation.PresentationDomain)
+    domain: DomainFactory = Factory(
+        presentation.PresentationDomain,
+    )
 
     # Current presentation case storage (Django cache)
     # Stores the ID of the translation for translation
     # study progress update.
-    cache_client = providers.Factory(storage_clients.DjangoCache[StoryCase])
-    cache_storage = providers.Factory(
+    cache_client = Factory(
+        storage_clients.DjangoCache[StoryCase],
+    )
+    cache_storage: StorageFactory = Factory(
         storage.TaskStorage[StoryCase],
         storage=cache_client,
-        ttl=CASE_STORAGE_TTL,
+        ttl=config.case_storage_ttl,
     )
 
-    # Service
+    # --------
+    # Services
+    # --------
+
     # Retrieves candidates for presentation case,
     # choices translation from candidates,
     # stores translation ID to updated progress,
     # returns translation case.
-    eng_service = providers.Factory(
+    exercise_service: ServiceFactory = Factory(
         services.PresentationService,
-        repository=eng_repository,
+        repository=translation_repository,
         domain=domain,
         storage=cache_storage,
     )
 
-    # -------------------------------------------
-    # Presentation case data adapters to response
-    # -------------------------------------------
+    # -----------------
+    # Response Adapters
+    # -----------------
 
-    # Adapts presentation case for web & api response formats.
-    web_adapter = providers.Factory(adapters.WebPresentationAdapter)
-    api_adapter = providers.Factory(adapters.ApiPresentationAdapter)
+    web_adapter: WebAdapterFactory = Factory(
+        adapters.WebPresentationAdapter,
+    )
+    api_adapter: ApiAdapterFactory = Factory(
+        adapters.ApiPresentationAdapter,
+    )
 
     # ---------
     # Use cases
     # ---------
 
-    # Provides api to get presentation case.
-    web_use_case = providers.Factory(
+    web_use_case: WebUseCaseFactory = Factory(
         use_cases.WebPresentationUseCase,
         validator=web_validator,
-        service=eng_service,
+        service=exercise_service,
         response_adapter=web_adapter,
     )
-    api_use_case = providers.Factory(
+    api_use_case: ApiUseCaseFactory = Factory(
         use_cases.ApiPresentationUseCase,
         validator=api_validator,
-        service=eng_service,
+        service=exercise_service,
         response_adapter=api_adapter,
     )
