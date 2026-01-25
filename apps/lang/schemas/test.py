@@ -23,7 +23,7 @@ class CaseStatus(BaseEnum):
 # ------------
 
 
-class Option(BaseModel):
+class OptionText(BaseModel):
     """Test case option."""
 
     value: int = Field(description='Option identifier for business logic')
@@ -53,7 +53,7 @@ class Case(BaseModel):
     )
     case_uuid: str
     question: str
-    options: list[Option]
+    options: list[OptionText]
 
 
 class Explanation(BaseModel):
