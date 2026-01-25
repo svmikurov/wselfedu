@@ -5,10 +5,13 @@ __all__ = [
     'StudySettingsServiceABC',
     'WordPresentationServiceABC',
     'StudySettingsService',
-    # Implementation
-    'UpdateWordProgressService',
+    # Presentation exercise services
     'PresentationService',
+    # Test exercise services
     'TestService',
+    'AssignedTestService',
+    # Translation study progress service
+    'UpdateWordProgressService',
     'TestProgressService',
 ]
 
@@ -19,4 +22,4 @@ from .abc import (
 from .presentation import PresentationService
 from .progress import UpdateWordProgressService
 from .study_settings import StudySettingsService
-from .test import TestProgressService, TestService
+from .test import AssignedTestService, TestProgressService, TestService
