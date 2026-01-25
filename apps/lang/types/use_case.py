@@ -11,8 +11,8 @@ T_contra = TypeVar('T_contra', contravariant=True)
 T_co = TypeVar('T_co', covariant=True)
 
 
-class Validator(Protocol[T_contra, T_co]):
-    """Protocol for validator interface."""
+class RegularValidator(Protocol[T_contra, T_co]):
+    """Protocol for regular validator interface."""
 
     @classmethod
     def validate(cls, raw_data: T_contra) -> T_co:
@@ -20,11 +20,11 @@ class Validator(Protocol[T_contra, T_co]):
 
 
 class DetailValidator(Protocol[T_contra, T_co]):
-    """Protocol for validator with additional name args interface."""
+    """Protocol for validator with identifier."""
 
     @classmethod
     def validate(cls, raw_data: T_contra, pk: int) -> T_co:
-        """Validate raw data."""
+        """Validate raw data with identifier."""
 
 
 class BusinessService(Protocol[T_contra, T_co]):

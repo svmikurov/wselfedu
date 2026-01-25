@@ -28,7 +28,7 @@ __all__ = [
     'PresentationT',
     'CaseSettingsDomain',
     'IdName',
-    'Validator',
+    'RegularValidator',
     'BusinessService',
     'ResponseAdapter',
     'ApiRequest',
@@ -67,6 +67,6 @@ from .types import (
 from .use_case import (
     BusinessService,
     DetailValidator,
+    RegularValidator,
     ResponseAdapter,
-    Validator,
 )

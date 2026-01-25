@@ -8,7 +8,7 @@ type RequestData = dict[str, Any]
 
 
 class WebPresentationValidator(
-    types.Validator[RequestData, schemas.PresentationRequest]
+    types.RegularValidator[RequestData, schemas.PresentationRequest]
 ):
     """Web request presentation validator."""
 
@@ -21,7 +21,9 @@ class WebPresentationValidator(
         )
 
 
-class WebTestValidator(types.Validator[RequestData, schemas.TestRequestDTO]):
+class WebTestValidator(
+    types.RegularValidator[RequestData, schemas.TestRequestDTO]
+):
     """Web request test validator."""
 
     @classmethod

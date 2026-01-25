@@ -21,7 +21,9 @@ class PresentationSerializer(
     """Get presentation serializer."""
 
 
-class ApiPresentationValidator(types.Validator[RequestData, RequestDTO]):
+class ApiPresentationValidator(
+    types.RegularValidator[RequestData, RequestDTO]
+):
     """Api get presentation validator."""
 
     @classmethod

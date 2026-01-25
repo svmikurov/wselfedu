@@ -12,7 +12,7 @@ from apps.lang import types, use_cases
 @pytest.fixture
 def mock_validator() -> Mock:
     """Provide validator mock."""
-    return Mock(spec=types.Validator)
+    return Mock(spec=types.RegularValidator)
 
 
 @pytest.fixture
