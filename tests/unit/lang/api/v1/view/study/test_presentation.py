@@ -11,7 +11,7 @@ from rest_framework.test import APIRequestFactory, force_authenticate
 
 from apps.lang import types
 from apps.lang.api.v1.views.study import WordStudyViewSet
-from apps.lang.services.presentation import PresentationService
+from apps.lang.services import PresentationService
 from di import container
 from tests.fixtures.lang.no_db import translations as fixtures
 

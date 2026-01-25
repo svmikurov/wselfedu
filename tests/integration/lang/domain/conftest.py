@@ -86,7 +86,7 @@ def container() -> Container:
 @pytest.fixture
 def service(container: Container) -> Service:
     """Provide presentation service."""
-    return container.eng_service()
+    return container.exercise_service()
 
 
 @pytest.fixture
