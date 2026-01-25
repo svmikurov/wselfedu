@@ -7,17 +7,10 @@ __all__ = [
     # Presentation
     'ApiPresentationUseCase',
     'WebPresentationUseCase',
-    # Test exercise
-    'WebTestUseCase',
-    'AssignmentUseCase',
 ]
 
-from .base import DetailUseCase, UseCase
+from .generic import DetailUseCase, UseCase
 from .presentation import (
     ApiPresentationUseCase,
     WebPresentationUseCase,
-)
-from .test import (
-    AssignmentUseCase,
-    WebTestUseCase,
 )
