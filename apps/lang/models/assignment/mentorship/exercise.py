@@ -22,6 +22,7 @@ class EnglishAssignedExercise(AbstractBaseModel):
         'lang.Exercise',
         on_delete=models.CASCADE,
         verbose_name='Упражнение',
+        related_name='assignments',
     )
 
     class Meta:
@@ -32,8 +33,8 @@ class EnglishAssignedExercise(AbstractBaseModel):
 
         db_table = 'lang_assigned_english_exercise'
 
-    def get_exercise_url(self) -> str:
-        """Get exercise url."""
+    def get_assignment_url(self) -> str:
+        """Get assignment url."""
         return reverse(
             'lang:translation_english_test_mentorship', kwargs={'pk': self.pk}
         )

@@ -17,11 +17,13 @@ class EnglishTranslationExercise(AbstractBaseModel):
         'lang.Exercise',
         on_delete=models.CASCADE,
         verbose_name='Упражнение',
+        related_name='translations',
     )
     translation = models.ForeignKey(
         'lang.EnglishTranslation',
         on_delete=models.CASCADE,
         verbose_name='Перевод',
+        related_name='exercises',
     )
 
     class Meta:

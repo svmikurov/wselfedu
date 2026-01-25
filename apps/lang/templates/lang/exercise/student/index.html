@@ -26,14 +26,14 @@
     </thead>
 
     <tbody>
-      {% for exercise in exercises %}
+      {% for assignment in assignments %}
         <tr>
           <td>
-            <a href="{{ exercise.get_exercise_url }}" class="text-decoration-none">
-              {{ exercise.exercise }}
+            <a href="{{ assignment.get_assignment_url }}" class="text-decoration-none">
+              {{ assignment.exercise }}
             </a>
           </td>
-          <td>{{ exercise.updated_at|date }}</td>
+          <td>{{ assignment.updated_at|date }}</td>
         </tr>
       {% endfor %}
     </tbody>
