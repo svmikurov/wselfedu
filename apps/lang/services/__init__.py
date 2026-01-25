@@ -19,7 +19,7 @@ from .abc import (
     StudySettingsServiceABC,
     WordPresentationServiceABC,
 )
-from .presentation import PresentationService
+from .exercises import PresentationService
 from .progress import UpdateWordProgressService
 from .study_settings import StudySettingsService
 from .test import AssignedTestService, TestProgressService, TestService

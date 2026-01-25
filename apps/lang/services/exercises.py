@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 
 
 class PresentationService:
-    """Get presentation service."""
+    """Get presentation exercise service."""
 
     def __init__(
         self,
@@ -39,7 +39,7 @@ class PresentationService:
         self._storage = storage
 
     def execute(self, user: Person, request: PresentationRequest) -> Case:
-        """Build and return presentation case."""
+        """Build and return exercise case."""
         candidates = self._repository.fetch(user, request.parameters)
         case, case_meta = self._domain.get_case(candidates, request.settings)
         case_uuid = self._storage.save_task(case_meta)
