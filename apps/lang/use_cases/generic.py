@@ -1,4 +1,4 @@
-"""Language discipline base UseCase."""
+"""Language discipline generic UseCase."""
 
 from __future__ import annotations
 
@@ -10,8 +10,8 @@ if TYPE_CHECKING:
     from ..types.use_case import (
         BusinessService,
         DetailValidator,
+        RegularValidator,
         ResponseAdapter,
-        Validator,
     )
 
 RequestData = TypeVar('RequestData')
@@ -21,11 +21,11 @@ ResponseData = TypeVar('ResponseData')
 
 
 class UseCase(Generic[RequestData, RequestDTO, DomainResult, ResponseData]):
-    """Base UseCase."""
+    """UseCase for operations without identifier."""
 
     def __init__(
         self,
-        validator: Validator[RequestData, RequestDTO],
+        validator: RegularValidator[RequestData, RequestDTO],
         service: BusinessService[RequestDTO, DomainResult],
         response_adapter: ResponseAdapter[DomainResult, ResponseData],
     ) -> None:
@@ -49,7 +49,7 @@ class UseCase(Generic[RequestData, RequestDTO, DomainResult, ResponseData]):
 class DetailUseCase(
     Generic[RequestData, RequestDTO, DomainResult, ResponseData]
 ):
-    """Base UseCase for request with identifier."""
+    """UseCase for operations with identifier (pk)."""
 
     def __init__(
         self,
