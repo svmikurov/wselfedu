@@ -14,6 +14,17 @@ if TYPE_CHECKING:
     from .. import models, types
 
 
+class StudySettingsRepositoryABC(ABC):
+    """Study settings presenter."""
+
+    @abstractmethod
+    def fetch(
+        self,
+        user: Person,
+    ) -> types.CaseStudySettingsWEB:
+        """Get case settings to context adding."""
+
+
 class RuleRepositoryABC(ABC):
     """ABC for rule repository."""
 
