@@ -16,6 +16,11 @@ __all__ = [
     'RuleRepository',
     # Functions
     'get_period_delta',
+    # Exercises
+    'ExerciseTranslationRepository',
+    'UserTranslationRepository',
+    # Exercise settings
+    'StudySettingsRepository',
 ]
 
 from .abc import (
@@ -25,8 +30,16 @@ from .abc import (
     StudyParametersRepositoryABC,
     TranslationRepoABC,
 )
+from .exercise.translation.presentation import (
+    EnglishTranslation,
+    get_period_delta,
+)
+from .exercise.translation.test import (
+    ExerciseTranslationRepository,
+    UserTranslationRepository,
+)
 from .parameters import StudyParametersRepository
-from .presentation import EnglishTranslation, get_period_delta
 from .progress import Progress
 from .rule import RuleRepository
+from .study_settings import StudySettingsRepository
 from .translation import TranslationRepository
