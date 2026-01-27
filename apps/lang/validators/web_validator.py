@@ -24,7 +24,7 @@ class WebPresentationValidator(
 class WebTestValidator(
     types.RegularValidator[RequestData, schemas.TestRequestDTO]
 ):
-    """Web request test validator."""
+    """Web request test exercise validator."""
 
     @classmethod
     def validate(cls, raw_data: RequestData) -> schemas.TestRequestDTO:
@@ -32,10 +32,10 @@ class WebTestValidator(
         return schemas.TestRequestDTO(**raw_data)
 
 
-class WebAssignedExerciseValidator(
+class WebAssignedTestValidator(
     types.DetailValidator[RequestData, schemas.DetailTestRequestDTO]
 ):
-    """Web request test validator with additional named args."""
+    """Web request assigned test exercise validator."""
 
     @classmethod
     def validate(
