@@ -85,7 +85,7 @@ class TestRequestDTO(BaseModel):
 class DetailTestRequestDTO(TestRequestDTO):
     """Translation assigned test exercise the request schema."""
 
-    pk: int = Field(description='DB identifier')
+    pk: int = Field(description='The exercise DB identifier')
 
 
 class StoryDomainResult(BaseModel):
