@@ -20,7 +20,7 @@ class TaskStorageProto(Protocol[T]):
 
 
 class TaskStorageABC(TaskStorageProto[T], ABC):
-    """Protocol for task storage interface."""
+    """ABC for task storage interface."""
 
     @abstractmethod
     @override
