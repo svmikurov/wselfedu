@@ -3,7 +3,7 @@
 import logging
 from http import HTTPStatus
 
-from dependency_injector import wiring
+from dependency_injector.wiring import Provide
 from drf_spectacular.utils import (
     OpenApiExample,
     extend_schema,
@@ -27,6 +27,10 @@ from .. import examples
 from .. import serializers as ser
 
 log = logging.getLogger(__name__)
+
+CONTAINER = di.MainContainer.lang
+EXERCISES = di.MainContainer.lang.exercises
+REPOSITORIES = di.MainContainer.lang.repositories
 
 
 class WordStudyViewSet(
@@ -62,12 +66,10 @@ class WordStudyViewSet(
     def presentation(
         self,
         request: Request,
-        presentation_services: ApiPresentationUseCase = wiring.Provide[
-            di.MainContainer.lang.api_presentation_use_case,
-        ],
+        service: ApiPresentationUseCase = Provide[EXERCISES.api_presentation],  # type: ignore[attr-defined]
     ) -> Response:
         """Render the Word study presentation case."""
-        presentation = presentation_services.execute(self.user, request.data)
+        presentation = service.execute(self.user, request.data)
         return Response(presentation)
 
     # ---------------------
@@ -91,8 +93,8 @@ class WordStudyViewSet(
     def parameters(
         self,
         request: Request,
-        repository: StudyParametersRepositoryABC = wiring.Provide[
-            di.MainContainer.lang.parameters_repository,
+        repository: StudyParametersRepositoryABC = Provide[
+            REPOSITORIES.study_parameters,  # type: ignore[attr-defined]
         ],
     ) -> Response:
         """Render initial Word study parameters."""
@@ -113,8 +115,8 @@ class WordStudyViewSet(
     def update_parameters(
         self,
         request: Request,
-        repository: StudyParametersRepositoryABC = wiring.Provide[
-            di.MainContainer.lang.parameters_repository,
+        repository: StudyParametersRepositoryABC = Provide[
+            REPOSITORIES.study_parameters,  # type: ignore[attr-defined]
         ],
     ) -> Response:
         """Update initial Word study parameters."""
@@ -149,8 +151,8 @@ class WordStudyViewSet(
     def progress(
         self,
         request: Request,
-        service: WordProgressServiceABC = wiring.Provide[
-            di.MainContainer.lang.progress_service,
+        service: WordProgressServiceABC = Provide[
+            CONTAINER.progress.regular_translation_service  # type: ignore[attr-defined]
         ],
     ) -> Response:
         """Update word study progress."""
