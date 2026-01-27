@@ -9,13 +9,11 @@ including:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from dependency_injector.containers import DeclarativeContainer
-from dependency_injector.providers import Configuration, Factory
+from dependency_injector.providers import Dependency, Factory
 
-from apps.core.storage import clients as storage_clients
-from apps.core.storage import services as storage
 from apps.lang.domain import presentation
 
 from ... import adapters, repositories, services, use_cases, validators
@@ -51,7 +49,7 @@ if TYPE_CHECKING:
     type DomainFactory = Factory[PresentationDomain]
     type TranslationRepositoryFactory = Factory[EnglishTranslation]
     type ProgressRepositoryFactory = Factory[DjangoCache[StoryCase]]
-    type StorageFactory = Factory[TaskStorage[StoryCase]]
+    type StorageFactory = Factory[TaskStorage[Any]]
 
     # Services
     type ServiceFactory = Factory[PresentationService]
@@ -68,17 +66,14 @@ if TYPE_CHECKING:
 class PresentationContainer(DeclarativeContainer):
     """Translation study presentation DI container."""
 
-    # ---------------------------
-    # Test exercise configuration
-    # ---------------------------
+    # ---------------------
+    # External dependencies
+    # ---------------------
 
-    config = Configuration()
-
-    config.from_dict(
-        {
-            'case_storage_ttl': 600,
-        }
-    )
+    # Current presentation case storage (Django cache)
+    # Stores the ID of the translation for translation
+    # study progress update.
+    task_storage: Dependency[StorageFactory] = Dependency()
 
     # ------------------
     # Request Validators
@@ -106,18 +101,6 @@ class PresentationContainer(DeclarativeContainer):
         presentation.PresentationDomain,
     )
 
-    # Current presentation case storage (Django cache)
-    # Stores the ID of the translation for translation
-    # study progress update.
-    cache_client = Factory(
-        storage_clients.DjangoCache[StoryCase],
-    )
-    cache_storage: StorageFactory = Factory(
-        storage.TaskStorage[StoryCase],
-        storage=cache_client,
-        ttl=config.case_storage_ttl,
-    )
-
     # --------
     # Services
     # --------
@@ -130,7 +113,7 @@ class PresentationContainer(DeclarativeContainer):
         services.PresentationService,
         repository=translation_repository,
         domain=domain,
-        storage=cache_storage,
+        storage=task_storage,
     )
 
     # -----------------
