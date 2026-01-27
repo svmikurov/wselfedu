@@ -29,3 +29,16 @@ class GetServiceMixin(Generic[T]):
         if self._service is None:
             raise AttributeError('Service not initialized')
         return self._service
+
+
+class GetRepositoryMixin(Generic[T]):
+    """Get repository mixin."""
+
+    _repository: T | None = None
+
+    @property
+    def repository(self) -> T:
+        """Get repository."""
+        if self._repository is None:
+            raise AttributeError('Repository not initialized')
+        return self._repository
