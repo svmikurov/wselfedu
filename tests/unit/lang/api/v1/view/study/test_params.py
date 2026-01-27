@@ -43,7 +43,9 @@ class TestWordStudyParams:
         force_authenticate(request, Mock())
 
         # Act
-        with di.container.lang.parameters_repository.override(mock_repository):
+        with di.container.lang.repositories.study_parameters.override(  # type: ignore[attr-defined]
+            mock_repository
+        ):
             response = view(request)
 
         # Assert

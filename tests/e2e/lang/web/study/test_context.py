@@ -175,7 +175,7 @@ class TestCaseContext:
 
         # Act
         # - mock study service
-        with di.container.lang.web_presentation_use_case.override(
+        with di.container.lang.exercises.web_presentation.override(  # type: ignore[attr-defined]
             study_service_mock
         ):
             response = auth_client.post(
@@ -199,7 +199,7 @@ class TestCaseContext:
 
         # Act
         # - mock study service
-        with di.container.lang.web_presentation_use_case.override(mock):
+        with di.container.lang.exercises.web_presentation.override(mock):  # type: ignore[attr-defined]
             response = auth_client.post(
                 STUDY_CASE_URL_PATH,
                 data=study_settings,

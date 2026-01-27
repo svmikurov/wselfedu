@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 
     # Dependency types
     # TODO: Update with abstract classes after adding them
-    type Container = di.PresentationContainer
+    type Container = di.LanguageContainer
     type WebUseCase = use_cases.WebPresentationUseCase
     type Repository = repositories.EnglishTranslation
     type Service = services.PresentationService
@@ -80,19 +80,19 @@ def repository() -> repositories.EnglishTranslation:
 @pytest.fixture
 def container() -> Container:
     """Provide presentation use case container."""
-    return di.PresentationContainer()
+    return di.LanguageContainer()
 
 
 @pytest.fixture
 def service(container: Container) -> Service:
     """Provide presentation service."""
-    return container.exercise_service()
+    return container.exercise_service()  # type: ignore[no-any-return]
 
 
 @pytest.fixture
 def web_use_case(container: Container) -> WebUseCase:
     """Provide web use case."""
-    return container.web_use_case()
+    return container.exercises.web_presentation()  # type: ignore[no-any-return]
 
 
 # ----------------------

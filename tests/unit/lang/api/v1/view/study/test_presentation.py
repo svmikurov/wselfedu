@@ -82,7 +82,7 @@ class TestPresentation:
         force_authenticate(request, mock_user)
 
         # Act
-        with container.lang.api_presentation_use_case.override(mock_service):
+        with container.lang.exercises.api_presentation.override(mock_service):  # type: ignore[attr-defined]
             response = view(request)
 
         # Assert

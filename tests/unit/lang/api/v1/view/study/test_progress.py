@@ -52,7 +52,9 @@ class TestProgress:
         force_authenticate(request, mock_user)
 
         # Act
-        with container.lang.progress_service.override(mock_service):
+        with container.lang.progress.regular_translation_service.override(  # type: ignore[attr-defined]
+            mock_service
+        ):
             response = view(request)
 
         # Assert
@@ -81,7 +83,9 @@ class TestProgress:
         force_authenticate(request, mock_user)
 
         # Act
-        with container.lang.progress_service.override(mock_service):
+        with container.lang.progress.regular_translation_service.override(  # type: ignore[attr-defined]
+            mock_service
+        ):
             response = view(request)
 
         # Assert
@@ -110,7 +114,9 @@ class TestProgress:
         mock_service.update_progress.side_effect = exception
 
         # Act
-        with container.lang.progress_service.override(mock_service):
+        with container.lang.progress.regular_translation_service.override(  # type: ignore[attr-defined]
+            mock_service
+        ):
             response = view(request)
 
         # Assert

@@ -9,7 +9,8 @@ import pytest
 from apps.core import models as core_models
 from apps.lang import models as lang_models
 from apps.lang import repositories
-from apps.lang.repositories import get_period_delta, presentation
+from apps.lang.repositories import get_period_delta
+from apps.lang.repositories.exercise.translation import presentation
 from apps.study import models as study_models
 from tests.fixtures.lang.no_db import translations as fixtures
 from tests.fixtures.lang.no_db.presentation import EMPTY_PARAMETERS_DTO
