@@ -84,8 +84,8 @@ class BaseRuleDetailView(
         self,
         request: HttpRequest,
         *args: object,
-        repository: RuleRepositoryABC = Provide[CONTAINER.rule_repository],
-        adapter: WebRuleAdapterABC = Provide[CONTAINER.rule_web_adapter],
+        repository: RuleRepositoryABC = Provide[CONTAINER.repositories.rule],  # type: ignore[attr-defined]
+        adapter: WebRuleAdapterABC = Provide[CONTAINER.adapters.web_rule],  # type: ignore[attr-defined]
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject the dependencies."""

@@ -5,7 +5,7 @@ from __future__ import annotations
 from http import HTTPStatus
 from typing import TYPE_CHECKING, Any
 
-from dependency_injector.providers import Container
+from dependency_injector.providers import Provider
 from dependency_injector.wiring import Provide, inject
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.template.loader import render_to_string
@@ -15,8 +15,8 @@ from django.views import generic
 from apps.core.exceptions.info import NoTranslationsAvailableException
 from apps.core.views import auth, mixins
 from apps.lang import use_cases
-from apps.lang.di import LanguageContainer
-from apps.lang.services.abc import StudySettingsServiceABC
+from apps.lang.di import ExercisesContainer
+from apps.lang.repositories.abc import StudySettingsRepositoryABC
 from di import MainContainer
 
 if TYPE_CHECKING:
@@ -37,12 +37,13 @@ __all__ = [
     'EnglishTranslationStudyCaseView',
 ]
 
-CONTAINER: Container[LanguageContainer] = MainContainer.lang
+EXERCISES: Provider[ExercisesContainer] = MainContainer.lang.exercises
+REPOSITORIES: Provider[ExercisesContainer] = MainContainer.lang.repositories
 
 
 class EnglishTranslationStudyView(
     auth.UserLoginRequiredMixin,
-    mixins.GetServiceMixin[StudySettingsServiceABC],
+    mixins.GetRepositoryMixin[StudySettingsRepositoryABC],
     generic.TemplateView,
 ):
     """English translation study view.
@@ -64,17 +65,19 @@ class EnglishTranslationStudyView(
         self,
         request: HttpRequest,
         *args: object,
-        service: StudySettingsServiceABC = Provide[CONTAINER.settings_service],
+        repository: StudySettingsRepositoryABC = Provide[
+            REPOSITORIES.study_settings,  # type: ignore[attr-defined]
+        ],
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject settings repository."""
-        self._service = service
+        self._repository = repository
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs: dict[str, Any]) -> dict[str, Any]:
         """Add study settings to context."""
         context = super().get_context_data(**kwargs)
-        context['study_setting'] = self.service.to_context(self.user)
+        context['study_setting'] = self.repository.fetch(self.user)
         return context
 
 
@@ -92,7 +95,7 @@ class EnglishTranslationStudyCaseView(
         self,
         request: HttpRequest,
         *args: object,
-        use_case: Presentation = Provide[CONTAINER.web_presentation_use_case],
+        use_case: Presentation = Provide[EXERCISES.web_presentation],  # type: ignore[attr-defined]
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject presentation use case."""

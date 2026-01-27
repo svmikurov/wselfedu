@@ -15,11 +15,11 @@ from apps.lang.use_cases.types import WebTest
 from di import MainContainer
 
 if TYPE_CHECKING:
-    from dependency_injector.providers import Container
+    from dependency_injector.providers import Container, Provider
     from django.http.request import HttpRequest
     from django.http.response import HttpResponseBase
 
-    from apps.lang.di.container import LanguageContainer
+    from apps.lang.di import LanguageContainer
 
 __all__ = [
     'TranslationTestProgressView',
@@ -28,6 +28,7 @@ __all__ = [
 T = TypeVar('T')
 
 CONTAINER: Container[LanguageContainer] = MainContainer.lang
+EXERCISES: Provider[LanguageContainer] = MainContainer.lang.exercises
 
 PARTIAL_TEMPLATES: dict[CaseStatus, str] = {
     CaseStatus.NO_CASE: 'lang/exercise/test/_no_cases.html',
@@ -50,7 +51,7 @@ class TranslationTestProgressView(
         self,
         request: HttpRequest,
         *args: object,
-        use_case: WebTest = Provide[CONTAINER.web_test_progress],
+        use_case: WebTest = Provide[EXERCISES.web_test_progress],  # type: ignore[attr-defined]
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject translation study test exercise UseCase."""

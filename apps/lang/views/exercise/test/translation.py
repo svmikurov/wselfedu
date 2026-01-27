@@ -16,11 +16,11 @@ from apps.lang.use_cases.types import WebAssignedTest, WebTest
 from di import MainContainer
 
 if TYPE_CHECKING:
-    from dependency_injector.providers import Container
+    from dependency_injector.providers import Container, Provider
     from django.http.request import HttpRequest
     from django.http.response import HttpResponseBase
 
-    from apps.lang.di.container import LanguageContainer
+    from apps.lang.di import ExercisesContainer, LanguageContainer
 
 __all__ = [
     'TranslationTestView',
@@ -30,6 +30,7 @@ __all__ = [
 T = TypeVar('T')
 
 CONTAINER: Container[LanguageContainer] = MainContainer.lang
+EXERCISES: Provider[ExercisesContainer] = MainContainer.lang.exercises
 
 PARTIAL_TEMPLATES: dict[CaseStatus, str] = {
     CaseStatus.NO_CASE: 'lang/exercise/test/_no_cases.html',
@@ -55,7 +56,7 @@ class TranslationTestView(
         self,
         request: HttpRequest,
         *args: object,
-        use_case: WebTest = Provide[CONTAINER.web_test],
+        use_case: WebTest = Provide[EXERCISES.web_test],  # type: ignore[attr-defined]
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject translation study test exercise UseCase."""
@@ -89,7 +90,7 @@ class TranslationTestMentorshipView(
         self,
         request: HttpRequest,
         *args: object,
-        use_case: WebAssignedTest = Provide[CONTAINER.web_test_mentorship],
+        use_case: WebAssignedTest = Provide[EXERCISES.web_test_mentorship],  # type: ignore[attr-defined]
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject translation study test exercise UseCase."""
