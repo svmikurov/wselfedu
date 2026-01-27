@@ -11,12 +11,12 @@ from django.utils import timezone
 
 from apps.study.models import Progress
 
-from .. import models
+from .... import models
 
 if TYPE_CHECKING:
     from apps.users.models import Person
 
-    from .. import schemas, types
+    from .... import schemas, types
 
     type Parameters = schemas.ParametersModel
     type Translations = QuerySet[models.EnglishTranslation]
