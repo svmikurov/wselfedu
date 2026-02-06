@@ -78,7 +78,7 @@ EMPTY_TRANSLATION_PARAMETERS: Final[types.CaseParametersAPI] = {
     'is_examine': True,
     'is_know': False,
     'word_count': None,
-    'translation_order': None,
+    'display_order': None,
 }
 
 TRANSLATION_ORDERS: Final[list[types.CodeName]] = [
@@ -107,7 +107,7 @@ OPTIONS: types.OptionsAPI = {
         {'id': 2, 'name': 'source 2'},
     ],
     'periods': PERIODS,
-    'translation_orders': TRANSLATION_ORDERS,
+    'display_orders': TRANSLATION_ORDERS,
 }
 
 TRANSLATION_PARAMETERS: Final[types.TranslationParametersAPI] = {
@@ -127,7 +127,7 @@ PROGRESS_PHASE: Final[types.ProgressPhase] = {
 
 TRANSLATION_SETTINGS: Final[types.TranslationSettingsAPI] = {
     # Database default translation order: to native
-    'translation_order': TRANSLATION_ORDERS[1],
+    'display_order': TRANSLATION_ORDERS[1],
     'word_count': 90,
 }
 
@@ -167,8 +167,8 @@ TRANSLATION_CASE_PARAMETERS_TO_PYTHON: types.CaseSettingsDomain = {
     'is_examine': PROGRESS_PHASE['is_examine'],
     'is_know': PROGRESS_PHASE['is_know'],
     # Translation settings
-    'translation_order': TRANSLATION_SETTINGS['translation_order']['code']
-    if TRANSLATION_SETTINGS['translation_order']
+    'display_order': TRANSLATION_SETTINGS['display_order']['code']
+    if TRANSLATION_SETTINGS['display_order']
     else None,
     'word_count': TRANSLATION_SETTINGS['word_count'],
 }

@@ -24,7 +24,7 @@ class WebRequestRaw(TypedDict):
     is_examine: str
     is_know: str
 
-    translation_order: TranslationOrder
+    display_order: TranslationOrder
     word_count: str
 
 
@@ -45,7 +45,7 @@ class WebRequest(TypedDict):
     is_examine: bool
     is_know: bool
 
-    translation_order: TranslationOrder
+    display_order: TranslationOrder
     word_count: int | None
 
 
@@ -85,5 +85,5 @@ class ApiRequest(TypedDict):
     is_examine: bool
     is_know: bool
 
-    translation_order: CodeName
+    display_order: CodeName
     word_count: int | None

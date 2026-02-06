@@ -2,6 +2,8 @@
 
 __all__ = [
     'AbstractWordModel',
+    'AbstractProgressModel',
 ]
 
+from .progress import AbstractProgressModel
 from .word import AbstractWordModel

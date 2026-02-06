@@ -42,7 +42,7 @@ class StudySettingsRepository(StudySettingsRepositoryABC):
             #
             # Translation settings
             # TODO: Fix type ignore
-            translation_order=translation_settings.translation_order,  # type: ignore[typeddict-item]
+            display_order=str(translation_settings.display_order),  # type: ignore[typeddict-item]
             word_count=str(translation_settings.word_count or ''),
             #
             # Presentation settings

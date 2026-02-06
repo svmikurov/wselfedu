@@ -10,7 +10,7 @@ from apps.core import models as core_models
 from apps.lang import models as lang_models
 from apps.lang import repositories
 from apps.lang.repositories import get_period_delta
-from apps.lang.repositories.exercise.translation import presentation
+from apps.lang.repositories.exercise.translation import conditions
 from apps.study import models as study_models
 from tests.fixtures.lang.no_db import translations as fixtures
 from tests.fixtures.lang.no_db.presentation import EMPTY_PARAMETERS_DTO
@@ -18,7 +18,7 @@ from tests.fixtures.lang.no_db.presentation import EMPTY_PARAMETERS_DTO
 if TYPE_CHECKING:
     from apps.users.models import Person
 
-    type Repository = presentation.EnglishTranslation
+    type Repository = conditions.TranslationConditionsRepository
     type Translations = list[lang_models.EnglishTranslation]
     type Categories = list[lang_models.Category]
     type Sources = list[core_models.Source]
@@ -57,9 +57,11 @@ def marks(user: Person) -> Marks:
 
 
 @pytest.fixture
-def repository() -> repositories.EnglishTranslation:
+def repository() -> repositories.TranslationConditionsRepository:
     """Provide presentation repository."""
-    return repositories.EnglishTranslation()
+    return repositories.TranslationConditionsRepository(
+        lang_models.EnglishTranslation.objects
+    )
 
 
 class TestProgressFilter:
@@ -371,4 +373,9 @@ class TestCreateRepository:
 
     def test_create_repository(self) -> None:
         """Create repository."""
-        assert presentation.EnglishTranslation() is not None
+        assert (
+            conditions.TranslationConditionsRepository(
+                lang_models.EnglishTranslation.objects
+            )
+            is not None
+        )

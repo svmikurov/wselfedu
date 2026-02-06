@@ -2,15 +2,18 @@
 
 from pydantic import BaseModel, ConfigDict, field_validator
 
-from ..types.presentation import TranslationOrder
+from apps.core.domain.exercise import DisplayOrder
 
 # ------------------------
 # Base presentation models
 # ------------------------
 
+# REVIEW: Now schemas include translation order,
+# it limits the use of the scheme in other exercises.
 
-class ParametersModel(BaseModel):
-    """Provides translation parameters fields."""
+
+class LookupCondition(BaseModel):
+    """Provides lookup conditions fields."""
 
     category: int | None = None
     mark: list[int] = []
@@ -31,12 +34,24 @@ class ParametersModel(BaseModel):
 class SettingsModel(BaseModel):
     """Provides translation settings fields."""
 
-    translation_order: TranslationOrder = 'to_native'
-    word_count: int | None = None
+    display_order: DisplayOrder = DisplayOrder.DEFINE
+    item_count: int | None = None
 
     model_config = ConfigDict(
         frozen=True,
     )
+
+    @field_validator('display_order', mode='before')
+    @classmethod
+    def normalize_display_order(cls, value: str) -> str:
+        """Normalize 'display_order' field."""
+        match value:
+            case 'to_native':
+                return DisplayOrder.EXPLAIN
+            case 'from_native':
+                return DisplayOrder.DEFINE
+            case _:
+                return value
 
 
 # ------------------------------
@@ -73,7 +88,7 @@ class WebParametersMixin:
 class WebSettingsMixin:
     """Provides settings validation."""
 
-    @field_validator('word_count', mode='before')
+    @field_validator('item_count', mode='before')
     @classmethod
     def fix_empty_int(cls, value: str) -> str | None:
         """Return None if string is empty else value."""
@@ -85,7 +100,7 @@ class WebSettingsMixin:
 # ----------------------------
 
 
-class ParametersSchema(WebParametersMixin, ParametersModel):
+class ParametersSchema(WebParametersMixin, LookupCondition):
     """Presentation parameters schema."""
 
 
@@ -93,8 +108,8 @@ class SettingsSchema(WebSettingsMixin, SettingsModel):
     """Presentation parameters schema."""
 
 
-class PresentationRequest(BaseModel):
-    """Presentation request."""
+class RegularConditionRequest(BaseModel):
+    """Regular request with study conditions."""
 
-    parameters: ParametersModel
+    parameters: LookupCondition
     settings: SettingsModel

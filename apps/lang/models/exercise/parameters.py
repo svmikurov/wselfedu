@@ -193,7 +193,7 @@ class TranslationSetting(AbstractBaseModel):
         related_name='user_translation_settings',
     )
 
-    translation_order = models.CharField(
+    display_order = models.CharField(
         max_length=20,
         blank=True,
         null=True,
@@ -223,10 +223,10 @@ class TranslationSetting(AbstractBaseModel):
             ),
         ]
 
-    @property
-    def translation_order_display(self) -> str:
-        """Get a human-readable translation name."""
-        return self.get_translation_order_display()
+    # @property
+    # def translation_order_display(self) -> str:
+    #     """Get a human-readable translation name."""
+    #     return self.get_translation_order_display()
 
     @classmethod
     def resolve_order_choice(

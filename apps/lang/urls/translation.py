@@ -1,4 +1,4 @@
-"""English discipline translation url paths."""
+"""English language translation CRUD url paths."""
 
 from django.urls import path
 

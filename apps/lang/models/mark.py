@@ -28,6 +28,7 @@ class TranslationMark(AbstractBaseModel):
     translation = models.ForeignKey(
         'EnglishTranslation',
         on_delete=models.CASCADE,
+        related_name='english_translation_marks',
         verbose_name=_('Translation'),
     )
     mark = models.ForeignKey(

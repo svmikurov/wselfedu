@@ -42,7 +42,7 @@ class _TranslationViewMixin:
         request: HttpRequest,
         *args: object,
         repository: TranslationRepoABC = Provide[
-            MainContainer.lang.repositories.translation  # type: ignore[attr-defined]
+            MainContainer.lang.view_container.english_translation  # type: ignore[attr-defined]
         ],
         **kwargs: object,
     ) -> HttpResponseBase:
@@ -67,7 +67,6 @@ class EnglishTranslationIndexView(
     template_name = 'lang/translation/index.html'
 
 
-# TODO: Fix database query count
 class EnglishTranslationListView(
     core_views.UserLoginRequiredMixin,
     _TranslationViewMixin,

@@ -20,7 +20,7 @@ REQUEST_DATA: Final[Mapping[str, str]] = {
     'is_repeat': 'false',
     'is_study': 'false',
     # Translation settings
-    'translation_order': 'random',
+    'display_order': 'random',
     'word_count': '',
 }
 REQUEST_LIST_DATA: Final[Mapping[str, list[str]]] = {
@@ -45,6 +45,6 @@ EXPECTED_CLEANED_DATA: dict[str, int | str | list[int] | None] = {
     'is_repeat': False,
     'is_study': False,
     # Translation settings
-    'translation_order': 'random',
+    'display_order': 'random',
     'word_count': None,
 }

@@ -8,6 +8,8 @@ from unittest.mock import Mock
 import pytest
 from rest_framework.test import APIClient, APIRequestFactory
 
+from apps.core.di.configuration import ExerciseConfig
+from apps.core.domain.exercise import DisplayOrder
 from di import MainContainer
 
 if TYPE_CHECKING:
@@ -34,12 +36,6 @@ def auth_client(user: Person, client: Client) -> Client:
 
 
 @pytest.fixture
-def container() -> MainContainer:
-    """Get main DI container."""
-    return MainContainer()
-
-
-@pytest.fixture
 def api_request_factory() -> APIRequestFactory:
     """Get API request factory."""
     return APIRequestFactory()
@@ -63,3 +59,22 @@ def mock_request(
     request = Mock()
     request.user = mock_user
     return request
+
+
+# DI
+
+
+@pytest.fixture
+def container() -> MainContainer:
+    """Get main DI container."""
+    return MainContainer()
+
+
+@pytest.fixture
+def exercise_configuration() -> ExerciseConfig:
+    """Exercise configuration."""
+    return ExerciseConfig(
+        option_count=7,
+        item_count=100,
+        display_order=DisplayOrder.DEFINE,
+    )

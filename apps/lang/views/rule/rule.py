@@ -9,9 +9,9 @@ from django.urls import reverse, reverse_lazy
 from django.views import generic
 
 from apps.core import views as core_views
+from apps.core.adapter.response.rule import LanguageRule
 from apps.lang import forms, models
-from apps.lang.adapters import dto
-from apps.lang.di import LanguageContainer
+from apps.lang.di.container import LanguageContainer
 from apps.users.models import Mentorship
 from di import MainContainer
 
@@ -62,7 +62,7 @@ class RuleUpdateView(
         return kwargs
 
 
-class RuleDetailView(base.BaseRuleDetailView[dto.RuleSchema]):
+class RuleDetailView(base.BaseRuleDetailView[LanguageRule]):
     """English language rule detail view."""
 
     template_name = 'lang/rule/detail/index.html'
@@ -73,7 +73,7 @@ class RuleDetailView(base.BaseRuleDetailView[dto.RuleSchema]):
         """Get rule object from repository."""
         return self.repository.get_for_user(self.user, self.rule_pk)
 
-    def _convert_to_dto(self, rule_object: models.Rule) -> dto.RuleSchema:
+    def _convert_to_dto(self, rule_object: models.Rule) -> LanguageRule:
         """Convert rule object to DTO."""
         return self.adapter.to_response(rule_object)
 

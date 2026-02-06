@@ -1,40 +1,17 @@
 """Translation study test exercise schemas."""
 
+from uuid import UUID
+
 from pydantic import BaseModel, ConfigDict, Field
 
-from apps.core.enums import BaseEnum
+from apps.core.domain.exercise import CaseStatus
+from apps.core.domain.exercise.test_dto import Option, OptionMeta
 
 from ..models import EnglishTranslation
-
-
-class CaseStatus(BaseEnum):
-    """Translation test status enumeration."""
-
-    NO_CASE = 'no available cases'
-    NEW = 'new_case'
-    ANSWER = 'user_answer'
-    WRONG = 'wrong_answer'
-    EXPLANATION = 'correct and wrong answer explanation'
-    CORRECT = 'correct_answer'
-
 
 # ------------
 # Inner models
 # ------------
-
-
-class OptionText(BaseModel):
-    """Test case option."""
-
-    value: int = Field(description='Option identifier for business logic')
-    text: str = Field(description='Option text to display to the user')
-
-
-class OptionId(BaseModel):
-    """Database item ID matching with test option value."""
-
-    value: int = Field(description='Option identifier for business logic')
-    id: int = Field(description='Database item identifier')
 
 
 class Translation(BaseModel):
@@ -44,23 +21,23 @@ class Translation(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
-class Case(BaseModel):
+class TestCase(BaseModel):
     """Item study test case."""
 
     status: CaseStatus = Field(
-        default=CaseStatus.NEW,
+        default=CaseStatus.NEW_CASE,
         frozen=True,
     )
     case_uuid: str
     question: str
-    options: list[OptionText]
+    options: list[Option]
 
 
 class Explanation(BaseModel):
     """Explanation of the test answer option."""
 
     status: CaseStatus = Field(
-        default=CaseStatus.EXPLANATION,
+        default=CaseStatus.CASE_EXPLANATION,
         frozen=True,
     )
     case_question: str
@@ -77,9 +54,9 @@ class Explanation(BaseModel):
 class TestRequestDTO(BaseModel):
     """Translation study test exercise the request schema."""
 
-    status: CaseStatus = Field(default=CaseStatus.NEW)
-    case_uuid: str | None = None
-    option_value: str | None = None
+    status: CaseStatus = Field(default=CaseStatus.NEW_CASE)
+    case_uuid: UUID | None = None
+    option_value: int | None = None
 
 
 class DetailTestRequestDTO(TestRequestDTO):
@@ -92,15 +69,15 @@ class StoryDomainResult(BaseModel):
     """Domain result to story for user answer validation."""
 
     translations: tuple[Translation, ...]
+    question_pk: int = Field(description='Database question translation ID')
     question: str
     answer: str
-    id: int = Field(description='Database question translation ID')
     option_value: int
-    option_ids: list[OptionId]
+    option_ids: list[OptionMeta]
 
 
 class TestResponseData(BaseModel):
     """Translation study test exercise the response schema."""
 
     status: CaseStatus
-    data: Case | Explanation
+    data: TestCase | Explanation

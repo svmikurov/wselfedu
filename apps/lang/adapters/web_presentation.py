@@ -6,6 +6,8 @@ from typing import TYPE_CHECKING
 
 from django.urls import reverse_lazy
 
+from apps.core.domain.exercise.presentation_dto import PresentationData
+
 from .. import schemas
 
 if TYPE_CHECKING:
@@ -18,6 +20,7 @@ if TYPE_CHECKING:
 UPDATE_PROGRESS_URL = reverse_lazy('lang_api:study-progress')
 
 
+# DEPRECATED: This adapter will be deleted after refactoring
 class WebPresentationAdapter:
     """Web presentation response adapter.
 
@@ -25,22 +28,22 @@ class WebPresentationAdapter:
     """
 
     @classmethod
-    def to_response(cls, presentation_case: DomainResult) -> ResponseData:
+    def to_response(cls, case: PresentationData) -> ResponseData:
         """Convert presentation case to web context."""
         increment_progress = schemas.UpdateProgress(
-            case_uuid=str(presentation_case.case_uuid),
+            case_uuid=str(case.case_uuid),
             is_known=True,
         )
         decrement_progress = schemas.UpdateProgress(
-            case_uuid=str(presentation_case.case_uuid),
+            case_uuid=str(case.case_uuid),
             is_known=False,
         )
         return {
-            'case_uuid': str(presentation_case.case_uuid),
-            'question': presentation_case.question,
-            'answer': presentation_case.answer,
+            'case_uuid': str(case.case_uuid),
+            'question': case.question_text,
+            'answer': case.answer_text,
             'progress': {
-                'current': presentation_case.progress,
+                'current': case.progress,
                 'update_url': str(UPDATE_PROGRESS_URL),
                 'increment_payload': increment_progress.model_dump_json(),
                 'decrement_payload': decrement_progress.model_dump_json(),

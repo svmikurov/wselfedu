@@ -4,6 +4,7 @@ import pytest
 
 from apps.core import models as models_core
 from apps.lang import repositories, types
+from apps.lang.models import EnglishTranslation
 from tests.fixtures.lang.no_db.translations import (
     EMPTY_TRANSLATION_PARAMETERS,
     PRESENTATION,
@@ -60,14 +61,14 @@ def public_parameters() -> types.CaseSettingsAPI:
             {'id': periods[0].pk, 'name': periods[0].name},
             {'id': periods[1].pk, 'name': periods[1].name},
         ],
-        'translation_orders': TRANSLATION_ORDERS,
+        'display_orders': TRANSLATION_ORDERS,
         # Selected parameter
         'category': None,
         'mark': [],
         'word_source': None,
         'start_period': None,
         'end_period': None,
-        'translation_order': TRANSLATION_ORDERS[1],
+        'display_order': TRANSLATION_ORDERS[1],
         'is_study': True,
         'is_repeat': True,
         'is_examine': True,
@@ -90,6 +91,14 @@ def parameters_repo() -> repositories.StudyParametersRepository:
 
 
 @pytest.fixture
-def progress_repo() -> repositories.Progress:
-    """Provide Word study Progress repository."""
-    return repositories.Progress()
+def repository() -> repositories.ProgressRepository:
+    """Provide English translation progress repository."""
+    return repositories.ProgressRepository(EnglishTranslation.objects)
+
+
+@pytest.fixture
+def assigned_progress_repository() -> (
+    repositories.AssignedTranslationProgressRepository
+):
+    """Provide Assigned translation study progress repository."""
+    return repositories.AssignedTranslationProgressRepository()

@@ -1,4 +1,4 @@
-"""English discipline mark url paths."""
+"""English discipline mark CRUD url paths."""
 
 from django.urls import path
 

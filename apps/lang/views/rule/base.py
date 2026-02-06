@@ -22,11 +22,13 @@ if TYPE_CHECKING:
     from django.http.request import HttpRequest
     from django.http.response import HttpResponseBase
 
-    from apps.lang.adapters import WebRuleAdapterABC
-    from apps.lang.di import LanguageContainer
+    from apps.core.adapter.response.abc import AbstractResponseAdapter
+    from apps.core.adapter.response.rule import LanguageRule
+    from apps.lang.di.container import LanguageContainer
     from apps.lang.repositories import RuleRepositoryABC
 
     type ContainerDI = Container[LanguageContainer]
+    type WebAdapter = AbstractResponseAdapter[models.Rule, LanguageRule]
 
 logger = logging.getLogger(__name__)
 
@@ -77,7 +79,7 @@ class BaseRuleDetailView(
     """
 
     _repository: RuleRepositoryABC | None = None
-    _adapter: WebRuleAdapterABC | None = None
+    _adapter: WebAdapter | None = None
 
     @inject
     def dispatch(
@@ -85,7 +87,7 @@ class BaseRuleDetailView(
         request: HttpRequest,
         *args: object,
         repository: RuleRepositoryABC = Provide[CONTAINER.repositories.rule],  # type: ignore[attr-defined]
-        adapter: WebRuleAdapterABC = Provide[CONTAINER.adapters.web_rule],  # type: ignore[attr-defined]
+        adapter: WebAdapter = Provide[CONTAINER.adapters.web_rule],  # type: ignore[attr-defined]
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject the dependencies."""
@@ -101,7 +103,7 @@ class BaseRuleDetailView(
         return self._repository
 
     @property
-    def adapter(self) -> WebRuleAdapterABC:
+    def adapter(self) -> WebAdapter:
         """Get validated adapter."""
         if self._adapter is None:
             raise AttributeError('Adapter not initialized')

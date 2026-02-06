@@ -9,18 +9,16 @@ from django.http.response import HttpResponse
 from django.template.loader import render_to_string
 from django.views import generic
 
+from apps.core.domain.exercise import CaseStatus
 from apps.core.exceptions import info
+from apps.core.handlers.types import WebAssignedTest, WebTest
 from apps.core.views import auth, mixins
-from apps.lang.schemas.test import CaseStatus
-from apps.lang.use_cases.types import WebAssignedTest, WebTest
 from di import MainContainer
 
 if TYPE_CHECKING:
-    from dependency_injector.providers import Container, Provider
     from django.http.request import HttpRequest
     from django.http.response import HttpResponseBase
 
-    from apps.lang.di import ExercisesContainer, LanguageContainer
 
 __all__ = [
     'TranslationTestView',
@@ -29,13 +27,13 @@ __all__ = [
 
 T = TypeVar('T')
 
-CONTAINER: Container[LanguageContainer] = MainContainer.lang
-EXERCISES: Provider[ExercisesContainer] = MainContainer.lang.exercises
+CONTAINER = MainContainer.lang.view_container.exercise  # type: ignore
+
 
 PARTIAL_TEMPLATES: dict[CaseStatus, str] = {
+    CaseStatus.NEW_CASE: 'lang/exercise/test/_case.html',
+    CaseStatus.CASE_EXPLANATION: 'lang/exercise/test/_explanation.html',
     CaseStatus.NO_CASE: 'lang/exercise/test/_no_cases.html',
-    CaseStatus.NEW: 'lang/exercise/test/_case.html',
-    CaseStatus.EXPLANATION: 'lang/exercise/test/_explanation.html',
 }
 
 # REVIEW: Current implementation have duplicated dispatch method
@@ -56,7 +54,7 @@ class TranslationTestView(
         self,
         request: HttpRequest,
         *args: object,
-        use_case: WebTest = Provide[EXERCISES.web_test],  # type: ignore[attr-defined]
+        use_case: WebTest = Provide[CONTAINER.web_regular_test],
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject translation study test exercise UseCase."""
@@ -67,7 +65,7 @@ class TranslationTestView(
         """Render translation study test case via partial template."""
         try:
             case = self.use_case.execute(self.user, request.POST.dict())
-        except ValueError:
+        except info.NoTranslationsAvailableException:
             template_name = PARTIAL_TEMPLATES[CaseStatus.NO_CASE]
             return HttpResponse(render_to_string(template_name))
 
@@ -90,7 +88,7 @@ class TranslationTestMentorshipView(
         self,
         request: HttpRequest,
         *args: object,
-        use_case: WebAssignedTest = Provide[EXERCISES.web_test_mentorship],  # type: ignore[attr-defined]
+        use_case: WebAssignedTest = Provide[CONTAINER.web_detail_test],
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject translation study test exercise UseCase."""

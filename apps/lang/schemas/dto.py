@@ -3,6 +3,8 @@
 import uuid
 from dataclasses import dataclass
 
+# DEPRECATED: Delete
+
 
 @dataclass(frozen=True, slots=True)
 class TranslationCase:

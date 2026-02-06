@@ -6,32 +6,18 @@
 
 <div class="presentation-card-body">
   <div id="question" class="presentation-card-content">
-    <div>{{ case_question }}</div>
+    <div>{{ case_question }} - {{ case_answer }}</div>
   </div>
 </div>
 <div class="presentation-card-body">
   <div id="question" class="presentation-card-content">
-    <div>{{ case_answer }}</div>
-  </div>
-</div>
-
-<div class="presentation-card-header">
-  Перевод вашего ответа
-</div>
-<div class="presentation-card-body">
-  <div id="question" class="presentation-card-content">
-    <div>{{ selected_question }}</div>
-  </div>
-</div>
-<div class="presentation-card-body">
-  <div id="question" class="presentation-card-content">
-    <div>{{ selected_answer }}</div>
+    <div>{{ selected_question }} - {{ selected_answer }}</div>
   </div>
 </div>
 
 <div class="py-1">
   <button class="wse-btn full-width height-huge"
-          hx-post="{% url 'lang:translation_english_test' %}"
+          hx-post=""
           hx-vals='{"status": "new_case"}'
           hx-target="#test-block">
     Далее

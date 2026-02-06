@@ -6,13 +6,13 @@ Delete after refactoring is complete.
 __all__ = [
     'ApiPresentationValidator',
     'WebPresentationValidator',
-    'WebAssignedExerciseValidator',
+    'WebAssignedTestValidator',
     'WebTestValidator',
 ]
 
 from .api_validator import ApiPresentationValidator
 from .web_validator import (
-    WebAssignedExerciseValidator,
+    WebAssignedTestValidator,
     WebPresentationValidator,
     WebTestValidator,
 )

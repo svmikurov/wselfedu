@@ -8,8 +8,6 @@ __all__ = [
     # Test
     'TranslationTestView',
     'TranslationTestMentorshipView',
-    # Study progress
-    'TranslationTestProgressView',
     # Rule
     'RuleView',
     'RuleListView',
@@ -33,9 +31,6 @@ from .exercise.presentation.translation import (
 )
 from .exercise.settings import (
     study_settings_view,
-)
-from .exercise.test.progress import (
-    TranslationTestProgressView,
 )
 from .exercise.test.translation import (
     TranslationTestMentorshipView,

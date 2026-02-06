@@ -5,9 +5,10 @@ from unittest.mock import Mock
 
 import pytest
 
+from apps.core.domain.exercise import ProgressConfigSchema
 from apps.core.storage.services import TaskStorage
-from apps.lang import schemas, services, types
-from apps.lang.repositories.abc import ProgressABC
+from apps.lang import services, types
+from apps.lang.repositories.abc import ProgressRepositoryABC
 from apps.lang.schemas import dto
 
 from .api.v1.view.study import cases
@@ -25,9 +26,9 @@ def stored_case() -> dto.CaseMeta:
 
 
 @pytest.fixture
-def progress_config() -> schemas.ProgressConfigSchema:
+def progress_config() -> ProgressConfigSchema:
     """Word study progress config schema."""
-    return schemas.ProgressConfigSchema(
+    return ProgressConfigSchema(
         increment=1,
         decrement=1,
     )
@@ -46,7 +47,7 @@ def progress_case() -> types.ProgressCase:
 @pytest.fixture
 def mock_progress_repo() -> Mock:
     """Mock Word study progress repo fixture."""
-    return Mock(spec=ProgressABC)
+    return Mock(spec=ProgressRepositoryABC)
 
 
 @pytest.fixture
@@ -63,11 +64,11 @@ def mock_task_storage(
 def progress_service_di_mock(
     mock_progress_repo: Mock,
     mock_task_storage: Mock,
-    progress_config: schemas.ProgressConfigSchema,
-) -> services.UpdateWordProgressService:
+    progress_config: ProgressConfigSchema,
+) -> services.ProgressService:
     """Test Word study progress update service."""
-    return services.UpdateWordProgressService(
-        progress_repo=mock_progress_repo,
+    return services.ProgressService(
+        repository=mock_progress_repo,
         case_storage=mock_task_storage,
-        progress_config=progress_config,
+        config=progress_config,
     )

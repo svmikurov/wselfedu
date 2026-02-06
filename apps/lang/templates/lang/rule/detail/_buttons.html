@@ -6,14 +6,14 @@
 
   {# Assign rule study to student #}
   <a class="wse-btn"
-     href={% url 'lang:english_rule_assignment_create' rule.id %}
+     href={% url 'lang:english_rule_assignment_create' rule.pk %}
     >
       {% trans 'button.assign' %}
   </a>
 
   {# Create rule clause #}
   <button class="wse-btn"
-          hx-get={% url 'lang:english_clause_create' rule.id %} 
+          hx-get={% url 'lang:english_clause_create' rule.pk %} 
           hx-target="#update-form"
           hx-swap="innerHTML">
     {% trans 'button.create' %}
@@ -25,7 +25,7 @@
 
   {# Add rule clause task example/exception #}
   <button class="wse-btn"
-          hx-get={% url 'lang:english_example_task_add' rule.id %}
+          hx-get={% url 'lang:english_example_task_add' rule.pk %}
           hx-target="#update-form"
           hx-swap="innerHTML">
     {% trans 'button.add.example.task' %}
@@ -33,7 +33,7 @@
 
   {# Add rule clause word example/exception #}
   <button class="wse-btn"
-          hx-get={% url 'lang:english_example_word_add' rule.id %}
+          hx-get={% url 'lang:english_example_word_add' rule.pk %}
           hx-target="#update-form"
           hx-swap="innerHTML">
     {% trans 'button.add.example.word' %}

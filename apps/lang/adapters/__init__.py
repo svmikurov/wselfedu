@@ -3,22 +3,16 @@
 # REVIEW: Package export, export organization.
 
 __all__ = [
-    # Base
-    'WebRuleAdapterABC',
-    # Presentation
+    # Presentation exercise
     'WebPresentationAdapter',
     'ApiPresentationAdapter',
-    # Test
+    # Test exercise
     'WebTestAdapter',
-    # Rule
+    # Rule content
     'WebRuleAdapter',
-    # DTO
-    'RuleSchema',
 ]
 
-from .api_presentation import ApiPresentationAdapter
-from .base import WebRuleAdapterABC
-from .dto import RuleSchema
-from .rule import WebRuleAdapter
-from .test import WebTestAdapter
+from .response.exercise.presentation import ApiPresentationAdapter
+from .response.exercise.test import WebTestAdapter
+from .response.rule import WebRuleAdapter
 from .web_presentation import WebPresentationAdapter

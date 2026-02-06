@@ -57,7 +57,7 @@ class OptionsAPI(TypedDict):
     marks: list[IdName]
     sources: list[IdName]
     periods: list[IdName]
-    translation_orders: list[CodeName]
+    display_orders: list[CodeName]
 
 
 # --------
@@ -101,7 +101,7 @@ class TranslationParametersAPI(TypedDict):
 class TranslationSettingsAPI(TypedDict):
     """Translation settings API type."""
 
-    translation_order: CodeName | None
+    display_order: CodeName | None
     word_count: int | None
 
 
@@ -155,7 +155,7 @@ class CaseSettingsDomain(TypedDict):
     is_know: bool
 
     # Translation settings
-    translation_order: TranslateOrder | None
+    display_order: TranslateOrder | None
     word_count: int | None
 
 
@@ -181,7 +181,7 @@ class CaseSettingsWEB(TypedDict):
     is_know: str
 
     # Translation settings
-    translation_order: TranslateOrder
+    display_order: TranslateOrder
     word_count: str
 
 
@@ -232,7 +232,7 @@ class UpdateProgressT(TypedDict):
 class ProgressT(TypedDict):
     """Study progress type dict."""
 
-    current: str
+    current: int
     update_url: str
     increment_payload: str
     decrement_payload: str

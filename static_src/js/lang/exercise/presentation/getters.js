@@ -88,7 +88,7 @@ export function getCaseParameters() {
     source: block?.dataset.source,
     start_period: block?.dataset.startPeriod,
     end_period: block?.dataset.endPeriod,
-    translation_order: block?.dataset.translationOrder,
+    display_order: block?.dataset.displayOrder,
     word_count: block?.dataset.wordCount,
   };
 }

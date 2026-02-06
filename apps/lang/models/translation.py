@@ -4,15 +4,18 @@ from django.db import models
 
 from apps.core.models import AbstractBaseModel
 
+from .abstract import AbstractProgressModel
+
 __all__ = [
     'EnglishTranslation',
 ]
 
 
-class EnglishTranslation(AbstractBaseModel):
+class EnglishTranslation(
+    AbstractProgressModel,
+    AbstractBaseModel,
+):
     """English translation of the word."""
-
-    DEFAULT_PROGRESS = 0
 
     user = models.ForeignKey(
         'users.Person',
@@ -29,11 +32,6 @@ class EnglishTranslation(AbstractBaseModel):
         'EnglishWord',
         on_delete=models.CASCADE,
         verbose_name='Слово на английском',
-    )
-
-    progress = models.PositiveSmallIntegerField(
-        default=DEFAULT_PROGRESS,
-        verbose_name='Прогресс изучения',
     )
 
     category = models.ForeignKey(

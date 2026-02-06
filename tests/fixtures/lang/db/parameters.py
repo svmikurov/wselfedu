@@ -67,7 +67,7 @@ def parameters_db_data(
         'marks': _build_choices(marks),
         'sources': _build_choices(sources),
         'periods': _build_choices(periods),
-        'translation_orders': fixtures.TRANSLATION_ORDERS,
+        'display_orders': fixtures.TRANSLATION_ORDERS,
         # Translation meta
         'category': {'id': categories[0].pk, 'name': categories[0].name},
         'mark': [{'id': marks[1].pk, 'name': marks[1].name}],
@@ -80,9 +80,9 @@ def parameters_db_data(
         'is_examine': parameters.is_examine,  # type: ignore[typeddict-item]
         'is_know': parameters.is_know,  # type: ignore[typeddict-item]
         # Translation settings
-        'translation_order': {  # type: ignore[typeddict-item]
-            'code': translation_settings.translation_order.value,  # type: ignore[union-attr]
-            'name': translation_settings.get_translation_order_display(),
+        'display_order': {  # type: ignore[typeddict-item]
+            'code': translation_settings.display_order.value,  # type: ignore[union-attr]
+            'name': translation_settings.get_display_order_display(),
         },
         'word_count': translation_settings.word_count,
         # Presentation settings

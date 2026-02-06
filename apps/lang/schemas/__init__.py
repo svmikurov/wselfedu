@@ -2,17 +2,15 @@
 
 __all__ = [
     'WordStudyStoredCase',
-    'ProgressConfigSchema',
     # Presentation
-    'ParametersModel',
+    'LookupCondition',
     'ParametersSchema',
     'SettingsModel',
     'SettingsSchema',
-    'PresentationRequest',
+    'RegularConditionRequest',
     'UpdateProgress',
     # Test
-    'Case',
-    'CaseStatus',
+    'TestCase',
     'Explanation',
     'TestRequestDTO',
     'TestResponseData',
@@ -20,19 +18,18 @@ __all__ = [
 ]
 
 from .presentation import (
-    ParametersModel,
+    LookupCondition,
     ParametersSchema,
-    PresentationRequest,
+    RegularConditionRequest,
     SettingsModel,
     SettingsSchema,
 )
 from .progress import UpdateProgress
-from .schemas import ProgressConfigSchema, WordStudyStoredCase
+from .schemas import WordStudyStoredCase
 from .test import (
-    Case,
-    CaseStatus,
     DetailTestRequestDTO,
     Explanation,
+    TestCase,
     TestRequestDTO,
     TestResponseData,
 )

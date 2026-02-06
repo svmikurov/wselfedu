@@ -6,22 +6,20 @@ from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from django.db.models import QuerySet
+    from django.db.models import Manager, QuerySet
 
     from apps.core import models as core_models
     from apps.users.models import Person
 
     from .. import models, types
+    from ..models.abstract import AbstractProgressModel
 
 
 class StudySettingsRepositoryABC(ABC):
     """Study settings presenter."""
 
     @abstractmethod
-    def fetch(
-        self,
-        user: Person,
-    ) -> types.CaseStudySettingsWEB:
+    def fetch(self, user: Person) -> types.CaseStudySettingsWEB:
         """Get case settings to context adding."""
 
 
@@ -30,25 +28,41 @@ class RuleRepositoryABC(ABC):
 
     @classmethod
     @abstractmethod
-    def get_for_user(
-        cls,
-        user: Person,
-        rule_id: int,
-    ) -> models.Rule:
+    def get_for_user(cls, user: Person, rule_id: int) -> models.Rule:
         """Get rule with all examples and exceptions."""
 
 
-class ProgressABC(ABC):
-    """ABC for Word study Progress repository."""
+class AssignedTranslationProgressRepositoryABC(ABC):
+    """ABC for assigned translation study progress repository."""
 
     @abstractmethod
     def update(
-        self,
-        user: Person,
-        translation_id: int,
-        progress_delta: int,
+        self, user_pk: int, translation_pk: int, delta: int, max_progress: int
     ) -> None:
-        """Update Word study Progress."""
+        """Update progress of study assigned English translation."""
+
+
+class ProgressRepositoryABC(ABC):
+    """ABC for item study progress repository."""
+
+    @abstractmethod
+    def update(self, user: Person, pk: int, delta: int) -> None:
+        """Update study progress.
+
+        Parameter
+        ---------
+        user : `Person`
+            Item owner.
+        pk : `int`
+            Item database identifier.
+        delta : `int`
+            Progress delta.
+        """
+
+    @property
+    @abstractmethod
+    def manager(self) -> Manager[AbstractProgressModel]:
+        """Get model."""
 
 
 class PresentationABC(ABC):
@@ -56,16 +70,13 @@ class PresentationABC(ABC):
 
     @abstractmethod
     def get_candidates(
-        self,
-        parameters: types.CaseParametersAPI,
+        self, parameters: types.CaseParametersAPI
     ) -> types.CaseCandidates:
         """Get candidates for Presentation."""
 
     @abstractmethod
     def get_translation(
-        self,
-        user: Person,
-        translation_id: int,
+        self, user: Person, translation_id: int
     ) -> types.PresentationDataT:
         """Get Presentation case word data."""
 
@@ -83,9 +94,7 @@ class StudyParametersRepositoryABC(ABC):
 
     @abstractmethod
     def update(
-        self,
-        user: Person,
-        data: types.CaseParametersAPI,
+        self, user: Person, data: types.CaseParametersAPI
     ) -> types.CaseSettingsAPI:
         """Update initial parameters."""
 
@@ -121,15 +130,11 @@ class TranslationRepoABC(ABC):
         """Update English translation."""
 
     @abstractmethod
-    def get_translation_id(
-        self,
-        native_id: int,
-    ) -> int:
+    def get_translation_id(self, native_id: int) -> int:
         """Get English translation ID by native word ID."""
 
     @abstractmethod
     def get_translations(
-        self,
-        user: Person,
+        self, user: Person
     ) -> QuerySet[models.EnglishTranslation]:
         """Get English translations."""

@@ -22,7 +22,7 @@ if TYPE_CHECKING:
         'word_source',
         'start_period',
         'end_period',
-        'translation_order',
+        'display_order',
     ]
 
     OptionsQuerySetT = (
@@ -53,7 +53,7 @@ class StudyParametersRepository(StudyParametersRepositoryABC):
             marks=self._get_id_name(marks),
             sources=self._get_id_name(sources),
             periods=self._get_id_name(periods),
-            translation_orders=[
+            display_orders=[
                 {'code': str(value), 'name': str(label)}  # type: ignore[typeddict-item]
                 for value, label in orders
             ],
@@ -89,7 +89,7 @@ class StudyParametersRepository(StudyParametersRepositoryABC):
 
         order_value, order_label = (
             models.TranslationSetting.resolve_order_choice(
-                translation_settings.translation_order
+                translation_settings.display_order
             )
         )
 
@@ -109,7 +109,7 @@ class StudyParametersRepository(StudyParametersRepositoryABC):
             'is_know': parameters.know,
             #
             # Translation settings
-            'translation_order': {'code': order_value, 'name': order_label},
+            'display_order': {'code': order_value, 'name': order_label},
             'word_count': translation_settings.word_count,
             #
             # Presentation settings
@@ -140,9 +140,7 @@ class StudyParametersRepository(StudyParametersRepositoryABC):
         }
 
         translation_settings_defaults = {
-            'translation_order': self._get_identifier(
-                data, 'translation_order'
-            ),
+            'display_order': self._get_identifier(data, 'display_order'),
             'word_count': data.get('word_count'),
         }
 

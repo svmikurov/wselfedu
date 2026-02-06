@@ -75,7 +75,7 @@ class TranslationSettingsForm(forms.ModelForm):  # type: ignore[type-arg]
         """Form configuration."""
 
         model = models.TranslationSetting
-        fields = ['translation_order', 'word_count']
+        fields = ['display_order', 'word_count']
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Configure the form helper."""
@@ -85,7 +85,7 @@ class TranslationSettingsForm(forms.ModelForm):  # type: ignore[type-arg]
         self.helper.form_tag = False
         self.helper.disable_csrf = True
         self.helper.layout = Layout(
-            Row(Column('translation_order'), Column('word_count')),
+            Row(Column('display_order'), Column('word_count')),
         )
 
 
@@ -118,7 +118,7 @@ TranslationSettingsFormSet = forms.inlineformset_factory(
     max_num=1,
     can_delete=False,
     fk_name='user',
-    fields=['translation_order', 'word_count'],
+    fields=['display_order', 'word_count'],
 )
 
 PresentationSettingsFormSet = forms.inlineformset_factory(

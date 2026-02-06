@@ -8,21 +8,33 @@ from unittest.mock import Mock
 import pytest
 
 from apps.core import models as core_models
-from apps.lang import di, domain, models, repositories, services, types
+from apps.core.di.configuration import ExerciseConfig
+from apps.core.domain.exercise.presentation import (
+    PresentationDomain,
+)
+from apps.core.handlers.protocols import (
+    BusinessService,
+    RegularValidator,
+    ResponseAdapter,
+)
+from apps.lang import models, repositories, services
+from apps.lang.di.handler.exercise.presentation import (
+    TranslationPresentationContainer,
+)
 from tests.fixtures.lang.no_db import translations as fixtures
 from tests.fixtures.lang.no_db.presentation import EMPTY_PARAMETERS_DTO
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
 
-    from apps.lang import use_cases
+    from apps.lang import handlers
     from apps.users.models import Person
 
     # Dependency types
     # TODO: Update with abstract classes after adding them
-    type Container = di.PresentationContainer
-    type WebUseCase = use_cases.WebPresentationUseCase
-    type Repository = repositories.EnglishTranslation
+    type Container = TranslationPresentationContainer
+    type WebUseCase = handlers.WebPresentationUseCase
+    type Repository = repositories.TranslationConditionsRepository
     type Service = services.PresentationService
 
     # Data types
@@ -40,19 +52,19 @@ if TYPE_CHECKING:
 @pytest.fixture
 def mock_validator() -> Mock:
     """Provide validator mock."""
-    return Mock(spec=types.RegularValidator)
+    return Mock(spec=RegularValidator)
 
 
 @pytest.fixture
 def mock_service() -> Mock:
     """Provide business service mock."""
-    return Mock(spec=types.BusinessService)
+    return Mock(spec=BusinessService)
 
 
 @pytest.fixture
 def mock_response_adapter() -> Mock:
     """Provide response adapter mock."""
-    return Mock(spec=types.ResponseAdapter)
+    return Mock(spec=ResponseAdapter)
 
 
 # ------------
@@ -61,15 +73,21 @@ def mock_response_adapter() -> Mock:
 
 
 @pytest.fixture
-def presentation_domain() -> domain.PresentationDomain:
+def presentation_domain(
+    exercise_configuration: ExerciseConfig,
+) -> PresentationDomain:
     """Provide presentation domain."""
-    return domain.PresentationDomain()
+    return PresentationDomain(
+        config=exercise_configuration,  # type: ignore
+    )
 
 
 @pytest.fixture
-def repository() -> repositories.EnglishTranslation:
+def repository() -> repositories.TranslationConditionsRepository:
     """Provide presentation repository."""
-    return repositories.EnglishTranslation()
+    return repositories.TranslationConditionsRepository(
+        models.EnglishTranslation.objects
+    )
 
 
 # ------------
@@ -80,19 +98,19 @@ def repository() -> repositories.EnglishTranslation:
 @pytest.fixture
 def container() -> Container:
     """Provide presentation use case container."""
-    return di.PresentationContainer()
+    return TranslationPresentationContainer()
 
 
 @pytest.fixture
 def service(container: Container) -> Service:
     """Provide presentation service."""
-    return container.exercise_service()
+    return container.services.regular_translation_presentation()  # type: ignore[no-any-return]
 
 
 @pytest.fixture
 def web_use_case(container: Container) -> WebUseCase:
     """Provide web use case."""
-    return container.web_use_case()
+    return container.web_use_case()  # type: ignore[no-any-return]
 
 
 # ----------------------

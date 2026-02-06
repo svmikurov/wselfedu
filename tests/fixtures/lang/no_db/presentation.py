@@ -4,10 +4,11 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Final
 
+from apps.core.domain.exercise import DisplayOrder
 from apps.lang import schemas
 
 if TYPE_CHECKING:
-    from apps.lang.types import presentation
+    from tests.types import ApiRequest, WebRequestRaw
 
 CATEGORY_ID = 1
 START_PERIOD_ID = 3
@@ -18,7 +19,7 @@ WORD_COUNT = 90
 # Web request data
 # ----------------
 
-EMPTY_WEB_REQUEST: presentation.WebRequestRaw = {
+EMPTY_WEB_REQUEST: WebRequestRaw = {
     # Translation parameters
     'category': '',
     'mark': [],
@@ -31,11 +32,11 @@ EMPTY_WEB_REQUEST: presentation.WebRequestRaw = {
     'is_repeat': 'true',
     'is_study': 'true',
     # Translation settings
-    'translation_order': 'to_native',
+    'display_order': 'to_native',
     'word_count': str(WORD_COUNT),  # Fix to ''
 }
 
-WEB_REQUEST: presentation.WebRequestRaw = {
+WEB_REQUEST = {
     # Translation parameters
     'category': str(CATEGORY_ID),
     'mark': ['1', '2'],
@@ -48,7 +49,7 @@ WEB_REQUEST: presentation.WebRequestRaw = {
     'is_repeat': 'false',
     'is_study': 'false',
     # Translation settings
-    'translation_order': 'random',
+    'display_order': 'random',
     'word_count': str(WORD_COUNT),
 }
 
@@ -58,7 +59,7 @@ WEB_REQUEST: presentation.WebRequestRaw = {
 # ----------------
 
 
-API_REQUEST: Final[presentation.ApiRequest] = {
+API_REQUEST: Final[ApiRequest] = {
     # Translation parameters
     'category': {'id': CATEGORY_ID, 'name': 'cat 1'},
     'mark': [
@@ -74,7 +75,7 @@ API_REQUEST: Final[presentation.ApiRequest] = {
     'is_examine': True,
     'is_know': True,
     # Translation settings
-    'translation_order': {'code': 'random', 'name': 'Случайный порядок'},
+    'display_order': {'code': 'random', 'name': 'Случайный порядок'},
     'word_count': WORD_COUNT,
 }
 
@@ -83,7 +84,7 @@ API_REQUEST: Final[presentation.ApiRequest] = {
 # Validated data
 # --------------
 
-EMPTY_PARAMETERS_DTO = schemas.ParametersModel(
+EMPTY_PARAMETERS_DTO = schemas.LookupCondition(
     category=None,
     mark=[],
     source=None,
@@ -95,7 +96,7 @@ EMPTY_PARAMETERS_DTO = schemas.ParametersModel(
     is_know=True,
 )
 
-PARAMETERS_DTO = schemas.ParametersModel(
+PARAMETERS_DTO = schemas.LookupCondition(
     category=CATEGORY_ID,
     source=None,
     mark=[1, 2],
@@ -107,10 +108,10 @@ PARAMETERS_DTO = schemas.ParametersModel(
     is_know=True,
 )
 SETTINGS_DTO = schemas.SettingsModel(
-    translation_order='random',
-    word_count=WORD_COUNT,
+    display_order=DisplayOrder.RANDOM,
+    item_count=WORD_COUNT,
 )
-REQUEST_DTO: Final = schemas.PresentationRequest(
+REQUEST_DTO: Final = schemas.RegularConditionRequest(
     parameters=PARAMETERS_DTO,
     settings=SETTINGS_DTO,
 )

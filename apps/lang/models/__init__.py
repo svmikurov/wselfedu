@@ -21,6 +21,8 @@ __all__ = [
     'RuleExample',
     'RuleTaskExample',
     'MentorshipEnglishRule',
+    # Progress
+    'EnglishTranslationProgress',
     # Meta
     'Mark',
     'TranslationMark',
@@ -41,6 +43,7 @@ from .exercise.parameters import (
     PresentationSettings,
     TranslationSetting,
 )
+from .exercise.translation import EnglishTranslationProgress
 from .mark import Mark, TranslationMark
 from .rule import (
     ExampleType,

@@ -13,7 +13,7 @@ class OptionsSerializer(serializers.Serializer[types.OptionsAPI]):
     marks = core.IdNameSerializer(many=True)
     sources = core.IdNameSerializer(many=True)
     periods = core.IdNameSerializer(many=True)
-    translation_orders = core.CodeNameSerializer(many=True)
+    display_orders = core.CodeNameSerializer(many=True)
 
 
 class TranslationMetaSerializer(
@@ -33,7 +33,7 @@ class TranslationSettingsSerializer(
 ):
     """Translation settings serializer."""
 
-    translation_order = core.CodeNameSerializer(allow_null=True)
+    display_order = core.CodeNameSerializer(allow_null=True)
     word_count = serializers.IntegerField(allow_null=True)
 
 

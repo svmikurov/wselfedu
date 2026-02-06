@@ -1,4 +1,4 @@
-"""English discipline category url paths."""
+"""English discipline category CRUD url paths."""
 
 from django.urls import path
 

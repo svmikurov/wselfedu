@@ -90,7 +90,7 @@ class TranslationSettingAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
 
     list_display = [
         'user',
-        'translation_order',
+        'display_order',
         'word_count',
     ]
 

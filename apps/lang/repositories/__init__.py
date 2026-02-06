@@ -4,42 +4,50 @@ __all__ = [
     # ABC
     'RuleRepositoryABC',
     'PresentationABC',
-    'ProgressABC',
+    'ProgressRepositoryABC',
     'TranslationRepoABC',
     'StudyParametersRepositoryABC',
     # Implementation
-    'TranslationRepository',
+    'TranslationExerciseRepository',
     'StudyParametersRepository',
-    'EnglishTranslation',
-    'Progress',
-    'TranslationRepository',
+    'TranslationConditionsRepository',
+    'TranslationExerciseRepository',
+    'DetailTranslationRepository',
     'RuleRepository',
     # Functions
     'get_period_delta',
     # Exercises
-    'ExerciseTranslationRepository',
-    'UserTranslationRepository',
+    'TranslationExerciseRepository',
     # Exercise settings
     'StudySettingsRepository',
+    'RegularParametersRepository',
+    # Progress
+    'ProgressRepository',
+    'AssignedTranslationProgressRepository',
+    'TranslationRepository',
 ]
 
 from .abc import (
     PresentationABC,
-    ProgressABC,
+    ProgressRepositoryABC,
     RuleRepositoryABC,
     StudyParametersRepositoryABC,
     TranslationRepoABC,
 )
-from .exercise.translation.presentation import (
-    EnglishTranslation,
+from .exercise.conditions import RegularParametersRepository
+from .exercise.translation.conditions import (
+    TranslationConditionsRepository,
     get_period_delta,
 )
 from .exercise.translation.test import (
-    ExerciseTranslationRepository,
-    UserTranslationRepository,
+    DetailTranslationRepository,
+    TranslationExerciseRepository,
 )
 from .parameters import StudyParametersRepository
-from .progress import Progress
+from .progress import (
+    AssignedTranslationProgressRepository,
+    ProgressRepository,
+)
 from .rule import RuleRepository
 from .study_settings import StudySettingsRepository
 from .translation import TranslationRepository

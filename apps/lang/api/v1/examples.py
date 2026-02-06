@@ -19,7 +19,7 @@ SET_WORD_STUDY_PARAMETERS_DATA: types.CaseSettingsAPI = {
         {'id': 1, 'name': 'today'},
         {'id': 2, 'name': 'week_before'},
     ],
-    'translation_orders': [
+    'display_orders': [
         {'code': 'from_native', 'name': 'С родного языка'},
         {'code': 'to_native', 'name': 'На родной язык'},
         {'code': 'random', 'name': 'Случайный порядок'},
@@ -29,7 +29,7 @@ SET_WORD_STUDY_PARAMETERS_DATA: types.CaseSettingsAPI = {
     'word_source': {'id': 1, 'name': 'source 1'},
     'start_period': {'id': 2, 'name': 'week_before'},
     'end_period': {'id': 1, 'name': 'today'},
-    'translation_order': {'code': 'to_native', 'name': 'На родной язык'},
+    'display_order': {'code': 'to_native', 'name': 'На родной язык'},
     'is_study': True,
     'is_repeat': True,
     'is_examine': True,
@@ -45,7 +45,7 @@ WORD_STUDY_PARAMETERS_DATA: types.CaseParametersAPI = {
     'word_source': {'id': 1, 'name': 'source 1'},
     'start_period': {'id': 2, 'name': 'week_before'},
     'end_period': {'id': 1, 'name': 'today'},
-    'translation_order': {'code': 'to_native', 'name': 'На родной язык'},
+    'display_order': {'code': 'to_native', 'name': 'На родной язык'},
     'is_study': True,
     'is_repeat': True,
     'is_examine': True,

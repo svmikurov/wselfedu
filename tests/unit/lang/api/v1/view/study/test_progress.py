@@ -11,7 +11,7 @@ from rest_framework.test import APIRequestFactory, force_authenticate
 
 from apps.lang import types
 from apps.lang.api.v1.views.study import WordStudyViewSet
-from apps.lang.services.abc import WordProgressServiceABC
+from apps.lang.services.exercise.abc import WordProgressServiceABC
 from di import container
 
 from . import cases
@@ -50,11 +50,11 @@ class TestProgress:
         # Arrange
         request = api_request_factory.post('', valid_payload)
         force_authenticate(request, mock_user)
+        # HACK: Create service fixture
+        service = container.lang.services.regular_translation_progress  # type: ignore[attr-defined]
 
         # Act
-        with container.lang.progress.regular_translation_service.override(  # type: ignore[attr-defined]
-            mock_service
-        ):
+        with service.override(mock_service):
             response = view(request)
 
         # Assert
@@ -81,11 +81,10 @@ class TestProgress:
         # Arrange
         request = api_request_factory.post('', invalid_payload)
         force_authenticate(request, mock_user)
+        service = container.lang.services.regular_translation_progress  # type: ignore[attr-defined]
 
         # Act
-        with container.lang.progress.regular_translation_service.override(  # type: ignore[attr-defined]
-            mock_service
-        ):
+        with service.override(mock_service):
             response = view(request)
 
         # Assert
@@ -112,11 +111,10 @@ class TestProgress:
         request = api_request_factory.post('', valid_payload)
         force_authenticate(request, mock_user)
         mock_service.update_progress.side_effect = exception
+        service = container.lang.services.regular_translation_progress  # type: ignore[attr-defined]
 
         # Act
-        with container.lang.progress.regular_translation_service.override(  # type: ignore[attr-defined]
-            mock_service
-        ):
+        with service.override(mock_service):
             response = view(request)
 
         # Assert

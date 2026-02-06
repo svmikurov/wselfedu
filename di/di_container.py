@@ -3,7 +3,7 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Container
 
-from apps.core.di_container import CoreContainer
+from apps.core.di.container import CoreContainer
 from apps.glossary.di_container import GlossaryContainer
 from apps.lang.di.container import LanguageContainer
 from apps.math.di_container import MathAppContainer
@@ -30,6 +30,8 @@ class MainContainer(DeclarativeContainer):
     )
     lang: Container[LanguageContainer] = Container(
         LanguageContainer,
+        domains=core.domains,
+        configuration=core.configuration,
     )
     study: Container[StudyAppContainer] = Container(
         StudyAppContainer,

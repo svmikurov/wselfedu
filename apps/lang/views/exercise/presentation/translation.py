@@ -5,7 +5,6 @@ from __future__ import annotations
 from http import HTTPStatus
 from typing import TYPE_CHECKING, Any
 
-from dependency_injector.providers import Provider
 from dependency_injector.wiring import Provide, inject
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.template.loader import render_to_string
@@ -14,8 +13,7 @@ from django.views import generic
 
 from apps.core.exceptions.info import NoTranslationsAvailableException
 from apps.core.views import auth, mixins
-from apps.lang import use_cases
-from apps.lang.di import ExercisesContainer
+from apps.lang import handlers
 from apps.lang.repositories.abc import StudySettingsRepositoryABC
 from di import MainContainer
 
@@ -25,9 +23,9 @@ if TYPE_CHECKING:
     from apps.lang import schemas, types
     from apps.lang.schemas import dto
 
-type Presentation = use_cases.UseCase[
+type Presentation = handlers.RegularRequestHandler[
     dict[str, Any],
-    schemas.PresentationRequest,
+    schemas.RegularConditionRequest,
     dto.PresentationCase,
     types.TranslationWEB,
 ]
@@ -37,8 +35,7 @@ __all__ = [
     'EnglishTranslationStudyCaseView',
 ]
 
-EXERCISES: Provider[ExercisesContainer] = MainContainer.lang.exercises
-REPOSITORIES: Provider[ExercisesContainer] = MainContainer.lang.repositories
+CONTAINER = MainContainer.lang.view_container.exercise  # type: ignore[attr-defined]
 
 
 class EnglishTranslationStudyView(
@@ -66,7 +63,7 @@ class EnglishTranslationStudyView(
         request: HttpRequest,
         *args: object,
         repository: StudySettingsRepositoryABC = Provide[
-            REPOSITORIES.study_settings,  # type: ignore[attr-defined]
+            CONTAINER.study_settings_repository,
         ],
         **kwargs: object,
     ) -> HttpResponseBase:
@@ -95,7 +92,7 @@ class EnglishTranslationStudyCaseView(
         self,
         request: HttpRequest,
         *args: object,
-        use_case: Presentation = Provide[EXERCISES.web_presentation],  # type: ignore[attr-defined]
+        use_case: Presentation = Provide[CONTAINER.web_regular_presentation],
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject presentation use case."""

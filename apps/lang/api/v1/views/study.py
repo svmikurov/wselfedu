@@ -17,20 +17,18 @@ from rest_framework.viewsets import ViewSet
 import di
 from apps.core import views as core_views
 from apps.core.api import renderers
+from apps.lang.handlers import ApiPresentationUseCase
 from apps.lang.repositories.abc import StudyParametersRepositoryABC
-from apps.lang.services.abc import (
+from apps.lang.services.exercise.abc import (
     WordProgressServiceABC,
 )
-from apps.lang.use_cases import ApiPresentationUseCase
 
 from .. import examples
 from .. import serializers as ser
 
 log = logging.getLogger(__name__)
 
-CONTAINER = di.MainContainer.lang
-EXERCISES = di.MainContainer.lang.exercises
-REPOSITORIES = di.MainContainer.lang.repositories
+CONTAINER = di.MainContainer.lang.view_container.exercise  # type: ignore[attr-defined]
 
 
 class WordStudyViewSet(
@@ -66,7 +64,9 @@ class WordStudyViewSet(
     def presentation(
         self,
         request: Request,
-        service: ApiPresentationUseCase = Provide[EXERCISES.api_presentation],  # type: ignore[attr-defined]
+        service: ApiPresentationUseCase = Provide[
+            CONTAINER.api_regular_presentation
+        ],
     ) -> Response:
         """Render the Word study presentation case."""
         presentation = service.execute(self.user, request.data)
@@ -94,7 +94,7 @@ class WordStudyViewSet(
         self,
         request: Request,
         repository: StudyParametersRepositoryABC = Provide[
-            REPOSITORIES.study_parameters,  # type: ignore[attr-defined]
+            CONTAINER.study_parameters_repository,
         ],
     ) -> Response:
         """Render initial Word study parameters."""
@@ -116,7 +116,7 @@ class WordStudyViewSet(
         self,
         request: Request,
         repository: StudyParametersRepositoryABC = Provide[
-            REPOSITORIES.study_parameters,  # type: ignore[attr-defined]
+            CONTAINER.study_parameters_repository,
         ],
     ) -> Response:
         """Update initial Word study parameters."""
@@ -152,7 +152,7 @@ class WordStudyViewSet(
         self,
         request: Request,
         service: WordProgressServiceABC = Provide[
-            CONTAINER.progress.regular_translation_service  # type: ignore[attr-defined]
+            CONTAINER.regular_translation_progress
         ],
     ) -> Response:
         """Update word study progress."""

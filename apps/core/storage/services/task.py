@@ -2,14 +2,14 @@
 
 import logging
 import uuid
-from typing import Generic, TypeVar, override
+from typing import Generic, Hashable, TypeVar, override
 
 from ..clients.django_cache import DjangoCache
 from .iabc import TaskStorageABC
 
 logger = logging.getLogger(__name__)
 
-T = TypeVar('T')
+T = TypeVar('T', bound=Hashable)
 
 
 class TaskStorage(Generic[T], TaskStorageABC[T]):

@@ -6,25 +6,30 @@ from unittest.mock import Mock
 
 import pytest
 
-from apps.lang import types, use_cases
+from apps.core.handlers.protocols import (
+    BusinessService,
+    RegularValidator,
+    ResponseAdapter,
+)
+from apps.lang import handlers
 
 
 @pytest.fixture
 def mock_validator() -> Mock:
     """Provide validator mock."""
-    return Mock(spec=types.RegularValidator)
+    return Mock(spec=RegularValidator)
 
 
 @pytest.fixture
 def mock_service() -> Mock:
     """Provide business service mock."""
-    return Mock(spec=types.BusinessService)
+    return Mock(spec=BusinessService)
 
 
 @pytest.fixture
 def mock_response_adapter() -> Mock:
     """Provide response adapter mock."""
-    return Mock(spec=types.ResponseAdapter)
+    return Mock(spec=ResponseAdapter)
 
 
 class TestWebUseCase:
@@ -38,10 +43,10 @@ class TestWebUseCase:
     ) -> None:
         """Web get presentation UseCase initialization."""
         # Act
-        use_case = use_cases.WebPresentationUseCase(
+        use_case = handlers.WebPresentationUseCase(
             validator=mock_validator,
             service=mock_service,
-            response_adapter=mock_response_adapter,
+            adapter=mock_response_adapter,
         )
 
         # Assert

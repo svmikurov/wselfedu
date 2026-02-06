@@ -3,17 +3,20 @@
 from django.urls import path
 
 from ... import views
-from ...views.exercise.test import progress, translation
+from ...views.exercise.test import translation
 
 urlpatterns = [
     # ------------
     # Presentation
     # ------------
+    # Renders presentation exercise template with JS business-logic to
+    # display presentation, request new case and update study progress.
     path(
         'translation/english/study/',
         views.EnglishTranslationStudyView.as_view(),
         name='translation_english_study',
     ),
+    # Renders new presentation case.
     path(
         'translation/english/study/case/',
         views.EnglishTranslationStudyCaseView.as_view(),
@@ -27,12 +30,6 @@ urlpatterns = [
         'translation/english/test/',
         translation.TranslationTestView.as_view(),
         name='translation_english_test',
-    ),
-    # REVIEW: Replace progress path definition?
-    path(
-        'translation/english/test/progress/',
-        progress.TranslationTestProgressView.as_view(),
-        name='translation_english_test_progress',
     ),
     # Mentorship
     path(

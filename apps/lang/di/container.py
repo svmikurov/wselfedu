@@ -1,37 +1,65 @@
-"""Language application DI container."""
+"""Language discipline DI container."""
 
-from dependency_injector import containers
-from dependency_injector.providers import Container
+from dependency_injector.containers import DeclarativeContainer
+from dependency_injector.providers import Container, DependenciesContainer
 
-from ._adapter import AdapterContainer
-from ._progress import ProgressContainer
-from ._storage import StorageContainer
-from .exercise.exercises import ExercisesContainer
+from .adapter import AdapterContainer
+from .handler.exercise.exercises import ExerciseHandlerContainer
 from .repository import RepositoryContainer
+from .service import ServiceContainer
+from .storage import StorageContainer
+from .validator import ValidatorContainer
+from .view.container import ViewContainer
 
 
-class LanguageContainer(containers.DeclarativeContainer):
+class LanguageContainer(DeclarativeContainer):
     """Language discipline DI container."""
 
-    # The current exercise case is saved
-    # to check the user's answer and change the study progress.
-    storages = Container(StorageContainer)
-    # QUESTION: Split the 'exercises' container
-    # on 'presentation exercises', 'test exercises' or
-    # on 'translation exercises', 'rule  exercises'?
+    configuration = DependenciesContainer()
+    domains = DependenciesContainer()
+
     repositories = Container(
         RepositoryContainer,
+    )
+    storages = Container(
+        StorageContainer,
+        config=configuration.storage,
+    )
+
+    validators = Container(
+        ValidatorContainer,
+    )
+    services = Container(
+        ServiceContainer,
+        exercise_config=configuration.exercise,
+        progress_config=configuration.progress,
+        repositories=repositories,
+        domains=domains,
+        case_storage=storages.exercise_case_storage,
     )
     adapters = Container(
         AdapterContainer,
     )
 
-    exercises = Container(
-        ExercisesContainer,
-        exercise_case_storage=storages.exercise_case_storage,
+    # -------------------------
+    # Exercise request handlers
+    # -------------------------
+
+    exercise_handlers = Container(
+        ExerciseHandlerContainer,
+        validators=validators,
+        services=services,
         adapters=adapters,
     )
-    progress = Container(
-        ProgressContainer,
-        exercise_case_storage=storages.exercise_case_storage,
+
+    # -------------------------
+    # View dependency injection
+    # -------------------------
+
+    view_container = Container(
+        ViewContainer,
+        repositories=repositories,
+        services=services,
+        presentation_handlers=exercise_handlers.presentation,
+        test_handlers=exercise_handlers.test_exercise,
     )

@@ -15,6 +15,10 @@ if TYPE_CHECKING:
     from apps.core import models as core_models
     from apps.users.models import Person
 
+__all__ = [
+    'TranslationRepository',
+]
+
 
 class _TranslationWords(NamedTuple):
     """Native and foreign words of translation."""
@@ -96,7 +100,7 @@ class TranslationRepository(base.TranslationRepoABC):
         """Get english translations."""
         return models.EnglishTranslation.objects.filter(
             user=user,
-        )
+        ).select_related('foreign', 'native', 'category', 'source')
 
     @staticmethod
     def _get_or_create_words(

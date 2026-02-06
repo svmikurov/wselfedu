@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-23 06:38+0000\n"
+"POT-Creation-Date: 2026-02-06 04:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,7 +57,7 @@ msgid "Exercise"
 msgstr "Упражнение"
 
 #: apps/core/models/abstract/mark.py:23 apps/lang/models/mark.py:21
-#: apps/lang/models/mark.py:36 apps/lang/templates/lang/mark/_table.html:8
+#: apps/lang/models/mark.py:37 apps/lang/templates/lang/mark/_table.html:8
 msgid "Mark"
 msgstr "Маркер"
 
@@ -81,7 +81,7 @@ msgstr "Категории"
 msgid "Marks"
 msgstr "Маркеры"
 
-#: apps/lang/models/mark.py:31
+#: apps/lang/models/mark.py:32
 #: apps/lang/templates/lang/exercise/mentor/translation/_table.html:7
 msgid "Translation"
 msgstr "Перевод"
@@ -128,6 +128,7 @@ msgstr "Категории"
 #: apps/lang/templates/lang/exercise/mentor/translation/index.html:15
 #: apps/lang/templates/lang/exercise/settings/index.html:21
 #: apps/lang/templates/lang/exercise/student/index.html:15
+#: apps/lang/templates/lang/exercise/test/index.html:20
 #: apps/lang/templates/lang/index.html:16
 #: apps/lang/templates/lang/mark/index.html:17
 #: apps/lang/templates/lang/rule/detail/index.html:15
@@ -186,11 +187,12 @@ msgstr "Управление упражнениями по Английском�
 msgid "lang.english.page.management.index.header"
 msgstr "Управление упражнениями по Английскому языку"
 
-#: apps/lang/templates/lang/exercise/mentor/management/index.html:69
+#: apps/lang/templates/lang/exercise/mentor/management/index.html:72
 msgid "button.add"
 msgstr "Добавить"
 
-#: apps/lang/templates/lang/exercise/mentor/management/index.html:76
+#: apps/lang/templates/lang/exercise/mentor/management/index.html:79
+#: apps/lang/templates/lang/exercise/mentor/translation/index.html:36
 #: apps/lang/templates/lang/rule/detail/_buttons.html:11
 #: apps/lang/templates/lang/rule/list/_table.html:26
 #: apps/lang/templates/lang/rule/list/_table.html:71
@@ -210,6 +212,7 @@ msgid "lang.english.page.assign.translation.header"
 msgstr "Добавление перевода в упражнение"
 
 #: apps/lang/templates/lang/exercise/student/index.html:4
+#: tests/browser/pages/lang/student/assignments.py:15
 msgid "lang.english.tasks.page.index.title"
 msgstr "Английский язык на сегодня | WSE"
 
@@ -225,14 +228,23 @@ msgstr "Наименование упражнения"
 msgid "exercise.updated_at"
 msgstr "Изменено"
 
-#: apps/lang/templates/lang/exercise/test/index.html:6
+#: apps/lang/templates/lang/exercise/test/_no_cases.html:3
+msgid "No available cases"
+msgstr "Нет данных для изучения"
+
+#: apps/lang/templates/lang/exercise/test/index.html:7
+#: tests/browser/pages/lang/student/translation_test.py:11
 #: tests/browser/pages/lang/translation_test.py:12
 msgid "lang.page.translation.test.title"
 msgstr "Словарный тест | WSE"
 
-#: apps/lang/templates/lang/exercise/test/index.html:12
+#: apps/lang/templates/lang/exercise/test/index.html:13
 msgid "lang.page.translation.test.header"
 msgstr "Словарный тест"
+
+#: apps/lang/templates/lang/exercise/test/index.html:17
+msgid "button.title.exercise.settings"
+msgstr "Настройки"
 
 #: apps/lang/templates/lang/index.html:4
 msgid "lang.english.page.index.title"
