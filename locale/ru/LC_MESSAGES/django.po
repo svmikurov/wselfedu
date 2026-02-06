@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 09:46+0000\n"
+"POT-Creation-Date: 2026-02-06 23:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,7 +41,8 @@ msgstr "Дата обновления"
 msgid "User"
 msgstr "Пользователь"
 
-#: apps/core/models/abstract/category.py:23 apps/lang/models/category.py:18
+#: apps/core/models/abstract/category.py:23 apps/lang/filters/translation.py:22
+#: apps/lang/models/category.py:18
 #: apps/lang/templates/lang/category/_table.html:8
 msgid "Category"
 msgstr "Категория"
@@ -70,6 +71,12 @@ msgid "core.source.list.header"
 msgstr "Источники"
 
 #: apps/core/templates/core/source/list.html:16
+#: apps/glossary/templates/glossary/index.html:17
+#: apps/glossary/templates/glossary/term_assertion_form.html:18
+#: apps/glossary/templates/glossary/term_detail.html:17
+#: apps/glossary/templates/glossary/term_form.html:18
+#: apps/glossary/templates/glossary/term_list.html:17
+#: apps/glossary/templates/glossary/term_list.html:33
 #: apps/lang/templates/lang/category/index.html:17
 #: apps/lang/templates/lang/exercise/mentor/index.html:15
 #: apps/lang/templates/lang/exercise/mentor/translation/index.html:15
@@ -86,6 +93,7 @@ msgstr "Источники"
 #: apps/lang/templates/lang/translation/index.html:17
 #: apps/lang/templates/lang/translation/list.html:17
 #: apps/lang/templates/lang/translation/update.html:17
+#: apps/math/templates/math/index.html:18
 msgid "button.back"
 msgstr "Назад"
 
@@ -112,8 +120,83 @@ msgstr "Удалить?"
 #: apps/lang/templates/lang/mark/index.html:38
 #: apps/lang/templates/lang/rule/detail/_buttons.html:19
 #: apps/lang/templates/lang/rule/list/index.html:31
+#: apps/lang/templates/lang/translation/list.html:32
 msgid "button.create"
 msgstr "Добавить"
+
+#: apps/glossary/templates/glossary/index.html:5
+msgid "glossary.index.title"
+msgstr "Изучение терминов | WSE"
+
+#: apps/glossary/templates/glossary/index.html:12
+msgid "glossary.index.header"
+msgstr "Изучение терминов"
+
+#: apps/glossary/templates/glossary/index.html:26
+msgid "button.title.list.term"
+msgstr "Список терминов"
+
+#: apps/glossary/templates/glossary/index.html:32
+#: apps/glossary/templates/glossary/term_list.html:37
+msgid "button.title.create.term"
+msgstr "Добавить термин"
+
+#: apps/glossary/templates/glossary/term_assertion_form.html:6
+msgid "glossary.page.create.assertion.title"
+msgstr "Добавление утверждения | WSE"
+
+#: apps/glossary/templates/glossary/term_assertion_form.html:13
+msgid "glossary.page.create.assertion.header"
+msgstr "Добавление утверждения"
+
+#: apps/glossary/templates/glossary/term_detail.html:12
+#: apps/glossary/templates/glossary/term_list.html:12
+msgid "glossary.page.index.header"
+msgstr "Глоссарий"
+
+#: apps/glossary/templates/glossary/term_detail.html:34
+msgid "button.title.create"
+msgstr "Добавить"
+
+#: apps/glossary/templates/glossary/term_detail.html:35
+msgid "button.title.update"
+msgstr "Изменить"
+
+#: apps/glossary/templates/glossary/term_detail.html:36
+msgid "button.title.delete"
+msgstr "Удалить"
+
+#: apps/glossary/templates/glossary/term_form.html:6
+msgid "glossary.page.create.term.title"
+msgstr "Добавление термина | WSE"
+
+#: apps/glossary/templates/glossary/term_form.html:13
+msgid "glossary.page.create.term.header"
+msgstr "Добавление термина"
+
+#: apps/glossary/templates/glossary/term_list.html:5
+msgid "glossary.page.index.title"
+msgstr "Глоссарий | WSE"
+
+#: apps/lang/filters/translation.py:21
+msgid "All categories"
+msgstr "Категории"
+
+#: apps/lang/filters/translation.py:26
+msgid "All sources"
+msgstr "Источники"
+
+#: apps/lang/filters/translation.py:27
+msgid "Source"
+msgstr "Источник"
+
+#: apps/lang/filters/translation.py:31
+msgid "Date"
+msgstr "Дата"
+
+#: apps/lang/filters/translation.py:33
+msgid "Past n days"
+msgstr "За последнии дни"
 
 #: apps/lang/forms/exercise.py:83
 msgid "Select the exercise"
@@ -284,27 +367,27 @@ msgstr "Английский язык | WSE"
 msgid "lang.english.page.index.header"
 msgstr "Английский язык"
 
-#: apps/lang/templates/lang/index.html:25
+#: apps/lang/templates/lang/index.html:26
 msgid "button.title.exercises"
 msgstr "Упражнения"
 
-#: apps/lang/templates/lang/index.html:32
+#: apps/lang/templates/lang/index.html:34
 msgid "button.title.assignments"
 msgstr "Задания"
 
-#: apps/lang/templates/lang/index.html:41
+#: apps/lang/templates/lang/index.html:44
 msgid "button.title.rules.index"
 msgstr "Правила"
 
-#: apps/lang/templates/lang/index.html:47
+#: apps/lang/templates/lang/index.html:51
 msgid "button.title.translation.index"
 msgstr "Переводы"
 
-#: apps/lang/templates/lang/index.html:56
+#: apps/lang/templates/lang/index.html:61
 msgid "button.mark"
 msgstr "Маркеры"
 
-#: apps/lang/templates/lang/index.html:62
+#: apps/lang/templates/lang/index.html:68
 msgid "button.category"
 msgstr "Категории"
 
@@ -442,6 +525,14 @@ msgstr "Изменить перевод Английского слова | WSE"
 msgid "lang.page.english.translation.update.header"
 msgstr "Изменить перевод Английского слова"
 
+#: apps/math/templates/math/index.html:6
+msgid "math.page.index.title"
+msgstr "Математика | WSE"
+
+#: apps/math/templates/math/index.html:13
+msgid "math.page.index.header"
+msgstr "Математика"
+
 #: templates/components/language_selector.html:13
 msgid "Language"
 msgstr "Язык"
@@ -450,16 +541,16 @@ msgstr "Язык"
 msgid "Disciplines"
 msgstr "Дисциплины"
 
-#: templates/components/navbar.html:29
-msgid "Mathematics"
+#: templates/components/navbar.html:29 templates/home.html:33
+msgid "button.math.index"
 msgstr "Математика"
 
-#: templates/components/navbar.html:33
-msgid "Glossary"
-msgstr "Глоссарий"
+#: templates/components/navbar.html:33 templates/home.html:25
+msgid "button.glossary.index"
+msgstr "Изучение терминов"
 
-#: templates/components/navbar.html:37
-msgid "Language learning"
+#: templates/components/navbar.html:37 templates/home.html:19
+msgid "button.lang.index"
 msgstr "Изучение языков"
 
 #: templates/components/navbar.html:44
@@ -514,17 +605,18 @@ msgstr "Главная - Образовательный проект | WSE"
 msgid "home.page.header"
 msgstr "Образовательный проект"
 
-#: templates/home.html:18
-msgid "button.lang.title"
-msgstr "Изучение языков"
-
-#: templates/home.html:23
-msgid "button.glossary.title"
-msgstr "Изучение терминов"
-
-#: templates/home.html:30
+#: templates/home.html:39
 msgid "button.source.list"
 msgstr "Источники"
+
+#~ msgid "Mathematics"
+#~ msgstr "Математика"
+
+#~ msgid "Glossary"
+#~ msgstr "Глоссарий"
+
+#~ msgid "Language learning"
+#~ msgstr "Изучение языков"
 
 #~ msgid "button.rule.add"
 #~ msgstr "Добавить правило"
