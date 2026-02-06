@@ -117,7 +117,7 @@ graph_models:
 		--inheritance
 
 # Dump language application models in development mode
-dump-lang:
+dump-dev:
 	python manage.py dumpdata \
 	lang.nativeword \
 	lang.englishword \
@@ -130,13 +130,35 @@ dump-lang:
 	lang.mark \
 	lang.translationmark \
 	lang.category \
-	--indent 2 > temp/lang_english_related.json
+	--indent 2 > temp/dumpdata/sensitive/lang.json
+
 	python manage.py dumpdata \
 	users.person \
 	users.mentorship \
 	users.mentorshiprequest \
 	sessions.session \
-	--indent 2 > temp/users_related.json
+	--indent 2 > temp/dumpdata/sensitive/users.json
+	
+	python manage.py dumpdata \
+	core.discipline \
+	core.exercise \
+	core.period \
+	core.taskio \
+	--indent 2 > temp/dumpdata/public/core.json
+
+	python manage.py dumpdata \
+	glossary.termassertion \
+	glossary.term \
+	--indent 2 > temp/dumpdata/sensitive/glossary.json
+
+	python manage.py dumpdata \
+	core.source \
+	--indent 2 > temp/dumpdata/sensitive/core.json
+
+	python manage.py dumpdata \
+	math.exercisecondition \
+	math.mathexercise \
+	--indent 2 > temp/dumpdata/public/math.json
 
 # Localization
 locale-make:
