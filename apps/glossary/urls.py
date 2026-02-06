@@ -17,7 +17,11 @@ app_name = 'glossary'
 
 urlpatterns = [
     path('', IndexGlossaryView.as_view(), name='index'),
-    # Path 'term/' reserved for chapter definition
+    path(
+        'term/',
+        TermListView.as_view(),
+        name='term_list',
+    ),
     path(
         'term/create/',
         TermCreateView.as_view(),
@@ -34,11 +38,6 @@ urlpatterns = [
         name='term_update',
     ),
     path(
-        'term/list/',
-        TermListView.as_view(),
-        name='term_list',
-    ),
-    path(
         'term/<int:pk>/delete/',
         TermDeleteView.as_view(),
         name='term_delete',
@@ -49,7 +48,7 @@ urlpatterns = [
         name='term_study',
     ),
     path(
-        'assertion/create/',
+        'term/assertion/create/',
         assertion.AssertionCreateView.as_view(),
         name='assertion_create',
     ),
