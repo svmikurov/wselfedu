@@ -18,6 +18,22 @@ class BaseNameForm(forms.ModelForm, Generic[M]):  # type: ignore
     """Base user-name crispy form.
 
     Provides 'name' fields, adds user to model instants.
+
+    Example:
+    -------
+        class SourceForm(BaseNameForm[Source]):
+
+            class Meta:
+
+                model = Source
+                fields = ['name']
+
+        class SourceCreateView(BaseCreateView):
+
+            template_name = 'components/crispy_form.html'
+            form_class = SourceForm
+            success_url = ...
+
     """
 
     def __init__(self, *args: object, **kwargs: object) -> None:
