@@ -31,6 +31,8 @@ class Source(models.Model):
         verbose_name = 'Источник'
         verbose_name_plural = 'Источники'
 
+        unique_together = ['user', 'name']
+
     def __str__(self) -> str:
         """Get model instance string representation."""
         return str(self.name)
