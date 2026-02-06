@@ -3,7 +3,7 @@
 <nav id="nav" class="navbar navbar-expand-sm navbar-dark bg-dark">
   <div class="container-fluid">
 
-    <a class="navbar-brand" href="{% url 'home' %}">WSE</a>
+    <a class="navbar-brand" href="{% url 'core:home' %}">WSE</a>
 
     <button
       class="navbar-toggler"
@@ -45,7 +45,7 @@
           <ul class="dropdown-menu" aria-labelledby="navbarProjectMenu">
             {# Home #}
             <li class="nav-item">
-              <a class="dropdown-item" id="home-nav" href="{% url 'home' %}">{% trans 'Home' %}</a>
+              <a class="dropdown-item" id="home-nav" href="{% url 'core:home' %}">{% trans 'Home' %}</a>
             </li>
             <li><hr class="dropdown-divider"></li>
             {# About #}
