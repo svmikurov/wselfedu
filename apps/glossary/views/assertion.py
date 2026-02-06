@@ -19,6 +19,7 @@ class AssertionCreateView(
 
     model = TermAssertion
     form_class = TermAssertionForm
+    template_name = 'glossary/term_assertion_form.html'
     success_url = reverse_lazy('glossary:assertion_create')
 
     def get_form(self, form_class: type | None = None) -> object:
