@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 04:37+0000\n"
+"POT-Creation-Date: 2026-02-06 09:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,6 +61,60 @@ msgstr "Упражнение"
 msgid "Mark"
 msgstr "Маркер"
 
+#: apps/core/templates/core/source/list.html:6
+msgid "core.source.list.title"
+msgstr "Источники | WSE"
+
+#: apps/core/templates/core/source/list.html:12
+msgid "core.source.list.header"
+msgstr "Источники"
+
+#: apps/core/templates/core/source/list.html:16
+#: apps/lang/templates/lang/category/index.html:17
+#: apps/lang/templates/lang/exercise/mentor/index.html:15
+#: apps/lang/templates/lang/exercise/mentor/translation/index.html:15
+#: apps/lang/templates/lang/exercise/settings/index.html:21
+#: apps/lang/templates/lang/exercise/student/index.html:15
+#: apps/lang/templates/lang/exercise/test/index.html:20
+#: apps/lang/templates/lang/index.html:16
+#: apps/lang/templates/lang/mark/index.html:17
+#: apps/lang/templates/lang/rule/detail/index.html:15
+#: apps/lang/templates/lang/rule/index.html:15
+#: apps/lang/templates/lang/rule/list/index.html:15
+#: apps/lang/templates/lang/rule/mentorship/index.html:15
+#: apps/lang/templates/lang/translation/create.html:17
+#: apps/lang/templates/lang/translation/index.html:17
+#: apps/lang/templates/lang/translation/list.html:17
+#: apps/lang/templates/lang/translation/update.html:17
+msgid "button.back"
+msgstr "Назад"
+
+#: apps/core/templates/core/source/list.html:25
+msgid "table.source.name"
+msgstr "Источник"
+
+#: apps/core/templates/core/source/list.html:42
+msgid "table.source.update"
+msgstr "Изменить"
+
+#: apps/core/templates/core/source/list.html:53
+msgid "table.source.delete"
+msgstr "Удалить"
+
+#: apps/core/templates/core/source/list.html:57
+msgid "table.source.delete.confirm"
+msgstr "Удалить?"
+
+#: apps/core/templates/core/source/list.html:75
+#: apps/lang/templates/lang/category/index.html:34
+#: apps/lang/templates/lang/category/index.html:38
+#: apps/lang/templates/lang/mark/index.html:34
+#: apps/lang/templates/lang/mark/index.html:38
+#: apps/lang/templates/lang/rule/detail/_buttons.html:19
+#: apps/lang/templates/lang/rule/list/index.html:31
+msgid "button.create"
+msgstr "Добавить"
+
 #: apps/lang/forms/exercise.py:83
 msgid "Select the exercise"
 msgstr "Выберите упражнение"
@@ -72,6 +126,10 @@ msgstr "Студент"
 #: apps/lang/forms/exercise.py:90
 msgid "Select the student"
 msgstr "Выберите студента"
+
+#: apps/lang/forms/translation.py:48
+msgid "text.max_length"
+msgstr "Максимальная длина вводимого текста"
 
 #: apps/lang/models/category.py:19
 msgid "Categories"
@@ -122,34 +180,6 @@ msgstr "Категории"
 #: apps/lang/templates/lang/category/index.html:13
 msgid "lang.page.category.header"
 msgstr "Категории"
-
-#: apps/lang/templates/lang/category/index.html:17
-#: apps/lang/templates/lang/exercise/mentor/index.html:15
-#: apps/lang/templates/lang/exercise/mentor/translation/index.html:15
-#: apps/lang/templates/lang/exercise/settings/index.html:21
-#: apps/lang/templates/lang/exercise/student/index.html:15
-#: apps/lang/templates/lang/exercise/test/index.html:20
-#: apps/lang/templates/lang/index.html:16
-#: apps/lang/templates/lang/mark/index.html:17
-#: apps/lang/templates/lang/rule/detail/index.html:15
-#: apps/lang/templates/lang/rule/index.html:15
-#: apps/lang/templates/lang/rule/list/index.html:15
-#: apps/lang/templates/lang/rule/mentorship/index.html:15
-#: apps/lang/templates/lang/translation/create.html:17
-#: apps/lang/templates/lang/translation/index.html:17
-#: apps/lang/templates/lang/translation/list.html:17
-#: apps/lang/templates/lang/translation/update.html:17
-msgid "button.back"
-msgstr "Назад"
-
-#: apps/lang/templates/lang/category/index.html:34
-#: apps/lang/templates/lang/category/index.html:38
-#: apps/lang/templates/lang/mark/index.html:34
-#: apps/lang/templates/lang/mark/index.html:38
-#: apps/lang/templates/lang/rule/detail/_buttons.html:19
-#: apps/lang/templates/lang/rule/list/index.html:31
-msgid "button.create"
-msgstr "Добавить"
 
 #: apps/lang/templates/lang/exercise/mentor/assignation/index.html:4
 msgid "lang.english.page.assignations.index.title"
@@ -491,6 +521,10 @@ msgstr "Изучение языков"
 #: templates/home.html:23
 msgid "button.glossary.title"
 msgstr "Изучение терминов"
+
+#: templates/home.html:30
+msgid "button.source.list"
+msgstr "Источники"
 
 #~ msgid "button.rule.add"
 #~ msgstr "Добавить правило"
