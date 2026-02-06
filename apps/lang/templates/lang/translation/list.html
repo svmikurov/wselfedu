@@ -1,4 +1,4 @@
-{# English translation list page#}
+{# English translation list page #}
 {% extends 'base.html' %}
 
 {% load i18n %}
@@ -19,18 +19,21 @@
     </div>
   </div>
 
+  <!--=== Filter ===-->
   <form method="get" class="mb-4">
     <div class="row">
       <div class="col">{{ filter.form.category|as_crispy_field }}</div>
       <div class="col">{{ filter.form.source|as_crispy_field }}</div>
-      <div class="col"><!--TODO: Add marks--></div>
-      <div class="col"><!--TODO: Add progress--></div>
+      <div class="col">{{ filter.form.days|as_crispy_field }}</div>
     </div>
+    <div class="d-flex gap-2"> 
       <button type="submit" class="wse-btn">Фильтровать</button>
       <a href="{{ request.path }}" class="wse-btn">Сбросить</a>
-     </div>
-   </form>
+      <a href="{% url 'lang:english_translation_create' %}" class="wse-btn">{% trans 'button.create' %}</a>
+    </div>
+   </form><!-- End Filter-->
 
+  <!--=== Table ===-->
   <table class="table table-hover">
     <thead>
       <tr>
@@ -67,7 +70,9 @@
       <p>Переводы еще не добавлены.</p>
     {% endfor %}
     </tbody>
-  </table>
-  {% include 'components/pagination.html' %}
+  </table><!-- End table -->
+
+  <!--=== Pagination ===-->
+  {% include 'components/pagination.html' %}<!-- End Pagination -->
 </main>
 {% endblock %}
