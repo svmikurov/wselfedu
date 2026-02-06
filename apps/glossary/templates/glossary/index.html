@@ -1,36 +1,37 @@
+{# Glossary index page #}
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Глоссарий{% endblock %}
+{% block title %}{% trans "glossary.index.title" %}{% endblock title %}
 
 {% block content %}
-<div class="container p-0 ">
-<h1 class="mt-3 mb-5 text-center">Глоссарий</h1>
-
-  <div class="row g-2 mb-2">
-    <div class="col-12 col-md-6">
-      <a href="#" class="btn btn-outline-primary btn-huge">
-        Настройка упражнения
-      </a>
+<main class="container">
+  <div id="header-block" class="row py-3">
+    {# Page header #}
+    <div class="col">
+      <h1>{% trans "glossary.index.header" %}</h1>
     </div>
-    <div class="col-12 col-md-6">
-      <a href="{% url 'glossary:term_study' %}" class="btn btn-outline-primary btn-huge">
-        Изучать термины
-      </a>
-    </div>
-  </div>
-
-  <div class="row g-2 mb-2">
-    <div class="col-12 col-md-6">
-      <a href="{% url 'glossary:term_list' %}" class="btn btn-outline-primary btn-huge">
-        Список терминов
-      </a>
-    </div>
-    <div class="col-12 col-md-6">
-      <a href="{% url 'glossary:term_create' %}" class="btn btn-outline-primary btn-huge">
-        Добавить термин
+    {# Back button #}
+    <div class="col-auto">
+      <a href="javascript:history.back()" class="wse-btn">
+        {% trans 'button.back' %}
       </a>
     </div>
   </div>
 
-</div>
+  <div class="row g-2 mb-2">
+    <div class="col-12 col-md-6">
+      <a href="{% url 'glossary:term_list' %}"
+         class="wse-btn full-width height-huge">
+        {% trans 'button.title.list.term' %}
+      </a>
+    </div>
+    <div class="col-12 col-md-6">
+      <a href="{% url 'glossary:term_create' %}"
+         class="wse-btn full-width height-huge">
+        {% trans 'button.title.create.term' %}
+      </a>
+    </div>
+  </div>
+</main>
 {% endblock %}
