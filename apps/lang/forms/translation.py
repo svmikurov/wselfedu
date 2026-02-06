@@ -9,8 +9,11 @@ from crispy_forms.layout import (  # type: ignore
 )
 from django import forms
 from django.db.models import QuerySet
+from django.urls import reverse
+from django.utils.translation import gettext as _
 
 from .. import models
+from ..models.abstract import AbstractWordModel
 
 
 class BaseEnglishForm(forms.ModelForm):  # type: ignore[type-arg]
@@ -42,12 +45,15 @@ class BaseEnglishForm(forms.ModelForm):  # type: ignore[type-arg]
 class EnglishCreateForm(BaseEnglishForm):
     """Form to create translation of English word."""
 
+    word_help_text = _('text.max_length') + f' {AbstractWordModel.WORD_LENGTH}'
+
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the form."""
         super().__init__(*args, **kwargs)  # type: ignore[arg-type]
         self.fields['native'].label = 'Слово на русском'
+        self.fields['native'].help_text = self.word_help_text
         self.fields['foreign'].label = 'Слово на английском'
-
+        self.fields['foreign'].help_text = self.word_help_text
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Row(
@@ -59,14 +65,20 @@ class EnglishCreateForm(BaseEnglishForm):
                 Column(
                     'category',
                     'source',
-                    HTML("""
-                        <div class="d-flex justify-content-end pt-2">
+                    HTML(
+                        """
+                        <div class="d-flex gap-2 justify-content-end">
+                            <a href="{}"
+                               class="wse-btn">
+                                Список
+                            </a>
                             <button type="submit" name="submit"
                                     class="wse-btn">
                                 Добавить
                             </button>
                         </div>
-                    """),
+                    """.format(reverse('lang:english_translation_list'))
+                    ),
                 ),
             ),
         )
