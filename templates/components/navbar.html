@@ -26,15 +26,15 @@
           <ul class="dropdown-menu">
             {# Mathematics #}
             <li class="nav-item">
-              <a class="dropdown-item" id="math-nav" href="#">{% trans 'Mathematics' %}</a>
+              <a class="dropdown-item" id="math-nav" href="{% url 'math:index' %}">{% trans 'button.math.index' %}</a>
             </li>
             {# Glossary #}
             <li class="nav-item">
-              <a class="dropdown-item" id="glos-nav" href="{% url 'glossary:index' %}">{% trans 'Glossary' %}</a>
+              <a class="dropdown-item" id="glossary-nav" href="{% url 'glossary:index' %}">{% trans 'button.glossary.index' %}</a>
             </li>
             {# Language #}
             <li class="nav-item">
-              <a class="dropdown-item" id="lang-nav" href="{% url 'lang:index' %}">{% trans 'Language learning' %}</a>
+              <a class="dropdown-item" id="lang-nav" href="{% url 'lang:index' %}">{% trans 'button.lang.index' %}</a>
             </li>
           </ul>
         </li><!-- End Disciplines -->
