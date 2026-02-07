@@ -65,7 +65,7 @@ class TranslationTestView(
         """Render translation study test case via partial template."""
         try:
             case = self.use_case.execute(self.user, request.POST.dict())
-        except info.NoTranslationsAvailableException:
+        except info.NoExerciseItemsException:
             template_name = PARTIAL_TEMPLATES[CaseStatus.NO_CASE]
             return HttpResponse(render_to_string(template_name))
 
@@ -99,7 +99,7 @@ class TranslationTestMentorshipView(
         """Render translation study test case via partial template."""
         try:
             case = self.use_case.execute(self.user, request.POST.dict(), pk=pk)
-        except info.NoTranslationsAvailableException:
+        except info.NoExerciseItemsException:
             template_name = PARTIAL_TEMPLATES[CaseStatus.NO_CASE]
             return HttpResponse(render_to_string(template_name))
 

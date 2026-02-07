@@ -1,7 +1,7 @@
 """Custom exceptions."""
 
 __all__ = [
-    'NoTranslationsAvailableException',
+    'NoExerciseItemsException',
 ]
 
-from .info import NoTranslationsAvailableException
+from .info import NoExerciseItemsException

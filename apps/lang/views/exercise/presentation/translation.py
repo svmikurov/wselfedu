@@ -11,7 +11,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views import generic
 
-from apps.core.exceptions.info import NoTranslationsAvailableException
+from apps.core.exceptions.info import NoExerciseItemsException
 from apps.core.views import auth, mixins
 from apps.lang import handlers
 from apps.lang.repositories.abc import StudySettingsRepositoryABC
@@ -104,7 +104,7 @@ class EnglishTranslationStudyCaseView(
         try:
             case = self.use_case.execute(self.user, self.request.POST.dict())
 
-        except NoTranslationsAvailableException:
+        except NoExerciseItemsException:
             return self.handle_no_presentation_case()
 
         return self.render_partial(self.get_context_data(case=case))

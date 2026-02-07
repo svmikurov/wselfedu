@@ -15,7 +15,7 @@ def custom_exception_handler(
         return response
 
     match exc:
-        case info.NoTranslationsAvailableException:
+        case info.NoExerciseItemsException:
             return Response()
         case _:
             return None

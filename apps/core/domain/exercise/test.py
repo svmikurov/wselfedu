@@ -113,9 +113,7 @@ class _BaseTestCreateDomain:
         if len(candidates) >= self._option_count:
             return sample(tuple(candidates), self._option_count)
         else:
-            raise info.NoTranslationsAvailableException(
-                'Not enough translations'
-            )
+            raise info.NoExerciseItemsException('Not enough translations')
 
     def _get_question(self, candidate: Candidate, phases: list[str]) -> str:
         """Get question text by display case phase order."""
