@@ -15,7 +15,7 @@ class TestIndexView(APITestCase):
 
     def setUp(self) -> None:
         """Set up test data."""
-        self.url = reverse('math:math_index-index')
+        self.url = reverse('math_api:math_index-index')
         self.user_data = {
             'username': 'test_user',
             'password': 'test_pass123',

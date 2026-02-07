@@ -15,7 +15,7 @@ class IndexViewSetIntegrationTest(APITestCase):
 
     def setUp(self) -> None:
         """Set up test data."""
-        self.url = reverse('core:core_index-index')
+        self.url = reverse('core_api:core_index-index')
         self.user_data = {
             'username': 'test_user',
             'password': 'test_pass123',
