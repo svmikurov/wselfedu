@@ -1,0 +1,33 @@
+{# Mathematical index page #}
+
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "math.page.index.title" %}{% endblock title %}
+
+{% block content %}
+<main class="container">
+  <div id="header-block" class="row py-3">
+    {# Page header #}
+    <div class="col">
+      <h1>{% trans "math.page.index.header" %}</h1>
+    </div>
+    {# Back button #}
+    <div class="col-auto">
+      <a href="javascript:history.back()" class="wse-btn">
+        {% trans 'button.back' %}
+      </a>
+    </div>
+  </div>
+
+  <div class="row g-2 mb-2">
+    <div class="col-12 col-md-6">
+      <a class="wse fill-width height-huge"
+         href="{% url 'math:exercise_calculation' %}" >
+    </div>
+    <div class="col-12 col-md-6 d-none d-md-block">
+      <span>{# Empty space for alignment #}</span>
+    </div>
+  </div>
+</main>
+{% endblock %}
