@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-06 23:50+0000\n"
+"POT-Creation-Date: 2026-02-07 09:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,6 +93,7 @@ msgstr "Источники"
 #: apps/lang/templates/lang/translation/index.html:17
 #: apps/lang/templates/lang/translation/list.html:17
 #: apps/lang/templates/lang/translation/update.html:17
+#: apps/math/templates/math/exercise/calculation/index.html:18
 #: apps/math/templates/math/index.html:18
 msgid "button.back"
 msgstr "Назад"
@@ -525,6 +526,14 @@ msgstr "Изменить перевод Английского слова | WSE"
 msgid "lang.page.english.translation.update.header"
 msgstr "Изменить перевод Английского слова"
 
+#: apps/math/templates/math/exercise/calculation/index.html:6
+msgid "math.page.calculation.index.title"
+msgstr "Упражнение на вычисления | WSE"
+
+#: apps/math/templates/math/exercise/calculation/index.html:13
+msgid "math.page.calculation.index.header"
+msgstr "Упражнение на вычисления"
+
 #: apps/math/templates/math/index.html:6
 msgid "math.page.index.title"
 msgstr "Математика | WSE"
@@ -532,6 +541,10 @@ msgstr "Математика | WSE"
 #: apps/math/templates/math/index.html:13
 msgid "math.page.index.header"
 msgstr "Математика"
+
+#: apps/math/templates/math/index.html:28
+msgid "button.math.calculation"
+msgstr "Вычисления"
 
 #: templates/components/language_selector.html:13
 msgid "Language"
@@ -541,15 +554,15 @@ msgstr "Язык"
 msgid "Disciplines"
 msgstr "Дисциплины"
 
-#: templates/components/navbar.html:29 templates/home.html:33
+#: templates/components/navbar.html:29 templates/home.html:37
 msgid "button.math.index"
 msgstr "Математика"
 
-#: templates/components/navbar.html:33 templates/home.html:25
+#: templates/components/navbar.html:33 templates/home.html:28
 msgid "button.glossary.index"
 msgstr "Изучение терминов"
 
-#: templates/components/navbar.html:37 templates/home.html:19
+#: templates/components/navbar.html:37 templates/home.html:21
 msgid "button.lang.index"
 msgstr "Изучение языков"
 
@@ -605,7 +618,7 @@ msgstr "Главная - Образовательный проект | WSE"
 msgid "home.page.header"
 msgstr "Образовательный проект"
 
-#: templates/home.html:39
+#: templates/home.html:44
 msgid "button.source.list"
 msgstr "Источники"
 
