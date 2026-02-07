@@ -14,7 +14,8 @@
     </div>
     {# Back button #}
     <div class="col-auto">
-      <a href="javascript:history.back()" class="wse-btn">
+      <a class="wse-btn"
+         href="javascript:history.back()">
         {% trans 'button.back' %}
       </a>
     </div>
@@ -22,8 +23,11 @@
 
   <div class="row g-2 mb-2">
     <div class="col-12 col-md-6">
-      <a class="wse fill-width height-huge"
-         href="{% url 'math:exercise_calculation' %}" >
+      {# Calculation exercises navigate button #}
+      <a class="wse-btn full-width height-huge"
+         href="{% url 'math:math_exercises' %}">
+        {% trans 'button.math.calculation' %}
+      <a>
     </div>
     <div class="col-12 col-md-6 d-none d-md-block">
       <span>{# Empty space for alignment #}</span>
