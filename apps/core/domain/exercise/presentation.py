@@ -5,6 +5,8 @@ from __future__ import annotations
 from random import choice
 from typing import TYPE_CHECKING
 
+from apps.core.exceptions import info
+
 from .abstract import AbstractCreateExerciseDomain
 from .presentation_dto import PresentationCase, PresentationMeta
 from .types import Settings
@@ -24,12 +26,17 @@ __all__ = [
 class PresentationDomain(AbstractCreateExerciseDomain[Settings, Result]):
     """Presentation exercise domain logic."""
 
+    MIN_CANDIDATES_COUNT = 2
+
     def __init__(self, config: ExerciseConfig) -> None:
         """Configure the domain."""
         self._item_count: int = config.item_count
 
     def execute(self, candidates: Candidates, settings: Settings) -> Result:
         """Get presentation exercise case data."""
+        if len(candidates) < self.MIN_CANDIDATES_COUNT:
+            raise info.NoExerciseItemsException
+
         limited_candidates = self._get_limited(candidates)
         candidate = choice(limited_candidates)
 
