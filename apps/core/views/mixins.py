@@ -42,3 +42,16 @@ class GetRepositoryMixin(Generic[T]):
         if self._repository is None:
             raise AttributeError('Repository not initialized')
         return self._repository
+
+
+class GetHandlerMixin(Generic[T]):
+    """Mixin provides request handler."""
+
+    _handler: T | None = None
+
+    @property
+    def handler(self) -> T:
+        """Get request handler."""
+        if self._handler is None:
+            raise AttributeError('Request handler not initialized')
+        return self._handler
