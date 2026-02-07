@@ -14,8 +14,18 @@ urlpatterns = [
         name='index',
     ),
     path(
-        '',
-        calculation.CalculationView.as_view(),
-        name='exercise_calculation',
+        'exercises/',
+        TemplateView.as_view(template_name='math/exercise/index.html'),
+        name='math_exercises',
+    ),
+    path(
+        'exercise/calculation/',
+        calculation.RegularCalculationView.as_view(),
+        name='regular_calculation_exercise',
+    ),
+    path(
+        'exercise/calculation/<int:pk>/',
+        calculation.DetailCalculationView.as_view(),
+        name='detail_calculation_exercise',
     ),
 ]
