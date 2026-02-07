@@ -1,0 +1,35 @@
+{# Calculation exercise page #}
+
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "math.page.calculation.index.title" %}{% endblock title %}
+
+{% block content %}
+<main class="container">
+  <div id="header-block" class="row py-3">
+    {# Page header #}
+    <div class="col">
+      <h1>{% trans "math.page.calculation.index.header" %}</h1>
+    </div>
+    {# Back button #}
+    <div class="col-auto">
+      <a href="javascript:history.back()" class="wse-btn">
+        {% trans 'button.back' %}
+      </a>
+    </div>
+  </div>
+
+  <!--=== Exercise ===-->
+  {# Exercise header #}
+  <div>
+    {{ exercise.name }}
+  </div>
+  {# Exercise question block #}
+  <div id="question-block">
+  </div>
+  {# Exercise answer block #}
+  <div id="answer-block">
+  </div><!-- End Exercise -->
+</main>
+{% endblock %}
