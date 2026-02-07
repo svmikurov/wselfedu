@@ -12,7 +12,7 @@ from typing import (
 log = logging.getLogger(__name__)
 
 type Language = Literal['native', 'foreign']
-type TranslateOrder = Literal['from_native', 'to_native', 'random']
+type TranslateOrder = Literal['define', 'explain', 'random']
 type Progress = Literal['is_study', 'is_repeat', 'is_examine', 'is_know']
 type Option = Literal[
     'category', 'mark', 'word_source', 'start_period', 'end_period'
