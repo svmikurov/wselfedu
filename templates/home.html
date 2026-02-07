@@ -12,7 +12,9 @@
 <div class="container">
   <h1 class="mt-4 mb-5 text-center">{% trans 'home.page.header' %}</h1>
 
+  <!--=== Navigation buttons ===-->
   <div class="row g-2 mb-2">
+    {# Language index page #}
     <div class="col-12 col-md-6">
       <a class="wse-btn full-width height-huge"
          href="{% url 'lang:index' %}">
@@ -20,6 +22,7 @@
       </a>
     </div>
     <div class="col-12 col-md-6">
+    {# Glossary index page #}
       <a class="wse-btn full-width height-huge"
          href="{% url 'glossary:index' %}">
         {% trans 'button.glossary.index' %}
@@ -27,23 +30,25 @@
     </div>
   </div>
   <div class="row g-2 mb-2">
+    {# Mathematical index page #}
     <div class="col-12 col-md-6">
       <a class="wse-btn full-width height-huge"
-          href="{% url 'math:index' %}">
+         href="{% url 'math:index' %}">
         {% trans 'button.math.index' %}
       </a>
     </div>
     <div class="col-12 col-md-6">
+    {# Source list page #}
       <a class="wse-btn full-width height-huge"
          href="{% url 'core:source_list' %}">
         {% trans 'button.source.list' %}
       </a>
     </div>
-  </div>
+  </div><!-- End Navigation buttons -->
 
-  <!--======= Language Selection Form =======-->
+  <!--=== Localization select form ===-->
   <div class="p-5">
     {% include 'components/language_selector.html' %}
-  </div><!-- End Language Selection Form -->
+  </div><!-- End Localization select form -->
 </div>
 {% endblock %}
