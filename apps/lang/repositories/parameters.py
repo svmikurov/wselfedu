@@ -44,7 +44,7 @@ class StudyParametersRepository(StudyParametersRepositoryABC):
         """Get word study options."""
         categories = models.Category.objects.filter(user=user)
         marks = models.Mark.objects.filter(user=user)
-        sources = models_core.Source.objects.filter(user=user)
+        sources = models_core.Source.objects.filter(user=user).order_by('pk')
         periods = models_core.Period.objects.all()
         orders = models.TranslationSetting.TranslateChoices.choices
 
