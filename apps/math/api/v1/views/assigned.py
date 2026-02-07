@@ -18,9 +18,11 @@ from rest_framework.response import Response
 from apps.math.presenters.assigned import AssignedCalculationPresenter
 from apps.study.selectors.iabc import IAssignedSelector
 from apps.users.models import Person
-from di import MainContainer as Container
+from di import MainContainer
 
 from ..serializers import calculation as ser
+
+CONTAINER = MainContainer.math.exercise_views
 
 
 class ExerciseViewSet(viewsets.ViewSet):
@@ -78,10 +80,10 @@ class ExerciseViewSet(viewsets.ViewSet):
         assignation_id: int,
         exercise_slug: str,
         exercise_selector: IAssignedSelector = Provide[
-            Container.study.assigned_exercises_selector
+            CONTAINER.api_assigned_selector  # type: ignore[attr-defined]
         ],
         exercise_presenter: AssignedCalculationPresenter = Provide[
-            Container.math.assigned_calc_presenter
+            CONTAINER.api_award_calculation  # type: ignore[attr-defined]
         ],
     ) -> Response:
         """Render question of assigned exercise."""
@@ -122,7 +124,7 @@ class ExerciseViewSet(viewsets.ViewSet):
         request: Request,
         assignation_id: int,
         exercise_presenter: AssignedCalculationPresenter = Provide[
-            Container.math.assigned_calc_presenter
+            CONTAINER.api_award_calculation  # type: ignore[attr-defined]
         ],
     ) -> Response:
         """Render answer checking result."""

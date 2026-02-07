@@ -6,7 +6,7 @@ from dependency_injector.providers import Container
 from apps.core.di.container import CoreContainer
 from apps.glossary.di_container import GlossaryContainer
 from apps.lang.di.container import LanguageContainer
-from apps.math.di_container import MathAppContainer
+from apps.math.di.container import MathematicalContainer
 from apps.study.di_container import StudyAppContainer
 from apps.users.di_container import UsersContainer
 
@@ -20,10 +20,19 @@ class MainContainer(DeclarativeContainer):
     users: Container[UsersContainer] = Container(
         UsersContainer,
     )
-    math: Container[MathAppContainer] = Container(
-        MathAppContainer,
+    study: Container[StudyAppContainer] = Container(
+        StudyAppContainer,
+    )
+
+    # -------------------------------------------
+    # Discipline containers
+    # -------------------------------------------
+
+    math: Container[MathematicalContainer] = Container(
+        MathematicalContainer,
         task_storage=core.task_storage,
         award_service=users.award_service,
+        study_container=study,
     )
     glossary: Container[GlossaryContainer] = Container(
         GlossaryContainer,
@@ -32,7 +41,4 @@ class MainContainer(DeclarativeContainer):
         LanguageContainer,
         domains=core.domains,
         configuration=core.configuration,
-    )
-    study: Container[StudyAppContainer] = Container(
-        StudyAppContainer,
     )

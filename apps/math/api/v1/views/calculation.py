@@ -12,11 +12,13 @@ from rest_framework.response import Response
 
 from apps.core.api import renderers
 from apps.math.presenters.calculation import CalculationPresenter
-from di import MainContainer as Container
+from di import MainContainer
 
 from ..serializers import calculation as ser
 
 logger = logging.getLogger(__name__)
+
+CONTAINER = MainContainer.math.exercise_views
 
 
 class CalculationViewSet(viewsets.ViewSet):
@@ -25,7 +27,7 @@ class CalculationViewSet(viewsets.ViewSet):
     renderer_classes = [renderers.WrappedJSONRenderer]
 
     exercise_presenter: CalculationPresenter = Provide[
-        Container.math.calc_presenter
+        CONTAINER.api_regular_calculation  # type: ignore[attr-defined]
     ]
 
     @extend_schema(
