@@ -55,7 +55,7 @@ class ProgressService(WordProgressServiceABC):
             ) from exc
 
         try:
-            self._repository.update(user=user, pk=case_meta.pk, delta=delta)  # type: ignore
+            self._repository.update(user=user, pk=case_meta.pk, delta=delta)
         except Exception as exc:
             log.exception('Unexpected error during progress update: %s', exc)
             raise

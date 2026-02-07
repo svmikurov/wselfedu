@@ -21,7 +21,7 @@ from .api.v1.view.study import cases
 def stored_case() -> dto.CaseMeta:
     """Provide Word study case data."""
     return dto.CaseMeta(
-        id=1,
+        pk=1,
     )
 
 

@@ -5,14 +5,16 @@ from __future__ import annotations
 import uuid
 from http import HTTPStatus
 from typing import TYPE_CHECKING, Any
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 import pytest
 from bs4 import BeautifulSoup
 from django.urls import reverse
 
-import di
+from apps.core.domain.exercise.presentation import PresentationDomain
+from apps.core.domain.exercise.presentation_dto import PresentationData
 from apps.lang import handlers, models
+from di import MainContainer
 
 if TYPE_CHECKING:
     from django.http.response import HttpResponse
@@ -47,6 +49,12 @@ DEFAULT_SETTINGS = {
     # TODO: Rename to 'case_url'?
     'url': STUDY_CASE_URL_PATH,
 }
+
+
+@pytest.fixture
+def service() -> PresentationDomain:
+    """Provide web regular translation presentation."""
+    return MainContainer.lang.view_container.exercise.web_regular_presentation  # type: ignore
 
 
 @pytest.fixture
@@ -146,39 +154,36 @@ class TestCaseContext:
             'is_examine': '',
             'is_know': '',
             # Translation settings
-            'display_order': 'random',
+            'display_order': 'define',
             'word_count': '',
         }
 
     @pytest.fixture
-    def case(self, case_uuid: uuid.UUID) -> types.TranslationCase:
+    def case(self, case_uuid: uuid.UUID) -> PresentationData:
         """Provide case."""
-        return {
-            'case_uuid': case_uuid,
-            'question': 'test',
-            'answer': 'test',
-            'info': {
-                'progress': 1,
-            },
-        }
+        return PresentationData(
+            case_uuid=case_uuid,
+            question_text='дом',
+            answer_text='house',
+            progress=1,
+        )
 
-    # DEPRECATED: Remove or fix after refactoring
-    @pytest.mark.skip('Deprecated')
     def test_status_code(
         self,
         auth_client: Client,
-        parameters_db_data: dict[str, Any],
+        word_translation: models.EnglishTranslation,  # Populate DB
+        parameters_db_data: dict[str, Any],  # Populate DB
+        service: PresentationDomain,
         study_settings: types.CaseSettingsWEB,  # Request case settings
         case: types.TranslationCase,
     ) -> None:
         """Study response status code success test."""
-        service = di.container.lang.services.regular_translation_presentation  # type: ignore[attr-defined]
         study_service_mock = Mock(spec=handlers.WebPresentationUseCase)
         study_service_mock.execute.return_value = case
 
         # Act
         # - mock study service
-        with service.override(study_service_mock):
+        with service.override(study_service_mock):  # type: ignore[attr-defined]
             response = auth_client.post(
                 STUDY_CASE_URL_PATH,
                 data=study_settings,
@@ -187,23 +192,24 @@ class TestCaseContext:
         # Assert
         assert response.status_code == HTTPStatus.OK
 
-    # DEPRECATED: Remove or fix after refactoring
-    @pytest.mark.skip('Deprecated')
+    # Exercise has random choice
+    @patch.object(PresentationDomain, 'MIN_CANDIDATES_COUNT', 1)
     def test_template_contains(
         self,
         auth_client: Client,
+        word_translation: models.EnglishTranslation,  # Populate DB
         parameters_db_data: dict[str, Any],  # Populate DB
+        service: PresentationDomain,
         study_settings: types.CaseSettingsWEB,  # Request case settings
-        case: types.TranslationCase,  # Expected case
+        case: PresentationData,  # Expected case
     ) -> None:
         """Test that template contains case data."""
-        service = di.container.lang.exercise_use_cases.presentation.web_regular  # type: ignore[attr-defined]
         mock = Mock(spec=handlers.RegularRequestHandler)
         mock.execute.return_value = case
 
         # Act
         # - mock study service
-        with service.override(mock):
+        with service.override(mock):  # type: ignore[attr-defined]
             response = auth_client.post(
                 STUDY_CASE_URL_PATH,
                 data=study_settings,
@@ -214,8 +220,8 @@ class TestCaseContext:
 
         # - template have correct question
         question_tag = soup.find('div', {'id': 'question'})
-        assert question_tag.text == case['question']  # type: ignore[union-attr]
+        assert question_tag.text == case.question_text  # type: ignore[union-attr]
 
         # - template have correct answer
         answer_tag = soup.find('div', {'id': 'answer'})
-        assert answer_tag.text == case['answer']  # type: ignore[union-attr]
+        assert answer_tag.text == case.answer_text  # type: ignore[union-attr]

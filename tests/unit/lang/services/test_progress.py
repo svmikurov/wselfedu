@@ -2,8 +2,6 @@
 
 from unittest.mock import Mock
 
-import pytest
-
 from apps.core.domain.exercise import ProgressConfigSchema
 from apps.lang import types
 from apps.lang.schemas import dto
@@ -13,8 +11,6 @@ from apps.lang.services.exercise.abc import WordProgressServiceABC
 class TestService:
     """Test Word study progress update service."""
 
-    # DEPRECATED: Delete or update after refactoring complete
-    @pytest.mark.skip('Deprecated')
     def test_update_progress(
         self,
         mock_user: Mock,
@@ -38,6 +34,6 @@ class TestService:
         )
         mock_progress_repo.update.assert_called_once_with(
             user=mock_user,
-            pk=stored_case.id,
+            pk=stored_case.pk,
             delta=progress_config.increment,
         )

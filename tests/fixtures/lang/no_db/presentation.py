@@ -50,7 +50,7 @@ WEB_REQUEST = {
     'is_study': 'false',
     # Translation settings
     'display_order': 'random',
-    'word_count': str(WORD_COUNT),
+    'item_count': str(WORD_COUNT),
 }
 
 

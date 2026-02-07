@@ -48,8 +48,6 @@ class TestUpdateEnglishTranslation:
         assert form['native'].value() == 'привет'
         assert form['foreign'].value() == 'hello'
 
-    # DEPRECATED: Remove or fix after refactoring
-    @pytest.mark.skip('Deprecated')
     def test_post_method_success(
         self,
         user: Person,

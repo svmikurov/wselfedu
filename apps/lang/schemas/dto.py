@@ -19,7 +19,7 @@ class TranslationCase:
 class CaseMeta:
     """Translation case story DTO."""
 
-    id: int
+    pk: int
 
 
 @dataclass(frozen=True)

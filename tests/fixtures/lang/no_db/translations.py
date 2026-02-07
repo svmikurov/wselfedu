@@ -81,9 +81,10 @@ EMPTY_TRANSLATION_PARAMETERS: Final[types.CaseParametersAPI] = {
     'display_order': None,
 }
 
+# HACK: Fix type ignore
 TRANSLATION_ORDERS: Final[list[types.CodeName]] = [
-    {'code': 'from_native', 'name': 'С родного языка'},
-    {'code': 'to_native', 'name': 'На родной язык'},
+    {'code': 'from_native', 'name': 'С родного языка'},  # type: ignore[typeddict-item]
+    {'code': 'to_native', 'name': 'На родной язык'},  # type: ignore[typeddict-item]
     {'code': 'random', 'name': 'Случайный порядок'},
 ]
 

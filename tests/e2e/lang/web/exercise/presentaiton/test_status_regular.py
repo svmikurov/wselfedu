@@ -55,8 +55,6 @@ class TestStudyCaseStatus:
         # Act & Assert
         assert auth_client.post(STUDY_CASE_URL).status_code == HTTPStatus.OK
 
-    # DEPRECATED: Remove or fix after refactoring
-    @pytest.mark.skip('Deprecated')
     def test_no_translation(self, auth_client: Client) -> None:
         """No translation to study test."""
         # Act & Assert
