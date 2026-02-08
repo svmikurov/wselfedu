@@ -17,11 +17,9 @@ from rest_framework.viewsets import ViewSet
 import di
 from apps.core import views as core_views
 from apps.core.api import renderers
-from apps.lang.handlers import ApiPresentationUseCase
+from apps.lang.di.handler.exercise.types import RegularPresentationApiHandler
 from apps.lang.repositories.abc import StudyParametersRepositoryABC
-from apps.lang.services.exercise.abc import (
-    WordProgressServiceABC,
-)
+from apps.lang.services.exercise.abc import WordProgressServiceABC
 
 from .. import examples
 from .. import serializers as ser
@@ -64,7 +62,7 @@ class WordStudyViewSet(
     def presentation(
         self,
         request: Request,
-        service: ApiPresentationUseCase = Provide[
+        service: RegularPresentationApiHandler = Provide[
             CONTAINER.api_regular_presentation
         ],
     ) -> Response:

@@ -10,7 +10,7 @@ including:
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import DependenciesContainer, Factory
 
-from apps.lang.handlers import RegularRequestHandler
+from apps.core.handlers import RegularRequestHandler
 
 
 class TranslationPresentationContainer(DeclarativeContainer):

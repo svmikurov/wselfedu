@@ -3,7 +3,10 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import DependenciesContainer, Factory
 
-from apps.lang.handlers import DetailRequestHandler, RegularRequestHandler
+from apps.core.handlers import (
+    DetailRequestHandler,
+    RegularRequestHandler,
+)
 
 
 class TranslationTestContainer(DeclarativeContainer):

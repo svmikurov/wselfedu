@@ -12,8 +12,8 @@ from django.urls import reverse
 from django.views import generic
 
 from apps.core.exceptions.info import NoExerciseItemsException
+from apps.core.handlers import RegularRequestHandler
 from apps.core.views import auth, mixins
-from apps.lang import handlers
 from apps.lang.repositories.abc import StudySettingsRepositoryABC
 from di import MainContainer
 
@@ -23,7 +23,7 @@ if TYPE_CHECKING:
     from apps.lang import schemas, types
     from apps.lang.schemas import dto
 
-type Presentation = handlers.RegularRequestHandler[
+type Presentation = RegularRequestHandler[
     dict[str, Any],
     schemas.RegularConditionRequest,
     dto.PresentationCase,
