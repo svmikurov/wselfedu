@@ -13,7 +13,8 @@ from django.urls import reverse
 
 from apps.core.domain.exercise.presentation import PresentationDomain
 from apps.core.domain.exercise.presentation_dto import PresentationData
-from apps.lang import handlers, models
+from apps.core.handlers import RegularRequestHandler
+from apps.lang import models
 from di import MainContainer
 
 if TYPE_CHECKING:
@@ -178,7 +179,7 @@ class TestCaseContext:
         case: types.TranslationCase,
     ) -> None:
         """Study response status code success test."""
-        study_service_mock = Mock(spec=handlers.WebPresentationUseCase)
+        study_service_mock = Mock(spec=RegularRequestHandler)
         study_service_mock.execute.return_value = case
 
         # Act
@@ -204,7 +205,7 @@ class TestCaseContext:
         case: PresentationData,  # Expected case
     ) -> None:
         """Test that template contains case data."""
-        mock = Mock(spec=handlers.RegularRequestHandler)
+        mock = Mock(spec=RegularRequestHandler)
         mock.execute.return_value = case
 
         # Act

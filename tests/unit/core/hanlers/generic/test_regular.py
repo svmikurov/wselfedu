@@ -1,4 +1,4 @@
-"""Api get presentation UseCase tests."""
+"""Regular request handler tests."""
 
 from __future__ import annotations
 
@@ -6,18 +6,12 @@ from unittest.mock import Mock
 
 import pytest
 
+from apps.core.handlers import RegularRequestHandler
 from apps.core.handlers.protocols import (
     BusinessService,
     RegularValidator,
     ResponseAdapter,
 )
-from apps.lang.handlers import ApiPresentationUseCase
-
-
-@pytest.fixture
-def mock_service() -> Mock:
-    """Provide business service mock."""
-    return Mock(spec=BusinessService)
 
 
 @pytest.fixture
@@ -27,13 +21,19 @@ def mock_validator() -> Mock:
 
 
 @pytest.fixture
+def mock_service() -> Mock:
+    """Provide business service mock."""
+    return Mock(spec=BusinessService)
+
+
+@pytest.fixture
 def mock_response_adapter() -> Mock:
     """Provide response adapter mock."""
     return Mock(spec=ResponseAdapter)
 
 
-class TestWebUseCase:
-    """Api get presentation UseCase tests."""
+class TestRegularRequestHandler:
+    """Web regular request handler test."""
 
     def test_initialize(
         self,
@@ -41,13 +41,13 @@ class TestWebUseCase:
         mock_service: Mock,
         mock_response_adapter: Mock,
     ) -> None:
-        """Api get presentation UseCase initialization."""
+        """Web get presentation UseCase initialization."""
         # Act
-        use_case = ApiPresentationUseCase(
+        handler = RegularRequestHandler(  # type: ignore[var-annotated]
             validator=mock_validator,
             service=mock_service,
             adapter=mock_response_adapter,
         )
 
         # Assert
-        assert use_case is not None
+        assert handler is not None
