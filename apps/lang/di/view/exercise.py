@@ -13,7 +13,7 @@ class ViewExerciseContainer(DeclarativeContainer):
     """
 
     # Exercise services & repositories
-    services = DependenciesContainer()
+    use_cases = DependenciesContainer()
     repositories = DependenciesContainer()
 
     # Exercises
@@ -46,4 +46,4 @@ class ViewExerciseContainer(DeclarativeContainer):
     # Regular translation study progress
     # ----------------------------------
 
-    regular_translation_progress = services.regular_translation_progress
+    regular_translation_progress = use_cases.regular_translation_progress

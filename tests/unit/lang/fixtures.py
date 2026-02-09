@@ -7,7 +7,7 @@ import pytest
 
 from apps.core.domain.exercise import ProgressConfigSchema
 from apps.core.storage.services import TaskStorage
-from apps.lang import services, types
+from apps.lang import types, use_cases
 from apps.lang.repositories.abc import ProgressRepositoryABC
 from apps.lang.schemas import dto
 
@@ -65,9 +65,9 @@ def progress_service_di_mock(
     mock_progress_repo: Mock,
     mock_task_storage: Mock,
     progress_config: ProgressConfigSchema,
-) -> services.ProgressService:
+) -> use_cases.ProgressService:
     """Test Word study progress update service."""
-    return services.ProgressService(
+    return use_cases.ProgressService(
         repository=mock_progress_repo,
         case_storage=mock_task_storage,
         config=progress_config,

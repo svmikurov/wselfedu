@@ -17,18 +17,18 @@ class TranslationPresentationContainer(DeclarativeContainer):
     """Translation study presentation DI container."""
 
     validators = DependenciesContainer()
-    services = DependenciesContainer()
+    use_cases = DependenciesContainer()
     adapters = DependenciesContainer()
 
     web_regular = Factory(
         RegularRequestHandler,
         validator=validators.web_regular_presentation,
-        service=services.regular_translation_presentation,
+        use_case=use_cases.regular_translation_presentation,
         adapter=adapters.web_presentation,
     )
     api_regular = Factory(
         RegularRequestHandler,
         validator=validators.api_regular_presentation,
-        service=services.regular_translation_presentation,
+        use_case=use_cases.regular_translation_presentation,
         adapter=adapters.api_presentation,
     )

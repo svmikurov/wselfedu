@@ -32,22 +32,22 @@ class DetailValidator(Protocol[T_contra, T_co]):
 
 
 # -----------------------------------------------
-# Service
+# UseCase
 # -----------------------------------------------
 
 
-class SimpleService(Protocol[T_co]):
-    """Protocol for simple business service interface."""
+class SimpleUseCase(Protocol[T_co]):
+    """Protocol for UseCase interface without input data."""
 
     def execute(self, user: Person) -> T_co:
         """Execute business logic."""
 
 
-class BusinessService(Protocol[T_contra, T_co]):
-    """Protocol for business service interface."""
+class UseCase(Protocol[T_contra, T_co]):
+    """Protocol for UseCase interface with input data."""
 
     def execute(
-        self, user: Person, query_parameters: T_contra | None = None
+        self, user: Person, request_data: T_contra | None = None
     ) -> T_co:
         """Execute business logic."""
 

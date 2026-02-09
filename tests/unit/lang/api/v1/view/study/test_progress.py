@@ -11,7 +11,7 @@ from rest_framework.test import APIRequestFactory, force_authenticate
 
 from apps.lang import types
 from apps.lang.api.v1.views.study import WordStudyViewSet
-from apps.lang.services.exercise.abc import WordProgressServiceABC
+from apps.lang.use_cases.exercise.abc import WordProgressServiceABC
 from di import container
 
 from . import cases
@@ -24,8 +24,8 @@ def view() -> Callable[[Request], Response]:
 
 
 @pytest.fixture
-def mock_service() -> Mock:
-    """Mock word study progress service."""
+def mock_use_case() -> Mock:
+    """Mock word study progress use case."""
     return Mock(spec=WordProgressServiceABC)
 
 
@@ -41,7 +41,7 @@ class TestProgress:
     def test_success(
         self,
         mock_user: Mock,
-        mock_service: Mock,
+        mock_use_case: Mock,
         api_request_factory: APIRequestFactory,
         view: Callable[[Request], Response],
         valid_payload: types.ProgressCase,
@@ -50,17 +50,17 @@ class TestProgress:
         # Arrange
         request = api_request_factory.post('', valid_payload)
         force_authenticate(request, mock_user)
-        # HACK: Create service fixture
-        service = container.lang.services.regular_translation_progress  # type: ignore[attr-defined]
+        # HACK: Create use case fixture
+        use_case = container.lang.use_cases.regular_translation_progress  # type: ignore[attr-defined]
 
         # Act
-        with service.override(mock_service):
+        with use_case.override(mock_use_case):
             response = view(request)
 
         # Assert
         assert response.status_code == HTTPStatus.NO_CONTENT
         assert response.data is None
-        mock_service.update_progress.assert_called_once_with(
+        mock_use_case.update_progress.assert_called_once_with(
             mock_user, valid_payload
         )
 
@@ -71,7 +71,7 @@ class TestProgress:
     def test_validation_errors_handling(
         self,
         mock_user: Mock,
-        mock_service: Mock,
+        mock_use_case: Mock,
         api_request_factory: APIRequestFactory,
         view: Callable[[Request], Response],
         invalid_payload: cases.InvalidPayload,
@@ -81,45 +81,45 @@ class TestProgress:
         # Arrange
         request = api_request_factory.post('', invalid_payload)
         force_authenticate(request, mock_user)
-        service = container.lang.services.regular_translation_progress  # type: ignore[attr-defined]
+        use_case = container.lang.use_cases.regular_translation_progress  # type: ignore[attr-defined]
 
         # Act
-        with service.override(mock_service):
+        with use_case.override(mock_use_case):
             response = view(request)
 
         # Assert
         assert response.status_code == HTTPStatus.BAD_REQUEST
         assert response.data == expected_errors
-        mock_service.update_progress.assert_not_called()
+        mock_use_case.update_progress.assert_not_called()
 
     @pytest.mark.parametrize(
         'exception, expected_detail',
         cases.SERVICE_ERROR,
     )
-    def test_service_errors_handling(
+    def test_use_case_errors_handling(
         self,
         mock_user: Mock,
-        mock_service: Mock,
+        mock_use_case: Mock,
         api_request_factory: APIRequestFactory,
         view: Callable[[Request], Response],
         valid_payload: types.ProgressCase,
         exception: cases.ServiceErrors,
         expected_detail: str,
     ) -> None:
-        """Test update progress service exception."""
+        """Test update progress sue case exception."""
         # Arrange
         request = api_request_factory.post('', valid_payload)
         force_authenticate(request, mock_user)
-        mock_service.update_progress.side_effect = exception
-        service = container.lang.services.regular_translation_progress  # type: ignore[attr-defined]
+        mock_use_case.update_progress.side_effect = exception
+        use_case = container.lang.use_cases.regular_translation_progress  # type: ignore[attr-defined]
 
         # Act
-        with service.override(mock_service):
+        with use_case.override(mock_use_case):
             response = view(request)
 
         # Assert
         assert response.status_code == HTTPStatus.BAD_REQUEST
         assert response.data == {'detail': expected_detail}
-        mock_service.update_progress.assert_called_once_with(
+        mock_use_case.update_progress.assert_called_once_with(
             mock_user, valid_payload
         )

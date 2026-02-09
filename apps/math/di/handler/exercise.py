@@ -14,7 +14,7 @@ class ExerciseHandlerContainer(DeclarativeContainer):
     # -------------------------------------------
 
     validators = DependenciesContainer()
-    services = DependenciesContainer()
+    use_cases = DependenciesContainer()
     adapters = DependenciesContainer()
 
     # HACK: Temporary legacy dependencies, implement handlers
@@ -28,13 +28,13 @@ class ExerciseHandlerContainer(DeclarativeContainer):
     web_detail_calculation = Factory(
         handlers.DetailRequestHandler,
         validator=validators.web_calculation,
-        service=services.detail_calculation,
+        use_case=use_cases.detail_calculation,
         adapter=adapters.web_calculation,
     )
     web_regular_calculation = Factory(
         handlers.RegularRequestHandler,
         validator=validators.web_calculation,
-        service=services.regular_calculation,
+        use_case=use_cases.regular_calculation,
         adapter=adapters.web_calculation,
     )
 

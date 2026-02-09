@@ -8,9 +8,9 @@ import pytest
 
 from apps.core.handlers import RegularRequestHandler
 from apps.core.handlers.protocols import (
-    BusinessService,
     RegularValidator,
     ResponseAdapter,
+    UseCase,
 )
 
 
@@ -23,7 +23,7 @@ def mock_validator() -> Mock:
 @pytest.fixture
 def mock_service() -> Mock:
     """Provide business service mock."""
-    return Mock(spec=BusinessService)
+    return Mock(spec=UseCase)
 
 
 @pytest.fixture
@@ -45,7 +45,7 @@ class TestRegularRequestHandler:
         # Act
         handler = RegularRequestHandler(  # type: ignore[var-annotated]
             validator=mock_validator,
-            service=mock_service,
+            use_case=mock_service,
             adapter=mock_response_adapter,
         )
 

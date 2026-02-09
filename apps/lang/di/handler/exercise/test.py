@@ -13,18 +13,18 @@ class TranslationTestContainer(DeclarativeContainer):
     """UseCase DI container."""
 
     validators = DependenciesContainer()
-    services = DependenciesContainer()
+    use_cases = DependenciesContainer()
     adapters = DependenciesContainer()
 
     web_detail = Factory(
         DetailRequestHandler,
         validator=validators.web_detail_test,
-        service=services.detail_test_loop,
+        use_case=use_cases.detail_test_loop,
         adapter=adapters.web_test,
     )
     web_regular = Factory(
         RegularRequestHandler,
         validator=validators.web_regular_test,
-        service=services.regular_test_loop,
+        use_case=use_cases.regular_test_loop,
         adapter=adapters.web_test,
     )

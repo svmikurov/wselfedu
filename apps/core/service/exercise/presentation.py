@@ -16,7 +16,7 @@ if TYPE_CHECKING:
     )
     from apps.core.storage import services as storage
     from apps.lang import repositories
-    from apps.lang.services.exercise.types import (
+    from apps.lang.use_cases.exercise.types import (
         RegularRequest,
     )
     from apps.users.models import Person

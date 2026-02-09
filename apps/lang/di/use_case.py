@@ -15,7 +15,7 @@ from apps.core.service.exercise import (
     RegularTestCreate,
     TestExplain,
 )
-from apps.lang.services import (
+from apps.lang.use_cases import (
     PresentationService,
     ProgressService,
 )

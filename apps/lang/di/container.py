@@ -6,8 +6,8 @@ from dependency_injector.providers import Container, DependenciesContainer
 from .adapter import AdapterContainer
 from .handler.exercise.exercises import ExerciseHandlerContainer
 from .repository import RepositoryContainer
-from .service import ServiceContainer
 from .storage import StorageContainer
+from .use_case import ServiceContainer
 from .validator import ValidatorContainer
 from .view.container import ViewContainer
 
@@ -29,7 +29,7 @@ class LanguageContainer(DeclarativeContainer):
     validators = Container(
         ValidatorContainer,
     )
-    services = Container(
+    use_cases = Container(
         ServiceContainer,
         exercise_config=configuration.exercise,
         progress_config=configuration.progress,
@@ -48,7 +48,7 @@ class LanguageContainer(DeclarativeContainer):
     exercise_handlers = Container(
         ExerciseHandlerContainer,
         validators=validators,
-        services=services,
+        use_cases=use_cases,
         adapters=adapters,
     )
 
@@ -59,7 +59,7 @@ class LanguageContainer(DeclarativeContainer):
     view_container = Container(
         ViewContainer,
         repositories=repositories,
-        services=services,
+        use_cases=use_cases,
         presentation_handlers=exercise_handlers.presentation,
         test_handlers=exercise_handlers.test_exercise,
     )

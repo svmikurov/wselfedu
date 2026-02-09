@@ -10,7 +10,7 @@ class ViewContainer(DeclarativeContainer):
     """Container providing view-injected dependencies."""
 
     # Exercise services & repositories
-    services = DependenciesContainer()
+    use_cases = DependenciesContainer()
     repositories = DependenciesContainer()
 
     # Exercise dependencies
@@ -23,7 +23,7 @@ class ViewContainer(DeclarativeContainer):
 
     exercise = Container(
         ViewExerciseContainer,
-        services=services,
+        use_cases=use_cases,
         repositories=repositories,
         presentation_handlers=presentation_handlers,
         test_handlers=test_handlers,

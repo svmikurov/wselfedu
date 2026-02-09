@@ -11,19 +11,19 @@ class ExerciseHandlerContainer(DeclarativeContainer):
     """Language discipline exercise handler DI container."""
 
     validators = DependenciesContainer()
-    services = DependenciesContainer()
+    use_cases = DependenciesContainer()
     adapters = DependenciesContainer()
 
     presentation = Container(
         TranslationPresentationContainer,
         validators=validators,
-        services=services,
+        use_cases=use_cases,
         adapters=adapters,
     )
 
     test_exercise = Container(
         TranslationTestContainer,
         validators=validators,
-        services=services,
+        use_cases=use_cases,
         adapters=adapters,
     )
