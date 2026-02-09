@@ -1,0 +1,40 @@
+{# Mathematical exercises page #}
+
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "math.page.exercises.title" %}{% endblock title %}
+
+{% block content %}
+<main class="container">
+  <div id="header-block" class="row py-3">
+    {# Page header #}
+    <div class="col">
+      <h1>{% trans "math.page.exercises.header" %}</h1>
+    </div>
+    {# Back button #}
+    <div class="col-auto">
+      <a href="javascript:history.back()" class="wse-btn">
+        {% trans 'button.back' %}
+      </a>
+    </div>
+  </div>
+
+  <div class="row g-2 mb-2">
+    <div class="col-12 col-md-6">
+      {# Regular calculation button #}
+      <a class="wse-btn full-width height-huge"
+         href="{% url 'math:regular_calculation_exercise' %}">
+        {% trans 'button.math.detail.calculation.list' %}
+      </a>
+    </div>
+    <div class="col-12 col-md-6">
+      {# Detail calculation list button #}
+      <a class="wse-btn full-width height-huge"
+         href="#">
+        {% trans 'button.math.assigned.calculation.list' %}
+      </a>
+    </div>
+  </div>
+</main>
+{% endblock %}
