@@ -1,12 +1,12 @@
 """Request handlers."""
 
 __all__ = [
-    'SimpleHandler',
+    'SimpleRequestHandler',
     'DetailRequestHandler',
     'RegularRequestHandler',
 ]
 from .generic import (
     DetailRequestHandler,
     RegularRequestHandler,
-    SimpleHandler,
+    SimpleRequestHandler,
 )

@@ -21,7 +21,7 @@ DomainResult = TypeVar('DomainResult')
 ResponseData = TypeVar('ResponseData')
 
 
-class SimpleHandler(Generic[DomainResult, ResponseData]):
+class SimpleRequestHandler(Generic[DomainResult, ResponseData]):
     """Simple request handler."""
 
     def __init__(
