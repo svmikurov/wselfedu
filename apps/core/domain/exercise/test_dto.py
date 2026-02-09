@@ -112,7 +112,7 @@ class TestExerciseExplanation(ProtectDefaultStatusMixin, BaseDTO):
     """Test exercise case correct answer explanation."""
 
     status: CaseStatus = Field(
-        default=CaseStatus.CASE_EXPLANATION,
+        default=CaseStatus.EXPLAIN,
         description='Exercise status',
     )
 

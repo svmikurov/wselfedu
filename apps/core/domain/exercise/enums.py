@@ -17,7 +17,7 @@ class CaseStatus(BaseEnum):
     ANSWER = 'user_answer'
     CORRECT = 'correct_answer'
     WRONG = 'wrong_answer'
-    CASE_EXPLANATION = 'correct and wrong answer explanation'
+    EXPLAIN = 'correct and wrong answer explanation'
     NO_CASE = 'no available cases'
 
 

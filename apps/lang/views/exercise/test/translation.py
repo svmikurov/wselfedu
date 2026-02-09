@@ -29,10 +29,9 @@ T = TypeVar('T')
 
 CONTAINER = MainContainer.lang.view_container.exercise  # type: ignore
 
-
 PARTIAL_TEMPLATES: dict[CaseStatus, str] = {
     CaseStatus.NEW_CASE: 'lang/exercise/test/_case.html',
-    CaseStatus.CASE_EXPLANATION: 'lang/exercise/test/_explanation.html',
+    CaseStatus.EXPLAIN: 'lang/exercise/test/_explanation.html',
     CaseStatus.NO_CASE: 'lang/exercise/test/_no_cases.html',
 }
 

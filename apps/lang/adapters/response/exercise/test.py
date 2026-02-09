@@ -41,7 +41,7 @@ class WebTestAdapter:
                     options=case.answer_text_options,
                 )
 
-            case CaseStatus.CASE_EXPLANATION:
+            case CaseStatus.EXPLAIN:
                 if not isinstance(case, TestExerciseExplanation):
                     raise ValueError('Unexpected type')
                 data = Explanation(

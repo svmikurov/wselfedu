@@ -37,7 +37,7 @@ class Explanation(BaseModel):
     """Explanation of the test answer option."""
 
     status: CaseStatus = Field(
-        default=CaseStatus.CASE_EXPLANATION,
+        default=CaseStatus.EXPLAIN,
         frozen=True,
     )
     case_question: str
