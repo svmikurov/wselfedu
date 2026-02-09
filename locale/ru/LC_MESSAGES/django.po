@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-07 09:47+0000\n"
+"POT-Creation-Date: 2026-02-09 11:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -94,7 +94,8 @@ msgstr "Источники"
 #: apps/lang/templates/lang/translation/list.html:17
 #: apps/lang/templates/lang/translation/update.html:17
 #: apps/math/templates/math/exercise/calculation/index.html:18
-#: apps/math/templates/math/index.html:18
+#: apps/math/templates/math/exercise/index.html:18
+#: apps/math/templates/math/index.html:19
 msgid "button.back"
 msgstr "Назад"
 
@@ -534,6 +535,22 @@ msgstr "Упражнение на вычисления | WSE"
 msgid "math.page.calculation.index.header"
 msgstr "Упражнение на вычисления"
 
+#: apps/math/templates/math/exercise/index.html:6
+msgid "math.page.exercises.title"
+msgstr "Упражнения по математике | WSE"
+
+#: apps/math/templates/math/exercise/index.html:13
+msgid "math.page.exercises.header"
+msgstr "Упражнения по математике"
+
+#: apps/math/templates/math/exercise/index.html:28
+msgid "button.math.detail.calculation.list"
+msgstr "Упражнения на вычисления"
+
+#: apps/math/templates/math/exercise/index.html:35
+msgid "button.math.assigned.calculation.list"
+msgstr "Назначенные упражнения на вычисления"
+
 #: apps/math/templates/math/index.html:6
 msgid "math.page.index.title"
 msgstr "Математика | WSE"
@@ -542,7 +559,7 @@ msgstr "Математика | WSE"
 msgid "math.page.index.header"
 msgstr "Математика"
 
-#: apps/math/templates/math/index.html:28
+#: apps/math/templates/math/index.html:29
 msgid "button.math.calculation"
 msgstr "Вычисления"
 
