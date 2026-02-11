@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-09 11:22+0000\n"
+"POT-Creation-Date: 2026-02-11 14:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,7 +93,9 @@ msgstr "Источники"
 #: apps/lang/templates/lang/translation/index.html:17
 #: apps/lang/templates/lang/translation/list.html:17
 #: apps/lang/templates/lang/translation/update.html:17
-#: apps/math/templates/math/exercise/calculation/index.html:18
+#: apps/math/templates/math/exercise/calculation/conditions.html:19
+#: apps/math/templates/math/exercise/calculation/performing.html:18
+#: apps/math/templates/math/exercise/calculation/regular.html:18
 #: apps/math/templates/math/exercise/index.html:18
 #: apps/math/templates/math/index.html:19
 msgid "button.back"
@@ -527,21 +529,57 @@ msgstr "Изменить перевод Английского слова | WSE"
 msgid "lang.page.english.translation.update.header"
 msgstr "Изменить перевод Английского слова"
 
-#: apps/math/templates/math/exercise/calculation/index.html:6
-msgid "math.page.calculation.index.title"
-msgstr "Упражнение на вычисления | WSE"
+#: apps/math/forms/calculation.py:30
+msgid "Min operand value"
+msgstr "Минимальное значение операнда"
 
-#: apps/math/templates/math/exercise/calculation/index.html:13
-msgid "math.page.calculation.index.header"
-msgstr "Упражнение на вычисления"
+#: apps/math/forms/calculation.py:33
+msgid "Max operand value"
+msgstr "Максимальное значение операнда"
 
+#: apps/math/forms/calculation.py:37
+msgid "Adding"
+msgstr "Сложение"
+
+#: apps/math/forms/calculation.py:38
+msgid "Submission"
+msgstr "Вычисление"
+
+#: apps/math/forms/calculation.py:39
+msgid "Multiplication"
+msgstr "Умножение"
+
+#: apps/math/forms/calculation.py:40
+msgid "Division"
+msgstr "Деление"
+
+#: apps/math/forms/calculation.py:42
+msgid "Operation type"
+msgstr "Тип вычисления"
+
+#: apps/math/forms/calculation.py:70
+msgid "button.exercise.start"
+msgstr "Начать упражнение"
+
+#: apps/math/templates/math/exercise/calculation/conditions.html:7
 #: apps/math/templates/math/exercise/index.html:6
 msgid "math.page.exercises.title"
 msgstr "Упражнения по математике | WSE"
 
+#: apps/math/templates/math/exercise/calculation/conditions.html:14
 #: apps/math/templates/math/exercise/index.html:13
 msgid "math.page.exercises.header"
 msgstr "Упражнения по математике"
+
+#: apps/math/templates/math/exercise/calculation/performing.html:6
+#: apps/math/templates/math/exercise/calculation/regular.html:6
+msgid "math.page.calculation.index.title"
+msgstr "Упражнение на вычисления | WSE"
+
+#: apps/math/templates/math/exercise/calculation/performing.html:13
+#: apps/math/templates/math/exercise/calculation/regular.html:13
+msgid "math.page.calculation.index.header"
+msgstr "Упражнение на вычисления"
 
 #: apps/math/templates/math/exercise/index.html:28
 msgid "button.math.detail.calculation.list"
@@ -638,6 +676,12 @@ msgstr "Образовательный проект"
 #: templates/home.html:44
 msgid "button.source.list"
 msgstr "Источники"
+
+#~ msgid "math.page.calculation.regular.title"
+#~ msgstr "Упражнения на вычисления | WSE"
+
+#~ msgid "math.page.calculation.regular.header"
+#~ msgstr "Упражнения на вычисления"
 
 #~ msgid "Mathematics"
 #~ msgstr "Математика"
