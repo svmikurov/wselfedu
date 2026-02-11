@@ -21,6 +21,28 @@ DomainResult = TypeVar('DomainResult')
 ResponseData = TypeVar('ResponseData')
 
 
+class RequestParametersHandler(Generic[RequestData, RequestDTO, ResponseData]):
+    """Request parameters handler.
+
+    Validated request parameters and prepares response data.
+    """
+
+    def __init__(
+        self,
+        validator: RegularValidator[RequestData, RequestDTO],
+        adapter: ResponseAdapter[RequestDTO, ResponseData],
+    ) -> None:
+        """Construct the handler."""
+        self._validator = validator
+        self._adapter = adapter
+
+    def execute(self, request_data: RequestData) -> ResponseData:
+        """Handle the request."""
+        validated_data = self._validator.validate(request_data)
+        response_data = self._adapter.to_response(validated_data)
+        return response_data
+
+
 class SimpleRequestHandler(Generic[DomainResult, ResponseData]):
     """Simple request handler."""
 
