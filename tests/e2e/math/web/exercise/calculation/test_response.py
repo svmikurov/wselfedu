@@ -27,8 +27,14 @@ class TestRegularResponseCodeStatus:
     @pytest.mark.django_db
     def test_get_method_response_success(self, auth_client: Client) -> None:
         """Test GET method response code status is OK."""
+        # Arrange
+        params = {
+            'min_operand': '1',
+            'max_operand': '9',
+            'operation_type': 'add',
+        }
         # Act
-        response = auth_client.get(REGULAR_URL_PATH)
+        response = auth_client.get(REGULAR_URL_PATH, params)
         # Assert
         assert response.status_code == HTTPStatus.OK
 
