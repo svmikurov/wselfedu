@@ -46,9 +46,7 @@ class SimpleUseCase(Protocol[T_co]):
 class UseCase(Protocol[T_contra, T_co]):
     """Protocol for UseCase interface with input data."""
 
-    def execute(
-        self, user: Person, request_data: T_contra | None = None
-    ) -> T_co:
+    def execute(self, user: Person, request_data: T_contra) -> T_co:
         """Execute business logic."""
 
 
@@ -67,6 +65,20 @@ class ResponseAdapter(Protocol[T_contra, T_co]):
 # -----------------------------------------------
 # Handler
 # -----------------------------------------------
+
+
+class SimpleRequestHandlerProtocol(Protocol[T_co]):
+    """Protocol for simple request handler."""
+
+    def execute(self, user: Person) -> T_co:
+        """Handle the request."""
+
+
+class RequestHandlerProtocol(Protocol[T_contra, T_co]):
+    """Protocol for request parameters handler."""
+
+    def execute(self, request_data: T_contra) -> T_co:
+        """Handle the request."""
 
 
 class RegularRequestHandlerProtocol(Protocol[T_contra, T_co]):
