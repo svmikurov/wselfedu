@@ -1,4 +1,4 @@
-"""Abstract base classes for exercise."""
+"""Abstract base classes for exercise services."""
 
 from __future__ import annotations
 
@@ -8,15 +8,20 @@ from typing import TYPE_CHECKING, Generic, TypeVar
 if TYPE_CHECKING:
     from apps.users.models import Person
 
+ExerciseRequest = TypeVar('ExerciseRequest')
+ExerciseConditions = TypeVar('ExerciseConditions')
 Case = TypeVar('Case')
 CaseMeta = TypeVar('CaseMeta')
-ExerciseRequest = TypeVar('ExerciseRequest')
 CheckResult = TypeVar('CheckResult')
 Explanation = TypeVar('Explanation')
 
+# -----------------------------------------------
+# Create
+# -----------------------------------------------
+
 
 class AbstractExerciseCreate(ABC, Generic[Case]):
-    """Abstract base class for create the exercise case."""
+    """ABC for service to create the exercise case."""
 
     @abstractmethod
     def execute(self, user: Person) -> Case:
@@ -24,17 +29,30 @@ class AbstractExerciseCreate(ABC, Generic[Case]):
 
 
 class AbstractDetailExerciseCreate(ABC, Generic[Case]):
-    """Abstract base class for create the detail exercise case."""
+    """ABC for service to create the detail exercise case."""
 
     @abstractmethod
     def execute(self, user: Person, exercise_pk: int) -> Case:
         """Create the exercise case."""
 
 
+class AbstractConditionsExerciseCreate(ABC, Generic[ExerciseConditions, Case]):
+    """ABC for service to create exercise by conditions."""
+
+    @abstractmethod
+    def execute(self, conditions: ExerciseConditions) -> Case:
+        """Create exercise case."""
+
+
+# -----------------------------------------------
+# Check
+# -----------------------------------------------
+
+
 class AbstractExerciseCheck(
     ABC, Generic[CaseMeta, ExerciseRequest, CheckResult]
 ):
-    """Abstract base class for check the user answer."""
+    """ABC for service to check the user answer."""
 
     @abstractmethod
     def execute(
@@ -43,8 +61,13 @@ class AbstractExerciseCheck(
         """Check the user answer."""
 
 
+# -----------------------------------------------
+# Milestone
+# -----------------------------------------------
+
+
 class AbstractMilestone(ABC, Generic[CheckResult, CaseMeta]):
-    """Abstract base class for user study milestone update."""
+    """ABC for user study milestone update service."""
 
     @abstractmethod
     def execute(
@@ -53,10 +76,15 @@ class AbstractMilestone(ABC, Generic[CheckResult, CaseMeta]):
         """Update the user study milestone."""
 
 
+# -----------------------------------------------
+# Explain
+# -----------------------------------------------
+
+
 class AbstractExerciseExplain(
     ABC, Generic[CaseMeta, ExerciseRequest, Explanation]
 ):
-    """Abstract base class for explain the exercise case."""
+    """ABC for service to explain the exercise case."""
 
     @abstractmethod
     def execute(
@@ -65,8 +93,13 @@ class AbstractExerciseExplain(
         """Explain the exercise case."""
 
 
+# -----------------------------------------------
+# Exercise loop
+# -----------------------------------------------
+
+
 class AbstractExerciseLoop(ABC, Generic[ExerciseRequest, Case, Explanation]):
-    """Abstract base class for exercise loop."""
+    """ABC for exercise loop service."""
 
     @abstractmethod
     def execute(
