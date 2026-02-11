@@ -6,9 +6,11 @@ from django.db import models
 class ExerciseCondition(models.Model):
     """Mathematical exercise conditions."""
 
+    MAX_NAME_LENGTH = 100
+
     name = models.CharField(
         'Наименование',
-        max_length=100,
+        max_length=MAX_NAME_LENGTH,
     )
     min_operand = models.SmallIntegerField(
         'Минимальное значение операнда',
