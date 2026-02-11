@@ -1,7 +1,4 @@
-"""Temporary Validators package for refactoring.
-
-Delete after refactoring is complete.
-"""
+"""Language discipline request validators."""
 
 __all__ = [
     'ApiPresentationValidator',
