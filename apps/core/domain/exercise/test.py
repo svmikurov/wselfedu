@@ -8,9 +8,9 @@ from typing import TYPE_CHECKING
 from apps.core.exceptions import info
 
 from .abstract import (
+    AbstractCandidatesExerciseDomain,
     AbstractCheckExerciseDomain,
-    AbstractCreateDetailExerciseDomain,
-    AbstractCreateExerciseDomain,
+    AbstractSettingsExerciseDomain,
 )
 from .enums import DisplayOrder
 from .test_dto import (
@@ -126,7 +126,7 @@ class _BaseTestCreateDomain:
 
 class RegularTestCreateDomain(
     _BaseTestCreateDomain,
-    AbstractCreateExerciseDomain[Settings, Result],
+    AbstractSettingsExerciseDomain[Settings, Result],
 ):
     """Regular test exercise domain create case business logic."""
 
@@ -157,7 +157,7 @@ class RegularTestCreateDomain(
 
 class DetailTestCreateDomain(
     _BaseTestCreateDomain,
-    AbstractCreateDetailExerciseDomain[Result],
+    AbstractCandidatesExerciseDomain[Result],
 ):
     """Detail test exercise domain create case business logic."""
 

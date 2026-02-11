@@ -12,7 +12,15 @@ T = TypeVar('T')
 R = TypeVar('R')
 
 
-class AbstractCreateExerciseDomain(ABC, Generic[T, R]):
+class AbstractConditionsExerciseDomain(ABC, Generic[T, R]):
+    """ABC to create exercise by conditions."""
+
+    @abstractmethod
+    def execute(self, conditions: T) -> R:
+        """Create exercise case."""
+
+
+class AbstractSettingsExerciseDomain(ABC, Generic[T, R]):
     """Abstract base class for exercise domain business logic."""
 
     @abstractmethod
@@ -20,7 +28,7 @@ class AbstractCreateExerciseDomain(ABC, Generic[T, R]):
         """Create exercise case."""
 
 
-class AbstractCreateDetailExerciseDomain(ABC, Generic[R]):
+class AbstractCandidatesExerciseDomain(ABC, Generic[R]):
     """Abstract base class for detail exercise domain business logic."""
 
     @abstractmethod

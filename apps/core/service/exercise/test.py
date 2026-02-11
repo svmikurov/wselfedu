@@ -26,9 +26,9 @@ if TYPE_CHECKING:
 
     from apps.core.domain.exercise import TestExerciseCase
     from apps.core.domain.exercise.abstract import (
+        AbstractCandidatesExerciseDomain,
         AbstractCheckExerciseDomain,
-        AbstractCreateDetailExerciseDomain,
-        AbstractCreateExerciseDomain,
+        AbstractSettingsExerciseDomain,
     )
     from apps.core.domain.exercise.types import ExerciseConfig, Settings
     from apps.core.repository.abstract import (
@@ -56,7 +56,7 @@ class RegularTestCreate(AbstractExerciseCreate[TestExerciseData]):
         parameters_repository: AbstractParametersRepository,
         candidates_repository: AbstractConditionsExerciseRepository,
         storage: TaskStorageABC[TestExerciseMeta],
-        domain: AbstractCreateExerciseDomain[Settings, CreateResult],
+        domain: AbstractSettingsExerciseDomain[Settings, CreateResult],
         config: ExerciseConfig,
     ) -> None:
         """Construct the service."""
@@ -90,7 +90,7 @@ class DetailTestCreate(AbstractDetailExerciseCreate[TestExerciseData]):
         self,
         candidates_repository: AbstractConditionsExerciseRepository,
         storage: TaskStorageABC[TestExerciseMeta],
-        domain: AbstractCreateDetailExerciseDomain[CreateResult],
+        domain: AbstractCandidatesExerciseDomain[CreateResult],
         config: ExerciseConfig,
     ) -> None:
         """Construct the service."""

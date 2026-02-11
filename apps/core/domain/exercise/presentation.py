@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 
 from apps.core.exceptions import info
 
-from .abstract import AbstractCreateExerciseDomain
+from .abstract import AbstractSettingsExerciseDomain
 from .presentation_dto import PresentationCase, PresentationMeta
 from .types import Settings
 
@@ -23,7 +23,7 @@ __all__ = [
 ]
 
 
-class PresentationDomain(AbstractCreateExerciseDomain[Settings, Result]):
+class PresentationDomain(AbstractSettingsExerciseDomain[Settings, Result]):
     """Presentation exercise domain logic."""
 
     MIN_CANDIDATES_COUNT = 2
