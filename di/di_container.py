@@ -30,7 +30,7 @@ class MainContainer(DeclarativeContainer):
 
     math: Container[MathematicalContainer] = Container(
         MathematicalContainer,
-        task_storage=core.task_storage,
+        user_data_storage=core.user_data_storage,
     )
     glossary: Container[GlossaryContainer] = Container(
         GlossaryContainer,
