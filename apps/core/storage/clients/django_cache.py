@@ -6,19 +6,19 @@ from typing import TypeVar
 from django.core.cache import cache
 from typing_extensions import override
 
-from .iabc import CacheABC
+from .iabc import CacheABC, KeyCacheABC
 
 T = TypeVar('T')
+
+DEFAULT_TTL: int = 3600
 
 
 class DjangoCache(CacheABC[T]):
     """Django cache client for storing tasks."""
 
-    DEFAULT_TTL: int = 3600
-
     def __init__(self, ttl: int | None = None) -> None:
         """Configure the storage."""
-        self.ttl = ttl or self.DEFAULT_TTL
+        self.ttl = ttl or DEFAULT_TTL
 
     @override
     def set(self, obj: T, ttl: int | None = None) -> uuid.UUID:
@@ -51,3 +51,37 @@ class DjangoCache(CacheABC[T]):
     def delete(cache_kay: uuid.UUID) -> None:
         """Delete an object from the cache."""
         cache.delete(cache_kay)
+
+
+class DjangoKeyCache(KeyCacheABC[T]):
+    """Django cache client for storing with key."""
+
+    def __init__(self, ttl: int | None = None) -> None:
+        """Configure the storage."""
+        self.ttl = ttl or DEFAULT_TTL
+
+    def set(self, obj: T, cache_key: str, ttl: int | None = None) -> None:
+        """Save object to cache."""
+        cache.set(cache_key, obj, ttl or self.ttl)
+
+    @staticmethod
+    def get(cache_key: str) -> T:
+        """Retrieve an object from the cache."""
+        obj: T = cache.get(cache_key)
+        if obj is None:
+            raise KeyError(
+                f'Object with cache_key {cache_key} not found in cache'
+            )
+        return obj
+
+    @classmethod
+    def pop(cls, cache_key: str) -> T:
+        """Remove and return an object from the cache."""
+        obj = cls.get(cache_key)
+        cls.delete(cache_key)
+        return obj
+
+    @staticmethod
+    def delete(cache_key: str) -> None:
+        """Delete an object from the cache."""
+        cache.delete(cache_key)

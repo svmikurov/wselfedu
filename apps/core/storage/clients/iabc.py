@@ -2,7 +2,7 @@
 
 import uuid
 from abc import ABC, abstractmethod
-from typing import Protocol, TypeVar
+from typing import Generic, Protocol, TypeVar
 
 from typing_extensions import override
 
@@ -52,4 +52,27 @@ class CacheABC(StorageClient[T], ABC):
     @abstractmethod
     @override
     def delete(cache_kay: uuid.UUID) -> None:
+        """Delete an object from the cache."""
+
+
+class KeyCacheABC(ABC, Generic[T]):
+    """Abstract base class for storing in cache."""
+
+    @abstractmethod
+    def set(self, obj: T, cache_key: str, ttl: int | None) -> None:
+        """Save object to cache."""
+
+    @staticmethod
+    @abstractmethod
+    def get(cache_key: str) -> T:
+        """Retrieve an object from the cache."""
+
+    @classmethod
+    @abstractmethod
+    def pop(cls, cache_key: str) -> T:
+        """Remove and return an object from the cache."""
+
+    @staticmethod
+    @abstractmethod
+    def delete(cache_key: str) -> None:
         """Delete an object from the cache."""

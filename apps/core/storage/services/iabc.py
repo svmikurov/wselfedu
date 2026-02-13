@@ -2,7 +2,7 @@
 
 import uuid
 from abc import ABC, abstractmethod
-from typing import Protocol, TypeVar
+from typing import Generic, Protocol, TypeVar
 
 from typing_extensions import override
 
@@ -31,3 +31,22 @@ class TaskStorageABC(TaskStorageProto[T], ABC):
     @override
     def retrieve_task(self, uid: uuid.UUID) -> T:
         """Retrieve task."""
+
+
+class AbstractUserStorage(ABC, Generic[T]):
+    """ABC for user's data store."""
+
+    @abstractmethod
+    def save(
+        self,
+        obj: T,
+        user_id: int,
+        prefix: str,
+        ttl: int | None = None,
+        **kwargs: object,
+    ) -> None:
+        """Save user's data."""
+
+    @abstractmethod
+    def retrieve(self, user_id: int, prefix: str, **kwargs: object) -> T:
+        """Retrieve user's data."""
