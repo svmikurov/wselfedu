@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from apps.core.domain.exercise import (
-    CaseStatus,
+    ExerciseStatusEnum,
     TestExerciseData,
     TestExerciseExplanation,
 )
@@ -32,7 +32,7 @@ class WebTestAdapter:
     ) -> TestResponseData:
         """Convert domain result to web representation context."""
         match case.status:
-            case CaseStatus.NEW_CASE:
+            case ExerciseStatusEnum.NEW_CASE:
                 if not isinstance(case, TestExerciseData):
                     raise ValueError('Unexpected case type')
                 data = TestCase(
@@ -41,7 +41,7 @@ class WebTestAdapter:
                     options=case.answer_text_options,
                 )
 
-            case CaseStatus.EXPLAIN:
+            case ExerciseStatusEnum.EXPLAIN:
                 if not isinstance(case, TestExerciseExplanation):
                     raise ValueError('Unexpected type')
                 data = Explanation(

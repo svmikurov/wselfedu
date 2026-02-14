@@ -9,7 +9,7 @@ from django.http.response import HttpResponse
 from django.template.loader import render_to_string
 from django.views import generic
 
-from apps.core.domain.exercise import CaseStatus
+from apps.core.domain.exercise import ExerciseStatusEnum
 from apps.core.exceptions import info
 from apps.core.handlers.types import WebAssignedTest, WebTest
 from apps.core.views import auth, mixins
@@ -29,10 +29,10 @@ T = TypeVar('T')
 
 CONTAINER = MainContainer.lang.view_container.exercise  # type: ignore
 
-PARTIAL_TEMPLATES: dict[CaseStatus, str] = {
-    CaseStatus.NEW_CASE: 'lang/exercise/test/_case.html',
-    CaseStatus.EXPLAIN: 'lang/exercise/test/_explanation.html',
-    CaseStatus.NO_CASE: 'lang/exercise/test/_no_cases.html',
+PARTIAL_TEMPLATES: dict[ExerciseStatusEnum, str] = {
+    ExerciseStatusEnum.NEW_CASE: 'lang/exercise/test/_case.html',
+    ExerciseStatusEnum.EXPLAIN: 'lang/exercise/test/_explanation.html',
+    ExerciseStatusEnum.NO_CASE: 'lang/exercise/test/_no_cases.html',
 }
 
 # REVIEW: Current implementation have duplicated dispatch method
@@ -65,7 +65,7 @@ class TranslationTestView(
         try:
             case = self.use_case.execute(self.user, request.POST.dict())
         except info.NoExerciseItemsException:
-            template_name = PARTIAL_TEMPLATES[CaseStatus.NO_CASE]
+            template_name = PARTIAL_TEMPLATES[ExerciseStatusEnum.NO_CASE]
             return HttpResponse(render_to_string(template_name))
 
         template_name = PARTIAL_TEMPLATES[case.status]
@@ -99,7 +99,7 @@ class TranslationTestMentorshipView(
         try:
             case = self.use_case.execute(self.user, request.POST.dict(), pk=pk)
         except info.NoExerciseItemsException:
-            template_name = PARTIAL_TEMPLATES[CaseStatus.NO_CASE]
+            template_name = PARTIAL_TEMPLATES[ExerciseStatusEnum.NO_CASE]
             return HttpResponse(render_to_string(template_name))
 
         template_name = PARTIAL_TEMPLATES[case.status]

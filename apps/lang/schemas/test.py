@@ -4,7 +4,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from apps.core.domain.exercise import CaseStatus
+from apps.core.domain.exercise import ExerciseStatusEnum
 from apps.core.domain.exercise.test_dto import Option, OptionMeta
 
 from ..models import EnglishTranslation
@@ -24,8 +24,8 @@ class Translation(BaseModel):
 class TestCase(BaseModel):
     """Item study test case."""
 
-    status: CaseStatus = Field(
-        default=CaseStatus.NEW_CASE,
+    status: ExerciseStatusEnum = Field(
+        default=ExerciseStatusEnum.NEW_CASE,
         frozen=True,
     )
     case_uuid: str
@@ -36,8 +36,8 @@ class TestCase(BaseModel):
 class Explanation(BaseModel):
     """Explanation of the test answer option."""
 
-    status: CaseStatus = Field(
-        default=CaseStatus.EXPLAIN,
+    status: ExerciseStatusEnum = Field(
+        default=ExerciseStatusEnum.EXPLAIN,
         frozen=True,
     )
     case_question: str
@@ -54,7 +54,9 @@ class Explanation(BaseModel):
 class TestRequestDTO(BaseModel):
     """Translation study test exercise the request schema."""
 
-    status: CaseStatus = Field(default=CaseStatus.NEW_CASE)
+    exercise_status: ExerciseStatusEnum = Field(
+        default=ExerciseStatusEnum.NEW_CASE
+    )
     case_uuid: UUID | None = None
     option_value: int | None = None
 
@@ -79,5 +81,5 @@ class StoryDomainResult(BaseModel):
 class TestResponseData(BaseModel):
     """Translation study test exercise the response schema."""
 
-    status: CaseStatus
+    status: ExerciseStatusEnum
     data: TestCase | Explanation

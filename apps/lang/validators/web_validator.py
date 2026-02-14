@@ -31,6 +31,7 @@ class WebTestValidator(RegularValidator[RequestData, schemas.TestRequestDTO]):
     @classmethod
     def validate(cls, raw_data: RequestData) -> schemas.TestRequestDTO:
         """Validate the web request data."""
+        print(f'{raw_data = }')
         return schemas.TestRequestDTO(**raw_data)
 
 

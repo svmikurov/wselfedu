@@ -21,7 +21,7 @@
                 style="justify-content: start; min-height: 5rem;"
                 data-testid="answer-btn-{{ option.value }}"
                 hx-post=""
-                hx-vals='{"status": "user_answer", "case_uuid": "{{ case_uuid }}", "option_value": "{{ option.value }}"}'
+                hx-vals='{"exercise_status": "user_answer", "case_uuid": "{{ case_uuid }}", "option_value": "{{ option.value }}"}'
                 hx-target="#test-block">
           {{ option.text }}
         </button><br>
