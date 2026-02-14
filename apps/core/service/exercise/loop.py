@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from apps.core.domain.exercise import CaseStatus
+from apps.core.domain.exercise import ExerciseStatusEnum
 from apps.core.domain.exercise.types import (
     ExerciseCase,
     ExerciseRequest,
@@ -42,28 +42,29 @@ class RegularExerciseLoop(
         self._milestone_service = milestone_service
 
     def execute(
-        self, user: Person, data: ExerciseRequest
+        self, user: Person, schema: ExerciseRequest
     ) -> ExerciseCase | Explanation:
         """Execute exercise loop."""
-        match data.status:
-            case CaseStatus.NEW_CASE:
+        print(f'{schema = }')
+        match schema.exercise_status:
+            case ExerciseStatusEnum.NEW_CASE:
                 return self._create_service.execute(user)
 
             # REVIEW: Creates services below on crate new case event
-            case CaseStatus.ANSWER:
-                case_meta = self._storage.retrieve_task(data.case_uuid)
-                result = self._check_service.execute(case_meta, data)
+            case ExerciseStatusEnum.ANSWER:
+                case_meta = self._storage.retrieve_task(schema.case_uuid)
+                result = self._check_service.execute(schema, case_meta)
 
                 if self._milestone_service:
                     self._milestone_service.execute(user, result, case_meta)
 
                 if result.is_correct:
                     return self._create_service.execute(user)
-                return self._explain_service.execute(case_meta, data)
+                return self._explain_service.execute(schema, case_meta)
 
             case _:
                 raise ValueError(
-                    f'Got unexpected exercise status: {data.status}'
+                    f'Got unexpected exercise status: {schema.exercise_status}'
                 )
 
 
@@ -88,26 +89,26 @@ class DetailExerciseLoop(
         self._milestone_service = milestone_service
 
     def execute(
-        self, user: Person, data: ExerciseRequest
+        self, user: Person, schema: ExerciseRequest
     ) -> ExerciseCase | Explanation:
         """Execute exercise loop."""
-        match data.status:
-            case CaseStatus.NEW_CASE:
-                return self._create_service.execute(user, data.pk)
+        match schema.exercise_status:
+            case ExerciseStatusEnum.NEW_CASE:
+                return self._create_service.execute(user, schema.pk)
 
             # REVIEW: Creates services below on crate new case event
-            case CaseStatus.ANSWER:
-                case_meta = self._storage.retrieve_task(data.case_uuid)
-                result = self._check_service.execute(case_meta, data)
+            case ExerciseStatusEnum.ANSWER:
+                case_meta = self._storage.retrieve_task(schema.case_uuid)
+                result = self._check_service.execute(schema, case_meta)
 
                 if self._milestone_service:
                     self._milestone_service.execute(user, result, case_meta)
 
                 if result.is_correct:
-                    return self._create_service.execute(user, data.pk)
-                return self._explain_service.execute(case_meta, data)
+                    return self._create_service.execute(user, schema.pk)
+                return self._explain_service.execute(schema, case_meta)
 
             case _:
                 raise ValueError(
-                    f'Got unexpected exercise status: {data.status}'
+                    f'Got unexpected exercise status: {schema.exercise_status}'
                 )

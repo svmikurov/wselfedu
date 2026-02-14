@@ -117,7 +117,7 @@ class DetailTestCreate(AbstractDetailExerciseCreate[TestExerciseData]):
 
 
 class RegularTestCheck(
-    AbstractExerciseCheck[TestExerciseMeta, TestCheckRequest, CheckResult]
+    AbstractExerciseCheck[TestCheckRequest, TestExerciseMeta, CheckResult]
 ):
     """Check user's answer."""
 
@@ -129,37 +129,38 @@ class RegularTestCheck(
         self._domain = domain
 
     def execute(
-        self, case_meta: TestExerciseMeta, data: TestCheckRequest
+        self, answer: TestCheckRequest, case_meta: TestExerciseMeta
     ) -> CheckResult:
         """Check user' answer."""
-        return self._domain.execute(case_meta, data)
+        return self._domain.execute(answer, case_meta)
 
 
 class TestExplain(
     AbstractExerciseExplain[
-        TestExerciseMeta, TestCheckRequest, TestExerciseExplanation
+        TestCheckRequest, TestExerciseMeta, TestExerciseExplanation
     ]
 ):
     """Explain test exercise case."""
 
     def execute(
-        self, case_meta: TestExerciseMeta, data: TestCheckRequest
+        self, answer: TestCheckRequest, case_meta: TestExerciseMeta
     ) -> TestExerciseExplanation:
         """Explain the exercise case."""
         # EXPERIMENTAL: Possibly adding explanations
-        return self._prepare_dto(case_meta, data)
+        return self._prepare_dto(answer, case_meta)
 
     @staticmethod
     def _prepare_dto(
-        case_meta: TestExerciseMeta, data: TestCheckRequest
+        answer: TestCheckRequest,
+        case_meta: TestExerciseMeta,
     ) -> TestExerciseExplanation:
         return TestExerciseExplanation(
             question_text=case_meta.question_text,
             answer_text=case_meta.answer_text,
             selected_answer_text=case_meta.get_question_text(
-                data.option_value
+                answer.option_value
             ),
             selected_question_text=case_meta.get_answer_text(
-                data.option_value
+                answer.option_value
             ),
         )

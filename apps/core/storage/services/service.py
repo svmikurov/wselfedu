@@ -19,11 +19,9 @@ def generate_cache_key(prefix: str, user_id: int, **kwargs: object) -> str:
     """Generate a secure key with parameter hashing."""
     sorted_items = sorted(kwargs.items())
     param_string = ':'.join([f'{k}:{v}' for k, v in sorted_items])
-    param_hash = (
-        hashlib.md5(
-            param_string.encode()
-        ).hexdigest()[:HASH_SYMBOL_COUNT]
-    )
+    param_hash = hashlib.md5(param_string.encode()).hexdigest()[
+        :HASH_SYMBOL_COUNT
+    ]
     return f'{prefix}:{user_id}:{param_hash}'
 
 

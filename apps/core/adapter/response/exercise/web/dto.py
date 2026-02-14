@@ -1,17 +1,18 @@
 """Exercise web response DTOs."""
 
+from pydantic import BaseModel, Field
+
 from apps.core.domain.base_dto import BaseDTO
-from pydantic import Field
-from apps.core.domain.exercise.enums import CaseStatus
+from apps.core.domain.exercise.enums import ExerciseStatusEnum
 
 
-class CaseWebResponse(BaseDTO):
+class WebCase(BaseDTO):
     """Exercise case web response adapter DTO."""
 
-    exercise_status: CaseStatus = Field(
+    exercise_status: ExerciseStatusEnum = Field(
         description='Current exercise case status',
     )
-    exercise_case: BaseDTO = Field(
+    data: BaseModel = Field(
         description='Current exercise case data',
     )
     context: dict[str, str] = Field(

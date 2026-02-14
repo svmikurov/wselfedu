@@ -67,13 +67,6 @@ class ResponseAdapter(Protocol[T_contra, T_co]):
 # -----------------------------------------------
 
 
-class SimpleRequestHandlerProtocol(Protocol[T_co]):
-    """Protocol for simple request handler."""
-
-    def execute(self, user: Person) -> T_co:
-        """Handle the request."""
-
-
 class RequestHandlerProtocol(Protocol[T_contra, T_co]):
     """Protocol for request parameters handler."""
 

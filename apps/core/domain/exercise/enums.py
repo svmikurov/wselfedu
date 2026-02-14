@@ -10,7 +10,7 @@ DEFINITION_INDEX = 0
 EXPLANATION_INDEX = 1
 
 
-class CaseStatus(BaseEnum):
+class ExerciseStatusEnum(BaseEnum):
     """Translation test status enumeration."""
 
     NEW_CASE = 'new_case'
@@ -18,7 +18,7 @@ class CaseStatus(BaseEnum):
     CORRECT = 'correct_answer'
     WRONG = 'wrong_answer'
     EXPLAIN = 'correct and wrong answer explanation'
-    NO_CASE = 'no available cases'
+    NO_CASE = 'no_available_cases'
 
 
 class DisplayOrder(BaseEnum):

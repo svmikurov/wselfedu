@@ -3,7 +3,7 @@
 from pydantic import Field
 
 from ..base_dto import BaseDTO, ProtectDefaultStatusMixin
-from . import CaseStatus, UUIDMixin
+from . import ExerciseStatusEnum, UuidDTO
 
 # -----------------------------------
 # Presentation exercise domain result
@@ -13,8 +13,8 @@ from . import CaseStatus, UUIDMixin
 class PresentationCase(ProtectDefaultStatusMixin, BaseDTO):
     """Presentation exercise case."""
 
-    status: CaseStatus = Field(
-        default=CaseStatus.NEW_CASE,
+    status: ExerciseStatusEnum = Field(
+        default=ExerciseStatusEnum.NEW_CASE,
         description='Exercise status',
     )
 
@@ -36,5 +36,5 @@ class PresentationMeta(BaseDTO):
     pk: int = Field(description='Database presentation item ID')
 
 
-class PresentationData(UUIDMixin, PresentationCase):
+class PresentationData(UuidDTO, PresentationCase):
     """Presentation case for rendering to the user."""

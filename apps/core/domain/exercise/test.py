@@ -170,16 +170,24 @@ class TestCheckDomain(AbstractCheckExerciseDomain[TestExerciseMeta]):
     """Test exercise check user's answer domain business logic."""
 
     def execute(
-        self, case_meta: TestExerciseMeta, data: TestCheckRequest
+        self,
+        answer: TestCheckRequest,
+        case_meta: TestExerciseMeta,
     ) -> CheckResult:
         """Check user's answer."""
-        is_correct = case_meta.option_value == data.option_value
+        print('****************************************')
+        print(f'{answer = }')
+        print(f'{case_meta = }')
+        print('****************************************')
+        is_correct = case_meta.option_value == answer.option_value
         return TestExerciseResult(
             is_correct=is_correct,
             question_text=case_meta.question_text,
             answer_text=case_meta.answer_text,
             selected_question_text=case_meta.get_question_text(
-                data.option_value
+                answer.option_value
             ),
-            selected_answer_text=case_meta.get_answer_text(data.option_value),
+            selected_answer_text=case_meta.get_answer_text(
+                answer.option_value
+            ),
         )

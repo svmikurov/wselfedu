@@ -3,8 +3,8 @@
 from typing import Generic, TypeVar
 
 T = TypeVar('T')
-StartHandler = TypeVar('StartHandler')
-LoopHandler = TypeVar('LoopHandler')
+CreateHandler = TypeVar('CreateHandler')
+CheckHandler = TypeVar('CheckHandler')
 
 
 class GetUseCaseMixin(Generic[T]):
@@ -59,26 +59,26 @@ class GetHandlerMixin(Generic[T]):
         return self._handler
 
 
-class GetExerciseHandlersMixin(Generic[StartHandler, LoopHandler]):
+class GetExerciseHandlersMixin(Generic[CreateHandler, CheckHandler]):
     """Mixin provides exercise start and loop handlers."""
 
-    _start_handler: StartHandler | None
-    _loop_handler: LoopHandler | None
+    _create_handler: CreateHandler | None
+    _check_handler: CheckHandler | None
 
     @property
-    def start_handler(self) -> StartHandler:
+    def start_handler(self) -> CreateHandler:
         """Get start exercise request handler."""
-        if self._start_handler is None:
+        if self._create_handler is None:
             raise AttributeError(
                 'Start exercise request handler not initialized'
             )
-        return self._start_handler
+        return self._create_handler
 
     @property
-    def loop_handler(self) -> LoopHandler:
+    def check_handler(self) -> CheckHandler:
         """Get exercise loop request handler."""
-        if self._loop_handler is None:
+        if self._check_handler is None:
             raise AttributeError(
                 'Exercise loop request handler not initialized'
             )
-        return self._loop_handler
+        return self._check_handler

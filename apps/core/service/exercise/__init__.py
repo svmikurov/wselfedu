@@ -10,7 +10,10 @@ __all__ = [
     'DetailExerciseLoop',
 ]
 
-from .loop import DetailExerciseLoop, RegularExerciseLoop
+from .loop import (
+    DetailExerciseLoop,
+    RegularExerciseLoop,
+)
 from .test import (
     DetailTestCreate,
     RegularTestCheck,

@@ -6,7 +6,7 @@ from pydantic import Field
 
 from apps.core.domain.base_dto import BaseDTO, ProtectDefaultStatusMixin
 
-from . import CaseStatus, UUIDMixin
+from . import ExerciseStatusEnum, UuidDTO
 
 # ---------------------
 # Test exercise options
@@ -37,8 +37,8 @@ class OptionMeta(BaseDTO):
 class TestExerciseCase(ProtectDefaultStatusMixin, BaseDTO):
     """Test exercise case."""
 
-    status: CaseStatus = Field(
-        default=CaseStatus.NEW_CASE,
+    status: ExerciseStatusEnum = Field(
+        default=ExerciseStatusEnum.NEW_CASE,
         description='Exercise status',
     )
 
@@ -76,7 +76,7 @@ class TestExerciseMeta(ProtectDefaultStatusMixin, BaseDTO):
         return self.options[value].explain
 
 
-class TestExerciseData(UUIDMixin, TestExerciseCase):
+class TestExerciseData(UuidDTO, TestExerciseCase):
     """Test exercise case for rendering to the user."""
 
 
@@ -111,8 +111,8 @@ class TestExerciseResult(BaseDTO):
 class TestExerciseExplanation(ProtectDefaultStatusMixin, BaseDTO):
     """Test exercise case correct answer explanation."""
 
-    status: CaseStatus = Field(
-        default=CaseStatus.EXPLAIN,
+    status: ExerciseStatusEnum = Field(
+        default=ExerciseStatusEnum.EXPLAIN,
         description='Exercise status',
     )
 

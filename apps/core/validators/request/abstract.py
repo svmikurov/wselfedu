@@ -3,13 +3,13 @@
 from abc import ABC, abstractmethod
 from typing import Any, Generic, TypeVar
 
-T_co = TypeVar('T_co', covariant=True)
+Validated = TypeVar('Validated')
 
 
-class AbstractRegularValidator(Generic[T_co], ABC):
+class AbstractRegularValidator(ABC, Generic[Validated]):
     """ABC for regular request validator."""
 
     @classmethod
     @abstractmethod
-    def validate(cls, raw_data: dict[str, Any]) -> T_co:
+    def validate(cls, raw_data: dict[str, Any]) -> Validated:
         """Validate request data."""

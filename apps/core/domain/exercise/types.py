@@ -5,13 +5,19 @@ from __future__ import annotations
 from typing import Iterator, Protocol, Self, overload
 from uuid import UUID
 
-from apps.core.domain.exercise import CaseStatus
+from apps.core.domain.exercise import ExerciseStatusEnum
 
 from . import DisplayOrder
 
 # ------------------------------------
 # Exercise configuration DTO interface
 # ------------------------------------
+
+
+class ExerciseStatus(Protocol):
+    """Protocol for exercise case status."""
+
+    exercise_status: ExerciseStatusEnum
 
 
 class Conditions(Protocol):
@@ -46,10 +52,9 @@ class ExerciseConfig(Protocol):
 # -----------------------------------
 
 
-class ExerciseRequest(Protocol):
+class ExerciseRequest(ExerciseStatus):
     """Interface for exercise case request."""
 
-    status: CaseStatus
     case_uuid: UUID
     pk: int
 
@@ -109,10 +114,9 @@ class StoredCase(Protocol):
 # ----------------------------
 
 
-class TestCheckRequest(Protocol):
+class TestCheckRequest(ExerciseStatus):
     """Interface for user's answer on test exercise check request."""
 
-    status: CaseStatus
     case_uuid: UUID
     option_value: int
 

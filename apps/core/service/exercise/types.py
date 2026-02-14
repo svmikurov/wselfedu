@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from apps.core.domain.exercise.types import (
@@ -20,15 +20,18 @@ if TYPE_CHECKING:
         AbstractExerciseCreate,
         AbstractExerciseExplain,
         AbstractMilestone,
+        AbstractUuidExerciseCreate,
     )
 
     type StorageService = TaskStorageABC[ExerciseCaseMeta]
     type CheckService = AbstractExerciseCheck[
-        ExerciseCaseMeta, ExerciseRequest, CheckResult
+        ExerciseRequest, ExerciseCaseMeta, CheckResult
     ]
     type CreateService = AbstractExerciseCreate[ExerciseCase]
     type CreateDetailService = AbstractDetailExerciseCreate[ExerciseCase]
+    # HACK: Fix Any
+    type CreateConditionService = AbstractUuidExerciseCreate[Any, ExerciseCase]
     type ExplainService = AbstractExerciseExplain[
-        ExerciseCaseMeta, ExerciseRequest, Explanation
+        ExerciseRequest, ExerciseCaseMeta, Explanation
     ]
     type MilestoneService = AbstractMilestone[CheckResult, ExerciseCaseMeta]

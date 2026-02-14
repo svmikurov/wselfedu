@@ -8,8 +8,10 @@ from typing import TYPE_CHECKING, Generic, TypeVar
 if TYPE_CHECKING:
     from apps.users.models import Person
 
-ExerciseRequest = TypeVar('ExerciseRequest')
-ExerciseConditions = TypeVar('ExerciseConditions')
+UserAnswer = TypeVar('UserAnswer')
+Conditions = TypeVar('Conditions')
+
+UuidSchema = TypeVar('UuidSchema')
 Case = TypeVar('Case')
 CaseMeta = TypeVar('CaseMeta')
 CheckResult = TypeVar('CheckResult')
@@ -36,11 +38,19 @@ class AbstractDetailExerciseCreate(ABC, Generic[Case]):
         """Create the exercise case."""
 
 
-class AbstractConditionsExerciseCreate(ABC, Generic[ExerciseConditions, Case]):
-    """ABC for service to create exercise by conditions."""
+class AbstractUuidExerciseCreate(ABC, Generic[UuidSchema, Case]):
+    """ABC for service to create exercise by stored UUID."""
 
     @abstractmethod
-    def execute(self, conditions: ExerciseConditions) -> Case:
+    def execute(self, data: UuidSchema) -> Case:
+        """Create exercise case."""
+
+
+class AbstractRegularExerciseCreate(ABC, Generic[Conditions, Case]):
+    """ABC for service to create exercise by stored UUID."""
+
+    @abstractmethod
+    def execute(self, conditions: Conditions) -> Case:
         """Create exercise case."""
 
 
@@ -49,15 +59,11 @@ class AbstractConditionsExerciseCreate(ABC, Generic[ExerciseConditions, Case]):
 # -----------------------------------------------
 
 
-class AbstractExerciseCheck(
-    ABC, Generic[CaseMeta, ExerciseRequest, CheckResult]
-):
+class AbstractExerciseCheck(ABC, Generic[UserAnswer, CaseMeta, CheckResult]):
     """ABC for service to check the user answer."""
 
     @abstractmethod
-    def execute(
-        self, case_meta: CaseMeta, data: ExerciseRequest
-    ) -> CheckResult:
+    def execute(self, answer: UserAnswer, case_meta: CaseMeta) -> CheckResult:
         """Check the user answer."""
 
 
@@ -81,28 +87,30 @@ class AbstractMilestone(ABC, Generic[CheckResult, CaseMeta]):
 # -----------------------------------------------
 
 
-class AbstractExerciseExplain(
-    ABC, Generic[CaseMeta, ExerciseRequest, Explanation]
-):
+class AbstractExerciseExplain(ABC, Generic[UserAnswer, CaseMeta, Explanation]):
     """ABC for service to explain the exercise case."""
 
     @abstractmethod
-    def execute(
-        self, case_meta: CaseMeta, data: ExerciseRequest
-    ) -> Explanation:
+    def execute(self, answer: UserAnswer, case_meta: CaseMeta) -> Explanation:
         """Explain the exercise case."""
 
 
 # -----------------------------------------------
-# Exercise loop
+# Exercise performing
 # -----------------------------------------------
 
 
-class AbstractExerciseLoop(ABC, Generic[ExerciseRequest, Case, Explanation]):
+class StartAbstractExercise(ABC, Generic[Conditions, Case]):
+    """ABC for start exercise service."""
+
+    @abstractmethod
+    def execute(self, user: Person, schema: Conditions) -> Case:
+        """Start exercise."""
+
+
+class AbstractExerciseLoop(ABC, Generic[Conditions, Case, Explanation]):
     """ABC for exercise loop service."""
 
     @abstractmethod
-    def execute(
-        self, user: Person, data: ExerciseRequest
-    ) -> Case | Explanation:
+    def execute(self, user: Person, schema: Conditions) -> Case | Explanation:
         """Execute the exercise loop."""

@@ -4,14 +4,14 @@ __all__ = [
     # --------------------
     # Enumeration
     # --------------------
-    'CaseStatus',
+    'ExerciseStatusEnum',
     'DisplayOrder',
     # --------------------
     # Data Transfer Object
     # --------------------
     # General
     'ProgressConfigSchema',
-    'UUIDMixin',
+    'UuidDTO',
     # Presentation
     'PresentationCase',
     'PresentationData',
@@ -34,11 +34,11 @@ __all__ = [
 
 from .dto import (
     ProgressConfigSchema,
-    UUIDMixin,
+    UuidDTO,
 )
 from .enums import (
-    CaseStatus,
     DisplayOrder,
+    ExerciseStatusEnum,
 )
 from .presentation import (
     PresentationDomain,

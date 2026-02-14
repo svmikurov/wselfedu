@@ -11,5 +11,5 @@ class AbstractResponseAdapter(ABC, Generic[DomainType, ResponseType]):
     """Abstract base class for response adapters."""
 
     @abstractmethod
-    def to_response(self, data: DomainType) -> ResponseType:
-        """Convert domain data to response representation."""
+    def to_response(self, schema: DomainType) -> ResponseType:
+        """Convert domain schema to response representation."""

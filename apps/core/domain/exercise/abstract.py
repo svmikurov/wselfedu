@@ -40,5 +40,5 @@ class AbstractCheckExerciseDomain(ABC, Generic[T]):
     """ABC for check user answer domain business logic."""
 
     @abstractmethod
-    def execute(self, case_meta: T, data: TestCheckRequest) -> CheckResult:
+    def execute(self, answer: TestCheckRequest, case_meta: T) -> CheckResult:
         """Check user's answer."""

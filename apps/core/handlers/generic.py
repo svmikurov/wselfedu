@@ -11,66 +11,24 @@ if TYPE_CHECKING:
         DetailValidator,
         RegularValidator,
         ResponseAdapter,
-        SimpleUseCase,
         UseCase,
     )
 
 RequestData = TypeVar('RequestData')
-RequestDTO = TypeVar('RequestDTO')
+Validated = TypeVar('Validated')
 DomainResult = TypeVar('DomainResult')
 ResponseData = TypeVar('ResponseData')
 
 
-class RequestParametersHandler(Generic[RequestData, RequestDTO, ResponseData]):
-    """Request parameters handler.
-
-    Validated request parameters and prepares response data.
-    """
-
-    def __init__(
-        self,
-        validator: RegularValidator[RequestData, RequestDTO],
-        adapter: ResponseAdapter[RequestDTO, ResponseData],
-    ) -> None:
-        """Construct the handler."""
-        self._validator = validator
-        self._adapter = adapter
-
-    def execute(self, request_data: RequestData) -> ResponseData:
-        """Handle the request."""
-        validated_data = self._validator.validate(request_data)
-        response_data = self._adapter.to_response(validated_data)
-        return response_data
-
-
-class SimpleRequestHandler(Generic[DomainResult, ResponseData]):
-    """Simple request handler."""
-
-    def __init__(
-        self,
-        use_case: SimpleUseCase[DomainResult],
-        adapter: ResponseAdapter[DomainResult, ResponseData],
-    ) -> None:
-        """Construct the handler."""
-        self._use_case = use_case
-        self._adapter = adapter
-
-    def execute(self, user: Person) -> ResponseData:
-        """Execute."""
-        domain_result = self._use_case.execute(user)
-        result = self._adapter.to_response(domain_result)
-        return result
-
-
 class RegularRequestHandler(
-    Generic[RequestData, RequestDTO, DomainResult, ResponseData]
+    Generic[RequestData, Validated, DomainResult, ResponseData]
 ):
     """Regular request handler."""
 
     def __init__(
         self,
-        validator: RegularValidator[RequestData, RequestDTO],
-        use_case: UseCase[RequestDTO, DomainResult],
+        validator: RegularValidator[RequestData, Validated],
+        use_case: UseCase[Validated, DomainResult],
         adapter: ResponseAdapter[DomainResult, ResponseData],
     ) -> None:
         """Construct the handler."""
@@ -91,14 +49,14 @@ class RegularRequestHandler(
 
 
 class DetailRequestHandler(
-    Generic[RequestData, RequestDTO, DomainResult, ResponseData]
+    Generic[RequestData, Validated, DomainResult, ResponseData]
 ):
     """Regular request handler for operations with identifier (pk)."""
 
     def __init__(
         self,
-        validator: DetailValidator[RequestData, RequestDTO],
-        use_case: UseCase[RequestDTO, DomainResult],
+        validator: DetailValidator[RequestData, Validated],
+        use_case: UseCase[Validated, DomainResult],
         adapter: ResponseAdapter[DomainResult, ResponseData],
     ) -> None:
         """Construct the handler."""

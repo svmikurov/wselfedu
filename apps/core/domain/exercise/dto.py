@@ -7,12 +7,17 @@ from pydantic import Field
 from ..base_dto import BaseDTO
 
 
-class StoredCase(BaseDTO):
-    """Stored exercise case."""
+class UuidDTO(BaseDTO):
+    """Stored exercise case UUID DTO."""
 
     case_uuid: UUID = Field(
         description='Stored exercise case UUID',
     )
+
+
+class StoredCase(UuidDTO):
+    """Stored exercise case."""
+
     case: BaseDTO
 
 
@@ -21,11 +26,3 @@ class ProgressConfigSchema(BaseDTO):
 
     increment: int
     decrement: int
-
-
-class UUIDMixin(BaseDTO):
-    """Provides UUID pydantic field."""
-
-    case_uuid: UUID = Field(
-        description='Stored exercise case UUID',
-    )
