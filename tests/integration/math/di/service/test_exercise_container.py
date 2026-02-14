@@ -10,4 +10,4 @@ class CreateCalculationCaseInitializeTest:
 
     def test_create_calculation_case(self) -> None:
         """Create calculation case initialized success."""
-        assert CONTAINER.create_calculation_case
+        assert CONTAINER.create_calculation

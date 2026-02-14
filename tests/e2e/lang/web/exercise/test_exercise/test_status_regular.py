@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 import pytest
 from django.urls import reverse_lazy
 
-from apps.core.domain.exercise import CaseStatus
+from apps.core.domain.exercise import ExerciseStatusEnum
 
 if TYPE_CHECKING:
     from django.test import Client
@@ -40,7 +40,7 @@ class TestHttpStatus:
     ) -> None:
         """Translation test case http status is success."""
         # Arrange
-        data = {'status': CaseStatus.NEW_CASE}
+        data = {'status': ExerciseStatusEnum.NEW_CASE}
 
         # Act
         response = auth_client.post(TRANSLATION_TEST_URL, data=data)
