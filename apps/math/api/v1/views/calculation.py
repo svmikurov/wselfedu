@@ -18,7 +18,7 @@ from ..serializers import calculation as ser
 
 logger = logging.getLogger(__name__)
 
-CONTAINER = MainContainer.math.exercise_views
+CONTAINER = MainContainer.math.exercise_api_views
 
 
 class CalculationViewSet(viewsets.ViewSet):
@@ -26,9 +26,7 @@ class CalculationViewSet(viewsets.ViewSet):
 
     renderer_classes = [renderers.WrappedJSONRenderer]
 
-    exercise_presenter: CalculationPresenter = Provide[
-        CONTAINER.api_regular_calculation  # type: ignore[attr-defined]
-    ]
+    exercise_presenter: CalculationPresenter = Provide[CONTAINER]
 
     @extend_schema(
         summary='Get calculation task',

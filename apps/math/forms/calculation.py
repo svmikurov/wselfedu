@@ -49,6 +49,9 @@ class CalculationConditionsForm(forms.Form):
         # Form helper with form attributes
         self.helper = FormHelper()
         self.helper.form_id = 'calculation-conditions-form'
+        # The form is passed in the GET parameter
+        # of the request to start the exercise.
+        self.helper.disable_csrf = True
 
         # Initial form values
         self.fields['min_operand'].initial = self.DEFAULT_OPERAND_MIN_VALUE
@@ -86,7 +89,7 @@ class NumberInputForm(forms.Form):
 
     MAX_DIGITS = 5
 
-    user_solution = forms.DecimalField(
+    user_answer = forms.DecimalField(
         max_digits=MAX_DIGITS,
         label='',
         widget=forms.NumberInput(
@@ -96,3 +99,26 @@ class NumberInputForm(forms.Form):
             }
         ),
     )
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the form."""
+        super().__init__(*args, **kwargs)  # type: ignore[arg-type]
+
+        # Form helper with form attributes
+        self.helper = FormHelper()
+        self.helper.form_id = 'answer-input-form'
+
+        # Form layout
+        self.helper.layout = Layout(
+            'user_answer',
+            Submit(
+                'submit',
+                _('button.title.answer'),
+                css_class='wse-btn',
+                hx_post='',
+                hx_validate='true',
+                hx_swap='innerHTML',
+                # HACK: Add target constant for html tag ID
+                hx_target='#exercise-block',
+            ),
+        )

@@ -3,40 +3,61 @@
 from typing import Any
 
 from apps.core.adapter.response.abc import AbstractResponseAdapter
-from apps.math.adapters.response.web.dto import (
-    CalculationConditionsPerformingWebResponse,
-    CalculationConditionsWebResponse,
+from apps.core.adapter.response.exercise.web.dto import WebCase
+from apps.math import forms
+from apps.math.domains.dto import CalculationData, CalculationExplain
+
+from .dto import (
+    CalculationWebCase,
+    CalculationWebConditions,
+    CalculationWebExplain,
 )
-from apps.math.forms import CalculationConditionsForm
-from apps.math.validators.web.dto import CalculationConditionsWebRequest
 
 type UseCaseData = Any
 
 
 class CalculationConditionsWebAdapter(
-    AbstractResponseAdapter[UseCaseData, CalculationConditionsWebResponse],
+    AbstractResponseAdapter[UseCaseData, CalculationWebConditions],
 ):
     """Calculation conditions web response adapter."""
 
-    def to_response(
-        self, data: UseCaseData
-    ) -> CalculationConditionsWebResponse:
-        """Convert data to response representation."""
-        return CalculationConditionsWebResponse(
-            conditions_form=CalculationConditionsForm()
+    def to_response(self, schema: UseCaseData) -> CalculationWebConditions:
+        """Adapt calculation conditions for web response."""
+        return CalculationWebConditions(
+            conditions_form=forms.CalculationConditionsForm()
         )
 
 
-class RegularConditionsWebAdapter(
+class CalculationWebCaseAdapter(
     AbstractResponseAdapter[
-        CalculationConditionsWebRequest,
-        CalculationConditionsPerformingWebResponse,
+        CalculationData,
+        WebCase,
     ],
 ):
-    """Regular calculation conditions web response adapter."""
+    """Calculation exercise case web response adapter."""
 
-    def to_response(
-        self, data: CalculationConditionsWebRequest
-    ) -> CalculationConditionsPerformingWebResponse:
-        """Convert data to response representation."""
-        return CalculationConditionsPerformingWebResponse(**data.model_dump())
+    def to_response(self, schema: CalculationData) -> WebCase:
+        """Adapt current calculation case for web response."""
+        return WebCase(
+            exercise_status=schema.exercise_status,
+            data=CalculationWebCase(
+                question_text=schema.data.question_text,
+                answer_input_form=forms.NumberInputForm(),
+            ),
+        )
+
+
+class ExplainCalculationWebAdapter(
+    AbstractResponseAdapter[
+        CalculationExplain,
+        CalculationWebExplain,
+    ],
+):
+    """Calculation exercise case explanation web response adapter."""
+
+    def to_response(self, schema: CalculationExplain) -> CalculationWebExplain:
+        """Adapt calculation case explanation for web response."""
+        return CalculationWebExplain(
+            exercise_status=schema.exercise_status,
+            data=schema.data,
+        )

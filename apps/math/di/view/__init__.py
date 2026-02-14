@@ -1,1 +1,1 @@
-"""Mathematical discipline view dependencies."""
+"""Mathematical discipline view persistent dependency references."""

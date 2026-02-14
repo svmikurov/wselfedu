@@ -1,0 +1,18 @@
+{# Explain exercise case solution partial template #}
+
+{% load i18n %}
+
+<div class="d-flex justify-content-center pb-3 display-1">
+  {{ solution_text }}
+</div>
+
+<div class="d-flex justify-content-center">
+  <button class="wse-btn"
+          hx-get=""
+          hx-vals='{"status": "new_case"}'
+          hx-swap="innerHTML"
+          hx-target="#exercise-block"
+          autofocus>
+    {% trans 'button.title.next' %}
+  </button>
+</div>

@@ -1,18 +1,18 @@
-{# Calculation exercise performing page #}
+{# Calculation exercise page #}
 
 {% extends 'base.html' %}
 
-{% load static %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 
-{% block title %}{% trans "math.page.calculation.index.title" %}{% endblock title %}
+{% block title %}{% trans "math.page.exercises.title" %}{% endblock title %}
 
 {% block content %}
 <main class="container">
   <div id="header-block" class="row py-3">
     {# Page header #}
     <div class="col">
-      <h1>{% trans "math.page.calculation.index.header" %}</h1>
+      <h1>{% trans "math.page.exercises.header" %}</h1>
     </div>
     {# Back button #}
     <div class="col-auto">
@@ -22,10 +22,9 @@
     </div>
   </div>
 
-  {# Target to insert exercise case html or partial template #}
-  <div id="exercise-block">
-    {{ exercise_case_html }}
+  <div>
+    {% crispy conditions_form %}
   </div>
-  
+
 </main>
 {% endblock %}

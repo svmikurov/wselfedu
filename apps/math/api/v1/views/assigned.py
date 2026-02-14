@@ -22,7 +22,7 @@ from di import MainContainer
 
 from ..serializers import calculation as ser
 
-CONTAINER = MainContainer.math.exercise_views
+CONTAINER = MainContainer.math.exercise_web_views
 
 
 class ExerciseViewSet(viewsets.ViewSet):
@@ -79,12 +79,8 @@ class ExerciseViewSet(viewsets.ViewSet):
         request: Request,
         assignation_id: int,
         exercise_slug: str,
-        exercise_selector: IAssignedSelector = Provide[
-            CONTAINER.api_assigned_selector  # type: ignore[attr-defined]
-        ],
-        exercise_presenter: AssignedCalculationPresenter = Provide[
-            CONTAINER.api_award_calculation  # type: ignore[attr-defined]
-        ],
+        exercise_selector: IAssignedSelector = Provide[CONTAINER],
+        exercise_presenter: AssignedCalculationPresenter = Provide[CONTAINER],
     ) -> Response:
         """Render question of assigned exercise."""
         try:
@@ -123,9 +119,7 @@ class ExerciseViewSet(viewsets.ViewSet):
         self,
         request: Request,
         assignation_id: int,
-        exercise_presenter: AssignedCalculationPresenter = Provide[
-            CONTAINER.api_award_calculation  # type: ignore[attr-defined]
-        ],
+        exercise_presenter: AssignedCalculationPresenter = Provide[CONTAINER],
     ) -> Response:
         """Render answer checking result."""
         # TODO: Add assignation validation with `get_object_or_404`

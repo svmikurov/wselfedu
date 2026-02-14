@@ -1,1 +1,0 @@
-"""Mathematical discipline exercise dependencies."""

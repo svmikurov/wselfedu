@@ -2,6 +2,7 @@
 
 __all__ = [
     'CalculationConditionsForm',
+    'NumberInputForm',
 ]
 
-from .calculation import CalculationConditionsForm
+from .calculation import CalculationConditionsForm, NumberInputForm

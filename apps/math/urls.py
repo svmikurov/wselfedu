@@ -30,7 +30,7 @@ urlpatterns = [
     # -------------------------------------------
     path(
         'exercise/calculation/',
-        calculation.CalculationConditionsView.as_view(),
+        calculation.ExerciseChoiceView.as_view(),
         name='select_regular_calculation',
     ),
     # -------------------------------------------
@@ -38,17 +38,17 @@ urlpatterns = [
     # -------------------------------------------
     path(  # current selected exercise conditions
         'exercise/calculation/regular/',
-        calculation.RegularCalculationView.as_view(),
+        calculation.RegularPerformView.as_view(),
         name='regular_calculation_exercise',
     ),
     path(  # exercise conditions saved by the user
         'exercise/calculation/<int:pk>/detail/',
-        calculation.DetailCalculationView.as_view(),
+        calculation.DetailPerformView.as_view(),
         name='detail_calculation_exercise',
     ),
     path(  # exercise conditions assigned to the user
         'exercise/calculation/<int:pk>/assigned/',
-        calculation.DetailCalculationView.as_view(),
+        calculation.AssignedPerformView.as_view(),
         name='assigned_calculation_exercise',
     ),
 ]
