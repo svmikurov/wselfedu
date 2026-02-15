@@ -4,6 +4,15 @@ from django.db import models
 from django.utils.translation import gettext as _
 
 
+class CalculationTypeChoices(models.TextChoices):
+    """Calculation type choices."""
+
+    ADD = 'add', _('Adding')
+    SUB = 'sub', _('Submission')
+    MUL = 'mul', _('Multiplication')
+    DIV = 'div', _('Division')
+
+
 class CalculationCondition(models.Model):
     """Calculation exercise conditions."""
 
@@ -12,12 +21,18 @@ class CalculationCondition(models.Model):
     name = models.CharField(
         _('Exercise name'),
         max_length=MAX_NAME_LENGTH,
+        unique=True,
     )
     min_operand = models.SmallIntegerField(
         _('Min operand value'),
     )
     max_operand = models.SmallIntegerField(
         _('Max operand value'),
+    )
+    operation_type = models.CharField(
+        choices=CalculationTypeChoices,
+        max_length=10,
+        default=CalculationTypeChoices.ADD,
     )
 
     user = models.ForeignKey(
