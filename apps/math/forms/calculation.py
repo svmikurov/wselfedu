@@ -12,7 +12,7 @@ from django import forms
 from django.urls import reverse
 from django.utils.translation import gettext as _
 
-from ..models import ExerciseCondition
+from ..models import CalculationCondition
 
 
 class CalculationConditionsForm(forms.Form):
@@ -22,7 +22,7 @@ class CalculationConditionsForm(forms.Form):
     DEFAULT_OPERAND_MAX_VALUE = 9
 
     calculation_name = forms.CharField(
-        max_length=ExerciseCondition.MAX_NAME_LENGTH
+        max_length=CalculationCondition.MAX_NAME_LENGTH
     )
     min_operand = forms.DecimalField(
         label=_('Min operand value'),
