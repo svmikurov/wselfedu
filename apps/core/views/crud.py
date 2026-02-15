@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Generic, TypeVar
+from typing import TYPE_CHECKING, Any, Callable, Generic, TypeVar
 
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Model
+from django.forms import BaseForm
 from django.http import HttpResponse
+from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
@@ -99,6 +101,29 @@ class BaseListView(
             .filter(user=self.user)
             .order_by('-created_at')
         )
+
+
+class HXResponseFormMixin:
+    """Mixin for HTMX form handling.
+
+    On success: returns 204 with HX-Redirect header to refresh page.
+    On error: re-renders form with validation errors.
+    """
+
+    get_template_names: Callable[[], list[str]]
+
+    def form_valid(self, form: BaseForm) -> HttpResponse:
+        """Handle successful form submission."""
+        form.save()  # type: ignore[attr-defined]
+        return HttpResponse(
+            status=204,
+            headers={'HX-Redirect': self.success_url},  # type: ignore[attr-defined]
+        )
+
+    def form_invalid(self, form: BaseForm) -> HttpResponse:
+        """Handle invalid form - return form with errors."""
+        form_html = render_to_string(self.get_template_names(), {'form': form})
+        return HttpResponse(form_html)
 
 
 class BaseCreateView(
