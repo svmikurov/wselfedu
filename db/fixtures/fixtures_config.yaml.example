@@ -4,7 +4,6 @@
 load_order:
   # Public
   - db/fixtures/public/core.json
-  - db/fixtures/public/math.json
   # Sensitive
   - db/fixtures/sensitive/users.json
   - db/fixtures/sensitive/core.json
