@@ -3,6 +3,9 @@
 __all__ = [
     # Exercise CRUD
     'CalculationListView',
+    'CalculationCreateView',
+    'CalculationUpdateView',
+    'CalculationDeleteView',
     # Exercise perform
     'DetailPerformView',
     'ExerciseChoiceView',
@@ -11,7 +14,10 @@ __all__ = [
 ]
 
 from .crud import (
+    CalculationCreateView,
+    CalculationDeleteView,
     CalculationListView,
+    CalculationUpdateView,
 )
 from .perform import (
     AssignedPerformView,
