@@ -1,8 +1,15 @@
 """Mathematical application forms."""
 
 __all__ = [
-    'CalculationConditionsForm',
+    'CreateCalculationConditionsForm',
+    'UpdateCalculationConditionsForm',
+    'RegularCalculationConditionsForm',
     'NumberInputForm',
 ]
 
-from .calculation import CalculationConditionsForm, NumberInputForm
+from .calculation import (
+    CreateCalculationConditionsForm,
+    NumberInputForm,
+    RegularCalculationConditionsForm,
+    UpdateCalculationConditionsForm,
+)

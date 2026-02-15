@@ -12,11 +12,67 @@ from django import forms
 from django.urls import reverse
 from django.utils.translation import gettext as _
 
-from ..models import CalculationCondition
+from apps.core.forms import UserRelationForm
+from apps.core.forms.layouts import create_button_row
+
+from ..models import CalculationCondition, CalculationTypeChoices
 
 
-class CalculationConditionsForm(forms.Form):
-    """Form for calculation conditions select."""
+class _CalculationConditionsForm(UserRelationForm[CalculationCondition]):
+    """Base calculation conditions edit form."""
+
+    FORM_ID = 'form'
+
+    class Meta:
+        """Configure the form."""
+
+        model = CalculationCondition
+        fields = ['name', 'min_operand', 'max_operand', 'operation_type']
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the form."""
+        super().__init__(*args, **kwargs)
+
+        self.helper.layout = Layout(
+            'name',
+            Row(Column('min_operand'), Column('max_operand')),
+            'operation_type',
+            create_button_row(self.helper.form_id),
+        )
+
+
+class CreateCalculationConditionsForm(_CalculationConditionsForm):
+    """Base calculation conditions create form."""
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the form."""
+        super().__init__(*args, **kwargs)
+        self.helper.attrs = {
+            'hx-post': 'create/',
+            'hx-target': f'#{self.FORM_ID}',
+            'hx-swap': 'innerHTML',
+        }
+
+
+class UpdateCalculationConditionsForm(_CalculationConditionsForm):
+    """Calculation conditions update form."""
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the form."""
+        super().__init__(*args, **kwargs)
+        self.helper.form_action = ''
+        self.helper.attrs = {
+            'hx-post': reverse(
+                'math:regular_calculation_exercise_update',
+                kwargs={'pk': self.instance.pk},
+            ),
+            'hx-target': f'#{self.FORM_ID}',
+            'hx-swap': 'innerHTML',
+        }
+
+
+class RegularCalculationConditionsForm(forms.Form):
+    """Form for regular calculation conditions select."""
 
     DEFAULT_OPERAND_MIN_VALUE = 1
     DEFAULT_OPERAND_MAX_VALUE = 9
@@ -31,28 +87,18 @@ class CalculationConditionsForm(forms.Form):
         label=_('Max operand value'),
     )
     operation_type = forms.ChoiceField(
-        choices=[
-            ('add', _('Adding')),
-            ('sub', _('Submission')),
-            ('mul', _('Multiplication')),
-            ('div', _('Division')),
-        ],
+        choices=CalculationTypeChoices,
         label=_('Operation type'),
     )
 
-    def __init__(
-        self,
-        form_method: str,
-        *args: object,
-        **kwargs: object,
-    ) -> None:
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the form."""
         super().__init__(*args, **kwargs)  # type: ignore[arg-type]
 
         # Form helper with form attributes
         self.helper = FormHelper()
         self.helper.form_id = 'calculation-conditions-form'
-        self.helper.form_method = form_method
+        self.helper.form_method = 'get'
 
         # Initial form values
         self.fields['min_operand'].initial = self.DEFAULT_OPERAND_MIN_VALUE
@@ -66,38 +112,18 @@ class CalculationConditionsForm(forms.Form):
                 Column('operation_type'),
                 css_class='align-items-end',
             ),
-            # Buttons row
             Div(
-                # 'Start exercise' button for GET form method
-                # 'Save exercise' button for POST form method
-                self._add_submit(),
-                # Buttons row style
-                css_class='d-flex gap-2 justify-content-end',
-            ),
-        )
-
-    def _add_submit(self) -> Submit:
-        match self.helper.form_method:
-            # Button for save exercise conditions
-            case 'post':
-                return Submit(
-                    'calculation_conditions',
-                    _('button.exercise.save'),
-                    css_class='wse-btn',
-                )
-            case 'get':
-                # Button for start exercise
-                # with form data conditions
-                return Submit(
+                Submit(
                     '',
                     _('button.exercise.start'),
                     css_class='wse-btn',
                     css_id='button-id-start-exercise',
                     form=self.helper.form_id,
                     formaction=reverse('math:regular_calculation_exercise'),
-                )
-            case _ as unexpected:
-                raise AttributeError(f'Unexpected form method: {unexpected}')
+                ),
+                css_class='d-flex gap-2 justify-content-end',
+            ),
+        )
 
 
 class NumberInputForm(forms.Form):
