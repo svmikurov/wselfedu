@@ -11,7 +11,19 @@
   {% include "components/header_block.html" with header=header %}
 
   {% include "./_table.html" %}
-  {% include "./_form.html" %}
-  {% include "./_buttons_row.html" %}
+
+  <!--=== Form ===-->
+  {# Target for inserting form #}
+  <div id="form-block"></div><!-- End Form -->
+
+  <!--=== Buttons row ===-->
+  <div class="py-3">
+    <button class="wse-btn"
+            hx-get={% url 'math:regular_calculation_exercise_create' %}
+            hx-target="#form-block"
+            hx-swap="innerHTML">
+      {% trans 'button.create' %}
+    </button>
+  </div><!-- Buttons row -->
 </main>
 {% endblock %}
