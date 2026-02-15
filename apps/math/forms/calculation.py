@@ -12,8 +12,6 @@ from django import forms
 from django.urls import reverse
 from django.utils.translation import gettext as _
 
-from apps.core.forms.layouts import create_submit_button
-
 from ..models import ExerciseCondition
 
 
@@ -42,16 +40,19 @@ class CalculationConditionsForm(forms.Form):
         label=_('Operation type'),
     )
 
-    def __init__(self, *args: object, **kwargs: object) -> None:
+    def __init__(
+        self,
+        form_method: str,
+        *args: object,
+        **kwargs: object,
+    ) -> None:
         """Construct the form."""
         super().__init__(*args, **kwargs)  # type: ignore[arg-type]
 
         # Form helper with form attributes
         self.helper = FormHelper()
         self.helper.form_id = 'calculation-conditions-form'
-        # The form is passed in the GET parameter
-        # of the request to start the exercise.
-        self.helper.disable_csrf = True
+        self.helper.form_method = form_method
 
         # Initial form values
         self.fields['min_operand'].initial = self.DEFAULT_OPERAND_MIN_VALUE
@@ -67,21 +68,36 @@ class CalculationConditionsForm(forms.Form):
             ),
             # Buttons row
             Div(
-                # Start exercise with form data conditions button
-                Submit(
-                    'calculation_conditions',
-                    _('button.exercise.start'),
-                    css_class='wse-btn',
-                    form=self.helper.form_id,
-                    formaction=reverse('math:regular_calculation_exercise'),
-                    formmethod='GET',
-                ),
-                # Save form data exercise conditions button
-                create_submit_button(),
+                # 'Start exercise' button for GET form method
+                # 'Save exercise' button for POST form method
+                self._add_submit(),
                 # Buttons row style
                 css_class='d-flex gap-2 justify-content-end',
             ),
         )
+
+    def _add_submit(self) -> Submit:
+        match self.helper.form_method:
+            # Button for save exercise conditions
+            case 'post':
+                return Submit(
+                    'calculation_conditions',
+                    _('button.exercise.save'),
+                    css_class='wse-btn',
+                )
+            case 'get':
+                # Button for start exercise
+                # with form data conditions
+                return Submit(
+                    '',
+                    _('button.exercise.start'),
+                    css_class='wse-btn',
+                    css_id='button-id-start-exercise',
+                    form=self.helper.form_id,
+                    formaction=reverse('math:regular_calculation_exercise'),
+                )
+            case _ as unexpected:
+                raise AttributeError(f'Unexpected form method: {unexpected}')
 
 
 class NumberInputForm(forms.Form):
