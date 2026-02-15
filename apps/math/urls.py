@@ -60,4 +60,19 @@ urlpatterns = [
         calculation.CalculationListView.as_view(),
         name='regular_calculation_exercise_list',
     ),
+    path(
+        'exercise/calculation/regular/create/',
+        calculation.CalculationCreateView.as_view(),
+        name='regular_calculation_exercise_create',
+    ),
+    path(
+        'exercise/calculation/regular/<int:pk>/update/',
+        calculation.CalculationUpdateView.as_view(),
+        name='regular_calculation_exercise_update',
+    ),
+    path(
+        'exercise/calculation/regular/<int:pk>/delete/',
+        calculation.CalculationDeleteView.as_view(),
+        name='regular_calculation_exercise_delete',
+    ),
 ]
