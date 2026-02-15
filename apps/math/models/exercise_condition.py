@@ -1,37 +1,44 @@
 """Defines mathematical exercise conditions."""
 
 from django.db import models
+from django.utils.translation import gettext as _
 
 
-class ExerciseCondition(models.Model):
-    """Mathematical exercise conditions."""
+class CalculationCondition(models.Model):
+    """Calculation exercise conditions."""
 
     MAX_NAME_LENGTH = 100
 
     name = models.CharField(
-        'Наименование',
+        _('Exercise name'),
         max_length=MAX_NAME_LENGTH,
     )
     min_operand = models.SmallIntegerField(
-        'Минимальное значение операнда',
+        _('Min operand value'),
     )
     max_operand = models.SmallIntegerField(
-        'Максимальное значение операнда',
+        _('Max operand value'),
+    )
+
+    user = models.ForeignKey(
+        'users.Person',
+        on_delete=models.CASCADE,
+        verbose_name=_('User'),
     )
     created_at = models.DateTimeField(
-        'Добавлено',
+        _('Created at'),
         auto_now_add=True,
     )
     updated_at = models.DateTimeField(
-        'Изменено',
+        _('Updated_at'),
         auto_now=True,
     )
 
     class Meta:
         """Model configurations."""
 
-        verbose_name = 'Условие задания'
-        verbose_name_plural = 'Условия заданий'
+        verbose_name = _('Calculation exercise condition')
+        verbose_name_plural = _('Calculation exercise conditions')
         db_table = 'math_exercise_condition'
         constraints = [
             models.CheckConstraint(

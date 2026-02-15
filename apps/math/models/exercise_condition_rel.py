@@ -2,7 +2,7 @@
 
 from django.db import models
 
-from apps.math.models import ExerciseCondition
+from apps.math.models import CalculationCondition
 from apps.study.models import ExerciseAssigned
 
 
@@ -16,7 +16,7 @@ class MathAssignedConditionRel(models.Model):
         verbose_name='Назначение',
     )
     condition = models.ForeignKey(
-        ExerciseCondition,
+        CalculationCondition,
         on_delete=models.CASCADE,
         related_name='math_assigned_conditions',
         verbose_name='Условие матем. задания',
