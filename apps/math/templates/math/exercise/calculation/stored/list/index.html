@@ -1,0 +1,17 @@
+{# User's stored calculation exercises page template #}
+
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "math.page.exercises.stored.title" %}{% endblock title %}
+
+{% block content %}
+<main class="container">
+  {% trans "math.page.calculation.stored.list.header" as header %}
+  {% include "components/header_block.html" with header=header %}
+
+  {% include "./_table.html" %}
+  {% include "./_form.html" %}
+  {% include "./_buttons_row.html" %}
+</main>
+{% endblock %}

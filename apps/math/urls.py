@@ -22,11 +22,9 @@ urlpatterns = [
         name='math_exercises',
     ),
     # -------------------------------------------
-    # Calculation exercise selection page
+    # Calculation exercise selection
     # Contains:
     #   - form for the exercise conditions
-    #   - table of exercises saved by the user
-    #   - table of exercises assigned to the user
     # -------------------------------------------
     path(
         'exercise/calculation/',
@@ -34,10 +32,13 @@ urlpatterns = [
         name='select_regular_calculation',
     ),
     # -------------------------------------------
-    # Calculation exercise performing pages
+    # Calculation exercise performing
     # -------------------------------------------
-    path(  # current selected exercise conditions
-        'exercise/calculation/regular/',
+    # Contains:
+    #   - form for the exercise performing the
+    #     current selected exercise conditions
+    path(
+        'exercise/calculation/regular/performing/',
         calculation.RegularPerformView.as_view(),
         name='regular_calculation_exercise',
     ),
@@ -50,5 +51,13 @@ urlpatterns = [
         'exercise/calculation/<int:pk>/assigned/',
         calculation.AssignedPerformView.as_view(),
         name='assigned_calculation_exercise',
+    ),
+    # -------------------------------------------
+    # Stored calculation exercise CRUD
+    # -------------------------------------------
+    path(
+        'exercise/calculation/regular/',
+        calculation.CalculationListView.as_view(),
+        name='regular_calculation_exercise_list',
     ),
 ]

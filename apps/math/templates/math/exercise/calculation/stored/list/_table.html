@@ -1,0 +1,18 @@
+{# User's stored calculation exercises table partial template #}
+
+{% load i18n %}
+
+<div id="table-block">
+  <table class="table table-hover">
+    <thead>
+      <th>{% trans "Exercise name" %}</th>
+    </thead>
+    <tbody>
+      {% for exercise in exercises %}
+        <tr id="row-{{ exercise.id }}">
+          <td>{{ exercise.name }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
