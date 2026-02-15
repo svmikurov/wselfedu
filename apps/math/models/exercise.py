@@ -12,7 +12,3 @@ class MathExercise(BaseExercise):
         verbose_name = 'Упражнение'
         verbose_name_plural = 'Упражнения'
         db_table = 'math_exercise'
-
-    def __str__(self) -> str:
-        """Return string representation of model instance."""
-        return str(self.name)
