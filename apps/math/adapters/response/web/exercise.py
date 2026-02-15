@@ -24,7 +24,7 @@ class CalculationConditionsWebAdapter(
     def to_response(self, schema: UseCaseData) -> CalculationWebConditions:
         """Adapt calculation conditions for web response."""
         return CalculationWebConditions(
-            conditions_form=forms.CalculationConditionsForm(form_method='GET'),
+            conditions_form=forms.RegularCalculationConditionsForm(),
         )
 
 
