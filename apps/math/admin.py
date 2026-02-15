@@ -3,7 +3,7 @@
 from django.contrib import admin
 
 from .models import (
-    ExerciseCondition,
+    CalculationCondition,
     MathAssignedConditionRel,
     MathExercise,
 )
@@ -20,7 +20,7 @@ class MathExerciseAdmin(admin.ModelAdmin):  # type: ignore
     ordering = ['id']
 
 
-@admin.register(ExerciseCondition)
+@admin.register(CalculationCondition)
 class ExerciseConditionAdmin(admin.ModelAdmin):  # type: ignore
     """Math exercise condition model administration."""
 
