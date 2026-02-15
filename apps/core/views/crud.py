@@ -103,7 +103,7 @@ class BaseListView(
         )
 
 
-class HXResponseFormMixin:
+class HtmxResponseFormMixin:
     """Mixin for HTMX form handling.
 
     On success: returns 204 with HX-Redirect header to refresh page.

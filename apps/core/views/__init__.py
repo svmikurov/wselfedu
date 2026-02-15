@@ -9,7 +9,7 @@ __all__ = [
     # Edit mixin
     'CsrfProtectMixin',
     'UserActionKwargsFormMixin',
-    'HXResponseFormMixin',
+    'HtmxResponseFormMixin',
     'HtmxDeleteView',
     'HtmxOwnerDeleteView',
     # View
@@ -33,6 +33,6 @@ from .crud import (
     CsrfProtectMixin,
     HtmxDeleteView,
     HtmxOwnerDeleteView,
-    HXResponseFormMixin,
+    HtmxResponseFormMixin,
     UserActionKwargsFormMixin,
 )
