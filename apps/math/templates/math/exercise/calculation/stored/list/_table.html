@@ -15,7 +15,11 @@
       {% for exercise in exercises %}
         <tr id="row-{{ exercise.pk }}"
             class="align-middle">
-          <td class="py-3">{{ exercise.name }}</td>
+          <td class="py-3">
+            <a href="{% url "math:detail_calculation_exercise" exercise.pk %}">
+              {{ exercise.name }}
+            </a>
+          </td>
           <td>{{ exercise.min_operand }}</td>
           <td>{{ exercise.max_operand }}</td>
           <td>{{ exercise.get_operation_type_display }}</td>
