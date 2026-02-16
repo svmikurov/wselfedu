@@ -4,8 +4,8 @@ from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import DependenciesContainer, Factory
 
 from apps.core.handlers import (
-    DetailRequestHandler,
     RegularRequestHandler,
+    ResourceRequestHandler,
 )
 
 
@@ -17,7 +17,7 @@ class TranslationTestContainer(DeclarativeContainer):
     adapters = DependenciesContainer()
 
     web_detail = Factory(
-        DetailRequestHandler,
+        ResourceRequestHandler,
         validator=validators.web_detail_test,
         use_case=use_cases.detail_test_loop,
         adapter=adapters.web_test,

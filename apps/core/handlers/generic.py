@@ -4,13 +4,23 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Generic, TypeVar
 
+from .protocol import (
+    DetailParamsProtocol,
+    DetailValidator,
+    RequestContextProtocol,
+    RequestDataProtocol,
+    RequestResultProtocol,
+)
+
 if TYPE_CHECKING:
     from apps.users.models import Person
 
-    from .protocols import (
-        DetailValidator,
+    from .protocol import (
+        DetailUseCase,
         RegularValidator,
+        ResourceValidator,
         ResponseAdapter,
+        ResponseAdapterDeprecated,
         UseCase,
     )
 
@@ -29,7 +39,7 @@ class RegularRequestHandler(
         self,
         validator: RegularValidator[RequestData, Validated],
         use_case: UseCase[Validated, DomainResult],
-        adapter: ResponseAdapter[DomainResult, ResponseData],
+        adapter: ResponseAdapterDeprecated[DomainResult, ResponseData],
     ) -> None:
         """Construct the handler."""
         self._validator = validator
@@ -48,16 +58,17 @@ class RegularRequestHandler(
         return response_data
 
 
-class DetailRequestHandler(
+# DEPRECATED: Use DetailRequestHandler
+class ResourceRequestHandler(
     Generic[RequestData, Validated, DomainResult, ResponseData]
 ):
     """Regular request handler for operations with identifier (pk)."""
 
     def __init__(
         self,
-        validator: DetailValidator[RequestData, Validated],
+        validator: ResourceValidator[RequestData, Validated],
         use_case: UseCase[Validated, DomainResult],
-        adapter: ResponseAdapter[DomainResult, ResponseData],
+        adapter: ResponseAdapterDeprecated[DomainResult, ResponseData],
     ) -> None:
         """Construct the handler."""
         self._validator = validator
@@ -73,5 +84,32 @@ class DetailRequestHandler(
         """Execute."""
         validated = self._validator.validate(request_data, pk=pk)
         domain_result = self._use_case.execute(user, validated)
+        result = self._adapter.to_response(domain_result)
+        return result
+
+
+class DetailRequestHandler(Generic[Validated, DomainResult]):
+    """Regular request handler for operations with identifier (pk)."""
+
+    def __init__(
+        self,
+        validator: DetailValidator[Validated],
+        use_case: DetailUseCase[Validated, DomainResult],
+        adapter: ResponseAdapter[DomainResult],
+    ) -> None:
+        """Construct the handler."""
+        self._validator = validator
+        self._use_case = use_case
+        self._adapter = adapter
+
+    def execute(
+        self,
+        params: DetailParamsProtocol,
+        context: RequestContextProtocol,
+        data: RequestDataProtocol,
+    ) -> RequestResultProtocol:
+        """Execute."""
+        validated = self._validator.validate(data)
+        domain_result = self._use_case.execute(params, context, validated)
         result = self._adapter.to_response(domain_result)
         return result

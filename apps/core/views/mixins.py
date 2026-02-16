@@ -62,17 +62,17 @@ class GetHandlerMixin(Generic[T]):
 class GetExerciseHandlersMixin(Generic[CreateHandler, CheckHandler]):
     """Mixin provides exercise start and loop handlers."""
 
-    _create_handler: CreateHandler | None
+    _start_handler: CreateHandler | None
     _check_handler: CheckHandler | None
 
     @property
     def start_handler(self) -> CreateHandler:
         """Get start exercise request handler."""
-        if self._create_handler is None:
+        if self._start_handler is None:
             raise AttributeError(
                 'Start exercise request handler not initialized'
             )
-        return self._create_handler
+        return self._start_handler
 
     @property
     def check_handler(self) -> CheckHandler:

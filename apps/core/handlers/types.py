@@ -4,7 +4,7 @@ from typing import Any, TypeAlias
 
 # TODO: Relocate schemas
 from ...lang import schemas
-from .generic import DetailRequestHandler, RegularRequestHandler
+from .generic import RegularRequestHandler, ResourceRequestHandler
 
 type RequestData = dict[str, Any]
 type DomainResult = schemas.TestCase | schemas.Explanation
@@ -18,7 +18,7 @@ WebTest: TypeAlias = RegularRequestHandler[
 ]
 """UseCase for regular web translation study tests."""
 
-WebAssignedTest: TypeAlias = DetailRequestHandler[
+WebAssignedTest: TypeAlias = ResourceRequestHandler[
     RequestData,
     schemas.DetailTestRequestDTO,
     DomainResult,

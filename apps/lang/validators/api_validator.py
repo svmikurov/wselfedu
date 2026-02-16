@@ -4,7 +4,7 @@ from typing import Any
 
 from apps.study.api.v1 import serializers as study
 
-from ...core.handlers.protocols import RegularValidator
+from ...core.handlers.protocol import RegularValidator
 from .. import schemas, types
 from ..api.v1.serializers import base as lang
 

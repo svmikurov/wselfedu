@@ -7,9 +7,9 @@ from unittest.mock import Mock
 import pytest
 
 from apps.core.handlers import RegularRequestHandler
-from apps.core.handlers.protocols import (
+from apps.core.handlers.protocol import (
     RegularValidator,
-    ResponseAdapter,
+    ResponseAdapterDeprecated,
     UseCase,
 )
 
@@ -29,7 +29,7 @@ def mock_service() -> Mock:
 @pytest.fixture
 def mock_response_adapter() -> Mock:
     """Provide response adapter mock."""
-    return Mock(spec=ResponseAdapter)
+    return Mock(spec=ResponseAdapterDeprecated)
 
 
 class TestRegularRequestHandler:

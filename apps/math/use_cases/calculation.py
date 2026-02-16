@@ -2,8 +2,13 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
+from apps.core.handlers.protocol import (
+    DetailParamsProtocol,
+    RequestContextProtocol,
+    RequestDataProtocol,
+)
 from apps.core.storage.services.iabc import AbstractUserStorage
 from apps.core.use_cases.abstract import AbstractUseCase
 from apps.users.models.user import Person
@@ -25,6 +30,9 @@ if TYPE_CHECKING:
         AbstractRegularExerciseCreate,
     )
 
+    # HACK: Fix Any type hint
+    type ParametersRepository = Any
+
     type StorageService = AbstractUserStorage[CalculationMeta]
     type CreateService = AbstractRegularExerciseCreate[
         CalculationConditions,
@@ -42,6 +50,8 @@ if TYPE_CHECKING:
     type ExplainService = AbstractExerciseExplain[
         CalculationAnswer, CalculationMeta, CalculationExplain
     ]
+
+type RequestData = dict[str, Any]
 
 CASE_STORE_PREFIX = 'regular_calculation_case'
 
@@ -124,3 +134,30 @@ class RegularCalculationCheckUseCase(
             return self._create_use_case.execute(user, meta.conditions)
         else:
             return self._explain_service.execute(request_data, meta)
+
+
+class DetailCalculationCreateUseCase:
+    """Start stored calculation exercise use case."""
+
+    def __init__(
+        self,
+        repository: ParametersRepository,
+        service: CreateService,
+        storage: StorageService,
+    ) -> None:
+        """Construct the use case."""
+        self._repository = repository
+        self._service = service
+        self._storage = storage
+
+    def execute(
+        self,
+        params: DetailParamsProtocol,
+        context: RequestContextProtocol,
+        data: RequestDataProtocol,
+    ) -> CalculationCase:
+        """Start stored calculation exercise."""
+        conditions = self._repository.execute(params)
+        case, meta = self._service.execute(conditions)
+        self._storage.save(meta, context.user.pk, CASE_STORE_PREFIX)
+        return case
