@@ -52,7 +52,7 @@ log = logging.getLogger(__name__)
 
 CONTAINER = MainContainer.math.exercise_web_views
 
-TEMPLATE_PATH = 'math/exercise/calculation/'
+TEMPLATE_PATH = 'math/exercise/calculation/perform/'
 PARTIAL_TEMPLATES: dict[ExerciseStatusEnum, str] = {
     ExerciseStatusEnum.NEW_CASE: '_new_case.html',
     ExerciseStatusEnum.EXPLAIN: '_explain_case.html',
@@ -78,7 +78,7 @@ class ExerciseChoiceView(
       - table of exercises assigned to the user (not yet implemented)
     """
 
-    template_name = 'math/exercise/calculation/conditions.html'
+    template_name = 'math/exercise/calculation/regular/index.html'
 
     @inject
     def dispatch(
@@ -131,8 +131,6 @@ class _BasePerformView(
 ):
     """Base exercise performing view."""
 
-    template_name = 'math/exercise/calculation/index.html'
-
     def post(self, request: HttpRequest) -> HttpResponse:
         """Render exercise template with stored exercise UUID."""
         result = self.check_handler.execute(self.user, request.POST.dict())
@@ -143,7 +141,7 @@ class _BasePerformView(
 class RegularPerformView(_BasePerformView[StartHandler, CheckHandler]):
     """Calculation exercise regular performing view."""
 
-    template_name = 'math/exercise/calculation/index.html'
+    template_name = 'math/exercise/calculation/perform/index.html'
 
     @inject
     def dispatch(
@@ -188,7 +186,7 @@ class DetailPerformView(
 ):
     """User's saved calculation exercise performing view."""
 
-    template_name = 'math/exercise/calculation/index.html'
+    template_name = 'math/exercise/calculation/perform/index.html'
 
     @inject
     def dispatch(
@@ -238,7 +236,7 @@ class DetailPerformView(
 class AssignedPerformView(_BasePerformView[StartHandler, CheckHandler]):
     """Assigned calculation exercise to user the performing view."""
 
-    template_name = 'math/exercise/calculation/index.html'
+    template_name = 'math/exercise/calculation/perform/index.html'
 
     @inject
     def dispatch(

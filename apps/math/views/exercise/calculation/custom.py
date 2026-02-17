@@ -24,7 +24,7 @@ class CalculationListView(
 ):
     """User's calculation exercise list view."""
 
-    template_name = 'math/exercise/calculation/stored/list/index.html'
+    template_name = 'math/exercise/calculation/custom/index.html'
     context_object_name = 'exercises'
     paginate_by = 15
     model = CalculationCondition

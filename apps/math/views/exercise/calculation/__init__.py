@@ -13,7 +13,7 @@ __all__ = [
     'AssignedPerformView',
 ]
 
-from .crud import (
+from .custom import (
     CalculationCreateView,
     CalculationDeleteView,
     CalculationListView,

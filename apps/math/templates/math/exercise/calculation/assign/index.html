@@ -1,0 +1,29 @@
+{# Assigned calculation exercise list page with create and update form #}
+
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "math.page.exercises.assigned.title" %}{% endblock title %}
+
+{% block content %}
+<main class="container">
+  {% trans "math.page.calculation.assigned.list.header" as header %}
+  {% include "components/header_block.html" with header=header %}
+
+  {% include "./_table.html" %}
+
+  <!--=== Form ===-->
+  {# Target for inserting form #}
+  <div id="form-block"></div><!-- End Form -->
+
+  <!--=== Buttons row ===-->
+  <div class="py-3">
+    <button class="wse-btn"
+            hx-get={% url 'math:assigned_calculation_exercise_create' %}
+            hx-target="#form-block"
+            hx-swap="innerHTML">
+      {% trans 'button.create' %}
+    </button>
+  </div><!-- Buttons row -->
+</main>
+{% endblock %}
