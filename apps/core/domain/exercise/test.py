@@ -175,10 +175,6 @@ class TestCheckDomain(AbstractCheckExerciseDomain[TestExerciseMeta]):
         case_meta: TestExerciseMeta,
     ) -> CheckResult:
         """Check user's answer."""
-        print('****************************************')
-        print(f'{answer = }')
-        print(f'{case_meta = }')
-        print('****************************************')
         is_correct = case_meta.option_value == answer.option_value
         return TestExerciseResult(
             is_correct=is_correct,
