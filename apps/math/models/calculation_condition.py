@@ -3,6 +3,8 @@
 from django.db import models
 from django.utils.translation import gettext as _
 
+from apps.core.models import AbstractBaseModel
+
 
 class CalculationTypeChoices(models.TextChoices):
     """Calculation type choices."""
@@ -38,7 +40,7 @@ class CalculationCondition(models.Model):
     user = models.ForeignKey(
         'users.Person',
         on_delete=models.CASCADE,
-        verbose_name=_('User'),
+        verbose_name=_('The user who created the exercise'),
     )
     created_at = models.DateTimeField(
         _('Created at'),
@@ -65,3 +67,26 @@ class CalculationCondition(models.Model):
     def __str__(self) -> str:
         """Return string representation of model instance."""
         return str(self.name)
+
+
+class AssignedCalculationCondition(AbstractBaseModel):
+    """Assigned calculation conditions."""
+
+    calculation_condition = models.ForeignKey(
+        CalculationCondition,
+        on_delete=models.CASCADE,
+        verbose_name=_('Calculation condition'),
+    )
+    mentorship = models.ForeignKey(
+        'users.Mentorship',
+        on_delete=models.CASCADE,
+        verbose_name=_('Mentorship'),
+    )
+
+    class Meta:
+        """Model configurations."""
+
+        verbose_name = _('Assigned calculation exercise condition')
+        verbose_name_plural = _('Assigned calculation exercise conditions')
+
+        db_table = 'math_exercise_condition_assigned'
