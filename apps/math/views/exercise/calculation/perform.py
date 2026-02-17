@@ -17,22 +17,22 @@ from django.views.generic.base import TemplateResponseMixin
 
 from apps.core.adapter.response.exercise.web.dto import WebCase
 from apps.core.domain.exercise.enums import ExerciseStatusEnum
-from apps.core.handlers.protocols import RegularRequestHandlerProtocol
+from apps.core.handlers.dto import DetailParams, RequestContext, RequestData
+from apps.core.handlers.protocol import (
+    DetailRequestHandlerProtocol,
+    RegularRequestHandlerProtocol,
+)
 from apps.core.views.auth import UserLoginRequiredMixin
 from apps.core.views.mixins import GetExerciseHandlersMixin, GetHandlerMixin
 from di import MainContainer
 
-log = logging.getLogger(__name__)
-
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponseBase
-
-    type RequestData = dict[str, str]
 
 type ChoiceHandler = Any
 type GenerateHandler = Any
 type CheckHandler = Any
-type CreateHandler = Any
+type StartHandler = Any
 
 CreateHandlerT = TypeVar(
     'CreateHandlerT', bound=RegularRequestHandlerProtocol[Any, Any]
@@ -94,7 +94,7 @@ class ExerciseChoiceView(
         self._handler = handler
         return super().dispatch(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs: RequestData) -> RequestData:
+    def get_context_data(self, **kwargs: dict[str, str]) -> dict[str, str]:
         """Add data to context."""
         request_data = self.request.GET.dict()
         response_data = self.handler.execute(self.user, request_data)
@@ -106,34 +106,8 @@ class ExerciseChoiceView(
 # -----------------------------------------------
 
 
-class _BasePerformView(
-    UserLoginRequiredMixin,
-    GetExerciseHandlersMixin[CreateHandlerT, CheckHandlerT],
-    TemplateResponseMixin,
-    View,
-    Generic[CreateHandlerT, CheckHandlerT],
-):
-    """Base exercise performing view."""
-
-    template_name = 'math/exercise/calculation/index.html'
-
-    def get(self, request: HttpRequest) -> HttpResponse:
-        """Render initial exercise template."""
-        schema = self.start_handler.execute(self.user, request.GET.dict())
-        context: dict[str, str] = {
-            'exercise_case_html': self._get_partial_html(request, schema),
-            **schema.model_dump(),
-        }
-        if request.headers.get('HX-Request') == 'true':
-            return HttpResponse(self._get_partial_html(request, schema))
-        else:
-            return render(request, self.get_template_names(), context)
-
-    def post(self, request: HttpRequest) -> HttpResponse:
-        """Render exercise template with stored exercise UUID."""
-        schema = self.check_handler.execute(self.user, request.POST.dict())
-        html = self._get_partial_html(request, schema)
-        return HttpResponse(html)
+class GetPartialExerciseTemplateMixin:
+    """Mixin provides partial template for specific exercise status."""
 
     @staticmethod
     def _get_partial_html(request: HttpRequest, schema: WebCase) -> str:
@@ -147,7 +121,26 @@ class _BasePerformView(
         return render_to_string(TEMPLATE_PATH + template, context, request)
 
 
-class RegularPerformView(_BasePerformView[CreateHandler, CheckHandler]):
+class _BasePerformView(
+    UserLoginRequiredMixin,
+    GetExerciseHandlersMixin[CreateHandlerT, CheckHandlerT],
+    GetPartialExerciseTemplateMixin,
+    TemplateResponseMixin,
+    View,
+    Generic[CreateHandlerT, CheckHandlerT],
+):
+    """Base exercise performing view."""
+
+    template_name = 'math/exercise/calculation/index.html'
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+        """Render exercise template with stored exercise UUID."""
+        result = self.check_handler.execute(self.user, request.POST.dict())
+        html = self._get_partial_html(request, result)
+        return HttpResponse(html)
+
+
+class RegularPerformView(_BasePerformView[StartHandler, CheckHandler]):
     """Calculation exercise regular performing view."""
 
     template_name = 'math/exercise/calculation/index.html'
@@ -157,7 +150,7 @@ class RegularPerformView(_BasePerformView[CreateHandler, CheckHandler]):
         self,
         request: HttpRequest,
         *args: object,
-        create_handler: CreateHandler = Provide[
+        start_handler: StartHandler = Provide[
             CONTAINER.create_regular_calculation  # type: ignore[attr-defined]
         ],
         check_handler: CheckHandler = Provide[
@@ -166,12 +159,33 @@ class RegularPerformView(_BasePerformView[CreateHandler, CheckHandler]):
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject request handler."""
-        self._create_handler = create_handler
+        self._start_handler = start_handler
         self._check_handler = check_handler
         return super().dispatch(request, *args, **kwargs)
 
+    def get(self, request: HttpRequest) -> HttpResponse:
+        """Render initial exercise template."""
+        result = self.start_handler.execute(self.user, request.GET.dict())
+        context: dict[str, str] = {
+            'exercise_case_html': self._get_partial_html(request, result),
+            **result.model_dump(),
+        }
+        if request.headers.get('HX-Request') == 'true':
+            return HttpResponse(self._get_partial_html(request, result))
+        else:
+            return render(request, self.get_template_names(), context)
 
-class DetailPerformView(_BasePerformView[CreateHandler, CheckHandler]):
+
+class DetailPerformView(
+    UserLoginRequiredMixin,
+    GetExerciseHandlersMixin[
+        DetailRequestHandlerProtocol[WebCase],
+        DetailRequestHandlerProtocol[WebCase],
+    ],
+    GetPartialExerciseTemplateMixin,
+    TemplateResponseMixin,
+    View,
+):
     """User's saved calculation exercise performing view."""
 
     template_name = 'math/exercise/calculation/index.html'
@@ -181,21 +195,47 @@ class DetailPerformView(_BasePerformView[CreateHandler, CheckHandler]):
         self,
         request: HttpRequest,
         *args: object,
-        create_handler: CreateHandler = Provide[
-            CONTAINER.create_detail_calculation  # type: ignore[attr-defined]
+        start_handler: DetailRequestHandlerProtocol[WebCase] = Provide[
+            CONTAINER.start_detail_calculation  # type: ignore[attr-defined]
         ],
-        check_handler: CheckHandler = Provide[
+        check_handler: DetailRequestHandlerProtocol[WebCase] = Provide[
             CONTAINER.check_detail_calculation  # type: ignore[attr-defined]
         ],
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject request handler."""
-        self._create_handler = create_handler
+        self._start_handler = start_handler
         self._check_handler = check_handler
         return super().dispatch(request, *args, **kwargs)
 
+    def get(self, request: HttpRequest, pk: int) -> HttpResponse:
+        """Render initial exercise template."""
+        params = DetailParams(pk=pk)
+        meta = RequestContext(user=self.user)
+        data = RequestData(query=request.GET.dict())
+        result = self.start_handler.execute(params, meta, data)
 
-class AssignedPerformView(_BasePerformView[CreateHandler, CheckHandler]):
+        context: dict[str, str] = {
+            'exercise_case_html': self._get_partial_html(request, result),
+            **result.data.model_dump(),
+        }
+        if request.headers.get('HX-Request') == 'true':
+            return HttpResponse(self._get_partial_html(request, result))
+        else:
+            return render(request, self.get_template_names(), context)
+
+    def post(self, request: HttpRequest, pk: int) -> HttpResponse:
+        """Render exercise template with stored exercise UUID."""
+        params = DetailParams(pk=pk)
+        request_context = RequestContext(user=self.user)
+        data = RequestData(query=request.POST.dict())
+        result = self.check_handler.execute(params, request_context, data)
+
+        html = self._get_partial_html(request, result)
+        return HttpResponse(html)
+
+
+class AssignedPerformView(_BasePerformView[StartHandler, CheckHandler]):
     """Assigned calculation exercise to user the performing view."""
 
     template_name = 'math/exercise/calculation/index.html'
@@ -205,7 +245,7 @@ class AssignedPerformView(_BasePerformView[CreateHandler, CheckHandler]):
         self,
         request: HttpRequest,
         *args: object,
-        create_handler: CreateHandler = Provide[
+        create_handler: StartHandler = Provide[
             CONTAINER.create_assigned_calculation  # type: ignore[attr-defined]
         ],
         check_handler: CheckHandler = Provide[
@@ -214,6 +254,6 @@ class AssignedPerformView(_BasePerformView[CreateHandler, CheckHandler]):
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject request handler."""
-        self._create_handler = create_handler
+        self._start_handler = create_handler
         self._check_handler = check_handler
         return super().dispatch(request, *args, **kwargs)

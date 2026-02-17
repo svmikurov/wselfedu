@@ -3,7 +3,10 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import DependenciesContainer, Factory
 
-from apps.core.handlers.generic import RegularRequestHandler
+from apps.core.handlers.generic import (
+    DetailRequestHandler,
+    RegularRequestHandler,
+)
 from apps.core.validators.request.null import NullValidator
 
 
@@ -50,5 +53,17 @@ class ExerciseWebHandlerContainer(DeclarativeContainer):
         RegularRequestHandler,
         validator=validators.check_regular_calculation,
         use_case=use_cases.check_regular_calculation,
+        adapter=adapters.calculation_result_strategy,
+    )
+    start_detail_calculation = Factory(
+        DetailRequestHandler,
+        validator=NullValidator(),
+        use_case=use_cases.start_detail_calculation,
+        adapter=adapters.create_calculation,
+    )
+    check_detail_calculation = Factory(
+        DetailRequestHandler,
+        validator=validators.check_detail_calculation,
+        use_case=use_cases.check_detail_calculation,
         adapter=adapters.calculation_result_strategy,
     )

@@ -15,3 +15,7 @@ class ExerciseWebValidatorContainer(DeclarativeContainer):
     check_regular_calculation = Factory(
         validators.RegularCalculationCheckWebValidator,
     )
+
+    check_detail_calculation = Factory(
+        validators.DetailCalculationCheckWebValidator,
+    )

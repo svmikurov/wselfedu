@@ -6,7 +6,10 @@ from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Generic, TypeVar
 
 if TYPE_CHECKING:
-    from apps.core.handlers.dto import DetailParams, RequestContext
+    from apps.core.handlers.protocol import (
+        DetailParamsProtocol,
+        RequestContextProtocol,
+    )
     from apps.users.models import Person
 
 ResponseData = TypeVar('ResponseData')
@@ -21,14 +24,14 @@ class AbstractUseCase(ABC, Generic[RequestData, ResponseData]):
         """Execute use case."""
 
 
-class AbstractDetailUseCase(ABC, Generic[RequestData, ResponseData]):
+class AbstractDetailUseCase(ABC, Generic[ResponseData]):
     """ABC for detail use case."""
 
     @abstractmethod
     def execute(
         self,
-        params: DetailParams,
-        context: RequestContext,
-        data: RequestData,
+        params: DetailParamsProtocol,
+        context: RequestContextProtocol,
+        data: object,
     ) -> ResponseData:
         """Execute use case."""

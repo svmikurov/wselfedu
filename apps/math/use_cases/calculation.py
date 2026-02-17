@@ -7,10 +7,9 @@ from typing import TYPE_CHECKING, Any
 from apps.core.handlers.protocol import (
     DetailParamsProtocol,
     RequestContextProtocol,
-    RequestDataProtocol,
 )
 from apps.core.storage.services.iabc import AbstractUserStorage
-from apps.core.use_cases.abstract import AbstractUseCase
+from apps.core.use_cases.abstract import AbstractDetailUseCase, AbstractUseCase
 from apps.users.models.user import Person
 
 from ..domains.dto import (
@@ -33,7 +32,7 @@ if TYPE_CHECKING:
     # HACK: Fix Any type hint
     type ParametersRepository = Any
 
-    type StorageService = AbstractUserStorage[CalculationMeta]
+    type StorageService = AbstractUserStorage[CalculationMeta,]
     type CreateService = AbstractRegularExerciseCreate[
         CalculationConditions,
         tuple[CalculationCase, CalculationMeta],
@@ -47,6 +46,7 @@ if TYPE_CHECKING:
     type CreateUseCase = AbstractUseCase[
         CalculationConditions, CalculationCase
     ]
+    type CreateDetailUseCase = AbstractDetailUseCase[CalculationCase,]
     type ExplainService = AbstractExerciseExplain[
         CalculationAnswer, CalculationMeta, CalculationExplain
     ]
@@ -154,10 +154,49 @@ class DetailCalculationCreateUseCase:
         self,
         params: DetailParamsProtocol,
         context: RequestContextProtocol,
-        data: RequestDataProtocol,
+        # HACK: Unify the use case interface
+        # for data parameter in requests without a body.
+        data: object,
     ) -> CalculationCase:
         """Start stored calculation exercise."""
-        conditions = self._repository.execute(params)
+        conditions = self._repository.fetch(params, context.user.pk)
         case, meta = self._service.execute(conditions)
         self._storage.save(meta, context.user.pk, CASE_STORE_PREFIX)
         return case
+
+
+class DetailCalculationCheckUseCase:
+    """Detail calculation check use case."""
+
+    def __init__(
+        self,
+        storage: StorageService,
+        check_service: CheckService,
+        milestone_service: MilestoneService,
+        create_use_case: CreateDetailUseCase,
+        explain_service: ExplainService,
+    ) -> None:
+        """Construct the use case."""
+        self._storage = storage
+        self._check_service = check_service
+        self._milestone_service = milestone_service
+        self._create_use_case = create_use_case
+        self._explain_service = explain_service
+
+    def execute(
+        self,
+        params: DetailParamsProtocol,
+        context: RequestContextProtocol,
+        data: CalculationAnswer,
+    ) -> CalculationCase | CalculationExplain:
+        """Check regular calculation exercise."""
+        meta = self._storage.retrieve(context.user.pk, CASE_STORE_PREFIX)
+        result = self._check_service.execute(data, meta)
+
+        if self._milestone_service:
+            self._milestone_service.execute(context.user, result, meta)
+
+        if result.is_correct:
+            return self._create_use_case.execute(params, context, data)
+        else:
+            return self._explain_service.execute(data, meta)

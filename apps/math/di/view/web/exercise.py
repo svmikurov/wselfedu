@@ -20,7 +20,7 @@ class WebViewContainer(DeclarativeContainer):
     calculation_exercise_choice = handlers.calculation_exercise_choice
     create_regular_calculation = handlers.create_regular_calculation
     check_regular_calculation = handlers.check_regular_calculation
-    create_detail_calculation = handlers.create_detail_calculation
+    start_detail_calculation = handlers.start_detail_calculation
     check_detail_calculation = handlers.check_detail_calculation
     create_assigned_calculation = handlers.create_assigned_calculation
     check_assigned_calculation = handlers.check_assigned_calculation

@@ -13,8 +13,8 @@ Operation = Literal['add', 'sub', 'mul', 'div']
 class CalculationConditions(BaseDTO):
     """Calculation conditions DTO."""
 
-    min_operand: str
-    max_operand: str
+    min_operand: int
+    max_operand: int
     operation_type: Operation
 
 

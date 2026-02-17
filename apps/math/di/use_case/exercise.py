@@ -7,11 +7,7 @@ from dependency_injector.providers import (
     Factory,
 )
 
-from apps.math.use_cases.calculation import (
-    CalculationConditionsUseCase,
-    RegularCalculationCheckUseCase,
-    RegularCalculationCreateUseCase,
-)
+from apps.math.use_cases import calculation
 
 
 class ExerciseUseCaseContainer(DeclarativeContainer):
@@ -21,6 +17,7 @@ class ExerciseUseCaseContainer(DeclarativeContainer):
     # External dependencies
     # -------------------------------------------
 
+    repositories = DependenciesContainer()
     services = DependenciesContainer()
 
     storage = Dependency()  # type: ignore[var-annotated]
@@ -30,19 +27,34 @@ class ExerciseUseCaseContainer(DeclarativeContainer):
     # -------------------------------------------
 
     calculation_conditions = Factory(
-        CalculationConditionsUseCase,
+        calculation.CalculationConditionsUseCase,
     )
 
     create_regular_calculation = Factory(
-        RegularCalculationCreateUseCase,
+        calculation.RegularCalculationCreateUseCase,
         service=services.create_calculation,
         storage=storage,
     )
     check_regular_calculation = Factory(
-        RegularCalculationCheckUseCase,
+        calculation.RegularCalculationCheckUseCase,
         storage=storage,
         check_service=services.check_calculation,
         milestone_service=services.calculation_milestone,
         create_use_case=create_regular_calculation,
+        explain_service=services.explain_calculation,
+    )
+
+    start_detail_calculation = Factory(
+        calculation.DetailCalculationCreateUseCase,
+        repository=repositories.calculation_conditions,
+        service=services.create_calculation,
+        storage=storage,
+    )
+    check_detail_calculation = Factory(
+        calculation.DetailCalculationCheckUseCase,
+        storage=storage,
+        check_service=services.check_calculation,
+        milestone_service=services.calculation_milestone,
+        create_use_case=start_detail_calculation,
         explain_service=services.explain_calculation,
     )

@@ -5,6 +5,7 @@ from dependency_injector.providers import Container, Dependency
 
 from .adapter.web.exercise import ExerciseWebAdapterContainer
 from .handler.web.exercise import ExerciseWebHandlerContainer
+from .repository.exercise import ExerciseRepositoryContainer
 from .service.exercise import ExerciseServiceContainer
 from .use_case.exercise import ExerciseUseCaseContainer
 from .validator.web.exercise import ExerciseWebValidatorContainer
@@ -25,6 +26,9 @@ class MathematicalContainer(DeclarativeContainer):
     # ===========================================
     # Internal dependencies
     # -------------------------------------------
+    repositories = Container(
+        ExerciseRepositoryContainer,
+    )
     services = Container(
         ExerciseServiceContainer,
     )
@@ -37,6 +41,7 @@ class MathematicalContainer(DeclarativeContainer):
     )
     use_cases = Container(
         ExerciseUseCaseContainer,
+        repositories=repositories,
         services=services,
         storage=user_data_storage,
     )
