@@ -45,7 +45,6 @@ class RegularExerciseLoop(
         self, user: Person, schema: ExerciseRequest
     ) -> ExerciseCase | Explanation:
         """Execute exercise loop."""
-        print(f'{schema = }')
         match schema.exercise_status:
             case ExerciseStatusEnum.NEW_CASE:
                 return self._create_service.execute(user)
