@@ -1,0 +1,14 @@
+{# Assigned calculation exercise list page with create and update form #}
+
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "math.page.exercises.assigned.title" %}{% endblock title %}
+
+{% block content %}
+<main class="container">
+  {% trans "math.page.calculation.assigned.list.header" as header %}
+  {% include "components/header_block.html" with header=header %}
+  {% include "./_table.html" %}
+</main>
+{% endblock %}

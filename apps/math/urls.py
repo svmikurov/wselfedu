@@ -18,8 +18,59 @@ urlpatterns = [
     # -------------------------------------------
     path(
         'exercises/',
-        TemplateView.as_view(template_name='math/exercise/index.html'),
+        TemplateView.as_view(
+            template_name='math/exercise/calculation/index.html'
+        ),
         name='math_exercises',
+    ),
+    # -------------------------------------------
+    # Custom calculation exercises
+    # -------------------------------------------
+    path(
+        'exercise/calculation/regular/',
+        calculation.CalculationListView.as_view(),
+        name='regular_calculation_exercise_list',
+    ),
+    path(
+        'exercise/calculation/regular/create/',
+        calculation.CalculationCreateView.as_view(),
+        name='regular_calculation_exercise_create',
+    ),
+    path(
+        'exercise/calculation/regular/<int:pk>/update/',
+        calculation.CalculationUpdateView.as_view(),
+        name='regular_calculation_exercise_update',
+    ),
+    path(
+        'exercise/calculation/regular/<int:pk>/delete/',
+        calculation.CalculationDeleteView.as_view(),
+        name='regular_calculation_exercise_delete',
+    ),
+    # -------------------------------------------
+    # Mentors's assigned calculation exercises
+    # -------------------------------------------
+    path(
+        'exercise/calculation/mentor/list/',
+        calculation.AssignedCalculationConditionMentorListView.as_view(),
+        name='mentor_calculation_exercise_list',
+    ),
+    path(
+        'exercise/calculation/mentor/create/',
+        calculation.AssignedCalculationConditionMentorCreateView.as_view(),
+        name='mentor_calculation_exercise_create',
+    ),
+    path(
+        'exercise/calculation/mentor/<int:pk>/delete/',
+        calculation.AssignedCalculationConditionMentorDeleteView.as_view(),
+        name='mentor_calculation_exercise_delete',
+    ),
+    # -------------------------------------------
+    # Student's assigned calculation exercises
+    # -------------------------------------------
+    path(
+        'exercise/calculation/student/list/',
+        calculation.AssignedCalculationExerciseStudentListVew.as_view(),
+        name='student_calculation_exercise_list',
     ),
     # -------------------------------------------
     # Calculation exercise selection
@@ -51,46 +102,5 @@ urlpatterns = [
         'exercise/calculation/<int:pk>/assigned/',
         calculation.AssignedPerformView.as_view(),
         name='assigned_calculation_exercise',
-    ),
-    # -------------------------------------------
-    # Custom calculation exercise CRUD
-    # -------------------------------------------
-    path(
-        'exercise/calculation/regular/',
-        calculation.CalculationListView.as_view(),
-        name='regular_calculation_exercise_list',
-    ),
-    path(
-        'exercise/calculation/regular/create/',
-        calculation.CalculationCreateView.as_view(),
-        name='regular_calculation_exercise_create',
-    ),
-    path(
-        'exercise/calculation/regular/<int:pk>/update/',
-        calculation.CalculationUpdateView.as_view(),
-        name='regular_calculation_exercise_update',
-    ),
-    path(
-        'exercise/calculation/regular/<int:pk>/delete/',
-        calculation.CalculationDeleteView.as_view(),
-        name='regular_calculation_exercise_delete',
-    ),
-    # -------------------------------------------
-    # Calculation exercise CRUD for mentor
-    # -------------------------------------------
-    path(
-        'exercise/calculation/mentor/list/',
-        calculation.AssignedCalculationConditionMentorListView.as_view(),
-        name='mentor_calculation_exercise_list',
-    ),
-    path(
-        'exercise/calculation/mentor/create/',
-        calculation.AssignedCalculationConditionMentorCreateView.as_view(),
-        name='mentor_calculation_exercise_create',
-    ),
-    path(
-        'exercise/calculation/mentor/<int:pk>/delete/',
-        calculation.AssignedCalculationConditionMentorDeleteView.as_view(),
-        name='mentor_calculation_exercise_delete',
     ),
 ]

@@ -1,20 +1,22 @@
 """Calculation exercise views."""
 
 __all__ = [
-    # Exercise CRUD
+    # Custom calculation exercises
     'CalculationListView',
     'CalculationCreateView',
     'CalculationUpdateView',
     'CalculationDeleteView',
-    # Exercise perform
+    # Mentors's assigned calculation exercises
+    'AssignedCalculationConditionMentorListView',
+    'AssignedCalculationConditionMentorCreateView',
+    'AssignedCalculationConditionMentorDeleteView',
+    # Student's assigned calculation exercises
+    'AssignedCalculationExerciseStudentListVew',
+    # Calculation exercise performing
     'DetailPerformView',
     'ExerciseChoiceView',
     'RegularPerformView',
     'AssignedPerformView',
-    # Calculation exercise assignation CRUD
-    'AssignedCalculationConditionMentorListView',
-    'AssignedCalculationConditionMentorCreateView',
-    'AssignedCalculationConditionMentorDeleteView',
 ]
 
 from .custom import (
@@ -33,4 +35,7 @@ from .perform import (
     DetailPerformView,
     ExerciseChoiceView,
     RegularPerformView,
+)
+from .student import (
+    AssignedCalculationExerciseStudentListVew,
 )

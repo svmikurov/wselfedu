@@ -1,0 +1,29 @@
+{# Student's assigned calculation exercises table partial template #}
+
+{% load i18n %}
+
+<div id="table-form-block">
+  <!--=== Table ===-->
+  <table class="table table-hover">
+    <thead>
+      <th>{% trans "Exercise name" %}</th>
+      <th>{% trans "Mentor" %}</th>
+    </thead>
+    <tbody>
+      {% for exercise in exercises %}
+        <tr id="row-{{ exercise.pk }}"
+            class="align-middle">
+          <td class="py-3">
+            <a href="{% url "math:detail_calculation_exercise" exercise.pk %}">
+              {{ exercise.calculation_condition }}
+            </a>
+          </td>
+          <td>{{ exercise.mentorship.mentor }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table><!-- End Table -->
+
+  {# Pagination #}
+  {% include 'components/pagination.html' %}
+</div>

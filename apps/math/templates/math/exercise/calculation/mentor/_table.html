@@ -1,14 +1,14 @@
-{# User's stored calculation exercises table partial template #}
+{# Mentors's assigned calculation exercises table partial template #}
 
 {% load i18n %}
 
-<div id="table-form-block" hx-swap-oob="true">
+<div id="table-form-block">
   <!--=== Table ===-->
   <table class="table table-hover">
     <thead>
       <th>{% trans "Exercise name" %}</th>
       <th>{% trans "Student" %}</th>
-      <th></th>
+      <th>{# Edit icons #}</th>
     </thead>
     <tbody>
       {% for exercise in exercises %}
