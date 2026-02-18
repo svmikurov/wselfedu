@@ -11,6 +11,10 @@ __all__ = [
     'ExerciseChoiceView',
     'RegularPerformView',
     'AssignedPerformView',
+    # Calculation exercise assignation CRUD
+    'AssignedCalculationConditionMentorListView',
+    'AssignedCalculationConditionMentorCreateView',
+    'AssignedCalculationConditionMentorDeleteView',
 ]
 
 from .custom import (
@@ -18,6 +22,11 @@ from .custom import (
     CalculationDeleteView,
     CalculationListView,
     CalculationUpdateView,
+)
+from .mentor import (
+    AssignedCalculationConditionMentorCreateView,
+    AssignedCalculationConditionMentorDeleteView,
+    AssignedCalculationConditionMentorListView,
 )
 from .perform import (
     AssignedPerformView,
