@@ -53,7 +53,7 @@ urlpatterns = [
         name='assigned_calculation_exercise',
     ),
     # -------------------------------------------
-    # Stored calculation exercise CRUD
+    # Custom calculation exercise CRUD
     # -------------------------------------------
     path(
         'exercise/calculation/regular/',
@@ -74,5 +74,23 @@ urlpatterns = [
         'exercise/calculation/regular/<int:pk>/delete/',
         calculation.CalculationDeleteView.as_view(),
         name='regular_calculation_exercise_delete',
+    ),
+    # -------------------------------------------
+    # Calculation exercise CRUD for mentor
+    # -------------------------------------------
+    path(
+        'exercise/calculation/mentor/list/',
+        calculation.AssignedCalculationConditionMentorListView.as_view(),
+        name='mentor_calculation_exercise_list',
+    ),
+    path(
+        'exercise/calculation/mentor/create/',
+        calculation.AssignedCalculationConditionMentorCreateView.as_view(),
+        name='mentor_calculation_exercise_create',
+    ),
+    path(
+        'exercise/calculation/mentor/<int:pk>/delete/',
+        calculation.AssignedCalculationConditionMentorDeleteView.as_view(),
+        name='mentor_calculation_exercise_delete',
     ),
 ]
