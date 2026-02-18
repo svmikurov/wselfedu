@@ -233,8 +233,17 @@ class DetailPerformView(
         return HttpResponse(html)
 
 
-class AssignedPerformView(_BasePerformView[StartHandler, CheckHandler]):
-    """Assigned calculation exercise to user the performing view."""
+class AssignedPerformView(
+    UserLoginRequiredMixin,
+    GetExerciseHandlersMixin[
+        DetailRequestHandlerProtocol[WebCase],
+        DetailRequestHandlerProtocol[WebCase],
+    ],
+    GetPartialExerciseTemplateMixin,
+    TemplateResponseMixin,
+    View,
+):
+    """Student's assigned calculation exercise performing view."""
 
     template_name = 'math/exercise/calculation/perform/index.html'
 
@@ -244,10 +253,10 @@ class AssignedPerformView(_BasePerformView[StartHandler, CheckHandler]):
         request: HttpRequest,
         *args: object,
         create_handler: StartHandler = Provide[
-            CONTAINER.create_assigned_calculation  # type: ignore[attr-defined]
+            CONTAINER.start_student_calculation  # type: ignore[attr-defined]
         ],
         check_handler: CheckHandler = Provide[
-            CONTAINER.check_assigned_calculation  # type: ignore[attr-defined]
+            CONTAINER.check_student_calculation  # type: ignore[attr-defined]
         ],
         **kwargs: object,
     ) -> HttpResponseBase:
@@ -255,3 +264,30 @@ class AssignedPerformView(_BasePerformView[StartHandler, CheckHandler]):
         self._start_handler = create_handler
         self._check_handler = check_handler
         return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request: HttpRequest, pk: int) -> HttpResponse:
+        """Render initial exercise template."""
+        params = DetailParams(pk=pk)
+        request_context = RequestContext(user=self.user)
+        data = RequestData(query=request.GET.dict())
+        result = self.start_handler.execute(params, request_context, data)
+
+        context: dict[str, str] = {
+            'exercise_case_html': self._get_partial_html(request, result),
+            **result.data.model_dump(),
+        }
+
+        if request.headers.get('HX-Request') == 'true':
+            return HttpResponse(self._get_partial_html(request, result))
+        else:
+            return render(request, self.get_template_names(), context)
+
+    def post(self, request: HttpRequest, pk: int) -> HttpResponse:
+        """Render exercise template with stored exercise UUID."""
+        params = DetailParams(pk=pk)
+        request_context = RequestContext(user=self.user)
+        data = RequestData(query=request.POST.dict())
+        result = self.check_handler.execute(params, request_context, data)
+
+        html = self._get_partial_html(request, result)
+        return HttpResponse(html)

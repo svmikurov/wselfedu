@@ -58,3 +58,18 @@ class ExerciseUseCaseContainer(DeclarativeContainer):
         create_use_case=start_detail_calculation,
         explain_service=services.explain_calculation,
     )
+
+    start_student_calculation = Factory(
+        calculation.DetailCalculationCreateUseCase,
+        repository=repositories.student_calculation_conditions,
+        service=services.create_calculation,
+        storage=storage,
+    )
+    check_student_calculation = Factory(
+        calculation.DetailCalculationCheckUseCase,
+        storage=storage,
+        check_service=services.check_calculation,
+        milestone_service=services.calculation_milestone,
+        create_use_case=start_student_calculation,
+        explain_service=services.explain_calculation,
+    )
