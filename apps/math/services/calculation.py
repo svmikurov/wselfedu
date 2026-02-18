@@ -15,14 +15,14 @@ from apps.core.service.exercise.abstract import (
     AbstractRegularExerciseCreate,
 )
 from apps.math.domains.dto import (
-    CalculationAnswer,
-    CalculationCase,
-    CalculationConditions,
-    CalculationData,
-    CalculationExplain,
-    CalculationMeta,
-    CalculationResult,
-    CalculationSolution,
+    CalculationAnswerDTO,
+    CalculationCaseDTO,
+    CalculationConditionDTO,
+    CalculationDataDTO,
+    CalculationExplainDTO,
+    CalculationMetaDTO,
+    CalculationResultDTO,
+    CalculationSolutionDTO,
 )
 
 from ..domains.enums import CalculationEnum
@@ -35,8 +35,8 @@ if TYPE_CHECKING:
 
 class CalculationCreateService(
     AbstractRegularExerciseCreate[
-        CalculationConditions,
-        tuple[CalculationData, CalculationMeta],
+        CalculationConditionDTO,
+        tuple[CalculationDataDTO, CalculationMetaDTO],
     ]
 ):
     """Create calculation exercise service."""
@@ -52,15 +52,15 @@ class CalculationCreateService(
 
     def execute(
         self,
-        conditions: CalculationConditions,
-    ) -> tuple[CalculationData, CalculationMeta]:
+        conditions: CalculationConditionDTO,
+    ) -> tuple[CalculationDataDTO, CalculationMetaDTO]:
         """Get calculation exercise case data."""
         task = self._create_task(conditions)
         data = self._build_data(task)
         meta = self._build_meta(task, conditions)
         return data, meta
 
-    def _create_task(self, request_data: CalculationConditions) -> CalcTask:
+    def _create_task(self, request_data: CalculationConditionDTO) -> CalcTask:
         domain_type = self._domains[
             CalculationEnum(request_data.operation_type)
         ]
@@ -74,17 +74,17 @@ class CalculationCreateService(
         return exercise.create_task()
 
     @staticmethod
-    def _build_data(task: CalcTask) -> CalculationData:
-        return CalculationData(
+    def _build_data(task: CalcTask) -> CalculationDataDTO:
+        return CalculationDataDTO(
             exercise_status=ExerciseStatusEnum.NEW_CASE,
-            data=CalculationCase(question_text=task.question.text),
+            data=CalculationCaseDTO(question_text=task.question.text),
         )
 
     @staticmethod
     def _build_meta(
-        task: CalcTask, conditions: CalculationConditions
-    ) -> CalculationMeta:
-        return CalculationMeta(
+        task: CalcTask, conditions: CalculationConditionDTO
+    ) -> CalculationMetaDTO:
+        return CalculationMetaDTO(
             question_text=task.question.text,
             correct_answer=task.answer.number,
             conditions=conditions,
@@ -93,33 +93,33 @@ class CalculationCreateService(
 
 class CalculationCheckService(
     AbstractExerciseCheck[
-        CalculationAnswer,
-        CalculationMeta,
-        CalculationResult,
+        CalculationAnswerDTO,
+        CalculationMetaDTO,
+        CalculationResultDTO,
     ]
 ):
     """Calculation exercise user's answer check service."""
 
     def execute(
         self,
-        answer: CalculationAnswer,
-        case_meta: CalculationMeta,
-    ) -> CalculationResult:
+        answer: CalculationAnswerDTO,
+        case_meta: CalculationMetaDTO,
+    ) -> CalculationResultDTO:
         """Check calculation exercise user'a answer."""
         is_correct = bool(case_meta.correct_answer == int(answer.user_answer))
-        return CalculationResult(is_correct=is_correct)
+        return CalculationResultDTO(is_correct=is_correct)
 
 
 class CalculationMilestoneService(
-    AbstractMilestone[CalculationResult, CalculationMeta]
+    AbstractMilestone[CalculationResultDTO, CalculationMetaDTO]
 ):
     """Calculation exercise milestone."""
 
     def execute(
         self,
         user: Person,
-        result: CalculationResult,
-        case_meta: CalculationMeta,
+        result: CalculationResultDTO,
+        case_meta: CalculationMetaDTO,
     ) -> None:
         """Apply the answer result."""
         return
@@ -127,20 +127,20 @@ class CalculationMilestoneService(
 
 class CalculationExplainService(
     AbstractExerciseExplain[
-        CalculationAnswer, CalculationMeta, CalculationExplain
+        CalculationAnswerDTO, CalculationMetaDTO, CalculationExplainDTO
     ]
 ):
     """Explain the calculation exercise solution."""
 
     def execute(
         self,
-        answer: CalculationAnswer,
-        case_meta: CalculationMeta,
-    ) -> CalculationExplain:
+        answer: CalculationAnswerDTO,
+        case_meta: CalculationMetaDTO,
+    ) -> CalculationExplainDTO:
         """Explain the exercise case."""
-        return CalculationExplain(
+        return CalculationExplainDTO(
             exercise_status=ExerciseStatusEnum.EXPLAIN,
-            data=CalculationSolution(
+            data=CalculationSolutionDTO(
                 solution_text=(
                     f'{case_meta.question_text} = {case_meta.correct_answer}'
                 ),

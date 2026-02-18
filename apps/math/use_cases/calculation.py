@@ -13,12 +13,12 @@ from apps.core.use_cases.abstract import AbstractDetailUseCase, AbstractUseCase
 from apps.users.models.user import Person
 
 from ..domains.dto import (
-    CalculationAnswer,
-    CalculationCase,
-    CalculationConditions,
-    CalculationExplain,
-    CalculationMeta,
-    CalculationResult,
+    CalculationAnswerDTO,
+    CalculationCaseDTO,
+    CalculationConditionDTO,
+    CalculationExplainDTO,
+    CalculationMetaDTO,
+    CalculationResultDTO,
 )
 
 if TYPE_CHECKING:
@@ -32,23 +32,23 @@ if TYPE_CHECKING:
     # HACK: Fix Any type hint
     type ParametersRepository = Any
 
-    type StorageService = AbstractUserStorage[CalculationMeta,]
+    type StorageService = AbstractUserStorage[CalculationMetaDTO,]
     type CreateService = AbstractRegularExerciseCreate[
-        CalculationConditions,
-        tuple[CalculationCase, CalculationMeta],
+        CalculationConditionDTO,
+        tuple[CalculationCaseDTO, CalculationMetaDTO],
     ]
     type CheckService = AbstractExerciseCheck[
-        CalculationAnswer, CalculationMeta, CalculationResult
+        CalculationAnswerDTO, CalculationMetaDTO, CalculationResultDTO
     ]
     type MilestoneService = AbstractMilestone[
-        CalculationResult, CalculationMeta
+        CalculationResultDTO, CalculationMetaDTO
     ]
     type CreateUseCase = AbstractUseCase[
-        CalculationConditions, CalculationCase
+        CalculationConditionDTO, CalculationCaseDTO
     ]
-    type CreateDetailUseCase = AbstractDetailUseCase[CalculationCase,]
+    type CreateDetailUseCase = AbstractDetailUseCase[CalculationCaseDTO,]
     type ExplainService = AbstractExerciseExplain[
-        CalculationAnswer, CalculationMeta, CalculationExplain
+        CalculationAnswerDTO, CalculationMetaDTO, CalculationExplainDTO
     ]
 
 type RequestData = dict[str, Any]
@@ -57,21 +57,21 @@ CASE_STORE_PREFIX = 'regular_calculation_case'
 
 
 class CalculationConditionsUseCase(
-    AbstractUseCase[CalculationConditions, CalculationConditions],
+    AbstractUseCase[CalculationConditionDTO, CalculationConditionDTO],
 ):
     """Calculation conditions use case."""
 
     def execute(
         self,
         user: Person,
-        request_data: CalculationConditions,
-    ) -> CalculationConditions:
+        request_data: CalculationConditionDTO,
+    ) -> CalculationConditionDTO:
         """Start regular calculation exercise."""
         return request_data
 
 
 class RegularCalculationCreateUseCase(
-    AbstractUseCase[CalculationConditions, CalculationCase],
+    AbstractUseCase[CalculationConditionDTO, CalculationCaseDTO],
 ):
     """Start regular calculation use case."""
 
@@ -87,8 +87,8 @@ class RegularCalculationCreateUseCase(
     def execute(
         self,
         user: Person,
-        request_data: CalculationConditions,
-    ) -> CalculationCase:
+        request_data: CalculationConditionDTO,
+    ) -> CalculationCaseDTO:
         """Start regular calculation exercise."""
         case, meta = self._service.execute(request_data)
         self._storage.save(meta, user.pk, CASE_STORE_PREFIX)
@@ -97,8 +97,8 @@ class RegularCalculationCreateUseCase(
 
 class RegularCalculationCheckUseCase(
     AbstractUseCase[
-        CalculationAnswer,
-        CalculationCase | CalculationExplain,
+        CalculationAnswerDTO,
+        CalculationCaseDTO | CalculationExplainDTO,
     ],
 ):
     """Regular calculation check use case."""
@@ -121,8 +121,8 @@ class RegularCalculationCheckUseCase(
     def execute(
         self,
         user: Person,
-        request_data: CalculationAnswer,
-    ) -> CalculationCase | CalculationExplain:
+        request_data: CalculationAnswerDTO,
+    ) -> CalculationCaseDTO | CalculationExplainDTO:
         """Check regular calculation exercise."""
         meta = self._storage.retrieve(user.pk, CASE_STORE_PREFIX)
         result = self._check_service.execute(request_data, meta)
@@ -157,7 +157,7 @@ class DetailCalculationCreateUseCase:
         # HACK: Unify the use case interface
         # for data parameter in requests without a body.
         data: object,
-    ) -> CalculationCase:
+    ) -> CalculationCaseDTO:
         """Start stored calculation exercise."""
         conditions = self._repository.fetch(params, context.user.pk)
         case, meta = self._service.execute(conditions)
@@ -187,8 +187,8 @@ class DetailCalculationCheckUseCase:
         self,
         params: DetailParamsProtocol,
         context: RequestContextProtocol,
-        data: CalculationAnswer,
-    ) -> CalculationCase | CalculationExplain:
+        data: CalculationAnswerDTO,
+    ) -> CalculationCaseDTO | CalculationExplainDTO:
         """Check regular calculation exercise."""
         meta = self._storage.retrieve(context.user.pk, CASE_STORE_PREFIX)
         result = self._check_service.execute(data, meta)

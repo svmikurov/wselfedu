@@ -7,18 +7,18 @@ from apps.core.validators.request.abstract import (
     AbstractDetailValidator,
     AbstractRegularValidator,
 )
-from apps.math.domains.dto import CalculationAnswer, CalculationConditions
+from apps.math.domains.dto import CalculationAnswerDTO, CalculationConditionDTO
 
 
 class RegularCalculationStartWebValidator(
-    AbstractRegularValidator[CalculationConditions]
+    AbstractRegularValidator[CalculationConditionDTO]
 ):
     """Calculation conditions web validator."""
 
     @classmethod
-    def validate(cls, raw_data: dict[str, Any]) -> CalculationConditions:
+    def validate(cls, raw_data: dict[str, Any]) -> CalculationConditionDTO:
         """Validate calculation conditions request."""
-        return CalculationConditions(
+        return CalculationConditionDTO(
             min_operand=int(raw_data['min_operand']),
             max_operand=int(raw_data['max_operand']),
             operation_type=raw_data['operation_type'],
@@ -26,26 +26,26 @@ class RegularCalculationStartWebValidator(
 
 
 class RegularCalculationCheckWebValidator(
-    AbstractRegularValidator[CalculationAnswer]
+    AbstractRegularValidator[CalculationAnswerDTO]
 ):
     """Calculation conditions web validator."""
 
     @classmethod
-    def validate(cls, raw_data: dict[str, Any]) -> CalculationAnswer:
+    def validate(cls, raw_data: dict[str, Any]) -> CalculationAnswerDTO:
         """Validate calculation conditions request."""
-        return CalculationAnswer(
+        return CalculationAnswerDTO(
             user_answer=raw_data['user_answer'],
         )
 
 
 class DetailCalculationCheckWebValidator(
-    AbstractDetailValidator[CalculationAnswer]
+    AbstractDetailValidator[CalculationAnswerDTO]
 ):
     """Calculation conditions web validator."""
 
     @classmethod
-    def validate(cls, data: RequestDataProtocol) -> CalculationAnswer:
+    def validate(cls, data: RequestDataProtocol) -> CalculationAnswerDTO:
         """Validate calculation conditions request."""
-        return CalculationAnswer(
+        return CalculationAnswerDTO(
             user_answer=data.query['user_answer'],
         )

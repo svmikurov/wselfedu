@@ -5,7 +5,7 @@ from typing import Any
 from apps.core.adapter.response.abc import AbstractResponseAdapter
 from apps.core.adapter.response.exercise.web.dto import WebCase
 from apps.math import forms
-from apps.math.domains.dto import CalculationData, CalculationExplain
+from apps.math.domains.dto import CalculationDataDTO, CalculationExplainDTO
 
 from .dto import (
     CalculationWebCase,
@@ -30,13 +30,13 @@ class CalculationConditionsWebAdapter(
 
 class CalculationWebCaseAdapter(
     AbstractResponseAdapter[
-        CalculationData,
+        CalculationDataDTO,
         WebCase,
     ],
 ):
     """Calculation exercise case web response adapter."""
 
-    def to_response(self, schema: CalculationData) -> WebCase:
+    def to_response(self, schema: CalculationDataDTO) -> WebCase:
         """Adapt current calculation case for web response."""
         return WebCase(
             exercise_status=schema.exercise_status,
@@ -49,13 +49,15 @@ class CalculationWebCaseAdapter(
 
 class ExplainCalculationWebAdapter(
     AbstractResponseAdapter[
-        CalculationExplain,
+        CalculationExplainDTO,
         CalculationWebExplain,
     ],
 ):
     """Calculation exercise case explanation web response adapter."""
 
-    def to_response(self, schema: CalculationExplain) -> CalculationWebExplain:
+    def to_response(
+        self, schema: CalculationExplainDTO
+    ) -> CalculationWebExplain:
         """Adapt calculation case explanation for web response."""
         return CalculationWebExplain(
             exercise_status=schema.exercise_status,
