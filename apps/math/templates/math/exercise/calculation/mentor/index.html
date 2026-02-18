@@ -12,18 +12,16 @@
 
   {% include "./_table.html" %}
 
-  <!--=== Form ===-->
-  {# Target for inserting form #}
-  <div id="form-block"></div><!-- End Form -->
-
+  {# REFACTOR: Update form & button display #}
   <!--=== Buttons row ===-->
   <div class="py-3">
     <button class="wse-btn"
-            hx-get={% url 'math:assigned_calculation_exercise_create' %}
+            hx-get="{% url "math:mentor_calculation_exercise_create" %}"
             hx-target="#form-block"
-            hx-swap="innerHTML">
+            hx-swap="innerHTML"
+            hx-include="#form-block">
       {% trans 'button.create' %}
     </button>
-  </div><!-- Buttons row -->
+  </div><!-- End Buttons row -->
 </main>
 {% endblock %}

@@ -2,13 +2,12 @@
 
 {% load i18n %}
 
-<div id="table-block" hx-swap-oob="true">
+<div id="table-form-block" hx-swap-oob="true">
+  <!--=== Table ===-->
   <table class="table table-hover">
     <thead>
       <th>{% trans "Exercise name" %}</th>
-      <th>{% trans "Min value" %}</th>
-      <th>{% trans "Max value" %}</th>
-      <th>{% trans "Operation" %}</th>
+      <th>{% trans "Student" %}</th>
       <th></th>
     </thead>
     <tbody>
@@ -17,31 +16,18 @@
             class="align-middle">
           <td class="py-3">
             <a href="{% url "math:detail_calculation_exercise" exercise.pk %}">
-              {{ exercise.name }}
+              {{ exercise.calculation_condition }}
             </a>
           </td>
-          <td>{{ exercise.min_operand }}</td>
-          <td>{{ exercise.max_operand }}</td>
-          <td>{{ exercise.get_operation_type_display }}</td>
+          <td>{{ exercise.mentorship.student }}</td>
           <td>
             <div class="d-flex align-items-center justify-content-end"
                  style="gap: 1.5rem;">
-              {# Edit icon #}
-              <button class="btn btn-link border-0 p-0"
-                      data-testid="edit-btn-{{ exercise.pk }}"
-                      title="{% trans 'table.exercise.update' %}"
-                      hx-get="{% url 'math:regular_calculation_exercise_update' exercise.pk %}"
-                      hx-target="#form"
-                      hx-swap="outerHTML">
-                <span style="font-size: 1.25rem; display: inline-block; width: 24px; height: 24px; line-height: 24px; text-align: center;">
-                  &#9999;&#65039;
-                </span>
-              </button>
               {# Delete icon #}
               <button class="btn btn-link p-0 border-0"
                       data-testid="delete-btn-{{ exercise.pk }}"
                       title="{% trans 'table.exercise.delete' %}"
-                      hx-delete="{% url 'math:regular_calculation_exercise_delete' exercise.pk %}"
+                      hx-delete="{% url "math:mentor_calculation_exercise_delete" exercise.pk %}"
                       hx-target="#row-{{ exercise.pk }}"
                       hx-swap="outerHTML"
                       hx-confirm="{% trans 'table.exercise.delete.confirm' %}">
@@ -54,8 +40,11 @@
         </tr>
       {% endfor %}
     </tbody>
-  </table>
-</div>
+  </table><!-- End Table -->
 
-<!--=== Pagination ===-->
-{% include 'components/pagination.html' %}<!-- End Pagination -->
+  {# Pagination #}
+  {% include 'components/pagination.html' %}
+
+  {# Target to form insert by HTMX #}
+  <div id="form-block"></div>
+</div>
