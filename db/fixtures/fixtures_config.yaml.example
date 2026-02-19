@@ -1,5 +1,5 @@
 # Config to load fixtures into database
-# Version 0.1.2 (2026-02-06)
+# Version 0.1.3 (2026-02-19)
 
 load_order:
   # Public
@@ -9,6 +9,7 @@ load_order:
   - db/fixtures/sensitive/core.json
   - db/fixtures/sensitive/glossary.json
   - db/fixtures/sensitive/lang.json
+  - db/fixtures/sensitive/math.json
 
 options:
   default_database: "default"
