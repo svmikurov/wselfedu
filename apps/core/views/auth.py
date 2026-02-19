@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 from functools import cached_property
-from typing import TYPE_CHECKING, Generic, TypeVar
+from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Model
+from django.views.generic.base import ContextMixin
 
 from apps.users.models import Person
 
@@ -34,11 +35,47 @@ class UserRequestMixin:
         return self.request.user  # type: ignore[attr-defined]
 
 
-class UserLoginRequiredMixin(
-    UserRequestMixin,
-    LoginRequiredMixin,
-):
+class UserLoginRequiredMixin(UserRequestMixin, LoginRequiredMixin):
     """Mixin provides authenticated user."""
+
+
+class ProfileMixin(UserLoginRequiredMixin, ContextMixin):
+    """Provides user profile database query optimization.
+
+    Adds 'profile' keyword to context data.
+    """
+
+    select_fields: list[str] = []
+    prefetch_fields: list[str] = []
+    annotations: dict[str, str] = {}
+
+    def get_optimized_user(self, user: Person) -> Person:
+        """Get user with optimized database query."""
+        if (
+            not self.select_fields
+            and not self.prefetch_fields
+            and not self.annotations
+        ):
+            return user
+
+        manager = user.__class__.objects
+
+        if self.select_fields:
+            query = manager.select_related(*self.select_fields)
+
+        if self.prefetch_fields:
+            query = manager.prefetch_related(*self.prefetch_fields)
+
+        if self.annotations:
+            query = manager.annotate(**self.annotations)
+
+        return query.get(id=user.pk)
+
+    def get_context_data(self, **kwargs: dict[str, Any]) -> dict[str, Any]:
+        """Add user's profile to context data."""
+        context = super().get_context_data(**kwargs)
+        context['profile'] = self.get_optimized_user(self.user)
+        return context
 
 
 class OwnerMixin:

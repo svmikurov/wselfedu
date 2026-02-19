@@ -6,6 +6,7 @@ __all__ = [
     'OwnershipRequiredMixin',
     'UserRequestMixin',
     'UserLoginRequiredMixin',
+    'ProfileMixin',
     # Edit mixin
     'CsrfProtectMixin',
     'UserActionKwargsFormMixin',
@@ -22,6 +23,7 @@ __all__ = [
 from .auth import (
     OwnerMixin,
     OwnershipRequiredMixin,
+    ProfileMixin,
     UserLoginRequiredMixin,
     UserRequestMixin,
 )
