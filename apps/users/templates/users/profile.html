@@ -1,10 +1,16 @@
-{% extends 'base.html' %}
+{# User's profile page #}
 
-{% block title %}Профиль{% endblock %}
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "users.page.profile.title" %}{% endblock title %}
 
 {% block content %}
 <main class="container">
-  <h1>Мой профиль</h1>
-  <p>User: {{ user }}</p>
+  {% trans "users.page.profile.header" as header %}
+  {% include "components/header_block.html" with header=header %}
+
+  <p>{% trans "profile.username" %}: {{ user.username }}</p>
+  <p>{% trans "profile.balance" %}: {{ user.balance.total }}</p>
 </main>
 {% endblock %}
