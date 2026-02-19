@@ -47,6 +47,13 @@ class AssignCalculationForm(forms.ModelForm):  # type: ignore
         self.helper.form_id = 'form'
         self.helper.form_action = form_action
 
+        # REVIEW: Fix htmx partial template
+        self.helper.attrs = {
+            'hx-post': form_action,
+            'hx-target': '#table-form-block',
+            'hx-swap': 'innerHTML',
+        }
+
         self.helper.layout = Layout(
             'mentorship',
             'calculation_condition',
@@ -63,9 +70,6 @@ class AssignCalculationForm(forms.ModelForm):  # type: ignore
                     'submit',
                     _('button.submit'),
                     css_class='wse-btn',
-                    hx_post=self.helper.form_action,
-                    hx_target=self.helper.form_id,
-                    hx_swap='innerHTML',
                 ),
                 css_class='d-flex gap-2 justify-content-end',
             ),
