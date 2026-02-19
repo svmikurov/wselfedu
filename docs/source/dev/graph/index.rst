@@ -20,9 +20,6 @@ Add relations for `GenericForeignKey` field of `Transaction` model.
      ...
      # Add next:
 
-     apps_users_models_transaction_Transaction -> apps_math_models_exercise_MathExercise
-     [label="content_object" style="dashed" color="#ff0000"];
-
      apps_users_models_transaction_Transaction -> apps_foreign_models_exercise_ForeignExercise
      [label="content_object" style="dashed" color="#ff0000"];
 

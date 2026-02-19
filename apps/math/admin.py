@@ -5,19 +5,7 @@ from django.contrib import admin
 from .models import (
     CalculationCondition,
     MathAssignedConditionRel,
-    MathExercise,
 )
-
-
-@admin.register(MathExercise)
-class MathExerciseAdmin(admin.ModelAdmin):  # type: ignore
-    """Math exercise model administration."""
-
-    list_display = [
-        'name',
-        'id',
-    ]
-    ordering = ['id']
 
 
 @admin.register(CalculationCondition)

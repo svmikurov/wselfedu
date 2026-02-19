@@ -4,7 +4,6 @@ __all__ = [
     'CalculationTypeChoices',
     'CalculationCondition',
     'AssignedCalculationCondition',
-    'MathExercise',
     'MathAssignedConditionRel',
 ]
 
@@ -13,5 +12,4 @@ from .calculation_condition import (
     CalculationCondition,
     CalculationTypeChoices,
 )
-from .exercise import MathExercise
 from .exercise_condition_rel import MathAssignedConditionRel
