@@ -156,9 +156,9 @@ dump-dev:
 	--indent 2 > temp/dumpdata/sensitive/core.json
 
 	python manage.py dumpdata \
-	math.exercisecondition \
-	math.mathexercise \
-	--indent 2 > temp/dumpdata/public/math.json
+	math.calculationcondition \
+	math.studentcalculationcondition \
+	--indent 2 > temp/dumpdata/sensitive/math.json
 
 # Localization
 locale-make:
