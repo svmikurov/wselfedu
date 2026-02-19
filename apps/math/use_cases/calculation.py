@@ -28,6 +28,7 @@ if TYPE_CHECKING:
         AbstractMilestone,
         AbstractRegularExerciseCreate,
     )
+    from apps.math.milestones.protocol import MilestoneProtocol
 
     # HACK: Fix Any type hint
     type ParametersRepository = Any
@@ -40,7 +41,11 @@ if TYPE_CHECKING:
     type CheckService = AbstractExerciseCheck[
         CalculationAnswerDTO, CalculationMetaDTO, CalculationResultDTO
     ]
+    # REVIEW: Update tO single milestone
     type MilestoneService = AbstractMilestone[
+        CalculationResultDTO, CalculationMetaDTO
+    ]
+    type DetailMilestoneService = MilestoneProtocol[
         CalculationResultDTO, CalculationMetaDTO
     ]
     type CreateUseCase = AbstractUseCase[
@@ -107,7 +112,7 @@ class RegularCalculationCheckUseCase(
         self,
         storage: StorageService,
         check_service: CheckService,
-        milestone_service: MilestoneService,
+        milestone_service: MilestoneService | None,
         create_use_case: CreateUseCase,
         explain_service: ExplainService,
     ) -> None:
@@ -172,7 +177,7 @@ class DetailCalculationCheckUseCase:
         self,
         storage: StorageService,
         check_service: CheckService,
-        milestone_service: MilestoneService,
+        milestone_service: DetailMilestoneService,
         create_use_case: CreateDetailUseCase,
         explain_service: ExplainService,
     ) -> None:
@@ -194,7 +199,9 @@ class DetailCalculationCheckUseCase:
         result = self._check_service.execute(data, meta)
 
         if self._milestone_service:
-            self._milestone_service.execute(context.user, result, meta)
+            self._milestone_service.execute(
+                params.pk, context.user, result, meta
+            )
 
         if result.is_correct:
             return self._create_use_case.execute(params, context, data)

@@ -18,7 +18,8 @@ class ExerciseUseCaseContainer(DeclarativeContainer):
     # -------------------------------------------
 
     repositories = DependenciesContainer()
-    services = DependenciesContainer()
+    exercise_services = DependenciesContainer()
+    milestone_services = DependenciesContainer()
 
     storage = Dependency()  # type: ignore[var-annotated]
 
@@ -32,44 +33,44 @@ class ExerciseUseCaseContainer(DeclarativeContainer):
 
     create_regular_calculation = Factory(
         calculation.RegularCalculationCreateUseCase,
-        service=services.create_calculation,
+        service=exercise_services.create_calculation,
         storage=storage,
     )
     check_regular_calculation = Factory(
         calculation.RegularCalculationCheckUseCase,
         storage=storage,
-        check_service=services.check_calculation,
-        milestone_service=services.calculation_milestone,
+        check_service=exercise_services.check_calculation,
+        milestone_service=None,
         create_use_case=create_regular_calculation,
-        explain_service=services.explain_calculation,
+        explain_service=exercise_services.explain_calculation,
     )
 
     start_detail_calculation = Factory(
         calculation.DetailCalculationCreateUseCase,
         repository=repositories.calculation_conditions,
-        service=services.create_calculation,
+        service=exercise_services.create_calculation,
         storage=storage,
     )
     check_detail_calculation = Factory(
         calculation.DetailCalculationCheckUseCase,
         storage=storage,
-        check_service=services.check_calculation,
-        milestone_service=services.calculation_milestone,
+        check_service=exercise_services.check_calculation,
+        milestone_service=milestone_services.user_calculation,
         create_use_case=start_detail_calculation,
-        explain_service=services.explain_calculation,
+        explain_service=exercise_services.explain_calculation,
     )
 
     start_student_calculation = Factory(
         calculation.DetailCalculationCreateUseCase,
         repository=repositories.student_calculation_conditions,
-        service=services.create_calculation,
+        service=exercise_services.create_calculation,
         storage=storage,
     )
     check_student_calculation = Factory(
         calculation.DetailCalculationCheckUseCase,
         storage=storage,
-        check_service=services.check_calculation,
-        milestone_service=services.calculation_milestone,
+        check_service=exercise_services.check_calculation,
+        milestone_service=milestone_services.student_calculation,
         create_use_case=start_student_calculation,
-        explain_service=services.explain_calculation,
+        explain_service=exercise_services.explain_calculation,
     )

@@ -5,6 +5,7 @@ from dependency_injector.providers import Container, Dependency
 
 from .adapter.web.exercise import ExerciseWebAdapterContainer
 from .handler.web.exercise import ExerciseWebHandlerContainer
+from .milestone.exercise import ExerciseMilestoneContainer
 from .repository.exercise import ExerciseRepositoryContainer
 from .service.exercise import ExerciseServiceContainer
 from .use_case.exercise import ExerciseUseCaseContainer
@@ -29,8 +30,11 @@ class MathematicalContainer(DeclarativeContainer):
     repositories = Container(
         ExerciseRepositoryContainer,
     )
-    services = Container(
+    exercise_services = Container(
         ExerciseServiceContainer,
+    )
+    milestone_services = Container(
+        ExerciseMilestoneContainer,
     )
 
     # ===========================================
@@ -42,7 +46,8 @@ class MathematicalContainer(DeclarativeContainer):
     use_cases = Container(
         ExerciseUseCaseContainer,
         repositories=repositories,
-        services=services,
+        exercise_services=exercise_services,
+        milestone_services=milestone_services,
         storage=user_data_storage,
     )
     web_adapters = Container(

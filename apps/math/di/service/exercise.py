@@ -34,9 +34,6 @@ class ExerciseServiceContainer(DeclarativeContainer):
     check_calculation = Factory(
         calculation.CalculationCheckService,
     )
-    calculation_milestone = Factory(
-        calculation.CalculationMilestoneService,
-    )
     explain_calculation = Factory(
         calculation.CalculationExplainService,
     )
