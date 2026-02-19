@@ -2,7 +2,7 @@
 
 {% load i18n %}
 
-<div id="table-block" hx-swap-oob="true">
+<div id="table-block">
   <table class="table table-hover">
     <thead>
       <th>{% trans "Exercise name" %}</th>
@@ -31,7 +31,7 @@
                       data-testid="edit-btn-{{ exercise.pk }}"
                       title="{% trans 'table.exercise.update' %}"
                       hx-get="{% url 'math:regular_calculation_exercise_update' exercise.pk %}"
-                      hx-target="#form"
+                      hx-target="#form-block"
                       hx-swap="outerHTML">
                 <span style="font-size: 1.25rem; display: inline-block; width: 24px; height: 24px; line-height: 24px; text-align: center;">
                   &#9999;&#65039;
@@ -57,5 +57,5 @@
   </table>
 </div>
 
-<!--=== Pagination ===-->
-{% include 'components/pagination.html' %}<!-- End Pagination -->
+{# Pagination #}
+{% include 'components/pagination.html' %}
