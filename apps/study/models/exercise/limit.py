@@ -37,7 +37,6 @@ class ExerciseAvailability(AbstractBaseModel):
         'users.Person',
         on_delete=models.CASCADE,
         related_name='exercise_availabilities',
-        # The user performing the exercise
         verbose_name=_('exercise.availability.user'),
     )
 
