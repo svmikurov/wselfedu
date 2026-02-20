@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import IntegerField, OuterRef, Subquery
+from django.db.models import CharField, IntegerField, OuterRef, Subquery
 from django.shortcuts import render
 from django.views import generic
 
@@ -16,7 +16,7 @@ from apps.core.views import (
 )
 from apps.math.forms import AssignCalculationForm
 from apps.math.models import AssignedCalculationCondition
-from apps.study.models import ExerciseReward
+from apps.study.models import ExerciseAvailability, ExerciseReward
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
@@ -28,12 +28,16 @@ if TYPE_CHECKING:
 __all__ = [
     'AssignedCalculationConditionMentorListView',
     'AssignedCalculationConditionMentorCreateView',
+    'AssignedCalculationConditionMentorUpdateView',
     'AssignedCalculationConditionMentorDeleteView',
 ]
 
 
 class _MentorAssignationQuerySetMixin:
-    """Provides mentor's assignations for students."""
+    """Provides mentor's assignations for students.
+
+    Added to edit mode to update the table on success.
+    """
 
     def get_queryset(self) -> QuerySet[AssignedCalculationCondition]:
         """Return mentor's assignations for students."""
@@ -45,6 +49,10 @@ class _MentorAssignationQuerySetMixin:
             exercise_content_type=content_type,
             exercise_object_id=OuterRef('pk'),
         ).values('amount')[:1]
+        availability_subquery = ExerciseAvailability.objects.filter(
+            exercise_content_type=content_type,
+            exercise_object_id=OuterRef('pk'),
+        ).values('count', 'period')[:1]
 
         exercises = (
             AssignedCalculationCondition.objects.filter(
@@ -57,7 +65,15 @@ class _MentorAssignationQuerySetMixin:
             .annotate(
                 reward_amount=Subquery(
                     reward_subquery, output_field=IntegerField()
-                )
+                ),
+                availability_count=Subquery(
+                    availability_subquery.values('count')[:1],
+                    output_field=IntegerField(),
+                ),
+                availability_period=Subquery(
+                    availability_subquery.values('period')[:1],
+                    output_field=CharField(),
+                ),
             )
         )
 
@@ -80,6 +96,30 @@ class AssignedCalculationConditionMentorCreateView(
     UserActionKwargsFormMixin,
     _MentorAssignationQuerySetMixin,
     generic.CreateView,  # type: ignore
+):
+    """Create assignation for student.
+
+    Renders partial template for HTMX.
+    """
+
+    template_name = 'components/crispy_form.html'
+    form_class = AssignCalculationForm
+
+    def form_valid(self, form: ModelForm) -> HttpResponse:  # type: ignore
+        """Save assignation and return updated table."""
+        form.save()
+        return render(
+            self.request,
+            'math/exercise/calculation/mentor/_table.html',
+            {'exercises': self.get_queryset()},
+        )
+
+
+class AssignedCalculationConditionMentorUpdateView(
+    UserLoginRequiredMixin,
+    UserActionKwargsFormMixin,
+    _MentorAssignationQuerySetMixin,
+    generic.UpdateView,  # type: ignore
 ):
     """Create assignation for student.
 

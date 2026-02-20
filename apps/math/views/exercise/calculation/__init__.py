@@ -9,6 +9,7 @@ __all__ = [
     # Mentors's assigned calculation exercises
     'AssignedCalculationConditionMentorListView',
     'AssignedCalculationConditionMentorCreateView',
+    'AssignedCalculationConditionMentorUpdateView',
     'AssignedCalculationConditionMentorDeleteView',
     # Student's assigned calculation exercises
     'AssignedCalculationExerciseStudentListVew',
@@ -29,6 +30,7 @@ from .mentor import (
     AssignedCalculationConditionMentorCreateView,
     AssignedCalculationConditionMentorDeleteView,
     AssignedCalculationConditionMentorListView,
+    AssignedCalculationConditionMentorUpdateView,
 )
 from .perform import (
     AssignedPerformView,
