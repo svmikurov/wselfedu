@@ -11,12 +11,12 @@ __all__ = [
     'NumberInputForm',
 ]
 
-from .assignation import (
-    AssignCalculationForm,
-)
 from .calculation import (
     CreateCalculationConditionsForm,
     NumberInputForm,
     RegularCalculationConditionsForm,
     UpdateCalculationConditionsForm,
+)
+from .calculation_assignation import (
+    AssignCalculationForm,
 )
