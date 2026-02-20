@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from django.contrib.contenttypes.models import ContentType
+from django.db.models import IntegerField, OuterRef, Subquery
 from django.shortcuts import render
 from django.views import generic
 
@@ -14,6 +16,7 @@ from apps.core.views import (
 )
 from apps.math.forms import AssignCalculationForm
 from apps.math.models import AssignedCalculationCondition
+from apps.study.models import ExerciseReward
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
@@ -34,12 +37,31 @@ class _MentorAssignationQuerySetMixin:
 
     def get_queryset(self) -> QuerySet[AssignedCalculationCondition]:
         """Return mentor's assignations for students."""
-        return AssignedCalculationCondition.objects.filter(
-            mentorship__mentor=self.user  # type: ignore
-        ).select_related(
-            'mentorship__student',
-            'calculation_condition',
+        content_type = ContentType.objects.get_for_model(
+            AssignedCalculationCondition
         )
+
+        reward_subquery = ExerciseReward.objects.filter(
+            exercise_content_type=content_type,
+            exercise_object_id=OuterRef('pk'),
+        ).values('amount')[:1]
+
+        exercises = (
+            AssignedCalculationCondition.objects.filter(
+                mentorship__mentor=self.user  # type: ignore
+            )
+            .select_related(
+                'mentorship__student',
+                'calculation_condition',
+            )
+            .annotate(
+                reward_amount=Subquery(
+                    reward_subquery, output_field=IntegerField()
+                )
+            )
+        )
+
+        return exercises
 
 
 class AssignedCalculationConditionMentorListView(
