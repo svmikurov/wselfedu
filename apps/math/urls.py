@@ -50,7 +50,7 @@ urlpatterns = [
     # Mentors's assigned calculation exercises
     # -------------------------------------------
     path(
-        'exercise/calculation/mentor/list/',
+        'exercise/calculation/mentor/',
         calculation.AssignedCalculationConditionMentorListView.as_view(),
         name='mentor_calculation_exercise_list',
     ),
