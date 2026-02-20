@@ -60,6 +60,11 @@ urlpatterns = [
         name='mentor_calculation_exercise_create',
     ),
     path(
+        'exercise/calculation/mentor/<int:pk>/update/',
+        calculation.AssignedCalculationConditionMentorUpdateView.as_view(),
+        name='mentor_calculation_exercise_update',
+    ),
+    path(
         'exercise/calculation/mentor/<int:pk>/delete/',
         calculation.AssignedCalculationConditionMentorDeleteView.as_view(),
         name='mentor_calculation_exercise_delete',
