@@ -8,6 +8,7 @@
     <thead>
       <th>{% trans "Exercise name" %}</th>
       <th>{% trans "Student" %}</th>
+      <th>{% trans "exercise.reward.amount" %}</th>
       <th>{# Edit icons #}</th>
     </thead>
     <tbody>
@@ -20,6 +21,7 @@
             </a>
           </td>
           <td>{{ exercise.mentorship.student }}</td>
+          <td>{{ exercise.reward_amount }}</td>
           <td>
             <div class="d-flex align-items-center justify-content-end"
                  style="gap: 1.5rem;">
