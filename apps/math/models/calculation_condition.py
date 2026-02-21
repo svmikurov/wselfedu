@@ -69,7 +69,7 @@ class CalculationCondition(models.Model):
         return str(self.name)
 
 
-class AssignedCalculationCondition(AbstractBaseModel):
+class StudentCalculationCondition(AbstractBaseModel):
     """Assigned calculation conditions."""
 
     calculation_condition = models.ForeignKey(
@@ -89,4 +89,4 @@ class AssignedCalculationCondition(AbstractBaseModel):
         verbose_name = _('Assigned calculation exercise condition')
         verbose_name_plural = _('Assigned calculation exercise conditions')
 
-        db_table = 'math_exercise_condition_assigned'
+        db_table = 'math_exercise_condition_student'

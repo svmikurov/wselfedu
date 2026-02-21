@@ -4,7 +4,7 @@ from django.db.models import QuerySet
 from django.views.generic import ListView
 
 from apps.core.views import UserLoginRequiredMixin
-from apps.math.models import AssignedCalculationCondition
+from apps.math.models import StudentCalculationCondition
 
 
 class AssignedCalculationExerciseStudentListVew(
@@ -14,10 +14,10 @@ class AssignedCalculationExerciseStudentListVew(
     """Student's calculation exercises."""
 
     template_name = 'math/exercise/calculation/student/index.html'
-    model = AssignedCalculationCondition
+    model = StudentCalculationCondition
     context_object_name = 'exercises'
 
-    def get_queryset(self) -> QuerySet[AssignedCalculationCondition]:
+    def get_queryset(self) -> QuerySet[StudentCalculationCondition]:
         """Get student's assigned calculations."""
         return (
             super()

@@ -16,7 +16,7 @@ from django.utils.translation import gettext as _
 from apps.study.models import ExerciseAvailability, ExerciseReward
 from apps.users.models import Mentorship
 
-from ..models import AssignedCalculationCondition, CalculationCondition
+from ..models import CalculationCondition, StudentCalculationCondition
 
 # -----------------------------------------------
 # Form field configuration
@@ -74,7 +74,7 @@ class AssignCalculationForm(forms.ModelForm):  # type: ignore
     class Meta:
         """Form configuration."""
 
-        model = AssignedCalculationCondition
+        model = StudentCalculationCondition
         fields = ['calculation_condition', 'mentorship']
 
     def __init__(self, *args: object, **kwargs: object) -> None:
@@ -140,7 +140,7 @@ class AssignCalculationForm(forms.ModelForm):  # type: ignore
             ),
         )
 
-    def save(self, commit: bool = True) -> AssignedCalculationCondition:
+    def save(self, commit: bool = True) -> StudentCalculationCondition:
         """Save calculation assignation."""
         try:
             with transaction.atomic():

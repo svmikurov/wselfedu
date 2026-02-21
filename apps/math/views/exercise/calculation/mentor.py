@@ -15,7 +15,7 @@ from apps.core.views import (
     UserLoginRequiredMixin,
 )
 from apps.math.forms import AssignCalculationForm
-from apps.math.models import AssignedCalculationCondition
+from apps.math.models import StudentCalculationCondition
 from apps.study.models import ExerciseAvailability, ExerciseReward
 
 if TYPE_CHECKING:
@@ -39,10 +39,10 @@ class _MentorAssignationQuerySetMixin:
     Added to edit mode to update the table on success.
     """
 
-    def get_queryset(self) -> QuerySet[AssignedCalculationCondition]:
+    def get_queryset(self) -> QuerySet[StudentCalculationCondition]:
         """Return mentor's assignations for students."""
         content_type = ContentType.objects.get_for_model(
-            AssignedCalculationCondition
+            StudentCalculationCondition
         )
 
         reward_subquery = ExerciseReward.objects.filter(
@@ -55,7 +55,7 @@ class _MentorAssignationQuerySetMixin:
         ).values('count', 'period')[:1]
 
         exercises = (
-            AssignedCalculationCondition.objects.filter(
+            StudentCalculationCondition.objects.filter(
                 mentorship__mentor=self.user  # type: ignore
             )
             .select_related(
@@ -142,7 +142,7 @@ class AssignedCalculationConditionMentorUpdateView(
 class AssignedCalculationConditionMentorDeleteView(HtmxDeleteView):
     """Delete by mentor assignation of calculation exercise."""
 
-    model = AssignedCalculationCondition
+    model = StudentCalculationCondition
 
     def _get_owner(self) -> Person:
         return self.get_object().mentorship.mentor  # type: ignore[no-any-return]

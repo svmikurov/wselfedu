@@ -3,13 +3,13 @@
 __all__ = [
     'CalculationTypeChoices',
     'CalculationCondition',
-    'AssignedCalculationCondition',
+    'StudentCalculationCondition',
     'MathAssignedConditionRel',
 ]
 
 from .calculation_condition import (
-    AssignedCalculationCondition,
     CalculationCondition,
     CalculationTypeChoices,
+    StudentCalculationCondition,
 )
 from .exercise_condition_rel import MathAssignedConditionRel

@@ -4,8 +4,8 @@ from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Factory
 
 from apps.math.models import (
-    AssignedCalculationCondition,
     CalculationCondition,
+    StudentCalculationCondition,
 )
 from apps.math.repositories.exercise import (
     CalculationConditionsRepository,
@@ -22,5 +22,5 @@ class ExerciseRepositoryContainer(DeclarativeContainer):
     )
     student_calculation_conditions = Factory(
         StudentCalculationConditionsRepository,
-        manager=AssignedCalculationCondition.objects,
+        manager=StudentCalculationCondition.objects,
     )

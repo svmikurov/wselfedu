@@ -12,8 +12,8 @@ from apps.math.domains.dto import CalculationConditionDTO
 
 if TYPE_CHECKING:
     from apps.math.models import (
-        AssignedCalculationCondition,
         CalculationCondition,
+        StudentCalculationCondition,
     )
 
 __all__ = [
@@ -44,7 +44,7 @@ class CalculationConditionsRepository:
 class StudentCalculationConditionsRepository:
     """Student's assigned calculation conditions repository."""
 
-    def __init__(self, manager: Manager[AssignedCalculationCondition]) -> None:
+    def __init__(self, manager: Manager[StudentCalculationCondition]) -> None:
         """Construct the repository."""
         self._manager = manager
 
