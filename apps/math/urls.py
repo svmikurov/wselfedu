@@ -104,8 +104,8 @@ urlpatterns = [
         name='detail_calculation_exercise',
     ),
     path(  # exercise conditions assigned to the user
-        'exercise/calculation/<int:pk>/assigned/',
-        calculation.AssignedPerformView.as_view(),
-        name='assigned_calculation_exercise',
+        'exercise/calculation/<int:pk>/student/',
+        calculation.StudentCalculationPerformView.as_view(),
+        name='student_calculation_exercise',
     ),
 ]

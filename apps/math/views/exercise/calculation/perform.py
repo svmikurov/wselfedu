@@ -45,7 +45,7 @@ __all__ = [
     'ExerciseChoiceView',
     'RegularPerformView',
     'DetailPerformView',
-    'AssignedPerformView',
+    'StudentCalculationPerformView',
 ]
 
 log = logging.getLogger(__name__)
@@ -233,7 +233,7 @@ class DetailPerformView(
         return HttpResponse(html)
 
 
-class AssignedPerformView(
+class StudentCalculationPerformView(
     UserLoginRequiredMixin,
     GetExerciseHandlersMixin[
         DetailRequestHandlerProtocol[WebCase],

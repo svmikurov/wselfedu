@@ -17,7 +17,7 @@ __all__ = [
     'DetailPerformView',
     'ExerciseChoiceView',
     'RegularPerformView',
-    'AssignedPerformView',
+    'StudentCalculationPerformView',
 ]
 
 from .custom import (
@@ -33,7 +33,7 @@ from .mentor import (
     AssignedCalculationConditionMentorUpdateView,
 )
 from .perform import (
-    AssignedPerformView,
+    StudentCalculationPerformView,
     DetailPerformView,
     ExerciseChoiceView,
     RegularPerformView,
