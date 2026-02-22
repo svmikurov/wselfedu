@@ -15,6 +15,9 @@ from .view.container import ViewContainer
 class LanguageContainer(DeclarativeContainer):
     """Language discipline DI container."""
 
+    # ===========================================
+    # External containers
+    # -------------------------------------------
     configuration = DependenciesContainer()
     domains = DependenciesContainer()
 
@@ -26,6 +29,9 @@ class LanguageContainer(DeclarativeContainer):
         config=configuration.storage,
     )
 
+    # ===========================================
+    # View handler dependencies
+    # -------------------------------------------
     validators = Container(
         ValidatorContainer,
     )
@@ -41,10 +47,9 @@ class LanguageContainer(DeclarativeContainer):
         AdapterContainer,
     )
 
-    # -------------------------
-    # Exercise request handlers
-    # -------------------------
-
+    # ===========================================
+    # View handlers
+    # -------------------------------------------
     exercise_handlers = Container(
         ExerciseHandlerContainer,
         validators=validators,
@@ -52,10 +57,9 @@ class LanguageContainer(DeclarativeContainer):
         adapters=adapters,
     )
 
-    # -------------------------
-    # View dependency injection
-    # -------------------------
-
+    # ===========================================
+    # Persistent references to the view handler
+    # -------------------------------------------
     view_container = Container(
         ViewContainer,
         repositories=repositories,
