@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-20 22:06+0000\n"
+"POT-Creation-Date: 2026-02-22 21:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,11 +20,11 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: apps/core/forms/layouts.py:15 apps/math/forms/calculation_assignation.py:127
+#: apps/core/forms/layouts.py:15 apps/math/forms/calculation_assignation.py:162
 msgid "button.cancel"
 msgstr "Отменить"
 
-#: apps/core/forms/layouts.py:25 apps/math/forms/calculation_assignation.py:135
+#: apps/core/forms/layouts.py:25 apps/math/forms/calculation_assignation.py:170
 msgid "button.submit"
 msgstr "Отправить"
 
@@ -54,7 +54,7 @@ msgstr "Дисциплина"
 #: apps/core/models/abstract/exercise.py:19
 #: apps/lang/templates/lang/exercise/mentor/assignation/index.html:23
 #: apps/lang/templates/lang/exercise/mentor/management/index.html:23
-#: apps/math/forms/calculation_assignation.py:99
+#: apps/math/forms/calculation_assignation.py:133
 msgid "Exercise"
 msgstr "Упражнение"
 
@@ -127,7 +127,7 @@ msgstr "Удалить?"
 #: apps/lang/templates/lang/rule/list/index.html:31
 #: apps/lang/templates/lang/translation/list.html:32
 #: apps/math/templates/math/exercise/calculation/custom/index.html:25
-#: apps/math/templates/math/exercise/calculation/mentor/index.html:26
+#: apps/math/templates/math/exercise/calculation/mentor/index.html:22
 msgid "button.create"
 msgstr "Добавить"
 
@@ -209,7 +209,7 @@ msgstr "За последнии дни"
 msgid "Select the exercise"
 msgstr "Выберите упражнение"
 
-#: apps/lang/forms/exercise.py:89 apps/math/forms/calculation_assignation.py:31
+#: apps/lang/forms/exercise.py:89 apps/math/forms/calculation_assignation.py:34
 #: apps/math/templates/math/exercise/calculation/mentor/_table.html:10
 msgid "Student"
 msgstr "Студент"
@@ -628,17 +628,17 @@ msgid "Operation"
 msgstr "Тип вычисления"
 
 #: apps/math/templates/math/exercise/calculation/custom/_table.html:32
-#: apps/math/templates/math/exercise/calculation/mentor/_table.html:31
+#: apps/math/templates/math/exercise/calculation/mentor/_table.html:35
 msgid "table.exercise.update"
 msgstr "Изменить"
 
 #: apps/math/templates/math/exercise/calculation/custom/_table.html:43
-#: apps/math/templates/math/exercise/calculation/mentor/_table.html:41
+#: apps/math/templates/math/exercise/calculation/mentor/_table.html:46
 msgid "table.exercise.delete"
 msgstr "Удалить"
 
 #: apps/math/templates/math/exercise/calculation/custom/_table.html:47
-#: apps/math/templates/math/exercise/calculation/mentor/_table.html:45
+#: apps/math/templates/math/exercise/calculation/mentor/_table.html:50
 msgid "table.exercise.delete.confirm"
 msgstr "Удалить?"
 
@@ -677,9 +677,22 @@ msgid "button.from_mentor.calculation.list"
 msgstr "Упражнения на вычисления от наставника"
 
 #: apps/math/templates/math/exercise/calculation/mentor/_table.html:11
+#: apps/math/templates/math/exercise/calculation/student/_table.html:11
+#: apps/study/models/exercise/limit.py:28
+msgid "exercise.availability.count"
+msgstr "Кол-во заданий"
+
+#: apps/math/templates/math/exercise/calculation/mentor/_table.html:12
+#: apps/math/templates/math/exercise/calculation/student/_table.html:13
 #: apps/study/models/exercise/reward.py:21
 msgid "exercise.reward.amount"
 msgstr "Вознаграждение"
+
+#: apps/math/templates/math/exercise/calculation/mentor/_table.html:13
+#: apps/math/templates/math/exercise/calculation/student/_table.html:14
+#: apps/study/models/exercise/limit.py:33
+msgid "exercise.availability.period"
+msgstr "Периодичность выполнения"
 
 #: apps/math/templates/math/exercise/calculation/mentor/index.html:6
 #: apps/math/templates/math/exercise/calculation/student/index.html:6
@@ -707,6 +720,10 @@ msgstr "Упражнение на вычисления"
 msgid "Mentor"
 msgstr "Наставник"
 
+#: apps/math/templates/math/exercise/calculation/student/_table.html:12
+msgid "exercise.availability.success"
+msgstr "Успешно выполнено"
+
 #: apps/math/templates/math/index.html:6
 msgid "math.page.index.title"
 msgstr "Математика | WSE"
@@ -731,23 +748,15 @@ msgstr "Ежедневно"
 msgid "By appointment as a mentor"
 msgstr "По назначено наставником"
 
-#: apps/study/models/exercise/limit.py:28
-msgid "exercise.availability.count"
-msgstr "Кол-во заданий"
-
-#: apps/study/models/exercise/limit.py:33
-msgid "exercise.availability.period"
-msgstr "Периодичность выполнения"
-
-#: apps/study/models/exercise/limit.py:40
+#: apps/study/models/exercise/limit.py:42
 msgid "exercise.availability.user"
 msgstr "Пользователь выполняющий упражнение"
 
-#: apps/study/models/exercise/limit.py:54
+#: apps/study/models/exercise/limit.py:56
 msgid "Exercise availability"
 msgstr "Доступность упражнения"
 
-#: apps/study/models/exercise/limit.py:55
+#: apps/study/models/exercise/limit.py:57
 msgid "Exercise availabilities"
 msgstr "Доступность упражнений"
 
