@@ -4,15 +4,25 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, override
 
-from apps.math.domains.dto import CalculationMetaDTO, CalculationResultDTO
+from django.db.models import Manager
 
-from .protocol import MilestoneProtocol, ProgressBar, RewardScale
+from apps.math.domains.dto import CalculationMetaDTO, CalculationResultDTO
+from apps.math.models import StudentCalculationCondition
+from apps.math.services.abstract import AbstractCompletionService
+from apps.users.services.protocol import RewardServiceProtocol
+
+from .protocol import MilestoneProtocol, ProgressBar
 
 if TYPE_CHECKING:
     from apps.users.models.user import Person
 
-type _RewardService = RewardScale
+type _RewardService = RewardServiceProtocol
 type _ProgressService = ProgressBar[CalculationResultDTO, CalculationMetaDTO]
+type _CompletionService = AbstractCompletionService[
+    StudentCalculationCondition
+]
+# HACK: Implement DIP
+type _ExerciseManager = Manager[StudentCalculationCondition]
 
 
 # NOTE: It's experimental milestone definition
@@ -51,32 +61,54 @@ class UserCalculationMilestone(
 class StudentCalculationMilestone(
     MilestoneProtocol[CalculationResultDTO, CalculationMetaDTO]
 ):
-    """Student calculation exercise perform milestone."""
+    """Student calculation exercise perform milestone.
+
+    Attributes
+    ----------
+    reward_service : `_RewardService`
+        Reward service.
+    completion_service : `_CompletionService`
+        Service to track a assigned exercise task count completion.
+
+    """
 
     def __init__(
         self,
         reward_service: _RewardService,
-        progress_service: _ProgressService,
+        completion_service: _CompletionService,
+        exercise_manager: _ExerciseManager,
     ) -> None:
         """Construct the milestone."""
         self._reward_service = reward_service
-        self._progress_service = progress_service
+        self._completion_service = completion_service
+        self._exercise_manager = exercise_manager
 
     @override
-    def execute(
+    def execute(  # noqa: D417
         self,
         resource_pk: int,
-        user: Person,
+        student: Person,
         result: CalculationResultDTO,
         case_meta: CalculationMetaDTO,
     ) -> None:
-        """Execute."""
+        """Execute.
+
+        Parameters
+        ----------
+        resource_pk : `int`
+            Current exercise database identifier.
+
+        """
+        mentorship_pk = self._get_mentorship_pk(resource_pk, student)
         if result.is_correct:
-            self._reward_service.increment(resource_pk, user)
-            self._progress_service.increment(
-                resource_pk, user, result, case_meta
-            )
+            self._reward_service.increment(resource_pk, mentorship_pk)
+            self._completion_service.add_success(resource_pk)
         else:
-            self._progress_service.decrement(
-                resource_pk, user, result, case_meta
-            )
+            self._completion_service.add_failure(resource_pk)
+
+    def _get_mentorship_pk(self, resource_pk: int, student: Person) -> int:
+        return self._exercise_manager.get(
+            calculation_condition__pk=resource_pk,
+            # Security check
+            mentorship__student=student,
+        ).mentorship.pk

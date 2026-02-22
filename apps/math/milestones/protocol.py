@@ -8,7 +8,7 @@ CaseMeta_contra = TypeVar('CaseMeta_contra', contravariant=True)
 Result_contra = TypeVar('Result_contra', contravariant=True)
 
 if TYPE_CHECKING:
-    from apps.users.models.user import Person
+    from apps.users.models import Person
 
 # -----------------------------------------------
 # Milestone dependencies
@@ -43,16 +43,6 @@ class ProgressBar(Protocol[Result_contra, CaseMeta_contra]):
         Decreases question and answer progress
         in the event of an incorrect answer
         """
-
-
-class RewardScale(Protocol):
-    """Protocol for reward interface."""
-
-    def increment(self, resource_pk: int, user: Person) -> None:
-        """Add reward."""
-
-    def decrement(self, resource_pk: int, user: Person) -> None:
-        """Remove reward."""
 
 
 # -----------------------------------------------

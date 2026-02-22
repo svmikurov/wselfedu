@@ -10,6 +10,7 @@ from crispy_forms.layout import (  # type: ignore
     Submit,
 )
 from django import forms
+from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
 from django.utils.translation import gettext as _
 
@@ -17,6 +18,8 @@ from apps.study.models import ExerciseAvailability, ExerciseReward
 from apps.users.models import Mentorship
 
 from ..models import CalculationCondition, StudentCalculationCondition
+
+type _RelatedModel = ExerciseAvailability | ExerciseReward
 
 # -----------------------------------------------
 # Form field configuration
@@ -67,7 +70,6 @@ class ExerciseRewardForm(forms.ModelForm):  # type: ignore
 # -----------------------------------------------
 
 
-# TODO: Add filling of related models on update
 class AssignCalculationForm(forms.ModelForm):  # type: ignore
     """Assign calculation exercise form."""
 
@@ -80,18 +82,49 @@ class AssignCalculationForm(forms.ModelForm):  # type: ignore
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the form."""
         self.user = kwargs.pop('user')
-        form_action = kwargs.pop('form_action')
+        self.form_action = kwargs.pop('form_action')
         super().__init__(*args, **kwargs)  # type: ignore
 
-        # - Exercise availability fields -
-        self.availability_form = ExerciseAvailabilityForm()
-        self.fields['count'] = self.availability_form.fields['count']
-        self.fields['period'] = self.availability_form.fields['period']
+        self._set_related_form_fields()
+        self._setup_fields()
+        self._layout_form()
 
-        # - Exercise reward fields -
-        self.reward_form = ExerciseRewardForm()
-        self.fields['amount'] = self.reward_form.fields['amount']
+    def save(self, commit: bool = True) -> StudentCalculationCondition:
+        """Save calculation assignation."""
+        try:
+            with transaction.atomic():
+                exercise = super().save(commit)
 
+                if commit:
+                    mentorship = self.cleaned_data['mentorship']
+                    content_type = ContentType.objects.get_for_model(exercise)
+
+                    # Save exercise availability
+                    self.availability_form.instance.user = mentorship.student
+                    self.availability_form.instance.exercise_content_type = (
+                        content_type
+                    )
+                    self.availability_form.instance.exercise_object_id = (
+                        exercise.pk
+                    )
+                    self.availability_form.save()
+
+                    # Save exercise reward
+                    self.reward_form.instance.mentorship = mentorship
+                    self.reward_form.instance.exercise_content_type = (
+                        content_type
+                    )
+                    self.reward_form.instance.exercise_object_id = exercise.pk
+                    self.reward_form.save()
+
+                return exercise  # type: ignore[no-any-return]
+
+        except Exception as e:
+            raise forms.ValidationError(
+                f'Save exercise error: {str(e)}'
+            ) from e
+
+    def _setup_fields(self) -> None:
         # - Exercise fields -
         exercises = CalculationCondition.objects.filter(user=self.user)  # type: ignore
         students = Mentorship.objects.filter(mentor=self.user)  # type: ignore
@@ -99,14 +132,15 @@ class AssignCalculationForm(forms.ModelForm):  # type: ignore
         self.fields['calculation_condition'].queryset = exercises  # type: ignore
         self.fields['calculation_condition'].label = _('Exercise')
 
+    def _layout_form(self) -> None:
         # - Form helper -
         self.helper = FormHelper()
         self.helper.form_id = 'form'
-        self.helper.form_action = form_action
+        self.helper.form_action = self.form_action
 
         # - HTMX configuration -
         self.helper.attrs = {
-            'hx-post': form_action,
+            'hx-post': self.form_action,
             'hx-target': '#table-form-block',
             'hx-swap': 'innerHTML',
         }
@@ -127,9 +161,9 @@ class AssignCalculationForm(forms.ModelForm):  # type: ignore
                     'cancel',
                     _('button.cancel'),
                     css_class='wse-btn',
-                    onclick=f'document.getElementById({
-                        self.helper.form_id!r
-                    }).remove()',
+                    onclick=f"""
+                    document.getElementById({self.helper.form_id!r}).remove()
+                    """,
                 ),
                 Submit(
                     'submit',
@@ -140,33 +174,47 @@ class AssignCalculationForm(forms.ModelForm):  # type: ignore
             ),
         )
 
-    def save(self, commit: bool = True) -> StudentCalculationCondition:
-        """Save calculation assignation."""
-        try:
-            with transaction.atomic():
-                exercise = super().save(commit)
+    def _set_related_form_fields(self) -> None:
+        # - Get related instances for update event -
+        if self.instance.pk:
+            exercise_content_type = ContentType.objects.get_for_model(
+                self.instance
+            )
+            try:
+                availability_instance = ExerciseAvailability.objects.get(
+                    exercise_content_type=exercise_content_type,
+                    exercise_object_id=self.instance.pk,
+                    user=self.instance.mentorship.student,
+                )
+            except ExerciseAvailability.DoesNotExist:
+                pass
 
-                if commit:
-                    mentorship = self.cleaned_data['mentorship']
+            try:
+                reward_instance = ExerciseReward.objects.get(
+                    exercise_content_type=exercise_content_type,
+                    exercise_object_id=self.instance.pk,
+                    mentorship=self.instance.mentorship,
+                )
+            except ExerciseReward.DoesNotExist:
+                pass
+        else:
+            availability_instance = None
+            reward_instance = None
 
-                    # Save exercise availability
-                    availability = ExerciseAvailability()
-                    availability.count = self.cleaned_data['count']
-                    availability.period = self.cleaned_data['period']
-                    availability.user = mentorship.student
-                    availability.exercise = exercise
-                    availability.save()
+        # - Get related form -
+        self.availability_form = ExerciseAvailabilityForm(
+            instance=availability_instance,
+            data=self.data if self.is_bound else None,
+        )
+        self.reward_form = ExerciseRewardForm(
+            instance=reward_instance,
+            data=self.data if self.is_bound else None,
+        )
 
-                    # Save exercise reward
-                    reward = ExerciseReward()
-                    reward.amount = self.cleaned_data['amount']
-                    reward.mentorship = mentorship
-                    reward.exercise = exercise
-                    reward.save()
+        # - Add related form fields to current form -
+        self.fields.update(self.availability_form.fields)
+        self.fields.update(self.reward_form.fields)
 
-                return exercise  # type: ignore[no-any-return]
-
-        except Exception as e:
-            raise forms.ValidationError(
-                f'Save exercise error: {str(e)}'
-            ) from e
+        # - Copy initial values from related forms -
+        self.initial.update(self.availability_form.initial)
+        self.initial.update(self.reward_form.initial)

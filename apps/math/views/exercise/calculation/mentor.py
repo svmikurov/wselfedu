@@ -75,7 +75,7 @@ class _MentorAssignationQuerySetMixin:
                     output_field=CharField(),
                 ),
             )
-        )
+        ).order_by('created_at')
 
         return exercises
 
