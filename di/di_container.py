@@ -8,7 +8,7 @@ from apps.glossary.di_container import GlossaryContainer
 from apps.lang.di.container import LanguageContainer
 from apps.math.di.container import MathematicalContainer
 from apps.study.di_container import StudyAppContainer
-from apps.users.di_container import UsersContainer
+from apps.users.di.container import UsersContainer
 
 
 class MainContainer(DeclarativeContainer):
