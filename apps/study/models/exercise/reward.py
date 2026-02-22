@@ -41,4 +41,15 @@ class ExerciseReward(AbstractBaseModel):
         verbose_name = _('Exercise reward')
         verbose_name_plural = _('Exercise rewards')
 
+        constraints = [
+            models.UniqueConstraint(
+                fields=[
+                    'exercise_content_type',
+                    'exercise_object_id',
+                    'mentorship',
+                ],
+                name='unique_exercise_reward',
+            )
+        ]
+
         db_table = 'study_exercise_reward'

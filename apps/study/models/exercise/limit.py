@@ -33,6 +33,8 @@ class ExerciseAvailability(AbstractBaseModel):
         verbose_name=_('exercise.availability.period'),
     )
 
+    # The exercise can be assigned
+    # by a mentor or by a user for self-study.
     user = models.ForeignKey(
         'users.Person',
         on_delete=models.CASCADE,
@@ -53,5 +55,16 @@ class ExerciseAvailability(AbstractBaseModel):
 
         verbose_name = _('Exercise availability')
         verbose_name_plural = _('Exercise availabilities')
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=[
+                    'exercise_content_type',
+                    'exercise_object_id',
+                    'user',
+                ],
+                name='unique_exercise_availability',
+            )
+        ]
 
         db_table = 'study_exercise_availability'
