@@ -5,7 +5,7 @@ from dependency_injector.providers import Container, Dependency
 
 from .adapter.web.exercise import ExerciseWebAdapterContainer
 from .handler.web.exercise import ExerciseWebHandlerContainer
-from .milestone.exercise import ExerciseMilestoneContainer
+from .milestone.exercise import MilestoneContainer
 from .repository.exercise import ExerciseRepositoryContainer
 from .service.exercise import ExerciseServiceContainer
 from .use_case.exercise import ExerciseUseCaseContainer
@@ -23,6 +23,7 @@ class MathematicalContainer(DeclarativeContainer):
 
     # Stores data by user ID, prefix, and optional kwargs
     user_data_storage = Dependency()  # type: ignore[var-annotated]
+    reward_service = Dependency()  # type: ignore[var-annotated]
 
     # ===========================================
     # Internal dependencies
@@ -34,11 +35,12 @@ class MathematicalContainer(DeclarativeContainer):
         ExerciseServiceContainer,
     )
     milestone_services = Container(
-        ExerciseMilestoneContainer,
+        MilestoneContainer,
+        reward_service=reward_service,
     )
 
     # ===========================================
-    # Request handler dependencies
+    # View handler dependencies
     # -------------------------------------------
     web_validators = Container(
         ExerciseWebValidatorContainer,
@@ -55,7 +57,7 @@ class MathematicalContainer(DeclarativeContainer):
     )
 
     # ===========================================
-    # Request handlers
+    # View handlers
     # -------------------------------------------
     web_handlers = Container(
         ExerciseWebHandlerContainer,
@@ -65,7 +67,7 @@ class MathematicalContainer(DeclarativeContainer):
     )
 
     # ===========================================
-    # View persistent dependency reference
+    # Persistent references to the view handler
     # -------------------------------------------
     exercise_api_views = Container(
         ApiViewContainer,
