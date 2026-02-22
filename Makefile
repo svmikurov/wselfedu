@@ -160,6 +160,11 @@ dump-dev:
 	math.studentcalculationcondition \
 	--indent 2 > temp/dumpdata/sensitive/math.json
 
+	python manage.py dumpdata \
+	study.exerciseavailability \
+	study.exercisereward \
+	--indent 2 > temp/dumpdata/sensitive/study.json
+
 # Localization
 locale-make:
 	python manage.py makemessages -l ru -l nl -l en
