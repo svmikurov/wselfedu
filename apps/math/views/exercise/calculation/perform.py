@@ -15,7 +15,7 @@ from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.base import TemplateResponseMixin
 
-from apps.core.adapter.response.exercise.web.dto import WebCase
+from apps.core.adapter.response.exercise.web.dto import WebExerciseCaseDTO
 from apps.core.domain.exercise.enums import ExerciseStatusEnum
 from apps.core.handlers.dto import DetailParams, RequestContext, RequestData
 from apps.core.handlers.protocol import (
@@ -110,7 +110,9 @@ class GetPartialExerciseTemplateMixin:
     """Mixin provides partial template for specific exercise status."""
 
     @staticmethod
-    def _get_partial_html(request: HttpRequest, schema: WebCase) -> str:
+    def _get_partial_html(
+        request: HttpRequest, schema: WebExerciseCaseDTO
+    ) -> str:
         """Get partial template html for exercise case."""
         try:
             template = PARTIAL_TEMPLATES[schema.exercise_status]
@@ -177,8 +179,8 @@ class RegularPerformView(_BasePerformView[StartHandler, CheckHandler]):
 class DetailPerformView(
     UserLoginRequiredMixin,
     GetExerciseHandlersMixin[
-        DetailRequestHandlerProtocol[WebCase],
-        DetailRequestHandlerProtocol[WebCase],
+        DetailRequestHandlerProtocol[WebExerciseCaseDTO],
+        DetailRequestHandlerProtocol[WebExerciseCaseDTO],
     ],
     GetPartialExerciseTemplateMixin,
     TemplateResponseMixin,
@@ -193,10 +195,14 @@ class DetailPerformView(
         self,
         request: HttpRequest,
         *args: object,
-        start_handler: DetailRequestHandlerProtocol[WebCase] = Provide[
+        start_handler: DetailRequestHandlerProtocol[
+            WebExerciseCaseDTO
+        ] = Provide[
             CONTAINER.start_detail_calculation  # type: ignore[attr-defined]
         ],
-        check_handler: DetailRequestHandlerProtocol[WebCase] = Provide[
+        check_handler: DetailRequestHandlerProtocol[
+            WebExerciseCaseDTO
+        ] = Provide[
             CONTAINER.check_detail_calculation  # type: ignore[attr-defined]
         ],
         **kwargs: object,
@@ -236,8 +242,8 @@ class DetailPerformView(
 class StudentCalculationPerformView(
     UserLoginRequiredMixin,
     GetExerciseHandlersMixin[
-        DetailRequestHandlerProtocol[WebCase],
-        DetailRequestHandlerProtocol[WebCase],
+        DetailRequestHandlerProtocol[WebExerciseCaseDTO],
+        DetailRequestHandlerProtocol[WebExerciseCaseDTO],
     ],
     GetPartialExerciseTemplateMixin,
     TemplateResponseMixin,

@@ -3,7 +3,7 @@
 from typing import Any
 
 from apps.core.adapter.response.abc import AbstractResponseAdapter
-from apps.core.adapter.response.exercise.web.dto import WebCase
+from apps.core.adapter.response.exercise.web.dto import WebExerciseCaseDTO
 from apps.math import forms
 from apps.math.domains.dto import CalculationDataDTO, CalculationExplainDTO
 
@@ -31,14 +31,14 @@ class CalculationConditionsWebAdapter(
 class CalculationWebCaseAdapter(
     AbstractResponseAdapter[
         CalculationDataDTO,
-        WebCase,
+        WebExerciseCaseDTO,
     ],
 ):
     """Calculation exercise case web response adapter."""
 
-    def to_response(self, schema: CalculationDataDTO) -> WebCase:
+    def to_response(self, schema: CalculationDataDTO) -> WebExerciseCaseDTO:
         """Adapt current calculation case for web response."""
-        return WebCase(
+        return WebExerciseCaseDTO(
             exercise_status=schema.exercise_status,
             data=CalculationWebCase(
                 question_text=schema.data.question_text,

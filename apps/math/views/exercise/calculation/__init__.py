@@ -33,10 +33,10 @@ from .mentor import (
     AssignedCalculationConditionMentorUpdateView,
 )
 from .perform import (
-    StudentCalculationPerformView,
     DetailPerformView,
     ExerciseChoiceView,
     RegularPerformView,
+    StudentCalculationPerformView,
 )
 from .student import (
     StudentCalculationExerciseListVew,

@@ -6,7 +6,7 @@ from apps.core.domain.base_dto import BaseDTO
 from apps.core.domain.exercise.enums import ExerciseStatusEnum
 
 
-class WebCase(BaseDTO):
+class WebExerciseCaseDTO(BaseDTO):
     """Exercise case web response adapter DTO."""
 
     exercise_status: ExerciseStatusEnum = Field(
