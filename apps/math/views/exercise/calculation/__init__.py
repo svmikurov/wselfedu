@@ -12,7 +12,7 @@ __all__ = [
     'AssignedCalculationConditionMentorUpdateView',
     'AssignedCalculationConditionMentorDeleteView',
     # Student's assigned calculation exercises
-    'AssignedCalculationExerciseStudentListVew',
+    'StudentCalculationExerciseListVew',
     # Calculation exercise performing
     'DetailPerformView',
     'ExerciseChoiceView',
@@ -39,5 +39,5 @@ from .perform import (
     RegularPerformView,
 )
 from .student import (
-    AssignedCalculationExerciseStudentListVew,
+    StudentCalculationExerciseListVew,
 )

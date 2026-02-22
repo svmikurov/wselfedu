@@ -74,7 +74,7 @@ urlpatterns = [
     # -------------------------------------------
     path(
         'exercise/calculation/student/list/',
-        calculation.AssignedCalculationExerciseStudentListVew.as_view(),
+        calculation.StudentCalculationExerciseListVew.as_view(),
         name='student_calculation_exercise_list',
     ),
     # -------------------------------------------

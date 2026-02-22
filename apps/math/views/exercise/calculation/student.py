@@ -15,7 +15,7 @@ from apps.math.models import StudentCalculationCondition
 from apps.study.models import ExerciseAvailability, ExerciseReward
 
 
-class AssignedCalculationExerciseStudentListVew(
+class StudentCalculationExerciseListVew(
     UserLoginRequiredMixin,
     ListView,  # type: ignore
 ):
