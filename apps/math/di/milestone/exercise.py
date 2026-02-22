@@ -42,4 +42,5 @@ class MilestoneContainer(DeclarativeContainer):
         calculation.StudentCalculationMilestone,
         reward_service=reward_service,
         completion_service=student_calculation_completion_service,
+        exercise_manager=StudentCalculationCondition.objects,
     )

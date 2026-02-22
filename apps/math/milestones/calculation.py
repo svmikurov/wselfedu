@@ -69,6 +69,9 @@ class StudentCalculationMilestone(
         Reward service.
     completion_service : `_CompletionService`
         Service to track a assigned exercise task count completion.
+    exercise_manager : `_ExerciseManager`
+        ORM model manager to get mentorship identifier by current
+        exercise identifier and by student model instance relationship.
 
     """
 
