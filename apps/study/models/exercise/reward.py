@@ -10,7 +10,7 @@ from django.utils.translation import gettext as _
 from apps.core.models import AbstractBaseModel
 
 LIMIT_CHOICES: Final[dict[str, tuple[str, ...]]] = {
-    'model__in': ('assignedcalculationcondition',)
+    'model__in': ('studentcalculationcondition',)
 }
 
 
