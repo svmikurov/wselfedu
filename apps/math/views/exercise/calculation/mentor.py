@@ -52,7 +52,7 @@ class _MentorAssignationQuerySetMixin:
         availability_subquery = ExerciseAvailability.objects.filter(
             exercise_content_type=content_type,
             exercise_object_id=OuterRef('pk'),
-        ).values('count', 'period')[:1]
+        ).values('required_count', 'period_type')[:1]
 
         exercises = (
             StudentCalculationCondition.objects.filter(
@@ -67,11 +67,11 @@ class _MentorAssignationQuerySetMixin:
                     reward_subquery, output_field=IntegerField()
                 ),
                 availability_count=Subquery(
-                    availability_subquery.values('count')[:1],
+                    availability_subquery.values('required_count')[:1],
                     output_field=IntegerField(),
                 ),
                 availability_period=Subquery(
-                    availability_subquery.values('period')[:1],
+                    availability_subquery.values('period_type')[:1],
                     output_field=CharField(),
                 ),
             )

@@ -10,6 +10,7 @@ __all__ = [
     'Progress',
     # Experimental
     'ExerciseAvailability',
+    'ExerciseLog',
     'ExerciseReward',
 ]
 
@@ -21,8 +22,13 @@ from .assignation import (
     ExerciseTaskAward,
     ExerciseTaskCount,
 )
-from .exercise.limit import ExerciseAvailability
-from .exercise.reward import ExerciseReward
+from .exercise.availability import (
+    ExerciseAvailability,
+    ExerciseLog,
+)
+from .exercise.reward import (
+    ExerciseReward,
+)
 from .progress import (
     Progress,
 )
