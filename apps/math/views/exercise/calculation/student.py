@@ -46,6 +46,7 @@ class StudentCalculationExerciseListVew(
             )
             .select_related(
                 'mentorship__student',
+                'mentorship__mentor',
                 'calculation_condition',
             )
             .annotate(
