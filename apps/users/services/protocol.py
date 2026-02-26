@@ -2,14 +2,13 @@
 
 from typing import Protocol
 
+from apps.users.domains.dto import RewardDTO
+
 __all__ = ('RewardServiceProtocol',)
 
 
 class RewardServiceProtocol(Protocol):
     """Protocol for reward interface."""
 
-    def increment(self, resource_pk: int, mentorship_pk: int) -> None:
+    def increment(self, reward: RewardDTO) -> None:
         """Add reward."""
-
-    def decrement(self, resource_pk: int, mentorship_pk: int) -> None:
-        """Remove reward."""
