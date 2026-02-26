@@ -17,7 +17,7 @@ class UsersContainer(DeclarativeContainer):
     )
 
     reward_service = Factory(
-        services.CalculationRewardService,
+        services.RewardService,
     )
     # DEPRECATED: Award service
     award_service = Factory(
