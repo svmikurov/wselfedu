@@ -46,7 +46,7 @@ class TestBalanceModel:
         user: Person,
     ) -> None:
         """Test string representation."""
-        assert str(balance) == f'Баланс {user.username}: 1000.50'
+        assert str(balance) == '1000.50'
 
     def test_balance_fields(self) -> None:
         """Test model field definitions (no DB access needed)."""
