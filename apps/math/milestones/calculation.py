@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, override
 
 from django.db.models import Manager
+from django.shortcuts import get_object_or_404
 
 from apps.math.domains.dto import CalculationMetaDTO, CalculationResultDTO
 from apps.math.models import StudentCalculationCondition
@@ -110,8 +111,8 @@ class StudentCalculationMilestone(
             self._completion_service.add_failure(resource_pk)
 
     def _get_mentorship_pk(self, resource_pk: int, student: Person) -> int:
-        return self._exercise_manager.get(
-            calculation_condition__pk=resource_pk,
-            # Security check
+        return get_object_or_404(
+            self._exercise_manager,
+            pk=resource_pk,
             mentorship__student=student,
         ).mentorship.pk
