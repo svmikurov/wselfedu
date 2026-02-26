@@ -3,7 +3,10 @@
 <nav id="nav" class="navbar navbar-expand-sm navbar-dark bg-dark">
   <div class="container-fluid">
 
-    <a class="navbar-brand" href="{% url 'core:home' %}">WSE</a>
+    <a class="navbar-brand" href="{% url 'core:home' %}">
+      WSE
+      <span id="user-balance">{{ user.balance }}</span>
+    </a>
 
     <button
       class="navbar-toggler"
