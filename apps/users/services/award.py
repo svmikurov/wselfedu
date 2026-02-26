@@ -63,7 +63,6 @@ class AwardService:
             Transaction.objects.create(
                 user=assignation.mentorship.student,
                 amount=assignation.award_value,
-                discipline=assignation.exercise.discipline,
                 type=Transaction.Operation.REWARD,
             )
 
