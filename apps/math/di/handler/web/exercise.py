@@ -4,6 +4,7 @@ from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import DependenciesContainer, Factory
 
 from apps.core.handlers.generic import (
+    ContextRequestHandler,
     DetailRequestHandler,
     RegularRequestHandler,
 )
@@ -70,13 +71,13 @@ class ExerciseWebHandlerContainer(DeclarativeContainer):
     )
 
     start_student_calculation = Factory(
-        DetailRequestHandler,
+        ContextRequestHandler,
         validator=NullValidator(),
         use_case=use_cases.start_student_calculation,
         adapter=adapters.create_student_calculation,
     )
     check_student_calculation = Factory(
-        DetailRequestHandler,
+        ContextRequestHandler,
         validator=validators.check_detail_calculation,
         use_case=use_cases.check_student_calculation,
         adapter=adapters.student_calculation_result_strategy,

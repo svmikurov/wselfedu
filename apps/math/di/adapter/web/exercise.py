@@ -3,7 +3,10 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Factory
 
-from apps.core.adapter.response.exercise.generic import ResultStrategyAdapter
+from apps.core.adapter.response.exercise.generic import (
+    ResultContextStrategyAdapter,
+    ResultStrategyAdapter,
+)
 from apps.math.adapters.response.web import exercise as adapters
 
 
@@ -47,7 +50,7 @@ class ExerciseWebAdapterContainer(DeclarativeContainer):
     )
     # for student with balance update
     student_calculation_result_strategy = Factory(
-        ResultStrategyAdapter,
+        ResultContextStrategyAdapter,
         new_case_adapter=create_student_calculation,
         explain_adapter=explain_calculation,
     )

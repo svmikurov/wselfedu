@@ -16,6 +16,7 @@ if TYPE_CHECKING:
     from apps.users.models import Person
 
     from .protocol import (
+        ContextResponseAdapter,
         DetailUseCase,
         RegularValidator,
         ResourceValidator,
@@ -89,13 +90,40 @@ class ResourceRequestHandler(
 
 
 class DetailRequestHandler(Generic[Validated, DomainResult]):
-    """Regular request handler for operations with identifier (pk)."""
+    """Detail request handler for operations with identifier (pk)."""
 
     def __init__(
         self,
         validator: DetailValidator[Validated],
         use_case: DetailUseCase[Validated, DomainResult],
         adapter: ResponseAdapter[DomainResult],
+    ) -> None:
+        """Construct the handler."""
+        self._validator = validator
+        self._use_case = use_case
+        self._adapter = adapter
+
+    def execute(
+        self,
+        params: DetailParamsProtocol,
+        context: RequestContextProtocol,
+        data: RequestDataProtocol,
+    ) -> RequestResultProtocol:
+        """Execute."""
+        validated = self._validator.validate(data)
+        domain_result = self._use_case.execute(params, context, validated)
+        result = self._adapter.to_response(domain_result)
+        return result
+
+
+class ContextRequestHandler(Generic[Validated, DomainResult]):
+    """Context request handler for operations with identifier (pk)."""
+
+    def __init__(
+        self,
+        validator: DetailValidator[Validated],
+        use_case: DetailUseCase[Validated, DomainResult],
+        adapter: ContextResponseAdapter[DomainResult],
     ) -> None:
         """Construct the handler."""
         self._validator = validator

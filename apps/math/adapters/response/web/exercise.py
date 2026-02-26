@@ -9,11 +9,11 @@ from apps.core.adapter.response.exercise.web.dto import (
 )
 from apps.core.domain.exercise.types import ExerciseStatus
 from apps.core.handlers.protocol import (
+    ContextResponseAdapter,
     OobResultProtocol,
     RequestContextProtocol,
     RequestResultProtocol,
     ResponseAdapter,
-    SimpleResponseAdapter,
 )
 from apps.math import forms
 from apps.math.domains.dto import CalculationDataDTO, CalculationExplainDTO
@@ -49,7 +49,7 @@ class CalculationConditionsWebAdapter(
 # ===============================================
 
 
-class CalculationWebCaseAdapter(SimpleResponseAdapter[CalculationDataDTO]):
+class CalculationWebCaseAdapter(ResponseAdapter[CalculationDataDTO]):
     """Calculation exercise case web response adapter."""
 
     def to_response(
@@ -66,7 +66,9 @@ class CalculationWebCaseAdapter(SimpleResponseAdapter[CalculationDataDTO]):
         )
 
 
-class StudentCalculationWebCaseAdapter(ResponseAdapter[CalculationDataDTO]):
+class StudentCalculationWebCaseAdapter(
+    ContextResponseAdapter[CalculationDataDTO]
+):
     """Calculation exercise case web response adapter."""
 
     def __init__(
@@ -103,9 +105,7 @@ class StudentCalculationWebCaseAdapter(ResponseAdapter[CalculationDataDTO]):
 # ===============================================
 
 
-class ExplainCalculationWebAdapter(
-    SimpleResponseAdapter[CalculationExplainDTO]
-):
+class ExplainCalculationWebAdapter(ResponseAdapter[CalculationExplainDTO]):
     """Calculation exercise case explanation web response adapter."""
 
     def to_response(

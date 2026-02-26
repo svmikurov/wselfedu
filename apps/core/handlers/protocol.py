@@ -126,7 +126,7 @@ class ResponseAdapterDeprecated(Protocol[T_contra, T_co]):
         """Convert to response."""
 
 
-class SimpleResponseAdapter(Protocol[T_contra]):
+class ResponseAdapter(Protocol[T_contra]):
     """Protocol for response adapter interface.
 
     Does not use request context.
@@ -136,7 +136,7 @@ class SimpleResponseAdapter(Protocol[T_contra]):
         """Convert to response."""
 
 
-class ResponseAdapter(Protocol[T_contra]):
+class ContextResponseAdapter(Protocol[T_contra]):
     """Protocol for response adapter interface.
 
     Uses request context.
