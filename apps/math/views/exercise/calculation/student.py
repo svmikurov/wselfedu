@@ -34,7 +34,7 @@ class StudentCalculationExerciseListVew(
         reward_subquery = ExerciseReward.objects.filter(
             exercise_content_type=content_type,
             exercise_object_id=OuterRef('pk'),
-        ).values('amount')[:1]
+        ).values('amount', 'reward_type')[:1]
         availability_subquery = ExerciseAvailability.objects.filter(
             exercise_content_type=content_type,
             exercise_object_id=OuterRef('pk'),
@@ -50,7 +50,12 @@ class StudentCalculationExerciseListVew(
             )
             .annotate(
                 reward_amount=Subquery(
-                    reward_subquery, output_field=IntegerField()
+                    reward_subquery.values('amount')[:1],
+                    output_field=IntegerField(),
+                ),
+                reward_type=Subquery(
+                    reward_subquery.values('reward_type')[:1],
+                    output_field=CharField(),
                 ),
                 availability_count=Subquery(
                     availability_subquery.values('required_count')[:1],

@@ -10,6 +10,7 @@
       <th>{% trans "Student" %}</th>
       <th>{% trans "exercise.availability.count" %}</th>
       <th>{% trans "exercise.reward.amount" %}</th>
+      <th>{% trans "exercise.reward.type" %}</th>
       <th>{% trans "exercise.availability.period" %}</th>
       <th>{# Edit icons #}</th>
     </thead>
@@ -25,6 +26,7 @@
           <td>{{ exercise.mentorship.student }}</td>
           <td>{{ exercise.availability_count }}</td>
           <td>{{ exercise.reward_amount }}</td>
+          <td>{{ exercise.reward_type }}</td>
           <td>{{ exercise.availability_period }}</td>
           <td>
             <div class="d-flex align-items-center justify-content-end"

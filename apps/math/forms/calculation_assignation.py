@@ -62,7 +62,7 @@ class ExerciseRewardForm(forms.ModelForm):  # type: ignore
         """Form configuration."""
 
         model = ExerciseReward
-        fields = ['amount']
+        fields = ['amount', 'reward_type']
 
 
 # -----------------------------------------------
@@ -154,7 +154,12 @@ class AssignCalculationForm(forms.ModelForm):  # type: ignore
             Row(
                 Column('required_count'),
                 Column('period_type'),
+                css_class='align-items-end',
+            ),
+            Row(
+                Column('reward_type'),
                 Column('amount'),
+                css_class='align-items-end',
             ),
             Div(
                 Button(
