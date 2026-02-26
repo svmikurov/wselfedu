@@ -3,6 +3,8 @@
 from abc import ABC, abstractmethod
 from typing import override
 
+from apps.users.domains.dto import RewardDTO
+
 from .protocol import RewardServiceProtocol
 
 __all__ = ('AbstractRewardService',)
@@ -13,10 +15,5 @@ class AbstractRewardService(ABC, RewardServiceProtocol):
 
     @override
     @abstractmethod
-    def increment(self, resource_pk: int, mentorship_pk: int) -> None:
+    def increment(self, reward: RewardDTO) -> None:
         """Add reward."""
-
-    @override
-    @abstractmethod
-    def decrement(self, resource_pk: int, mentorship_pk: int) -> None:
-        """Remove reward."""
