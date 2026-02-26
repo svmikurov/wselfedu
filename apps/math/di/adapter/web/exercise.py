@@ -10,24 +10,44 @@ from apps.math.adapters.response.web import exercise as adapters
 class ExerciseWebAdapterContainer(DeclarativeContainer):
     """Mathematical discipline web adapter DI container."""
 
-    # Adapts:
-    # - calculation condition form
+    # ===========================================
+    # Calculation conditions adapter
+    # -------------------------------------------
     calculation_conditions = Factory(
         adapters.CalculationConditionsWebAdapter,
     )
-    # Adapts:
-    # - current calculation case task data
+
+    # ===========================================
+    # Create calculation case adapter
+    # -------------------------------------------
     create_calculation = Factory(
         adapters.CalculationWebCaseAdapter,
     )
-    # Adapts:
-    # - current calculation case explanation data
+    create_student_calculation = Factory(
+        adapters.StudentCalculationWebCaseAdapter,
+        domain_adapter=create_calculation,
+        # Response may have updated milestone
+    )
+
+    # ===========================================
+    # Explain calculation case adapter
+    # -------------------------------------------
     explain_calculation = Factory(
         adapters.ExplainCalculationWebAdapter,
     )
-    # Strategy for user's answer check result
-    calculation_result_strategy = Factory(  # type: ignore[var-annotated]
+
+    # ===========================================
+    # Adapter strategy
+    # -------------------------------------------
+    # for user
+    calculation_result_strategy = Factory(
         ResultStrategyAdapter,
         new_case_adapter=create_calculation,
+        explain_adapter=explain_calculation,
+    )
+    # for student with balance update
+    student_calculation_result_strategy = Factory(
+        ResultStrategyAdapter,
+        new_case_adapter=create_student_calculation,
         explain_adapter=explain_calculation,
     )
