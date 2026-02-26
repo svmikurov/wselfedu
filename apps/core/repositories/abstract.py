@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, TypeVar
 
 if TYPE_CHECKING:
-    from apps.core.domain.exercise.types import (
+    from apps.core.domains.exercise.types import (
         Candidates,
         Conditions,
         Parameters,

@@ -4,8 +4,8 @@ from typing import Literal
 
 from pydantic import BaseModel
 
-from apps.core.domain.base_dto import BaseDTO
-from apps.core.domain.exercise.enums import ExerciseStatusEnum
+from apps.core.domains.base_dto import BaseDTO
+from apps.core.domains.exercise.enums import ExerciseStatusEnum
 
 Operation = Literal['add', 'sub', 'mul', 'div']
 

@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 import pytest
 from django.urls import reverse_lazy
 
-from apps.core.domain.exercise import ExerciseStatusEnum
+from apps.core.domains.exercise import ExerciseStatusEnum
 
 if TYPE_CHECKING:
     from django.test import Client

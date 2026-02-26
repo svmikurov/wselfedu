@@ -3,7 +3,7 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Factory
 
-from apps.core.adapter.response.exercise.generic import (
+from apps.core.adapters.response.exercise.generic import (
     ResultContextStrategyAdapter,
     ResultStrategyAdapter,
 )

@@ -3,8 +3,8 @@
 import logging
 from typing import override
 
-from apps.core.domain.exercise import ProgressConfigSchema
-from apps.core.storage import services as storage
+from apps.core.domains.exercise import ProgressConfigSchema
+from apps.core.storages import services as storage
 from apps.lang import types
 from apps.lang.repositories.abc import ProgressRepositoryABC
 from apps.lang.schemas import dto

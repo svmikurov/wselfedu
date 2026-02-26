@@ -2,7 +2,7 @@
 
 from decimal import Decimal
 
-from apps.core.domain.base_dto import BaseDTO
+from apps.core.domains.base_dto import BaseDTO
 
 
 class RewardDTO(BaseDTO):

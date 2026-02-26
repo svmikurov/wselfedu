@@ -7,7 +7,7 @@ from dependency_injector.providers import (
     Factory,
 )
 
-from apps.core.service.exercise import (
+from apps.core.services.exercise import (
     DetailExerciseLoop,
     DetailTestCreate,
     RegularExerciseLoop,

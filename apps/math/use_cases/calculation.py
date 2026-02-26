@@ -8,7 +8,7 @@ from apps.core.handlers.protocol import (
     DetailParamsProtocol,
     RequestContextProtocol,
 )
-from apps.core.storage.services.iabc import AbstractUserStorage
+from apps.core.storages.services.iabc import AbstractUserStorage
 from apps.core.use_cases.abstract import AbstractDetailUseCase, AbstractUseCase
 from apps.users.models.user import Person
 
@@ -22,7 +22,7 @@ from ..domains.dto import (
 )
 
 if TYPE_CHECKING:
-    from apps.core.service.exercise.abstract import (
+    from apps.core.services.exercise.abstract import (
         AbstractExerciseCheck,
         AbstractExerciseExplain,
         AbstractMilestone,

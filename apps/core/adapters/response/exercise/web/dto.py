@@ -2,8 +2,8 @@
 
 from pydantic import BaseModel, Field
 
-from apps.core.domain.base_dto import BaseDTO
-from apps.core.domain.exercise.enums import ExerciseStatusEnum
+from apps.core.domains.base_dto import BaseDTO
+from apps.core.domains.exercise.enums import ExerciseStatusEnum
 
 
 class WebExerciseCaseDTO(BaseDTO):

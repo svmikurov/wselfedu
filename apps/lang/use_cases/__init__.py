@@ -5,6 +5,6 @@ __all__ = [
     'ProgressService',
 ]
 
-from apps.core.service.exercise.presentation import PresentationService
+from apps.core.services.exercise.presentation import PresentationService
 
 from .exercise.progress import ProgressService

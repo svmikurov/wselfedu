@@ -9,7 +9,7 @@ from django.http.response import HttpResponse
 from django.template.loader import render_to_string
 from django.views import generic
 
-from apps.core.domain.exercise import ExerciseStatusEnum
+from apps.core.domains.exercise import ExerciseStatusEnum
 from apps.core.exceptions import info
 from apps.core.handlers.types import WebAssignedTest, WebTest
 from apps.core.views import auth, mixins

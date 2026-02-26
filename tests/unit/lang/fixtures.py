@@ -5,8 +5,8 @@ from unittest.mock import Mock
 
 import pytest
 
-from apps.core.domain.exercise import ProgressConfigSchema
-from apps.core.storage.services import TaskStorage
+from apps.core.domains.exercise import ProgressConfigSchema
+from apps.core.storages.services import TaskStorage
 from apps.lang import types, use_cases
 from apps.lang.repositories.abc import ProgressRepositoryABC
 from apps.lang.schemas import dto

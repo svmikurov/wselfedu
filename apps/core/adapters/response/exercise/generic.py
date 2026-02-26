@@ -2,8 +2,8 @@
 
 from typing import Generic, TypeVar
 
-from apps.core.domain.exercise.enums import ExerciseStatusEnum
-from apps.core.domain.exercise.types import ExerciseStatus
+from apps.core.domains.exercise.enums import ExerciseStatusEnum
+from apps.core.domains.exercise.types import ExerciseStatus
 from apps.core.handlers.protocol import (
     ContextResponseAdapter,
     RequestContextProtocol,

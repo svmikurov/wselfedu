@@ -6,13 +6,13 @@ from typing import TYPE_CHECKING
 
 from django.db.models import F, Manager
 
-from apps.core.repository.abstract import AbstractDetailExerciseRepository
+from apps.core.repositories.abstract import AbstractDetailExerciseRepository
 from apps.lang import models
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
 
-    from apps.core.domain.exercise.types import Conditions
+    from apps.core.domains.exercise.types import Conditions
     from apps.users.models import Person
 
 __all__ = [

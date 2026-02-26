@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 
 from django.urls import reverse_lazy
 
-from apps.core.domain.exercise.presentation_dto import PresentationData
+from apps.core.domains.exercise.presentation_dto import PresentationData
 
 from .. import schemas
 

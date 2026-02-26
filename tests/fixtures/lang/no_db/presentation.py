@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Final
 
-from apps.core.domain.exercise import DisplayOrder
+from apps.core.domains.exercise import DisplayOrder
 from apps.lang import schemas
 
 if TYPE_CHECKING:

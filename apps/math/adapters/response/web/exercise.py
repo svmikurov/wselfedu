@@ -2,12 +2,12 @@
 
 from typing import Any, TypeVar
 
-from apps.core.adapter.response.abc import AbstractResponseAdapter
-from apps.core.adapter.response.exercise.web.dto import (
+from apps.core.adapters.response.abc import AbstractResponseAdapter
+from apps.core.adapters.response.exercise.web.dto import (
     WebExerciseCaseDTO,
     WebExerciseResponseDTO,
 )
-from apps.core.domain.exercise.types import ExerciseStatus
+from apps.core.domains.exercise.types import ExerciseStatus
 from apps.core.handlers.protocol import (
     ContextResponseAdapter,
     OobResultProtocol,

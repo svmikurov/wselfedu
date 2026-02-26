@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Iterator, Protocol, Self, overload
 from uuid import UUID
 
-from apps.core.domain.exercise import ExerciseStatusEnum
+from apps.core.domains.exercise import ExerciseStatusEnum
 
 from . import DisplayOrder
 

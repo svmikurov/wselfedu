@@ -2,7 +2,7 @@
 
 from pydantic import BaseModel, Field
 
-from apps.core.domain.exercise.test_dto import OptionMeta
+from apps.core.domains.exercise.test_dto import OptionMeta
 
 
 class TestSettingsDTO(BaseModel):

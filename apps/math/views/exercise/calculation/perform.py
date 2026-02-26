@@ -16,10 +16,10 @@ from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.base import TemplateResponseMixin
 
-from apps.core.adapter.response.exercise.web.dto import (
+from apps.core.adapters.response.exercise.web.dto import (
     WebExerciseResponseDTO,
 )
-from apps.core.domain.exercise.enums import ExerciseStatusEnum
+from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.handlers.dto import DetailParams, RequestContext, RequestData
 from apps.core.handlers.protocol import (
     DetailRequestHandlerProtocol,

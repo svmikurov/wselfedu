@@ -5,8 +5,8 @@ from typing import NamedTuple
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Configuration, Factory
 
-from ..domain.exercise import DisplayOrder, ProgressConfigSchema
-from ..domain.exercise.types import Settings
+from ..domains.exercise import DisplayOrder, ProgressConfigSchema
+from ..domains.exercise.types import Settings
 
 
 # TODO: Remove this stub after implementation

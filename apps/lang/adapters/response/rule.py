@@ -4,8 +4,8 @@ from typing import Any
 
 from django.db.models import QuerySet
 
-from apps.core.adapter.response.abc import AbstractResponseAdapter
-from apps.core.adapter.response.rule import LanguageRule, RuleClause
+from apps.core.adapters.response.abc import AbstractResponseAdapter
+from apps.core.adapters.response.rule import LanguageRule, RuleClause
 from apps.lang import models
 
 

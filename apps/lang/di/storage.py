@@ -3,7 +3,7 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Configuration, Factory
 
-from apps.core import storage
+from apps.core import storages
 
 
 class StorageContainer(DeclarativeContainer):
@@ -18,11 +18,11 @@ class StorageContainer(DeclarativeContainer):
     # ------------------
 
     cache_client = Factory(  # type: ignore[var-annotated]
-        storage.DjangoCache,
+        storages.DjangoCache,
     )
 
     exercise_case_storage = Factory(
-        storage.TaskStorage,
+        storages.TaskStorage,
         storage=cache_client,
         ttl=config.case_storage_ttl,
     )

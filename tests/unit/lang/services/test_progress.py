@@ -2,7 +2,7 @@
 
 from unittest.mock import Mock
 
-from apps.core.domain.exercise import ProgressConfigSchema
+from apps.core.domains.exercise import ProgressConfigSchema
 from apps.lang import types
 from apps.lang.schemas import dto
 from apps.lang.use_cases.exercise.abc import WordProgressServiceABC

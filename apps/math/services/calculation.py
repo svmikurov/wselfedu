@@ -7,8 +7,8 @@ from typing import TYPE_CHECKING, Type
 from wse_exercises.core.math.base.exercise import CalcExercise
 from wse_exercises.core.math.base.services import OperandGeneratorABC
 
-from apps.core.domain.exercise.enums import ExerciseStatusEnum
-from apps.core.service.exercise.abstract import (
+from apps.core.domains.exercise.enums import ExerciseStatusEnum
+from apps.core.services.exercise.abstract import (
     AbstractExerciseCheck,
     AbstractExerciseExplain,
     AbstractMilestone,

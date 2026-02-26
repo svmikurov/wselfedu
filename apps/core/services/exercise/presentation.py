@@ -4,17 +4,17 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from apps.core.domain.exercise import (
+from apps.core.domains.exercise import (
     PresentationData,
     PresentationMeta,
 )
 from apps.lang.schemas import dto
 
 if TYPE_CHECKING:
-    from apps.core.domain.exercise.presentation import (
+    from apps.core.domains.exercise.presentation import (
         PresentationDomain,
     )
-    from apps.core.storage import services as storage
+    from apps.core.storages import services as storage
     from apps.lang import repositories
     from apps.lang.use_cases.exercise.types import (
         RegularRequest,

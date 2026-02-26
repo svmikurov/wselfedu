@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from apps.core.domain.exercise import (
+from apps.core.domains.exercise import (
     ExerciseStatusEnum,
     TestExerciseData,
     TestExerciseExplanation,

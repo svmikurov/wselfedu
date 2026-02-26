@@ -6,7 +6,7 @@ from typing_extensions import override
 from wse_exercises.core.math import CalcTask
 
 from apps.core.presenters import TaskPresenter
-from apps.core.storage.services.iabc import TaskStorageProto
+from apps.core.storages.services.iabc import TaskStorageProto
 from apps.core.types import ResultType
 from apps.study.servises.iabc import StrTaskCheckerProto
 

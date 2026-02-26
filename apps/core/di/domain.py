@@ -3,7 +3,7 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Dependency, Factory
 
-from ..domain.exercise import (
+from ..domains.exercise import (
     DetailTestCreateDomain,
     PresentationDomain,
     RegularTestCreateDomain,

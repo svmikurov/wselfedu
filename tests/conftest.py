@@ -9,7 +9,7 @@ import pytest
 from rest_framework.test import APIClient, APIRequestFactory
 
 from apps.core.di.configuration import ExerciseConfig
-from apps.core.domain.exercise import DisplayOrder
+from apps.core.domains.exercise import DisplayOrder
 from di import MainContainer
 
 if TYPE_CHECKING:

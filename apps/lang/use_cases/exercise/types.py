@@ -11,7 +11,7 @@ from apps.lang.schemas import RegularConditionRequest
 
 # HACK: Replace Any
 if TYPE_CHECKING:
-    from apps.core.storage.services import TaskStorage
+    from apps.core.storages.services import TaskStorage
     from apps.lang import schemas
     from apps.lang.schemas import dto
 

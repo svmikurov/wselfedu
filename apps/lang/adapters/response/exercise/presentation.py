@@ -6,14 +6,14 @@ exercise cases to different output formats (API and Web).
 
 from django.urls import reverse_lazy
 
-from apps.core.adapter.response.abc import AbstractResponseAdapter
-from apps.core.adapter.response.exercise.presentation import (
+from apps.core.adapters.response.abc import AbstractResponseAdapter
+from apps.core.adapters.response.exercise.presentation import (
     PresentationApi,
     PresentationWeb,
     Progress,
     UpdateProgress,
 )
-from apps.core.domain.exercise.presentation_dto import PresentationData
+from apps.core.domains.exercise.presentation_dto import PresentationData
 
 
 class ApiPresentationAdapter(

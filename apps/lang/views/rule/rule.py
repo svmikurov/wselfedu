@@ -9,7 +9,7 @@ from django.urls import reverse, reverse_lazy
 from django.views import generic
 
 from apps.core import views as core_views
-from apps.core.adapter.response.rule import LanguageRule
+from apps.core.adapters.response.rule import LanguageRule
 from apps.lang import forms, models
 from apps.lang.di.container import LanguageContainer
 from apps.users.models import Mentorship

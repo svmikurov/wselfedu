@@ -4,7 +4,7 @@ import uuid
 
 from pydantic import Field
 
-from ...domain.base_dto import BaseDTO
+from ...domains.base_dto import BaseDTO
 
 
 class UpdateProgress(BaseDTO):

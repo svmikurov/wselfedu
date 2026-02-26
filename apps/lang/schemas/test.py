@@ -4,8 +4,8 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from apps.core.domain.exercise import ExerciseStatusEnum
-from apps.core.domain.exercise.test_dto import Option, OptionMeta
+from apps.core.domains.exercise import ExerciseStatusEnum
+from apps.core.domains.exercise.test_dto import Option, OptionMeta
 
 from ..models import EnglishTranslation
 

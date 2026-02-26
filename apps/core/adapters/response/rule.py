@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from apps.core.domain.base_dto import BaseDTO
+from apps.core.domains.base_dto import BaseDTO
 
 # -------------------------------
 # API Response DTO (external API)

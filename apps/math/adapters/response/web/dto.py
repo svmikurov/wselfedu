@@ -5,7 +5,7 @@ from __future__ import annotations
 from django.forms import Form
 from pydantic import BaseModel, ConfigDict, Field
 
-from apps.core.domain.exercise.enums import ExerciseStatusEnum
+from apps.core.domains.exercise.enums import ExerciseStatusEnum
 
 
 class ConditionsFormDTO(BaseModel):

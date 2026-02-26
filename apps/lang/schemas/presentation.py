@@ -2,7 +2,7 @@
 
 from pydantic import BaseModel, ConfigDict, field_validator
 
-from apps.core.domain.exercise import DisplayOrder
+from apps.core.domains.exercise import DisplayOrder
 
 # ------------------------
 # Base presentation models

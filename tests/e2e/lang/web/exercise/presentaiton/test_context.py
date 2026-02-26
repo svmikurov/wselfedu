@@ -11,8 +11,8 @@ import pytest
 from bs4 import BeautifulSoup
 from django.urls import reverse
 
-from apps.core.domain.exercise.presentation import PresentationDomain
-from apps.core.domain.exercise.presentation_dto import PresentationData
+from apps.core.domains.exercise.presentation import PresentationDomain
+from apps.core.domains.exercise.presentation_dto import PresentationData
 from apps.core.handlers import RegularRequestHandler
 from apps.lang import models
 from di import MainContainer

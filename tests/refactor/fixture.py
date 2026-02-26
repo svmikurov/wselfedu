@@ -3,13 +3,13 @@
 import uuid
 from typing import Final
 
-from apps.core.adapter.response.exercise.presentation import (
+from apps.core.adapters.response.exercise.presentation import (
     PresentationApi,
     PresentationWeb,
     Progress,
     UpdateProgress,
 )
-from apps.core.domain.exercise.presentation_dto import PresentationData
+from apps.core.domains.exercise.presentation_dto import PresentationData
 
 from .types import PresentationCaseDict
 

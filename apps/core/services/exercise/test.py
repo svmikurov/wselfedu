@@ -4,12 +4,12 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from apps.core.domain.exercise import (
+from apps.core.domains.exercise import (
     TestExerciseData,
     TestExerciseExplanation,
     TestExerciseMeta,
 )
-from apps.core.domain.exercise.types import (
+from apps.core.domains.exercise.types import (
     CheckResult,
     TestCheckRequest,
 )
@@ -24,18 +24,18 @@ from .abstract import (
 if TYPE_CHECKING:
     from uuid import UUID
 
-    from apps.core.domain.exercise import TestExerciseCase
-    from apps.core.domain.exercise.abstract import (
+    from apps.core.domains.exercise import TestExerciseCase
+    from apps.core.domains.exercise.abstract import (
         AbstractCandidatesExerciseDomain,
         AbstractCheckExerciseDomain,
         AbstractSettingsExerciseDomain,
     )
-    from apps.core.domain.exercise.types import ExerciseConfig, Settings
-    from apps.core.repository.abstract import (
+    from apps.core.domains.exercise.types import ExerciseConfig, Settings
+    from apps.core.repositories.abstract import (
         AbstractConditionsExerciseRepository,
         AbstractParametersRepository,
     )
-    from apps.core.storage.services.iabc import TaskStorageABC
+    from apps.core.storages.services.iabc import TaskStorageABC
     from apps.users.models import Person
 
     type CreateResult = tuple[TestExerciseCase, TestExerciseMeta]
