@@ -10,12 +10,15 @@ from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.base import TemplateResponseMixin
 
-from apps.core.adapter.response.exercise.web.dto import WebExerciseCaseDTO
+from apps.core.adapter.response.exercise.web.dto import (
+    WebExerciseResponseDTO,
+)
 from apps.core.domain.exercise.enums import ExerciseStatusEnum
 from apps.core.handlers.dto import DetailParams, RequestContext, RequestData
 from apps.core.handlers.protocol import (
@@ -111,7 +114,7 @@ class GetPartialExerciseTemplateMixin:
 
     @staticmethod
     def _get_partial_html(
-        request: HttpRequest, schema: WebExerciseCaseDTO
+        request: HttpRequest, schema: WebExerciseResponseDTO
     ) -> str:
         """Get partial template html for exercise case."""
         try:
@@ -120,7 +123,12 @@ class GetPartialExerciseTemplateMixin:
         except KeyError:
             template = ERROR_TEMPLATE
             context = {'error_message': _('Internal server error 500')}
-        return render_to_string(TEMPLATE_PATH + template, context, request)
+
+        html = render_to_string(TEMPLATE_PATH + template, context, request)
+
+        if request.headers.get('HX-Request'):
+            return mark_safe(html + schema.oob_html)
+        return html
 
 
 class _BasePerformView(
@@ -179,8 +187,8 @@ class RegularPerformView(_BasePerformView[StartHandler, CheckHandler]):
 class DetailPerformView(
     UserLoginRequiredMixin,
     GetExerciseHandlersMixin[
-        DetailRequestHandlerProtocol[WebExerciseCaseDTO],
-        DetailRequestHandlerProtocol[WebExerciseCaseDTO],
+        DetailRequestHandlerProtocol[WebExerciseResponseDTO],
+        DetailRequestHandlerProtocol[WebExerciseResponseDTO],
     ],
     GetPartialExerciseTemplateMixin,
     TemplateResponseMixin,
@@ -196,12 +204,12 @@ class DetailPerformView(
         request: HttpRequest,
         *args: object,
         start_handler: DetailRequestHandlerProtocol[
-            WebExerciseCaseDTO
+            WebExerciseResponseDTO
         ] = Provide[
             CONTAINER.start_detail_calculation  # type: ignore[attr-defined]
         ],
         check_handler: DetailRequestHandlerProtocol[
-            WebExerciseCaseDTO
+            WebExerciseResponseDTO
         ] = Provide[
             CONTAINER.check_detail_calculation  # type: ignore[attr-defined]
         ],
@@ -242,8 +250,8 @@ class DetailPerformView(
 class StudentCalculationPerformView(
     UserLoginRequiredMixin,
     GetExerciseHandlersMixin[
-        DetailRequestHandlerProtocol[WebExerciseCaseDTO],
-        DetailRequestHandlerProtocol[WebExerciseCaseDTO],
+        DetailRequestHandlerProtocol[WebExerciseResponseDTO],
+        DetailRequestHandlerProtocol[WebExerciseResponseDTO],
     ],
     GetPartialExerciseTemplateMixin,
     TemplateResponseMixin,
