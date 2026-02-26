@@ -85,7 +85,7 @@ class AssignCalculationForm(forms.ModelForm):  # type: ignore
         self.form_action = kwargs.pop('form_action')
         super().__init__(*args, **kwargs)  # type: ignore
 
-        self._set_related_form_fields()
+        self._add_related_form_fields()
         self._setup_fields()
         self._layout_form()
 
@@ -174,7 +174,7 @@ class AssignCalculationForm(forms.ModelForm):  # type: ignore
             ),
         )
 
-    def _set_related_form_fields(self) -> None:
+    def _add_related_form_fields(self) -> None:
         # - Get related instances for update event -
         if self.instance.pk:
             exercise_content_type = ContentType.objects.get_for_model(
@@ -184,7 +184,6 @@ class AssignCalculationForm(forms.ModelForm):  # type: ignore
                 availability_instance = ExerciseAvailability.objects.get(
                     exercise_content_type=exercise_content_type,
                     exercise_object_id=self.instance.pk,
-                    user=self.instance.mentorship.student,
                 )
             except ExerciseAvailability.DoesNotExist:
                 pass
@@ -193,7 +192,6 @@ class AssignCalculationForm(forms.ModelForm):  # type: ignore
                 reward_instance = ExerciseReward.objects.get(
                     exercise_content_type=exercise_content_type,
                     exercise_object_id=self.instance.pk,
-                    mentorship=self.instance.mentorship,
                 )
             except ExerciseReward.DoesNotExist:
                 pass
