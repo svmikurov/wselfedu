@@ -36,7 +36,7 @@ class Balance(models.Model):
 
     def __str__(self) -> str:
         """Return the text representation of object."""
-        return f'Баланс {self.user}: {self.total}'
+        return str(self.total)
 
     def __repr__(self) -> str:
         """Return the representation of object."""
