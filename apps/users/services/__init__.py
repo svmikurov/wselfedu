@@ -1,11 +1,11 @@
 """Users app services."""
 
 __all__ = (
-    'CalculationRewardService',
-    'AwardService',
+    'RewardService',
     'MentorshipService',
+    'AwardService',
 )
 
 from .award import AwardService
 from .mentorship import MentorshipService
-from .reward import CalculationRewardService
+from .reward import RewardService
