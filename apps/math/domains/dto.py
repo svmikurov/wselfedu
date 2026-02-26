@@ -9,6 +9,10 @@ from apps.core.domain.exercise.enums import ExerciseStatusEnum
 
 Operation = Literal['add', 'sub', 'mul', 'div']
 
+# ===============================================
+# Create calculation conditions
+# ===============================================
+
 
 class CalculationConditionDTO(BaseDTO):
     """Calculation conditions DTO."""
@@ -16,6 +20,11 @@ class CalculationConditionDTO(BaseDTO):
     min_operand: int
     max_operand: int
     operation_type: Operation
+
+
+# ===============================================
+# Current calculation conditions
+# ===============================================
 
 
 class CalculationCaseDTO(BaseModel):
@@ -45,10 +54,20 @@ class CalculationDataDTO(BaseDTO):
     data: CalculationCaseDTO
 
 
+# ===============================================
+# User's answer
+# ===============================================
+
+
 class CalculationAnswerDTO(BaseDTO):
     """Calculation exercise user's answer."""
 
     user_answer: str
+
+
+# ===============================================
+# Check user's answer result
+# ===============================================
 
 
 class CalculationExplainDTO(BaseDTO):
