@@ -40,6 +40,13 @@ class RequestResultProtocol(Protocol):
     context: dict[str, Any]
 
 
+class OobResultProtocol(Protocol):
+    """Protocol for response result DTO with OOB content."""
+
+    context: dict[str, Any]
+    oob_html: str
+
+
 # ===============================================
 # Dependencies
 # ===============================================
@@ -119,10 +126,27 @@ class ResponseAdapterDeprecated(Protocol[T_contra, T_co]):
         """Convert to response."""
 
 
-class ResponseAdapter(Protocol[T_contra]):
-    """Protocol for response adapter interface."""
+class SimpleResponseAdapter(Protocol[T_contra]):
+    """Protocol for response adapter interface.
 
-    def to_response(self, domain_result: T_contra) -> RequestResultProtocol:
+    Does not use request context.
+    """
+
+    def to_response(self, schema: T_contra) -> RequestResultProtocol:
+        """Convert to response."""
+
+
+class ResponseAdapter(Protocol[T_contra]):
+    """Protocol for response adapter interface.
+
+    Uses request context.
+    """
+
+    def to_response(
+        self,
+        schema: T_contra,
+        request_context: RequestContextProtocol,
+    ) -> RequestResultProtocol:
         """Convert to response."""
 
 
