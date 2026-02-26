@@ -19,3 +19,12 @@ class WebExerciseCaseDTO(BaseDTO):
         description='Additional exercise page context',
         default_factory=dict,
     )
+
+
+class WebExerciseResponseDTO(WebExerciseCaseDTO):
+    """Exercise case web response DTO with additional content."""
+
+    oob_html: str = Field(
+        description='Out Of Band',
+        default_factory=str,
+    )
