@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from decimal import Decimal
 from typing import TYPE_CHECKING, override
 
 from django.db.models import Manager
@@ -10,6 +11,7 @@ from django.shortcuts import get_object_or_404
 from apps.math.domains.dto import CalculationMetaDTO, CalculationResultDTO
 from apps.math.models import StudentCalculationCondition
 from apps.math.services.abstract import AbstractCompletionService
+from apps.users.domains.dto import RewardDTO
 from apps.users.services.protocol import RewardServiceProtocol
 
 from .protocol import MilestoneProtocol, ProgressBar
@@ -24,6 +26,9 @@ type _CompletionService = AbstractCompletionService[
 ]
 # HACK: Implement DIP
 type _ExerciseManager = Manager[StudentCalculationCondition]
+
+# HACK: Remove temporary amount constant
+TEMPORARY_AMOUNT = Decimal(10)
 
 
 # NOTE: It's experimental milestone definition
@@ -103,9 +108,12 @@ class StudentCalculationMilestone(
             Current exercise database identifier.
 
         """
-        mentorship_pk = self._get_mentorship_pk(resource_pk, student)
         if result.is_correct:
-            self._reward_service.increment(resource_pk, mentorship_pk)
+            reward = RewardDTO(
+                student_pk=student.pk,
+                amount=TEMPORARY_AMOUNT,
+            )
+            self._reward_service.increment(reward)
             self._completion_service.add_success(resource_pk)
         else:
             self._completion_service.add_failure(resource_pk)
