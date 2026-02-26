@@ -7,16 +7,8 @@
 
 {% block content %}
 <main class="container">
-  <div id="header-block" class="row py-3">
-    <div class="col">
-      <h1 class="mb-0">{% trans 'core.source.list.header' %}</h1>
-    </div>
-    <div class="col-auto">
-      <a href="javascript:history.back()" class="wse-btn">
-        {% trans 'button.back' %}
-      </a>
-    </div>
-  </div>
+  {% trans "core.source.list.header" as header %}
+  {% include "components/header_block.html" with header=header %}
 
   <!--=== Source table ===-->
   <table class="table">

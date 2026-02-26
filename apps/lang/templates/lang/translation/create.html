@@ -8,16 +8,8 @@
 
 {% block content %}
 <div class="container p-0">
-  <div id="header-block" class="row py-3">
-    <div class="col">
-      <h1 class="mb-0">{% trans 'lang.page.english.translation.create.header' %}</h1>
-    </div>
-    <div class="col-auto">
-      <a href="javascript:history.back()" class="wse-btn">
-        {% trans 'button.back' %} 
-      </a>
-    </div>
-  </div>
+  {% trans "lang.page.english.translation.create.header" as header %}
+  {% include "components/header_block.html" with header=header %}
 
   <div>
     <form method="post">

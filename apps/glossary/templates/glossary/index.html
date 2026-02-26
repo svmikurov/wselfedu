@@ -6,18 +6,8 @@
 
 {% block content %}
 <main class="container">
-  <div id="header-block" class="row py-3">
-    {# Page header #}
-    <div class="col">
-      <h1>{% trans "glossary.index.header" %}</h1>
-    </div>
-    {# Back button #}
-    <div class="col-auto">
-      <a href="javascript:history.back()" class="wse-btn">
-        {% trans 'button.back' %}
-      </a>
-    </div>
-  </div>
+  {% trans "glossary.index.header" as header %}
+  {% include "components/header_block.html" with header=header %}
 
   <div class="row g-2 mb-2">
     <div class="col-12 col-md-6">

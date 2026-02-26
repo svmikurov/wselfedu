@@ -7,18 +7,8 @@
 
 {% block content %}
 <main class="container">
-  <div id="header-block" class="row py-3">
-    {# Page header #}
-    <div class="col">
-      <h1>{% trans "glossary.page.create.assertion.header" %}</h1>
-    </div>
-    {# Back button #}
-    <div class="col-auto">
-      <a href="javascript:history.back()" class="wse-btn">
-        {% trans 'button.back' %}
-      </a>
-    </div>
-  </div>
+  {% trans "glossary.page.create.assertion.header" as header %}
+  {% include "components/header_block.html" with header=header %}
  
   {% include 'components/form.html' %}
 </main>

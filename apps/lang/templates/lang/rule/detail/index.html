@@ -6,16 +6,7 @@
 
 {% block content %}
 <main class="container">
-  <div id="header-block" class="row py-3">
-    <div class="col">
-      <h1>{{ header }}</h1>
-    </div>
-    <div class="col-auto">
-      <a href="javascript:history.back()" class="wse-btn">
-         {% trans 'button.back' %}
-      </a>
-    </div>
-  </div>
+  {% include "components/header_block.html" with header=header %}
 
   {# Target to include the rule card via HTMX after rule update event #}
   <div id="rule-card">

@@ -8,19 +8,8 @@
 
 {% block content %}
 <main class="container">
-  <div id="header-block" class="row py-3">
-    <div class="col">
-      <h1 class="mb-0">{% trans 'lang.page.translation.test.header' %}</h1>
-    </div>
-    <div class="col-auto">
-      <a href="{% url 'lang:settings' %}" class="wse-btn">
-         {% trans 'button.title.exercise.settings' %}
-      </a>
-      <a href="javascript:history.back()" class="wse-btn">
-         {% trans 'button.back' %}
-      </a>
-    </div>
-  </div>
+  {% trans "lang.page.translation.test.header" as header %}
+  {% include "components/header_block.html" with header=header %}
 
   {% include 'lang/exercise/test/_settings.html' %}
 

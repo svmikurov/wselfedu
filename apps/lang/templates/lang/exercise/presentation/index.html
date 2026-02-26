@@ -6,19 +6,7 @@
 
 {% block content %}
 <main class="container p-0">
-  <div id="header-block" class="row py-3">
-    <div class="col">
-      <h1 class="mb-0">{{ header }}</h1>
-    </div>
-    <div class="col-auto">
-      <a href="{% url 'lang:settings' %}" class="wse-btn">
-         Настройки
-      </a>
-      <a href="javascript:history.back()" class="wse-btn">
-         Назад
-      </a>
-    </div>
-  </div>
+  {% include "components/header_block.html" with header=header %}
 
   {% include 'lang/exercise/presentation/_settings.html' %}
 
