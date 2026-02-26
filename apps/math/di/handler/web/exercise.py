@@ -55,6 +55,7 @@ class ExerciseWebHandlerContainer(DeclarativeContainer):
         use_case=use_cases.check_regular_calculation,
         adapter=adapters.calculation_result_strategy,
     )
+
     start_detail_calculation = Factory(
         DetailRequestHandler,
         validator=NullValidator(),
@@ -72,11 +73,11 @@ class ExerciseWebHandlerContainer(DeclarativeContainer):
         DetailRequestHandler,
         validator=NullValidator(),
         use_case=use_cases.start_student_calculation,
-        adapter=adapters.create_calculation,
+        adapter=adapters.create_student_calculation,
     )
     check_student_calculation = Factory(
         DetailRequestHandler,
         validator=validators.check_detail_calculation,
         use_case=use_cases.check_student_calculation,
-        adapter=adapters.calculation_result_strategy,
+        adapter=adapters.student_calculation_result_strategy,
     )
