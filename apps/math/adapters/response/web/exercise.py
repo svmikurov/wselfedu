@@ -19,8 +19,8 @@ from apps.math import forms
 from apps.math.domains.dto import CalculationDataDTO, CalculationExplainDTO
 
 from .dto import (
-    ExerciseFormDTO,
     ConditionsFormDTO,
+    ExerciseFormDTO,
     ExerciseWebDTO,
 )
 
@@ -93,7 +93,7 @@ class StudentCalculationWebCaseAdapter(ResponseAdapter[CalculationDataDTO]):
     def _get_oob_html(self, context: RequestContextProtocol) -> str:
         """Get additional context data."""
         html = '<span id="user-balance" hx-swap-oob="true">{}</span>'.format(
-            context.user.balance
+            context.user.balance_total
         )
         return html
 
