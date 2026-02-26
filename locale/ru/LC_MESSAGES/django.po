@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-22 21:29+0000\n"
+"POT-Creation-Date: 2026-02-26 00:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,11 +20,11 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: apps/core/forms/layouts.py:15 apps/math/forms/calculation_assignation.py:162
+#: apps/core/forms/layouts.py:15 apps/math/forms/calculation_assignation.py:167
 msgid "button.cancel"
 msgstr "Отменить"
 
-#: apps/core/forms/layouts.py:25 apps/math/forms/calculation_assignation.py:170
+#: apps/core/forms/layouts.py:25 apps/math/forms/calculation_assignation.py:175
 msgid "button.submit"
 msgstr "Отправить"
 
@@ -628,17 +628,17 @@ msgid "Operation"
 msgstr "Тип вычисления"
 
 #: apps/math/templates/math/exercise/calculation/custom/_table.html:32
-#: apps/math/templates/math/exercise/calculation/mentor/_table.html:35
+#: apps/math/templates/math/exercise/calculation/mentor/_table.html:37
 msgid "table.exercise.update"
 msgstr "Изменить"
 
 #: apps/math/templates/math/exercise/calculation/custom/_table.html:43
-#: apps/math/templates/math/exercise/calculation/mentor/_table.html:46
+#: apps/math/templates/math/exercise/calculation/mentor/_table.html:48
 msgid "table.exercise.delete"
 msgstr "Удалить"
 
 #: apps/math/templates/math/exercise/calculation/custom/_table.html:47
-#: apps/math/templates/math/exercise/calculation/mentor/_table.html:50
+#: apps/math/templates/math/exercise/calculation/mentor/_table.html:52
 msgid "table.exercise.delete.confirm"
 msgstr "Удалить?"
 
@@ -678,19 +678,25 @@ msgstr "Упражнения на вычисления от наставника
 
 #: apps/math/templates/math/exercise/calculation/mentor/_table.html:11
 #: apps/math/templates/math/exercise/calculation/student/_table.html:11
-#: apps/study/models/exercise/limit.py:28
+#: apps/study/models/exercise/availability.py:39
 msgid "exercise.availability.count"
 msgstr "Кол-во заданий"
 
 #: apps/math/templates/math/exercise/calculation/mentor/_table.html:12
 #: apps/math/templates/math/exercise/calculation/student/_table.html:13
-#: apps/study/models/exercise/reward.py:21
 msgid "exercise.reward.amount"
 msgstr "Вознаграждение"
 
 #: apps/math/templates/math/exercise/calculation/mentor/_table.html:13
 #: apps/math/templates/math/exercise/calculation/student/_table.html:14
-#: apps/study/models/exercise/limit.py:33
+#: apps/study/models/exercise/reward.py:38
+#: apps/study/models/exercise/reward.py:42
+msgid "exercise.reward.type"
+msgstr "Тип вознаграждения"
+
+#: apps/math/templates/math/exercise/calculation/mentor/_table.html:14
+#: apps/math/templates/math/exercise/calculation/student/_table.html:15
+#: apps/study/models/exercise/availability.py:44
 msgid "exercise.availability.period"
 msgstr "Периодичность выполнения"
 
@@ -736,39 +742,72 @@ msgstr "Математика"
 msgid "button.math.exercises"
 msgstr "Упражнения"
 
-#: apps/math/views/exercise/calculation/perform.py:120
+#: apps/math/views/exercise/calculation/perform.py:122
 msgid "Internal server error 500"
 msgstr "Ошибка сервера"
 
-#: apps/study/models/exercise/limit.py:20
+#: apps/study/models/exercise/availability.py:22
 msgid "Daily"
 msgstr "Ежедневно"
 
-#: apps/study/models/exercise/limit.py:21
+#: apps/study/models/exercise/availability.py:23
 msgid "By appointment as a mentor"
 msgstr "По назначено наставником"
 
-#: apps/study/models/exercise/limit.py:42
-msgid "exercise.availability.user"
-msgstr "Пользователь выполняющий упражнение"
+#: apps/study/models/exercise/availability.py:51
+#: apps/study/models/exercise/availability.py:67
+msgid "Date and time of exercise assignation"
+msgstr "Временная метка назначения упражнения"
 
-#: apps/study/models/exercise/limit.py:56
+#: apps/study/models/exercise/availability.py:56
+msgid "Is the exercise active to perform?"
+msgstr "Актировано ли для выполнения"
+
+#: apps/study/models/exercise/availability.py:61
+msgid "Is the exercise fully completed?"
+msgstr "Выполнено ли упражнение полностью"
+
+#: apps/study/models/exercise/availability.py:73
 msgid "Exercise availability"
 msgstr "Доступность упражнения"
 
-#: apps/study/models/exercise/limit.py:57
+#: apps/study/models/exercise/availability.py:74
 msgid "Exercise availabilities"
 msgstr "Доступность упражнений"
 
-#: apps/study/models/exercise/reward.py:27
-msgid "exercise.reward.mentorship"
-msgstr "Упражнение при наставничестве"
+#: apps/study/models/exercise/availability.py:91
+msgid "Count of success task performing"
+msgstr "Количество успешных выполнения"
 
-#: apps/study/models/exercise/reward.py:41
+#: apps/study/models/exercise/availability.py:94
+msgid "Count of failure task performing"
+msgstr "Количество неуспешных выполнений"
+
+#: apps/study/models/exercise/availability.py:98
+msgid "Date for daily progress tracking"
+msgstr "Дата для отслеживание ежедневных упражнений"
+
+#: apps/study/models/exercise/availability.py:104
+msgid "Exercise performance log"
+msgstr "Лог выполнения упражнений"
+
+#: apps/study/models/exercise/availability.py:105
+msgid "Exercise performance logs"
+msgstr "Логи выполнения упражнений"
+
+#: apps/study/models/exercise/reward.py:20
+msgid "Per each case"
+msgstr "За каждое задание"
+
+#: apps/study/models/exercise/reward.py:21
+msgid "For all cases"
+msgstr "За завершение всех заданий"
+
+#: apps/study/models/exercise/reward.py:48
 msgid "Exercise reward"
 msgstr "Вознаграждение за упражнение"
 
-#: apps/study/models/exercise/reward.py:42
+#: apps/study/models/exercise/reward.py:49
 msgid "Exercise rewards"
 msgstr "Вознаграждения за упражнения"
 
@@ -859,6 +898,12 @@ msgstr "Образовательный проект"
 #: templates/home.html:44
 msgid "button.source.list"
 msgstr "Источники"
+
+#~ msgid "exercise.availability.user"
+#~ msgstr "Пользователь выполняющий упражнение"
+
+#~ msgid "exercise.reward.mentorship"
+#~ msgstr "Упражнение при наставничестве"
 
 #~ msgid "button.exercise.save"
 #~ msgstr "Сохранить упражнение"
