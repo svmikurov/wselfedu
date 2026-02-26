@@ -111,5 +111,5 @@ class DetailRequestHandler(Generic[Validated, DomainResult]):
         """Execute."""
         validated = self._validator.validate(data)
         domain_result = self._use_case.execute(params, context, validated)
-        result = self._adapter.to_response(domain_result)
+        result = self._adapter.to_response(domain_result, context)
         return result
