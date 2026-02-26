@@ -14,18 +14,15 @@ LIMIT_CHOICES: Final[dict[str, tuple[str, ...]]] = {
 }
 
 
+class RewardType(models.TextChoices):
+    """Reward type choice."""
+
+    PER_CASE = _('Per each case')
+    COMPLETE = _('For all cases')
+
+
 class ExerciseReward(AbstractBaseModel):
     """Exercise reward."""
-
-    amount = models.PositiveSmallIntegerField(
-        verbose_name=_('exercise.reward.amount'),
-    )
-
-    mentorship = models.ForeignKey(
-        'users.Mentorship',
-        on_delete=models.CASCADE,
-        verbose_name=_('exercise.reward.mentorship'),
-    )
 
     exercise_content_type = models.ForeignKey(
         ContentType,
@@ -35,21 +32,20 @@ class ExerciseReward(AbstractBaseModel):
     exercise_object_id = models.PositiveIntegerField()
     exercise = GenericForeignKey('exercise_content_type', 'exercise_object_id')
 
+    reward_type = models.CharField(
+        max_length=30,
+        choices=RewardType,
+        verbose_name=_('exercise.reward.type'),
+    )
+
+    amount = models.PositiveSmallIntegerField(
+        verbose_name=_('exercise.reward.type'),
+    )
+
     class Meta:
         """Model configuration."""
 
         verbose_name = _('Exercise reward')
         verbose_name_plural = _('Exercise rewards')
-
-        constraints = [
-            models.UniqueConstraint(
-                fields=[
-                    'exercise_content_type',
-                    'exercise_object_id',
-                    'mentorship',
-                ],
-                name='unique_exercise_reward',
-            )
-        ]
 
         db_table = 'study_exercise_reward'
