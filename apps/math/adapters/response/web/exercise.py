@@ -1,65 +1,119 @@
 """Web exercise response adapters."""
 
-from typing import Any
+from typing import Any, TypeVar
 
 from apps.core.adapter.response.abc import AbstractResponseAdapter
-from apps.core.adapter.response.exercise.web.dto import WebExerciseCaseDTO
+from apps.core.adapter.response.exercise.web.dto import (
+    WebExerciseCaseDTO,
+    WebExerciseResponseDTO,
+)
+from apps.core.domain.exercise.types import ExerciseStatus
+from apps.core.handlers.protocol import (
+    OobResultProtocol,
+    RequestContextProtocol,
+    RequestResultProtocol,
+    ResponseAdapter,
+    SimpleResponseAdapter,
+)
 from apps.math import forms
 from apps.math.domains.dto import CalculationDataDTO, CalculationExplainDTO
 
 from .dto import (
-    CalculationWebCase,
-    CalculationWebConditions,
-    CalculationWebExplain,
+    ExerciseFormDTO,
+    ConditionsFormDTO,
+    ExerciseWebDTO,
 )
 
 type UseCaseData = Any
+DomainType = TypeVar('DomainType', bound=ExerciseStatus)
+
+# ===============================================
+# Exercise conditions
+# ===============================================
 
 
 class CalculationConditionsWebAdapter(
-    AbstractResponseAdapter[UseCaseData, CalculationWebConditions],
+    AbstractResponseAdapter[UseCaseData, ConditionsFormDTO],
 ):
     """Calculation conditions web response adapter."""
 
-    def to_response(self, schema: UseCaseData) -> CalculationWebConditions:
+    def to_response(self, schema: UseCaseData) -> ConditionsFormDTO:
         """Adapt calculation conditions for web response."""
-        return CalculationWebConditions(
+        return ConditionsFormDTO(
             conditions_form=forms.RegularCalculationConditionsForm(),
         )
 
 
-class CalculationWebCaseAdapter(
-    AbstractResponseAdapter[
-        CalculationDataDTO,
-        WebExerciseCaseDTO,
-    ],
-):
+# ===============================================
+# Exercise case data
+# ===============================================
+
+
+class CalculationWebCaseAdapter(SimpleResponseAdapter[CalculationDataDTO]):
     """Calculation exercise case web response adapter."""
 
-    def to_response(self, schema: CalculationDataDTO) -> WebExerciseCaseDTO:
+    def to_response(
+        self,
+        schema: CalculationDataDTO,
+    ) -> WebExerciseCaseDTO:
         """Adapt current calculation case for web response."""
-        return WebExerciseCaseDTO(
+        return WebExerciseResponseDTO(
             exercise_status=schema.exercise_status,
-            data=CalculationWebCase(
+            data=ExerciseFormDTO(
                 question_text=schema.data.question_text,
                 answer_input_form=forms.NumberInputForm(),
             ),
         )
 
 
+class StudentCalculationWebCaseAdapter(ResponseAdapter[CalculationDataDTO]):
+    """Calculation exercise case web response adapter."""
+
+    def __init__(
+        self,
+        domain_adapter: CalculationWebCaseAdapter,
+    ) -> None:
+        """Construct the adapter."""
+        self._domain_adapter = domain_adapter
+
+    def to_response(
+        self,
+        schema: CalculationDataDTO,
+        request_context: RequestContextProtocol,
+    ) -> OobResultProtocol:
+        """Adapt current calculation case for web response."""
+        adapted = self._domain_adapter.to_response(schema)
+
+        return WebExerciseResponseDTO(
+            exercise_status=adapted.exercise_status,
+            data=adapted.data,
+            oob_html=self._get_oob_html(request_context),
+        )
+
+    def _get_oob_html(self, context: RequestContextProtocol) -> str:
+        """Get additional context data."""
+        html = '<span id="user-balance" hx-swap-oob="true">{}</span>'.format(
+            context.user.balance
+        )
+        return html
+
+
+# ===============================================
+# Exercise explanation
+# ===============================================
+
+
 class ExplainCalculationWebAdapter(
-    AbstractResponseAdapter[
-        CalculationExplainDTO,
-        CalculationWebExplain,
-    ],
+    SimpleResponseAdapter[CalculationExplainDTO]
 ):
     """Calculation exercise case explanation web response adapter."""
 
     def to_response(
-        self, schema: CalculationExplainDTO
-    ) -> CalculationWebExplain:
+        self,
+        schema: CalculationExplainDTO,
+    ) -> RequestResultProtocol:
         """Adapt calculation case explanation for web response."""
-        return CalculationWebExplain(
+        return ExerciseWebDTO(
             exercise_status=schema.exercise_status,
             data=schema.data,
         )
