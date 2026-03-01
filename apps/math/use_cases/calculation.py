@@ -9,7 +9,14 @@ from apps.core.handlers.protocol import (
     RequestContextProtocol,
 )
 from apps.core.storages.services.iabc import AbstractUserStorage
-from apps.core.use_cases.abstract import AbstractDetailUseCase, AbstractUseCase
+from apps.core.use_cases.abstract import (
+    AbstractDetailDataUseCase,
+    AbstractDetailUseCase,
+    AbstractUseCase,
+)
+from apps.math.repositories.exercise import (
+    StudentCalculationConditionsRepository,
+)
 from apps.users.models.user import Person
 
 from ..domains.dto import (
@@ -17,8 +24,11 @@ from ..domains.dto import (
     CalculationCaseDTO,
     CalculationConditionDTO,
     CalculationExplainDTO,
+    CalculationLoopDTO,
     CalculationMetaDTO,
     CalculationResultDTO,
+    ExerciseAvailabilityDTO,
+    ExerciseMilestoneDTO,
 )
 
 if TYPE_CHECKING:
@@ -28,32 +38,37 @@ if TYPE_CHECKING:
         AbstractMilestone,
         AbstractRegularExerciseCreate,
     )
-    from apps.math.milestones.protocol import MilestoneProtocol
+    from apps.math.milestones.protocol import MilestoneServiceProtocol
 
-    # HACK: Fix Any type hint
-    type ParametersRepository = Any
-
-    type StorageService = AbstractUserStorage[CalculationMetaDTO,]
+    type ParametersRepository = StudentCalculationConditionsRepository
     type CreateService = AbstractRegularExerciseCreate[
         CalculationConditionDTO,
         tuple[CalculationCaseDTO, CalculationMetaDTO],
     ]
     type CheckService = AbstractExerciseCheck[
-        CalculationAnswerDTO, CalculationMetaDTO, CalculationResultDTO
+        CalculationAnswerDTO,
+        CalculationCaseDTO,
+        CalculationResultDTO,
     ]
-    # REVIEW: Update tO single milestone
     type MilestoneService = AbstractMilestone[
-        CalculationResultDTO, CalculationMetaDTO
+        CalculationResultDTO,
+        CalculationCaseDTO,
     ]
-    type DetailMilestoneService = MilestoneProtocol[
-        CalculationResultDTO, CalculationMetaDTO
+    type DetailMilestoneService = MilestoneServiceProtocol[
+        CalculationMetaDTO,
+        CalculationResultDTO,
+        ExerciseAvailabilityDTO,
+        ExerciseMilestoneDTO,
     ]
     type CreateUseCase = AbstractUseCase[
-        CalculationConditionDTO, CalculationCaseDTO
+        CalculationConditionDTO,
+        CalculationCaseDTO,
     ]
-    type CreateDetailUseCase = AbstractDetailUseCase[CalculationCaseDTO,]
+    type CreateDetailUseCase = AbstractDetailUseCase[CalculationCaseDTO]
     type ExplainService = AbstractExerciseExplain[
-        CalculationAnswerDTO, CalculationMetaDTO, CalculationExplainDTO
+        CalculationAnswerDTO,
+        CalculationCaseDTO,
+        CalculationExplainDTO,
     ]
 
 type RequestData = dict[str, Any]
@@ -83,7 +98,7 @@ class RegularCalculationCreateUseCase(
     def __init__(
         self,
         service: CreateService,
-        storage: StorageService,
+        storage: AbstractUserStorage[CalculationMetaDTO],
     ) -> None:
         """Construct the use case."""
         self._service = service
@@ -102,7 +117,7 @@ class RegularCalculationCreateUseCase(
 
 class RegularCalculationCheckUseCase(
     AbstractUseCase[
-        CalculationAnswerDTO,
+        CalculationLoopDTO,
         CalculationCaseDTO | CalculationExplainDTO,
     ],
 ):
@@ -110,7 +125,7 @@ class RegularCalculationCheckUseCase(
 
     def __init__(
         self,
-        storage: StorageService,
+        storage: AbstractUserStorage[CalculationMetaDTO],
         check_service: CheckService,
         milestone_service: MilestoneService | None,
         create_use_case: CreateUseCase,
@@ -126,7 +141,7 @@ class RegularCalculationCheckUseCase(
     def execute(
         self,
         user: Person,
-        request_data: CalculationAnswerDTO,
+        request_data: CalculationLoopDTO,
     ) -> CalculationCaseDTO | CalculationExplainDTO:
         """Check regular calculation exercise."""
         meta = self._storage.retrieve(user.pk, CASE_STORE_PREFIX)
@@ -136,19 +151,20 @@ class RegularCalculationCheckUseCase(
             self._milestone_service.execute(user, result, meta)
 
         if result.is_correct:
-            return self._create_use_case.execute(user, meta.conditions)
+            return self._create_use_case.execute(user, request_data)
         else:
             return self._explain_service.execute(request_data, meta)
 
 
-class DetailCalculationCreateUseCase:
-    """Start stored calculation exercise use case."""
+# REFACTOR: Relocate to core app as core use case to create exercise
+class DetailExerciseCreateUseCase(AbstractDetailUseCase[CalculationCaseDTO]):
+    """Start stored exercise use case."""
 
     def __init__(
         self,
         repository: ParametersRepository,
         service: CreateService,
-        storage: StorageService,
+        storage: AbstractUserStorage[CalculationMetaDTO],
     ) -> None:
         """Construct the use case."""
         self._repository = repository
@@ -163,20 +179,26 @@ class DetailCalculationCreateUseCase:
         # for data parameter in requests without a body.
         data: object,
     ) -> CalculationCaseDTO:
-        """Start stored calculation exercise."""
-        conditions = self._repository.fetch(params, context.user.pk)
-        case, meta = self._service.execute(conditions)
+        """Start stored exercise."""
+        parameters = self._repository.fetch(params, context.user)
+        case, meta = self._service.execute(parameters.conditions)
         self._storage.save(meta, context.user.pk, CASE_STORE_PREFIX)
         return case
 
 
-class DetailCalculationCheckUseCase:
+class DetailCalculationCheckUseCase(
+    AbstractDetailDataUseCase[
+        CalculationAnswerDTO,
+        CalculationCaseDTO | CalculationExplainDTO,
+    ]
+):
     """Detail calculation check use case."""
 
     def __init__(
         self,
-        storage: StorageService,
+        storage: AbstractUserStorage[CalculationMetaDTO],
         check_service: CheckService,
+        repository: ParametersRepository,
         milestone_service: DetailMilestoneService,
         create_use_case: CreateDetailUseCase,
         explain_service: ExplainService,
@@ -184,6 +206,7 @@ class DetailCalculationCheckUseCase:
         """Construct the use case."""
         self._storage = storage
         self._check_service = check_service
+        self._repository = repository
         self._milestone_service = milestone_service
         self._create_use_case = create_use_case
         self._explain_service = explain_service
@@ -194,16 +217,26 @@ class DetailCalculationCheckUseCase:
         context: RequestContextProtocol,
         data: CalculationAnswerDTO,
     ) -> CalculationCaseDTO | CalculationExplainDTO:
-        """Check regular calculation exercise."""
+        """Check student's exercise solution."""
+        # Stored (cached) exercise case metadata contains
+        # correct answer on current exercise case.
         meta = self._storage.retrieve(context.user.pk, CASE_STORE_PREFIX)
         result = self._check_service.execute(data, meta)
 
-        if self._milestone_service:
-            self._milestone_service.execute(
-                params.pk, context.user, result, meta
-            )
+        # Stored (cached) exercise parameters contains
+        # exercise availability and milestone data to update.
+        exercise_parameters = self._repository.fetch(params, context.user)
+        self._milestone_service.execute(
+            params.pk,
+            context.user,
+            meta,
+            result,
+            exercise_parameters.availability,
+            exercise_parameters.milestone,
+        )
 
         if result.is_correct:
-            return self._create_use_case.execute(params, context, data)
+            # HACK: Fix None pass to use case
+            return self._create_use_case.execute(params, context, None)
         else:
             return self._explain_service.execute(data, meta)
