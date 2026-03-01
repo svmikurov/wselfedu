@@ -1,11 +1,13 @@
 """Mathematical discipline domain DTOs."""
 
+from datetime import datetime
 from typing import Literal
 
 from pydantic import BaseModel, Field
 
 from apps.core.domains.base_dto import BaseDTO
 from apps.core.domains.exercise.enums import ExerciseStatusEnum
+from apps.study.models.exercise.availability import PeriodExecuting
 from apps.study.models.exercise.reward import RewardType
 
 Operation = Literal['add', 'sub', 'mul', 'div']
@@ -50,6 +52,13 @@ class CalculationMetaDTO(CalculationCaseDTO):
 # NOTE: It's experimental implementation
 class ExerciseAvailabilityDTO(BaseModel):
     """Exercise availability DTO."""
+
+    required_count: int
+    period_type: PeriodExecuting
+    started_at: datetime | None
+    is_active: bool
+    is_completed: bool
+    completed_at: datetime | None
 
 
 # NOTE: It's experimental implementation
