@@ -2,64 +2,160 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, override
 
-from django.db.models import Manager
-from django.shortcuts import get_object_or_404
+from django.contrib.contenttypes.models import ContentType
+from django.db.models import F, OuterRef, Subquery
 
+from apps.core.exceptions.storage import CacheMissError
 from apps.core.handlers.protocol import DetailParamsProtocol
-from apps.math.domains.dto import CalculationConditionDTO
+from apps.core.repositories.abstract import AbstractUserConditionsRepository
+from apps.math.domains.dto import (
+    CalculationConditionDTO,
+    ExerciseMilestoneDTO,
+    ExerciseParametersDTO,
+)
+from apps.math.models import StudentCalculationCondition
+from apps.study.models import ExerciseReward
 
 if TYPE_CHECKING:
-    from apps.math.models import (
-        CalculationCondition,
-        StudentCalculationCondition,
-    )
+    from django.db.models import Manager
 
-__all__ = [
+    from apps.core.storages.services.iabc import AbstractUserStorage
+    from apps.math.models import CalculationCondition
+    from apps.users.models import Person
+
+__all__ = (
     'CalculationConditionsRepository',
     'StudentCalculationConditionsRepository',
-]
+)
 
 
-class CalculationConditionsRepository:
+class _BaseCalculationRepository(
+    AbstractUserConditionsRepository[
+        DetailParamsProtocol,
+        ExerciseParametersDTO,
+    ],
+):
+    """Base calculation repository."""
+
+    STORAGE_PREFIX: str | None = None
+
+    def __init__(
+        self,
+        storage: AbstractUserStorage[ExerciseParametersDTO],
+    ) -> None:
+        """Construct the repository."""
+        self._storage = storage
+
+    @override
+    def fetch(
+        self, params: DetailParamsProtocol, user: Person
+    ) -> ExerciseParametersDTO:
+        """Fetch calculation exercise conditions."""
+        try:
+            return self._storage.retrieve(user.pk, self.storage_prefix)
+        except CacheMissError:
+            obj = self._get_object(params, user)
+            self._storage.save(obj, user.pk, self.storage_prefix)
+            return obj
+
+    def _get_object(
+        self, params: DetailParamsProtocol, user: Person
+    ) -> ExerciseParametersDTO:
+        raise NotImplementedError('Subclass must implement _get_object()')
+
+    @property
+    def storage_prefix(self) -> str:
+        """Get storage prefix."""
+        if not isinstance(self.STORAGE_PREFIX, str):
+            raise AttributeError(
+                f'{self.__class__.__name__} must define STORAGE_PREFIX '
+                f'as `str`, got {type(self.STORAGE_PREFIX).__name__}'
+            )
+        return self.STORAGE_PREFIX
+
+
+class CalculationConditionsRepository(_BaseCalculationRepository):
     """Calculation conditions repository."""
 
-    def __init__(self, manager: Manager[CalculationCondition]) -> None:
+    STORAGE_PREFIX = 'calculation_conditions'
+
+    def __init__(
+        self,
+        manager: Manager[CalculationCondition],
+        storage: AbstractUserStorage[ExerciseParametersDTO],
+    ) -> None:
         """Construct the repository."""
         self._manager = manager
+        super().__init__(storage)
 
-    def fetch(
-        self, params: DetailParamsProtocol, user_pk: int
-    ) -> CalculationConditionDTO:
-        """Fetch calculation exercise conditions."""
-        query = get_object_or_404(self._manager, pk=params.pk, user_id=user_pk)
-        return CalculationConditionDTO(
-            min_operand=query.min_operand,
-            max_operand=query.max_operand,
-            operation_type=query.operation_type,  # type: ignore[arg-type]
+    @override
+    def _get_object(
+        self, params: DetailParamsProtocol, user: Person
+    ) -> ExerciseParametersDTO:
+        obj = self._manager.get(pk=params.pk, user=user)
+
+        return ExerciseParametersDTO(
+            conditions=CalculationConditionDTO(
+                min_operand=obj.min_operand,
+                max_operand=obj.max_operand,
+                operation_type=obj.operation_type,  # type: ignore[arg-type]
+            ),
         )
 
 
-class StudentCalculationConditionsRepository:
+class StudentCalculationConditionsRepository(_BaseCalculationRepository):
     """Student's assigned calculation conditions repository."""
 
-    def __init__(self, manager: Manager[StudentCalculationCondition]) -> None:
+    STORAGE_PREFIX = 'student_calculation_conditions'
+
+    def __init__(
+        self,
+        manager: Manager[StudentCalculationCondition],
+        storage: AbstractUserStorage[ExerciseParametersDTO],
+    ) -> None:
         """Construct the repository."""
         self._manager = manager
+        super().__init__(storage)
 
-    def fetch(
-        self, params: DetailParamsProtocol, user_pk: int
-    ) -> CalculationConditionDTO:
-        """Fetch calculation exercise conditions."""
-        # OPTIMIZE: Add prefetch related
-        query = get_object_or_404(
-            self._manager,
-            pk=params.pk,
-            mentorship__student__pk=user_pk,
-        ).calculation_condition
-        return CalculationConditionDTO(
-            min_operand=query.min_operand,
-            max_operand=query.max_operand,
-            operation_type=query.operation_type,  # type: ignore[arg-type]
+    @override
+    def _get_object(
+        self, params: DetailParamsProtocol, user: Person
+    ) -> ExerciseParametersDTO:
+        content_type = ContentType.objects.get_for_model(
+            StudentCalculationCondition
+        )
+        reward_subquery = ExerciseReward.objects.filter(
+            exercise_content_type=content_type,
+            exercise_object_id=OuterRef('pk'),
+        ).values('amount', 'reward_type')[:1]
+
+        obj = (
+            self._manager.select_related(
+                'calculation_condition',
+            )
+            .annotate(
+                min_operand=F('calculation_condition__min_operand'),
+                max_operand=F('calculation_condition__max_operand'),
+                operation_type=F('calculation_condition__operation_type'),
+                reward_amount=Subquery(reward_subquery.values('amount')),
+                reward_type=Subquery(reward_subquery.values('reward_type')),
+            )
+            .get(
+                mentorship__student=user,
+                calculation_condition_id=params.pk,
+            )
+        )
+
+        return ExerciseParametersDTO(
+            conditions=CalculationConditionDTO(
+                min_operand=obj.min_operand,
+                max_operand=obj.max_operand,
+                operation_type=obj.operation_type,
+            ),
+            milestone=ExerciseMilestoneDTO(
+                reward_amount=obj.reward_amount,
+                reward_type=obj.reward_type,
+            ),
         )
