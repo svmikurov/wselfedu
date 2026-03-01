@@ -57,7 +57,7 @@ class CalculationCreateService(
         """Get calculation exercise case data."""
         task = self._create_task(conditions)
         data = self._build_data(task)
-        meta = self._build_meta(task, conditions)
+        meta = self._build_meta(task)
         return data, meta
 
     def _create_task(self, request_data: CalculationConditionDTO) -> CalcTask:
@@ -77,17 +77,16 @@ class CalculationCreateService(
     def _build_data(task: CalcTask) -> CalculationDataDTO:
         return CalculationDataDTO(
             exercise_status=ExerciseStatusEnum.NEW_CASE,
-            data=CalculationCaseDTO(question_text=task.question.text),
+            data=CalculationCaseDTO(
+                question_text=task.question.text,
+            ),
         )
 
     @staticmethod
-    def _build_meta(
-        task: CalcTask, conditions: CalculationConditionDTO
-    ) -> CalculationMetaDTO:
+    def _build_meta(task: CalcTask) -> CalculationMetaDTO:
         return CalculationMetaDTO(
             question_text=task.question.text,
             correct_answer=task.answer.number,
-            conditions=conditions,
         )
 
 
