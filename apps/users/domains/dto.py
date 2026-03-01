@@ -2,11 +2,19 @@
 
 from decimal import Decimal
 
-from apps.core.domains.base_dto import BaseDTO
+from pydantic import BaseModel, ConfigDict
+
+from apps.users.models import Person
 
 
-class RewardDTO(BaseDTO):
+class RewardDTO(BaseModel):
     """Reward DTO."""
 
-    student_pk: int
+    student: Person
     amount: Decimal
+
+    model_config = ConfigDict(
+        arbitrary_types_allowed=True,
+        frozen=True,
+        extra='forbid',
+    )
