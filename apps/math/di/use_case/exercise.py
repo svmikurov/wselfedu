@@ -46,7 +46,7 @@ class ExerciseUseCaseContainer(DeclarativeContainer):
     )
 
     start_detail_calculation = Factory(
-        calculation.DetailCalculationCreateUseCase,
+        calculation.DetailExerciseCreateUseCase,
         repository=repositories.calculation_conditions,
         service=exercise_services.create_calculation,
         storage=storage,
@@ -55,13 +55,14 @@ class ExerciseUseCaseContainer(DeclarativeContainer):
         calculation.DetailCalculationCheckUseCase,
         storage=storage,
         check_service=exercise_services.check_calculation,
+        repository=repositories.calculation_conditions,
         milestone_service=milestone_services.user_calculation,
         create_use_case=start_detail_calculation,
         explain_service=exercise_services.explain_calculation,
     )
 
     start_student_calculation = Factory(
-        calculation.DetailCalculationCreateUseCase,
+        calculation.DetailExerciseCreateUseCase,
         repository=repositories.student_calculation_conditions,
         service=exercise_services.create_calculation,
         storage=storage,
@@ -70,6 +71,7 @@ class ExerciseUseCaseContainer(DeclarativeContainer):
         calculation.DetailCalculationCheckUseCase,
         storage=storage,
         check_service=exercise_services.check_calculation,
+        repository=repositories.student_calculation_conditions,
         milestone_service=milestone_services.student_calculation,
         create_use_case=start_student_calculation,
         explain_service=exercise_services.explain_calculation,

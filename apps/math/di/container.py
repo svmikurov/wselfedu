@@ -30,6 +30,7 @@ class MathematicalContainer(DeclarativeContainer):
     # -------------------------------------------
     repositories = Container(
         ExerciseRepositoryContainer,
+        cache_storage=user_data_storage,
     )
     exercise_services = Container(
         ExerciseServiceContainer,
