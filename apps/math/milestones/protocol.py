@@ -4,8 +4,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Protocol, TypeVar
 
-CaseMeta_contra = TypeVar('CaseMeta_contra', contravariant=True)
+ExerciseMeta_contra = TypeVar('ExerciseMeta_contra', contravariant=True)
 Result_contra = TypeVar('Result_contra', contravariant=True)
+Availability_contra = TypeVar('Availability_contra', contravariant=True)
+Milestone_contra = TypeVar('Milestone_contra', contravariant=True)
 
 if TYPE_CHECKING:
     from apps.users.models import Person
@@ -16,7 +18,7 @@ if TYPE_CHECKING:
 
 
 # NOTE: It's experimental interface definition
-class ProgressBar(Protocol[Result_contra, CaseMeta_contra]):
+class ProgressBar(Protocol[Result_contra, ExerciseMeta_contra]):
     """Protocol for tracking progress."""
 
     def increment(
@@ -24,7 +26,7 @@ class ProgressBar(Protocol[Result_contra, CaseMeta_contra]):
         resource_pk: int,
         user: Person,
         result: Result_contra,
-        case_meta: CaseMeta_contra,
+        case_meta: ExerciseMeta_contra,
     ) -> None:
         """Increase progress.
 
@@ -36,7 +38,7 @@ class ProgressBar(Protocol[Result_contra, CaseMeta_contra]):
         resource_pk: int,
         user: Person,
         result: Result_contra,
-        case_meta: CaseMeta_contra,
+        case_meta: ExerciseMeta_contra,
     ) -> None:
         """Decrease progress.
 
@@ -50,14 +52,23 @@ class ProgressBar(Protocol[Result_contra, CaseMeta_contra]):
 # -----------------------------------------------
 
 
-class MilestoneProtocol(Protocol[Result_contra, CaseMeta_contra]):
-    """Protocol for exercise perform milestone interface."""
+class MilestoneServiceProtocol(
+    Protocol[
+        ExerciseMeta_contra,
+        Result_contra,
+        Availability_contra,
+        Milestone_contra,
+    ]
+):
+    """Protocol for exercise perform milestone service interface."""
 
     def execute(
         self,
         resource_pk: int,
         user: Person,
+        case_meta: ExerciseMeta_contra,
         result: Result_contra,
-        case_meta: CaseMeta_contra,
+        availability: Availability_contra | None = None,
+        milestone: Milestone_contra | None = None,
     ) -> None:
         """Execute."""
