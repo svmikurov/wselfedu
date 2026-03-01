@@ -39,7 +39,7 @@ class ExerciseReward(AbstractBaseModel):
     )
 
     amount = models.PositiveSmallIntegerField(
-        verbose_name=_('exercise.reward.type'),
+        verbose_name=_('exercise.reward.amount'),
     )
 
     class Meta:
