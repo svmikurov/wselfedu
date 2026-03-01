@@ -175,23 +175,28 @@ class RegularPerformView(_BasePerformView[StartHandler, CheckHandler]):
         return super().dispatch(request, *args, **kwargs)
 
     def get(self, request: HttpRequest) -> HttpResponse:
-        """Render initial exercise template."""
+        """Render initial exercise page."""
         result = self.start_handler.execute(self.user, request.GET.dict())
-        context: dict[str, str] = {
-            'exercise_case_html': self._get_partial_html(request, result),
-            **result.model_dump(),
-        }
+
         if request.headers.get('HX-Request') == 'true':
+            # Renders new exercise case after explanation.
             return HttpResponse(self._get_partial_html(request, result))
+
         else:
+            # Renders initial exercise page.
+            context: dict[str, str] = {
+                'exercise_case_html': self._get_partial_html(request, result),
+                **result.model_dump(),
+            }
             return render(request, self.get_template_names(), context)
 
     def post(self, request: HttpRequest) -> HttpResponse:
-        """Render exercise template with stored exercise UUID."""
+        """Render exercise loop."""
+        # Query parameters contains exercise conditions.
+        # Request body contains user's answer.
         request_data = {**request.GET.dict(), **request.POST.dict()}
         result = self.check_handler.execute(self.user, request_data)
-        html = self._get_partial_html(request, result)
-        return HttpResponse(html)
+        return HttpResponse(self._get_partial_html(request, result))
 
 
 # -----------------------------------------------
@@ -212,31 +217,33 @@ class _DetailPerformView(
     """Mixin provides request handling for detail exercise."""
 
     def get(self, request: HttpRequest, pk: int) -> HttpResponse:
-        """Render initial exercise template."""
+        """Render initial exercise page."""
         params = DetailParams(pk=pk)
         request_context = RequestContext(user=self.user)
         data = RequestData(query=request.GET.dict())
+
         result = self.start_handler.execute(params, request_context, data)
 
-        context: dict[str, str] = {
-            'exercise_case_html': self._get_partial_html(request, result),
-            **result.data.model_dump(),
-        }
-
         if request.headers.get('HX-Request') == 'true':
+            # Renders new exercise case after explanation.
             return HttpResponse(self._get_partial_html(request, result))
+
         else:
+            # Renders initial exercise page.
+            context: dict[str, str] = {
+                'exercise_case_html': self._get_partial_html(request, result),
+                **result.data.model_dump(),
+            }
             return render(request, self.get_template_names(), context)
 
     def post(self, request: HttpRequest, pk: int) -> HttpResponse:
-        """Render exercise template with stored exercise UUID."""
+        """Render exercise loop."""
         params = DetailParams(pk=pk)
         request_context = RequestContext(user=self.user)
         data = RequestData(query=request.POST.dict())
-        result = self.check_handler.execute(params, request_context, data)
 
-        html = self._get_partial_html(request, result)
-        return HttpResponse(html)
+        result = self.check_handler.execute(params, request_context, data)
+        return HttpResponse(self._get_partial_html(request, result))
 
 
 class CustomCalculationPerformView(_DetailPerformView):
