@@ -12,8 +12,13 @@ if TYPE_CHECKING:
     )
     from apps.users.models import Person
 
-ResponseData = TypeVar('ResponseData')
+__all__ = (
+    'AbstractUseCase',
+    'AbstractDetailUseCase',
+)
+
 RequestData = TypeVar('RequestData')
+ResponseData = TypeVar('ResponseData')
 
 
 class AbstractUseCase(ABC, Generic[RequestData, ResponseData]):
@@ -33,5 +38,18 @@ class AbstractDetailUseCase(ABC, Generic[ResponseData]):
         params: DetailParamsProtocol,
         context: RequestContextProtocol,
         data: object,
+    ) -> ResponseData:
+        """Execute use case."""
+
+
+class AbstractDetailDataUseCase(ABC, Generic[RequestData, ResponseData]):
+    """ABC for detail use case with data."""
+
+    @abstractmethod
+    def execute(
+        self,
+        params: DetailParamsProtocol,
+        context: RequestContextProtocol,
+        data: RequestData,
     ) -> ResponseData:
         """Execute use case."""
