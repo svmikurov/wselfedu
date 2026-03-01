@@ -3,46 +3,38 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, TypeVar
+from typing import TYPE_CHECKING, Generic, TypeVar
 
 if TYPE_CHECKING:
-    from apps.core.domains.exercise.types import (
-        Candidates,
-        Conditions,
-        Parameters,
-    )
+    from apps.core.domains.exercise.types import Candidates, Parameters
     from apps.users.models import Person
 
 __all__ = [
-    'AbstractParametersRepository',
-    'AbstractConditionsExerciseRepository',
+    'AbstractByUserQueryRepository',
+    'AbstractUserConditionsRepository',
+    'AbstractDetailExerciseRepository',
 ]
 
-T = TypeVar('T')
+LookupConditions = TypeVar('LookupConditions')
+QueryResult = TypeVar('QueryResult')
 
 
-class AbstractParametersRepository(ABC):
-    """Abstract base class for exercise parameters repository."""
+class AbstractByUserQueryRepository(ABC):
+    """ABC for repository to query by user."""
 
     @abstractmethod
     def fetch(self, user: Person) -> Parameters:
-        """Fetch user's regular exercise parameters."""
+        """Fetch user's data."""
 
 
-class AbstractExerciseRepository(ABC):
-    """ABC for repository to fetch item candidates to study."""
-
-    @abstractmethod
-    def fetch(self, user: Person) -> Candidates:
-        """Fetch user's item candidates to study."""
-
-
-class AbstractConditionsExerciseRepository(ABC):
-    """ABC for repository to fetch item candidates with conditions."""
+class AbstractUserConditionsRepository(
+    ABC, Generic[LookupConditions, QueryResult]
+):
+    """ABC for repository to query by user with conditions."""
 
     @abstractmethod
-    def fetch(self, user: Person, conditions: Conditions) -> Candidates:
-        """Fetch user's item candidates to study."""
+    def fetch(self, params: LookupConditions, user: Person) -> QueryResult:
+        """Fetch by user with lockup conditions."""
 
 
 class AbstractDetailExerciseRepository(ABC):
