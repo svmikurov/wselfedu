@@ -12,11 +12,12 @@ from apps.core.handlers.protocol import DetailParamsProtocol
 from apps.core.repositories.abstract import AbstractUserConditionsRepository
 from apps.math.domains.dto import (
     CalculationConditionDTO,
+    ExerciseAvailabilityDTO,
     ExerciseMilestoneDTO,
     ExerciseParametersDTO,
 )
 from apps.math.models import StudentCalculationCondition
-from apps.study.models import ExerciseReward
+from apps.study.models import ExerciseAvailability, ExerciseReward
 
 if TYPE_CHECKING:
     from django.db.models import Manager
@@ -123,24 +124,49 @@ class StudentCalculationConditionsRepository(_BaseCalculationRepository):
     def _get_object(
         self, params: DetailParamsProtocol, user: Person
     ) -> ExerciseParametersDTO:
-        content_type = ContentType.objects.get_for_model(
+        exercise_content_type = ContentType.objects.get_for_model(
             StudentCalculationCondition
         )
-        reward_subquery = ExerciseReward.objects.filter(
-            exercise_content_type=content_type,
+
+        reward = ExerciseReward.objects.filter(
+            exercise_content_type=exercise_content_type,
             exercise_object_id=OuterRef('pk'),
-        ).values('amount', 'reward_type')[:1]
+        ).values(
+            'amount',
+            'reward_type',
+        )[:1]
+
+        availability = ExerciseAvailability.objects.filter(
+            exercise_content_type=exercise_content_type,
+            exercise_object_id=OuterRef('pk'),
+        ).values(
+            'required_count',
+            'period_type',
+            'started_at',
+            'is_active',
+            'is_completed',
+            'completed_at',
+        )[:1]
 
         obj = (
             self._manager.select_related(
                 'calculation_condition',
             )
             .annotate(
+                # Calculation conditions
                 min_operand=F('calculation_condition__min_operand'),
                 max_operand=F('calculation_condition__max_operand'),
                 operation_type=F('calculation_condition__operation_type'),
-                reward_amount=Subquery(reward_subquery.values('amount')),
-                reward_type=Subquery(reward_subquery.values('reward_type')),
+                # Reward
+                reward_amount=Subquery(reward.values('amount')),
+                reward_type=Subquery(reward.values('reward_type')),
+                # Availability
+                required_count=Subquery(availability.values('required_count')),
+                period_type=Subquery(availability.values('period_type')),
+                started_at=Subquery(availability.values('started_at')),
+                is_active=Subquery(availability.values('is_active')),
+                is_completed=Subquery(availability.values('is_completed')),
+                completed_at=Subquery(availability.values('completed_at')),
             )
             .get(
                 mentorship__student=user,
@@ -157,5 +183,13 @@ class StudentCalculationConditionsRepository(_BaseCalculationRepository):
             milestone=ExerciseMilestoneDTO(
                 reward_amount=obj.reward_amount,
                 reward_type=obj.reward_type,
+            ),
+            availability=ExerciseAvailabilityDTO(
+                required_count=obj.required_count,
+                period_type=obj.period_type,
+                started_at=obj.started_at,
+                is_active=obj.is_active,
+                is_completed=obj.is_completed,
+                completed_at=obj.completed_at,
             ),
         )
