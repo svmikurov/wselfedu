@@ -6,15 +6,19 @@ from decimal import Decimal
 from typing import TYPE_CHECKING, override
 
 from django.db.models import Manager
-from django.shortcuts import get_object_or_404
 
-from apps.math.domains.dto import CalculationMetaDTO, CalculationResultDTO
+from apps.math.domains.dto import (
+    CalculationMetaDTO,
+    CalculationResultDTO,
+    ExerciseAvailabilityDTO,
+    ExerciseMilestoneDTO,
+)
 from apps.math.models import StudentCalculationCondition
 from apps.math.services.abstract import AbstractCompletionService
 from apps.users.domains.dto import RewardDTO
 from apps.users.services.protocol import RewardServiceProtocol
 
-from .protocol import MilestoneProtocol, ProgressBar
+from .protocol import MilestoneServiceProtocol, ProgressBar
 
 if TYPE_CHECKING:
     from apps.users.models.user import Person
@@ -33,7 +37,12 @@ TEMPORARY_AMOUNT = Decimal(10)
 
 # NOTE: It's experimental milestone definition
 class UserCalculationMilestone(
-    MilestoneProtocol[CalculationResultDTO, CalculationMetaDTO]
+    MilestoneServiceProtocol[
+        CalculationMetaDTO,
+        CalculationResultDTO,
+        ExerciseAvailabilityDTO,
+        ExerciseMilestoneDTO,
+    ]
 ):
     """User calculation exercise perform milestone."""
 
@@ -45,14 +54,15 @@ class UserCalculationMilestone(
         self._progress_service = progress_service
 
     @override
-    def execute(
+    def execute(  # noqa: D417
         self,
         resource_pk: int,
         user: Person,
-        result: CalculationResultDTO,
         case_meta: CalculationMetaDTO,
+        result: CalculationResultDTO,
+        availability: ExerciseAvailabilityDTO | None = None,
+        milestone: ExerciseMilestoneDTO | None = None,
     ) -> None:
-        """Execute."""
         if result.is_correct:
             self._progress_service.increment(
                 resource_pk, user, result, case_meta
@@ -65,7 +75,12 @@ class UserCalculationMilestone(
 
 # NOTE: It's experimental milestone definition
 class StudentCalculationMilestone(
-    MilestoneProtocol[CalculationResultDTO, CalculationMetaDTO]
+    MilestoneServiceProtocol[
+        CalculationMetaDTO,
+        CalculationResultDTO,
+        ExerciseAvailabilityDTO,
+        ExerciseMilestoneDTO,
+    ]
 ):
     """Student calculation exercise perform milestone.
 
@@ -96,9 +111,11 @@ class StudentCalculationMilestone(
     def execute(  # noqa: D417
         self,
         resource_pk: int,
-        student: Person,
-        result: CalculationResultDTO,
+        user: Person,
         case_meta: CalculationMetaDTO,
+        result: CalculationResultDTO,
+        availability: ExerciseAvailabilityDTO | None = None,
+        milestone: ExerciseMilestoneDTO | None = None,
     ) -> None:
         """Execute.
 
@@ -109,18 +126,24 @@ class StudentCalculationMilestone(
 
         """
         if result.is_correct:
-            reward = RewardDTO(
-                student_pk=student.pk,
-                amount=TEMPORARY_AMOUNT,
-            )
-            self._reward_service.increment(reward)
+            if reward := self._get_reward(user, availability, milestone):
+                self._reward_service.increment(reward)
+
             self._completion_service.add_success(resource_pk)
+
         else:
             self._completion_service.add_failure(resource_pk)
 
-    def _get_mentorship_pk(self, resource_pk: int, student: Person) -> int:
-        return get_object_or_404(
-            self._exercise_manager,
-            pk=resource_pk,
-            mentorship__student=student,
-        ).mentorship.pk
+    # HACK: Implement reward availability and reward type
+    def _get_reward(
+        self,
+        student: Person,
+        availability: ExerciseAvailabilityDTO | None,
+        milestone: ExerciseMilestoneDTO | None = None,
+    ) -> RewardDTO | None:
+        if milestone:
+            return RewardDTO(
+                student=student,
+                amount=Decimal(milestone.reward_amount),
+            )
+        return None
