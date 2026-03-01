@@ -1,15 +1,19 @@
 """Student reward service."""
 
-from typing import override
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, override
 
 from django.db import transaction
 from django.db.models import F
 
-from apps.users.domains.dto import RewardDTO
 from apps.users.models import Balance, Transaction
-from utils import decorators
 
 from .abstract import AbstractRewardService
+
+if TYPE_CHECKING:
+    from apps.users.domains.dto import RewardDTO
+
 
 __all__ = ('RewardService',)
 
@@ -18,20 +22,21 @@ class RewardService(AbstractRewardService):
     """Exercise reward service."""
 
     @override
-    @decorators.log_unimplemented_call
     def increment(self, reward: RewardDTO) -> None:
         """Add reward."""
         with transaction.atomic():
             Balance.objects.update_or_create(
-                pk=reward.student_pk,
-                defaults={'total': F('total') + reward.amount},
+                user=reward.student,
+                defaults={
+                    'total': F('total') + reward.amount,
+                },
                 create_defaults={
+                    'user': reward.student,
                     'total': reward.amount,
-                    'user_id': reward.student_pk,
                 },
             )
             Transaction.objects.create(
-                user_id=reward.student_pk,
+                user=reward.student,
                 amount=reward.amount,
                 type=Transaction.Operation.REWARD,
             )
