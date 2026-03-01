@@ -100,7 +100,7 @@ urlpatterns = [
     ),
     path(  # exercise conditions saved by the user
         'exercise/calculation/<int:pk>/detail/',
-        calculation.DetailPerformView.as_view(),
+        calculation.CustomCalculationPerformView.as_view(),
         name='detail_calculation_exercise',
     ),
     path(  # exercise conditions assigned to the user
