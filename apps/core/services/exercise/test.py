@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from apps.core.domains.exercise import (
     TestExerciseData,
@@ -30,15 +30,21 @@ if TYPE_CHECKING:
         AbstractCheckExerciseDomain,
         AbstractSettingsExerciseDomain,
     )
-    from apps.core.domains.exercise.types import ExerciseConfig, Settings
+    from apps.core.domains.exercise.types import (
+        Candidates,
+        ExerciseConfig,
+        Settings,
+    )
     from apps.core.repositories.abstract import (
-        AbstractConditionsExerciseRepository,
-        AbstractParametersRepository,
+        AbstractByUserQueryRepository,
+        AbstractUserConditionsRepository,
     )
     from apps.core.storages.services.iabc import TaskStorageABC
     from apps.users.models import Person
 
     type CreateResult = tuple[TestExerciseCase, TestExerciseMeta]
+    # REFACTOR: Fix Any type hint
+    type _Repository = AbstractUserConditionsRepository[Any, Candidates]
 
 __all__ = [
     'RegularTestCreate',
@@ -53,8 +59,8 @@ class RegularTestCreate(AbstractExerciseCreate[TestExerciseData]):
 
     def __init__(
         self,
-        parameters_repository: AbstractParametersRepository,
-        candidates_repository: AbstractConditionsExerciseRepository,
+        parameters_repository: AbstractByUserQueryRepository,
+        candidates_repository: _Repository,
         storage: TaskStorageABC[TestExerciseMeta],
         domain: AbstractSettingsExerciseDomain[Settings, CreateResult],
         config: ExerciseConfig,
@@ -69,7 +75,7 @@ class RegularTestCreate(AbstractExerciseCreate[TestExerciseData]):
     def execute(self, user: Person) -> TestExerciseData:
         """Create and return exercise case."""
         parameters = self._parameters_repo.fetch(user)
-        candidates = self._candidates_repo.fetch(user, parameters.conditions)
+        candidates = self._candidates_repo.fetch(parameters.conditions, user)
         case, case_meta = self._domain.execute(candidates, parameters.settings)
         case_uuid = self._storage.save_task(case_meta)
         case_data = self._prepare_case(case_uuid, case)
@@ -88,7 +94,7 @@ class DetailTestCreate(AbstractDetailExerciseCreate[TestExerciseData]):
 
     def __init__(
         self,
-        candidates_repository: AbstractConditionsExerciseRepository,
+        candidates_repository: _Repository,
         storage: TaskStorageABC[TestExerciseMeta],
         domain: AbstractCandidatesExerciseDomain[CreateResult],
         config: ExerciseConfig,
@@ -101,7 +107,7 @@ class DetailTestCreate(AbstractDetailExerciseCreate[TestExerciseData]):
 
     def execute(self, user: Person, exercise_pk: int) -> TestExerciseData:
         """Create and return exercise case."""
-        candidates = self._candidates_repo.fetch(user, exercise_pk)
+        candidates = self._candidates_repo.fetch(exercise_pk, user)
 
         case, case_meta = self._domain.execute(candidates)
         case_uuid = self._storage.save_task(case_meta)
