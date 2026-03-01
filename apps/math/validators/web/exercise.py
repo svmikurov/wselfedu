@@ -7,7 +7,11 @@ from apps.core.validators.request.abstract import (
     AbstractDetailValidator,
     AbstractRegularValidator,
 )
-from apps.math.domains.dto import CalculationAnswerDTO, CalculationConditionDTO
+from apps.math.domains.dto import (
+    CalculationAnswerDTO,
+    CalculationConditionDTO,
+    CalculationLoopDTO,
+)
 
 
 class RegularCalculationStartWebValidator(
@@ -31,9 +35,12 @@ class RegularCalculationCheckWebValidator(
     """Calculation conditions web validator."""
 
     @classmethod
-    def validate(cls, raw_data: dict[str, Any]) -> CalculationAnswerDTO:
+    def validate(cls, raw_data: dict[str, Any]) -> CalculationLoopDTO:
         """Validate calculation conditions request."""
-        return CalculationAnswerDTO(
+        return CalculationLoopDTO(
+            min_operand=raw_data['min_operand'],
+            max_operand=raw_data['max_operand'],
+            operation_type=raw_data['operation_type'],
             user_answer=raw_data['user_answer'],
         )
 
