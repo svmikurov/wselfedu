@@ -4,6 +4,11 @@ import hashlib
 import logging
 from typing import Hashable, TypeVar, override
 
+from apps.core.exceptions.storage import (
+    CacheMissError,
+    StorageProgrammingError,
+)
+
 from ..clients.django_cache import DjangoKeyCache
 from .iabc import AbstractUserStorage
 
@@ -56,8 +61,18 @@ class UserDataStorage(AbstractUserStorage[T]):
     def retrieve(self, user_id: int, prefix: str, **kwargs: object) -> T:
         """Retrieve user's data."""
         cache_key = generate_cache_key(prefix, user_id, **kwargs)
+
         try:
             return self._storage.pop(cache_key)
-        except Exception:
-            logger.exception('Retrieve from storage error')
-            raise
+
+        except KeyError:
+            logger.debug('Cache miss for key: %s', cache_key)
+            raise CacheMissError(
+                f'No data found for key: {cache_key}'
+            ) from None
+
+        except Exception as exc:
+            logger.exception('Cache technical error for key: %s', cache_key)
+            raise StorageProgrammingError(
+                'Failed to retrieve from cache'
+            ) from exc
