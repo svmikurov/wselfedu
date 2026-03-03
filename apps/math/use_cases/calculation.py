@@ -28,7 +28,7 @@ from ..domains.dto import (
     CalculationMetaDTO,
     CalculationResultDTO,
     ExerciseAvailabilityDTO,
-    ExerciseMilestoneDTO,
+    ExerciseRewardDTO,
 )
 
 if TYPE_CHECKING:
@@ -58,7 +58,7 @@ if TYPE_CHECKING:
         CalculationMetaDTO,
         CalculationResultDTO,
         ExerciseAvailabilityDTO,
-        ExerciseMilestoneDTO,
+        ExerciseRewardDTO,
     ]
     type CreateUseCase = AbstractUseCase[
         CalculationConditionDTO,
@@ -232,7 +232,7 @@ class DetailCalculationCheckUseCase(
             meta,
             result,
             exercise_parameters.availability,
-            exercise_parameters.milestone,
+            exercise_parameters.reward,
         )
 
         if result.is_correct:
