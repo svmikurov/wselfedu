@@ -62,8 +62,17 @@ class ExerciseAvailabilityDTO(BaseModel):
 
 
 # NOTE: It's experimental implementation
-class ExerciseMilestoneDTO(BaseModel):
-    """Exercise milestone DTO."""
+class ExerciseCompletionDTO(BaseModel):
+    """Exercise completion log DTO."""
+
+    success_count: int
+    failure_count: int
+    tracking_date: datetime
+
+
+# NOTE: It's experimental implementation
+class ExerciseRewardDTO(BaseModel):
+    """Exercise reward DTO."""
 
     reward_amount: int = Field(
         description='Reward amount for success exercise completion',
@@ -78,14 +87,18 @@ class ExerciseParametersDTO(BaseModel):
     """Exercise parameters DTO."""
 
     conditions: CalculationConditionDTO = Field(
-        description='Create exercise conditions',
+        description='Create current exercise conditions',
     )
     availability: ExerciseAvailabilityDTO | None = Field(
-        description='Exercise availability data',
+        description='Current exercise availability data',
         default=None,
     )
-    milestone: ExerciseMilestoneDTO | None = Field(
-        description='Current milestone data',
+    completion: ExerciseCompletionDTO | None = Field(
+        description='Current exercise completion log',
+        default=None,
+    )
+    reward: ExerciseRewardDTO | None = Field(
+        description='Current exercise reward data',
         default=None,
     )
 
