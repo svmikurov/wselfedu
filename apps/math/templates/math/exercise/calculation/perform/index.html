@@ -12,6 +12,10 @@
   {% trans "math.page.calculation.index.header" as header %}
   {% include "components/header_block.html" with header=header %}
 
+  {% if request.resolver_match.url_name == 'student_calculation_exercise' %}
+    {% trans "user_profile.balance" %}: <span id="user-balance">{{ user.balance }}</span>
+  {% endif %}
+
   {# Target to insert exercise case html or partial template #}
   <div id="exercise-block">
     {{ exercise_case_html }}

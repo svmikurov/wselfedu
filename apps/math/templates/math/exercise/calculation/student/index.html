@@ -9,6 +9,7 @@
 <main class="container">
   {% trans "math.page.calculation.assigned.list.header" as header %}
   {% include "components/header_block.html" with header=header %}
+  <span id="user-balance">{% trans "user_profile.balance" %}: {{ user.balance }}</span>
   {% include "./_table.html" %}
 </main>
 {% endblock %}
