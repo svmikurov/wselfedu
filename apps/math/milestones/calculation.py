@@ -11,7 +11,7 @@ from apps.math.domains.dto import (
     CalculationMetaDTO,
     CalculationResultDTO,
     ExerciseAvailabilityDTO,
-    ExerciseMilestoneDTO,
+    ExerciseRewardDTO,
 )
 from apps.math.models import StudentCalculationCondition
 from apps.math.services.abstract import AbstractCompletionService
@@ -41,7 +41,7 @@ class UserCalculationMilestone(
         CalculationMetaDTO,
         CalculationResultDTO,
         ExerciseAvailabilityDTO,
-        ExerciseMilestoneDTO,
+        ExerciseRewardDTO,
     ]
 ):
     """User calculation exercise perform milestone."""
@@ -61,7 +61,7 @@ class UserCalculationMilestone(
         case_meta: CalculationMetaDTO,
         result: CalculationResultDTO,
         availability: ExerciseAvailabilityDTO | None = None,
-        milestone: ExerciseMilestoneDTO | None = None,
+        milestone: ExerciseRewardDTO | None = None,
     ) -> None:
         if result.is_correct:
             self._progress_service.increment(
@@ -79,7 +79,7 @@ class StudentCalculationMilestone(
         CalculationMetaDTO,
         CalculationResultDTO,
         ExerciseAvailabilityDTO,
-        ExerciseMilestoneDTO,
+        ExerciseRewardDTO,
     ]
 ):
     """Student calculation exercise perform milestone.
@@ -115,7 +115,7 @@ class StudentCalculationMilestone(
         case_meta: CalculationMetaDTO,
         result: CalculationResultDTO,
         availability: ExerciseAvailabilityDTO | None = None,
-        milestone: ExerciseMilestoneDTO | None = None,
+        milestone: ExerciseRewardDTO | None = None,
     ) -> None:
         """Execute.
 
@@ -139,7 +139,7 @@ class StudentCalculationMilestone(
         self,
         student: Person,
         availability: ExerciseAvailabilityDTO | None,
-        milestone: ExerciseMilestoneDTO | None = None,
+        milestone: ExerciseRewardDTO | None = None,
     ) -> RewardDTO | None:
         if milestone:
             return RewardDTO(
