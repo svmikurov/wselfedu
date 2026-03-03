@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, override
 
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import F, OuterRef, Subquery
+from django.utils import timezone
 
 from apps.core.exceptions.storage import CacheMissError
 from apps.core.handlers.protocol import DetailParamsProtocol
@@ -13,11 +14,12 @@ from apps.core.repositories.abstract import AbstractUserConditionsRepository
 from apps.math.domains.dto import (
     CalculationConditionDTO,
     ExerciseAvailabilityDTO,
-    ExerciseMilestoneDTO,
+    ExerciseCompletionDTO,
     ExerciseParametersDTO,
+    ExerciseRewardDTO,
 )
 from apps.math.models import StudentCalculationCondition
-from apps.study.models import ExerciseAvailability, ExerciseReward
+from apps.study.models import ExerciseAvailability, ExerciseLog, ExerciseReward
 
 if TYPE_CHECKING:
     from django.db.models import Manager
@@ -148,6 +150,15 @@ class StudentCalculationConditionsRepository(_BaseCalculationRepository):
             'completed_at',
         )[:1]
 
+        completion_log = ExerciseLog.objects.filter(
+            exercise_content_type=exercise_content_type,
+            exercise_object_id=OuterRef('pk'),
+        ).values(
+            'success_count',
+            'failure_count',
+            'tracking_date',
+        )
+
         obj = (
             self._manager.select_related(
                 'calculation_condition',
@@ -167,6 +178,10 @@ class StudentCalculationConditionsRepository(_BaseCalculationRepository):
                 is_active=Subquery(availability.values('is_active')),
                 is_completed=Subquery(availability.values('is_completed')),
                 completed_at=Subquery(availability.values('completed_at')),
+                # Completion log
+                success_count=Subquery(completion_log.values('success_count')),
+                failure_count=Subquery(completion_log.values('failure_count')),
+                tracking_date=Subquery(completion_log.values('tracking_date')),
             )
             .get(
                 mentorship__student=user,
@@ -180,10 +195,6 @@ class StudentCalculationConditionsRepository(_BaseCalculationRepository):
                 max_operand=obj.max_operand,
                 operation_type=obj.operation_type,
             ),
-            milestone=ExerciseMilestoneDTO(
-                reward_amount=obj.reward_amount,
-                reward_type=obj.reward_type,
-            ),
             availability=ExerciseAvailabilityDTO(
                 required_count=obj.required_count,
                 period_type=obj.period_type,
@@ -191,5 +202,14 @@ class StudentCalculationConditionsRepository(_BaseCalculationRepository):
                 is_active=obj.is_active,
                 is_completed=obj.is_completed,
                 completed_at=obj.completed_at,
+            ),
+            completion=ExerciseCompletionDTO(
+                success_count=obj.success_count or 0,
+                failure_count=obj.failure_count or 0,
+                tracking_date=obj.tracking_date or timezone.now(),
+            ),
+            reward=ExerciseRewardDTO(
+                reward_amount=obj.reward_amount,
+                reward_type=obj.reward_type,
             ),
         )
