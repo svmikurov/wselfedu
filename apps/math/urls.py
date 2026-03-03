@@ -13,7 +13,7 @@ urlpatterns = [
         TemplateView.as_view(template_name='math/index.html'),
         name='index',
     ),
-    # -------------------------------------------
+    # ===========================================
     # Exercise selection page
     # -------------------------------------------
     path(
@@ -23,7 +23,15 @@ urlpatterns = [
         ),
         name='math_exercises',
     ),
+    # ===========================================
+    # Regular calculation exercises
     # -------------------------------------------
+    path(
+        'exercise/calculation/regular',
+        calculation.ExerciseChoiceView.as_view(),
+        name='select_regular_calculation',
+    ),
+    # ===========================================
     # Custom calculation exercises
     # -------------------------------------------
     path(
@@ -46,8 +54,10 @@ urlpatterns = [
         calculation.CalculationDeleteView.as_view(),
         name='regular_calculation_exercise_delete',
     ),
+    # ===========================================
+    # Mentors's calculation exercises
     # -------------------------------------------
-    # Mentors's assigned calculation exercises
+    # Assigned by the mentor for his students.
     # -------------------------------------------
     path(
         'exercise/calculation/mentor/',
@@ -69,30 +79,19 @@ urlpatterns = [
         calculation.AssignedCalculationConditionMentorDeleteView.as_view(),
         name='mentor_calculation_exercise_delete',
     ),
+    # ===========================================
+    # Student's calculation exercises
     # -------------------------------------------
-    # Student's assigned calculation exercises
+    # Assigned to the student by his mentors.
     # -------------------------------------------
     path(
         'exercise/calculation/student/list/',
         calculation.StudentCalculationExerciseListVew.as_view(),
         name='student_calculation_exercise_list',
     ),
-    # -------------------------------------------
-    # Calculation exercise selection
-    # Contains:
-    #   - form for the exercise conditions
-    # -------------------------------------------
-    path(
-        'exercise/calculation/',
-        calculation.ExerciseChoiceView.as_view(),
-        name='select_regular_calculation',
-    ),
-    # -------------------------------------------
+    # ===========================================
     # Calculation exercise performing
     # -------------------------------------------
-    # Contains:
-    #   - form for the exercise performing the
-    #     current selected exercise conditions
     path(
         'exercise/calculation/regular/performing/',
         calculation.RegularPerformView.as_view(),
