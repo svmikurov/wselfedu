@@ -93,17 +93,17 @@ urlpatterns = [
     # Calculation exercise performing
     # -------------------------------------------
     path(
-        'exercise/calculation/regular/performing/',
+        'exercise/calculation/performing/regular/',
         calculation.RegularPerformView.as_view(),
         name='regular_calculation_exercise',
     ),
-    path(  # exercise conditions saved by the user
-        'exercise/calculation/<int:pk>/detail/',
+    path(
+        'exercise/calculation/performing/<int:pk>/custom/',
         calculation.CustomCalculationPerformView.as_view(),
-        name='detail_calculation_exercise',
+        name='custom_calculation_exercise',
     ),
-    path(  # exercise conditions assigned to the user
-        'exercise/calculation/<int:pk>/student/',
+    path(
+        'exercise/calculation/performing/<int:pk>/student/',
         calculation.StudentCalculationPerformView.as_view(),
         name='student_calculation_exercise',
     ),
