@@ -12,6 +12,8 @@ __all__ = [
     'ExerciseAvailability',
     'ExerciseLog',
     'ExerciseReward',
+    'PeriodExecuting',
+    'RewardType',
 ]
 
 from .assignation import (
@@ -25,9 +27,11 @@ from .assignation import (
 from .exercise.availability import (
     ExerciseAvailability,
     ExerciseLog,
+    PeriodExecuting,
 )
 from .exercise.reward import (
     ExerciseReward,
+    RewardType,
 )
 from .progress import (
     Progress,
