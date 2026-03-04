@@ -109,14 +109,14 @@ class TestPermissions:
     def test_public_parameters_data(
         self,
         api_client: APIClient,
-        user_not_owner: Person,
+        not_owner: Person,
         parameters_db_data: types.CaseSettingsAPI,
         public_parameters: types.CaseSettingsAPI,
     ) -> None:
         """Test the public parameters."""
         # Arrange
         # Authentication with not parameters owner
-        api_client.force_authenticate(user=user_not_owner)
+        api_client.force_authenticate(user=not_owner)
 
         # Act
         response = api_client.get(GET_PARAMETERS_PATH)

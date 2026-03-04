@@ -78,13 +78,13 @@ class TestPermissions:
 
     def test_get_method_ownership(
         self,
-        user_not_owner: Person,
+        not_owner: Person,
         client: Client,
         translation: models.EnglishTranslation,
     ) -> None:
         """Ownership is required to receive the update form."""
         # Arrange
-        client.force_login(user_not_owner)
+        client.force_login(not_owner)
         update_url = reverse(UPDATE_PATH_NAME, kwargs={'pk': translation.pk})
 
         # Act
@@ -96,13 +96,13 @@ class TestPermissions:
     def test_post_method_ownership(
         self,
         user: Person,
-        user_not_owner: Person,
+        not_owner: Person,
         client: Client,
         translation: models.EnglishTranslation,
     ) -> None:
         """Ownership is required to update the translation."""
         # Arrange
-        client.force_login(user_not_owner)
+        client.force_login(not_owner)
         update_url = reverse(UPDATE_PATH_NAME, kwargs={'pk': translation.pk})
         form_data = {'native': 'привет', 'foreign': 'hi'}
 

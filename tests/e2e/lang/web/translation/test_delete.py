@@ -54,14 +54,14 @@ class TestDeleteEnglishTranslation:
     def test_delete_method_ownership(
         self,
         user: Person,
-        user_not_owner: Person,
+        not_owner: Person,
         client: Client,
         translation: models.EnglishTranslation,
         remain_translation: models.EnglishTranslation,
     ) -> None:
         """Delete translation ownership."""
         # Arrange
-        client.force_login(user_not_owner)
+        client.force_login(not_owner)
         url = reverse(DELETE_PATH_NAME, kwargs={'pk': translation.pk})
 
         # Act
