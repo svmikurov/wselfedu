@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Protocol, TypeVar
 ExerciseMeta_contra = TypeVar('ExerciseMeta_contra', contravariant=True)
 Result_contra = TypeVar('Result_contra', contravariant=True)
 Availability_contra = TypeVar('Availability_contra', contravariant=True)
-Milestone_contra = TypeVar('Milestone_contra', contravariant=True)
+Reward_contra = TypeVar('Reward_contra', contravariant=True)
 
 if TYPE_CHECKING:
     from apps.users.models import Person
@@ -57,7 +57,7 @@ class MilestoneServiceProtocol(
         ExerciseMeta_contra,
         Result_contra,
         Availability_contra,
-        Milestone_contra,
+        Reward_contra,
     ]
 ):
     """Protocol for exercise perform milestone service interface."""
@@ -69,6 +69,6 @@ class MilestoneServiceProtocol(
         case_meta: ExerciseMeta_contra,
         result: Result_contra,
         availability: Availability_contra | None = None,
-        milestone: Milestone_contra | None = None,
+        reward: Reward_contra | None = None,
     ) -> None:
         """Execute."""
