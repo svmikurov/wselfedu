@@ -15,6 +15,7 @@ from apps.math.domains.dto import (
 )
 from apps.math.models import StudentCalculationCondition
 from apps.math.services.abstract import AbstractCompletionService
+from apps.study.models.exercise.reward import RewardType
 from apps.users.domains.dto import RewardDTO
 from apps.users.services.protocol import RewardServiceProtocol
 
@@ -61,7 +62,7 @@ class UserCalculationMilestone(
         case_meta: CalculationMetaDTO,
         result: CalculationResultDTO,
         availability: ExerciseAvailabilityDTO | None = None,
-        milestone: ExerciseRewardDTO | None = None,
+        reward: ExerciseRewardDTO | None = None,
     ) -> None:
         if result.is_correct:
             self._progress_service.increment(
@@ -115,7 +116,7 @@ class StudentCalculationMilestone(
         case_meta: CalculationMetaDTO,
         result: CalculationResultDTO,
         availability: ExerciseAvailabilityDTO | None = None,
-        milestone: ExerciseRewardDTO | None = None,
+        reward: ExerciseRewardDTO | None = None,
     ) -> None:
         """Execute.
 
@@ -126,24 +127,30 @@ class StudentCalculationMilestone(
 
         """
         if result.is_correct:
-            if reward := self._get_reward(user, availability, milestone):
-                self._reward_service.increment(reward)
+            if current_reward := self._get_reward(user, availability, reward):
+                self._reward_service.increment(current_reward)
 
             self._completion_service.add_success(resource_pk)
 
         else:
             self._completion_service.add_failure(resource_pk)
 
-    # HACK: Implement reward availability and reward type
+    # HACK: Implement reward type
     def _get_reward(
         self,
         student: Person,
         availability: ExerciseAvailabilityDTO | None,
-        milestone: ExerciseRewardDTO | None = None,
+        reward: ExerciseRewardDTO | None = None,
     ) -> RewardDTO | None:
-        if milestone:
+        if (
+            reward
+            and reward.reward_type is RewardType.PER_CASE
+            and availability
+            and availability.is_active
+            and not availability.is_completed
+        ):
             return RewardDTO(
                 student=student,
-                amount=Decimal(milestone.reward_amount),
+                amount=Decimal(reward.reward_amount),
             )
         return None
