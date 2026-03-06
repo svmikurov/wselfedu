@@ -12,7 +12,7 @@ from django.views.generic import ListView
 
 from apps.core.views import UserLoginRequiredMixin
 from apps.math.models import StudentCalculationCondition
-from apps.study.models import ExerciseAvailability, ExerciseReward
+from apps.study.models import ExerciseAvailability, ExerciseLog, ExerciseReward
 
 
 class StudentCalculationExerciseListVew(
@@ -39,6 +39,10 @@ class StudentCalculationExerciseListVew(
             exercise_content_type=content_type,
             exercise_object_id=OuterRef('pk'),
         ).values('required_count', 'period_type')[:1]
+        completion_subquery = ExerciseLog.objects.filter(
+            exercise_content_type=content_type,
+            exercise_object_id=OuterRef('pk'),
+        ).values('success_count')[:1]
 
         exercises = (
             StudentCalculationCondition.objects.filter(
@@ -65,6 +69,10 @@ class StudentCalculationExerciseListVew(
                 availability_period=Subquery(
                     availability_subquery.values('period_type')[:1],
                     output_field=CharField(),
+                ),
+                success_count=Subquery(
+                    completion_subquery.values('success_count')[:1],
+                    output_field=IntegerField(),
                 ),
                 is_completed=Subquery(
                     availability_subquery.values('is_completed')[:1],
