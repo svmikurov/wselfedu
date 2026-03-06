@@ -3,12 +3,12 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
-from django.db.models import Manager, Model
+from django.db.models import Model
 
-Exercise = TypeVar('Exercise', bound=Model)
+ExerciseAssignationModel = TypeVar('ExerciseAssignationModel', bound=Model)
 
 
-class AbstractCompletionService(ABC, Generic[Exercise]):
+class AbstractCompletionService(ABC, Generic[ExerciseAssignationModel]):
     """Assigned exercise completion service."""
 
     @abstractmethod
@@ -18,8 +18,3 @@ class AbstractCompletionService(ABC, Generic[Exercise]):
     @abstractmethod
     def add_failure(self, assignation_pk: int) -> None:
         """Add an unsuccessful attempt to solve the exercise."""
-
-    @property
-    @abstractmethod
-    def manager(self) -> Manager[Exercise]:
-        """Get assigned exercise manager."""

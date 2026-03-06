@@ -1,6 +1,6 @@
 """String task answer checker."""
 
-from apps.study.servises.iabc import BaseStrTaskChecker
+from apps.study.services.iabc import BaseStrTaskChecker
 
 
 class StrTaskChecker(BaseStrTaskChecker):

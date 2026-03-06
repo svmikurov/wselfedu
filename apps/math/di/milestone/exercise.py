@@ -5,7 +5,7 @@ from dependency_injector.providers import Dependency, Factory
 
 from apps.math.milestones import calculation, service
 from apps.math.models import StudentCalculationCondition
-from apps.math.services import completion
+from apps.study.services import completion
 
 
 class MilestoneContainer(DeclarativeContainer):
@@ -23,7 +23,7 @@ class MilestoneContainer(DeclarativeContainer):
         service.CalculationProgressService,
     )
     student_calculation_completion_service = Factory(
-        completion.CalculationCompletionService,
+        completion.ExerciseCompletionService,
         manager=StudentCalculationCondition.objects,
     )
 

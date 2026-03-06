@@ -5,7 +5,7 @@ import logging
 from wse_exercises.core.math import CalcTask
 
 from apps.core.storages.services.iabc import TaskStorageProto
-from apps.study.servises.iabc import StrTaskCheckerProto
+from apps.study.services.iabc import StrTaskCheckerProto
 from apps.users.services.award import AwardService
 
 from ..services.protocol import ExerciseServiceProto

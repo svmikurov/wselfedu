@@ -8,7 +8,7 @@ from wse_exercises.core.math import CalcTask
 from apps.core.presenters import TaskPresenter
 from apps.core.storages.services.iabc import TaskStorageProto
 from apps.core.types import ResultType
-from apps.study.servises.iabc import StrTaskCheckerProto
+from apps.study.services.iabc import StrTaskCheckerProto
 
 from ..services.protocol import ExerciseServiceProto
 from ..services.types import (

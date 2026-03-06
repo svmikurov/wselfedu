@@ -3,7 +3,7 @@
 from dependency_injector import containers, providers
 
 from apps.study.selectors.assigned import AssignedSelector
-from apps.study.servises.checker import StrTaskChecker
+from apps.study.services.checker import StrTaskChecker
 
 
 class StudyAppContainer(containers.DeclarativeContainer):
