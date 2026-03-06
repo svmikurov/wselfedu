@@ -66,6 +66,12 @@ class StudentCalculationExerciseListVew(
                     availability_subquery.values('period_type')[:1],
                     output_field=CharField(),
                 ),
+                is_completed=Subquery(
+                    availability_subquery.values('is_completed')[:1],
+                ),
+                is_active=Subquery(
+                    availability_subquery.values('is_active')[:1],
+                ),
             )
         ).order_by('created_at')
 
