@@ -88,13 +88,16 @@ class ExerciseLog(AbstractBaseModel):
     exercise = GenericForeignKey('exercise_content_type', 'exercise_object_id')
 
     success_count = models.PositiveSmallIntegerField(
+        default=0,
         verbose_name=_('Count of success task performing'),
     )
     failure_count = models.PositiveBigIntegerField(
+        default=0,
         verbose_name=_('Count of failure task performing'),
     )
 
     tracking_date = models.DateField(
+        auto_now=True,
         verbose_name=_('Date for daily progress tracking'),
     )
 
