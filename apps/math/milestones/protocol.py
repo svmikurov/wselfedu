@@ -26,7 +26,7 @@ class ProgressBar(Protocol[Result_contra, ExerciseMeta_contra]):
         resource_pk: int,
         user: Person,
         result: Result_contra,
-        case_meta: ExerciseMeta_contra,
+        meta: ExerciseMeta_contra,
     ) -> None:
         """Increase progress.
 
@@ -38,7 +38,7 @@ class ProgressBar(Protocol[Result_contra, ExerciseMeta_contra]):
         resource_pk: int,
         user: Person,
         result: Result_contra,
-        case_meta: ExerciseMeta_contra,
+        meta: ExerciseMeta_contra,
     ) -> None:
         """Decrease progress.
 
@@ -66,7 +66,7 @@ class MilestoneServiceProtocol(
         self,
         resource_pk: int,
         user: Person,
-        case_meta: ExerciseMeta_contra,
+        meta: ExerciseMeta_contra,
         result: Result_contra,
         availability: Availability_contra | None = None,
         reward: Reward_contra | None = None,

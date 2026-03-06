@@ -14,8 +14,8 @@ from apps.math.domains.dto import (
     ExerciseRewardDTO,
 )
 from apps.math.models import StudentCalculationCondition
-from apps.math.services.abstract import AbstractCompletionService
 from apps.study.models.exercise.reward import RewardType
+from apps.study.services.abstract import AbstractCompletionService
 from apps.users.domains.dto import RewardDTO
 from apps.users.services.protocol import RewardServiceProtocol
 
@@ -59,19 +59,15 @@ class UserCalculationMilestone(
         self,
         resource_pk: int,
         user: Person,
-        case_meta: CalculationMetaDTO,
+        meta: CalculationMetaDTO,
         result: CalculationResultDTO,
         availability: ExerciseAvailabilityDTO | None = None,
         reward: ExerciseRewardDTO | None = None,
     ) -> None:
         if result.is_correct:
-            self._progress_service.increment(
-                resource_pk, user, result, case_meta
-            )
+            self._progress_service.increment(resource_pk, user, result, meta)
         else:
-            self._progress_service.decrement(
-                resource_pk, user, result, case_meta
-            )
+            self._progress_service.decrement(resource_pk, user, result, meta)
 
 
 # NOTE: It's experimental milestone definition
@@ -90,7 +86,9 @@ class StudentCalculationMilestone(
     reward_service : `_RewardService`
         Reward service.
     completion_service : `_CompletionService`
-        Service to track a assigned exercise task count completion.
+        Service to track a assigned exercise task **count** completion.
+    progress_service : `_ProgressService`
+        Service to track a calculation study **progress**.
     exercise_manager : `_ExerciseManager`
         ORM model manager to get mentorship identifier by current
         exercise identifier and by student model instance relationship.
@@ -100,11 +98,13 @@ class StudentCalculationMilestone(
     def __init__(
         self,
         reward_service: _RewardService,
+        # progress_service: _ProgressService,
         completion_service: _CompletionService,
         exercise_manager: _ExerciseManager,
     ) -> None:
         """Construct the milestone."""
         self._reward_service = reward_service
+        # self._progress_service = progress_service
         self._completion_service = completion_service
         self._exercise_manager = exercise_manager
 
@@ -113,7 +113,7 @@ class StudentCalculationMilestone(
         self,
         resource_pk: int,
         user: Person,
-        case_meta: CalculationMetaDTO,
+        meta: CalculationMetaDTO,
         result: CalculationResultDTO,
         availability: ExerciseAvailabilityDTO | None = None,
         reward: ExerciseRewardDTO | None = None,
@@ -130,9 +130,13 @@ class StudentCalculationMilestone(
             if current_reward := self._get_reward(user, availability, reward):
                 self._reward_service.increment(current_reward)
 
+            # self._progress_service.increment(
+            # resource_pk, user, result, meta)
             self._completion_service.add_success(resource_pk)
 
         else:
+            # self._progress_service.decrement(
+            # resource_pk, user, result, meta)
             self._completion_service.add_failure(resource_pk)
 
     # HACK: Implement reward type
