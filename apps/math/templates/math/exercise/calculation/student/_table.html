@@ -27,12 +27,12 @@
           </td>
           <td>{{ exercise.mentorship.mentor }}</td>
           <td>{{ exercise.availability_count }}</td>
-          <td>{{ exercise.availability_success }}</td>
+          <td>{{ exercise.success_count|default_if_none:"-" }}</td>
           <td>{{ exercise.reward_amount }}</td>
           <td>{{ exercise.reward_type }}</td>
           <td>{{ exercise.availability_period }}</td>
-          <td>{{ exercise.is_completed }}</td>
-          <td>{{ exercise.is_active }}</td>
+          <td>{{ exercise.is_completed|yesno:"&#9989;&#65039;,&#8987;&#65039;"|safe }}</td>
+          <td>{{ exercise.is_active|yesno:"&#128994;,&#128308;"|safe }}</td>
         </tr>
       {% endfor %}
     </tbody>
