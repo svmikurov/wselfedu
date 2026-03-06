@@ -13,6 +13,8 @@
       <th>{% trans "exercise.reward.amount" %}</th>
       <th>{% trans "exercise.reward.type" %}</th>
       <th>{% trans "exercise.availability.period" %}</th>
+      <th>{% trans "exercise.availability.is_completed" %}</th>
+      <th>{% trans "exercise.availability.is_active" %}</th>
     </thead>
     <tbody>
       {% for exercise in exercises %}
@@ -29,6 +31,8 @@
           <td>{{ exercise.reward_amount }}</td>
           <td>{{ exercise.reward_type }}</td>
           <td>{{ exercise.availability_period }}</td>
+          <td>{{ exercise.is_completed }}</td>
+          <td>{{ exercise.is_active }}</td>
         </tr>
       {% endfor %}
     </tbody>
