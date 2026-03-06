@@ -11,6 +11,7 @@ from apps.math.domains.dto import (
     CalculationMetaDTO,
     CalculationResultDTO,
     ExerciseAvailabilityDTO,
+    ExerciseCompletionDTO,
     ExerciseRewardDTO,
 )
 from apps.math.models import StudentCalculationCondition
@@ -42,6 +43,7 @@ class UserCalculationMilestone(
         CalculationMetaDTO,
         CalculationResultDTO,
         ExerciseAvailabilityDTO,
+        ExerciseCompletionDTO,
         ExerciseRewardDTO,
     ]
 ):
@@ -61,8 +63,9 @@ class UserCalculationMilestone(
         user: Person,
         meta: CalculationMetaDTO,
         result: CalculationResultDTO,
-        availability: ExerciseAvailabilityDTO | None = None,
-        reward: ExerciseRewardDTO | None = None,
+        availability: ExerciseAvailabilityDTO | None,
+        completion: ExerciseCompletionDTO | None,
+        reward: ExerciseRewardDTO | None,
     ) -> None:
         if result.is_correct:
             self._progress_service.increment(resource_pk, user, result, meta)
@@ -76,6 +79,7 @@ class StudentCalculationMilestone(
         CalculationMetaDTO,
         CalculationResultDTO,
         ExerciseAvailabilityDTO,
+        ExerciseCompletionDTO,
         ExerciseRewardDTO,
     ]
 ):
@@ -98,13 +102,11 @@ class StudentCalculationMilestone(
     def __init__(
         self,
         reward_service: _RewardService,
-        # progress_service: _ProgressService,
         completion_service: _CompletionService,
         exercise_manager: _ExerciseManager,
     ) -> None:
         """Construct the milestone."""
         self._reward_service = reward_service
-        # self._progress_service = progress_service
         self._completion_service = completion_service
         self._exercise_manager = exercise_manager
 
@@ -115,8 +117,9 @@ class StudentCalculationMilestone(
         user: Person,
         meta: CalculationMetaDTO,
         result: CalculationResultDTO,
-        availability: ExerciseAvailabilityDTO | None = None,
-        reward: ExerciseRewardDTO | None = None,
+        availability: ExerciseAvailabilityDTO | None,
+        completion: ExerciseCompletionDTO | None,
+        reward: ExerciseRewardDTO | None,
     ) -> None:
         """Execute.
 
@@ -127,16 +130,19 @@ class StudentCalculationMilestone(
 
         """
         if result.is_correct:
+            if (
+                completion
+                and availability
+                and completion.success_count < availability.required_count
+            ):
+                self._completion_service.add_success(resource_pk)
+            else:
+                return
+
             if current_reward := self._get_reward(user, availability, reward):
                 self._reward_service.increment(current_reward)
 
-            # self._progress_service.increment(
-            # resource_pk, user, result, meta)
-            self._completion_service.add_success(resource_pk)
-
         else:
-            # self._progress_service.decrement(
-            # resource_pk, user, result, meta)
             self._completion_service.add_failure(resource_pk)
 
     # HACK: Implement reward type

@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING, Protocol, TypeVar
 ExerciseMeta_contra = TypeVar('ExerciseMeta_contra', contravariant=True)
 Result_contra = TypeVar('Result_contra', contravariant=True)
 Availability_contra = TypeVar('Availability_contra', contravariant=True)
+Completion_contra = TypeVar('Completion_contra', contravariant=True)
 Reward_contra = TypeVar('Reward_contra', contravariant=True)
 
 if TYPE_CHECKING:
@@ -57,6 +58,7 @@ class MilestoneServiceProtocol(
         ExerciseMeta_contra,
         Result_contra,
         Availability_contra,
+        Completion_contra,
         Reward_contra,
     ]
 ):
@@ -68,7 +70,8 @@ class MilestoneServiceProtocol(
         user: Person,
         meta: ExerciseMeta_contra,
         result: Result_contra,
-        availability: Availability_contra | None = None,
-        reward: Reward_contra | None = None,
+        availability: Availability_contra | None,
+        completion: Completion_contra | None,
+        reward: Reward_contra | None,
     ) -> None:
         """Execute."""

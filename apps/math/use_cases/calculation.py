@@ -28,6 +28,7 @@ from ..domains.dto import (
     CalculationMetaDTO,
     CalculationResultDTO,
     ExerciseAvailabilityDTO,
+    ExerciseCompletionDTO,
     ExerciseRewardDTO,
 )
 
@@ -58,6 +59,7 @@ if TYPE_CHECKING:
         CalculationMetaDTO,
         CalculationResultDTO,
         ExerciseAvailabilityDTO,
+        ExerciseCompletionDTO,
         ExerciseRewardDTO,
     ]
     type CreateUseCase = AbstractUseCase[
@@ -231,8 +233,9 @@ class DetailCalculationCheckUseCase(
             context.user,
             meta,
             result,
-            exercise_parameters.availability,
-            exercise_parameters.reward,
+            availability=exercise_parameters.availability,
+            completion=exercise_parameters.completion,
+            reward=exercise_parameters.reward,
         )
 
         if result.is_correct:
