@@ -158,6 +158,11 @@ class RegularCalculationCheckUseCase(
             return self._explain_service.execute(request_data, meta)
 
 
+# =================================================
+# Detail calculation create/check exercise services
+# =================================================
+
+
 # REFACTOR: Relocate to core app as core use case to create exercise
 class DetailExerciseCreateUseCase(AbstractDetailUseCase[CalculationCaseDTO]):
     """Start stored exercise use case."""
