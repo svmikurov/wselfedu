@@ -12,7 +12,7 @@ class AbstractCompletionService(ABC, Generic[ExerciseAssignationModel]):
     """Assigned exercise completion service."""
 
     @abstractmethod
-    def add_success(self, assignation_pk: int) -> None:
+    def add_success(self, assignation_pk: int) -> int:
         """Add a successful attempt to solve the exercise."""
 
     @abstractmethod

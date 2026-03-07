@@ -5,6 +5,7 @@ from __future__ import annotations
 from decimal import Decimal
 from typing import TYPE_CHECKING, override
 
+from django.contrib.contenttypes.models import ContentType
 from django.db.models import Manager
 
 from apps.math.domains.dto import (
@@ -15,7 +16,7 @@ from apps.math.domains.dto import (
     ExerciseRewardDTO,
 )
 from apps.math.models import StudentCalculationCondition
-from apps.study.models.exercise.reward import RewardType
+from apps.study.models import ExerciseAvailability, PeriodExecuting, RewardType
 from apps.study.services.abstract import AbstractCompletionService
 from apps.users.domains.dto import RewardDTO
 from apps.users.services.protocol import RewardServiceProtocol
@@ -133,12 +134,26 @@ class StudentCalculationMilestone(
         # number of tasks, no milestone are set.
         # However, the student must be given the opportunity
         # to perform assignments without milestones.
-        if availability.is_completed:
+        if availability.is_completed or not availability.is_active:
             return
 
         if result.is_correct:
             if completion.success_count < availability.required_count:
-                self._completion_service.add_success(resource_pk)
+                updated_success_count = self._completion_service.add_success(
+                    resource_pk
+                )
+                if (
+                    availability.period_type == PeriodExecuting.APPOINTMENT
+                    and updated_success_count == availability.required_count
+                ):
+                    ExerciseAvailability.objects.update(
+                        exercise_content_type=ContentType.objects.get_for_model(
+                            self._exercise_manager.model
+                        ),
+                        exercise_object_id=resource_pk,
+                        is_completed=True,
+                    )
+
             else:
                 return
 

@@ -5,8 +5,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, override
 
 from django.contrib.contenttypes.models import ContentType
-from django.db import transaction
-from django.db.models import F
 
 from apps.study.models import ExerciseLog
 from apps.study.services.abstract import (
@@ -42,23 +40,46 @@ class ExerciseCompletionService(
     # with model filed name to update
 
     @override
-    def add_success(self, assignation_pk: int) -> None:
+    def add_success(self, assignation_pk: int) -> int:
         """Add a successful attempt to solve the exercise."""
         content_type = ContentType.objects.get_for_model(self._manager.model)
-
-        with transaction.atomic():
-            ExerciseLog.objects.update_or_create(
-                exercise_content_type=content_type,
-                exercise_object_id=assignation_pk,
-                defaults={
-                    'success_count': F('success_count') + self.INCREMENT,
-                },
-                create_defaults={
-                    'success_count': self.INCREMENT,
-                },
-            )
+        return self._make_raw_update(
+            content_type, assignation_pk, self.INCREMENT
+        )
 
     @override
     @decorators.log_unimplemented_call
     def add_failure(self, assignation_pk: int) -> None:
         """Add an unsuccessful attempt to solve the exercise."""
+
+    def _make_raw_update(
+        self,
+        content_type: ContentType,
+        object_id: int,
+        increment: int,
+    ) -> int:
+        from django.db import connection
+
+        with connection.cursor() as cursor:
+            # Execute UPDATE with RETURNING
+            cursor.execute(
+                """
+                UPDATE {table}
+                SET success_count = success_count + %s
+                WHERE exercise_content_type_id = %s
+                    AND exercise_object_id = %s
+                RETURNING success_count
+                """.format(table=ExerciseLog._meta.db_table),
+                [increment, content_type.id, object_id],
+            )
+            result = cursor.fetchone()
+
+            if result:
+                return result[0]  # type: ignore[no-any-return]
+            else:
+                log = ExerciseLog.objects.create(
+                    exercise_content_type=content_type,
+                    exercise_object_id=object_id,
+                    success_count=increment,
+                )
+                return log.success_count
