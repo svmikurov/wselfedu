@@ -24,6 +24,7 @@ pytest_plugins = [
     'tests.fixtures.lang.db.assignment',
     'tests.fixtures.lang.db.parameters',
     'tests.fixtures.lang.db.translations',
+    'tests.fixtures.math.calculation',
     'tests.unit.lang.fixtures',
 ]
 
