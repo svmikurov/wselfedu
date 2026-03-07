@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, override
+from typing import TYPE_CHECKING, Generic, TypeVar, override
 
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import F, OuterRef, Subquery
@@ -15,8 +15,9 @@ from apps.math.domains.dto import (
     CalculationConditionDTO,
     ExerciseAvailabilityDTO,
     ExerciseCompletionDTO,
-    ExerciseParametersDTO,
     ExerciseRewardDTO,
+    RegularParametersDTO,
+    StudentParametersDTO,
 )
 from apps.math.models import StudentCalculationCondition
 from apps.study.models import ExerciseAvailability, ExerciseLog, ExerciseReward
@@ -33,12 +34,15 @@ __all__ = (
     'StudentCalculationConditionsRepository',
 )
 
+ExerciseParameters = TypeVar('ExerciseParameters')
+
 
 class _BaseCalculationRepository(
     AbstractUserConditionsRepository[
         DetailParamsProtocol,
-        ExerciseParametersDTO,
+        ExerciseParameters,
     ],
+    Generic[ExerciseParameters],
 ):
     """Base calculation repository."""
 
@@ -46,7 +50,7 @@ class _BaseCalculationRepository(
 
     def __init__(
         self,
-        storage: AbstractUserStorage[ExerciseParametersDTO],
+        storage: AbstractUserStorage[ExerciseParameters],
     ) -> None:
         """Construct the repository."""
         self._storage = storage
@@ -54,7 +58,7 @@ class _BaseCalculationRepository(
     @override
     def fetch(
         self, params: DetailParamsProtocol, user: Person
-    ) -> ExerciseParametersDTO:
+    ) -> ExerciseParameters:
         """Fetch calculation exercise conditions."""
         try:
             return self._storage.retrieve(user.pk, self.storage_prefix)
@@ -65,7 +69,7 @@ class _BaseCalculationRepository(
 
     def _get_object(
         self, params: DetailParamsProtocol, user: Person
-    ) -> ExerciseParametersDTO:
+    ) -> ExerciseParameters:
         raise NotImplementedError('Subclass must implement _get_object()')
 
     @property
@@ -79,7 +83,9 @@ class _BaseCalculationRepository(
         return self.STORAGE_PREFIX
 
 
-class CalculationConditionsRepository(_BaseCalculationRepository):
+class CalculationConditionsRepository(
+    _BaseCalculationRepository[RegularParametersDTO],
+):
     """Calculation conditions repository."""
 
     STORAGE_PREFIX = 'calculation_conditions'
@@ -87,7 +93,7 @@ class CalculationConditionsRepository(_BaseCalculationRepository):
     def __init__(
         self,
         manager: Manager[CalculationCondition],
-        storage: AbstractUserStorage[ExerciseParametersDTO],
+        storage: AbstractUserStorage[RegularParametersDTO],
     ) -> None:
         """Construct the repository."""
         self._manager = manager
@@ -96,10 +102,10 @@ class CalculationConditionsRepository(_BaseCalculationRepository):
     @override
     def _get_object(
         self, params: DetailParamsProtocol, user: Person
-    ) -> ExerciseParametersDTO:
+    ) -> RegularParametersDTO:
         obj = self._manager.get(pk=params.pk, user=user)
 
-        return ExerciseParametersDTO(
+        return RegularParametersDTO(
             conditions=CalculationConditionDTO(
                 min_operand=obj.min_operand,
                 max_operand=obj.max_operand,
@@ -108,7 +114,9 @@ class CalculationConditionsRepository(_BaseCalculationRepository):
         )
 
 
-class StudentCalculationConditionsRepository(_BaseCalculationRepository):
+class StudentCalculationConditionsRepository(
+    _BaseCalculationRepository[StudentParametersDTO,]
+):
     """Student's assigned calculation conditions repository."""
 
     STORAGE_PREFIX = 'student_calculation_conditions'
@@ -116,7 +124,7 @@ class StudentCalculationConditionsRepository(_BaseCalculationRepository):
     def __init__(
         self,
         manager: Manager[StudentCalculationCondition],
-        storage: AbstractUserStorage[ExerciseParametersDTO],
+        storage: AbstractUserStorage[StudentParametersDTO],
     ) -> None:
         """Construct the repository."""
         self._manager = manager
@@ -125,7 +133,7 @@ class StudentCalculationConditionsRepository(_BaseCalculationRepository):
     @override
     def _get_object(
         self, params: DetailParamsProtocol, user: Person
-    ) -> ExerciseParametersDTO:
+    ) -> StudentParametersDTO:
         exercise_content_type = ContentType.objects.get_for_model(
             StudentCalculationCondition
         )
@@ -189,7 +197,7 @@ class StudentCalculationConditionsRepository(_BaseCalculationRepository):
             )
         )
 
-        return ExerciseParametersDTO(
+        return StudentParametersDTO(
             conditions=CalculationConditionDTO(
                 min_operand=obj.min_operand,
                 max_operand=obj.max_operand,
