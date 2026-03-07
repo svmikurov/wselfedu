@@ -83,19 +83,23 @@ class ExerciseRewardDTO(BaseModel):
 
 
 # NOTE: It's experimental implementation
-class ExerciseParametersDTO(BaseModel):
-    """Exercise parameters DTO."""
+class RegularParametersDTO(BaseModel):
+    """Regular exercise parameters DTO."""
 
     conditions: CalculationConditionDTO = Field(
         description='Create current exercise conditions',
     )
-    availability: ExerciseAvailabilityDTO | None = Field(
+
+
+# NOTE: It's experimental implementation
+class StudentParametersDTO(RegularParametersDTO):
+    """Student's exercise parameters DTO."""
+
+    availability: ExerciseAvailabilityDTO = Field(
         description='Current exercise availability data',
-        default=None,
     )
-    completion: ExerciseCompletionDTO | None = Field(
+    completion: ExerciseCompletionDTO = Field(
         description='Current exercise completion log',
-        default=None,
     )
     reward: ExerciseRewardDTO | None = Field(
         description='Current exercise reward data',
