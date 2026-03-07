@@ -70,8 +70,8 @@ class MilestoneServiceProtocol(
         user: Person,
         meta: ExerciseMeta_contra,
         result: Result_contra,
-        availability: Availability_contra | None,
-        completion: Completion_contra | None,
+        availability: Availability_contra,
+        completion: Completion_contra,
         reward: Reward_contra | None,
     ) -> None:
         """Execute."""
