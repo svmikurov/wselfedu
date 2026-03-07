@@ -117,8 +117,8 @@ class StudentCalculationMilestone(
         user: Person,
         meta: CalculationMetaDTO,
         result: CalculationResultDTO,
-        availability: ExerciseAvailabilityDTO | None,
-        completion: ExerciseCompletionDTO | None,
+        availability: ExerciseAvailabilityDTO,
+        completion: ExerciseCompletionDTO,
         reward: ExerciseRewardDTO | None,
     ) -> None:
         """Execute.
@@ -129,12 +129,15 @@ class StudentCalculationMilestone(
             Current exercise database identifier.
 
         """
+        # If a student successfully completes the specified
+        # number of tasks, no milestone are set.
+        # However, the student must be given the opportunity
+        # to perform assignments without milestones.
+        if availability.is_completed:
+            return
+
         if result.is_correct:
-            if (
-                completion
-                and availability
-                and completion.success_count < availability.required_count
-            ):
+            if completion.success_count < availability.required_count:
                 self._completion_service.add_success(resource_pk)
             else:
                 return
