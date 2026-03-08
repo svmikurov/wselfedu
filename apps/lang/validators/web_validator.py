@@ -2,7 +2,7 @@
 
 from typing import Any
 
-from apps.core.handlers.protocol import RegularValidator, ResourceValidator
+from apps.core.handlers.protocol import ResourceValidator, ValidatorProtocol
 
 from .. import schemas
 
@@ -10,7 +10,7 @@ type RequestData = dict[str, Any]
 
 
 class WebPresentationValidator(
-    RegularValidator[RequestData, schemas.RegularConditionRequest]
+    ValidatorProtocol[RequestData, schemas.RegularConditionRequest]
 ):
     """Web request presentation validator."""
 
@@ -25,7 +25,7 @@ class WebPresentationValidator(
         )
 
 
-class WebTestValidator(RegularValidator[RequestData, schemas.TestRequestDTO]):
+class WebTestValidator(ValidatorProtocol[RequestData, schemas.TestRequestDTO]):
     """Web request test exercise validator."""
 
     @classmethod

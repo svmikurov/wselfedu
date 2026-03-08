@@ -4,7 +4,7 @@ from typing import Any
 
 from apps.study.api.v1 import serializers as study
 
-from ...core.handlers.protocol import RegularValidator
+from ...core.handlers.protocol import ValidatorProtocol
 from .. import schemas, types
 from ..api.v1.serializers import base as lang
 
@@ -22,7 +22,7 @@ class PresentationSerializer(
     """Get presentation serializer."""
 
 
-class ApiPresentationValidator(RegularValidator[RequestData, RequestDTO]):
+class ApiPresentationValidator(ValidatorProtocol[RequestData, RequestDTO]):
     """Api get presentation validator."""
 
     @classmethod
