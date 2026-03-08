@@ -44,6 +44,7 @@ class ExerciseAvailability(AbstractBaseModel):
         verbose_name=_('exercise.availability.period'),
     )
 
+    # FIXME: Rename to 'assigned_at'
     # Only when reassigned (new target)
     started_at = models.DateTimeField(
         null=True,
