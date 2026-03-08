@@ -5,7 +5,13 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import CharField, IntegerField, OuterRef, Subquery
+from django.db.models import (
+    CharField,
+    DecimalField,
+    IntegerField,
+    OuterRef,
+    Subquery,
+)
 from django.shortcuts import render
 from django.views import generic
 
@@ -65,7 +71,7 @@ class _MentorAssignationQuerySetMixin:
             .annotate(
                 reward_amount=Subquery(
                     reward_subquery.values('amount')[:1],
-                    output_field=IntegerField(),
+                    output_field=DecimalField(),
                 ),
                 reward_type=Subquery(
                     reward_subquery.values('reward_type')[:1],
