@@ -70,13 +70,11 @@ class ExerciseCompletionService(
             updated_success_count >= availability.required_count
             and availability.period_type == PeriodExecuting.APPOINTMENT
         ):
-            ExerciseAvailability.objects.update(
-                exercise_content_type=ContentType.objects.get_for_model(
-                    self._manager.model
-                ),
+            ct = ContentType.objects.get_for_model(self._manager.model)
+            ExerciseAvailability.objects.filter(
+                exercise_content_type=ct,
                 exercise_object_id=assignation_pk,
-                is_completed=True,
-            )
+            ).update(is_completed=True)
 
     @override
     @decorators.log_unimplemented_call
