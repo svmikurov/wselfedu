@@ -1,11 +1,15 @@
 """Abstract base services."""
 
-from abc import ABC, abstractmethod
-from typing import override
+from __future__ import annotations
 
-from apps.users.domains.dto import RewardDTO
+from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING, override
 
 from .protocol import RewardServiceProtocol
+
+if TYPE_CHECKING:
+    from apps.math.domains.dto import ExerciseRewardDTO
+    from apps.users.models.user import Person
 
 __all__ = ('AbstractRewardService',)
 
@@ -15,5 +19,5 @@ class AbstractRewardService(ABC, RewardServiceProtocol):
 
     @override
     @abstractmethod
-    def increment(self, reward: RewardDTO) -> None:
+    def increment(self, student: Person, reward: ExerciseRewardDTO) -> None:
         """Add reward."""

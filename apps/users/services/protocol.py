@@ -1,8 +1,12 @@
 """User application protocols."""
 
-from typing import Protocol
+from __future__ import annotations
 
-from apps.users.domains.dto import RewardDTO
+from typing import TYPE_CHECKING, Protocol
+
+if TYPE_CHECKING:
+    from apps.math.domains.dto import ExerciseRewardDTO
+    from apps.users.models.user import Person
 
 __all__ = ('RewardServiceProtocol',)
 
@@ -10,5 +14,5 @@ __all__ = ('RewardServiceProtocol',)
 class RewardServiceProtocol(Protocol):
     """Protocol for reward interface."""
 
-    def increment(self, reward: RewardDTO) -> None:
+    def increment(self, student: Person, reward: ExerciseRewardDTO) -> None:
         """Add reward."""
