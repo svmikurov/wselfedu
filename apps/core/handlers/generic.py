@@ -117,7 +117,10 @@ class DetailRequestHandler(Generic[Validated, DomainResult]):
 
 
 class ContextRequestHandler(Generic[Validated, DomainResult]):
-    """Context request handler for operations with identifier (pk)."""
+    """Context request handler for operations with identifier (pk).
+    
+    Passes the request context to the adapter.
+    """
 
     def __init__(
         self,
