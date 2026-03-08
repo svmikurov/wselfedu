@@ -2,11 +2,19 @@
 
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import (
+    BooleanField,
+    Case,
     CharField,
+    DecimalField,
+    ExpressionWrapper,
+    F,
     IntegerField,
     OuterRef,
+    Q,
     QuerySet,
     Subquery,
+    Value,
+    When,
 )
 from django.views.generic import ListView
 
@@ -31,10 +39,6 @@ class StudentCalculationExerciseListVew(
             StudentCalculationCondition
         )
 
-        reward_subquery = ExerciseReward.objects.filter(
-            exercise_content_type=content_type,
-            exercise_object_id=OuterRef('pk'),
-        ).values('amount', 'reward_type')[:1]
         availability_subquery = ExerciseAvailability.objects.filter(
             exercise_content_type=content_type,
             exercise_object_id=OuterRef('pk'),
@@ -43,6 +47,10 @@ class StudentCalculationExerciseListVew(
             exercise_content_type=content_type,
             exercise_object_id=OuterRef('pk'),
         ).values('success_count')[:1]
+        reward_subquery = ExerciseReward.objects.filter(
+            exercise_content_type=content_type,
+            exercise_object_id=OuterRef('pk'),
+        ).values('amount', 'reward_type')[:1]
 
         exercises = (
             StudentCalculationCondition.objects.filter(
@@ -56,7 +64,7 @@ class StudentCalculationExerciseListVew(
             .annotate(
                 reward_amount=Subquery(
                     reward_subquery.values('amount')[:1],
-                    output_field=IntegerField(),
+                    output_field=DecimalField(),
                 ),
                 reward_type=Subquery(
                     reward_subquery.values('reward_type')[:1],
@@ -74,13 +82,25 @@ class StudentCalculationExerciseListVew(
                     completion_subquery.values('success_count')[:1],
                     output_field=IntegerField(),
                 ),
-                is_completed=Subquery(
-                    availability_subquery.values('is_completed')[:1],
-                ),
                 is_active=Subquery(
                     availability_subquery.values('is_active')[:1],
                 ),
             )
-        ).order_by('created_at')
+            .annotate(
+                is_completed=Case(
+                    When(
+                        success_count__isnull=False,
+                        availability_count__isnull=False,
+                        then=ExpressionWrapper(
+                            Q(success_count__gte=F('availability_count')),
+                            output_field=BooleanField(),
+                        ),
+                    ),
+                    default=Value(False),
+                    output_field=BooleanField(),
+                ),
+            )
+            .order_by('created_at')
+        )
 
         return exercises
