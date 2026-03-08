@@ -6,7 +6,11 @@ from typing import TYPE_CHECKING, override
 
 from django.contrib.contenttypes.models import ContentType
 
-from apps.study.models import ExerciseLog
+from apps.study.models import (
+    ExerciseAvailability,
+    ExerciseLog,
+    PeriodExecuting,
+)
 from apps.study.services.abstract import (
     AbstractCompletionService,
     ExerciseAssignationModel,
@@ -15,6 +19,11 @@ from utils import decorators
 
 if TYPE_CHECKING:
     from django.db.models import Manager
+
+    from apps.math.domains.dto import (
+        ExerciseAvailabilityDTO,
+        ExerciseCompletionDTO,
+    )
 
 __all__ = ('ExerciseCompletionService',)
 
@@ -40,12 +49,34 @@ class ExerciseCompletionService(
     # with model filed name to update
 
     @override
-    def add_success(self, assignation_pk: int) -> int:
+    def add_success(
+        self,
+        assignation_pk: int,
+        availability: ExerciseAvailabilityDTO,
+        completion: ExerciseCompletionDTO,
+    ) -> None:
         """Add a successful attempt to solve the exercise."""
+        if completion.success_count >= availability.required_count:
+            return
+
         content_type = ContentType.objects.get_for_model(self._manager.model)
-        return self._make_raw_update(
-            content_type, assignation_pk, self.INCREMENT
+        updated_success_count = self._make_raw_update(
+            content_type,
+            assignation_pk,
+            self.INCREMENT,
         )
+
+        if (
+            updated_success_count >= availability.required_count
+            and availability.period_type == PeriodExecuting.APPOINTMENT
+        ):
+            ExerciseAvailability.objects.update(
+                exercise_content_type=ContentType.objects.get_for_model(
+                    self._manager.model
+                ),
+                exercise_object_id=assignation_pk,
+                is_completed=True,
+            )
 
     @override
     @decorators.log_unimplemented_call

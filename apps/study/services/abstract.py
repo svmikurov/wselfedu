@@ -1,9 +1,17 @@
 """Abstract base classes for services."""
 
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
-from typing import Generic, TypeVar
+from typing import TYPE_CHECKING, Generic, TypeVar
 
 from django.db.models import Model
+
+if TYPE_CHECKING:
+    from apps.math.domains.dto import (
+        ExerciseAvailabilityDTO,
+        ExerciseCompletionDTO,
+    )
 
 ExerciseAssignationModel = TypeVar('ExerciseAssignationModel', bound=Model)
 
@@ -12,7 +20,12 @@ class AbstractCompletionService(ABC, Generic[ExerciseAssignationModel]):
     """Assigned exercise completion service."""
 
     @abstractmethod
-    def add_success(self, assignation_pk: int) -> int:
+    def add_success(
+        self,
+        assignation_pk: int,
+        availability: ExerciseAvailabilityDTO,
+        completion: ExerciseCompletionDTO,
+    ) -> None:
         """Add a successful attempt to solve the exercise."""
 
     @abstractmethod
