@@ -9,6 +9,11 @@ if TYPE_CHECKING:
 
 T_contra = TypeVar('T_contra', contravariant=True)
 T_co = TypeVar('T_co', covariant=True)
+Params_contra = TypeVar('Params_contra', contravariant=True)
+Context_contra = TypeVar('Context_contra', contravariant=True)
+Validated_contra = TypeVar('Validated_contra', contravariant=True)
+DomainResult_contra = TypeVar('DomainResult_contra', contravariant=True)
+Result_co = TypeVar('Result_co', covariant=True)
 
 
 # ===============================================
@@ -57,7 +62,7 @@ class OobResultProtocol(Protocol):
 # -----------------------------------------------
 
 
-class RegularValidator(Protocol[T_contra, T_co]):
+class ValidatorProtocol(Protocol[T_contra, T_co]):
     """Protocol for regular validator interface."""
 
     @classmethod
@@ -113,13 +118,26 @@ class DetailUseCase(Protocol[T_contra, T_co]):
         """Execute business logic."""
 
 
+class UseCaseProtocol(
+    Protocol[Params_contra, Context_contra, Validated_contra, Result_co]
+):
+    """Protocol for generic UseCase interface."""
+
+    def execute(
+        self,
+        params: Params_contra,
+        context: Context_contra,
+        validated: Validated_contra,
+    ) -> Result_co:
+        """Execute business logic."""
+
+
 # -----------------------------------------------
 # Adapter
 # -----------------------------------------------
 
 
-# DEPRECATED: Delete response adapter
-class ResponseAdapterDeprecated(Protocol[T_contra, T_co]):
+class GenericAdapterProtocol(Protocol[T_contra, T_co]):
     """Protocol for response adapter interface."""
 
     def to_response(self, domain_result: T_contra) -> T_co:
@@ -147,6 +165,22 @@ class ContextResponseAdapter(Protocol[T_contra]):
         schema: T_contra,
         request_context: RequestContextProtocol,
     ) -> RequestResultProtocol:
+        """Convert to response."""
+
+
+class AdapterProtocol(
+    Protocol[DomainResult_contra, Context_contra, Result_co]
+):
+    """Protocol for response adapter interface.
+
+    Uses request context.
+    """
+
+    def to_response(
+        self,
+        schema: DomainResult_contra,
+        request_context: Context_contra,
+    ) -> Result_co:
         """Convert to response."""
 
 
