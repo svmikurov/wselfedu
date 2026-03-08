@@ -2,25 +2,17 @@
 
 from __future__ import annotations
 
-from typing import Protocol
-
 import pytest
 from django.contrib.contenttypes.models import ContentType
+from django.utils import timezone
 
-from apps.math.models import (
-    StudentCalculationCondition,
+from apps.math.domains.dto import (
+    ExerciseAvailabilityDTO,
+    ExerciseCompletionDTO,
 )
-from apps.study.models import ExerciseLog
+from apps.math.models import StudentCalculationCondition
+from apps.study.models import ExerciseLog, PeriodExecuting
 from apps.study.services.completion import ExerciseCompletionService
-
-
-class ExerciseLogCreator(Protocol):
-    """Protocol for exercise log."""
-
-    def __call__(
-        self, success_count: int = 0, failure_count: int = 0
-    ) -> ExerciseLog:
-        """Call."""
 
 
 @pytest.fixture
@@ -35,56 +27,53 @@ def content_type() -> ContentType:
     return ContentType.objects.get_for_model(StudentCalculationCondition)
 
 
-@pytest.fixture
-def exercise_log(
-    calculation_assignation: StudentCalculationCondition,
-    content_type: ContentType,
-) -> ExerciseLogCreator:
-    """Provide exercise log with custom success_count."""
-
-    def _get_log(
-        success_count: int = 0,
-        failure_count: int = 0,
-    ) -> ExerciseLog:
-        return ExerciseLog.objects.create(
-            exercise_content_type=content_type,
-            exercise_object_id=calculation_assignation.pk,
-            success_count=success_count,
-            failure_count=failure_count,
-        )
-
-    return _get_log
-
-
 @pytest.mark.django_db
 class TestStudentCalculationCompletionService:
     """Student's calculation completion assigned exercise test."""
 
-    INITIAL_COUNT = 0
-    SINGLE_INCREMENT = 1
-
     @pytest.mark.parametrize(
-        'initial_success_count,expected_success_count',
+        'required_count, initial_success_count, expected_success_count',
         (
-            (0, 1),
-            (4, 5),
+            (10, 0, 1),
+            (10, 4, 5),
+            (10, 10, 10),
         ),
     )
-    def test_start_exercise_success(
+    def test_correct_answer(
         self,
+        required_count: int,
         initial_success_count: int,
         expected_success_count: int,
         service: ExerciseCompletionService[StudentCalculationCondition],
         calculation_assignation: StudentCalculationCondition,
         content_type: ContentType,
-        exercise_log: ExerciseLogCreator,
     ) -> None:
-        """Test the start calculation with correct answer."""
+        """Test the calculation with correct answer."""
         # Arrange
-        exercise_log(success_count=initial_success_count)
+        availability = ExerciseAvailabilityDTO(
+            required_count=required_count,
+            period_type=PeriodExecuting.DAILY,
+        )
+        # The current value of successfully completed
+        # tasks is cached when the task is created.
+        completion = ExerciseCompletionDTO(
+            success_count=initial_success_count,
+            failure_count=0,
+            tracking_date=timezone.now(),
+        )
+        ExerciseLog.objects.create(
+            exercise_content_type=content_type,
+            exercise_object_id=calculation_assignation.pk,
+            success_count=initial_success_count,
+            failure_count=0,
+        )
 
         # Act
-        service.add_success(calculation_assignation.pk)
+        service.add_success(
+            calculation_assignation.pk,
+            availability,
+            completion,
+        )
 
         # Assert
         log = ExerciseLog.objects.get(
