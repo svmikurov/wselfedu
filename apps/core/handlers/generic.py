@@ -5,11 +5,14 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Generic, TypeVar
 
 from .protocol import (
+    AdapterProtocol,
     DetailParamsProtocol,
     DetailValidator,
+    GenericAdapterProtocol,
     RequestContextProtocol,
     RequestDataProtocol,
     RequestResultProtocol,
+    UseCaseProtocol,
 )
 
 if TYPE_CHECKING:
@@ -18,13 +21,15 @@ if TYPE_CHECKING:
     from .protocol import (
         ContextResponseAdapter,
         DetailUseCase,
-        RegularValidator,
+        GenericAdapterProtocol,
         ResourceValidator,
         ResponseAdapter,
-        ResponseAdapterDeprecated,
         UseCase,
+        ValidatorProtocol,
     )
 
+RequestParams = TypeVar('RequestParams')
+RequestContext = TypeVar('RequestContext')
 RequestData = TypeVar('RequestData')
 Validated = TypeVar('Validated')
 DomainResult = TypeVar('DomainResult')
@@ -38,9 +43,9 @@ class RegularRequestHandler(
 
     def __init__(
         self,
-        validator: RegularValidator[RequestData, Validated],
+        validator: ValidatorProtocol[RequestData, Validated],
         use_case: UseCase[Validated, DomainResult],
-        adapter: ResponseAdapterDeprecated[DomainResult, ResponseData],
+        adapter: GenericAdapterProtocol[DomainResult, ResponseData],
     ) -> None:
         """Construct the handler."""
         self._validator = validator
@@ -69,7 +74,7 @@ class ResourceRequestHandler(
         self,
         validator: ResourceValidator[RequestData, Validated],
         use_case: UseCase[Validated, DomainResult],
-        adapter: ResponseAdapterDeprecated[DomainResult, ResponseData],
+        adapter: GenericAdapterProtocol[DomainResult, ResponseData],
     ) -> None:
         """Construct the handler."""
         self._validator = validator
@@ -118,7 +123,7 @@ class DetailRequestHandler(Generic[Validated, DomainResult]):
 
 class ContextRequestHandler(Generic[Validated, DomainResult]):
     """Context request handler for operations with identifier (pk).
-    
+
     Passes the request context to the adapter.
     """
 
@@ -139,6 +144,57 @@ class ContextRequestHandler(Generic[Validated, DomainResult]):
         context: RequestContextProtocol,
         data: RequestDataProtocol,
     ) -> RequestResultProtocol:
+        """Execute."""
+        validated = self._validator.validate(data)
+        domain_result = self._use_case.execute(params, context, validated)
+        result = self._adapter.to_response(domain_result, context)
+        return result
+
+
+class RequestHandler(
+    Generic[
+        RequestParams,
+        RequestContext,
+        RequestData,
+        Validated,
+        DomainResult,
+        ResponseData,
+    ]
+):
+    """Generic context request handler.
+
+    Passes the request context to the adapter.
+    """
+
+    def __init__(
+        self,
+        validator: ValidatorProtocol[
+            RequestData,
+            Validated,
+        ],
+        use_case: UseCaseProtocol[
+            RequestParams,
+            RequestContext,
+            Validated,
+            DomainResult,
+        ],
+        adapter: AdapterProtocol[
+            DomainResult,
+            RequestContext,
+            ResponseData,
+        ],
+    ) -> None:
+        """Construct the handler."""
+        self._validator = validator
+        self._use_case = use_case
+        self._adapter = adapter
+
+    def execute(
+        self,
+        params: RequestParams,
+        context: RequestContext,
+        data: RequestData,
+    ) -> ResponseData:
         """Execute."""
         validated = self._validator.validate(data)
         domain_result = self._use_case.execute(params, context, validated)
