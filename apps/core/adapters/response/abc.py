@@ -7,8 +7,8 @@ DomainType = TypeVar('DomainType')
 ResponseType = TypeVar('ResponseType')
 
 
-class AbstractResponseAdapter(ABC, Generic[DomainType, ResponseType]):
-    """Abstract base class for response adapters."""
+class AbstractSimpleResponseAdapter(ABC, Generic[DomainType, ResponseType]):
+    """ABC for simple response adapters."""
 
     @abstractmethod
     def to_response(self, schema: DomainType) -> ResponseType:

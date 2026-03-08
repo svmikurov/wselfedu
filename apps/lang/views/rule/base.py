@@ -22,13 +22,13 @@ if TYPE_CHECKING:
     from django.http.request import HttpRequest
     from django.http.response import HttpResponseBase
 
-    from apps.core.adapters.response.abc import AbstractResponseAdapter
+    from apps.core.adapters.response.abc import AbstractSimpleResponseAdapter
     from apps.core.adapters.response.rule import LanguageRule
     from apps.lang.di.container import LanguageContainer
     from apps.lang.repositories import RuleRepositoryABC
 
     type ContainerDI = Container[LanguageContainer]
-    type WebAdapter = AbstractResponseAdapter[models.Rule, LanguageRule]
+    type WebAdapter = AbstractSimpleResponseAdapter[models.Rule, LanguageRule]
 
 logger = logging.getLogger(__name__)
 

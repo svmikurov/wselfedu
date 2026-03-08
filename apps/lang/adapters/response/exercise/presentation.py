@@ -6,7 +6,7 @@ exercise cases to different output formats (API and Web).
 
 from django.urls import reverse_lazy
 
-from apps.core.adapters.response.abc import AbstractResponseAdapter
+from apps.core.adapters.response.abc import AbstractSimpleResponseAdapter
 from apps.core.adapters.response.exercise.presentation import (
     PresentationApi,
     PresentationWeb,
@@ -17,7 +17,7 @@ from apps.core.domains.exercise.presentation_dto import PresentationData
 
 
 class ApiPresentationAdapter(
-    AbstractResponseAdapter[PresentationData, PresentationApi]
+    AbstractSimpleResponseAdapter[PresentationData, PresentationApi]
 ):
     """API adapter for Presentation exercise type.
 
@@ -36,7 +36,7 @@ class ApiPresentationAdapter(
 
 
 class WebPresentationAdapter(
-    AbstractResponseAdapter[PresentationData, PresentationWeb]
+    AbstractSimpleResponseAdapter[PresentationData, PresentationWeb]
 ):
     """WEB adapter for Presentation exercise type.
 

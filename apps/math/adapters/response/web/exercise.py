@@ -2,7 +2,7 @@
 
 from typing import Any, TypeVar
 
-from apps.core.adapters.response.abc import AbstractResponseAdapter
+from apps.core.adapters.response.abc import AbstractSimpleResponseAdapter
 from apps.core.adapters.response.exercise.web.dto import (
     WebExerciseCaseDTO,
     WebExerciseResponseDTO,
@@ -33,7 +33,7 @@ DomainType = TypeVar('DomainType', bound=ExerciseStatus)
 
 
 class CalculationConditionsWebAdapter(
-    AbstractResponseAdapter[UseCaseData, ConditionsFormDTO],
+    AbstractSimpleResponseAdapter[UseCaseData, ConditionsFormDTO],
 ):
     """Calculation conditions web response adapter."""
 

@@ -4,12 +4,12 @@ from typing import Any
 
 from django.db.models import QuerySet
 
-from apps.core.adapters.response.abc import AbstractResponseAdapter
+from apps.core.adapters.response.abc import AbstractSimpleResponseAdapter
 from apps.core.adapters.response.rule import LanguageRule, RuleClause
 from apps.lang import models
 
 
-class WebRuleAdapter(AbstractResponseAdapter[models.Rule, LanguageRule]):
+class WebRuleAdapter(AbstractSimpleResponseAdapter[models.Rule, LanguageRule]):
     """Language rule web adapter."""
 
     EXAMPLE_COUNT: int | None = 5
