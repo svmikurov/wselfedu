@@ -38,8 +38,10 @@ class ExerciseReward(AbstractBaseModel):
         verbose_name=_('exercise.reward.type'),
     )
 
-    amount = models.PositiveSmallIntegerField(
+    amount = models.DecimalField(
         verbose_name=_('exercise.reward.amount'),
+        max_digits=5,
+        decimal_places=2,
     )
 
     class Meta:
