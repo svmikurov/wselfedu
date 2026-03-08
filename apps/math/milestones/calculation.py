@@ -5,7 +5,6 @@ from __future__ import annotations
 from decimal import Decimal
 from typing import TYPE_CHECKING, override
 
-from django.contrib.contenttypes.models import ContentType
 from django.db.models import Manager
 
 from apps.math.domains.dto import (
@@ -16,9 +15,7 @@ from apps.math.domains.dto import (
     ExerciseRewardDTO,
 )
 from apps.math.models import StudentCalculationCondition
-from apps.study.models import ExerciseAvailability, PeriodExecuting, RewardType
 from apps.study.services.abstract import AbstractCompletionService
-from apps.users.domains.dto import RewardDTO
 from apps.users.services.protocol import RewardServiceProtocol
 
 from .protocol import MilestoneServiceProtocol, ProgressBar
@@ -66,6 +63,7 @@ class UserCalculationMilestone(
         result: CalculationResultDTO,
         availability: ExerciseAvailabilityDTO | None,
         completion: ExerciseCompletionDTO | None,
+        # FIXME: Remove reward
         reward: ExerciseRewardDTO | None,
     ) -> None:
         if result.is_correct:
@@ -134,51 +132,22 @@ class StudentCalculationMilestone(
         # number of tasks, no milestone are set.
         # However, the student must be given the opportunity
         # to perform assignments without milestones.
-        if availability.is_completed or not availability.is_active:
+        if (
+            availability.is_completed
+            or not availability.is_active
+            or completion.success_count >= availability.required_count
+        ):
             return
 
-        if result.is_correct:
-            if completion.success_count < availability.required_count:
-                updated_success_count = self._completion_service.add_success(
-                    resource_pk
-                )
-                if (
-                    availability.period_type == PeriodExecuting.APPOINTMENT
-                    and updated_success_count == availability.required_count
-                ):
-                    ExerciseAvailability.objects.update(
-                        exercise_content_type=ContentType.objects.get_for_model(
-                            self._exercise_manager.model
-                        ),
-                        exercise_object_id=resource_pk,
-                        is_completed=True,
-                    )
-
-            else:
-                return
-
-            if current_reward := self._get_reward(user, availability, reward):
-                self._reward_service.increment(current_reward)
-
-        else:
+        if not result.is_correct:
             self._completion_service.add_failure(resource_pk)
+            return
 
-    # HACK: Implement reward type
-    def _get_reward(
-        self,
-        student: Person,
-        availability: ExerciseAvailabilityDTO | None,
-        reward: ExerciseRewardDTO | None = None,
-    ) -> RewardDTO | None:
-        if (
-            reward
-            and reward.reward_type is RewardType.PER_CASE
-            and availability
-            and availability.is_active
-            and not availability.is_completed
-        ):
-            return RewardDTO(
-                student=student,
-                amount=Decimal(reward.reward_amount),
-            )
-        return None
+        self._completion_service.add_success(
+            resource_pk,
+            availability,
+            completion,
+        )
+
+        if reward:
+            self._reward_service.increment(user, reward)
