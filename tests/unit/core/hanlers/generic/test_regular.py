@@ -8,16 +8,16 @@ import pytest
 
 from apps.core.handlers import RegularRequestHandler
 from apps.core.handlers.protocol import (
-    RegularValidator,
-    ResponseAdapterDeprecated,
+    GenericAdapterProtocol,
     UseCase,
+    ValidatorProtocol,
 )
 
 
 @pytest.fixture
 def mock_validator() -> Mock:
     """Provide validator mock."""
-    return Mock(spec=RegularValidator)
+    return Mock(spec=ValidatorProtocol)
 
 
 @pytest.fixture
@@ -29,7 +29,7 @@ def mock_service() -> Mock:
 @pytest.fixture
 def mock_response_adapter() -> Mock:
     """Provide response adapter mock."""
-    return Mock(spec=ResponseAdapterDeprecated)
+    return Mock(spec=GenericAdapterProtocol)
 
 
 class TestRegularRequestHandler:
