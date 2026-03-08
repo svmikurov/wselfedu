@@ -10,9 +10,9 @@ from apps.core.handlers.protocol import (
 )
 from apps.core.storages.services.iabc import AbstractUserStorage
 from apps.core.use_cases.abstract import (
+    AbstractDataUseCase,
     AbstractDetailDataUseCase,
     AbstractDetailUseCase,
-    AbstractUseCase,
 )
 from apps.math.repositories.exercise import (
     StudentCalculationConditionsRepository,
@@ -62,7 +62,7 @@ if TYPE_CHECKING:
         ExerciseCompletionDTO,
         ExerciseRewardDTO,
     ]
-    type CreateUseCase = AbstractUseCase[
+    type CreateUseCase = AbstractDataUseCase[
         CalculationConditionDTO,
         CalculationCaseDTO,
     ]
@@ -79,7 +79,7 @@ CASE_STORE_PREFIX = 'regular_calculation_case'
 
 
 class CalculationConditionsUseCase(
-    AbstractUseCase[CalculationConditionDTO, CalculationConditionDTO],
+    AbstractDataUseCase[CalculationConditionDTO, CalculationConditionDTO],
 ):
     """Calculation conditions use case."""
 
@@ -93,7 +93,7 @@ class CalculationConditionsUseCase(
 
 
 class RegularCalculationCreateUseCase(
-    AbstractUseCase[CalculationConditionDTO, CalculationCaseDTO],
+    AbstractDataUseCase[CalculationConditionDTO, CalculationCaseDTO],
 ):
     """Start regular calculation use case."""
 
@@ -118,7 +118,7 @@ class RegularCalculationCreateUseCase(
 
 
 class RegularCalculationCheckUseCase(
-    AbstractUseCase[
+    AbstractDataUseCase[
         CalculationLoopDTO,
         CalculationCaseDTO | CalculationExplainDTO,
     ],

@@ -13,7 +13,7 @@ if TYPE_CHECKING:
     from apps.users.models import Person
 
 __all__ = (
-    'AbstractUseCase',
+    'AbstractDataUseCase',
     'AbstractDetailUseCase',
 )
 
@@ -21,7 +21,7 @@ RequestData = TypeVar('RequestData')
 ResponseData = TypeVar('ResponseData')
 
 
-class AbstractUseCase(ABC, Generic[RequestData, ResponseData]):
+class AbstractDataUseCase(ABC, Generic[RequestData, ResponseData]):
     """ABC for use case."""
 
     @abstractmethod
