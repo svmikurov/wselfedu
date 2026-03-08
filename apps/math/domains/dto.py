@@ -1,6 +1,7 @@
 """Mathematical discipline domain DTOs."""
 
 from datetime import datetime
+from decimal import Decimal
 from typing import Literal
 
 from pydantic import BaseModel, Field
@@ -55,10 +56,18 @@ class ExerciseAvailabilityDTO(BaseModel):
 
     required_count: int
     period_type: PeriodExecuting
-    started_at: datetime | None
-    is_active: bool
-    is_completed: bool
-    completed_at: datetime | None
+    started_at: datetime | None = Field(
+        default=None,
+    )
+    is_active: bool = Field(
+        default=True,
+    )
+    is_completed: bool = Field(
+        default=False,
+    )
+    completed_at: datetime | None = Field(
+        default=None,
+    )
 
 
 # NOTE: It's experimental implementation
@@ -74,7 +83,7 @@ class ExerciseCompletionDTO(BaseModel):
 class ExerciseRewardDTO(BaseModel):
     """Exercise reward DTO."""
 
-    reward_amount: int = Field(
+    reward_amount: Decimal = Field(
         description='Reward amount for success exercise completion',
     )
     reward_type: RewardType = Field(
