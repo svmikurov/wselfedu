@@ -16,6 +16,10 @@
     {% trans "user_profile.balance" %}: <span id="user-balance">{{ user.balance }}</span>
   {% endif %}
 
+  <div>
+    {% trans "exercise.completion.progress" %}: <span id="exercise-completion-progress">{{ exercise.completion_progress }}</span>
+  </div>
+
   {# Target to insert exercise case html or partial template #}
   <div id="exercise-block">
     {{ exercise_case_html }}
