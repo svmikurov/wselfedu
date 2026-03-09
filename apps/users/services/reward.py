@@ -24,9 +24,14 @@ class RewardService(AbstractRewardService):
     """Exercise reward service."""
 
     @override
-    def increment(self, student: Person, reward: ExerciseRewardDTO) -> None:
+    def increment(
+        self,
+        student: Person,
+        reward: ExerciseRewardDTO,
+        is_completed: bool,
+    ) -> None:
         """Add reward."""
-        if not (reward_amount := self._get_reward(reward)):
+        if not (reward_amount := self._get_reward(reward, is_completed)):
             return
 
         with transaction.atomic():
@@ -41,8 +46,18 @@ class RewardService(AbstractRewardService):
                 type=Transaction.Operation.REWARD,
             )
 
-    # HACK: Implement reward type
-    def _get_reward(self, reward: ExerciseRewardDTO | None) -> Decimal | None:
-        if reward and reward.reward_type is RewardType.PER_CASE:
+    def _get_reward(
+        self,
+        reward: ExerciseRewardDTO | None,
+        is_completed: bool,
+    ) -> Decimal | None:
+        if reward is None:
+            return None
+
+        if reward.reward_type is RewardType.PER_CASE:
             return reward.reward_amount
+
+        if reward.reward_type is RewardType.COMPLETE and is_completed:
+            return reward.reward_amount
+
         return None

@@ -14,5 +14,10 @@ __all__ = ('RewardServiceProtocol',)
 class RewardServiceProtocol(Protocol):
     """Protocol for reward interface."""
 
-    def increment(self, student: Person, reward: ExerciseRewardDTO) -> None:
+    def increment(
+        self,
+        student: Person,
+        reward: ExerciseRewardDTO,
+        is_completed: bool,
+    ) -> None:
         """Add reward."""

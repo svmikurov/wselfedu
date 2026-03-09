@@ -143,11 +143,11 @@ class StudentCalculationMilestone(
             self._completion_service.add_failure(resource_pk)
             return
 
-        self._completion_service.add_success(
+        is_completed = self._completion_service.add_success(
             resource_pk,
             availability,
             completion,
         )
 
         if reward:
-            self._reward_service.increment(user, reward)
+            self._reward_service.increment(user, reward, is_completed)

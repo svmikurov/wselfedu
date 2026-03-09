@@ -25,7 +25,7 @@ class AbstractCompletionService(ABC, Generic[ExerciseAssignationModel]):
         assignation_pk: int,
         availability: ExerciseAvailabilityDTO,
         completion: ExerciseCompletionDTO,
-    ) -> None:
+    ) -> bool:
         """Add a successful attempt to solve the exercise."""
 
     @abstractmethod

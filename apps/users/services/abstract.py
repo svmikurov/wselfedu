@@ -19,5 +19,10 @@ class AbstractRewardService(ABC, RewardServiceProtocol):
 
     @override
     @abstractmethod
-    def increment(self, student: Person, reward: ExerciseRewardDTO) -> None:
+    def increment(
+        self,
+        student: Person,
+        reward: ExerciseRewardDTO,
+        is_completed: bool,
+    ) -> None:
         """Add reward."""

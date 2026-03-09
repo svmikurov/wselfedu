@@ -55,10 +55,14 @@ class ExerciseCompletionService(
         assignation_pk: int,
         availability: ExerciseAvailabilityDTO,
         completion: ExerciseCompletionDTO,
-    ) -> None:
-        """Add a successful attempt to solve the exercise."""
+    ) -> bool:
+        """Add a successful attempt to solve the exercise.
+
+        Returns True if exercise with appointment period was completed
+        on this case.
+        """
         if completion.success_count >= availability.required_count:
-            return
+            return False
 
         content_type = ContentType.objects.get_for_model(self._manager.model)
         updated_success_count = self._make_raw_update(
@@ -69,7 +73,7 @@ class ExerciseCompletionService(
         )
 
         if (
-            updated_success_count >= availability.required_count
+            updated_success_count == availability.required_count
             and availability.period_type == PeriodExecuting.APPOINTMENT
         ):
             ct = ContentType.objects.get_for_model(self._manager.model)
@@ -77,6 +81,9 @@ class ExerciseCompletionService(
                 exercise_content_type=ct,
                 exercise_object_id=assignation_pk,
             ).update(is_completed=True)
+            return True
+
+        return False
 
     @override
     @decorators.log_unimplemented_call
