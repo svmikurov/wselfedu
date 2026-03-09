@@ -7,6 +7,7 @@ from apps.core.handlers.generic import (
     ContextRequestHandler,
     DetailRequestHandler,
     RegularRequestHandler,
+    RequestHandler,
 )
 from apps.core.validators.request.null import NullValidator
 
@@ -14,18 +15,16 @@ from apps.core.validators.request.null import NullValidator
 class ExerciseWebHandlerContainer(DeclarativeContainer):
     """Mathematical discipline exercise web handlers."""
 
-    # -------------------------------------------
+    # =============================================
     # External dependencies
-    # -------------------------------------------
-
+    # ---------------------------------------------
     validators = DependenciesContainer()
     use_cases = DependenciesContainer()
     adapters = DependenciesContainer()
 
-    # -------------------------------------------
+    # =============================================
     # Calculation exercise conditions
-    # -------------------------------------------
-
+    # ---------------------------------------------
     # Provides:
     # - form for calculation conditions
     # - table of user's saved calculation conditions
@@ -40,10 +39,19 @@ class ExerciseWebHandlerContainer(DeclarativeContainer):
         adapter=adapters.calculation_conditions,
     )
 
-    # -------------------------------------------
-    # Calculation exercise performing
-    # -------------------------------------------
+    # =============================================
+    # Student's exercises (assigned by mentor)
+    # ---------------------------------------------
+    student_exercises = Factory(
+        RequestHandler,
+        validator=NullValidator(),
+        use_case=use_cases.student_exercises,
+        adapter=adapters.student_exercises,
+    )
 
+    # =============================================
+    # Calculation exercise performing
+    # ---------------------------------------------
     create_regular_calculation = Factory(
         RegularRequestHandler,
         validator=validators.create_regular_calculation,
