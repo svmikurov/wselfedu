@@ -2,9 +2,15 @@
 
 from typing import Any, TypeVar
 
+from pydantic import BaseModel
+
 from .abstract import AbstractRegularValidator
 
 Validated = TypeVar('Validated')
+
+
+class NullValidated(BaseModel):
+    """Nul validated data."""
 
 
 class NullValidator(AbstractRegularValidator[Validated]):
