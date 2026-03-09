@@ -1,15 +1,32 @@
 """Mathematical discipline exercises."""
 
-from typing import Any, override
+from datetime import datetime
+from typing import Any, Protocol, override
 
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.utils import timezone
 
 from apps.core.handlers.protocol import RequestContextProtocol
 from apps.core.use_cases.abstract import AbstractUseCase
 from apps.math.domains.dto import StudentExerciseDTO
 from apps.math.models import StudentCalculationCondition
-from apps.study.models import ExerciseAvailability, ExerciseLog, ExerciseReward
+from apps.study.models import (
+    ExerciseAvailability,
+    ExerciseLog,
+    ExerciseReward,
+    PeriodExecuting,
+)
+
+
+class ExerciseQueryProtocol(Protocol):
+    """Partial protocol for student's exercise query result."""
+
+    period_type: PeriodExecuting
+    required_count: int
+    success_count: int
+    is_completed: bool
+    tracking_date: datetime
 
 
 # HACK: Fix Any type hint
@@ -102,8 +119,6 @@ class StudentExercisesUseCase(
 
         exercises: list[StudentExerciseDTO] = []
 
-        print(f'{exercises_query[0].__dict__ = }')
-
         for exercise in exercises_query:
             exercises.append(
                 StudentExerciseDTO(
@@ -114,7 +129,7 @@ class StudentExercisesUseCase(
                     period_type=exercise.period_type,
                     required_count=exercise.required_count,
                     is_active=exercise.is_active,
-                    is_completed=exercise.is_completed,
+                    is_completed=self._get_completion_state(exercise),
                     # Log
                     success_count=exercise.success_count,
                     failure_count=exercise.failure_count,
@@ -126,3 +141,15 @@ class StudentExercisesUseCase(
             )
 
         return exercises
+
+    def _get_completion_state(self, exercise: ExerciseQueryProtocol) -> bool:
+        match exercise.period_type:
+            case PeriodExecuting.APPOINTMENT:
+                return exercise.is_completed
+            case PeriodExecuting.DAILY:
+                return (
+                    exercise.required_count == exercise.success_count
+                    and exercise.tracking_date == timezone.now().date()
+                )
+            case _ as unexpected:
+                raise ValueError(f'Unexpected period type {unexpected!r}')
