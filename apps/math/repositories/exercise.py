@@ -20,7 +20,12 @@ from apps.math.domains.dto import (
     StudentParametersDTO,
 )
 from apps.math.models import StudentCalculationCondition
-from apps.study.models import ExerciseAvailability, ExerciseLog, ExerciseReward
+from apps.study.models import (
+    ExerciseAvailability,
+    ExerciseLog,
+    ExerciseReward,
+    PeriodExecuting,
+)
 
 if TYPE_CHECKING:
     from django.db.models import Manager
@@ -182,7 +187,7 @@ class StudentCalculationConditionsRepository(
             'success_count',
             'failure_count',
             'tracking_date',
-        )
+        )[:1]
 
         obj = (
             self._manager.select_related(
@@ -214,7 +219,7 @@ class StudentCalculationConditionsRepository(
             )
         )
 
-        return StudentParametersDTO(
+        parameters = StudentParametersDTO(
             conditions=CalculationConditionDTO(
                 min_operand=obj.min_operand,
                 max_operand=obj.max_operand,
@@ -229,7 +234,7 @@ class StudentCalculationConditionsRepository(
                 completed_at=obj.completed_at,
             ),
             completion=ExerciseCompletionDTO(
-                success_count=obj.success_count or 0,
+                success_count=self._get_success_count(obj),
                 failure_count=obj.failure_count or 0,
                 tracking_date=obj.tracking_date or timezone.now(),
             ),
@@ -238,3 +243,19 @@ class StudentCalculationConditionsRepository(
                 reward_type=obj.reward_type,
             ),
         )
+        return parameters
+
+    # REFACTOR: Implement reuse of method for other models.
+    # TODO: Fix type ignore
+    def _get_success_count(self, exercise: object) -> int:
+        match exercise.period_type:  # type: ignore[attr-defined]
+            case PeriodExecuting.APPOINTMENT:
+                # REVIEW: Check implementation
+                return exercise.success_count  # type: ignore
+            case PeriodExecuting.DAILY:
+                if exercise.tracking_date == timezone.now().date():  # type: ignore
+                    return exercise.success_count  # type: ignore
+                else:
+                    return 0
+            case _ as unexpected:
+                raise ValueError(f'Unexpected period type {unexpected!r}')
