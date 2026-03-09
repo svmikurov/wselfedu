@@ -1,106 +1,58 @@
 """Student's calculation exercises."""
 
-from django.contrib.contenttypes.models import ContentType
-from django.db.models import (
-    BooleanField,
-    Case,
-    CharField,
-    DecimalField,
-    ExpressionWrapper,
-    F,
-    IntegerField,
-    OuterRef,
-    Q,
-    QuerySet,
-    Subquery,
-    Value,
-    When,
-)
-from django.views.generic import ListView
+from dependency_injector.wiring import Provide, inject
+from django.http import HttpRequest, HttpResponse, HttpResponseBase
+from django.shortcuts import render
+from django.views import View
+from django.views.generic import TemplateView
 
+from apps.core.adapters.response.shared import WebResponseDTO
+from apps.core.handlers.dto import NullParams, RequestContext, RequestData
+from apps.core.handlers.generic import RequestHandler
+from apps.core.validators.request.null import NullValidated
 from apps.core.views import UserLoginRequiredMixin
-from apps.math.models import StudentCalculationCondition
-from apps.study.models import ExerciseAvailability, ExerciseLog, ExerciseReward
+from apps.core.views.mixins import GetHandlerMixin
+from apps.math.domains.dto import StudentExerciseDTO
+from di import MainContainer
+
+type StudentHandler = RequestHandler[
+    NullParams,
+    RequestContext,
+    RequestData,
+    NullValidated,
+    list[StudentExerciseDTO],
+    WebResponseDTO,
+]
+
+HANDLERS = MainContainer.math.exercise_web_views
 
 
 class StudentCalculationExerciseListVew(
     UserLoginRequiredMixin,
-    ListView,  # type: ignore
+    GetHandlerMixin[StudentHandler],
+    TemplateView,
+    View,
 ):
     """Student's calculation exercises."""
 
     template_name = 'math/exercise/calculation/student/index.html'
-    model = StudentCalculationCondition
-    context_object_name = 'exercises'
 
-    def get_queryset(self) -> QuerySet[StudentCalculationCondition]:
-        """Return mentor's assignations for students."""
-        content_type = ContentType.objects.get_for_model(
-            StudentCalculationCondition
-        )
+    @inject
+    def dispatch(
+        self,
+        request: HttpRequest,
+        *args: object,
+        handler: StudentHandler = Provide[HANDLERS.student_exercises],  # type: ignore[attr-defined]
+        **kwargs: object,
+    ) -> HttpResponseBase:
+        """Inject request handler."""
+        self._handler = handler
+        return super().dispatch(request, *args, **kwargs)
 
-        availability_subquery = ExerciseAvailability.objects.filter(
-            exercise_content_type=content_type,
-            exercise_object_id=OuterRef('pk'),
-        ).values('required_count', 'period_type')[:1]
-        completion_subquery = ExerciseLog.objects.filter(
-            exercise_content_type=content_type,
-            exercise_object_id=OuterRef('pk'),
-        ).values('success_count')[:1]
-        reward_subquery = ExerciseReward.objects.filter(
-            exercise_content_type=content_type,
-            exercise_object_id=OuterRef('pk'),
-        ).values('amount', 'reward_type')[:1]
-
-        exercises = (
-            StudentCalculationCondition.objects.filter(
-                mentorship__student=self.user
-            )
-            .select_related(
-                'mentorship__student',
-                'mentorship__mentor',
-                'calculation_condition',
-            )
-            .annotate(
-                reward_amount=Subquery(
-                    reward_subquery.values('amount')[:1],
-                    output_field=DecimalField(),
-                ),
-                reward_type=Subquery(
-                    reward_subquery.values('reward_type')[:1],
-                    output_field=CharField(),
-                ),
-                availability_count=Subquery(
-                    availability_subquery.values('required_count')[:1],
-                    output_field=IntegerField(),
-                ),
-                availability_period=Subquery(
-                    availability_subquery.values('period_type')[:1],
-                    output_field=CharField(),
-                ),
-                success_count=Subquery(
-                    completion_subquery.values('success_count')[:1],
-                    output_field=IntegerField(),
-                ),
-                is_active=Subquery(
-                    availability_subquery.values('is_active')[:1],
-                ),
-            )
-            .annotate(
-                is_completed=Case(
-                    When(
-                        success_count__isnull=False,
-                        availability_count__isnull=False,
-                        then=ExpressionWrapper(
-                            Q(success_count__gte=F('availability_count')),
-                            output_field=BooleanField(),
-                        ),
-                    ),
-                    default=Value(False),
-                    output_field=BooleanField(),
-                ),
-            )
-            .order_by('created_at')
-        )
-
-        return exercises
+    def get(self, request: HttpRequest) -> HttpResponse:
+        """Render student's exercises."""
+        params = NullParams()
+        request_context = RequestContext(user=self.user)
+        data = RequestData(query=request.GET.dict())
+        result = self.handler.execute(params, request_context, data)
+        return render(request, self.get_template_names(), result.context)
