@@ -131,17 +131,16 @@ class StudentCalculationWebCaseAdapter(
         """Adapt current calculation case for web response."""
         adapted = self._domain_adapter.to_response(schema)
 
-        context = StudentContextType(
+        oob_context = StudentContextType(
             balance_total=request_context.user.balance_total,
-            # HACK: Implement details transfer
-            required_count=10,
-            success_count=3,
+            required_count=schema.parameters.availability.required_count,
+            success_count=schema.parameters.completion.success_count,
         )
 
         return WebExerciseResponseDTO(
             exercise_status=adapted.exercise_status,
             data=adapted.data,
-            oob_html=self._get_oob_html(context),
+            oob_html=self._get_oob_html(oob_context),
         )
 
     def _get_oob_html(self, context: StudentContextType) -> str:

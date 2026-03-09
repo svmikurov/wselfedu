@@ -18,7 +18,7 @@ from apps.math.domains.dto import (
     CalculationAnswerDTO,
     CalculationCaseDTO,
     CalculationConditionDTO,
-    CalculationDataDTO,
+    CalculationDomainDTO,
     CalculationExplainDTO,
     CalculationMetaDTO,
     CalculationResultDTO,
@@ -36,7 +36,7 @@ if TYPE_CHECKING:
 class CalculationCreateService(
     AbstractRegularExerciseCreate[
         CalculationConditionDTO,
-        tuple[CalculationDataDTO, CalculationMetaDTO],
+        tuple[CalculationDomainDTO, CalculationMetaDTO],
     ]
 ):
     """Create calculation exercise service."""
@@ -53,7 +53,7 @@ class CalculationCreateService(
     def execute(
         self,
         conditions: CalculationConditionDTO,
-    ) -> tuple[CalculationDataDTO, CalculationMetaDTO]:
+    ) -> tuple[CalculationDomainDTO, CalculationMetaDTO]:
         """Get calculation exercise case data."""
         task = self._create_task(conditions)
         data = self._build_data(task)
@@ -74,8 +74,8 @@ class CalculationCreateService(
         return exercise.create_task()
 
     @staticmethod
-    def _build_data(task: CalcTask) -> CalculationDataDTO:
-        return CalculationDataDTO(
+    def _build_data(task: CalcTask) -> CalculationDomainDTO:
+        return CalculationDomainDTO(
             exercise_status=ExerciseStatusEnum.NEW_CASE,
             data=CalculationCaseDTO(
                 question_text=task.question.text,

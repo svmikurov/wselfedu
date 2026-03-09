@@ -23,6 +23,8 @@ from ..domains.dto import (
     CalculationAnswerDTO,
     CalculationCaseDTO,
     CalculationConditionDTO,
+    CalculationDataDTO,
+    CalculationDomainDTO,
     CalculationExplainDTO,
     CalculationLoopDTO,
     CalculationMetaDTO,
@@ -45,6 +47,10 @@ if TYPE_CHECKING:
     type CreateService = AbstractRegularExerciseCreate[
         CalculationConditionDTO,
         tuple[CalculationCaseDTO, CalculationMetaDTO],
+    ]
+    type StudentCreateService = AbstractRegularExerciseCreate[
+        CalculationConditionDTO,
+        tuple[CalculationDomainDTO, CalculationMetaDTO],
     ]
     type CheckService = AbstractExerciseCheck[
         CalculationAnswerDTO,
@@ -164,13 +170,13 @@ class RegularCalculationCheckUseCase(
 
 
 # REFACTOR: Relocate to core app as core use case to create exercise
-class DetailExerciseCreateUseCase(AbstractDetailUseCase[CalculationCaseDTO]):
+class DetailExerciseCreateUseCase(AbstractDetailUseCase[CalculationDomainDTO]):
     """Start stored exercise use case."""
 
     def __init__(
         self,
         repository: ParametersRepository,
-        service: CreateService,
+        service: StudentCreateService,
         storage: AbstractUserStorage[CalculationMetaDTO],
     ) -> None:
         """Construct the use case."""
@@ -185,12 +191,12 @@ class DetailExerciseCreateUseCase(AbstractDetailUseCase[CalculationCaseDTO]):
         # HACK: Unify the use case interface
         # for data parameter in requests without a body.
         data: object,
-    ) -> CalculationCaseDTO:
+    ) -> CalculationDomainDTO:
         """Start stored exercise."""
         parameters = self._repository.fetch(params, context.user)
         case, meta = self._service.execute(parameters.conditions)
         self._storage.save(meta, context.user.pk, CASE_STORE_PREFIX)
-        return case
+        return CalculationDataDTO(**case.model_dump(), parameters=parameters)
 
 
 class DetailCalculationCheckUseCase(

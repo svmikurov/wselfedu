@@ -145,11 +145,17 @@ class StudentParametersDTO(RegularParametersDTO):
     )
 
 
-class CalculationDataDTO(BaseDTO):
+class CalculationDomainDTO(BaseDTO):
     """Calculation exercise domain result data."""
 
     exercise_status: ExerciseStatusEnum
     data: CalculationCaseDTO
+
+
+class CalculationDataDTO(CalculationDomainDTO):
+    """Calculation exercise data."""
+
+    parameters: StudentParametersDTO
 
 
 # ===============================================
