@@ -1,32 +1,16 @@
 """Mathematical discipline exercises."""
 
-from datetime import datetime
-from typing import Any, Protocol, override
+from typing import Any, override
 
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.utils import timezone
 
 from apps.core.handlers.protocol import RequestContextProtocol
 from apps.core.use_cases.abstract import AbstractUseCase
 from apps.math.domains.dto import StudentExerciseDTO
 from apps.math.models import StudentCalculationCondition
-from apps.study.models import (
-    ExerciseAvailability,
-    ExerciseLog,
-    ExerciseReward,
-    PeriodExecuting,
-)
-
-
-class ExerciseQueryProtocol(Protocol):
-    """Partial protocol for student's exercise query result."""
-
-    period_type: PeriodExecuting
-    required_count: int
-    success_count: int
-    is_completed: bool
-    tracking_date: datetime
+from apps.study.models import ExerciseAvailability, ExerciseLog, ExerciseReward
+from apps.study.resolvers.protocol import CompletionResolverProtocol
 
 
 # HACK: Fix Any type hint
@@ -39,6 +23,13 @@ class StudentExercisesUseCase(
     ]
 ):
     """Student's exercises use case."""
+
+    def __init__(
+        self,
+        resolver: CompletionResolverProtocol,
+    ) -> None:
+        """Construct the use case."""
+        self._resolver = resolver
 
     @override
     def execute(
@@ -129,9 +120,9 @@ class StudentExercisesUseCase(
                     period_type=exercise.period_type,
                     required_count=exercise.required_count,
                     is_active=exercise.is_active,
-                    is_completed=self._get_completion_state(exercise),
+                    is_completed=self._resolver.get_completion_state(exercise),  # type: ignore[arg-type]
                     # Log
-                    success_count=self._get_success_count(exercise),
+                    success_count=self._resolver.get_success_count(exercise),  # type: ignore[arg-type]
                     failure_count=exercise.failure_count,
                     tracking_date=exercise.tracking_date,
                     # Reward
@@ -141,28 +132,3 @@ class StudentExercisesUseCase(
             )
 
         return exercises
-
-    def _get_completion_state(self, exercise: ExerciseQueryProtocol) -> bool:
-        match exercise.period_type:
-            case PeriodExecuting.APPOINTMENT:
-                return exercise.is_completed
-            case PeriodExecuting.DAILY:
-                return (
-                    exercise.required_count == exercise.success_count
-                    and exercise.tracking_date == timezone.now().date()
-                )
-            case _ as unexpected:
-                raise ValueError(f'Unexpected period type {unexpected!r}')
-
-    def _get_success_count(self, exercise: ExerciseQueryProtocol) -> int:
-        match exercise.period_type:
-            case PeriodExecuting.APPOINTMENT:
-                # REVIEW: Check implementation
-                return exercise.success_count
-            case PeriodExecuting.DAILY:
-                if exercise.tracking_date == timezone.now().date():
-                    return exercise.success_count
-                else:
-                    return 0
-            case _ as unexpected:
-                raise ValueError(f'Unexpected period type {unexpected!r}')

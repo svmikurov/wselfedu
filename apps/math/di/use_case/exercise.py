@@ -8,6 +8,7 @@ from dependency_injector.providers import (
 )
 
 from apps.math.use_cases import calculation, exercises
+from apps.study.resolvers.completion import CompletionResolver
 
 
 class ExerciseUseCaseContainer(DeclarativeContainer):
@@ -27,6 +28,7 @@ class ExerciseUseCaseContainer(DeclarativeContainer):
     # ---------------------------------------------
     student_exercises = Factory(
         exercises.StudentExercisesUseCase,
+        resolver=Factory(CompletionResolver),
     )
 
     # =============================================

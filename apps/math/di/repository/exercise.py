@@ -12,6 +12,7 @@ from apps.math.repositories.exercise import (
     CalculationConditionsRepository,
     StudentCalculationConditionsRepository,
 )
+from apps.study.resolvers.completion import CompletionResolver
 
 
 class ExerciseRepositoryContainer(DeclarativeContainer):
@@ -36,4 +37,5 @@ class ExerciseRepositoryContainer(DeclarativeContainer):
         StudentCalculationConditionsRepository,
         manager=StudentCalculationCondition.objects,
         storage=cache_storage,
+        resolver=Factory(CompletionResolver),
     )

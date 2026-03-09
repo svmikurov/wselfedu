@@ -24,8 +24,8 @@ from apps.study.models import (
     ExerciseAvailability,
     ExerciseLog,
     ExerciseReward,
-    PeriodExecuting,
 )
+from apps.study.resolvers.protocol import CompletionResolverProtocol
 
 if TYPE_CHECKING:
     from django.db.models import Manager
@@ -147,9 +147,11 @@ class StudentCalculationConditionsRepository(
         self,
         manager: Manager[StudentCalculationCondition],
         storage: AbstractUserStorage[StudentParametersDTO],
+        resolver: CompletionResolverProtocol,
     ) -> None:
         """Construct the repository."""
         self._manager = manager
+        self._resolver = resolver
         super().__init__(storage)
 
     @override
@@ -234,7 +236,7 @@ class StudentCalculationConditionsRepository(
                 completed_at=obj.completed_at,
             ),
             completion=ExerciseCompletionDTO(
-                success_count=self._get_success_count(obj),
+                success_count=self._resolver.get_success_count(obj),  # type: ignore[arg-type]
                 failure_count=obj.failure_count or 0,
                 tracking_date=obj.tracking_date or timezone.now(),
             ),
@@ -244,19 +246,3 @@ class StudentCalculationConditionsRepository(
             ),
         )
         return parameters
-
-    # REFACTOR: Implement reuse of method for other models.
-    # TODO: Fix type ignore
-    def _get_success_count(self, exercise: object) -> int:
-        # DTO validation accepts integer values.
-        match exercise.period_type:  # type: ignore[attr-defined]
-            case PeriodExecuting.APPOINTMENT:
-                # REVIEW: Check implementation
-                return exercise.success_count or 0  # type: ignore
-            case PeriodExecuting.DAILY:
-                if exercise.tracking_date == timezone.now().date():  # type: ignore
-                    return exercise.success_count or 0  # type: ignore
-                else:
-                    return 0
-            case _ as unexpected:
-                raise ValueError(f'Unexpected period type {unexpected!r}')
