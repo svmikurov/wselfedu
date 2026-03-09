@@ -1,6 +1,7 @@
 """Web exercise response adapters."""
 
-from typing import Any, TypeVar
+from decimal import Decimal
+from typing import Any, TypedDict, TypeVar
 
 from apps.core.adapters.response.abc import (
     AbstractResponseAdapter,
@@ -34,6 +35,14 @@ from .dto import (
 
 type UseCaseData = Any
 DomainType = TypeVar('DomainType', bound=ExerciseStatus)
+
+
+class StudentContextType(TypedDict):
+    """Typed dict for student context."""
+
+    balance_total: Decimal | None
+    required_count: int
+    success_count: int
 
 
 # =================================================
@@ -122,16 +131,30 @@ class StudentCalculationWebCaseAdapter(
         """Adapt current calculation case for web response."""
         adapted = self._domain_adapter.to_response(schema)
 
+        context = StudentContextType(
+            balance_total=request_context.user.balance_total,
+            # HACK: Implement details transfer
+            required_count=10,
+            success_count=3,
+        )
+
         return WebExerciseResponseDTO(
             exercise_status=adapted.exercise_status,
             data=adapted.data,
-            oob_html=self._get_oob_html(request_context),
+            oob_html=self._get_oob_html(context),
         )
 
-    def _get_oob_html(self, context: RequestContextProtocol) -> str:
+    def _get_oob_html(self, context: StudentContextType) -> str:
         """Get additional context data."""
-        html = '<span id="user-balance" hx-swap-oob="true">{}</span>'.format(
-            context.user.balance_total
+        html = """
+        <span id="user-balance" hx-swap-oob="true">{}</span>
+        <span id="exercise-completion-progress" hx-swap-oob="true">
+        {} / {}
+        </span>
+        """.format(
+            context['balance_total'],
+            context['success_count'],
+            context['required_count'],
         )
         return html
 
