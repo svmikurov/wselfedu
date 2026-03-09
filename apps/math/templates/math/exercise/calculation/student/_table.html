@@ -27,7 +27,7 @@
           </td>
           <td>{{ exercise.mentor }}</td>
           <td>{{ exercise.required_count }}</td>
-          <td>{{ exercise.success_count|default_if_none:"-" }}</td>
+          <td>{{ exercise.success_count|default_if_none:"0" }}</td>
           <td>{{ exercise.reward_amount }}</td>
           <td>{{ exercise.reward_type }}</td>
           <td>{{ exercise.period_type }}</td>
