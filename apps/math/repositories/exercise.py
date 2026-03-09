@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Generic, TypeVar, override
+from typing import TYPE_CHECKING, Generic, TypedDict, TypeVar, override
 
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import F, OuterRef, Subquery
@@ -37,6 +37,14 @@ __all__ = (
 ExerciseParameters = TypeVar('ExerciseParameters')
 
 
+class CacheKeyDict(TypedDict):
+    """Typed dict for cache key."""
+
+    user_id: int
+    prefix: str
+    assignation_pk: int
+
+
 class _BaseCalculationRepository(
     AbstractUserConditionsRepository[
         DetailParamsProtocol,
@@ -61,16 +69,25 @@ class _BaseCalculationRepository(
     ) -> ExerciseParameters:
         """Fetch calculation exercise conditions."""
         try:
-            return self._storage.retrieve(user.pk, self.storage_prefix)
+            return self._storage.retrieve(**self._get_key(user, params))
         except CacheMissError:
             obj = self._get_object(params, user)
-            self._storage.save(obj, user.pk, self.storage_prefix)
+            self._storage.save(obj, **self._get_key(user, params))
             return obj
 
     def _get_object(
         self, params: DetailParamsProtocol, user: Person
     ) -> ExerciseParameters:
         raise NotImplementedError('Subclass must implement _get_object()')
+
+    def _get_key(
+        self, user: Person, params: DetailParamsProtocol
+    ) -> CacheKeyDict:
+        return {
+            'user_id': user.pk,
+            'prefix': self.storage_prefix,
+            'assignation_pk': params.pk,
+        }
 
     @property
     def storage_prefix(self) -> str:
