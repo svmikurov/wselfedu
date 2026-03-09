@@ -248,13 +248,14 @@ class StudentCalculationConditionsRepository(
     # REFACTOR: Implement reuse of method for other models.
     # TODO: Fix type ignore
     def _get_success_count(self, exercise: object) -> int:
+        # DTO validation accepts integer values.
         match exercise.period_type:  # type: ignore[attr-defined]
             case PeriodExecuting.APPOINTMENT:
                 # REVIEW: Check implementation
-                return exercise.success_count  # type: ignore
+                return exercise.success_count or 0  # type: ignore
             case PeriodExecuting.DAILY:
                 if exercise.tracking_date == timezone.now().date():  # type: ignore
-                    return exercise.success_count  # type: ignore
+                    return exercise.success_count or 0  # type: ignore
                 else:
                     return 0
             case _ as unexpected:
