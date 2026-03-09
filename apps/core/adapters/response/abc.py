@@ -1,15 +1,33 @@
 """Abstract base classes for response adapter."""
 
 from abc import ABC, abstractmethod
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, override
 
-DomainType = TypeVar('DomainType')
-ResponseType = TypeVar('ResponseType')
+from apps.core.handlers.protocol import AdapterProtocol
+
+RequestContext = TypeVar('RequestContext')
+DomainResult = TypeVar('DomainResult')
+ResponseData = TypeVar('ResponseData')
 
 
-class AbstractSimpleResponseAdapter(ABC, Generic[DomainType, ResponseType]):
+class AbstractResponseAdapter(
+    ABC, AdapterProtocol[DomainResult, RequestContext, ResponseData]
+):
+    """ABC for response adapters."""
+
+    @override
+    @abstractmethod
+    def to_response(
+        self,
+        schema: DomainResult,
+        request_context: RequestContext,
+    ) -> ResponseData:
+        """Convert domain schema to response representation."""
+
+
+class AbstractSimpleResponseAdapter(ABC, Generic[DomainResult, ResponseData]):
     """ABC for simple response adapters."""
 
     @abstractmethod
-    def to_response(self, schema: DomainType) -> ResponseType:
+    def to_response(self, schema: DomainResult) -> ResponseData:
         """Convert domain schema to response representation."""
