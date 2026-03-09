@@ -7,6 +7,10 @@ from pydantic import BaseModel, ConfigDict, Field
 from apps.users.models import Person
 
 
+class NullParams(BaseModel):
+    """Null request parameters DTO."""
+
+
 class RequestContext(BaseModel):
     """Request context."""
 
