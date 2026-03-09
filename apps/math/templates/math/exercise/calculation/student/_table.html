@@ -22,15 +22,15 @@
             class="align-middle">
           <td class="py-3">
             <a href="{% url "math:student_calculation_exercise" exercise.pk %}">
-              {{ exercise.calculation_condition }}
+              {{ exercise.name }}
             </a>
           </td>
-          <td>{{ exercise.mentorship.mentor }}</td>
-          <td>{{ exercise.availability_count }}</td>
+          <td>{{ exercise.mentor }}</td>
+          <td>{{ exercise.required_count }}</td>
           <td>{{ exercise.success_count|default_if_none:"-" }}</td>
           <td>{{ exercise.reward_amount }}</td>
           <td>{{ exercise.reward_type }}</td>
-          <td>{{ exercise.availability_period }}</td>
+          <td>{{ exercise.period_type }}</td>
           <td>{{ exercise.is_completed|yesno:"&#9989;&#65039;,&#8987;&#65039;"|safe }}</td>
           <td>{{ exercise.is_active|yesno:"&#128994;,&#128308;"|safe }}</td>
         </tr>
