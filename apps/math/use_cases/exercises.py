@@ -131,7 +131,7 @@ class StudentExercisesUseCase(
                     is_active=exercise.is_active,
                     is_completed=self._get_completion_state(exercise),
                     # Log
-                    success_count=exercise.success_count,
+                    success_count=self._get_success_count(exercise),
                     failure_count=exercise.failure_count,
                     tracking_date=exercise.tracking_date,
                     # Reward
@@ -151,5 +151,18 @@ class StudentExercisesUseCase(
                     exercise.required_count == exercise.success_count
                     and exercise.tracking_date == timezone.now().date()
                 )
+            case _ as unexpected:
+                raise ValueError(f'Unexpected period type {unexpected!r}')
+
+    def _get_success_count(self, exercise: ExerciseQueryProtocol) -> int:
+        match exercise.period_type:
+            case PeriodExecuting.APPOINTMENT:
+                # REVIEW: Check implementation
+                return exercise.success_count
+            case PeriodExecuting.DAILY:
+                if exercise.tracking_date == timezone.now().date():
+                    return exercise.success_count
+                else:
+                    return 0
             case _ as unexpected:
                 raise ValueError(f'Unexpected period type {unexpected!r}')
