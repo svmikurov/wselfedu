@@ -7,26 +7,31 @@ from dependency_injector.providers import (
     Factory,
 )
 
-from apps.math.use_cases import calculation
+from apps.math.use_cases import calculation, exercises
 
 
 class ExerciseUseCaseContainer(DeclarativeContainer):
     """Mathematical discipline use case DI container."""
 
-    # -------------------------------------------
+    # =============================================
     # External dependencies
-    # -------------------------------------------
-
+    # ---------------------------------------------
     repositories = DependenciesContainer()
     exercise_services = DependenciesContainer()
     milestone_services = DependenciesContainer()
 
     storage = Dependency()  # type: ignore[var-annotated]
 
-    # -------------------------------------------
-    # Exercise use cases
-    # -------------------------------------------
+    # =============================================
+    # Student's exercises (assigned by mentor)
+    # ---------------------------------------------
+    student_exercises = Factory(
+        exercises.StudentExercisesUseCase,
+    )
 
+    # =============================================
+    # Exercise use cases
+    # ---------------------------------------------
     calculation_conditions = Factory(
         calculation.CalculationConditionsUseCase,
     )
