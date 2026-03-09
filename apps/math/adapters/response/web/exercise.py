@@ -2,11 +2,15 @@
 
 from typing import Any, TypeVar
 
-from apps.core.adapters.response.abc import AbstractSimpleResponseAdapter
+from apps.core.adapters.response.abc import (
+    AbstractResponseAdapter,
+    AbstractSimpleResponseAdapter,
+)
 from apps.core.adapters.response.exercise.web.dto import (
     WebExerciseCaseDTO,
     WebExerciseResponseDTO,
 )
+from apps.core.adapters.response.shared import WebResponseDTO
 from apps.core.domains.exercise.types import ExerciseStatus
 from apps.core.handlers.protocol import (
     ContextResponseAdapter,
@@ -16,7 +20,11 @@ from apps.core.handlers.protocol import (
     ResponseAdapter,
 )
 from apps.math import forms
-from apps.math.domains.dto import CalculationDataDTO, CalculationExplainDTO
+from apps.math.domains.dto import (
+    CalculationDataDTO,
+    CalculationExplainDTO,
+    StudentExerciseDTO,
+)
 
 from .dto import (
     ConditionsFormDTO,
@@ -27,9 +35,37 @@ from .dto import (
 type UseCaseData = Any
 DomainType = TypeVar('DomainType', bound=ExerciseStatus)
 
-# ===============================================
+
+# =================================================
+# Student's exercises (Assigned by mentor)
+# =================================================
+
+
+class StudentExercisesWebAdapter(
+    AbstractResponseAdapter[
+        list[StudentExerciseDTO],
+        RequestContextProtocol,
+        WebResponseDTO,
+    ]
+):
+    """Student's exercises web adapter."""
+
+    def to_response(
+        self,
+        schema: list[StudentExerciseDTO],
+        request_context: RequestContextProtocol,
+    ) -> WebResponseDTO:
+        """Adapt student's exercises for web response."""
+        return WebResponseDTO(
+            context={
+                'exercises': [m.model_dump() for m in schema],
+            }
+        )
+
+
+# =================================================
 # Exercise conditions
-# ===============================================
+# =================================================
 
 
 class CalculationConditionsWebAdapter(
@@ -44,9 +80,9 @@ class CalculationConditionsWebAdapter(
         )
 
 
-# ===============================================
+# =================================================
 # Exercise case data
-# ===============================================
+# =================================================
 
 
 class CalculationWebCaseAdapter(ResponseAdapter[CalculationDataDTO]):
@@ -100,9 +136,9 @@ class StudentCalculationWebCaseAdapter(
         return html
 
 
-# ===============================================
+# =================================================
 # Exercise explanation
-# ===============================================
+# =================================================
 
 
 class ExplainCalculationWebAdapter(ResponseAdapter[CalculationExplainDTO]):
