@@ -1,10 +1,20 @@
 """Shared response DTOs."""
 
 import uuid
+from typing import Any
 
 from pydantic import Field
 
-from ...domains.base_dto import BaseDTO
+from apps.core.domains.base_dto import BaseDTO
+
+
+class WebResponseDTO(BaseDTO):
+    """Web response adapter DTO."""
+
+    context: dict[str, Any] = Field(
+        description='Response context',
+        default_factory=dict,
+    )
 
 
 class UpdateProgress(BaseDTO):
