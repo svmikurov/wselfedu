@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Generic, TypeVar
+from typing import TYPE_CHECKING, Generic, TypeVar, override
+
+from apps.core.handlers.protocol import UseCaseProtocol
 
 if TYPE_CHECKING:
     from apps.core.handlers.protocol import (
@@ -19,6 +21,28 @@ __all__ = (
 
 RequestData = TypeVar('RequestData')
 ResponseData = TypeVar('ResponseData')
+
+RequestParams = TypeVar('RequestParams')
+RequestContext = TypeVar('RequestContext')
+Validated = TypeVar('Validated')
+DomainResult = TypeVar('DomainResult')
+
+
+class AbstractUseCase(
+    ABC,
+    UseCaseProtocol[RequestParams, RequestContext, Validated, DomainResult],
+):
+    """ABC for generic use case."""
+
+    @override
+    @abstractmethod
+    def execute(
+        self,
+        params: RequestParams,
+        context: RequestContext,
+        validated: Validated,
+    ) -> DomainResult:
+        """Execute business logic."""
 
 
 class AbstractDataUseCase(ABC, Generic[RequestData, ResponseData]):
