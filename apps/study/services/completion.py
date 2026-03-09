@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, override
 
 from django.contrib.contenttypes.models import ContentType
+from django.utils import timezone
 
 from apps.study.models import (
     ExerciseAvailability,
@@ -64,6 +65,7 @@ class ExerciseCompletionService(
             content_type,
             assignation_pk,
             self.INCREMENT,
+            availability.period_type,
         )
 
         if (
@@ -86,21 +88,43 @@ class ExerciseCompletionService(
         content_type: ContentType,
         object_id: int,
         increment: int,
+        period_type: PeriodExecuting,
     ) -> int:
         from django.db import connection
 
+        current_date = timezone.now().date()
+
         with connection.cursor() as cursor:
             # Execute UPDATE with RETURNING
-            cursor.execute(
-                """
-                UPDATE {table}
-                SET success_count = success_count + %s
-                WHERE exercise_content_type_id = %s
-                    AND exercise_object_id = %s
-                RETURNING success_count
-                """.format(table=ExerciseLog._meta.db_table),
-                [increment, content_type.id, object_id],
-            )
+            match period_type:
+                case PeriodExecuting.DAILY:
+                    cursor.execute(
+                        """
+                        UPDATE {table}
+                        SET success_count = success_count + %s
+                        WHERE exercise_content_type_id = %s
+                            AND exercise_object_id = %s
+                            AND tracking_date = %s
+                        RETURNING success_count
+                        """.format(table=ExerciseLog._meta.db_table),
+                        [increment, content_type.id, object_id, current_date],
+                    )
+                case PeriodExecuting.APPOINTMENT:
+                    cursor.execute(
+                        """
+                        UPDATE {table}
+                        SET success_count = success_count + %s
+                        WHERE exercise_content_type_id = %s
+                            AND exercise_object_id = %s
+                        RETURNING success_count
+                        """.format(table=ExerciseLog._meta.db_table),
+                        [increment, content_type.id, object_id],
+                    )
+                case _ as unexpected:
+                    raise ValueError(
+                        f'Unexpected period executing {unexpected!r}'
+                    )
+
             result = cursor.fetchone()
 
             if result:
