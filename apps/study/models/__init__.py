@@ -1,18 +1,21 @@
-"""Contains Study app models."""
+"""Study app models."""
 
 __all__ = [
+    # Exercise assignation
     'ExerciseActive',
     'ExerciseAssigned',
     'ExerciseExpiration',
     'ExerciseTaskAward',
     'ExerciseTaskCount',
     'AssignationCompletes',
-    'Progress',
-    # Experimental
+    # Exercise availability
     'ExerciseAvailability',
     'ExerciseLog',
-    'ExerciseReward',
     'PeriodExecuting',
+    # Item study progress
+    'Progress',
+    # Reward for exercise completion
+    'ExerciseReward',
     'RewardType',
 ]
 
