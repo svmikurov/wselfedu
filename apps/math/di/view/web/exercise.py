@@ -7,16 +7,19 @@ from dependency_injector.providers import DependenciesContainer
 class WebViewContainer(DeclarativeContainer):
     """Mathematical discipline web view dependencies."""
 
-    # -------------------------------------------
+    # =============================================
     # External dependencies
-    # -------------------------------------------
-
+    # ---------------------------------------------
     handlers = DependenciesContainer()
 
-    # -------------------------------------------
-    # Calculation exercise
-    # -------------------------------------------
+    # =============================================
+    # Student's exercises (assigned by mentor)
+    # ---------------------------------------------
+    student_exercises = handlers.student_exercises
 
+    # =============================================
+    # Calculation exercise
+    # ---------------------------------------------
     calculation_exercise_choice = handlers.calculation_exercise_choice
     create_regular_calculation = handlers.create_regular_calculation
     check_regular_calculation = handlers.check_regular_calculation
