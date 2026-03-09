@@ -13,16 +13,23 @@ from apps.math.adapters.response.web import exercise as adapters
 class ExerciseWebAdapterContainer(DeclarativeContainer):
     """Mathematical discipline web adapter DI container."""
 
-    # ===========================================
+    # =============================================
     # Calculation conditions adapter
-    # -------------------------------------------
+    # ---------------------------------------------
     calculation_conditions = Factory(
         adapters.CalculationConditionsWebAdapter,
     )
 
-    # ===========================================
+    # =============================================
+    # Student's exercises (Assigned by mentor)
+    # ---------------------------------------------
+    student_exercises = Factory(
+        adapters.StudentExercisesWebAdapter,
+    )
+
+    # =============================================
     # Create calculation case adapter
-    # -------------------------------------------
+    # ---------------------------------------------
     create_calculation = Factory(
         adapters.CalculationWebCaseAdapter,
     )
@@ -32,16 +39,16 @@ class ExerciseWebAdapterContainer(DeclarativeContainer):
         # Response may have updated milestone
     )
 
-    # ===========================================
+    # =============================================
     # Explain calculation case adapter
-    # -------------------------------------------
+    # ---------------------------------------------
     explain_calculation = Factory(
         adapters.ExplainCalculationWebAdapter,
     )
 
-    # ===========================================
+    # =============================================
     # Adapter strategy
-    # -------------------------------------------
+    # ---------------------------------------------
     # for user
     calculation_result_strategy = Factory(
         ResultStrategyAdapter,
