@@ -1,6 +1,6 @@
 """Mathematical discipline domain DTOs."""
 
-from datetime import datetime
+from datetime import date, datetime
 from decimal import Decimal
 from typing import Literal
 
@@ -12,6 +12,35 @@ from apps.study.models.exercise.availability import PeriodExecuting
 from apps.study.models.exercise.reward import RewardType
 
 Operation = Literal['add', 'sub', 'mul', 'div']
+
+
+# =================================================
+# Student`s exercises (assigned by mentor)
+# =================================================
+
+
+class StudentExerciseDTO(BaseDTO):
+    """Calculation conditions DTO."""
+
+    pk: int = Field(description='Database identifier of assigned exercise')
+    name: str = Field(description='Assigned exercise name')
+    mentor: str
+
+    # Availability
+    period_type: str = Field(description='Exercise period type (Daily, ...)')
+    required_count: int = Field(description='Success perform for completion')
+    is_active: bool
+    is_completed: bool
+
+    # Log
+    success_count: int | None
+    failure_count: int | None
+    tracking_date: date | None
+
+    # Reward
+    reward_type: str
+    reward_amount: Decimal
+
 
 # ===============================================
 # Create calculation conditions
