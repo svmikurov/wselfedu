@@ -7,6 +7,7 @@ from dependency_injector.providers import (
     Factory,
 )
 
+from apps.math.domains.dto_factory import CalculationDTOFactory
 from apps.math.use_cases import calculation, exercises
 from apps.study.resolvers.completion import CompletionResolver
 
@@ -52,19 +53,19 @@ class ExerciseUseCaseContainer(DeclarativeContainer):
         explain_service=exercise_services.explain_calculation,
     )
 
-    start_detail_calculation = Factory(
+    start_custom_calculation = Factory(
         calculation.DetailExerciseCreateUseCase,
         repository=repositories.calculation_conditions,
         service=exercise_services.create_calculation,
         storage=storage,
     )
-    check_detail_calculation = Factory(
+    check_custom_calculation = Factory(
         calculation.DetailCalculationCheckUseCase,
         storage=storage,
         check_service=exercise_services.check_calculation,
         repository=repositories.calculation_conditions,
         milestone_service=milestone_services.user_calculation,
-        create_use_case=start_detail_calculation,
+        create_use_case=start_custom_calculation,
         explain_service=exercise_services.explain_calculation,
     )
 
@@ -73,6 +74,7 @@ class ExerciseUseCaseContainer(DeclarativeContainer):
         repository=repositories.student_calculation_conditions,
         service=exercise_services.create_calculation,
         storage=storage,
+        dto_factory=CalculationDTOFactory(),
     )
     check_student_calculation = Factory(
         calculation.DetailCalculationCheckUseCase,

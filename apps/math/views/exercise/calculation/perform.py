@@ -223,7 +223,6 @@ class _DetailPerformView(
         data = RequestData(query=request.GET.dict())
 
         result = self.start_handler.execute(params, request_context, data)
-        print(f'{result = }')
 
         if request.headers.get('HX-Request') == 'true':
             # Renders new exercise case after explanation.

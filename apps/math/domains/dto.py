@@ -152,10 +152,8 @@ class CalculationDomainDTO(BaseDTO):
     data: CalculationCaseDTO
 
 
-class CalculationDTO(CalculationDomainDTO):
+class CalculationDTO(CalculationDomainDTO, StudentParametersDTO):
     """Calculation exercise data."""
-
-    parameters: StudentParametersDTO
 
 
 # ===============================================

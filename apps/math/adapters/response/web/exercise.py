@@ -129,8 +129,8 @@ class StudentCalculationWebCaseAdapter(ContextResponseAdapter[CalculationDTO]):
 
         oob_context = StudentDetailType(
             balance_total=request_context.user.balance_total,
-            required_count=schema.parameters.availability.required_count,
-            success_count=schema.parameters.completion.success_count,
+            required_count=schema.availability.required_count,
+            success_count=schema.completion.success_count,
         )
 
         return WebExerciseResponseDTO(
@@ -139,10 +139,10 @@ class StudentCalculationWebCaseAdapter(ContextResponseAdapter[CalculationDTO]):
             oob_html=self._get_oob_html(oob_context),
             context={
                 'exercise': {
-                    'success_count': oob_context.success_count,
-                    'required_count': oob_context.required_count,
+                    'success_count': schema.completion.success_count,
+                    'required_count': schema.availability.required_count,
                 }
-            }
+            },
         )
 
     def _get_oob_html(self, context: StudentDetailType) -> str:

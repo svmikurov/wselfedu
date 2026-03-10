@@ -62,20 +62,20 @@ class ExerciseWebHandlerContainer(DeclarativeContainer):
         RegularRequestHandler,
         validator=validators.check_regular_calculation,
         use_case=use_cases.check_regular_calculation,
-        adapter=adapters.calculation_result_strategy,
+        adapter=adapters.custom_calculation_result_strategy,
     )
 
     start_custom_calculation = Factory(
         DetailRequestHandler,
         validator=NullValidator(),
-        use_case=use_cases.start_detail_calculation,
+        use_case=use_cases.start_custom_calculation,
         adapter=adapters.create_custom_calculation,
     )
     check_custom_calculation = Factory(
         DetailRequestHandler,
-        validator=validators.check_detail_calculation,
-        use_case=use_cases.check_detail_calculation,
-        adapter=adapters.calculation_result_strategy,
+        validator=validators.check_custom_calculation,
+        use_case=use_cases.check_custom_calculation,
+        adapter=adapters.custom_calculation_result_strategy,
     )
 
     start_student_calculation = Factory(
@@ -86,7 +86,7 @@ class ExerciseWebHandlerContainer(DeclarativeContainer):
     )
     check_student_calculation = Factory(
         ContextRequestHandler,
-        validator=validators.check_detail_calculation,
+        validator=validators.check_custom_calculation,
         use_case=use_cases.check_student_calculation,
         adapter=adapters.student_calculation_result_strategy,
     )

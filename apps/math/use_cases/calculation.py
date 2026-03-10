@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
+from apps.core.factories.abstract import AbstractExerciseDTOFactory
 from apps.core.handlers.protocol import (
     DetailParamsProtocol,
     RequestContextProtocol,
@@ -32,6 +33,7 @@ from ..domains.dto import (
     ExerciseAvailabilityDTO,
     ExerciseCompletionDTO,
     ExerciseRewardDTO,
+    StudentParametersDTO,
 )
 
 if TYPE_CHECKING:
@@ -51,6 +53,11 @@ if TYPE_CHECKING:
     type StudentCreateService = AbstractRegularExerciseCreate[
         CalculationConditionDTO,
         tuple[CalculationDomainDTO, CalculationMetaDTO],
+    ]
+    type StudentDTOFactory = AbstractExerciseDTOFactory[
+        CalculationCaseDTO,
+        StudentParametersDTO,
+        CalculationDTO,
     ]
     type CheckService = AbstractExerciseCheck[
         CalculationAnswerDTO,
@@ -170,19 +177,21 @@ class RegularCalculationCheckUseCase(
 
 
 # REFACTOR: Relocate to core app as core use case to create exercise
-class DetailExerciseCreateUseCase(AbstractDetailUseCase[CalculationDomainDTO]):
+class DetailExerciseCreateUseCase(AbstractDetailUseCase[CalculationDTO]):
     """Start stored exercise use case."""
 
     def __init__(
         self,
         repository: ParametersRepository,
-        service: StudentCreateService,
+        service: CreateService,
         storage: AbstractUserStorage[CalculationMetaDTO],
+        dto_factory: StudentDTOFactory,
     ) -> None:
         """Construct the use case."""
         self._repository = repository
         self._service = service
         self._storage = storage
+        self._dto_factory = dto_factory
 
     def execute(
         self,
@@ -191,12 +200,12 @@ class DetailExerciseCreateUseCase(AbstractDetailUseCase[CalculationDomainDTO]):
         # HACK: Unify the use case interface
         # for data parameter in requests without a body.
         data: object,
-    ) -> CalculationDomainDTO:
+    ) -> CalculationDTO:
         """Start stored exercise."""
         parameters = self._repository.fetch(params, context.user)
         case, meta = self._service.execute(parameters.conditions)
         self._storage.save(meta, context.user.pk, CASE_STORE_PREFIX)
-        return CalculationDTO(**case.model_dump(), parameters=parameters)
+        return self._dto_factory.create(case, parameters)
 
 
 class DetailCalculationCheckUseCase(
