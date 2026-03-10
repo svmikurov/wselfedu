@@ -1,5 +1,7 @@
 """Exercise web response DTOs."""
 
+from typing import Any
+
 from pydantic import BaseModel, Field
 
 from apps.core.domains.base_dto import BaseDTO
@@ -15,7 +17,7 @@ class WebExerciseCaseDTO(BaseDTO):
     data: BaseModel = Field(
         description='Current exercise case data',
     )
-    context: dict[str, str] = Field(
+    context: dict[str, Any] = Field(
         description='Additional exercise page context',
         default_factory=dict,
     )
