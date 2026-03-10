@@ -30,12 +30,12 @@ class ExerciseWebAdapterContainer(DeclarativeContainer):
     # =============================================
     # Create calculation case adapter
     # ---------------------------------------------
-    create_calculation = Factory(
+    create_custom_calculation = Factory(
         adapters.CalculationWebCaseAdapter,
     )
     create_student_calculation = Factory(
         adapters.StudentCalculationWebCaseAdapter,
-        domain_adapter=create_calculation,
+        domain_adapter=create_custom_calculation,
         # Response may have updated milestone
     )
 
@@ -50,9 +50,9 @@ class ExerciseWebAdapterContainer(DeclarativeContainer):
     # Adapter strategy
     # ---------------------------------------------
     # for user
-    calculation_result_strategy = Factory(
+    custom_calculation_result_strategy = Factory(
         ResultStrategyAdapter,
-        new_case_adapter=create_calculation,
+        new_case_adapter=create_custom_calculation,
         explain_adapter=explain_calculation,
     )
     # for student with balance update

@@ -223,6 +223,7 @@ class _DetailPerformView(
         data = RequestData(query=request.GET.dict())
 
         result = self.start_handler.execute(params, request_context, data)
+        print(f'{result = }')
 
         if request.headers.get('HX-Request') == 'true':
             # Renders new exercise case after explanation.
@@ -233,6 +234,7 @@ class _DetailPerformView(
             context: dict[str, str] = {
                 'exercise_case_html': self._get_partial_html(request, result),
                 **result.data.model_dump(),
+                **result.context,
             }
             return render(request, self.get_template_names(), context)
 
@@ -259,12 +261,12 @@ class CustomCalculationPerformView(_DetailPerformView):
         start_handler: DetailRequestHandlerProtocol[
             WebExerciseResponseDTO
         ] = Provide[
-            CONTAINER.start_detail_calculation  # type: ignore[attr-defined]
+            CONTAINER.start_custom_calculation  # type: ignore[attr-defined]
         ],
         check_handler: DetailRequestHandlerProtocol[
             WebExerciseResponseDTO
         ] = Provide[
-            CONTAINER.check_detail_calculation  # type: ignore[attr-defined]
+            CONTAINER.check_custom_calculation  # type: ignore[attr-defined]
         ],
         **kwargs: object,
     ) -> HttpResponseBase:

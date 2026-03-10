@@ -23,7 +23,7 @@ class WebViewContainer(DeclarativeContainer):
     calculation_exercise_choice = handlers.calculation_exercise_choice
     create_regular_calculation = handlers.create_regular_calculation
     check_regular_calculation = handlers.check_regular_calculation
-    start_detail_calculation = handlers.start_detail_calculation
-    check_detail_calculation = handlers.check_detail_calculation
+    start_custom_calculation = handlers.start_custom_calculation
+    check_custom_calculation = handlers.check_custom_calculation
     start_student_calculation = handlers.start_student_calculation
     check_student_calculation = handlers.check_student_calculation

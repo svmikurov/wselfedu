@@ -65,13 +65,13 @@ class ExerciseWebHandlerContainer(DeclarativeContainer):
         adapter=adapters.calculation_result_strategy,
     )
 
-    start_detail_calculation = Factory(
+    start_custom_calculation = Factory(
         DetailRequestHandler,
         validator=NullValidator(),
         use_case=use_cases.start_detail_calculation,
-        adapter=adapters.create_calculation,
+        adapter=adapters.create_custom_calculation,
     )
-    check_detail_calculation = Factory(
+    check_custom_calculation = Factory(
         DetailRequestHandler,
         validator=validators.check_detail_calculation,
         use_case=use_cases.check_detail_calculation,

@@ -23,8 +23,8 @@ from ..domains.dto import (
     CalculationAnswerDTO,
     CalculationCaseDTO,
     CalculationConditionDTO,
-    CalculationDataDTO,
     CalculationDomainDTO,
+    CalculationDTO,
     CalculationExplainDTO,
     CalculationLoopDTO,
     CalculationMetaDTO,
@@ -196,7 +196,7 @@ class DetailExerciseCreateUseCase(AbstractDetailUseCase[CalculationDomainDTO]):
         parameters = self._repository.fetch(params, context.user)
         case, meta = self._service.execute(parameters.conditions)
         self._storage.save(meta, context.user.pk, CASE_STORE_PREFIX)
-        return CalculationDataDTO(**case.model_dump(), parameters=parameters)
+        return CalculationDTO(**case.model_dump(), parameters=parameters)
 
 
 class DetailCalculationCheckUseCase(
