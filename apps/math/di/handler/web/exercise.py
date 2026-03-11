@@ -52,11 +52,12 @@ class ExerciseWebHandlerContainer(DeclarativeContainer):
     # =============================================
     # Calculation exercise performing
     # ---------------------------------------------
+    # Regular calculation have no milestone
     create_regular_calculation = Factory(
         RegularRequestHandler,
         validator=validators.create_regular_calculation,
         use_case=use_cases.create_regular_calculation,
-        adapter=adapters.create_calculation,
+        adapter=adapters.create_custom_calculation,
     )
     check_regular_calculation = Factory(
         RegularRequestHandler,
@@ -65,9 +66,10 @@ class ExerciseWebHandlerContainer(DeclarativeContainer):
         adapter=adapters.custom_calculation_result_strategy,
     )
 
+    # Custom calculation have owner's milestone
     start_custom_calculation = Factory(
         DetailRequestHandler,
-        validator=NullValidator(),
+        validator=Factory(NullValidator),
         use_case=use_cases.start_custom_calculation,
         adapter=adapters.create_custom_calculation,
     )
@@ -78,6 +80,7 @@ class ExerciseWebHandlerContainer(DeclarativeContainer):
         adapter=adapters.custom_calculation_result_strategy,
     )
 
+    # Student's calculation have milestone from mentor
     start_student_calculation = Factory(
         ContextRequestHandler,
         validator=NullValidator(),
