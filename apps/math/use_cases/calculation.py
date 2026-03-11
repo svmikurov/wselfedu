@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from apps.core.factories.abstract import AbstractExerciseDTOFactory
 from apps.core.handlers.protocol import (
@@ -25,7 +25,6 @@ from ..domains.dto import (
     CalculationCaseDTO,
     CalculationConditionDTO,
     CalculationDomainDTO,
-    CalculationDTO,
     CalculationExplainDTO,
     CalculationLoopDTO,
     CalculationMetaDTO,
@@ -53,11 +52,6 @@ if TYPE_CHECKING:
     type StudentCreateService = AbstractRegularExerciseCreate[
         CalculationConditionDTO,
         tuple[CalculationDomainDTO, CalculationMetaDTO],
-    ]
-    type StudentDTOFactory = AbstractExerciseDTOFactory[
-        CalculationCaseDTO,
-        StudentParametersDTO,
-        CalculationDTO,
     ]
     type CheckService = AbstractExerciseCheck[
         CalculationAnswerDTO,
@@ -175,9 +169,13 @@ class RegularCalculationCheckUseCase(
 # Detail calculation create/check exercise services
 # =================================================
 
+CalculationExerciseDTO = TypeVar('CalculationExerciseDTO')
+
 
 # REFACTOR: Relocate to core app as core use case to create exercise
-class DetailExerciseCreateUseCase(AbstractDetailUseCase[CalculationDTO]):
+class DetailExerciseCreateUseCase(
+    AbstractDetailUseCase[CalculationExerciseDTO]
+):
     """Start stored exercise use case."""
 
     def __init__(
@@ -185,7 +183,11 @@ class DetailExerciseCreateUseCase(AbstractDetailUseCase[CalculationDTO]):
         repository: ParametersRepository,
         service: CreateService,
         storage: AbstractUserStorage[CalculationMetaDTO],
-        dto_factory: StudentDTOFactory,
+        dto_factory: AbstractExerciseDTOFactory[
+            CalculationCaseDTO,
+            StudentParametersDTO,
+            CalculationExerciseDTO,
+        ],
     ) -> None:
         """Construct the use case."""
         self._repository = repository
@@ -200,7 +202,7 @@ class DetailExerciseCreateUseCase(AbstractDetailUseCase[CalculationDTO]):
         # HACK: Unify the use case interface
         # for data parameter in requests without a body.
         data: object,
-    ) -> CalculationDTO:
+    ) -> CalculationExerciseDTO:
         """Start stored exercise."""
         parameters = self._repository.fetch(params, context.user)
         case, meta = self._service.execute(parameters.conditions)
