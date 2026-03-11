@@ -55,7 +55,7 @@ __all__ = [
 
 log = logging.getLogger(__name__)
 
-CONTAINER = MainContainer.math.exercise_web_views
+HANDLERS = MainContainer.math.exercise_web_views
 
 TEMPLATE_PATH = 'math/exercise/calculation/perform/'
 PARTIAL_TEMPLATES: dict[ExerciseStatusEnum, str] = {
@@ -91,7 +91,7 @@ class ExerciseChoiceView(
         request: HttpRequest,
         *args: object,
         handler: ChoiceHandler = Provide[
-            CONTAINER.calculation_exercise_choice  # type: ignore[attr-defined]
+            HANDLERS.calculation_exercise_choice  # type: ignore[attr-defined]
         ],
         **kwargs: object,
     ) -> HttpResponseBase:
@@ -162,10 +162,10 @@ class RegularPerformView(_BasePerformView[StartHandler, CheckHandler]):
         request: HttpRequest,
         *args: object,
         start_handler: StartHandler = Provide[
-            CONTAINER.create_regular_calculation  # type: ignore[attr-defined]
+            HANDLERS.create_regular_calculation  # type: ignore[attr-defined]
         ],
         check_handler: CheckHandler = Provide[
-            CONTAINER.check_regular_calculation  # type: ignore[attr-defined]
+            HANDLERS.check_regular_calculation  # type: ignore[attr-defined]
         ],
         **kwargs: object,
     ) -> HttpResponseBase:
@@ -260,12 +260,12 @@ class CustomCalculationPerformView(_DetailPerformView):
         start_handler: DetailRequestHandlerProtocol[
             WebExerciseResponseDTO
         ] = Provide[
-            CONTAINER.start_custom_calculation  # type: ignore[attr-defined]
+            HANDLERS.start_custom_calculation  # type: ignore[attr-defined]
         ],
         check_handler: DetailRequestHandlerProtocol[
             WebExerciseResponseDTO
         ] = Provide[
-            CONTAINER.check_custom_calculation  # type: ignore[attr-defined]
+            HANDLERS.check_custom_calculation  # type: ignore[attr-defined]
         ],
         **kwargs: object,
     ) -> HttpResponseBase:
@@ -286,10 +286,10 @@ class StudentCalculationPerformView(_DetailPerformView):
         request: HttpRequest,
         *args: object,
         start_handler: StartHandler = Provide[
-            CONTAINER.start_student_calculation  # type: ignore[attr-defined]
+            HANDLERS.start_student_calculation  # type: ignore[attr-defined]
         ],
         check_handler: CheckHandler = Provide[
-            CONTAINER.check_student_calculation  # type: ignore[attr-defined]
+            HANDLERS.check_student_calculation  # type: ignore[attr-defined]
         ],
         **kwargs: object,
     ) -> HttpResponseBase:
