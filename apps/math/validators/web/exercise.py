@@ -30,7 +30,7 @@ class RegularCalculationStartWebValidator(
 
 
 class RegularCalculationCheckWebValidator(
-    AbstractRegularValidator[CalculationAnswerDTO]
+    AbstractRegularValidator[CalculationLoopDTO]
 ):
     """Calculation conditions web validator."""
 
