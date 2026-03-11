@@ -3,24 +3,50 @@
 from apps.core.factories.abstract import AbstractExerciseDTOFactory
 from apps.math.domains.dto import (
     CalculationDomainDTO,
-    CalculationDTO,
+    CustomCalculationDTO,
+    RegularParametersDTO,
+    StudentCalculationDTO,
     StudentParametersDTO,
 )
 
 
-class CalculationDTOFactory(
+class CustomCalculationDTOFactory(
+    AbstractExerciseDTOFactory[
+        CalculationDomainDTO,
+        RegularParametersDTO,
+        CustomCalculationDTO,
+    ],
+):
+    """Custom calculation exercise DTO factory."""
+
+    def create(
+        self,
+        case: CalculationDomainDTO,
+        parameters: RegularParametersDTO,
+    ) -> CustomCalculationDTO:
+        """Create calculation exercise DTO."""
+        return CustomCalculationDTO(
+            **case.model_dump(),
+            **parameters.model_dump(),
+        )
+
+
+class StudentCalculationDTOFactory(
     AbstractExerciseDTOFactory[
         CalculationDomainDTO,
         StudentParametersDTO,
-        CalculationDTO,
+        StudentCalculationDTO,
     ],
 ):
-    """Calculation exercise DTO factory."""
+    """Student calculation exercise DTO factory."""
 
     def create(
         self,
         case: CalculationDomainDTO,
         parameters: StudentParametersDTO,
-    ) -> CalculationDTO:
+    ) -> StudentCalculationDTO:
         """Create calculation exercise DTO."""
-        return CalculationDTO(**case.model_dump(), **parameters.model_dump())
+        return StudentCalculationDTO(
+            **case.model_dump(),
+            **parameters.model_dump(),
+        )
