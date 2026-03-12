@@ -79,6 +79,11 @@ urlpatterns = [
         calculation.AssignedCalculationConditionMentorDeleteView.as_view(),
         name='mentor_calculation_exercise_delete',
     ),
+    path(
+        'exercise/calculation/mentor/<int:pk>/perform/',
+        calculation.MentorCalculationPerformView.as_view(),
+        name='mentor_calculation_exercise_perform',
+    ),
     # ===========================================
     # Student's calculation exercises
     # -------------------------------------------

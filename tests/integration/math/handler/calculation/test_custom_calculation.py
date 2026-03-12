@@ -216,7 +216,7 @@ def create_use_case(
         StudentCalculationDTO,
     ],
 ) -> AbstractDetailUseCase[StudentCalculationDTO]:
-    """Provide calculation exercise use case."""
+    """Provide calculation exercise create use case."""
     return DetailExerciseCreateUseCase(
         repository=repository,
         service=create_service,
@@ -244,7 +244,7 @@ def check_use_case(
     CalculationAnswerDTO,
     CalculationCaseDTO | CalculationExplainDTO,
 ]:
-    """Provide calculation exercise use case."""
+    """Provide calculation exercise check use case."""
     return DetailCalculationCheckUseCase(
         storage=storage,
         check_service=check_service,
