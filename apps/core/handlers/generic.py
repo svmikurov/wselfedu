@@ -36,6 +36,7 @@ DomainResult = TypeVar('DomainResult')
 ResponseData = TypeVar('ResponseData')
 
 
+# DEPRECATED: Use DetailRequestHandler
 class RegularRequestHandler(
     Generic[RequestData, Validated, DomainResult, ResponseData]
 ):
@@ -94,6 +95,7 @@ class ResourceRequestHandler(
         return result
 
 
+# REVIEW: Rename request handler
 class DetailRequestHandler(Generic[Validated, DomainResult]):
     """Detail request handler for operations with identifier (pk)."""
 
