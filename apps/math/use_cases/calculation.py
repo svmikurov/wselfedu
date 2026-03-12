@@ -226,7 +226,7 @@ class DetailCalculationCheckUseCase(
         storage: AbstractUserStorage[CalculationMetaDTO],
         check_service: CheckService,
         repository: ParametersRepository,
-        milestone_service: DetailMilestoneService,
+        milestone_service: DetailMilestoneService | None,
         create_use_case: CreateDetailUseCase,
         explain_service: ExplainService,
     ) -> None:
@@ -253,15 +253,17 @@ class DetailCalculationCheckUseCase(
         # Stored (cached) exercise parameters contains
         # exercise availability and milestone data to update.
         exercise_parameters = self._repository.fetch(params, context.user)
-        self._milestone_service.execute(
-            params.pk,
-            context.user,
-            meta,
-            result,
-            availability=exercise_parameters.availability,
-            completion=exercise_parameters.completion,
-            reward=exercise_parameters.reward,
-        )
+
+        if self._milestone_service:
+            self._milestone_service.execute(
+                params.pk,
+                context.user,
+                meta,
+                result,
+                availability=exercise_parameters.availability,
+                completion=exercise_parameters.completion,
+                reward=exercise_parameters.reward,
+            )
 
         if result.is_correct:
             # HACK: Fix None pass to use case
