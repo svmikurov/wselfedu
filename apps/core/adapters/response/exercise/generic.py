@@ -14,6 +14,8 @@ from apps.core.handlers.protocol import (
 DomainResultDTO = TypeVar('DomainResultDTO', bound=ExerciseStatus)
 
 
+# FIXME: Fix type hint
+# New case and explain adapters have different schema types
 class ResultStrategyAdapter(
     ResponseAdapterProtocol[DomainResultDTO],
     Generic[DomainResultDTO],
