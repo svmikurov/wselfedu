@@ -297,3 +297,27 @@ class StudentCalculationPerformView(_DetailPerformView):
         self._start_handler = start_handler
         self._check_handler = check_handler
         return super().dispatch(request, *args, **kwargs)
+
+
+class MentorCalculationPerformView(_DetailPerformView):
+    """Mentor's calculation exercise performing view."""
+
+    template_name = 'math/exercise/calculation/perform/index.html'
+
+    @inject
+    def dispatch(
+        self,
+        request: HttpRequest,
+        *args: object,
+        start_handler: StartHandler = Provide[
+            HANDLERS.start_mentor_calculation  # type: ignore[attr-defined]
+        ],
+        check_handler: CheckHandler = Provide[
+            HANDLERS.check_mentor_calculation  # type: ignore[attr-defined]
+        ],
+        **kwargs: object,
+    ) -> HttpResponseBase:
+        """Inject request handler."""
+        self._start_handler = start_handler
+        self._check_handler = check_handler
+        return super().dispatch(request, *args, **kwargs)
