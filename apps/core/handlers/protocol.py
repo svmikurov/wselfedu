@@ -70,16 +70,16 @@ class ValidatorProtocol(Protocol[T_contra, T_co]):
         """Validate raw data."""
 
 
-class DetailValidator(Protocol[T_co]):
-    """Protocol for validator with identifier."""
+class RequestValidatorProtocol(Protocol[T_co]):
+    """Protocol for request validator interface."""
 
     @classmethod
     def validate(cls, data: RequestDataProtocol) -> T_co:
-        """Validate raw data with identifier."""
+        """Validate data."""
 
 
 # Deprecated
-class ResourceValidator(Protocol[T_contra, T_co]):
+class ResourceValidatorProtocol(Protocol[T_contra, T_co]):
     """Protocol for validator with identifier."""
 
     @classmethod
@@ -92,21 +92,21 @@ class ResourceValidator(Protocol[T_contra, T_co]):
 # -----------------------------------------------
 
 
-class SimpleUseCase(Protocol[T_co]):
+class SimpleUseCaseProtocol(Protocol[T_co]):
     """Protocol for UseCase interface without input data."""
 
     def execute(self, user: Person) -> T_co:
         """Execute business logic."""
 
 
-class UseCase(Protocol[T_contra, T_co]):
+class DataUseCaseProtocol(Protocol[T_contra, T_co]):
     """Protocol for UseCase interface with input data."""
 
     def execute(self, user: Person, request_data: T_contra) -> T_co:
         """Execute business logic."""
 
 
-class DetailUseCase(Protocol[T_contra, T_co]):
+class DetailUseCaseProtocol(Protocol[T_contra, T_co]):
     """Protocol for UseCase interface with input data."""
 
     def execute(
@@ -144,7 +144,7 @@ class GenericAdapterProtocol(Protocol[T_contra, T_co]):
         """Convert to response."""
 
 
-class ResponseAdapter(Protocol[T_contra]):
+class ResponseAdapterProtocol(Protocol[T_contra]):
     """Protocol for response adapter interface.
 
     Does not use request context.
@@ -154,7 +154,7 @@ class ResponseAdapter(Protocol[T_contra]):
         """Convert to response."""
 
 
-class ContextResponseAdapter(Protocol[T_contra]):
+class ContextResponseAdapterProtocol(Protocol[T_contra]):
     """Protocol for response adapter interface.
 
     Uses request context.

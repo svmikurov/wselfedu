@@ -5,25 +5,25 @@ from typing import Generic, TypeVar
 from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.domains.exercise.types import ExerciseStatus
 from apps.core.handlers.protocol import (
-    ContextResponseAdapter,
+    ContextResponseAdapterProtocol,
     RequestContextProtocol,
     RequestResultProtocol,
-    ResponseAdapter,
+    ResponseAdapterProtocol,
 )
 
 DomainResultDTO = TypeVar('DomainResultDTO', bound=ExerciseStatus)
 
 
 class ResultStrategyAdapter(
-    ResponseAdapter[DomainResultDTO],
+    ResponseAdapterProtocol[DomainResultDTO],
     Generic[DomainResultDTO],
 ):
     """Router for new case or explain current case adapter select."""
 
     def __init__(
         self,
-        new_case_adapter: ResponseAdapter[DomainResultDTO],
-        explain_adapter: ResponseAdapter[DomainResultDTO],
+        new_case_adapter: ResponseAdapterProtocol[DomainResultDTO],
+        explain_adapter: ResponseAdapterProtocol[DomainResultDTO],
     ) -> None:
         """Construct the adapter."""
         self._new_case_adapter = new_case_adapter
@@ -41,7 +41,7 @@ class ResultStrategyAdapter(
 
 
 class ResultContextStrategyAdapter(
-    ContextResponseAdapter[DomainResultDTO],
+    ContextResponseAdapterProtocol[DomainResultDTO],
     Generic[DomainResultDTO],
 ):
     """Router for new case or explain current case with context.
@@ -51,8 +51,8 @@ class ResultContextStrategyAdapter(
 
     def __init__(
         self,
-        new_case_adapter: ContextResponseAdapter[DomainResultDTO],
-        explain_adapter: ResponseAdapter[DomainResultDTO],
+        new_case_adapter: ContextResponseAdapterProtocol[DomainResultDTO],
+        explain_adapter: ResponseAdapterProtocol[DomainResultDTO],
     ) -> None:
         """Construct the adapter."""
         self._new_case_adapter = new_case_adapter

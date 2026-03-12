@@ -149,20 +149,23 @@ class RegularCalculationCheckUseCase(
 
     def execute(
         self,
-        user: Person,
-        request_data: CalculationLoopDTO,
+        params: DetailParamsProtocol,
+        context: RequestContextProtocol,
+        # HACK: Unify the use case interface
+        # for data parameter in requests without a body.
+        data: CalculationLoopDTO,
     ) -> CalculationCaseDTO | CalculationExplainDTO:
         """Check regular calculation exercise."""
-        meta = self._storage.retrieve(user.pk, CASE_STORE_PREFIX)
-        result = self._check_service.execute(request_data, meta)
+        meta = self._storage.retrieve(context.user.pk, CASE_STORE_PREFIX)
+        result = self._check_service.execute(data, meta)
 
         if self._milestone_service:
-            self._milestone_service.execute(user, result, meta)
+            self._milestone_service.execute(context.user, result, meta)
 
         if result.is_correct:
-            return self._create_use_case.execute(user, request_data)
+            return self._create_use_case.execute(context.user, params)
         else:
-            return self._explain_service.execute(request_data, meta)
+            return self._explain_service.execute(data, meta)
 
 
 # =================================================

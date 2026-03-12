@@ -1,13 +1,16 @@
 """Mathematical exercise services DI container."""
 
+from typing import Type
+
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Factory
 from wse_exercises.core import math
+from wse_exercises.core.math.base.exercise import CalcExercise
 
 from apps.math.domains.enums import CalculationEnum
 from apps.math.services import calculation
 
-CALCULATION_DOMAIN_TYPES = {
+CALCULATION_DOMAIN_TYPES: dict[CalculationEnum, Type[CalcExercise]] = {
     CalculationEnum.ADD: math.AddingExercise,
     CalculationEnum.SUB: math.SubtractionExercise,
     CalculationEnum.MUL: math.MultiplicationExercise,

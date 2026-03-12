@@ -2,7 +2,10 @@
 
 from typing import Any
 
-from apps.core.handlers.protocol import ResourceValidator, ValidatorProtocol
+from apps.core.handlers.protocol import (
+    ResourceValidatorProtocol,
+    ValidatorProtocol,
+)
 
 from .. import schemas
 
@@ -35,7 +38,7 @@ class WebTestValidator(ValidatorProtocol[RequestData, schemas.TestRequestDTO]):
 
 
 class WebAssignedTestValidator(
-    ResourceValidator[RequestData, schemas.DetailTestRequestDTO]
+    ResourceValidatorProtocol[RequestData, schemas.DetailTestRequestDTO]
 ):
     """Web request assigned test exercise validator."""
 

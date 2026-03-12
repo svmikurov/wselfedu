@@ -76,7 +76,9 @@ class ExerciseWebHandlerContainer(DeclarativeContainer):
     check_custom_calculation = Factory(
         DetailRequestHandler,
         validator=validators.check_custom_calculation,
-        use_case=use_cases.check_custom_calculation,
+        # HACK: Custom exercise check use case handler
+        # have regular exercise check use case
+        use_case=use_cases.check_regular_calculation,
         adapter=adapters.custom_calculation_result_strategy,
     )
 

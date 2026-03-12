@@ -1,7 +1,7 @@
 """Web exercise response adapters."""
 
 from decimal import Decimal
-from typing import Any, NamedTuple, TypeVar
+from typing import Any, NamedTuple, Protocol, TypeVar
 
 from apps.core.adapters.response.abc import (
     AbstractResponseAdapter,
@@ -12,18 +12,20 @@ from apps.core.adapters.response.exercise.web.dto import (
     WebExerciseResponseDTO,
 )
 from apps.core.adapters.response.shared import WebResponseDTO
+from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.domains.exercise.types import ExerciseStatus
 from apps.core.handlers.protocol import (
-    ContextResponseAdapter,
+    ContextResponseAdapterProtocol,
     OobResultProtocol,
     RequestContextProtocol,
     RequestResultProtocol,
-    ResponseAdapter,
+    ResponseAdapterProtocol,
 )
 from apps.math import forms
 from apps.math.domains.dto import (
-    CalculationDTO,
+    CalculationCaseDTO,
     CalculationExplainDTO,
+    StudentCalculationDTO,
     StudentExerciseDTO,
 )
 
@@ -94,12 +96,21 @@ class CalculationConditionsWebAdapter(
 # =================================================
 
 
-class CalculationWebCaseAdapter(ResponseAdapter[CalculationDTO]):
+class ExerciseCaseSchemaType(Protocol):
+    """Calculation exercise schema interface."""
+
+    exercise_status: ExerciseStatusEnum
+    data: CalculationCaseDTO
+
+
+class CalculationWebCaseAdapter(
+    ResponseAdapterProtocol[ExerciseCaseSchemaType]
+):
     """Calculation exercise case web response adapter."""
 
     def to_response(
         self,
-        schema: CalculationDTO,
+        schema: ExerciseCaseSchemaType,
     ) -> WebExerciseCaseDTO:
         """Adapt current calculation case for web response."""
         return WebExerciseResponseDTO(
@@ -111,7 +122,9 @@ class CalculationWebCaseAdapter(ResponseAdapter[CalculationDTO]):
         )
 
 
-class StudentCalculationWebCaseAdapter(ContextResponseAdapter[CalculationDTO]):
+class StudentCalculationWebCaseAdapter(
+    ContextResponseAdapterProtocol[StudentCalculationDTO]
+):
     """Calculation exercise case web response adapter."""
 
     def __init__(self, domain_adapter: CalculationWebCaseAdapter) -> None:
@@ -120,7 +133,7 @@ class StudentCalculationWebCaseAdapter(ContextResponseAdapter[CalculationDTO]):
 
     def to_response(
         self,
-        schema: CalculationDTO,
+        schema: StudentCalculationDTO,
         request_context: RequestContextProtocol,
     ) -> OobResultProtocol:
         """Adapt current calculation case for web response."""
@@ -161,7 +174,9 @@ class StudentCalculationWebCaseAdapter(ContextResponseAdapter[CalculationDTO]):
 # =================================================
 
 
-class ExplainCalculationWebAdapter(ResponseAdapter[CalculationExplainDTO]):
+class ExplainCalculationWebAdapter(
+    ResponseAdapterProtocol[CalculationExplainDTO]
+):
     """Calculation exercise case explanation web response adapter."""
 
     def to_response(

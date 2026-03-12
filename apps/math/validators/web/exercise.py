@@ -1,11 +1,8 @@
 """Exercise web validators."""
 
-from typing import Any
-
 from apps.core.handlers.protocol import RequestDataProtocol
 from apps.core.validators.request.abstract import (
-    AbstractDetailValidator,
-    AbstractRegularValidator,
+    AbstractRequestValidator,
 )
 from apps.math.domains.dto import (
     CalculationAnswerDTO,
@@ -15,38 +12,38 @@ from apps.math.domains.dto import (
 
 
 class RegularCalculationStartWebValidator(
-    AbstractRegularValidator[CalculationConditionDTO]
+    AbstractRequestValidator[CalculationConditionDTO]
 ):
     """Calculation conditions web validator."""
 
     @classmethod
-    def validate(cls, raw_data: dict[str, Any]) -> CalculationConditionDTO:
+    def validate(cls, data: RequestDataProtocol) -> CalculationConditionDTO:
         """Validate calculation conditions request."""
         return CalculationConditionDTO(
-            min_operand=int(raw_data['min_operand']),
-            max_operand=int(raw_data['max_operand']),
-            operation_type=raw_data['operation_type'],
+            min_operand=int(data.query['min_operand']),
+            max_operand=int(data.query['max_operand']),
+            operation_type=data.query['operation_type'],
         )
 
 
 class RegularCalculationCheckWebValidator(
-    AbstractRegularValidator[CalculationLoopDTO]
+    AbstractRequestValidator[CalculationLoopDTO]
 ):
     """Calculation conditions web validator."""
 
     @classmethod
-    def validate(cls, raw_data: dict[str, Any]) -> CalculationLoopDTO:
+    def validate(cls, data: RequestDataProtocol) -> CalculationLoopDTO:
         """Validate calculation conditions request."""
         return CalculationLoopDTO(
-            min_operand=raw_data['min_operand'],
-            max_operand=raw_data['max_operand'],
-            operation_type=raw_data['operation_type'],
-            user_answer=raw_data['user_answer'],
+            min_operand=data.query['min_operand'],
+            max_operand=data.query['max_operand'],
+            operation_type=data.query['operation_type'],
+            user_answer=data.query['user_answer'],
         )
 
 
 class DetailCalculationCheckWebValidator(
-    AbstractDetailValidator[CalculationAnswerDTO]
+    AbstractRequestValidator[CalculationAnswerDTO]
 ):
     """Calculation conditions web validator."""
 

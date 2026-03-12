@@ -35,6 +35,7 @@ if TYPE_CHECKING:
     from apps.users.models import Person
 
 __all__ = (
+    'BaseCalculationRepository',
     'CalculationConditionsRepository',
     'StudentCalculationConditionsRepository',
 )
@@ -50,7 +51,7 @@ class CacheKeyDict(TypedDict):
     assignation_pk: int
 
 
-class _BaseCalculationRepository(
+class BaseCalculationRepository(
     AbstractUserConditionsRepository[
         DetailParamsProtocol,
         ExerciseParameters,
@@ -106,7 +107,7 @@ class _BaseCalculationRepository(
 
 
 class CalculationConditionsRepository(
-    _BaseCalculationRepository[RegularParametersDTO],
+    BaseCalculationRepository[RegularParametersDTO],
 ):
     """Calculation conditions repository."""
 
@@ -137,7 +138,7 @@ class CalculationConditionsRepository(
 
 
 class StudentCalculationConditionsRepository(
-    _BaseCalculationRepository[StudentParametersDTO,]
+    BaseCalculationRepository[StudentParametersDTO,]
 ):
     """Student's assigned calculation conditions repository."""
 

@@ -7,11 +7,11 @@ from typing import TYPE_CHECKING, Generic, TypeVar
 from .protocol import (
     AdapterProtocol,
     DetailParamsProtocol,
-    DetailValidator,
     GenericAdapterProtocol,
     RequestContextProtocol,
     RequestDataProtocol,
     RequestResultProtocol,
+    RequestValidatorProtocol,
     UseCaseProtocol,
 )
 
@@ -19,12 +19,12 @@ if TYPE_CHECKING:
     from apps.users.models import Person
 
     from .protocol import (
-        ContextResponseAdapter,
-        DetailUseCase,
+        ContextResponseAdapterProtocol,
+        DataUseCaseProtocol,
+        DetailUseCaseProtocol,
         GenericAdapterProtocol,
-        ResourceValidator,
-        ResponseAdapter,
-        UseCase,
+        ResourceValidatorProtocol,
+        ResponseAdapterProtocol,
         ValidatorProtocol,
     )
 
@@ -44,7 +44,7 @@ class RegularRequestHandler(
     def __init__(
         self,
         validator: ValidatorProtocol[RequestData, Validated],
-        use_case: UseCase[Validated, DomainResult],
+        use_case: DataUseCaseProtocol[Validated, DomainResult],
         adapter: GenericAdapterProtocol[DomainResult, ResponseData],
     ) -> None:
         """Construct the handler."""
@@ -72,8 +72,8 @@ class ResourceRequestHandler(
 
     def __init__(
         self,
-        validator: ResourceValidator[RequestData, Validated],
-        use_case: UseCase[Validated, DomainResult],
+        validator: ResourceValidatorProtocol[RequestData, Validated],
+        use_case: DataUseCaseProtocol[Validated, DomainResult],
         adapter: GenericAdapterProtocol[DomainResult, ResponseData],
     ) -> None:
         """Construct the handler."""
@@ -99,9 +99,9 @@ class DetailRequestHandler(Generic[Validated, DomainResult]):
 
     def __init__(
         self,
-        validator: DetailValidator[Validated],
-        use_case: DetailUseCase[Validated, DomainResult],
-        adapter: ResponseAdapter[DomainResult],
+        validator: RequestValidatorProtocol[Validated],
+        use_case: DetailUseCaseProtocol[Validated, DomainResult],
+        adapter: ResponseAdapterProtocol[DomainResult],
     ) -> None:
         """Construct the handler."""
         self._validator = validator
@@ -129,9 +129,9 @@ class ContextRequestHandler(Generic[Validated, DomainResult]):
 
     def __init__(
         self,
-        validator: DetailValidator[Validated],
-        use_case: DetailUseCase[Validated, DomainResult],
-        adapter: ContextResponseAdapter[DomainResult],
+        validator: RequestValidatorProtocol[Validated],
+        use_case: DetailUseCaseProtocol[Validated, DomainResult],
+        adapter: ContextResponseAdapterProtocol[DomainResult],
     ) -> None:
         """Construct the handler."""
         self._validator = validator

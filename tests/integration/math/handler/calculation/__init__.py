@@ -1,0 +1,1 @@
+"""Calculation exercise handler tests."""

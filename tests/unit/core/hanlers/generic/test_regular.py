@@ -8,8 +8,8 @@ import pytest
 
 from apps.core.handlers import RegularRequestHandler
 from apps.core.handlers.protocol import (
+    DataUseCaseProtocol,
     GenericAdapterProtocol,
-    UseCase,
     ValidatorProtocol,
 )
 
@@ -23,7 +23,7 @@ def mock_validator() -> Mock:
 @pytest.fixture
 def mock_service() -> Mock:
     """Provide business service mock."""
-    return Mock(spec=UseCase)
+    return Mock(spec=DataUseCaseProtocol)
 
 
 @pytest.fixture
