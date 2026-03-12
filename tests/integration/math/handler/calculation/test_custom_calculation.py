@@ -228,7 +228,7 @@ def create_use_case(
 @pytest.fixture
 def check_use_case(
     storage: UserDataStorage[Any],
-    repository: StudentCalculationConditionsRepository,
+    repository: BaseCalculationRepository[RegularParametersDTO],
     check_service: AbstractExerciseCheck[
         CalculationAnswerDTO,
         CalculationCaseDTO,
@@ -343,9 +343,7 @@ class TestCheckStudentCalculationPerformHandler:
     ) -> None:
         """Create student calculation exercise."""
         start_handler.execute(
-            params=DetailParams(
-                pk=calculation_assignation.calculation_condition.pk
-            ),
+            params=DetailParams(pk=calculation_assignation.pk),
             context=RequestContext(user=mentor),
             data=RequestData(query={}),
         )
@@ -359,9 +357,7 @@ class TestCheckStudentCalculationPerformHandler:
         """Check calculation perform success test."""
         # Act
         result_dto = check_handler.execute(
-            params=DetailParams(
-                pk=calculation_assignation.calculation_condition.pk
-            ),
+            params=DetailParams(pk=calculation_assignation.pk),
             context=RequestContext(user=mentor),
             data=RequestData(
                 query={
@@ -396,9 +392,7 @@ class TestCheckStudentCalculationPerformHandler:
         """Check calculation perform success test."""
         # Act
         result_dto = check_handler.execute(
-            params=DetailParams(
-                pk=calculation_assignation.calculation_condition.pk
-            ),
+            params=DetailParams(pk=calculation_assignation.pk),
             context=RequestContext(user=mentor),
             data=RequestData(
                 query={
