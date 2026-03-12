@@ -146,16 +146,19 @@ class StudentCalculationWebCaseAdapter(
             success_count=schema.completion.success_count,
         )
 
+        context = adapted.context
+        context.setdefault('exercise', {})
+        context['exercise'].update(
+            {
+                'success_count': schema.completion.success_count,
+                'required_count': schema.availability.required_count,
+            }
+        )
         return WebExerciseResponseDTO(
             exercise_status=adapted.exercise_status,
             data=adapted.data,
             oob_html=self._get_oob_html(oob_context),
-            context={
-                'exercise': {
-                    'success_count': schema.completion.success_count,
-                    'required_count': schema.availability.required_count,
-                }
-            },
+            context=context,
         )
 
     def _get_oob_html(self, context: StudentDetailType) -> str:
