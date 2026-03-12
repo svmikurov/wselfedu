@@ -11,16 +11,16 @@ from typing import Any
 import pytest
 from wse_exercises.core.math import ExactOperandGenerator
 
-from apps.core.adapters.response.exercise.generic import (
-    ResultContextStrategyAdapter,
-)
+from apps.core.adapters.response.exercise.generic import ResultStrategyAdapter
 from apps.core.adapters.response.exercise.web.dto import WebExerciseResponseDTO
 from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.factories.abstract import AbstractExerciseDTOFactory
 from apps.core.handlers.dto import DetailParams, RequestContext, RequestData
-from apps.core.handlers.generic import ContextRequestHandler
+from apps.core.handlers.generic import (
+    ContextRequestHandler,
+    DetailRequestHandler,
+)
 from apps.core.handlers.protocol import (
-    ContextResponseAdapterProtocol,
     DetailUseCaseProtocol,
     RequestValidatorProtocol,
     ResponseAdapterProtocol,
@@ -43,7 +43,6 @@ from apps.math.adapters.response.web.dto import ExerciseWebDTO
 from apps.math.adapters.response.web.exercise import (
     CalculationWebCaseAdapter,
     ExplainCalculationWebAdapter,
-    StudentCalculationWebCaseAdapter,
 )
 from apps.math.di.service.exercise import CALCULATION_DOMAIN_TYPES
 from apps.math.domains.dto import (
@@ -54,13 +53,16 @@ from apps.math.domains.dto import (
     CalculationExplainDTO,
     CalculationMetaDTO,
     CalculationResultDTO,
+    CustomCalculationDTO,
+    RegularParametersDTO,
     StudentCalculationDTO,
     StudentParametersDTO,
 )
-from apps.math.domains.dto_factory import StudentCalculationDTOFactory
-from apps.math.models import StudentCalculationCondition
+from apps.math.domains.dto_factory import CustomCalculationDTOFactory
+from apps.math.models import CalculationCondition, StudentCalculationCondition
 from apps.math.repositories.exercise import (
     BaseCalculationRepository,
+    CalculationConditionsRepository,
     StudentCalculationConditionsRepository,
 )
 from apps.math.services.calculation import (
@@ -75,7 +77,6 @@ from apps.math.use_cases.calculation import (
 from apps.math.validators.web.exercise import (
     DetailCalculationCheckWebValidator,
 )
-from apps.study.resolvers.completion import CompletionResolver
 from apps.users.models import Person
 
 # =================================================
@@ -112,12 +113,11 @@ def storage() -> AbstractUserStorage[Any]:
 @pytest.fixture
 def repository(
     storage: UserDataStorage[Any],
-) -> BaseCalculationRepository[StudentParametersDTO]:
+) -> BaseCalculationRepository[RegularParametersDTO]:
     """Provide student calculation repository."""
-    return StudentCalculationConditionsRepository(
-        manager=StudentCalculationCondition.objects,
+    return CalculationConditionsRepository(
+        manager=CalculationCondition.objects,
         storage=storage,
-        resolver=CompletionResolver(),
     )
 
 
@@ -161,10 +161,9 @@ def explain_service() -> AbstractExerciseExplain[
 
 
 @pytest.fixture
-def create_adapter() -> ContextResponseAdapterProtocol[StudentCalculationDTO]:
+def create_adapter() -> ResponseAdapterProtocol[StudentCalculationDTO]:
     """Provide DTO factory."""
-    domain_adapter = CalculationWebCaseAdapter()
-    return StudentCalculationWebCaseAdapter(domain_adapter)
+    return CalculationWebCaseAdapter()
 
 
 @pytest.fixture
@@ -177,11 +176,11 @@ def explain_adapter() -> ResponseAdapterProtocol[CalculationExplainDTO]:
 # new exercise case or explain correct answer response.
 @pytest.fixture
 def result_adapter_strategy(
-    create_adapter: ContextResponseAdapterProtocol[CalculationExplainDTO],
-    explain_adapter: ResponseAdapterProtocol[CalculationExplainDTO],
-) -> ContextResponseAdapterProtocol[CalculationExplainDTO]:
+    create_adapter: ResponseAdapterProtocol[Any],
+    explain_adapter: ResponseAdapterProtocol[Any],
+) -> ResponseAdapterProtocol[Any]:
     """Provide student calculation result strategy."""
-    return ResultContextStrategyAdapter(
+    return ResultStrategyAdapter(
         new_case_adapter=create_adapter,
         explain_adapter=explain_adapter,
     )
@@ -196,11 +195,11 @@ def result_adapter_strategy(
 @pytest.fixture
 def dto_factory() -> AbstractExerciseDTOFactory[
     CalculationDomainDTO,
-    StudentParametersDTO,
-    StudentCalculationDTO,
+    RegularParametersDTO,
+    CustomCalculationDTO,
 ]:
     """Provide DTO factory."""
-    return StudentCalculationDTOFactory()
+    return CustomCalculationDTOFactory()
 
 
 @pytest.fixture
@@ -265,10 +264,10 @@ def check_use_case(
 def start_handler(
     create_validator: NullValidator[Any],
     create_use_case: DetailUseCaseProtocol[Any, Any],
-    create_adapter: ContextResponseAdapterProtocol[Any],
-) -> ContextRequestHandler[Any, Any]:
+    create_adapter: ResponseAdapterProtocol[Any],
+) -> DetailRequestHandler[Any, Any]:
     """Provide student calculation start handler."""
-    return ContextRequestHandler(
+    return DetailRequestHandler(
         validator=create_validator,
         use_case=create_use_case,
         adapter=create_adapter,
@@ -279,10 +278,10 @@ def start_handler(
 def check_handler(
     check_validator: RequestValidatorProtocol[Any],
     check_use_case: DetailUseCaseProtocol[Any, Any],
-    result_adapter_strategy: ContextResponseAdapterProtocol[Any],
-) -> ContextRequestHandler[Any, Any]:
+    result_adapter_strategy: ResponseAdapterProtocol[Any],
+) -> DetailRequestHandler[Any, Any]:
     """Provide student calculation check handler."""
-    return ContextRequestHandler(
+    return DetailRequestHandler(
         validator=check_validator,
         use_case=check_use_case,
         adapter=result_adapter_strategy,
@@ -300,15 +299,17 @@ class TestStartStudentCalculationPerformHandler:
 
     def test_start_success(
         self,
-        student: Person,
+        mentor: Person,
         start_handler: ContextRequestHandler[Any, Any],
         calculation_assignation: StudentCalculationCondition,
     ) -> None:
         """Start calculation perform success test."""
         # Act
         result_dto = start_handler.execute(
-            params=DetailParams(pk=calculation_assignation.pk),
-            context=RequestContext(user=student),
+            params=DetailParams(
+                pk=calculation_assignation.calculation_condition.pk
+            ),
+            context=RequestContext(user=mentor),
             data=RequestData(query={}),
         )
 
@@ -336,28 +337,32 @@ class TestCheckStudentCalculationPerformHandler:
     @pytest.fixture(autouse=True)
     def setup(
         self,
-        student: Person,
+        mentor: Person,
         start_handler: ContextRequestHandler[Any, Any],
         calculation_assignation: StudentCalculationCondition,
     ) -> None:
         """Create student calculation exercise."""
         start_handler.execute(
-            params=DetailParams(pk=calculation_assignation.pk),
-            context=RequestContext(user=student),
+            params=DetailParams(
+                pk=calculation_assignation.calculation_condition.pk
+            ),
+            context=RequestContext(user=mentor),
             data=RequestData(query={}),
         )
 
     def test_check_correct_answer(
         self,
-        student: Person,
+        mentor: Person,
         check_handler: ContextRequestHandler[Any, Any],
         calculation_assignation: StudentCalculationCondition,
     ) -> None:
         """Check calculation perform success test."""
         # Act
         result_dto = check_handler.execute(
-            params=DetailParams(pk=calculation_assignation.pk),
-            context=RequestContext(user=student),
+            params=DetailParams(
+                pk=calculation_assignation.calculation_condition.pk
+            ),
+            context=RequestContext(user=mentor),
             data=RequestData(
                 query={
                     # Correct answer
@@ -384,15 +389,17 @@ class TestCheckStudentCalculationPerformHandler:
 
     def test_check_wrong_answer(
         self,
-        student: Person,
+        mentor: Person,
         check_handler: ContextRequestHandler[Any, Any],
         calculation_assignation: StudentCalculationCondition,
     ) -> None:
         """Check calculation perform success test."""
         # Act
         result_dto = check_handler.execute(
-            params=DetailParams(pk=calculation_assignation.pk),
-            context=RequestContext(user=student),
+            params=DetailParams(
+                pk=calculation_assignation.calculation_condition.pk
+            ),
+            context=RequestContext(user=mentor),
             data=RequestData(
                 query={
                     # Wrong answer
