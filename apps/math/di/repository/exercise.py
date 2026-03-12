@@ -39,3 +39,8 @@ class ExerciseRepositoryContainer(DeclarativeContainer):
         storage=cache_storage,
         resolver=Factory(CompletionResolver),
     )
+    mentor_calculation_conditions = Factory(
+        CalculationConditionsRepository,
+        manager=CalculationCondition.objects,
+        storage=cache_storage,
+    )

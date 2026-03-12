@@ -73,6 +73,26 @@ class ExerciseUseCaseContainer(DeclarativeContainer):
         explain_service=exercise_services.explain_calculation,
     )
 
+    # Mentor's exercise handler
+    # Run to test the exercise
+    start_mentor_calculation = Factory(
+        calculation.DetailExerciseCreateUseCase,
+        repository=repositories.mentor_calculation_conditions,
+        service=exercise_services.create_calculation,
+        storage=storage,
+        dto_factory=Factory(CustomCalculationDTOFactory),
+    )
+    check_mentor_calculation = Factory(
+        calculation.DetailCalculationCheckUseCase,
+        storage=storage,
+        check_service=exercise_services.check_calculation,
+        repository=repositories.mentor_calculation_conditions,
+        milestone_service=None,
+        create_use_case=start_mentor_calculation,
+        explain_service=exercise_services.explain_calculation,
+    )
+
+    # Student's exercise handler
     start_student_calculation = Factory(
         calculation.DetailExerciseCreateUseCase,
         repository=repositories.student_calculation_conditions,
