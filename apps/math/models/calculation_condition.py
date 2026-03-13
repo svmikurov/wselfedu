@@ -23,7 +23,6 @@ class CalculationCondition(models.Model):
     name = models.CharField(
         _('Exercise name'),
         max_length=MAX_NAME_LENGTH,
-        unique=True,
     )
     min_operand = models.SmallIntegerField(
         _('Min operand value'),
@@ -56,7 +55,10 @@ class CalculationCondition(models.Model):
 
         verbose_name = _('Calculation exercise condition')
         verbose_name_plural = _('Calculation exercise conditions')
+
         db_table = 'math_exercise_condition'
+        
+        unique_together = ['name', 'user']
         constraints = [
             models.CheckConstraint(
                 name='max_gt_min',
