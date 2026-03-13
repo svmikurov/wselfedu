@@ -82,18 +82,20 @@ class ExerciseWebHandlerContainer(DeclarativeContainer):
         adapter=adapters.custom_calculation_result_strategy,
     )
 
-    # Mentor's calculation have no milestone for mentor
+    # Mentor may run assigned to student the calculation exercise
+    # by itself.
+    # Mentor's calculation have no milestone for mentor.
     start_mentor_calculation = Factory(
-        DetailRequestHandler,
+        DetailRequestHandler,   
         validator=NullValidator(),
-        use_case=use_cases.start_student_calculation,
-        adapter=adapters.create_student_calculation,
+        use_case=use_cases.start_mentor_calculation,
+        adapter=adapters.create_custom_calculation,
     )
     check_mentor_calculation = Factory(
         DetailRequestHandler,
         validator=validators.check_custom_calculation,
-        use_case=use_cases.check_student_calculation,
-        adapter=adapters.student_calculation_result_strategy,
+        use_case=use_cases.check_mentor_calculation,
+        adapter=adapters.custom_calculation_result_strategy,
     )
 
     # Student's calculation have milestone from mentor

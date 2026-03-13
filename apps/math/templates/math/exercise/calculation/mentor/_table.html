@@ -19,7 +19,7 @@
         <tr id="row-{{ exercise.pk }}"
             class="align-middle">
           <td class="py-3">
-            <a href="{% url "math:custom_calculation_exercise" exercise.calculation_condition.pk %}">
+            <a href="{% url "math:mentor_calculation_exercise_perform" exercise.calculation_condition.pk %}">
               {{ exercise.calculation_condition }}
             </a>
           </td>

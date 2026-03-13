@@ -74,7 +74,7 @@ class ExerciseUseCaseContainer(DeclarativeContainer):
     )
 
     # Mentor's exercise handler
-    # Run to test the exercise
+    # Start by mentor the exercise assigned to student
     start_mentor_calculation = Factory(
         calculation.DetailExerciseCreateUseCase,
         repository=repositories.mentor_calculation_conditions,
