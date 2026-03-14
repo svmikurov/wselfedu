@@ -57,7 +57,7 @@ class CalculationCondition(models.Model):
         verbose_name_plural = _('Calculation exercise conditions')
 
         db_table = 'math_exercise_condition'
-        
+
         unique_together = ['name', 'user']
         constraints = [
             models.CheckConstraint(

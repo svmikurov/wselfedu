@@ -2,8 +2,7 @@
 
 from typing import TypeVar
 
-from pydantic import BaseModel
-
+from apps.core.domains.base_dto import BaseDTO
 from apps.core.handlers.protocol import RequestDataProtocol
 
 from .abstract import AbstractRequestValidator
@@ -11,7 +10,7 @@ from .abstract import AbstractRequestValidator
 Validated = TypeVar('Validated')
 
 
-class NullValidated(BaseModel):
+class NullValidated(BaseDTO):
     """Nul validated data."""
 
 

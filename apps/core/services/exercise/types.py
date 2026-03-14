@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from apps.core.domains.exercise.types import (
-        CheckResult,
+        CheckResultProtocol,
         ExerciseCase,
         ExerciseCaseMeta,
         ExerciseRequest,
@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 
     type StorageService = TaskStorageABC[ExerciseCaseMeta]
     type CheckService = AbstractExerciseCheck[
-        ExerciseRequest, ExerciseCaseMeta, CheckResult
+        ExerciseRequest, ExerciseCaseMeta, CheckResultProtocol
     ]
     type CreateService = AbstractExerciseCreate[ExerciseCase]
     type CreateDetailService = AbstractDetailExerciseCreate[ExerciseCase]
@@ -34,4 +34,7 @@ if TYPE_CHECKING:
     type ExplainService = AbstractExerciseExplain[
         ExerciseRequest, ExerciseCaseMeta, Explanation
     ]
-    type MilestoneService = AbstractMilestone[CheckResult, ExerciseCaseMeta]
+    type MilestoneService = AbstractMilestone[
+        CheckResultProtocol,
+        ExerciseCaseMeta,
+    ]

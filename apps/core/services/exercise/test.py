@@ -10,7 +10,7 @@ from apps.core.domains.exercise import (
     TestExerciseMeta,
 )
 from apps.core.domains.exercise.types import (
-    CheckResult,
+    CheckResultProtocol,
     TestCheckRequest,
 )
 
@@ -123,7 +123,11 @@ class DetailTestCreate(AbstractDetailExerciseCreate[TestExerciseData]):
 
 
 class RegularTestCheck(
-    AbstractExerciseCheck[TestCheckRequest, TestExerciseMeta, CheckResult]
+    AbstractExerciseCheck[
+        TestCheckRequest,
+        TestExerciseMeta,
+        CheckResultProtocol,
+    ]
 ):
     """Check user's answer."""
 
@@ -136,7 +140,7 @@ class RegularTestCheck(
 
     def execute(
         self, answer: TestCheckRequest, case_meta: TestExerciseMeta
-    ) -> CheckResult:
+    ) -> CheckResultProtocol:
         """Check user' answer."""
         return self._domain.execute(answer, case_meta)
 

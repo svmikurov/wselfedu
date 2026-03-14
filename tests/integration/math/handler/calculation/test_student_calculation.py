@@ -31,8 +31,8 @@ from apps.core.storages.clients.django_cache import DjangoKeyCache
 from apps.core.storages.services.iabc import AbstractUserStorage
 from apps.core.storages.services.service import UserDataStorage
 from apps.core.use_cases.abstract import (
-    AbstractDetailDataUseCase,
     AbstractDetailUseCase,
+    AbstractSimpleUseCase,
 )
 from apps.core.validators.request.abstract import AbstractRequestValidator
 from apps.core.validators.request.null import NullValidator
@@ -62,7 +62,7 @@ from apps.math.milestones.calculation import StudentCalculationMilestone
 from apps.math.milestones.protocol import MilestoneServiceProtocol
 from apps.math.models import StudentCalculationCondition
 from apps.math.repositories.exercise import (
-    BaseCalculationRepository,
+    BaseExerciseRepository,
     StudentCalculationConditionsRepository,
 )
 from apps.math.services.calculation import (
@@ -118,7 +118,7 @@ def storage() -> AbstractUserStorage[Any]:
 @pytest.fixture
 def repository(
     storage: UserDataStorage[Any],
-) -> BaseCalculationRepository[StudentParametersDTO]:
+) -> BaseExerciseRepository[StudentParametersDTO]:
     """Provide student calculation repository."""
     return StudentCalculationConditionsRepository(
         manager=StudentCalculationCondition.objects,
@@ -251,7 +251,7 @@ def dto_factory() -> AbstractExerciseDTOFactory[
 
 @pytest.fixture
 def create_use_case(
-    repository: StudentCalculationConditionsRepository,
+    repository: BaseExerciseRepository[Any],
     create_service: AbstractRegularExerciseCreate[
         CalculationConditionDTO,
         tuple[CalculationCaseDTO, CalculationMetaDTO],
@@ -259,10 +259,10 @@ def create_use_case(
     storage: UserDataStorage[Any],
     dto_factory: AbstractExerciseDTOFactory[
         CalculationCaseDTO,
-        StudentParametersDTO,
+        Any,
         StudentCalculationDTO,
     ],
-) -> AbstractDetailUseCase[StudentCalculationDTO]:
+) -> AbstractSimpleUseCase[StudentCalculationDTO]:
     """Provide calculation exercise use case."""
     return DetailExerciseCreateUseCase(
         repository=repository,
@@ -275,7 +275,7 @@ def create_use_case(
 @pytest.fixture
 def check_use_case(
     storage: UserDataStorage[Any],
-    repository: StudentCalculationConditionsRepository,
+    repository: BaseExerciseRepository[Any],
     check_service: AbstractExerciseCheck[
         CalculationAnswerDTO,
         CalculationCaseDTO,
@@ -293,8 +293,8 @@ def check_use_case(
         ExerciseCompletionDTO,
         ExerciseRewardDTO,
     ],
-    create_use_case: AbstractDetailUseCase[CalculationCaseDTO],
-) -> AbstractDetailDataUseCase[
+    create_use_case: AbstractSimpleUseCase[CalculationCaseDTO],
+) -> AbstractDetailUseCase[
     CalculationAnswerDTO,
     CalculationCaseDTO | CalculationExplainDTO,
 ]:

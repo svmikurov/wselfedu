@@ -21,7 +21,7 @@ class RelatedDataType(BalanceDataType):
     """Type for exercise related data."""
 
 
-class ResultType(TypedDict):
+class CheckResultDataType(TypedDict):
     """Type for answer validation result."""
 
     is_correct: bool

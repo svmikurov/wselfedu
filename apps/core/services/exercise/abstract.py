@@ -82,6 +82,20 @@ class AbstractMilestone(ABC, Generic[CheckResult, CaseMeta]):
         """Update the user study milestone."""
 
 
+class AbstractStudentMilestone(ABC, Generic[CheckResult, CaseMeta]):
+    """ABC for user study milestone update service."""
+
+    @abstractmethod
+    def execute(
+        self,
+        user: Person,
+        result: CheckResult,
+        case_meta: CaseMeta,
+        **kwargs: object,
+    ) -> None:
+        """Update the user study milestone."""
+
+
 # -----------------------------------------------
 # Explain
 # -----------------------------------------------

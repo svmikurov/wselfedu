@@ -121,7 +121,7 @@ class TestCheckRequest(ExerciseStatus):
     option_value: int
 
 
-class CheckResult(Protocol):
+class CheckResultProtocol(Protocol):
     """User answer check result."""
 
     is_correct: bool

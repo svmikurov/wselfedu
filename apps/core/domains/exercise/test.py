@@ -28,7 +28,7 @@ if TYPE_CHECKING:
     from .types import (
         Candidate,
         Candidates,
-        CheckResult,
+        CheckResultProtocol,
         ExerciseConfig,
         TestCheckRequest,
     )
@@ -173,7 +173,7 @@ class TestCheckDomain(AbstractCheckExerciseDomain[TestExerciseMeta]):
         self,
         answer: TestCheckRequest,
         case_meta: TestExerciseMeta,
-    ) -> CheckResult:
+    ) -> CheckResultProtocol:
         """Check user's answer."""
         is_correct = case_meta.option_value == answer.option_value
         return TestExerciseResult(

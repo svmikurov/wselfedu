@@ -20,7 +20,13 @@ from apps.core.adapters.response.exercise.web.dto import (
     WebExerciseResponseDTO,
 )
 from apps.core.domains.exercise.enums import ExerciseStatusEnum
-from apps.core.handlers.dto import DetailParams, RequestContext, RequestData
+from apps.core.handlers.dto import (
+    DetailParams,
+    QueryParams,
+    RequestContext,
+    RequestData,
+    RequestParams,
+)
 from apps.core.handlers.protocol import (
     DetailRequestHandlerProtocol,
     RegularRequestHandlerProtocol,
@@ -101,8 +107,11 @@ class ExerciseChoiceView(
 
     def get_context_data(self, **kwargs: dict[str, str]) -> dict[str, str]:
         """Add data to context."""
-        request_data = self.request.GET.dict()
-        response_data = self.handler.execute(self.user, request_data)
+        response_data = self.handler.execute(
+            params=QueryParams(query=self.request.GET.dict()),
+            context=RequestContext(user=self.user),
+            data=RequestData(query={}),
+        )
         return super().get_context_data(**kwargs, **response_data.model_dump())
 
 
@@ -176,7 +185,11 @@ class RegularPerformView(_BasePerformView[StartHandler, CheckHandler]):
 
     def get(self, request: HttpRequest) -> HttpResponse:
         """Render initial exercise page."""
-        result = self.start_handler.execute(self.user, request.GET.dict())
+        result = self.start_handler.execute(
+            params=QueryParams(query=self.request.GET.dict()),
+            context=RequestContext(user=self.user),
+            data=RequestData(query={}),
+        )
 
         if request.headers.get('HX-Request') == 'true':
             # Renders new exercise case after explanation.
@@ -194,8 +207,11 @@ class RegularPerformView(_BasePerformView[StartHandler, CheckHandler]):
         """Render exercise loop."""
         # Query parameters contains exercise conditions.
         # Request body contains user's answer.
-        request_data = {**request.GET.dict(), **request.POST.dict()}
-        result = self.check_handler.execute(self.user, request_data)
+        result = self.check_handler.execute(
+            params=QueryParams(query=request.GET.dict()),
+            context=RequestContext(user=self.user),
+            data=RequestData(query=request.POST.dict()),
+        )
         return HttpResponse(self._get_partial_html(request, result))
 
 
@@ -218,11 +234,11 @@ class _DetailPerformView(
 
     def get(self, request: HttpRequest, pk: int) -> HttpResponse:
         """Render initial exercise page."""
-        params = DetailParams(pk=pk)
-        request_context = RequestContext(user=self.user)
-        data = RequestData(query=request.GET.dict())
-
-        result = self.start_handler.execute(params, request_context, data)
+        result = self.start_handler.execute(
+            params=RequestParams(pk=pk, query=request.GET.dict()),
+            context=RequestContext(user=self.user),
+            data=RequestData(query={}),
+        )
 
         if request.headers.get('HX-Request') == 'true':
             # Renders new exercise case after explanation.

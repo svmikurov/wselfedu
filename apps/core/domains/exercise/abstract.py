@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Generic, TypeVar
 
 if TYPE_CHECKING:
-    from .types import Candidates, CheckResult, TestCheckRequest
+    from .types import Candidates, CheckResultProtocol, TestCheckRequest
 
 T = TypeVar('T')
 R = TypeVar('R')
@@ -40,5 +40,9 @@ class AbstractCheckExerciseDomain(ABC, Generic[T]):
     """ABC for check user answer domain business logic."""
 
     @abstractmethod
-    def execute(self, answer: TestCheckRequest, case_meta: T) -> CheckResult:
+    def execute(
+        self,
+        answer: TestCheckRequest,
+        case_meta: T,
+    ) -> CheckResultProtocol:
         """Check user's answer."""

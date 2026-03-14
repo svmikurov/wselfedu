@@ -10,7 +10,7 @@ including:
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import DependenciesContainer, Factory
 
-from apps.core.handlers import RegularRequestHandler
+from apps.core.handlers import RequestHandler
 
 
 class TranslationPresentationContainer(DeclarativeContainer):
@@ -21,13 +21,13 @@ class TranslationPresentationContainer(DeclarativeContainer):
     adapters = DependenciesContainer()
 
     web_regular = Factory(
-        RegularRequestHandler,
+        RequestHandler,
         validator=validators.web_regular_presentation,
         use_case=use_cases.regular_translation_presentation,
         adapter=adapters.web_presentation,
     )
     api_regular = Factory(
-        RegularRequestHandler,
+        RequestHandler,
         validator=validators.api_regular_presentation,
         use_case=use_cases.regular_translation_presentation,
         adapter=adapters.api_presentation,

@@ -6,30 +6,20 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
 
-from apps.core.adapters.response.shared import WebResponseDTO
 from apps.core.handlers.dto import NullParams, RequestContext, RequestData
-from apps.core.handlers.generic import RequestHandler
-from apps.core.validators.request.null import NullValidated
 from apps.core.views import UserLoginRequiredMixin
 from apps.core.views.mixins import GetHandlerMixin
-from apps.math.domains.dto import StudentExerciseDTO
+from apps.math.handlers.types import (
+    StudentExerciseListHandler as ExerciseListHandler,
+)
 from di import MainContainer
-
-type StudentHandler = RequestHandler[
-    NullParams,
-    RequestContext,
-    RequestData,
-    NullValidated,
-    list[StudentExerciseDTO],
-    WebResponseDTO,
-]
 
 HANDLERS = MainContainer.math.exercise_web_views
 
 
 class StudentCalculationExerciseListVew(
     UserLoginRequiredMixin,
-    GetHandlerMixin[StudentHandler],
+    GetHandlerMixin[ExerciseListHandler],
     TemplateView,
     View,
 ):
@@ -42,7 +32,7 @@ class StudentCalculationExerciseListVew(
         self,
         request: HttpRequest,
         *args: object,
-        handler: StudentHandler = Provide[HANDLERS.student_exercises],  # type: ignore[attr-defined]
+        handler: ExerciseListHandler = Provide[HANDLERS.student_exercises],  # type: ignore[attr-defined]
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject request handler."""

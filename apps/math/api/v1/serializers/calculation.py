@@ -5,7 +5,7 @@ from typing import Any
 from drf_spectacular.utils import OpenApiExample, extend_schema_serializer
 from rest_framework import serializers
 
-from apps.core.types import ResultType
+from apps.core.types import CheckResultDataType
 from apps.math.services.types import CalcTaskType
 
 CONFIG_EXAMPLE = {
@@ -110,7 +110,7 @@ class AssignedAnswerSerializer(AnswerSerializer):
 # Serializers for task answer result checking
 
 
-class ResultSerializer(serializers.Serializer[ResultType]):
+class ResultSerializer(serializers.Serializer[CheckResultDataType]):
     """Base serializer for calculation result representation."""
 
     is_correct = serializers.BooleanField(

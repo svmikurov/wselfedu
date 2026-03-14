@@ -34,8 +34,8 @@ from apps.core.storages.clients.django_cache import DjangoKeyCache
 from apps.core.storages.services.iabc import AbstractUserStorage
 from apps.core.storages.services.service import UserDataStorage
 from apps.core.use_cases.abstract import (
-    AbstractDetailDataUseCase,
     AbstractDetailUseCase,
+    AbstractSimpleUseCase,
 )
 from apps.core.validators.request.abstract import AbstractRequestValidator
 from apps.core.validators.request.null import NullValidator
@@ -55,15 +55,12 @@ from apps.math.domains.dto import (
     CalculationResultDTO,
     CustomCalculationDTO,
     RegularParametersDTO,
-    StudentCalculationDTO,
-    StudentParametersDTO,
 )
 from apps.math.domains.dto_factory import CustomCalculationDTOFactory
 from apps.math.models import CalculationCondition, StudentCalculationCondition
 from apps.math.repositories.exercise import (
-    BaseCalculationRepository,
+    BaseExerciseRepository,
     CalculationConditionsRepository,
-    StudentCalculationConditionsRepository,
 )
 from apps.math.services.calculation import (
     CalculationCheckService,
@@ -113,7 +110,7 @@ def storage() -> AbstractUserStorage[Any]:
 @pytest.fixture
 def repository(
     storage: UserDataStorage[Any],
-) -> BaseCalculationRepository[RegularParametersDTO]:
+) -> BaseExerciseRepository[RegularParametersDTO]:
     """Provide student calculation repository."""
     return CalculationConditionsRepository(
         manager=CalculationCondition.objects,
@@ -161,7 +158,7 @@ def explain_service() -> AbstractExerciseExplain[
 
 
 @pytest.fixture
-def create_adapter() -> ResponseAdapterProtocol[StudentCalculationDTO]:
+def create_adapter() -> ResponseAdapterProtocol[CustomCalculationDTO]:
     """Provide DTO factory."""
     return CalculationWebCaseAdapter()
 
@@ -179,7 +176,7 @@ def result_adapter_strategy(
     create_adapter: ResponseAdapterProtocol[Any],
     explain_adapter: ResponseAdapterProtocol[Any],
 ) -> ResponseAdapterProtocol[Any]:
-    """Provide student calculation result strategy."""
+    """Provide calculation result strategy."""
     return ResultStrategyAdapter(
         new_case_adapter=create_adapter,
         explain_adapter=explain_adapter,
@@ -204,7 +201,7 @@ def dto_factory() -> AbstractExerciseDTOFactory[
 
 @pytest.fixture
 def create_use_case(
-    repository: StudentCalculationConditionsRepository,
+    repository: BaseExerciseRepository[RegularParametersDTO],
     create_service: AbstractRegularExerciseCreate[
         CalculationConditionDTO,
         tuple[CalculationCaseDTO, CalculationMetaDTO],
@@ -212,10 +209,10 @@ def create_use_case(
     storage: UserDataStorage[Any],
     dto_factory: AbstractExerciseDTOFactory[
         CalculationCaseDTO,
-        StudentParametersDTO,
-        StudentCalculationDTO,
+        RegularParametersDTO,
+        CalculationDomainDTO,
     ],
-) -> AbstractDetailUseCase[StudentCalculationDTO]:
+) -> AbstractSimpleUseCase[CalculationDomainDTO]:
     """Provide calculation exercise create use case."""
     return DetailExerciseCreateUseCase(
         repository=repository,
@@ -228,7 +225,7 @@ def create_use_case(
 @pytest.fixture
 def check_use_case(
     storage: UserDataStorage[Any],
-    repository: BaseCalculationRepository[RegularParametersDTO],
+    repository: BaseExerciseRepository[Any],
     check_service: AbstractExerciseCheck[
         CalculationAnswerDTO,
         CalculationCaseDTO,
@@ -239,8 +236,8 @@ def check_use_case(
         CalculationCaseDTO,
         CalculationExplainDTO,
     ],
-    create_use_case: AbstractDetailUseCase[CalculationCaseDTO],
-) -> AbstractDetailDataUseCase[
+    create_use_case: AbstractSimpleUseCase[CalculationCaseDTO],
+) -> AbstractDetailUseCase[
     CalculationAnswerDTO,
     CalculationCaseDTO | CalculationExplainDTO,
 ]:

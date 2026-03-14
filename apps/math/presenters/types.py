@@ -2,7 +2,7 @@
 
 from typing import NotRequired, TypedDict
 
-from apps.core.types import RelatedDataType, ResultType
+from apps.core.types import CheckResultDataType, RelatedDataType
 
 from ..services.types import CalcTaskType
 
@@ -23,4 +23,4 @@ class QuestionResponseType(_ResponseType):
 class ResultResponseType(_ResponseType):
     """User answer check result response type."""
 
-    data: ResultType
+    data: CheckResultDataType

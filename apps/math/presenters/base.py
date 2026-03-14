@@ -7,7 +7,7 @@ from wse_exercises.core.math import CalcTask
 
 from apps.core.presenters import TaskPresenter
 from apps.core.storages.services.iabc import TaskStorageProto
-from apps.core.types import ResultType
+from apps.core.types import CheckResultDataType
 from apps.study.services.iabc import StrTaskCheckerProto
 
 from ..services.protocol import ExerciseServiceProto
@@ -29,7 +29,7 @@ class BaseCalcTaskPresenter(
         CalcConditionType,
         CalcTaskType,
         AnswerT,
-        ResultType,
+        CheckResultDataType,
     ],
 ):
     """Typed base class for calculation task presenter."""
@@ -61,7 +61,7 @@ class BaseCalcTaskPresenter(
     def get_result(
         self,
         answer_data: AnswerT,
-    ) -> ResultType:
+    ) -> CheckResultDataType:
         """Get user answer checking result."""
         task = self._task_storage.retrieve_task(answer_data['uid'])
         correct_answer = str(task.answer.number)
@@ -71,7 +71,7 @@ class BaseCalcTaskPresenter(
 
         is_correct = self._task_checker.check(correct_answer, user_answer)
 
-        payload: ResultType = {
+        payload: CheckResultDataType = {
             'is_correct': is_correct,
         }
         if not is_correct:

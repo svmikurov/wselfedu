@@ -1,156 +1,22 @@
-"""Generic request handlers."""
+"""Generic request handler."""
 
-from __future__ import annotations
-
-from typing import TYPE_CHECKING, Generic, TypeVar
+from typing import Generic, TypeVar
 
 from .protocol import (
     AdapterProtocol,
-    DetailParamsProtocol,
-    GenericAdapterProtocol,
-    RequestContextProtocol,
-    RequestDataProtocol,
-    RequestResultProtocol,
-    RequestValidatorProtocol,
+    QueryRequestParamsProtocol,
+    RequestParserProtocol,
     UseCaseProtocol,
+    ValidatorProtocol,
 )
 
-if TYPE_CHECKING:
-    from apps.users.models import Person
-
-    from .protocol import (
-        ContextResponseAdapterProtocol,
-        DataUseCaseProtocol,
-        DetailUseCaseProtocol,
-        GenericAdapterProtocol,
-        ResourceValidatorProtocol,
-        ResponseAdapterProtocol,
-        ValidatorProtocol,
-    )
-
-RequestParams = TypeVar('RequestParams')
+RequestParams = TypeVar('RequestParams', bound=QueryRequestParamsProtocol)
 RequestContext = TypeVar('RequestContext')
 RequestData = TypeVar('RequestData')
+Parsed = TypeVar('Parsed')
 Validated = TypeVar('Validated')
 DomainResult = TypeVar('DomainResult')
 ResponseData = TypeVar('ResponseData')
-
-
-# DEPRECATED: Use DetailRequestHandler
-class RegularRequestHandler(
-    Generic[RequestData, Validated, DomainResult, ResponseData]
-):
-    """Regular request handler."""
-
-    def __init__(
-        self,
-        validator: ValidatorProtocol[RequestData, Validated],
-        use_case: DataUseCaseProtocol[Validated, DomainResult],
-        adapter: GenericAdapterProtocol[DomainResult, ResponseData],
-    ) -> None:
-        """Construct the handler."""
-        self._validator = validator
-        self._use_case = use_case
-        self._adapter = adapter
-
-    def execute(
-        self,
-        user: Person,
-        request_data: RequestData,
-    ) -> ResponseData:
-        """Handle the request."""
-        validated_data = self._validator.validate(request_data)
-        result_data = self._use_case.execute(user, validated_data)
-        response_data = self._adapter.to_response(result_data)
-        return response_data
-
-
-# DEPRECATED: Use DetailRequestHandler
-class ResourceRequestHandler(
-    Generic[RequestData, Validated, DomainResult, ResponseData]
-):
-    """Regular request handler for operations with identifier (pk)."""
-
-    def __init__(
-        self,
-        validator: ResourceValidatorProtocol[RequestData, Validated],
-        use_case: DataUseCaseProtocol[Validated, DomainResult],
-        adapter: GenericAdapterProtocol[DomainResult, ResponseData],
-    ) -> None:
-        """Construct the handler."""
-        self._validator = validator
-        self._use_case = use_case
-        self._adapter = adapter
-
-    def execute(
-        self,
-        user: Person,
-        request_data: RequestData,
-        pk: int,
-    ) -> ResponseData:
-        """Execute."""
-        validated = self._validator.validate(request_data, pk=pk)
-        domain_result = self._use_case.execute(user, validated)
-        result = self._adapter.to_response(domain_result)
-        return result
-
-
-# REVIEW: Rename request handler
-class DetailRequestHandler(Generic[Validated, DomainResult]):
-    """Detail request handler for operations with identifier (pk)."""
-
-    def __init__(
-        self,
-        validator: RequestValidatorProtocol[Validated],
-        use_case: DetailUseCaseProtocol[Validated, DomainResult],
-        adapter: ResponseAdapterProtocol[DomainResult],
-    ) -> None:
-        """Construct the handler."""
-        self._validator = validator
-        self._use_case = use_case
-        self._adapter = adapter
-
-    def execute(
-        self,
-        params: DetailParamsProtocol,
-        context: RequestContextProtocol,
-        data: RequestDataProtocol,
-    ) -> RequestResultProtocol:
-        """Execute."""
-        validated = self._validator.validate(data)
-        domain_result = self._use_case.execute(params, context, validated)
-        result = self._adapter.to_response(domain_result)
-        return result
-
-
-class ContextRequestHandler(Generic[Validated, DomainResult]):
-    """Context request handler for operations with identifier (pk).
-
-    Passes the request context to the adapter.
-    """
-
-    def __init__(
-        self,
-        validator: RequestValidatorProtocol[Validated],
-        use_case: DetailUseCaseProtocol[Validated, DomainResult],
-        adapter: ContextResponseAdapterProtocol[DomainResult],
-    ) -> None:
-        """Construct the handler."""
-        self._validator = validator
-        self._use_case = use_case
-        self._adapter = adapter
-
-    def execute(
-        self,
-        params: DetailParamsProtocol,
-        context: RequestContextProtocol,
-        data: RequestDataProtocol,
-    ) -> RequestResultProtocol:
-        """Execute."""
-        validated = self._validator.validate(data)
-        domain_result = self._use_case.execute(params, context, validated)
-        result = self._adapter.to_response(domain_result, context)
-        return result
 
 
 class RequestHandler(
@@ -158,24 +24,23 @@ class RequestHandler(
         RequestParams,
         RequestContext,
         RequestData,
+        Parsed,
         Validated,
         DomainResult,
         ResponseData,
     ]
 ):
-    """Generic context request handler.
-
-    Passes the request context to the adapter.
-    """
+    """Generic request handler."""
 
     def __init__(
         self,
+        parser: RequestParserProtocol[Parsed,],
         validator: ValidatorProtocol[
             RequestData,
             Validated,
         ],
         use_case: UseCaseProtocol[
-            RequestParams,
+            Parsed,
             RequestContext,
             Validated,
             DomainResult,
@@ -187,6 +52,7 @@ class RequestHandler(
         ],
     ) -> None:
         """Construct the handler."""
+        self._parser = parser
         self._validator = validator
         self._use_case = use_case
         self._adapter = adapter
@@ -198,7 +64,8 @@ class RequestHandler(
         data: RequestData,
     ) -> ResponseData:
         """Execute."""
+        parsed = self._parser.parse(params)
         validated = self._validator.validate(data)
-        domain_result = self._use_case.execute(params, context, validated)
+        domain_result = self._use_case.execute(parsed, context, validated)
         result = self._adapter.to_response(domain_result, context)
         return result

@@ -9,7 +9,7 @@ from django.db.models import F, OuterRef, Subquery
 from django.utils import timezone
 
 from apps.core.exceptions.storage import CacheMissError
-from apps.core.handlers.protocol import DetailParamsProtocol
+from apps.core.handlers.protocol import DetailRequestParamsProtocol
 from apps.core.repositories.abstract import AbstractUserConditionsRepository
 from apps.math.domains.dto import (
     CalculationConditionDTO,
@@ -35,7 +35,7 @@ if TYPE_CHECKING:
     from apps.users.models import Person
 
 __all__ = (
-    'BaseCalculationRepository',
+    'BaseExerciseRepository',
     'CalculationConditionsRepository',
     'StudentCalculationConditionsRepository',
 )
@@ -51,14 +51,14 @@ class CacheKeyDict(TypedDict):
     assignation_pk: int
 
 
-class BaseCalculationRepository(
+class BaseExerciseRepository(
     AbstractUserConditionsRepository[
-        DetailParamsProtocol,
+        DetailRequestParamsProtocol,
         ExerciseParameters,
     ],
     Generic[ExerciseParameters],
 ):
-    """Base calculation repository."""
+    """Base user's exercise repository."""
 
     STORAGE_PREFIX: str | None = None
 
@@ -71,9 +71,11 @@ class BaseCalculationRepository(
 
     @override
     def fetch(
-        self, params: DetailParamsProtocol, user: Person
+        self,
+        params: DetailRequestParamsProtocol,
+        user: Person,
     ) -> ExerciseParameters:
-        """Fetch calculation exercise conditions."""
+        """Fetch exercise conditions."""
         try:
             return self._storage.retrieve(**self._get_key(user, params))
         except CacheMissError:
@@ -82,12 +84,16 @@ class BaseCalculationRepository(
             return obj
 
     def _get_object(
-        self, params: DetailParamsProtocol, user: Person
+        self,
+        params: DetailRequestParamsProtocol,
+        user: Person,
     ) -> ExerciseParameters:
         raise NotImplementedError('Subclass must implement _get_object()')
 
     def _get_key(
-        self, user: Person, params: DetailParamsProtocol
+        self,
+        user: Person,
+        params: DetailRequestParamsProtocol,
     ) -> CacheKeyDict:
         return {
             'user_id': user.pk,
@@ -107,7 +113,7 @@ class BaseCalculationRepository(
 
 
 class CalculationConditionsRepository(
-    BaseCalculationRepository[RegularParametersDTO],
+    BaseExerciseRepository[RegularParametersDTO],
 ):
     """Calculation conditions repository."""
 
@@ -124,7 +130,7 @@ class CalculationConditionsRepository(
 
     @override
     def _get_object(
-        self, params: DetailParamsProtocol, user: Person
+        self, params: DetailRequestParamsProtocol, user: Person
     ) -> RegularParametersDTO:
         obj = self._manager.get(pk=params.pk, user=user)
 
@@ -138,7 +144,7 @@ class CalculationConditionsRepository(
 
 
 class StudentCalculationConditionsRepository(
-    BaseCalculationRepository[StudentParametersDTO,]
+    BaseExerciseRepository[StudentParametersDTO,]
 ):
     """Student's assigned calculation conditions repository."""
 
@@ -157,7 +163,7 @@ class StudentCalculationConditionsRepository(
 
     @override
     def _get_object(
-        self, params: DetailParamsProtocol, user: Person
+        self, params: DetailRequestParamsProtocol, user: Person
     ) -> StudentParametersDTO:
         exercise_content_type = ContentType.objects.get_for_model(
             StudentCalculationCondition

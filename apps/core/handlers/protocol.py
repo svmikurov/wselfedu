@@ -11,14 +11,44 @@ T_contra = TypeVar('T_contra', contravariant=True)
 T_co = TypeVar('T_co', covariant=True)
 Params_contra = TypeVar('Params_contra', contravariant=True)
 Context_contra = TypeVar('Context_contra', contravariant=True)
+Parsed_co = TypeVar('Parsed_co', covariant=True)
 Validated_contra = TypeVar('Validated_contra', contravariant=True)
 DomainResult_contra = TypeVar('DomainResult_contra', contravariant=True)
 Result_co = TypeVar('Result_co', covariant=True)
 
 
-# ===============================================
+class NullDataProtocol(Protocol):
+    """Protocol for null data interface."""
+
+
+# =================================================
 # Data-Transfer-Objects
-# ===============================================
+# =================================================
+
+# -------------------------------------------------
+# Request parameters
+# -------------------------------------------------
+
+
+class SimpleRequestParamsProtocol(Protocol):
+    """Protocol for simple request parameters DTO."""
+
+
+class DetailRequestParamsProtocol(Protocol):
+    """Protocol for detail request parameters DTO."""
+
+    pk: int
+
+
+class QueryRequestParamsProtocol(Protocol):
+    """Protocol for request with query parameters DTO."""
+
+    query: dict[str, str]
+
+
+# -------------------------------------------------
+# Request context
+# -------------------------------------------------
 
 
 class RequestContextProtocol(Protocol):
@@ -27,16 +57,20 @@ class RequestContextProtocol(Protocol):
     user: Person
 
 
-class DetailParamsProtocol(Protocol):
-    """Protocol for detail request parameters DTO."""
-
-    pk: int
+# -------------------------------------------------
+# Request data
+# -------------------------------------------------
 
 
 class RequestDataProtocol(Protocol):
     """Protocol for request data DTO."""
 
     query: dict[str, Any]
+
+
+# -------------------------------------------------
+# Response data
+# -------------------------------------------------
 
 
 class RequestResultProtocol(Protocol):
@@ -55,6 +89,17 @@ class OobResultProtocol(Protocol):
 # ===============================================
 # Dependencies
 # ===============================================
+
+# -----------------------------------------------
+# Parser
+# -----------------------------------------------
+
+
+class RequestParserProtocol(Protocol[Parsed_co]):
+    """Protocol for request parameters parse."""
+
+    def parse(self, request_params: QueryRequestParamsProtocol) -> Parsed_co:
+        """Parse request parameters."""
 
 
 # -----------------------------------------------
@@ -111,7 +156,7 @@ class DetailUseCaseProtocol(Protocol[T_contra, T_co]):
 
     def execute(
         self,
-        params: DetailParamsProtocol,
+        params: DetailRequestParamsProtocol,
         context: RequestContextProtocol,
         validated: T_contra,
     ) -> T_co:
@@ -208,7 +253,7 @@ class DetailRequestHandlerProtocol(Protocol[T_co]):
 
     def execute(
         self,
-        params: DetailParamsProtocol,
+        params: DetailRequestParamsProtocol,
         context: RequestContextProtocol,
         data: RequestDataProtocol,
     ) -> T_co:
