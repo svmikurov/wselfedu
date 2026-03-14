@@ -17,6 +17,14 @@ __all__ = [
     'DetailTestRequestDTO',
 ]
 
+from apps.core.domains.exercise.dto import (
+    DetailTestRequestDTO,
+    Explanation,
+    TestCase,
+    TestRequestDTO,
+    TestResponseData,
+)
+
 from .presentation import (
     LookupCondition,
     ParametersSchema,
@@ -26,10 +34,3 @@ from .presentation import (
 )
 from .progress import UpdateProgress
 from .schemas import WordStudyStoredCase
-from .test import (
-    DetailTestRequestDTO,
-    Explanation,
-    TestCase,
-    TestRequestDTO,
-    TestResponseData,
-)

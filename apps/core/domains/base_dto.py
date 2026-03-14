@@ -1,8 +1,9 @@
 """Base Data Transfer Object."""
 
 from typing import Any
+from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class BaseConfigurationMixin:
@@ -28,3 +29,11 @@ class ProtectDefaultStatusMixin:
         if isinstance(data, dict):
             data.pop('status', None)
         return data
+
+
+class UuidDTO(BaseDTO):
+    """Stored exercise case UUID DTO."""
+
+    case_uuid: UUID = Field(
+        description='Stored exercise case UUID',
+    )

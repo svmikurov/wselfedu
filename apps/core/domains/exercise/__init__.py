@@ -2,11 +2,6 @@
 
 __all__ = [
     # --------------------
-    # Enumeration
-    # --------------------
-    'ExerciseStatusEnum',
-    'DisplayOrder',
-    # --------------------
     # Data Transfer Object
     # --------------------
     # General
@@ -30,6 +25,8 @@ __all__ = [
     'RegularTestCreateDomain',
     'DetailTestCreateDomain',
     'TestCheckDomain',
+    'DisplayOrder',
+    'ExerciseStatusEnum',
 ]
 
 from .dto import (

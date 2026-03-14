@@ -5,8 +5,8 @@ from __future__ import annotations
 from pydantic import Field
 
 from apps.core.domains.base_dto import BaseDTO, ProtectDefaultStatusMixin
-
-from . import ExerciseStatusEnum, UuidDTO
+from apps.core.domains.exercise.dto import UuidDTO
+from apps.core.domains.exercise.enums import ExerciseStatusEnum
 
 # ---------------------
 # Test exercise options

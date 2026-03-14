@@ -9,7 +9,7 @@ from apps.core.domains.exercise import (
     TestExerciseData,
     TestExerciseExplanation,
 )
-from apps.lang.schemas.test import (
+from apps.core.domains.exercise.dto import (
     Explanation,
     TestCase,
     TestResponseData,

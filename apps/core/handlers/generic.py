@@ -34,11 +34,8 @@ class RequestHandler(
 
     def __init__(
         self,
-        parser: RequestParserProtocol[Parsed,],
-        validator: ValidatorProtocol[
-            RequestData,
-            Validated,
-        ],
+        parser: RequestParserProtocol[Parsed],
+        validator: ValidatorProtocol[RequestData, Validated],
         use_case: UseCaseProtocol[
             Parsed,
             RequestContext,

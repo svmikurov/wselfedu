@@ -11,6 +11,7 @@ from django.views import generic
 
 from apps.core.domains.exercise import ExerciseStatusEnum
 from apps.core.exceptions import info
+from apps.core.handlers.dto import QueryParams, RequestContext, RequestData
 from apps.core.handlers.types import WebAssignedTest, WebTest
 from apps.core.views import auth, mixins
 from di import MainContainer
@@ -27,7 +28,7 @@ __all__ = [
 
 T = TypeVar('T')
 
-CONTAINER = MainContainer.lang.view_container.exercise  # type: ignore
+HANDLERS = MainContainer.lang.view_container.exercise  # type: ignore
 
 PARTIAL_TEMPLATES: dict[ExerciseStatusEnum, str] = {
     ExerciseStatusEnum.NEW_CASE: 'lang/exercise/test/_case.html',
@@ -35,8 +36,9 @@ PARTIAL_TEMPLATES: dict[ExerciseStatusEnum, str] = {
     ExerciseStatusEnum.NO_CASE: 'lang/exercise/test/_no_cases.html',
 }
 
-# REVIEW: Current implementation have duplicated dispatch method
-#         with different use case injection.
+# -------------------------------------------------
+# Regular exercise
+# -------------------------------------------------
 
 
 class TranslationTestView(
@@ -53,7 +55,7 @@ class TranslationTestView(
         self,
         request: HttpRequest,
         *args: object,
-        use_case: WebTest = Provide[CONTAINER.web_regular_test],
+        use_case: WebTest = Provide[HANDLERS.web_regular_test],
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject translation study test exercise UseCase."""
@@ -63,7 +65,11 @@ class TranslationTestView(
     def post(self, request: HttpRequest) -> HttpResponse:
         """Render translation study test case via partial template."""
         try:
-            case = self.use_case.execute(self.user, request.POST.dict())
+            case = self.use_case.execute(
+                params=QueryParams(query=self.request.GET.dict()),
+                context=RequestContext(user=self.user),
+                data=RequestData(query={}),
+            )
         except info.NoExerciseItemsException:
             template_name = PARTIAL_TEMPLATES[ExerciseStatusEnum.NO_CASE]
             return HttpResponse(render_to_string(template_name))
@@ -87,7 +93,7 @@ class TranslationTestMentorshipView(
         self,
         request: HttpRequest,
         *args: object,
-        use_case: WebAssignedTest = Provide[CONTAINER.web_detail_test],
+        use_case: WebAssignedTest = Provide[HANDLERS.web_detail_test],
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject translation study test exercise UseCase."""

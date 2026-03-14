@@ -1,37 +1,38 @@
 """Handler type hint."""
 
-from typing import Any, TypeAlias
+from typing import TypeAlias
 
-from apps.core.handlers.dto import QueryParams, RequestContext
+from apps.core.handlers.dto import QueryParams, RequestContext, RequestData
+from apps.core.handlers.protocol import RequestDataProtocol
 from apps.core.parsers.request import NullParser
+from apps.core.validators.request.null import NullValidator
 
 # TODO: Relocate schemas
-from apps.lang import schemas
+from apps.lang.schemas import (
+    DetailTestRequestDTO,
+    TestResponseData,
+)
 
 from .generic import RequestHandler
-
-type RequestData = dict[str, Any]
-type DomainResult = schemas.TestCase | schemas.Explanation
-
 
 WebTest: TypeAlias = RequestHandler[
     QueryParams,
     RequestContext,
     RequestData,
     NullParser,
-    schemas.TestRequestDTO,
-    DomainResult,
-    schemas.TestResponseData,
+    NullValidator[RequestDataProtocol],
+    DetailTestRequestDTO,
+    TestResponseData,
 ]
-"""UseCase for regular web translation study tests."""
+"""Regular web translation study test exercise use case."""
 
 WebAssignedTest: TypeAlias = RequestHandler[
     QueryParams,
     RequestContext,
     RequestData,
     NullParser,
-    schemas.DetailTestRequestDTO,
-    DomainResult,
-    schemas.TestResponseData,
+    NullValidator[RequestDataProtocol],
+    DetailTestRequestDTO,
+    TestResponseData,
 ]
-"""UseCase for web translation tests with assignment pk."""
+"""Detail web translation study test exercise use case."""
