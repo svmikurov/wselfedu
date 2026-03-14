@@ -68,7 +68,7 @@ class TranslationTestView(
             case = self.use_case.execute(
                 params=QueryParams(query=self.request.GET.dict()),
                 context=RequestContext(user=self.user),
-                data=RequestData(query={}),
+                data=RequestData(query=request.POST.dict()),
             )
         except info.NoExerciseItemsException:
             template_name = PARTIAL_TEMPLATES[ExerciseStatusEnum.NO_CASE]

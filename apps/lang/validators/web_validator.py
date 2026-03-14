@@ -1,15 +1,12 @@
 """Web presentation request validator."""
 
-from typing import Any
-
+from apps.core.handlers.dto import RequestData
 from apps.core.handlers.protocol import (
     ResourceValidatorProtocol,
     ValidatorProtocol,
 )
 
 from .. import schemas
-
-type RequestData = dict[str, Any]
 
 
 class WebPresentationValidator(
@@ -23,7 +20,7 @@ class WebPresentationValidator(
     ) -> schemas.RegularConditionRequest:
         """Validate the web request presentation data."""
         return schemas.RegularConditionRequest(
-            parameters=schemas.ParametersSchema(**raw_data),
+            parameters=schemas.ParametersSchema(**raw_data.query),
             settings=schemas.SettingsSchema(**raw_data),
         )
 
@@ -34,7 +31,7 @@ class WebTestValidator(ValidatorProtocol[RequestData, schemas.TestRequestDTO]):
     @classmethod
     def validate(cls, raw_data: RequestData) -> schemas.TestRequestDTO:
         """Validate the web request data."""
-        return schemas.TestRequestDTO(**raw_data)
+        return schemas.TestRequestDTO(**raw_data.query)
 
 
 class WebAssignedTestValidator(

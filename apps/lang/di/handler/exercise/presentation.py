@@ -11,6 +11,7 @@ from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import DependenciesContainer, Factory
 
 from apps.core.handlers import RequestHandler
+from apps.core.parsers.request import NullParser
 
 
 class TranslationPresentationContainer(DeclarativeContainer):
@@ -22,12 +23,14 @@ class TranslationPresentationContainer(DeclarativeContainer):
 
     web_regular = Factory(
         RequestHandler,
+        parser=Factory(NullParser),
         validator=validators.web_regular_presentation,
         use_case=use_cases.regular_translation_presentation,
         adapter=adapters.web_presentation,
     )
     api_regular = Factory(
         RequestHandler,
+        parser=Factory(NullParser),
         validator=validators.api_regular_presentation,
         use_case=use_cases.regular_translation_presentation,
         adapter=adapters.api_presentation,

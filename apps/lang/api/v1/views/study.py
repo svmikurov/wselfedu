@@ -17,7 +17,7 @@ from rest_framework.viewsets import ViewSet
 import di
 from apps.core import views as core_views
 from apps.core.api import renderers
-from apps.lang.di.handler.exercise.types import RegularPresentationApiHandler
+from apps.lang.handlers.types import RegularPresentationApiHandler
 from apps.lang.repositories.abc import StudyParametersRepositoryABC
 from apps.lang.use_cases.exercise.abc import WordProgressServiceABC
 
