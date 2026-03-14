@@ -3,7 +3,7 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Configuration, Factory
 
-from .. import adapters
+from apps.lang import adapters
 
 
 class AdapterContainer(DeclarativeContainer):

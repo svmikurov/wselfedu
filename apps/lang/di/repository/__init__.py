@@ -1,0 +1,1 @@
+"""Language discipline repository DI."""

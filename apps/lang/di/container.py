@@ -3,13 +3,13 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Container, DependenciesContainer
 
-from .adapter import AdapterContainer
-from .handler.exercise.exercises import ExerciseHandlerContainer
-from .repository import RepositoryContainer
-from .storage import StorageContainer
-from .use_case import ServiceContainer
-from .validator import ValidatorContainer
-from .view.container import ViewContainer
+from apps.lang.di.adapter.adapter import AdapterContainer
+from apps.lang.di.handler.exercise.exercises import ExerciseHandlerContainer
+from apps.lang.di.repository.repository import RepositoryContainer
+from apps.lang.di.repository.storage import StorageContainer
+from apps.lang.di.service.service import ServiceContainer
+from apps.lang.di.validator.validator import ValidatorContainer
+from apps.lang.di.view.container import ViewContainer
 
 
 class LanguageContainer(DeclarativeContainer):

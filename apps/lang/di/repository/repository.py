@@ -3,12 +3,11 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Factory
 
+from apps.lang import models, repositories
 from apps.lang.models import Parameters, TranslationSetting
 from apps.lang.repositories.exercise.conditions import (
     RegularParametersRepository,
 )
-
-from .. import models, repositories
 
 
 class RepositoryContainer(DeclarativeContainer):

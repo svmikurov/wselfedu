@@ -1,1 +1,1 @@
-"""Language discipline view request handlers."""
+"""Language discipline view request handler DI."""
