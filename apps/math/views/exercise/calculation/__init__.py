@@ -35,10 +35,12 @@ from .mentor import (
 )
 from .perform import (
     CustomCalculationPerformView,
-    ExerciseChoiceView,
     MentorCalculationPerformView,
     RegularPerformView,
     StudentCalculationPerformView,
+)
+from .regular import (
+    ExerciseChoiceView,
 )
 from .student import (
     StudentCalculationExerciseListVew,

@@ -11,6 +11,7 @@ T_contra = TypeVar('T_contra', contravariant=True)
 T_co = TypeVar('T_co', covariant=True)
 Params_contra = TypeVar('Params_contra', contravariant=True)
 Context_contra = TypeVar('Context_contra', contravariant=True)
+Data_contra = TypeVar('Data_contra', contravariant=True)
 Parsed_co = TypeVar('Parsed_co', covariant=True)
 Validated_contra = TypeVar('Validated_contra', contravariant=True)
 DomainResult_contra = TypeVar('DomainResult_contra', contravariant=True)
@@ -234,11 +235,18 @@ class AdapterProtocol(
 # -----------------------------------------------
 
 
-class RequestHandlerProtocol(Protocol[T_contra, T_co]):
-    """Protocol for request parameters handler."""
+class RequestHandlerProtocol(
+    Protocol[Params_contra, Context_contra, Data_contra, Result_co]
+):
+    """Protocol for request handler."""
 
-    def execute(self, request_data: T_contra) -> T_co:
-        """Handle the request."""
+    def execute(
+        self,
+        params: Params_contra,
+        context: Context_contra,
+        data: Data_contra,
+    ) -> Result_co:
+        """Execute."""
 
 
 class RegularRequestHandlerProtocol(Protocol[T_contra, T_co]):

@@ -2,167 +2,35 @@
 
 from __future__ import annotations
 
-import logging
-from typing import TYPE_CHECKING, Any, Generic, TypeVar
+from typing import TYPE_CHECKING
 
 from dependency_injector.wiring import Provide, inject
 from django.http.request import HttpRequest
-from django.http.response import HttpResponse
-from django.shortcuts import render
-from django.template.loader import render_to_string
-from django.utils.safestring import mark_safe
-from django.utils.translation import gettext as _
-from django.views import View
-from django.views.generic import TemplateView
-from django.views.generic.base import TemplateResponseMixin
 
-from apps.core.adapters.response.exercise.web.dto import (
-    WebExerciseResponseDTO,
+from apps.core.views.exercise import (
+    BaseDetailPerformView,
+    BaseQueryPerformView,
+    DetailHandler,
+    QueryHandler,
 )
-from apps.core.domains.exercise.enums import ExerciseStatusEnum
-from apps.core.handlers.dto import (
-    DetailParams,
-    QueryParams,
-    RequestContext,
-    RequestData,
-    RequestParams,
-)
-from apps.core.handlers.protocol import (
-    DetailRequestHandlerProtocol,
-    RegularRequestHandlerProtocol,
-)
-from apps.core.views.auth import UserLoginRequiredMixin
-from apps.core.views.mixins import GetExerciseHandlersMixin, GetHandlerMixin
 from di import MainContainer
 
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponseBase
 
-# HACK: Fix Any type hint
-type ChoiceHandler = Any
-type GenerateHandler = Any
-type CheckHandler = Any
-type StartHandler = Any
-
-# HACK: Fix Any type hint
-CreateHandlerT = TypeVar(
-    'CreateHandlerT', bound=RegularRequestHandlerProtocol[Any, Any]
-)
-CheckHandlerT = TypeVar(
-    'CheckHandlerT', bound=RegularRequestHandlerProtocol[Any, Any]
-)
-
-__all__ = [
-    'ExerciseChoiceView',
+__all__ = (
     'RegularPerformView',
     'CustomCalculationPerformView',
     'StudentCalculationPerformView',
-]
-
-log = logging.getLogger(__name__)
+)
 
 HANDLERS = MainContainer.math.exercise_web_views
 
-TEMPLATE_PATH = 'math/exercise/calculation/perform/'
-PARTIAL_TEMPLATES: dict[ExerciseStatusEnum, str] = {
-    ExerciseStatusEnum.NEW_CASE: '_new_case.html',
-    ExerciseStatusEnum.EXPLAIN: '_explain_case.html',
-    ExerciseStatusEnum.NO_CASE: '_no_case.html',
-}
-ERROR_TEMPLATE = '_case_request_error.html'
 
-# ===============================================
-# Calculation conditions
-# ===============================================
-
-
-class ExerciseChoiceView(
-    UserLoginRequiredMixin,
-    GetHandlerMixin[ChoiceHandler],
-    TemplateView,
-):
-    """Select calculation exercise.
-
-    Renders:
-      - form for the exercise conditions
-      - table of exercises saved by the user (not yet implemented)
-      - table of exercises assigned to the user (not yet implemented)
-    """
-
-    template_name = 'math/exercise/calculation/regular/index.html'
-
-    @inject
-    def dispatch(
-        self,
-        request: HttpRequest,
-        *args: object,
-        handler: ChoiceHandler = Provide[
-            HANDLERS.calculation_exercise_choice  # type: ignore[attr-defined]
-        ],
-        **kwargs: object,
-    ) -> HttpResponseBase:
-        """Inject request handler."""
-        self._handler = handler
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs: dict[str, str]) -> dict[str, str]:
-        """Add data to context."""
-        response_data = self.handler.execute(
-            params=QueryParams(query=self.request.GET.dict()),
-            context=RequestContext(user=self.user),
-            data=RequestData(query={}),
-        )
-        return super().get_context_data(**kwargs, **response_data.model_dump())
-
-
-# ===============================================
-# Calculation exercises
-# ===============================================
-
-# REVIEW: Update base classes
-
-
-class GetPartialExerciseTemplateMixin:
-    """Mixin provides partial template for specific exercise status."""
-
-    @staticmethod
-    def _get_partial_html(
-        request: HttpRequest, schema: WebExerciseResponseDTO
-    ) -> str:
-        """Get partial template html for exercise case."""
-        try:
-            template = PARTIAL_TEMPLATES[schema.exercise_status]
-            context = schema.data.model_dump()
-        except KeyError:
-            template = ERROR_TEMPLATE
-            context = {'error_message': _('Internal server error 500')}
-
-        html = render_to_string(TEMPLATE_PATH + template, context, request)
-
-        if request.headers.get('HX-Request'):
-            return mark_safe(html + schema.oob_html)
-        return html
-
-
-# -----------------------------------------------
-# Regular exercise
-# -----------------------------------------------
-
-
-class _BasePerformView(
-    UserLoginRequiredMixin,
-    GetExerciseHandlersMixin[CreateHandlerT, CheckHandlerT],
-    GetPartialExerciseTemplateMixin,
-    TemplateResponseMixin,
-    View,
-    Generic[CreateHandlerT, CheckHandlerT],
-):
-    """Base exercise performing view."""
-
-
-class RegularPerformView(_BasePerformView[StartHandler, CheckHandler]):
+class RegularPerformView(BaseQueryPerformView):
     """Calculation exercise regular performing view."""
 
+    TEMPLATE_PATH = 'math/exercise/calculation/perform/'
     template_name = 'math/exercise/calculation/perform/index.html'
 
     @inject
@@ -170,10 +38,10 @@ class RegularPerformView(_BasePerformView[StartHandler, CheckHandler]):
         self,
         request: HttpRequest,
         *args: object,
-        start_handler: StartHandler = Provide[
+        start_handler: QueryHandler = Provide[
             HANDLERS.create_regular_calculation  # type: ignore[attr-defined]
         ],
-        check_handler: CheckHandler = Provide[
+        check_handler: QueryHandler = Provide[
             HANDLERS.check_regular_calculation  # type: ignore[attr-defined]
         ],
         **kwargs: object,
@@ -183,89 +51,11 @@ class RegularPerformView(_BasePerformView[StartHandler, CheckHandler]):
         self._check_handler = check_handler
         return super().dispatch(request, *args, **kwargs)
 
-    def get(self, request: HttpRequest) -> HttpResponse:
-        """Render initial exercise page."""
-        result = self.start_handler.execute(
-            params=QueryParams(query=self.request.GET.dict()),
-            context=RequestContext(user=self.user),
-            data=RequestData(query={}),
-        )
 
-        if request.headers.get('HX-Request') == 'true':
-            # Renders new exercise case after explanation.
-            return HttpResponse(self._get_partial_html(request, result))
-
-        else:
-            # Renders initial exercise page.
-            context: dict[str, str] = {
-                'exercise_case_html': self._get_partial_html(request, result),
-                **result.model_dump(),
-            }
-            return render(request, self.get_template_names(), context)
-
-    def post(self, request: HttpRequest) -> HttpResponse:
-        """Render exercise loop."""
-        # Query parameters contains exercise conditions.
-        # Request body contains user's answer.
-        result = self.check_handler.execute(
-            params=QueryParams(query=request.GET.dict()),
-            context=RequestContext(user=self.user),
-            data=RequestData(query=request.POST.dict()),
-        )
-        return HttpResponse(self._get_partial_html(request, result))
-
-
-# -----------------------------------------------
-# Detail exercises for user and student
-# -----------------------------------------------
-
-
-class _DetailPerformView(
-    UserLoginRequiredMixin,
-    GetExerciseHandlersMixin[
-        DetailRequestHandlerProtocol[WebExerciseResponseDTO],
-        DetailRequestHandlerProtocol[WebExerciseResponseDTO],
-    ],
-    GetPartialExerciseTemplateMixin,
-    TemplateResponseMixin,
-    View,
-):
-    """Mixin provides request handling for detail exercise."""
-
-    def get(self, request: HttpRequest, pk: int) -> HttpResponse:
-        """Render initial exercise page."""
-        result = self.start_handler.execute(
-            params=RequestParams(pk=pk, query=request.GET.dict()),
-            context=RequestContext(user=self.user),
-            data=RequestData(query={}),
-        )
-
-        if request.headers.get('HX-Request') == 'true':
-            # Renders new exercise case after explanation.
-            return HttpResponse(self._get_partial_html(request, result))
-
-        else:
-            # Renders initial exercise page.
-            context: dict[str, str] = {
-                'exercise_case_html': self._get_partial_html(request, result),
-                **result.data.model_dump(),
-                **result.context,
-            }
-            return render(request, self.get_template_names(), context)
-
-    def post(self, request: HttpRequest, pk: int) -> HttpResponse:
-        """Render exercise loop."""
-        params = DetailParams(pk=pk)
-        request_context = RequestContext(user=self.user)
-        data = RequestData(query=request.POST.dict())
-
-        result = self.check_handler.execute(params, request_context, data)
-        return HttpResponse(self._get_partial_html(request, result))
-
-
-class CustomCalculationPerformView(_DetailPerformView):
+class CustomCalculationPerformView(BaseDetailPerformView):
     """User's saved calculation exercise performing view."""
 
+    TEMPLATE_PATH = 'math/exercise/calculation/perform/'
     template_name = 'math/exercise/calculation/perform/index.html'
 
     @inject
@@ -273,14 +63,10 @@ class CustomCalculationPerformView(_DetailPerformView):
         self,
         request: HttpRequest,
         *args: object,
-        start_handler: DetailRequestHandlerProtocol[
-            WebExerciseResponseDTO
-        ] = Provide[
+        start_handler: DetailHandler = Provide[
             HANDLERS.start_custom_calculation  # type: ignore[attr-defined]
         ],
-        check_handler: DetailRequestHandlerProtocol[
-            WebExerciseResponseDTO
-        ] = Provide[
+        check_handler: DetailHandler = Provide[
             HANDLERS.check_custom_calculation  # type: ignore[attr-defined]
         ],
         **kwargs: object,
@@ -291,9 +77,10 @@ class CustomCalculationPerformView(_DetailPerformView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class StudentCalculationPerformView(_DetailPerformView):
+class StudentCalculationPerformView(BaseDetailPerformView):
     """Student's assigned calculation exercise performing view."""
 
+    TEMPLATE_PATH = 'math/exercise/calculation/perform/'
     template_name = 'math/exercise/calculation/perform/index.html'
 
     @inject
@@ -301,10 +88,10 @@ class StudentCalculationPerformView(_DetailPerformView):
         self,
         request: HttpRequest,
         *args: object,
-        start_handler: StartHandler = Provide[
+        start_handler: DetailHandler = Provide[
             HANDLERS.start_student_calculation  # type: ignore[attr-defined]
         ],
-        check_handler: CheckHandler = Provide[
+        check_handler: DetailHandler = Provide[
             HANDLERS.check_student_calculation  # type: ignore[attr-defined]
         ],
         **kwargs: object,
@@ -315,9 +102,10 @@ class StudentCalculationPerformView(_DetailPerformView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class MentorCalculationPerformView(_DetailPerformView):
+class MentorCalculationPerformView(BaseDetailPerformView):
     """Mentor's calculation exercise performing view."""
 
+    TEMPLATE_PATH = 'math/exercise/calculation/perform/'
     template_name = 'math/exercise/calculation/perform/index.html'
 
     @inject
@@ -325,10 +113,10 @@ class MentorCalculationPerformView(_DetailPerformView):
         self,
         request: HttpRequest,
         *args: object,
-        start_handler: StartHandler = Provide[
+        start_handler: DetailHandler = Provide[
             HANDLERS.start_mentor_calculation  # type: ignore[attr-defined]
         ],
-        check_handler: CheckHandler = Provide[
+        check_handler: DetailHandler = Provide[
             HANDLERS.check_mentor_calculation  # type: ignore[attr-defined]
         ],
         **kwargs: object,
