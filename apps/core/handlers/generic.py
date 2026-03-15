@@ -1,31 +1,29 @@
 """Generic request handler."""
 
-from typing import Generic, TypeVar
+from typing import Any, Generic, TypeVar
 
 from .protocol import (
     AdapterProtocol,
-    QueryRequestParamsProtocol,
-    RequestParserProtocol,
+    AssemblerProtocol,
     UseCaseProtocol,
     ValidatorProtocol,
 )
 
-RequestParams = TypeVar('RequestParams', bound=QueryRequestParamsProtocol)
+# Request data
 RequestContext = TypeVar('RequestContext')
-RequestData = TypeVar('RequestData')
-Parsed = TypeVar('Parsed')
 Validated = TypeVar('Validated')
+CommandData = TypeVar('CommandData')
+
+# Result data
 DomainResult = TypeVar('DomainResult')
 ResponseData = TypeVar('ResponseData')
 
 
 class RequestHandler(
     Generic[
-        RequestParams,
         RequestContext,
-        RequestData,
-        Parsed,
         Validated,
+        CommandData,
         DomainResult,
         ResponseData,
     ]
@@ -34,35 +32,25 @@ class RequestHandler(
 
     def __init__(
         self,
-        parser: RequestParserProtocol[Parsed],
-        validator: ValidatorProtocol[RequestData, Validated],
-        use_case: UseCaseProtocol[
-            Parsed,
-            RequestContext,
-            Validated,
-            DomainResult,
-        ],
-        adapter: AdapterProtocol[
-            DomainResult,
-            RequestContext,
-            ResponseData,
-        ],
+        validator: ValidatorProtocol[Validated],
+        assembler: AssemblerProtocol[RequestContext, Validated, CommandData],
+        use_case: UseCaseProtocol[CommandData, DomainResult],
+        adapter: AdapterProtocol[DomainResult, RequestContext, ResponseData],
     ) -> None:
         """Construct the handler."""
-        self._parser = parser
         self._validator = validator
+        self._assembler = assembler
         self._use_case = use_case
         self._adapter = adapter
 
     def execute(
         self,
-        params: RequestParams,
+        params: dict[str, str],
         context: RequestContext,
-        data: RequestData,
+        data: dict[str, Any],
     ) -> ResponseData:
         """Execute."""
-        parsed = self._parser.parse(params)
         validated = self._validator.validate(data)
-        domain_result = self._use_case.execute(parsed, context, validated)
-        result = self._adapter.to_response(domain_result, context)
-        return result
+        command = self._assembler.prepare(params, context, validated)
+        domain_result = self._use_case.execute(command)
+        return self._adapter.to_response(domain_result, context)
