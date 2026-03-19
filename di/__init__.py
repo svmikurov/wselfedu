@@ -7,33 +7,36 @@ instance.
 from di.di_container import MainContainer
 
 WIRED_MODULES: list[str] = [
+    # =============================================
+    # Glossary discipline
+    # ---------------------------------------------
     'apps.glossary.api.v1.views.study',
-    # -------------------------------------------
-    # Language application
-    # -------------------------------------------
+    # =============================================
+    # Language discipline
+    # ---------------------------------------------
     'apps.lang.api.v1.views.study',
-    'apps.lang.views',
-    'apps.lang.views.translation',
-    # -------------------------------------------
-    # Mathematical application
-    # -------------------------------------------
+    'apps.lang.views.exercise.translation.perform',
+    # =============================================
+    # Mathematical discipline
+    # ---------------------------------------------
     'apps.math.api.v1.views.assigned',
     'apps.math.api.v1.views.calculation',
     'apps.math.views.exercise.calculation',
-    # -------------------------------------------
+    # =============================================
     # Study application
-    # -------------------------------------------
+    # ---------------------------------------------
     'apps.study.api.v1.views.assigned',
-    # -------------------------------------------
+    # =============================================
     # Users application
-    # -------------------------------------------
+    # ---------------------------------------------
     'apps.users.views.mentorship',
     'apps.users.views.assignation',
+    # ---------------------------------------------
 ]
 
-__all__ = [
+__all__ = (
     'MainContainer',
     'WIRED_MODULES',
-]
+)
 
 container = MainContainer()
