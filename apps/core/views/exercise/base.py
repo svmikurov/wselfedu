@@ -1,8 +1,6 @@
-"""Base regular exercise view."""
+"""Base exercise view."""
 
-from __future__ import annotations
-
-from typing import TypeAlias
+from typing import Generic, TypeAlias, TypeVar, Union, override
 
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
@@ -17,8 +15,8 @@ from apps.core.adapters.response.exercise.web.dto import (
 )
 from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.handlers.dto import (
-    DetailParams,
-    QueryParams,
+    DetailRequestParams,
+    QueryRequestParams,
     RequestContext,
     RequestData,
 )
@@ -26,18 +24,28 @@ from apps.core.handlers.protocol import RequestHandlerProtocol
 from apps.core.views.auth import UserLoginRequiredMixin
 from apps.core.views.mixins import GetExerciseHandlersMixin
 
+__all__ = (
+    'ExercisePerformView',
+    'QueryExercisePerformView',
+    'DetailExercisePerformView',
+)
+
 QueryHandler: TypeAlias = RequestHandlerProtocol[
-    QueryParams,
+    QueryRequestParams[dict[str, str]],
     RequestContext,
-    RequestData,
+    RequestData[dict[str, str]],
     WebExerciseResponseDTO,
 ]
 DetailHandler: TypeAlias = RequestHandlerProtocol[
-    DetailParams,
+    DetailRequestParams,
     RequestContext,
-    RequestData,
+    RequestData[dict[str, str]],
     WebExerciseResponseDTO,
 ]
+Handler: TypeAlias = Union[QueryHandler, DetailHandler]
+
+CreateHandler = TypeVar('CreateHandler', bound=Handler)
+CheckHandler = TypeVar('CheckHandler', bound=Handler)
 
 PARTIAL_TEMPLATES: dict[ExerciseStatusEnum, str] = {
     ExerciseStatusEnum.NEW_CASE: '_new_case.html',
@@ -74,25 +82,23 @@ class GetPartialExerciseTemplateMixin:
         return html
 
 
-class BaseQueryPerformView(
+class ExercisePerformView(
     UserLoginRequiredMixin,
-    GetExerciseHandlersMixin[QueryHandler, QueryHandler],
+    GetExerciseHandlersMixin[CreateHandler, CheckHandler],
     GetPartialExerciseTemplateMixin,
     TemplateResponseMixin,
     View,
+    Generic[CreateHandler, CheckHandler],
 ):
     """Base exercise performing view."""
 
-    def get(self, request: HttpRequest) -> HttpResponse:
+    def get(self, request: HttpRequest, **kwargs: object) -> HttpResponse:
         """Render initial exercise page."""
-        result = self.start_handler.execute(
-            params=QueryParams(query=self.request.GET.dict()),
-            context=RequestContext(user=self.user),
-            data=RequestData(query={}),
-        )
+        result = self._get_start_result(**kwargs)
 
         if request.headers.get('HX-Request') == 'true':
-            # Renders new exercise case after explanation.
+            # Renders new exercise case after explanation
+            # via partial template.
             return HttpResponse(self._get_partial_html(request, result))
 
         else:
@@ -103,53 +109,61 @@ class BaseQueryPerformView(
             }
             return render(request, self.get_template_names(), context)
 
-    def post(self, request: HttpRequest) -> HttpResponse:
+    def post(self, request: HttpRequest, **kwargs: object) -> HttpResponse:
         """Render exercise loop."""
         # Query parameters contains exercise conditions.
         # Request body contains user's answer.
-        result = self.check_handler.execute(
-            params=QueryParams(query=request.GET.dict()),
-            context=RequestContext(user=self.user),
-            data=RequestData(query=request.POST.dict()),
-        )
+        result = self._get_check_result(**kwargs)
         return HttpResponse(self._get_partial_html(request, result))
 
+    def _get_start_result(self, **kwargs: object) -> WebExerciseResponseDTO:
+        """Execute the start exercise and return result."""
+        raise NotImplementedError()
 
-class BaseDetailPerformView(
-    UserLoginRequiredMixin,
-    GetExerciseHandlersMixin[DetailHandler, DetailHandler],
-    GetPartialExerciseTemplateMixin,
-    TemplateResponseMixin,
-    View,
+    def _get_check_result(self, **kwargs: object) -> WebExerciseResponseDTO:
+        """Execute the exercise check and return result."""
+        raise NotImplementedError()
+
+
+class QueryExercisePerformView(
+    ExercisePerformView[QueryHandler, QueryHandler]
 ):
-    """Mixin provides request handling for detail exercise."""
+    """Base query exercise perform view."""
 
-    def get(self, request: HttpRequest, pk: int) -> HttpResponse:
-        """Render initial exercise page."""
-        result = self.start_handler.execute(
-            params=DetailParams(pk=pk),
+    @override
+    def _get_start_result(self, **kwargs: object) -> WebExerciseResponseDTO:
+        return self.start_handler.execute(
+            params=QueryRequestParams(query=self.request.GET.dict()),
             context=RequestContext(user=self.user),
-            data=RequestData(query={}),
+            data=RequestData(data={}),
         )
 
-        if request.headers.get('HX-Request') == 'true':
-            # Renders new exercise case after explanation.
-            return HttpResponse(self._get_partial_html(request, result))
+    @override
+    def _get_check_result(self, **kwargs: object) -> WebExerciseResponseDTO:
+        return self.check_handler.execute(
+            params=QueryRequestParams(query=self.request.GET.dict()),
+            context=RequestContext(user=self.user),
+            data=RequestData(data=self.request.POST.dict()),
+        )
 
-        else:
-            # Renders initial exercise page.
-            context: dict[str, str] = {
-                'exercise_case_html': self._get_partial_html(request, result),
-                **result.data.model_dump(),
-                **result.context,
-            }
-            return render(request, self.get_template_names(), context)
 
-    def post(self, request: HttpRequest, pk: int) -> HttpResponse:
-        """Render exercise loop."""
-        params = DetailParams(pk=pk)
-        request_context = RequestContext(user=self.user)
-        data = RequestData(query=request.POST.dict())
+class DetailExercisePerformView(
+    ExercisePerformView[DetailHandler, DetailHandler]
+):
+    """Base detail exercise perform view."""
 
-        result = self.check_handler.execute(params, request_context, data)
-        return HttpResponse(self._get_partial_html(request, result))
+    @override
+    def _get_start_result(self, **kwargs: object) -> WebExerciseResponseDTO:
+        return self.start_handler.execute(
+            params=DetailRequestParams(pk=kwargs['pk']),
+            context=RequestContext(user=self.user),
+            data=RequestData(data={}),
+        )
+
+    @override
+    def _get_check_result(self, **kwargs: object) -> WebExerciseResponseDTO:
+        return self.check_handler.execute(
+            params=DetailRequestParams(pk=int(kwargs['pk'])),
+            context=RequestContext(user=self.user),
+            data=RequestData(data=self.request.POST.dict()),
+        )
