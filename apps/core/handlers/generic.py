@@ -2,14 +2,16 @@
 
 from typing import Any, Generic, TypeVar
 
+from apps.core.assemblers.protocol import AssemblerProtocol
+
 from .protocol import (
     AdapterProtocol,
-    AssemblerProtocol,
     UseCaseProtocol,
     ValidatorProtocol,
 )
 
 # Request data
+RequestParams = TypeVar('RequestParams')
 RequestContext = TypeVar('RequestContext')
 Validated = TypeVar('Validated')
 CommandData = TypeVar('CommandData')
@@ -21,6 +23,7 @@ ResponseData = TypeVar('ResponseData')
 
 class RequestHandler(
     Generic[
+        RequestParams,
         RequestContext,
         Validated,
         CommandData,
@@ -33,7 +36,12 @@ class RequestHandler(
     def __init__(
         self,
         validator: ValidatorProtocol[Validated],
-        assembler: AssemblerProtocol[RequestContext, Validated, CommandData],
+        assembler: AssemblerProtocol[
+            RequestParams,
+            RequestContext,
+            Validated,
+            CommandData,
+        ],
         use_case: UseCaseProtocol[CommandData, DomainResult],
         adapter: AdapterProtocol[DomainResult, RequestContext, ResponseData],
     ) -> None:
@@ -45,7 +53,7 @@ class RequestHandler(
 
     def execute(
         self,
-        params: dict[str, str],
+        params: RequestParams,
         context: RequestContext,
         data: dict[str, Any],
     ) -> ResponseData:
