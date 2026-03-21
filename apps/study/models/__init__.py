@@ -5,37 +5,32 @@ __all__ = [
     'ExerciseActive',
     'ExerciseAssigned',
     'ExerciseExpiration',
-    'ExerciseTaskAward',
+    'ExerciseReward',
     'ExerciseTaskCount',
-    'AssignationCompletes',
     # Exercise availability
     'ExerciseAvailability',
     'ExerciseLog',
     'PeriodExecuting',
     # Item study progress
-    'Progress',
+    'ProgressBar',
     # Reward for exercise completion
     'ExerciseReward',
     'RewardType',
 ]
 
-from .assignation import (
-    AssignationCompletes,
-    ExerciseActive,
-    ExerciseAssigned,
-    ExerciseExpiration,
-    ExerciseTaskAward,
-    ExerciseTaskCount,
-)
+from .exercise.activation import ExerciseActive
+from .exercise.assignation import ExerciseAssigned
 from .exercise.availability import (
     ExerciseAvailability,
-    ExerciseLog,
     PeriodExecuting,
+)
+from .exercise.completion_log import ExerciseLog
+from .exercise.count import ExerciseTaskCount
+from .exercise.expiration import ExerciseExpiration
+from .exercise.progress_bar import (
+    ProgressBar,
 )
 from .exercise.reward import (
     ExerciseReward,
     RewardType,
-)
-from .progress import (
-    Progress,
 )

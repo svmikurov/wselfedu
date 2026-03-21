@@ -46,21 +46,21 @@ class UserDataStorage(AbstractUserStorage[T]):
     def save(
         self,
         obj: T,
-        user_id: int,
+        user_pk: int,
         prefix: str,
         ttl: int | None = None,
         **kwargs: object,
     ) -> None:
         """Save user's data."""
-        cache_key = generate_cache_key(prefix, user_id, **kwargs)
+        cache_key = generate_cache_key(prefix, user_pk, **kwargs)
         if ttl is None:
             ttl = self.ttl
         self._storage.set(obj, cache_key, ttl)
 
     @override
-    def retrieve(self, user_id: int, prefix: str, **kwargs: object) -> T:
+    def retrieve(self, user_pk: int, prefix: str, **kwargs: object) -> T:
         """Retrieve user's data."""
-        cache_key = generate_cache_key(prefix, user_id, **kwargs)
+        cache_key = generate_cache_key(prefix, user_pk, **kwargs)
 
         try:
             return self._storage.pop(cache_key)

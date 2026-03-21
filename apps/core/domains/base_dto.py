@@ -15,8 +15,22 @@ class BaseConfigurationMixin:
     )
 
 
+class ArbitraryConfigurationMixin:
+    """Provides arbitrary configuration for Data Transfer Objects."""
+
+    model_config = ConfigDict(
+        arbitrary_types_allowed=True,
+        extra='forbid',
+        frozen=True,
+    )
+
+
 class BaseDTO(BaseConfigurationMixin, BaseModel):
     """Base Data Transfer Objects model."""
+
+
+class ArbitraryDTO(ArbitraryConfigurationMixin, BaseModel):
+    """Base Data Transfer Objects model with arbitrary types."""
 
 
 class ProtectDefaultStatusMixin:

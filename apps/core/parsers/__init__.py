@@ -1,1 +1,1 @@
-"""Core request parsers."""
+"""Core request parameters query parsers."""

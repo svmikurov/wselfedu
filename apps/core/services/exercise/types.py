@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from apps.core.domains.exercise.types import (
+    from apps.core.domains.exercise.protocol import (
         CheckResultProtocol,
         ExerciseCase,
         ExerciseCaseMeta,

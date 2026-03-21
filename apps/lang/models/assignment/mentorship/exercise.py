@@ -19,7 +19,7 @@ class EnglishAssignedExercise(AbstractBaseModel):
         verbose_name='Наставничество',
     )
     exercise = models.ForeignKey(
-        'lang.Exercise',
+        'lang.LanguageExercise',
         on_delete=models.CASCADE,
         verbose_name='Упражнение',
         related_name='assignments',

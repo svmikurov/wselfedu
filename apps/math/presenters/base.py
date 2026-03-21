@@ -5,7 +5,6 @@ from typing import TypeVar, Union
 from typing_extensions import override
 from wse_exercises.core.math import CalcTask
 
-from apps.core.presenters import TaskPresenter
 from apps.core.storages.services.iabc import TaskStorageProto
 from apps.core.types import CheckResultDataType
 from apps.study.services.iabc import StrTaskCheckerProto
@@ -24,14 +23,7 @@ AnswerT = TypeVar(
 )
 
 
-class BaseCalcTaskPresenter(
-    TaskPresenter[
-        CalcConditionType,
-        CalcTaskType,
-        AnswerT,
-        CheckResultDataType,
-    ],
-):
+class BaseCalcTaskPresenter:
     """Typed base class for calculation task presenter."""
 
     def __init__(

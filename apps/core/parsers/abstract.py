@@ -1,15 +1,21 @@
-"""Abstract base classes for request parameters parse."""
+"""Abstract base class for request parameters query parser."""
 
 from abc import ABC, abstractmethod
-from typing import Generic, TypeVar
+from typing import TypeVar, override
 
-Parsed = TypeVar('Parsed')
-RequestParams = TypeVar('RequestParams')
+from .protocol import RequestParamsQueryParserProtocol
+
+QueryData = TypeVar('QueryData')
+QueryType = TypeVar('QueryType')
 
 
-class AbstractRequestParser(ABC, Generic[RequestParams, Parsed]):
-    """ABC for request parameters parse."""
+class AbstractRequestParamsQueryParser(
+    ABC,
+    RequestParamsQueryParserProtocol[QueryData, QueryType],
+):
+    """ABC for request parameters query parser."""
 
+    @override
     @abstractmethod
-    def parse(self, params: RequestParams) -> Parsed:
-        """Parse request parameters."""
+    def parse(self, query: QueryData) -> QueryType:
+        """Parse request parameters query."""

@@ -21,7 +21,7 @@ class LangExerciseForm(forms.ModelForm):  # type: ignore
     class Meta:
         """Form configuration."""
 
-        model = models.Exercise
+        model = models.LanguageExercise
         fields = ['name']
 
     def __init__(self, *args: object, **kwargs: object) -> None:
@@ -45,7 +45,7 @@ class LangExerciseForm(forms.ModelForm):  # type: ignore
             layouts.create_button_row(self.helper.form_id),
         )
 
-    def save(self, commit: bool = True) -> models.Exercise:
+    def save(self, commit: bool = True) -> models.LanguageExercise:
         """Add user to model."""
         instance = super().save(commit=False)
         instance.discipline_id = LANGUAGE_DISCIPLINE_ID

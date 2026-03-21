@@ -1,19 +1,23 @@
 """Mathematical discipline handler types."""
 
+from typing import Any
+
 from apps.core.adapters.response.shared import WebResponseDTO
-from apps.core.handlers.dto import QueryParams, RequestContext, RequestData
+from apps.core.handlers.dto import (
+    DetailRequestParams,
+    RequestContext,
+    RequestData,
+)
 from apps.core.handlers.generic import RequestHandler
 from apps.core.handlers.protocol import RequestDataProtocol
-from apps.core.parsers.request import NullParser
 from apps.core.validators.request.null import NullValidator
 from apps.math.domains.dto import StudentExerciseDTO
 
 StudentExerciseListHandler = RequestHandler[
-    QueryParams,
+    DetailRequestParams,
     RequestContext,
-    RequestData,
-    NullParser,
-    NullValidator[RequestDataProtocol],
+    RequestData[dict[str, str]],
+    NullValidator[RequestDataProtocol[Any]],
     list[StudentExerciseDTO],
     WebResponseDTO,
 ]

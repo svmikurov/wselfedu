@@ -6,11 +6,11 @@ __all__ = [
     'EnglishWord',
     'EnglishTranslation',
     # Exercise
-    'Exercise',
+    'LanguageExercise',
     'EnglishAssignedExercise',
     'EnglishTranslationExercise',
     # Parameters
-    'Parameters',
+    'ExerciseConditions',
     'TranslationSetting',
     'PresentationSettings',
     # Rule
@@ -22,28 +22,24 @@ __all__ = [
     'RuleTaskExample',
     'MentorshipEnglishRule',
     # Progress
-    'EnglishTranslationProgress',
+    'EnglishTranslationStudyProgress',
     # Meta
     'Mark',
     'TranslationMark',
     'Category',
 ]
 
-from .assignment.mentorship.rule import (
-    MentorshipEnglishRule,
-)
+from .assignment.mentorship.exercise import EnglishAssignedExercise
+from .assignment.mentorship.rule import MentorshipEnglishRule
 from .category import Category
-from .exercise import (
-    EnglishAssignedExercise,
+from .exercise.configuration.lockup_conditions import ExerciseConditions
+from .exercise.configuration.presentation import PresentationSettings
+from .exercise.name import LanguageExercise
+from .exercise.translation.exercise import (
     EnglishTranslationExercise,
+    EnglishTranslationStudyProgress,
 )
-from .exercise.exercise import Exercise
-from .exercise.parameters import (
-    Parameters,
-    PresentationSettings,
-    TranslationSetting,
-)
-from .exercise.translation import EnglishTranslationProgress
+from .exercise.translation.settings import TranslationSetting
 from .mark import Mark, TranslationMark
 from .rule import (
     ExampleType,
@@ -53,5 +49,5 @@ from .rule import (
     RuleException,
     RuleTaskExample,
 )
-from .translation import EnglishTranslation
-from .word import EnglishWord, NativeWord
+from .translation.english import EnglishTranslation
+from .translation.word import EnglishWord, NativeWord

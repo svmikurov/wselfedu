@@ -1,69 +1,52 @@
 """Language discipline DI container."""
 
 from dependency_injector.containers import DeclarativeContainer
-from dependency_injector.providers import Container, DependenciesContainer
+from dependency_injector.providers import Container, Dependency
 
-from apps.lang.di.adapter.adapter import AdapterContainer
-from apps.lang.di.handler.exercise.exercises import ExerciseHandlerContainer
-from apps.lang.di.repository.repository import RepositoryContainer
-from apps.lang.di.repository.storage import StorageContainer
-from apps.lang.di.service.service import ServiceContainer
-from apps.lang.di.validator.exercise import ValidatorContainer
-from apps.lang.di.view.container import ViewContainer
+from .adapter.web.container import WebAdapterContainer
+from .handler.web.container import WebHandlerContainer
+from .repository.repository import RepositoryContainer
+from .service.container import ExerciseServiceContainer
+from .use_case.container import UseCaseContainer
 
 
 class LanguageContainer(DeclarativeContainer):
     """Language discipline DI container."""
 
     # ===========================================
-    # External containers
+    # External dependencies
     # -------------------------------------------
-    configuration = DependenciesContainer()
-    domains = DependenciesContainer()
+    storage = Dependency()  # type: ignore[var-annotated]
 
+    # ===========================================
+    # Internal dependencies
+    # -------------------------------------------
     repositories = Container(
         RepositoryContainer,
+        storage=storage,
     )
-    storages = Container(
-        StorageContainer,
-        config=configuration.storage,
+    exercise_services = Container(
+        ExerciseServiceContainer,
     )
 
     # ===========================================
     # View handler dependencies
     # -------------------------------------------
-    validators = Container(
-        ValidatorContainer,
-    )
     use_cases = Container(
-        ServiceContainer,
-        exercise_config=configuration.exercise,
-        progress_config=configuration.progress,
-        repositories=repositories,
-        domains=domains,
-        case_storage=storages.exercise_case_storage,
+        UseCaseContainer,
+        storage=storage,
+        exercise_services=exercise_services,
     )
-    adapters = Container(
-        AdapterContainer,
+    web_adapters = Container(
+        WebAdapterContainer,
     )
 
     # ===========================================
     # View handlers
     # -------------------------------------------
-    exercise_handlers = Container(
-        ExerciseHandlerContainer,
-        validators=validators,
+    web_handlers = Container(
+        WebHandlerContainer,
         use_cases=use_cases,
-        adapters=adapters,
-    )
-
-    # ===========================================
-    # Persistent references to the view handler
-    # -------------------------------------------
-    view_container = Container(
-        ViewContainer,
-        repositories=repositories,
-        use_cases=use_cases,
-        presentation_handlers=exercise_handlers.presentation,
-        test_handlers=exercise_handlers.test_exercise,
+        adapters=web_adapters,
+        storage=storage,
     )

@@ -12,13 +12,10 @@ from apps.core.adapters.response.exercise.web.dto import (
 )
 from apps.core.adapters.response.shared import WebResponseDTO
 from apps.core.domains.exercise.enums import ExerciseStatusEnum
-from apps.core.domains.exercise.types import ExerciseStatus
+from apps.core.domains.exercise.protocol import ExerciseStatus
 from apps.core.handlers.protocol import (
     AdapterProtocol,
-    OobResultProtocol,
     RequestContextProtocol,
-    RequestResultProtocol,
-    ResponseAdapterProtocol,
 )
 from apps.math import forms
 from apps.math.domains.dto import (
@@ -138,7 +135,7 @@ class StudentCalculationWebCaseAdapter(
     AdapterProtocol[
         StudentCalculationDTO,
         RequestContextProtocol,
-        OobResultProtocol,
+        WebExerciseResponseDTO,
     ]
 ):
     """Calculation exercise case web response adapter."""
@@ -151,7 +148,7 @@ class StudentCalculationWebCaseAdapter(
         self,
         schema: StudentCalculationDTO,
         request_context: RequestContextProtocol,
-    ) -> OobResultProtocol:
+    ) -> WebExerciseResponseDTO:
         """Adapt current calculation case for web response."""
         # Response context contains question and form to answer input.
         adapted = self._domain_adapter.to_response(schema, request_context)
@@ -194,14 +191,19 @@ class StudentCalculationWebCaseAdapter(
 
 
 class ExplainCalculationWebAdapter(
-    ResponseAdapterProtocol[CalculationExplainDTO]
+    AdapterProtocol[
+        CalculationExplainDTO,
+        RequestContextProtocol,
+        ExerciseWebDTO,
+    ]
 ):
     """Calculation exercise case explanation web response adapter."""
 
     def to_response(
         self,
         schema: CalculationExplainDTO,
-    ) -> RequestResultProtocol:
+        request_context: RequestContextProtocol,
+    ) -> ExerciseWebDTO:
         """Adapt calculation case explanation for web response."""
         return ExerciseWebDTO(
             exercise_status=schema.exercise_status,

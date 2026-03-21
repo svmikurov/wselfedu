@@ -9,7 +9,7 @@ from apps.study.models import (
     ExerciseActive,
     ExerciseAssigned,
     ExerciseExpiration,
-    ExerciseTaskAward,
+    ExerciseReward,
     ExerciseTaskCount,
 )
 from apps.study.repositories.iabc import IExerciseAssignator
@@ -61,6 +61,4 @@ class ExerciseAssignator(IExerciseAssignator):
         ExerciseTaskCount.objects.create(
             exercise=assignment, count=data['count']
         )
-        ExerciseTaskAward.objects.create(
-            exercise=assignment, award=data['award']
-        )
+        ExerciseReward.objects.create(exercise=assignment, award=data['award'])

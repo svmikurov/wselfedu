@@ -10,7 +10,7 @@ from django.views import generic
 from apps.core.views import auth, crud
 from apps.lang.forms import LangExerciseForm
 from apps.lang.forms.queries import get_exercises
-from apps.lang.models import Exercise
+from apps.lang.models import LanguageExercise
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
@@ -43,7 +43,7 @@ class MentorExerciseListView(
     template_name = 'lang/exercise/mentor/management/index.html'
     context_object_name = 'exercises'
 
-    def get_queryset(self) -> QuerySet[Exercise]:
+    def get_queryset(self) -> QuerySet[LanguageExercise]:
         """Get exercises queryset."""
         return get_exercises(self.user)
 
@@ -61,7 +61,7 @@ class MentorExerciseCreateView(
 
 
 class MentorExerciseUpdateView(
-    auth.OwnershipRequiredMixin[Exercise],
+    auth.OwnershipRequiredMixin[LanguageExercise],
     crud.UserActionKwargsFormMixin,
     generic.UpdateView,  # type: ignore[type-arg]
 ):
@@ -69,7 +69,7 @@ class MentorExerciseUpdateView(
 
     template_name = 'components/crispy_form.html'
     success_url = reverse_lazy('lang:english_mentor_exercises_list')
-    model = Exercise
+    model = LanguageExercise
     form_class = LangExerciseForm
 
 
@@ -78,4 +78,4 @@ class MentorExerciseDeleteView(
 ):
     """Mentor exercise delete view."""
 
-    model = Exercise
+    model = LanguageExercise

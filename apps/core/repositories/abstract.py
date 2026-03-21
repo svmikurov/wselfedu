@@ -1,45 +1,36 @@
-"""Abstract base classes fot core repository."""
-
-from __future__ import annotations
+"""Abstract base class for repository."""
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Generic, TypeVar
+from typing import TypeVar, override
 
-if TYPE_CHECKING:
-    from apps.core.domains.exercise.types import Candidates, Parameters
-    from apps.users.models import Person
+from django.db.models import Model
 
-__all__ = [
-    'AbstractByUserQueryRepository',
-    'AbstractUserConditionsRepository',
-    'AbstractDetailExerciseRepository',
-]
+from .protocol import ModelRepositoryProtocol, RepositoryProtocol
 
-LookupConditions = TypeVar('LookupConditions')
-QueryResult = TypeVar('QueryResult')
+FilterData = TypeVar('FilterData')
+ModelT = TypeVar('ModelT', bound=Model)
+ResultT = TypeVar('ResultT')
 
 
-class AbstractByUserQueryRepository(ABC):
-    """ABC for repository to query by user."""
-
-    @abstractmethod
-    def fetch(self, user: Person) -> Parameters:
-        """Fetch user's data."""
-
-
-class AbstractUserConditionsRepository(
-    ABC, Generic[LookupConditions, QueryResult]
+class AbstractModelRepository(
+    ABC,
+    ModelRepositoryProtocol[FilterData, ModelT],
 ):
-    """ABC for repository to query by user with conditions."""
+    """ABC for model repository."""
 
+    @override
     @abstractmethod
-    def fetch(self, params: LookupConditions, user: Person) -> QueryResult:
-        """Fetch by user with lockup conditions."""
+    def get_query(self, filter: FilterData) -> ModelT:
+        """Fetch model."""
 
 
-class AbstractDetailExerciseRepository(ABC):
-    """ABC for repository to fetch item candidates with conditions."""
+class AbstractRepository(
+    ABC,
+    RepositoryProtocol[FilterData, ResultT],
+):
+    """ABC for DTO repository."""
 
+    @override
     @abstractmethod
-    def fetch(self, user: Person, exercise_pk: int) -> Candidates:
-        """Fetch user's item candidates to study."""
+    def fetch(self, filter: FilterData) -> ResultT:
+        """Fetch data."""

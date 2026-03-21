@@ -45,7 +45,7 @@ def parameters_db_data(
     categories, sources, marks, periods = translations_meta
 
     # Translation study presentation exercise parameters
-    parameters = models.Parameters.objects.create(
+    parameters = models.ExerciseConditions.objects.create(
         user=user,
         # Translation meta
         category=categories[0],

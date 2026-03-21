@@ -71,9 +71,9 @@ class TestRepository:
             (0, -1, 0),
             (1, -1, 0),
             (
-                study_models.Progress.KNOW_DEFAULT - 1,
+                study_models.ProgressBar.KNOW_DEFAULT - 1,
                 2,
-                study_models.Progress.KNOW_DEFAULT,
+                study_models.ProgressBar.KNOW_DEFAULT,
             ),
         ],
     )

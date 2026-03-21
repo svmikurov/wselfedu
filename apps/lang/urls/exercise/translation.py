@@ -1,40 +1,43 @@
 """English discipline translation exercises url paths."""
 
 from django.urls import path
+from django.views.generic import TemplateView
 
-from ... import views
-from ...views.exercise.test import translation
+from apps.lang.views.exercise.translation.perform import (
+    RegularTranslationPresentationPerformView,
+    RegularTranslationTestPerformView,
+)
 
 urlpatterns = [
-    # ------------
-    # Presentation
-    # ------------
+    # =============================================
+    # Translation presentation
+    # ---------------------------------------------
     # Renders presentation exercise template with JS business-logic to
     # display presentation, request new case and update study progress.
     path(
         'translation/english/study/',
-        views.EnglishTranslationStudyView.as_view(),
+        RegularTranslationPresentationPerformView.as_view(),
         name='translation_english_study',
     ),
     # Renders new presentation case.
     path(
         'translation/english/study/case/',
-        views.EnglishTranslationStudyCaseView.as_view(),
+        TemplateView.as_view(template_name='stub.html'),
         name='translation_english_study_case',
     ),
-    # ----
-    # Test
-    # ----
+    # =============================================
+    # Translation test exercise
+    # ---------------------------------------------
     # Self-education
     path(
         'translation/english/test/',
-        translation.TranslationTestView.as_view(),
+        RegularTranslationTestPerformView.as_view(),
         name='translation_english_test',
     ),
     # Mentorship
     path(
         'translation/english/test/<int:pk>/mentorship/',
-        translation.TranslationTestMentorshipView.as_view(),
+        TemplateView.as_view(template_name='stub.html'),
         name='translation_english_test_mentorship',
     ),
 ]

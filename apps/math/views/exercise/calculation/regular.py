@@ -8,7 +8,11 @@ from dependency_injector.wiring import Provide, inject
 from django.http.request import HttpRequest
 from django.views.generic import TemplateView
 
-from apps.core.handlers.dto import QueryParams, RequestContext, RequestData
+from apps.core.handlers.dto import (
+    QueryRequestParams,
+    RequestContext,
+    RequestData,
+)
 from apps.core.views.auth import UserLoginRequiredMixin
 from apps.core.views.exercise.base import QueryHandler
 from apps.core.views.mixins import GetHandlerMixin
@@ -19,7 +23,7 @@ if TYPE_CHECKING:
 
 __all__ = ('ExerciseChoiceView',)
 
-HANDLERS = MainContainer.math.exercise_web_views
+HANDLERS = MainContainer.math.web_view
 
 
 class ExerciseChoiceView(
@@ -46,8 +50,8 @@ class ExerciseChoiceView(
     def get_context_data(self, **kwargs: dict[str, str]) -> dict[str, str]:
         """Add data to context."""
         response_data = self.handler.execute(
-            params=QueryParams(query=self.request.GET.dict()),
+            params=QueryRequestParams(query=self.request.GET.dict()),
             context=RequestContext(user=self.user),
-            data=RequestData(query={}),
+            data=RequestData(data={}),
         )
         return super().get_context_data(**kwargs, **response_data.model_dump())

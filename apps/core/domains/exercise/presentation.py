@@ -8,31 +8,39 @@ from typing import TYPE_CHECKING
 from apps.core.exceptions import info
 
 from .abstract import AbstractSettingsExerciseDomain
-from .presentation_dto import PresentationCase, PresentationMeta
-from .types import Settings
-
-type Result = tuple[PresentationCase, PresentationMeta]
+from .protocol import Settings
+from .schema.presentation_dto import PresentationCase, PresentationMeta
 
 if TYPE_CHECKING:
     from .enums import DisplayOrder
-    from .types import Candidate, Candidates, ExerciseConfig, Settings
+    from .protocol import Candidate, Candidates, ExerciseConfig, Settings
 
 
-__all__ = [
-    'PresentationDomain',
-]
+__all__ = ('PresentationDomain',)
 
 
-class PresentationDomain(AbstractSettingsExerciseDomain[Settings, Result]):
+class PresentationDomain(
+    AbstractSettingsExerciseDomain[
+        Settings,
+        tuple[PresentationCase, PresentationMeta],
+    ],
+):
     """Presentation exercise domain logic."""
 
     MIN_CANDIDATES_COUNT = 2
 
-    def __init__(self, config: ExerciseConfig) -> None:
+    def __init__(
+        self,
+        config: ExerciseConfig,
+    ) -> None:
         """Configure the domain."""
         self._item_count: int = config.item_count
 
-    def execute(self, candidates: Candidates, settings: Settings) -> Result:
+    def execute(
+        self,
+        candidates: Candidates,
+        settings: Settings,
+    ) -> tuple[PresentationCase, PresentationMeta]:
         """Get presentation exercise case data."""
         if len(candidates) < self.MIN_CANDIDATES_COUNT:
             raise info.NoExerciseItemsException
@@ -53,7 +61,8 @@ class PresentationDomain(AbstractSettingsExerciseDomain[Settings, Result]):
 
     @staticmethod
     def _build_case(
-        candidate: Candidate, order: DisplayOrder
+        candidate: Candidate,
+        order: DisplayOrder,
     ) -> PresentationCase:
         """Build exercise case DTO to rendering."""
         question, answer = order.get_display_phases()

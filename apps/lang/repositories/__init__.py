@@ -26,28 +26,27 @@ __all__ = [
     'AssignedTranslationProgressRepository',
     'TranslationRepository',
 ]
-
-from .abc import (
+from .legacy.abc import (
     PresentationABC,
     ProgressRepositoryABC,
     RuleRepositoryABC,
     StudyParametersRepositoryABC,
     TranslationRepoABC,
 )
-from .exercise.conditions import RegularParametersRepository
-from .exercise.translation.conditions import (
+from .legacy.exercise.conditions import RegularParametersRepository
+from .legacy.exercise.translation.conditions import (
     TranslationConditionsRepository,
     get_period_delta,
 )
-from .exercise.translation.test import (
+from .legacy.exercise.translation.test import (
     DetailTranslationRepository,
     TranslationExerciseRepository,
 )
-from .parameters import StudyParametersRepository
-from .progress import (
+from .legacy.parameters import StudyParametersRepository
+from .legacy.progress import (
     AssignedTranslationProgressRepository,
     ProgressRepository,
 )
-from .rule import RuleRepository
-from .study_settings import StudySettingsRepository
-from .translation import TranslationRepository
+from .legacy.rule import RuleRepository
+from .legacy.study_settings import StudySettingsRepository
+from .legacy.translation import TranslationRepository

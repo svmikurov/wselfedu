@@ -7,9 +7,9 @@ from django.db import transaction
 from django.db.models import F, OuterRef, Subquery
 
 from apps.study.models import (
-    AssignationCompletes,
     ExerciseAssigned,
-    ExerciseTaskAward,
+    ExerciseLog,
+    ExerciseReward,
 )
 from apps.users.models import Balance
 from apps.users.models.transaction import Transaction
@@ -24,7 +24,7 @@ class AwardService:
     def reward(assignation_id: str | int) -> Decimal:
         """Reward the user and return the updated balance."""
         with transaction.atomic():
-            award_subquery = ExerciseTaskAward.objects.filter(
+            award_subquery = ExerciseReward.objects.filter(
                 exercise=OuterRef('pk')
             ).values('award')[:1]
 
@@ -43,7 +43,7 @@ class AwardService:
                     f'Award for "{assignation_id}" assignation was not set'
                 )
 
-            completion, _ = AssignationCompletes.objects.update_or_create(
+            completion, _ = ExerciseLog.objects.update_or_create(
                 assignation=assignation,
                 defaults={
                     'attempt_count': F('attempt_count') + 1,

@@ -163,17 +163,16 @@ class ExerciseTaskCountAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     updated_at_format.short_description = 'Дата изменения'  # type: ignore[attr-defined]
 
 
-@admin.register(models.ExerciseTaskAward)
+@admin.register(models.ExerciseReward)
 class ExerciseTaskAwardAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Exercise task award model administration."""
 
     list_display = [
         'exercise',
-        'award',
+        'amount',
         'mentor_display',
         'student_display',
         'updated_at_format',
-        'exercise__id',
     ]
 
     def mentor_display(self, obj: models.ExerciseExpiration) -> str:
@@ -199,20 +198,20 @@ class ExerciseTaskAwardAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     updated_at_format.short_description = 'Дата изменения'  # type: ignore[attr-defined]
 
 
-@admin.register(models.AssignationCompletes)
+@admin.register(models.ExerciseLog)
 class AssignationCompletesAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Completion assigned task model administration."""
 
     list_display = [
-        'assignation',
-        'attempt_count',
+        'exercise',
         'success_count',
+        'failure_count',
         'created_at',
         'updated_at',
     ]
 
 
-@admin.register(models.Progress)
+@admin.register(models.ProgressBar)
 class ProgressAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Progress model administration."""
 

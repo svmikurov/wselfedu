@@ -22,11 +22,11 @@ class PresentationSerializer(
     """Get presentation serializer."""
 
 
-class ApiPresentationValidator(ValidatorProtocol[RequestData, RequestDTO]):
+class ApiPresentationValidator(ValidatorProtocol[RequestDTO]):
     """Api get presentation validator."""
 
     @classmethod
-    def validate(cls, raw_data: RequestData) -> RequestDTO:
+    def validate(cls, raw_data: dict[str, Any]) -> RequestDTO:
         """Validate the api request presentation data."""
         serializer = PresentationSerializer(data=raw_data)
         serializer.is_valid(raise_exception=True)

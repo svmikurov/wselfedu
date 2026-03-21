@@ -10,7 +10,6 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from typing_extensions import TYPE_CHECKING
 
-from apps.core.presenters.index import get_index_data
 from apps.core.types import BalanceDataType, IndexDataType
 
 from ..serializers.index import IndexSerializer
@@ -73,4 +72,4 @@ class IndexViewSet(viewsets.ViewSet):
             index response.
 
         """
-        return get_index_data(user)
+        return

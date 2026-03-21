@@ -9,7 +9,7 @@ from apps.lang import models
 # ----------------
 
 
-@admin.register(models.Exercise)
+@admin.register(models.LanguageExercise)
 class LangExerciseAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Lang app exercise model administration."""
 
@@ -71,7 +71,7 @@ class CategoryAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     list_display = ['name']
 
 
-@admin.register(models.Parameters)
+@admin.register(models.ExerciseConditions)
 class ParametersAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Word study parameters model administration."""
 

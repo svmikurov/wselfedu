@@ -3,10 +3,10 @@
 import logging
 from typing import override
 
-from apps.core.domains.exercise import ProgressConfigSchema
+from apps.core.domains.exercise.schema.dto import ProgressConfigSchema
 from apps.core.storages import services as storage
 from apps.lang import types
-from apps.lang.repositories.abc import ProgressRepositoryABC
+from apps.lang.repositories import ProgressRepositoryABC
 from apps.lang.schemas import dto
 from apps.users.models import Person
 

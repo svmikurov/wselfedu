@@ -9,15 +9,11 @@ from apps.study.services.iabc import StrTaskCheckerProto
 from apps.users.services.award import AwardService
 
 from ..services.protocol import ExerciseServiceProto
-from ..services.types import AssignedCalcAnswerType
-from .base import BaseCalcTaskPresenter
 
 logger = logging.getLogger(__name__)
 
 
-class AssignedCalculationPresenter(
-    BaseCalcTaskPresenter[AssignedCalcAnswerType],
-):
+class AssignedCalculationPresenter:
     """Assigned calculation exercise presenter."""
 
     # TODO: Update `AwardService` to interface.

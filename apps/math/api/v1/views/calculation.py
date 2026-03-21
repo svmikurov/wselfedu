@@ -18,7 +18,7 @@ from ..serializers import calculation as ser
 
 logger = logging.getLogger(__name__)
 
-CONTAINER = MainContainer.math.exercise_api_views
+CONTAINER = MainContainer.math.api_view
 
 
 class CalculationViewSet(viewsets.ViewSet):

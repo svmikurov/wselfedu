@@ -1,14 +1,33 @@
 """Exercise web validators."""
 
+from typing import TypedDict
+
 from apps.core.handlers.protocol import RequestDataProtocol
-from apps.core.validators.request.abstract import (
-    AbstractRequestValidator,
-)
+from apps.core.validators.request.abstract import AbstractRequestValidator
 from apps.math.domains.dto import (
     CalculationAnswerDTO,
     CalculationConditionDTO,
     CalculationLoopDTO,
+    Operation,
 )
+
+
+class QuestionData(TypedDict):
+    """Calculation exercise question dict type."""
+
+    min_operand: int
+    max_operand: int
+    operation_type: Operation
+
+
+class UserAnswerData(TypedDict):
+    """Calculation exercise user's answer dict type."""
+
+    user_answer: str
+
+
+class CalculationLoopData(QuestionData, UserAnswerData):
+    """Calculation loop data dict type."""
 
 
 class RegularCalculationStartWebValidator(
@@ -17,12 +36,15 @@ class RegularCalculationStartWebValidator(
     """Calculation conditions web validator."""
 
     @classmethod
-    def validate(cls, data: RequestDataProtocol) -> CalculationConditionDTO:
+    def validate(
+        cls,
+        data: RequestDataProtocol[QuestionData],
+    ) -> CalculationConditionDTO:
         """Validate calculation conditions request."""
         return CalculationConditionDTO(
-            min_operand=int(data.query['min_operand']),
-            max_operand=int(data.query['max_operand']),
-            operation_type=data.query['operation_type'],
+            min_operand=int(data.data['min_operand']),
+            max_operand=int(data.data['max_operand']),
+            operation_type=data.data['operation_type'],
         )
 
 
@@ -32,13 +54,16 @@ class RegularCalculationCheckWebValidator(
     """Calculation conditions web validator."""
 
     @classmethod
-    def validate(cls, data: RequestDataProtocol) -> CalculationLoopDTO:
+    def validate(
+        cls,
+        data: RequestDataProtocol[CalculationLoopData],
+    ) -> CalculationLoopDTO:
         """Validate calculation conditions request."""
         return CalculationLoopDTO(
-            min_operand=data.query['min_operand'],
-            max_operand=data.query['max_operand'],
-            operation_type=data.query['operation_type'],
-            user_answer=data.query['user_answer'],
+            min_operand=data.data['min_operand'],
+            max_operand=data.data['max_operand'],
+            operation_type=data.data['operation_type'],
+            user_answer=data.data['user_answer'],
         )
 
 
@@ -48,8 +73,11 @@ class DetailCalculationCheckWebValidator(
     """Calculation conditions web validator."""
 
     @classmethod
-    def validate(cls, data: RequestDataProtocol) -> CalculationAnswerDTO:
+    def validate(
+        cls,
+        data: RequestDataProtocol[UserAnswerData],
+    ) -> CalculationAnswerDTO:
         """Validate calculation conditions request."""
         return CalculationAnswerDTO(
-            user_answer=data.query['user_answer'],
+            user_answer=data.data['user_answer'],
         )

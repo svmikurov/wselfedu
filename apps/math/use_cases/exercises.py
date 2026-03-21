@@ -1,11 +1,11 @@
 """Mathematical discipline exercises."""
 
-from typing import Any, override
+from typing import override
 
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
-from apps.core.handlers.protocol import RequestContextProtocol
+from apps.core.assemblers.command import UserCommand
 from apps.core.use_cases.abstract import AbstractUseCase
 from apps.math.domains.dto import StudentExerciseDTO
 from apps.math.models import StudentCalculationCondition
@@ -16,9 +16,7 @@ from apps.study.resolvers.protocol import CompletionResolverProtocol
 # HACK: Fix Any type hint
 class StudentExercisesUseCase(
     AbstractUseCase[
-        Any,
-        RequestContextProtocol,
-        Any,
+        UserCommand,
         list[StudentExerciseDTO],
     ]
 ):
@@ -34,9 +32,7 @@ class StudentExercisesUseCase(
     @override
     def execute(
         self,
-        params: Any,
-        context: RequestContextProtocol,
-        validated: Any,
+        command: UserCommand,
     ) -> list[StudentExerciseDTO]:
         """Get student's exercises assigned by mentor."""
         ct = ContentType.objects.get_for_model(StudentCalculationCondition)
@@ -57,7 +53,7 @@ class StudentExercisesUseCase(
 
         exercises_query = (
             StudentCalculationCondition.objects.filter(
-                mentorship__student=context.user,
+                mentorship__student=command.user,
             )
             .select_related(
                 'mentorship__student',

@@ -2,15 +2,14 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Generic, TypedDict, TypeVar, override
+from typing import TYPE_CHECKING, override
 
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import F, OuterRef, Subquery
 from django.utils import timezone
 
-from apps.core.exceptions.storage import CacheMissError
-from apps.core.handlers.protocol import DetailRequestParamsProtocol
-from apps.core.repositories.abstract import AbstractUserConditionsRepository
+from apps.core.assemblers.command import UserDetailCommand
+from apps.core.repositories.generic import UserResourceRepository
 from apps.math.domains.dto import (
     CalculationConditionDTO,
     ExerciseAvailabilityDTO,
@@ -32,107 +31,31 @@ if TYPE_CHECKING:
 
     from apps.core.storages.services.iabc import AbstractUserStorage
     from apps.math.models import CalculationCondition
-    from apps.users.models import Person
 
 __all__ = (
-    'BaseExerciseRepository',
     'CalculationConditionsRepository',
     'StudentCalculationConditionsRepository',
 )
 
-ExerciseParameters = TypeVar('ExerciseParameters')
-
-
-class CacheKeyDict(TypedDict):
-    """Typed dict for cache key."""
-
-    user_id: int
-    prefix: str
-    assignation_pk: int
-
-
-class BaseExerciseRepository(
-    AbstractUserConditionsRepository[
-        DetailRequestParamsProtocol,
-        ExerciseParameters,
-    ],
-    Generic[ExerciseParameters],
-):
-    """Base user's exercise repository."""
-
-    STORAGE_PREFIX: str | None = None
-
-    def __init__(
-        self,
-        storage: AbstractUserStorage[ExerciseParameters],
-    ) -> None:
-        """Construct the repository."""
-        self._storage = storage
-
-    @override
-    def fetch(
-        self,
-        params: DetailRequestParamsProtocol,
-        user: Person,
-    ) -> ExerciseParameters:
-        """Fetch exercise conditions."""
-        try:
-            return self._storage.retrieve(**self._get_key(user, params))
-        except CacheMissError:
-            obj = self._get_object(params, user)
-            self._storage.save(obj, **self._get_key(user, params))
-            return obj
-
-    def _get_object(
-        self,
-        params: DetailRequestParamsProtocol,
-        user: Person,
-    ) -> ExerciseParameters:
-        raise NotImplementedError('Subclass must implement _get_object()')
-
-    def _get_key(
-        self,
-        user: Person,
-        params: DetailRequestParamsProtocol,
-    ) -> CacheKeyDict:
-        return {
-            'user_id': user.pk,
-            'prefix': self.storage_prefix,
-            'assignation_pk': params.pk,
-        }
-
-    @property
-    def storage_prefix(self) -> str:
-        """Get storage prefix."""
-        if not isinstance(self.STORAGE_PREFIX, str):
-            raise AttributeError(
-                f'{self.__class__.__name__} must define STORAGE_PREFIX '
-                f'as `str`, got {type(self.STORAGE_PREFIX).__name__}'
-            )
-        return self.STORAGE_PREFIX
-
 
 class CalculationConditionsRepository(
-    BaseExerciseRepository[RegularParametersDTO],
+    UserResourceRepository[UserDetailCommand, RegularParametersDTO],
 ):
     """Calculation conditions repository."""
 
-    STORAGE_PREFIX = 'calculation_conditions'
-
     def __init__(
         self,
-        manager: Manager[CalculationCondition],
+        store_prefix: str,
         storage: AbstractUserStorage[RegularParametersDTO],
+        manager: Manager[CalculationCondition],
     ) -> None:
         """Construct the repository."""
         self._manager = manager
-        super().__init__(storage)
+        super().__init__(store_prefix, storage)
 
     @override
-    def _get_object(
-        self, params: DetailRequestParamsProtocol, user: Person
-    ) -> RegularParametersDTO:
-        obj = self._manager.get(pk=params.pk, user=user)
+    def _get_object(self, command: UserDetailCommand) -> RegularParametersDTO:
+        obj = self._manager.get(pk=command.pk, user=command.user)
 
         return RegularParametersDTO(
             conditions=CalculationConditionDTO(
@@ -144,27 +67,24 @@ class CalculationConditionsRepository(
 
 
 class StudentCalculationConditionsRepository(
-    BaseExerciseRepository[StudentParametersDTO,]
+    UserResourceRepository[UserDetailCommand, StudentParametersDTO],
 ):
     """Student's assigned calculation conditions repository."""
 
-    STORAGE_PREFIX = 'student_calculation_conditions'
-
     def __init__(
         self,
-        manager: Manager[StudentCalculationCondition],
+        store_prefix: str,
         storage: AbstractUserStorage[StudentParametersDTO],
+        manager: Manager[StudentCalculationCondition],
         resolver: CompletionResolverProtocol,
     ) -> None:
         """Construct the repository."""
         self._manager = manager
         self._resolver = resolver
-        super().__init__(storage)
+        super().__init__(store_prefix, storage)
 
     @override
-    def _get_object(
-        self, params: DetailRequestParamsProtocol, user: Person
-    ) -> StudentParametersDTO:
+    def _get_object(self, command: UserDetailCommand) -> StudentParametersDTO:
         exercise_content_type = ContentType.objects.get_for_model(
             StudentCalculationCondition
         )
@@ -223,8 +143,8 @@ class StudentCalculationConditionsRepository(
                 tracking_date=Subquery(completion_log.values('tracking_date')),
             )
             .get(
-                mentorship__student=user,
-                calculation_condition_id=params.pk,
+                mentorship__student=command.user,
+                calculation_condition_id=command.pk,
             )
         )
 

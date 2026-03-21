@@ -3,7 +3,6 @@
 import logging
 from http import HTTPStatus
 
-from dependency_injector.wiring import Provide
 from drf_spectacular.utils import (
     OpenApiExample,
     extend_schema,
@@ -17,8 +16,7 @@ from rest_framework.viewsets import ViewSet
 import di
 from apps.core import views as core_views
 from apps.core.api import renderers
-from apps.lang.handlers.types import RegularPresentationApiHandler
-from apps.lang.repositories.abc import StudyParametersRepositoryABC
+from apps.lang.repositories import StudyParametersRepositoryABC
 from apps.lang.use_cases.exercise.abc import WordProgressServiceABC
 
 from .. import examples
@@ -26,7 +24,7 @@ from .. import serializers as ser
 
 log = logging.getLogger(__name__)
 
-CONTAINER = di.MainContainer.lang.view_container.exercise  # type: ignore[attr-defined]
+HANDLERS = di.MainContainer.lang  # type: ignore[attr-defined]
 
 
 class WordStudyViewSet(
@@ -62,9 +60,7 @@ class WordStudyViewSet(
     def presentation(
         self,
         request: Request,
-        service: RegularPresentationApiHandler = Provide[
-            CONTAINER.api_regular_presentation
-        ],
+        service: ...,
     ) -> Response:
         """Render the Word study presentation case."""
         presentation = service.execute(self.user, request.data)
@@ -91,9 +87,7 @@ class WordStudyViewSet(
     def parameters(
         self,
         request: Request,
-        repository: StudyParametersRepositoryABC = Provide[
-            CONTAINER.study_parameters_repository,
-        ],
+        repository: StudyParametersRepositoryABC,
     ) -> Response:
         """Render initial Word study parameters."""
         payload = repository.fetch(self.request.user)  # type: ignore[arg-type]
@@ -113,9 +107,7 @@ class WordStudyViewSet(
     def update_parameters(
         self,
         request: Request,
-        repository: StudyParametersRepositoryABC = Provide[
-            CONTAINER.study_parameters_repository,
-        ],
+        repository: StudyParametersRepositoryABC,
     ) -> Response:
         """Update initial Word study parameters."""
         params = ser.StudyParametersSerializer(data=request.data)
@@ -149,9 +141,7 @@ class WordStudyViewSet(
     def progress(
         self,
         request: Request,
-        service: WordProgressServiceABC = Provide[
-            CONTAINER.regular_translation_progress
-        ],
+        service: WordProgressServiceABC,
     ) -> Response:
         """Update word study progress."""
         progress_serializer = ser.WordStudyProgressSerializer(

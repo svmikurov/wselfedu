@@ -9,7 +9,7 @@ from apps.core.adapters.response.exercise.presentation import (
     Progress,
     UpdateProgress,
 )
-from apps.core.domains.exercise.presentation_dto import PresentationData
+from apps.core.domains.exercise.schema.presentation_dto import PresentationData
 
 from .types import PresentationCaseDict
 

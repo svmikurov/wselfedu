@@ -5,13 +5,15 @@ __all__ = (
     'DetailHandler',
     'QueryHandler',
     # Views
-    'BaseQueryPerformView',
-    'BaseDetailPerformView',
+    'ExercisePerformView',
+    'QueryExercisePerformView',
+    'DetailExercisePerformView',
 )
 
 from .base import (
-    BaseDetailPerformView,
-    BaseQueryPerformView,
+    DetailExercisePerformView,
     DetailHandler,
+    ExercisePerformView,
+    QueryExercisePerformView,
     QueryHandler,
 )

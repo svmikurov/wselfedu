@@ -30,17 +30,20 @@ class ExerciseRepositoryContainer(DeclarativeContainer):
     # -------------------------------------------
     calculation_conditions = Factory(
         CalculationConditionsRepository,
-        manager=CalculationCondition.objects,
+        store_prefix='calculation_condition',
         storage=cache_storage,
+        manager=CalculationCondition.objects,
     )
     student_calculation_conditions = Factory(
         StudentCalculationConditionsRepository,
-        manager=StudentCalculationCondition.objects,
+        store_prefix='student_calculation_condition',
         storage=cache_storage,
+        manager=StudentCalculationCondition.objects,
         resolver=Factory(CompletionResolver),
     )
     mentor_calculation_conditions = Factory(
         CalculationConditionsRepository,
-        manager=CalculationCondition.objects,
+        store_prefix='mentor_calculation_condition',
         storage=cache_storage,
+        manager=CalculationCondition.objects,
     )

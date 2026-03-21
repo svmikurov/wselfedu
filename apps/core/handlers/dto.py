@@ -1,16 +1,20 @@
-"""Request handler DTOs."""
+"""Request handler's DTOs.
 
-from typing import Any
+Creates in view to pass to the handler's 'execute()' method.
+"""
 
-from pydantic import BaseModel, ConfigDict, Field
+from typing import Generic, TypeVar
 
-from apps.core.domains.base_dto import BaseDTO
+from pydantic import Field
+
+from apps.core.domains.base_dto import ArbitraryDTO, BaseDTO
 from apps.users.models import Person
 
 __all__ = (
     # Parameters
-    'DetailParams',
-    'QueryParams',
+    'QueryRequestParams',
+    'DetailRequestParams',
+    'DetailQueryRequestParams',
     # Context
     'RequestContext',
     # Data
@@ -19,9 +23,10 @@ __all__ = (
     'RequestResult',
 )
 
-
-class NullParams(BaseDTO):
-    """Null request parameters DTO."""
+QueryData = TypeVar('QueryData')
+Data = TypeVar('Data')
+Validated = TypeVar('Validated')
+ResultType = TypeVar('ResultType')
 
 
 # =================================================
@@ -29,29 +34,25 @@ class NullParams(BaseDTO):
 # =================================================
 
 
-class DetailParams(BaseDTO):
-    """Detail request parameters."""
+class QueryRequestParams(BaseDTO, Generic[QueryData]):
+    """Query request parameters DTO."""
 
-    pk: int = Field(
-        description='Resource pk',
-    )
-
-
-class QueryParams(BaseDTO):
-    """Request query parameters."""
-
-    query: dict[str, str] = Field(
+    query: QueryData = Field(
         description='Request query',
     )
 
 
-class RequestParams(BaseDTO):
-    """Request parameters."""
+class DetailRequestParams(BaseDTO):
+    """Detail request parameters DTO."""
 
     pk: int
-    query: dict[str, str] = Field(
-        description='Request query',
-    )
+
+
+class DetailQueryRequestParams(
+    QueryRequestParams[QueryData],
+    DetailRequestParams,
+):
+    """Detail query request parameters DTO."""
 
 
 # =================================================
@@ -59,16 +60,10 @@ class RequestParams(BaseDTO):
 # =================================================
 
 
-class RequestContext(BaseModel):
+class RequestContext(ArbitraryDTO):
     """Request context."""
 
     user: Person
-
-    model_config = ConfigDict(
-        arbitrary_types_allowed=True,
-        extra='forbid',
-        frozen=True,
-    )
 
 
 # =================================================
@@ -76,10 +71,10 @@ class RequestContext(BaseModel):
 # =================================================
 
 
-class RequestData(BaseDTO):
+class RequestData(BaseDTO, Generic[Data]):
     """Request data."""
 
-    query: dict[str, Any] = Field(
+    data: Data = Field(
         description=Field('Request data'),
     )
 
@@ -89,9 +84,9 @@ class RequestData(BaseDTO):
 # =================================================
 
 
-class RequestResult(BaseDTO):
+class RequestResult(BaseDTO, Generic[ResultType]):
     """Result of request handling."""
 
-    context: dict[str, Any] = Field(
+    context: ResultType = Field(
         description=Field('Response context'),
     )

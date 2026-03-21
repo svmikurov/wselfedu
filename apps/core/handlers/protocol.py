@@ -7,18 +7,28 @@ from typing import TYPE_CHECKING, Any, Protocol, TypeVar
 if TYPE_CHECKING:
     from apps.users.models import Person
 
-T_contra = TypeVar('T_contra', contravariant=True)
-T_co = TypeVar('T_co', covariant=True)
+# Request
+QueryData = TypeVar('QueryData')
 Params_contra = TypeVar('Params_contra', contravariant=True)
 Context_contra = TypeVar('Context_contra', contravariant=True)
 Data_contra = TypeVar('Data_contra', contravariant=True)
-Parsed_co = TypeVar('Parsed_co', covariant=True)
+
+# Prepared request data for use case
+Parsed_cov = TypeVar('Parsed_cov', covariant=True)
+RequestData_contra = TypeVar('RequestData_contra', contravariant=True)
+Validated = TypeVar('Validated')
+Validated_cov = TypeVar('Validated_cov', covariant=True)
 Validated_contra = TypeVar('Validated_contra', contravariant=True)
+CommandData_cov = TypeVar('CommandData_cov', covariant=True)
+CommandData_contra = TypeVar('CommandData_contra', contravariant=True)
+
+# Result data
 DomainResult_contra = TypeVar('DomainResult_contra', contravariant=True)
-Result_co = TypeVar('Result_co', covariant=True)
+Result_cov = TypeVar('Result_cov', covariant=True)
+ResultContext = TypeVar('ResultContext')
 
 
-class NullDataProtocol(Protocol):
+class NullProtocol(Protocol):
     """Protocol for null data interface."""
 
 
@@ -31,8 +41,10 @@ class NullDataProtocol(Protocol):
 # -------------------------------------------------
 
 
-class SimpleRequestParamsProtocol(Protocol):
-    """Protocol for simple request parameters DTO."""
+class QueryRequestParamsProtocol(Protocol[QueryData]):
+    """Protocol for request with query parameters DTO."""
+
+    query: QueryData
 
 
 class DetailRequestParamsProtocol(Protocol):
@@ -41,10 +53,12 @@ class DetailRequestParamsProtocol(Protocol):
     pk: int
 
 
-class QueryRequestParamsProtocol(Protocol):
-    """Protocol for request with query parameters DTO."""
-
-    query: dict[str, str]
+class DetailQueryRequestParamsProtocol(
+    QueryRequestParamsProtocol[QueryData],
+    DetailRequestParamsProtocol,
+    Protocol,
+):
+    """Protocol for request with detail query parameters DTO."""
 
 
 # -------------------------------------------------
@@ -63,10 +77,10 @@ class RequestContextProtocol(Protocol):
 # -------------------------------------------------
 
 
-class RequestDataProtocol(Protocol):
+class RequestDataProtocol(Protocol[Validated]):
     """Protocol for request data DTO."""
 
-    query: dict[str, Any]
+    data: Validated
 
 
 # -------------------------------------------------
@@ -74,21 +88,28 @@ class RequestDataProtocol(Protocol):
 # -------------------------------------------------
 
 
-class RequestResultProtocol(Protocol):
+class RequestResultProtocol(Protocol[ResultContext]):
     """Protocol for request handling result DTO."""
 
-    context: dict[str, Any]
+    context: ResultContext
 
 
-class OobResultProtocol(Protocol):
-    """Protocol for response result DTO with OOB content."""
+class OobProtocol(Protocol):
+    """Protocol for OOB content."""
 
-    context: dict[str, Any]
     oob_html: str
 
 
+class OobResultProtocol(
+    OobProtocol,
+    RequestResultProtocol[ResultContext],
+    Protocol,
+):
+    """Protocol for response result DTO with OOB content."""
+
+
 # ===============================================
-# Dependencies
+# Handler's dependencies
 # ===============================================
 
 # -----------------------------------------------
@@ -96,10 +117,13 @@ class OobResultProtocol(Protocol):
 # -----------------------------------------------
 
 
-class RequestParserProtocol(Protocol[Parsed_co]):
+class RequestParserProtocol(Protocol[QueryData, Parsed_cov]):
     """Protocol for request parameters parse."""
 
-    def parse(self, request_params: QueryRequestParamsProtocol) -> Parsed_co:
+    def parse(
+        self,
+        request_params: QueryRequestParamsProtocol[QueryData],
+    ) -> Parsed_cov:
         """Parse request parameters."""
 
 
@@ -108,29 +132,12 @@ class RequestParserProtocol(Protocol[Parsed_co]):
 # -----------------------------------------------
 
 
-class ValidatorProtocol(Protocol[T_contra, T_co]):
+class ValidatorProtocol(Protocol[Validated_cov]):
     """Protocol for regular validator interface."""
 
     @classmethod
-    def validate(cls, raw_data: T_contra) -> T_co:
+    def validate(cls, data: dict[str, Any]) -> Validated_cov:
         """Validate raw data."""
-
-
-class RequestValidatorProtocol(Protocol[T_co]):
-    """Protocol for request validator interface."""
-
-    @classmethod
-    def validate(cls, data: RequestDataProtocol) -> T_co:
-        """Validate data."""
-
-
-# Deprecated
-class ResourceValidatorProtocol(Protocol[T_contra, T_co]):
-    """Protocol for validator with identifier."""
-
-    @classmethod
-    def validate(cls, raw_data: T_contra, pk: int) -> T_co:
-        """Validate raw data with identifier."""
 
 
 # -----------------------------------------------
@@ -138,43 +145,10 @@ class ResourceValidatorProtocol(Protocol[T_contra, T_co]):
 # -----------------------------------------------
 
 
-class SimpleUseCaseProtocol(Protocol[T_co]):
-    """Protocol for UseCase interface without input data."""
-
-    def execute(self, user: Person) -> T_co:
-        """Execute business logic."""
-
-
-class DataUseCaseProtocol(Protocol[T_contra, T_co]):
-    """Protocol for UseCase interface with input data."""
-
-    def execute(self, user: Person, request_data: T_contra) -> T_co:
-        """Execute business logic."""
-
-
-class DetailUseCaseProtocol(Protocol[T_contra, T_co]):
-    """Protocol for UseCase interface with input data."""
-
-    def execute(
-        self,
-        params: DetailRequestParamsProtocol,
-        context: RequestContextProtocol,
-        validated: T_contra,
-    ) -> T_co:
-        """Execute business logic."""
-
-
-class UseCaseProtocol(
-    Protocol[Params_contra, Context_contra, Validated_contra, Result_co]
-):
+class UseCaseProtocol(Protocol[CommandData_contra, Result_cov]):
     """Protocol for generic UseCase interface."""
 
-    def execute(
-        self,
-        params: Params_contra,
-        context: Context_contra,
-        validated: Validated_contra,
-    ) -> Result_co:
+    def execute(self, command: CommandData_contra) -> Result_cov:
         """Execute business logic."""
 
 
@@ -183,50 +157,16 @@ class UseCaseProtocol(
 # -----------------------------------------------
 
 
-class GenericAdapterProtocol(Protocol[T_contra, T_co]):
-    """Protocol for response adapter interface."""
-
-    def to_response(self, domain_result: T_contra) -> T_co:
-        """Convert to response."""
-
-
-class ResponseAdapterProtocol(Protocol[T_contra]):
-    """Protocol for response adapter interface.
-
-    Does not use request context.
-    """
-
-    def to_response(self, schema: T_contra) -> RequestResultProtocol:
-        """Convert to response."""
-
-
-class ContextResponseAdapterProtocol(Protocol[T_contra]):
-    """Protocol for response adapter interface.
-
-    Uses request context.
-    """
-
-    def to_response(
-        self,
-        schema: T_contra,
-        request_context: RequestContextProtocol,
-    ) -> RequestResultProtocol:
-        """Convert to response."""
-
-
 class AdapterProtocol(
-    Protocol[DomainResult_contra, Context_contra, Result_co]
+    Protocol[DomainResult_contra, Context_contra, Result_cov]
 ):
-    """Protocol for response adapter interface.
-
-    Uses request context.
-    """
+    """Protocol for response adapter interface."""
 
     def to_response(
         self,
         schema: DomainResult_contra,
         request_context: Context_contra,
-    ) -> Result_co:
+    ) -> Result_cov:
         """Convert to response."""
 
 
@@ -236,7 +176,7 @@ class AdapterProtocol(
 
 
 class RequestHandlerProtocol(
-    Protocol[Params_contra, Context_contra, Data_contra, Result_co]
+    Protocol[Params_contra, Context_contra, Data_contra, Result_cov]
 ):
     """Protocol for request handler."""
 
@@ -245,24 +185,5 @@ class RequestHandlerProtocol(
         params: Params_contra,
         context: Context_contra,
         data: Data_contra,
-    ) -> Result_co:
+    ) -> Result_cov:
         """Execute."""
-
-
-class RegularRequestHandlerProtocol(Protocol[T_contra, T_co]):
-    """Protocol for regular request handler."""
-
-    def execute(self, user: Person, request_data: T_contra) -> T_co:
-        """Handle the request."""
-
-
-class DetailRequestHandlerProtocol(Protocol[T_co]):
-    """Protocol for regular request handler."""
-
-    def execute(
-        self,
-        params: DetailRequestParamsProtocol,
-        context: RequestContextProtocol,
-        data: RequestDataProtocol,
-    ) -> T_co:
-        """Handle the request."""

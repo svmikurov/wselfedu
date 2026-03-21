@@ -11,11 +11,13 @@ from typing import Any
 import pytest
 from wse_exercises.core.math import ExactOperandGenerator
 
-from apps.core.adapters.response.exercise.generic import ResultStrategyAdapter
+from apps.core.adapters.response.exercise.generic import (
+    ExerciseAdapterStrategy,
+)
 from apps.core.adapters.response.exercise.web.dto import WebExerciseResponseDTO
 from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.factories.abstract import AbstractExerciseDTOFactory
-from apps.core.handlers.dto import DetailParams, RequestContext, RequestData
+from apps.core.handlers.dto import DetailParams, RequestContextDTO, RequestData
 from apps.core.handlers.generic import (
     ContextRequestHandler,
     DetailRequestHandler,
@@ -37,6 +39,10 @@ from apps.core.use_cases.abstract import (
     AbstractDetailUseCase,
     AbstractSimpleUseCase,
 )
+from apps.core.use_cases.null import (
+    DetailCalculationCheckUseCase,
+    DetailExerciseCreateUseCase,
+)
 from apps.core.validators.request.abstract import AbstractRequestValidator
 from apps.core.validators.request.null import NullValidator
 from apps.math.adapters.response.web.dto import ExerciseWebDTO
@@ -44,7 +50,7 @@ from apps.math.adapters.response.web.exercise import (
     CalculationWebCaseAdapter,
     ExplainCalculationWebAdapter,
 )
-from apps.math.di.service.exercise import CALCULATION_DOMAIN_TYPES
+from apps.math.di.service.container import CALCULATION_DOMAIN_TYPES
 from apps.math.domains.dto import (
     CalculationAnswerDTO,
     CalculationCaseDTO,
@@ -59,17 +65,13 @@ from apps.math.domains.dto import (
 from apps.math.domains.dto_factory import CustomCalculationDTOFactory
 from apps.math.models import CalculationCondition, StudentCalculationCondition
 from apps.math.repositories.exercise import (
-    BaseExerciseRepository,
     CalculationConditionsRepository,
+    UserResourceRepository,
 )
 from apps.math.services.calculation import (
     CalculationCheckService,
     CalculationCreateService,
     CalculationExplainService,
-)
-from apps.math.use_cases.calculation import (
-    DetailCalculationCheckUseCase,
-    DetailExerciseCreateUseCase,
 )
 from apps.math.validators.web.exercise import (
     DetailCalculationCheckWebValidator,
@@ -110,7 +112,7 @@ def storage() -> AbstractUserStorage[Any]:
 @pytest.fixture
 def repository(
     storage: UserDataStorage[Any],
-) -> BaseExerciseRepository[RegularParametersDTO]:
+) -> UserResourceRepository[RegularParametersDTO]:
     """Provide student calculation repository."""
     return CalculationConditionsRepository(
         manager=CalculationCondition.objects,
@@ -177,7 +179,7 @@ def result_adapter_strategy(
     explain_adapter: ResponseAdapterProtocol[Any],
 ) -> ResponseAdapterProtocol[Any]:
     """Provide calculation result strategy."""
-    return ResultStrategyAdapter(
+    return ExerciseAdapterStrategy(
         new_case_adapter=create_adapter,
         explain_adapter=explain_adapter,
     )
@@ -201,7 +203,7 @@ def dto_factory() -> AbstractExerciseDTOFactory[
 
 @pytest.fixture
 def create_use_case(
-    repository: BaseExerciseRepository[RegularParametersDTO],
+    repository: UserResourceRepository[RegularParametersDTO],
     create_service: AbstractRegularExerciseCreate[
         CalculationConditionDTO,
         tuple[CalculationCaseDTO, CalculationMetaDTO],
@@ -225,7 +227,7 @@ def create_use_case(
 @pytest.fixture
 def check_use_case(
     storage: UserDataStorage[Any],
-    repository: BaseExerciseRepository[Any],
+    repository: UserResourceRepository[Any],
     check_service: AbstractExerciseCheck[
         CalculationAnswerDTO,
         CalculationCaseDTO,
@@ -306,7 +308,7 @@ class TestStartStudentCalculationPerformHandler:
             params=DetailParams(
                 pk=calculation_assignation.calculation_condition.pk
             ),
-            context=RequestContext(user=mentor),
+            context=RequestContextDTO(user=mentor),
             data=RequestData(query={}),
         )
 
@@ -341,7 +343,7 @@ class TestCheckStudentCalculationPerformHandler:
         """Create student calculation exercise."""
         start_handler.execute(
             params=DetailParams(pk=calculation_assignation.pk),
-            context=RequestContext(user=mentor),
+            context=RequestContextDTO(user=mentor),
             data=RequestData(query={}),
         )
 
@@ -355,7 +357,7 @@ class TestCheckStudentCalculationPerformHandler:
         # Act
         result_dto = check_handler.execute(
             params=DetailParams(pk=calculation_assignation.pk),
-            context=RequestContext(user=mentor),
+            context=RequestContextDTO(user=mentor),
             data=RequestData(
                 query={
                     # Correct answer
@@ -390,7 +392,7 @@ class TestCheckStudentCalculationPerformHandler:
         # Act
         result_dto = check_handler.execute(
             params=DetailParams(pk=calculation_assignation.pk),
-            context=RequestContext(user=mentor),
+            context=RequestContextDTO(user=mentor),
             data=RequestData(
                 query={
                     # Wrong answer

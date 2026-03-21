@@ -27,7 +27,7 @@ def assignment(
         mentor=mentor, student=user
     )
     # Exercise for assignment
-    exercise = lang_models.Exercise.objects.create(
+    exercise = lang_models.LanguageExercise.objects.create(
         user=mentor,
         discipline=core_models.Discipline.objects.create(name='English'),
         name='translations',

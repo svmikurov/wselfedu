@@ -6,7 +6,8 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
 
-from apps.core.handlers.dto import NullParams, RequestContext, RequestData
+from apps.core.domains.null import NullDTO
+from apps.core.handlers.dto import RequestContext, RequestData
 from apps.core.views import UserLoginRequiredMixin
 from apps.core.views.mixins import GetHandlerMixin
 from apps.math.handlers.types import (
@@ -14,7 +15,7 @@ from apps.math.handlers.types import (
 )
 from di import MainContainer
 
-HANDLERS = MainContainer.math.exercise_web_views
+HANDLERS = MainContainer.math.web_view
 
 
 class StudentCalculationExerciseListVew(
@@ -32,7 +33,9 @@ class StudentCalculationExerciseListVew(
         self,
         request: HttpRequest,
         *args: object,
-        handler: ExerciseListHandler = Provide[HANDLERS.student_exercises],  # type: ignore[attr-defined]
+        handler: ExerciseListHandler = Provide[
+            HANDLERS.student_calculation_list  # type: ignore[attr-defined]
+        ],
         **kwargs: object,
     ) -> HttpResponseBase:
         """Inject request handler."""
@@ -41,8 +44,8 @@ class StudentCalculationExerciseListVew(
 
     def get(self, request: HttpRequest) -> HttpResponse:
         """Render student's exercises."""
-        params = NullParams()
+        params = NullDTO()
         request_context = RequestContext(user=self.user)
-        data = RequestData(query=request.GET.dict())
+        data = RequestData(data=request.GET.dict())
         result = self.handler.execute(params, request_context, data)
         return render(request, self.get_template_names(), result.context)

@@ -7,11 +7,11 @@ from .adapter.web.exercise import ExerciseWebAdapterContainer
 from .handler.web.exercise import ExerciseWebHandlerContainer
 from .milestone.exercise import MilestoneContainer
 from .repository.exercise import ExerciseRepositoryContainer
-from .service.exercise import ExerciseServiceContainer
-from .use_case.exercise import ExerciseUseCaseContainer
+from .service.container import ExerciseServiceContainer
+from .use_case.container import ExerciseUseCaseContainer
 from .validator.web.exercise import ExerciseWebValidatorContainer
 from .view.api.exercise import ApiViewContainer
-from .view.web.exercise import WebViewContainer
+from .view.web.container import WebViewContainer
 
 
 class MathematicalContainer(DeclarativeContainer):
@@ -48,10 +48,10 @@ class MathematicalContainer(DeclarativeContainer):
     )
     use_cases = Container(
         ExerciseUseCaseContainer,
+        storage=user_data_storage,
         repositories=repositories,
         exercise_services=exercise_services,
         milestone_services=milestone_services,
-        storage=user_data_storage,
     )
     web_adapters = Container(
         ExerciseWebAdapterContainer,
@@ -70,10 +70,10 @@ class MathematicalContainer(DeclarativeContainer):
     # ===========================================
     # Persistent references to the view handler
     # -------------------------------------------
-    exercise_api_views = Container(
-        ApiViewContainer,
-    )
-    exercise_web_views = Container(
+    web_view = Container(
         WebViewContainer,
         handlers=web_handlers,
+    )
+    api_view = Container(
+        ApiViewContainer,
     )

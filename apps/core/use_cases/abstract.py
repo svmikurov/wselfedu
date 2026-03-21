@@ -9,29 +9,14 @@ from apps.core.handlers.protocol import UseCaseProtocol
 
 __all__ = ('AbstractUseCase',)
 
-RequestParams = TypeVar('RequestParams')
-RequestContext = TypeVar('RequestContext')
-Validated = TypeVar('Validated')
+CommandData = TypeVar('CommandData')
 ResultData = TypeVar('ResultData')
 
 
-class AbstractUseCase(
-    ABC,
-    UseCaseProtocol[
-        RequestParams,
-        RequestContext,
-        Validated,
-        ResultData,
-    ],
-):
+class AbstractUseCase(ABC, UseCaseProtocol[CommandData, ResultData]):
     """ABC for generic request use case."""
 
     @override
     @abstractmethod
-    def execute(
-        self,
-        params: RequestParams,
-        context: RequestContext,
-        validated: Validated,
-    ) -> ResultData:
+    def execute(self, command: CommandData) -> ResultData:
         """Execute use case."""

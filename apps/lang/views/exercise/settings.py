@@ -20,7 +20,7 @@ from ... import forms, models
 def study_settings_view(request: HttpRequest) -> HttpResponse:
     """Render translation study parameters."""
     user = request.user
-    parameters, _ = models.Parameters.objects.get_or_create(user=user)
+    parameters, _ = models.ExerciseConditions.objects.get_or_create(user=user)
 
     if request.method == 'POST':
         parameters_form = forms.ParametersForm(

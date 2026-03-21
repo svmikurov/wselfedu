@@ -3,9 +3,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, override
-
-from apps.core.presenters.abc import StudyPresenterGenABC
+from typing import TYPE_CHECKING
 
 from ... import types
 
@@ -37,14 +35,10 @@ class AssignedTestServiceABC(ABC):
         """Build and return exercise case."""
 
 
-class WordPresentationServiceABC(
-    StudyPresenterGenABC[types.CaseParametersAPI, types.TranslationCase],
-    ABC,
-):
+class WordPresentationServiceABC(ABC):
     """ABC fore Word study service."""
 
     @abstractmethod
-    @override
     def get_case(
         self,
         user: Person,

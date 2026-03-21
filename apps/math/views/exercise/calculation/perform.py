@@ -8,9 +8,9 @@ from dependency_injector.wiring import Provide, inject
 from django.http.request import HttpRequest
 
 from apps.core.views.exercise import (
-    BaseDetailPerformView,
-    BaseQueryPerformView,
+    DetailExercisePerformView,
     DetailHandler,
+    QueryExercisePerformView,
     QueryHandler,
 )
 from di import MainContainer
@@ -24,10 +24,10 @@ __all__ = (
     'StudentCalculationPerformView',
 )
 
-HANDLERS = MainContainer.math.exercise_web_views
+HANDLERS = MainContainer.math.web_view
 
 
-class RegularPerformView(BaseQueryPerformView):
+class RegularPerformView(QueryExercisePerformView):
     """Calculation exercise regular performing view."""
 
     TEMPLATE_PATH = 'math/exercise/calculation/perform/'
@@ -52,7 +52,7 @@ class RegularPerformView(BaseQueryPerformView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class CustomCalculationPerformView(BaseDetailPerformView):
+class CustomCalculationPerformView(DetailExercisePerformView):
     """User's saved calculation exercise performing view."""
 
     TEMPLATE_PATH = 'math/exercise/calculation/perform/'
@@ -77,7 +77,7 @@ class CustomCalculationPerformView(BaseDetailPerformView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class StudentCalculationPerformView(BaseDetailPerformView):
+class StudentCalculationPerformView(DetailExercisePerformView):
     """Student's assigned calculation exercise performing view."""
 
     TEMPLATE_PATH = 'math/exercise/calculation/perform/'
@@ -102,7 +102,7 @@ class StudentCalculationPerformView(BaseDetailPerformView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class MentorCalculationPerformView(BaseDetailPerformView):
+class MentorCalculationPerformView(DetailExercisePerformView):
     """Mentor's calculation exercise performing view."""
 
     TEMPLATE_PATH = 'math/exercise/calculation/perform/'

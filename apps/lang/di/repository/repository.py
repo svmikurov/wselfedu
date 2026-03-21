@@ -1,11 +1,11 @@
 """Repository DI container."""
 
 from dependency_injector.containers import DeclarativeContainer
-from dependency_injector.providers import Factory
+from dependency_injector.providers import Dependency, Factory
 
 from apps.lang import models, repositories
-from apps.lang.models import Parameters, TranslationSetting
-from apps.lang.repositories.exercise.conditions import (
+from apps.lang.models import ExerciseConditions, TranslationSetting
+from apps.lang.repositories import (
     RegularParametersRepository,
 )
 
@@ -13,9 +13,14 @@ from apps.lang.repositories.exercise.conditions import (
 class RepositoryContainer(DeclarativeContainer):
     """Repository DI container."""
 
-    # ----------------
+    # =============================================
+    # External dependencies
+    # ---------------------------------------------
+    storage = Dependency()
+
+    # =============================================
     # English language
-    # ----------------
+    # ---------------------------------------------
 
     rule = Factory(
         repositories.RuleRepository,
@@ -30,7 +35,7 @@ class RepositoryContainer(DeclarativeContainer):
 
     regular_parameters = Factory(
         RegularParametersRepository,
-        parameters_manager=Parameters.objects,
+        parameters_manager=ExerciseConditions.objects,
         settings_manager=TranslationSetting.objects,
     )
 

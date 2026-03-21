@@ -4,14 +4,14 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from apps.core.domains.exercise import (
+from apps.core.domains.exercise.protocol import (
+    CheckResultProtocol,
+    TestCheckRequest,
+)
+from apps.core.domains.exercise.schema.test_dto import (
     TestExerciseData,
     TestExerciseExplanation,
     TestExerciseMeta,
-)
-from apps.core.domains.exercise.types import (
-    CheckResultProtocol,
-    TestCheckRequest,
 )
 
 from .abstract import (
@@ -24,27 +24,25 @@ from .abstract import (
 if TYPE_CHECKING:
     from uuid import UUID
 
-    from apps.core.domains.exercise import TestExerciseCase
     from apps.core.domains.exercise.abstract import (
         AbstractCandidatesExerciseDomain,
         AbstractCheckExerciseDomain,
         AbstractSettingsExerciseDomain,
     )
-    from apps.core.domains.exercise.types import (
-        Candidates,
+    from apps.core.domains.exercise.protocol import (
         ExerciseConfig,
         Settings,
     )
+    from apps.core.domains.exercise.schema.test_dto import TestExerciseCase
     from apps.core.repositories.abstract import (
-        AbstractByUserQueryRepository,
-        AbstractUserConditionsRepository,
+        AbstractRepository,
     )
     from apps.core.storages.services.iabc import TaskStorageABC
     from apps.users.models import Person
 
     type CreateResult = tuple[TestExerciseCase, TestExerciseMeta]
     # REFACTOR: Fix Any type hint
-    type _Repository = AbstractUserConditionsRepository[Any, Candidates]
+    type _Repository = AbstractRepository[Any, Any]
 
 __all__ = [
     'RegularTestCreate',
@@ -59,7 +57,7 @@ class RegularTestCreate(AbstractExerciseCreate[TestExerciseData]):
 
     def __init__(
         self,
-        parameters_repository: AbstractByUserQueryRepository,
+        parameters_repository: _Repository,
         candidates_repository: _Repository,
         storage: TaskStorageABC[TestExerciseMeta],
         domain: AbstractSettingsExerciseDomain[Settings, CreateResult],

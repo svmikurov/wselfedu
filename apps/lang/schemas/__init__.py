@@ -17,7 +17,7 @@ __all__ = [
     'DetailTestRequestDTO',
 ]
 
-from apps.core.domains.exercise.dto import (
+from apps.core.domains.exercise.schema.dto import (
     DetailTestRequestDTO,
     Explanation,
     TestCase,
@@ -25,7 +25,7 @@ from apps.core.domains.exercise.dto import (
     TestResponseData,
 )
 
-from .presentation import (
+from ...core.domains.exercise.schema.parameters import (
     LookupCondition,
     ParametersSchema,
     RegularConditionRequest,

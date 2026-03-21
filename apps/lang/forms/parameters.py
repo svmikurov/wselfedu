@@ -25,14 +25,14 @@ class ParametersForm(forms.ModelForm):  # type: ignore[type-arg]
     class Meta:
         """Form configuration."""
 
-        model = models.Parameters
+        model = models.ExerciseConditions
         fields = [
             'category',
             'word_source',
             'start_period',
             'end_period',
             'mark',
-            'progress',
+            'progress_bar',
             'is_study',
             'is_repeat',
             'is_examine',
@@ -56,7 +56,7 @@ class ParametersForm(forms.ModelForm):  # type: ignore[type-arg]
         self.helper.layout = Layout(
             Row(Column('category'), Column('word_source')),
             Row(Column('start_period'), Column('end_period')),
-            Row(Column('mark'), Column('progress')),
+            Row(Column('mark'), Column('progress_bar')),
             Row(
                 Column(Field('is_study', template=SWITCH_TEMPLATE)),
                 Column(Field('is_repeat', template=SWITCH_TEMPLATE)),

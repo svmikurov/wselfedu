@@ -2,12 +2,6 @@
 
 __all__ = [
     'study_settings_view',
-    # Study
-    'EnglishTranslationStudyView',
-    'EnglishTranslationStudyCaseView',
-    # Test
-    'TranslationTestView',
-    'TranslationTestMentorshipView',
     # Rule
     'RuleView',
     'RuleListView',
@@ -25,16 +19,8 @@ __all__ = [
     'ClauseUpdateView',
 ]
 
-from .exercise.presentation.translation import (
-    EnglishTranslationStudyCaseView,
-    EnglishTranslationStudyView,
-)
 from .exercise.settings import (
     study_settings_view,
-)
-from .exercise.test.translation import (
-    TranslationTestMentorshipView,
-    TranslationTestView,
 )
 from .rule import (
     ClauseCreateView,

@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Generic, TypeVar
 
 if TYPE_CHECKING:
-    from .types import Candidates, CheckResultProtocol, TestCheckRequest
+    from .protocol import Candidates, CheckResultProtocol, TestCheckRequest
 
 T = TypeVar('T')
 R = TypeVar('R')

@@ -55,7 +55,7 @@ PARTIAL_TEMPLATES: dict[ExerciseStatusEnum, str] = {
 ERROR_TEMPLATE = '_case_request_error.html'
 
 
-class GetPartialExerciseTemplateMixin:
+class _GetPartialExerciseTemplateMixin:
     """Mixin provides partial template for specific exercise status."""
 
     TEMPLATE_PATH: str
@@ -82,10 +82,10 @@ class GetPartialExerciseTemplateMixin:
         return html
 
 
-class ExercisePerformView(
+class _BaseExercisePerformView(
     UserLoginRequiredMixin,
     GetExerciseHandlersMixin[CreateHandler, CheckHandler],
-    GetPartialExerciseTemplateMixin,
+    _GetPartialExerciseTemplateMixin,
     TemplateResponseMixin,
     View,
     Generic[CreateHandler, CheckHandler],
@@ -94,7 +94,7 @@ class ExercisePerformView(
 
     def get(self, request: HttpRequest, **kwargs: object) -> HttpResponse:
         """Render initial exercise page."""
-        result = self._get_start_result(**kwargs)
+        result = self._create(**kwargs)
 
         if request.headers.get('HX-Request') == 'true':
             # Renders new exercise case after explanation
@@ -113,25 +113,47 @@ class ExercisePerformView(
         """Render exercise loop."""
         # Query parameters contains exercise conditions.
         # Request body contains user's answer.
-        result = self._get_check_result(**kwargs)
+        result = self._solve(**kwargs)
         return HttpResponse(self._get_partial_html(request, result))
 
-    def _get_start_result(self, **kwargs: object) -> WebExerciseResponseDTO:
-        """Execute the start exercise and return result."""
+    def _create(self, **kwargs: object) -> WebExerciseResponseDTO:
+        """Create and provide exercise data."""
         raise NotImplementedError()
 
-    def _get_check_result(self, **kwargs: object) -> WebExerciseResponseDTO:
-        """Execute the exercise check and return result."""
+    def _solve(self, **kwargs: object) -> WebExerciseResponseDTO:
+        """Handle the exercise solution."""
         raise NotImplementedError()
+
+
+class ExercisePerformView(
+    _BaseExercisePerformView[QueryHandler, QueryHandler]
+):
+    """Exercise perform view."""
+
+    @override
+    def _create(self, **kwargs: object) -> WebExerciseResponseDTO:
+        return self.start_handler.execute(
+            params=QueryRequestParams(query={}),
+            context=RequestContext(user=self.user),
+            data=RequestData(data={}),
+        )
+
+    @override
+    def _solve(self, **kwargs: object) -> WebExerciseResponseDTO:
+        return self.check_handler.execute(
+            params=QueryRequestParams(query={}),
+            context=RequestContext(user=self.user),
+            data=RequestData(data=self.request.POST.dict()),
+        )
 
 
 class QueryExercisePerformView(
-    ExercisePerformView[QueryHandler, QueryHandler]
+    _BaseExercisePerformView[QueryHandler, QueryHandler]
 ):
     """Base query exercise perform view."""
 
     @override
-    def _get_start_result(self, **kwargs: object) -> WebExerciseResponseDTO:
+    def _create(self, **kwargs: object) -> WebExerciseResponseDTO:
         return self.start_handler.execute(
             params=QueryRequestParams(query=self.request.GET.dict()),
             context=RequestContext(user=self.user),
@@ -139,7 +161,7 @@ class QueryExercisePerformView(
         )
 
     @override
-    def _get_check_result(self, **kwargs: object) -> WebExerciseResponseDTO:
+    def _solve(self, **kwargs: object) -> WebExerciseResponseDTO:
         return self.check_handler.execute(
             params=QueryRequestParams(query=self.request.GET.dict()),
             context=RequestContext(user=self.user),
@@ -148,12 +170,12 @@ class QueryExercisePerformView(
 
 
 class DetailExercisePerformView(
-    ExercisePerformView[DetailHandler, DetailHandler]
+    _BaseExercisePerformView[DetailHandler, DetailHandler]
 ):
     """Base detail exercise perform view."""
 
     @override
-    def _get_start_result(self, **kwargs: object) -> WebExerciseResponseDTO:
+    def _create(self, **kwargs: object) -> WebExerciseResponseDTO:
         return self.start_handler.execute(
             params=DetailRequestParams(pk=kwargs['pk']),
             context=RequestContext(user=self.user),
@@ -161,7 +183,7 @@ class DetailExercisePerformView(
         )
 
     @override
-    def _get_check_result(self, **kwargs: object) -> WebExerciseResponseDTO:
+    def _solve(self, **kwargs: object) -> WebExerciseResponseDTO:
         return self.check_handler.execute(
             params=DetailRequestParams(pk=int(kwargs['pk'])),
             context=RequestContext(user=self.user),

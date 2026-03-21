@@ -4,20 +4,18 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from dependency_injector.wiring import Provide, inject
 from django.urls import reverse_lazy
 from django.views import generic
 from django_filters import views as filter_views
 
 from apps.core import views as core_views
-from di import MainContainer
 
 from .. import filters, forms, models
-from ..repositories.abc import TranslationRepoABC
+from ..repositories import TranslationRepoABC
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
-    from django.http import HttpRequest, HttpResponse, HttpResponseBase
+    from django.http import HttpResponse
     from django_filters.filterset import FilterSet
 
 __all__ = [
@@ -28,27 +26,11 @@ __all__ = [
     'EnglishTranslationDeleteView',
 ]
 
-# REVIEW:
-
 
 class _TranslationViewMixin:
     """Provides repository injection and user property."""
 
     _repository: TranslationRepoABC | None = None
-
-    @inject
-    def dispatch(
-        self,
-        request: HttpRequest,
-        *args: object,
-        repository: TranslationRepoABC = Provide[
-            MainContainer.lang.view_container.english_translation  # type: ignore[attr-defined]
-        ],
-        **kwargs: object,
-    ) -> HttpResponseBase:
-        """Inject repository before processing request."""
-        self._repository = repository
-        return super().dispatch(request, *args, **kwargs)  # type: ignore[no-any-return, misc]
 
     @property
     def repository(self) -> TranslationRepoABC:

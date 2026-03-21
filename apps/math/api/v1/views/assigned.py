@@ -2,7 +2,7 @@
 
 from http import HTTPStatus
 
-from dependency_injector.wiring import Provide, inject
+from dependency_injector.wiring import inject
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
     OpenApiExample,
@@ -18,11 +18,8 @@ from rest_framework.response import Response
 from apps.math.presenters.assigned import AssignedCalculationPresenter
 from apps.study.selectors.iabc import IAssignedSelector
 from apps.users.models import Person
-from di import MainContainer
 
 from ..serializers import calculation as ser
-
-CONTAINER = MainContainer.math.exercise_web_views
 
 
 class ExerciseViewSet(viewsets.ViewSet):
@@ -79,8 +76,8 @@ class ExerciseViewSet(viewsets.ViewSet):
         request: Request,
         assignation_id: int,
         exercise_slug: str,
-        exercise_selector: IAssignedSelector = Provide[CONTAINER],
-        exercise_presenter: AssignedCalculationPresenter = Provide[CONTAINER],
+        exercise_selector: IAssignedSelector,
+        exercise_presenter: AssignedCalculationPresenter,
     ) -> Response:
         """Render question of assigned exercise."""
         try:
@@ -119,7 +116,7 @@ class ExerciseViewSet(viewsets.ViewSet):
         self,
         request: Request,
         assignation_id: int,
-        exercise_presenter: AssignedCalculationPresenter = Provide[CONTAINER],
+        exercise_presenter: AssignedCalculationPresenter,
     ) -> Response:
         """Render answer checking result."""
         # TODO: Add assignation validation with `get_object_or_404`

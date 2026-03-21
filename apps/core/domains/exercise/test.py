@@ -13,19 +13,19 @@ from .abstract import (
     AbstractSettingsExerciseDomain,
 )
 from .enums import DisplayOrder
-from .test_dto import (
+from .protocol import Settings
+from .schema.test_dto import (
     Option,
     OptionMeta,
     TestExerciseCase,
     TestExerciseMeta,
     TestExerciseResult,
 )
-from .types import Settings
 
 type Result = tuple[TestExerciseCase, TestExerciseMeta]
 
 if TYPE_CHECKING:
-    from .types import (
+    from .protocol import (
         Candidate,
         Candidates,
         CheckResultProtocol,

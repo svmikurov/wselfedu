@@ -5,12 +5,12 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import pytest
+from apps.lang.repositories.exercise.translation import conditions
 
 from apps.core import models as core_models
 from apps.lang import models as lang_models
 from apps.lang import repositories
 from apps.lang.repositories import get_period_delta
-from apps.lang.repositories.exercise.translation import conditions
 from apps.study import models as study_models
 from tests.fixtures.lang.no_db import translations as fixtures
 from tests.fixtures.lang.no_db.presentation import EMPTY_PARAMETERS_DTO
@@ -80,8 +80,8 @@ class TestProgressFilter:
         repeat_translation = translations[0]
         known_translation = translations[1]
 
-        repeat_translation.progress = study_models.Progress.REPEAT_DEFAULT
-        known_translation.progress = study_models.Progress.KNOW_DEFAULT
+        repeat_translation.progress = study_models.ProgressBar.REPEAT_DEFAULT
+        known_translation.progress = study_models.ProgressBar.KNOW_DEFAULT
         repeat_translation.save()
         known_translation.save()
 

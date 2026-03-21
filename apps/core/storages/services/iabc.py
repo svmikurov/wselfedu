@@ -40,7 +40,7 @@ class AbstractUserStorage(ABC, Generic[T]):
     def save(
         self,
         obj: T,
-        user_id: int,
+        user_pk: int,
         prefix: str,
         ttl: int | None = None,
         **kwargs: object,
@@ -48,5 +48,5 @@ class AbstractUserStorage(ABC, Generic[T]):
         """Save user's data."""
 
     @abstractmethod
-    def retrieve(self, user_id: int, prefix: str, **kwargs: object) -> T:
+    def retrieve(self, user_pk: int, prefix: str, **kwargs: object) -> T:
         """Retrieve user's data."""

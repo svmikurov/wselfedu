@@ -4,15 +4,17 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from apps.core.domains.exercise import (
+from apps.core.domains.exercise.enums import (
     ExerciseStatusEnum,
-    TestExerciseData,
-    TestExerciseExplanation,
 )
-from apps.core.domains.exercise.dto import (
+from apps.core.domains.exercise.schema.dto import (
     Explanation,
     TestCase,
     TestResponseData,
+)
+from apps.core.domains.exercise.schema.test_dto import (
+    TestExerciseData,
+    TestExerciseExplanation,
 )
 
 if TYPE_CHECKING:

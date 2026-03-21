@@ -38,6 +38,5 @@ class MainContainer(DeclarativeContainer):
     )
     lang: Container[LanguageContainer] = Container(
         LanguageContainer,
-        domains=core.domains,
-        configuration=core.configuration,
+        storage=core.user_data_storage,
     )

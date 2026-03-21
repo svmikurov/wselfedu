@@ -1,47 +1,44 @@
 """Web presentation request validator."""
 
-from apps.core.handlers.dto import RequestData
-from apps.core.handlers.protocol import (
-    ResourceValidatorProtocol,
-    ValidatorProtocol,
+from typing import Any
+
+from apps.core.handlers.protocol import ValidatorProtocol
+
+from ..schemas import (
+    DetailTestRequestDTO,
+    ParametersSchema,
+    RegularConditionRequest,
+    SettingsSchema,
+    TestRequestDTO,
 )
 
-from .. import schemas
 
-
-class WebPresentationValidator(
-    ValidatorProtocol[RequestData, schemas.RegularConditionRequest]
-):
+class WebPresentationValidator(ValidatorProtocol[RegularConditionRequest]):
     """Web request presentation validator."""
 
     @classmethod
-    def validate(
-        cls, raw_data: RequestData
-    ) -> schemas.RegularConditionRequest:
+    def validate(cls, raw_data: dict[str, Any]) -> RegularConditionRequest:
         """Validate the web request presentation data."""
-        return schemas.RegularConditionRequest(
-            parameters=schemas.ParametersSchema(**raw_data.query),
-            settings=schemas.SettingsSchema(**raw_data),
+        return RegularConditionRequest(
+            parameters=ParametersSchema(**raw_data),
+            settings=SettingsSchema(**raw_data),
         )
 
 
-class WebTestValidator(ValidatorProtocol[RequestData, schemas.TestRequestDTO]):
+class WebTestValidator(ValidatorProtocol[TestRequestDTO]):
     """Web request test exercise validator."""
 
     @classmethod
-    def validate(cls, raw_data: RequestData) -> schemas.TestRequestDTO:
+    def validate(cls, raw_data: dict[str, Any]) -> TestRequestDTO:
         """Validate the web request data."""
-        return schemas.TestRequestDTO(**raw_data.query)
+        print(f'{raw_data = }')
+        return TestRequestDTO(exercise_status=raw_data.query['status'])
 
 
-class WebAssignedTestValidator(
-    ResourceValidatorProtocol[RequestData, schemas.DetailTestRequestDTO]
-):
+class WebAssignedTestValidator(ValidatorProtocol[DetailTestRequestDTO]):
     """Web request assigned test exercise validator."""
 
     @classmethod
-    def validate(
-        cls, raw_data: RequestData, pk: int
-    ) -> schemas.DetailTestRequestDTO:
+    def validate(cls, raw_data: dict[str, Any]) -> DetailTestRequestDTO:
         """Validate the web request data."""
-        return schemas.DetailTestRequestDTO(**raw_data, pk=pk)
+        return DetailTestRequestDTO(**raw_data)

@@ -143,6 +143,8 @@ class StudentCalculationMilestone(
             self._completion_service.add_failure(resource_pk)
             return
 
+        # FIXME: Implement atomic transaction
+        # for completion mark and reward
         is_completed = self._completion_service.add_success(
             resource_pk,
             availability,

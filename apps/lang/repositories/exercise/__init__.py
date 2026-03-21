@@ -1,1 +1,1 @@
-"""Exercise repositories."""
+"""Language discipline exercise repositories."""

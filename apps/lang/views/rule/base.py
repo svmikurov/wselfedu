@@ -7,7 +7,6 @@ from abc import ABC, abstractmethod
 from functools import cached_property
 from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
-from dependency_injector.wiring import Provide, inject
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import BadRequest, PermissionDenied
 from django.http.response import Http404
@@ -19,8 +18,6 @@ from di import MainContainer
 
 if TYPE_CHECKING:
     from dependency_injector.providers import Container
-    from django.http.request import HttpRequest
-    from django.http.response import HttpResponseBase
 
     from apps.core.adapters.response.abc import AbstractSimpleResponseAdapter
     from apps.core.adapters.response.rule import LanguageRule
@@ -80,20 +77,6 @@ class BaseRuleDetailView(
 
     _repository: RuleRepositoryABC | None = None
     _adapter: WebAdapter | None = None
-
-    @inject
-    def dispatch(
-        self,
-        request: HttpRequest,
-        *args: object,
-        repository: RuleRepositoryABC = Provide[CONTAINER.repositories.rule],  # type: ignore[attr-defined]
-        adapter: WebAdapter = Provide[CONTAINER.adapters.web_rule],  # type: ignore[attr-defined]
-        **kwargs: object,
-    ) -> HttpResponseBase:
-        """Inject the dependencies."""
-        self._repository = repository
-        self._adapter = adapter
-        return super().dispatch(request, *args, **kwargs)
 
     @property
     def repository(self) -> RuleRepositoryABC:
