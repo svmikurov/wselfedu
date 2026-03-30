@@ -5,7 +5,9 @@ from typing import TypeVar, override
 
 from django.db.models import Model
 
-from .protocol import ModelRepositoryProtocol, RepositoryProtocol
+from apps.users.models import Person
+
+from .protocol import ModelRepositoryProtocol, UserRepositoryProtocol
 
 FilterData = TypeVar('FilterData')
 ModelT = TypeVar('ModelT', bound=Model)
@@ -26,11 +28,11 @@ class AbstractModelRepository(
 
 class AbstractRepository(
     ABC,
-    RepositoryProtocol[FilterData, ResultT],
+    UserRepositoryProtocol[FilterData, ResultT],
 ):
     """ABC for DTO repository."""
 
     @override
     @abstractmethod
-    def fetch(self, filter: FilterData) -> ResultT:
+    def fetch(self, user: Person, filter: FilterData) -> ResultT:
         """Fetch data."""
