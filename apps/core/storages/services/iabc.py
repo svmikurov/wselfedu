@@ -7,6 +7,8 @@ from typing import Generic, Protocol, TypeVar
 from typing_extensions import override
 
 T = TypeVar('T')
+StoredObject = TypeVar('StoredObject')
+Command = TypeVar('Command')
 
 
 class TaskStorageProto(Protocol[T]):
@@ -31,6 +33,30 @@ class TaskStorageABC(TaskStorageProto[T], ABC):
     @override
     def retrieve_task(self, uid: uuid.UUID) -> T:
         """Retrieve task."""
+
+
+class AbstractCommandStorage(ABC, Generic[StoredObject, Command]):
+    """ABC for command related data store."""
+
+    @abstractmethod
+    def save(
+        self,
+        obj: StoredObject,
+        command: Command,
+        prefix: str,
+        ttl: int | None = None,
+        **kwargs: object,
+    ) -> None:
+        """Save data."""
+
+    @abstractmethod
+    def retrieve(
+        self,
+        command: Command,
+        prefix: str,
+        **kwargs: object,
+    ) -> StoredObject:
+        """Retrieve data."""
 
 
 class AbstractUserStorage(ABC, Generic[T]):

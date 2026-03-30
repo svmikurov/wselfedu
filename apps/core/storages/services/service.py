@@ -1,33 +1,88 @@
 """Defines clients for storing task."""
 
-import hashlib
 import logging
 from typing import Hashable, TypeVar, override
 
+from apps.core.assemblers.command import UserCommand
 from apps.core.exceptions.storage import (
     CacheMissError,
     StorageProgrammingError,
 )
+from apps.core.storages.abstract import AbstractStoreKeyResolver
+from apps.core.storages.services.iabc import AbstractCommandStorage
 
 from ..clients.django_cache import DjangoKeyCache
+from ..resolver import generate_cache_key
 from .iabc import AbstractUserStorage
 
 T = TypeVar('T', bound=Hashable)
+StoredObject = TypeVar('StoredObject')
+Command = TypeVar('Command')
 
 logger = logging.getLogger(__name__)
 
 DEFAULT_TTL = 3600
-HASH_SYMBOL_COUNT = 8
 
 
-def generate_cache_key(prefix: str, user_id: int, **kwargs: object) -> str:
-    """Generate a secure key with parameter hashing."""
-    sorted_items = sorted(kwargs.items())
-    param_string = ':'.join([f'{k}:{v}' for k, v in sorted_items])
-    param_hash = hashlib.md5(param_string.encode()).hexdigest()[
-        :HASH_SYMBOL_COUNT
-    ]
-    return f'{prefix}:{user_id}:{param_hash}'
+class UserCommandStorage(
+    AbstractCommandStorage[
+        StoredObject,
+        UserCommand,
+    ],
+):
+    """User's command related data storage."""
+
+    def __init__(
+        self,
+        storage: DjangoKeyCache[StoredObject],
+        key_resolver: AbstractStoreKeyResolver[UserCommand, str],
+        ttl: int | None = None,
+    ) -> None:
+        """Construct the storage."""
+        self._storage = storage
+        self._key_resolver = key_resolver
+        self.ttl = ttl or DEFAULT_TTL
+
+    @override
+    def save(
+        self,
+        obj: StoredObject,
+        command: UserCommand,
+        prefix: str,
+        ttl: int | None = None,
+        **kwargs: object,
+    ) -> None:
+        """Save user's data."""
+        cache_key = self._key_resolver.resolve(command, prefix, **kwargs)
+
+        if ttl is None:
+            ttl = self.ttl
+        self._storage.set(obj, cache_key, ttl)
+
+    @override
+    def retrieve(
+        self,
+        command: UserCommand,
+        prefix: str,
+        **kwargs: object,
+    ) -> StoredObject:
+        """Retrieve user's data."""
+        cache_key = self._key_resolver.resolve(command, prefix, **kwargs)
+
+        try:
+            return self._storage.pop(cache_key)
+
+        except KeyError:
+            logger.debug('Cache miss for key: %s', cache_key)
+            raise CacheMissError(
+                f'No data found for key: {cache_key}'
+            ) from None
+
+        except Exception as exc:
+            logger.exception('Cache technical error for key: %s', cache_key)
+            raise StorageProgrammingError(
+                'Failed to retrieve from cache'
+            ) from exc
 
 
 class UserDataStorage(AbstractUserStorage[T]):
