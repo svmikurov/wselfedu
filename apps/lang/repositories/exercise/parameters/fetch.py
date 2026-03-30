@@ -49,7 +49,7 @@ class ExerciseParametersRepository(
         self._dto_factory = dto_factory
 
     @override
-    def fetch(self, filter: _QueryFilter) -> ExerciseParametersDTO:
+    def fetch(self, filter: _QueryFilter) -> ExerciseParametersDTO:  # type: ignore
         """Fetch exercise parameters DTO."""
         return self._dto_factory.build(self.get_query(filter))
 

@@ -29,4 +29,4 @@ class RepositoryUseCase(AbstractUseCase[LockupCommand, QueryResult]):
     def execute(self, command: LockupCommand) -> QueryResult:
         """Return query result."""
         lockup_conditions = self._lockup_factory.build(command)
-        return self._repository.fetch(lockup_conditions)
+        return self._repository.fetch(lockup_conditions)  # type: ignore

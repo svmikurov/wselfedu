@@ -7,7 +7,7 @@ from apps.core.adapters.response.abstract import (
     AbstractResponseAdapter,
 )
 from apps.core.adapters.response.dto import OobResponseDTO, ResponseDTO
-from apps.core.adapters.response.status import StatusEnum
+from apps.core.adapters.response.status import ResponseStatusEnum
 from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.domains.exercise.protocol import HasExerciseStatus
 from apps.core.domains.protocol import NullProtocol
@@ -50,7 +50,7 @@ class StudentExercisesWebAdapter(
     AbstractResponseAdapter[
         list[StudentExerciseDTO],
         NullProtocol,
-        ResponseDTO,
+        ResponseDTO,  # type: ignore
     ]
 ):
     """Student's exercises web adapter."""
@@ -59,10 +59,10 @@ class StudentExercisesWebAdapter(
         self,
         schema: list[StudentExerciseDTO],
         request_context: NullProtocol,
-    ) -> ResponseDTO:
+    ) -> ResponseDTO:  # type: ignore
         """Adapt student's exercises for web response."""
         return ResponseDTO(
-            status=StatusEnum.OK,
+            status=ResponseStatusEnum.OK,
             context={
                 'exercises': [m.model_dump() for m in schema],
             },
@@ -110,7 +110,7 @@ class CalculationWebCaseAdapter(
     AdapterProtocol[
         StudentCalculationDTO,
         RequestContextProtocol,
-        ResponseDTO,
+        ResponseDTO,  # type: ignore
     ]
 ):
     """Calculation exercise case web response adapter."""
@@ -119,7 +119,7 @@ class CalculationWebCaseAdapter(
         self,
         schema: StudentCalculationDTO,
         request_context: RequestContextProtocol,
-    ) -> ResponseDTO:
+    ) -> ResponseDTO:  # type: ignore
         """Adapt current calculation case for web response."""
         return OobResponseDTO(
             status=schema.exercise_status,
@@ -134,7 +134,7 @@ class StudentCalculationWebCaseAdapter(
     AdapterProtocol[
         StudentCalculationDTO,
         RequestContextProtocol,
-        OobResponseDTO,
+        OobResponseDTO,  # type: ignore
     ]
 ):
     """Calculation exercise case web response adapter."""
@@ -147,7 +147,7 @@ class StudentCalculationWebCaseAdapter(
         self,
         schema: StudentCalculationDTO,
         request_context: RequestContextProtocol,
-    ) -> OobResponseDTO:
+    ) -> OobResponseDTO:  # type: ignore
         """Adapt current calculation case for web response."""
         # Response context contains question and form to answer input.
         adapted = self._domain_adapter.to_response(schema, request_context)
@@ -204,7 +204,7 @@ class ExplainCalculationWebAdapter(
         request_context: RequestContextProtocol,
     ) -> ExerciseWebDTO:
         """Adapt calculation case explanation for web response."""
-        return ExerciseWebDTO(
+        return ExerciseWebDTO(  # type: ignore
             exercise_status=schema.exercise_status,
             data=schema.data,
         )

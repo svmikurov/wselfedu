@@ -24,7 +24,7 @@ class AwardService:
     def reward(assignation_id: str | int) -> Decimal:
         """Reward the user and return the updated balance."""
         with transaction.atomic():
-            award_subquery = ExerciseReward.objects.filter(
+            award_subquery = ExerciseReward.objects.filter(  # type: ignore
                 exercise=OuterRef('pk')
             ).values('award')[:1]
 

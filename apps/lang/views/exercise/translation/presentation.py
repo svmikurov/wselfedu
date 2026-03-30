@@ -2,13 +2,15 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Literal, TypedDict
+from typing import TYPE_CHECKING, Any, override
 
 from dependency_injector.wiring import Provide, inject
 
 from apps.core.adapters.response.dto import OobResponseDTO
-from apps.core.adapters.response.status import StatusEnum
 from apps.core.assemblers.command import UserCommand, UserDataCommand
+from apps.core.domains.exercise.enums import (
+    ExerciseStatusEnum,
+)
 from apps.core.domains.exercise.presentation.dto import (
     PresentationCase,
     PresentationMeta,
@@ -30,7 +32,7 @@ __all__ = ('TranslationPresentationView',)
 # =================================================
 
 type _StartResponseDTO = OobResponseDTO[
-    StatusEnum,
+    ExerciseStatusEnum,
     PresentationCase,  # Adapted domain result data
     dict[str, Any],  # Extra context
 ]
@@ -48,15 +50,8 @@ type _StartHandler = RequestHandler[
 # Process exercise request handling types
 # =================================================
 
-
-class _TypedProcessRequestData(TypedDict, total=False):
-    """Exercise performing process typed request data."""
-
-    progress: Literal['known', 'unknown']
-
-
 type _ProcessResponseDTO = OobResponseDTO[
-    StatusEnum,
+    ExerciseStatusEnum,
     # FIXME: Fix Any type hint
     Any,  # Adapted domain result data
     dict[str, Any],  # Extra context
@@ -64,7 +59,7 @@ type _ProcessResponseDTO = OobResponseDTO[
 type _PrecessHandler = RequestHandler[
     NullProtocol,  # No request parameters
     RequestContext,  # Authentication required
-    RequestData[_TypedProcessRequestData],  # Exercise performing request data
+    RequestData[dict[str, Any]],  # Exercise performing request data
     # FIXME: Fix Any type hint
     Any,  # No validated data
     # FIXME: Fix Any type hint
@@ -99,11 +94,10 @@ class TranslationPresentationView(
         request: HttpRequest,
         *args: object,
         start_handler: _StartHandler = Provide[
-            HANDLERS.start_regular_translation_presentation  # type: ignore[attr-defined]
+            HANDLERS.regular_translation_presentation  # type: ignore[attr-defined]
         ],
-        # FIXME: Replace process handler
         process_handler: _PrecessHandler = Provide[
-            HANDLERS.start_regular_translation_presentation  # type: ignore[attr-defined]
+            HANDLERS.regular_translation_presentation  # type: ignore[attr-defined]
         ],
         **kwargs: object,
     ) -> HttpResponseBase:
@@ -112,6 +106,7 @@ class TranslationPresentationView(
         self._process_handler = process_handler
         return super().dispatch(request, *args, **kwargs)
 
+    @override
     def _start(self, **kwargs: object) -> _StartResponseDTO:
         return self.start_handler.execute(
             params=NullDTO(),
@@ -119,8 +114,9 @@ class TranslationPresentationView(
             data=NullDTO(),
         )
 
+    @override
     def _process(self, **kwargs: object) -> _ProcessResponseDTO:
-        return self.start_handler.execute(
+        return self.process_handler.execute(
             params=NullDTO(),
             context=RequestContext(user=self.user),
             data=RequestData(data=self.request.POST.dict()),

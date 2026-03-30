@@ -60,7 +60,7 @@ class StudentExercisesPresenter(StudentExercisesPresenterABC):
         filters: dict[str, Any],
     ) -> QuerySet[ExerciseAssigned]:
         return (
-            ExerciseAssigned.objects.filter(**filters)
+            ExerciseAssigned.objects.filter(**filters)  # type: ignore
             .select_related(
                 'mentorship',
                 'exercise',

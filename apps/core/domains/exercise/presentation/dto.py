@@ -2,15 +2,13 @@
 
 from apps.core.domains.dto import (
     BaseDTO,
-    ProtectDefaultStatusMixin,
 )
 
 from .. import dto
 
 
 class PresentationCase(
-    ProtectDefaultStatusMixin,
-    dto.ExerciseStatusField,
+    dto.ExerciseStatusSchema,
     dto.QuestionTextField,
     dto.AnswerTextField,
     dto.ProgressValueField,

@@ -149,18 +149,6 @@ class ValidatorProtocol(Protocol[RequestData_contra, Validated_cov]):
 
 
 # -----------------------------------------------
-# UseCase
-# -----------------------------------------------
-
-
-class UseCaseProtocol(Protocol[CommandData_contra, Result_cov]):
-    """Protocol for generic UseCase interface."""
-
-    def execute(self, command: CommandData_contra) -> Result_cov:
-        """Execute business logic."""
-
-
-# -----------------------------------------------
 # Adapter
 # -----------------------------------------------
 
@@ -172,8 +160,8 @@ class AdapterProtocol(
 
     def to_response(
         self,
-        context: DomainResult_contra,
-        extra_context: Context_contra,
+        domain_result: DomainResult_contra,
+        request_context: Context_contra,
     ) -> Result_cov:
         """Convert to response."""
 

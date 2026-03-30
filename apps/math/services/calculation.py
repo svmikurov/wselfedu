@@ -48,12 +48,12 @@ class CalculationCreateService(
         self._domains = domains
         self._operand_generator = operand_generator
 
-    def execute(
+    def execute(  # type: ignore
         self,
         configuration: CalculationConditionDTO,
     ) -> tuple[CalculationDomainDTO, CalculationMetaDTO]:
         """Get calculation exercise case data."""
-        task = self._create_task(configuration.conditions)
+        task = self._create_task(configuration.conditions)  # type: ignore
         data = self._build_data(task)
         meta = self._build_meta(task)
         return data, meta

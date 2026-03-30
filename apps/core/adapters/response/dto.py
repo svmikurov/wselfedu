@@ -21,10 +21,10 @@ class ResponseDTO(
         description='Response status',
     )
     context: AdaptedDomainResult = Field(
-        description='Domain result data',
+        description='Adapted domain result data',
     )
     extra_context: ExtraContext | dict[str, Any] = Field(
-        description='Additional page context',
+        description='Extra context',
         default_factory=dict,
     )
 

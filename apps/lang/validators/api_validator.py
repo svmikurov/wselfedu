@@ -9,7 +9,7 @@ from .. import schemas, types
 from ..api.v1.serializers import base as lang
 
 type RequestData = dict[str, Any]
-type RequestDTO = schemas.ExerciseParametersDTO
+type RequestDTO = schemas.ExerciseParametersDTO  # type: ignore
 
 # TODO: Update serializers to pydantic models?
 
@@ -22,7 +22,7 @@ class PresentationSerializer(
     """Get presentation serializer."""
 
 
-class ApiPresentationValidator(ValidatorProtocol[RequestDTO]):
+class ApiPresentationValidator(ValidatorProtocol[RequestDTO]):  # type: ignore
     """Api get presentation validator."""
 
     @classmethod
@@ -35,7 +35,7 @@ class ApiPresentationValidator(ValidatorProtocol[RequestDTO]):
     @classmethod
     def _to_dto(cls, data: types.ApiRequest) -> RequestDTO:
         """Create presentation request DTO."""
-        parameters = schemas.LookupConditionsDTO(
+        parameters = schemas.LookupConditionsDTO(  # type: ignore
             category=cls._get_id(data['category']),
             source=cls._get_id(data['word_source']),
             mark=cls._get_ids(data['mark']),
@@ -46,12 +46,12 @@ class ApiPresentationValidator(ValidatorProtocol[RequestDTO]):
             is_examine=data['is_examine'],
             is_know=data['is_know'],
         )
-        settings = schemas.ExerciseConfigDTO(
+        settings = schemas.ExerciseConfigDTO(  # type: ignore
             # FIXME: Fix type ignore
-            display_order=data['display_order']['code'],  # type: ignore
+            display_order=data['display_order']['code'],
             item_count=data['word_count'],
         )
-        return schemas.ExerciseParametersDTO(
+        return schemas.ExerciseParametersDTO(  # type: ignore
             parameters=parameters,
             conf=settings,
         )

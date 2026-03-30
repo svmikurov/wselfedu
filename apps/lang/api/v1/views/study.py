@@ -24,7 +24,7 @@ from .. import serializers as ser
 
 log = logging.getLogger(__name__)
 
-HANDLERS = di.MainContainer.lang  # type: ignore[attr-defined]
+HANDLERS = di.MainContainer.lang
 
 
 class WordStudyViewSet(
@@ -60,10 +60,10 @@ class WordStudyViewSet(
     def presentation(
         self,
         request: Request,
-        service: ...,
+        service: object,
     ) -> Response:
         """Render the Word study presentation case."""
-        presentation = service.execute(self.user, request.data)
+        presentation = service.execute(self.user, request.data)  # type: ignore
         return Response(presentation)
 
     # ---------------------

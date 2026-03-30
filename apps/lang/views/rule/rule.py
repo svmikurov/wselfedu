@@ -75,7 +75,7 @@ class RuleDetailView(base.BaseRuleDetailView[RuleDTO]):
 
     def _convert_to_dto(self, rule_object: models.Rule) -> RuleDTO:
         """Convert rule object to DTO."""
-        return self.adapter.to_response(rule_object)
+        return self.adapter.to_response(rule_object)  # type: ignore
 
 
 class RuleListView(

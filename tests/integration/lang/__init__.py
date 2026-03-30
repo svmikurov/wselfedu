@@ -1,1 +1,0 @@
-"""Language app integration tests."""

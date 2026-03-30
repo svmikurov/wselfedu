@@ -37,7 +37,7 @@ class StudyParametersRepository:
         return list(queryset.values('id', 'name'))
 
     @override
-    def get_options(self, user: Person) -> types.OptionsAPI:
+    def get_options(self, user: Person) -> types.OptionsAPI:  # type: ignore
         """Get word study options."""
         categories = models.Category.objects.filter(user=user)
         marks = models.Mark.objects.filter(user=user)
@@ -57,7 +57,7 @@ class StudyParametersRepository:
         )
 
     @override
-    def fetch(self, user: Person) -> types.CaseSettingsAPI:
+    def fetch(self, user: Person) -> types.CaseSettingsAPI:  # type: ignore
         """Fetch parameters with parameter choices."""
         options = self.get_options(user)
 
@@ -118,7 +118,7 @@ class StudyParametersRepository:
 
     @override
     @transaction.atomic
-    def update(
+    def update(  # type: ignore
         self,
         user: Person,
         data: types.CaseParametersAPI,

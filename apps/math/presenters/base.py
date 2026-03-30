@@ -39,7 +39,7 @@ class BaseCalcTaskPresenter:
         self._assignation_id: str | None = None
 
     @override
-    def get_task(self, answer_data: CalcConditionType) -> CalcTaskType:
+    def get_task(self, answer_data: CalcConditionType) -> CalcTaskType:  # type: ignore
         """Get calculation task."""
         task: CalcTask = self._exercise_service.create_task(answer_data)
         uid = self._task_storage.save_task(task)
@@ -50,7 +50,7 @@ class BaseCalcTaskPresenter:
         }
 
     @override
-    def get_result(
+    def get_result(  # type: ignore
         self,
         answer_data: AnswerT,
     ) -> CheckResultDataType:

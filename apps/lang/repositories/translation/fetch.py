@@ -25,6 +25,6 @@ class TranslationListRepository(
         """Construct the repository."""
         self._manager = manager
 
-    def fetch(self, filter: FilterType) -> EnglishQuerySet:
+    def fetch(self, filter: FilterType) -> EnglishQuerySet:  # type: ignore
         """Fetch translations."""
         return self._manager.filter(**filter)

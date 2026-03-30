@@ -4,40 +4,32 @@ from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import (
     DependenciesContainer,
     Dependency,
+    Dict,
     Factory,
 )
 
 from apps.core.adapters.response.exercise.presentation.web import (
-    WebPresentationAdapter,
+    WebStartExerciseNullAdapter,
 )
-from apps.core.adapters.response.exercise.test.web import WebTestAdapter
+from apps.core.adapters.response.exercise.strategy import (
+    ProcessExerciseAdapterStrategy,
+)
+from apps.core.adapters.response.exercise.test.web import (
+    WebExplainAdapter,
+    WebTestExerciseAdapter,
+)
 from apps.core.adapters.response.null import NullResponseAdapter
 from apps.core.assemblers.assembler import UserAssembler, UserDataAssembler
-from apps.core.domains.exercise import PresentationDomain
-from apps.core.domains.exercise.enums import ExerciseTypeEnum
-from apps.core.domains.exercise.selector import CandidatesSelector
+from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.handlers.generic import RequestHandler
-from apps.core.services.exercise.generic import CreateExerciseService
-from apps.core.use_cases.exercise.config_resolver import (
-    ExerciseConfigurationResolver,
-)
-from apps.core.use_cases.exercise.generic import (
-    ProcessExerciseUseCase,
-    StartExerciseUseCase,
-)
 from apps.core.use_cases.repository import RepositoryUseCase
+from apps.core.validators.request.exercise.presentation import (
+    ProcessExerciseWebValidator,
+)
+from apps.core.validators.request.exercise.test import TestExerciseWebValidator
 from apps.core.validators.request.null import NullValidator
-from apps.core.validators.request.test import TestExerciseWebValidator
-from apps.lang import models
-from apps.lang.factories.dto_factory import PresentationDTOFactory
 from apps.lang.factories.lockup_factory import UserTranslationLookupFactory
 from apps.lang.models import EnglishTranslation
-from apps.lang.repositories.exercise.candidates.translation import (
-    TranslationCandidatesRepository,
-)
-from apps.lang.repositories.legacy.exercise.conditions import (
-    RegularParametersRepository,
-)
 from apps.lang.repositories.translation.fetch import TranslationListRepository
 
 
@@ -49,81 +41,97 @@ class WebHandlerContainer(DeclarativeContainer):
     # ---------------------------------------------
     use_cases = DependenciesContainer()
 
-    user_command_storage = Dependency()
+    user_command_storage = Dependency()  # type: ignore
 
     # =============================================
     # Regular translation presentation
+    # =============================================
+    regular_translation_presentation = Factory(
+        RequestHandler,
+        validator=Factory(NullValidator),
+        assembler=Factory(UserAssembler),
+        use_case=use_cases.regular_translation_presentation,
+        adapter=Factory(
+            WebStartExerciseNullAdapter,
+            extra_oob_templates=['lang/exercise/presentation/_mark_bar.html'],
+        ),
+    )
+
+    # ---------------------------------------------
+    # Start presentation exercise
     # ---------------------------------------------
     start_regular_translation_presentation = Factory(
         RequestHandler,
         validator=Factory(NullValidator),
         assembler=Factory(UserAssembler),
-        use_case=Factory(
-            StartExerciseUseCase,
-            config_resolver=Factory(
-                ExerciseConfigurationResolver,
-                exercise_type=ExerciseTypeEnum.PRESENTATION,
-                parameters_repository=Factory(
-                    RegularParametersRepository,
-                    parameters_manager=models.ExerciseConditions.objects,
-                    settings_manager=models.TranslationSetting.objects,
-                ),
-                default=None,
-            ),
-            service=Factory(
-                CreateExerciseService,
-                candidates_repository=Factory(
-                    TranslationCandidatesRepository,
-                    manager=EnglishTranslation.objects,
-                ),
-                domain=Factory(
-                    PresentationDomain,
-                    selector=Factory(CandidatesSelector),
-                ),
-                storage=user_command_storage,
-            ),
-            store_prefix='regular_translation_presentation',
-            storage=user_command_storage,
-            dto_factory=Factory(PresentationDTOFactory),
-        ),
+        use_case=use_cases.start_regular_translation_presentation,
         adapter=Factory(
-            WebPresentationAdapter,
-            template_names=['lang/exercise/presentation/_mark_bar.html'],
+            WebStartExerciseNullAdapter,
+            extra_oob_templates=['lang/exercise/presentation/_mark_bar.html'],
         ),
     )
+    # ---------------------------------------------
+    # Process exercise strategy
+    # ---------------------------------------------
+    presentation_adapter_registries = {
+        ExerciseStatusEnum.UPDATED_PROGRESS: ...,
+    }
     process_regular_translation_presentation = Factory(
         RequestHandler,
-        validator=...,
+        validator=Factory(ProcessExerciseWebValidator),
         assembler=Factory(UserDataAssembler),
-        use_case=ProcessExerciseUseCase(
-            strategy=...,
+        use_case=use_cases.process_regular_translation_presentation,
+        adapter=Factory(
+            ProcessExerciseAdapterStrategy,
+            registry=presentation_adapter_registries,
         ),
-        adapter=...,
     )
+
     # =============================================
     # Regular translation test
+    # =============================================
     # ---------------------------------------------
     # Start translation test
+    # ---------------------------------------------
     start_regular_translation_test = Factory(
         RequestHandler,
         validator=Factory(NullValidator),
         assembler=Factory(UserAssembler),
         use_case=use_cases.start_regular_translation_test,
-        adapter=Factory(WebTestAdapter),
+        adapter=Factory(
+            WebStartExerciseNullAdapter,
+            extra_oob_templates=[],
+        ),
     )
     # ---------------------------------------------
-    # Check user's answer on translation test
-    # HACK: Update on check answer dependencies
-    solve_regular_translation_test = Factory(
+    # Process exercise strategy
+    # ---------------------------------------------
+    web_test_exercise_adapter_registry = Dict(
+        {
+            ExerciseStatusEnum.NEW_CASE: Factory(
+                WebTestExerciseAdapter,
+                extra_oob_templates=[],
+            ),
+            ExerciseStatusEnum.EXPLAIN: Factory(
+                WebExplainAdapter,
+                extra_oob_templates=[],
+            ),
+        }
+    )
+    process_regular_translation_test = Factory(
         RequestHandler,
         validator=Factory(TestExerciseWebValidator),
         assembler=Factory(UserDataAssembler),
-        use_case=use_cases.solve_regular_translation_test,
-        adapter=Factory(WebTestAdapter),
+        use_case=use_cases.process_regular_translation_test,
+        adapter=Factory(
+            ProcessExerciseAdapterStrategy,
+            registry=web_test_exercise_adapter_registry,
+        ),
     )
+
     # =============================================
     # Translations
-    # ---------------------------------------------
+    # =============================================
     english_translation_list = Factory(
         RequestHandler,
         validator=Factory(NullValidator),

@@ -1,57 +1,51 @@
 """Response adapter strategy."""
 
-from typing import Generic, TypeVar
+import logging
+from typing import Generic, TypeVar, override
 
-from apps.core.adapters.response.status import StatusEnum
+from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.domains.exercise.protocol import HasExerciseStatus
 from apps.core.handlers.protocol import AdapterProtocol
 
-DomainResult = TypeVar('DomainResult', bound=HasExerciseStatus)
 RequestContext = TypeVar('RequestContext')
+DomainResult = TypeVar('DomainResult', bound=HasExerciseStatus)
 Adapted = TypeVar('Adapted')
 
-__all__ = ('ExerciseAdapterStrategy',)
+__all__ = ('ProcessExerciseAdapterStrategy',)
+
+log = logging.getLogger(__name__)
 
 
-class ExerciseAdapterStrategy(
+class ProcessExerciseAdapterStrategy(
     AdapterProtocol[DomainResult, RequestContext, Adapted],
     Generic[DomainResult, RequestContext, Adapted],
 ):
-    """Router for new case or explain current case adapter select."""
+    """Router for process exercise result adapter select."""
 
     def __init__(
         self,
-        new_case_adapter: AdapterProtocol[
-            DomainResult,
-            RequestContext,
-            Adapted,
-        ],
-        explain_adapter: AdapterProtocol[
-            DomainResult,
-            RequestContext,
-            Adapted,
+        registry: dict[
+            ExerciseStatusEnum,
+            AdapterProtocol[DomainResult, RequestContext, Adapted],
         ],
     ) -> None:
-        """Construct the adapter."""
-        self._new_case_adapter = new_case_adapter
-        self._explain_adapter = explain_adapter
+        """Construct the strategy."""
+        for key in registry.keys():
+            if not isinstance(key, ExerciseStatusEnum):
+                raise AttributeError(
+                    f'Expected `ExerciseStatusEnum`, got: {type(key).__name__}'
+                )
+        self._registry = registry
 
+    @override
     def to_response(
         self,
-        schema: DomainResult,
+        domain_result: DomainResult,
         request_context: RequestContext,
     ) -> Adapted:
-        """Convert domain data to response representation."""
-        match schema.exercise_status:
-            case StatusEnum.NEW_CASE:
-                return self._new_case_adapter.to_response(
-                    schema,
-                    request_context,
-                )
-            case StatusEnum.EXPLAIN:
-                return self._explain_adapter.to_response(
-                    schema,
-                    request_context,
-                )
-            case _ as unexpected:
-                raise ValueError(f'Unexpected exercise status: {unexpected}')
+        """Convert to response."""
+        try:
+            adapter = self._registry[domain_result.status]
+        except KeyError:
+            log.exception('Adapter strategy error')
+        return adapter.to_response(domain_result, request_context)

@@ -9,19 +9,19 @@
   <div>
     <div class="presentation-card-body">
       <div id="question" class="presentation-card-content">
-        {{ question }}
+        {{ question_text }}
       </div>
     </div>
   </div>
 
   <div>
-    {% for option in options %}
+    {% for option in answer_text_options %}
       <div class="py-1">
         <button class="wse-btn full-width height-huge"
                 style="justify-content: start; min-height: 5rem;"
-                data-testid="answer-btn-{{ option.value }}"
+                data-testid="answer-btn-{{ option.option_value }}"
                 hx-post=""
-                hx-vals='{"exercise_status": "user_answer", "case_uuid": "{{ case_uuid }}", "option_value": "{{ option.value }}"}'
+                hx-vals='{"action": "check_answer", "option_value": "{{ option.option_value }}"}'
                 hx-target="#exercise-block">
           {{ option.text }}
         </button><br>

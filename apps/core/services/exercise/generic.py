@@ -2,11 +2,16 @@
 
 from typing import TypeVar
 
+from apps.core.assemblers.protocol import DataCommandProtocol
 from apps.core.domains.exercise.abstract import (
     AbstractCheckExerciseDomain,
     AbstractConfigurableCandidatesExerciseDomain,
 )
-from apps.core.domains.exercise.dto import TextExerciseCheckResult
+from apps.core.domains.exercise.dto import (
+    ExerciseDomainResultDTO,
+    TextExerciseExplainDTO,
+)
+from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.domains.exercise.protocol import (
     Candidates,
     ExerciseParameters,
@@ -16,6 +21,7 @@ from apps.core.domains.exercise.protocol import (
 from apps.core.domains.exercise.test.dto import (
     TestExerciseMeta,
 )
+from apps.core.domains.exercise.test.protocol import HasOptionValue
 from apps.core.repositories.abstract import AbstractRepository
 from apps.core.storages.services.iabc import TaskStorageABC
 from apps.users.models import Person
@@ -66,21 +72,19 @@ class CreateExerciseService(
             HasExerciseConfig[object],
             tuple[Case, CaseMeta],
         ],
-        storage: TaskStorageABC[TestExerciseMeta],
     ) -> None:
         """Construct the service."""
         self._repository = candidates_repository
         self._domain = domain
-        self._storage = storage
 
     def execute(
         self,
-        parameters: ExerciseParameters[
+        user: Person,  # type: ignore
+        parameters: ExerciseParameters[  # type: ignore
             HasExerciseConditions[object],
             HasExerciseConfig[object],
             object,
         ],
-        user: Person,
     ) -> tuple[Case, CaseMeta]:
         """Create and return exercise case."""
         candidates = self._repository.fetch(user, parameters.conditions)
@@ -124,22 +128,29 @@ class CheckExerciseService(
 
 class ExplainExerciseService(
     AbstractExplainExerciseService[
-        UserAnswer,
-        CaseMeta,
-        TextExerciseCheckResult,
+        DataCommandProtocol[HasOptionValue],
+        TestExerciseMeta,
+        TextExerciseExplainDTO,
     ],
 ):
     """Explain exercise service."""
 
-    def execute(
+    def execute(  # type: ignore
         self,
-        answer: UserAnswer,
-        case_meta: CaseMeta,
-    ) -> TextExerciseCheckResult:
-        return TextExerciseCheckResult(
-            is_correct=False,
-            question_text='question_text',
-            answer_text='answer_text',
-            selected_question_text='selected_question_text',
-            selected_answer_text='selected_answer_text',
+        command: DataCommandProtocol[HasOptionValue],
+        case_meta: TestExerciseMeta,
+    ) -> ExerciseDomainResultDTO[TextExerciseExplainDTO]:
+        explain = TextExerciseExplainDTO(
+            question_text=case_meta.question_text,
+            answer_text=case_meta.answer_text,
+            selected_question_text=case_meta.get_question_text(
+                command.data.option_value
+            ),
+            selected_answer_text=case_meta.get_answer_text(
+                command.data.option_value
+            ),
+        )
+        return ExerciseDomainResultDTO(
+            status=ExerciseStatusEnum.EXPLAIN,
+            exercise=explain,
         )

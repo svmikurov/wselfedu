@@ -5,35 +5,34 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import TypeVar, override
 
-from apps.core.handlers.protocol import UseCaseProtocol
+from .protocol import ResolverProtocol, UseCaseProtocol
 
-from .protocol import ExerciseConfigurationResolverProtocol
+__all__ = ('AbstractUseCase',)
 
-__all__ = (
-    'AbstractUseCase',
-    'AbstractExerciseConfigurationResolver',
-)
-
-CommandData = TypeVar('CommandData')
-ResultData = TypeVar('ResultData')
+UseCase = TypeVar('UseCase')
+Command = TypeVar('Command')
+Result = TypeVar('Result')
 
 
-class AbstractUseCase(ABC, UseCaseProtocol[CommandData, ResultData]):
+class AbstractUseCase(
+    ABC,
+    UseCaseProtocol[Command, Result],
+):
     """ABC for generic request use case."""
 
     @override
     @abstractmethod
-    def execute(self, command: CommandData) -> ResultData:
+    def execute(self, command: Command) -> Result:
         """Execute use case."""
 
 
-class AbstractExerciseConfigurationResolver(
+class AbstractResolver(
     ABC,
-    ExerciseConfigurationResolverProtocol[CommandData, ResultData],
+    ResolverProtocol[Command, Result],
 ):
-    """ABC for exercise configuration resolver."""
+    """ABC for resolver."""
 
     @override
     @abstractmethod
-    def resolve(self, command: CommandData) -> ResultData:
-        """Get exercise configuration."""
+    def resolve(self, command: Command) -> Result:
+        """Resolve."""

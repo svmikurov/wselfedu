@@ -1,57 +1,59 @@
-"""Presentation exercise response adapters.
+"""Generic exercise response adapters.
 
-This module contains adapters for converting Presentation
+This module contains adapters for converting generic
 exercise cases to different output formats (API and Web).
 """
 
-from typing import Any, override
+from typing import TypeVar, override
 
 from django.template.loader import render_to_string
+from pydantic import BaseModel
 
 from apps.core.adapters.response.abstract import AbstractResponseAdapter
 from apps.core.adapters.response.dto import OobResponseDTO
-from apps.core.adapters.response.status import StatusEnum
-from apps.core.domains.exercise.presentation.dto import PresentationCase
+from apps.core.adapters.response.status import ResponseStatusEnum
 from apps.core.domains.null import NullDTO
 from apps.core.domains.protocol import NullProtocol
 
-_WebPresentationAdapter = AbstractResponseAdapter[
-    PresentationCase,
-    NullProtocol,
-    OobResponseDTO[StatusEnum, PresentationCase, NullDTO],
-]
+DomainResult = TypeVar('DomainResult', bound=BaseModel)
 
 
-class WebPresentationAdapter(_WebPresentationAdapter):
-    """WEB adapter for Presentation exercise type.
+class WebStartExerciseNullAdapter(
+    AbstractResponseAdapter[
+        DomainResult,
+        NullProtocol,
+        OobResponseDTO[ResponseStatusEnum, DomainResult, NullDTO],
+    ]
+):
+    """WEB adapter for start web exercise.
 
-    Converts domain DTO to Web response format.
-    Includes extra context needed for server-rendered templates.
+    Passes original domain result DTO via response DTO.
     """
 
     def __init__(
         self,
-        template_names: list[str],
+        extra_oob_templates: list[str],
     ) -> None:
         """Construct the adapter."""
-        self._template_names = template_names
+        self._templates = extra_oob_templates
 
-    def _build_oob(self, context: dict[str, Any]) -> str:
+    def _build_oob(self, domain_result: DomainResult) -> str:
         """Build OOB."""
         html = ''
-        for template_name in self._template_names:
-            html += render_to_string(template_name, context)
+        for template in self._templates:
+            html += render_to_string(template, domain_result.model_dump())
         return html
 
     @override
     def to_response(
         self,
-        context: PresentationCase,
-        extra_context: NullProtocol,
-    ) -> OobResponseDTO[StatusEnum, PresentationCase, NullDTO]:
-        """Convert Presentation case to web context."""
+        domain_result: DomainResult,
+        request_context: NullProtocol,
+    ) -> OobResponseDTO[ResponseStatusEnum, DomainResult, NullDTO]:
+        """Convert exercise case to web context."""
         return OobResponseDTO(
-            status=StatusEnum.NEW_CASE,
-            context=context,
-            oob_html=self._build_oob(context.model_dump()),
+            status=ResponseStatusEnum.NEW_CASE,
+            # NOTE: Passes original domain result.
+            context=domain_result,
+            oob_html=self._build_oob(domain_result),
         )

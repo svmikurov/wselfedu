@@ -4,7 +4,7 @@ from typing import TypeAlias
 
 from pydantic import BaseModel, ConfigDict
 
-from apps.core.domains.exercise.dto import StoryDomainResult
+from apps.core.domains.exercise.dto import StoryDomainResult  # type: ignore
 
 from ..models import EnglishTranslation
 

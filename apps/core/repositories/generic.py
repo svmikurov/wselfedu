@@ -60,7 +60,7 @@ class UserCachedRepository(
     """Base user's resource repository."""
 
     @override
-    def fetch(self, filter: FilterUser) -> QueryResult:
+    def fetch(self, filter: FilterUser) -> QueryResult:  # type: ignore
         """Fetch resource."""
         key_kwargs = self._get_key(filter.user.pk)
 
@@ -85,7 +85,7 @@ class UserResourceCachedRepository(
     """Base user's resource repository."""
 
     @override
-    def fetch(self, filter: FilterUserData) -> QueryResult:
+    def fetch(self, filter: FilterUserData) -> QueryResult:  # type: ignore
         """Fetch resource."""
         key_kwargs = self._get_key(filter.user.pk, filter.pk)
 

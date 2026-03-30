@@ -14,7 +14,7 @@ class NullValidated(BaseDTO):
     """Nul validated data."""
 
 
-class NullValidator(AbstractRequestValidator[RequestDataProtocol, Validated]):
+class NullValidator(AbstractRequestValidator[RequestDataProtocol, Validated]):  # type: ignore
     """Validator that returns input unchanged.
 
     Implements Null Object Pattern for cases
@@ -22,7 +22,7 @@ class NullValidator(AbstractRequestValidator[RequestDataProtocol, Validated]):
     """
 
     @classmethod
-    def validate(cls, data: RequestDataProtocol) -> Validated:
+    def validate(cls, data: RequestDataProtocol) -> Validated:  # type: ignore
         """Return raw_data without validation.
 
         Args:

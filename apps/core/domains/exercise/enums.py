@@ -17,8 +17,19 @@ class ExerciseTypeEnum(BaseEnum):
     PRESENTATION = 'presentation'
 
 
+class ExerciseProcessEnum(BaseEnum):
+    """Exercise process request enumeration."""
+
+    CREATE_CASE = 'create_case'
+    CHECK_ANSWER = 'check_answer'
+    UPDATE_PROGRESS = 'update_progress'
+    UPDATE_FAVORITES = 'update_favorites'
+    EXPLAIN_CASE = 'explain_case'
+    EXPLAIN_OPTION = 'explain_option'
+
+
 class ExerciseStatusEnum(BaseEnum):
-    """Translation test status enumeration."""
+    """Exercise status (domain result) enumeration."""
 
     NEW_CASE = 'new_case'
     ANSWER = 'user_answer'
@@ -26,6 +37,7 @@ class ExerciseStatusEnum(BaseEnum):
     WRONG = 'wrong_answer'
     EXPLAIN = 'correct and wrong answer explanation'
     NO_CASE = 'no_available_cases'
+    UPDATED_PROGRESS = 'updated progress'
 
 
 class DisplayOrder(BaseEnum):

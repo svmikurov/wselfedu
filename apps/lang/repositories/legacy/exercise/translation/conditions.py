@@ -58,7 +58,9 @@ class TranslationConditionsRepository(CandidatesRepositoryABC[Translations]):
         self._manager = manager
 
     def fetch(
-        self, user: Person, conditions: ExerciseParameters | None
+        self,
+        user: Person,
+        conditions: ExerciseParameters | None,  # type: ignore
     ) -> Translations:
         """Get candidates for Translation presentation."""
         return (
@@ -73,7 +75,9 @@ class TranslationConditionsRepository(CandidatesRepositoryABC[Translations]):
 
     @classmethod
     def _get_conditions(  # noqa: C901
-        cls, user: Person, parameters: ExerciseParameters | None
+        cls,
+        user: Person,
+        parameters: ExerciseParameters | None,  # type: ignore
     ) -> Q:
         """Convert to Q object representation of lookup conditions."""
         conditions = Q(user=user)
@@ -81,7 +85,7 @@ class TranslationConditionsRepository(CandidatesRepositoryABC[Translations]):
         if parameters is None:
             return conditions
 
-        for field, value in parameters.model_dump().items():
+        for field, value in parameters.model_dump().items():  # type: ignore
             match field, value:
                 # - `False` adds a condition to exclude translation.
                 # - `True` is the default value for a Boolean

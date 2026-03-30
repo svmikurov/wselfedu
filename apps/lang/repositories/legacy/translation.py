@@ -37,7 +37,7 @@ class TranslationRepository(base.TranslationRepoABC):
 
     @override
     @transaction.atomic
-    def create(
+    def create(  # type: ignore
         self,
         user: Person,
         native: str,
@@ -63,7 +63,7 @@ class TranslationRepository(base.TranslationRepoABC):
 
     @override
     @transaction.atomic
-    def update(
+    def update(  # type: ignore
         self,
         user: Person,
         instance: models.EnglishTranslation,

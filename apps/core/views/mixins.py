@@ -5,7 +5,7 @@ from typing import Generic, TypeVar
 T = TypeVar('T')
 
 StartHandler = TypeVar('StartHandler')
-ProcessHandler = TypeVar('SolveHandler')
+ProcessHandler = TypeVar('ProcessHandler')
 
 
 class GetUseCaseMixin(Generic[T]):
@@ -85,6 +85,7 @@ class ProcessExerciseHandlerMixin(Generic[ProcessHandler]):
 
     _process_handler: ProcessHandler | None
 
+    @property
     def process_handler(self) -> ProcessHandler:
         """Get exercise process handler."""
         if self._process_handler is None:

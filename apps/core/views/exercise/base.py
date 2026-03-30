@@ -1,5 +1,6 @@
 """Base exercise view."""
 
+import logging
 from typing import Any, Generic, TypeAlias, TypeVar, Union, override
 
 from django.http import HttpRequest, HttpResponse
@@ -11,7 +12,7 @@ from django.views import View
 from django.views.generic.base import TemplateResponseMixin
 
 from apps.core.adapters.response.dto import OobResponseDTO
-from apps.core.domains.exercise.enums import ExerciseStatusEnum
+from apps.core.adapters.response.status import ResponseStatusEnum
 from apps.core.handlers.dto import (
     DetailRequestParams,
     QueryRequestParams,
@@ -31,6 +32,8 @@ __all__ = (
     'QueryExercisePerformView',
     'DetailExercisePerformView',
 )
+
+log = logging.getLogger(__name__)
 
 ResponseDTOtype: TypeAlias = OobResponseDTO[object, object, object]
 
@@ -55,10 +58,10 @@ ResponseDTO = TypeVar('ResponseDTO')
 StartResponseDTO = TypeVar('StartResponseDTO')
 ProcessResponseDTO = TypeVar('ProcessResponseDTO')
 
-PARTIAL_TEMPLATES: dict[ExerciseStatusEnum, str] = {
-    ExerciseStatusEnum.NEW_CASE: '_new_case.html',
-    ExerciseStatusEnum.EXPLAIN: '_explain_case.html',
-    ExerciseStatusEnum.NO_CASE: '_no_case.html',
+PARTIAL_TEMPLATES: dict[ResponseStatusEnum, str] = {
+    ResponseStatusEnum.NEW_CASE: '_new_case.html',
+    ResponseStatusEnum.EXPLAIN_CASE: '_explain_case.html',
+    ResponseStatusEnum.NO_CASE: '_no_case.html',
 }
 ERROR_TEMPLATE = '_case_request_error.html'
 
@@ -80,18 +83,18 @@ class _GetPartialExerciseTemplateMixin:
     ) -> str:
         """Get partial template html for exercise case."""
         try:
-            template = PARTIAL_TEMPLATES[schema.status]
-            context = schema.context.model_dump()
-        except KeyError:
+            template = PARTIAL_TEMPLATES[schema.status]  # type: ignore
+            context = schema.context.model_dump()  # type: ignore
+        except KeyError as exc:
+            log.exception(f'Get template key error: {exc}')
             template = ERROR_TEMPLATE
             context = {'error_message': _('Internal server error 500')}
 
-        html = render_to_string(
-            self.TEMPLATE_PATH + template, context, request
-        )
+        html = render_to_string(self.TEMPLATE_PATH + template, context)
 
         if request.headers.get('HX-Request'):
             return mark_safe(html + schema.oob_html)
+
         return html
 
 
@@ -119,13 +122,13 @@ class StartExerciseView(
         if request.headers.get('HX-Request') == 'true':
             # Renders new exercise case after explanation
             # via partial template.
-            return HttpResponse(self._get_partial_html(request, result))
+            return HttpResponse(self._get_partial_html(request, result))  # type: ignore
 
         else:
             # Renders initial exercise page.
             context: dict[str, str] = {
-                'exercise_case_html': self._get_partial_html(request, result),
-                **result.model_dump(),
+                'exercise_case_html': self._get_partial_html(request, result),  # type: ignore
+                **result.model_dump(),  # type: ignore
             }
 
             return render(request, self.get_template_names(), context)
@@ -150,7 +153,7 @@ class ProcessExerciseView(
         # Query parameters contains exercise conditions.
         # Request body contains user's answer.
         result = self._process(**kwargs)
-        return HttpResponse(self._get_partial_html(request, result))
+        return HttpResponse(self._get_partial_html(request, result))  # type: ignore
 
     def _process(self, **kwargs: object) -> ProcessResponseDTO:
         """Process exercise performing."""
@@ -178,7 +181,7 @@ class DeprecatedExercisePerformView(
     """Exercise perform view."""
 
     @override
-    def _start(self, **kwargs: object) -> ResponseDTOtype:
+    def _start(self, **kwargs: object) -> ResponseDTOtype:  # type: ignore
         return self.start_handler.execute(
             params=QueryRequestParams(query={}),
             context=RequestContext(user=self.user),
@@ -187,7 +190,7 @@ class DeprecatedExercisePerformView(
 
     @override
     def _process(self, **kwargs: object) -> ResponseDTOtype:
-        return self.process_handler.execute(
+        return self.process_handler.execute(  # type: ignore
             params=QueryRequestParams(query={}),
             context=RequestContext(user=self.user),
             data=RequestData(data=self.request.POST.dict()),
@@ -200,7 +203,7 @@ class QueryExercisePerformView(
     """Base query exercise perform view."""
 
     @override
-    def _start(self, **kwargs: object) -> ResponseDTOtype:
+    def _start(self, **kwargs: object) -> ResponseDTOtype:  # type: ignore
         return self.start_handler.execute(
             params=QueryRequestParams(query=self.request.GET.dict()),
             context=RequestContext(user=self.user),
@@ -209,7 +212,7 @@ class QueryExercisePerformView(
 
     @override
     def _process(self, **kwargs: object) -> ResponseDTOtype:
-        return self.process_handler.execute(
+        return self.process_handler.execute(  # type: ignore
             params=QueryRequestParams(query=self.request.GET.dict()),
             context=RequestContext(user=self.user),
             data=RequestData(data=self.request.POST.dict()),
@@ -222,17 +225,17 @@ class DetailExercisePerformView(
     """Base detail exercise perform view."""
 
     @override
-    def _start(self, **kwargs: object) -> ResponseDTOtype:
+    def _start(self, **kwargs: object) -> ResponseDTOtype:  # type: ignore
         return self.start_handler.execute(
-            params=DetailRequestParams(pk=kwargs['pk']),
+            params=DetailRequestParams(pk=kwargs['pk']),  # type: ignore
             context=RequestContext(user=self.user),
             data=RequestData(data={}),
         )
 
     @override
     def _process(self, **kwargs: object) -> ResponseDTOtype:
-        return self.process_handler.execute(
-            params=DetailRequestParams(pk=int(kwargs['pk'])),
+        return self.process_handler.execute(  # type: ignore
+            params=DetailRequestParams(pk=int(kwargs['pk'])),  # type: ignore
             context=RequestContext(user=self.user),
             data=RequestData(data=self.request.POST.dict()),
         )

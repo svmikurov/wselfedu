@@ -8,6 +8,9 @@ from apps.lang.models import ExerciseConditions, TranslationSetting
 from apps.lang.repositories import (
     RegularParametersRepository,
 )
+from apps.lang.repositories.exercise.candidates.translation import (
+    TranslationCandidatesRepository,
+)
 
 
 class RepositoryContainer(DeclarativeContainer):
@@ -16,17 +19,33 @@ class RepositoryContainer(DeclarativeContainer):
     # =============================================
     # External dependencies
     # ---------------------------------------------
-    storage = Dependency()
+    storage = Dependency()  # type: ignore
 
     # =============================================
     # English language
-    # ---------------------------------------------
+    # =============================================
 
     rule = Factory(
         repositories.RuleRepository,
     )
     translation = Factory(
         repositories.TranslationRepository,
+    )
+
+    # ---------------------------------------------
+    # Regular translation exercise parameters
+    # ---------------------------------------------
+    translation_parameters = Factory(
+        RegularParametersRepository,
+        parameters_manager=models.ExerciseConditions.objects,
+        settings_manager=models.TranslationSetting.objects,
+    )
+    # ---------------------------------------------
+    # Regular translation exercise candidates
+    # ---------------------------------------------
+    translation_candidates = Factory(
+        TranslationCandidatesRepository,
+        manager=models.EnglishTranslation.objects,
     )
 
     # ------------------------------------

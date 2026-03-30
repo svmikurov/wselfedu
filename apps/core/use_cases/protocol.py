@@ -3,16 +3,24 @@
 from typing import Protocol, TypeVar
 
 Command_contra = TypeVar('Command_contra', contravariant=True)
-Configuration_cov = TypeVar('Configuration_cov', covariant=True)
+Result_cov = TypeVar('Result_cov', covariant=True)
 
 
-class ExerciseConfigurationResolverProtocol(
-    Protocol[Command_contra, Configuration_cov]
-):
-    """Protocol for exercise configuration resolver."""
+class UseCaseProtocol(Protocol[Command_contra, Result_cov]):
+    """Protocol for use case."""
+
+    def execute(
+        self,
+        command: Command_contra,
+    ) -> Result_cov:
+        """Execute use case."""
+
+
+class ResolverProtocol(Protocol[Command_contra, Result_cov]):
+    """Protocol for resolver."""
 
     def resolve(
         self,
         command: Command_contra,
-    ) -> Configuration_cov:
-        """Get exercise configuration."""
+    ) -> Result_cov:
+        """Resolve."""

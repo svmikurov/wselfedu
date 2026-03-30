@@ -1,9 +1,9 @@
-"""Update word study progress service."""
+"""Update word study progress service via UUID."""
 
 import logging
 from typing import override
 
-from apps.core.domains.exercise.dto import ProgressConfigSchema
+from apps.core.domains.exercise.dto import ProgressConfigDTO
 from apps.core.storages import services as storage
 from apps.lang import types
 from apps.lang.repositories import ProgressRepositoryABC
@@ -22,7 +22,7 @@ class ProgressService(WordProgressServiceABC):
         self,
         repository: ProgressRepositoryABC,
         case_storage: storage.TaskStorage[dto.CaseMeta],
-        config: ProgressConfigSchema,
+        config: ProgressConfigDTO,
     ) -> None:
         """Construct the service."""
         self._repository = repository

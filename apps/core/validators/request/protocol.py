@@ -2,12 +2,22 @@
 
 from typing import Protocol, TypedDict
 
+from apps.core.domains.exercise.enums import ExerciseProcessEnum
+
 # =================================================
-# Protocol for data to validate
+# Protocol for data validate
 # =================================================
 
 
-class TestExerciseAnswerRequestData(TypedDict):
+class ExerciseProcessAction(TypedDict):
+    """Exercise process action web data."""
+
+    action: ExerciseProcessEnum
+
+
+class OptionAnswerWebData(
+    ExerciseProcessAction,
+):
     """Test exercise user's answer request data."""
 
     option_value: str

@@ -19,15 +19,11 @@ from di import MainContainer
 if TYPE_CHECKING:
     from dependency_injector.providers import Container
 
-    from apps.core.adapters.response.abstract import (
-        AbstractSimpleResponseAdapter,
-    )
-    from apps.core.adapters.response.dto import LanguageRule
     from apps.lang.di.container import LanguageContainer
     from apps.lang.repositories import RuleRepositoryABC
 
     type ContainerDI = Container[LanguageContainer]
-    type WebAdapter = AbstractSimpleResponseAdapter[models.Rule, LanguageRule]
+    type WebAdapter = Any
 
 logger = logging.getLogger(__name__)
 

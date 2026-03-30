@@ -1,1 +1,0 @@
-"""Test Core app API."""

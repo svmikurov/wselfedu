@@ -3,7 +3,7 @@
 from random import choice
 
 from ..abstract import AbstractConfigurableCandidatesExerciseDomain
-from ..enums import DisplayOrder
+from ..enums import DisplayOrder, ExerciseStatusEnum
 from ..protocol import (
     Candidate,
     Candidates,
@@ -52,6 +52,7 @@ class PresentationDomain(
         """Build exercise case DTO to rendering."""
         question, answer = order.get_display_phases()
         return PresentationCase(
+            status=ExerciseStatusEnum.NEW_CASE,
             question_text=getattr(task, question),
             answer_text=getattr(task, answer),
             progress_value=task.progress,

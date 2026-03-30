@@ -3,14 +3,14 @@
 from apps.core.domains.dto import BaseDTO, ErrorField
 from apps.core.domains.exercise.dto import (
     AnswerTextField,
-    ExerciseStatusField,
+    ExerciseStatusSchema,
     ProgressDataField,
     QuestionTextField,
 )
 
 
 class PresentationCaseResponseDTO(
-    ExerciseStatusField,
+    ExerciseStatusSchema,
     QuestionTextField,
     AnswerTextField,
     ProgressDataField,

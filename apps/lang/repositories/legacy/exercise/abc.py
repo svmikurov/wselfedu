@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Generic, TypeVar
 
 if TYPE_CHECKING:
-    from apps.lang.schemas import ParametersSchema
+    from apps.lang.schemas import ParametersSchema  # type: ignore
     from apps.users.models import Person
 
 T = TypeVar('T')

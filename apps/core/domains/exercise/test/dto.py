@@ -107,8 +107,7 @@ class OptionsField(BaseDTO):
 
 
 class TestExerciseCase(
-    ProtectDefaultStatusMixin,
-    dto.ExerciseStatusField,
+    dto.ExerciseStatusSchema,
     dto.QuestionTextField,
     AnswerTextOptionsFiled,
     ArbitraryDTO,
@@ -119,6 +118,11 @@ class TestExerciseCase(
     ---------
     status : `ExerciseStatusEnum`
         Current exercise perform status.
+    question_text : `str`
+        Display question text.
+    answer_text_options : `list[OptionDTO]`
+        Display answer text options.
+
     """
 
 
@@ -131,7 +135,22 @@ class TestExerciseMeta(
     OptionsField,
     ArbitraryDTO,
 ):
-    """Test exercise meta to store for answer handle."""
+    """Test exercise meta to store for answer handle.
+
+    Parameter
+    ---------
+    pk : `int`
+        Stored exercise database item ID.
+    question_text : `str`
+        Display question text.
+    answer_text : `str`
+        Display answer text.
+    option_value : `int`
+        Correct answer option value.
+    options : `list[OptionMetaDTO]`
+        Exercise's options with them meta data.
+
+    """
 
     def get_question_text(self, value: int) -> str:
         """Get option question text by value."""

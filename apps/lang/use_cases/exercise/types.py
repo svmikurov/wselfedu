@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Any
 
 from pydantic import BaseModel, Field
 
-from apps.lang.schemas import ExerciseParametersDTO
+from apps.lang.schemas import ExerciseParametersDTO  # type: ignore
 
 # HACK: Replace Any
 if TYPE_CHECKING:
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
     # Exercise case request
     type AssignedRequest = Any
-    type RegularRequest = schemas.ExerciseParametersDTO
+    type RegularRequest = schemas.ExerciseParametersDTO  # type: ignore
 
     # Exercise case
     type TestCase = StoredTestCaseDTO

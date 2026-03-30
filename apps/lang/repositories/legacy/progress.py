@@ -93,15 +93,15 @@ class ProgressRepository(ProgressRepositoryABC):
     def _get_max_progress(user: Person) -> int:
         # Get parameters
         parameters = (
-            models.ExerciseConditions.objects.filter(user=user)
+            models.ExerciseConditions.objects.filter(user=user)  # type: ignore
             .select_related('progress')
             .first()
         )
 
         # Get 'know' progress value as max progress
         max_progress = (
-            parameters.progress.know
-            if parameters and parameters.progress
+            parameters.progress.know  # type: ignore
+            if parameters and parameters.progress  # type: ignore
             else study_models.ProgressBar.KNOW_DEFAULT
         )
         return max_progress

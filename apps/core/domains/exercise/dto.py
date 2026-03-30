@@ -1,6 +1,6 @@
 """Core domain exercise DTOs."""
 
-from typing import Any, TypeVar
+from typing import Any, Generic, TypeVar
 
 from pydantic import Field, field_validator
 
@@ -23,11 +23,10 @@ class ResourceIdentifierField(BaseDTO):
     )
 
 
-class ExerciseStatusField(BaseDTO):
-    """Exercise status DTO field with *explain case* default value."""
+class ExerciseStatusSchema(BaseDTO):
+    """Exercise status schema with *explain case* default value."""
 
     status: ExerciseStatusEnum = Field(
-        default=ExerciseStatusEnum.NEW_CASE,
         description='Exercise status',
     )
 
@@ -265,7 +264,21 @@ class ExerciseParametersDTO(BaseDTO):
 
 class TextExerciseCheckResult(
     IsCorrectAnswerField,
-    ExerciseStatusField,
+    # QuestionTextField,
+    # AnswerTextField,
+    # SelectedQuestionTextField,
+    # SelectedAnswerTextField,
+    BaseDTO,
+):
+    """Explanation of the test answer option."""
+
+
+# -------------------------------------------------
+# Text exercise explain DTO
+# -------------------------------------------------
+
+
+class TextExerciseExplainDTO(
     QuestionTextField,
     AnswerTextField,
     SelectedQuestionTextField,
@@ -273,3 +286,15 @@ class TextExerciseCheckResult(
     BaseDTO,
 ):
     """Explanation of the test answer option."""
+
+
+# -------------------------------------------------
+# Text exercise domain result DTO
+# -------------------------------------------------
+
+
+class ExerciseDomainResultDTO(BaseDTO, Generic[DomainResult]):
+    """Exercise domain result DTO."""
+
+    status: ExerciseStatusEnum
+    exercise: DomainResult

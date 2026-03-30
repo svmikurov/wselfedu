@@ -3,10 +3,10 @@
 from typing import Generic, TypeVar
 
 from apps.core.assemblers.protocol import AssemblerProtocol
+from apps.core.use_cases.protocol import UseCaseProtocol
 
 from .protocol import (
     AdapterProtocol,
-    UseCaseProtocol,
     ValidatorProtocol,
 )
 

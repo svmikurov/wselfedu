@@ -35,14 +35,14 @@ class TaskStorageABC(TaskStorageProto[T], ABC):
         """Retrieve task."""
 
 
-class AbstractCommandStorage(ABC, Generic[StoredObject, Command]):
+class AbstractCommandStorage(ABC, Generic[Command, StoredObject]):
     """ABC for command related data store."""
 
     @abstractmethod
     def save(
         self,
-        obj: StoredObject,
         command: Command,
+        obj: StoredObject,
         prefix: str,
         ttl: int | None = None,
         **kwargs: object,

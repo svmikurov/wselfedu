@@ -91,7 +91,7 @@ class HasResourceIdentifier(Protocol):
 class HasExerciseStatus(Protocol):
     """Protocol for has exercise status interface."""
 
-    exercise_status: ExerciseStatusEnum
+    status: ExerciseStatusEnum
 
 
 class HasProgressValue(Protocol):

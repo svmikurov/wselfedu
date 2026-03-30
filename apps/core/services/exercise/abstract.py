@@ -38,8 +38,8 @@ class AbstractCreateExerciseService(
     @abstractmethod
     def execute(
         self,
-        parameters: ExerciseParameters,
-        user: Person,
+        user: Person,  # type: ignore
+        parameters: ExerciseParameters,  # type: ignore
     ) -> tuple[Case, CaseMeta]:
         """Create the exercise case."""
 
@@ -93,14 +93,14 @@ class AbstractMilestoneService(
 
 class AbstractExplainExerciseService(
     ABC,
-    Generic[UserAnswer, CaseMeta, Explanation],
+    Generic[CommandData, CaseMeta, Explanation],
 ):
     """ABC for service to explain the exercise case."""
 
     @abstractmethod
     def execute(
         self,
-        answer: UserAnswer,
+        command: CommandData,
         case_meta: CaseMeta,
     ) -> Explanation:
         """Explain the exercise case."""

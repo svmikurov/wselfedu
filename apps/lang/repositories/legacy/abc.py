@@ -11,8 +11,8 @@ if TYPE_CHECKING:
     from apps.core import models as core_models
     from apps.users.models import Person
 
-    from .. import models, types
-    from ..models.abstract import AbstractProgressModel
+    from ... import models, types
+    from ...models.abstract import AbstractProgressModel
 
 
 class StudySettingsRepositoryABC(ABC):

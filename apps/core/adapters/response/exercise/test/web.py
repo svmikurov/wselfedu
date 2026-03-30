@@ -1,30 +1,99 @@
 """Test exercise response adapters."""
 
+from typing import Any, Generic, TypeAlias, TypeVar, override
+
+from django.template.loader import render_to_string
+
 from apps.core.adapters.response.abstract import AbstractResponseAdapter
-from apps.core.adapters.response.dto import ResponseDTO
-from apps.core.domains.exercise.dto import TextExerciseCheckResult
+from apps.core.adapters.response.dto import OobResponseDTO
+from apps.core.adapters.response.status import ResponseStatusEnum
+from apps.core.domains.exercise.test.dto import TestExerciseCase
 from apps.core.domains.protocol import NullProtocol
 
+ExtraContext = TypeVar('ExtraContext')
 
-class WebTestAdapter(
+_ResponseDTO: TypeAlias = OobResponseDTO[
+    ResponseStatusEnum,
+    TestExerciseCase,
+    ExtraContext,
+]
+
+
+class WebTestExerciseAdapter(
     AbstractResponseAdapter[
-        TextExerciseCheckResult,
-        ResponseDTO,
+        TestExerciseCase,
         NullProtocol,
-    ]
+        _ResponseDTO[ExtraContext],
+    ],
+    Generic[ExtraContext],
 ):
     """Web test exercise response adapter.
 
     Returns response DTO.
     """
 
+    def __init__(
+        self,
+        extra_oob_templates: list[str],
+    ) -> None:
+        """Construct the adapter."""
+        self._templates = extra_oob_templates
+
+    def _build_oob(self, context: dict[str, Any]) -> str:
+        """Build OOB."""
+        html = ''
+        for template in self._templates:
+            html += render_to_string(template, context)
+        return html
+
+    @override
     def to_response(
         self,
-        schema: TextExerciseCheckResult,
+        domain_result: TestExerciseCase,
         request_context: NullProtocol,
-    ) -> ResponseDTO:
+    ) -> _ResponseDTO[ExtraContext]:
         """Convert domain result to web representation context."""
-        return ResponseDTO(
-            status=schema.status,
-            context=schema,
+        return OobResponseDTO(
+            status=ResponseStatusEnum.NEW_CASE,
+            context=domain_result,
+        )
+
+
+class WebExplainAdapter(
+    AbstractResponseAdapter[
+        TestExerciseCase,
+        NullProtocol,
+        _ResponseDTO[ExtraContext],
+    ],
+    Generic[ExtraContext],
+):
+    """Web test exercise explain response adapter.
+
+    Returns response DTO.
+    """
+
+    def __init__(
+        self,
+        extra_oob_templates: list[str],
+    ) -> None:
+        """Construct the adapter."""
+        self._templates = extra_oob_templates
+
+    def _build_oob(self, context: dict[str, Any]) -> str:
+        """Build OOB."""
+        html = ''
+        for template in self._templates:
+            html += render_to_string(template, context)
+        return html
+
+    @override
+    def to_response(
+        self,
+        domain_result: TestExerciseCase,
+        request_context: NullProtocol,
+    ) -> _ResponseDTO[ExtraContext]:
+        """Convert domain result to web representation context."""
+        return OobResponseDTO(
+            status=ResponseStatusEnum.EXPLAIN_CASE,
+            context=domain_result,
         )

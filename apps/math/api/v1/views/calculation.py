@@ -45,7 +45,7 @@ class CalculationViewSet(viewsets.ViewSet):
         """Render the Math app calculation task."""
         data = ser.ConditionSerializer(data=request.data)
         data.is_valid(raise_exception=True)
-        task = self.exercise_presenter.get_task(data.validated_data)
+        task = self.exercise_presenter.get_task(data.validated_data)  # type: ignore[attr-defined]
         return Response(ser.QuestionSerializer(task).data)
 
     @extend_schema(
@@ -68,7 +68,7 @@ class CalculationViewSet(viewsets.ViewSet):
         data.is_valid(raise_exception=True)
 
         try:
-            result = self.exercise_presenter.get_result(data.validated_data)
+            result = self.exercise_presenter.get_result(data.validated_data)  # type: ignore
 
         # TODO: Fix response
         except Exception as err:

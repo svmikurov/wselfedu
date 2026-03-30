@@ -3,9 +3,10 @@
 from apps.core.enums import BaseEnum
 
 
-class StatusEnum(BaseEnum):
+class ResponseStatusEnum(BaseEnum):
     """Response status enumeration."""
 
     OK = 'ok'
     NEW_CASE = 'new_case'
-    EXPLAIN = 'correct and wrong answer explanation'
+    EXPLAIN_CASE = 'explain_case'
+    NO_CASE = 'no_case'

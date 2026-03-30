@@ -2,7 +2,6 @@
 
 from http import HTTPStatus
 
-from dependency_injector.wiring import inject
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
     OpenApiExample,
@@ -70,7 +69,6 @@ class ExerciseViewSet(viewsets.ViewSet):
         url_path=r'exercise/(?P<exercise_slug>[-\w]+)',
         url_name='question',
     )
-    @inject
     def exercise(
         self,
         request: Request,
@@ -97,7 +95,7 @@ class ExerciseViewSet(viewsets.ViewSet):
             )
 
         else:
-            task = exercise_presenter.get_task(data)
+            task = exercise_presenter.get_task(data)  # type: ignore
             return Response(ser.QuestionSerializer(task).data)
 
     @extend_schema(
@@ -131,7 +129,7 @@ class ExerciseViewSet(viewsets.ViewSet):
         data.is_valid()
 
         try:
-            result = exercise_presenter.get_result(data.validated_data)
+            result = exercise_presenter.get_result(data.validated_data)  # type: ignore
 
         except Exception as err:
             return Response(

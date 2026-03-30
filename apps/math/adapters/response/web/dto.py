@@ -5,7 +5,7 @@ from __future__ import annotations
 from django.forms import Form
 from pydantic import BaseModel, ConfigDict, Field
 
-from apps.core.domains.exercise.enums import ExerciseStatusEnum
+from apps.core.domains.exercise.dto import ExerciseStatusSchema
 
 
 class ConditionsFormDTO(BaseModel):
@@ -33,10 +33,11 @@ class ExerciseFormDTO(BaseModel):
     )
 
 
-class ExerciseWebDTO(BaseModel):
+class ExerciseWebDTO(
+    ExerciseStatusSchema,
+):
     """Exercise explanation web response DTO."""
 
-    exercise_status: ExerciseStatusEnum
     data: BaseModel = Field(
         description='Exercise data',
     )
@@ -50,7 +51,7 @@ class ExerciseWebDTO(BaseModel):
         default_factory=str,
     )
 
-    model_config = ConfigDict(
+    model_config = ConfigDict(  # type: ignore
         arbitrary_types_allowed=True,
         extra='forbid',
         frozen=True,

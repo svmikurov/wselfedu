@@ -4,7 +4,7 @@ from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Factory
 
 from apps.core.adapters.response.exercise.strategy import (
-    ExerciseAdapterStrategy,
+    ProcessExerciseAdapterStrategy,
 )
 from apps.math.adapters.response.web import exercise as adapters
 
@@ -50,13 +50,13 @@ class ExerciseWebAdapterContainer(DeclarativeContainer):
     # ---------------------------------------------
     # for user, include mentor
     custom_calculation_result_strategy = Factory(
-        ExerciseAdapterStrategy,
+        ProcessExerciseAdapterStrategy,
         new_case_adapter=create_custom_calculation,
         explain_adapter=explain_calculation,
     )
     # for student only
     student_calculation_result_strategy = Factory(
-        ExerciseAdapterStrategy,
+        ProcessExerciseAdapterStrategy,
         new_case_adapter=create_student_calculation,
         explain_adapter=explain_calculation,
     )

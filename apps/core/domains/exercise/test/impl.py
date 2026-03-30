@@ -9,6 +9,7 @@ from ..abstract import (
     AbstractConfigurableCandidatesExerciseDomain,
 )
 from ..dto import TextExerciseCheckResult
+from ..enums import ExerciseStatusEnum
 from ..protocol import (
     Candidate,
     Candidates,
@@ -90,6 +91,7 @@ class TestExerciseCreateDomain(
     ) -> TestExerciseCase:
         """Build exercise case DTO to rendering."""
         return TestExerciseCase(
+            status=ExerciseStatusEnum.NEW_CASE,
             question_text=self._get_question(options[value], phases),
             answer_text_options=[
                 OptionDTO(
@@ -161,12 +163,12 @@ class TestExerciseCheckDomain(
         is_correct = case_meta.option_value == answer.option_value
         return TextExerciseCheckResult(
             is_correct=is_correct,
-            question_text=case_meta.question_text,
-            answer_text=case_meta.answer_text,
-            selected_question_text=case_meta.get_question_text(
-                answer.option_value
-            ),
-            selected_answer_text=case_meta.get_answer_text(
-                answer.option_value
-            ),
+            # question_text=case_meta.question_text,
+            # answer_text=case_meta.answer_text,
+            # selected_question_text=case_meta.get_question_text(
+            #     answer.option_value
+            # ),
+            # selected_answer_text=case_meta.get_answer_text(
+            #     answer.option_value
+            # ),
         )

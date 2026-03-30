@@ -5,8 +5,8 @@
     <button
         id="known-button"
         class="wse-btn full-width height-huge"
-        hx-post="{{ case.progress.update_url }}"
-        hx-vals="{{ case.progress.increment_payload }}"
+        hx-post=""
+        hx-vals='{"action": "update_progress", "is_known": true}'
         hx-trigger="click"
         hx-on:htmx:after-request="
           event.detail.successful 
@@ -21,7 +21,7 @@
     <button
         id="unknown-button"
         class="wse-btn full-width height-huge"
-        hx-post="{{ case.progress.update_url }}"
+        hx-post=""
         hx-vals="{{ case.progress.decrement_payload }}"
         hx-trigger="click"
         hx-on:htmx:after-request="

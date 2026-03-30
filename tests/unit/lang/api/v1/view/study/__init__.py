@@ -1,1 +1,0 @@
-"""Test word study api."""

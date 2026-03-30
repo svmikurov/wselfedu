@@ -25,7 +25,7 @@ class AssignedCalculationPresenter:
         award_service: AwardService,
     ) -> None:
         """Construct the presenter."""
-        super().__init__(
+        super().__init__(  # type: ignore
             exercise_service,
             task_storage,
             task_checker,

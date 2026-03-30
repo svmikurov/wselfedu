@@ -22,7 +22,7 @@ class DetailTranslationRepository(
         """Construct the repository."""
         self._manger = manager
 
-    def fetch(
+    def fetch(  # type: ignore
         self, command: UserDetailCommand
     ) -> QuerySet[EnglishTranslation]:
         """Fetch exercise translations."""
@@ -45,7 +45,7 @@ class UserTranslationRepository(
 ):
     """User translation repository."""
 
-    def fetch(self, command: UserCommand) -> QuerySet[EnglishTranslation]:
+    def fetch(self, command: UserCommand) -> QuerySet[EnglishTranslation]:  # type: ignore
         """Fetch user's translations."""
         return EnglishTranslation.objects.filter(
             user=command.user
@@ -61,7 +61,7 @@ class TranslationExerciseRepository(
         """Construct the repository."""
         self._manger = manager
 
-    def fetch(self, command: UserCommand) -> QuerySet[EnglishTranslation]:
+    def fetch(self, command: UserCommand) -> QuerySet[EnglishTranslation]:  # type: ignore
         """Fetch exercise translations."""
         queryset = (
             self._manger.filter(user=command.user)

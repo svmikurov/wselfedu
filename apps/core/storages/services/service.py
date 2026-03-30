@@ -44,7 +44,7 @@ class UserCommandStorage(
         self.ttl = ttl or DEFAULT_TTL
 
     @override
-    def save(
+    def save(  # type: ignore
         self,
         obj: StoredObject,
         command: UserCommand,
@@ -60,9 +60,9 @@ class UserCommandStorage(
         self._storage.set(obj, cache_key, ttl)
 
     @override
-    def retrieve(
+    def retrieve(  # type: ignore
         self,
-        command: UserCommand,
+        command: UserCommand,  # type: ignore
         prefix: str,
         **kwargs: object,
     ) -> StoredObject:

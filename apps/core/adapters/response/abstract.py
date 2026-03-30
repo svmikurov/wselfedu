@@ -5,22 +5,30 @@ from typing import TypeVar, override
 
 from apps.core.handlers.protocol import AdapterProtocol
 
-ExtraContext = TypeVar('ExtraContext')
 DomainResult = TypeVar('DomainResult')
+ExtraContext = TypeVar('ExtraContext')
 ResponseData = TypeVar('ResponseData')
 
 
 class AbstractResponseAdapter(
     ABC,
-    AdapterProtocol[DomainResult, ExtraContext, ResponseData],
+    AdapterProtocol[
+        DomainResult,
+        ExtraContext,
+        ResponseData,
+    ],
 ):
-    """ABC for response adapter."""
+    """ABC for response adapter.
+
+    Converts domain DTO to Web response format.
+    Includes extra context needed for server-rendered templates.
+    """
 
     @override
     @abstractmethod
     def to_response(
         self,
-        context: DomainResult,
-        extra_context: ExtraContext,
+        domain_result: DomainResult,
+        request_context: ExtraContext,
     ) -> ResponseData:
         """Convert domain schema to response representation."""

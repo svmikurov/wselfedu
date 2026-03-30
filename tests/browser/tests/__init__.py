@@ -1,1 +1,0 @@
-"""Contains browser POM test."""

@@ -38,5 +38,5 @@ class MainContainer(DeclarativeContainer):
     )
     lang: Container[LanguageContainer] = Container(
         LanguageContainer,
-        storage=core.user_data_storage,
+        user_command_storage=core.user_command_storage,
     )

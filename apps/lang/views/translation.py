@@ -94,7 +94,7 @@ class EnglishTranslationListView(
     ) -> HttpResponseBase:
         """Inject repository before processing request."""
         self._handler = handler
-        return super().dispatch(request, *args, **kwargs)  # type: ignore[no-any-return, misc]
+        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self) -> QuerySet[models.EnglishTranslation]:
         """Get translation queryset."""

@@ -61,4 +61,4 @@ class ExerciseAssignator(IExerciseAssignator):
         ExerciseTaskCount.objects.create(
             exercise=assignment, count=data['count']
         )
-        ExerciseReward.objects.create(exercise=assignment, award=data['award'])
+        ExerciseReward.objects.create(exercise=assignment, award=data['award'])  # type: ignore

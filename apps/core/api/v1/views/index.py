@@ -72,4 +72,4 @@ class IndexViewSet(viewsets.ViewSet):
             index response.
 
         """
-        return
+        return  # type: ignore

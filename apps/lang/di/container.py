@@ -3,6 +3,7 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Container, Dependency
 
+from .config.container import ConfigurationContainer
 from .handler.web.container import WebHandlerContainer
 from .repository.repository import RepositoryContainer
 from .use_case.container import UseCaseContainer
@@ -24,6 +25,10 @@ class LanguageContainer(DeclarativeContainer):
         RepositoryContainer,
         storage=storage,
     )
+    configurations = Container(
+        ConfigurationContainer,
+        repositories=repositories,
+    )
 
     # ===========================================
     # Request handler dependencies
@@ -31,6 +36,8 @@ class LanguageContainer(DeclarativeContainer):
     use_cases = Container(
         UseCaseContainer,
         user_command_storage=user_command_storage,
+        repositories=repositories,
+        configurations=configurations,
     )
 
     # ===========================================
