@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
   appLogger.log('Added presentation block update listener');
 
   // Start presentation
-  updateQuestion();
+  setTimers();
 });
 
 /**

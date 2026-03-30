@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const testBlock = document.querySelector('#test-block');
+  const testBlock = document.querySelector('#exercise-block');
 
   if (!testBlock) {
     appLogger.error('Test block element not found');
@@ -27,10 +27,8 @@ function onTestBlockUpdate(event) {
 function updateTest() {
   htmx
     .ajax(
-      'POST',
-      '',
+      'GET',
       {
-        values: {status: 'new_case'},
         target: '#test-block',
       }
     )

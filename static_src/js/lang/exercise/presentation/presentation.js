@@ -45,10 +45,9 @@ export function updateQuestion() {
   // Request new case
   htmx
     .ajax(
-      'POST',
+      'GET',
       parameters.url,
       {
-        values: caseParameters,
         target: SELECTORS.PRESENTATION_BLOCK,
       }
     )

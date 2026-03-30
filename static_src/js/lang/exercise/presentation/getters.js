@@ -7,7 +7,7 @@
 export const DOM_IDS = {
   SETTINGS_BLOCK: 'settings-block',
   ANSWER: 'answer',
-  PRESENTATION_BLOCK: 'presentation-block',
+  PRESENTATION_BLOCK: 'exercise-block',
   UPDATE_TRIGGER: 'update-presentation',
   KNOWN_BUTTON: 'known-button',
   UNKNOWN_BUTTON: 'unknown-button',
@@ -30,7 +30,7 @@ export const DOM_IDS = {
  */
 export const SELECTORS = {
   ANSWER: '#answer',
-  PRESENTATION_BLOCK: '#presentation-block',
+  PRESENTATION_BLOCK: '#exercise-block',
   UPDATE_TRIGGER: '#update-presentation',
   KNOWN_BUTTON: '#known-button',
   UNKNOWN_BUTTON: '#unknown-button',
