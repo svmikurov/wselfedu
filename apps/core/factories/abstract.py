@@ -7,6 +7,9 @@ CaseDTO = TypeVar('CaseDTO')
 ParametersDTO = TypeVar('ParametersDTO')
 ResultDTO = TypeVar('ResultDTO')
 
+LockupCommand = TypeVar('LockupCommand')
+LockupConditions = TypeVar('LockupConditions')
+
 
 class AbstractExerciseDTOFactory(
     ABC,
@@ -15,5 +18,15 @@ class AbstractExerciseDTOFactory(
     """ABC for exercise DTO factory."""
 
     @abstractmethod
-    def create(self, case: CaseDTO, parameters: ParametersDTO) -> ResultDTO:
+    def build(self, case: CaseDTO, parameters: ParametersDTO) -> ResultDTO:
         """Create exercise DTO."""
+
+
+class AbstractLockupConditionsFactory(
+    ABC, Generic[LockupCommand, LockupConditions]
+):
+    """ABC for Database lockup conditions factory."""
+
+    @abstractmethod
+    def build(self, command: LockupCommand) -> LockupConditions:
+        """Build lockup conditions."""
