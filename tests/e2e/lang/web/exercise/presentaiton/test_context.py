@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 from django.urls import reverse
 
 from apps.core.domains.exercise.presentation import PresentationDomain
-from apps.core.domains.exercise.schema.presentation_dto import PresentationData
+from apps.core.domains.exercise.presentation.dto import PresentationData
 from apps.core.handlers import RegularRequestHandler
 from apps.lang import models
 from di import MainContainer

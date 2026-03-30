@@ -84,7 +84,7 @@ API_REQUEST: Final[ApiRequest] = {
 # Validated data
 # --------------
 
-EMPTY_PARAMETERS_DTO = schemas.LookupCondition(
+EMPTY_PARAMETERS_DTO = schemas.LookupConditionsDTO(
     category=None,
     mark=[],
     source=None,
@@ -96,7 +96,7 @@ EMPTY_PARAMETERS_DTO = schemas.LookupCondition(
     is_know=True,
 )
 
-PARAMETERS_DTO = schemas.LookupCondition(
+PARAMETERS_DTO = schemas.LookupConditionsDTO(
     category=CATEGORY_ID,
     source=None,
     mark=[1, 2],
@@ -107,11 +107,11 @@ PARAMETERS_DTO = schemas.LookupCondition(
     is_examine=True,
     is_know=True,
 )
-SETTINGS_DTO = schemas.SettingsModel(
+SETTINGS_DTO = schemas.ExerciseConfigDTO(
     display_order=DisplayOrder.RANDOM,
     item_count=WORD_COUNT,
 )
-REQUEST_DTO: Final = schemas.RegularConditionRequest(
+REQUEST_DTO: Final = schemas.ExerciseParametersDTO(
     parameters=PARAMETERS_DTO,
-    settings=SETTINGS_DTO,
+    conf=SETTINGS_DTO,
 )

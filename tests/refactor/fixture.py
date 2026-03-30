@@ -4,12 +4,12 @@ import uuid
 from typing import Final
 
 from apps.core.adapters.response.exercise.presentation import (
-    PresentationApi,
-    PresentationWeb,
+    PresentationApiResponse,
+    PresentationWebResponse,
     Progress,
     UpdateProgress,
 )
-from apps.core.domains.exercise.schema.presentation_dto import PresentationData
+from apps.core.domains.exercise.presentation.dto import PresentationData
 
 from .types import PresentationCaseDict
 
@@ -31,8 +31,8 @@ PRESENTATION_CASE_STORED: Final = {'case_uuid': CASE_UUID, **PRESENTATION_CASE}
 # Presentation exercise DTO
 # -------------------------
 PRESENTATION_DOMAIN_DTO = PresentationData(**PRESENTATION_CASE_STORED)  # type: ignore[arg-type]
-PRESENTATION_API_DTO = PresentationApi(**PRESENTATION_CASE_STORED)  # type: ignore[arg-type]
-PRESENTATION_WEB_DTO = PresentationWeb(
+PRESENTATION_API_DTO = PresentationApiResponse(**PRESENTATION_CASE_STORED)  # type: ignore[arg-type]
+PRESENTATION_WEB_DTO = PresentationWebResponse(
     case_uuid=CASE_UUID,
     question_text=PRESENTATION_CASE['question_text'],
     answer_text=PRESENTATION_CASE['answer_text'],

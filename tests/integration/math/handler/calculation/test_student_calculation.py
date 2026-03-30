@@ -8,10 +8,10 @@ from typing import Any
 import pytest
 from wse_exercises.core.math import ExactOperandGenerator
 
-from apps.core.adapters.response.exercise.generic import (
+from apps.core.adapters.response.dto import WebExerciseResponseDTO
+from apps.core.adapters.response.exercise.strategy import (
     ResultContextStrategyAdapter,
 )
-from apps.core.adapters.response.exercise.web.dto import WebExerciseResponseDTO
 from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.factories.abstract import AbstractExerciseDTOFactory
 from apps.core.handlers.dto import DetailParams, RequestContextDTO, RequestData
@@ -23,8 +23,8 @@ from apps.core.handlers.protocol import (
     ResponseAdapterProtocol,
 )
 from apps.core.services.exercise.abstract import (
-    AbstractExerciseCheck,
-    AbstractExerciseExplain,
+    AbstractCheckExerciseService,
+    AbstractExplainExerciseService,
     AbstractRegularExerciseCreate,
 )
 from apps.core.storages.clients.django_cache import DjangoKeyCache
@@ -67,7 +67,7 @@ from apps.math.milestones.protocol import MilestoneServiceProtocol
 from apps.math.models import StudentCalculationCondition
 from apps.math.repositories.exercise import (
     StudentCalculationConditionsRepository,
-    UserResourceRepository,
+    UserResourceCachedRepository,
 )
 from apps.math.services.calculation import (
     CalculationCheckService,
@@ -118,7 +118,7 @@ def storage() -> AbstractUserStorage[Any]:
 @pytest.fixture
 def repository(
     storage: UserDataStorage[Any],
-) -> UserResourceRepository[StudentParametersDTO]:
+) -> UserResourceCachedRepository[StudentParametersDTO]:
     """Provide student calculation repository."""
     return StudentCalculationConditionsRepository(
         manager=StudentCalculationCondition.objects,
@@ -142,7 +142,7 @@ def create_service() -> CalculationCreateService:
 
 
 @pytest.fixture
-def check_service() -> AbstractExerciseCheck[
+def check_service() -> AbstractCheckExerciseService[
     CalculationAnswerDTO,
     CalculationMetaDTO,
     CalculationResultDTO,
@@ -152,7 +152,7 @@ def check_service() -> AbstractExerciseCheck[
 
 
 @pytest.fixture
-def explain_service() -> AbstractExerciseExplain[
+def explain_service() -> AbstractExplainExerciseService[
     CalculationAnswerDTO,
     CalculationMetaDTO,
     CalculationExplainDTO,
@@ -251,7 +251,7 @@ def dto_factory() -> AbstractExerciseDTOFactory[
 
 @pytest.fixture
 def create_use_case(
-    repository: UserResourceRepository[Any],
+    repository: UserResourceCachedRepository[Any],
     create_service: AbstractRegularExerciseCreate[
         CalculationConditionDTO,
         tuple[CalculationCaseDTO, CalculationMetaDTO],
@@ -275,13 +275,13 @@ def create_use_case(
 @pytest.fixture
 def check_use_case(
     storage: UserDataStorage[Any],
-    repository: UserResourceRepository[Any],
-    check_service: AbstractExerciseCheck[
+    repository: UserResourceCachedRepository[Any],
+    check_service: AbstractCheckExerciseService[
         CalculationAnswerDTO,
         CalculationCaseDTO,
         CalculationResultDTO,
     ],
-    explain_service: AbstractExerciseExplain[
+    explain_service: AbstractExplainExerciseService[
         CalculationAnswerDTO,
         CalculationCaseDTO,
         CalculationExplainDTO,
@@ -370,16 +370,16 @@ class TestStartStudentCalculationPerformHandler:
         assert isinstance(result_dto, WebExerciseResponseDTO)
 
         # - Result DTO contains exercise status and status is new case
-        assert result_dto.exercise_status is ExerciseStatusEnum.NEW_CASE
+        assert result_dto.response_status is ExerciseStatusEnum.NEW_CASE
 
         # The text of the exercise question and context of the exercise
         # are defined using the `calculation_assignation` fixture.
 
         # - Result DTO data contains question text
-        assert result_dto.data.question_text == '2 + 3'  # type: ignore[attr-defined]
+        assert result_dto.domain_result.question_text == '2 + 3'  # type: ignore[attr-defined]
 
         # - Result DTO contains exercise details context
-        assert result_dto.context == {
+        assert result_dto.additional_context == {
             'exercise': {
                 'success_count': 0,
                 'required_count': 10,
@@ -429,16 +429,16 @@ class TestCheckStudentCalculationPerformHandler:
         assert isinstance(result_dto, WebExerciseResponseDTO)
 
         # - Result DTO contains exercise status and status is new case
-        assert result_dto.exercise_status is ExerciseStatusEnum.NEW_CASE
+        assert result_dto.response_status is ExerciseStatusEnum.NEW_CASE
 
         # The text of the exercise question and context of the exercise
         # are defined using the `calculation_assignation` fixture.
 
         # - Result DTO data contains question text
-        assert result_dto.data.question_text == '2 + 2'  # type: ignore[attr-defined]
+        assert result_dto.domain_result.question_text == '2 + 2'  # type: ignore[attr-defined]
 
         # - Result DTO contains exercise details context
-        assert result_dto.context == {
+        assert result_dto.additional_context == {
             'exercise': {
                 # FIXME: Increase success count
                 'success_count': 0,

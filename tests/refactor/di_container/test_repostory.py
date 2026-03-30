@@ -9,7 +9,7 @@ from apps.lang.repositories import (
     RegularParametersRepository,
     TranslationConditionsRepository,
 )
-from apps.lang.schemas import LookupCondition
+from apps.lang.schemas import LookupConditionsDTO
 from apps.lang.types import CaseSettingsAPI
 from apps.users.models import Person
 
@@ -92,7 +92,7 @@ class TestTranslationsRegularRepository:
         """No translations with lookup conditions."""
         # Arrange
         category = translations_meta[0][0]
-        parameters = LookupCondition(category=category.pk)
+        parameters = LookupConditionsDTO(category=category.pk)
 
         # Act & Assert
         assert not candidates_repository.fetch(user, conditions=parameters)
@@ -114,7 +114,7 @@ class TestTranslationsRegularRepository:
         # Arrange
         # - Set up lookup conditions
         category = translations_meta[0][0]
-        parameters = LookupCondition(category=category.pk)
+        parameters = LookupConditionsDTO(category=category.pk)
 
         # - Set translation with condition
         translation = translations[0]

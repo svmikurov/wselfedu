@@ -2,7 +2,7 @@
 
 import pytest
 
-from apps.lang.adapters.response.exercise.presentation import (
+from apps.core.adapters.response.exercise.presentation.web import (
     ApiPresentationAdapter,
     WebPresentationAdapter,
 )

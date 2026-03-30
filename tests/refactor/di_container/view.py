@@ -1,9 +1,9 @@
 """View DI container tests."""
 
 import pytest
+from apps.lang.di.view.web.container import WebViewContainer
 
 from apps.lang.di import LanguageContainer
-from apps.lang.di.view.web.container import WebViewContainer
 
 
 @pytest.fixture
