@@ -3,15 +3,13 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
-from apps.core.handlers.protocol import RequestDataProtocol
-
+RequestData = TypeVar('RequestData')
 Validated = TypeVar('Validated')
 
 
-class AbstractRequestValidator(ABC, Generic[Validated]):
-    """ABC for regular request validator."""
+class AbstractRequestValidator(ABC, Generic[RequestData, Validated]):
+    """ABC for request validator."""
 
-    @classmethod
     @abstractmethod
-    def validate(cls, data: RequestDataProtocol) -> Validated:
+    def validate(self, data: RequestData) -> Validated:
         """Validate request data."""

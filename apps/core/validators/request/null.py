@@ -2,7 +2,7 @@
 
 from typing import TypeVar
 
-from apps.core.domains.base_dto import BaseDTO
+from apps.core.domains.dto import BaseDTO
 from apps.core.handlers.protocol import RequestDataProtocol
 
 from .abstract import AbstractRequestValidator
@@ -14,7 +14,7 @@ class NullValidated(BaseDTO):
     """Nul validated data."""
 
 
-class NullValidator(AbstractRequestValidator[Validated]):
+class NullValidator(AbstractRequestValidator[RequestDataProtocol, Validated]):
     """Validator that returns input unchanged.
 
     Implements Null Object Pattern for cases
