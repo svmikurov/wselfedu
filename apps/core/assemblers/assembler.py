@@ -5,6 +5,7 @@ from typing import Generic, TypeVar, override
 from apps.core.assemblers.protocol import (
     QueryCommandProtocol,
     UserCommandProtocol,
+    UserDataCommandProtocol,
     UserDetailCommandProtocol,
     UserDetailDataCommandProtocol,
 )
@@ -20,6 +21,7 @@ from .abstract import AbstractAssembler
 from .command import (
     QueryCommand,
     UserCommand,
+    UserDataCommand,
     UserDetailCommand,
     UserDetailDataCommand,
     UserQueryCommand,
@@ -61,6 +63,30 @@ class UserAssembler(UserAssemblerType):
         """Prepare request data for use case execute."""
         return UserCommand(
             user=context.user,
+        )
+
+
+class UserDataAssembler(
+    AbstractAssembler[
+        NullProtocol,
+        RequestContextProtocol,
+        Validated,
+        UserDataCommandProtocol[Validated],
+    ],
+):
+    """User's data request assembler."""
+
+    @override
+    def prepare(
+        self,
+        params: NullProtocol,
+        context: RequestContextProtocol,
+        data: Validated,
+    ) -> UserDataCommandProtocol[Validated]:
+        """Prepare request data for use case execute."""
+        return UserDataCommand(
+            user=context.user,
+            data=data,
         )
 
 

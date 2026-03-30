@@ -4,7 +4,7 @@ from typing import Generic, TypeVar
 
 from pydantic import Field
 
-from apps.core.domains.base_dto import ArbitraryDTO, BaseDTO
+from apps.core.domains.dto import ArbitraryDTO, BaseDTO
 from apps.users.models import Person
 
 QueryType = TypeVar('QueryType')
@@ -52,6 +52,14 @@ class UserQueryCommand(
     Generic[QueryType],
 ):
     """User's query command DTO."""
+
+
+class UserDataCommand(
+    UserCommand,
+    DataCommand[Validated],
+    Generic[Validated],
+):
+    """User's data command DTO."""
 
 
 class UserQueryDataCommand(
