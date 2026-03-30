@@ -7,7 +7,7 @@ from typing import Generic, TypeVar
 
 from pydantic import Field
 
-from apps.core.domains.base_dto import ArbitraryDTO, BaseDTO
+from apps.core.domains.dto import ArbitraryDTO, BaseDTO
 from apps.users.models import Person
 
 __all__ = (

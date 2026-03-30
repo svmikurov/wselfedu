@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Protocol, TypeVar
+from typing import TYPE_CHECKING, Protocol, TypeVar
 
 if TYPE_CHECKING:
     from apps.users.models import Person
@@ -12,6 +12,8 @@ QueryData = TypeVar('QueryData')
 Params_contra = TypeVar('Params_contra', contravariant=True)
 Context_contra = TypeVar('Context_contra', contravariant=True)
 Data_contra = TypeVar('Data_contra', contravariant=True)
+
+RequestData = TypeVar('RequestData')
 
 # Prepared request data for use case
 Parsed_cov = TypeVar('Parsed_cov', covariant=True)
@@ -77,8 +79,14 @@ class RequestContextProtocol(Protocol):
 # -------------------------------------------------
 
 
-class RequestDataProtocol(Protocol[Validated]):
+class RequestDataProtocol(Protocol[RequestData]):
     """Protocol for request data DTO."""
+
+    data: RequestData
+
+
+class ValidatedDataProtocol(Protocol[Validated]):
+    """Protocol for validated data DTO."""
 
     data: Validated
 
@@ -132,11 +140,11 @@ class RequestParserProtocol(Protocol[QueryData, Parsed_cov]):
 # -----------------------------------------------
 
 
-class ValidatorProtocol(Protocol[Validated_cov]):
+class ValidatorProtocol(Protocol[RequestData_contra, Validated_cov]):
     """Protocol for regular validator interface."""
 
     @classmethod
-    def validate(cls, data: dict[str, Any]) -> Validated_cov:
+    def validate(cls, data: RequestData_contra) -> Validated_cov:
         """Validate raw data."""
 
 
@@ -164,8 +172,8 @@ class AdapterProtocol(
 
     def to_response(
         self,
-        schema: DomainResult_contra,
-        request_context: Context_contra,
+        context: DomainResult_contra,
+        extra_context: Context_contra,
     ) -> Result_cov:
         """Convert to response."""
 

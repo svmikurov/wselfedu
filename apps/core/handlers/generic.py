@@ -1,6 +1,6 @@
 """Generic request handler."""
 
-from typing import Any, Generic, TypeVar
+from typing import Generic, TypeVar
 
 from apps.core.assemblers.protocol import AssemblerProtocol
 
@@ -10,9 +10,12 @@ from .protocol import (
     ValidatorProtocol,
 )
 
-# Request data
+# External data
 RequestParams = TypeVar('RequestParams')
 RequestContext = TypeVar('RequestContext')
+RequestData = TypeVar('RequestData')
+
+# Internal data
 Validated = TypeVar('Validated')
 CommandData = TypeVar('CommandData')
 
@@ -25,6 +28,7 @@ class RequestHandler(
     Generic[
         RequestParams,
         RequestContext,
+        RequestData,
         Validated,
         CommandData,
         DomainResult,
@@ -35,7 +39,10 @@ class RequestHandler(
 
     def __init__(
         self,
-        validator: ValidatorProtocol[Validated],
+        validator: ValidatorProtocol[
+            RequestData,
+            Validated,
+        ],
         assembler: AssemblerProtocol[
             RequestParams,
             RequestContext,
@@ -55,7 +62,7 @@ class RequestHandler(
         self,
         params: RequestParams,
         context: RequestContext,
-        data: dict[str, Any],
+        data: RequestData,
     ) -> ResponseData:
         """Execute."""
         validated = self._validator.validate(data)
