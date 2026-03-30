@@ -1,25 +1,14 @@
-"""Language rule response DTOs."""
+"""Discipline rule response DTOs."""
 
 from __future__ import annotations
 
 from pydantic import Field
 
-from apps.core.domains.base_dto import BaseDTO
-
-# -------------------------------
-# API Response DTO (external API)
-# -------------------------------
-
-# TODO: Add rule API Response DTO
+from apps.core.domains.dto import BaseDTO
 
 
-# -------------------------------
-# Web View DTO (template context)
-# -------------------------------
-
-
-class RuleClause(BaseDTO):
-    """Rule clause with hierarchical structure."""
+class RuleClauseDTO(BaseDTO):
+    """Rule clause with hierarchical structure DTO."""
 
     pk: int
     content: str
@@ -28,15 +17,15 @@ class RuleClause(BaseDTO):
     examples_for_practice: str
     exceptions: str
     exceptions_for_practice: str
-    children: list[RuleClause] = Field(default_factory=list)
+    children: list[RuleClauseDTO] = Field(default_factory=list)
 
 
-class LanguageRule(BaseDTO):
-    """Complete language rule with clauses."""
+class RuleDTO(BaseDTO):
+    """Rule with clauses DTO."""
 
     pk: int
     title: str
-    clauses: list[RuleClause]
+    clauses: list[RuleClauseDTO]
     rule_exceptions: str = Field(
         default='',
         examples=['child', 'man'],

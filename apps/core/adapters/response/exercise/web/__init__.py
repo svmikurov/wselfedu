@@ -1,1 +1,0 @@
-"""Exercise web response adapter."""

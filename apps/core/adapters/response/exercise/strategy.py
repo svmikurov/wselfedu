@@ -1,12 +1,12 @@
-"""Generic response adapter."""
+"""Response adapter strategy."""
 
 from typing import Generic, TypeVar
 
-from apps.core.domains.exercise.enums import ExerciseStatusEnum
-from apps.core.domains.exercise.protocol import ExerciseStatus
+from apps.core.adapters.response.status import StatusEnum
+from apps.core.domains.exercise.protocol import HasExerciseStatus
 from apps.core.handlers.protocol import AdapterProtocol
 
-DomainResult = TypeVar('DomainResult', bound=ExerciseStatus)
+DomainResult = TypeVar('DomainResult', bound=HasExerciseStatus)
 RequestContext = TypeVar('RequestContext')
 Adapted = TypeVar('Adapted')
 
@@ -43,12 +43,12 @@ class ExerciseAdapterStrategy(
     ) -> Adapted:
         """Convert domain data to response representation."""
         match schema.exercise_status:
-            case ExerciseStatusEnum.NEW_CASE:
+            case StatusEnum.NEW_CASE:
                 return self._new_case_adapter.to_response(
                     schema,
                     request_context,
                 )
-            case ExerciseStatusEnum.EXPLAIN:
+            case StatusEnum.EXPLAIN:
                 return self._explain_adapter.to_response(
                     schema,
                     request_context,
