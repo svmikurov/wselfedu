@@ -3,13 +3,9 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Dependency, Factory
 
-from apps.core.domains.exercise.presentation import (
+from apps.core.domains.exercise import (
     PresentationDomain,
-)
-from apps.core.domains.exercise.test import (
-    DetailTestCreateDomain,
-    RegularTestCreateDomain,
-    TestCheckDomain,
+    TestExerciseCheckDomain,
 )
 
 
@@ -22,16 +18,8 @@ class DomainContainer(DeclarativeContainer):
     # Test exercise domain business logic
     # -----------------------------------
 
-    create_regular_test = Factory(
-        RegularTestCreateDomain,
-        config=exercise_config,
-    )
-    create_detail_test = Factory(
-        DetailTestCreateDomain,
-        config=exercise_config,
-    )
     check_test = Factory(
-        TestCheckDomain,
+        TestExerciseCheckDomain,
     )
 
     # ----------------------------------

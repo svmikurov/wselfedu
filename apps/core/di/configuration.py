@@ -5,10 +5,10 @@ from typing import NamedTuple
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Configuration, Factory
 
+from apps.core.domains.exercise.dto import ProgressConfigDTO
 from apps.core.domains.exercise.enums import DisplayOrder
-from apps.core.domains.exercise.schema.dto import ProgressConfigSchema
 
-from ..domains.exercise.protocol import Settings
+from ..domains.exercise.protocol import ExerciseSettings
 
 
 # TODO: Remove this stub after implementation
@@ -49,7 +49,7 @@ class ConfigurationContainer(DeclarativeContainer):
     # Exercise configuration
     # ----------------------
 
-    exercise: Settings = Factory(  # type: ignore
+    exercise: ExerciseSettings = Factory(  # type: ignore
         ExerciseConfig,
         display_order=DisplayOrder.DEFINE,
         option_count=7,
@@ -60,7 +60,7 @@ class ConfigurationContainer(DeclarativeContainer):
     # -----------------------------------
 
     progress = Factory(
-        ProgressConfigSchema,
+        ProgressConfigDTO,
         increment=1,
         decrement=1,
     )
