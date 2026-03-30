@@ -22,7 +22,7 @@
                 data-testid="answer-btn-{{ option.value }}"
                 hx-post=""
                 hx-vals='{"exercise_status": "user_answer", "case_uuid": "{{ case_uuid }}", "option_value": "{{ option.value }}"}'
-                hx-target="#test-block">
+                hx-target="#exercise-block">
           {{ option.text }}
         </button><br>
       </div>  

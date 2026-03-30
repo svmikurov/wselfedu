@@ -19,8 +19,10 @@ from di import MainContainer
 if TYPE_CHECKING:
     from dependency_injector.providers import Container
 
-    from apps.core.adapters.response.abc import AbstractSimpleResponseAdapter
-    from apps.core.adapters.response.rule import LanguageRule
+    from apps.core.adapters.response.abstract import (
+        AbstractSimpleResponseAdapter,
+    )
+    from apps.core.adapters.response.dto import LanguageRule
     from apps.lang.di.container import LanguageContainer
     from apps.lang.repositories import RuleRepositoryABC
 

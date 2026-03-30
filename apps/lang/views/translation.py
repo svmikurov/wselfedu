@@ -2,21 +2,35 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
+from dependency_injector.wiring import Provide, inject
+from django.db.models import QuerySet
 from django.urls import reverse_lazy
 from django.views import generic
 from django_filters import views as filter_views
 
 from apps.core import views as core_views
+from apps.core.handlers.dto import (
+    QueryRequestParams,
+    RequestContext,
+    RequestData,
+)
+from apps.core.handlers.protocol import (
+    QueryRequestParamsProtocol,
+    RequestContextProtocol,
+    RequestDataProtocol,
+    RequestHandlerProtocol,
+)
+from apps.core.views.mixins import GetHandlerMixin
+from di import MainContainer
 
 from .. import filters, forms, models
 from ..repositories import TranslationRepoABC
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
-    from django.http import HttpResponse
-    from django_filters.filterset import FilterSet
+    from django.http import HttpRequest, HttpResponse, HttpResponseBase
 
 __all__ = [
     'EnglishTranslationIndexView',
@@ -25,6 +39,15 @@ __all__ = [
     'EnglishTranslationUpdateView',
     'EnglishTranslationDeleteView',
 ]
+
+ListHandler = RequestHandlerProtocol[
+    QueryRequestParamsProtocol[dict[str, str]],
+    RequestContextProtocol,
+    RequestDataProtocol[dict[str, str]],
+    QuerySet[models.EnglishTranslation],
+]
+
+HANDLERS = MainContainer.lang.handlers
 
 
 class _TranslationViewMixin:
@@ -51,7 +74,7 @@ class EnglishTranslationIndexView(
 
 class EnglishTranslationListView(
     core_views.UserLoginRequiredMixin,
-    _TranslationViewMixin,
+    GetHandlerMixin[ListHandler],
     filter_views.FilterView,
 ):
     """English translation list view."""
@@ -61,17 +84,26 @@ class EnglishTranslationListView(
     filterset_class = filters.TranslationFilter
     paginate_by = 20
 
+    @inject
+    def dispatch(
+        self,
+        request: HttpRequest,
+        *args: object,
+        handler: ListHandler = Provide[HANDLERS.english_translation_list],  # type: ignore[attr-defined]
+        **kwargs: object,
+    ) -> HttpResponseBase:
+        """Inject repository before processing request."""
+        self._handler = handler
+        return super().dispatch(request, *args, **kwargs)  # type: ignore[no-any-return, misc]
+
     def get_queryset(self) -> QuerySet[models.EnglishTranslation]:
         """Get translation queryset."""
-        return self.repository.get_translations(self.user)
-
-    def get_filterset_kwargs(
-        self, filterset_class: type[FilterSet]
-    ) -> dict[str, Any]:
-        """Add user to filter."""
-        kwargs = super().get_filterset_kwargs(filterset_class)
-        kwargs['user'] = self.user
-        return kwargs
+        return self.handler.execute(
+            # Pass the request parameters query if need it.
+            params=QueryRequestParams(query={}),
+            context=RequestContext(user=self.user),
+            data=RequestData(data={}),
+        )
 
 
 class EnglishTranslationCreateView(

@@ -4,12 +4,19 @@ from typing import Any
 
 from django.db.models import QuerySet
 
-from apps.core.adapters.response.abc import AbstractSimpleResponseAdapter
-from apps.core.adapters.response.rule import LanguageRule, RuleClause
+from apps.core.adapters.response.abstract import AbstractResponseAdapter
+from apps.core.adapters.response.rule.dto import RuleClauseDTO, RuleDTO
+from apps.core.domains.protocol import NullProtocol
 from apps.lang import models
 
 
-class WebRuleAdapter(AbstractSimpleResponseAdapter[models.Rule, LanguageRule]):
+class WebRuleAdapter(
+    AbstractResponseAdapter[
+        models.Rule,
+        NullProtocol,
+        RuleDTO,
+    ],
+):
     """Language rule web adapter."""
 
     EXAMPLE_COUNT: int | None = 5
@@ -18,10 +25,14 @@ class WebRuleAdapter(AbstractSimpleResponseAdapter[models.Rule, LanguageRule]):
         """Construct the adapter."""
         self._config = config if config else {}
 
-    def to_response(self, data: models.Rule) -> LanguageRule:
+    def to_response(
+        self,
+        schema: models.Rule,
+        request_context: NullProtocol,
+    ) -> RuleDTO:
         """Get clauses DTO with clause examples/exceptions."""
-        clauses_qs: QuerySet[models.RuleClause] = data.clauses.all()
-        exceptions_qs: QuerySet[models.RuleException] = data.exceptions.all()
+        clauses_qs: QuerySet[models.RuleClause] = schema.clauses.all()
+        exceptions_qs: QuerySet[models.RuleException] = schema.exceptions.all()
 
         # If clause is child it has parent ID, else parent ID is `None`
         parent_mapping: dict[int | None, list[models.RuleClause]] = {}
@@ -31,9 +42,9 @@ class WebRuleAdapter(AbstractSimpleResponseAdapter[models.Rule, LanguageRule]):
                 clause.parent.pk if clause.parent else None, []
             ).append(clause)
 
-        root_clauses: list[RuleClause] = []
+        root_clauses: list[RuleClauseDTO] = []
         for clause in parent_mapping.get(None, []):
-            children: list[RuleClause] = []
+            children: list[RuleClauseDTO] = []
 
             for child in parent_mapping.get(clause.pk, []):
                 if child:
@@ -41,9 +52,9 @@ class WebRuleAdapter(AbstractSimpleResponseAdapter[models.Rule, LanguageRule]):
 
             root_clauses.append(self._build_clause_dto(clause, children))
 
-        rule_dto = LanguageRule(
-            pk=data.pk,
-            title=data.title,
+        rule_dto = RuleDTO(
+            pk=schema.pk,
+            title=schema.title,
             clauses=root_clauses,
             rule_exceptions=self._convert_exceptions(exceptions_qs),
             practice_exceptions=self._convert_examples(exceptions_qs),
@@ -118,8 +129,8 @@ class WebRuleAdapter(AbstractSimpleResponseAdapter[models.Rule, LanguageRule]):
     def _build_clause_dto(
         self,
         clause: models.RuleClause,
-        children: list[RuleClause] | None = None,
-    ) -> RuleClause:
+        children: list[RuleClauseDTO] | None = None,
+    ) -> RuleClauseDTO:
         """Build clause DTO."""
         # Rule clause task examples/exceptions
         task_examples, task_exceptions = self._get_task_examples(
@@ -129,7 +140,7 @@ class WebRuleAdapter(AbstractSimpleResponseAdapter[models.Rule, LanguageRule]):
         examples, exceptions = self._get_examples(
             clause.rule_translation_examples.all()
         )
-        return RuleClause(
+        return RuleClauseDTO(
             pk=clause.pk,
             content=clause.content,
             exception_note=clause.exception_content,

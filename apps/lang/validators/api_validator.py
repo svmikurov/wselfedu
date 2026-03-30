@@ -9,7 +9,7 @@ from .. import schemas, types
 from ..api.v1.serializers import base as lang
 
 type RequestData = dict[str, Any]
-type RequestDTO = schemas.RegularConditionRequest
+type RequestDTO = schemas.ExerciseParametersDTO
 
 # TODO: Update serializers to pydantic models?
 
@@ -35,7 +35,7 @@ class ApiPresentationValidator(ValidatorProtocol[RequestDTO]):
     @classmethod
     def _to_dto(cls, data: types.ApiRequest) -> RequestDTO:
         """Create presentation request DTO."""
-        parameters = schemas.LookupCondition(
+        parameters = schemas.LookupConditionsDTO(
             category=cls._get_id(data['category']),
             source=cls._get_id(data['word_source']),
             mark=cls._get_ids(data['mark']),
@@ -46,14 +46,14 @@ class ApiPresentationValidator(ValidatorProtocol[RequestDTO]):
             is_examine=data['is_examine'],
             is_know=data['is_know'],
         )
-        settings = schemas.SettingsModel(
+        settings = schemas.ExerciseConfigDTO(
             # FIXME: Fix type ignore
             display_order=data['display_order']['code'],  # type: ignore
             item_count=data['word_count'],
         )
-        return schemas.RegularConditionRequest(
+        return schemas.ExerciseParametersDTO(
             parameters=parameters,
-            settings=settings,
+            conf=settings,
         )
 
     @staticmethod

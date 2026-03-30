@@ -15,7 +15,7 @@ __all__ = ('TranslationSetting',)
 
 
 class TranslationSetting(AbstractBaseModel):
-    """Translation study settings model."""
+    """Translation study parameters model."""
 
     class TranslateChoices(models.TextChoices):
         """Translate order choices."""

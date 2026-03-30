@@ -3,9 +3,9 @@
 from django.urls import path
 from django.views.generic import TemplateView
 
-from apps.lang.views.exercise.translation.perform import (
-    RegularTranslationPresentationPerformView,
+from apps.lang.views import (
     RegularTranslationTestPerformView,
+    TranslationPresentationView,
 )
 
 urlpatterns = [
@@ -16,7 +16,7 @@ urlpatterns = [
     # display presentation, request new case and update study progress.
     path(
         'translation/english/study/',
-        RegularTranslationPresentationPerformView.as_view(),
+        TranslationPresentationView.as_view(),
         name='translation_english_study',
     ),
     # Renders new presentation case.

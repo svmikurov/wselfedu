@@ -6,22 +6,22 @@ from apps.core.handlers.protocol import ValidatorProtocol
 
 from ..schemas import (
     DetailTestRequestDTO,
+    ExerciseParametersDTO,
     ParametersSchema,
-    RegularConditionRequest,
     SettingsSchema,
     TestRequestDTO,
 )
 
 
-class WebPresentationValidator(ValidatorProtocol[RegularConditionRequest]):
+class WebPresentationValidator(ValidatorProtocol[ExerciseParametersDTO]):
     """Web request presentation validator."""
 
     @classmethod
-    def validate(cls, raw_data: dict[str, Any]) -> RegularConditionRequest:
+    def validate(cls, raw_data: dict[str, Any]) -> ExerciseParametersDTO:
         """Validate the web request presentation data."""
-        return RegularConditionRequest(
+        return ExerciseParametersDTO(
             parameters=ParametersSchema(**raw_data),
-            settings=SettingsSchema(**raw_data),
+            conf=SettingsSchema(**raw_data),
         )
 
 
@@ -31,7 +31,6 @@ class WebTestValidator(ValidatorProtocol[TestRequestDTO]):
     @classmethod
     def validate(cls, raw_data: dict[str, Any]) -> TestRequestDTO:
         """Validate the web request data."""
-        print(f'{raw_data = }')
         return TestRequestDTO(exercise_status=raw_data.query['status'])
 
 

@@ -1,4 +1,5 @@
-{# Translation test exercise page #}
+{# Translation test exercise index page #}
+
 {% extends "base.html" %}
 
 {% load static %}
@@ -11,10 +12,12 @@
   {% trans "lang.page.translation.test.header" as header %}
   {% include "components/header_block.html" with header=header %}
 
-  {% include 'lang/exercise/test/_settings.html' %}
+  {% include './_settings.html' %}
 
-  {# Target to insert 'Translation test exercise' partial template #}
-  <div id="test-block"></div>
+  {# Target to insert exercise partial template #}
+  <div id="exercise-block">
+    {{ exercise_case_html }}
+  </div>
 
 </main>
 {% endblock content %}

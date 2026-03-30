@@ -2,15 +2,23 @@
 
 from django.db.models import Manager, Model
 
+from apps.core.assemblers.protocol import UserCommandProtocol
+from apps.core.domains.exercise.dto import (
+    ExerciseConfigDTO,
+    ExerciseParametersDTO,
+    LookupConditionsDTO,
+)
+from apps.core.repositories.abstract import AbstractRepository
 from apps.lang import models
-from apps.lang.schemas import LookupCondition, SettingsModel
 from apps.users.models.user import Person
 
-from .abc import ByUserRepositoryABC
-from .dto import RegularParameters
 
-
-class RegularParametersRepository(ByUserRepositoryABC[RegularParameters]):
+class RegularParametersRepository(
+    AbstractRepository[
+        UserCommandProtocol,
+        ExerciseParametersDTO,
+    ],
+):
     """Regular condition repository."""
 
     def __init__(
@@ -22,7 +30,11 @@ class RegularParametersRepository(ByUserRepositoryABC[RegularParameters]):
         self._parameters = parameters_manager
         self._settings = settings_manager
 
-    def fetch(self, user: Person) -> RegularParameters:
+    def fetch(
+        self,
+        user: Person,
+        filter: UserCommandProtocol,
+    ) -> ExerciseParametersDTO:
         """Fetch user regular exercise settings."""
         parameters = self._get_parameters(user)
         settings = self._get_settings(user)
@@ -43,12 +55,12 @@ class RegularParametersRepository(ByUserRepositoryABC[RegularParameters]):
         self,
         parameters: models.ExerciseConditions | None,
         settings: models.TranslationSetting | None,
-    ) -> RegularParameters:
-        return RegularParameters(
+    ) -> ExerciseParametersDTO:
+        return ExerciseParametersDTO(
             # ----------------------------
             # Translation query conditions
             # ----------------------------
-            conditions=LookupCondition(
+            conditions=LookupConditionsDTO(
                 category=self._get_pk(parameters.category),  # type: ignore
                 source=self._get_pk(parameters.word_source),  # type: ignore
                 mark=[parameters.mark.pk] if parameters.mark else [],
@@ -60,16 +72,16 @@ class RegularParametersRepository(ByUserRepositoryABC[RegularParameters]):
                 is_know=parameters.is_know,  # type: ignore
             )
             if parameters
-            else None,
+            else LookupConditionsDTO(),
             # -----------------------------
             # Translation exercise settings
             # -----------------------------
-            settings=SettingsModel(
+            conf=ExerciseConfigDTO(
                 display_order=settings.display_order,  # type: ignore
                 item_count=settings.word_count,
             )
             if settings
-            else None,
+            else ExerciseConfigDTO(),
         )
 
     # TODO: Fix type ignore

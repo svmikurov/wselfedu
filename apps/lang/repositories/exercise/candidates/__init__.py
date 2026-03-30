@@ -1,0 +1,1 @@
+"""Exercise candidates repository."""

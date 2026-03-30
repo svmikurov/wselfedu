@@ -2,7 +2,7 @@
 
 from pydantic import BaseModel, Field
 
-from apps.core.domains.exercise.schema.test_dto import OptionMeta
+from apps.core.domains.exercise.test.dto import OptionMetaDTO
 
 
 class TestSettingsDTO(BaseModel):
@@ -20,9 +20,9 @@ class TestExerciseDTO(BaseModel):
     answer_text: str = Field(description='Correct answer text')
     answer_value: int = Field(description='Correct answer option value')
 
-    option_pks: list[OptionMeta] = Field(
+    option_pks: list[OptionMetaDTO] = Field(
         description='Match object pk vs option value'
     )
-    option_texts: list[OptionMeta] = Field(
+    option_texts: list[OptionMetaDTO] = Field(
         description='Match object text vs option value'
     )

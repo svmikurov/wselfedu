@@ -1,28 +1,33 @@
+{# Translation presentation exercise index page #}
+
 {% extends 'base.html' %}
 
 {% load static %} 
+{% load i18n %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}{% trans 'lang.page.translation.presentation.title' %}{% endblock title %}
 
 {% block content %}
-<main class="container p-0">
+<main class="container">
+  {% trans "lang.page.translation.presentation.header" as header %}
   {% include "components/header_block.html" with header=header %}
 
-  {% include 'lang/exercise/presentation/_settings.html' %}
-
-  <div id="presentation-block">
-    {% include 'lang/exercise/presentation/_case.html' %}
-    {% include 'lang/exercise/presentation/_mark_bar.html' %}
+  {# Target to insert exercise partial template #}
+  <div id="exercise-block">
+    {{ exercise_case_html }}
+  {# Presentation exercise specific partial template #}
+    {% include './_mark_bar.html' %}
   </div>
 
-  {% include 'lang/exercise/presentation/control_bar.html' %}
+  {# Presentation exercise specific partial template #}
+  {% include './control_bar.html' %}
 
 </main>
-{% endblock %}
+{% endblock content %}
 
 {% block script %}
 <script
   type="module"
   src="{% static 'js/lang/exercise/presentation/index.js' %}"
 ></script>
-{% endblock %}
+{% endblock script %}

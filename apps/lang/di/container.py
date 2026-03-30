@@ -3,10 +3,8 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Container, Dependency
 
-from .adapter.web.container import WebAdapterContainer
 from .handler.web.container import WebHandlerContainer
 from .repository.repository import RepositoryContainer
-from .service.container import ExerciseServiceContainer
 from .use_case.container import UseCaseContainer
 
 
@@ -17,6 +15,7 @@ class LanguageContainer(DeclarativeContainer):
     # External dependencies
     # -------------------------------------------
     storage = Dependency()  # type: ignore[var-annotated]
+    user_command_storage = Dependency()  # type: ignore[var-annotated]
 
     # ===========================================
     # Internal dependencies
@@ -25,28 +24,20 @@ class LanguageContainer(DeclarativeContainer):
         RepositoryContainer,
         storage=storage,
     )
-    exercise_services = Container(
-        ExerciseServiceContainer,
-    )
 
     # ===========================================
-    # View handler dependencies
+    # Request handler dependencies
     # -------------------------------------------
     use_cases = Container(
         UseCaseContainer,
-        storage=storage,
-        exercise_services=exercise_services,
-    )
-    web_adapters = Container(
-        WebAdapterContainer,
+        user_command_storage=user_command_storage,
     )
 
     # ===========================================
-    # View handlers
+    # Request handler
     # -------------------------------------------
-    web_handlers = Container(
+    handlers = Container(
         WebHandlerContainer,
         use_cases=use_cases,
-        adapters=web_adapters,
-        storage=storage,
+        user_command_storage=user_command_storage,
     )

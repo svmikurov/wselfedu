@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Any
 
 from pydantic import BaseModel, Field
 
-from apps.lang.schemas import RegularConditionRequest
+from apps.lang.schemas import ExerciseParametersDTO
 
 # HACK: Replace Any
 if TYPE_CHECKING:
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
     # Exercise case request
     type AssignedRequest = Any
-    type RegularRequest = schemas.RegularConditionRequest
+    type RegularRequest = schemas.ExerciseParametersDTO
 
     # Exercise case
     type TestCase = StoredTestCaseDTO
@@ -41,7 +41,7 @@ class CheckTestRequestDTO(BaseModel):
 
     case_uid: uuid.UUID = Field(description='Stored case UUID')
     answer: TestAnswerDTO
-    condition: RegularConditionRequest
+    condition: ExerciseParametersDTO
 
 
 class TestCaseDTO(BaseModel):

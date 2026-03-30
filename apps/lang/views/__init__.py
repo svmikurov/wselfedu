@@ -17,10 +17,19 @@ __all__ = [
     # Mentorship
     'RuleAssignmentCreate',
     'ClauseUpdateView',
+    # Exercise
+    'TranslationPresentationView',
+    'RegularTranslationTestPerformView',
 ]
 
 from .exercise.settings import (
     study_settings_view,
+)
+from .exercise.translation.presentation import (
+    TranslationPresentationView,
+)
+from .exercise.translation.test import (
+    RegularTranslationTestPerformView,
 )
 from .rule import (
     ClauseCreateView,
