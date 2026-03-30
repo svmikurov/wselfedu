@@ -3,16 +3,14 @@
 from decimal import Decimal
 from typing import Any, NamedTuple, Protocol, TypeVar
 
-from apps.core.adapters.response.abc import (
+from apps.core.adapters.response.abstract import (
     AbstractResponseAdapter,
 )
-from apps.core.adapters.response.exercise.web.dto import (
-    WebExerciseCaseDTO,
-    WebExerciseResponseDTO,
-)
-from apps.core.adapters.response.shared import WebResponseDTO
+from apps.core.adapters.response.dto import OobResponseDTO, ResponseDTO
+from apps.core.adapters.response.status import StatusEnum
 from apps.core.domains.exercise.enums import ExerciseStatusEnum
-from apps.core.domains.exercise.protocol import ExerciseStatus
+from apps.core.domains.exercise.protocol import HasExerciseStatus
+from apps.core.domains.protocol import NullProtocol
 from apps.core.handlers.protocol import (
     AdapterProtocol,
     RequestContextProtocol,
@@ -32,7 +30,7 @@ from .dto import (
 )
 
 type UseCaseData = Any
-DomainType = TypeVar('DomainType', bound=ExerciseStatus)
+DomainType = TypeVar('DomainType', bound=HasExerciseStatus)
 
 
 class StudentDetailType(NamedTuple):
@@ -51,8 +49,8 @@ class StudentDetailType(NamedTuple):
 class StudentExercisesWebAdapter(
     AbstractResponseAdapter[
         list[StudentExerciseDTO],
-        RequestContextProtocol,
-        WebResponseDTO,
+        NullProtocol,
+        ResponseDTO,
     ]
 ):
     """Student's exercises web adapter."""
@@ -60,13 +58,14 @@ class StudentExercisesWebAdapter(
     def to_response(
         self,
         schema: list[StudentExerciseDTO],
-        request_context: RequestContextProtocol,
-    ) -> WebResponseDTO:
+        request_context: NullProtocol,
+    ) -> ResponseDTO:
         """Adapt student's exercises for web response."""
-        return WebResponseDTO(
+        return ResponseDTO(
+            status=StatusEnum.OK,
             context={
                 'exercises': [m.model_dump() for m in schema],
-            }
+            },
         )
 
 
@@ -111,7 +110,7 @@ class CalculationWebCaseAdapter(
     AdapterProtocol[
         StudentCalculationDTO,
         RequestContextProtocol,
-        WebExerciseCaseDTO,
+        ResponseDTO,
     ]
 ):
     """Calculation exercise case web response adapter."""
@@ -120,11 +119,11 @@ class CalculationWebCaseAdapter(
         self,
         schema: StudentCalculationDTO,
         request_context: RequestContextProtocol,
-    ) -> WebExerciseCaseDTO:
+    ) -> ResponseDTO:
         """Adapt current calculation case for web response."""
-        return WebExerciseResponseDTO(
-            exercise_status=schema.exercise_status,
-            data=ExerciseFormDTO(
+        return OobResponseDTO(
+            status=schema.exercise_status,
+            context=ExerciseFormDTO(
                 question_text=schema.data.question_text,
                 answer_input_form=forms.NumberInputForm(),
             ),
@@ -135,7 +134,7 @@ class StudentCalculationWebCaseAdapter(
     AdapterProtocol[
         StudentCalculationDTO,
         RequestContextProtocol,
-        WebExerciseResponseDTO,
+        OobResponseDTO,
     ]
 ):
     """Calculation exercise case web response adapter."""
@@ -148,7 +147,7 @@ class StudentCalculationWebCaseAdapter(
         self,
         schema: StudentCalculationDTO,
         request_context: RequestContextProtocol,
-    ) -> WebExerciseResponseDTO:
+    ) -> OobResponseDTO:
         """Adapt current calculation case for web response."""
         # Response context contains question and form to answer input.
         adapted = self._domain_adapter.to_response(schema, request_context)
@@ -159,7 +158,7 @@ class StudentCalculationWebCaseAdapter(
             success_count=schema.completion.success_count,
         )
 
-        context = adapted.context
+        context = adapted.extra_context
         context.setdefault('exercise', {})
         context['exercise'].update(
             {
@@ -167,11 +166,11 @@ class StudentCalculationWebCaseAdapter(
                 'required_count': schema.availability.required_count,
             }
         )
-        return WebExerciseResponseDTO(
-            exercise_status=adapted.exercise_status,
-            data=adapted.data,
+        return OobResponseDTO(
+            status=adapted.status,
+            context=adapted.context,
+            extra_context=context,
             oob_html=self._get_oob_html(oob_context),
-            context=context,
         )
 
     def _get_oob_html(self, context: StudentDetailType) -> str:

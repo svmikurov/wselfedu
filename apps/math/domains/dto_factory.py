@@ -19,7 +19,7 @@ class CustomCalculationDTOFactory(
 ):
     """Custom calculation exercise DTO factory."""
 
-    def create(
+    def build(
         self,
         case: CalculationDomainDTO,
         parameters: RegularParametersDTO,
@@ -40,7 +40,7 @@ class StudentCalculationDTOFactory(
 ):
     """Student calculation exercise DTO factory."""
 
-    def create(
+    def build(
         self,
         case: CalculationDomainDTO,
         parameters: StudentParametersDTO,

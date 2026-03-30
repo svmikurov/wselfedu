@@ -2,9 +2,7 @@
 
 from typing import Any
 
-from apps.core.adapters.response.shared import WebResponseDTO
 from apps.core.handlers.dto import (
-    DetailRequestParams,
     RequestContext,
     RequestData,
 )
@@ -13,11 +11,13 @@ from apps.core.handlers.protocol import RequestDataProtocol
 from apps.core.validators.request.null import NullValidator
 from apps.math.domains.dto import StudentExerciseDTO
 
+# FIXME:
 StudentExerciseListHandler = RequestHandler[
-    DetailRequestParams,
+    Any,
     RequestContext,
     RequestData[dict[str, str]],
     NullValidator[RequestDataProtocol[Any]],
     list[StudentExerciseDTO],
-    WebResponseDTO,
+    Any,
+    Any,
 ]

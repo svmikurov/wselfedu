@@ -9,7 +9,7 @@ from django.db.models import F, OuterRef, Subquery
 from django.utils import timezone
 
 from apps.core.assemblers.command import UserDetailCommand
-from apps.core.repositories.generic import UserResourceRepository
+from apps.core.repositories.generic import UserResourceCachedRepository
 from apps.math.domains.dto import (
     CalculationConditionDTO,
     ExerciseAvailabilityDTO,
@@ -39,7 +39,7 @@ __all__ = (
 
 
 class CalculationConditionsRepository(
-    UserResourceRepository[UserDetailCommand, RegularParametersDTO],
+    UserResourceCachedRepository[UserDetailCommand, RegularParametersDTO],
 ):
     """Calculation conditions repository."""
 
@@ -67,7 +67,7 @@ class CalculationConditionsRepository(
 
 
 class StudentCalculationConditionsRepository(
-    UserResourceRepository[UserDetailCommand, StudentParametersDTO],
+    UserResourceCachedRepository[UserDetailCommand, StudentParametersDTO],
 ):
     """Student's assigned calculation conditions repository."""
 

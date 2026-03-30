@@ -31,13 +31,15 @@ class CalculationLoopData(QuestionData, UserAnswerData):
 
 
 class RegularCalculationStartWebValidator(
-    AbstractRequestValidator[CalculationConditionDTO]
+    AbstractRequestValidator[
+        RequestDataProtocol[QuestionData],
+        CalculationConditionDTO,
+    ],
 ):
     """Calculation conditions web validator."""
 
-    @classmethod
     def validate(
-        cls,
+        self,
         data: RequestDataProtocol[QuestionData],
     ) -> CalculationConditionDTO:
         """Validate calculation conditions request."""
@@ -49,13 +51,15 @@ class RegularCalculationStartWebValidator(
 
 
 class RegularCalculationCheckWebValidator(
-    AbstractRequestValidator[CalculationLoopDTO]
+    AbstractRequestValidator[
+        RequestDataProtocol[CalculationLoopData],
+        CalculationLoopDTO,
+    ]
 ):
     """Calculation conditions web validator."""
 
-    @classmethod
     def validate(
-        cls,
+        self,
         data: RequestDataProtocol[CalculationLoopData],
     ) -> CalculationLoopDTO:
         """Validate calculation conditions request."""
@@ -68,13 +72,15 @@ class RegularCalculationCheckWebValidator(
 
 
 class DetailCalculationCheckWebValidator(
-    AbstractRequestValidator[CalculationAnswerDTO]
+    AbstractRequestValidator[
+        RequestDataProtocol[UserAnswerData],
+        CalculationAnswerDTO,
+    ]
 ):
     """Calculation conditions web validator."""
 
-    @classmethod
     def validate(
-        cls,
+        self,
         data: RequestDataProtocol[UserAnswerData],
     ) -> CalculationAnswerDTO:
         """Validate calculation conditions request."""

@@ -53,6 +53,7 @@ class ProgressBar(Protocol[Result_contra, ExerciseMeta_contra]):
 # -----------------------------------------------
 
 
+# FIXME: Update method signature
 class MilestoneServiceProtocol(
     Protocol[
         ExerciseMeta_contra,

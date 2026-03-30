@@ -6,7 +6,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-from apps.core.domains.base_dto import BaseDTO
+from apps.core.domains.dto import BaseDTO
 from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.study.models.exercise.availability import PeriodExecuting
 from apps.study.models.exercise.reward import RewardType

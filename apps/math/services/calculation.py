@@ -9,10 +9,9 @@ from wse_exercises.core.math.base.services import OperandGeneratorABC
 
 from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.services.exercise.abstract import (
-    AbstractExerciseCheck,
-    AbstractExerciseExplain,
-    AbstractMilestone,
-    AbstractRegularExerciseCreate,
+    AbstractCheckExerciseService,
+    AbstractCreateExerciseService,
+    AbstractExplainExerciseService,
 )
 from apps.math.domains.dto import (
     CalculationAnswerDTO,
@@ -30,13 +29,12 @@ from ..domains.enums import CalculationEnum
 if TYPE_CHECKING:
     from wse_exercises.core.math.task import CalcTask
 
-    from apps.users.models import Person
-
 
 class CalculationCreateService(
-    AbstractRegularExerciseCreate[
+    AbstractCreateExerciseService[
         CalculationConditionDTO,
-        tuple[CalculationDomainDTO, CalculationMetaDTO],
+        CalculationDomainDTO,
+        CalculationMetaDTO,
     ]
 ):
     """Create calculation exercise service."""
@@ -52,10 +50,10 @@ class CalculationCreateService(
 
     def execute(
         self,
-        conditions: CalculationConditionDTO,
+        configuration: CalculationConditionDTO,
     ) -> tuple[CalculationDomainDTO, CalculationMetaDTO]:
         """Get calculation exercise case data."""
-        task = self._create_task(conditions)
+        task = self._create_task(configuration.conditions)
         data = self._build_data(task)
         meta = self._build_meta(task)
         return data, meta
@@ -91,7 +89,7 @@ class CalculationCreateService(
 
 
 class CalculationCheckService(
-    AbstractExerciseCheck[
+    AbstractCheckExerciseService[
         CalculationAnswerDTO,
         CalculationMetaDTO,
         CalculationResultDTO,
@@ -109,23 +107,8 @@ class CalculationCheckService(
         return CalculationResultDTO(is_correct=is_correct)
 
 
-class CalculationMilestoneService(
-    AbstractMilestone[CalculationResultDTO, CalculationMetaDTO]
-):
-    """Calculation exercise milestone."""
-
-    def execute(
-        self,
-        user: Person,
-        result: CalculationResultDTO,
-        case_meta: CalculationMetaDTO,
-    ) -> None:
-        """Apply the answer result."""
-        return
-
-
 class CalculationExplainService(
-    AbstractExerciseExplain[
+    AbstractExplainExerciseService[
         CalculationAnswerDTO, CalculationMetaDTO, CalculationExplainDTO
     ]
 ):

@@ -48,7 +48,7 @@ class RegularPerformView(QueryExercisePerformView):
     ) -> HttpResponseBase:
         """Inject request handler."""
         self._start_handler = start_handler
-        self._check_handler = check_handler
+        self._process_handler = check_handler
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -73,7 +73,7 @@ class CustomCalculationPerformView(DetailExercisePerformView):
     ) -> HttpResponseBase:
         """Inject request handler."""
         self._start_handler = start_handler
-        self._check_handler = check_handler
+        self._process_handler = check_handler
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -98,7 +98,7 @@ class StudentCalculationPerformView(DetailExercisePerformView):
     ) -> HttpResponseBase:
         """Inject request handler."""
         self._start_handler = start_handler
-        self._check_handler = check_handler
+        self._process_handler = check_handler
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -123,5 +123,5 @@ class MentorCalculationPerformView(DetailExercisePerformView):
     ) -> HttpResponseBase:
         """Inject request handler."""
         self._start_handler = start_handler
-        self._check_handler = check_handler
+        self._process_handler = check_handler
         return super().dispatch(request, *args, **kwargs)
