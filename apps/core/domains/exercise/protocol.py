@@ -1,89 +1,130 @@
-"""Protocols for exercise interface."""
+"""Exercise domain interface."""
 
-from __future__ import annotations
-
-from typing import Iterator, Protocol, Self, overload
-from uuid import UUID
+from typing import Iterator, Protocol, Self, TypeVar, overload
 
 from .enums import DisplayOrder, ExerciseStatusEnum
 
+ExerciseConditions = TypeVar('ExerciseConditions')
+ExerciseTypeConfig = TypeVar('ExerciseTypeConfig')
+ExerciseSettings = TypeVar('ExerciseSettings')
+Configuration_contra = TypeVar('Configuration_contra', contravariant=True)
+
+CandidatesT = TypeVar('CandidatesT')
+
 # =================================================
-# Exercise configuration DTO interface
-# -------------------------------------------------
+# Exercise parameters DTO interface
+# =================================================
 
 
-class ExerciseStatus(Protocol):
-    """Protocol for exercise case status."""
+class HasExerciseConditions(Protocol[ExerciseConditions]):
+    """Protocol for has exercise conditions interface."""
+
+    conditions: ExerciseConditions
+
+
+class HasExerciseConfig(Protocol[ExerciseTypeConfig]):
+    """Protocol for has test exercise configuration interface."""
+
+    conf: ExerciseTypeConfig
+
+
+class HasExerciseSettings(Protocol[ExerciseSettings]):
+    """Protocol for has exercise settings interface."""
+
+    settings: ExerciseSettings
+
+
+class ExerciseParameters(
+    HasExerciseConditions[ExerciseConditions],
+    HasExerciseConfig[ExerciseTypeConfig],
+    HasExerciseSettings[ExerciseSettings],
+    Protocol[ExerciseConditions, ExerciseTypeConfig, ExerciseSettings],
+):
+    """Exercise parameters.
+
+    Parameters
+    ----------
+    conditions :
+        Study resource lockup conditions.
+    conf :
+        Exercise type domain configuration.
+    settings :
+        Exercise type perform settings.
+
+    """
+
+
+# =================================================
+# Exercise type dependencies DTO interface
+# =================================================
+
+
+class HasItemCount(Protocol):
+    """Protocol for item count object interface."""
+
+    item_count: int
+
+
+class HasDisplayOrder(Protocol):
+    """Protocol for item display order object interface."""
+
+    display_order: DisplayOrder
+
+
+class HasText(Protocol):
+    """Protocol for has *text* interface."""
+
+    text: str
+
+
+# =================================================
+# Exercise case meta data DTO interface
+# =================================================
+
+
+class HasResourceIdentifier(Protocol):
+    """Protocol for has resource identifier object interface."""
+
+    pk: int
+
+
+class HasExerciseStatus(Protocol):
+    """Protocol for has exercise status interface."""
 
     exercise_status: ExerciseStatusEnum
 
 
-class Conditions(Protocol):
-    """Regular exercise items lookup conditions interface."""
+class HasProgressValue(Protocol):
+    """Protocol for has progress value integer field."""
 
-
-class Settings(Protocol):
-    """Regular exercise settings interface."""
-
-    display_order: DisplayOrder
-    option_count: int
-    item_count: int
-
-
-class HasConditions(Protocol):
-    """Protocol for has conditions interface."""
-
-    conditions: Conditions
-
-
-class HasSettings(Protocol):
-    """Protocol for has settings interface."""
-
-    settings: Settings
-
-
-class Parameters(HasConditions, HasSettings, Protocol):
-    """Regular exercise parameters interface."""
-
-
-class ExerciseConfig(Protocol):
-    """Test exercise configuration interface interface."""
-
-    display_order: DisplayOrder
-    option_count: int
-    item_count: int
-
-
-# =================================================
-# Exercise case request DTO interface
-# -------------------------------------------------
-
-
-class ExerciseRequest(ExerciseStatus):
-    """Interface for exercise case request."""
-
-    case_uuid: UUID
-    pk: int
-
-
-class UserAnswerProtocol(Protocol):
-    """Protocol for user answer."""
-
-    user_answer: str
-
-
-# =================================================
-# Exercise DTO interface
-# -------------------------------------------------
-
-
-class Candidate(Protocol):
-    """Protocol for a single candidate item."""
-
-    pk: int
-    define: str
-    explain: str
     progress: int
+
+
+# =================================================
+# Exercise candidates interface
+# =================================================
+
+
+class HasDefineText(Protocol):
+    """Protocol for exercise *define* text."""
+
+    define: str
+
+
+class HasExplainText(Protocol):
+    """Protocol for exercise *explain* text."""
+
+    explain: str
+
+
+class Candidate(
+    HasResourceIdentifier,
+    HasDefineText,
+    HasExplainText,
+    HasProgressValue,
+    Protocol,
+):
+    """Protocol for a single candidate item."""
 
 
 class Candidates(Protocol):
@@ -110,35 +151,46 @@ class Candidates(Protocol):
         ...
 
 
-class ExerciseCase(Protocol):
-    """Exercise case interface."""
+class SelectorProtocol(Protocol[Configuration_contra]):
+    """Protocol for exercise data selector interface."""
+
+    def select(
+        self,
+        candidates: Candidates,
+        conf: Configuration_contra,
+    ) -> Candidates:
+        """Select data for exercise."""
 
 
-class ExerciseCaseMeta(Protocol):
-    """Exercise case meta interface."""
+# =================================================
+# Exercise case DTO interface
+# =================================================
 
 
-class StoredCase(Protocol):
-    """Stored exercise case interface."""
+class HasQuestionText(Protocol):
+    """Protocol for *exercise question* text."""
+
+    question_text: str
+
+
+class HasAnswerText(Protocol):
+    """Protocol for *exercise answer* text."""
+
+    answer_text: str
 
 
 # =================================================
 # Exercise check DTO interface
-# -------------------------------------------------
+# =================================================
 
 
-class TestCheckRequest(ExerciseStatus):
-    """Interface for user's answer on test exercise check request."""
+class HasUserAnswer(Protocol):
+    """Protocol for *user answer* text."""
 
-    case_uuid: UUID
-    option_value: int
+    user_answer: str
 
 
-class CheckResultProtocol(Protocol):
+class HasCheckResult(Protocol):
     """User answer check result."""
 
     is_correct: bool
-
-
-class Explanation(Protocol):
-    """Exercise explanation interface."""

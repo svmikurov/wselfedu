@@ -1,9 +1,12 @@
 """Base Data Transfer Object."""
 
 from typing import Any
-from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
+
+# =================================================
+# DTO configuration mixins
+# =================================================
 
 
 class BaseConfigurationMixin:
@@ -25,14 +28,6 @@ class ArbitraryConfigurationMixin:
     )
 
 
-class BaseDTO(BaseConfigurationMixin, BaseModel):
-    """Base Data Transfer Objects model."""
-
-
-class ArbitraryDTO(ArbitraryConfigurationMixin, BaseModel):
-    """Base Data Transfer Objects model with arbitrary types."""
-
-
 class ProtectDefaultStatusMixin:
     """Ensures status uses default value."""
 
@@ -45,9 +40,27 @@ class ProtectDefaultStatusMixin:
         return data
 
 
-class UuidDTO(BaseDTO):
-    """Stored exercise case UUID DTO."""
+# =================================================
+# Base DTOs
+# =================================================
 
-    case_uuid: UUID = Field(
-        description='Stored exercise case UUID',
+
+class BaseDTO(BaseConfigurationMixin, BaseModel):
+    """Base Data Transfer Objects model."""
+
+
+class ArbitraryDTO(ArbitraryConfigurationMixin, BaseModel):
+    """Base Data Transfer Objects model with arbitrary types."""
+
+
+# =================================================
+# DTO fields
+# =================================================
+
+
+class ErrorField(BaseDTO):
+    """Error message DTO field."""
+
+    error_message: str = Field(
+        description='Error message',
     )

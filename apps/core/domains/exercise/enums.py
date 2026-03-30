@@ -10,6 +10,13 @@ DEFINITION_INDEX = 0
 EXPLANATION_INDEX = 1
 
 
+class ExerciseTypeEnum(BaseEnum):
+    """Exercise type enumeration."""
+
+    TEST = 'test'
+    PRESENTATION = 'presentation'
+
+
 class ExerciseStatusEnum(BaseEnum):
     """Translation test status enumeration."""
 

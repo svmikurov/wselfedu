@@ -3,46 +3,76 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Generic, TypeVar
+from typing import TYPE_CHECKING, Generic, TypeVar, override
+
+from .protocol import SelectorProtocol
 
 if TYPE_CHECKING:
-    from .protocol import Candidates, CheckResultProtocol, TestCheckRequest
+    from .protocol import Candidates
 
-T = TypeVar('T')
-R = TypeVar('R')
+Configuration = TypeVar('Configuration')
+Case = TypeVar('Case')
+CaseMeta = TypeVar('CaseMeta')
+UserAnswer = TypeVar('UserAnswer')
+CheckResult = TypeVar('CheckResult')
+
+# =================================================
+# Candidates selector for exercise
+# =================================================
 
 
-class AbstractConditionsExerciseDomain(ABC, Generic[T, R]):
-    """ABC to create exercise by conditions."""
+class AbstractSelector(
+    ABC,
+    SelectorProtocol[Configuration],
+    Generic[Configuration],
+):
+    """ABC for candidates selector by configuration."""
+
+    @override
+    @abstractmethod
+    def select(
+        self,
+        candidates: Candidates,
+        conf: Configuration,
+    ) -> Candidates:
+        """Select data for exercise."""
+
+
+# =================================================
+# Create exercise
+# =================================================
+
+
+class AbstractConfigurableCandidatesExerciseDomain(
+    ABC,
+    Generic[Configuration, Case],
+):
+    """ABC for configurable exercise domain."""
 
     @abstractmethod
-    def execute(self, conditions: T) -> R:
+    def execute(
+        self,
+        candidates: Candidates,
+        conf: Configuration,
+    ) -> Case:
         """Create exercise case."""
 
 
-class AbstractSettingsExerciseDomain(ABC, Generic[T, R]):
-    """Abstract base class for exercise domain business logic."""
-
-    @abstractmethod
-    def execute(self, candidates: Candidates, settings: T) -> R:
-        """Create exercise case."""
+# =================================================
+# Check exercise
+# =================================================
 
 
-class AbstractCandidatesExerciseDomain(ABC, Generic[R]):
-    """Abstract base class for detail exercise domain business logic."""
-
-    @abstractmethod
-    def execute(self, candidates: Candidates) -> R:
-        """Create exercise case."""
-
-
-class AbstractCheckExerciseDomain(ABC, Generic[T]):
+class AbstractCheckExerciseDomain(
+    ABC,
+    Generic[UserAnswer, CaseMeta, CheckResult],
+):
     """ABC for check user answer domain business logic."""
 
     @abstractmethod
     def execute(
         self,
-        answer: TestCheckRequest,
-        case_meta: T,
-    ) -> CheckResultProtocol:
+        answer: UserAnswer,
+        case_meta: CaseMeta,
+    ) -> CheckResult:
         """Check user's answer."""

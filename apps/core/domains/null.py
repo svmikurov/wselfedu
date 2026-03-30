@@ -1,6 +1,6 @@
 """Core null domains."""
 
-from .base_dto import BaseDTO
+from .dto import BaseDTO
 
 
 class NullDTO(BaseDTO):
