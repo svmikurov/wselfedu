@@ -3,8 +3,9 @@
 from typing import Generic, TypeVar
 
 T = TypeVar('T')
-CreateHandler = TypeVar('CreateHandler')
-CheckHandler = TypeVar('CheckHandler')
+
+StartHandler = TypeVar('StartHandler')
+ProcessHandler = TypeVar('SolveHandler')
 
 
 class GetUseCaseMixin(Generic[T]):
@@ -59,14 +60,18 @@ class GetHandlerMixin(Generic[T]):
         return self._handler
 
 
-class GetExerciseHandlersMixin(Generic[CreateHandler, CheckHandler]):
-    """Mixin provides exercise start and loop handlers."""
+# =================================================
+# Exercise mixins
+# =================================================
 
-    _start_handler: CreateHandler | None
-    _check_handler: CheckHandler | None
+
+class StartExerciseHandlerMixin(Generic[StartHandler]):
+    """Mixin provides start exercise handler."""
+
+    _start_handler: StartHandler | None
 
     @property
-    def start_handler(self) -> CreateHandler:
+    def start_handler(self) -> StartHandler:
         """Get start exercise request handler."""
         if self._start_handler is None:
             raise AttributeError(
@@ -74,11 +79,14 @@ class GetExerciseHandlersMixin(Generic[CreateHandler, CheckHandler]):
             )
         return self._start_handler
 
-    @property
-    def check_handler(self) -> CheckHandler:
-        """Get exercise loop request handler."""
-        if self._check_handler is None:
-            raise AttributeError(
-                'Exercise loop request handler not initialized'
-            )
-        return self._check_handler
+
+class ProcessExerciseHandlerMixin(Generic[ProcessHandler]):
+    """Mixin provides exercise process handler."""
+
+    _process_handler: ProcessHandler | None
+
+    def process_handler(self) -> ProcessHandler:
+        """Get exercise process handler."""
+        if self._process_handler is None:
+            raise AttributeError('Process exercise handler not initialized')
+        return self._process_handler

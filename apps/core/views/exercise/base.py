@@ -1,6 +1,6 @@
 """Base exercise view."""
 
-from typing import Generic, TypeAlias, TypeVar, Union, override
+from typing import Any, Generic, TypeAlias, TypeVar, Union, override
 
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
@@ -10,9 +10,7 @@ from django.utils.translation import gettext as _
 from django.views import View
 from django.views.generic.base import TemplateResponseMixin
 
-from apps.core.adapters.response.exercise.web.dto import (
-    WebExerciseResponseDTO,
-)
+from apps.core.adapters.response.dto import OobResponseDTO
 from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.handlers.dto import (
     DetailRequestParams,
@@ -22,30 +20,40 @@ from apps.core.handlers.dto import (
 )
 from apps.core.handlers.protocol import RequestHandlerProtocol
 from apps.core.views.auth import UserLoginRequiredMixin
-from apps.core.views.mixins import GetExerciseHandlersMixin
+from apps.core.views.mixins import (
+    ProcessExerciseHandlerMixin,
+    StartExerciseHandlerMixin,
+)
 
 __all__ = (
     'ExercisePerformView',
+    'DeprecatedExercisePerformView',
     'QueryExercisePerformView',
     'DetailExercisePerformView',
 )
+
+ResponseDTOtype: TypeAlias = OobResponseDTO[object, object, object]
 
 QueryHandler: TypeAlias = RequestHandlerProtocol[
     QueryRequestParams[dict[str, str]],
     RequestContext,
     RequestData[dict[str, str]],
-    WebExerciseResponseDTO,
+    ResponseDTOtype,
 ]
 DetailHandler: TypeAlias = RequestHandlerProtocol[
     DetailRequestParams,
     RequestContext,
     RequestData[dict[str, str]],
-    WebExerciseResponseDTO,
+    ResponseDTOtype,
 ]
+
 Handler: TypeAlias = Union[QueryHandler, DetailHandler]
 
-CreateHandler = TypeVar('CreateHandler', bound=Handler)
-CheckHandler = TypeVar('CheckHandler', bound=Handler)
+StartHandler = TypeVar('StartHandler')
+ProcessHandler = TypeVar('ProcessHandler')
+ResponseDTO = TypeVar('ResponseDTO')
+StartResponseDTO = TypeVar('StartResponseDTO')
+ProcessResponseDTO = TypeVar('ProcessResponseDTO')
 
 PARTIAL_TEMPLATES: dict[ExerciseStatusEnum, str] = {
     ExerciseStatusEnum.NEW_CASE: '_new_case.html',
@@ -53,6 +61,11 @@ PARTIAL_TEMPLATES: dict[ExerciseStatusEnum, str] = {
     ExerciseStatusEnum.NO_CASE: '_no_case.html',
 }
 ERROR_TEMPLATE = '_case_request_error.html'
+
+
+# =================================================
+# Exercise view mixins
+# =================================================
 
 
 class _GetPartialExerciseTemplateMixin:
@@ -63,12 +76,12 @@ class _GetPartialExerciseTemplateMixin:
     def _get_partial_html(
         self,
         request: HttpRequest,
-        schema: WebExerciseResponseDTO,
+        schema: ResponseDTOtype,
     ) -> str:
         """Get partial template html for exercise case."""
         try:
-            template = PARTIAL_TEMPLATES[schema.exercise_status]
-            context = schema.data.model_dump()
+            template = PARTIAL_TEMPLATES[schema.status]
+            context = schema.context.model_dump()
         except KeyError:
             template = ERROR_TEMPLATE
             context = {'error_message': _('Internal server error 500')}
@@ -82,19 +95,26 @@ class _GetPartialExerciseTemplateMixin:
         return html
 
 
-class _BaseExercisePerformView(
+# =================================================
+# Exercise views
+# =================================================
+
+# REVIEW: Exercise view inherit
+
+
+class StartExerciseView(
     UserLoginRequiredMixin,
-    GetExerciseHandlersMixin[CreateHandler, CheckHandler],
+    StartExerciseHandlerMixin[StartHandler],
     _GetPartialExerciseTemplateMixin,
     TemplateResponseMixin,
     View,
-    Generic[CreateHandler, CheckHandler],
+    Generic[StartHandler, StartResponseDTO],
 ):
-    """Base exercise performing view."""
+    """Start exercise performing view."""
 
     def get(self, request: HttpRequest, **kwargs: object) -> HttpResponse:
         """Render initial exercise page."""
-        result = self._create(**kwargs)
+        result = self._start(**kwargs)
 
         if request.headers.get('HX-Request') == 'true':
             # Renders new exercise case after explanation
@@ -107,31 +127,58 @@ class _BaseExercisePerformView(
                 'exercise_case_html': self._get_partial_html(request, result),
                 **result.model_dump(),
             }
+
             return render(request, self.get_template_names(), context)
 
-    def post(self, request: HttpRequest, **kwargs: object) -> HttpResponse:
-        """Render exercise loop."""
-        # Query parameters contains exercise conditions.
-        # Request body contains user's answer.
-        result = self._solve(**kwargs)
-        return HttpResponse(self._get_partial_html(request, result))
-
-    def _create(self, **kwargs: object) -> WebExerciseResponseDTO:
-        """Create and provide exercise data."""
+    def _start(self, **kwargs: object) -> StartResponseDTO:
+        """Create and provide exercise case."""
         raise NotImplementedError()
 
-    def _solve(self, **kwargs: object) -> WebExerciseResponseDTO:
-        """Handle the exercise solution."""
+
+class ProcessExerciseView(
+    UserLoginRequiredMixin,
+    ProcessExerciseHandlerMixin[ProcessHandler],
+    _GetPartialExerciseTemplateMixin,
+    TemplateResponseMixin,
+    View,
+    Generic[ProcessHandler, ProcessResponseDTO],
+):
+    """Process exercise performing view."""
+
+    def post(self, request: HttpRequest, **kwargs: object) -> HttpResponse:
+        """Render the process result of exercise performing."""
+        # Query parameters contains exercise conditions.
+        # Request body contains user's answer.
+        result = self._process(**kwargs)
+        return HttpResponse(self._get_partial_html(request, result))
+
+    def _process(self, **kwargs: object) -> ProcessResponseDTO:
+        """Process exercise performing."""
         raise NotImplementedError()
 
 
 class ExercisePerformView(
-    _BaseExercisePerformView[QueryHandler, QueryHandler]
+    StartExerciseView[StartHandler, StartResponseDTO],
+    ProcessExerciseView[ProcessHandler, ProcessResponseDTO],
+    Generic[
+        StartHandler, StartResponseDTO, ProcessHandler, ProcessResponseDTO
+    ],
+):
+    """Base exercise performing view."""
+
+
+# =================================================
+# Exercise request types
+# =================================================
+
+
+class DeprecatedExercisePerformView(
+    ExercisePerformView[QueryHandler, QueryHandler, Any, Any]
 ):
     """Exercise perform view."""
 
     @override
-    def _create(self, **kwargs: object) -> WebExerciseResponseDTO:
+    def _start(self, **kwargs: object) -> ResponseDTOtype:
         return self.start_handler.execute(
             params=QueryRequestParams(query={}),
             context=RequestContext(user=self.user),
@@ -139,8 +186,8 @@ class ExercisePerformView(
         )
 
     @override
-    def _solve(self, **kwargs: object) -> WebExerciseResponseDTO:
-        return self.check_handler.execute(
+    def _process(self, **kwargs: object) -> ResponseDTOtype:
+        return self.process_handler.execute(
             params=QueryRequestParams(query={}),
             context=RequestContext(user=self.user),
             data=RequestData(data=self.request.POST.dict()),
@@ -148,12 +195,12 @@ class ExercisePerformView(
 
 
 class QueryExercisePerformView(
-    _BaseExercisePerformView[QueryHandler, QueryHandler]
+    ExercisePerformView[QueryHandler, QueryHandler, Any, Any]
 ):
     """Base query exercise perform view."""
 
     @override
-    def _create(self, **kwargs: object) -> WebExerciseResponseDTO:
+    def _start(self, **kwargs: object) -> ResponseDTOtype:
         return self.start_handler.execute(
             params=QueryRequestParams(query=self.request.GET.dict()),
             context=RequestContext(user=self.user),
@@ -161,8 +208,8 @@ class QueryExercisePerformView(
         )
 
     @override
-    def _solve(self, **kwargs: object) -> WebExerciseResponseDTO:
-        return self.check_handler.execute(
+    def _process(self, **kwargs: object) -> ResponseDTOtype:
+        return self.process_handler.execute(
             params=QueryRequestParams(query=self.request.GET.dict()),
             context=RequestContext(user=self.user),
             data=RequestData(data=self.request.POST.dict()),
@@ -170,12 +217,12 @@ class QueryExercisePerformView(
 
 
 class DetailExercisePerformView(
-    _BaseExercisePerformView[DetailHandler, DetailHandler]
+    ExercisePerformView[DetailHandler, DetailHandler, Any, Any]
 ):
     """Base detail exercise perform view."""
 
     @override
-    def _create(self, **kwargs: object) -> WebExerciseResponseDTO:
+    def _start(self, **kwargs: object) -> ResponseDTOtype:
         return self.start_handler.execute(
             params=DetailRequestParams(pk=kwargs['pk']),
             context=RequestContext(user=self.user),
@@ -183,8 +230,8 @@ class DetailExercisePerformView(
         )
 
     @override
-    def _solve(self, **kwargs: object) -> WebExerciseResponseDTO:
-        return self.check_handler.execute(
+    def _process(self, **kwargs: object) -> ResponseDTOtype:
+        return self.process_handler.execute(
             params=DetailRequestParams(pk=int(kwargs['pk'])),
             context=RequestContext(user=self.user),
             data=RequestData(data=self.request.POST.dict()),
