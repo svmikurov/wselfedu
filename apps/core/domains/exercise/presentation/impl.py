@@ -1,6 +1,9 @@
 """Domain logic for selecting items for presentation cases."""
 
 from random import choice
+from typing import TypeVar
+
+from apps.core.factories.protocol import CaseFactoryProtocol
 
 from ..abstract import AbstractConfigurableCandidatesExerciseDomain
 from ..enums import DisplayOrder, ExerciseStatusEnum
@@ -14,7 +17,44 @@ from .dto import PresentationCase, PresentationMeta
 
 __all__ = ('PresentationDomain',)
 
+ConfT = HasDisplayOrder
+CaseT = Candidate
+TaskT = TypeVar('TaskT')
 
+
+# IDEA: Experimental impl
+class TaskPresentationDomain(
+    AbstractConfigurableCandidatesExerciseDomain[
+        ConfT,
+        TaskT,
+    ],
+):
+    """Presentation exercise domain logic."""
+
+    def __init__(
+        self,
+        selector: SelectorProtocol[HasDisplayOrder],
+        factory: CaseFactoryProtocol[ConfT, CaseT, TaskT],
+    ) -> None:
+        """Configure the domain."""
+        self._selector = selector
+        self._factory = factory
+
+    def execute(
+        self,
+        candidates: Candidates,
+        conf: ConfT,
+    ) -> TaskT:
+        """Get presentation exercise case data."""
+        selected_candidates = self._selector.select(candidates, conf)
+
+        case = choice(selected_candidates)
+        task = self._factory.build(conf, case)
+
+        return task
+
+
+# DEPRECATED: Combine meta and case
 class PresentationDomain(
     AbstractConfigurableCandidatesExerciseDomain[
         HasDisplayOrder,
@@ -26,9 +66,11 @@ class PresentationDomain(
     def __init__(
         self,
         selector: SelectorProtocol[HasDisplayOrder],
+        # factory: DTOFactoryProtocol,
     ) -> None:
         """Configure the domain."""
         self._selector = selector
+        # self._factory = factory
 
     def execute(
         self,
