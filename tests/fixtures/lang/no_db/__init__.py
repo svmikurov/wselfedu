@@ -1,0 +1,1 @@
+"""Translation query DB fixtures."""
