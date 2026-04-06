@@ -1,6 +1,8 @@
 """DTO factories."""
 
-from apps.core.factories.abstract import AbstractExerciseDTOFactory
+from typing import override
+
+from apps.core.factories.abstract import AbstractCaseFactory
 from apps.math.domains.dto import (
     CalculationDomainDTO,
     CustomCalculationDTO,
@@ -11,42 +13,44 @@ from apps.math.domains.dto import (
 
 
 class CustomCalculationDTOFactory(
-    AbstractExerciseDTOFactory[
-        CalculationDomainDTO,
+    AbstractCaseFactory[
         RegularParametersDTO,
+        CalculationDomainDTO,
         CustomCalculationDTO,
     ],
 ):
     """Custom calculation exercise DTO factory."""
 
+    @override
     def build(
         self,
+        conf: RegularParametersDTO,
         case: CalculationDomainDTO,
-        parameters: RegularParametersDTO,
     ) -> CustomCalculationDTO:
         """Create calculation exercise DTO."""
         return CustomCalculationDTO(
             **case.model_dump(),
-            **parameters.model_dump(),
+            **conf.model_dump(),
         )
 
 
 class StudentCalculationDTOFactory(
-    AbstractExerciseDTOFactory[
-        CalculationDomainDTO,
+    AbstractCaseFactory[
         StudentParametersDTO,
+        CalculationDomainDTO,
         StudentCalculationDTO,
     ],
 ):
     """Student calculation exercise DTO factory."""
 
+    @override
     def build(
         self,
+        conf: StudentParametersDTO,
         case: CalculationDomainDTO,
-        parameters: StudentParametersDTO,
     ) -> StudentCalculationDTO:
         """Create calculation exercise DTO."""
         return StudentCalculationDTO(
             **case.model_dump(),
-            **parameters.model_dump(),
+            **conf.model_dump(),
         )
