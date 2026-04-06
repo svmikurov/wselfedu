@@ -8,8 +8,8 @@ from apps.lang.models import ExerciseConditions, TranslationSetting
 from apps.lang.repositories import (
     RegularParametersRepository,
 )
-from apps.lang.repositories.exercise.candidates.translation import (
-    TranslationCandidatesRepository,
+from apps.lang.repositories.exercise.candidates.translations import (
+    UserTranslationsRepository,
 )
 
 
@@ -44,7 +44,7 @@ class RepositoryContainer(DeclarativeContainer):
     # Regular translation exercise candidates
     # ---------------------------------------------
     translation_candidates = Factory(
-        TranslationCandidatesRepository,
+        UserTranslationsRepository,
         manager=models.EnglishTranslation.objects,
     )
 

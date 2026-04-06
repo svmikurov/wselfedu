@@ -4,7 +4,7 @@ from typing import Any, TypeAlias
 
 from django.db.models import Manager, QuerySet
 
-from apps.core.repositories.abstract import AbstractRepository
+from apps.core.repositories.abstract import AbstractUserFetchRepository
 from apps.lang.models import EnglishTranslation
 
 __all__ = ('TranslationListRepository',)
@@ -14,7 +14,7 @@ EnglishQuerySet: TypeAlias = QuerySet[EnglishTranslation]
 
 
 class TranslationListRepository(
-    AbstractRepository[FilterType, EnglishQuerySet],
+    AbstractUserFetchRepository[FilterType, EnglishQuerySet],
 ):
     """Translation list repository."""
 

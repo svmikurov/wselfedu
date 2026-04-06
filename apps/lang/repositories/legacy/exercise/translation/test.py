@@ -3,7 +3,7 @@
 from django.db.models import F, Manager, QuerySet
 
 from apps.core.assemblers.command import UserCommand, UserDetailCommand
-from apps.core.repositories.abstract import AbstractRepository
+from apps.core.repositories.abstract import AbstractUserFetchRepository
 from apps.lang.models import EnglishTranslation
 
 __all__ = (
@@ -14,7 +14,10 @@ __all__ = (
 
 
 class DetailTranslationRepository(
-    AbstractRepository[UserDetailCommand, QuerySet[EnglishTranslation]]
+    AbstractUserFetchRepository[
+        UserDetailCommand,
+        QuerySet[EnglishTranslation],
+    ],
 ):
     """Exercise translation repository."""
 
@@ -41,7 +44,7 @@ class DetailTranslationRepository(
 
 
 class UserTranslationRepository(
-    AbstractRepository[UserCommand, QuerySet[EnglishTranslation]]
+    AbstractUserFetchRepository[UserCommand, QuerySet[EnglishTranslation]]
 ):
     """User translation repository."""
 
@@ -53,7 +56,7 @@ class UserTranslationRepository(
 
 
 class TranslationExerciseRepository(
-    AbstractRepository[UserCommand, QuerySet[EnglishTranslation]]
+    AbstractUserFetchRepository[UserCommand, QuerySet[EnglishTranslation]]
 ):
     """Exercise translation repository."""
 

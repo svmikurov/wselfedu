@@ -6,7 +6,7 @@ from django.db.models import Manager, Model
 
 from apps.core.domains.abstract import AbstractDTOFactory
 from apps.core.domains.protocol import DTOFactoryProtocol
-from apps.core.repositories.abstract import AbstractRepository
+from apps.core.repositories.abstract import AbstractUserFetchRepository
 from apps.core.repositories.protocol import ModelRepositoryProtocol
 from apps.users.models import Person
 
@@ -34,7 +34,7 @@ class ExerciseParametersDTOFactory(
 
 
 class ExerciseParametersRepository(
-    AbstractRepository[_QueryFilter, ExerciseParametersDTO],
+    AbstractUserFetchRepository[_QueryFilter, ExerciseParametersDTO],
     ModelRepositoryProtocol[_QueryFilter, ModelT],
 ):
     """Language exercise parameters fetch repository."""

@@ -8,13 +8,13 @@ from apps.core.domains.exercise.dto import (
     ExerciseParametersDTO,
     LookupConditionsDTO,
 )
-from apps.core.repositories.abstract import AbstractRepository
+from apps.core.repositories.abstract import AbstractUserFetchRepository
 from apps.lang import models
 from apps.users.models.user import Person
 
 
 class RegularParametersRepository(
-    AbstractRepository[
+    AbstractUserFetchRepository[
         UserCommandProtocol,
         ExerciseParametersDTO,
     ],
