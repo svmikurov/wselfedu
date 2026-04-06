@@ -1,25 +1,28 @@
 """Abstract base class for factories."""
 
 from abc import ABC, abstractmethod
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, override
 
-CaseDTO = TypeVar('CaseDTO')
-ParametersDTO = TypeVar('ParametersDTO')
-ResultDTO = TypeVar('ResultDTO')
+from .protocol import CaseFactoryProtocol
+
+CaseT = TypeVar('CaseT')
+ConfT = TypeVar('ConfT')
+TaskT = TypeVar('TaskT')
 
 LockupCommand = TypeVar('LockupCommand')
 LockupConditions = TypeVar('LockupConditions')
 
 
-class AbstractExerciseDTOFactory(
+class AbstractCaseFactory(
     ABC,
-    Generic[CaseDTO, ParametersDTO, ResultDTO],
+    CaseFactoryProtocol[ConfT, CaseT, TaskT],
 ):
-    """ABC for exercise DTO factory."""
+    """ABC for exercise case DTO factory."""
 
+    @override
     @abstractmethod
-    def build(self, case: CaseDTO, parameters: ParametersDTO) -> ResultDTO:
-        """Create exercise DTO."""
+    def build(self, conf: ConfT, case: CaseT) -> TaskT:
+        """Build exercise DTO."""
 
 
 class AbstractLockupConditionsFactory(

@@ -10,8 +10,9 @@ from .protocol import SelectorProtocol
 if TYPE_CHECKING:
     from .protocol import Candidates
 
-Configuration = TypeVar('Configuration')
+Conf = TypeVar('Conf')
 Case = TypeVar('Case')
+Task = TypeVar('Task')
 CaseMeta = TypeVar('CaseMeta')
 UserAnswer = TypeVar('UserAnswer')
 CheckResult = TypeVar('CheckResult')
@@ -23,8 +24,8 @@ CheckResult = TypeVar('CheckResult')
 
 class AbstractSelector(
     ABC,
-    SelectorProtocol[Configuration],
-    Generic[Configuration],
+    SelectorProtocol[Conf],
+    Generic[Conf],
 ):
     """ABC for candidates selector by configuration."""
 
@@ -33,7 +34,7 @@ class AbstractSelector(
     def select(
         self,
         candidates: Candidates,
-        conf: Configuration,
+        conf: Conf,
     ) -> Candidates:
         """Select data for exercise."""
 
@@ -45,7 +46,7 @@ class AbstractSelector(
 
 class AbstractConfigurableCandidatesExerciseDomain(
     ABC,
-    Generic[Configuration, Case],
+    Generic[Conf, Task],
 ):
     """ABC for configurable exercise domain."""
 
@@ -53,8 +54,8 @@ class AbstractConfigurableCandidatesExerciseDomain(
     def execute(
         self,
         candidates: Candidates,
-        conf: Configuration,
-    ) -> Case:
+        conf: Conf,
+    ) -> Task:
         """Create exercise case."""
 
 
