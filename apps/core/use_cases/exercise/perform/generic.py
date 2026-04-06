@@ -1,12 +1,12 @@
 """Detail exercise use case."""
 
-from typing import Protocol, TypeVar, override, Generic
+from typing import Generic, Protocol, TypeVar, override
 
 from apps.core.adapters.command.protocol import CompositeAdapterProtocol
 from apps.core.assemblers.protocol import UserDataCommandProtocol
 from apps.core.domains.exercise.enums import ExerciseProcessEnum
 from apps.core.domains.exercise.protocol import HasExerciseConditions
-from apps.core.factories.abstract import AbstractExerciseDTOFactory
+from apps.core.factories.protocol import CaseFactoryProtocol
 from apps.core.services.protocol import ServiceProtocol
 from apps.core.storages.services.iabc import AbstractCommandStorage
 from apps.core.use_cases.abstract import AbstractUseCase
@@ -18,28 +18,18 @@ class ExerciseConditions(Protocol):
     """Exercise conditions."""
 
 
-ExerciseParamsT = TypeVar(
-    'ExerciseParamsT',
-    bound=HasExerciseConditions[ExerciseConditions],
-)
+ParamsT = TypeVar('ParamsT', bound=HasExerciseConditions[ExerciseConditions])
 SpecT = TypeVar('SpecT')
 CaseT = TypeVar('CaseT')
-CaseMetaT = TypeVar('CaseMetaT')
-ResultT = TypeVar('ResultT')
+TaskT = TypeVar('TaskT')
 
 
 class ExerciseUseCase(
     AbstractUseCase[
         UserDataCommandProtocol[ExerciseProcessAction],
-        ResultT,
+        TaskT,
     ],
-    Generic[
-        ExerciseParamsT,
-        SpecT,
-        CaseT,
-        CaseMetaT,
-        ResultT,
-    ],
+    Generic[ParamsT, SpecT, CaseT, TaskT],
 ):
     """Process exercise use case."""
 
@@ -48,35 +38,28 @@ class ExerciseUseCase(
         store_prefix: str,
         storage: AbstractCommandStorage[
             UserDataCommandProtocol[ExerciseProcessAction],
-            CaseMetaT,
+            CaseT,
         ],
         config_resolver: ResolverProtocol[
             UserDataCommandProtocol[ExerciseProcessAction],
-            ExerciseParamsT,
+            ParamsT,
         ],
         adapter_registry: dict[
             ExerciseProcessEnum,
             CompositeAdapterProtocol[
                 UserDataCommandProtocol[ExerciseProcessAction],
-                ExerciseParamsT,
-                CaseMetaT,
+                ParamsT,
+                CaseT,
                 SpecT,
             ],
         ],
         service_registry: dict[
             ExerciseProcessEnum,
-            ServiceProtocol[
-                SpecT,
-                tuple[CaseT, CaseMetaT],
-            ],
+            ServiceProtocol[SpecT, CaseT],
         ],
         factory_registry: dict[
             ExerciseProcessEnum,
-            AbstractExerciseDTOFactory[
-                CaseT,
-                ExerciseParamsT,
-                ResultT,
-            ],
+            CaseFactoryProtocol[ParamsT, CaseT, TaskT],
         ],
     ) -> None:
         """Construct the use case."""
@@ -91,7 +74,7 @@ class ExerciseUseCase(
     def execute(
         self,
         command: UserDataCommandProtocol[ExerciseProcessAction],
-    ) -> ResultT:
+    ) -> TaskT:
         """Start stored exercise."""
         # Get dependencies
         action = command.data['action']
@@ -99,16 +82,14 @@ class ExerciseUseCase(
         service = self._service_registry[action]
         factory = self._factory_registry[action]
 
-        # Prepare data
+        # Get data
         parameters = self._config_resolver.resolve(command)
-        retrieved_meta = self._storage.retrieve(command, self._store_prefix)
-        spec = adapter.adapt(command, parameters, retrieved_meta)
+        retrieved_case = self._storage.retrieve(command, self._store_prefix)
 
         # Execute
-        case, new_meta = service.execute(command.user, spec)
+        spec = adapter.adapt(command, parameters, retrieved_case)
+        case = service.execute(command.user, spec)
+        task = factory.build(parameters, case)
 
-        # Prepare result
-        result = factory.build(case, parameters)
-        self._storage.save(command, new_meta, self._store_prefix)
-
-        return result
+        self._storage.save(command, case, self._store_prefix)
+        return task
