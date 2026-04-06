@@ -9,7 +9,7 @@ from apps.core.assemblers.protocol import (
     UserDetailCommandProtocol,
 )
 from apps.core.exceptions.storage import CacheMissError
-from apps.core.repositories.abstract import AbstractRepository
+from apps.core.repositories.abstract import AbstractUserFetchRepository
 
 if TYPE_CHECKING:
     from apps.core.storages.services.iabc import AbstractUserStorage
@@ -35,7 +35,7 @@ class _ResourceCacheKey(_CacheKey):
 
 
 class _Repository(
-    AbstractRepository[FilterUser, QueryResult],
+    AbstractUserFetchRepository[FilterUser, QueryResult],
     Generic[FilterUser, QueryResult],
 ):
     """Base repository."""

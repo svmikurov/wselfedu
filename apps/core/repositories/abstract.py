@@ -9,30 +9,30 @@ from apps.users.models import Person
 
 from .protocol import ModelRepositoryProtocol, UserRepositoryProtocol
 
-FilterData = TypeVar('FilterData')
+FilterT = TypeVar('FilterT')
 ModelT = TypeVar('ModelT', bound=Model)
 ResultT = TypeVar('ResultT')
 
 
 class AbstractModelRepository(
     ABC,
-    ModelRepositoryProtocol[FilterData, ModelT],
+    ModelRepositoryProtocol[FilterT, ModelT],
 ):
     """ABC for model repository."""
 
     @override
     @abstractmethod
-    def get_query(self, filter: FilterData) -> ModelT:
+    def get_query(self, filter: FilterT) -> ModelT:
         """Fetch model."""
 
 
-class AbstractRepository(
+class AbstractUserFetchRepository(
     ABC,
-    UserRepositoryProtocol[FilterData, ResultT],
+    UserRepositoryProtocol[FilterT, ResultT],
 ):
-    """ABC for DTO repository."""
+    """ABC for fetch repository via user filter."""
 
     @override
     @abstractmethod
-    def fetch(self, user: Person, filter: FilterData) -> ResultT:
-        """Fetch data."""
+    def fetch(self, user: Person, filter: FilterT) -> ResultT:
+        """Fetch."""
