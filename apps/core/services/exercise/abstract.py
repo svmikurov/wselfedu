@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Generic, TypeVar
+from typing import TYPE_CHECKING, Generic, TypeVar, override
 
 from .protocol import CreateExerciseProtocol
 
@@ -35,11 +35,12 @@ class AbstractCreateExerciseService(
 ):
     """ABC for service to create the exercise case."""
 
+    @override
     @abstractmethod
     def execute(
         self,
-        user: Person,  # type: ignore
-        parameters: ExerciseParameters,  # type: ignore
+        user: Person,
+        spec: ExerciseParameters,
     ) -> tuple[Case, CaseMeta]:
         """Create the exercise case."""
 

@@ -53,7 +53,7 @@ class CreateExerciseProtocol(Protocol[Parameters_contra, Result_cov]):
 
     def execute(
         self,
-        parameters: Parameters_contra,
         user: Person,
+        spec: Parameters_contra,
     ) -> Result_cov:
         """Create the exercise case."""

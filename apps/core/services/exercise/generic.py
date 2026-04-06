@@ -1,6 +1,6 @@
 """Generic exercise service."""
 
-from typing import TypeVar
+from typing import TypeVar, override
 
 from apps.core.assemblers.protocol import DataCommandProtocol
 from apps.core.domains.exercise.abstract import (
@@ -22,8 +22,7 @@ from apps.core.domains.exercise.test.dto import (
     TestExerciseMeta,
 )
 from apps.core.domains.exercise.test.protocol import HasOptionValue
-from apps.core.repositories.abstract import AbstractRepository
-from apps.core.storages.services.iabc import TaskStorageABC
+from apps.core.repositories.abstract import AbstractUserFetchRepository
 from apps.users.models import Person
 
 from .abstract import (
@@ -64,7 +63,7 @@ class CreateExerciseService(
 
     def __init__(
         self,
-        candidates_repository: AbstractRepository[
+        candidates_repository: AbstractUserFetchRepository[
             HasExerciseConditions[object] | HasExerciseConfig[object],
             Candidates,
         ],
@@ -77,18 +76,19 @@ class CreateExerciseService(
         self._repository = candidates_repository
         self._domain = domain
 
+    @override
     def execute(
         self,
-        user: Person,  # type: ignore
-        parameters: ExerciseParameters[  # type: ignore
+        user: Person,
+        spec: ExerciseParameters[
             HasExerciseConditions[object],
             HasExerciseConfig[object],
             object,
         ],
     ) -> tuple[Case, CaseMeta]:
         """Create and return exercise case."""
-        candidates = self._repository.fetch(user, parameters.conditions)
-        return self._domain.execute(candidates, parameters.conf)
+        candidates = self._repository.fetch(user, spec.conditions)
+        return self._domain.execute(candidates, spec.conf)
 
 
 # =================================================
