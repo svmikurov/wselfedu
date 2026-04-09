@@ -108,7 +108,7 @@ class WebHandlerContainer(DeclarativeContainer):
     # ---------------------------------------------
     web_test_exercise_adapter_registry = Dict(
         {
-            ExerciseStatusEnum.NEW_CASE: Factory(
+            ExerciseStatusEnum.NEW_TASK: Factory(
                 WebTestExerciseAdapter,
                 extra_oob_templates=[],
             ),

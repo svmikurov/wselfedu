@@ -18,11 +18,11 @@ class WebResponseAdapterContainer(DeclarativeContainer):
 
     regular_translation_presentation_registry = Dict(
         {
-            ExerciseStatusEnum.NEW_CASE: ...,
+            ExerciseStatusEnum.NEW_TASK: ...,
         }
     )
 
-    kregular_translation_presentation = Factory(
+    regular_translation_presentation = Factory(
         ProcessExerciseAdapterStrategy,
         registry=regular_translation_presentation_registry,
     )

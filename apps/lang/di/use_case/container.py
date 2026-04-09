@@ -11,13 +11,15 @@ from dependency_injector.providers import (
 from apps.core.domains.exercise import (
     PresentationDomain,
 )
-from apps.core.domains.exercise.dto import ExerciseParametersDTO
+from apps.core.domains.exercise.deps.selector import CandidatesSelector
+from apps.core.domains.exercise.dto import (
+    ExerciseParametersDTO,
+    TestExerciseConfigDTO,
+)
 from apps.core.domains.exercise.enums import (
     ExerciseProcessEnum,
     ExerciseTypeEnum,
 )
-from apps.core.domains.exercise.selector import CandidatesSelector
-from apps.core.domains.exercise.test.dto import TestExerciseConfigDTO
 from apps.core.services.exercise.generic import (
     CreateExerciseService,
 )
@@ -37,8 +39,6 @@ class UseCaseContainer(DeclarativeContainer):
     # =============================================
     repositories = DependenciesContainer()
     configurations = DependenciesContainer()
-    exercise_services = DependenciesContainer()
-    milestone_services = DependenciesContainer()
 
     user_command_storage = Dependency()  # type: ignore[var-annotated]
 
