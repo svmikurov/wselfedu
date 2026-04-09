@@ -41,6 +41,6 @@ class UserTranslationsRepository(
             .select_related('native', 'foreign')
             .annotate(
                 define=F('native__word'),
-                explain=F('foreign__word'),
+                mean=F('foreign__word'),
             )
         )
