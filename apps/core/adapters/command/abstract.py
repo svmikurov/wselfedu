@@ -5,17 +5,17 @@ from typing import TypeVar, TypeVarTuple, Unpack, override
 
 from .protocol import CompositeAdapterProtocol
 
-Command = TypeVar('Command')
-CompositeParams = TypeVarTuple('CompositeParams')
-Adapted = TypeVar('Adapted')
+CommandT = TypeVar('CommandT')
+ArgsT = TypeVarTuple('ArgsT')
+AdaptedT = TypeVar('AdaptedT')
 
 
 class AbstractCompositeAdapter(
     ABC,
     CompositeAdapterProtocol[
-        Command,
-        Unpack[CompositeParams],
-        Adapted,
+        CommandT,
+        Unpack[ArgsT],
+        AdaptedT,
     ],
 ):
     """ABC for assembler's command adapter interface."""
@@ -24,7 +24,7 @@ class AbstractCompositeAdapter(
     @abstractmethod
     def adapt(
         self,
-        command: Command,
-        *params: Unpack[CompositeParams],
-    ) -> Adapted:
+        command: CommandT,
+        *args: Unpack[ArgsT],
+    ) -> AdaptedT:
         """Adapt command with composite parameters."""

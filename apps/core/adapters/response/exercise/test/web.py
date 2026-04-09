@@ -11,17 +11,18 @@ from apps.core.domains.exercise.test.dto import TestExerciseCase
 from apps.core.domains.protocol import NullProtocol
 
 ExtraContext = TypeVar('ExtraContext')
+T = TypeVar('T')
 
 _ResponseDTO: TypeAlias = OobResponseDTO[
     ResponseStatusEnum,
-    TestExerciseCase,
+    TestExerciseCase[ExtraContext],
     ExtraContext,
 ]
 
 
 class WebTestExerciseAdapter(
     AbstractResponseAdapter[
-        TestExerciseCase,
+        TestExerciseCase[ExtraContext],
         NullProtocol,
         _ResponseDTO[ExtraContext],
     ],
@@ -49,7 +50,7 @@ class WebTestExerciseAdapter(
     @override
     def to_response(
         self,
-        domain_result: TestExerciseCase,
+        domain_result: TestExerciseCase[ExtraContext],
         request_context: NullProtocol,
     ) -> _ResponseDTO[ExtraContext]:
         """Convert domain result to web representation context."""
@@ -61,11 +62,10 @@ class WebTestExerciseAdapter(
 
 class WebExplainAdapter(
     AbstractResponseAdapter[
-        TestExerciseCase,
+        TestExerciseCase[ExtraContext],
         NullProtocol,
         _ResponseDTO[ExtraContext],
     ],
-    Generic[ExtraContext],
 ):
     """Web test exercise explain response adapter.
 
@@ -89,7 +89,7 @@ class WebExplainAdapter(
     @override
     def to_response(
         self,
-        domain_result: TestExerciseCase,
+        domain_result: TestExerciseCase[ExtraContext],
         request_context: NullProtocol,
     ) -> _ResponseDTO[ExtraContext]:
         """Convert domain result to web representation context."""

@@ -9,7 +9,7 @@ from apps.core.domains.exercise.dto import (
 )
 
 
-class PresentationCaseResponseDTO(
+class PresentationCaseWebResponseDTO(
     ExerciseStatusSchema,
     QuestionTextField,
     AnswerTextField,

@@ -3,14 +3,14 @@
 from typing import Protocol, TypeVar, TypeVarTuple, Unpack
 
 Command_contra = TypeVar('Command_contra', contravariant=True)
-CompositeParams = TypeVarTuple('CompositeParams')
+ArgsT = TypeVarTuple('ArgsT')
 Adapted_cov = TypeVar('Adapted_cov', covariant=True)
 
 
 class CompositeAdapterProtocol(
     Protocol[
         Command_contra,
-        Unpack[CompositeParams],
+        Unpack[ArgsT],
         Adapted_cov,
     ],
 ):
@@ -19,6 +19,6 @@ class CompositeAdapterProtocol(
     def adapt(
         self,
         command: Command_contra,
-        *params: Unpack[CompositeParams],
+        *args: Unpack[ArgsT],
     ) -> Adapted_cov:
         """Adapt command with composite parameters."""
