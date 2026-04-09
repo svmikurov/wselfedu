@@ -81,5 +81,5 @@ class TestTranslationCandidatesRepository:
         assert hasattr(candidate, 'define')
         assert candidate.define is not None
 
-        assert hasattr(candidate, 'explain')
-        assert candidate.explain is not None
+        assert hasattr(candidate, 'mean')
+        assert candidate.mean is not None
