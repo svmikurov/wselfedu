@@ -11,17 +11,18 @@ if TYPE_CHECKING:
     from apps.users.models import Person
 
 # Start exercise conditions
-CommandData = TypeVar('CommandData')
-ExerciseParameters = TypeVar('ExerciseParameters')
+CommandDataT = TypeVar('CommandDataT')
+ExerciseParametersT = TypeVar('ExerciseParametersT')
 
 # Current exercise case data
-Case = TypeVar('Case')
+CaseT = TypeVar('CaseT')
+TaskT = TypeVar('TaskT')
 CaseMeta = TypeVar('CaseMeta')
 
 # Current exercise case solve
-UserAnswer = TypeVar('UserAnswer')
-CheckResult = TypeVar('CheckResult')
-Explanation = TypeVar('Explanation')
+UserAnswerT = TypeVar('UserAnswerT')
+CheckResultT = TypeVar('CheckResultT')
+ExplanationT = TypeVar('ExplanationT')
 
 
 # =================================================
@@ -31,7 +32,7 @@ Explanation = TypeVar('Explanation')
 
 class AbstractCreateExerciseService(
     ABC,
-    CreateExerciseProtocol[ExerciseParameters, tuple[Case, CaseMeta]],
+    CreateExerciseProtocol[ExerciseParametersT, TaskT],
 ):
     """ABC for service to create the exercise case."""
 
@@ -40,8 +41,8 @@ class AbstractCreateExerciseService(
     def execute(
         self,
         user: Person,
-        spec: ExerciseParameters,
-    ) -> tuple[Case, CaseMeta]:
+        spec: ExerciseParametersT,
+    ) -> TaskT:
         """Create the exercise case."""
 
 
@@ -52,16 +53,16 @@ class AbstractCreateExerciseService(
 
 class AbstractCheckExerciseService(
     ABC,
-    Generic[UserAnswer, CaseMeta, CheckResult],
+    Generic[UserAnswerT, CaseMeta, CheckResultT],
 ):
     """ABC for service to check the user answer."""
 
     @abstractmethod
     def execute(
         self,
-        answer: UserAnswer,
+        answer: UserAnswerT,
         case_meta: CaseMeta,
-    ) -> CheckResult:
+    ) -> CheckResultT:
         """Check the user answer."""
 
 
@@ -72,17 +73,17 @@ class AbstractCheckExerciseService(
 
 class AbstractMilestoneService(
     ABC,
-    Generic[CommandData, CaseMeta, CheckResult, ExerciseParameters],
+    Generic[CommandDataT, CaseMeta, CheckResultT, ExerciseParametersT],
 ):
     """ABC for user study milestone update service."""
 
     @abstractmethod
     def execute(
         self,
-        command: CommandData,
+        command: CommandDataT,
         meta: CaseMeta,
-        result: CheckResult,
-        exercise_parameters: ExerciseParameters,
+        result: CheckResultT,
+        exercise_parameters: ExerciseParametersT,
     ) -> None:
         """Update the user study milestone."""
 
@@ -94,14 +95,14 @@ class AbstractMilestoneService(
 
 class AbstractExplainExerciseService(
     ABC,
-    Generic[CommandData, CaseMeta, Explanation],
+    Generic[CommandDataT, CaseMeta, ExplanationT],
 ):
     """ABC for service to explain the exercise case."""
 
     @abstractmethod
     def execute(
         self,
-        command: CommandData,
+        command: CommandDataT,
         case_meta: CaseMeta,
-    ) -> Explanation:
+    ) -> ExplanationT:
         """Explain the exercise case."""

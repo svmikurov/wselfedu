@@ -17,11 +17,12 @@ from apps.core.domains.exercise.protocol import (
     ExerciseParameters,
     HasExerciseConditions,
     HasExerciseConfig,
+    HasOptionValue,
 )
 from apps.core.domains.exercise.test.dto import (
+    OptionMetaDTO,
     TestExerciseMeta,
 )
-from apps.core.domains.exercise.test.protocol import HasOptionValue
 from apps.core.repositories.abstract import AbstractUserFetchRepository
 from apps.users.models import Person
 
@@ -33,14 +34,16 @@ from .abstract import (
 
 __all__ = ('CreateExerciseService',)
 
-UserAnswer = TypeVar('UserAnswer')
-
 # Current exercise case data
-Case = TypeVar('Case')
-CaseMeta = TypeVar('CaseMeta')
+CaseT = TypeVar('CaseT')
+TaskT = TypeVar('TaskT')
+BuilderT = TypeVar('BuilderT')
+CaseMetaT = TypeVar('CaseMetaT')
+
+UserAnswerT = TypeVar('UserAnswerT')
 
 # Current exercise case solve
-CheckResult = TypeVar('CheckResult')
+CheckResultT = TypeVar('CheckResultT')
 
 
 # =================================================
@@ -55,8 +58,7 @@ class CreateExerciseService(
             HasExerciseConfig[object],
             object,
         ],
-        Case,
-        CaseMeta,
+        CaseT,
     ],
 ):
     """Creates exercise case."""
@@ -69,7 +71,7 @@ class CreateExerciseService(
         ],
         domain: AbstractConfigurableCandidatesExerciseDomain[
             HasExerciseConfig[object],
-            tuple[Case, CaseMeta],
+            CaseT,
         ],
     ) -> None:
         """Construct the service."""
@@ -85,10 +87,11 @@ class CreateExerciseService(
             HasExerciseConfig[object],
             object,
         ],
-    ) -> tuple[Case, CaseMeta]:
+    ) -> CaseT:
         """Create and return exercise case."""
         candidates = self._repository.fetch(user, spec.conditions)
-        return self._domain.execute(candidates, spec.conf)
+        case = self._domain.execute(candidates, spec.conf)
+        return case
 
 
 # =================================================
@@ -98,25 +101,29 @@ class CreateExerciseService(
 
 class CheckExerciseService(
     AbstractCheckExerciseService[
-        UserAnswer,
-        CaseMeta,
-        CheckResult,
+        UserAnswerT,
+        CaseMetaT,
+        CheckResultT,
     ],
 ):
     """Check exercise case."""
 
     def __init__(
         self,
-        domain: AbstractCheckExerciseDomain[UserAnswer, CaseMeta, CheckResult],
+        domain: AbstractCheckExerciseDomain[
+            UserAnswerT,
+            CaseMetaT,
+            CheckResultT,
+        ],
     ) -> None:
         """Construct the service."""
         self._domain = domain
 
     def execute(
         self,
-        answer: UserAnswer,
-        case_meta: CaseMeta,
-    ) -> CheckResult:
+        answer: UserAnswerT,
+        case_meta: CaseMetaT,
+    ) -> CheckResultT:
         """Check user's solution."""
         return self._domain.execute(answer, case_meta)
 
@@ -129,7 +136,7 @@ class CheckExerciseService(
 class ExplainExerciseService(
     AbstractExplainExerciseService[
         DataCommandProtocol[HasOptionValue],
-        TestExerciseMeta,
+        TestExerciseMeta[OptionMetaDTO],
         TextExerciseExplainDTO,
     ],
 ):
@@ -138,16 +145,16 @@ class ExplainExerciseService(
     def execute(  # type: ignore
         self,
         command: DataCommandProtocol[HasOptionValue],
-        case_meta: TestExerciseMeta,
+        case_meta: TestExerciseMeta[OptionMetaDTO],
     ) -> ExerciseDomainResultDTO[TextExerciseExplainDTO]:
         explain = TextExerciseExplainDTO(
             question_text=case_meta.question_text,
             answer_text=case_meta.answer_text,
             selected_question_text=case_meta.get_question_text(
-                command.data.option_value
+                command.data.value
             ),
             selected_answer_text=case_meta.get_answer_text(
-                command.data.option_value
+                command.data.value,
             ),
         )
         return ExerciseDomainResultDTO(
