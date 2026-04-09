@@ -12,7 +12,7 @@ from apps.core.adapters.response.dto import OobResponseDTO
 from apps.core.assemblers.protocol import UserCommandProtocol
 from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.domains.exercise.test.dto import (
-    TestExerciseCase,
+    OptionMetaDTO,
     TestExerciseMeta,
 )
 from apps.core.domains.null import NullDTO
@@ -39,7 +39,7 @@ __all__ = ('RegularTranslationTestPerformView',)
 
 type _StartResponseDTO = OobResponseDTO[
     ExerciseStatusEnum,  # Domain status enumeration
-    TestExerciseCase,  # Template exercise data
+    TestExerciseMeta[OptionMetaDTO],  # Template exercise data
     dict[str, Any],  # Extra context for template
 ]
 type _StartHandler = RequestHandler[
@@ -48,7 +48,10 @@ type _StartHandler = RequestHandler[
     NullProtocol,  # No request data
     NullProtocol,  # No validated data
     UserCommandProtocol,  # Execute use case by user command
-    tuple[TestExerciseCase, TestExerciseMeta],  # Domain result
+    tuple[
+        TestExerciseMeta[OptionMetaDTO],
+        TestExerciseMeta[OptionMetaDTO],
+    ],  # Domain result
     _StartResponseDTO,  # Response data for template
 ]
 
@@ -60,7 +63,7 @@ type _StartHandler = RequestHandler[
 type _ProcessResponseDTO = OobResponseDTO[
     ExerciseStatusEnum,  # Domain status enumeration
     # FIXME: Replace TestExerciseCase
-    TestExerciseCase,  # Template exercise data
+    TestExerciseMeta[OptionMetaDTO],  # Template exercise data
     dict[str, Any],  # Extra context for template
 ]
 type _ProcessHandler = RequestHandler[
@@ -69,7 +72,10 @@ type _ProcessHandler = RequestHandler[
     RequestDataProtocol[dict[str, str]],  # Request data
     NullProtocol,  # Validated data
     UserCommandProtocol,  # Execute use case by user command
-    tuple[TestExerciseCase, TestExerciseMeta],  # Domain result
+    tuple[
+        TestExerciseMeta[OptionMetaDTO],
+        TestExerciseMeta[OptionMetaDTO],
+    ],  # Domain result
     _ProcessResponseDTO,  # Response data for template
 ]
 
