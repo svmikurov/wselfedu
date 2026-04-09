@@ -7,9 +7,9 @@ from .enums import DisplayOrder, ExerciseStatusEnum
 ExerciseConditions = TypeVar('ExerciseConditions')
 ExerciseTypeConfig = TypeVar('ExerciseTypeConfig')
 ExerciseSettings = TypeVar('ExerciseSettings')
-Configuration_contra = TypeVar('Configuration_contra', contravariant=True)
 
 CandidatesT = TypeVar('CandidatesT')
+OptionT = TypeVar('OptionT')
 
 # =================================================
 # Exercise parameters DTO interface
@@ -55,7 +55,7 @@ class ExerciseParameters(
 
 
 # =================================================
-# Exercise type dependencies DTO interface
+# Exercise configurations, settings DTO interface
 # =================================================
 
 
@@ -63,6 +63,12 @@ class HasItemCount(Protocol):
     """Protocol for item count object interface."""
 
     item_count: int
+
+
+class HasOptionCount(Protocol):
+    """Protocol for item option count object interface."""
+
+    option_count: int
 
 
 class HasDisplayOrder(Protocol):
@@ -97,7 +103,7 @@ class HasExerciseStatus(Protocol):
 class HasProgressValue(Protocol):
     """Protocol for has progress value integer field."""
 
-    progress: int
+    progress_value: int
 
 
 # =================================================
@@ -111,16 +117,16 @@ class HasDefineText(Protocol):
     define: str
 
 
-class HasExplainText(Protocol):
-    """Protocol for exercise *explain* text."""
+class HasMeanText(Protocol):
+    """Protocol for exercise *mean* text."""
 
-    explain: str
+    mean: str
 
 
 class Candidate(
     HasResourceIdentifier,
     HasDefineText,
-    HasExplainText,
+    HasMeanText,
     HasProgressValue,
     Protocol,
 ):
@@ -151,15 +157,33 @@ class Candidates(Protocol):
         ...
 
 
-class SelectorProtocol(Protocol[Configuration_contra]):
-    """Protocol for exercise data selector interface."""
+# =================================================
+# Exercise option DTO interface
+# =================================================
 
-    def select(
-        self,
-        candidates: Candidates,
-        conf: Configuration_contra,
-    ) -> Candidates:
-        """Select data for exercise."""
+
+class HasOptionValue(Protocol):
+    """Protocol for has *value* interface."""
+
+    value: int
+
+
+class HasOption(Protocol[OptionT]):
+    """Protocol for has *option* interface."""
+
+    option: OptionT
+
+
+class HasOptions(Protocol[OptionT]):
+    """Protocol for has *options* interface."""
+
+    options: list[OptionT]
+
+
+class HasPhases(Protocol):
+    """Protocol for has *phases* interface."""
+
+    phases: list[DisplayOrder]
 
 
 # =================================================

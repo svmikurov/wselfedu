@@ -2,35 +2,29 @@
 
 from random import randrange, sample
 
+from apps.core.domains.exercise.test.dto import OptionMetaDTO
 from apps.core.exceptions import info
 
 from ..abstract import (
     AbstractCheckExerciseDomain,
     AbstractConfigurableCandidatesExerciseDomain,
 )
+from ..deps.protocol import SelectorProtocol
 from ..dto import TextExerciseCheckResult
-from ..enums import ExerciseStatusEnum
 from ..protocol import (
     Candidate,
     Candidates,
     HasDisplayOrder,
-    SelectorProtocol,
+    HasOptionCount,
+    HasOptionValue,
 )
-from .dto import (
-    OptionDTO,
-    OptionMetaDTO,
-    TestExerciseCase,
-    TestExerciseMeta,
-)
-from .protocol import HasOptionCount, HasOptionValue
+from .dto import TestDomainResult, TestExerciseMeta
+from .protocol import TestDomainCreateResultProtocol
 
 __all__ = [
-    'TestExerciseCreateDomain',
+    'TestCaseDomain',
     'TestExerciseCheckDomain',
 ]
-
-
-type Options = list[Candidate]
 
 
 class _ExerciseConfig(
@@ -40,24 +34,13 @@ class _ExerciseConfig(
     """Exercise config interface."""
 
 
-MAX_OPTION_COUNT = 7
-MIN_OPTION_COUNT = 2
-
-QUESTION_INDEX = 0
-ANSWER_INDEX = 1
-
-# =================================================
-# Create
-# =================================================
-
-
-class TestExerciseCreateDomain(
+class TestCaseDomain(
     AbstractConfigurableCandidatesExerciseDomain[
         _ExerciseConfig,
-        tuple[TestExerciseCase, TestExerciseMeta],
+        TestDomainCreateResultProtocol[Candidate],
     ],
 ):
-    """ABC for test exercise domain create case business logic."""
+    """Task exercise case domain."""
 
     def __init__(
         self,
@@ -70,74 +53,27 @@ class TestExerciseCreateDomain(
         self,
         candidates: Candidates,
         conf: _ExerciseConfig,
-    ) -> tuple[TestExerciseCase, TestExerciseMeta]:
+    ) -> TestDomainCreateResultProtocol[Candidate]:
         """Get test exercise data."""
-        option_count = conf.option_count
+        option_value = randrange(conf.option_count)
         selected_candidates = self._selector.select(candidates, conf)
+        options = self._get_options(selected_candidates, conf.option_count)
 
-        options = self._get_options(selected_candidates, option_count)
-        question_option_value = randrange(option_count)
-        ordered_phases = conf.display_order.get_display_phases()
-
-        case = self._build_case(options, question_option_value, ordered_phases)
-        meta = self._build_meta(options, question_option_value, ordered_phases)
-        return case, meta
-
-    def _build_case(
-        self,
-        options: Options,
-        value: int,
-        phases: list[str],
-    ) -> TestExerciseCase:
-        """Build exercise case DTO to rendering."""
-        return TestExerciseCase(
-            status=ExerciseStatusEnum.NEW_CASE,
-            question_text=self._get_question(options[value], phases),
-            answer_text_options=[
-                OptionDTO(
-                    option_value=int(index),
-                    text=self._get_answer(option, phases),
-                )
-                for index, option in enumerate(options)
-            ],
-        )
-
-    def _build_meta(
-        self, options: Options, value: int, phases: list[str]
-    ) -> TestExerciseMeta:
-        """Build exercise case metadata DTO for internal tracking."""
-        return TestExerciseMeta(
-            pk=options[value].pk,
-            question_text=self._get_question(options[value], phases),
-            answer_text=self._get_answer(options[value], phases),
-            option_value=value,
-            options=[
-                OptionMetaDTO(
-                    pk=option.pk,
-                    option_value=index,
-                    define=option.define,
-                    explain=option.explain,
-                )
-                for index, option in enumerate(options)
-            ],
+        return TestDomainResult(
+            value=option_value,
+            options=options,
         )
 
     def _get_options(
-        self, candidates: Candidates, option_count: int
-    ) -> Options:
+        self,
+        candidates: Candidates,
+        option_count: int,
+    ) -> list[Candidate]:
         """Get test exercise options."""
         if len(candidates) >= option_count:
             return sample(tuple(candidates), option_count)
         else:
-            raise info.NoExerciseItemsException('Not enough translations')
-
-    def _get_question(self, candidate: Candidate, phases: list[str]) -> str:
-        """Get question text by display case phase order."""
-        return getattr(candidate, phases[QUESTION_INDEX])  # type: ignore
-
-    def _get_answer(self, candidate: Candidate, phases: list[str]) -> str:
-        """Get answer text by display case phase order."""
-        return getattr(candidate, phases[ANSWER_INDEX])  # type: ignore
+            raise info.NoExerciseItemsException('Not enough candidates')
 
 
 # =================================================
@@ -148,7 +84,7 @@ class TestExerciseCreateDomain(
 class TestExerciseCheckDomain(
     AbstractCheckExerciseDomain[
         HasOptionValue,
-        TestExerciseMeta,
+        TestExerciseMeta[OptionMetaDTO],
         TextExerciseCheckResult,
     ],
 ):
@@ -157,18 +93,7 @@ class TestExerciseCheckDomain(
     def execute(
         self,
         answer: HasOptionValue,
-        case_meta: TestExerciseMeta,
+        case_meta: TestExerciseMeta[OptionMetaDTO],
     ) -> TextExerciseCheckResult:
         """Check user's answer."""
-        is_correct = case_meta.option_value == answer.option_value
-        return TextExerciseCheckResult(
-            is_correct=is_correct,
-            # question_text=case_meta.question_text,
-            # answer_text=case_meta.answer_text,
-            # selected_question_text=case_meta.get_question_text(
-            #     answer.option_value
-            # ),
-            # selected_answer_text=case_meta.get_answer_text(
-            #     answer.option_value
-            # ),
-        )
+        raise NotImplementedError

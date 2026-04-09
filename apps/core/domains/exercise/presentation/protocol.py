@@ -1,29 +1,31 @@
-"""Presentation exercise interface."""
+"""Protocol for presentation exercise interface."""
 
-from typing import Protocol
+from typing import Protocol, TypeVar
 
-from .. import protocol
+from ..protocol import (
+    Candidate,
+    HasAnswerText,
+    HasExerciseStatus,
+    HasOption,
+    HasProgressValue,
+    HasQuestionText,
+)
 
-# =================================================
-# Presentation exercise parameters DTO interface
-# =================================================
+OptionT = TypeVar('OptionT', bound=Candidate)
 
 
-class PresentationConfigProtocol(
-    protocol.HasItemCount,
-    protocol.HasDisplayOrder,
+class PresentationCreateResultProtocol(
+    HasOption[OptionT],
     Protocol,
 ):
-    """Presentation exercise perform configuration DTO interface."""
+    """Presentation exercise create domain result DTO interface."""
 
 
-# =================================================
-# Presentation exercise case DTO interface
-# =================================================
-
-
-class PresentationCaseProtocol(
-    protocol.HasExerciseStatus,
+class PresentationTaskProtocol(
+    HasExerciseStatus,
+    HasQuestionText,
+    HasAnswerText,
+    HasProgressValue,
     Protocol,
 ):
     """Presentation exercise case DTO interface."""

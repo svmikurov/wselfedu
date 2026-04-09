@@ -1,8 +1,6 @@
 """Test exercise domain DTOs (internal data transfer)."""
 
-from typing import TypeVar
-
-from pydantic import Field
+from typing import Generic, TypeVar
 
 from apps.core.domains.dto import (
     ArbitraryDTO,
@@ -11,42 +9,13 @@ from apps.core.domains.dto import (
 )
 
 from .. import dto
-from .protocol import OptionMetaProtocol
+from ..dto import DefineField, MeanField
 
-OptionMetaT = TypeVar('OptionMetaT', bound=OptionMetaProtocol)
-
-
-# =================================================
-# Test exercise parameters
-# =================================================
-
-
-class TestExerciseConfigDTO(dto.ExerciseConfigDTO):
-    """Provides test exercise configuration DTO."""
-
-    option_count: int
-
-
-# =================================================
-# Test exercise options
-# =================================================
-
-
-class OptionValueField(BaseDTO):
-    """Option value DTO field."""
-
-    option_value: int = Field(
-        description='Option value',
-    )
-
-
-# =================================================
-# Test exercise options
-# =================================================
+OptionT = TypeVar('OptionT')
 
 
 class OptionDTO(
-    OptionValueField,
+    dto.OptionValueField,
     dto.TextField,
     BaseDTO,
 ):
@@ -64,9 +33,9 @@ class OptionDTO(
 
 class OptionMetaDTO(
     dto.ResourceIdentifierField,
-    OptionValueField,
+    dto.OptionValueField,
     dto.DefineField,
-    dto.ExplainField,
+    dto.MeanField,
     BaseDTO,
 ):
     """Test exercise case option mapping with item ID.
@@ -85,22 +54,6 @@ class OptionMetaDTO(
     """
 
 
-class AnswerTextOptionsFiled(BaseDTO):
-    """Exercise text options answer DTO field."""
-
-    answer_text_options: list[OptionDTO] = Field(
-        description='Display answer text options',
-    )
-
-
-class OptionsField(BaseDTO):
-    """Option value DTO field."""
-
-    options: list[OptionMetaDTO] = Field(
-        description='Extended option data',
-    )
-
-
 # =================================================
 # Create test exercise domain result
 # =================================================
@@ -109,8 +62,9 @@ class OptionsField(BaseDTO):
 class TestExerciseCase(
     dto.ExerciseStatusSchema,
     dto.QuestionTextField,
-    AnswerTextOptionsFiled,
+    dto.AnswerTextOptionsFiled[OptionT],
     ArbitraryDTO,
+    Generic[OptionT],
 ):
     """Test exercise case.
 
@@ -131,9 +85,10 @@ class TestExerciseMeta(
     dto.ResourceIdentifierField,
     dto.QuestionTextField,
     dto.AnswerTextField,
-    OptionValueField,
-    OptionsField,
+    dto.OptionValueField,
+    dto.OptionsField[OptionT],
     ArbitraryDTO,
+    Generic[OptionT],
 ):
     """Test exercise meta to store for answer handle.
 
@@ -154,8 +109,39 @@ class TestExerciseMeta(
 
     def get_question_text(self, value: int) -> str:
         """Get option question text by value."""
-        return self.options[value].define
+        return self.options[value].define  # type: ignore
 
     def get_answer_text(self, value: int) -> str:
         """Get option answer text by value."""
-        return self.options[value].explain
+        return self.options[value].mean  # type: ignore
+
+
+# =================================================
+# Experimental test exercise case DTO
+# =================================================
+
+
+class Option(
+    DefineField,
+    MeanField,
+    BaseDTO,
+):
+    """Exercise case option DTO."""
+
+
+class TestDomainResult(
+    dto.OptionValueField,
+    dto.OptionsField[OptionT],
+    ArbitraryDTO,
+):
+    """Test exercise create domain result."""
+
+    @property
+    def question_text(self) -> str:
+        """Get question text."""
+        return self.options[self.value - 1].define  # type: ignore[attr-defined, no-any-return]
+
+    @property
+    def answer_text(self) -> str:
+        """Get answer text."""
+        return self.options[self.value - 1].mean  # type: ignore[attr-defined, no-any-return]

@@ -31,7 +31,7 @@ class ExerciseProcessEnum(BaseEnum):
 class ExerciseStatusEnum(BaseEnum):
     """Exercise status (domain result) enumeration."""
 
-    NEW_CASE = 'new_case'
+    NEW_TASK = 'new_task'
     ANSWER = 'user_answer'
     CORRECT = 'correct_answer'
     WRONG = 'wrong_answer'
@@ -46,22 +46,22 @@ class DisplayOrder(BaseEnum):
     An enumeration instance defines order as order from instance value.
 
     Enumerations:
-        - From definition to explanation
-        - From explanation to definition
+        - From definition to meaning
+        - From meaning to definition
         - Random order
     """
 
     DEFINE = 'define'  # Item definition
-    EXPLAIN = 'explain'  # Item explanation
+    MEAN = 'mean'  # Item meaning
     RANDOM = 'random'
 
-    def get_display_phases(self) -> list[str]:
+    def get_display_phases(self) -> list[DisplayOrder]:
         """Get translation order."""
-        order = [self.DEFINE.value, self.EXPLAIN.value]
+        order = [self.DEFINE, self.MEAN]
         match self:
             case self.DEFINE:
                 pass
-            case self.EXPLAIN:
+            case self.MEAN:
                 order.reverse()
             case self.RANDOM:
                 shuffle(order)

@@ -2,7 +2,6 @@
 
 __all__ = (
     'PresentationDomain',
-    'TestExerciseCreateDomain',
     'TestExerciseCheckDomain',
 )
 
@@ -11,5 +10,4 @@ from .presentation.impl import (
 )
 from .test.impl import (
     TestExerciseCheckDomain,
-    TestExerciseCreateDomain,
 )

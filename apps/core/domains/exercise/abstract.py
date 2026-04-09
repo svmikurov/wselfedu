@@ -3,9 +3,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Generic, TypeVar, override
-
-from .protocol import SelectorProtocol
+from typing import TYPE_CHECKING, Generic, TypeVar
 
 if TYPE_CHECKING:
     from .protocol import Candidates
@@ -16,27 +14,6 @@ Task = TypeVar('Task')
 CaseMeta = TypeVar('CaseMeta')
 UserAnswer = TypeVar('UserAnswer')
 CheckResult = TypeVar('CheckResult')
-
-# =================================================
-# Candidates selector for exercise
-# =================================================
-
-
-class AbstractSelector(
-    ABC,
-    SelectorProtocol[Conf],
-    Generic[Conf],
-):
-    """ABC for candidates selector by configuration."""
-
-    @override
-    @abstractmethod
-    def select(
-        self,
-        candidates: Candidates,
-        conf: Conf,
-    ) -> Candidates:
-        """Select data for exercise."""
 
 
 # =================================================

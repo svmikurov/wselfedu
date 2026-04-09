@@ -1,61 +1,15 @@
-"""Test exercise interface."""
+"""Protocol for test exercise interface."""
 
-from typing import Protocol
+from typing import Protocol, TypeVar
 
-from .. import protocol
+from ..protocol import Candidate, HasOptions, HasOptionValue
 
-
-class HasOptionValue(Protocol):
-    """Protocol for has *option value* interface."""
-
-    option_value: int
+OptionT = TypeVar('OptionT', bound=Candidate)
 
 
-class HasOptionCount(Protocol):
-    """Protocol for item option count object interface."""
-
-    option_count: int
-
-
-class OptionProtocol(
+class TestDomainCreateResultProtocol(
     HasOptionValue,
-    protocol.HasText,
+    HasOptions[OptionT],
     Protocol,
 ):
-    """Protocol for option DTO."""
-
-
-class OptionMetaProtocol(
-    protocol.HasResourceIdentifier,
-    HasOptionValue,
-    protocol.HasDefineText,
-    protocol.HasExplainText,
-    Protocol,
-):
-    """Protocol for option meta data."""
-
-
-# =================================================
-# Test exercise parameters DTO interface
-# =================================================
-
-
-class TestExerciseConfigProtocol(
-    protocol.HasItemCount,
-    protocol.HasDisplayOrder,
-    HasOptionCount,
-    Protocol,
-):
-    """Test exercise perform configuration DTO interface."""
-
-
-# =================================================
-# Test exercise case DTO interface
-# =================================================
-
-
-class TestExerciseCaseProtocol(
-    protocol.HasExerciseStatus,
-    Protocol,
-):
-    """Test exercise case DTO interface."""
+    """Test exercise create domain result DTO interface."""

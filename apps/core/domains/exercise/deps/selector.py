@@ -2,8 +2,8 @@
 
 from apps.core.exceptions import info
 
-from .abstract import AbstractSelector
-from .protocol import Candidates, HasItemCount
+from ..deps.abstract import AbstractSelector
+from ..protocol import Candidates, HasItemCount
 
 
 class CandidatesSelector(

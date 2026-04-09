@@ -9,6 +9,7 @@ from .enums import DisplayOrder, ExerciseStatusEnum
 
 DomainType = TypeVar('DomainType')
 DomainResult = TypeVar('DomainResult')
+OptionT = TypeVar('OptionT')
 
 # =================================================
 # DTO fields
@@ -44,6 +45,22 @@ class TextField(BaseDTO):
 # -------------------------------------------------
 
 
+class DefineField(BaseDTO):
+    """Define exercise item DTO text field."""
+
+    define: str = Field(
+        description='Question item text',
+    )
+
+
+class MeanField(BaseDTO):
+    """Mean exercise case DTO text field."""
+
+    mean: str = Field(
+        description='Case mean text field',
+    )
+
+
 class QuestionTextField(BaseDTO):
     """Exercise text question DTO field."""
 
@@ -60,19 +77,25 @@ class AnswerTextField(BaseDTO):
     )
 
 
-class DefineField(BaseDTO):
-    """Define exercise item DTO text field."""
+class OptionField(BaseDTO, Generic[OptionT]):
+    """Option DTO field."""
 
-    define: str = Field(
-        description='Question item text',
+    option: OptionT
+
+
+class AnswerTextOptionsFiled(BaseDTO, Generic[OptionT]):
+    """Exercise text options answer DTO field."""
+
+    answer_text_options: list[OptionT] = Field(
+        description='Display answer text options',
     )
 
 
-class ExplainField(BaseDTO):
-    """Explain exercise item DTO text field."""
+class OptionsField(ArbitraryDTO, Generic[OptionT]):
+    """Option value DTO field."""
 
-    explain: str = Field(
-        description='Answer item text',
+    options: list[OptionT] = Field(
+        description='Extended option data',
     )
 
 
@@ -239,7 +262,7 @@ class ExerciseConfigDTO(
         """Normalize 'display_order' field."""
         match value:
             case 'to_native':
-                return DisplayOrder.EXPLAIN
+                return DisplayOrder.MEAN
             case 'from_native':
                 return DisplayOrder.DEFINE
             case _:
@@ -298,3 +321,30 @@ class ExerciseDomainResultDTO(BaseDTO, Generic[DomainResult]):
 
     status: ExerciseStatusEnum
     exercise: DomainResult
+
+
+# =================================================
+
+
+class TestExerciseConfigDTO(
+    ExerciseConfigDTO,
+):
+    """Provides test exercise configuration DTO."""
+
+    option_count: int
+
+
+class OptionValueField(BaseDTO):
+    """Option value DTO field."""
+
+    value: int = Field(
+        description='Option value',
+    )
+
+
+class PhasesField(ArbitraryDTO):
+    """Exercise perform phases DTO field."""
+
+    phases: list[DisplayOrder] = Field(
+        description="Current exercise phase's order",
+    )

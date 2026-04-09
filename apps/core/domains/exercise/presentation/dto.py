@@ -1,13 +1,28 @@
 """Core presentation DTOs."""
 
-from apps.core.domains.dto import (
-    BaseDTO,
-)
+from typing import TypeVar
+
+from apps.core.domains.dto import BaseDTO
 
 from .. import dto
 
+OptionT = TypeVar('OptionT')
 
-class PresentationCase(
+
+class PresentationDomainResult(
+    dto.OptionField[OptionT],
+):
+    """Presentation exercise create domain result.
+
+    Parameter
+    ---------
+    option : ...
+        Exercise option field.
+
+    """
+
+
+class PresentationTask(
     dto.ExerciseStatusSchema,
     dto.QuestionTextField,
     dto.AnswerTextField,
@@ -30,6 +45,7 @@ class PresentationCase(
     """
 
 
+# DEPRECATED:
 class PresentationMeta(
     dto.ResourceIdentifierField,
     BaseDTO,
