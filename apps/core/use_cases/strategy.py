@@ -6,11 +6,11 @@ from typing import Any, Generic, TypeVar, override
 from apps.core.assemblers.protocol import DataCommandProtocol
 from apps.core.domains.exercise.enums import ExerciseProcessEnum
 from apps.core.use_cases.protocol import UseCaseProtocol
-from apps.core.validators.request.data import ProcessExerciseWebData
+from apps.core.validators.request.protocol import ExerciseProcessAction
 
 from .abstract import AbstractUseCase
 
-_DataCommandProtocol = DataCommandProtocol[ProcessExerciseWebData]
+_DataCommandProtocol = DataCommandProtocol[ExerciseProcessAction]
 
 Command = TypeVar('Command', bound=_DataCommandProtocol)
 UseCase = TypeVar('UseCase', bound=UseCaseProtocol[_DataCommandProtocol, Any])

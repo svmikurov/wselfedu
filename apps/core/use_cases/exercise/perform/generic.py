@@ -4,13 +4,20 @@ from typing import Generic, Protocol, TypeVar, override
 
 from apps.core.adapters.command.protocol import CompositeAdapterProtocol
 from apps.core.assemblers.protocol import UserDataCommandProtocol
-from apps.core.domains.exercise.enums import ExerciseProcessEnum
-from apps.core.domains.exercise.protocol import HasExerciseConditions
-from apps.core.factories.protocol import CaseFactoryProtocol
+from apps.core.domains.exercise.enums import (
+    ExerciseProcessEnum,
+    ExerciseStatusEnum,
+)
+from apps.core.domains.exercise.protocol import HasExerciseStatus
+from apps.core.domains.task.protocol import TaskBuilderProtocol
 from apps.core.services.protocol import ServiceProtocol
 from apps.core.storages.services.iabc import AbstractCommandStorage
 from apps.core.use_cases.abstract import AbstractUseCase
-from apps.core.use_cases.protocol import ResolverProtocol
+from apps.core.use_cases.protocol import (
+    ExerciseConfig,
+    ExerciseParameters,
+    ResolverProtocol,
+)
 from apps.core.validators.request.protocol import ExerciseProcessAction
 
 
@@ -18,18 +25,18 @@ class ExerciseConditions(Protocol):
     """Exercise conditions."""
 
 
-ParamsT = TypeVar('ParamsT', bound=HasExerciseConditions[ExerciseConditions])
-SpecT = TypeVar('SpecT')
-CaseT = TypeVar('CaseT')
-TaskT = TypeVar('TaskT')
+ParamsT = TypeVar('ParamsT')
+SpecT = TypeVar('SpecT', bound=ExerciseParameters)
+CaseT = TypeVar('CaseT', bound=HasExerciseStatus)
+ResultT = TypeVar('ResultT')
 
 
 class ExerciseUseCase(
     AbstractUseCase[
         UserDataCommandProtocol[ExerciseProcessAction],
-        TaskT,
+        ResultT,
     ],
-    Generic[ParamsT, SpecT, CaseT, TaskT],
+    Generic[ParamsT, SpecT, CaseT, ResultT],
 ):
     """Process exercise use case."""
 
@@ -58,8 +65,12 @@ class ExerciseUseCase(
             ServiceProtocol[SpecT, CaseT],
         ],
         factory_registry: dict[
-            ExerciseProcessEnum,
-            CaseFactoryProtocol[ParamsT, CaseT, TaskT],
+            ExerciseStatusEnum,
+            TaskBuilderProtocol[
+                CaseT,
+                ExerciseConfig,
+                ResultT,
+            ],
         ],
     ) -> None:
         """Construct the use case."""
@@ -74,22 +85,28 @@ class ExerciseUseCase(
     def execute(
         self,
         command: UserDataCommandProtocol[ExerciseProcessAction],
-    ) -> TaskT:
+    ) -> ResultT:
         """Start stored exercise."""
-        # Get dependencies
         action = command.data['action']
         adapter = self._adapter_registry[action]
         service = self._service_registry[action]
-        factory = self._factory_registry[action]
 
-        # Get data
+        # Prepare arguments
+        # -----------------
         parameters = self._config_resolver.resolve(command)
+        # Saved case contains item's study data that uses
+        # for exercise check, to update item's study progress
+        # and other exercise case process.
         retrieved_case = self._storage.retrieve(command, self._store_prefix)
+        spec = adapter.adapt(command, parameters, retrieved_case)
 
         # Execute
-        spec = adapter.adapt(command, parameters, retrieved_case)
+        # -------
         case = service.execute(command.user, spec)
-        task = factory.build(parameters, case)
 
+        # Handle result
+        # -------------
+        factory = self._factory_registry[case.status]
+        result = factory.build(case, spec.conf)
         self._storage.save(command, case, self._store_prefix)
-        return task
+        return result

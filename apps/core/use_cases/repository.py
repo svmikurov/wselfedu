@@ -2,7 +2,7 @@
 
 from typing import TypeVar
 
-from apps.core.factories.abstract import AbstractLockupConditionsFactory
+from apps.core.builders.abstract import AbstractLockupConditionsFactory
 from apps.core.repositories.protocol import UserRepositoryProtocol
 from apps.core.use_cases.abstract import AbstractUseCase
 
