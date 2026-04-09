@@ -68,4 +68,5 @@ class RequestHandler(
         validated = self._validator.validate(data)
         command = self._assembler.prepare(params, context, validated)
         domain_result = self._use_case.execute(command)
-        return self._adapter.to_response(domain_result, context)
+        adapted = self._adapter.to_response(domain_result, context)
+        return adapted
