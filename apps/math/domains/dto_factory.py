@@ -2,19 +2,16 @@
 
 from typing import override
 
-from apps.core.factories.abstract import AbstractCaseFactory
+from apps.core.builders.abstract import AbstractCaseFactory
 from apps.math.domains.dto import (
     CalculationDomainDTO,
     CustomCalculationDTO,
-    RegularParametersDTO,
     StudentCalculationDTO,
-    StudentParametersDTO,
 )
 
 
 class CustomCalculationDTOFactory(
     AbstractCaseFactory[
-        RegularParametersDTO,
         CalculationDomainDTO,
         CustomCalculationDTO,
     ],
@@ -24,19 +21,16 @@ class CustomCalculationDTOFactory(
     @override
     def build(
         self,
-        conf: RegularParametersDTO,
-        case: CalculationDomainDTO,
+        option: CalculationDomainDTO,
     ) -> CustomCalculationDTO:
         """Create calculation exercise DTO."""
         return CustomCalculationDTO(
-            **case.model_dump(),
-            **conf.model_dump(),
+            **option.model_dump(),
         )
 
 
 class StudentCalculationDTOFactory(
     AbstractCaseFactory[
-        StudentParametersDTO,
         CalculationDomainDTO,
         StudentCalculationDTO,
     ],
@@ -46,11 +40,9 @@ class StudentCalculationDTOFactory(
     @override
     def build(
         self,
-        conf: StudentParametersDTO,
-        case: CalculationDomainDTO,
+        option: CalculationDomainDTO,
     ) -> StudentCalculationDTO:
         """Create calculation exercise DTO."""
         return StudentCalculationDTO(
-            **case.model_dump(),
-            **conf.model_dump(),
+            **option.model_dump(),
         )

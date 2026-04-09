@@ -34,7 +34,6 @@ class CalculationCreateService(
     AbstractCreateExerciseService[
         CalculationConditionDTO,
         CalculationDomainDTO,
-        CalculationMetaDTO,
     ]
 ):
     """Create calculation exercise service."""
@@ -74,7 +73,7 @@ class CalculationCreateService(
     @staticmethod
     def _build_data(task: CalcTask) -> CalculationDomainDTO:
         return CalculationDomainDTO(
-            exercise_status=ExerciseStatusEnum.NEW_CASE,
+            exercise_status=ExerciseStatusEnum.NEW_TASK,
             data=CalculationCaseDTO(
                 question_text=task.question.text,
             ),
