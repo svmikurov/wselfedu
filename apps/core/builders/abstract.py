@@ -1,13 +1,13 @@
-"""Abstract base class for factories."""
+"""Abstract base class for DTO builder."""
 
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar, override
 
-from .protocol import CaseFactoryProtocol
+from .protocol import CaseBuilderProtocol
 
-CaseT = TypeVar('CaseT')
 ConfT = TypeVar('ConfT')
-TaskT = TypeVar('TaskT')
+CandidateT = TypeVar('CandidateT')
+CaseT = TypeVar('CaseT')
 
 LockupCommand = TypeVar('LockupCommand')
 LockupConditions = TypeVar('LockupConditions')
@@ -15,16 +15,20 @@ LockupConditions = TypeVar('LockupConditions')
 
 class AbstractCaseFactory(
     ABC,
-    CaseFactoryProtocol[ConfT, CaseT, TaskT],
+    CaseBuilderProtocol[CandidateT, CaseT],
 ):
-    """ABC for exercise case DTO factory."""
+    """ABC for exercise case DTO builder."""
 
     @override
     @abstractmethod
-    def build(self, conf: ConfT, case: CaseT) -> TaskT:
-        """Build exercise DTO."""
+    def build(
+        self,
+        option: CandidateT,
+    ) -> CaseT:
+        """Build exercise case DTO."""
 
 
+# DEPRECATED: Is deprecated?
 class AbstractLockupConditionsFactory(
     ABC, Generic[LockupCommand, LockupConditions]
 ):
