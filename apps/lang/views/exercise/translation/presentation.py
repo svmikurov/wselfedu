@@ -9,11 +9,12 @@ from dependency_injector.wiring import Provide, inject
 from apps.core.adapters.response.dto import OobResponseDTO
 from apps.core.assemblers.command import UserCommand, UserDataCommand
 from apps.core.domains.exercise.enums import (
+    ExerciseProcessEnum,
     ExerciseStatusEnum,
 )
 from apps.core.domains.exercise.presentation.dto import (
-    PresentationCase,
     PresentationMeta,
+    PresentationTask,
 )
 from apps.core.domains.null import NullDTO
 from apps.core.domains.protocol import NullProtocol
@@ -27,13 +28,15 @@ if TYPE_CHECKING:
 
 __all__ = ('TranslationPresentationView',)
 
+_RequestData = RequestData
+
 # =================================================
 # Start exercise request handling types
 # =================================================
 
 type _StartResponseDTO = OobResponseDTO[
     ExerciseStatusEnum,
-    PresentationCase,  # Adapted domain result data
+    PresentationTask,  # Adapted domain result data
     dict[str, Any],  # Extra context
 ]
 type _StartHandler = RequestHandler[
@@ -42,7 +45,8 @@ type _StartHandler = RequestHandler[
     NullProtocol,  # No request data
     NullProtocol,  # No validated data
     UserCommand,  # Execute domain command by user
-    tuple[PresentationCase, PresentationMeta],  # Domain result
+    # FIXME: Fix domain result type hint
+    tuple[PresentationTask, PresentationMeta],  # Domain result
     _StartResponseDTO,  # Response data for page template
 ]
 
@@ -64,6 +68,7 @@ type _PrecessHandler = RequestHandler[
     Any,  # No validated data
     # FIXME: Fix Any type hint
     UserDataCommand[Any],  # Execute domain command by user
+    # FIXME: Fix Any type hint
     Any,  # Domain result
     _ProcessResponseDTO,  # Response data for page template
 ]
@@ -72,7 +77,7 @@ type _PrecessHandler = RequestHandler[
 # Exercise performing view
 # =================================================
 
-HANDLERS = MainContainer.lang.handlers
+HANDLERS = MainContainer.lang.handlers  # type: ignore[unused-ignore]
 
 
 class TranslationPresentationView(
@@ -94,10 +99,10 @@ class TranslationPresentationView(
         request: HttpRequest,
         *args: object,
         start_handler: _StartHandler = Provide[
-            HANDLERS.regular_translation_presentation  # type: ignore[attr-defined]
+            HANDLERS.process_regular_translation_presentation  # type: ignore[attr-defined]
         ],
         process_handler: _PrecessHandler = Provide[
-            HANDLERS.regular_translation_presentation  # type: ignore[attr-defined]
+            HANDLERS.process_regular_translation_presentation  # type: ignore[attr-defined]
         ],
         **kwargs: object,
     ) -> HttpResponseBase:
@@ -108,16 +113,20 @@ class TranslationPresentationView(
 
     @override
     def _start(self, **kwargs: object) -> _StartResponseDTO:
+        """Handel the GET request."""
         return self.start_handler.execute(
             params=NullDTO(),
             context=RequestContext(user=self.user),
-            data=NullDTO(),
+            # Request handler validates the request data.
+            data=RequestData(data={'action': ExerciseProcessEnum.CREATE_CASE}),
         )
 
     @override
     def _process(self, **kwargs: object) -> _ProcessResponseDTO:
+        """Handel the POST request."""
         return self.process_handler.execute(
             params=NullDTO(),
             context=RequestContext(user=self.user),
+            # Request handler validates the request data.
             data=RequestData(data=self.request.POST.dict()),
         )
