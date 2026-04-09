@@ -7,12 +7,12 @@ from pydantic import ValidationError
 from apps.core.handlers.protocol import RequestDataProtocol
 
 from ..abstract import AbstractRequestValidator
-from ..data import ProcessExerciseWebData
 from ..dto import ExerciseActionWebDTO
+from ..protocol import ExerciseProcessAction
 
 log = logging.getLogger(__name__)
 
-_RequestData = RequestDataProtocol[ProcessExerciseWebData]
+_RequestData = RequestDataProtocol[ExerciseProcessAction]
 
 
 class ProcessExerciseWebValidator(
