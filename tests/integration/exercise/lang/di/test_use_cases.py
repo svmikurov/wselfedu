@@ -33,11 +33,11 @@ class TestLanguageUseCasesContainers:
 class TestCreateExerciseUseCase:
     """Test create exercise use case."""
 
-    def test_create_exercise_use_case(
+    def test_create_process_regular_translation_presentation_use_case_success(
         self,
         use_cases: UseCaseContainer,
     ) -> None:
-        """Test that lang app use cases DI container initialized."""
-        assert use_cases.regular_translation_presentation is not None, (
-            'Language app *regular translation use cases* was not initialized'
-        )
+        """Test that process presentation handler initialized."""
+        assert (
+            use_cases.process_regular_translation_presentation is not None
+        ), 'Language app *regular translation use cases* was not initialized'
