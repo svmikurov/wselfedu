@@ -4,23 +4,32 @@ from typing import Protocol, TypedDict
 
 from apps.core.domains.exercise.enums import ExerciseProcessEnum
 
-# =================================================
-# Protocol for data validate
-# =================================================
 
-
+# REVIEW: Is deprecated&
 class ExerciseProcessAction(TypedDict):
     """Exercise process action web data."""
 
     action: ExerciseProcessEnum
 
 
+# REVIEW: Is deprecated&
 class OptionAnswerWebData(
     ExerciseProcessAction,
 ):
     """Test exercise user's answer request data."""
 
     option_value: str
+
+
+# =================================================
+# Protocol for data validate
+# =================================================
+
+
+class HasExerciseProcessAction(Protocol):
+    """Protocol for has exercise process action interface."""
+
+    action: ExerciseProcessEnum
 
 
 # =================================================
