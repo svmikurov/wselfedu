@@ -1,6 +1,8 @@
 """Language discipline use case DI container."""
 
-from dependency_injector.containers import DeclarativeContainer
+from dependency_injector.containers import (
+    DeclarativeContainer,
+)
 from dependency_injector.providers import (
     DependenciesContainer,
     Dependency,
@@ -11,7 +13,9 @@ from dependency_injector.providers import (
 from apps.core.domains.exercise import (
     PresentationDomain,
 )
-from apps.core.domains.exercise.deps.selector import CandidatesSelector
+from apps.core.domains.exercise.deps.selector import (
+    CandidatesSelector,
+)
 from apps.core.domains.exercise.dto import (
     ExerciseParametersDTO,
     TestExerciseConfigDTO,
@@ -47,7 +51,7 @@ class UseCaseContainer(DeclarativeContainer):
     # =============================================
     regular_translation_presentation_adapter_registry = Dict(
         {
-            ExerciseProcessEnum.CREATE_CASE: Factory(),
+            ExerciseProcessEnum.CREATE_CASE: ...,
         },
     )
     regular_translation_presentation_service_registry = Dict(
@@ -59,16 +63,15 @@ class UseCaseContainer(DeclarativeContainer):
                     PresentationDomain,
                     selector=Factory(CandidatesSelector),
                 ),
-                storage=user_command_storage,
             ),
         },
     )
     regular_translation_presentation_factory_registry = Dict(
         {
-            ExerciseProcessEnum.CREATE_CASE: Factory(),
+            ExerciseProcessEnum.CREATE_CASE: ...,
         },
     )
-    regular_translation_presentation = Factory(
+    process_regular_translation_presentation = Factory(
         ExerciseUseCase,
         store_prefix='regular_translation_presentation',
         storage=user_command_storage,
