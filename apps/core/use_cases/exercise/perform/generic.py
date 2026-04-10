@@ -1,8 +1,8 @@
-"""Detail exercise use case."""
+"""Exercise use case."""
 
-from typing import Generic, Protocol, TypeVar, override
+from typing import Generic, TypeVar, override
 
-from apps.core.adapters.command.protocol import CompositeAdapterProtocol
+from apps.core.adapters.exercise.protocol import ExerciseProcessAdapterProtocol
 from apps.core.assemblers.protocol import UserDataCommandProtocol
 from apps.core.domains.exercise.enums import (
     ExerciseProcessEnum,
@@ -10,6 +10,7 @@ from apps.core.domains.exercise.enums import (
 )
 from apps.core.domains.exercise.protocol import HasExerciseStatus
 from apps.core.domains.task.protocol import TaskBuilderProtocol
+from apps.core.exceptions.storage import CacheMissError
 from apps.core.services.protocol import ServiceProtocol
 from apps.core.storages.services.iabc import AbstractCommandStorage
 from apps.core.use_cases.abstract import AbstractUseCase
@@ -18,76 +19,56 @@ from apps.core.use_cases.protocol import (
     ExerciseParameters,
     ResolverProtocol,
 )
-from apps.core.validators.request.protocol import ExerciseProcessAction
-
-
-class ExerciseConditions(Protocol):
-    """Exercise conditions."""
-
+from apps.core.validators.request.protocol import HasExerciseProcessAction
 
 ParamsT = TypeVar('ParamsT')
 SpecT = TypeVar('SpecT', bound=ExerciseParameters)
 CaseT = TypeVar('CaseT', bound=HasExerciseStatus)
 ResultT = TypeVar('ResultT')
+CommandT = UserDataCommandProtocol[HasExerciseProcessAction]
 
 
 class ExerciseUseCase(
-    AbstractUseCase[
-        UserDataCommandProtocol[ExerciseProcessAction],
-        ResultT,
-    ],
+    AbstractUseCase[CommandT, ResultT],
     Generic[ParamsT, SpecT, CaseT, ResultT],
 ):
     """Process exercise use case."""
 
     def __init__(
         self,
-        store_prefix: str,
-        storage: AbstractCommandStorage[
-            UserDataCommandProtocol[ExerciseProcessAction],
-            CaseT,
-        ],
-        config_resolver: ResolverProtocol[
-            UserDataCommandProtocol[ExerciseProcessAction],
-            ParamsT,
-        ],
+        prefix: str,
+        storage: AbstractCommandStorage[CommandT, CaseT],
+        config_resolver: ResolverProtocol[CommandT, ParamsT],
         adapter_registry: dict[
             ExerciseProcessEnum,
-            CompositeAdapterProtocol[
-                UserDataCommandProtocol[ExerciseProcessAction],
-                ParamsT,
-                CaseT,
-                SpecT,
+            ExerciseProcessAdapterProtocol[
+                CommandT, ParamsT, CaseT | None, SpecT
             ],
         ],
         service_registry: dict[
             ExerciseProcessEnum,
             ServiceProtocol[SpecT, CaseT],
         ],
-        factory_registry: dict[
+        builder_registry: dict[
             ExerciseStatusEnum,
-            TaskBuilderProtocol[
-                CaseT,
-                ExerciseConfig,
-                ResultT,
-            ],
+            TaskBuilderProtocol[CaseT, ExerciseConfig, ResultT],
         ],
     ) -> None:
         """Construct the use case."""
-        self._store_prefix = store_prefix
+        self._prefix = prefix
         self._storage = storage
         self._config_resolver = config_resolver
         self._adapter_registry = adapter_registry
         self._service_registry = service_registry
-        self._factory_registry = factory_registry
+        self._builder_registry = builder_registry
 
     @override
     def execute(
         self,
-        command: UserDataCommandProtocol[ExerciseProcessAction],
+        command: UserDataCommandProtocol[HasExerciseProcessAction],
     ) -> ResultT:
         """Start stored exercise."""
-        action = command.data['action']
+        action = command.data.action
         adapter = self._adapter_registry[action]
         service = self._service_registry[action]
 
@@ -97,7 +78,10 @@ class ExerciseUseCase(
         # Saved case contains item's study data that uses
         # for exercise check, to update item's study progress
         # and other exercise case process.
-        retrieved_case = self._storage.retrieve(command, self._store_prefix)
+        try:
+            retrieved_case = self._storage.retrieve(command, self._prefix)
+        except CacheMissError:
+            retrieved_case = None
         spec = adapter.adapt(command, parameters, retrieved_case)
 
         # Execute
@@ -106,7 +90,7 @@ class ExerciseUseCase(
 
         # Handle result
         # -------------
-        factory = self._factory_registry[case.status]
-        result = factory.build(case, spec.conf)
-        self._storage.save(command, case, self._store_prefix)
+        builder = self._builder_registry[case.status]
+        result = builder.build(case, spec.conf)
+        self._storage.save(command, case, self._prefix)
         return result
