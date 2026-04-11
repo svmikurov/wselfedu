@@ -7,7 +7,13 @@ class StorageError(Exception):
     pass
 
 
-class CacheMissError(StorageError):
+class StorageMissError(StorageError):
+    """Raised when data is not found in storage."""
+
+    pass
+
+
+class CacheMissError(StorageMissError):
     """Raised when data is not found in cache."""
 
     pass
