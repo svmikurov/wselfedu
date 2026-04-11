@@ -27,10 +27,10 @@ from apps.core.domains.exercise.enums import (
 from apps.core.services.exercise.generic import (
     CreateExerciseService,
 )
-from apps.core.use_cases.exercise.perform.config_resolver import (
+from apps.core.use_cases.exercise.config_resolver import (
     ExerciseConfigurationResolver,
 )
-from apps.core.use_cases.exercise.perform.generic import (
+from apps.core.use_cases.exercise.generic import (
     ExerciseUseCaseStrategy,
 )
 

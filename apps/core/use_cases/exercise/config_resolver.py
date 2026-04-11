@@ -8,7 +8,7 @@ from apps.core.domains.exercise.enums import ExerciseTypeEnum
 from apps.core.domains.null import NullDTO
 from apps.core.repositories.protocol import UserRepositoryProtocol
 
-from ...abstract import AbstractResolver
+from ..abstract import AbstractResolver
 
 
 # NOTE: Temporary simple implementation
