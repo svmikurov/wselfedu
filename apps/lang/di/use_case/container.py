@@ -31,7 +31,7 @@ from apps.core.use_cases.exercise.perform.config_resolver import (
     ExerciseConfigurationResolver,
 )
 from apps.core.use_cases.exercise.perform.generic import (
-    ExerciseUseCase,
+    ExerciseUseCaseStrategy,
 )
 
 
@@ -72,7 +72,7 @@ class UseCaseContainer(DeclarativeContainer):
         },
     )
     process_regular_translation_presentation = Factory(
-        ExerciseUseCase,
+        ExerciseUseCaseStrategy,
         store_prefix='regular_translation_presentation',
         storage=user_command_storage,
         config_resolver=configurations.exercise_config_resolver,

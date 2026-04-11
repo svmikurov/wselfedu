@@ -28,7 +28,7 @@ ResultT = TypeVar('ResultT')
 CommandT = UserDataCommandProtocol[HasExerciseProcessAction]
 
 
-class ExerciseUseCase(
+class ExerciseUseCaseStrategy(
     AbstractUseCase[CommandT, ResultT],
     Generic[ParamsT, SpecT, CaseT, ResultT],
 ):
@@ -63,11 +63,8 @@ class ExerciseUseCase(
         self._builder_registry = builder_registry
 
     @override
-    def execute(
-        self,
-        command: UserDataCommandProtocol[HasExerciseProcessAction],
-    ) -> ResultT:
-        """Start stored exercise."""
+    def execute(self, command: CommandT) -> ResultT:
+        """Process exercise."""
         action = command.data.action
         adapter = self._adapter_registry[action]
         service = self._service_registry[action]
