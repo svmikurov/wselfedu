@@ -10,8 +10,9 @@ from apps.core.domains.exercise.enums import (
 )
 from apps.core.domains.exercise.protocol import HasExerciseStatus
 from apps.core.domains.task.protocol import TaskBuilderProtocol
+from apps.core.exceptions.storage import StorageMissError
 from apps.core.services.protocol import ServiceProtocol
-from apps.core.storages.services.protocol import OptionalCommandStorageProtocol
+from apps.core.storages.services.protocol import CommandStorageProtocol
 from apps.core.use_cases.abstract import AbstractUseCase
 from apps.core.use_cases.protocol import (
     ExerciseConfig,
@@ -36,7 +37,7 @@ class ExerciseUseCaseStrategy(
     def __init__(
         self,
         prefix: str,
-        storage: OptionalCommandStorageProtocol[CommandT, CaseT],
+        storage: CommandStorageProtocol[CommandT, CaseT],
         config_resolver: ResolverProtocol[CommandT, ParamsT],
         adapter_registry: dict[
             ExerciseProcessEnum,
@@ -67,23 +68,22 @@ class ExerciseUseCaseStrategy(
         action = command.data.action
         adapter = self._adapter_registry[action]
         service = self._service_registry[action]
-
-        # Prepare arguments
-        # -----------------
         parameters = self._config_resolver.resolve(command)
-        # Saved case contains item's study data that uses
-        # for exercise check, to update item's study progress
-        # and other exercise case process.
-        existing_case = self._storage.retrieve_or_none(command, self._prefix)
-        spec = adapter.adapt(command, parameters, existing_case)
 
-        # Execute
-        # -------
+        # Case may not exist (not started yet)
+        # StorageMissError is expected flow, not an exceptional error
+        try:
+            existing_case = self._storage.retrieve(command, self._prefix)
+        except StorageMissError:
+            spec = adapter.adapt(command, parameters, None)
+        else:
+            spec = adapter.adapt(command, parameters, existing_case)
+
         case = service.execute(command.user, spec)
 
-        # Handle result
-        # -------------
+        if case.status == ExerciseStatusEnum.NEW_TASK:
+            self._storage.save(command, case, self._prefix)
+
         builder = self._builder_registry[case.status]
         result = builder.build(case, spec.conf)
-        self._storage.save(command, case, self._prefix)
         return result
