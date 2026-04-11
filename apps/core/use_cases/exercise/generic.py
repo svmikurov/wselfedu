@@ -10,9 +10,8 @@ from apps.core.domains.exercise.enums import (
 )
 from apps.core.domains.exercise.protocol import HasExerciseStatus
 from apps.core.domains.task.protocol import TaskBuilderProtocol
-from apps.core.exceptions.storage import CacheMissError
 from apps.core.services.protocol import ServiceProtocol
-from apps.core.storages.services.iabc import AbstractCommandStorage
+from apps.core.storages.services.protocol import OptionalCommandStorageProtocol
 from apps.core.use_cases.abstract import AbstractUseCase
 from apps.core.use_cases.protocol import (
     ExerciseConfig,
@@ -37,7 +36,7 @@ class ExerciseUseCaseStrategy(
     def __init__(
         self,
         prefix: str,
-        storage: AbstractCommandStorage[CommandT, CaseT],
+        storage: OptionalCommandStorageProtocol[CommandT, CaseT],
         config_resolver: ResolverProtocol[CommandT, ParamsT],
         adapter_registry: dict[
             ExerciseProcessEnum,
@@ -75,11 +74,8 @@ class ExerciseUseCaseStrategy(
         # Saved case contains item's study data that uses
         # for exercise check, to update item's study progress
         # and other exercise case process.
-        try:
-            retrieved_case = self._storage.retrieve(command, self._prefix)
-        except CacheMissError:
-            retrieved_case = None
-        spec = adapter.adapt(command, parameters, retrieved_case)
+        existing_case = self._storage.retrieve_or_none(command, self._prefix)
+        spec = adapter.adapt(command, parameters, existing_case)
 
         # Execute
         # -------
