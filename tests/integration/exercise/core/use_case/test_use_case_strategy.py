@@ -13,7 +13,7 @@ from apps.core.domains.exercise.enums import (
 )
 from apps.core.domains.exercise.protocol import (
     ExerciseConfig,
-    ExerciseParameters,
+    ExerciseParametersProtocol,
     HasExerciseStatus,
 )
 from apps.core.domains.task.protocol import TaskBuilderProtocol
@@ -29,7 +29,7 @@ SpecT = Any
 ResultT = Any
 UseCaseT = UseCaseProtocol[CommandT, HasExerciseStatus]
 AdapterT = ExerciseProcessAdapterProtocol[
-    CommandT, ExerciseParameters, CaseT | None, SpecT
+    CommandT, ExerciseParametersProtocol, CaseT | None, SpecT
 ]
 ServiceT = ServiceProtocol[SpecT, CaseT]
 BuilderT = TaskBuilderProtocol[CaseT, ExerciseConfig, ResultT]
