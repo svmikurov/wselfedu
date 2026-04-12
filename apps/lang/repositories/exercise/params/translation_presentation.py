@@ -7,14 +7,18 @@ from django.db.models import QuerySet
 from apps.core.domains.exercise.protocol import ExerciseParametersProtocol
 from apps.core.domains.protocol import NullProtocol
 from apps.core.repositories.abstract import AbstractUserFetchRepository
-from apps.lang.models import ExerciseConditions
+from apps.lang.models import (
+    ExerciseConditions,
+    PresentationConfig,
+    TranslationSetting,
+)
 from apps.users.models import Person
 
 
 class RegularTranslationPresentationRepository(
     AbstractUserFetchRepository[NullProtocol, ExerciseParametersProtocol],
 ):
-    """Language exercise translation parameters fetch repository."""
+    """Language translation presentation parameters fetch repository."""
 
     @override
     def fetch(
@@ -30,5 +34,21 @@ class RegularTranslationPresentationRepository(
         user: Person,
         filter: NullProtocol,
     ) -> QuerySet[ExerciseConditions]:
+        """Fetch exercise conditions."""
+        raise NotImplementedError
+
+    def _fetch_configuration(
+        self,
+        user: Person,
+        filter: NullProtocol,
+    ) -> QuerySet[PresentationConfig]:
+        """Fetch exercise conditions."""
+        raise NotImplementedError
+
+    def _fetch_settings(
+        self,
+        user: Person,
+        filter: NullProtocol,
+    ) -> QuerySet[TranslationSetting]:
         """Fetch exercise conditions."""
         raise NotImplementedError
