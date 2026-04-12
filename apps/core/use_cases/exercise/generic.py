@@ -10,7 +10,7 @@ from apps.core.domains.exercise.enums import (
 )
 from apps.core.domains.exercise.protocol import (
     ExerciseConfig,
-    ExerciseParameters,
+    ExerciseParametersProtocol,
     HasExerciseConfig,
     HasExerciseStatus,
 )
@@ -23,7 +23,7 @@ from apps.core.validators.request.protocol import HasExerciseProcessAction
 
 from ..protocol import ResolverProtocol
 
-ParamsT = TypeVar('ParamsT', bound=ExerciseParameters)
+ParamsT = TypeVar('ParamsT', bound=ExerciseParametersProtocol)
 SpecT = TypeVar('SpecT', bound=HasExerciseConfig[ExerciseConfig])
 CaseT = TypeVar('CaseT', bound=HasExerciseStatus)
 ResultT = TypeVar('ResultT')
