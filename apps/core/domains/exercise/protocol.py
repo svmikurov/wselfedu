@@ -4,9 +4,9 @@ from typing import Iterator, Protocol, Self, TypeVar, overload
 
 from .enums import DisplayOrder, ExerciseStatusEnum
 
-ExerciseConditions = TypeVar('ExerciseConditions')
-ExerciseTypeConfig = TypeVar('ExerciseTypeConfig')
-ExerciseSettings = TypeVar('ExerciseSettings')
+ExerciseConditionsT = TypeVar('ExerciseConditionsT')
+ExerciseTypeConfigT = TypeVar('ExerciseTypeConfigT')
+ExerciseSettingsT = TypeVar('ExerciseSettingsT')
 
 CandidatesT = TypeVar('CandidatesT')
 OptionT = TypeVar('OptionT')
@@ -16,42 +16,64 @@ OptionT = TypeVar('OptionT')
 # =================================================
 
 
-class HasExerciseConditions(Protocol[ExerciseConditions]):
+class ExerciseConditions(Protocol):
+    """Exercise conditions DTO interface."""
+
+
+class ExerciseConfig(Protocol):
+    """Exercise domain configuration DTO interface."""
+
+
+class ExerciseSettings(Protocol):
+    """Exercise perform setting DTO interface."""
+
+
+class HasExerciseConditions(Protocol[ExerciseConditionsT]):
     """Protocol for has exercise conditions interface."""
 
-    conditions: ExerciseConditions
+    conditions: ExerciseConditionsT
 
 
-class HasExerciseConfig(Protocol[ExerciseTypeConfig]):
+class HasExerciseConfig(Protocol[ExerciseTypeConfigT]):
     """Protocol for has test exercise configuration interface."""
 
-    conf: ExerciseTypeConfig
+    conf: ExerciseTypeConfigT
 
 
-class HasExerciseSettings(Protocol[ExerciseSettings]):
+class HasExerciseSettings(Protocol[ExerciseSettingsT]):
     """Protocol for has exercise settings interface."""
 
-    settings: ExerciseSettings
+    settings: ExerciseSettingsT
 
 
-class ExerciseParameters(
-    HasExerciseConditions[ExerciseConditions],
-    HasExerciseConfig[ExerciseTypeConfig],
-    HasExerciseSettings[ExerciseSettings],
-    Protocol[ExerciseConditions, ExerciseTypeConfig, ExerciseSettings],
+class GenericExerciseParameters(
+    HasExerciseConditions[ExerciseConditionsT],
+    HasExerciseConfig[ExerciseTypeConfigT],
+    HasExerciseSettings[ExerciseSettingsT],
+    Protocol[ExerciseConditionsT, ExerciseTypeConfigT, ExerciseSettingsT],
 ):
-    """Exercise parameters.
+    """Generic exercise parameters.
 
     Parameters
     ----------
     conditions :
-        Study resource lockup conditions.
+        Study resource lockup or task create conditions.
     conf :
         Exercise type domain configuration.
     settings :
         Exercise type perform settings.
 
     """
+
+
+class ExerciseParameters(
+    GenericExerciseParameters[
+        ExerciseConditions,
+        ExerciseConfig,
+        ExerciseSettings,
+    ]
+):
+    """Exercise parameters."""
 
 
 # =================================================

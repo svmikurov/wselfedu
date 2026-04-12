@@ -14,7 +14,7 @@ from apps.core.domains.exercise.dto import (
 from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.domains.exercise.protocol import (
     Candidates,
-    ExerciseParameters,
+    GenericExerciseParameters,
     HasExerciseConditions,
     HasExerciseConfig,
     HasOptionValue,
@@ -53,7 +53,7 @@ CheckResultT = TypeVar('CheckResultT')
 
 class CreateExerciseService(
     AbstractCreateExerciseService[
-        ExerciseParameters[
+        GenericExerciseParameters[
             HasExerciseConditions[object],
             HasExerciseConfig[object],
             object,
@@ -82,7 +82,7 @@ class CreateExerciseService(
     def execute(
         self,
         user: Person,
-        spec: ExerciseParameters[
+        spec: GenericExerciseParameters[
             HasExerciseConditions[object],
             HasExerciseConfig[object],
             object,

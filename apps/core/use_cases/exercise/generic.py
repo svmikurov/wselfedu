@@ -8,18 +8,19 @@ from apps.core.domains.exercise.enums import (
     ExerciseProcessEnum,
     ExerciseStatusEnum,
 )
-from apps.core.domains.exercise.protocol import HasExerciseStatus
+from apps.core.domains.exercise.protocol import (
+    ExerciseConfig,
+    ExerciseParameters,
+    HasExerciseStatus,
+)
 from apps.core.domains.task.protocol import TaskBuilderProtocol
 from apps.core.exceptions.storage import StorageMissError
 from apps.core.services.protocol import ServiceProtocol
 from apps.core.storages.services.protocol import CommandStorageProtocol
 from apps.core.use_cases.abstract import AbstractUseCase
-from apps.core.use_cases.protocol import (
-    ExerciseConfig,
-    ExerciseParameters,
-    ResolverProtocol,
-)
 from apps.core.validators.request.protocol import HasExerciseProcessAction
+
+from ..protocol import ResolverProtocol
 
 ParamsT = TypeVar('ParamsT')
 SpecT = TypeVar('SpecT', bound=ExerciseParameters)
