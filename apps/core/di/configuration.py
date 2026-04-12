@@ -49,7 +49,7 @@ class ConfigurationContainer(DeclarativeContainer):
     # Exercise configuration
     # ----------------------
 
-    exercise: ExerciseSettings = Factory(  # type: ignore
+    exercise: ExerciseSettings = Factory(
         ExerciseConfig,
         display_order=DisplayOrder.DEFINE,
         option_count=7,

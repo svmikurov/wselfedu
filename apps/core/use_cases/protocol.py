@@ -10,15 +10,30 @@ from apps.core.domains.exercise.protocol import (
 Command_contra = TypeVar('Command_contra', contravariant=True)
 Result_cov = TypeVar('Result_cov', covariant=True)
 
+# =================================================
+# Exercise parameters DTO interface
+# =================================================
 
-class UseCaseProtocol(Protocol[Command_contra, Result_cov]):
-    """Protocol for use case."""
 
-    def execute(
-        self,
-        command: Command_contra,
-    ) -> Result_cov:
-        """Execute use case."""
+class ExerciseConditions(Protocol):
+    """Exercise conditions DTO interface."""
+
+
+class ExerciseConfig(Protocol):
+    """Exercise configuration DTO interface."""
+
+
+class ExerciseParameters(
+    HasExerciseConditions[ExerciseConditions],
+    HasExerciseConfig[ExerciseConfig],
+    Protocol,
+):
+    """Protocol for exercise parameters DTO interface."""
+
+
+# =================================================
+# UseCase some dependencies interface
+# =================================================
 
 
 class ResolverProtocol(Protocol[Command_contra, Result_cov]):
@@ -31,17 +46,16 @@ class ResolverProtocol(Protocol[Command_contra, Result_cov]):
         """Resolve."""
 
 
-class ExerciseConditions(Protocol):
-    """Exercise conditions."""
+# =================================================
+# UseCase interface
+# =================================================
 
 
-class ExerciseConfig(Protocol):
-    """Exercise configuration."""
+class UseCaseProtocol(Protocol[Command_contra, Result_cov]):
+    """Protocol for use case."""
 
-
-class ExerciseParameters(
-    HasExerciseConditions[ExerciseConditions],
-    HasExerciseConfig[ExerciseConfig],
-    Protocol,
-):
-    """Protocol for exercise parameters."""
+    def execute(
+        self,
+        command: Command_contra,
+    ) -> Result_cov:
+        """Execute use case."""
