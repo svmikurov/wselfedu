@@ -11,15 +11,15 @@ from apps.core.domains.exercise.enums import (
     ExerciseProcessEnum,
     ExerciseStatusEnum,
 )
-from apps.core.domains.exercise.protocol import HasExerciseStatus
+from apps.core.domains.exercise.protocol import (
+    ExerciseConfig,
+    ExerciseParameters,
+    HasExerciseStatus,
+)
 from apps.core.domains.task.protocol import TaskBuilderProtocol
 from apps.core.services.protocol import ServiceProtocol
 from apps.core.use_cases.exercise.generic import ExerciseUseCaseStrategy
-from apps.core.use_cases.protocol import (
-    ExerciseConfig,
-    ExerciseParameters,
-    UseCaseProtocol,
-)
+from apps.core.use_cases.protocol import UseCaseProtocol
 from apps.core.validators.request.protocol import HasExerciseProcessAction
 
 CommandT = UserDataCommandProtocol[HasExerciseProcessAction]
