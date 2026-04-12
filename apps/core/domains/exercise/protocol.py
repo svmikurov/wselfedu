@@ -11,6 +11,59 @@ ExerciseSettingsT = TypeVar('ExerciseSettingsT')
 CandidatesT = TypeVar('CandidatesT')
 OptionT = TypeVar('OptionT')
 
+
+# =================================================
+# Exercise configurations, settings DTO interface
+# =================================================
+
+
+class HasItemCount(Protocol):
+    """Protocol for item count object interface."""
+
+    item_count: int
+
+
+class HasOptionCount(Protocol):
+    """Protocol for item option count object interface."""
+
+    option_count: int
+
+
+class HasDisplayOrder(Protocol):
+    """Protocol for item display order object interface."""
+
+    display_order: DisplayOrder
+
+
+class HasText(Protocol):
+    """Protocol for has *text* interface."""
+
+    text: str
+
+
+# =================================================
+# Exercise case meta data DTO interface
+# =================================================
+
+
+class HasResourceIdentifier(Protocol):
+    """Protocol for has resource identifier object interface."""
+
+    pk: int
+
+
+class HasExerciseStatus(Protocol):
+    """Protocol for has exercise status interface."""
+
+    status: ExerciseStatusEnum
+
+
+class HasProgressValue(Protocol):
+    """Protocol for has progress value integer field."""
+
+    progress_value: int
+
+
 # =================================================
 # Exercise parameters DTO interface
 # =================================================
@@ -74,58 +127,6 @@ class ExerciseParametersProtocol(
     ]
 ):
     """Exercise parameters."""
-
-
-# =================================================
-# Exercise configurations, settings DTO interface
-# =================================================
-
-
-class HasItemCount(Protocol):
-    """Protocol for item count object interface."""
-
-    item_count: int
-
-
-class HasOptionCount(Protocol):
-    """Protocol for item option count object interface."""
-
-    option_count: int
-
-
-class HasDisplayOrder(Protocol):
-    """Protocol for item display order object interface."""
-
-    display_order: DisplayOrder
-
-
-class HasText(Protocol):
-    """Protocol for has *text* interface."""
-
-    text: str
-
-
-# =================================================
-# Exercise case meta data DTO interface
-# =================================================
-
-
-class HasResourceIdentifier(Protocol):
-    """Protocol for has resource identifier object interface."""
-
-    pk: int
-
-
-class HasExerciseStatus(Protocol):
-    """Protocol for has exercise status interface."""
-
-    status: ExerciseStatusEnum
-
-
-class HasProgressValue(Protocol):
-    """Protocol for has progress value integer field."""
-
-    progress_value: int
 
 
 # =================================================
