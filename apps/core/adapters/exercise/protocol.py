@@ -4,12 +4,12 @@ from typing import Protocol, TypeVar
 
 Command_contra = TypeVar('Command_contra', contravariant=True)
 Params_contra = TypeVar('Params_contra', contravariant=True)
-CurrentCase_contra = TypeVar('CurrentCase_contra', contravariant=True)
+ExistingCase_contra = TypeVar('ExistingCase_contra', contravariant=True)
 Adapted_cov = TypeVar('Adapted_cov', covariant=True)
 
 
 class ExerciseProcessAdapterProtocol(
-    Protocol[Command_contra, Params_contra, CurrentCase_contra, Adapted_cov]
+    Protocol[Command_contra, Params_contra, ExistingCase_contra, Adapted_cov]
 ):
     """Protocol for adapt parameters for exercise process interface."""
 
@@ -17,6 +17,6 @@ class ExerciseProcessAdapterProtocol(
         self,
         command: Command_contra,
         params: Params_contra,
-        current_case: CurrentCase_contra,
+        existing_case: ExistingCase_contra,
     ) -> Adapted_cov:
         """Adapt for exercise process execute."""

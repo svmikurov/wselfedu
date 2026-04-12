@@ -7,7 +7,7 @@ from .protocol import ExerciseProcessAdapterProtocol
 
 CommandT = TypeVar('CommandT')
 ParamsT = TypeVar('ParamsT')
-CurrentCaseT = TypeVar('CurrentCaseT')
+ExistingCaseT = TypeVar('ExistingCaseT')
 AdaptedT = TypeVar('AdaptedT')
 
 
@@ -16,7 +16,7 @@ class AbstractExerciseProcessAdapter(
     ExerciseProcessAdapterProtocol[
         CommandT,
         ParamsT,
-        CurrentCaseT,
+        ExistingCaseT,
         AdaptedT,
     ],
 ):
@@ -28,6 +28,6 @@ class AbstractExerciseProcessAdapter(
         self,
         command: CommandT,
         params: ParamsT,
-        current_case: CurrentCaseT | None,
+        existing_case: ExistingCaseT | None,
     ) -> AdaptedT:
         """Adapt for exercise precess execute."""

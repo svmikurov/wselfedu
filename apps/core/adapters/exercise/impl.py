@@ -6,13 +6,13 @@ from .abstract import AbstractExerciseProcessAdapter
 
 CommandT = TypeVar('CommandT')
 ParamsT = TypeVar('ParamsT')
-CurrentCaseT = TypeVar('CurrentCaseT')
+ExistingCaseT = TypeVar('ExistingCaseT')
 AdaptedT = TypeVar('AdaptedT')
 
 
 class ExerciseProcessAdapter(
-    AbstractExerciseProcessAdapter[CommandT, ParamsT, CurrentCaseT, AdaptedT],
-    Generic[CommandT, ParamsT, CurrentCaseT, AdaptedT],
+    AbstractExerciseProcessAdapter[CommandT, ParamsT, ExistingCaseT, AdaptedT],
+    Generic[CommandT, ParamsT, ExistingCaseT, AdaptedT],
 ):
     """Exercise process adapter."""
 
@@ -21,7 +21,7 @@ class ExerciseProcessAdapter(
         self,
         command: CommandT,
         params: ParamsT,
-        current_case: CurrentCaseT | None,
+        existing_case: ExistingCaseT | None,
     ) -> AdaptedT:
         """Adapt for exercise process execute."""
         raise NotImplementedError
