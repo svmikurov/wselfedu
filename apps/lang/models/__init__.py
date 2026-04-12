@@ -32,14 +32,14 @@ __all__ = [
 from .assignment.mentorship.exercise import EnglishAssignedExercise
 from .assignment.mentorship.rule import MentorshipEnglishRule
 from .category import Category
-from .exercise.configuration.lockup_conditions import ExerciseConditions
-from .exercise.configuration.presentation import PresentationSettings
 from .exercise.name import LanguageExercise
+from .exercise.params.lookup_conditions import ExerciseConditions
+from .exercise.params.presentation_config import PresentationSettings
+from .exercise.params.translation_settings import TranslationSetting
 from .exercise.translation.exercise import (
     EnglishTranslationExercise,
     EnglishTranslationStudyProgress,
 )
-from .exercise.translation.settings import TranslationSetting
 from .mark import Mark, TranslationMark
 from .rule import (
     ExampleType,
