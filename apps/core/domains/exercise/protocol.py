@@ -66,7 +66,7 @@ class GenericExerciseParameters(
     """
 
 
-class ExerciseParameters(
+class ExerciseParametersProtocol(
     GenericExerciseParameters[
         ExerciseConditions,
         ExerciseConfig,
