@@ -12,7 +12,7 @@ __all__ = [
     # Parameters
     'ExerciseConditions',
     'TranslationSetting',
-    'PresentationSettings',
+    'PresentationConfig',
     # Rule
     'Rule',
     'RuleClause',
@@ -34,7 +34,7 @@ from .assignment.mentorship.rule import MentorshipEnglishRule
 from .category import Category
 from .exercise.name import LanguageExercise
 from .exercise.params.lookup_conditions import ExerciseConditions
-from .exercise.params.presentation_config import PresentationSettings
+from .exercise.params.presentation_config import PresentationConfig
 from .exercise.params.translation_settings import TranslationSetting
 from .exercise.translation.exercise import (
     EnglishTranslationExercise,

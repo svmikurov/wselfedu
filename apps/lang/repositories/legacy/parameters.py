@@ -80,8 +80,8 @@ class StudyParametersRepository:
         )
 
         presentation_settings = (
-            models.PresentationSettings.objects.filter(user=user).first()
-            or models.PresentationSettings()
+            models.PresentationConfig.objects.filter(user=user).first()
+            or models.PresentationConfig()
         )
 
         order_value, order_label = (
@@ -159,7 +159,7 @@ class StudyParametersRepository:
             )
         )
         (
-            models.PresentationSettings.objects.update_or_create(
+            models.PresentationConfig.objects.update_or_create(
                 user=user,
                 defaults=presentation_settings_defaults,
             )

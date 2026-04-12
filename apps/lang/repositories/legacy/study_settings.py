@@ -24,7 +24,7 @@ class StudySettingsRepository(StudySettingsRepositoryABC):
         """Get study settings for presentation case."""
         translation_parameters = models.ExerciseConditions.get_instants(user)
         translation_settings = models.TranslationSetting.get_instants(user)
-        presentation_settings = models.PresentationSettings.get_instants(user)
+        presentation_settings = models.PresentationConfig.get_instants(user)
 
         mark = self._get_pk(translation_parameters.mark)
         return types.CaseStudySettingsWEB(

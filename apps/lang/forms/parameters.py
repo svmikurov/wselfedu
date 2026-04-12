@@ -95,7 +95,7 @@ class PresentationSettingsForm(forms.ModelForm):  # type: ignore[type-arg]
     class Meta:
         """Form configuration."""
 
-        model = models.PresentationSettings
+        model = models.PresentationConfig
         fields = ['question_timeout', 'answer_timeout']
 
     def __init__(self, *args: object, **kwargs: object) -> None:
@@ -123,7 +123,7 @@ TranslationSettingsFormSet = forms.inlineformset_factory(
 
 PresentationSettingsFormSet = forms.inlineformset_factory(
     get_user_model(),
-    models.PresentationSettings,
+    models.PresentationConfig,
     form=PresentationSettingsForm,
     extra=1,
     max_num=1,

@@ -95,7 +95,7 @@ class TranslationSettingAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     ]
 
 
-@admin.register(models.PresentationSettings)
+@admin.register(models.PresentationConfig)
 class PresentationSettingsAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Presentation settings model administration."""
 
