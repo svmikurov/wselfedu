@@ -11,6 +11,7 @@ from apps.core.domains.exercise.enums import (
 from apps.core.domains.exercise.protocol import (
     ExerciseConfig,
     ExerciseParameters,
+    HasExerciseConfig,
     HasExerciseStatus,
 )
 from apps.core.domains.task.protocol import TaskBuilderProtocol
@@ -22,8 +23,8 @@ from apps.core.validators.request.protocol import HasExerciseProcessAction
 
 from ..protocol import ResolverProtocol
 
-ParamsT = TypeVar('ParamsT')
-SpecT = TypeVar('SpecT', bound=ExerciseParameters)
+ParamsT = TypeVar('ParamsT', bound=ExerciseParameters)
+SpecT = TypeVar('SpecT', bound=HasExerciseConfig[ExerciseConfig])
 CaseT = TypeVar('CaseT', bound=HasExerciseStatus)
 ResultT = TypeVar('ResultT')
 CommandT = UserDataCommandProtocol[HasExerciseProcessAction]
