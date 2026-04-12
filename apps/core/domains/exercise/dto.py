@@ -235,7 +235,9 @@ class LookupConditionsDTO(
     """Provides lookup conditions fields."""
 
     category: int | None = None
-    mark: list[int] = []
+    mark: list[int] = Field(
+        default_factory=list,
+    )
     source: int | None = None
     start_period: int | None = None
     end_period: int | None = None
@@ -269,15 +271,40 @@ class ExerciseConfigDTO(
                 return value
 
 
-class ExerciseParametersDTO(BaseDTO):
-    """Regular request with study conditions."""
+class ExerciseSettingsDTO(BaseDTO):
+    """Exercise settings DTO."""
+
+
+class LookupConditionsField(BaseDTO):
+    """Lockup conditions DTO field."""
 
     conditions: LookupConditionsDTO = Field(
         default_factory=LookupConditionsDTO,
     )
+
+
+class ExerciseConfigurationField(BaseDTO):
+    """Exercise configuration DTO field."""
+
     conf: ExerciseConfigDTO = Field(
         default_factory=ExerciseConfigDTO,
     )
+
+
+class ExerciseSettingsField(BaseDTO):
+    """Exercise settings DTO field."""
+
+    settings: ExerciseSettingsDTO = Field(
+        default_factory=ExerciseSettingsDTO,
+    )
+
+
+class ExerciseParametersDTO(
+    LookupConditionsField,
+    ExerciseConfigurationField,
+    ExerciseSettingsField,
+):
+    """Regular request with study conditions."""
 
 
 # -------------------------------------------------
