@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from django.db.models import F, Manager, Q, QuerySet
 from django.utils import timezone
 
-from apps.core.domains.exercise.protocol import ExerciseParameters
+from apps.core.domains.exercise.protocol import GenericExerciseParameters
 from apps.lang import models, types
 from apps.study.models import ProgressBar
 from apps.users.models import Person
@@ -60,7 +60,7 @@ class TranslationConditionsRepository(CandidatesRepositoryABC[Translations]):
     def fetch(
         self,
         user: Person,
-        conditions: ExerciseParameters | None,  # type: ignore
+        conditions: GenericExerciseParameters | None,  # type: ignore
     ) -> Translations:
         """Get candidates for Translation presentation."""
         return (
@@ -77,7 +77,7 @@ class TranslationConditionsRepository(CandidatesRepositoryABC[Translations]):
     def _get_conditions(  # noqa: C901
         cls,
         user: Person,
-        parameters: ExerciseParameters | None,  # type: ignore
+        parameters: GenericExerciseParameters | None,  # type: ignore
     ) -> Q:
         """Convert to Q object representation of lookup conditions."""
         conditions = Q(user=user)
