@@ -13,6 +13,56 @@ OptionT = TypeVar('OptionT')
 
 
 # =================================================
+# Exercise conditions interface
+# =================================================
+
+
+class HasCategory(Protocol):
+    """Protocol for has *category* interface."""
+
+    category: int | None
+
+
+class HasMark(Protocol):
+    """Protocol for has *mark* interface."""
+
+    mark: list[int]
+
+
+class HasSource(Protocol):
+    """Protocol for has *source* interface."""
+
+    source: int | None
+
+
+class HasPeriod(Protocol):
+    """Protocol for has *start_period*, *end_period* interface."""
+
+    start_period: int | None
+    end_period: int | None
+
+
+class HasProgress(Protocol):
+    """Protocol for has progress interface."""
+
+    is_study: bool = True
+    is_repeat: bool = True
+    is_examine: bool = True
+    is_know: bool = True
+
+
+class ConditionsProtocol(
+    HasCategory,
+    HasMark,
+    HasSource,
+    HasPeriod,
+    HasProgress,
+    Protocol,
+):
+    """Protocol for exercise conditions interface."""
+
+
+# =================================================
 # Exercise configurations, settings DTO interface
 # =================================================
 
