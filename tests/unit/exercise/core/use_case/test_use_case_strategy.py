@@ -12,7 +12,7 @@ from apps.core.domains.exercise.enums import (
     ExerciseStatusEnum,
 )
 from apps.core.domains.exercise.protocol import (
-    ExerciseConfig,
+    ExerciseConfigProtocol,
     ExerciseParametersProtocol,
     HasExerciseStatus,
 )
@@ -32,7 +32,7 @@ AdapterT = ExerciseProcessAdapterProtocol[
     CommandT, ExerciseParametersProtocol, CaseT | None, SpecT
 ]
 ServiceT = ServiceProtocol[SpecT, CaseT]
-BuilderT = TaskBuilderProtocol[CaseT, ExerciseConfig, ResultT]
+BuilderT = TaskBuilderProtocol[CaseT, ExerciseConfigProtocol, ResultT]
 
 # =================================================
 # UseCase's dependency mock

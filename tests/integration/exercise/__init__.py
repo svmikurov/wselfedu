@@ -1,1 +1,1 @@
-"""Exercise integrations tests."""
+"""Exercise integration tests."""
