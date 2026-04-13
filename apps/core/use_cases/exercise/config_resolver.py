@@ -3,8 +3,8 @@
 from typing import override
 
 from apps.core.assemblers.protocol import UserCommandProtocol
-from apps.core.domains.exercise.dto import ExerciseParametersDTO
 from apps.core.domains.exercise.enums import ExerciseTypeEnum
+from apps.core.domains.exercise.protocol import ExerciseParametersProtocol
 from apps.core.domains.null import NullDTO
 from apps.core.repositories.protocol import UserRepositoryProtocol
 
@@ -16,7 +16,7 @@ from ..abstract import AbstractResolver
 class ExerciseConfigurationResolver(
     AbstractResolver[
         UserCommandProtocol,
-        ExerciseParametersDTO,
+        ExerciseParametersProtocol,
     ],
 ):
     """Exercise configuration resolver."""
@@ -26,9 +26,9 @@ class ExerciseConfigurationResolver(
         exercise_type: ExerciseTypeEnum,
         parameters_repository: UserRepositoryProtocol[
             NullDTO,
-            ExerciseParametersDTO,
+            ExerciseParametersProtocol,
         ],
-        default: ExerciseParametersDTO | None = None,
+        default: ExerciseParametersProtocol | None = None,
     ) -> None:
         """Construct the resolver."""
         self._exercise_type = exercise_type
@@ -39,7 +39,7 @@ class ExerciseConfigurationResolver(
     def resolve(
         self,
         command: UserCommandProtocol,
-    ) -> ExerciseParametersDTO:
+    ) -> ExerciseParametersProtocol:
         """Get exercise configuration."""
         match self._exercise_type:
             case ExerciseTypeEnum.PRESENTATION:
