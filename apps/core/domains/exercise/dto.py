@@ -213,7 +213,7 @@ class WebSettingsMixin:
 # =================================================
 
 # -------------------------------------------------
-# Exercise parameters DTO
+# Progress configuration DTO
 # -------------------------------------------------
 
 
@@ -226,6 +226,11 @@ class ProgressConfigDTO(BaseDTO):
     decrement: int = Field(
         description='Decrement item study progress value',
     )
+
+
+# -------------------------------------------------
+# Exercise parameters DTO
+# -------------------------------------------------
 
 
 class LookupConditionsDTO(
@@ -252,10 +257,15 @@ class ExerciseConfigDTO(
     WebSettingsMixin,
     BaseDTO,
 ):
-    """Provides translation settings fields."""
+    """Exercise config DTO."""
 
-    display_order: DisplayOrder = DisplayOrder.DEFINE
-    item_count: int | None = None
+    display_order: DisplayOrder = Field(
+        default=DisplayOrder.DEFINE,
+    )
+    item_count: int | None = Field(
+        description='Candidates of items to exercise count',
+        default=None,
+    )
 
     # NOTE: For translation exercise only.
     @field_validator('display_order', mode='before')
@@ -271,8 +281,13 @@ class ExerciseConfigDTO(
                 return value
 
 
-class ExerciseSettingsDTO(BaseDTO):
-    """Exercise settings DTO."""
+class ExerciseSettingsDTO(
+    BaseDTO,
+):
+    """Provides translation settings fields."""
+
+    question_timeout: int | None = None
+    answer_timeout: int | None = None
 
 
 class LookupConditionsField(BaseDTO):
@@ -283,7 +298,7 @@ class LookupConditionsField(BaseDTO):
     )
 
 
-class ExerciseConfigurationField(BaseDTO):
+class ExerciseConfigField(BaseDTO):
     """Exercise configuration DTO field."""
 
     conf: ExerciseConfigDTO = Field(
@@ -299,12 +314,31 @@ class ExerciseSettingsField(BaseDTO):
     )
 
 
+class ExistingCaseField(BaseDTO, Generic[DomainResult]):
+    """Existing case DTO field."""
+
+    existing_case: DomainResult | None = Field(
+        description=('Existing case of exercise'),
+        default=None,
+    )
+
+
 class ExerciseParametersDTO(
     LookupConditionsField,
-    ExerciseConfigurationField,
+    ExerciseConfigField,
     ExerciseSettingsField,
 ):
-    """Regular request with study conditions."""
+    """Exercise parameters DTO."""
+
+
+class ExerciseSpecDTO(
+    LookupConditionsField,
+    ExerciseConfigField,
+    ExerciseSettingsField,
+    ExistingCaseField[DomainResult],
+    Generic[DomainResult],
+):
+    """Exercise spec DTO."""
 
 
 # -------------------------------------------------
@@ -354,7 +388,7 @@ class ExerciseDomainResultDTO(BaseDTO, Generic[DomainResult]):
 
 
 class TestExerciseConfigDTO(
-    ExerciseConfigDTO,
+    ExerciseSettingsDTO,
 ):
     """Provides test exercise configuration DTO."""
 

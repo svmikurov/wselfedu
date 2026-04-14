@@ -5,16 +5,27 @@ from typing import Iterator, Protocol, Self, TypeVar, overload
 from .enums import DisplayOrder, ExerciseStatusEnum
 
 ExerciseConditionsT = TypeVar('ExerciseConditionsT')
-ExerciseTypeConfigT = TypeVar('ExerciseTypeConfigT')
+ExerciseConfigT = TypeVar('ExerciseConfigT')
+ExerciseConfig_contra = TypeVar('ExerciseConfig_contra', contravariant=True)
 ExerciseSettingsT = TypeVar('ExerciseSettingsT')
 
-CandidatesT = TypeVar('CandidatesT')
 OptionT = TypeVar('OptionT')
+Option_co = TypeVar('Option_co', covariant=True)
+
+
+class HasText(Protocol):
+    """Protocol for has *text* interface."""
+
+    text: str
 
 
 # =================================================
-# Exercise conditions interface
+# Exercise parameters interface
 # =================================================
+
+
+# Conditions
+# ----------
 
 
 class HasCategory(Protocol):
@@ -51,6 +62,43 @@ class HasProgress(Protocol):
     is_know: bool = True
 
 
+# Configuration
+# -------------
+
+
+class HasDisplayOrder(Protocol):
+    """Protocol for item display order object interface."""
+
+    display_order: DisplayOrder
+
+
+class HasItemCount(Protocol):
+    """Protocol for item count object interface."""
+
+    item_count: int | None
+
+
+class HasOptionCount(Protocol):
+    """Protocol for item option count object interface."""
+
+    option_count: int
+
+
+# Settings
+# --------
+
+
+class HasTimeout(Protocol):
+    """Protocol for exercise phase timeout interface."""
+
+    question_timeout: int | None = None
+    answer_timeout: int | None = None
+
+
+# Derived interface
+# -----------------
+
+
 class ConditionsProtocol(
     HasCategory,
     HasMark,
@@ -62,33 +110,19 @@ class ConditionsProtocol(
     """Protocol for exercise conditions interface."""
 
 
-# =================================================
-# Exercise configurations, settings DTO interface
-# =================================================
+class ExerciseConfigProtocol(
+    HasDisplayOrder,
+    HasItemCount,
+    Protocol,
+):
+    """Protocol for exercise configuration interface."""
 
 
-class HasItemCount(Protocol):
-    """Protocol for item count object interface."""
-
-    item_count: int
-
-
-class HasOptionCount(Protocol):
-    """Protocol for item option count object interface."""
-
-    option_count: int
-
-
-class HasDisplayOrder(Protocol):
-    """Protocol for item display order object interface."""
-
-    display_order: DisplayOrder
-
-
-class HasText(Protocol):
-    """Protocol for has *text* interface."""
-
-    text: str
+class ExerciseSettingsProtocol(
+    HasTimeout,
+    Protocol,
+):
+    """Protocol for exercise settings interface."""
 
 
 # =================================================
@@ -119,41 +153,47 @@ class HasProgressValue(Protocol):
 # =================================================
 
 
-class ExerciseConditions(Protocol):
-    """Exercise conditions DTO interface."""
-
-
-class ExerciseConfig(Protocol):
-    """Exercise domain configuration DTO interface."""
-
-
-class ExerciseSettings(Protocol):
-    """Exercise perform setting DTO interface."""
-
-
 class HasExerciseConditions(Protocol[ExerciseConditionsT]):
-    """Protocol for has exercise conditions interface."""
+    """Protocol for has exercise conditions interface.
+
+    Contains exercise elements select/define conditions.
+    My contains:
+        - database lockup conditions
+        - calculation operand conditions
+        - other conditions
+    """
 
     conditions: ExerciseConditionsT
 
 
-class HasExerciseConfig(Protocol[ExerciseTypeConfigT]):
-    """Protocol for has test exercise configuration interface."""
+class HasExerciseConfig(Protocol[ExerciseConfigT]):
+    """Protocol for has test exercise configuration interface.
 
-    conf: ExerciseTypeConfigT
+    Contains display exercise configuration.
+    For example:
+        - question / answer timeout
+        - other settings
+    """
+
+    conf: ExerciseConfigT
 
 
 class HasExerciseSettings(Protocol[ExerciseSettingsT]):
-    """Protocol for has exercise settings interface."""
+    """Protocol for has exercise settings interface.
+
+    Contains exercise display configuration, such as:
+        - question / answer timeout
+        - other settings
+    """
 
     settings: ExerciseSettingsT
 
 
 class GenericExerciseParameters(
     HasExerciseConditions[ExerciseConditionsT],
-    HasExerciseConfig[ExerciseTypeConfigT],
+    HasExerciseConfig[ExerciseConfigT],
     HasExerciseSettings[ExerciseSettingsT],
-    Protocol[ExerciseConditionsT, ExerciseTypeConfigT, ExerciseSettingsT],
+    Protocol[ExerciseConditionsT, ExerciseConfigT, ExerciseSettingsT],
 ):
     """Generic exercise parameters.
 
@@ -171,10 +211,11 @@ class GenericExerciseParameters(
 
 class ExerciseParametersProtocol(
     GenericExerciseParameters[
-        ExerciseConditions,
-        ExerciseConfig,
-        ExerciseSettings,
-    ]
+        ConditionsProtocol,
+        ExerciseConfigProtocol,
+        ExerciseSettingsProtocol,
+    ],
+    Protocol,
 ):
     """Exercise parameters."""
 
@@ -291,3 +332,24 @@ class HasCheckResult(Protocol):
     """User answer check result."""
 
     is_correct: bool
+
+
+# =================================================
+# Exercise domain
+# =================================================
+
+
+class ExerciseDomainProtocol(
+    Protocol[
+        ExerciseConfig_contra,
+        Option_co,
+    ],
+):
+    """Protocol for exercise domain interface."""
+
+    def execute(
+        self,
+        candidates: Candidates,
+        conf: ExerciseConfig_contra,
+    ) -> Option_co:
+        """Create exercise case."""
