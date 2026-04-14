@@ -1,11 +1,10 @@
 """Generic exercise service."""
 
-from typing import TypeVar, override
+from typing import Protocol, TypeVar, override
 
 from apps.core.assemblers.protocol import DataCommandProtocol
 from apps.core.domains.exercise.abstract import (
     AbstractCheckExerciseDomain,
-    AbstractConfigurableCandidatesExerciseDomain,
 )
 from apps.core.domains.exercise.dto import (
     ExerciseDomainResultDTO,
@@ -14,7 +13,9 @@ from apps.core.domains.exercise.dto import (
 from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.domains.exercise.protocol import (
     Candidates,
-    GenericExerciseParameters,
+    ConditionsProtocol,
+    ExerciseConfigProtocol,
+    ExerciseDomainProtocol,
     HasExerciseConditions,
     HasExerciseConfig,
     HasOptionValue,
@@ -23,7 +24,7 @@ from apps.core.domains.exercise.test.dto import (
     OptionMetaDTO,
     TestExerciseMeta,
 )
-from apps.core.repositories.abstract import AbstractUserFetchRepository
+from apps.core.repositories.protocol import UserRepositoryProtocol
 from apps.users.models import Person
 
 from .abstract import (
@@ -40,6 +41,15 @@ TaskT = TypeVar('TaskT')
 BuilderT = TypeVar('BuilderT')
 CaseMetaT = TypeVar('CaseMetaT')
 
+
+class _SpecT(
+    HasExerciseConditions[ConditionsProtocol],
+    HasExerciseConfig[ExerciseConfigProtocol],
+    Protocol,
+):
+    """Protocol for exercise service specification."""
+
+
 UserAnswerT = TypeVar('UserAnswerT')
 
 # Current exercise case solve
@@ -53,11 +63,7 @@ CheckResultT = TypeVar('CheckResultT')
 
 class CreateExerciseService(
     AbstractCreateExerciseService[
-        GenericExerciseParameters[
-            HasExerciseConditions[object],
-            HasExerciseConfig[object],
-            object,
-        ],
+        _SpecT,
         CaseT,
     ],
 ):
@@ -65,12 +71,12 @@ class CreateExerciseService(
 
     def __init__(
         self,
-        candidates_repository: AbstractUserFetchRepository[
-            HasExerciseConditions[object] | HasExerciseConfig[object],
+        candidates_repository: UserRepositoryProtocol[
+            ConditionsProtocol,
             Candidates,
         ],
-        domain: AbstractConfigurableCandidatesExerciseDomain[
-            HasExerciseConfig[object],
+        domain: ExerciseDomainProtocol[
+            ExerciseConfigProtocol,
             CaseT,
         ],
     ) -> None:
@@ -82,11 +88,7 @@ class CreateExerciseService(
     def execute(
         self,
         user: Person,
-        spec: GenericExerciseParameters[
-            HasExerciseConditions[object],
-            HasExerciseConfig[object],
-            object,
-        ],
+        spec: _SpecT,
     ) -> CaseT:
         """Create and return exercise case."""
         candidates = self._repository.fetch(user, spec.conditions)
