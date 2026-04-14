@@ -43,7 +43,7 @@ class StudyParametersRepository:
         marks = models.Mark.objects.filter(user=user)
         sources = models_core.Source.objects.filter(user=user).order_by('pk')
         periods = models_core.Period.objects.all()
-        orders = models.TranslationSetting.TranslateChoices.choices
+        orders = models.TranslationConfiguration.TranslateChoices.choices
 
         return types.OptionsAPI(
             categories=self._get_id_name(categories),
@@ -75,17 +75,17 @@ class StudyParametersRepository:
         )
 
         translation_settings = (
-            models.TranslationSetting.objects.filter(user=user).first()
-            or models.TranslationSetting()
+            models.TranslationConfiguration.objects.filter(user=user).first()
+            or models.TranslationConfiguration()
         )
 
         presentation_settings = (
-            models.PresentationConfig.objects.filter(user=user).first()
-            or models.PresentationConfig()
+            models.PresentationSettings.objects.filter(user=user).first()
+            or models.PresentationSettings()
         )
 
         order_value, order_label = (
-            models.TranslationSetting.resolve_order_choice(
+            models.TranslationConfiguration.resolve_order_choice(
                 translation_settings.display_order
             )
         )
@@ -153,13 +153,13 @@ class StudyParametersRepository:
             )
         )
         (
-            models.TranslationSetting.objects.update_or_create(
+            models.TranslationConfiguration.objects.update_or_create(
                 user=user,
                 defaults=translation_settings_defaults,
             )
         )
         (
-            models.PresentationConfig.objects.update_or_create(
+            models.PresentationSettings.objects.update_or_create(
                 user=user,
                 defaults=presentation_settings_defaults,
             )

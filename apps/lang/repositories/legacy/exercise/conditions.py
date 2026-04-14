@@ -4,12 +4,12 @@ from django.db.models import Manager, Model
 
 from apps.core.assemblers.protocol import UserCommandProtocol
 from apps.core.domains.exercise.dto import (
-    ExerciseConfigDTO,
     ExerciseParametersDTO,
+    ExerciseSettingsDTO,
     LookupConditionsDTO,
 )
 from apps.core.repositories.abstract import AbstractUserFetchRepository
-from apps.lang import models
+from apps.lang.models import ExerciseConditions, TranslationConfiguration
 from apps.users.models.user import Person
 
 
@@ -23,12 +23,12 @@ class RegularParametersRepository(
 
     def __init__(
         self,
-        parameters_manager: Manager[models.ExerciseConditions],
-        settings_manager: Manager[models.TranslationSetting],
+        parameters_manager: Manager[ExerciseConditions],
+        conf_manager: Manager[TranslationConfiguration],
     ) -> None:
         """Construct the repository."""
         self._parameters = parameters_manager
-        self._settings = settings_manager
+        self._conf = conf_manager
 
     def fetch(
         self,
@@ -37,24 +37,24 @@ class RegularParametersRepository(
     ) -> ExerciseParametersDTO:
         """Fetch user regular exercise settings."""
         parameters = self._get_parameters(user)
-        settings = self._get_settings(user)
-        return self._build_dto(parameters, settings)
+        conf = self._get_conf(user)
+        return self._build_dto(parameters, conf)
 
     def _get_parameters(
         self,
         user: Person,
-    ) -> models.ExerciseConditions | None:
+    ) -> ExerciseConditions | None:
         """Get translations query user conditions."""
         return self._parameters.filter(user=user).first()
 
-    def _get_settings(self, user: Person) -> models.TranslationSetting | None:
-        """Get exercise user settings."""
-        return self._settings.filter(user=user).first()
+    def _get_conf(self, user: Person) -> TranslationConfiguration | None:
+        """Get exercise user configuration."""
+        return self._conf.filter(user=user).first()
 
     def _build_dto(
         self,
-        parameters: models.ExerciseConditions | None,
-        settings: models.TranslationSetting | None,
+        parameters: ExerciseConditions | None,
+        conf: TranslationConfiguration | None,
     ) -> ExerciseParametersDTO:
         return ExerciseParametersDTO(
             # ----------------------------
@@ -76,12 +76,12 @@ class RegularParametersRepository(
             # -----------------------------
             # Translation exercise settings
             # -----------------------------
-            conf=ExerciseConfigDTO(
-                display_order=settings.display_order,  # type: ignore
-                item_count=settings.word_count,
+            settings=ExerciseSettingsDTO(
+                display_order=conf.display_order,  # type: ignore
+                item_count=conf.word_count,
             )
-            if settings
-            else ExerciseConfigDTO(),
+            if conf
+            else ExerciseSettingsDTO(),
         )
 
     # TODO: Fix type ignore

@@ -23,8 +23,8 @@ class StudySettingsRepository(StudySettingsRepositoryABC):
     def fetch(self, user: Person) -> types.CaseStudySettingsWEB:
         """Get study settings for presentation case."""
         translation_parameters = models.ExerciseConditions.get_instants(user)
-        translation_settings = models.TranslationSetting.get_instants(user)
-        presentation_settings = models.PresentationConfig.get_instants(user)
+        translation_conf = models.TranslationConfiguration.get_instants(user)
+        presentation_settings = models.PresentationSettings.get_instants(user)
 
         mark = self._get_pk(translation_parameters.mark)
         return types.CaseStudySettingsWEB(
@@ -44,8 +44,8 @@ class StudySettingsRepository(StudySettingsRepositoryABC):
             #
             # Translation settings
             # TODO: Fix type ignore
-            display_order=str(translation_settings.display_order),  # type: ignore[typeddict-item]
-            word_count=str(translation_settings.word_count or ''),
+            display_order=str(translation_conf.display_order),  # type: ignore[typeddict-item]
+            word_count=str(translation_conf.word_count or ''),
             #
             # Presentation settings
             question_timeout=str(presentation_settings.question_timeout or ''),
