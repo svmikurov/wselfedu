@@ -20,5 +20,8 @@ class CandidatesSelector(
     ) -> Candidates:
         """Select translation for exercise."""
         if len(candidates) < self.MIN_CANDIDATES_COUNT:
-            raise info.NoExerciseItemsException
+            raise info.NoExerciseItemsException(
+                f'Expected {self.MIN_CANDIDATES_COUNT} or more candidates, '
+                f'but got {len(candidates)}'
+            )
         return candidates.order_by('id')[: conf.item_count]
