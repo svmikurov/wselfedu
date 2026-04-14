@@ -9,7 +9,7 @@ from apps.core.domains.exercise.enums import (
     ExerciseStatusEnum,
 )
 from apps.core.domains.exercise.protocol import (
-    ExerciseConfig,
+    ExerciseConfigProtocol,
     ExerciseParametersProtocol,
     HasExerciseConfig,
     HasExerciseStatus,
@@ -24,7 +24,7 @@ from apps.core.validators.request.protocol import HasExerciseProcessAction
 from ..protocol import ResolverProtocol
 
 ParamsT = TypeVar('ParamsT', bound=ExerciseParametersProtocol)
-SpecT = TypeVar('SpecT', bound=HasExerciseConfig[ExerciseConfig])
+SpecT = TypeVar('SpecT', bound=HasExerciseConfig[ExerciseConfigProtocol])
 CaseT = TypeVar('CaseT', bound=HasExerciseStatus)
 ResultT = TypeVar('ResultT')
 CommandT = UserDataCommandProtocol[HasExerciseProcessAction]
@@ -53,7 +53,7 @@ class ExerciseUseCaseStrategy(
         ],
         builder_registry: dict[
             ExerciseStatusEnum,
-            TaskBuilderProtocol[CaseT, ExerciseConfig, ResultT],
+            TaskBuilderProtocol[CaseT, ExerciseConfigProtocol, ResultT],
         ],
     ) -> None:
         """Construct the use case."""
