@@ -92,7 +92,7 @@ class UseCaseContainer(DeclarativeContainer):
         exercise_type=ExerciseTypeEnum.TEST,
         parameters_repository=repositories.translation_parameters,
         default=ExerciseParametersDTO(
-            conf=TestExerciseConfigDTO(
+            settings=TestExerciseConfigDTO(
                 option_count=7,
             ),
         ),

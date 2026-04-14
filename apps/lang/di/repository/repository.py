@@ -4,7 +4,7 @@ from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Dependency, Factory
 
 from apps.lang import models, repositories
-from apps.lang.models import ExerciseConditions, TranslationSetting
+from apps.lang.models import ExerciseConditions, TranslationConfiguration
 from apps.lang.repositories import (
     RegularParametersRepository,
 )
@@ -38,7 +38,7 @@ class RepositoryContainer(DeclarativeContainer):
     translation_parameters = Factory(
         RegularParametersRepository,
         parameters_manager=models.ExerciseConditions.objects,
-        settings_manager=models.TranslationSetting.objects,
+        conf_manager=models.TranslationConfiguration.objects,
     )
     # ---------------------------------------------
     # Regular translation exercise candidates
@@ -55,7 +55,7 @@ class RepositoryContainer(DeclarativeContainer):
     regular_parameters = Factory(
         RegularParametersRepository,
         parameters_manager=ExerciseConditions.objects,
-        settings_manager=TranslationSetting.objects,
+        conf_manager=TranslationConfiguration.objects,
     )
 
     study_parameters = Factory(
