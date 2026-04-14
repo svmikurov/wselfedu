@@ -4,11 +4,7 @@ from random import choice
 
 from ..abstract import AbstractConfigurableCandidatesExerciseDomain
 from ..deps.protocol import SelectorProtocol
-from ..protocol import (
-    Candidate,
-    Candidates,
-    HasDisplayOrder,
-)
+from ..protocol import Candidate, Candidates, ExerciseConfigProtocol
 from .dto import PresentationDomainResult
 from .protocol import PresentationCreateResultProtocol
 
@@ -17,7 +13,7 @@ __all__ = ('PresentationDomain',)
 
 class PresentationDomain(
     AbstractConfigurableCandidatesExerciseDomain[
-        HasDisplayOrder,
+        ExerciseConfigProtocol,
         PresentationCreateResultProtocol[Candidate],
     ],
 ):
@@ -25,7 +21,7 @@ class PresentationDomain(
 
     def __init__(
         self,
-        selector: SelectorProtocol[HasDisplayOrder],
+        selector: SelectorProtocol[ExerciseConfigProtocol],
     ) -> None:
         """Configure the domain."""
         self._selector = selector
@@ -33,7 +29,7 @@ class PresentationDomain(
     def execute(
         self,
         candidates: Candidates,
-        conf: HasDisplayOrder,
+        conf: ExerciseConfigProtocol,
     ) -> PresentationCreateResultProtocol[Candidate]:
         """Get presentation exercise case data."""
         selected_candidates = self._selector.select(candidates, conf)
