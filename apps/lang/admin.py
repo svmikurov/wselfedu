@@ -84,18 +84,7 @@ class ParametersAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     ]
 
 
-@admin.register(models.TranslationSetting)
-class TranslationSettingAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
-    """Translation study settings model administration."""
-
-    list_display = [
-        'user',
-        'display_order',
-        'word_count',
-    ]
-
-
-@admin.register(models.PresentationConfig)
+@admin.register(models.PresentationSettings)
 class PresentationSettingsAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """Presentation settings model administration."""
 
