@@ -8,8 +8,6 @@ from dependency_injector.providers import Configuration, Factory
 from apps.core.domains.exercise.dto import ProgressConfigDTO
 from apps.core.domains.exercise.enums import DisplayOrder
 
-from ..domains.exercise.protocol import ExerciseSettings
-
 
 # TODO: Remove this stub after implementation
 # of global configuration of exercises.
@@ -49,7 +47,7 @@ class ConfigurationContainer(DeclarativeContainer):
     # Exercise configuration
     # ----------------------
 
-    exercise: ExerciseSettings = Factory(
+    exercise = Factory(
         ExerciseConfig,
         display_order=DisplayOrder.DEFINE,
         option_count=7,
