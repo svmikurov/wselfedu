@@ -74,7 +74,7 @@ class TranslationSettingsForm(forms.ModelForm):  # type: ignore[type-arg]
     class Meta:
         """Form configuration."""
 
-        model = models.TranslationSetting
+        model = models.TranslationConfiguration
         fields = ['display_order', 'word_count']
 
     def __init__(self, *args: object, **kwargs: object) -> None:
@@ -95,7 +95,7 @@ class PresentationSettingsForm(forms.ModelForm):  # type: ignore[type-arg]
     class Meta:
         """Form configuration."""
 
-        model = models.PresentationConfig
+        model = models.PresentationSettings
         fields = ['question_timeout', 'answer_timeout']
 
     def __init__(self, *args: object, **kwargs: object) -> None:
@@ -112,7 +112,7 @@ class PresentationSettingsForm(forms.ModelForm):  # type: ignore[type-arg]
 
 TranslationSettingsFormSet = forms.inlineformset_factory(
     get_user_model(),
-    models.TranslationSetting,
+    models.TranslationConfiguration,
     form=TranslationSettingsForm,
     extra=1,
     max_num=1,
@@ -123,7 +123,7 @@ TranslationSettingsFormSet = forms.inlineformset_factory(
 
 PresentationSettingsFormSet = forms.inlineformset_factory(
     get_user_model(),
-    models.PresentationConfig,
+    models.PresentationSettings,
     form=PresentationSettingsForm,
     extra=1,
     max_num=1,

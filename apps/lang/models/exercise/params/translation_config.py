@@ -1,4 +1,4 @@
-"""Word study settings model."""
+"""Word study configuration model."""
 
 from __future__ import annotations
 
@@ -11,11 +11,11 @@ from apps.core.models import AbstractBaseModel
 if TYPE_CHECKING:
     from apps.users.models import Person
 
-__all__ = ('TranslationSetting',)
+__all__ = ('TranslationConfiguration',)
 
 
-class TranslationSetting(AbstractBaseModel):
-    """Translation study parameters model."""
+class TranslationConfiguration(AbstractBaseModel):
+    """Translation study configuration model."""
 
     class TranslateChoices(models.TextChoices):
         """Translate order choices."""
@@ -53,13 +53,13 @@ class TranslationSetting(AbstractBaseModel):
         verbose_name = 'Настройки изучения переводов'
         verbose_name_plural = 'Настройки изучения переводов'
 
-        db_table = 'lang_translation_settings'
+        db_table = 'lang_translation_configuration'
 
         # TODO: Add constrains after Period model improve
         constraints = [
             models.UniqueConstraint(
                 fields=['user'],
-                name='lang_translation_settings_unique_user_name',
+                name='lang_translation_configuration_unique_user_name',
             ),
         ]
 
@@ -82,7 +82,7 @@ class TranslationSetting(AbstractBaseModel):
 
     @classmethod
     def get_instants(cls, user: Person) -> Self:
-        """Get user translation settings or return defaults."""
+        """Get user translation configuration or return defaults."""
         try:
             instance = cls.objects.get(user=user)
         except cls.DoesNotExist:

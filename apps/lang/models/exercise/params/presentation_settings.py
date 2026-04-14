@@ -1,4 +1,4 @@
-"""Presentation configuration."""
+"""Presentation settings."""
 
 from __future__ import annotations
 
@@ -12,11 +12,11 @@ from apps.core.models import AbstractBaseModel
 if TYPE_CHECKING:
     from apps.users.models import Person
 
-__all__ = ('PresentationConfig',)
+__all__ = ('PresentationSettings',)
 
 
-class PresentationConfig(AbstractBaseModel):
-    """Presentation configuration model."""
+class PresentationSettings(AbstractBaseModel):
+    """Presentation settings model."""
 
     MIN_TIMEOUT: Final[int] = 1
     DEFAULT_TIMEOUT: Final[int] = 3
@@ -26,7 +26,7 @@ class PresentationConfig(AbstractBaseModel):
         'users.Person',
         on_delete=models.CASCADE,
         verbose_name='User',
-        related_name='user_presentation_configuration',
+        related_name='user_presentation_settings',
     )
 
     question_timeout = models.PositiveSmallIntegerField(
@@ -55,22 +55,22 @@ class PresentationConfig(AbstractBaseModel):
     class Meta:
         """Model configuration."""
 
-        verbose_name = 'Presentation configuration'
-        verbose_name_plural = 'Presentation configuration'
+        verbose_name = 'Presentation settings'
+        verbose_name_plural = 'Presentation settings'
 
         # TODO: Add constrains after Period model improve
         constraints = [
             models.UniqueConstraint(
                 fields=['user'],
-                name='lang_presentation_config_unique_user_name',
+                name='lang_presentation_settings_unique_user_name',
             ),
         ]
 
-        db_table = 'lang_presentation_config'
+        db_table = 'lang_presentation_settings'
 
     @classmethod
     def get_instants(cls, user: Person) -> Self:
-        """Get user presentation configurations or return defaults."""
+        """Get user presentation settings or return defaults."""
         try:
             return cls.objects.get(user=user)
         except cls.DoesNotExist:
