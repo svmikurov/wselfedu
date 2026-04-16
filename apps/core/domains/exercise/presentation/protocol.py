@@ -21,7 +21,7 @@ class PresentationCreateResultProtocol(
     """Presentation exercise create domain result DTO interface."""
 
 
-class PresentationTaskProtocol(
+class PresentationCaseProtocol(
     HasExerciseStatus,
     HasQuestionText,
     HasAnswerText,

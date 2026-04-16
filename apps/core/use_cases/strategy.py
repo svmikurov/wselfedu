@@ -1,51 +1,48 @@
 """Use case strategy."""
 
 import logging
-from typing import Any, Generic, TypeVar, override
+from typing import Generic, TypeVar, override
 
 from apps.core.assemblers.protocol import DataCommandProtocol
-from apps.core.domains.exercise.enums import ExerciseProcessEnum
+from apps.core.contracts.request import HasAction
 from apps.core.use_cases.protocol import UseCaseProtocol
-from apps.core.validators.request.protocol import ExerciseProcessAction
 
 from .abstract import AbstractUseCase
 
-_DataCommandProtocol = DataCommandProtocol[ExerciseProcessAction]
-
-Command = TypeVar('Command', bound=_DataCommandProtocol)
-UseCase = TypeVar('UseCase', bound=UseCaseProtocol[_DataCommandProtocol, Any])
-Result = TypeVar('Result')
+ActionT = TypeVar('ActionT')
+ResultT = TypeVar('ResultT')
 
 log = logging.getLogger(__name__)
 
+# NOTE: Unused use case strategy
 
-class ProcessExerciseUseCaseStrategy(
-    AbstractUseCase[Command, Result],
-    Generic[Command, Result],
+
+class UseCaseStrategy(
+    AbstractUseCase[DataCommandProtocol[HasAction[ActionT]], ResultT],
+    Generic[ActionT, ResultT],
 ):
-    """Process exercise use case strategy."""
+    """Use case strategy."""
 
     def __init__(
         self,
-        registry: dict[ExerciseProcessEnum, UseCase],
+        registry: dict[
+            ActionT,
+            UseCaseProtocol[DataCommandProtocol[HasAction[ActionT]], ResultT],
+        ],
     ) -> None:
         """Construct the strategy."""
         self._registry = registry
 
     @override
-    def execute(self, command: Command) -> Result:
+    def execute(
+        self,
+        command: DataCommandProtocol[HasAction[ActionT]],
+    ) -> ResultT:
         """Execute."""
-        action = command.data.action  # type: ignore
+        action = command.data.action
 
         try:
-            use_case = self._registry[action]
-        except KeyError as exc:
-            log.error(
-                f'Process exercise use case strategy error, '
-                f'no registered process exercise use case for '
-                f'"{action}" action.\n'
-                f'Register the {exc} strategy key.'
-            )
+            return self._registry[action].execute(command)
+        except KeyError:
+            log.error(f'No registered use case for "{action}" strategy key')
             raise
-
-        return use_case.execute(command)  # type: ignore

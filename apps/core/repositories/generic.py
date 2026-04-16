@@ -53,31 +53,6 @@ class _Repository(
         raise NotImplementedError('Subclass must implement _get_object()')
 
 
-class UserCachedRepository(
-    _Repository[FilterUser, QueryResult],
-    Generic[FilterUser, QueryResult],
-):
-    """Base user's resource repository."""
-
-    @override
-    def fetch(self, filter: FilterUser) -> QueryResult:  # type: ignore
-        """Fetch resource."""
-        key_kwargs = self._get_key(filter.user.pk)
-
-        try:
-            return self._storage.retrieve(**key_kwargs)
-        except CacheMissError:
-            obj = self._get_object(filter)
-            self._storage.save(obj, **key_kwargs)
-            return obj
-
-    def _get_key(self, user_pk: int) -> _CacheKey:
-        return {
-            'user_pk': user_pk,
-            'prefix': self._store_prefix,
-        }
-
-
 class UserResourceCachedRepository(
     _Repository[FilterUserData, QueryResult],
     Generic[FilterUserData, QueryResult],

@@ -1,23 +1,24 @@
-"""ABC for service."""
+"""Abstract base class for service."""
 
 from abc import ABC, abstractmethod
-from typing import TypeVar, override
+from typing import TYPE_CHECKING, TypeVar, override
 
-from apps.users.models import Person
+from .protocol import UserServiceProtocol
 
-from .protocol import ServiceProtocol
+if TYPE_CHECKING:
+    from apps.users.models import Person
 
-Data = TypeVar('Data')
-Result = TypeVar('Result')
+SpecT = TypeVar('SpecT')
+ResultT = TypeVar('ResultT')
 
 
 class AbstractUserService(
     ABC,
-    ServiceProtocol[Data, Result],
+    UserServiceProtocol[SpecT, ResultT],
 ):
     """ABC for user's service."""
 
     @override
     @abstractmethod
-    def execute(self, user: Person, data: Data) -> Result:
+    def execute(self, user: Person, spec: SpecT) -> ResultT:
         """Execute."""

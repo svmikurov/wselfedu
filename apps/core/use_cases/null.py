@@ -1,6 +1,6 @@
 """Null use case."""
 
-from apps.core.use_cases.abstract import AbstractUseCase
+from .abstract import AbstractUseCase
 
 
 class NullUseCase(AbstractUseCase[object, object]):

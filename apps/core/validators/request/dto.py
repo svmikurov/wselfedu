@@ -1,7 +1,5 @@
 """Validated data schemas."""
 
-from pydantic import BaseModel
-
 from apps.core.domains.dto import BaseDTO
 from apps.core.domains.exercise.enums import ExerciseProcessEnum
 
@@ -12,7 +10,7 @@ class TestExerciseAnswerDTO(BaseDTO):
     option_value: int
 
 
-class ExerciseActionWebDTO(BaseModel):
+class ExerciseActionWebDTO(BaseDTO):
     """Process exercise WEB request validated DTO."""
 
     action: ExerciseProcessEnum

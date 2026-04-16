@@ -3,27 +3,18 @@
 from typing import Protocol, TypeVar
 
 Data_contra = TypeVar('Data_contra', contravariant=True)
-DumpData_cov = TypeVar('DumpData_cov', covariant=True)
-DTO_cov = TypeVar('DTO_cov', covariant=True)
-
-# =================================================
-# Null interface
-# =================================================
-
-
-class NullProtocol(Protocol):
-    """Nul interface."""
-
+DumpData_co = TypeVar('DumpData_co', covariant=True)
+DTO_co = TypeVar('DTO_co', covariant=True)
 
 # =================================================
 # DTO interface
 # =================================================
 
 
-class DTOProtocol(Protocol[DumpData_cov]):
+class DTOProtocol(Protocol[DumpData_co]):
     """Protocol for DTO interface."""
 
-    def model_dump(self) -> DumpData_cov:
+    def model_dump(self) -> DumpData_co:
         """Dumb DTO model to dict."""
 
 
@@ -32,8 +23,8 @@ class DTOProtocol(Protocol[DumpData_cov]):
 # =================================================
 
 
-class DTOFactoryProtocol(Protocol[Data_contra, DTO_cov]):
+class DTOFactoryProtocol(Protocol[Data_contra, DTO_co]):
     """Protocol for DTO factory."""
 
-    def build(self, data: Data_contra) -> DTO_cov:
+    def build(self, data: Data_contra) -> DTO_co:
         """Build DTO."""

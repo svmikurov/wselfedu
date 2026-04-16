@@ -18,12 +18,14 @@ from apps.core.domains.exercise.protocol import (
     ExerciseDomainProtocol,
     HasExerciseConditions,
     HasExerciseConfig,
+    HasExerciseStatus,
     HasOptionValue,
 )
 from apps.core.domains.exercise.test.dto import (
     OptionMetaDTO,
     TestExerciseMeta,
 )
+from apps.core.domains.task.protocol import TaskBuilderProtocol
 from apps.core.repositories.protocol import UserRepositoryProtocol
 from apps.users.models import Person
 
@@ -40,6 +42,7 @@ CaseT = TypeVar('CaseT')
 TaskT = TypeVar('TaskT')
 BuilderT = TypeVar('BuilderT')
 CaseMetaT = TypeVar('CaseMetaT')
+ResultT = TypeVar('ResultT', bound=HasExerciseStatus)
 
 
 class _SpecT(
@@ -64,7 +67,7 @@ CheckResultT = TypeVar('CheckResultT')
 class CreateExerciseService(
     AbstractCreateExerciseService[
         _SpecT,
-        CaseT,
+        ResultT,
     ],
 ):
     """Creates exercise case."""
@@ -79,21 +82,27 @@ class CreateExerciseService(
             ExerciseConfigProtocol,
             CaseT,
         ],
+        builder: TaskBuilderProtocol[
+            CaseT,
+            ExerciseConfigProtocol,
+            ResultT,
+        ],
     ) -> None:
         """Construct the service."""
         self._repository = candidates_repository
         self._domain = domain
+        self._builder = builder
 
     @override
     def execute(
         self,
         user: Person,
         spec: _SpecT,
-    ) -> CaseT:
+    ) -> ResultT:
         """Create and return exercise case."""
         candidates = self._repository.fetch(user, spec.conditions)
         case = self._domain.execute(candidates, spec.conf)
-        return case
+        return self._builder.build(case, spec.conf)
 
 
 # =================================================
@@ -161,5 +170,5 @@ class ExplainExerciseService(
         )
         return ExerciseDomainResultDTO(
             status=ExerciseStatusEnum.EXPLAIN,
-            exercise=explain,
+            case=explain,
         )

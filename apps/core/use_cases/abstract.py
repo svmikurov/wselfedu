@@ -5,34 +5,21 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import TypeVar, override
 
-from .protocol import ResolverProtocol, UseCaseProtocol
+from .protocol import UseCaseProtocol
 
 __all__ = ('AbstractUseCase',)
 
-UseCase = TypeVar('UseCase')
-Command = TypeVar('Command')
-Result = TypeVar('Result')
+CommandT = TypeVar('CommandT')
+ResultT = TypeVar('ResultT')
 
 
 class AbstractUseCase(
     ABC,
-    UseCaseProtocol[Command, Result],
+    UseCaseProtocol[CommandT, ResultT],
 ):
-    """ABC for generic request use case."""
+    """ABC for request use case."""
 
     @override
     @abstractmethod
-    def execute(self, command: Command) -> Result:
+    def execute(self, command: CommandT) -> ResultT:
         """Execute use case."""
-
-
-class AbstractResolver(
-    ABC,
-    ResolverProtocol[Command, Result],
-):
-    """ABC for resolver."""
-
-    @override
-    @abstractmethod
-    def resolve(self, command: Command) -> Result:
-        """Resolve."""

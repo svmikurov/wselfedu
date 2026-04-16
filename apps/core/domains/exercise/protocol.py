@@ -2,7 +2,7 @@
 
 from typing import Iterator, Protocol, Self, TypeVar, overload
 
-from .enums import DisplayOrder, ExerciseStatusEnum
+from .enums import DisplayOrder, ExerciseProcessEnum, ExerciseStatusEnum
 
 ExerciseConditionsT = TypeVar('ExerciseConditionsT')
 ExerciseConfigT = TypeVar('ExerciseConfigT')
@@ -17,6 +17,12 @@ class HasText(Protocol):
     """Protocol for has *text* interface."""
 
     text: str
+
+
+class HasExerciseProcessAction(Protocol):
+    """Protocol for has exercise process action interface."""
+
+    action: ExerciseProcessEnum
 
 
 # =================================================
@@ -189,6 +195,18 @@ class HasExerciseSettings(Protocol[ExerciseSettingsT]):
     settings: ExerciseSettingsT
 
 
+class HasCase(Protocol[OptionT]):
+    """Protocol fo has *case* interface."""
+
+    case: OptionT
+
+
+class HasExistingCase(Protocol[OptionT]):
+    """Protocol fo has *existing case* interface."""
+
+    existing_case: OptionT
+
+
 class GenericExerciseParameters(
     HasExerciseConditions[ExerciseConditionsT],
     HasExerciseConfig[ExerciseConfigT],
@@ -218,6 +236,16 @@ class ExerciseParametersProtocol(
     Protocol,
 ):
     """Exercise parameters."""
+
+
+class ExerciseSpecProtocol(
+    HasExerciseConditions[ConditionsProtocol],
+    HasExerciseConfig[ExerciseConfigProtocol],
+    HasExerciseSettings[ExerciseSettingsProtocol],
+    HasExistingCase[OptionT],
+    Protocol[OptionT],
+):
+    """Protocol for exercise spec interface."""
 
 
 # =================================================
@@ -298,6 +326,19 @@ class HasPhases(Protocol):
     """Protocol for has *phases* interface."""
 
     phases: list[DisplayOrder]
+
+
+# =================================================
+# Exercise domain result DTO interface
+# =================================================
+
+
+class ExerciseProcessResultProtocol(
+    HasExerciseStatus,
+    HasCase[OptionT],
+    Protocol,
+):
+    """Protocol for domain result DTO interface."""
 
 
 # =================================================

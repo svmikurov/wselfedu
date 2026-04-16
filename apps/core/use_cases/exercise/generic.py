@@ -11,23 +11,22 @@ from apps.core.domains.exercise.enums import (
 from apps.core.domains.exercise.protocol import (
     ExerciseConfigProtocol,
     ExerciseParametersProtocol,
+    ExerciseProcessResultProtocol,
     HasExerciseConfig,
-    HasExerciseStatus,
+    HasExerciseProcessAction,
 )
 from apps.core.domains.task.protocol import TaskBuilderProtocol
 from apps.core.exceptions.storage import StorageMissError
-from apps.core.services.protocol import ServiceProtocol
+from apps.core.resolvers.protocol import ResolverProtocol
+from apps.core.services.protocol import UserServiceProtocol
 from apps.core.storages.services.protocol import CommandStorageProtocol
 from apps.core.use_cases.abstract import AbstractUseCase
-from apps.core.validators.request.protocol import HasExerciseProcessAction
 
-from ..protocol import ResolverProtocol
-
+CommandT = UserDataCommandProtocol[HasExerciseProcessAction]
 ParamsT = TypeVar('ParamsT', bound=ExerciseParametersProtocol)
 SpecT = TypeVar('SpecT', bound=HasExerciseConfig[ExerciseConfigProtocol])
-CaseT = TypeVar('CaseT', bound=HasExerciseStatus)
+CaseT = TypeVar('CaseT')
 ResultT = TypeVar('ResultT')
-CommandT = UserDataCommandProtocol[HasExerciseProcessAction]
 
 
 class ExerciseUseCaseStrategy(
@@ -49,11 +48,15 @@ class ExerciseUseCaseStrategy(
         ],
         service_registry: dict[
             ExerciseProcessEnum,
-            ServiceProtocol[SpecT, CaseT],
+            UserServiceProtocol[SpecT, ExerciseProcessResultProtocol[CaseT]],
         ],
         builder_registry: dict[
             ExerciseStatusEnum,
-            TaskBuilderProtocol[CaseT, ExerciseConfigProtocol, ResultT],
+            TaskBuilderProtocol[
+                ExerciseProcessResultProtocol[CaseT],
+                SpecT,
+                ResultT,
+            ],
         ],
     ) -> None:
         """Construct the use case."""
@@ -81,11 +84,11 @@ class ExerciseUseCaseStrategy(
         else:
             spec = adapter.adapt(command, parameters, existing_case)
 
-        case = service.execute(command.user, spec)
+        domain = service.execute(command.user, spec)
 
-        if case.status == ExerciseStatusEnum.NEW_TASK:
-            self._storage.save(command, case, self._prefix)
+        if domain.status == ExerciseStatusEnum.NEW_TASK:
+            self._storage.save(command, domain.case, self._prefix)
 
-        builder = self._builder_registry[case.status]
-        result = builder.build(case, spec.conf)
+        builder = self._builder_registry[domain.status]
+        result = builder.build(domain, spec)
         return result

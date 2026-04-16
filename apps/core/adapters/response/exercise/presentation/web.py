@@ -12,8 +12,8 @@ from pydantic import BaseModel
 from apps.core.adapters.response.abstract import AbstractResponseAdapter
 from apps.core.adapters.response.dto import OobResponseDTO
 from apps.core.adapters.response.status import ResponseStatusEnum
+from apps.core.contracts import NullProtocol
 from apps.core.domains.null import NullDTO
-from apps.core.domains.protocol import NullProtocol
 
 DomainResult = TypeVar('DomainResult', bound=BaseModel)
 

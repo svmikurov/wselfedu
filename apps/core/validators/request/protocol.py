@@ -26,12 +26,6 @@ class OptionAnswerWebData(
 # =================================================
 
 
-class HasExerciseProcessAction(Protocol):
-    """Protocol for has exercise process action interface."""
-
-    action: ExerciseProcessEnum
-
-
 # =================================================
 # Protocol for validated data
 # =================================================

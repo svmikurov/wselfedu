@@ -2,7 +2,7 @@
 
 from ..exercise.enums import DisplayOrder, ExerciseStatusEnum
 from ..exercise.presentation.dto import PresentationTask
-from ..exercise.presentation.protocol import PresentationTaskProtocol
+from ..exercise.presentation.protocol import PresentationCaseProtocol
 from ..exercise.protocol import Candidate, HasOption, HasPhases
 from .abstract import AbstractTaskBuilder
 
@@ -14,7 +14,7 @@ class PresentationTaskBuilder(
     AbstractTaskBuilder[
         HasOption[Candidate],
         HasPhases,
-        PresentationTaskProtocol,
+        PresentationCaseProtocol,
     ],
 ):
     """Presentation task builder."""
@@ -23,7 +23,7 @@ class PresentationTaskBuilder(
         self,
         case: HasOption[Candidate],
         conf: HasPhases,
-    ) -> PresentationTaskProtocol:
+    ) -> PresentationCaseProtocol:
         """Build presentation task."""
         option = case.option
 

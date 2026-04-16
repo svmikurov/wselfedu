@@ -1,4 +1,4 @@
-"""Protocol for use case interface."""
+"""Protocol for resolver interface."""
 
 from typing import Protocol, TypeVar
 
@@ -6,11 +6,11 @@ Command_contra = TypeVar('Command_contra', contravariant=True)
 Result_co = TypeVar('Result_co', covariant=True)
 
 
-class UseCaseProtocol(Protocol[Command_contra, Result_co]):
-    """Protocol for use case."""
+class ResolverProtocol(Protocol[Command_contra, Result_co]):
+    """Protocol for resolver."""
 
-    def execute(
+    def resolve(
         self,
         command: Command_contra,
     ) -> Result_co:
-        """Execute use case."""
+        """Resolve."""

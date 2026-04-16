@@ -46,8 +46,8 @@ class UserCommandStorage(
     @override
     def save(  # type: ignore
         self,
-        obj: StoredObject,
         command: UserCommand,
+        obj: StoredObject,
         prefix: str,
         ttl: int | None = None,
         **kwargs: object,

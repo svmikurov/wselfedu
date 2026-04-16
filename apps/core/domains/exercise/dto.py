@@ -342,6 +342,17 @@ class ExerciseSpecDTO(
 
 
 # -------------------------------------------------
+# Exercise service result case DTO
+# -------------------------------------------------
+
+
+class CaseDTO(
+    ExerciseStatusSchema,
+):
+    """Case DTO."""
+
+
+# -------------------------------------------------
 # Text exercise check result DTO
 # -------------------------------------------------
 
@@ -377,11 +388,11 @@ class TextExerciseExplainDTO(
 # -------------------------------------------------
 
 
-class ExerciseDomainResultDTO(BaseDTO, Generic[DomainResult]):
+class ExerciseDomainResultDTO(ArbitraryDTO, Generic[DomainResult]):
     """Exercise domain result DTO."""
 
     status: ExerciseStatusEnum
-    exercise: DomainResult
+    case: DomainResult
 
 
 # =================================================

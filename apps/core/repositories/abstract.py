@@ -1,29 +1,17 @@
 """Abstract base class for repository."""
 
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
-from typing import TypeVar, override
+from typing import TYPE_CHECKING, TypeVar, override
 
-from django.db.models import Model
+from .protocol import UserRepositoryProtocol
 
-from apps.users.models import Person
-
-from .protocol import ModelRepositoryProtocol, UserRepositoryProtocol
+if TYPE_CHECKING:
+    from apps.users.models import Person
 
 FilterT = TypeVar('FilterT')
-ModelT = TypeVar('ModelT', bound=Model)
 ResultT = TypeVar('ResultT')
-
-
-class AbstractModelRepository(
-    ABC,
-    ModelRepositoryProtocol[FilterT, ModelT],
-):
-    """ABC for model repository."""
-
-    @override
-    @abstractmethod
-    def get_query(self, filter: FilterT) -> ModelT:
-        """Fetch model."""
 
 
 class AbstractUserFetchRepository(

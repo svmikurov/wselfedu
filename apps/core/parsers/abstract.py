@@ -5,17 +5,19 @@ from typing import TypeVar, override
 
 from .protocol import RequestParamsQueryParserProtocol
 
-QueryData = TypeVar('QueryData')
-QueryType = TypeVar('QueryType')
+QueryDataT = TypeVar('QueryDataT')
+QueryTypeT = TypeVar('QueryTypeT')
+
+__all__ = ('AbstractRequestParamsQueryParser',)
 
 
 class AbstractRequestParamsQueryParser(
     ABC,
-    RequestParamsQueryParserProtocol[QueryData, QueryType],
+    RequestParamsQueryParserProtocol[QueryDataT, QueryTypeT],
 ):
     """ABC for request parameters query parser."""
 
     @override
     @abstractmethod
-    def parse(self, query: QueryData) -> QueryType:
+    def parse(self, query: QueryDataT) -> QueryTypeT:
         """Parse request parameters query."""
