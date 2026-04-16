@@ -1,7 +1,7 @@
-"""Core null domains."""
+"""Core null."""
 
 from .dto import BaseDTO
 
 
 class NullDTO(BaseDTO):
-    """Null DTO."""
+    """Null immutable DTO."""
