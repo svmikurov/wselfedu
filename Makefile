@@ -57,7 +57,8 @@ pytest-cov:
     --cov-report=html
 
 # Combined checking
-check: format mypy pytest-cov
+check: mypy format pytest
+check-cov: format mypy pytest-cov
 
 
 # Database commands
