@@ -8,9 +8,9 @@ from apps.core.adapters.response.abstract import (
 )
 from apps.core.adapters.response.dto import OobResponseDTO, ResponseDTO
 from apps.core.adapters.response.status import ResponseStatusEnum
+from apps.core.contracts import NullProtocol
 from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.domains.exercise.protocol import HasExerciseStatus
-from apps.core.domains.protocol import NullProtocol
 from apps.core.handlers.protocol import (
     AdapterProtocol,
     RequestContextProtocol,
