@@ -6,7 +6,7 @@ from django.db.models import QuerySet
 
 from apps.core.adapters.response.abstract import AbstractResponseAdapter
 from apps.core.adapters.response.rule.dto import RuleClauseDTO, RuleDTO
-from apps.core.domains.protocol import NullProtocol
+from apps.core.contracts import NullProtocol
 from apps.lang import models
 
 

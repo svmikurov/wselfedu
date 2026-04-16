@@ -10,9 +10,14 @@ from dependency_injector.providers import (
     Factory,
 )
 
-from apps.core.domains.exercise import (
-    PresentationDomain,
+from apps.core.adapters.exercise.process import (
+    ExerciseProcessAdapter,
 )
+from apps.core.builders.exercise import (
+    ExerciseCaseBuilder,
+    ExercisePresentationBuilder,
+)
+from apps.core.domains.exercise import PresentationDomain
 from apps.core.domains.exercise.deps.selector import (
     CandidatesSelector,
 )
@@ -22,13 +27,14 @@ from apps.core.domains.exercise.dto import (
 )
 from apps.core.domains.exercise.enums import (
     ExerciseProcessEnum,
+    ExerciseStatusEnum,
     ExerciseTypeEnum,
+)
+from apps.core.resolvers.exercise.config_resolver import (
+    ExerciseConfigurationResolver,
 )
 from apps.core.services.exercise.generic import (
     CreateExerciseService,
-)
-from apps.core.use_cases.exercise.config_resolver import (
-    ExerciseConfigurationResolver,
 )
 from apps.core.use_cases.exercise.generic import (
     ExerciseUseCaseStrategy,
@@ -51,7 +57,9 @@ class UseCaseContainer(DeclarativeContainer):
     # =============================================
     regular_translation_presentation_adapter_registry = Dict(
         {
-            ExerciseProcessEnum.CREATE_CASE: ...,
+            ExerciseProcessEnum.CREATE_CASE: Factory(
+                ExerciseProcessAdapter,
+            )
         },
     )
     regular_translation_presentation_service_registry = Dict(
@@ -63,22 +71,27 @@ class UseCaseContainer(DeclarativeContainer):
                     PresentationDomain,
                     selector=Factory(CandidatesSelector),
                 ),
+                builder=Factory(
+                    ExerciseCaseBuilder,
+                ),
             ),
         },
     )
-    regular_translation_presentation_factory_registry = Dict(
+    regular_translation_presentation_builder_registry = Dict(
         {
-            ExerciseProcessEnum.CREATE_CASE: ...,
+            ExerciseStatusEnum.NEW_TASK: Factory(
+                ExercisePresentationBuilder,
+            ),
         },
     )
     process_regular_translation_presentation = Factory(
         ExerciseUseCaseStrategy,
-        store_prefix='regular_translation_presentation',
+        prefix='regular_translation_presentation',
         storage=user_command_storage,
         config_resolver=configurations.exercise_config_resolver,
         adapter_registry=regular_translation_presentation_adapter_registry,
         service_registry=regular_translation_presentation_service_registry,
-        factory_registry=regular_translation_presentation_factory_registry,
+        builder_registry=regular_translation_presentation_builder_registry,
     )
 
     # =============================================

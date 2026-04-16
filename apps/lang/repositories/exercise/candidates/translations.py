@@ -4,7 +4,7 @@ from typing import TypeVar
 
 from django.db.models import F, Manager, QuerySet
 
-from apps.core.domains.protocol import NullProtocol
+from apps.core.contracts import NullProtocol
 from apps.core.repositories.abstract import AbstractUserFetchRepository
 from apps.lang.models import EnglishTranslation
 from apps.users.models import Person

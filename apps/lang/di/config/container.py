@@ -7,7 +7,7 @@ from dependency_injector.providers import (
 )
 
 from apps.core.domains.exercise.enums import ExerciseTypeEnum
-from apps.core.use_cases.exercise.config_resolver import (
+from apps.core.resolvers.exercise.config_resolver import (
     ExerciseConfigurationResolver,
 )
 

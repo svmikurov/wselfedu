@@ -22,7 +22,7 @@ from apps.core.adapters.response.null import NullResponseAdapter
 from apps.core.assemblers.assembler import UserAssembler, UserDataAssembler
 from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.handlers.generic import RequestHandler
-from apps.core.use_cases.repository import RepositoryUseCase
+from apps.core.repositories.use_case import RepositoryUseCase
 from apps.core.validators.request.exercise.presentation import (
     ProcessExerciseWebValidator,
 )
