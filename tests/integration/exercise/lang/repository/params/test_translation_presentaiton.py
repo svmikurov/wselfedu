@@ -2,6 +2,7 @@
 
 import pytest
 
+from apps.core.contracts import NullProtocol
 from apps.core.domains.exercise.protocol import (
     ConditionsProtocol,
     ExerciseConfigProtocol,
@@ -9,7 +10,6 @@ from apps.core.domains.exercise.protocol import (
     ExerciseSettingsProtocol,
 )
 from apps.core.domains.null import NullDTO
-from apps.core.domains.protocol import NullProtocol
 from apps.core.repositories.protocol import UserRepositoryProtocol
 from apps.lang.models import (
     ExerciseConditions,

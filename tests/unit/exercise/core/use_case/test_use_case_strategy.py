@@ -14,13 +14,14 @@ from apps.core.domains.exercise.enums import (
 from apps.core.domains.exercise.protocol import (
     ExerciseConfigProtocol,
     ExerciseParametersProtocol,
+    ExerciseProcessResultProtocol,
+    HasExerciseProcessAction,
     HasExerciseStatus,
 )
 from apps.core.domains.task.protocol import TaskBuilderProtocol
-from apps.core.services.protocol import ServiceProtocol
+from apps.core.services.protocol import UserServiceProtocol
 from apps.core.use_cases.exercise.generic import ExerciseUseCaseStrategy
 from apps.core.use_cases.protocol import UseCaseProtocol
-from apps.core.validators.request.protocol import HasExerciseProcessAction
 
 CommandT = UserDataCommandProtocol[HasExerciseProcessAction]
 CaseT = HasExerciseStatus
@@ -31,8 +32,12 @@ UseCaseT = UseCaseProtocol[CommandT, HasExerciseStatus]
 AdapterT = ExerciseProcessAdapterProtocol[
     CommandT, ExerciseParametersProtocol, CaseT | None, SpecT
 ]
-ServiceT = ServiceProtocol[SpecT, CaseT]
-BuilderT = TaskBuilderProtocol[CaseT, ExerciseConfigProtocol, ResultT]
+ServiceT = UserServiceProtocol[SpecT, ExerciseProcessResultProtocol[CaseT]]
+BuilderT = TaskBuilderProtocol[
+    ExerciseProcessResultProtocol[CaseT],
+    ExerciseConfigProtocol,
+    ResultT,
+]
 
 # =================================================
 # UseCase's dependency mock
@@ -50,8 +55,9 @@ def mock_create_task_adapter() -> AdapterT:
 def mock_create_task_service() -> ServiceT:
     """Provide create task service."""
     mock = Mock(spec=ServiceT)
-    result = Mock(spec=HasExerciseStatus)
+    result = Mock(spec=ExerciseProcessResultProtocol)
     result.status = ExerciseStatusEnum.NEW_TASK
+    result.case = Mock()
     mock.execute.return_value = result
     return mock
 

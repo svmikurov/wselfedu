@@ -1,9 +1,13 @@
 """Presentation exercise service tests."""
 
-from typing import Protocol
+from typing import Any, Protocol
 
 import pytest
 
+from apps.core.builders.exercise import (
+    CaseBuilderProtocol,
+    ExerciseCaseBuilder,
+)
 from apps.core.domains.exercise.deps.protocol import SelectorProtocol
 from apps.core.domains.exercise.deps.selector import CandidatesSelector
 from apps.core.domains.exercise.dto import ExerciseSpecDTO
@@ -12,9 +16,10 @@ from apps.core.domains.exercise.protocol import (
     Candidates,
     ConditionsProtocol,
     ExerciseConfigProtocol,
-    ExerciseDomainProtocol,
+    HasCase,
     HasExerciseConditions,
     HasExerciseConfig,
+    HasExerciseStatus,
 )
 from apps.core.repositories.protocol import UserRepositoryProtocol
 from apps.core.services.exercise.generic import CreateExerciseService
@@ -34,14 +39,24 @@ class _SpecProtocol(
     """Protocol for exercise parameters service interface."""
 
 
-class _OptionProtocol(Protocol):
+class CaseProtocol(Protocol):
+    """Protocol core domain case result."""
+
+
+class _DomainResultProtocol(
+    HasExerciseStatus,
+    HasCase[CaseProtocol],
+    Protocol,
+):
     """Protocol for exercise result option interface."""
 
 
 _Repository = UserRepositoryProtocol[ConditionsProtocol, Candidates]
 _Selector = SelectorProtocol[ExerciseConfigProtocol]
-_Domain = ExerciseDomainProtocol[ExerciseConfigProtocol, _OptionProtocol]
-_ServiceT = CreateExerciseProtocol[_SpecProtocol, _OptionProtocol]
+# FIXME: Update to protocol
+_Domain = PresentationDomain
+_ServiceT = CreateExerciseProtocol[_SpecProtocol, _DomainResultProtocol]
+_Builder = CaseBuilderProtocol[Any, Any, Any]
 
 
 @pytest.fixture
@@ -71,18 +86,28 @@ def domain(
     selector: _Selector,
 ) -> _Domain:
     """Provide presentation exercise domain."""
-    return PresentationDomain(selector=selector)
+    return PresentationDomain(
+        selector=selector,
+    )
+
+
+@pytest.fixture
+def builder() -> _Builder:
+    """Provide presentation exercise domain DTO builder."""
+    return ExerciseCaseBuilder()
 
 
 @pytest.fixture
 def service(
     repository: _Repository,
     domain: _Domain,
+    builder: _Builder,
 ) -> _ServiceT:
     """Provide translation presentation service."""
     return CreateExerciseService(
         candidates_repository=repository,
         domain=domain,
+        builder=builder,
     )
 
 
@@ -107,7 +132,9 @@ class TestTranslationPresentationService:
     ) -> None:
         """Test that service call completed successfully."""
         # Act
-        option = service.execute(user, spec)
+        case = service.execute(user, spec)
 
         # Assert
-        assert option
+        assert case
+
+        assert case.status

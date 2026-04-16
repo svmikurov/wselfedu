@@ -5,8 +5,8 @@ import pytest
 from apps.core.assemblers.command import UserDataCommand
 from apps.core.assemblers.protocol import UserDataCommandProtocol
 from apps.core.domains.exercise.enums import ExerciseProcessEnum
+from apps.core.domains.exercise.protocol import HasExerciseProcessAction
 from apps.core.validators.request.dto import ExerciseActionWebDTO
-from apps.core.validators.request.protocol import HasExerciseProcessAction
 from apps.users.models import Person
 
 CommandT = UserDataCommandProtocol[HasExerciseProcessAction]
