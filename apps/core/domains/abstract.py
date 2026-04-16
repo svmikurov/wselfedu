@@ -3,16 +3,16 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar, override
 
-from .protocol import DTOFactoryProtocol
+from apps.core.contracts.infra.factory import FactoryProtocol
 
-Data = TypeVar('Data')
-DTO = TypeVar('DTO')
+SpecT = TypeVar('SpecT')
+ResultT = TypeVar('ResultT')
 
 
-class AbstractDTOFactory(ABC, DTOFactoryProtocol[Data, DTO]):
-    """ABC for DTO factory."""
+class AbstractFactory(ABC, FactoryProtocol[SpecT, ResultT]):
+    """ABC for factory."""
 
     @override
     @abstractmethod
-    def build(self, data: Data) -> DTO:
+    def build(self, spec: SpecT) -> ResultT:
         """Build repository query result DTO."""

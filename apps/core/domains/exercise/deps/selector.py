@@ -1,9 +1,10 @@
 """Domain resource selector."""
 
+from apps.core.contracts.business import HasItemCount
 from apps.core.exceptions import info
 
 from ..deps.abstract import AbstractSelector
-from ..protocol import Candidates, HasItemCount
+from ..protocol import Candidates
 
 
 class CandidatesSelector(

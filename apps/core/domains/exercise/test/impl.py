@@ -2,6 +2,7 @@
 
 from random import randrange, sample
 
+from apps.core.contracts import business
 from apps.core.domains.exercise.test.dto import OptionMetaDTO
 from apps.core.exceptions import info
 
@@ -14,8 +15,6 @@ from ..dto import TextExerciseCheckResult
 from ..protocol import (
     Candidate,
     Candidates,
-    HasDisplayOrder,
-    HasOptionCount,
     HasOptionValue,
 )
 from .dto import TestDomainResult, TestExerciseMeta
@@ -28,8 +27,8 @@ __all__ = [
 
 
 class _ExerciseConfig(
-    HasDisplayOrder,
-    HasOptionCount,
+    business.HasDisplayOrder,
+    business.HasOptionCount,
 ):
     """Exercise config interface."""
 
