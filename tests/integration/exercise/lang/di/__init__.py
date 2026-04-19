@@ -1,1 +1,0 @@
-"""Exercise DI tests."""

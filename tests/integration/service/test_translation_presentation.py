@@ -8,6 +8,10 @@ from apps.core.builders.exercise import (
     CaseBuilderProtocol,
     ExerciseCaseBuilder,
 )
+from apps.core.contracts.entity.exercise import (
+    HasExerciseConditions,
+    HasExerciseConfig,
+)
 from apps.core.domains.exercise.deps.protocol import SelectorProtocol
 from apps.core.domains.exercise.deps.selector import CandidatesSelector
 from apps.core.domains.exercise.dto import ExerciseSpecDTO
@@ -17,8 +21,6 @@ from apps.core.domains.exercise.protocol import (
     ConditionsProtocol,
     ExerciseConfigProtocol,
     HasCase,
-    HasExerciseConditions,
-    HasExerciseConfig,
     HasExerciseStatus,
 )
 from apps.core.repositories.protocol import UserRepositoryProtocol
