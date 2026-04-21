@@ -253,6 +253,7 @@ class LookupConditionsDTO(
     is_know: bool = True
 
 
+# HACK: Split to field composition
 class ExerciseConfigDTO(
     WebSettingsMixin,
     BaseDTO,
@@ -265,6 +266,10 @@ class ExerciseConfigDTO(
     item_count: int | None = Field(
         description='Candidates of items to exercise count',
         default=None,
+    )
+    option_count: int | None = Field(
+        description='Exercise task option cont (for test exercise)',
+        default=7,
     )
 
     # NOTE: For translation exercise only.
