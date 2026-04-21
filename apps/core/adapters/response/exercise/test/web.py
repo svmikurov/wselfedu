@@ -5,9 +5,9 @@ from typing import Any, Generic, TypeAlias, TypeVar, override
 from django.template.loader import render_to_string
 
 from apps.core.adapters.response.abstract import AbstractResponseAdapter
-from apps.core.adapters.response.dto import OobResponseDTO
 from apps.core.adapters.response.status import ResponseStatusEnum
 from apps.core.contracts import NullProtocol
+from apps.core.contracts.response.web import OobResponseDTO
 from apps.core.domains.exercise.test.dto import TestExerciseCase
 
 ExtraContext = TypeVar('ExtraContext')
@@ -55,7 +55,7 @@ class WebTestExerciseAdapter(
     ) -> _ResponseDTO[ExtraContext]:
         """Convert domain result to web representation context."""
         return OobResponseDTO(
-            status=ResponseStatusEnum.NEW_CASE,
+            domain_status=ResponseStatusEnum.NEW_CASE,
             context=domain_result,
         )
 
@@ -94,6 +94,6 @@ class WebExplainAdapter(
     ) -> _ResponseDTO[ExtraContext]:
         """Convert domain result to web representation context."""
         return OobResponseDTO(
-            status=ResponseStatusEnum.EXPLAIN_CASE,
+            domain_status=ResponseStatusEnum.EXPLAIN_CASE,
             context=domain_result,
         )

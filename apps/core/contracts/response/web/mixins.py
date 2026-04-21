@@ -1,0 +1,41 @@
+"""Response DTO."""
+
+from typing import Any, Generic
+
+from pydantic import BaseModel, Field
+
+from ._types import AdaptedDomainResultT, DomainResultStatusT, ExtraContextT
+
+
+class DomainStatusField(BaseModel, Generic[DomainResultStatusT]):
+    """Provides domain status DTO's field."""
+
+    domain_status: DomainResultStatusT = Field(
+        description='Domain result status',
+    )
+
+
+class ContextField(BaseModel, Generic[AdaptedDomainResultT]):
+    """Provides context DTO's field."""
+
+    context: AdaptedDomainResultT = Field(
+        description='Response context with adapted domain result data',
+    )
+
+
+class ExtraContextField(BaseModel, Generic[ExtraContextT]):
+    """Provides extra context DTO's field."""
+
+    extra_context: ExtraContextT | dict[str, Any] = Field(
+        description='Extra context for response',
+        default_factory=dict,
+    )
+
+
+class OobField(BaseModel):
+    """Provides "Out Of Band" html DTO's field."""
+
+    oob_html: str = Field(
+        description='Out Of Band html',
+        default_factory=str,
+    )

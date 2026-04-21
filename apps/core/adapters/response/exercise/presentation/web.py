@@ -10,9 +10,9 @@ from django.template.loader import render_to_string
 from pydantic import BaseModel
 
 from apps.core.adapters.response.abstract import AbstractResponseAdapter
-from apps.core.adapters.response.dto import OobResponseDTO
 from apps.core.adapters.response.status import ResponseStatusEnum
 from apps.core.contracts import NullProtocol
+from apps.core.contracts.response.web import OobResponseDTO
 from apps.core.domains.null import NullDTO
 
 DomainResult = TypeVar('DomainResult', bound=BaseModel)
@@ -52,7 +52,7 @@ class WebStartExerciseNullAdapter(
     ) -> OobResponseDTO[ResponseStatusEnum, DomainResult, NullDTO]:
         """Convert exercise case to web context."""
         return OobResponseDTO(
-            status=ResponseStatusEnum.NEW_CASE,
+            domain_status=ResponseStatusEnum.NEW_CASE,
             # NOTE: Passes original domain result.
             context=domain_result,
             oob_html=self._build_oob(domain_result),

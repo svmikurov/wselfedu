@@ -1,9 +1,8 @@
 """Business interface."""
 
-from typing import Protocol
+from typing import Protocol, TypeVar
 
-# REVIEW: Type import
-from apps.core.domains.exercise.enums import DisplayOrder
+T = TypeVar('T')
 
 # =================================================
 # Exercise parameters interface
@@ -51,10 +50,10 @@ class HasProgress(Protocol):
 # -------------
 
 
-class HasDisplayOrder(Protocol):
+class HasDisplayOrder(Protocol[T]):
     """Protocol for item display order object interface."""
 
-    display_order: DisplayOrder
+    display_order: T
 
 
 class HasItemCount(Protocol):
