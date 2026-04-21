@@ -2,21 +2,23 @@
 
 from django.db.models import Manager, Model
 
-from apps.core.assemblers.protocol import UserCommandProtocol
+from apps.core.contracts.general import NullProtocol
 from apps.core.domains.exercise.dto import (
     ExerciseParametersDTO,
     ExerciseSettingsDTO,
     LookupConditionsDTO,
 )
+from apps.core.domains.exercise.protocol import ExerciseParametersProtocol
 from apps.core.repositories.abstract import AbstractUserFetchRepository
 from apps.lang.models import ExerciseConditions, TranslationConfiguration
 from apps.users.models.user import Person
 
 
+# FIXME: Update NullProtocol to Generic type
 class RegularParametersRepository(
     AbstractUserFetchRepository[
-        UserCommandProtocol,
-        ExerciseParametersDTO,
+        NullProtocol,
+        ExerciseParametersProtocol,
     ],
 ):
     """Regular condition repository."""
@@ -33,8 +35,8 @@ class RegularParametersRepository(
     def fetch(
         self,
         user: Person,
-        filter: UserCommandProtocol,
-    ) -> ExerciseParametersDTO:
+        filter: NullProtocol,
+    ) -> ExerciseParametersProtocol:
         """Fetch user regular exercise settings."""
         parameters = self._get_parameters(user)
         conf = self._get_conf(user)
@@ -55,7 +57,7 @@ class RegularParametersRepository(
         self,
         parameters: ExerciseConditions | None,
         conf: TranslationConfiguration | None,
-    ) -> ExerciseParametersDTO:
+    ) -> ExerciseParametersProtocol:
         return ExerciseParametersDTO(
             # ----------------------------
             # Translation query conditions
