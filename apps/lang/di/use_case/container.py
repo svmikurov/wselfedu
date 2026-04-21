@@ -16,6 +16,7 @@ from apps.core.adapters.exercise.process import (
 from apps.core.builders.exercise import (
     ExerciseCaseBuilder,
     ExercisePresentationBuilder,
+    ExerciseTestBuilder,
 )
 from apps.core.domains.exercise import PresentationDomain, TestDomain
 from apps.core.domains.exercise.deps.selector import (
@@ -137,7 +138,7 @@ class UseCaseContainer(DeclarativeContainer):
     regular_translation_test_builder_registry = Dict(
         {
             ExerciseStatusEnum.NEW_TASK: Factory(
-                ExercisePresentationBuilder,
+                ExerciseTestBuilder,
             ),
         },
     )
