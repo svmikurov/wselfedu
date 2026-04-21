@@ -136,37 +136,6 @@ class RequestParserProtocol(Protocol[QueryData, Parsed_cov]):
 
 
 # -----------------------------------------------
-# Validator
-# -----------------------------------------------
-
-
-class ValidatorProtocol(Protocol[RequestData_contra, Validated_cov]):
-    """Protocol for regular validator interface."""
-
-    @classmethod
-    def validate(cls, data: RequestData_contra) -> Validated_cov:
-        """Validate raw data."""
-
-
-# -----------------------------------------------
-# Adapter
-# -----------------------------------------------
-
-
-class AdapterProtocol(
-    Protocol[DomainResult_contra, Context_contra, Result_cov]
-):
-    """Protocol for response adapter interface."""
-
-    def to_response(
-        self,
-        domain_result: DomainResult_contra,
-        request_context: Context_contra,
-    ) -> Result_cov:
-        """Convert to response."""
-
-
-# -----------------------------------------------
 # Handler
 # -----------------------------------------------
 

@@ -2,7 +2,8 @@
 
 from typing import Iterator, Protocol, Self, TypeVar, overload
 
-from apps.core.contracts import business
+from apps.core.contracts import business, general
+from apps.core.contracts.entity import exercise
 
 from .enums import DisplayOrder, ExerciseProcessEnum, ExerciseStatusEnum
 
@@ -37,7 +38,7 @@ class ConditionsProtocol(
 
 
 class ExerciseConfigProtocol(
-    business.HasDisplayOrder,
+    business.HasDisplayOrder[DisplayOrder],
     business.HasItemCount,
     Protocol,
 ):
@@ -54,12 +55,6 @@ class ExerciseSettingsProtocol(
 # =================================================
 # Exercise case meta data DTO interface
 # =================================================
-
-
-class HasResourceIdentifier(Protocol):
-    """Protocol for has resource identifier object interface."""
-
-    pk: int
 
 
 class HasExerciseStatus(Protocol):
@@ -79,42 +74,6 @@ class HasProgressValue(Protocol):
 # =================================================
 
 
-class HasExerciseConditions(Protocol[ExerciseConditionsT]):
-    """Protocol for has exercise conditions interface.
-
-    Contains exercise elements select/define conditions.
-    My contains:
-        - database lockup conditions
-        - calculation operand conditions
-        - other conditions
-    """
-
-    conditions: ExerciseConditionsT
-
-
-class HasExerciseConfig(Protocol[ExerciseConfigT]):
-    """Protocol for has test exercise configuration interface.
-
-    Contains display exercise configuration.
-    For example:
-        - question / answer timeout
-        - other settings
-    """
-
-    conf: ExerciseConfigT
-
-
-class HasExerciseSettings(Protocol[ExerciseSettingsT]):
-    """Protocol for has exercise settings interface.
-
-    Contains exercise display configuration, such as:
-        - question / answer timeout
-        - other settings
-    """
-
-    settings: ExerciseSettingsT
-
-
 class HasCase(Protocol[OptionT]):
     """Protocol fo has *case* interface."""
 
@@ -128,9 +87,9 @@ class HasExistingCase(Protocol[OptionT]):
 
 
 class GenericExerciseParameters(
-    HasExerciseConditions[ExerciseConditionsT],
-    HasExerciseConfig[ExerciseConfigT],
-    HasExerciseSettings[ExerciseSettingsT],
+    exercise.HasExerciseConditions[ExerciseConditionsT],
+    exercise.HasExerciseConfig[ExerciseConfigT],
+    exercise.HasExerciseSettings[ExerciseSettingsT],
     Protocol[ExerciseConditionsT, ExerciseConfigT, ExerciseSettingsT],
 ):
     """Generic exercise parameters.
@@ -159,9 +118,9 @@ class ExerciseParametersProtocol(
 
 
 class ExerciseSpecProtocol(
-    HasExerciseConditions[ConditionsProtocol],
-    HasExerciseConfig[ExerciseConfigProtocol],
-    HasExerciseSettings[ExerciseSettingsProtocol],
+    exercise.HasExerciseConditions[ConditionsProtocol],
+    exercise.HasExerciseConfig[ExerciseConfigProtocol],
+    exercise.HasExerciseSettings[ExerciseSettingsProtocol],
     HasExistingCase[OptionT],
     Protocol[OptionT],
 ):
@@ -186,7 +145,7 @@ class HasMeanText(Protocol):
 
 
 class Candidate(
-    HasResourceIdentifier,
+    general.HasResourceIdentifier,
     HasDefineText,
     HasMeanText,
     HasProgressValue,

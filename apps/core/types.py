@@ -1,13 +1,9 @@
 """Types for project objects."""
 
-from decimal import Decimal
 from typing import NotRequired, TypedDict
 
-
-class BalanceDataType(TypedDict):
-    """Type for balance data."""
-
-    balance: Decimal | None
+# REVIEW: Update BalanceDataType dependency with generic type?
+from apps.users.contracts.general import BalanceDataType
 
 
 class IndexDataType(TypedDict):

@@ -3,6 +3,10 @@
 from typing import Protocol, TypeVar, override
 
 from apps.core.assemblers.protocol import DataCommandProtocol
+from apps.core.contracts.entity.exercise import (
+    HasExerciseConditions,
+    HasExerciseConfig,
+)
 from apps.core.domains.exercise.abstract import (
     AbstractCheckExerciseDomain,
 )
@@ -16,8 +20,6 @@ from apps.core.domains.exercise.protocol import (
     ConditionsProtocol,
     ExerciseConfigProtocol,
     ExerciseDomainProtocol,
-    HasExerciseConditions,
-    HasExerciseConfig,
     HasExerciseStatus,
     HasOptionValue,
 )

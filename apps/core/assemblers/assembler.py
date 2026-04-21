@@ -39,11 +39,11 @@ __all__ = (
     'UserDetailDataAssembler',
 )
 
-QueryType = TypeVar('QueryType')
-QueryData = TypeVar('QueryData')
-QueryParser = TypeVar('QueryParser')
-CommandData = TypeVar('CommandData')
-Validated = TypeVar('Validated')
+QueryTypeT = TypeVar('QueryTypeT')
+QueryDataT = TypeVar('QueryDataT')
+QueryParserT = TypeVar('QueryParserT')
+CommandDataT = TypeVar('CommandDataT')
+ValidatedT = TypeVar('ValidatedT')
 
 # =================================================
 # Login required
@@ -70,8 +70,8 @@ class UserDataAssembler(
     AbstractAssembler[
         NullProtocol,
         RequestContextProtocol,
-        Validated,
-        UserDataCommandProtocol[Validated],
+        ValidatedT,
+        UserDataCommandProtocol[ValidatedT],
     ],
 ):
     """User's data request assembler."""
@@ -81,8 +81,8 @@ class UserDataAssembler(
         self,
         params: NullProtocol,
         context: RequestContextProtocol,
-        data: Validated,
-    ) -> UserDataCommandProtocol[Validated]:
+        data: ValidatedT,
+    ) -> UserDataCommandProtocol[ValidatedT]:
         """Prepare request data for use case execute."""
         return UserDataCommand(
             user=context.user,
@@ -97,17 +97,17 @@ class UserDataAssembler(
 
 class UserQueryAssembler(
     AbstractAssembler[
-        QueryRequestParamsProtocol[QueryData],
+        QueryRequestParamsProtocol[QueryDataT],
         RequestContextProtocol,
         NullProtocol,
-        UserQueryCommand[QueryType],
+        UserQueryCommand[QueryTypeT],
     ]
 ):
     """User's request parameters assembler with query."""
 
     def __init__(
         self,
-        parser: RequestParamsQueryParserProtocol[QueryData, QueryType],
+        parser: RequestParamsQueryParserProtocol[QueryDataT, QueryTypeT],
     ) -> None:
         """Create the assembler."""
         self._parser = parser
@@ -115,10 +115,10 @@ class UserQueryAssembler(
     @override
     def prepare(
         self,
-        params: QueryRequestParamsProtocol[QueryData],
+        params: QueryRequestParamsProtocol[QueryDataT],
         context: RequestContextProtocol,
         data: NullProtocol,
-    ) -> UserQueryCommand[QueryType]:
+    ) -> UserQueryCommand[QueryTypeT]:
         """Prepare request data for use case execute."""
         return UserQueryCommand(
             query=self._parser.parse(params.query),
@@ -128,17 +128,17 @@ class UserQueryAssembler(
 
 class UserQueryDataAssembler(
     AbstractAssembler[
-        QueryRequestParamsProtocol[QueryData],
+        QueryRequestParamsProtocol[QueryDataT],
         RequestContextProtocol,
-        Validated,
-        UserQueryDataCommand[QueryType, Validated],
+        ValidatedT,
+        UserQueryDataCommand[QueryTypeT, ValidatedT],
     ]
 ):
     """User's request parameters assembler with query and data."""
 
     def __init__(
         self,
-        parser: RequestParamsQueryParserProtocol[QueryData, QueryType],
+        parser: RequestParamsQueryParserProtocol[QueryDataT, QueryTypeT],
     ) -> None:
         """Create the assembler."""
         self._parser = parser
@@ -146,10 +146,10 @@ class UserQueryDataAssembler(
     @override
     def prepare(
         self,
-        params: QueryRequestParamsProtocol[QueryData],
+        params: QueryRequestParamsProtocol[QueryDataT],
         context: RequestContextProtocol,
-        data: Validated,
-    ) -> UserQueryDataCommand[QueryType, Validated]:
+        data: ValidatedT,
+    ) -> UserQueryDataCommand[QueryTypeT, ValidatedT]:
         """Prepare request data for use case execute."""
         return UserQueryDataCommand(
             query=self._parser.parse(params.query),
@@ -184,10 +184,10 @@ class UserDetailDataAssembler(
     AbstractAssembler[
         DetailRequestParamsProtocol,
         RequestContextProtocol,
-        Validated,
-        UserDetailDataCommandProtocol[Validated],
+        ValidatedT,
+        UserDetailDataCommandProtocol[ValidatedT],
     ],
-    Generic[Validated],
+    Generic[ValidatedT],
 ):
     """User's resource data assembler."""
 
@@ -196,8 +196,8 @@ class UserDetailDataAssembler(
         self,
         params: DetailRequestParamsProtocol,
         context: RequestContextProtocol,
-        data: Validated,
-    ) -> UserDetailDataCommandProtocol[Validated]:
+        data: ValidatedT,
+    ) -> UserDetailDataCommandProtocol[ValidatedT]:
         """Prepare request data for use case execute."""
         return UserDetailDataCommand(
             user=context.user,
@@ -213,10 +213,10 @@ class UserDetailDataAssembler(
 
 class DetailQueryContextAssembler(
     AbstractAssembler[
-        QueryRequestParamsProtocol[QueryType],
+        QueryRequestParamsProtocol[QueryTypeT],
         NullProtocol,
         NullProtocol,
-        QueryCommandProtocol[QueryType],
+        QueryCommandProtocol[QueryTypeT],
     ]
 ):
     """Detail query user context assembler."""
@@ -224,10 +224,10 @@ class DetailQueryContextAssembler(
     @override
     def prepare(
         self,
-        params: QueryRequestParamsProtocol[QueryType],
+        params: QueryRequestParamsProtocol[QueryTypeT],
         context: NullProtocol,
         data: NullProtocol,
-    ) -> QueryCommandProtocol[QueryType]:
+    ) -> QueryCommandProtocol[QueryTypeT]:
         """Prepare request data for use case execute."""
         return QueryCommand(
             query=params.query,

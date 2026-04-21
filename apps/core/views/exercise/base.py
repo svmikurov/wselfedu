@@ -11,8 +11,8 @@ from django.utils.translation import gettext as _
 from django.views import View
 from django.views.generic.base import TemplateResponseMixin
 
-from apps.core.adapters.response.dto import OobResponseDTO
 from apps.core.adapters.response.status import ResponseStatusEnum
+from apps.core.contracts.response.web import OobResponseDTO
 from apps.core.handlers.dto import (
     DetailRequestParams,
     QueryRequestParams,
@@ -83,7 +83,7 @@ class _GetPartialExerciseTemplateMixin:
     ) -> str:
         """Get partial template html for exercise case."""
         try:
-            template = PARTIAL_TEMPLATES[schema.status]  # type: ignore
+            template = PARTIAL_TEMPLATES[schema.domain_status]  # type: ignore
             context = schema.context.model_dump()  # type: ignore
         except KeyError as exc:
             log.exception(f'Get template key error: {exc}')

@@ -4,6 +4,7 @@ from typing import Generic, TypeVar, override
 
 from apps.core.adapters.exercise.protocol import ExerciseProcessAdapterProtocol
 from apps.core.assemblers.protocol import UserDataCommandProtocol
+from apps.core.contracts.entity.exercise import HasExerciseConfig
 from apps.core.domains.exercise.enums import (
     ExerciseProcessEnum,
     ExerciseStatusEnum,
@@ -12,7 +13,6 @@ from apps.core.domains.exercise.protocol import (
     ExerciseConfigProtocol,
     ExerciseParametersProtocol,
     ExerciseProcessResultProtocol,
-    HasExerciseConfig,
     HasExerciseProcessAction,
 )
 from apps.core.domains.task.protocol import TaskBuilderProtocol
@@ -73,6 +73,7 @@ class ExerciseUseCaseStrategy(
         action = command.data.action
         adapter = self._adapter_registry[action]
         service = self._service_registry[action]
+
         parameters = self._config_resolver.resolve(command)
 
         # Case may not exist (not started yet)

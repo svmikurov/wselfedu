@@ -3,6 +3,7 @@
 from random import randrange, sample
 
 from apps.core.contracts import business
+from apps.core.domains.exercise.enums import DisplayOrder
 from apps.core.domains.exercise.test.dto import OptionMetaDTO
 from apps.core.exceptions import info
 
@@ -27,7 +28,7 @@ __all__ = [
 
 
 class _ExerciseConfig(
-    business.HasDisplayOrder,
+    business.HasDisplayOrder[DisplayOrder],
     business.HasOptionCount,
 ):
     """Exercise config interface."""

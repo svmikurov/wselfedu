@@ -2,13 +2,10 @@
 
 from typing import Generic, TypeVar
 
+from apps.core.adapters.response.protocol import AdapterProtocol
 from apps.core.assemblers.protocol import AssemblerProtocol
 from apps.core.use_cases.protocol import UseCaseProtocol
-
-from .protocol import (
-    AdapterProtocol,
-    ValidatorProtocol,
-)
+from apps.core.validators.request.protocol import RequestValidatorProtocol
 
 # External data
 RequestParams = TypeVar('RequestParams')
@@ -39,7 +36,7 @@ class RequestHandler(
 
     def __init__(
         self,
-        validator: ValidatorProtocol[
+        validator: RequestValidatorProtocol[
             RequestData,
             Validated,
         ],

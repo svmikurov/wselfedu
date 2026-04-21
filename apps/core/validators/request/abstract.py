@@ -1,15 +1,21 @@
 """Abstract base class for request validator."""
 
 from abc import ABC, abstractmethod
-from typing import Generic, TypeVar
+from typing import TypeVar, override
 
-RequestData = TypeVar('RequestData')
-Validated = TypeVar('Validated')
+from .protocol import RequestValidatorProtocol
+
+RequestDataT = TypeVar('RequestDataT')
+ValidatedT = TypeVar('ValidatedT')
 
 
-class AbstractRequestValidator(ABC, Generic[RequestData, Validated]):
+class AbstractRequestValidator(
+    ABC,
+    RequestValidatorProtocol[RequestDataT, ValidatedT],
+):
     """ABC for request validator."""
 
+    @override
     @abstractmethod
-    def validate(self, data: RequestData) -> Validated:
+    def validate(self, data: RequestDataT) -> ValidatedT:
         """Validate request data."""
