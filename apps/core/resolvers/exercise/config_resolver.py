@@ -3,6 +3,7 @@
 from typing import override
 
 from apps.core.assemblers.protocol import UserCommandProtocol
+from apps.core.contracts.general import NullProtocol
 from apps.core.domains.exercise.enums import ExerciseTypeEnum
 from apps.core.domains.exercise.protocol import ExerciseParametersProtocol
 from apps.core.domains.null import NullDTO
@@ -25,7 +26,7 @@ class ExerciseConfigurationResolver(
         self,
         exercise_type: ExerciseTypeEnum,
         parameters_repository: UserRepositoryProtocol[
-            NullDTO,
+            NullProtocol,
             ExerciseParametersProtocol,
         ],
         default: ExerciseParametersProtocol | None = None,
