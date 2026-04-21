@@ -17,7 +17,7 @@ DataT: TypeAlias = RequestDataProtocol[ExerciseProcessAction]
 ValidatedT: TypeAlias = HasAction[ExerciseProcessEnum]
 
 
-class TestExerciseWebValidator(
+class WebTestExerciseValidator(
     AbstractRequestValidator[DataT, ValidatedT],
 ):
     """Test exercise answer web data validator."""
