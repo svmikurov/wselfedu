@@ -97,23 +97,11 @@ class WebHandlerContainer(DeclarativeContainer):
     # =============================================
     # Regular translation test
     # =============================================
+
     # ---------------------------------------------
-    # Start translation test
+    # Process test exercise strategy
     # ---------------------------------------------
-    # QUESTION: Is deprecated?
-    start_regular_translation_test = Factory(
-        RequestHandler,
-        validator=Factory(NullValidator),
-        assembler=Factory(UserAssembler),
-        use_case=use_cases.start_regular_translation_test,
-        adapter=Factory(
-            WebStartExerciseNullAdapter,
-            extra_oob_templates=[],
-        ),
-    )
-    # ---------------------------------------------
-    # Process exercise strategy
-    # ---------------------------------------------
+    # TEST: Implement for translation test exercise
     web_test_exercise_adapter_registry = Dict(
         {
             ExerciseStatusEnum.NEW_TASK: Factory(
@@ -126,7 +114,6 @@ class WebHandlerContainer(DeclarativeContainer):
             ),
         }
     )
-    # QUESTION: Is deprecated?
     process_regular_translation_test = Factory(
         RequestHandler,
         validator=Factory(TestExerciseWebValidator),
@@ -135,6 +122,18 @@ class WebHandlerContainer(DeclarativeContainer):
         adapter=Factory(
             ProcessExerciseAdapterStrategy,
             registry=web_test_exercise_adapter_registry,
+        ),
+    )
+
+    # QUESTION: Is deprecated?
+    start_regular_translation_test = Factory(
+        RequestHandler,
+        validator=Factory(NullValidator),
+        assembler=Factory(UserAssembler),
+        use_case=use_cases.start_regular_translation_test,
+        adapter=Factory(
+            WebStartExerciseNullAdapter,
+            extra_oob_templates=[],
         ),
     )
 

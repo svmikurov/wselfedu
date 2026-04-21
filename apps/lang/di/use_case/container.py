@@ -17,7 +17,7 @@ from apps.core.builders.exercise import (
     ExerciseCaseBuilder,
     ExercisePresentationBuilder,
 )
-from apps.core.domains.exercise import PresentationDomain
+from apps.core.domains.exercise import PresentationDomain, TestDomain
 from apps.core.domains.exercise.deps.selector import (
     CandidatesSelector,
 )
@@ -54,7 +54,7 @@ class UseCaseContainer(DeclarativeContainer):
     user_command_storage = Dependency()  # type: ignore[var-annotated]
 
     # =============================================
-    # Regular translation presentation
+    # Regular translation presentation exercise
     # =============================================
 
     regular_translation_presentation_adapter_registry = Dict(
@@ -98,12 +98,9 @@ class UseCaseContainer(DeclarativeContainer):
     )
 
     # =============================================
-    # Regular translation test
+    # Regular translation test exercise
     # =============================================
-    # ---------------------------------------------
-    # Regular translation test dependencies
-    # ---------------------------------------------
-    # QUESTION: Is deprecated?
+
     regular_translation_test_config_resolver = Factory(
         ExerciseConfigurationResolver,
         exercise_type=ExerciseTypeEnum.TEST,
@@ -113,4 +110,44 @@ class UseCaseContainer(DeclarativeContainer):
                 option_count=7,
             ),
         ),
+    )
+
+    regular_translation_test_adapter_registry = Dict(
+        {
+            ExerciseProcessEnum.CREATE_CASE: Factory(
+                ExerciseProcessAdapter,
+            )
+        },
+    )
+    regular_translation_test_service_registry = Dict(
+        {
+            ExerciseProcessEnum.CREATE_CASE: Factory(
+                CreateExerciseService,
+                candidates_repository=repositories.translation_candidates,
+                domain=Factory(
+                    TestDomain,
+                    selector=Factory(CandidatesSelector),
+                ),
+                builder=Factory(
+                    ExerciseCaseBuilder,
+                ),
+            ),
+        },
+    )
+    regular_translation_test_builder_registry = Dict(
+        {
+            ExerciseStatusEnum.NEW_TASK: Factory(
+                ExercisePresentationBuilder,
+            ),
+        },
+    )
+
+    process_regular_translation_test = Factory(
+        ExerciseUseCaseStrategy,
+        prefix='regular_translation_test',
+        storage=user_command_storage,
+        config_resolver=regular_translation_test_config_resolver,
+        adapter_registry=regular_translation_test_adapter_registry,
+        service_registry=regular_translation_test_service_registry,
+        builder_registry=regular_translation_test_builder_registry,
     )
