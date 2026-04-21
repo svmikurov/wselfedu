@@ -1,4 +1,4 @@
-"""Response DTO."""
+"""WEB response DTO field mixins."""
 
 from typing import Any, Generic
 

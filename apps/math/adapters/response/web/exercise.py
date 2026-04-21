@@ -1,20 +1,18 @@
 """Web exercise response adapters."""
 
 from decimal import Decimal
-from typing import Any, NamedTuple, Protocol, TypeVar
+from typing import Any, NamedTuple, Protocol, TypeVar, override
 
 from apps.core.adapters.response.abstract import (
     AbstractResponseAdapter,
 )
-from apps.core.adapters.response.dto import OobResponseDTO, ResponseDTO
+from apps.core.adapters.response.protocol import AdapterProtocol
 from apps.core.adapters.response.status import ResponseStatusEnum
 from apps.core.contracts import NullProtocol
+from apps.core.contracts.response.web import OobResponseDTO, ResponseDTO
 from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.domains.exercise.protocol import HasExerciseStatus
-from apps.core.handlers.protocol import (
-    AdapterProtocol,
-    RequestContextProtocol,
-)
+from apps.core.handlers.protocol import RequestContextProtocol
 from apps.math import forms
 from apps.math.domains.dto import (
     CalculationCaseDTO,
@@ -62,7 +60,7 @@ class StudentExercisesWebAdapter(
     ) -> ResponseDTO:  # type: ignore
         """Adapt student's exercises for web response."""
         return ResponseDTO(
-            status=ResponseStatusEnum.OK,
+            domain_status=ResponseStatusEnum.OK,
             context={
                 'exercises': [m.model_dump() for m in schema],
             },
@@ -110,21 +108,22 @@ class CalculationWebCaseAdapter(
     AdapterProtocol[
         StudentCalculationDTO,
         RequestContextProtocol,
-        ResponseDTO,  # type: ignore
+        OobResponseDTO[Any, Any, Any],
     ]
 ):
     """Calculation exercise case web response adapter."""
 
+    @override
     def to_response(
         self,
-        schema: StudentCalculationDTO,
+        domain_result: StudentCalculationDTO,
         request_context: RequestContextProtocol,
-    ) -> ResponseDTO:  # type: ignore
+    ) -> OobResponseDTO[Any, Any, Any]:
         """Adapt current calculation case for web response."""
         return OobResponseDTO(
-            status=schema.exercise_status,
+            domain_status=domain_result.exercise_status,
             context=ExerciseFormDTO(
-                question_text=schema.data.question_text,
+                question_text=domain_result.data.question_text,
                 answer_input_form=forms.NumberInputForm(),
             ),
         )
@@ -167,7 +166,7 @@ class StudentCalculationWebCaseAdapter(
             }
         )
         return OobResponseDTO(
-            status=adapted.status,
+            domain_status=adapted.domain_status,
             context=adapted.context,
             extra_context=context,
             oob_html=self._get_oob_html(oob_context),

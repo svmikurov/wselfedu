@@ -4,7 +4,7 @@ import logging
 from typing import Generic, TypeVar, override
 
 from apps.core.assemblers.protocol import DataCommandProtocol
-from apps.core.contracts.request import HasAction
+from apps.core.contracts.request.protocol import HasAction
 from apps.core.use_cases.protocol import UseCaseProtocol
 
 from .abstract import AbstractUseCase

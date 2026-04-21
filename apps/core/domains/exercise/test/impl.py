@@ -19,10 +19,10 @@ from ..protocol import (
     HasOptionValue,
 )
 from .dto import TestDomainResult, TestExerciseMeta
-from .protocol import TestDomainCreateResultProtocol
+from .protocol import TestCreateResultProtocol
 
 __all__ = [
-    'TestCaseDomain',
+    'TestDomain',
     'TestExerciseCheckDomain',
 ]
 
@@ -34,10 +34,10 @@ class _ExerciseConfig(
     """Exercise config interface."""
 
 
-class TestCaseDomain(
+class TestDomain(
     AbstractConfigurableCandidatesExerciseDomain[
         _ExerciseConfig,
-        TestDomainCreateResultProtocol[Candidate],
+        TestCreateResultProtocol[Candidate],
     ],
 ):
     """Task exercise case domain."""
@@ -53,7 +53,7 @@ class TestCaseDomain(
         self,
         candidates: Candidates,
         conf: _ExerciseConfig,
-    ) -> TestDomainCreateResultProtocol[Candidate]:
+    ) -> TestCreateResultProtocol[Candidate]:
         """Get test exercise data."""
         option_value = randrange(conf.option_count)
         selected_candidates = self._selector.select(candidates, conf)

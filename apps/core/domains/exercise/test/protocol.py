@@ -7,7 +7,7 @@ from ..protocol import Candidate, HasOptions, HasOptionValue
 OptionT = TypeVar('OptionT', bound=Candidate)
 
 
-class TestDomainCreateResultProtocol(
+class TestCreateResultProtocol(
     HasOptionValue,
     HasOptions[OptionT],
     Protocol,

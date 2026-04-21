@@ -1,0 +1,1 @@
+"""General WEB request contracts."""

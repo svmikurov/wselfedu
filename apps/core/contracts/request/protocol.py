@@ -1,4 +1,4 @@
-"""Request interface."""
+"""Request protocols."""
 
 from typing import Protocol, TypeVar
 

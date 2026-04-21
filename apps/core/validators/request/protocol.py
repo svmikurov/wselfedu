@@ -2,14 +2,12 @@
 
 from typing import Protocol, TypedDict, TypeVar
 
-from apps.core.domains.exercise.enums import ExerciseProcessEnum
-
 
 # REVIEW: Is deprecated&
 class ExerciseProcessAction(TypedDict):
     """Exercise process action web data."""
 
-    action: ExerciseProcessEnum
+    action: str
 
 
 # REVIEW: Is deprecated&

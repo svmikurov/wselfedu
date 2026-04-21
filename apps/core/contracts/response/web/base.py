@@ -1,4 +1,4 @@
-"""General eb response contracts."""
+"""General WEB response contracts."""
 
 from typing import Generic
 
