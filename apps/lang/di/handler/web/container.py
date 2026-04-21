@@ -26,7 +26,7 @@ from apps.core.repositories.use_case import RepositoryUseCase
 from apps.core.validators.request.exercise.presentation import (
     ProcessExerciseWebValidator,
 )
-from apps.core.validators.request.exercise.test import TestExerciseWebValidator
+from apps.core.validators.request.exercise.test import WebTestExerciseValidator
 from apps.core.validators.request.null import NullValidator
 from apps.lang.factories.lockup_factory import UserTranslationLookupFactory
 from apps.lang.models import EnglishTranslation
@@ -116,7 +116,7 @@ class WebHandlerContainer(DeclarativeContainer):
     )
     process_regular_translation_test = Factory(
         RequestHandler,
-        validator=Factory(TestExerciseWebValidator),
+        validator=Factory(WebTestExerciseValidator),
         assembler=Factory(UserDataAssembler),
         use_case=use_cases.process_regular_translation_test,
         adapter=Factory(
