@@ -2,9 +2,9 @@
 
 from typing import Any
 
+from apps.core.validators.request.protocol import RequestValidatorProtocol
 from apps.study.api.v1 import serializers as study
 
-from ...core.handlers.protocol import ValidatorProtocol
 from .. import schemas, types
 from ..api.v1.serializers import base as lang
 
@@ -22,7 +22,7 @@ class PresentationSerializer(
     """Get presentation serializer."""
 
 
-class ApiPresentationValidator(ValidatorProtocol[RequestDTO]):  # type: ignore
+class ApiPresentationValidator(RequestValidatorProtocol[RequestDTO]):  # type: ignore
     """Api get presentation validator."""
 
     @classmethod

@@ -47,6 +47,7 @@ class UseCaseContainer(DeclarativeContainer):
     # =============================================
     # External dependencies
     # =============================================
+
     repositories = DependenciesContainer()
     configurations = DependenciesContainer()
 
@@ -55,6 +56,7 @@ class UseCaseContainer(DeclarativeContainer):
     # =============================================
     # Regular translation presentation
     # =============================================
+
     regular_translation_presentation_adapter_registry = Dict(
         {
             ExerciseProcessEnum.CREATE_CASE: Factory(
@@ -84,6 +86,7 @@ class UseCaseContainer(DeclarativeContainer):
             ),
         },
     )
+
     process_regular_translation_presentation = Factory(
         ExerciseUseCaseStrategy,
         prefix='regular_translation_presentation',
@@ -100,6 +103,7 @@ class UseCaseContainer(DeclarativeContainer):
     # ---------------------------------------------
     # Regular translation test dependencies
     # ---------------------------------------------
+    # QUESTION: Is deprecated?
     regular_translation_test_config_resolver = Factory(
         ExerciseConfigurationResolver,
         exercise_type=ExerciseTypeEnum.TEST,

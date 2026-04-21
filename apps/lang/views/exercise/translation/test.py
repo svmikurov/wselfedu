@@ -7,10 +7,11 @@ from typing import TYPE_CHECKING, Any, override
 from dependency_injector.wiring import Provide, inject
 from django.http.request import HttpRequest
 
-# from apps.core.validators.request.exercise
-from apps.core.adapters.response.dto import OobResponseDTO
 from apps.core.assemblers.protocol import UserCommandProtocol
 from apps.core.contracts import NullProtocol
+
+# from apps.core.validators.request.exercise
+from apps.core.contracts.response.web import OobResponseDTO
 from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.domains.exercise.test.dto import (
     OptionMetaDTO,

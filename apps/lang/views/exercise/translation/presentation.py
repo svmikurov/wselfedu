@@ -6,9 +6,9 @@ from typing import TYPE_CHECKING, Any, override
 
 from dependency_injector.wiring import Provide, inject
 
-from apps.core.adapters.response.dto import OobResponseDTO
 from apps.core.assemblers.command import UserCommand, UserDataCommand
 from apps.core.contracts import NullProtocol
+from apps.core.contracts.response.web import OobResponseDTO
 from apps.core.domains.exercise.enums import (
     ExerciseProcessEnum,
     ExerciseStatusEnum,

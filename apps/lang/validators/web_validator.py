@@ -2,7 +2,7 @@
 
 from typing import Any
 
-from apps.core.handlers.protocol import ValidatorProtocol
+from apps.core.validators.request.protocol import RequestValidatorProtocol
 
 from ..schemas import (  # type: ignore
     DetailTestRequestDTO,
@@ -13,7 +13,9 @@ from ..schemas import (  # type: ignore
 )
 
 
-class WebPresentationValidator(ValidatorProtocol[ExerciseParametersDTO]):  # type: ignore
+class WebPresentationValidator(
+    RequestValidatorProtocol[dict[str, Any], ExerciseParametersDTO]
+):
     """Web request presentation validator."""
 
     @classmethod
@@ -25,7 +27,7 @@ class WebPresentationValidator(ValidatorProtocol[ExerciseParametersDTO]):  # typ
         )
 
 
-class WebTestValidator(ValidatorProtocol[TestRequestDTO]):  # type: ignore
+class WebTestValidator(RequestValidatorProtocol[TestRequestDTO]):  # type: ignore
     """Web request test exercise validator."""
 
     @classmethod
@@ -34,7 +36,7 @@ class WebTestValidator(ValidatorProtocol[TestRequestDTO]):  # type: ignore
         return TestRequestDTO(exercise_status=raw_data.query['status'])  # type: ignore
 
 
-class WebAssignedTestValidator(ValidatorProtocol[DetailTestRequestDTO]):  # type: ignore
+class WebAssignedTestValidator(RequestValidatorProtocol[DetailTestRequestDTO]):  # type: ignore
     """Web request assigned test exercise validator."""
 
     @classmethod

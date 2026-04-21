@@ -46,6 +46,7 @@ class WebHandlerContainer(DeclarativeContainer):
     # =============================================
     # Regular translation presentation
     # =============================================
+    # QUESTION: Is deprecated?
     regular_translation_presentation = Factory(
         RequestHandler,
         validator=Factory(NullValidator),
@@ -60,6 +61,7 @@ class WebHandlerContainer(DeclarativeContainer):
     # ---------------------------------------------
     # Start presentation exercise
     # ---------------------------------------------
+    # QUESTION: Is deprecated?
     start_regular_translation_presentation = Factory(
         RequestHandler,
         validator=Factory(NullValidator),
@@ -71,11 +73,16 @@ class WebHandlerContainer(DeclarativeContainer):
         ),
     )
     # ---------------------------------------------
-    # Process exercise strategy
+    # Process presentation exercise strategy
     # ---------------------------------------------
-    presentation_adapter_registries = {
-        ExerciseStatusEnum.UPDATED_PROGRESS: ...,
-    }
+    presentation_adapter_registries = Dict(
+        {
+            ExerciseStatusEnum.NEW_TASK: Factory(
+                WebStartExerciseNullAdapter,
+                extra_oob_templates=[],
+            ),
+        },
+    )
     process_regular_translation_presentation = Factory(
         RequestHandler,
         validator=Factory(ProcessExerciseWebValidator),
@@ -93,6 +100,7 @@ class WebHandlerContainer(DeclarativeContainer):
     # ---------------------------------------------
     # Start translation test
     # ---------------------------------------------
+    # QUESTION: Is deprecated?
     start_regular_translation_test = Factory(
         RequestHandler,
         validator=Factory(NullValidator),
@@ -118,6 +126,7 @@ class WebHandlerContainer(DeclarativeContainer):
             ),
         }
     )
+    # QUESTION: Is deprecated?
     process_regular_translation_test = Factory(
         RequestHandler,
         validator=Factory(TestExerciseWebValidator),
@@ -132,6 +141,7 @@ class WebHandlerContainer(DeclarativeContainer):
     # =============================================
     # Translations
     # =============================================
+    # QUESTION: Is deprecated?
     english_translation_list = Factory(
         RequestHandler,
         validator=Factory(NullValidator),
