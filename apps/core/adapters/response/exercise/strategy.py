@@ -3,9 +3,9 @@
 import logging
 from typing import Generic, TypeVar, override
 
+from apps.core.adapters.response.protocol import AdapterProtocol
 from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.domains.exercise.protocol import HasExerciseStatus
-from apps.core.handlers.protocol import AdapterProtocol
 
 RequestContext = TypeVar('RequestContext')
 DomainResult = TypeVar('DomainResult', bound=HasExerciseStatus)
@@ -47,5 +47,6 @@ class ProcessExerciseAdapterStrategy(
         try:
             adapter = self._registry[domain_result.status]
         except KeyError:
-            log.exception('Adapter strategy error')
+            log.error('Adapter strategy error')
+            raise
         return adapter.to_response(domain_result, request_context)

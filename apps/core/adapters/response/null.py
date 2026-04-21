@@ -11,8 +11,8 @@ class NullResponseAdapter(AbstractResponseAdapter[object, object, object]):
     @override
     def to_response(
         self,
-        context: object,
-        extra_context: object,
+        domain_result: object,
+        request_context: object,
     ) -> object:
         """Return use case execute result."""
-        return context
+        return domain_result

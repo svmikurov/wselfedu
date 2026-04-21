@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar, override
 
-from apps.core.handlers.protocol import AdapterProtocol
+from apps.core.adapters.response.protocol import AdapterProtocol
 
 DomainResult = TypeVar('DomainResult')
 ExtraContext = TypeVar('ExtraContext')
