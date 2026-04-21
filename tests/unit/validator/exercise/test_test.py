@@ -9,7 +9,7 @@ from apps.core.contracts.request.web.exercise import CreateExerciseRequestDTO
 from apps.core.domains.exercise.enums import ExerciseProcessEnum
 from apps.core.handlers.dto import RequestData
 from apps.core.handlers.protocol import RequestDataProtocol
-from apps.core.validators.request.exercise.test import TestExerciseWebValidator
+from apps.core.validators.request.exercise.test import WebTestExerciseValidator
 from apps.core.validators.request.protocol import (
     ExerciseProcessAction,
     RequestValidatorProtocol,
@@ -37,7 +37,7 @@ def create_request_dto() -> CreateRequestDtoT:
 @pytest.fixture
 def validator() -> ValidatorT:
     """Provide test exercise request validator."""
-    return TestExerciseWebValidator()
+    return WebTestExerciseValidator()
 
 
 @pytest.fixture
