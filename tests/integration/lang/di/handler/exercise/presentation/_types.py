@@ -13,6 +13,8 @@ from apps.core.handlers.protocol import (
 from apps.core.use_cases.protocol import UseCaseProtocol
 from apps.core.validators.request.protocol import RequestValidatorProtocol
 
+# FIXME: Fix Any type hint
+
 # =================================================
 # Request's DTOs
 # =================================================
@@ -23,7 +25,6 @@ RequestParamsT: TypeAlias = NullProtocol
 RequestContextT: TypeAlias = RequestContextProtocol
 """Request context DTO.
 """
-# FIXME: Fix Any type hint
 RequestDataT: TypeAlias = RequestDataProtocol[Any]
 """Request body data DTO.
 """

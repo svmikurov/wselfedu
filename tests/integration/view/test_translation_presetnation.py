@@ -9,8 +9,8 @@ from unittest.mock import Mock
 import pytest
 from django.test import RequestFactory
 
-from apps.core.adapters.response.dto import ResponseDTO
 from apps.core.adapters.response.status import ResponseStatusEnum
+from apps.core.contracts.response.web import ResponseDTO
 from apps.core.domains.null import NullDTO
 from apps.core.handlers import RequestHandler
 from apps.lang.views.exercise.translation.presentation import (
@@ -35,7 +35,7 @@ def mock_handler() -> Mock:
     mock = Mock(spec=RequestHandler)
     # View has exercise process result status mapping.
     mock.execute.return_value = ResponseDTO(
-        status=ResponseStatusEnum.NEW_CASE,
+        domain_status=ResponseStatusEnum.NEW_CASE,
         context=NullDTO(),
     )
     return mock
