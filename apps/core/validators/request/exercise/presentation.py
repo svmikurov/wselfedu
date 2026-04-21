@@ -4,6 +4,7 @@ import logging
 
 from pydantic import ValidationError
 
+from apps.core.domains.exercise.enums import ExerciseProcessEnum
 from apps.core.handlers.protocol import RequestDataProtocol
 
 from ..abstract import AbstractRequestValidator
@@ -29,7 +30,9 @@ class ProcessExerciseWebValidator(
     ) -> ExerciseActionWebDTO:
         """Validate exercise request WEB data."""
         try:
-            return ExerciseActionWebDTO(**data.data)
+            return ExerciseActionWebDTO(
+                action=ExerciseProcessEnum(data.data['action']),
+            )
         except ValidationError as exc:
             log.error(
                 f'WEB request data parameters validation error: {exc}\n'
