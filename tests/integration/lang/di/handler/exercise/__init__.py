@@ -1,1 +1,1 @@
-"""Language discipline exercise tests."""
+"""Language discipline DI exercise handler tests."""

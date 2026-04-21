@@ -1,1 +1,1 @@
-"""Language app DI handler tests."""
+"""Language discipline DI handler tests."""

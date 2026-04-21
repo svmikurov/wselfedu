@@ -70,5 +70,5 @@ def regular_presentation_handler(
 ) -> HandlerT:
     """Provide translation regular presentation exercise handler."""
     return (  # type: ignore
-        main_container.lang.handlers.process_regular_translation_presentation()  # type: ignore
+        main_container.lang.handlers.process_regular_translation_test()  # type: ignore
     )

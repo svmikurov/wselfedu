@@ -1,4 +1,4 @@
-"""Language discipline translation presentation exercise DI tests."""
+"""Language discipline translation test exercise DI tests."""
 
 import pytest
 

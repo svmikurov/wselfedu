@@ -1,1 +1,1 @@
-"""Language app DI container tests."""
+"""Language app DI container dependencies tests."""
