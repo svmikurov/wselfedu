@@ -2,6 +2,7 @@
 
 from typing import Protocol, TypeVar, override
 
+from apps.core.exceptions import info
 from apps.core.assemblers.protocol import DataCommandProtocol
 from apps.core.domains.exercise.abstract import (
     AbstractCheckExerciseDomain,
@@ -107,7 +108,15 @@ class CreateExerciseService(
     ) -> ResultT:
         """Create and return exercise case."""
         candidates = self._repository.fetch(user, spec.conditions)
-        case = self._domain.execute(candidates, spec.conf)
+
+        try:
+            case = self._domain.execute(candidates, spec.conf)
+        except info.NoExerciseItemsException as exc:
+            case = ExerciseFailure(
+                status=ExerciseStatus.NO_CASE,
+                exception=exc,
+            )
+
         return self._builder.build(case, spec.conf)
 
 
