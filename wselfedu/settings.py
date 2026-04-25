@@ -249,6 +249,8 @@ GRAPH_MODELS = {
 
 
 LOGGING_ON = get_boolean_value('LOGGING')
+LOG_FILE_SIZE = 1 * 1024 * 1024
+LOG_FILE_BACKUP_COUNT = 3
 
 if LOGGING_ON:
     LOGGING = {
@@ -258,6 +260,15 @@ if LOGGING_ON:
             'sql': {
                 '()': 'utils.logger.formatters.simple.SimpleSQLFormatter',
             },
+            'sql_file': {
+                '()': 'utils.logger.formatters.simple.SimpleSQLFormatter',
+                'format': '%(asctime)s [%(levelname)s] %(name)s\n%(message)s',
+                'datefmt': '%Y-%m-%d %H:%M:%S',
+            },
+            'error_format': {
+                'format': '%(asctime)s [%(levelname)s] %(name)s\n%(message)s',
+                'datefmt': '%Y-%m-%d %H:%M:%S',
+            },
         },
         'handlers': {
             'sql_console': {
@@ -265,11 +276,52 @@ if LOGGING_ON:
                 'class': 'utils.logger.handlers.third_party.ColorfulSQLHandler',
                 'formatter': 'sql',
             },
+            'sql_session': {
+                'level': 'DEBUG',
+                'class': 'logging.FileHandler',
+                'filename': 'logs/sql_session.log',
+                'mode': 'w',
+                'formatter': 'sql_file',
+                'encoding': 'utf-8',
+            },
+            'sql_history': {
+                'level': 'DEBUG',
+                'class': 'logging.handlers.RotatingFileHandler',
+                'filename': 'logs/sql_history.log',
+                'maxBytes': LOG_FILE_SIZE,
+                'backupCount': LOG_FILE_BACKUP_COUNT,
+                'mode': 'a',
+                'formatter': 'sql_file',
+                'encoding': 'utf-8',
+            },
+            'session_errors': {  # Rewrites at each start
+                'level': 'ERROR',
+                'class': 'logging.FileHandler',
+                'filename': 'logs/session_errors.log',
+                'mode': 'w',
+                'formatter': 'error_format',
+                'encoding': 'utf-8',
+            },
+            'history_errors': {  # Only the addition
+                'level': 'ERROR',
+                'class': 'logging.handlers.RotatingFileHandler',
+                'filename': 'logs/history_errors.log',
+                'mode': 'a',
+                'maxBytes': LOG_FILE_SIZE,
+                'backupCount': LOG_FILE_BACKUP_COUNT,
+                'formatter': 'error_format',
+                'encoding': 'utf-8',
+            },
         },
         'loggers': {
             'django.db.backends': {
                 'level': 'DEBUG',
-                'handlers': ['sql_console'],
+                'handlers': ['sql_session', 'sql_history'],
+                'propagate': False,
+            },
+            'decorated_error_file': {
+                'level': 'DEBUG',
+                'handlers': ['session_errors', 'history_errors'],
                 'propagate': False,
             },
         },
