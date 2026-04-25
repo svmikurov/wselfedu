@@ -4,10 +4,10 @@ import pytest
 
 from apps.core.assemblers.command import UserDataCommand
 from apps.core.assemblers.protocol import UserDataCommandProtocol
-from apps.core.domains.exercise.enums import ExerciseProcessEnum
 from apps.core.domains.exercise.protocol import HasExerciseProcessAction
-from apps.core.validators.request.dto import ExerciseActionWebDTO
 from apps.users.models import Person
+from interfaces.enums.exercise import ExerciseAction
+from interfaces.schemas.request.exercise import ExerciseRequestDTO
 
 CommandT = UserDataCommandProtocol[HasExerciseProcessAction]
 
@@ -15,8 +15,8 @@ CommandT = UserDataCommandProtocol[HasExerciseProcessAction]
 @pytest.fixture
 def validated() -> HasExerciseProcessAction:
     """Provide new case validated dto."""
-    return ExerciseActionWebDTO(
-        action=ExerciseProcessEnum.CREATE_CASE,
+    return ExerciseRequestDTO(
+        action=ExerciseAction.CREATE_TASK,
     )
 
 

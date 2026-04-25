@@ -5,7 +5,9 @@ from __future__ import annotations
 from django.forms import Form
 from pydantic import BaseModel, ConfigDict, Field
 
-from apps.core.domains.exercise.dto import ExerciseStatusSchema
+from interfaces.schemas.domain.exercise.fields import (
+    ExerciseStatusField,
+)
 
 
 class ConditionsFormDTO(BaseModel):
@@ -34,7 +36,7 @@ class ExerciseFormDTO(BaseModel):
 
 
 class ExerciseWebDTO(
-    ExerciseStatusSchema,
+    ExerciseStatusField,
 ):
     """Exercise explanation web response DTO."""
 

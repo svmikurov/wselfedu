@@ -4,10 +4,10 @@ from typing import TypeVar
 
 from django.db.models import F, Manager, QuerySet
 
-from apps.core.contracts import NullProtocol
 from apps.core.repositories.abstract import AbstractUserFetchRepository
 from apps.lang.models import EnglishTranslation
 from apps.users.models import Person
+from interfaces import NullProtocol
 
 FilterT = TypeVar('FilterT')
 ResultT = QuerySet[EnglishTranslation]

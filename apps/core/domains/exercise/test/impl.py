@@ -2,10 +2,11 @@
 
 from random import randrange, sample
 
-from apps.core.contracts import business
-from apps.core.domains.exercise.enums import DisplayOrder
 from apps.core.domains.exercise.test.dto import OptionMetaDTO
 from apps.core.exceptions import info
+from interfaces.aliases import CandidatesAlias
+from interfaces.enums.exercise import DisplayOrder
+from interfaces.protocols.domain import exercise
 
 from ..abstract import (
     AbstractCheckExerciseDomain,
@@ -14,12 +15,10 @@ from ..abstract import (
 from ..deps.protocol import SelectorProtocol
 from ..dto import TextExerciseCheckResult
 from ..protocol import (
-    Candidate,
-    Candidates,
     HasOptionValue,
 )
 from .dto import TestDomainResult, TestExerciseMeta
-from .protocol import TestCreateResultProtocol
+from .protocol import TestExerciseCaseProtocol
 
 __all__ = [
     'TestDomain',
@@ -28,8 +27,8 @@ __all__ = [
 
 
 class _ExerciseConfig(
-    business.HasDisplayOrder[DisplayOrder],
-    business.HasOptionCount,
+    exercise.HasDisplayOrder[DisplayOrder],
+    exercise.HasOptionCount,
 ):
     """Exercise config interface."""
 
@@ -37,7 +36,7 @@ class _ExerciseConfig(
 class TestDomain(
     AbstractConfigurableCandidatesExerciseDomain[
         _ExerciseConfig,
-        TestCreateResultProtocol[Candidate],
+        TestExerciseCaseProtocol,
     ],
 ):
     """Task exercise case domain."""
@@ -51,9 +50,9 @@ class TestDomain(
 
     def execute(
         self,
-        candidates: Candidates,
+        candidates: CandidatesAlias,
         conf: _ExerciseConfig,
-    ) -> TestCreateResultProtocol[Candidate]:
+    ) -> TestExerciseCaseProtocol:
         """Get test exercise data."""
         option_value = randrange(conf.option_count)
         selected_candidates = self._selector.select(candidates, conf)
@@ -66,9 +65,9 @@ class TestDomain(
 
     def _get_options(
         self,
-        candidates: Candidates,
+        candidates: CandidatesAlias,
         option_count: int,
-    ) -> list[Candidate]:
+    ) -> list[exercise.Candidate]:
         """Get test exercise options."""
         if len(candidates) >= option_count:
             return sample(tuple(candidates), option_count)

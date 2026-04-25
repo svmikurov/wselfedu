@@ -2,15 +2,15 @@
 
 import pytest
 
-from apps.core.domains.exercise.dto import (
-    ExerciseConfigDTO,
-    ExerciseSettingsDTO,
-    LookupConditionsDTO,
-)
 from apps.core.domains.exercise.protocol import (
     ConditionsProtocol,
     ExerciseConfigProtocol,
     ExerciseSettingsProtocol,
+)
+from interfaces.schemas.domain.exercise.params import (
+    ExerciseConfigDTO,
+    ExerciseSettingsDTO,
+    LookupConditionsDTO,
 )
 
 

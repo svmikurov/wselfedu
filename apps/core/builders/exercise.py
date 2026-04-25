@@ -1,75 +1,102 @@
 """Exercise case DTO null builder."""
 
-from typing import Protocol, TypeVar
+from typing import TypeVar
 
-from apps.core.domains.exercise.dto import ExerciseDomainResultDTO
-from apps.core.domains.exercise.enums import ExerciseStatusEnum
-from apps.core.domains.exercise.presentation.dto import PresentationTask
+from apps.core.domains.exercise.presentation.protocol import (
+    PresentationDomainResultProtocol,
+    PresentationTaskProtocol,
+)
 from apps.core.domains.exercise.protocol import (
     ExerciseProcessResultProtocol,
-    HasExerciseStatus,
+)
+from apps.core.domains.exercise.test.dto import TestExerciseCase
+from apps.core.domains.exercise.test.protocol import (
+    TestExerciseDomainResultProtocol,
+    TestExerciseTaskProtocol,
+)
+from interfaces.enums.exercise import ExerciseStatus
+from interfaces.protocols.domain.exercise import HasExerciseStatus
+from interfaces.schemas.domain.exercise.presentation import (
+    PresentationTask,
+)
+from interfaces.schemas.domain.exercise.result import (
+    ExerciseDomainResultDTO,
 )
 
-DomainT = TypeVar('DomainT', bound=HasExerciseStatus)
-DomainT_contra = TypeVar('DomainT_contra', contravariant=True)
+from .protocol import ExerciseTaskBuilderProtocol
+
 SpecT = TypeVar('SpecT')
-SpecT_contra = TypeVar('SpecT_contra', contravariant=True)
-ResultT = TypeVar('ResultT', bound=HasExerciseStatus)
-ResultT_co = TypeVar('ResultT_co', bound=HasExerciseStatus, covariant=True)
 
+# DEPRECATED: REmove type hint
+DomainT = TypeVar('DomainT', bound=HasExerciseStatus)
 
-class CaseBuilderProtocol(
-    Protocol[
-        DomainT_contra,
-        SpecT_contra,
-        ResultT_co,
-    ]
-):
-    """Protocol for exercise create result DTO interface."""
-
-    def build(
-        self,
-        case: DomainT_contra,
-        spec: SpecT_contra,
-    ) -> ResultT_co:
-        """Build exercise create result DTO."""
-
-
-class ExerciseCaseNullBuilder(
-    CaseBuilderProtocol[DomainT, SpecT, DomainT],
-):
-    """Exercise case DTO null builder."""
-
-    def build(
-        self,
-        case: DomainT,
-        spec: SpecT,
-    ) -> DomainT:
-        """Build exercise case DTO."""
-        return case
+# =================================================
+# Presentation exercise task DTO builder
+# =================================================
 
 
 class ExercisePresentationBuilder(
-    CaseBuilderProtocol[DomainT, SpecT, PresentationTask],
+    ExerciseTaskBuilderProtocol[
+        PresentationDomainResultProtocol,
+        SpecT,
+        PresentationTaskProtocol,
+    ],
 ):
     """Exercise case DTO null builder."""
 
     def build(
         self,
-        case: DomainT,
+        domain: PresentationDomainResultProtocol,
         spec: SpecT,
-    ) -> PresentationTask:
+    ) -> PresentationTaskProtocol:
         """Build exercise case DTO."""
         return PresentationTask(
-            status=case.status,
-            question_text=case.case.option.define,  # type: ignore[attr-defined]
-            answer_text=case.case.option.mean,  # type: ignore[attr-defined]
-            progress_value=case.case.option.progress,  # type: ignore[attr-defined]
+            status=domain.status,
+            question_text=domain.case.option.define,
+            answer_text=domain.case.option.mean,
+            progress_value=domain.case.option.progress,
         )
 
 
+# =================================================
+# Test exercise task DTO builder
+# =================================================
+
+
+class TestExerciseTaskBuilder(
+    ExerciseTaskBuilderProtocol[
+        TestExerciseDomainResultProtocol,
+        SpecT,
+        TestExerciseTaskProtocol,
+    ],
+):
+    """Test exercise task DTO builder."""
+
+    def build(
+        self,
+        domain: TestExerciseDomainResultProtocol,
+        spec: SpecT,
+    ) -> TestExerciseTaskProtocol:
+        """Build exercise case DTO."""
+        option_value = domain.case.value
+        options = domain.case.options
+
+        return TestExerciseCase(
+            status=domain.status,
+            question_text=options[option_value].define,
+            options=options,
+        )
+
+
+# =================================================
+# Simple exercise task DTO builder
+# =================================================
+
+# DEPRECATED: Remove exercise case DTO builder
+
+
 class ExerciseCaseBuilder(
-    CaseBuilderProtocol[
+    ExerciseTaskBuilderProtocol[
         DomainT, SpecT, ExerciseProcessResultProtocol[DomainT]
     ],
 ):
@@ -77,11 +104,11 @@ class ExerciseCaseBuilder(
 
     def build(
         self,
-        case: DomainT,
+        domain: DomainT,
         spec: SpecT,
     ) -> ExerciseProcessResultProtocol[DomainT]:
         """Build exercise case DTO."""
         return ExerciseDomainResultDTO(
-            status=ExerciseStatusEnum.NEW_TASK,
-            case=case,
+            status=ExerciseStatus.NEW_TASK,
+            case=domain,
         )

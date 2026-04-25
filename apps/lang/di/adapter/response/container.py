@@ -6,7 +6,7 @@ from dependency_injector.providers import Dict, Factory
 from apps.core.adapters.response.exercise.strategy import (
     ProcessExerciseAdapterStrategy,
 )
-from apps.core.domains.exercise.enums import ExerciseStatusEnum
+from interfaces.enums import ExerciseStatus
 
 
 class WebResponseAdapterContainer(DeclarativeContainer):
@@ -18,7 +18,7 @@ class WebResponseAdapterContainer(DeclarativeContainer):
 
     regular_translation_presentation_registry = Dict(
         {
-            ExerciseStatusEnum.NEW_TASK: ...,
+            ExerciseStatus.NEW_TASK: ...,
         }
     )
 

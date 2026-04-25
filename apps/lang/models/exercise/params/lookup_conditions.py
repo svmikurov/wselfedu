@@ -29,7 +29,7 @@ class ExerciseConditions(AbstractBaseModel):
         'users.Person',
         on_delete=models.CASCADE,
         verbose_name='User',
-        related_name='user_parameters',
+        related_name='user_conditions',
     )
 
     category = models.ForeignKey(
@@ -38,7 +38,7 @@ class ExerciseConditions(AbstractBaseModel):
         null=True,
         blank=True,
         verbose_name='Category',
-        related_name='category_params',
+        related_name='category_conditions',
     )
     mark = models.ForeignKey(
         'Mark',
@@ -46,7 +46,7 @@ class ExerciseConditions(AbstractBaseModel):
         blank=True,
         null=True,
         verbose_name='Mark',
-        related_name='mark_params',
+        related_name='mark_conditions',
     )
     word_source = models.ForeignKey(
         'core.Source',
@@ -63,7 +63,7 @@ class ExerciseConditions(AbstractBaseModel):
         blank=True,
         null=True,
         verbose_name='Start period',
-        related_name='after_params',
+        related_name='start_periods',
         help_text='Added after data',
     )
     end_period = models.ForeignKey(
@@ -72,7 +72,7 @@ class ExerciseConditions(AbstractBaseModel):
         blank=True,
         null=True,
         verbose_name='End period',
-        related_name='before_params',
+        related_name='end_periods',
         help_text='Added before data',
     )
 
@@ -116,18 +116,18 @@ class ExerciseConditions(AbstractBaseModel):
     class Meta:
         """Model configuration."""
 
-        verbose_name = 'Word learning parameter'
-        verbose_name_plural = 'Word learning parameters'
+        verbose_name = 'Word learning conditions'
+        verbose_name_plural = 'Word learning conditions'
 
         # TODO: Add constrains after Period model improve
         constraints = [
             models.UniqueConstraint(
                 fields=['user'],
-                name='lang_parameters_unique_user_name',
+                name='lang_exercise_configuration_unique_user_name',
             ),
         ]
 
-        db_table = 'lang_parameters'
+        db_table = 'lang_exercise_configuration'
 
     def obj_to_id_name(self, field: types.Option) -> types.IdName | None:
         """Convert object to {id, name} dict."""
@@ -164,7 +164,7 @@ class ExerciseConditions(AbstractBaseModel):
 
     @classmethod
     def get_instants(cls, user: Person) -> Self:
-        """Get user translation parameters or return defaults."""
+        """Get user translation conditions or return defaults."""
         try:
             return cls.objects.get(user=user)
         except cls.DoesNotExist:

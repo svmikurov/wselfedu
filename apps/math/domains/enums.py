@@ -1,6 +1,6 @@
 """Mathematical discipline domain entity enumerations."""
 
-from apps.core.enums import BaseEnum
+from interfaces.enums.base import BaseEnum
 
 
 class CalculationEnum(BaseEnum):

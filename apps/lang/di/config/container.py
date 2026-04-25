@@ -6,10 +6,10 @@ from dependency_injector.providers import (
     Factory,
 )
 
-from apps.core.domains.exercise.enums import ExerciseTypeEnum
 from apps.core.resolvers.exercise.config_resolver import (
     ExerciseConfigurationResolver,
 )
+from interfaces.enums.exercise import ExerciseKind
 
 
 class ConfigurationContainer(DeclarativeContainer):
@@ -27,7 +27,7 @@ class ConfigurationContainer(DeclarativeContainer):
 
     exercise_config_resolver = Factory(
         ExerciseConfigurationResolver,
-        exercise_type=ExerciseTypeEnum.PRESENTATION,
+        exercise_type=ExerciseKind.PRESENTATION,
         parameters_repository=repositories.translation_parameters,
         default=None,
     )

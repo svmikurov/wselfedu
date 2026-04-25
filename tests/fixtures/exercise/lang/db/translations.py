@@ -1,5 +1,7 @@
 """Translations DB fixtures."""
 
+from typing import Iterable
+
 import pytest
 
 from apps.lang import models
@@ -11,7 +13,7 @@ from ..no_db.translations import TRANSLATIONS
 @pytest.fixture
 def translations(
     user: Person,
-) -> list[models.EnglishTranslation]:
+) -> Iterable[models.EnglishTranslation]:
     """Populate DB with translations."""
     # Create native word model objects
     native_objs = [

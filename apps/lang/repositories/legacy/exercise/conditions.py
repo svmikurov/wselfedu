@@ -2,16 +2,16 @@
 
 from django.db.models import Manager, Model
 
-from apps.core.contracts.general import NullProtocol
-from apps.core.domains.exercise.dto import (
-    ExerciseParametersDTO,
-    ExerciseSettingsDTO,
-    LookupConditionsDTO,
-)
 from apps.core.domains.exercise.protocol import ExerciseParametersProtocol
 from apps.core.repositories.abstract import AbstractUserFetchRepository
 from apps.lang.models import ExerciseConditions, TranslationConfiguration
 from apps.users.models.user import Person
+from interfaces.protocols.general import NullProtocol
+from interfaces.schemas.domain.exercise.params import (
+    ExerciseParametersDTO,
+    ExerciseSettingsDTO,
+    LookupConditionsDTO,
+)
 
 
 # FIXME: Update NullProtocol to Generic type

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from dependency_injector.wiring import Provide, inject
 from django.http.request import HttpRequest
@@ -14,12 +14,13 @@ from apps.core.handlers.dto import (
     RequestData,
 )
 from apps.core.views.auth import UserLoginRequiredMixin
-from apps.core.views.exercise.base import QueryHandler
 from apps.core.views.mixins import GetHandlerMixin
 from di import MainContainer
 
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponseBase
+
+type QueryHandler = Any
 
 __all__ = ('ExerciseChoiceView',)
 

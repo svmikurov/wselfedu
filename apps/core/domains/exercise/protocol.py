@@ -1,17 +1,17 @@
 """Exercise domain interface."""
 
-from typing import Iterator, Protocol, Self, TypeVar, overload
+from typing import Protocol, TypeVar
 
-from apps.core.contracts import business, general
-from apps.core.contracts.entity import exercise
-
-from .enums import DisplayOrder, ExerciseProcessEnum, ExerciseStatusEnum
+from interfaces.enums import exercise as enums
+from interfaces.protocols.domain import exercise, general, params
+from interfaces.protocols.domain.exercise import Candidate
 
 ExerciseConditionsT = TypeVar('ExerciseConditionsT')
 ExerciseConfigT = TypeVar('ExerciseConfigT')
 ExerciseConfig_contra = TypeVar('ExerciseConfig_contra', contravariant=True)
 ExerciseSettingsT = TypeVar('ExerciseSettingsT')
 
+CandidateT = TypeVar('CandidateT', bound=Candidate)
 OptionT = TypeVar('OptionT')
 Option_co = TypeVar('Option_co', covariant=True)
 
@@ -19,7 +19,7 @@ Option_co = TypeVar('Option_co', covariant=True)
 class HasExerciseProcessAction(Protocol):
     """Protocol for has exercise process action interface."""
 
-    action: ExerciseProcessEnum
+    action: enums.ExerciseAction
 
 
 # Derived interface
@@ -27,46 +27,29 @@ class HasExerciseProcessAction(Protocol):
 
 
 class ConditionsProtocol(
-    business.HasCategory,
-    business.HasMark,
-    business.HasSource,
-    business.HasPeriod,
-    business.HasProgress,
+    general.HasCategory,
+    general.HasMark,
+    general.HasSource,
+    exercise.HasPeriod,
+    exercise.HasProgress,
     Protocol,
 ):
     """Protocol for exercise conditions interface."""
 
 
 class ExerciseConfigProtocol(
-    business.HasDisplayOrder[DisplayOrder],
-    business.HasItemCount,
+    exercise.HasDisplayOrder[enums.DisplayOrder],
+    exercise.HasItemCount,
     Protocol,
 ):
     """Protocol for exercise configuration interface."""
 
 
 class ExerciseSettingsProtocol(
-    business.HasTimeout,
+    exercise.HasTimeout,
     Protocol,
 ):
     """Protocol for exercise settings interface."""
-
-
-# =================================================
-# Exercise case meta data DTO interface
-# =================================================
-
-
-class HasExerciseStatus(Protocol):
-    """Protocol for has exercise status interface."""
-
-    status: ExerciseStatusEnum
-
-
-class HasProgressValue(Protocol):
-    """Protocol for has progress value integer field."""
-
-    progress_value: int
 
 
 # =================================================
@@ -87,9 +70,9 @@ class HasExistingCase(Protocol[OptionT]):
 
 
 class GenericExerciseParameters(
-    exercise.HasExerciseConditions[ExerciseConditionsT],
-    exercise.HasExerciseConfig[ExerciseConfigT],
-    exercise.HasExerciseSettings[ExerciseSettingsT],
+    params.HasConditions[ExerciseConditionsT],
+    params.HasConfig[ExerciseConfigT],
+    params.HasSettings[ExerciseSettingsT],
     Protocol[ExerciseConditionsT, ExerciseConfigT, ExerciseSettingsT],
 ):
     """Generic exercise parameters.
@@ -118,64 +101,13 @@ class ExerciseParametersProtocol(
 
 
 class ExerciseSpecProtocol(
-    exercise.HasExerciseConditions[ConditionsProtocol],
-    exercise.HasExerciseConfig[ExerciseConfigProtocol],
-    exercise.HasExerciseSettings[ExerciseSettingsProtocol],
+    params.HasConditions[ConditionsProtocol],
+    params.HasConfig[ExerciseConfigProtocol],
+    params.HasSettings[ExerciseSettingsProtocol],
     HasExistingCase[OptionT],
     Protocol[OptionT],
 ):
     """Protocol for exercise spec interface."""
-
-
-# =================================================
-# Exercise candidates interface
-# =================================================
-
-
-class HasDefineText(Protocol):
-    """Protocol for exercise *define* text."""
-
-    define: str
-
-
-class HasMeanText(Protocol):
-    """Protocol for exercise *mean* text."""
-
-    mean: str
-
-
-class Candidate(
-    general.HasResourceIdentifier,
-    HasDefineText,
-    HasMeanText,
-    HasProgressValue,
-    Protocol,
-):
-    """Protocol for a single candidate item."""
-
-
-class Candidates(Protocol):
-    """Protocol for a collection of candidates."""
-
-    def __iter__(self) -> Iterator[Candidate]:
-        """Return an iterator over candidates in the collection."""
-        ...
-
-    def __len__(self) -> int:
-        """Return the number of candidates in the collection."""
-        ...
-
-    @overload
-    def __getitem__(self, index: int) -> Candidate: ...
-    @overload
-    def __getitem__(self, items_slice: slice) -> Self: ...
-    def __getitem__(self, index_or_slice: int | slice) -> Candidate | Self:
-        """Get a candidate by index or a slice of the collection."""
-        ...
-
-    def order_by(self, *field_names: str) -> Self:
-        """Order the collection by one or more fields."""
-        ...
 
 
 # =================================================
@@ -204,7 +136,7 @@ class HasOptions(Protocol[OptionT]):
 class HasPhases(Protocol):
     """Protocol for has *phases* interface."""
 
-    phases: list[DisplayOrder]
+    phases: list[enums.DisplayOrder]
 
 
 # =================================================
@@ -213,28 +145,11 @@ class HasPhases(Protocol):
 
 
 class ExerciseProcessResultProtocol(
-    HasExerciseStatus,
+    exercise.HasExerciseStatus,
     HasCase[OptionT],
     Protocol,
 ):
     """Protocol for domain result DTO interface."""
-
-
-# =================================================
-# Exercise case DTO interface
-# =================================================
-
-
-class HasQuestionText(Protocol):
-    """Protocol for *exercise question* text."""
-
-    question_text: str
-
-
-class HasAnswerText(Protocol):
-    """Protocol for *exercise answer* text."""
-
-    answer_text: str
 
 
 # =================================================
@@ -269,7 +184,7 @@ class ExerciseDomainProtocol(
 
     def execute(
         self,
-        candidates: Candidates,
+        candidates: exercise.Candidates[CandidateT],
         conf: ExerciseConfig_contra,
     ) -> Option_co:
         """Create exercise case."""

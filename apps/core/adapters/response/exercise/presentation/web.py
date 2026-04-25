@@ -4,31 +4,29 @@ This module contains adapters for converting generic
 exercise cases to different output formats (API and Web).
 """
 
-from typing import TypeVar, override
+from typing import override
 
 from django.template.loader import render_to_string
-from pydantic import BaseModel
 
 from apps.core.adapters.response.abstract import AbstractResponseAdapter
-from apps.core.adapters.response.status import ResponseStatusEnum
-from apps.core.contracts import NullProtocol
-from apps.core.contracts.response.web import OobResponseDTO
-from apps.core.domains.null import NullDTO
+from interfaces import NullProtocol
+from interfaces.enums import ExerciseStatus
+from interfaces.protocols.response.exercise import (
+    PresentationTaskResponse,
+)
+from interfaces.schemas.domain.exercise.presentation import (
+    PresentationTask,
+)
 
-DomainResult = TypeVar('DomainResult', bound=BaseModel)
 
-
-class WebStartExerciseNullAdapter(
+class PresentationTaskWebAdapter(
     AbstractResponseAdapter[
-        DomainResult,
+        PresentationTask,
         NullProtocol,
-        OobResponseDTO[ResponseStatusEnum, DomainResult, NullDTO],
+        PresentationTaskResponse,
     ]
 ):
-    """WEB adapter for start web exercise.
-
-    Passes original domain result DTO via response DTO.
-    """
+    """WEB adapter for perform exercise task."""
 
     def __init__(
         self,
@@ -37,7 +35,7 @@ class WebStartExerciseNullAdapter(
         """Construct the adapter."""
         self._templates = extra_oob_templates
 
-    def _build_oob(self, domain_result: DomainResult) -> str:
+    def _build_oob(self, domain_result: PresentationTask) -> str:
         """Build OOB."""
         html = ''
         for template in self._templates:
@@ -47,13 +45,12 @@ class WebStartExerciseNullAdapter(
     @override
     def to_response(
         self,
-        domain_result: DomainResult,
+        domain_result: PresentationTask,
         request_context: NullProtocol,
-    ) -> OobResponseDTO[ResponseStatusEnum, DomainResult, NullDTO]:
+    ) -> PresentationTaskResponse:
         """Convert exercise case to web context."""
-        return OobResponseDTO(
-            domain_status=ResponseStatusEnum.NEW_CASE,
-            # NOTE: Passes original domain result.
+        return PresentationTaskResponse(
+            domain_status=ExerciseStatus.NEW_TASK,
             context=domain_result,
             oob_html=self._build_oob(domain_result),
         )

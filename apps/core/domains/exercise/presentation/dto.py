@@ -2,15 +2,15 @@
 
 from typing import TypeVar
 
-from apps.core.domains.dto import BaseDTO
-
-from .. import dto
+from interfaces.schemas.base import BaseDTO
+from interfaces.schemas.domain.exercise.fields import OptionField
+from interfaces.schemas.fields import ResourceIdentifierField
 
 OptionT = TypeVar('OptionT')
 
 
 class PresentationDomainResult(
-    dto.OptionField[OptionT],
+    OptionField[OptionT],
 ):
     """Presentation exercise create domain result.
 
@@ -22,32 +22,9 @@ class PresentationDomainResult(
     """
 
 
-class PresentationTask(
-    dto.ExerciseStatusSchema,
-    dto.QuestionTextField,
-    dto.AnswerTextField,
-    dto.ProgressValueField,
-    BaseDTO,
-):
-    """Presentation exercise case.
-
-    Parameter
-    ---------
-    status : `ExerciseStatusEnum`
-        Current exercise performing status.
-    question_text : `str`
-        Exercise question text.
-    answer_text : `str`
-        Exercise answer text.
-    progress_value: `int`
-        Current item study progress value.
-
-    """
-
-
 # DEPRECATED:
 class PresentationMeta(
-    dto.ResourceIdentifierField,
+    ResourceIdentifierField,
     BaseDTO,
 ):
     """Presentation exercise meta.

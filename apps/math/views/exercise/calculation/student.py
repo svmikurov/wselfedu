@@ -6,7 +6,6 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
 
-from apps.core.domains.null import NullDTO
 from apps.core.handlers.dto import RequestContext, RequestData
 from apps.core.views import UserLoginRequiredMixin
 from apps.core.views.mixins import GetHandlerMixin
@@ -14,6 +13,7 @@ from apps.math.handlers.types import (
     StudentExerciseListHandler as ExerciseListHandler,
 )
 from di import MainContainer
+from interfaces.schemas.base import NullDTO
 
 HANDLERS = MainContainer.math.web_view
 

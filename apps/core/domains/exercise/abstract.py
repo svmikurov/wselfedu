@@ -1,16 +1,16 @@
 """Abstract base class for exercise domain business logic."""
 
-from __future__ import annotations
-
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Generic, TypeVar
+from typing import Generic, TypeVar
 
-if TYPE_CHECKING:
-    from .protocol import Candidates
+from interfaces.protocols.domain.exercise import Candidate, Candidates
 
 Conf = TypeVar('Conf')
 Case = TypeVar('Case')
 Task = TypeVar('Task')
+
+CandidateT = TypeVar('CandidateT', bound=Candidate)
+
 CaseMeta = TypeVar('CaseMeta')
 UserAnswer = TypeVar('UserAnswer')
 CheckResult = TypeVar('CheckResult')
@@ -30,7 +30,7 @@ class AbstractConfigurableCandidatesExerciseDomain(
     @abstractmethod
     def execute(
         self,
-        candidates: Candidates,
+        candidates: Candidates[CandidateT],
         conf: Conf,
     ) -> Task:
         """Create exercise case."""

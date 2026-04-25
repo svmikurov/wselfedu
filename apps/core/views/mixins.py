@@ -1,11 +1,33 @@
-"""Core app mixins."""
+"""Core app view mixins."""
 
-from typing import Generic, TypeVar
+from __future__ import annotations
+
+from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING, Generic, TypedDict, TypeVar
+
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.views.generic.base import TemplateResponseMixin
+
+from .abstract import AbstractProcessAction, AbstractStartAction
+
+if TYPE_CHECKING:
+    from django.http import HttpRequest
+
 
 T = TypeVar('T')
 
-StartHandler = TypeVar('StartHandler')
-ProcessHandler = TypeVar('ProcessHandler')
+StartHandlerT = TypeVar('StartHandlerT')
+ProcessHandlerT = TypeVar('ProcessHandlerT')
+
+ResponseDtoT = TypeVar('ResponseDtoT')
+OobResponseDtoT = TypeVar('OobResponseDtoT')
+
+
+class InitialHtmlContextT(TypedDict, total=False):
+    """Initial html context typed dict."""
+
+    initial_html: str
 
 
 class GetUseCaseMixin(Generic[T]):
@@ -61,17 +83,17 @@ class GetHandlerMixin(Generic[T]):
 
 
 # =================================================
-# Exercise mixins
+# Handler mixins
 # =================================================
 
 
-class StartExerciseHandlerMixin(Generic[StartHandler]):
+class StartExerciseHandlerMixin(Generic[StartHandlerT]):
     """Mixin provides start exercise handler."""
 
-    _start_handler: StartHandler | None
+    _start_handler: StartHandlerT | None
 
     @property
-    def start_handler(self) -> StartHandler:
+    def start_handler(self) -> StartHandlerT:
         """Get start exercise request handler."""
         if self._start_handler is None:
             raise AttributeError(
@@ -80,14 +102,74 @@ class StartExerciseHandlerMixin(Generic[StartHandler]):
         return self._start_handler
 
 
-class ProcessExerciseHandlerMixin(Generic[ProcessHandler]):
+class ProcessExerciseHandlerMixin(Generic[ProcessHandlerT]):
     """Mixin provides exercise process handler."""
 
-    _process_handler: ProcessHandler | None
+    _process_handler: ProcessHandlerT | None
 
     @property
-    def process_handler(self) -> ProcessHandler:
+    def process_handler(self) -> ProcessHandlerT:
         """Get exercise process handler."""
         if self._process_handler is None:
             raise AttributeError('Process exercise handler not initialized')
         return self._process_handler
+
+
+# =================================================
+# Request's method mixins
+# =================================================
+
+
+class AbstractPartialTemplateMixin(ABC, Generic[ResponseDtoT]):
+    """ABC for get partial html interface."""
+
+    @abstractmethod
+    def _get_partial_html(
+        self,
+        request: HttpRequest,
+        schema: ResponseDtoT,
+    ) -> str:
+        """Get partial html."""
+
+
+class ProcessHandlerTemplateMixin(
+    TemplateResponseMixin,
+    AbstractPartialTemplateMixin[ResponseDtoT],
+    AbstractStartAction[ResponseDtoT],
+    ABC,
+    Generic[ResponseDtoT],
+):
+    """Provides handler process with template rendering."""
+
+    def get(self, request: HttpRequest, **kwargs: object) -> HttpResponse:
+        """Render initial template with process handler result."""
+        result = self._start(**kwargs)
+
+        if request.headers.get('HX-Request') == 'true':
+            # Renders process handler result with partial template
+            # if HTMX request.
+            return HttpResponse(self._get_partial_html(request, result))
+
+        else:
+            # Renders process handler result with initial template.
+            context: InitialHtmlContextT = {
+                'initial_html': self._get_partial_html(request, result),
+                **result.model_dump(),  # type: ignore
+            }
+
+            return render(request, self.get_template_names(), context)
+
+
+class ProcessHandlerPartialTemplateMixin(
+    TemplateResponseMixin,
+    AbstractPartialTemplateMixin[ResponseDtoT],
+    AbstractProcessAction[ResponseDtoT],
+    ABC,
+    Generic[ResponseDtoT],
+):
+    """Provides handler process with partial template rendering."""
+
+    def post(self, request: HttpRequest, **kwargs: object) -> HttpResponse:
+        """Render partial template with process handler result."""
+        result = self._process(**kwargs)
+        return HttpResponse(self._get_partial_html(request, result))

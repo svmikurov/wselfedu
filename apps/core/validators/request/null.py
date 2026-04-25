@@ -2,16 +2,11 @@
 
 from typing import TypeVar
 
-from apps.core.domains.dto import BaseDTO
 from apps.core.handlers.protocol import RequestDataProtocol
 
 from .abstract import AbstractRequestValidator
 
 Validated = TypeVar('Validated')
-
-
-class NullValidated(BaseDTO):
-    """Nul validated data."""
 
 
 class NullValidator(AbstractRequestValidator[RequestDataProtocol, Validated]):  # type: ignore

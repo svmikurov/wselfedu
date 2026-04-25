@@ -4,11 +4,6 @@ from typing import Generic, TypeVar, override
 
 from apps.core.adapters.exercise.protocol import ExerciseProcessAdapterProtocol
 from apps.core.assemblers.protocol import UserDataCommandProtocol
-from apps.core.contracts.entity.exercise import HasExerciseConfig
-from apps.core.domains.exercise.enums import (
-    ExerciseProcessEnum,
-    ExerciseStatusEnum,
-)
 from apps.core.domains.exercise.protocol import (
     ExerciseConfigProtocol,
     ExerciseParametersProtocol,
@@ -21,10 +16,17 @@ from apps.core.resolvers.protocol import ResolverProtocol
 from apps.core.services.protocol import UserServiceProtocol
 from apps.core.storages.services.protocol import CommandStorageProtocol
 from apps.core.use_cases.abstract import AbstractUseCase
+from interfaces.enums.exercise import (
+    ExerciseAction,
+    ExerciseStatus,
+)
+from interfaces.protocols.domain.params import (
+    HasConfig,
+)
 
 CommandT = UserDataCommandProtocol[HasExerciseProcessAction]
 ParamsT = TypeVar('ParamsT', bound=ExerciseParametersProtocol)
-SpecT = TypeVar('SpecT', bound=HasExerciseConfig[ExerciseConfigProtocol])
+SpecT = TypeVar('SpecT', bound=HasConfig[ExerciseConfigProtocol])
 CaseT = TypeVar('CaseT')
 ResultT = TypeVar('ResultT')
 
@@ -41,17 +43,17 @@ class ExerciseUseCaseStrategy(
         storage: CommandStorageProtocol[CommandT, CaseT],
         config_resolver: ResolverProtocol[CommandT, ParamsT],
         adapter_registry: dict[
-            ExerciseProcessEnum,
+            ExerciseAction,
             ExerciseProcessAdapterProtocol[
                 CommandT, ParamsT, CaseT | None, SpecT
             ],
         ],
         service_registry: dict[
-            ExerciseProcessEnum,
+            ExerciseAction,
             UserServiceProtocol[SpecT, ExerciseProcessResultProtocol[CaseT]],
         ],
         builder_registry: dict[
-            ExerciseStatusEnum,
+            ExerciseStatus,
             TaskBuilderProtocol[
                 ExerciseProcessResultProtocol[CaseT],
                 SpecT,
@@ -87,7 +89,7 @@ class ExerciseUseCaseStrategy(
 
         domain = service.execute(command.user, spec)
 
-        if domain.status == ExerciseStatusEnum.NEW_TASK:
+        if domain.status == ExerciseStatus.NEW_TASK:
             self._storage.save(command, domain.case, self._prefix)
 
         builder = self._builder_registry[domain.status]

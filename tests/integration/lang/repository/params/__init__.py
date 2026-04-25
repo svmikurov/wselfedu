@@ -1,1 +1,0 @@
-"""Exercise parameters repository tests."""

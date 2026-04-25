@@ -7,6 +7,8 @@ from typing import TYPE_CHECKING, Protocol, TypeVar
 if TYPE_CHECKING:
     from apps.users.models import Person
 
+HandlerT = TypeVar('HandlerT')
+
 # Request
 QueryData = TypeVar('QueryData')
 Params_contra = TypeVar('Params_contra', contravariant=True)
@@ -19,19 +21,10 @@ RequestData = TypeVar('RequestData')
 Parsed_cov = TypeVar('Parsed_cov', covariant=True)
 RequestData_contra = TypeVar('RequestData_contra', contravariant=True)
 Validated = TypeVar('Validated')
-Validated_cov = TypeVar('Validated_cov', covariant=True)
-Validated_contra = TypeVar('Validated_contra', contravariant=True)
-CommandData_cov = TypeVar('CommandData_cov', covariant=True)
-CommandData_contra = TypeVar('CommandData_contra', contravariant=True)
 
 # Result data
-DomainResult_contra = TypeVar('DomainResult_contra', contravariant=True)
 Result_cov = TypeVar('Result_cov', covariant=True)
 ResultContext = TypeVar('ResultContext')
-
-
-class NullProtocol(Protocol):
-    """Protocol for null data interface."""
 
 
 # =================================================
@@ -39,7 +32,7 @@ class NullProtocol(Protocol):
 # =================================================
 
 # -------------------------------------------------
-# Request parameters
+# Request
 # -------------------------------------------------
 
 
@@ -63,20 +56,10 @@ class DetailQueryRequestParamsProtocol(
     """Protocol for request with detail query parameters DTO."""
 
 
-# -------------------------------------------------
-# Request context
-# -------------------------------------------------
-
-
 class RequestContextProtocol(Protocol):
     """Protocol for request context DTO."""
 
     user: Person
-
-
-# -------------------------------------------------
-# Request data
-# -------------------------------------------------
 
 
 class RequestDataProtocol(Protocol[RequestData]):
@@ -92,7 +75,7 @@ class ValidatedDataProtocol(Protocol[Validated]):
 
 
 # -------------------------------------------------
-# Response data
+# Response
 # -------------------------------------------------
 
 
@@ -102,14 +85,14 @@ class RequestResultProtocol(Protocol[ResultContext]):
     context: ResultContext
 
 
-class OobProtocol(Protocol):
-    """Protocol for OOB content."""
+class HasOob(Protocol):
+    """Protocol for has Out Of Bound interface."""
 
     oob_html: str
 
 
 class OobResultProtocol(
-    OobProtocol,
+    HasOob,
     RequestResultProtocol[ResultContext],
     Protocol,
 ):
@@ -138,6 +121,12 @@ class RequestParserProtocol(Protocol[QueryData, Parsed_cov]):
 # -----------------------------------------------
 # Handler
 # -----------------------------------------------
+
+
+class HasHandler(Protocol[HandlerT]):
+    """Protocol for has *handler* interface."""
+
+    handler: HandlerT
 
 
 class RequestHandlerProtocol(

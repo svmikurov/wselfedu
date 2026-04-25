@@ -2,21 +2,31 @@
 
 from typing import Generic, TypeVar
 
-from apps.core.domains.dto import (
+from interfaces.schemas.base import (
     ArbitraryDTO,
     BaseDTO,
     ProtectDefaultStatusMixin,
 )
-
-from .. import dto
-from ..dto import DefineField, MeanField
+from interfaces.schemas.domain.exercise.fields import (
+    AnswerTextField,
+    DefineField,
+    ExerciseStatusField,
+    MeanField,
+    OptionsField,
+    QuestionTextField,
+)
+from interfaces.schemas.fields import (
+    ResourceIdentifierField,
+    TextField,
+    ValueField,
+)
 
 OptionT = TypeVar('OptionT')
 
 
 class OptionDTO(
-    dto.OptionValueField,
-    dto.TextField,
+    ValueField,
+    TextField,
     BaseDTO,
 ):
     """Test exercise case option.
@@ -32,10 +42,10 @@ class OptionDTO(
 
 
 class OptionMetaDTO(
-    dto.ResourceIdentifierField,
-    dto.OptionValueField,
-    dto.DefineField,
-    dto.MeanField,
+    ResourceIdentifierField,
+    ValueField,
+    DefineField,
+    MeanField,
     BaseDTO,
 ):
     """Test exercise case option mapping with item ID.
@@ -60,9 +70,9 @@ class OptionMetaDTO(
 
 
 class TestExerciseCase(
-    dto.ExerciseStatusSchema,
-    dto.QuestionTextField,
-    dto.AnswerTextOptionsFiled[OptionT],
+    ExerciseStatusField,
+    QuestionTextField,
+    OptionsField[OptionT],
     ArbitraryDTO,
     Generic[OptionT],
 ):
@@ -82,11 +92,11 @@ class TestExerciseCase(
 
 class TestExerciseMeta(
     ProtectDefaultStatusMixin,
-    dto.ResourceIdentifierField,
-    dto.QuestionTextField,
-    dto.AnswerTextField,
-    dto.OptionValueField,
-    dto.OptionsField[OptionT],
+    ResourceIdentifierField,
+    QuestionTextField,
+    AnswerTextField,
+    ValueField,
+    OptionsField[OptionT],
     ArbitraryDTO,
     Generic[OptionT],
 ):
@@ -130,8 +140,8 @@ class Option(
 
 
 class TestDomainResult(
-    dto.OptionValueField,
-    dto.OptionsField[OptionT],
+    ValueField,
+    OptionsField[OptionT],
     ArbitraryDTO,
 ):
     """Test exercise create domain result."""

@@ -3,12 +3,14 @@
 import logging
 from typing import override
 
-from apps.core.domains.exercise.dto import ProgressConfigDTO
 from apps.core.storages import services as storage
 from apps.lang import types
 from apps.lang.repositories import ProgressRepositoryABC
 from apps.lang.schemas import dto
 from apps.users.models import Person
+from interfaces.schemas.domain.exercise.progress import (
+    ProgressConfigDTO,
+)
 
 from .abc import WordProgressServiceABC
 

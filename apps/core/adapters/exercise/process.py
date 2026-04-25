@@ -4,12 +4,12 @@ from typing import TypeVar, override
 
 from apps.core.adapters.exercise.abstract import AbstractExerciseProcessAdapter
 from apps.core.assemblers.protocol import UserDataCommandProtocol
-from apps.core.domains.exercise.dto import (
-    ExerciseParametersDTO,
-    ExerciseSpecDTO,
-)
 from apps.core.domains.exercise.protocol import (
     HasExerciseProcessAction,
+)
+from interfaces.schemas.domain.exercise.params import (
+    ExerciseParametersDTO,
+    ExerciseSpecDTO,
 )
 
 CaseT = TypeVar('CaseT')

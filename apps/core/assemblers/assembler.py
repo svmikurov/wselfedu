@@ -11,11 +11,11 @@ from apps.core.assemblers.protocol import (
 )
 from apps.core.handlers.protocol import (
     DetailRequestParamsProtocol,
-    NullProtocol,
     QueryRequestParamsProtocol,
     RequestContextProtocol,
 )
 from apps.core.parsers.protocol import RequestParamsQueryParserProtocol
+from interfaces.protocols.general import NullProtocol
 
 from .abstract import AbstractAssembler
 from .command import (

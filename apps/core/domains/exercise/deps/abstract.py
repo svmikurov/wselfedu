@@ -3,7 +3,8 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar, override
 
-from ..protocol import Candidates
+from interfaces.aliases import CandidatesAlias
+
 from .protocol import SelectorProtocol
 
 Conf = TypeVar('Conf')
@@ -20,7 +21,7 @@ class AbstractSelector(
     @abstractmethod
     def select(
         self,
-        candidates: Candidates,
+        candidates: CandidatesAlias,
         conf: Conf,
-    ) -> Candidates:
+    ) -> CandidatesAlias:
         """Select data for exercise."""

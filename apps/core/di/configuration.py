@@ -5,8 +5,10 @@ from typing import NamedTuple
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Configuration, Factory
 
-from apps.core.domains.exercise.dto import ProgressConfigDTO
-from apps.core.domains.exercise.enums import DisplayOrder
+from interfaces.enums.exercise import DisplayOrder
+from interfaces.schemas.domain.exercise.progress import (
+    ProgressConfigDTO,
+)
 
 
 # TODO: Remove this stub after implementation

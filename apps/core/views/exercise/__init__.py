@@ -1,25 +1,13 @@
 """Base exercise views."""
 
 __all__ = (
-    # TypeAlias
-    'DetailHandler',
-    'QueryHandler',
-    # Views
-    'StartExerciseView',
-    'ProcessExerciseView',
     'ExercisePerformView',
-    'DeprecatedExercisePerformView',
-    'QueryExercisePerformView',
-    'DetailExercisePerformView',
+    'QueryExercisePerformMixin',
+    'DetailExercisePerformMixin',
 )
 
 from .base import (
-    DeprecatedExercisePerformView,
-    DetailExercisePerformView,
-    DetailHandler,
+    DetailExercisePerformMixin,
     ExercisePerformView,
-    ProcessExerciseView,
-    QueryExercisePerformView,
-    QueryHandler,
-    StartExerciseView,
+    QueryExercisePerformMixin,
 )

@@ -97,7 +97,7 @@ class RuleListView(
             Mentorship.objects.filter(student=OuterRef('user'))
         )
         return (
-            models.Rule.objects.filter(user=self.user)
+            models.Rule.objects.filter(user=self.user)  # typ: ignore
             .select_related('user')
             .annotate(
                 user_is_mentor=mentor_exists,

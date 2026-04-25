@@ -1,6 +1,6 @@
 """Response status enumeration."""
 
-from apps.core.enums import BaseEnum
+from interfaces.enums.base import BaseEnum
 
 
 class ResponseStatusEnum(BaseEnum):

@@ -3,24 +3,16 @@
 from typing import Protocol, TypeVar, override
 
 from apps.core.assemblers.protocol import DataCommandProtocol
-from apps.core.contracts.entity.exercise import (
-    HasExerciseConditions,
-    HasExerciseConfig,
-)
 from apps.core.domains.exercise.abstract import (
     AbstractCheckExerciseDomain,
 )
 from apps.core.domains.exercise.dto import (
-    ExerciseDomainResultDTO,
     TextExerciseExplainDTO,
 )
-from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.domains.exercise.protocol import (
-    Candidates,
     ConditionsProtocol,
     ExerciseConfigProtocol,
     ExerciseDomainProtocol,
-    HasExerciseStatus,
     HasOptionValue,
 )
 from apps.core.domains.exercise.test.dto import (
@@ -30,6 +22,18 @@ from apps.core.domains.exercise.test.dto import (
 from apps.core.domains.task.protocol import TaskBuilderProtocol
 from apps.core.repositories.protocol import UserRepositoryProtocol
 from apps.users.models import Person
+from interfaces.aliases import CandidatesAlias
+from interfaces.enums.exercise import ExerciseStatus
+from interfaces.protocols.domain.exercise import (
+    HasExerciseStatus,
+)
+from interfaces.protocols.domain.params import (
+    HasConditions,
+    HasConfig,
+)
+from interfaces.schemas.domain.exercise.result import (
+    ExerciseDomainResultDTO,
+)
 
 from .abstract import (
     AbstractCheckExerciseService,
@@ -48,8 +52,8 @@ ResultT = TypeVar('ResultT', bound=HasExerciseStatus)
 
 
 class _SpecT(
-    HasExerciseConditions[ConditionsProtocol],
-    HasExerciseConfig[ExerciseConfigProtocol],
+    HasConditions[ConditionsProtocol],
+    HasConfig[ExerciseConfigProtocol],
     Protocol,
 ):
     """Protocol for exercise service specification."""
@@ -78,7 +82,7 @@ class CreateExerciseService(
         self,
         candidates_repository: UserRepositoryProtocol[
             ConditionsProtocol,
-            Candidates,
+            CandidatesAlias,
         ],
         domain: ExerciseDomainProtocol[
             ExerciseConfigProtocol,
@@ -171,6 +175,6 @@ class ExplainExerciseService(
             ),
         )
         return ExerciseDomainResultDTO(
-            status=ExerciseStatusEnum.EXPLAIN,
+            status=ExerciseStatus.EXPLAIN,
             case=explain,
         )

@@ -6,10 +6,10 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-from apps.core.domains.dto import BaseDTO
-from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.study.models.exercise.availability import PeriodExecuting
 from apps.study.models.exercise.reward import RewardType
+from interfaces.enums.exercise import ExerciseStatus
+from interfaces.schemas.base import BaseDTO
 
 Operation = Literal['add', 'sub', 'mul', 'div']
 
@@ -148,7 +148,7 @@ class StudentParametersDTO(RegularParametersDTO):
 class CalculationDomainDTO(BaseDTO):
     """Calculation exercise domain result data."""
 
-    exercise_status: ExerciseStatusEnum
+    exercise_status: ExerciseStatus
     data: CalculationCaseDTO
 
 
@@ -188,7 +188,7 @@ class CalculationLoopDTO(CalculationConditionDTO, CalculationAnswerDTO):
 class CalculationExplainDTO(BaseDTO):
     """Calculation exercise case explain."""
 
-    exercise_status: ExerciseStatusEnum
+    exercise_status: ExerciseStatus
     data: CalculationSolutionDTO
 
 

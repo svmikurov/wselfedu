@@ -1,19 +1,23 @@
 """Test exercise case Response DTO."""
 
-from apps.core.domains.dto import BaseDTO, ErrorField
-from apps.core.domains.exercise.dto import (
+from typing import TypeVar
+
+from interfaces.schemas.base import BaseDTO, ErrorField
+from interfaces.schemas.domain.exercise.fields import (
     AnswerTextField,
-    ExerciseStatusSchema,
+    ExerciseStatusField,
     ProgressDataField,
     QuestionTextField,
 )
 
+ProgressT = TypeVar('ProgressT')
+
 
 class TestExerciseCaseResponseDTO(
-    ExerciseStatusSchema,
+    ExerciseStatusField,
     QuestionTextField,
     AnswerTextField,
-    ProgressDataField,
+    ProgressDataField[ProgressT],
     ErrorField,
     BaseDTO,
 ):

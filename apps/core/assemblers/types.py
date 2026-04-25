@@ -4,11 +4,11 @@ from typing import TypeAlias, TypeVar
 
 from apps.core.handlers.protocol import (
     DetailRequestParamsProtocol,
-    NullProtocol,
     QueryRequestParamsProtocol,
     RequestContextProtocol,
     RequestDataProtocol,
 )
+from interfaces.protocols.general import NullProtocol
 
 from .abstract import AbstractAssembler
 from .protocol import (

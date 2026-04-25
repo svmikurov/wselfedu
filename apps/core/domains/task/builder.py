@@ -1,9 +1,11 @@
 """Exercise phase (definition / mean / random) orderer."""
 
-from ..exercise.enums import DisplayOrder, ExerciseStatusEnum
-from ..exercise.presentation.dto import PresentationTask
-from ..exercise.presentation.protocol import PresentationCaseProtocol
-from ..exercise.protocol import Candidate, HasOption, HasPhases
+from interfaces.enums import DisplayOrder, ExerciseStatus
+from interfaces.protocols.domain.exercise import Candidate
+from interfaces.schemas.domain.exercise.presentation import PresentationTask
+
+from ..exercise.presentation.protocol import PresentationTaskProtocol
+from ..exercise.protocol import HasOption, HasPhases
 from .abstract import AbstractTaskBuilder
 
 QUESTION_INDEX = 0
@@ -14,7 +16,7 @@ class PresentationTaskBuilder(
     AbstractTaskBuilder[
         HasOption[Candidate],
         HasPhases,
-        PresentationCaseProtocol,
+        PresentationTaskProtocol,
     ],
 ):
     """Presentation task builder."""
@@ -23,12 +25,12 @@ class PresentationTaskBuilder(
         self,
         case: HasOption[Candidate],
         conf: HasPhases,
-    ) -> PresentationCaseProtocol:
+    ) -> PresentationTaskProtocol:
         """Build presentation task."""
         option = case.option
 
         return PresentationTask(
-            status=ExerciseStatusEnum.NEW_TASK,
+            status=ExerciseStatus.NEW_TASK,
             question_text=self._get_question(option, conf.phases),
             answer_text=self._get_answer(option, conf.phases),
             progress_value=option.progress_value,

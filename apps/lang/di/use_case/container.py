@@ -16,20 +16,11 @@ from apps.core.adapters.exercise.process import (
 from apps.core.builders.exercise import (
     ExerciseCaseBuilder,
     ExercisePresentationBuilder,
-    ExerciseTestBuilder,
+    TestExerciseTaskBuilder,
 )
 from apps.core.domains.exercise import PresentationDomain, TestDomain
 from apps.core.domains.exercise.deps.selector import (
     CandidatesSelector,
-)
-from apps.core.domains.exercise.dto import (
-    ExerciseParametersDTO,
-    TestExerciseConfigDTO,
-)
-from apps.core.domains.exercise.enums import (
-    ExerciseProcessEnum,
-    ExerciseStatusEnum,
-    ExerciseTypeEnum,
 )
 from apps.core.resolvers.exercise.config_resolver import (
     ExerciseConfigurationResolver,
@@ -39,6 +30,15 @@ from apps.core.services.exercise.generic import (
 )
 from apps.core.use_cases.exercise.generic import (
     ExerciseUseCaseStrategy,
+)
+from interfaces.enums.exercise import (
+    ExerciseAction,
+    ExerciseKind,
+    ExerciseStatus,
+)
+from interfaces.schemas.domain.exercise.params import (
+    ExerciseParametersDTO,
+    TestExerciseConfigDTO,
 )
 
 
@@ -60,14 +60,14 @@ class UseCaseContainer(DeclarativeContainer):
 
     regular_translation_presentation_adapter_registry = Dict(
         {
-            ExerciseProcessEnum.CREATE_CASE: Factory(
+            ExerciseAction.CREATE_TASK: Factory(
                 ExerciseProcessAdapter,
             )
         },
     )
     regular_translation_presentation_service_registry = Dict(
         {
-            ExerciseProcessEnum.CREATE_CASE: Factory(
+            ExerciseAction.CREATE_TASK: Factory(
                 CreateExerciseService,
                 candidates_repository=repositories.translation_candidates,
                 domain=Factory(
@@ -82,7 +82,7 @@ class UseCaseContainer(DeclarativeContainer):
     )
     regular_translation_presentation_builder_registry = Dict(
         {
-            ExerciseStatusEnum.NEW_TASK: Factory(
+            ExerciseStatus.NEW_TASK: Factory(
                 ExercisePresentationBuilder,
             ),
         },
@@ -104,7 +104,7 @@ class UseCaseContainer(DeclarativeContainer):
 
     regular_translation_test_config_resolver = Factory(
         ExerciseConfigurationResolver,
-        exercise_type=ExerciseTypeEnum.TEST,
+        exercise_type=ExerciseKind.TEST,
         parameters_repository=repositories.translation_parameters,
         default=ExerciseParametersDTO(
             settings=TestExerciseConfigDTO(
@@ -115,14 +115,14 @@ class UseCaseContainer(DeclarativeContainer):
 
     regular_translation_test_adapter_registry = Dict(
         {
-            ExerciseProcessEnum.CREATE_CASE: Factory(
+            ExerciseAction.CREATE_TASK: Factory(
                 ExerciseProcessAdapter,
             )
         },
     )
     regular_translation_test_service_registry = Dict(
         {
-            ExerciseProcessEnum.CREATE_CASE: Factory(
+            ExerciseAction.CREATE_TASK: Factory(
                 CreateExerciseService,
                 candidates_repository=repositories.translation_candidates,
                 domain=Factory(
@@ -137,8 +137,8 @@ class UseCaseContainer(DeclarativeContainer):
     )
     regular_translation_test_builder_registry = Dict(
         {
-            ExerciseStatusEnum.NEW_TASK: Factory(
-                ExerciseTestBuilder,
+            ExerciseStatus.NEW_TASK: Factory(
+                TestExerciseTaskBuilder,
             ),
         },
     )

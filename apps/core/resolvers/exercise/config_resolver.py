@@ -3,11 +3,11 @@
 from typing import override
 
 from apps.core.assemblers.protocol import UserCommandProtocol
-from apps.core.contracts.general import NullProtocol
-from apps.core.domains.exercise.enums import ExerciseTypeEnum
 from apps.core.domains.exercise.protocol import ExerciseParametersProtocol
-from apps.core.domains.null import NullDTO
 from apps.core.repositories.protocol import UserRepositoryProtocol
+from interfaces.enums.exercise import ExerciseKind
+from interfaces.protocols.general import NullProtocol
+from interfaces.schemas.base import NullDTO
 
 from ..abstract import AbstractResolver
 
@@ -24,7 +24,7 @@ class ExerciseConfigurationResolver(
 
     def __init__(
         self,
-        exercise_type: ExerciseTypeEnum,
+        exercise_type: ExerciseKind,
         parameters_repository: UserRepositoryProtocol[
             NullProtocol,
             ExerciseParametersProtocol,
@@ -43,10 +43,10 @@ class ExerciseConfigurationResolver(
     ) -> ExerciseParametersProtocol:
         """Get exercise configuration."""
         match self._exercise_type:
-            case ExerciseTypeEnum.PRESENTATION:
+            case ExerciseKind.PRESENTATION:
                 return self._repository.fetch(command.user, NullDTO())
 
-            case ExerciseTypeEnum.TEST:
+            case ExerciseKind.TEST:
                 if not self._default:
                     raise AttributeError('Define default exercise config')
                 return self._default

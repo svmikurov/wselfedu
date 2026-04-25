@@ -4,8 +4,8 @@ import logging
 from typing import Generic, TypeVar, override
 
 from apps.core.adapters.response.protocol import AdapterProtocol
-from apps.core.domains.exercise.enums import ExerciseStatusEnum
-from apps.core.domains.exercise.protocol import HasExerciseStatus
+from interfaces.enums.exercise import ExerciseStatus
+from interfaces.protocols.domain.exercise import HasExerciseStatus
 
 RequestContext = TypeVar('RequestContext')
 DomainResult = TypeVar('DomainResult', bound=HasExerciseStatus)
@@ -25,13 +25,13 @@ class ProcessExerciseAdapterStrategy(
     def __init__(
         self,
         registry: dict[
-            ExerciseStatusEnum,
+            ExerciseStatus,
             AdapterProtocol[DomainResult, RequestContext, Adapted],
         ],
     ) -> None:
         """Construct the strategy."""
         for key in registry.keys():
-            if not isinstance(key, ExerciseStatusEnum):
+            if not isinstance(key, ExerciseStatus):
                 raise AttributeError(
                     f'Expected `ExerciseStatusEnum`, got: {type(key).__name__}'
                 )

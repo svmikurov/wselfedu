@@ -2,21 +2,23 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from dependency_injector.wiring import Provide, inject
 from django.http.request import HttpRequest
+from django.views import View
 
 from apps.core.views.exercise import (
-    DetailExercisePerformView,
-    DetailHandler,
-    QueryExercisePerformView,
-    QueryHandler,
+    DetailExercisePerformMixin,
+    QueryExercisePerformMixin,
 )
 from di import MainContainer
 
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponseBase
+
+type DetailHandler = Any
+type QueryHandler = Any
 
 __all__ = (
     'RegularPerformView',
@@ -27,7 +29,7 @@ __all__ = (
 HANDLERS = MainContainer.math.web_view
 
 
-class RegularPerformView(QueryExercisePerformView):
+class RegularPerformView(QueryExercisePerformMixin, View):
     """Calculation exercise regular performing view."""
 
     TEMPLATE_PATH = 'math/exercise/calculation/perform/'
@@ -52,7 +54,7 @@ class RegularPerformView(QueryExercisePerformView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class CustomCalculationPerformView(DetailExercisePerformView):
+class CustomCalculationPerformView(DetailExercisePerformMixin, View):
     """User's saved calculation exercise performing view."""
 
     TEMPLATE_PATH = 'math/exercise/calculation/perform/'
@@ -77,7 +79,7 @@ class CustomCalculationPerformView(DetailExercisePerformView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class StudentCalculationPerformView(DetailExercisePerformView):
+class StudentCalculationPerformView(DetailExercisePerformMixin, View):
     """Student's assigned calculation exercise performing view."""
 
     TEMPLATE_PATH = 'math/exercise/calculation/perform/'
@@ -102,7 +104,7 @@ class StudentCalculationPerformView(DetailExercisePerformView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class MentorCalculationPerformView(DetailExercisePerformView):
+class MentorCalculationPerformView(DetailExercisePerformMixin, View):
     """Mentor's calculation exercise performing view."""
 
     TEMPLATE_PATH = 'math/exercise/calculation/perform/'

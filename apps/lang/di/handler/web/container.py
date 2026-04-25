@@ -9,7 +9,7 @@ from dependency_injector.providers import (
 )
 
 from apps.core.adapters.response.exercise.presentation.web import (
-    WebStartExerciseNullAdapter,
+    PresentationTaskWebAdapter,
 )
 from apps.core.adapters.response.exercise.strategy import (
     ProcessExerciseAdapterStrategy,
@@ -20,17 +20,16 @@ from apps.core.adapters.response.exercise.test.web import (
 )
 from apps.core.adapters.response.null import NullResponseAdapter
 from apps.core.assemblers.assembler import UserAssembler, UserDataAssembler
-from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.handlers.generic import RequestHandler
 from apps.core.repositories.use_case import RepositoryUseCase
-from apps.core.validators.request.exercise.presentation import (
-    ProcessExerciseWebValidator,
+from apps.core.validators.request.exercise.create_task import (
+    CreateExerciseTaskValidator,
 )
-from apps.core.validators.request.exercise.test import WebTestExerciseValidator
 from apps.core.validators.request.null import NullValidator
 from apps.lang.factories.lockup_factory import UserTranslationLookupFactory
 from apps.lang.models import EnglishTranslation
 from apps.lang.repositories.translation.fetch import TranslationListRepository
+from interfaces.enums.exercise import ExerciseStatus
 
 
 class WebHandlerContainer(DeclarativeContainer):
@@ -53,7 +52,7 @@ class WebHandlerContainer(DeclarativeContainer):
         assembler=Factory(UserAssembler),
         use_case=use_cases.regular_translation_presentation,
         adapter=Factory(
-            WebStartExerciseNullAdapter,
+            PresentationTaskWebAdapter,
             extra_oob_templates=['lang/exercise/presentation/_mark_bar.html'],
         ),
     )
@@ -68,7 +67,7 @@ class WebHandlerContainer(DeclarativeContainer):
         assembler=Factory(UserAssembler),
         use_case=use_cases.start_regular_translation_presentation,
         adapter=Factory(
-            WebStartExerciseNullAdapter,
+            PresentationTaskWebAdapter,
             extra_oob_templates=['lang/exercise/presentation/_mark_bar.html'],
         ),
     )
@@ -77,15 +76,15 @@ class WebHandlerContainer(DeclarativeContainer):
     # ---------------------------------------------
     presentation_adapter_registries = Dict(
         {
-            ExerciseStatusEnum.NEW_TASK: Factory(
-                WebStartExerciseNullAdapter,
+            ExerciseStatus.NEW_TASK: Factory(
+                PresentationTaskWebAdapter,
                 extra_oob_templates=[],
             ),
         },
     )
     process_regular_translation_presentation = Factory(
         RequestHandler,
-        validator=Factory(ProcessExerciseWebValidator),
+        validator=Factory(CreateExerciseTaskValidator),
         assembler=Factory(UserDataAssembler),
         use_case=use_cases.process_regular_translation_presentation,
         adapter=Factory(
@@ -104,11 +103,11 @@ class WebHandlerContainer(DeclarativeContainer):
     # TEST: Implement for translation test exercise
     web_test_exercise_adapter_registry = Dict(
         {
-            ExerciseStatusEnum.NEW_TASK: Factory(
+            ExerciseStatus.NEW_TASK: Factory(
                 WebTestExerciseAdapter,
                 extra_oob_templates=[],
             ),
-            ExerciseStatusEnum.EXPLAIN: Factory(
+            ExerciseStatus.EXPLAIN: Factory(
                 WebExplainAdapter,
                 extra_oob_templates=[],
             ),
@@ -116,7 +115,7 @@ class WebHandlerContainer(DeclarativeContainer):
     )
     process_regular_translation_test = Factory(
         RequestHandler,
-        validator=Factory(WebTestExerciseValidator),
+        validator=Factory(CreateExerciseTaskValidator),
         assembler=Factory(UserDataAssembler),
         use_case=use_cases.process_regular_translation_test,
         adapter=Factory(
@@ -132,7 +131,7 @@ class WebHandlerContainer(DeclarativeContainer):
         assembler=Factory(UserAssembler),
         use_case=use_cases.start_regular_translation_test,
         adapter=Factory(
-            WebStartExerciseNullAdapter,
+            PresentationTaskWebAdapter,
             extra_oob_templates=[],
         ),
     )

@@ -6,8 +6,8 @@ from django.db.models import QuerySet
 
 from apps.core.adapters.response.abstract import AbstractResponseAdapter
 from apps.core.adapters.response.rule.dto import RuleClauseDTO, RuleDTO
-from apps.core.contracts import NullProtocol
 from apps.lang import models
+from interfaces import NullProtocol
 
 
 class WebRuleAdapter(

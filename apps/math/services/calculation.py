@@ -7,7 +7,6 @@ from typing import TYPE_CHECKING, Type
 from wse_exercises.core.math.base.exercise import CalcExercise
 from wse_exercises.core.math.base.services import OperandGeneratorABC
 
-from apps.core.domains.exercise.enums import ExerciseStatusEnum
 from apps.core.services.exercise.abstract import (
     AbstractCheckExerciseService,
     AbstractCreateExerciseService,
@@ -23,6 +22,7 @@ from apps.math.domains.dto import (
     CalculationResultDTO,
     CalculationSolutionDTO,
 )
+from interfaces.enums.exercise import ExerciseStatus
 
 from ..domains.enums import CalculationEnum
 
@@ -73,7 +73,7 @@ class CalculationCreateService(
     @staticmethod
     def _build_data(task: CalcTask) -> CalculationDomainDTO:
         return CalculationDomainDTO(
-            exercise_status=ExerciseStatusEnum.NEW_TASK,
+            exercise_status=ExerciseStatus.NEW_TASK,
             data=CalculationCaseDTO(
                 question_text=task.question.text,
             ),
@@ -120,7 +120,7 @@ class CalculationExplainService(
     ) -> CalculationExplainDTO:
         """Explain the exercise case."""
         return CalculationExplainDTO(
-            exercise_status=ExerciseStatusEnum.EXPLAIN,
+            exercise_status=ExerciseStatus.EXPLAIN,
             data=CalculationSolutionDTO(
                 solution_text=(
                     f'{case_meta.question_text} = {case_meta.correct_answer}'

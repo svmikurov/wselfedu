@@ -3,7 +3,9 @@
 from typing import override
 
 from apps.core.builders.abstract import AbstractCaseFactory
-from apps.core.domains.exercise.presentation.dto import PresentationTask
+from interfaces.schemas.domain.exercise.presentation import (
+    PresentationTask,
+)
 
 
 # HACK: Simple implementation

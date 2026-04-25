@@ -8,10 +8,6 @@ from apps.core.adapters.response.abstract import (
 )
 from apps.core.adapters.response.protocol import AdapterProtocol
 from apps.core.adapters.response.status import ResponseStatusEnum
-from apps.core.contracts import NullProtocol
-from apps.core.contracts.response.web import OobResponseDTO, ResponseDTO
-from apps.core.domains.exercise.enums import ExerciseStatusEnum
-from apps.core.domains.exercise.protocol import HasExerciseStatus
 from apps.core.handlers.protocol import RequestContextProtocol
 from apps.math import forms
 from apps.math.domains.dto import (
@@ -19,6 +15,13 @@ from apps.math.domains.dto import (
     CalculationExplainDTO,
     StudentCalculationDTO,
     StudentExerciseDTO,
+)
+from interfaces import NullProtocol
+from interfaces.enums.exercise import ExerciseStatus
+from interfaces.protocols.domain.exercise import HasExerciseStatus
+from interfaces.schemas.response.generic import (
+    OobResponseDTO,
+    ResponseDTO,
 )
 
 from .dto import (
@@ -100,7 +103,7 @@ class CalculationConditionsWebAdapter(
 class ExerciseCaseSchemaType(Protocol):
     """Calculation exercise schema interface."""
 
-    exercise_status: ExerciseStatusEnum
+    exercise_status: ExerciseStatus
     data: CalculationCaseDTO
 
 

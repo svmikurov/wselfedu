@@ -17,6 +17,6 @@ pytest_plugins = [
 
 
 @pytest.fixture
-def mock_person() -> Person:
+def mock_user() -> Person:
     """Provide user mock."""
     return Mock(spec=Person)

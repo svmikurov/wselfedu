@@ -6,9 +6,9 @@ from django.template.loader import render_to_string
 
 from apps.core.adapters.response.abstract import AbstractResponseAdapter
 from apps.core.adapters.response.status import ResponseStatusEnum
-from apps.core.contracts import NullProtocol
-from apps.core.contracts.response.web import OobResponseDTO
 from apps.core.domains.exercise.test.dto import TestExerciseCase
+from interfaces import NullProtocol
+from interfaces.schemas.response.generic import OobResponseDTO
 
 ExtraContext = TypeVar('ExtraContext')
 T = TypeVar('T')

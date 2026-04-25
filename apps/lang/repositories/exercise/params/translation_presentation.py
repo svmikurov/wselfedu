@@ -4,14 +4,6 @@ from typing import Any, override
 
 from django.db.models import Manager, Model
 
-from apps.core.contracts import NullProtocol
-from apps.core.domains.exercise.dto import (
-    ExerciseConfigDTO,
-    ExerciseParametersDTO,
-    ExerciseSettingsDTO,
-    LookupConditionsDTO,
-)
-from apps.core.domains.exercise.enums import DisplayOrder
 from apps.core.domains.exercise.protocol import ExerciseParametersProtocol
 from apps.core.repositories.abstract import AbstractUserFetchRepository
 from apps.lang.models import (
@@ -20,6 +12,14 @@ from apps.lang.models import (
     TranslationConfiguration,
 )
 from apps.users.models import Person
+from interfaces import NullProtocol
+from interfaces.enums.exercise import DisplayOrder
+from interfaces.schemas.domain.exercise.params import (
+    ExerciseConfigDTO,
+    ExerciseParametersDTO,
+    ExerciseSettingsDTO,
+    LookupConditionsDTO,
+)
 
 
 # REVIEW: Exercise parameters repo

@@ -2,9 +2,11 @@
 
 from random import choice
 
+from interfaces.aliases import CandidatesAlias
+
 from ..abstract import AbstractConfigurableCandidatesExerciseDomain
 from ..deps.protocol import SelectorProtocol
-from ..protocol import Candidate, Candidates, ExerciseConfigProtocol
+from ..protocol import ExerciseConfigProtocol
 from .dto import PresentationDomainResult
 from .protocol import PresentationCreateResultProtocol
 
@@ -14,7 +16,7 @@ __all__ = ('PresentationDomain',)
 class PresentationDomain(
     AbstractConfigurableCandidatesExerciseDomain[
         ExerciseConfigProtocol,
-        PresentationCreateResultProtocol[Candidate],
+        PresentationCreateResultProtocol,
     ],
 ):
     """Presentation exercise case domain."""
@@ -28,9 +30,9 @@ class PresentationDomain(
 
     def execute(
         self,
-        candidates: Candidates,
+        candidates: CandidatesAlias,
         conf: ExerciseConfigProtocol,
-    ) -> PresentationCreateResultProtocol[Candidate]:
+    ) -> PresentationCreateResultProtocol:
         """Get presentation exercise case data."""
         selected_candidates = self._selector.select(candidates, conf)
         option = choice(selected_candidates)
