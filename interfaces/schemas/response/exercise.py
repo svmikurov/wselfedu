@@ -2,9 +2,7 @@
 
 from interfaces.enums.exercise import ExerciseStatus
 from interfaces.schemas.base import NullDTO
-from interfaces.schemas.domain.exercise.presentation import (
-    PresentationTask,
-)
+from interfaces.schemas.domain.exercise.task import PresentationTask
 from interfaces.schemas.response.generic import OobResponseDTO
 
 PresentationTaskResponse = OobResponseDTO[

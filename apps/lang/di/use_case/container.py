@@ -13,8 +13,7 @@ from dependency_injector.providers import (
 from apps.core.adapters.exercise.process import (
     ExerciseProcessAdapter,
 )
-from apps.core.builders.exercise import (
-    ExerciseCaseBuilder,
+from apps.core.builders.exercise.task import (
     ExercisePresentationBuilder,
     TestExerciseTaskBuilder,
 )
@@ -75,7 +74,7 @@ class UseCaseContainer(DeclarativeContainer):
                     selector=Factory(CandidatesSelector),
                 ),
                 builder=Factory(
-                    ExerciseCaseBuilder,
+                    ExercisePresentationBuilder,
                 ),
             ),
         },
@@ -130,7 +129,7 @@ class UseCaseContainer(DeclarativeContainer):
                     selector=Factory(CandidatesSelector),
                 ),
                 builder=Factory(
-                    ExerciseCaseBuilder,
+                    TestExerciseTaskBuilder,
                 ),
             ),
         },

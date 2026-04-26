@@ -1,11 +1,12 @@
 """Presentation exercise service tests."""
 
+from ast import TypeVar
 from typing import Any, Protocol
 
 import pytest
 from django.db.models import QuerySet
 
-from apps.core.builders.exercise import ExerciseCaseBuilder
+from apps.core.builders.exercise import ExercisePresentationBuilder
 from apps.core.builders.protocol import ExerciseTaskBuilderProtocol
 from apps.core.domains.exercise.deps.protocol import SelectorProtocol
 from apps.core.domains.exercise.deps.selector import CandidatesSelector
@@ -17,17 +18,17 @@ from apps.core.domains.exercise.protocol import (
 )
 from apps.core.repositories.protocol import UserRepositoryProtocol
 from apps.core.services.exercise.generic import CreateExerciseService
-from apps.core.services.exercise.protocol import CreateExerciseProtocol
+from apps.core.services.exercise.protocol import ExerciseServiceProtocol
 from apps.lang.models import EnglishTranslation
 from apps.lang.repositories.exercise.candidates.translations import (
     UserTranslationsRepository,
 )
 from apps.users.models import Person
-from interfaces.aliases import CandidatesAlias
-from interfaces.protocols.domain.exercise import (
+from interfaces import aliases
+from interfaces.entity.domain.exercise.fields import (
     HasExerciseStatus,
 )
-from interfaces.protocols.domain.params import (
+from interfaces.entity.domain.params import (
     HasConditions,
     HasConfig,
 )
@@ -56,18 +57,19 @@ class _DomainResultProtocol(
     """Protocol for exercise result option interface."""
 
 
+CaseT = TypeVar('CaseT')
+
 _Repository = UserRepositoryProtocol[
     ConditionsProtocol,
-    CandidatesAlias,
+    aliases.CandidatesAlias,
 ]
 _TranslationRepository = UserRepositoryProtocol[
     ConditionsProtocol,
     QuerySet[EnglishTranslation, EnglishTranslation],
 ]
 _Selector = SelectorProtocol[ExerciseConfigProtocol]
-# FIXME: Update to protocol
-_Domain = PresentationDomain
-_ServiceT = CreateExerciseProtocol[_SpecProtocol, _DomainResultProtocol]
+_Domain = aliases.ExerciseDomainAlias
+_ServiceT = ExerciseServiceProtocol[_SpecProtocol, _DomainResultProtocol]
 _Builder = ExerciseTaskBuilderProtocol[Any, Any, Any]
 
 
@@ -105,7 +107,7 @@ def domain(
 @pytest.fixture
 def builder() -> _Builder:
     """Provide presentation exercise domain DTO builder."""
-    return ExerciseCaseBuilder()
+    return ExercisePresentationBuilder()
 
 
 @pytest.fixture

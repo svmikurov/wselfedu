@@ -2,7 +2,6 @@
 
 from typing import Protocol, TypeVar, override
 
-from apps.core.exceptions import info
 from apps.core.assemblers.protocol import DataCommandProtocol
 from apps.core.domains.exercise.abstract import (
     AbstractCheckExerciseDomain,
@@ -13,8 +12,6 @@ from apps.core.domains.exercise.dto import (
 from apps.core.domains.exercise.protocol import (
     ConditionsProtocol,
     ExerciseConfigProtocol,
-    ExerciseDomainProtocol,
-    HasOptionValue,
 )
 from apps.core.domains.exercise.test.dto import (
     OptionMetaDTO,
@@ -23,33 +20,30 @@ from apps.core.domains.exercise.test.dto import (
 from apps.core.domains.task.protocol import TaskBuilderProtocol
 from apps.core.repositories.protocol import UserRepositoryProtocol
 from apps.users.models import Person
-from interfaces.aliases import CandidatesAlias
-from interfaces.enums.exercise import ExerciseStatus
-from interfaces.protocols.domain.exercise import (
-    HasExerciseStatus,
-)
-from interfaces.protocols.domain.params import (
-    HasConditions,
-    HasConfig,
-)
-from interfaces.schemas.domain.exercise.result import (
-    ExerciseDomainResultDTO,
+from interfaces import aliases
+from interfaces.entity.domain.exercise import fields
+from interfaces.entity.domain.params import HasConditions, HasConfig
+from interfaces.schemas.domain.exercise.dtos import (
+    ExplainExerciseDomainResult,
 )
 
-from .abstract import (
-    AbstractCheckExerciseService,
-    AbstractCreateExerciseService,
-    AbstractExplainExerciseService,
+from .abstract import AbstractExerciseService
+
+__all__ = (
+    'CreateExerciseService',
+    'CheckExerciseService',
+    'ExplainExerciseService',
 )
 
-__all__ = ('CreateExerciseService',)
-
-# Current exercise case data
-CaseT = TypeVar('CaseT')
+SpecT = TypeVar('SpecT')
+CaseT = TypeVar('CaseT', bound=aliases.CaseAlias)
 TaskT = TypeVar('TaskT')
+
 BuilderT = TypeVar('BuilderT')
 CaseMetaT = TypeVar('CaseMetaT')
-ResultT = TypeVar('ResultT', bound=HasExerciseStatus)
+ResultT = TypeVar('ResultT', bound=fields.HasExerciseStatus)
+UserAnswerT = TypeVar('UserAnswerT')
+CheckResultT = TypeVar('CheckResultT')
 
 
 class _SpecT(
@@ -60,22 +54,13 @@ class _SpecT(
     """Protocol for exercise service specification."""
 
 
-UserAnswerT = TypeVar('UserAnswerT')
-
-# Current exercise case solve
-CheckResultT = TypeVar('CheckResultT')
-
-
 # =================================================
 # Create
 # =================================================
 
 
 class CreateExerciseService(
-    AbstractCreateExerciseService[
-        _SpecT,
-        ResultT,
-    ],
+    AbstractExerciseService[_SpecT, ResultT],
 ):
     """Creates exercise case."""
 
@@ -83,14 +68,11 @@ class CreateExerciseService(
         self,
         candidates_repository: UserRepositoryProtocol[
             ConditionsProtocol,
-            CandidatesAlias,
+            aliases.CandidatesAlias,
         ],
-        domain: ExerciseDomainProtocol[
-            ExerciseConfigProtocol,
-            CaseT,
-        ],
+        domain: aliases.ExerciseDomainAlias,
         builder: TaskBuilderProtocol[
-            CaseT,
+            aliases.CaseAlias,
             ExerciseConfigProtocol,
             ResultT,
         ],
@@ -108,16 +90,8 @@ class CreateExerciseService(
     ) -> ResultT:
         """Create and return exercise case."""
         candidates = self._repository.fetch(user, spec.conditions)
-
-        try:
-            case = self._domain.execute(candidates, spec.conf)
-        except info.NoExerciseItemsException as exc:
-            case = ExerciseFailure(
-                status=ExerciseStatus.NO_CASE,
-                exception=exc,
-            )
-
-        return self._builder.build(case, spec.conf)
+        result = self._domain.execute(candidates, spec.conf)
+        return self._builder.build(result, spec.conf)
 
 
 # =================================================
@@ -126,10 +100,9 @@ class CreateExerciseService(
 
 
 class CheckExerciseService(
-    AbstractCheckExerciseService[
-        UserAnswerT,
-        CaseMetaT,
-        CheckResultT,
+    AbstractExerciseService[
+        SpecT,
+        ResultT,
     ],
 ):
     """Check exercise case."""
@@ -137,21 +110,22 @@ class CheckExerciseService(
     def __init__(
         self,
         domain: AbstractCheckExerciseDomain[
-            UserAnswerT,
-            CaseMetaT,
+            Person,
+            SpecT,
             CheckResultT,
         ],
     ) -> None:
         """Construct the service."""
         self._domain = domain
 
+    @override
     def execute(
         self,
-        answer: UserAnswerT,
-        case_meta: CaseMetaT,
-    ) -> CheckResultT:
+        user: Person,
+        spec: SpecT,
+    ) -> ResultT:
         """Check user's solution."""
-        return self._domain.execute(answer, case_meta)
+        return self._domain.execute(user, spec)  # type: ignore
 
 
 # =================================================
@@ -160,30 +134,29 @@ class CheckExerciseService(
 
 
 class ExplainExerciseService(
-    AbstractExplainExerciseService[
-        DataCommandProtocol[HasOptionValue],
+    AbstractExerciseService[
+        DataCommandProtocol[fields.HasQuestionOptionValue],
         TestExerciseMeta[OptionMetaDTO],
-        TextExerciseExplainDTO,
     ],
 ):
     """Explain exercise service."""
 
     def execute(  # type: ignore
         self,
-        command: DataCommandProtocol[HasOptionValue],
+        command: DataCommandProtocol[fields.HasQuestionOptionValue],
         case_meta: TestExerciseMeta[OptionMetaDTO],
-    ) -> ExerciseDomainResultDTO[TextExerciseExplainDTO]:
+    ) -> object:
+        """Explain exercise."""
         explain = TextExerciseExplainDTO(
             question_text=case_meta.question_text,
             answer_text=case_meta.answer_text,
             selected_question_text=case_meta.get_question_text(
-                command.data.value
+                command.data.option_value
             ),
             selected_answer_text=case_meta.get_answer_text(
-                command.data.value,
+                command.data.option_value,
             ),
         )
-        return ExerciseDomainResultDTO(
-            status=ExerciseStatus.EXPLAIN,
-            case=explain,
-        )
+        assert explain
+        # TODO: Update after explain DTO implementation
+        return ExplainExerciseDomainResult()

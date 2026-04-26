@@ -1,12 +1,13 @@
 """Exercise contract mixins."""
 
+from dataclasses import dataclass
 from typing import Generic, TypeVar
 
 from pydantic import Field
 
 from interfaces.enums import exercise
+from interfaces.schemas import fields as general
 from interfaces.schemas.base import ArbitraryDTO, BaseDTO
-from interfaces.schemas.fields import StatusField
 
 ProgressT = TypeVar('ProgressT')
 OptionT = TypeVar('OptionT')
@@ -25,12 +26,10 @@ class ExerciseActionField(BaseDTO):
     )
 
 
-class ExerciseStatusField(StatusField[exercise.ExerciseStatus]):
+class ExerciseStatusField(general.StatusField[exercise.ExerciseStatus]):
     """Provides exercise *status* DTO field."""
 
-    status: exercise.ExerciseStatus = Field(
-        description='Exercise status',
-    )
+    status: exercise.ExerciseStatus
 
 
 class PhasesField(ArbitraryDTO):
@@ -67,34 +66,39 @@ class MeanField(BaseDTO):
 # =================================================
 
 
-class QuestionTextField(BaseDTO):
+@dataclass
+class QuestionTextField:
     """Exercise *question text* DTO field."""
 
-    question_text: str = Field(
-        description='Display question text',
-    )
+    question_text: str
 
 
-class AnswerTextField(BaseDTO):
+@dataclass
+class AnswerTextField:
     """Exercise *answer text* DTO field."""
 
-    answer_text: str = Field(
-        description='Display answer text',
-    )
+    answer_text: str
 
 
-class OptionField(BaseDTO, Generic[OptionT]):
+@dataclass
+class OptionValue:
+    """Option value DTO field."""
+
+    option_value: int
+
+
+@dataclass
+class OptionField(Generic[OptionT]):
     """Option DTO field."""
 
     option: OptionT
 
 
-class OptionsField(ArbitraryDTO, Generic[OptionT]):
-    """Option value DTO field."""
+@dataclass
+class OptionsField(Generic[OptionT]):
+    """Options DTO field."""
 
-    options: list[OptionT] = Field(
-        description='Extended option data',
-    )
+    options: OptionT
 
 
 # =================================================
@@ -102,20 +106,18 @@ class OptionsField(ArbitraryDTO, Generic[OptionT]):
 # =================================================
 
 
-class ProgressValueField(BaseDTO):
+@dataclass
+class ProgressValueField:
     """Item study progress DTO integer field."""
 
-    progress_value: int = Field(
-        description='Item study progress',
-    )
+    progress_value: int
 
 
-class ProgressDataField(BaseDTO, Generic[ProgressT]):
+@dataclass
+class ProgressDataField(Generic[ProgressT]):
     """Item study progress DTO integer field."""
 
-    progress: ProgressT = Field(
-        description='Item study progress',
-    )
+    progress: ProgressT
 
 
 # =================================================

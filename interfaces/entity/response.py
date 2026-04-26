@@ -1,15 +1,15 @@
 """Protocols for web response interface."""
 
-from typing import Protocol
+from typing import Protocol, TypeVar
 
 from apps.core.handlers.protocol import HasOob
-from interfaces.protocols.domain.general import (
+from interfaces.entity.domain.general import (
     DumpModelProtocol,
     HasDomainStatus,
 )
-from interfaces.protocols.general import HasContext
+from interfaces.entity.general import HasContext
 
-from ._types import DomainResultStatusT
+DomainResultStatusT = TypeVar('DomainResultStatusT')
 
 
 class OobResponseProtocol(

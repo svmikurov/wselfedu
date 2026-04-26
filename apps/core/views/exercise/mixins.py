@@ -16,12 +16,12 @@ from apps.core.handlers.protocol import (
     RequestDataProtocol,
     RequestHandlerProtocol,
 )
+from interfaces.entity.general import NullProtocol
+from interfaces.entity.response import OobResponseProtocol
 from interfaces.enums.exercise import (
     ExerciseAction,
     ExerciseStatus,
 )
-from interfaces.protocols.general import NullProtocol
-from interfaces.protocols.response.base import OobResponseProtocol
 from interfaces.schemas.base import NullDTO
 
 from ..abstract import AbstractProcessAction, AbstractStartAction

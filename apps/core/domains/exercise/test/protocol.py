@@ -2,39 +2,29 @@
 
 from typing import Protocol
 
-from interfaces.protocols.domain.exercise import (
-    Candidate,
-    HasExerciseStatus,
-    HasQuestionText,
-)
-
-from ..protocol import (
-    HasCase,
-    HasOptions,
-    HasOptionValue,
-)
+from interfaces.entity.domain.exercise import fields
 
 
 class TestExerciseCaseProtocol(
-    HasOptionValue,
-    HasOptions[Candidate],
+    fields.HasQuestionOptionValue,
+    fields.HasExerciseDomainOptions,
     Protocol,
 ):
     """Protocol for test exercise case DTO interface."""
 
 
 class TestExerciseDomainResultProtocol(
-    HasExerciseStatus,
-    HasCase[TestExerciseCaseProtocol],
+    fields.HasExerciseStatus,
+    fields.HasCase[TestExerciseCaseProtocol],
     Protocol,
 ):
     """Protocol for test exercise domain result DTO interface."""
 
 
 class TestExerciseTaskProtocol(
-    HasExerciseStatus,
-    HasQuestionText,
-    HasOptions[Candidate],
+    fields.HasExerciseStatus,
+    fields.HasQuestionText,
+    fields.HasExerciseDomainOptions,
     Protocol,
 ):
     """Protocol for test exercise task DTO interface."""

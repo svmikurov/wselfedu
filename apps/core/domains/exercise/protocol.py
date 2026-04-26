@@ -2,22 +2,23 @@
 
 from typing import Protocol, TypeVar
 
+from apps.core.builders.protocol import Case_co
+from interfaces.entity.domain import general, params
+from interfaces.entity.domain.exercise import fields
 from interfaces.enums import exercise as enums
-from interfaces.protocols.domain import exercise, general, params
-from interfaces.protocols.domain.exercise import Candidate
 
 ExerciseConditionsT = TypeVar('ExerciseConditionsT')
 ExerciseConfigT = TypeVar('ExerciseConfigT')
 ExerciseConfig_contra = TypeVar('ExerciseConfig_contra', contravariant=True)
 ExerciseSettingsT = TypeVar('ExerciseSettingsT')
 
-CandidateT = TypeVar('CandidateT', bound=Candidate)
+CandidateT = TypeVar('CandidateT', bound=fields.Candidate)
 OptionT = TypeVar('OptionT')
 Option_co = TypeVar('Option_co', covariant=True)
 
 
-class HasExerciseProcessAction(Protocol):
-    """Protocol for has exercise process action interface."""
+class HasExerciseAction(Protocol):
+    """Protocol for has exercise process *action* interface."""
 
     action: enums.ExerciseAction
 
@@ -30,23 +31,23 @@ class ConditionsProtocol(
     general.HasCategory,
     general.HasMark,
     general.HasSource,
-    exercise.HasPeriod,
-    exercise.HasProgress,
+    fields.HasPeriod,
+    fields.HasProgress,
     Protocol,
 ):
     """Protocol for exercise conditions interface."""
 
 
 class ExerciseConfigProtocol(
-    exercise.HasDisplayOrder[enums.DisplayOrder],
-    exercise.HasItemCount,
+    fields.HasDisplayOrder[enums.DisplayOrder],
+    fields.HasItemCount,
     Protocol,
 ):
     """Protocol for exercise configuration interface."""
 
 
 class ExerciseSettingsProtocol(
-    exercise.HasTimeout,
+    fields.HasTimeout,
     Protocol,
 ):
     """Protocol for exercise settings interface."""
@@ -57,10 +58,12 @@ class ExerciseSettingsProtocol(
 # =================================================
 
 
-class HasCase(Protocol[OptionT]):
+class HasCase(Protocol[Option_co]):
     """Protocol fo has *case* interface."""
 
-    case: OptionT
+    @property
+    def case(self) -> Option_co:
+        """Get case."""
 
 
 class HasExistingCase(Protocol[OptionT]):
@@ -115,24 +118,6 @@ class ExerciseSpecProtocol(
 # =================================================
 
 
-class HasOptionValue(Protocol):
-    """Protocol for has *value* interface."""
-
-    value: int
-
-
-class HasOption(Protocol[OptionT]):
-    """Protocol for has *option* interface."""
-
-    option: OptionT
-
-
-class HasOptions(Protocol[OptionT]):
-    """Protocol for has *options* interface."""
-
-    options: list[OptionT]
-
-
 class HasPhases(Protocol):
     """Protocol for has *phases* interface."""
 
@@ -145,8 +130,8 @@ class HasPhases(Protocol):
 
 
 class ExerciseProcessResultProtocol(
-    exercise.HasExerciseStatus,
-    HasCase[OptionT],
+    fields.HasExerciseStatus,
+    HasCase[Case_co],
     Protocol,
 ):
     """Protocol for domain result DTO interface."""
@@ -184,7 +169,7 @@ class ExerciseDomainProtocol(
 
     def execute(
         self,
-        candidates: exercise.Candidates[CandidateT],
+        candidates: fields.Candidates,
         conf: ExerciseConfig_contra,
     ) -> Option_co:
         """Create exercise case."""

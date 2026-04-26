@@ -29,3 +29,9 @@ class HasContext(Protocol[T]):
 
 class PersonProtocol(Protocol):
     """Protocol for user interface."""
+
+
+class HasException(Protocol[T]):
+    """Protocol for has *exception* interface."""
+
+    exception: T

@@ -1,32 +1,22 @@
-"""Protocols for core exercise service."""
+"""Protocols for core exercise case service interface."""
 
-from typing import Protocol, TypeVar
+from __future__ import annotations
 
-from apps.users.models import Person
+from typing import TYPE_CHECKING, Protocol, TypeVar
 
-Result_cov = TypeVar('Result_cov', covariant=True)
-Parameters_contra = TypeVar('Parameters_contra', contravariant=True)
+if TYPE_CHECKING:
+    from apps.users.models import Person
 
-Filter = TypeVar('Filter')
-Updates = TypeVar('Updates')
-Filter_cov = TypeVar('Filter_cov', covariant=True)
-Updates_cov = TypeVar('Updates_cov', covariant=True)
+SpecT = TypeVar('SpecT', contravariant=True)
+CaseT = TypeVar('CaseT', covariant=True)
 
 
-class HasRepositoryUserCommand(Protocol[Filter, Updates]):
-    """Protocol for service command interface."""
-
-    user: Person
-    filter: Filter
-    updates: Updates
-
-
-class CreateExerciseProtocol(Protocol[Parameters_contra, Result_cov]):
-    """ABC for service to create the exercise case."""
+class ExerciseServiceProtocol(Protocol[SpecT, CaseT]):
+    """Protocol for exercise case service interface."""
 
     def execute(
         self,
         user: Person,
-        spec: Parameters_contra,
-    ) -> Result_cov:
+        spec: SpecT,
+    ) -> CaseT:
         """Create the exercise case."""

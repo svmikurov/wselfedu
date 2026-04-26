@@ -8,9 +8,7 @@ from wse_exercises.core.math.base.exercise import CalcExercise
 from wse_exercises.core.math.base.services import OperandGeneratorABC
 
 from apps.core.services.exercise.abstract import (
-    AbstractCheckExerciseService,
-    AbstractCreateExerciseService,
-    AbstractExplainExerciseService,
+    AbstractExerciseService,
 )
 from apps.math.domains.dto import (
     CalculationAnswerDTO,
@@ -31,7 +29,7 @@ if TYPE_CHECKING:
 
 
 class CalculationCreateService(
-    AbstractCreateExerciseService[
+    AbstractExerciseService[
         CalculationConditionDTO,
         CalculationDomainDTO,
     ]
@@ -88,18 +86,17 @@ class CalculationCreateService(
 
 
 class CalculationCheckService(
-    AbstractCheckExerciseService[
+    AbstractExerciseService[
         CalculationAnswerDTO,
         CalculationMetaDTO,
-        CalculationResultDTO,
     ]
 ):
     """Calculation exercise user's answer check service."""
 
-    def execute(
+    def execute(  # type: ignore
         self,
-        answer: CalculationAnswerDTO,
-        case_meta: CalculationMetaDTO,
+        answer: CalculationAnswerDTO,  # type: ignore
+        case_meta: CalculationMetaDTO,  # type: ignore
     ) -> CalculationResultDTO:
         """Check calculation exercise user'a answer."""
         is_correct = bool(case_meta.correct_answer == int(answer.user_answer))
@@ -107,16 +104,17 @@ class CalculationCheckService(
 
 
 class CalculationExplainService(
-    AbstractExplainExerciseService[
-        CalculationAnswerDTO, CalculationMetaDTO, CalculationExplainDTO
+    AbstractExerciseService[
+        CalculationAnswerDTO,
+        CalculationMetaDTO,
     ]
 ):
     """Explain the calculation exercise solution."""
 
-    def execute(
+    def execute(  # type: ignore
         self,
-        answer: CalculationAnswerDTO,
-        case_meta: CalculationMetaDTO,
+        answer: CalculationAnswerDTO,  # type: ignore
+        case_meta: CalculationMetaDTO,  # type: ignore
     ) -> CalculationExplainDTO:
         """Explain the exercise case."""
         return CalculationExplainDTO(

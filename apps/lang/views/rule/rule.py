@@ -1,5 +1,6 @@
 """Language rule views."""
 
+# typ: ignore
 from typing import Any
 
 from dependency_injector.providers import Container
@@ -97,7 +98,7 @@ class RuleListView(
             Mentorship.objects.filter(student=OuterRef('user'))
         )
         return (
-            models.Rule.objects.filter(user=self.user)  # typ: ignore
+            models.Rule.objects.filter(user=self.user)
             .select_related('user')
             .annotate(
                 user_is_mentor=mentor_exists,

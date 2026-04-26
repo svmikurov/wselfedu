@@ -5,7 +5,7 @@ from typing import TypeVar, override
 from apps.core.adapters.exercise.abstract import AbstractExerciseProcessAdapter
 from apps.core.assemblers.protocol import UserDataCommandProtocol
 from apps.core.domains.exercise.protocol import (
-    HasExerciseProcessAction,
+    HasExerciseAction,
 )
 from interfaces.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
@@ -17,7 +17,7 @@ CaseT = TypeVar('CaseT')
 
 class ExerciseProcessAdapter(
     AbstractExerciseProcessAdapter[
-        UserDataCommandProtocol[HasExerciseProcessAction],
+        UserDataCommandProtocol[HasExerciseAction],
         ExerciseParametersDTO,
         CaseT | None,
         ExerciseSpecDTO[CaseT],
@@ -28,7 +28,7 @@ class ExerciseProcessAdapter(
     @override
     def adapt(
         self,
-        command: UserDataCommandProtocol[HasExerciseProcessAction],
+        command: UserDataCommandProtocol[HasExerciseAction],
         params: ExerciseParametersDTO,
         existing_case: CaseT | None,
     ) -> ExerciseSpecDTO[CaseT]:

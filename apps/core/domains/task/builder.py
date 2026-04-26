@@ -1,11 +1,13 @@
 """Exercise phase (definition / mean / random) orderer."""
 
+from interfaces.entity.domain.exercise import fields
 from interfaces.enums import DisplayOrder, ExerciseStatus
-from interfaces.protocols.domain.exercise import Candidate
-from interfaces.schemas.domain.exercise.presentation import PresentationTask
+from interfaces.schemas.domain.exercise.task import (
+    PresentationTask,
+)
 
 from ..exercise.presentation.protocol import PresentationTaskProtocol
-from ..exercise.protocol import HasOption, HasPhases
+from ..exercise.protocol import HasPhases
 from .abstract import AbstractTaskBuilder
 
 QUESTION_INDEX = 0
@@ -14,7 +16,7 @@ ANSWER_INDEX = 1
 
 class PresentationTaskBuilder(
     AbstractTaskBuilder[
-        HasOption[Candidate],
+        fields.HasExerciseDomainOption,
         HasPhases,
         PresentationTaskProtocol,
     ],
@@ -23,7 +25,7 @@ class PresentationTaskBuilder(
 
     def build(
         self,
-        case: HasOption[Candidate],
+        case: fields.HasExerciseDomainOption,
         conf: HasPhases,
     ) -> PresentationTaskProtocol:
         """Build presentation task."""
@@ -38,7 +40,7 @@ class PresentationTaskBuilder(
 
     def _get_question(
         self,
-        candidate: Candidate,
+        candidate: fields.Candidate,
         phases: list[DisplayOrder],
     ) -> str:
         """Get question text by display case phase order."""
@@ -46,7 +48,7 @@ class PresentationTaskBuilder(
 
     def _get_answer(
         self,
-        candidate: Candidate,
+        candidate: fields.Candidate,
         phases: list[DisplayOrder],
     ) -> str:
         """Get answer text by display case phase order."""

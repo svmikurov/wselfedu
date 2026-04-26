@@ -2,11 +2,28 @@
 
 from typing import Iterator, Protocol, Self, TypeVar, overload
 
-from interfaces.enums import exercise
-from interfaces.protocols.general import HasResourceIdentifier
+from interfaces import enums
+from interfaces.entity import general
+from interfaces.entity.domain import general as domain
 
 T = TypeVar('T')
 T_co = TypeVar('T_co', covariant=True)
+
+CaseT = TypeVar('CaseT')
+DomainT = TypeVar('DomainT')
+Case_co = TypeVar('Case_co', covariant=True)
+ExceptionT = TypeVar('ExceptionT')
+
+
+# =================================================
+# Exercise kind
+# =================================================
+
+
+class HasExerciseKind(Protocol):
+    """Protocol for has *exercise_kind* interface."""
+
+    exercise_kind: enums.ExerciseKind
 
 
 # =================================================
@@ -71,10 +88,13 @@ class HasTimeout(Protocol):
     answer_timeout: int | None = None
 
 
-class HasExerciseStatus(Protocol):
+class HasExerciseStatus(
+    domain.HasStatus[enums.ExerciseStatus],
+    Protocol,
+):
     """Protocol for has exercise status interface."""
 
-    status: exercise.ExerciseStatus
+    status: enums.ExerciseStatus
 
 
 # =================================================
@@ -112,26 +132,21 @@ class HasAnswerText(Protocol):
 
 
 class Candidate(
-    HasResourceIdentifier,
+    general.HasResourceIdentifier,
     HasDefineText,
     HasMeanText,
-    HasProgressValue,
+    # HasProgressValue,
     Protocol,
 ):
     """Protocol for a single candidate item."""
 
-    # @property
-    # def native(self) -> str: ...
-    # @property
-    # def foreign(self) -> str: ...
-    # @property
-    # def user(self) -> PersonProtocol: ...
+    progress: int
 
 
-class Candidates(Protocol[T_co]):
+class Candidates(Protocol):
     """Protocol for a collection of candidates."""
 
-    def __iter__(self) -> Iterator[T_co]:
+    def __iter__(self) -> Iterator[Candidate]:
         """Return an iterator over candidates in the collection."""
         ...
 
@@ -140,10 +155,10 @@ class Candidates(Protocol[T_co]):
         ...
 
     @overload
-    def __getitem__(self, index: int) -> T_co: ...
+    def __getitem__(self, index: int) -> Candidate: ...
     @overload
     def __getitem__(self, items_slice: slice) -> Self: ...
-    def __getitem__(self, index_or_slice: int | slice) -> T_co | Self:
+    def __getitem__(self, index_or_slice: int | slice) -> Candidate | Self:
         """Get a candidate by index or a slice of the collection."""
         ...
 
@@ -152,4 +167,53 @@ class Candidates(Protocol[T_co]):
         ...
 
 
-CandidatesProtocol = Candidates[Candidate]
+# =================================================
+# Exercise domain result / failure DTO's interface
+# =================================================
+
+
+class HasCase(Protocol[CaseT]):
+    """Protocol fo has *case* interface."""
+
+    case: CaseT
+
+
+class HasDomain(Protocol[DomainT]):
+    """Protocol fo has *domain* interface."""
+
+    domain: DomainT
+
+
+class ExerciseDomainResultProtocol(
+    HasExerciseStatus,
+    HasDomain[DomainT],
+    Protocol,
+):
+    """Protocol for exercise result DTO interface."""
+
+
+class HasQuestionOptionValue(Protocol):
+    """Protocol for has question *option_value* interface."""
+
+    option_value: int
+
+
+class HasExerciseDomainOption(Protocol):
+    """Protocol for has *option* interface."""
+
+    option: Candidate
+
+
+class HasExerciseDomainOptions(Protocol):
+    """Protocol for has *options* interface."""
+
+    options: Candidates
+
+
+# class ExerciseDomainFailureProtocol(
+#     HasExerciseStatus,
+#     HasCase[Case_co],
+#     general.HasException[info.NoExerciseItemsException],
+#     Protocol,
+# ):
+#     """Protocol for exercise failure DTO interface."""

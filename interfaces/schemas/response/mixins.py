@@ -1,10 +1,12 @@
 """WEB response DTO field mixins."""
 
-from typing import Any, Generic
+from typing import Any, Generic, TypeVar
 
 from pydantic import BaseModel, Field
 
-from ._types import AdaptedDomainResultT, DomainResultStatusT, ExtraContextT
+DomainResultStatusT = TypeVar('DomainResultStatusT')
+AdaptedDomainResultT = TypeVar('AdaptedDomainResultT')
+ExtraContextT = TypeVar('ExtraContextT')
 
 
 class DomainStatusField(BaseModel, Generic[DomainResultStatusT]):

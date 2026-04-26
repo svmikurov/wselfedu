@@ -2,7 +2,7 @@
 
 from typing import Protocol, TypeVar
 
-from interfaces.aliases import CandidatesAlias
+from interfaces import aliases
 
 Conf_contra = TypeVar('Conf_contra', contravariant=True)
 
@@ -12,7 +12,7 @@ class SelectorProtocol(Protocol[Conf_contra]):
 
     def select(
         self,
-        candidates: CandidatesAlias,
+        candidates: aliases.CandidatesAlias,
         conf: Conf_contra,
-    ) -> CandidatesAlias:
+    ) -> aliases.CandidatesAlias:
         """Select data for exercise."""

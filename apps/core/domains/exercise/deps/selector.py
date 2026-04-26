@@ -2,9 +2,7 @@
 
 from apps.core.exceptions import info
 from interfaces.aliases import CandidatesAlias
-from interfaces.protocols.domain.exercise import (
-    HasItemCount,
-)
+from interfaces.entity.domain.exercise.fields import HasItemCount
 
 from ..deps.abstract import AbstractSelector
 

@@ -2,18 +2,18 @@
 
 from typing import Protocol, TypeVar
 
-from interfaces.protocols.domain.exercise import (
+from interfaces.entity.domain.exercise.fields import (
     Candidate,
     HasAnswerText,
+    HasExerciseDomainOption,
     HasExerciseStatus,
     HasProgressValue,
+    HasQuestionOptionValue,
     HasQuestionText,
 )
 
 from ..protocol import (
     HasCase,
-    HasOption,
-    HasOptionValue,
 )
 
 OptionT = TypeVar('OptionT', bound=Candidate)
@@ -21,7 +21,7 @@ OptionT = TypeVar('OptionT', bound=Candidate)
 
 # DEPRECATED: Remove `PresentationCreateResultProtocol`
 class PresentationCreateResultProtocol(
-    HasOption[Candidate],
+    HasExerciseDomainOption,
     Protocol,
 ):
     """Presentation exercise create domain result DTO interface."""
@@ -37,8 +37,8 @@ class _Candidate(
 
 
 class PresentationCaseProtocol(
-    HasOptionValue,
-    HasOption[_Candidate],
+    HasQuestionOptionValue,
+    HasExerciseDomainOption,
     Protocol,
 ):
     """Presentation exercise case DTO interface."""

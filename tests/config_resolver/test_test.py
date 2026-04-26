@@ -13,8 +13,8 @@ from apps.lang.models import ExerciseConditions, TranslationConfiguration
 from apps.lang.repositories.legacy.exercise.conditions import (
     RegularParametersRepository,
 )
+from interfaces.entity.general import NullProtocol
 from interfaces.enums.exercise import ExerciseKind
-from interfaces.protocols.general import NullProtocol
 from interfaces.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
 )

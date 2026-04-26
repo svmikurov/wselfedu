@@ -5,11 +5,11 @@ import logging
 from pydantic import ValidationError
 
 from apps.core.handlers.protocol import RequestDataProtocol
-from interfaces.enums.exercise import ExerciseAction
-from interfaces.protocols.domain.general import (
+from interfaces.entity.domain.general import (
     ActionTyped,
     HasAction,
 )
+from interfaces.enums.exercise import ExerciseAction
 from interfaces.schemas.request.exercise import ExerciseRequestDTO
 
 from ..abstract import AbstractRequestValidator

@@ -7,8 +7,7 @@ from apps.core.assemblers.protocol import UserDataCommandProtocol
 from apps.core.domains.exercise.protocol import (
     ExerciseConfigProtocol,
     ExerciseParametersProtocol,
-    ExerciseProcessResultProtocol,
-    HasExerciseProcessAction,
+    HasExerciseAction,
 )
 from apps.core.domains.task.protocol import TaskBuilderProtocol
 from apps.core.exceptions.storage import StorageMissError
@@ -16,46 +15,48 @@ from apps.core.resolvers.protocol import ResolverProtocol
 from apps.core.services.protocol import UserServiceProtocol
 from apps.core.storages.services.protocol import CommandStorageProtocol
 from apps.core.use_cases.abstract import AbstractUseCase
-from interfaces.enums.exercise import (
-    ExerciseAction,
-    ExerciseStatus,
-)
-from interfaces.protocols.domain.params import (
-    HasConfig,
-)
+from interfaces import enums
+from interfaces.entity.domain import params
+from interfaces.entity.domain.exercise import flow
 
-CommandT = UserDataCommandProtocol[HasExerciseProcessAction]
+CommandT = UserDataCommandProtocol[HasExerciseAction]
 ParamsT = TypeVar('ParamsT', bound=ExerciseParametersProtocol)
-SpecT = TypeVar('SpecT', bound=HasConfig[ExerciseConfigProtocol])
-CaseT = TypeVar('CaseT')
+SpecT = TypeVar('SpecT', bound=params.HasConfig[ExerciseConfigProtocol])
+DomainT = TypeVar('DomainT', bound=flow.ExerciseDomainResultProtocol)
 ResultT = TypeVar('ResultT')
 
 
 class ExerciseUseCaseStrategy(
     AbstractUseCase[CommandT, ResultT],
-    Generic[ParamsT, SpecT, CaseT, ResultT],
+    Generic[ParamsT, SpecT, DomainT, ResultT],
 ):
     """Process exercise use case."""
 
     def __init__(
         self,
         prefix: str,
-        storage: CommandStorageProtocol[CommandT, CaseT],
+        storage: CommandStorageProtocol[
+            CommandT,
+            DomainT,
+        ],
         config_resolver: ResolverProtocol[CommandT, ParamsT],
         adapter_registry: dict[
-            ExerciseAction,
+            enums.ExerciseAction,
             ExerciseProcessAdapterProtocol[
-                CommandT, ParamsT, CaseT | None, SpecT
+                CommandT, ParamsT, DomainT | None, SpecT
             ],
         ],
         service_registry: dict[
-            ExerciseAction,
-            UserServiceProtocol[SpecT, ExerciseProcessResultProtocol[CaseT]],
+            enums.ExerciseAction,
+            UserServiceProtocol[
+                SpecT,
+                flow.ExerciseCaseProtocol[DomainT],
+            ],
         ],
         builder_registry: dict[
-            ExerciseStatus,
+            enums.ExerciseStatus,
             TaskBuilderProtocol[
-                ExerciseProcessResultProtocol[CaseT],
+                flow.ExerciseCaseProtocol[DomainT],
                 SpecT,
                 ResultT,
             ],
@@ -81,17 +82,17 @@ class ExerciseUseCaseStrategy(
         # Case may not exist (not started yet)
         # StorageMissError is expected flow, not an exceptional error
         try:
-            existing_case = self._storage.retrieve(command, self._prefix)
+            existing_domain = self._storage.retrieve(command, self._prefix)
         except StorageMissError:
             spec = adapter.adapt(command, parameters, None)
         else:
-            spec = adapter.adapt(command, parameters, existing_case)
+            spec = adapter.adapt(command, parameters, existing_domain)
 
-        domain = service.execute(command.user, spec)
+        case = service.execute(command.user, spec)
 
-        if domain.status == ExerciseStatus.NEW_TASK:
-            self._storage.save(command, domain.case, self._prefix)
+        if case.status == enums.ExerciseStatus.NEW_TASK:
+            self._storage.save(command, case.domain, self._prefix)
 
-        builder = self._builder_registry[domain.status]
-        result = builder.build(domain, spec)
+        builder = self._builder_registry[case.status]
+        result = builder.build(case, spec)
         return result

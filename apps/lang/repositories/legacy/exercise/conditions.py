@@ -6,7 +6,7 @@ from apps.core.domains.exercise.protocol import ExerciseParametersProtocol
 from apps.core.repositories.abstract import AbstractUserFetchRepository
 from apps.lang.models import ExerciseConditions, TranslationConfiguration
 from apps.users.models.user import Person
-from interfaces.protocols.general import NullProtocol
+from interfaces.entity.general import NullProtocol
 from interfaces.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
     ExerciseSettingsDTO,

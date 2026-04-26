@@ -9,4 +9,4 @@ Contains:
 
 __all__ = ('NullProtocol',)
 
-from .protocols.general import NullProtocol
+from .entity.general import NullProtocol

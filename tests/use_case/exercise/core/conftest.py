@@ -9,15 +9,13 @@ from apps.core.exceptions.storage import StorageMissError
 from apps.core.services.protocol import UserServiceProtocol
 from apps.core.use_cases.exercise.generic import ExerciseUseCaseStrategy
 from apps.users.models import Person
+from interfaces.entity.domain.exercise import flow
 from interfaces.enums.exercise import (
     ExerciseAction,
     ExerciseStatus,
 )
 from interfaces.schemas.domain.exercise.params import (
     ExerciseSpecDTO,
-)
-from interfaces.schemas.domain.exercise.result import (
-    ExerciseDomainResultDTO,
 )
 from interfaces.schemas.request.exercise import ExerciseRequestDTO
 
@@ -66,7 +64,7 @@ def stored_case() -> CaseT:
 @pytest.fixture
 def current_case() -> CaseT:
     """Provide current case mock."""
-    return Mock(spec=ExerciseDomainResultDTO)
+    return Mock(spec=flow.ExerciseDomainResultProtocol)
 
 
 @pytest.fixture
@@ -86,7 +84,7 @@ def mock_domain_result(
     current_case: Mock,
 ) -> Mock:
     """Provide spec mock."""
-    mock = Mock(spec=ExerciseDomainResultDTO)
+    mock = Mock(spec=flow.ExerciseDomainResultProtocol)
     mock.status = ExerciseStatus.NEW_TASK
     mock.case = current_case
     return mock
@@ -218,6 +216,6 @@ def use_case(
         storage=mock_empty_storage,
         config_resolver=mock_config_resolver,
         adapter_registry=mock_adapter_registry,
-        service_registry=mock_service_registry,
-        builder_registry=mock_builder_registry,
+        service_registry=mock_service_registry,  # type: ignore
+        builder_registry=mock_builder_registry,  # type: ignore
     )

@@ -9,11 +9,11 @@ from apps.core.handlers.protocol import (
     RequestDataProtocol,
 )
 from interfaces import NullProtocol
+from interfaces.entity.domain.general import HasAction
 from interfaces.enums.exercise import (
     ExerciseAction,
     ExerciseStatus,
 )
-from interfaces.protocols.domain.general import HasAction
 from interfaces.schemas.response.generic import OobResponseDTO
 
 type ResponseDtoT = OobResponseDTO[

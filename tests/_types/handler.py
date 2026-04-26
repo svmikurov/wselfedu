@@ -11,9 +11,8 @@ from apps.core.handlers.protocol import (
 )
 from apps.core.use_cases.protocol import UseCaseProtocol
 from apps.core.validators.request.protocol import RequestValidatorProtocol
-from apps.lang.models import EnglishTranslation
-from interfaces.protocols.domain.exercise import Candidates
-from interfaces.protocols.general import NullProtocol
+from interfaces.entity.domain.exercise.fields import Candidates
+from interfaces.entity.general import NullProtocol
 
 # FIXME: Fix Any type hint
 
@@ -99,4 +98,4 @@ HandlerT: TypeAlias = RequestHandler[
 # Resource type aliases
 # =================================================
 
-TranslationCandidates: TypeAlias = Candidates[EnglishTranslation]
+TranslationCandidates: TypeAlias = Candidates

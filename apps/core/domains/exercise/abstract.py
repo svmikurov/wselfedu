@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
-from interfaces.protocols.domain.exercise import Candidate, Candidates
+from interfaces.entity.domain.exercise.fields import Candidate, Candidates
 
 Conf = TypeVar('Conf')
 Case = TypeVar('Case')
@@ -30,7 +30,7 @@ class AbstractConfigurableCandidatesExerciseDomain(
     @abstractmethod
     def execute(
         self,
-        candidates: Candidates[CandidateT],
+        candidates: Candidates,
         conf: Conf,
     ) -> Task:
         """Create exercise case."""

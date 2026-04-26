@@ -2,18 +2,18 @@
 
 from typing import Generic
 
-from interfaces.protocols.response._types import (
+from interfaces.schemas.base import ArbitraryDTO
+from interfaces.schemas.response._types import (
     AdaptedDomainResultT,
     DomainResultStatusT,
     ExtraContextT,
 )
-from interfaces.protocols.response.mixins import (
+from interfaces.schemas.response.mixins import (
     ContextField,
     DomainStatusField,
     ExtraContextField,
     OobField,
 )
-from interfaces.schemas.base import ArbitraryDTO
 
 
 class ResponseDTO(

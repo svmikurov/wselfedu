@@ -149,9 +149,9 @@ class TestDomainResult(
     @property
     def question_text(self) -> str:
         """Get question text."""
-        return self.options[self.value - 1].define  # type: ignore[attr-defined, no-any-return]
+        return self.options[self.value - 1].define  # type: ignore
 
     @property
     def answer_text(self) -> str:
         """Get answer text."""
-        return self.options[self.value - 1].mean  # type: ignore[attr-defined, no-any-return]
+        return self.options[self.value - 1].mean  # type: ignore

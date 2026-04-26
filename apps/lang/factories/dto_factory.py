@@ -3,7 +3,7 @@
 from typing import override
 
 from apps.core.builders.abstract import AbstractCaseFactory
-from interfaces.schemas.domain.exercise.presentation import (
+from interfaces.schemas.domain.exercise.task import (
     PresentationTask,
 )
 

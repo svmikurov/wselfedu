@@ -15,10 +15,10 @@ from apps.core.handlers.protocol import RequestHandlerProtocol
 from apps.core.views.auth import UserLoginRequiredMixin
 from apps.core.views.mixins import GetHandlerMixin
 from apps.users.models import Person
-from interfaces.enums.exercise import ExerciseStatus
-from interfaces.protocols.response.base import (
+from interfaces.entity.response import (
     OobResponseProtocol,
 )
+from interfaces.enums.exercise import ExerciseStatus
 from interfaces.schemas.response.generic import OobResponseDTO
 
 from ..mixins import (

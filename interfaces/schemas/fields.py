@@ -4,7 +4,9 @@ from typing import Generic, TypeVar
 
 from pydantic import Field
 
-from interfaces.schemas.base import BaseDTO
+from interfaces.schemas.base import ArbitraryDTO, BaseDTO
+
+T = TypeVar('T')
 
 StatusT = TypeVar('StatusT')
 
@@ -39,3 +41,9 @@ class ValueField(BaseDTO):
     value: int = Field(
         description='Value',
     )
+
+
+class ExceptionField(ArbitraryDTO, Generic[T]):
+    """Provides *exception* DTO's field."""
+
+    exception: T

@@ -2,13 +2,16 @@
 
 from random import choice
 
+from interfaces import enums
 from interfaces.aliases import CandidatesAlias
+from interfaces.entity.domain.exercise import flow
+from interfaces.schemas.domain.exercise.dtos import (
+    PresentationExerciseDomainResult,
+)
 
 from ..abstract import AbstractConfigurableCandidatesExerciseDomain
 from ..deps.protocol import SelectorProtocol
 from ..protocol import ExerciseConfigProtocol
-from .dto import PresentationDomainResult
-from .protocol import PresentationCreateResultProtocol
 
 __all__ = ('PresentationDomain',)
 
@@ -16,7 +19,7 @@ __all__ = ('PresentationDomain',)
 class PresentationDomain(
     AbstractConfigurableCandidatesExerciseDomain[
         ExerciseConfigProtocol,
-        PresentationCreateResultProtocol,
+        flow.PresentationDomainResultProtocol,
     ],
 ):
     """Presentation exercise case domain."""
@@ -32,11 +35,13 @@ class PresentationDomain(
         self,
         candidates: CandidatesAlias,
         conf: ExerciseConfigProtocol,
-    ) -> PresentationCreateResultProtocol:
+    ) -> flow.PresentationDomainResultProtocol:
         """Get presentation exercise case data."""
         selected_candidates = self._selector.select(candidates, conf)
         option = choice(selected_candidates)
 
-        return PresentationDomainResult(
+        return PresentationExerciseDomainResult(
+            status=enums.ExerciseStatus.NEW_TASK,
+            exercise_kind=enums.ExerciseKind.PRESENTATION,
             option=option,
         )

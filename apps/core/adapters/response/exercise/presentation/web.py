@@ -11,11 +11,11 @@ from django.template.loader import render_to_string
 from apps.core.adapters.response.abstract import AbstractResponseAdapter
 from interfaces import NullProtocol
 from interfaces.enums import ExerciseStatus
-from interfaces.protocols.response.exercise import (
-    PresentationTaskResponse,
-)
-from interfaces.schemas.domain.exercise.presentation import (
+from interfaces.schemas.domain.exercise.task import (
     PresentationTask,
+)
+from interfaces.schemas.response.exercise import (
+    PresentationTaskResponse,
 )
 
 

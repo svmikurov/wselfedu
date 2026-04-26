@@ -16,7 +16,7 @@ from interfaces.schemas.request.exercise import ExerciseRequestDTO
 if TYPE_CHECKING:
     from apps.core.handlers.protocol import RequestDataProtocol
     from apps.core.validators.request.protocol import RequestValidatorProtocol
-    from interfaces.protocols.domain.general import (
+    from interfaces.entity.domain.general import (
         ActionTyped,
         HasAction,
     )

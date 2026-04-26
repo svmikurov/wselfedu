@@ -8,20 +8,20 @@ from apps.core.domains.exercise.protocol import (
     ExerciseConfigProtocol,
     ExerciseParametersProtocol,
     ExerciseProcessResultProtocol,
-    HasExerciseProcessAction,
+    HasExerciseAction,
 )
 from apps.core.domains.task.protocol import TaskBuilderProtocol
 from apps.core.resolvers.protocol import ResolverProtocol
 from apps.core.services.protocol import UserServiceProtocol
 from apps.core.storages.services.protocol import CommandStorageProtocol
 from apps.core.use_cases.protocol import UseCaseProtocol
-from interfaces.protocols.domain.exercise import HasExerciseStatus
+from interfaces.entity.domain.exercise import fields
 
 # =================================================
 # DTOs
 # =================================================
 
-CommandT: TypeAlias = UserDataCommandProtocol[HasExerciseProcessAction]
+CommandT: TypeAlias = UserDataCommandProtocol[HasExerciseAction]
 """Request command DTO.
 """
 Params: TypeAlias = Any
@@ -30,10 +30,10 @@ Params: TypeAlias = Any
 SpecT: TypeAlias = Any
 """Specification DTO for exercise case perform.
 """
-CaseT: TypeAlias = HasExerciseStatus
+CaseT: TypeAlias = fields.HasExerciseStatus
 """Exercise perform result DTO.
 """
-ResultT: TypeAlias = HasExerciseStatus
+ResultT: TypeAlias = fields.HasExerciseStatus
 """Use case result DTO.
 """
 

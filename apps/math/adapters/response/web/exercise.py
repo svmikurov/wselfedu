@@ -17,8 +17,8 @@ from apps.math.domains.dto import (
     StudentExerciseDTO,
 )
 from interfaces import NullProtocol
+from interfaces.entity.domain.exercise import fields
 from interfaces.enums.exercise import ExerciseStatus
-from interfaces.protocols.domain.exercise import HasExerciseStatus
 from interfaces.schemas.response.generic import (
     OobResponseDTO,
     ResponseDTO,
@@ -31,7 +31,7 @@ from .dto import (
 )
 
 type UseCaseData = Any
-DomainType = TypeVar('DomainType', bound=HasExerciseStatus)
+DomainType = TypeVar('DomainType', bound=fields.HasExerciseStatus)
 
 
 class StudentDetailType(NamedTuple):

@@ -2,6 +2,20 @@
 
 from typing import TypeAlias
 
-from .protocols.domain.exercise import Candidate, Candidates
+from apps.core.domains.exercise.protocol import (
+    ExerciseConfigProtocol,
+    ExerciseDomainProtocol,
+)
+from interfaces.entity.domain.exercise.flow import (
+    PresentationDomainResultProtocol,
+)
 
-CandidatesAlias: TypeAlias = Candidates[Candidate]
+from .entity.domain.exercise.fields import Candidates
+
+CaseAlias: TypeAlias = PresentationDomainResultProtocol
+CandidatesAlias: TypeAlias = Candidates
+
+ExerciseDomainAlias: TypeAlias = ExerciseDomainProtocol[
+    ExerciseConfigProtocol,
+    CaseAlias,
+]

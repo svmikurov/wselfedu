@@ -1,17 +1,25 @@
-"""Protocol for exercise task interface."""
+"""Presentation exercise entity schema."""
 
-from typing import Protocol
-
-from interfaces import enums
-from interfaces.protocols.domain import exercise, general
+from . import fields
 
 
-class PresentationTaskProtocol(
-    exercise.HasQuestionText,
-    exercise.HasAnswerText,
-    exercise.HasProgressValue,
-    general.HasStatus[enums.ExerciseStatus],
-    general.DumpModelProtocol[dict[str, str]],
-    Protocol,
+class PresentationTask(
+    fields.ExerciseStatusField,
+    fields.QuestionTextField,
+    fields.AnswerTextField,
+    fields.ProgressValueField,
 ):
-    """Protocol for presentation exercise task interface."""
+    """Presentation exercise case.
+
+    Parameter
+    ---------
+    status : `ExerciseStatus`
+        Current exercise status enumeration.
+    question_text : `str`
+        Task question text.
+    answer_text : `str`
+        Task answer text.
+    progress_value: `int`
+        Current item study progress value.
+
+    """
