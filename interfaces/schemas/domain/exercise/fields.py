@@ -1,9 +1,9 @@
 """Exercise contract mixins."""
 
-from dataclasses import dataclass
 from typing import Generic, TypeVar
 
 from pydantic import Field
+
 from interfaces.enums import exercise
 from interfaces.schemas import fields as general
 from interfaces.schemas.base import ArbitraryDTO, BaseDTO

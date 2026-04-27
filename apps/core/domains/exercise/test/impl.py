@@ -56,7 +56,6 @@ class TestDomain(
         options = self._get_options(selected_candidates, conf.option_count)
 
         return dtos.TestTask[fields.Candidates](
-            status=enums.ExerciseStatus.NEW_TASK,
             option_value=option_value,
             options=options,
         )

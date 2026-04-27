@@ -2,7 +2,7 @@
 
 from typing import TypeVar
 
-from interfaces.entity.domain.exercise import fields, flow
+from interfaces.entity.domain.exercise import flow
 from interfaces.schemas.domain.exercise import dtos
 
 from ..protocol import ExerciseTaskBuilderProtocol
@@ -25,7 +25,7 @@ class ExercisePresentationBuilder(
         spec: SpecT,
     ) -> flow.PresentationCaseProtocol:
         """Build exercise case DTO."""
-        return dtos.PresentationExerciseCase(
+        return dtos.PresentationExerciseCase(  # type: ignore
             status=case.status,
             domain=case,
         )
@@ -46,7 +46,7 @@ class TestExerciseTaskBuilder(
         spec: SpecT,
     ) -> flow.TestCaseProtocol:
         """Build exercise case DTO."""
-        return dtos.TestExerciseCase(
+        return dtos.TestExerciseCase(  # type: ignore
             status=case.status,
             domain=case,
         )

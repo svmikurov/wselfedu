@@ -6,7 +6,7 @@ from typing import Any, Protocol
 import pytest
 from django.db.models import QuerySet
 
-from apps.core.builders.exercise import ExercisePresentationBuilder
+from apps.core.builders.exercise.case import ExercisePresentationBuilder
 from apps.core.builders.protocol import ExerciseTaskBuilderProtocol
 from apps.core.domains.exercise.deps.protocol import SelectorProtocol
 from apps.core.domains.exercise.deps.selector import CandidatesSelector

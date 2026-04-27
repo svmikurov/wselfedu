@@ -50,7 +50,7 @@ class TestExerciseTaskBuilder(
         spec: SpecT,
     ) -> flow.TestTaskProtocol:
         """Build test exercise task DTO."""
-        return dtos.TestTask[fields.Candidates](
+        return dtos.TestTask[fields.Candidates](  # type: ignore
             status=case.status,
             option_value=case.domain.option_value,
             options=case.domain.options,

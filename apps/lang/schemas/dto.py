@@ -1,7 +1,6 @@
 """Get presentation DTO."""
 
 import uuid
-from dataclasses import dataclass
 
 from interfaces.schemas.base import BaseDTO
 

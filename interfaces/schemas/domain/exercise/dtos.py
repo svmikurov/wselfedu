@@ -1,12 +1,10 @@
 """Domain result schemas."""
 
-from typing import Generic, TypeVar, override, Generic
+from typing import Generic, TypeVar
 
 from interfaces import enums
-from interfaces.schemas.base import BaseDTO, ArbitraryDTO
+from interfaces.schemas.base import ArbitraryDTO
 from interfaces.schemas.domain.exercise import fields
-from interfaces.entity.domain.exercise.fields import Candidate, Candidates
-from interfaces.entity.domain.exercise import flow
 
 CandidateT = TypeVar('CandidateT')
 CandidatesT = TypeVar('CandidatesT')
@@ -30,7 +28,7 @@ class PresentationExerciseDomainResult(ArbitraryDTO, Generic[CandidateT]):
 
     option: CandidateT
     status: enums.ExerciseStatus
-    exercise_kind: enums.ExerciseKind = enums.ExerciseKind.PRESENTATION 
+    exercise_kind: enums.ExerciseKind = enums.ExerciseKind.PRESENTATION
 
 
 class TestExerciseDomainResult(ArbitraryDTO, Generic[CandidateT]):
@@ -62,14 +60,14 @@ class PresentationExerciseCase:
     """Presentation exercise case DTO."""
 
     status: enums.ExerciseStatus
-    domain: PresentationExerciseDomainResult
+    domain: PresentationExerciseDomainResult  # type: ignore
 
 
 class TestExerciseCase:
     """Test exercise case DTO."""
 
     status: enums.ExerciseStatus
-    domain: TestExerciseDomainResult
+    domain: TestExerciseDomainResult  # type: ignore
 
 
 # =================================================
