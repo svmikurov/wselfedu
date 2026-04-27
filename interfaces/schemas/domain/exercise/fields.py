@@ -4,7 +4,6 @@ from dataclasses import dataclass
 from typing import Generic, TypeVar
 
 from pydantic import Field
-
 from interfaces.enums import exercise
 from interfaces.schemas import fields as general
 from interfaces.schemas.base import ArbitraryDTO, BaseDTO
@@ -66,36 +65,31 @@ class MeanField(BaseDTO):
 # =================================================
 
 
-@dataclass
-class QuestionTextField:
+class QuestionTextField(BaseDTO):
     """Exercise *question text* DTO field."""
 
     question_text: str
 
 
-@dataclass
-class AnswerTextField:
+class AnswerTextField(BaseDTO):
     """Exercise *answer text* DTO field."""
 
     answer_text: str
 
 
-@dataclass
-class OptionValue:
+class OptionValue(BaseDTO):
     """Option value DTO field."""
 
     option_value: int
 
 
-@dataclass
-class OptionField(Generic[OptionT]):
+class OptionField(BaseDTO, Generic[OptionT]):
     """Option DTO field."""
 
     option: OptionT
 
 
-@dataclass
-class OptionsField(Generic[OptionT]):
+class OptionsField(BaseDTO, Generic[OptionT]):
     """Options DTO field."""
 
     options: OptionT
@@ -106,15 +100,13 @@ class OptionsField(Generic[OptionT]):
 # =================================================
 
 
-@dataclass
-class ProgressValueField:
+class ProgressValueField(BaseDTO):
     """Item study progress DTO integer field."""
 
     progress_value: int
 
 
-@dataclass
-class ProgressDataField(Generic[ProgressT]):
+class ProgressDataField(BaseDTO, Generic[ProgressT]):
     """Item study progress DTO integer field."""
 
     progress: ProgressT

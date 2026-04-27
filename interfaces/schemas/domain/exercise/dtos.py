@@ -1,9 +1,9 @@
 """Domain result schemas."""
 
-from dataclasses import dataclass
-from typing import Generic, TypeVar, override
+from typing import Generic, TypeVar, override, Generic
 
 from interfaces import enums
+from interfaces.schemas.base import BaseDTO, ArbitraryDTO
 from interfaces.schemas.domain.exercise import fields
 from interfaces.entity.domain.exercise.fields import Candidate, Candidates
 from interfaces.entity.domain.exercise import flow
@@ -19,33 +19,29 @@ DomainResult = TypeVar('DomainResult')
 # =================================================
 
 
-@dataclass
-class ExerciseFailure:
+class ExerciseFailure(ArbitraryDTO):
     """Exercise failure DTO."""
 
     exception: Exception
 
 
-@dataclass(frozen=True)
-class PresentationExerciseDomainResult(flow.PresentationDomainResultProtocol):
+class PresentationExerciseDomainResult(ArbitraryDTO, Generic[CandidateT]):
     """Presentation exercise domain result DTO."""
 
-    option: Candidate
+    option: CandidateT
     status: enums.ExerciseStatus
-    exercise_kind: enums.ExerciseKind = enums.ExerciseKind.PRESENTATION
+    exercise_kind: enums.ExerciseKind = enums.ExerciseKind.PRESENTATION 
 
 
-@dataclass
-class TestExerciseDomainResult:
+class TestExerciseDomainResult(ArbitraryDTO, Generic[CandidateT]):
     """Test exercise domain result DTO."""
 
     question_value: int
-    options: Candidates
+    options: CandidateT
     exercise_kind: enums.ExerciseKind = enums.ExerciseKind.TEST
 
 
 # TODO: Implement explain DTO
-@dataclass
 class ExplainExerciseDomainResult:
     """Presentation exercise domain result DTO."""
 
@@ -55,7 +51,6 @@ class ExplainExerciseDomainResult:
 # =================================================
 
 
-@dataclass
 class ExerciseCase(Generic[DomainResult]):
     """Exercise case DTO."""
 
@@ -63,7 +58,6 @@ class ExerciseCase(Generic[DomainResult]):
     domain: DomainResult
 
 
-@dataclass
 class PresentationExerciseCase:
     """Presentation exercise case DTO."""
 
@@ -71,7 +65,6 @@ class PresentationExerciseCase:
     domain: PresentationExerciseDomainResult
 
 
-@dataclass
 class TestExerciseCase:
     """Test exercise case DTO."""
 
@@ -84,14 +77,12 @@ class TestExerciseCase:
 # =================================================
 
 
-@dataclass
 class Task:
     """Exercise task DTO."""
 
     status: enums.ExerciseStatus
 
 
-@dataclass
 class PresentationTask(
     fields.QuestionTextField,
     fields.AnswerTextField,
@@ -101,7 +92,6 @@ class PresentationTask(
     """Presentation exercise task DTO."""
 
 
-@dataclass
 class TestTask(
     fields.OptionValue,
     fields.OptionsField[CandidatesT],

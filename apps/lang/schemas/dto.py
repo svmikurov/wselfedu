@@ -3,11 +3,12 @@
 import uuid
 from dataclasses import dataclass
 
+from interfaces.schemas.base import BaseDTO
+
 # DEPRECATED: Delete
 
 
-@dataclass(frozen=True, slots=True)
-class TranslationCase:
+class TranslationCase(BaseDTO):
     """Translation case DTO."""
 
     question: str
@@ -15,14 +16,12 @@ class TranslationCase:
     progress: str
 
 
-@dataclass(frozen=True, slots=True)
-class CaseMeta:
+class CaseMeta(BaseDTO):
     """Translation case story DTO."""
 
     pk: int
 
 
-@dataclass(frozen=True)
 class PresentationCase(TranslationCase):
     """Presentation case DTO."""
 
