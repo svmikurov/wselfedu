@@ -2,17 +2,17 @@
 
 from typing import TypeVar
 
-from interfaces.entity.domain.exercise import fields, flow
+from interfaces.entity.domain.exercise import flow
 from interfaces.schemas.domain.exercise import dtos
 from interfaces.schemas.domain.exercise.task import PresentationTask
 
-from ..protocol import ExerciseTaskBuilderProtocol
+from ..protocol import SpecDtoBuilderProtocol
 
 SpecT = TypeVar('SpecT')
 
 
 class ExercisePresentationBuilder(
-    ExerciseTaskBuilderProtocol[
+    SpecDtoBuilderProtocol[
         flow.PresentationCaseProtocol,
         SpecT,
         flow.PresentationTaskProtocol,
@@ -22,13 +22,13 @@ class ExercisePresentationBuilder(
 
     def build(
         self,
-        case: flow.PresentationCaseProtocol,
+        data: flow.PresentationCaseProtocol,
         spec: SpecT,
     ) -> flow.PresentationTaskProtocol:
         """Build presentation exercise task DTO."""
-        option = case.domain.option
+        option = data.domain.option
         return PresentationTask(
-            status=case.status,
+            status=data.status,
             question_text=option.define,
             answer_text=option.mean,
             progress_value=option.progress,
@@ -36,7 +36,7 @@ class ExercisePresentationBuilder(
 
 
 class TestExerciseTaskBuilder(
-    ExerciseTaskBuilderProtocol[
+    SpecDtoBuilderProtocol[
         flow.TestCaseProtocol,
         SpecT,
         flow.TestTaskProtocol,
@@ -46,12 +46,12 @@ class TestExerciseTaskBuilder(
 
     def build(
         self,
-        case: flow.TestCaseProtocol,
+        data: flow.TestCaseProtocol,
         spec: SpecT,
     ) -> flow.TestTaskProtocol:
         """Build test exercise task DTO."""
-        return dtos.TestTask[fields.Candidates](
-            status=case.status,
-            option_value=case.domain.option_value,
-            options=case.domain.options,
+        return dtos.TestTask(
+            status=data.status,
+            option_value=data.domain.option_value,
+            options=data.domain.options,
         )

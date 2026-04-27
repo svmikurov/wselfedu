@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar, override
 
-from .protocol import CaseBuilderProtocol
+from .protocol import DtoBuilderProtocol
 
 ConfT = TypeVar('ConfT')
 CandidateT = TypeVar('CandidateT')
@@ -15,7 +15,7 @@ LockupConditions = TypeVar('LockupConditions')
 
 class AbstractCaseFactory(
     ABC,
-    CaseBuilderProtocol[CandidateT, CaseT],
+    DtoBuilderProtocol[CandidateT, CaseT],
 ):
     """ABC for exercise case DTO builder."""
 
@@ -23,7 +23,7 @@ class AbstractCaseFactory(
     @abstractmethod
     def build(
         self,
-        option: CandidateT,
+        data: CandidateT,
     ) -> CaseT:
         """Build exercise case DTO."""
 

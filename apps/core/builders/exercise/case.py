@@ -2,51 +2,32 @@
 
 from typing import TypeVar
 
-from interfaces.entity.domain.exercise import flow
+from interfaces.entity.domain.exercise import fields, flow
 from interfaces.schemas.domain.exercise import dtos
 
-from ..protocol import ExerciseTaskBuilderProtocol
+from ..protocol import SpecDtoBuilderProtocol
 
+CaseT = TypeVar('CaseT')
 SpecT = TypeVar('SpecT')
+DomainT = TypeVar('DomainT', bound=fields.HasExerciseStatus)
 
 
-class ExercisePresentationBuilder(
-    ExerciseTaskBuilderProtocol[
-        flow.PresentationDomainResultProtocol,
+class ExerciseCaseBuilder(
+    SpecDtoBuilderProtocol[
+        DomainT,
         SpecT,
-        flow.PresentationCaseProtocol,
+        flow.ExerciseCaseProtocol[fields.HasExerciseStatus],
     ],
 ):
     """Exercise case DTO null builder."""
 
     def build(
         self,
-        case: flow.PresentationDomainResultProtocol,
+        data: DomainT,
         spec: SpecT,
-    ) -> flow.PresentationCaseProtocol:
+    ) -> flow.ExerciseCaseProtocol[fields.HasExerciseStatus]:
         """Build exercise case DTO."""
-        return dtos.PresentationExerciseCase(  # type: ignore
-            status=case.status,
-            domain=case,  # type: ignore
-        )
-
-
-class TestExerciseTaskBuilder(
-    ExerciseTaskBuilderProtocol[
-        flow.TestDomainResultProtocol,
-        SpecT,
-        flow.TestCaseProtocol,
-    ],
-):
-    """Test exercise task DTO builder."""
-
-    def build(
-        self,
-        case: flow.TestDomainResultProtocol,
-        spec: SpecT,
-    ) -> flow.TestCaseProtocol:
-        """Build exercise case DTO."""
-        return dtos.TestExerciseCase(  # type: ignore
-            status=case.status,
-            domain=case,  # type: ignore
+        return dtos.ExerciseCase(
+            status=data.status,
+            domain=data,
         )

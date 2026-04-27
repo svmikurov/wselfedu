@@ -14,29 +14,29 @@ SpecT_contra = TypeVar('SpecT_contra', contravariant=True)
 Task_co = TypeVar('Task_co', bound=HasExerciseStatus, covariant=True)
 
 
-class CaseBuilderProtocol(Protocol[Candidate_contra, Case_co]):
+class DtoBuilderProtocol(Protocol[Candidate_contra, Case_co]):
     """Protocol for exercise case DTO builder."""
 
     @abstractmethod
     def build(
         self,
-        option: Candidate_contra,
+        data: Candidate_contra,
     ) -> Case_co:
         """Build exercise case DTO."""
 
 
-class ExerciseTaskBuilderProtocol(
+class SpecDtoBuilderProtocol(
     Protocol[
         Case_contra,
         SpecT_contra,
         Task_co,
     ]
 ):
-    """Protocol for exercise task DTO builder interface."""
+    """Protocol for DTO builder by specification."""
 
     def build(
         self,
-        case: Case_contra,
+        data: Case_contra,
         spec: SpecT_contra,
     ) -> Task_co:
         """Build exercise task DTO."""
