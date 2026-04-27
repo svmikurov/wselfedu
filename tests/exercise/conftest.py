@@ -1,13 +1,20 @@
 """Language discipline presentation exercise DI tests."""
 
 import pytest
+from django.db.models import QuerySet
 
 from apps.core.assemblers.command import UserDataCommand
 from apps.core.handlers.dto import RequestContext, RequestData
+from apps.core.repositories.protocol import UserRepositoryProtocol
+from apps.lang.models import EnglishTranslation
+from apps.lang.repositories.exercise.candidates.translations import (
+    UserTranslationsRepository,
+)
 from apps.users.models import Person
 from di import MainContainer
 from interfaces.enums.exercise import ExerciseAction
 from interfaces.schemas.base import NullDTO
+from interfaces.schemas.domain.exercise.params import ExerciseConfigDTO
 from interfaces.schemas.request.exercise import ExerciseRequestDTO
 
 from .._types.handler import (
@@ -16,6 +23,7 @@ from .._types.handler import (
     RequestDataT,
     RequestParamsT,
 )
+from .._types.resource import TranslationCandidates
 
 # =================================================
 # Request's DTOs
@@ -62,6 +70,43 @@ def create_command(
             action=ExerciseAction.CREATE_TASK,
         ),
     )
+
+
+# =================================================
+# Exercise parameters
+# =================================================
+
+
+@pytest.fixture
+def exercise_config() -> ExerciseConfigDTO:
+    """Provide exercise config.."""
+    return ExerciseConfigDTO()
+
+
+# =================================================
+# Exercise data
+# =================================================
+
+
+@pytest.fixture
+def translation_repository() -> UserRepositoryProtocol[object, object]:
+    """Provide exercise config.."""
+    return UserTranslationsRepository(
+        manager=EnglishTranslation.objects,
+    )
+
+
+@pytest.fixture
+def translation_candidates_db(
+    user: Person,
+    translations: list[EnglishTranslation],  # Populate DB
+    translation_repository: UserRepositoryProtocol[
+        NullDTO,
+        QuerySet[EnglishTranslation],
+    ],
+) -> TranslationCandidates:
+    """Provide translation exercise candidates."""
+    return translation_repository.fetch(user, NullDTO())  # type: ignore
 
 
 # =================================================

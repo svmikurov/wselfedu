@@ -10,15 +10,6 @@ from .._types.handler import (
     RequestDataT,
     RequestParamsT,
 )
-from .._types.resource import TranslationCandidates
-
-
-@pytest.fixture
-def candidates_db(
-    translations: TranslationCandidates,
-) -> TranslationCandidates:
-    """Provide *translation* candidates for exercise."""
-    return translations
 
 
 @pytest.mark.django_db
@@ -28,7 +19,7 @@ def test_create_new_case(
     request_context: RequestContextT,
     request_data_create_task: RequestDataT,
     # Populate DB
-    candidates_db: CandidatesAlias,
+    translation_candidates_db: CandidatesAlias,
     # Tested handler
     regular_presentation_handler: HandlerT,
 ) -> None:
