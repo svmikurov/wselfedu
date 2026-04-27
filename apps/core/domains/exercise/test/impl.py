@@ -38,6 +38,8 @@ class TestDomain(
 ):
     """Task exercise case domain."""
 
+    __test__ = False
+
     def __init__(
         self,
         selector: SelectorProtocol[_ExerciseConfig],
@@ -55,7 +57,8 @@ class TestDomain(
         selected_candidates = self._selector.select(candidates, conf)
         options = self._get_options(selected_candidates, conf.option_count)
 
-        return dtos.TestTask[fields.Candidates](  # type: ignore
+        return dtos.TestExerciseDomainResult(
+            status=enums.ExerciseStatus.NEW_TASK,
             option_value=option_value,
             options=options,
         )
