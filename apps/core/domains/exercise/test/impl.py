@@ -55,7 +55,7 @@ class TestDomain(
         selected_candidates = self._selector.select(candidates, conf)
         options = self._get_options(selected_candidates, conf.option_count)
 
-        return dtos.TestTask[fields.Candidates](
+        return dtos.TestTask[fields.Candidates](  # type: ignore
             option_value=option_value,
             options=options,
         )

@@ -27,7 +27,7 @@ class ExercisePresentationBuilder(
         """Build exercise case DTO."""
         return dtos.PresentationExerciseCase(  # type: ignore
             status=case.status,
-            domain=case,
+            domain=case,  # type: ignore
         )
 
 
@@ -48,5 +48,5 @@ class TestExerciseTaskBuilder(
         """Build exercise case DTO."""
         return dtos.TestExerciseCase(  # type: ignore
             status=case.status,
-            domain=case,
+            domain=case,  # type: ignore
         )

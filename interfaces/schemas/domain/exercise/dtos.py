@@ -3,7 +3,7 @@
 from typing import Generic, TypeVar
 
 from interfaces import enums
-from interfaces.schemas.base import ArbitraryDTO
+from interfaces.schemas.base import ArbitraryDTO, BaseDTO
 from interfaces.schemas.domain.exercise import fields
 
 CandidateT = TypeVar('CandidateT')
@@ -40,7 +40,7 @@ class TestExerciseDomainResult(ArbitraryDTO, Generic[CandidateT]):
 
 
 # TODO: Implement explain DTO
-class ExplainExerciseDomainResult:
+class ExplainExerciseDomainResult(BaseDTO):
     """Presentation exercise domain result DTO."""
 
 
@@ -49,21 +49,21 @@ class ExplainExerciseDomainResult:
 # =================================================
 
 
-class ExerciseCase(Generic[DomainResult]):
+class ExerciseCase(BaseDTO, Generic[DomainResult]):
     """Exercise case DTO."""
 
     status: enums.ExerciseStatus
     domain: DomainResult
 
 
-class PresentationExerciseCase:
+class PresentationExerciseCase(BaseDTO):
     """Presentation exercise case DTO."""
 
     status: enums.ExerciseStatus
     domain: PresentationExerciseDomainResult  # type: ignore
 
 
-class TestExerciseCase:
+class TestExerciseCase(BaseDTO):
     """Test exercise case DTO."""
 
     status: enums.ExerciseStatus
@@ -75,7 +75,7 @@ class TestExerciseCase:
 # =================================================
 
 
-class Task:
+class Task(BaseDTO):
     """Exercise task DTO."""
 
     status: enums.ExerciseStatus
