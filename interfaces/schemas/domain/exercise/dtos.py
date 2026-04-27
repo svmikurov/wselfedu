@@ -34,8 +34,9 @@ class PresentationExerciseDomainResult(ArbitraryDTO, Generic[CandidateT]):
 class TestExerciseDomainResult(ArbitraryDTO, Generic[CandidateT]):
     """Test exercise domain result DTO."""
 
-    question_value: int
+    option_value: int
     options: CandidateT
+    status: enums.ExerciseStatus
     exercise_kind: enums.ExerciseKind = enums.ExerciseKind.TEST
 
 
