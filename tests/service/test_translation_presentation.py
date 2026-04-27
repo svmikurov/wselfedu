@@ -6,8 +6,8 @@ from typing import Any, Protocol
 import pytest
 from django.db.models import QuerySet
 
-from apps.core.builders.exercise.case import ExercisePresentationBuilder
-from apps.core.builders.protocol import ExerciseTaskBuilderProtocol
+from apps.core.builders.exercise.case import ExerciseCaseBuilder
+from apps.core.builders.protocol import SpecDtoBuilderProtocol
 from apps.core.domains.exercise.deps.protocol import SelectorProtocol
 from apps.core.domains.exercise.deps.selector import CandidatesSelector
 from apps.core.domains.exercise.presentation.impl import PresentationDomain
@@ -70,7 +70,7 @@ _TranslationRepository = UserRepositoryProtocol[
 _Selector = SelectorProtocol[ExerciseConfigProtocol]
 _Domain = aliases.ExerciseDomainAlias
 _ServiceT = ExerciseServiceProtocol[_SpecProtocol, _DomainResultProtocol]
-_Builder = ExerciseTaskBuilderProtocol[Any, Any, Any]
+_Builder = SpecDtoBuilderProtocol[Any, Any, Any]
 
 
 @pytest.fixture
@@ -107,7 +107,7 @@ def domain(
 @pytest.fixture
 def builder() -> _Builder:
     """Provide presentation exercise domain DTO builder."""
-    return ExercisePresentationBuilder()
+    return ExerciseCaseBuilder()
 
 
 @pytest.fixture

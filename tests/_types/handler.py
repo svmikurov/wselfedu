@@ -4,6 +4,7 @@ from typing import Any, TypeAlias
 
 from apps.core.adapters.response.protocol import AdapterProtocol
 from apps.core.assemblers.protocol import AssemblerProtocol
+from apps.core.builders.protocol import SpecDtoBuilderProtocol
 from apps.core.domains.exercise.protocol import (
     ExerciseConfigProtocol,
     ExerciseDomainProtocol,
@@ -13,16 +14,20 @@ from apps.core.handlers.protocol import (
     RequestContextProtocol,
     RequestDataProtocol,
 )
+from apps.core.repositories.protocol import UserRepositoryProtocol
+from apps.core.services.exercise.protocol import ExerciseServiceProtocol
 from apps.core.use_cases.protocol import UseCaseProtocol
 from apps.core.validators.request.protocol import RequestValidatorProtocol
 from apps.lang.models import EnglishTranslation
-from interfaces.entity.domain.exercise.fields import Candidates
+from interfaces.entity.domain.exercise.fields import Candidates, HasDomain
 from interfaces.entity.general import NullProtocol
 from interfaces.schemas.domain.exercise.dtos import (
     PresentationExerciseDomainResult,
+    TestExerciseDomainResult,
 )
 
-# FIXME: Fix Any type hint
+# HACK: Fix Any type hint
+# HACK: Fix dependency from implementation
 
 # =================================================
 # Request's DTOs
@@ -89,6 +94,23 @@ AdapterT: TypeAlias = AdapterProtocol[
 DomainT: TypeAlias = ExerciseDomainProtocol[
     ExerciseConfigProtocol,
     PresentationExerciseDomainResult[EnglishTranslation],
+]
+OptionsDomainT: TypeAlias = ExerciseDomainProtocol[
+    ExerciseConfigProtocol,
+    TestExerciseDomainResult[EnglishTranslation],
+]
+RepositoryT: TypeAlias = UserRepositoryProtocol[
+    object,
+    object,
+]
+ServiceT: TypeAlias = ExerciseServiceProtocol[
+    object,
+    HasDomain[object],
+]
+TaskBuilderT: TypeAlias = SpecDtoBuilderProtocol[
+    object,
+    object,
+    Any,
 ]
 
 # =================================================

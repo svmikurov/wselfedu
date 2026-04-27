@@ -14,7 +14,9 @@ from apps.users.models import Person
 from di import MainContainer
 from interfaces.enums.exercise import ExerciseAction
 from interfaces.schemas.base import NullDTO
-from interfaces.schemas.domain.exercise.params import ExerciseConfigDTO
+from interfaces.schemas.domain.exercise.params import (
+    ExerciseParametersDTO,
+)
 from interfaces.schemas.request.exercise import ExerciseRequestDTO
 
 from .._types.handler import (
@@ -78,9 +80,9 @@ def create_command(
 
 
 @pytest.fixture
-def exercise_config() -> ExerciseConfigDTO:
-    """Provide exercise config.."""
-    return ExerciseConfigDTO()
+def exercise_params() -> ExerciseParametersDTO:
+    """Provide exercise parameters."""
+    return ExerciseParametersDTO()
 
 
 # =================================================
@@ -106,7 +108,7 @@ def translation_candidates_db(
     ],
 ) -> TranslationCandidates:
     """Provide translation exercise candidates."""
-    return translation_repository.fetch(user, NullDTO())  # type: ignore
+    return translation_repository.fetch(user, NullDTO()).order_by('pk')  # type: ignore
 
 
 # =================================================
