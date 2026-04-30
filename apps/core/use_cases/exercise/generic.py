@@ -15,9 +15,9 @@ from apps.core.resolvers.protocol import ResolverProtocol
 from apps.core.services.protocol import UserServiceProtocol
 from apps.core.storages.services.protocol import CommandStorageProtocol
 from apps.core.use_cases.abstract import AbstractUseCase
-from interfaces import enums
-from interfaces.entity.domain import params
-from interfaces.entity.domain.exercise import flow
+from contracts import enums
+from contracts.entity.domain import params
+from contracts.entity.domain.exercise import flow
 
 CommandT = UserDataCommandProtocol[HasExerciseAction]
 ParamsT = TypeVar('ParamsT', bound=ExerciseParametersProtocol)

@@ -16,13 +16,13 @@ from apps.core.handlers.protocol import (
     RequestDataProtocol,
     RequestHandlerProtocol,
 )
-from interfaces.entity.general import NullProtocol
-from interfaces.entity.response import OobResponseProtocol
-from interfaces.enums.exercise import (
+from contracts.entity.general import NullProtocol
+from contracts.entity.response.base import OobResponseProtocol
+from contracts.enums.exercise import (
     ExerciseAction,
     ExerciseStatus,
 )
-from interfaces.schemas.base import NullDTO
+from contracts.schemas.base import NullDTO
 
 from ..abstract import AbstractProcessAction, AbstractStartAction
 

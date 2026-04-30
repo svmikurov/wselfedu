@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pydantic import Field
 
-from interfaces.schemas.base import BaseDTO
+from contracts.schemas.base import BaseDTO
 
 
 class RuleClauseDTO(BaseDTO):

@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar, override
 
-from interfaces.aliases import CandidatesAlias
+from contracts.aliases import CandidatesAlias
 
 from .protocol import SelectorProtocol
 

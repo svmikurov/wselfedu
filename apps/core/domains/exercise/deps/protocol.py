@@ -2,7 +2,7 @@
 
 from typing import Protocol, TypeVar
 
-from interfaces import aliases
+from contracts import aliases
 
 Conf_contra = TypeVar('Conf_contra', contravariant=True)
 

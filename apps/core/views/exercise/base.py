@@ -15,11 +15,11 @@ from apps.core.handlers.protocol import RequestHandlerProtocol
 from apps.core.views.auth import UserLoginRequiredMixin
 from apps.core.views.mixins import GetHandlerMixin
 from apps.users.models import Person
-from interfaces.entity.response import (
+from contracts.entity.response.base import (
     OobResponseProtocol,
 )
-from interfaces.enums.exercise import ExerciseStatus
-from interfaces.schemas.response.generic import OobResponseDTO
+from contracts.enums.exercise import ExerciseStatus
+from contracts.schemas.response.generic import OobResponseDTO
 
 from ..mixins import (
     ProcessHandlerPartialTemplateMixin,

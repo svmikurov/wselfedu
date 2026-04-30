@@ -4,10 +4,10 @@ from random import randrange, sample
 
 from apps.core.domains.exercise.test.dto import OptionMetaDTO
 from apps.core.exceptions import info
-from interfaces import enums
-from interfaces.aliases import CandidatesAlias
-from interfaces.entity.domain.exercise import fields, flow
-from interfaces.schemas.domain.exercise import dtos
+from contracts import enums
+from contracts.aliases import CandidatesAlias
+from contracts.entity.domain.exercise import fields, flow
+from contracts.schemas.domain.exercise import dtos
 
 from ..abstract import (
     AbstractCheckExerciseDomain,

@@ -2,7 +2,7 @@
 
 from typing import Protocol, TypeVar
 
-from interfaces.entity.domain.exercise.fields import (
+from contracts.entity.domain.exercise.fields import (
     Candidate,
     HasAnswerText,
     HasExerciseDomainOption,

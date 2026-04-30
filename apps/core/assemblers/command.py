@@ -5,7 +5,7 @@ from typing import Generic, TypeVar
 from pydantic import Field
 
 from apps.users.models import Person
-from interfaces.schemas.base import ArbitraryDTO, BaseDTO
+from contracts.schemas.base import ArbitraryDTO, BaseDTO
 
 QueryType = TypeVar('QueryType')
 Validated = TypeVar('Validated')

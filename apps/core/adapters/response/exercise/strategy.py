@@ -4,8 +4,8 @@ import logging
 from typing import Generic, TypeVar, override
 
 from apps.core.adapters.response.protocol import AdapterProtocol
-from interfaces.entity.domain.exercise.fields import HasExerciseStatus
-from interfaces.enums.exercise import ExerciseStatus
+from contracts.entity.domain.exercise.fields import HasExerciseStatus
+from contracts.enums.exercise import ExerciseStatus
 
 RequestContext = TypeVar('RequestContext')
 DomainResult = TypeVar('DomainResult', bound=HasExerciseStatus)

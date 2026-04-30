@@ -2,10 +2,9 @@
 
 from typing import Protocol, TypeVar
 
-from apps.core.builders.protocol import Case_co
-from interfaces.entity.domain import general, params
-from interfaces.entity.domain.exercise import fields
-from interfaces.enums import exercise as enums
+from contracts.entity.domain import general, params
+from contracts.entity.domain.exercise import fields
+from contracts.enums import exercise as enums
 
 ExerciseConditionsT = TypeVar('ExerciseConditionsT')
 ExerciseConfigT = TypeVar('ExerciseConfigT')
@@ -13,6 +12,7 @@ ExerciseConfig_contra = TypeVar('ExerciseConfig_contra', contravariant=True)
 ExerciseSettingsT = TypeVar('ExerciseSettingsT')
 
 CandidateT = TypeVar('CandidateT', bound=fields.Candidate)
+Case_co = TypeVar('Case_co', covariant=True)
 OptionT = TypeVar('OptionT')
 Option_co = TypeVar('Option_co', covariant=True)
 

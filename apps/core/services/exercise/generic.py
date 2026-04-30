@@ -20,10 +20,10 @@ from apps.core.domains.exercise.test.dto import (
 from apps.core.domains.task.protocol import TaskBuilderProtocol
 from apps.core.repositories.protocol import UserRepositoryProtocol
 from apps.users.models import Person
-from interfaces import aliases
-from interfaces.entity.domain.exercise import fields
-from interfaces.entity.domain.params import HasConditions, HasConfig
-from interfaces.schemas.domain.exercise.dtos import (
+from contracts import aliases
+from contracts.entity.domain.exercise import fields
+from contracts.entity.domain.params import HasConditions, HasConfig
+from contracts.schemas.domain.exercise.dtos import (
     ExplainExerciseDomainResult,
 )
 

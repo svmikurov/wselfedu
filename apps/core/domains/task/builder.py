@@ -1,8 +1,8 @@
 """Exercise phase (definition / mean / random) orderer."""
 
-from interfaces.entity.domain.exercise import fields
-from interfaces.enums import DisplayOrder, ExerciseStatus
-from interfaces.schemas.domain.exercise.task import (
+from contracts.entity.domain.exercise import fields
+from contracts.enums import DisplayOrder, ExerciseStatus
+from contracts.schemas.domain.exercise.dtos import (
     PresentationTask,
 )
 

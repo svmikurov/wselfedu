@@ -2,8 +2,8 @@
 
 from typing import TypeVar
 
-from interfaces.schemas.base import BaseDTO
-from interfaces.schemas.domain.exercise.fields import (
+from contracts.schemas.base import BaseDTO
+from contracts.schemas.domain.exercise.fields import (
     AnswerTextField,
     ExerciseStatusField,
     IsCorrectAnswerField,

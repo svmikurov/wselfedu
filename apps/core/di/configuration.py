@@ -5,8 +5,8 @@ from typing import NamedTuple
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Configuration, Factory
 
-from interfaces.enums.exercise import DisplayOrder
-from interfaces.schemas.domain.exercise.progress import (
+from contracts.enums.exercise import DisplayOrder
+from contracts.schemas.domain.exercise.progress import (
     ProgressConfigDTO,
 )
 

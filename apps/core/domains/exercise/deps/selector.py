@@ -1,8 +1,8 @@
 """Domain resource selector."""
 
 from apps.core.exceptions import info
-from interfaces.aliases import CandidatesAlias
-from interfaces.entity.domain.exercise.fields import HasItemCount
+from contracts.aliases import CandidatesAlias
+from contracts.entity.domain.exercise.fields import HasItemCount
 
 from ..deps.abstract import AbstractSelector
 

@@ -15,7 +15,7 @@ from apps.core.handlers.protocol import (
     RequestContextProtocol,
 )
 from apps.core.parsers.protocol import RequestParamsQueryParserProtocol
-from interfaces.entity.general import NullProtocol
+from contracts.entity.general import NullProtocol
 
 from .abstract import AbstractAssembler
 from .command import (

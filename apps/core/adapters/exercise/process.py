@@ -7,7 +7,7 @@ from apps.core.assemblers.protocol import UserDataCommandProtocol
 from apps.core.domains.exercise.protocol import (
     HasExerciseAction,
 )
-from interfaces.schemas.domain.exercise.params import (
+from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
     ExerciseSpecDTO,
 )

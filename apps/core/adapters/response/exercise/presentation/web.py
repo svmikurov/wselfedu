@@ -9,14 +9,10 @@ from typing import override
 from django.template.loader import render_to_string
 
 from apps.core.adapters.response.abstract import AbstractResponseAdapter
-from interfaces import NullProtocol
-from interfaces.enums import ExerciseStatus
-from interfaces.schemas.domain.exercise.task import (
-    PresentationTask,
-)
-from interfaces.schemas.response.exercise import (
-    PresentationTaskResponse,
-)
+from contracts import NullProtocol
+from contracts.enums import ExerciseStatus
+from contracts.schemas.domain.exercise.dtos import PresentationTask
+from contracts.schemas.response.exercise import PresentationTaskResponse
 
 
 class PresentationTaskWebAdapter(

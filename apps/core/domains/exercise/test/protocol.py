@@ -2,7 +2,7 @@
 
 from typing import Protocol
 
-from interfaces.entity.domain.exercise import fields
+from contracts.entity.domain.exercise import fields
 
 
 class TestExerciseCaseProtocol(

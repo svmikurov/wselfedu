@@ -2,10 +2,10 @@
 
 from random import choice
 
-from interfaces import enums
-from interfaces.aliases import CandidatesAlias
-from interfaces.entity.domain.exercise import flow
-from interfaces.schemas.domain.exercise.dtos import (
+from contracts import enums
+from contracts.aliases import CandidatesAlias
+from contracts.entity.domain.exercise import flow
+from contracts.schemas.domain.exercise.dtos import (
     PresentationExerciseDomainResult,
 )
 

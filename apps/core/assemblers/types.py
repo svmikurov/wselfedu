@@ -8,7 +8,7 @@ from apps.core.handlers.protocol import (
     RequestContextProtocol,
     RequestDataProtocol,
 )
-from interfaces.entity.general import NullProtocol
+from contracts.entity.general import NullProtocol
 
 from .abstract import AbstractAssembler
 from .protocol import (

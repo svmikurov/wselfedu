@@ -2,12 +2,12 @@
 
 from typing import Generic, TypeVar
 
-from interfaces.schemas.base import (
+from contracts.schemas.base import (
     ArbitraryDTO,
     BaseDTO,
     ProtectDefaultStatusMixin,
 )
-from interfaces.schemas.domain.exercise.fields import (
+from contracts.schemas.domain.exercise.fields import (
     AnswerTextField,
     DefineField,
     ExerciseStatusField,
@@ -15,7 +15,7 @@ from interfaces.schemas.domain.exercise.fields import (
     OptionsField,
     QuestionTextField,
 )
-from interfaces.schemas.fields import (
+from contracts.schemas.fields import (
     ResourceIdentifierField,
     TextField,
     ValueField,
