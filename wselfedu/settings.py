@@ -269,6 +269,9 @@ if LOGGING_ON:
                 'format': '%(asctime)s [%(levelname)s] %(name)s\n%(message)s',
                 'datefmt': '%Y-%m-%d %H:%M:%S',
             },
+            'audit_format': {
+                'format': '%(asctime)s [AUDIT] %(message)s',
+            },
         },
         'handlers': {
             'sql_console': {
@@ -312,6 +315,21 @@ if LOGGING_ON:
                 'formatter': 'error_format',
                 'encoding': 'utf-8',
             },
+            'audit_history': {
+                'level': 'DEBUG',
+                'class': 'logging.handlers.RotatingFileHandler',
+                'filename': 'logs/audit_history.log',
+                'mode': 'a',
+                'maxBytes': LOG_FILE_SIZE,
+                'backupCount': LOG_FILE_BACKUP_COUNT,
+                'formatter': 'audit_format',
+                'encoding': 'utf-8',
+            },
+            'audit_console': {
+                'level': 'DEBUG',
+                'class': 'logging.StreamHandler',
+                'formatter': 'audit_format',
+            },
         },
         'loggers': {
             'django.db.backends': {
@@ -322,6 +340,11 @@ if LOGGING_ON:
             'decorated_error_file': {
                 'level': 'DEBUG',
                 'handlers': ['session_errors', 'history_errors'],
+                'propagate': False,
+            },
+            'audit': {
+                'level': 'DEBUG',
+                'handlers': ['audit_history'],
                 'propagate': False,
             },
         },
