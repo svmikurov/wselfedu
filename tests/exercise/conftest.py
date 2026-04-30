@@ -11,13 +11,13 @@ from apps.lang.repositories.exercise.candidates.translations import (
     UserTranslationsRepository,
 )
 from apps.users.models import Person
-from di import MainContainer
-from interfaces.enums.exercise import ExerciseAction
-from interfaces.schemas.base import NullDTO
-from interfaces.schemas.domain.exercise.params import (
+from contracts.enums.exercise import ExerciseAction
+from contracts.schemas.base import NullDTO
+from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
 )
-from interfaces.schemas.request.exercise import ExerciseRequestDTO
+from contracts.schemas.request.exercise import ExerciseRequestDTO
+from di import MainContainer
 
 from .._types.handler import (
     HandlerT,

@@ -2,6 +2,6 @@
 
 from typing import TypeAlias
 
-from interfaces.entity.domain.exercise.fields import Candidates
+from contracts.entity.domain.exercise.fields import Candidates
 
 TranslationCandidates: TypeAlias = Candidates

@@ -15,7 +15,7 @@ from apps.core.resolvers.protocol import ResolverProtocol
 from apps.core.services.protocol import UserServiceProtocol
 from apps.core.storages.services.protocol import CommandStorageProtocol
 from apps.core.use_cases.protocol import UseCaseProtocol
-from interfaces.entity.domain.exercise import fields
+from contracts.entity.domain.exercise import fields
 
 # =================================================
 # DTOs

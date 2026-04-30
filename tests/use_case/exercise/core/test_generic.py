@@ -17,8 +17,8 @@ def test_execute_new_case_command(
     create_command: CommandT,
     mock_params: Mock,
     mock_spec: Mock,
-    mock_domain_result: Mock,
-    current_case: Mock,
+    mock_case: Mock,
+    domain_result: Mock,
     # Use case's dependencies
     mock_empty_storage: Mock,
     mock_create_adapter: Mock,
@@ -46,16 +46,16 @@ def test_execute_new_case_command(
         mock_spec,
     )
     mock_create_builder.build.assert_called_once_with(
-        mock_domain_result,
+        mock_case,
         mock_spec,
     )
     mock_empty_storage.save.assert_called_once_with(
         create_command,
-        current_case,
+        domain_result,
         STORE_PREFIX,
     )
     mock_create_builder.build.assert_called_once_with(
-        mock_domain_result,
+        mock_case,
         mock_spec,
     )
 

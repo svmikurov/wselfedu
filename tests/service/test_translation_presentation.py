@@ -24,15 +24,15 @@ from apps.lang.repositories.exercise.candidates.translations import (
     UserTranslationsRepository,
 )
 from apps.users.models import Person
-from interfaces import aliases
-from interfaces.entity.domain.exercise.fields import (
+from contracts import aliases
+from contracts.entity.domain.exercise.fields import (
     HasExerciseStatus,
 )
-from interfaces.entity.domain.params import (
+from contracts.entity.domain.params import (
     HasConditions,
     HasConfig,
 )
-from interfaces.schemas.domain.exercise.params import (
+from contracts.schemas.domain.exercise.params import (
     ExerciseSpecDTO,
 )
 

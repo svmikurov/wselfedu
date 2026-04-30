@@ -13,8 +13,8 @@ from apps.core.domains.exercise.presentation.protocol import (
 )
 from apps.core.use_cases.protocol import UseCaseProtocol
 from apps.lang.models import EnglishTranslation
-from interfaces.enums.exercise import ExerciseAction
-from interfaces.schemas.request.exercise import ExerciseRequestDTO
+from contracts.enums.exercise import ExerciseAction
+from contracts.schemas.request.exercise import ExerciseRequestDTO
 
 if TYPE_CHECKING:
     from apps.lang.di.use_case.container import UseCaseContainer

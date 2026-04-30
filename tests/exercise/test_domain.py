@@ -11,9 +11,9 @@ from apps.core.domains.exercise.deps.selector import CandidatesSelector
 from apps.core.domains.exercise.presentation.impl import PresentationDomain
 from apps.core.domains.exercise.test.impl import TestDomain
 from apps.lang.models import EnglishTranslation
-from interfaces.entity.domain.exercise.fields import Candidates
-from interfaces.schemas.domain.exercise import dtos
-from interfaces.schemas.domain.exercise.params import ExerciseParametersDTO
+from contracts.entity.domain.exercise.fields import Candidates
+from contracts.schemas.domain.exercise import dtos
+from contracts.schemas.domain.exercise.params import ExerciseParametersDTO
 from tests._types import DomainT, OptionsDomainT
 
 _CandidatesT = QuerySet[EnglishTranslation]

@@ -10,13 +10,13 @@ from apps.core.handlers.dto import RequestData
 from apps.core.validators.request.exercise.create_task import (
     CreateExerciseTaskValidator,
 )
-from interfaces.enums.exercise import ExerciseAction
-from interfaces.schemas.request.exercise import ExerciseRequestDTO
+from contracts.enums.exercise import ExerciseAction
+from contracts.schemas.request.exercise import ExerciseRequestDTO
 
 if TYPE_CHECKING:
     from apps.core.handlers.protocol import RequestDataProtocol
     from apps.core.validators.request.protocol import RequestValidatorProtocol
-    from interfaces.entity.domain.general import (
+    from contracts.entity.domain.general import (
         ActionTyped,
         HasAction,
     )

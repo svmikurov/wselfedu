@@ -19,9 +19,9 @@ from apps.core.services.exercise.protocol import ExerciseServiceProtocol
 from apps.core.use_cases.protocol import UseCaseProtocol
 from apps.core.validators.request.protocol import RequestValidatorProtocol
 from apps.lang.models import EnglishTranslation
-from interfaces.entity.domain.exercise.fields import Candidates, HasDomain
-from interfaces.entity.general import NullProtocol
-from interfaces.schemas.domain.exercise.dtos import (
+from contracts.entity.domain.exercise.fields import Candidates, HasDomain
+from contracts.entity.general import NullProtocol
+from contracts.schemas.domain.exercise.dtos import (
     PresentationExerciseDomainResult,
     TestExerciseDomainResult,
 )

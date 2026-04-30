@@ -18,8 +18,8 @@ from apps.lang.repositories.exercise.params.translation_presentation import (
     RegularTranslationPresentationRepository,
 )
 from apps.users.models import Person
-from interfaces import NullProtocol
-from interfaces.schemas.base import NullDTO
+from contracts import NullProtocol
+from contracts.schemas.base import NullDTO
 
 _RepositoryT = UserRepositoryProtocol[NullProtocol, ExerciseParametersProtocol]
 

@@ -13,9 +13,9 @@ from apps.core.builders.exercise import case
 from apps.core.services.exercise.generic import CreateExerciseService
 from apps.lang.models import EnglishTranslation
 from apps.users.models import Person
-from interfaces import enums
-from interfaces.schemas.domain.exercise import dtos
-from interfaces.schemas.domain.exercise.params import (
+from contracts import enums
+from contracts.schemas.domain.exercise import dtos
+from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
 )
 from tests._types import DomainT, RepositoryT, ServiceT, TaskBuilderT
@@ -116,21 +116,21 @@ def test_presentation_service_result_dto(
 ) -> None:
     """Test the presentation domain result DTO."""
     # Act
-    res = presentation_service.execute(mock_user, exercise_params)
+    case = presentation_service.execute(mock_user, exercise_params)
 
     # Assert
     # - Case builder result DTO has fields
-    assert hasattr(res, 'status')
-    assert hasattr(res, 'domain')
+    assert hasattr(case, 'status')
+    assert hasattr(case, 'domain')
 
     # - Case builder result DTO has nested fields
-    assert hasattr(res.domain, 'exercise_kind')
-    assert hasattr(res.domain, 'status')
-    assert hasattr(res.domain, 'option')
+    assert hasattr(case.domain, 'exercise_kind')
+    assert hasattr(case.domain, 'status')
+    assert hasattr(case.domain, 'option')
 
     # - Presentation exercise domain result DTO is instance of
-    assert isinstance(res, dtos.ExerciseCase)
-    assert isinstance(res.domain, dtos.PresentationExerciseDomainResult)
+    assert isinstance(case, dtos.ExerciseCase)
+    assert isinstance(case.domain, dtos.PresentationExerciseDomainResult)
 
 
 @pytest.mark.django_db
@@ -141,19 +141,19 @@ def test_test_exercise_service_result_dto(
 ) -> None:
     """Test the test domain result DTO."""
     # Act
-    res = test_service.execute(mock_user, exercise_params)
+    case = test_service.execute(mock_user, exercise_params)
 
     # Assert
     # - Case builder result DTO has fields
-    assert hasattr(res, 'status')
-    assert hasattr(res, 'domain')
+    assert hasattr(case, 'status')
+    assert hasattr(case, 'domain')
 
     # - Case builder result DTO has nested fields
-    assert hasattr(res.domain, 'exercise_kind')
-    assert hasattr(res.domain, 'status')
-    assert hasattr(res.domain, 'option_value')
-    assert hasattr(res.domain, 'options')
+    assert hasattr(case.domain, 'exercise_kind')
+    assert hasattr(case.domain, 'status')
+    assert hasattr(case.domain, 'option_value')
+    assert hasattr(case.domain, 'options')
 
     # - Presentation exercise domain result DTO is instance of
-    assert isinstance(res, dtos.ExerciseCase)
-    assert isinstance(res.domain, dtos.TestExerciseDomainResult)
+    assert isinstance(case, dtos.ExerciseCase)
+    assert isinstance(case.domain, dtos.TestExerciseDomainResult)

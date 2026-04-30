@@ -13,9 +13,9 @@ from apps.lang.models import ExerciseConditions, TranslationConfiguration
 from apps.lang.repositories.legacy.exercise.conditions import (
     RegularParametersRepository,
 )
-from interfaces.entity.general import NullProtocol
-from interfaces.enums.exercise import ExerciseKind
-from interfaces.schemas.domain.exercise.params import (
+from contracts.entity.general import NullProtocol
+from contracts.enums.exercise import ExerciseKind
+from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
 )
 

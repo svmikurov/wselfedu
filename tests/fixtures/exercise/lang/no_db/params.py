@@ -7,7 +7,7 @@ from apps.core.domains.exercise.protocol import (
     ExerciseConfigProtocol,
     ExerciseSettingsProtocol,
 )
-from interfaces.schemas.domain.exercise.params import (
+from contracts.schemas.domain.exercise.params import (
     ExerciseConfigDTO,
     ExerciseSettingsDTO,
     LookupConditionsDTO,

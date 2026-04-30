@@ -9,8 +9,8 @@ from apps.lang.repositories.exercise.candidates.translations import (
     UserTranslationsRepository,
 )
 from apps.users.models import Person
-from interfaces import NullProtocol
-from interfaces.schemas.base import NullDTO
+from contracts import NullProtocol
+from contracts.schemas.base import NullDTO
 
 from .._types.resource import TranslationCandidates
 

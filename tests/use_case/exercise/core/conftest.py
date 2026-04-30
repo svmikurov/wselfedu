@@ -9,15 +9,15 @@ from apps.core.exceptions.storage import StorageMissError
 from apps.core.services.protocol import UserServiceProtocol
 from apps.core.use_cases.exercise.generic import ExerciseUseCaseStrategy
 from apps.users.models import Person
-from interfaces.entity.domain.exercise import flow
-from interfaces.enums.exercise import (
+from contracts.entity.domain.exercise import flow
+from contracts.enums.exercise import (
     ExerciseAction,
     ExerciseStatus,
 )
-from interfaces.schemas.domain.exercise.params import (
+from contracts.schemas.domain.exercise.params import (
     ExerciseSpecDTO,
 )
-from interfaces.schemas.request.exercise import ExerciseRequestDTO
+from contracts.schemas.request.exercise import ExerciseRequestDTO
 
 from ._types import (
     AdapterT,
@@ -62,8 +62,8 @@ def stored_case() -> CaseT:
 
 
 @pytest.fixture
-def current_case() -> CaseT:
-    """Provide current case mock."""
+def domain_result() -> CaseT:
+    """Provide exercise domain result mock."""
     return Mock(spec=flow.ExerciseDomainResultProtocol)
 
 
@@ -80,13 +80,13 @@ def mock_spec() -> Mock:
 
 
 @pytest.fixture
-def mock_domain_result(
-    current_case: Mock,
+def mock_case(
+    domain_result: Mock,
 ) -> Mock:
-    """Provide spec mock."""
-    mock = Mock(spec=flow.ExerciseDomainResultProtocol)
+    """Provide exercise case mock."""
+    mock = Mock(spec=flow.ExerciseCaseProtocol)
     mock.status = ExerciseStatus.NEW_TASK
-    mock.case = current_case
+    mock.domain = domain_result
     return mock
 
 
@@ -144,11 +144,11 @@ def mock_create_adapter(mock_spec: Mock) -> AdapterT:
 
 @pytest.fixture
 def mock_create_service(
-    mock_domain_result: Mock,
+    mock_case: Mock,
 ) -> ServiceT:
     """Provide create exercise case service mock."""
     mock = Mock(spec=UserServiceProtocol)
-    mock.execute.return_value = mock_domain_result
+    mock.execute.return_value = mock_case
     return mock
 
 

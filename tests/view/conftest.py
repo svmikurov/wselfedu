@@ -9,9 +9,9 @@ import pytest
 from django.test import RequestFactory
 
 from apps.core.handlers import RequestHandler
-from interfaces.enums.exercise import ExerciseStatus
-from interfaces.schemas.base import NullDTO
-from interfaces.schemas.response.generic import ResponseDTO
+from contracts.enums.exercise import ExerciseStatus
+from contracts.schemas.base import NullDTO
+from contracts.schemas.response.generic import ResponseDTO
 
 if TYPE_CHECKING:
     from django.core.handlers.wsgi import WSGIRequest

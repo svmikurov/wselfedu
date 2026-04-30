@@ -2,7 +2,7 @@
 
 import pytest
 
-from interfaces.aliases import CandidatesAlias
+from contracts.aliases import CandidatesAlias
 
 from .._types.handler import (
     HandlerT,
