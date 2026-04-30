@@ -1,42 +1,32 @@
 """Protocol for DTO builder."""
 
-from abc import abstractmethod
-from typing import Protocol, TypeVar
+from typing import Protocol
 
-from interfaces.entity.domain.exercise.fields import HasExerciseStatus
-
-Candidate_contra = TypeVar('Candidate_contra', contravariant=True)
-Case_co = TypeVar('Case_co', covariant=True)
-Case_contra = TypeVar('Case_contra', contravariant=True)
-
-DomainT_contra = TypeVar('DomainT_contra', contravariant=True)
-SpecT_contra = TypeVar('SpecT_contra', contravariant=True)
-Task_co = TypeVar('Task_co', bound=HasExerciseStatus, covariant=True)
+from . import aliases
 
 
-class DtoBuilderProtocol(Protocol[Candidate_contra, Case_co]):
-    """Protocol for exercise case DTO builder."""
+class DtoBuilderProtocol(Protocol[aliases.DTO_contra, aliases.DTO_co]):
+    """Protocol for a DTO builder interface."""
 
-    @abstractmethod
     def build(
         self,
-        data: Candidate_contra,
-    ) -> Case_co:
-        """Build exercise case DTO."""
+        data: aliases.DTO_contra,
+    ) -> aliases.DTO_co:
+        """Build the DTO."""
 
 
 class SpecDtoBuilderProtocol(
     Protocol[
-        Case_contra,
-        SpecT_contra,
-        Task_co,
+        aliases.DTO_contra,
+        aliases.Spec_contra,
+        aliases.DTO_co,
     ]
 ):
-    """Protocol for DTO builder by specification."""
+    """Protocol for a DTO builder that follows the specification."""
 
     def build(
         self,
-        data: Case_contra,
-        spec: SpecT_contra,
-    ) -> Task_co:
-        """Build exercise task DTO."""
+        data: aliases.DTO_contra,
+        spec: aliases.Spec_contra,
+    ) -> aliases.DTO_co:
+        """Build a DTO according to the specification."""

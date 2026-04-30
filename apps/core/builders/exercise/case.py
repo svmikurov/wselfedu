@@ -2,8 +2,8 @@
 
 from typing import TypeVar
 
-from interfaces.entity.domain.exercise import fields, flow
-from interfaces.schemas.domain.exercise import dtos
+from contracts.entity.domain.exercise import fields, flow
+from contracts.schemas.domain.exercise import dtos
 
 from ..protocol import SpecDtoBuilderProtocol
 

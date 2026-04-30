@@ -1,14 +1,10 @@
 """Exercise task DTO builder."""
 
-from typing import TypeVar
+from contracts.entity.domain.exercise import flow
+from contracts.schemas.domain.exercise import dtos
 
-from interfaces.entity.domain.exercise import flow
-from interfaces.schemas.domain.exercise import dtos
-from interfaces.schemas.domain.exercise.task import PresentationTask
-
+from ..aliases import SpecT
 from ..protocol import SpecDtoBuilderProtocol
-
-SpecT = TypeVar('SpecT')
 
 
 class ExercisePresentationBuilder(
@@ -27,7 +23,7 @@ class ExercisePresentationBuilder(
     ) -> flow.PresentationTaskProtocol:
         """Build presentation exercise task DTO."""
         option = data.domain.option
-        return PresentationTask(
+        return dtos.PresentationTask(
             status=data.status,
             question_text=option.define,
             answer_text=option.mean,
@@ -50,7 +46,7 @@ class TestExerciseTaskBuilder(
         spec: SpecT,
     ) -> flow.TestTaskProtocol:
         """Build test exercise task DTO."""
-        return dtos.TestTask(
+        return dtos.TestExerciseTask(
             status=data.status,
             option_value=data.domain.option_value,
             options=data.domain.options,
