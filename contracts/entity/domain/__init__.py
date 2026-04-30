@@ -1,0 +1,1 @@
+"""Domain's protocols."""
