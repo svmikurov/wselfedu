@@ -12,9 +12,11 @@
   {% trans "lang.page.translation.test.header" as header %}
   {% include "components/header_block.html" with header=header %}
 
+  {{ context }}
+
   {# Target to insert exercise partial template #}
   <div id="exercise-block">
-    {{ exercise_case_html }}
+    {{ initial_html }}
   </div>
 
 </main>

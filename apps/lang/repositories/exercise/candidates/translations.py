@@ -7,7 +7,7 @@ from django.db.models import F, Manager, QuerySet
 from apps.core.repositories.abstract import AbstractUserFetchRepository
 from apps.lang.models import EnglishTranslation
 from apps.users.models import Person
-from interfaces import NullProtocol
+from contracts import NullProtocol
 
 FilterT = TypeVar('FilterT')
 ResultT = QuerySet[EnglishTranslation]

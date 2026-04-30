@@ -21,7 +21,7 @@ HANDLERS = MainContainer.lang.handlers
 
 
 class RegularTranslationTestPerformView(
-    ExercisePerformView[HandlerT, ResponseDtoT],
+    ExercisePerformView[HandlerT, ResponseDtoT],  # type: ignore
     ExerciseLoopMixin,
 ):
     """Regular translation test exercise performing view."""

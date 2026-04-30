@@ -13,6 +13,7 @@ from dependency_injector.providers import (
 from apps.core.adapters.exercise.process import (
     ExerciseProcessAdapter,
 )
+from apps.core.builders.exercise.case import ExerciseCaseBuilder
 from apps.core.builders.exercise.task import (
     ExercisePresentationBuilder,
     TestExerciseTaskBuilder,
@@ -30,12 +31,12 @@ from apps.core.services.exercise.generic import (
 from apps.core.use_cases.exercise.generic import (
     ExerciseUseCaseStrategy,
 )
-from interfaces.enums.exercise import (
+from contracts.enums.exercise import (
     ExerciseAction,
     ExerciseKind,
     ExerciseStatus,
 )
-from interfaces.schemas.domain.exercise.params import (
+from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
     TestExerciseConfigDTO,
 )
@@ -59,9 +60,7 @@ class UseCaseContainer(DeclarativeContainer):
 
     regular_translation_presentation_adapter_registry = Dict(
         {
-            ExerciseAction.CREATE_TASK: Factory(
-                ExerciseProcessAdapter,
-            )
+            ExerciseAction.CREATE_TASK: Factory(ExerciseProcessAdapter),
         },
     )
     regular_translation_presentation_service_registry = Dict(
@@ -73,17 +72,13 @@ class UseCaseContainer(DeclarativeContainer):
                     PresentationDomain,
                     selector=Factory(CandidatesSelector),
                 ),
-                builder=Factory(
-                    ExercisePresentationBuilder,
-                ),
+                builder=Factory(ExerciseCaseBuilder),
             ),
         },
     )
     regular_translation_presentation_builder_registry = Dict(
         {
-            ExerciseStatus.NEW_TASK: Factory(
-                ExercisePresentationBuilder,
-            ),
+            ExerciseStatus.NEW_TASK: Factory(ExercisePresentationBuilder),
         },
     )
 
@@ -114,9 +109,7 @@ class UseCaseContainer(DeclarativeContainer):
 
     regular_translation_test_adapter_registry = Dict(
         {
-            ExerciseAction.CREATE_TASK: Factory(
-                ExerciseProcessAdapter,
-            )
+            ExerciseAction.CREATE_TASK: Factory(ExerciseProcessAdapter),
         },
     )
     regular_translation_test_service_registry = Dict(
@@ -128,17 +121,13 @@ class UseCaseContainer(DeclarativeContainer):
                     TestDomain,
                     selector=Factory(CandidatesSelector),
                 ),
-                builder=Factory(
-                    TestExerciseTaskBuilder,
-                ),
+                builder=Factory(ExerciseCaseBuilder),
             ),
         },
     )
     regular_translation_test_builder_registry = Dict(
         {
-            ExerciseStatus.NEW_TASK: Factory(
-                TestExerciseTaskBuilder,
-            ),
+            ExerciseStatus.NEW_TASK: Factory(TestExerciseTaskBuilder),
         },
     )
 

@@ -29,7 +29,8 @@ from apps.core.validators.request.null import NullValidator
 from apps.lang.factories.lockup_factory import UserTranslationLookupFactory
 from apps.lang.models import EnglishTranslation
 from apps.lang.repositories.translation.fetch import TranslationListRepository
-from interfaces.enums.exercise import ExerciseStatus
+from contracts.enums.exercise import ExerciseStatus
+from utils.audit import HandlerAuditor
 
 
 class WebHandlerContainer(DeclarativeContainer):
@@ -41,6 +42,12 @@ class WebHandlerContainer(DeclarativeContainer):
     use_cases = DependenciesContainer()
 
     user_command_storage = Dependency()  # type: ignore
+
+    # =============================================
+    # Internal dependencies
+    # ---------------------------------------------
+
+    auditor = Factory(HandlerAuditor)
 
     # =============================================
     # Regular translation presentation
@@ -91,6 +98,7 @@ class WebHandlerContainer(DeclarativeContainer):
             ProcessExerciseAdapterStrategy,
             registry=presentation_adapter_registries,
         ),
+        auditor=auditor,
     )
 
     # =============================================
@@ -122,6 +130,7 @@ class WebHandlerContainer(DeclarativeContainer):
             ProcessExerciseAdapterStrategy,
             registry=web_test_exercise_adapter_registry,
         ),
+        auditor=auditor,
     )
 
     # QUESTION: Is deprecated?

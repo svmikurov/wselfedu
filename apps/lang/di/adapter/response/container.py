@@ -6,7 +6,7 @@ from dependency_injector.providers import Dict, Factory
 from apps.core.adapters.response.exercise.strategy import (
     ProcessExerciseAdapterStrategy,
 )
-from interfaces.enums import ExerciseStatus
+from contracts.enums import ExerciseStatus
 
 
 class WebResponseAdapterContainer(DeclarativeContainer):

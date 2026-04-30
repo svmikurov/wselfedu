@@ -9,7 +9,7 @@ from dependency_injector.providers import (
 from apps.core.resolvers.exercise.config_resolver import (
     ExerciseConfigurationResolver,
 )
-from interfaces.enums.exercise import ExerciseKind
+from contracts.enums.exercise import ExerciseKind
 
 
 class ConfigurationContainer(DeclarativeContainer):

@@ -8,7 +8,7 @@ from apps.lang import types
 from apps.lang.repositories import ProgressRepositoryABC
 from apps.lang.schemas import dto
 from apps.users.models import Person
-from interfaces.schemas.domain.exercise.progress import (
+from contracts.schemas.domain.exercise.progress import (
     ProgressConfigDTO,
 )
 

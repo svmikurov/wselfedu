@@ -8,13 +8,13 @@ from apps.core.handlers.protocol import (
     RequestContextProtocol,
     RequestDataProtocol,
 )
-from interfaces import NullProtocol
-from interfaces.entity.domain.general import HasAction
-from interfaces.enums.exercise import (
+from contracts import NullProtocol
+from contracts.entity.domain.general import HasAction
+from contracts.enums.exercise import (
     ExerciseAction,
     ExerciseStatus,
 )
-from interfaces.schemas.response.generic import OobResponseDTO
+from contracts.schemas.response.generic import OobResponseDTO
 
 type ResponseDtoT = OobResponseDTO[
     ExerciseStatus,

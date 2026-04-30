@@ -12,9 +12,9 @@ from apps.lang.models import (
     TranslationConfiguration,
 )
 from apps.users.models import Person
-from interfaces import NullProtocol
-from interfaces.enums.exercise import DisplayOrder
-from interfaces.schemas.domain.exercise.params import (
+from contracts import NullProtocol
+from contracts.enums.exercise import DisplayOrder
+from contracts.schemas.domain.exercise.params import (
     ExerciseConfigDTO,
     ExerciseParametersDTO,
     ExerciseSettingsDTO,
