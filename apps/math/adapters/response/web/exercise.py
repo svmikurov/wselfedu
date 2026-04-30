@@ -16,10 +16,10 @@ from apps.math.domains.dto import (
     StudentCalculationDTO,
     StudentExerciseDTO,
 )
-from interfaces import NullProtocol
-from interfaces.entity.domain.exercise import fields
-from interfaces.enums.exercise import ExerciseStatus
-from interfaces.schemas.response.generic import (
+from contracts import NullProtocol
+from contracts.entity.domain.exercise import fields
+from contracts.enums.exercise import ExerciseStatus
+from contracts.schemas.response.generic import (
     OobResponseDTO,
     ResponseDTO,
 )
