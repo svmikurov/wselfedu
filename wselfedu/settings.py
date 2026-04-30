@@ -344,6 +344,11 @@ if LOGGING_ON:
             },
             'audit': {
                 'level': 'DEBUG',
+                'handlers': ['audit_console', 'audit_history'],
+                'propagate': False,
+            },
+            'audit_history': {
+                'level': 'DEBUG',
                 'handlers': ['audit_history'],
                 'propagate': False,
             },
