@@ -13,7 +13,7 @@ Adapted = TypeVar('Adapted')
 
 __all__ = ('ProcessExerciseAdapterStrategy',)
 
-log = logging.getLogger(__name__)
+log = logging.getLogger('audit')
 
 
 class ProcessExerciseAdapterStrategy(
@@ -49,4 +49,9 @@ class ProcessExerciseAdapterStrategy(
         except KeyError:
             log.error('Adapter strategy error')
             raise
-        return adapter.to_response(domain_result, request_context)
+
+        adapted = adapter.to_response(domain_result, request_context)
+        log.debug(
+            f'Applied {type(adapter).__module__}.{type(adapter).__name__}'
+        )
+        return adapted
