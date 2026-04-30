@@ -85,20 +85,6 @@ class RequestResultProtocol(Protocol[ResultContext]):
     context: ResultContext
 
 
-class HasOob(Protocol):
-    """Protocol for has Out Of Bound interface."""
-
-    oob_html: str
-
-
-class OobResultProtocol(
-    HasOob,
-    RequestResultProtocol[ResultContext],
-    Protocol,
-):
-    """Protocol for response result DTO with OOB content."""
-
-
 # ===============================================
 # Handler's dependencies
 # ===============================================
