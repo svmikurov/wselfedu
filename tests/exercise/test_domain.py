@@ -12,7 +12,7 @@ from apps.core.domains.exercise.presentation.impl import PresentationDomain
 from apps.core.domains.exercise.test.impl import TestDomain
 from apps.lang.models import EnglishTranslation
 from contracts.entity.domain.exercise.fields import Candidates
-from contracts.schemas.domain.exercise import dtos
+from contracts.schemas.domain.exercise import flow
 from contracts.schemas.domain.exercise.params import ExerciseParametersDTO
 from tests._types import DomainT, OptionsDomainT
 
@@ -61,7 +61,7 @@ def test_presentation_domain_result(
     assert isinstance(res.option, Model)
 
     # - Presentation exercise domain result DTO is instance of
-    assert isinstance(res, dtos.PresentationExerciseDomainResult)
+    assert isinstance(res, flow.PresentationExerciseDomainResult)
 
 
 @pytest.mark.django_db
@@ -84,4 +84,4 @@ def test_test_exercise_domain_result(
     assert isinstance(res.options, list)
 
     # - Test exercise domain result DTO is instance of
-    assert isinstance(res, dtos.TestExerciseDomainResult)
+    assert isinstance(res, flow.TestExerciseDomainResult)

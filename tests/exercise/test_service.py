@@ -14,7 +14,7 @@ from apps.core.services.exercise.generic import CreateExerciseService
 from apps.lang.models import EnglishTranslation
 from apps.users.models import Person
 from contracts import enums
-from contracts.schemas.domain.exercise import dtos
+from contracts.schemas.domain.exercise import flow
 from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
 )
@@ -51,7 +51,7 @@ def mock_presentation_domain(
 ) -> _DomainT:
     """Provide presentation exercise domain mock."""
     mock = Mock(spec=_DomainT)
-    mock.execute.return_value = dtos.PresentationExerciseDomainResult(
+    mock.execute.return_value = flow.PresentationExerciseDomainResult(
         status=enums.ExerciseStatus.NEW_TASK,
         exercise_kind=enums.ExerciseKind.PRESENTATION,
         option=candidates_db[0],
@@ -65,9 +65,9 @@ def mock_test_domain(
 ) -> _DomainT:
     """Provide test exercise domain mock."""
     mock = Mock(spec=_DomainT)
-    mock.execute.return_value = dtos.TestExerciseDomainResult(
+    mock.execute.return_value = flow.TestExerciseDomainResult(
         status=enums.ExerciseStatus.NEW_TASK,
-        option_value=1,
+        question_option_value=1,
         exercise_kind=enums.ExerciseKind.TEST,
         options=candidates_db,
     )
@@ -129,8 +129,8 @@ def test_presentation_service_result_dto(
     assert hasattr(case.domain, 'option')
 
     # - Presentation exercise domain result DTO is instance of
-    assert isinstance(case, dtos.ExerciseCase)
-    assert isinstance(case.domain, dtos.PresentationExerciseDomainResult)
+    assert isinstance(case, flow.ExerciseCase)
+    assert isinstance(case.domain, flow.PresentationExerciseDomainResult)
 
 
 @pytest.mark.django_db
@@ -151,9 +151,9 @@ def test_test_exercise_service_result_dto(
     # - Case builder result DTO has nested fields
     assert hasattr(case.domain, 'exercise_kind')
     assert hasattr(case.domain, 'status')
-    assert hasattr(case.domain, 'option_value')
+    assert hasattr(case.domain, 'question_option_value')
     assert hasattr(case.domain, 'options')
 
     # - Presentation exercise domain result DTO is instance of
-    assert isinstance(case, dtos.ExerciseCase)
-    assert isinstance(case.domain, dtos.TestExerciseDomainResult)
+    assert isinstance(case, flow.ExerciseCase)
+    assert isinstance(case.domain, flow.TestExerciseDomainResult)

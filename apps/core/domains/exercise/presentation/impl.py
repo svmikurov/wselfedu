@@ -5,7 +5,7 @@ from random import choice
 from contracts import enums
 from contracts.aliases import CandidatesAlias
 from contracts.entity.domain.exercise import flow
-from contracts.schemas.domain.exercise.dtos import (
+from contracts.schemas.domain.exercise.flow import (
     PresentationExerciseDomainResult,
 )
 

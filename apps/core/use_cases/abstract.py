@@ -5,6 +5,8 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import TypeVar, override
 
+from utils.audit.mixins import BaseAuditable
+
 from .protocol import UseCaseProtocol
 
 __all__ = ('AbstractUseCase',)
@@ -14,6 +16,7 @@ ResultT = TypeVar('ResultT')
 
 
 class AbstractUseCase(
+    BaseAuditable,
     ABC,
     UseCaseProtocol[CommandT, ResultT],
 ):

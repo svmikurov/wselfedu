@@ -26,12 +26,12 @@ class TestTranslationPresentationView:
         self,
         request_get_method: WSGIRequest,
         handlers: WebHandlerContainer,
-        mock_handler_create_action: Mock,
+        mock_create_exercise_action_handler: Mock,
     ) -> None:
         """Test GET request success with request handler mock."""
         # Act
         with handlers.process_regular_translation_presentation.override(  # type: ignore[unused-ignore]
-            mock_handler_create_action,
+            mock_create_exercise_action_handler,
         ):
             response = TranslationPresentationView.as_view()(
                 request_get_method,
@@ -44,12 +44,12 @@ class TestTranslationPresentationView:
         self,
         request_post_method: WSGIRequest,
         handlers: WebHandlerContainer,
-        mock_handler_create_action: Mock,
+        mock_create_exercise_action_handler: Mock,
     ) -> None:
         """Test POST request success with request handler mock."""
         # Act
         with handlers.process_regular_translation_presentation.override(  # type: ignore[unused-ignore]
-            mock_handler_create_action
+            mock_create_exercise_action_handler
         ):
             response = TranslationPresentationView.as_view()(
                 request_post_method,

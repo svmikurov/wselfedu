@@ -23,9 +23,10 @@ from apps.users.models import Person
 from contracts import aliases
 from contracts.entity.domain.exercise import fields
 from contracts.entity.domain.params import HasConditions, HasConfig
-from contracts.schemas.domain.exercise.dtos import (
+from contracts.schemas.domain.exercise.flow import (
     ExplainExerciseDomainResult,
 )
+from utils.audit.protocol import AuditorProtocol
 
 from .abstract import AbstractExerciseService
 
@@ -76,8 +77,13 @@ class CreateExerciseService(
             ExerciseConfigProtocol,
             ResultT,
         ],
+        *args: object,
+        name: str | None = None,
+        auditor: AuditorProtocol | None = None,
+        **kwargs: object,
     ) -> None:
         """Construct the service."""
+        super().__init__(name=name, auditor=auditor)
         self._repository = candidates_repository
         self._domain = domain
         self._builder = builder
@@ -152,10 +158,10 @@ class ExplainExerciseService(
             question_text=case_meta.question_text,
             answer_text=case_meta.answer_text,
             selected_question_text=case_meta.get_question_text(
-                command.data.option_value
+                command.data.question_option_value
             ),
             selected_answer_text=case_meta.get_answer_text(
-                command.data.option_value,
+                command.data.question_option_value,
             ),
         )
         assert explain

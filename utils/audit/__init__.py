@@ -1,5 +1,5 @@
 """Audit utils."""
 
-__all__ = ('HandlerAuditor',)
+__all__ = ('Auditor',)
 
-from .impl import HandlerAuditor
+from .impl import Auditor

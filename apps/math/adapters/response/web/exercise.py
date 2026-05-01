@@ -19,7 +19,7 @@ from apps.math.domains.dto import (
 from contracts import NullProtocol
 from contracts.entity.domain.exercise import fields
 from contracts.enums.exercise import ExerciseStatus
-from contracts.schemas.response.generic import (
+from interfaces.schemas.response.web.generic import (
     OobResponseDTO,
     ResponseDTO,
 )

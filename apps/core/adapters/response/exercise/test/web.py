@@ -1,20 +1,22 @@
 """Test exercise response adapters."""
 
-from typing import Any, Generic, TypeAlias, TypeVar, override
+from typing import Any, Generic, Iterable, TypeAlias, TypeVar, override
 
 from django.template.loader import render_to_string
 
 from apps.core.adapters.response.abstract import AbstractResponseAdapter
 from apps.core.adapters.response.status import ResponseStatusEnum
 from apps.core.domains.exercise.test.dto import TestExerciseCase
-from apps.lang.models import EnglishTranslation
 from contracts import NullProtocol
 from contracts.entity.response.base import OobResponseProtocol
-from contracts.enums import ExerciseStatus
-from contracts.schemas.response import TestExerciseTaskResponse
-from contracts.schemas.response.generic import OobResponseDTO
+from contracts.schemas.domain.exercise.flow import TestExerciseTask
+from interfaces.schemas.domain.exercise import Option
+from interfaces.schemas.response.web import exercise as interfaces
+from interfaces.schemas.response.web.generic import OobResponseDTO
+from utils.audit.mixins import BaseAuditable
+from utils.audit.protocol import AuditorProtocol
 
-ExtraContext = TypeVar('ExtraContext')
+ExtraContext = TypeVar('ExtraContext', bound=Iterable[Any])
 T = TypeVar('T')
 
 _ResponseDTO: TypeAlias = OobResponseDTO[
@@ -25,10 +27,11 @@ _ResponseDTO: TypeAlias = OobResponseDTO[
 
 
 class WebTestExerciseAdapter(
+    BaseAuditable,
     AbstractResponseAdapter[
-        TestExerciseCase[ExtraContext],
+        TestExerciseTask[list[Option]],
         NullProtocol,
-        TestExerciseTaskResponse[EnglishTranslation],
+        interfaces.TestExerciseTaskResponse,
     ],
     Generic[ExtraContext],
 ):
@@ -40,8 +43,13 @@ class WebTestExerciseAdapter(
     def __init__(
         self,
         extra_oob_templates: list[str],
+        *args: object,
+        name: str | None = None,
+        auditor: AuditorProtocol | None = None,
+        **kwargs: object,
     ) -> None:
         """Construct the adapter."""
+        super().__init__(name=name, auditor=auditor)
         self._templates = extra_oob_templates
 
     def _build_oob(self, context: dict[str, Any]) -> str:
@@ -51,16 +59,22 @@ class WebTestExerciseAdapter(
             html += render_to_string(template, context)
         return html
 
+    # HACK: Update return type hint on protocol
     @override
-    def to_response(  # type: ignore
+    def to_response(
         self,
-        domain_result: TestExerciseCase[ExtraContext],
+        domain_result: TestExerciseTask[list[Option]],
         request_context: NullProtocol,
-    ) -> OobResponseProtocol[T]:
+    ) -> interfaces.TestExerciseTaskResponse:
         """Convert domain result to web representation context."""
-        return TestExerciseTaskResponse(  # type: ignore
-            domain_status=ExerciseStatus.NEW_TASK,
-            context=domain_result,  # type: ignore
+        return interfaces.TestExerciseTaskResponse(
+            domain_status=domain_result.status,
+            context=interfaces.TestTaskSchema(
+                question=domain_result.options[
+                    domain_result.question_option_value
+                ].text,
+                options=domain_result.options,
+            ),
         )
 
 
@@ -99,6 +113,15 @@ class WebExplainAdapter(
         """Convert domain result to web representation context."""
         return OobResponseDTO(
             domain_status=ResponseStatusEnum.EXPLAIN_CASE,  # type: ignore
-            context=domain_result,
+            context=interfaces.TestTaskSchema(
+                question=domain_result.question_text,
+                options=[
+                    Option(
+                        value=option.options_value,
+                        text=option.text,
+                    )
+                    for option in domain_result.options
+                ],
+            ),
             oob_html=self._build_oob(domain_result),
         )

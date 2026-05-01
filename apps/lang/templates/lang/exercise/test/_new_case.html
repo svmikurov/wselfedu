@@ -10,7 +10,7 @@
   <div>
     <div class="presentation-card-body">
       <div id="question" class="presentation-card-content">
-        {{ question_text }}
+        {{ question }}
       </div>
     </div>
   </div>
@@ -20,9 +20,9 @@
       <div class="py-1">
         <button class="wse-btn full-width height-huge"
                 style="justify-content: start; min-height: 5rem;"
-                data-testid="answer-btn-{{ option.option_value }}"
+                data-testid="answer-btn-{{ option.value }}"
                 hx-post=""
-                hx-vals='{"action": "check_answer", "option_value": "{{ option.option_value }}"}'
+                hx-vals='{"action": "check_answer", "option_value": "{{ option.value }}"}'
                 hx-target="#exercise-block">
           {{ option.text }}
         </button><br>

@@ -120,7 +120,7 @@ def service(
     return CreateExerciseService(
         candidates_repository=repository,
         domain=domain,
-        builder=builder,
+        builder=builder,  # type: ignore
     )
 
 

@@ -1,29 +1,39 @@
 """Exercise task DTO builder."""
 
-from contracts.entity.domain.exercise import flow
-from contracts.schemas.domain.exercise import dtos
+from contracts.entity.domain.exercise.flow import (
+    PresentationCaseProtocol,
+    TestCaseProtocol,
+)
+from contracts.schemas.domain.exercise.flow import (
+    PresentationTask,
+    TestExerciseTask,
+)
+from interfaces.protocols.domain import exercise as interfaces
+from interfaces.schemas.domain.exercise import Option
+from utils.audit.mixins import BaseAuditable
 
 from ..aliases import SpecT
 from ..protocol import SpecDtoBuilderProtocol
 
 
 class ExercisePresentationBuilder(
+    BaseAuditable,
     SpecDtoBuilderProtocol[
-        flow.PresentationCaseProtocol,
+        PresentationCaseProtocol,
         SpecT,
-        flow.PresentationTaskProtocol,
+        interfaces.PresentationTaskProtocol,
     ],
 ):
     """Exercise case DTO null builder."""
 
     def build(
         self,
-        data: flow.PresentationCaseProtocol,
+        data: PresentationCaseProtocol,
         spec: SpecT,
-    ) -> flow.PresentationTaskProtocol:
+    ) -> interfaces.PresentationTaskProtocol:
         """Build presentation exercise task DTO."""
         option = data.domain.option
-        return dtos.PresentationTask(
+        return PresentationTask(
             status=data.status,
             question_text=option.define,
             answer_text=option.mean,
@@ -32,22 +42,26 @@ class ExercisePresentationBuilder(
 
 
 class TestExerciseTaskBuilder(
+    BaseAuditable,
     SpecDtoBuilderProtocol[
-        flow.TestCaseProtocol,
+        TestCaseProtocol,
         SpecT,
-        flow.TestTaskProtocol,
+        interfaces.TestTaskProtocol,
     ],
 ):
     """Test exercise task DTO builder."""
 
     def build(
         self,
-        data: flow.TestCaseProtocol,
+        data: TestCaseProtocol,
         spec: SpecT,
-    ) -> flow.TestTaskProtocol:
+    ) -> interfaces.TestTaskProtocol:
         """Build test exercise task DTO."""
-        return dtos.TestExerciseTask(
+        return TestExerciseTask(
             status=data.status,
-            option_value=data.domain.option_value,
-            options=data.domain.options,
+            question_option_value=data.domain.question_option_value,
+            options=[  # type: ignore
+                Option(value=value, text=option.mean)
+                for value, option in enumerate(data.domain.options)
+            ],
         )

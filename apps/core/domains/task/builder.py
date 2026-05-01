@@ -2,11 +2,11 @@
 
 from contracts.entity.domain.exercise import fields
 from contracts.enums import DisplayOrder, ExerciseStatus
-from contracts.schemas.domain.exercise.dtos import (
+from contracts.schemas.domain.exercise.flow import (
     PresentationTask,
 )
+from interfaces.protocols.domain.exercise import PresentationTaskProtocol
 
-from ..exercise.presentation.protocol import PresentationTaskProtocol
 from ..exercise.protocol import HasPhases
 from .abstract import AbstractTaskBuilder
 

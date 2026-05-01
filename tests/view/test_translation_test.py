@@ -22,12 +22,12 @@ if TYPE_CHECKING:
 def test_create_task_case(
     request_get_method: WSGIRequest,
     handlers: WebHandlerContainer,
-    mock_handler_create_action: Mock,
+    mock_create_exercise_action_handler: Mock,
 ) -> None:
     """Test create test exercise with GET method request."""
     # Act
     with handlers.process_regular_translation_test.override(  # type: ignore[unused-ignore]
-        mock_handler_create_action,
+        mock_create_exercise_action_handler,
     ):
         response = RegularTranslationTestPerformView.as_view()(
             request_get_method,

@@ -30,7 +30,6 @@ from apps.lang.factories.lockup_factory import UserTranslationLookupFactory
 from apps.lang.models import EnglishTranslation
 from apps.lang.repositories.translation.fetch import TranslationListRepository
 from contracts.enums.exercise import ExerciseStatus
-from utils.audit import HandlerAuditor
 
 
 class WebHandlerContainer(DeclarativeContainer):
@@ -42,12 +41,7 @@ class WebHandlerContainer(DeclarativeContainer):
     use_cases = DependenciesContainer()
 
     user_command_storage = Dependency()  # type: ignore
-
-    # =============================================
-    # Internal dependencies
-    # ---------------------------------------------
-
-    auditor = Factory(HandlerAuditor)
+    auditor = Dependency()  # type: ignore
 
     # =============================================
     # Regular translation presentation
@@ -129,7 +123,9 @@ class WebHandlerContainer(DeclarativeContainer):
         adapter=Factory(
             ProcessExerciseAdapterStrategy,
             registry=web_test_exercise_adapter_registry,
+            auditor=auditor,
         ),
+        name='Regular translation test',
         auditor=auditor,
     )
 

@@ -11,15 +11,15 @@ from django.template.loader import render_to_string
 from apps.core.adapters.response.abstract import AbstractResponseAdapter
 from contracts import NullProtocol
 from contracts.enums import ExerciseStatus
-from contracts.schemas.domain.exercise.dtos import PresentationTask
-from contracts.schemas.response.exercise import PresentationTaskResponse
+from contracts.schemas.domain.exercise.flow import PresentationTask
+from interfaces.schemas.response.web import exercise as interfaces
 
 
 class PresentationTaskWebAdapter(
     AbstractResponseAdapter[
         PresentationTask,
         NullProtocol,
-        PresentationTaskResponse,
+        interfaces.PresentationTaskResponse,
     ]
 ):
     """WEB adapter for perform exercise task."""
@@ -38,15 +38,20 @@ class PresentationTaskWebAdapter(
             html += render_to_string(template, domain_result.model_dump())
         return html
 
+    # HACK: Update return type hint on protocol
     @override
     def to_response(
         self,
         domain_result: PresentationTask,
         request_context: NullProtocol,
-    ) -> PresentationTaskResponse:
+    ) -> interfaces.PresentationTaskResponse:
         """Convert exercise case to web context."""
-        return PresentationTaskResponse(
+        return interfaces.PresentationTaskResponse(
             domain_status=ExerciseStatus.NEW_TASK,
-            context=domain_result,
+            context=interfaces.PresentationTaskSchema(
+                define=domain_result.question_text,
+                mean=domain_result.answer_text,
+                progress=domain_result.progress_value,
+            ),
             oob_html=self._build_oob(domain_result),
         )

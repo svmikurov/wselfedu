@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Protocol, TypeVar
 
+from utils.audit.protocol import Auditable
+
 if TYPE_CHECKING:
     from apps.users.models import Person
 
@@ -21,6 +23,7 @@ QueryType = TypeVar('QueryType')
 
 
 class AssemblerProtocol(
+    Auditable,
     Protocol[
         Params_contra,
         Context_contra,

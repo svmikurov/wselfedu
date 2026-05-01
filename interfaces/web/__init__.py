@@ -1,1 +1,0 @@
-"""Contexts for Django Templates."""

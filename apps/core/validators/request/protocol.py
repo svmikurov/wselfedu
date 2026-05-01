@@ -2,11 +2,14 @@
 
 from typing import Protocol, TypeVar
 
+from utils.audit.protocol import Auditable
+
 RequestData_contra = TypeVar('RequestData_contra', contravariant=True)
 Validated_co = TypeVar('Validated_co', covariant=True)
 
 
 class RequestValidatorProtocol(
+    Auditable,
     Protocol[RequestData_contra, Validated_co],
 ):
     """Protocol for request data validator interface."""

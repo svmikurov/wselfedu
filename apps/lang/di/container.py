@@ -17,6 +17,7 @@ class LanguageContainer(DeclarativeContainer):
     # -------------------------------------------
     storage = Dependency()  # type: ignore[var-annotated]
     user_command_storage = Dependency()  # type: ignore[var-annotated]
+    auditor = Dependency()  # type: ignore[var-annotated]
 
     # ===========================================
     # Internal dependencies
@@ -38,6 +39,7 @@ class LanguageContainer(DeclarativeContainer):
         user_command_storage=user_command_storage,
         repositories=repositories,
         configurations=configurations,
+        auditor=auditor,
     )
 
     # ===========================================
@@ -47,4 +49,5 @@ class LanguageContainer(DeclarativeContainer):
         WebHandlerContainer,
         use_cases=use_cases,
         user_command_storage=user_command_storage,
+        auditor=auditor,
     )

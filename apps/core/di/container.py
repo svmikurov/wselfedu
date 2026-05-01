@@ -3,6 +3,8 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Container, Factory
 
+from utils.audit.impl import Auditor
+
 from ..storages.clients.django_cache import DjangoCache, DjangoKeyCache
 from ..storages.resolver import UserKeyCommandResolver
 from ..storages.services.service import UserCommandStorage, UserDataStorage
@@ -44,3 +46,5 @@ class CoreContainer(DeclarativeContainer):
         storage=django_key_cache,
         key_resolver=Factory(UserKeyCommandResolver),
     )
+
+    auditor = Factory(Auditor)

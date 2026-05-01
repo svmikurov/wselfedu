@@ -32,3 +32,8 @@ class AbstractResponseAdapter(
         request_context: ExtraContext,
     ) -> ResponseData:
         """Convert domain schema to response representation."""
+
+    @property
+    def name(self) -> str:
+        """Return adapter name."""
+        return self._name  # type: ignore

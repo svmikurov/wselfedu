@@ -194,7 +194,7 @@ class ExerciseDomainResultProtocol(
 class HasQuestionOptionValue(Protocol):
     """Protocol for has question *option_value* interface."""
 
-    option_value: int
+    question_option_value: int
 
 
 class HasExerciseDomainOption(Protocol):
@@ -207,12 +207,3 @@ class HasExerciseDomainOptions(Protocol):
     """Protocol for has *options* interface."""
 
     options: Candidates
-
-
-# class ExerciseDomainFailureProtocol(
-#     HasExerciseStatus,
-#     HasCase[Case_co],
-#     general.HasException[info.NoExerciseItemsException],
-#     Protocol,
-# ):
-#     """Protocol for exercise failure DTO interface."""

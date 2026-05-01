@@ -63,34 +63,3 @@ class TestCaseProtocol(
     Protocol,
 ):
     """Protocol for presentation exercise case DTO."""
-
-
-# =================================================
-# Exercise task
-# =================================================
-
-
-class TaskProtocol(
-    exercise.HasExerciseStatus,
-    Protocol,
-):
-    """Protocol for exercise task DTO."""
-
-
-class PresentationTaskProtocol(
-    TaskProtocol,
-    exercise.HasQuestionText,
-    exercise.HasAnswerText,
-    exercise.HasProgressValue,
-    Protocol,
-):
-    """Protocol for presentation exercise task DTO."""
-
-
-class TestTaskProtocol(
-    TaskProtocol,
-    exercise.HasQuestionOptionValue,
-    exercise.HasExerciseDomainOptions,
-    Protocol,
-):
-    """Protocol for test exercise task DTO."""

@@ -2,13 +2,16 @@
 
 from typing import Protocol, TypeVar
 
+from utils.audit.protocol import Auditable
+
 Context_contra = TypeVar('Context_contra', contravariant=True)
 UseCaseResult_contra = TypeVar('UseCaseResult_contra', contravariant=True)
 ResponseData_co = TypeVar('ResponseData_co', covariant=True)
 
 
 class AdapterProtocol(
-    Protocol[UseCaseResult_contra, Context_contra, ResponseData_co]
+    Auditable,
+    Protocol[UseCaseResult_contra, Context_contra, ResponseData_co],
 ):
     """Protocol for response adapter interface."""
 

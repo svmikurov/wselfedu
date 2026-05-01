@@ -53,6 +53,7 @@ class UseCaseContainer(DeclarativeContainer):
     configurations = DependenciesContainer()
 
     user_command_storage = Dependency()  # type: ignore[var-annotated]
+    auditor = Dependency()  # type: ignore[var-annotated]
 
     # =============================================
     # Regular translation presentation exercise
@@ -90,6 +91,7 @@ class UseCaseContainer(DeclarativeContainer):
         adapter_registry=regular_translation_presentation_adapter_registry,
         service_registry=regular_translation_presentation_service_registry,
         builder_registry=regular_translation_presentation_builder_registry,
+        auditor=auditor,
     )
 
     # =============================================
@@ -139,4 +141,5 @@ class UseCaseContainer(DeclarativeContainer):
         adapter_registry=regular_translation_test_adapter_registry,
         service_registry=regular_translation_test_service_registry,
         builder_registry=regular_translation_test_builder_registry,
+        auditor=auditor,
     )

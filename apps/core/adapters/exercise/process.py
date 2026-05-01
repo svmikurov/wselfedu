@@ -11,6 +11,7 @@ from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
     ExerciseSpecDTO,
 )
+from utils.audit.protocol import AuditorProtocol
 
 CaseT = TypeVar('CaseT')
 
@@ -24,6 +25,14 @@ class ExerciseProcessAdapter(
     ],
 ):
     """Exercise process adapter."""
+
+    def __init__(
+        self,
+        name: str | None = None,
+        auditor: AuditorProtocol | None = None,
+    ) -> None:
+        """Construct the adapter."""
+        super().__init__(name=name, auditor=auditor)
 
     @override
     def adapt(

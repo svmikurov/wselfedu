@@ -80,7 +80,7 @@ class AnswerTextField(BaseDTO):
 class OptionValue(BaseDTO):
     """Option value DTO field."""
 
-    option_value: int
+    question_option_value: int
 
 
 class OptionField(BaseDTO, Generic[OptionT]):

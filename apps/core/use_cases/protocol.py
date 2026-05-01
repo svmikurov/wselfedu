@@ -2,11 +2,16 @@
 
 from typing import Protocol, TypeVar
 
+from utils.audit.protocol import Auditable
+
 Command_contra = TypeVar('Command_contra', contravariant=True)
 Result_co = TypeVar('Result_co', covariant=True)
 
 
-class UseCaseProtocol(Protocol[Command_contra, Result_co]):
+class UseCaseProtocol(
+    Auditable,
+    Protocol[Command_contra, Result_co],
+):
     """Protocol for use case."""
 
     def execute(

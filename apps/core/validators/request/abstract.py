@@ -15,7 +15,19 @@ class AbstractRequestValidator(
 ):
     """ABC for request validator."""
 
+    def __init__(
+        self,
+        name: str | None = None,
+    ) -> None:
+        """Construct the validator."""
+        self._name = name or 'undefined'
+
     @override
     @abstractmethod
     def validate(self, data: RequestDataT) -> ValidatedT:
         """Validate request data."""
+
+    @property
+    def name(self) -> str:
+        """Return validator name."""
+        return self._name

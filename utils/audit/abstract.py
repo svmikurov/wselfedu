@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import override
 
-from .protocol import AuditorProtocol
+from .protocol import Auditable, AuditorProtocol
 
 
 class AbstractAuditor(ABC, AuditorProtocol):
@@ -11,5 +11,10 @@ class AbstractAuditor(ABC, AuditorProtocol):
 
     @override
     @abstractmethod
-    def record(self, step_name: str, **kwargs: object) -> None:
+    def record(
+        self,
+        step_name: str,
+        obj: Auditable | None = None,
+        **kwargs: object,
+    ) -> None:
         """Record the attributes."""

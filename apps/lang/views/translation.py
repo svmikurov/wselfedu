@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from dependency_injector.wiring import Provide, inject
 from django.db.models import QuerySet
@@ -22,7 +22,9 @@ from apps.core.handlers.protocol import (
     RequestDataProtocol,
     RequestHandlerProtocol,
 )
-from apps.core.views.mixins import GetHandlerMixin
+from apps.core.repositories.protocol import UserRepositoryProtocol
+from apps.core.views.auth import UserLoginRequiredMixin
+from apps.core.views.mixins import GetHandlerMixin, GetRepositoryMixin
 from di import MainContainer
 
 from .. import filters, forms, models
@@ -48,6 +50,7 @@ ListHandler = RequestHandlerProtocol[
 ]
 
 HANDLERS = MainContainer.lang.handlers
+REPOSITORIES = MainContainer.lang.repositories
 
 
 class _TranslationViewMixin:
@@ -106,9 +109,10 @@ class EnglishTranslationListView(
         )
 
 
+# HACK: Fix Any type hint
 class EnglishTranslationCreateView(
-    core_views.UserLoginRequiredMixin,
-    _TranslationViewMixin,
+    UserLoginRequiredMixin,
+    GetRepositoryMixin[Any],
     generic.FormView,  # type: ignore[type-arg]
 ):
     """English translation create view."""
@@ -116,6 +120,20 @@ class EnglishTranslationCreateView(
     template_name = 'lang/translation/create.html'
     success_url = reverse_lazy('lang:english_translation_create')
     form_class = forms.EnglishCreateForm
+
+    @inject
+    def dispatch(
+        self,
+        request: HttpRequest,
+        *args: object,
+        repository: UserRepositoryProtocol[Any, Any] = Provide[
+            REPOSITORIES.translation  # type: ignore
+        ],
+        **kwargs: object,
+    ) -> HttpResponseBase:
+        """Inject repository."""
+        self._repository = repository
+        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form: forms.EnglishCreateForm) -> HttpResponse:
         """Save translation."""

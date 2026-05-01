@@ -5,6 +5,9 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, TypeVar, override
 
+from utils.audit.impl import NullAuditor
+from utils.audit.protocol import AuditorProtocol
+
 from .protocol import ExerciseServiceProtocol
 
 if TYPE_CHECKING:
@@ -20,6 +23,15 @@ class AbstractExerciseService(
 ):
     """ABC for exercise case services."""
 
+    def __init__(
+        self,
+        name: str | None = None,
+        auditor: AuditorProtocol | None = None,
+    ) -> None:
+        """Construct the adapter."""
+        self._name = name or 'undefined'
+        self._auditor = auditor or NullAuditor()
+
     @override
     @abstractmethod
     def execute(
@@ -28,3 +40,8 @@ class AbstractExerciseService(
         spec: SpecT,
     ) -> CaseT:
         """Create the exercise case."""
+
+    @property
+    def name(self) -> str:
+        """Return adapter name."""
+        return self._name

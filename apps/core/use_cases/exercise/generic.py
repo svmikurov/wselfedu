@@ -18,6 +18,7 @@ from apps.core.use_cases.abstract import AbstractUseCase
 from contracts import enums
 from contracts.entity.domain import params
 from contracts.entity.domain.exercise import flow
+from utils.audit.protocol import AuditorProtocol
 
 CommandT = UserDataCommandProtocol[HasExerciseAction]
 ParamsT = TypeVar('ParamsT', bound=ExerciseParametersProtocol)
@@ -61,8 +62,11 @@ class ExerciseUseCaseStrategy(
                 ResultT,
             ],
         ],
+        name: str | None = None,
+        auditor: AuditorProtocol | None = None,
     ) -> None:
         """Construct the use case."""
+        super().__init__(name=name, auditor=auditor)
         self._prefix = prefix
         self._storage = storage
         self._config_resolver = config_resolver
@@ -74,8 +78,12 @@ class ExerciseUseCaseStrategy(
     def execute(self, command: CommandT) -> ResultT:
         """Process exercise."""
         action = command.data.action
+
         adapter = self._adapter_registry[action]
+        self.auditor.record('adapter_strategy.select', obj=adapter)
+
         service = self._service_registry[action]
+        self.auditor.record('service_strategy.select', obj=service)
 
         parameters = self._config_resolver.resolve(command)
 
@@ -95,4 +103,5 @@ class ExerciseUseCaseStrategy(
 
         builder = self._builder_registry[case.status]
         result = builder.build(case, spec)
+        self.auditor.record('exercise_build.ok', obj=builder)
         return result

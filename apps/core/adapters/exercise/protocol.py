@@ -2,6 +2,8 @@
 
 from typing import Protocol, TypeVar
 
+from utils.audit.protocol import Auditable
+
 Command_contra = TypeVar('Command_contra', contravariant=True)
 Params_contra = TypeVar('Params_contra', contravariant=True)
 ExistingCase_contra = TypeVar('ExistingCase_contra', contravariant=True)
@@ -9,7 +11,8 @@ Adapted_cov = TypeVar('Adapted_cov', covariant=True)
 
 
 class ExerciseProcessAdapterProtocol(
-    Protocol[Command_contra, Params_contra, ExistingCase_contra, Adapted_cov]
+    Auditable,
+    Protocol[Command_contra, Params_contra, ExistingCase_contra, Adapted_cov],
 ):
     """Protocol for adapt parameters for exercise process interface."""
 

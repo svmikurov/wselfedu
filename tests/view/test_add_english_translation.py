@@ -1,0 +1,50 @@
+"""Create translation view tests."""
+
+from http import HTTPStatus
+from unittest.mock import Mock
+
+import pytest
+from django.test import RequestFactory
+
+import di
+from apps.lang.repositories.legacy.abc import TranslationRepoABC
+from apps.lang.views.translation import EnglishTranslationCreateView
+from apps.users.models import Person
+
+
+class TestCreateTranslationView:
+    """Create translation view tests."""
+
+    @pytest.mark.django_db
+    def test_create_translation(self) -> None:
+        """Repository create translation method was called."""
+        # Arrange
+        mock_user = Mock(spec=Person)
+        mock_repo = Mock(spec=TranslationRepoABC)
+
+        form_data = {
+            'native': 'native text',
+            'foreign': 'english text',
+        }
+
+        expected_call = {  # type: ignore[var-annotated]
+            'native': 'native text',
+            'foreign': 'english text',
+            'category': None,
+            'source': None,
+            'user': mock_user,
+            'marks': [],
+        }
+
+        request = RequestFactory().post('', data=form_data)
+        request.user = mock_user
+
+        # Act
+        with di.container.lang.repositories.translation.override(  # type: ignore[attr-defined]
+            mock_repo
+        ):
+            response = EnglishTranslationCreateView.as_view()(request)
+
+        # Assert
+        assert response.status_code == HTTPStatus.FOUND
+        mock_repo.create.assert_called_once_with(**expected_call)

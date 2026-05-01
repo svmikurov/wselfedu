@@ -11,7 +11,7 @@ from django.test import RequestFactory
 from apps.core.handlers import RequestHandler
 from contracts.enums.exercise import ExerciseStatus
 from contracts.schemas.base import NullDTO
-from contracts.schemas.response.generic import ResponseDTO
+from interfaces.schemas.response.web.generic import ResponseDTO
 
 if TYPE_CHECKING:
     from django.core.handlers.wsgi import WSGIRequest
@@ -32,7 +32,7 @@ def handlers(main_container: MainContainer) -> WebHandlerContainer:
 
 
 @pytest.fixture
-def mock_handler_create_action() -> Mock:
+def mock_create_exercise_action_handler() -> Mock:
     """Provide request handler mock."""
     mock = Mock(spec=RequestHandler)
     # View has exercise process result status mapping.

@@ -38,7 +38,7 @@ class PresentationExerciseDomainResult(ArbitraryDTO, Generic[CandidateT]):
 class TestExerciseDomainResult(ArbitraryDTO, Generic[CandidateT]):
     """Test exercise domain result DTO."""
 
-    option_value: int
+    question_option_value: int
     options: CandidateT
     status: enums.ExerciseStatus
     exercise_kind: enums.ExerciseKind = enums.ExerciseKind.TEST
@@ -81,7 +81,13 @@ class TestExerciseCase(BaseDTO):
 
 
 class Task(BaseDTO):
-    """Exercise task DTO."""
+    """Exercise task DTO.
+
+    Parameter
+    ---------
+    status : `ExerciseStatus`
+        Current exercise status enumeration.
+    """
 
     status: enums.ExerciseStatus
 
@@ -114,4 +120,14 @@ class TestExerciseTask(
     Generic[CandidatesT],
     ArbitraryConfigurationMixin,
 ):
-    """Test exercise task DTO."""
+    """Test exercise task DTO.
+
+    Parameter
+    ---------
+    status : `ExerciseStatus`
+        Current exercise status enumeration.
+    option_value : `int`
+        The question's option value (options index value).
+    options : list[CandidatesT]
+        The exercise test's options.
+    """

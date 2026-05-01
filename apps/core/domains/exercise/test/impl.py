@@ -6,8 +6,14 @@ from apps.core.domains.exercise.test.dto import OptionMetaDTO
 from apps.core.exceptions import info
 from contracts import enums
 from contracts.aliases import CandidatesAlias
-from contracts.entity.domain.exercise import fields, flow
-from contracts.schemas.domain.exercise import dtos
+from contracts.entity.domain.exercise.fields import (
+    Candidates,
+    HasDisplayOrder,
+    HasOptionCount,
+    HasQuestionOptionValue,
+)
+from contracts.entity.domain.exercise.flow import TestDomainResultProtocol
+from contracts.schemas.domain.exercise.flow import TestExerciseDomainResult
 
 from ..abstract import (
     AbstractCheckExerciseDomain,
@@ -24,8 +30,8 @@ __all__ = [
 
 
 class _ExerciseConfig(
-    fields.HasDisplayOrder[enums.DisplayOrder],
-    fields.HasOptionCount,
+    HasDisplayOrder[enums.DisplayOrder],
+    HasOptionCount,
 ):
     """Exercise config interface."""
 
@@ -33,7 +39,7 @@ class _ExerciseConfig(
 class TestDomain(
     AbstractConfigurableCandidatesExerciseDomain[
         _ExerciseConfig,
-        flow.TestDomainResultProtocol,
+        TestDomainResultProtocol,
     ],
 ):
     """Task exercise case domain."""
@@ -51,15 +57,15 @@ class TestDomain(
         self,
         candidates: CandidatesAlias,
         conf: _ExerciseConfig,
-    ) -> flow.TestDomainResultProtocol:
+    ) -> TestDomainResultProtocol:
         """Get test exercise data."""
         option_value = randrange(conf.option_count)
         selected_candidates = self._selector.select(candidates, conf)
         options = self._get_options(selected_candidates, conf.option_count)
 
-        return dtos.TestExerciseDomainResult(
+        return TestExerciseDomainResult(
             status=enums.ExerciseStatus.NEW_TASK,
-            option_value=option_value,
+            question_option_value=option_value,
             options=options,
         )
 
@@ -67,7 +73,7 @@ class TestDomain(
         self,
         candidates: CandidatesAlias,
         option_count: int,
-    ) -> fields.Candidates:
+    ) -> Candidates:
         """Get test exercise options."""
         if len(candidates) >= option_count:
             # FIXME: Fix type hint
@@ -83,7 +89,7 @@ class TestDomain(
 
 class TestExerciseCheckDomain(
     AbstractCheckExerciseDomain[
-        fields.HasQuestionOptionValue,
+        HasQuestionOptionValue,
         TestExerciseMeta[OptionMetaDTO],
         TextExerciseCheckResult,
     ],
@@ -92,7 +98,7 @@ class TestExerciseCheckDomain(
 
     def execute(
         self,
-        answer: fields.HasQuestionOptionValue,
+        answer: HasQuestionOptionValue,
         case_meta: TestExerciseMeta[OptionMetaDTO],
     ) -> TextExerciseCheckResult:
         """Check user's answer."""

@@ -5,7 +5,6 @@ from typing import TypeVar
 from contracts.schemas.base import BaseDTO
 from contracts.schemas.domain.exercise.fields import (
     AnswerTextField,
-    ExerciseStatusField,
     IsCorrectAnswerField,
     QuestionTextField,
     SelectedAnswerTextField,
@@ -15,17 +14,6 @@ from contracts.schemas.domain.exercise.fields import (
 DomainType = TypeVar('DomainType')
 DomainResult = TypeVar('DomainResult')
 OptionT = TypeVar('OptionT')
-
-
-# -------------------------------------------------
-# Exercise service result case DTO
-# -------------------------------------------------
-
-
-class CaseDTO(
-    ExerciseStatusField,
-):
-    """Case DTO."""
 
 
 # -------------------------------------------------
@@ -57,8 +45,3 @@ class TextExerciseExplainDTO(
     BaseDTO,
 ):
     """Explanation of the test answer option."""
-
-
-# -------------------------------------------------
-# Text exercise domain result DTO
-# -------------------------------------------------
