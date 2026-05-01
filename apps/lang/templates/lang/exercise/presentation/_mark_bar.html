@@ -22,7 +22,7 @@
         id="unknown-button"
         class="wse-btn full-width height-huge"
         hx-post=""
-        hx-vals="{{ case.progress.decrement_payload }}"
+        hx-vals='{"action": "update_progress", "is_known": false}'
         hx-trigger="click"
         hx-on:htmx:after-request="
           event.detail.successful 
