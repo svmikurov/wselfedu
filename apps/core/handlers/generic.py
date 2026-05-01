@@ -92,12 +92,9 @@ class RequestHandler(
             command=command,
         )
 
+        self.auditor.record('use_case.call', obj=self._use_case)
         domain_result = self._use_case.execute(command)
-        self.auditor.record(
-            'use_case.ok',
-            obj=self._use_case,
-            domain_result=domain_result,
-        )
+        self.auditor.record('use_case.ok', domain_result=domain_result)
 
         self.auditor.record('response_adapter.start', obj=self._adapter)
         adapted = self._adapter.to_response(domain_result, context)

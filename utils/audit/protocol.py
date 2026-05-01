@@ -17,6 +17,7 @@ class AuditorProtocol(Protocol):
     def record(
         self,
         step_name: str,
+        parent_id: str | None = None,
         obj: Auditable | None = None,
         **kwargs: object,
     ) -> None:

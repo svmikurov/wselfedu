@@ -18,6 +18,7 @@ from apps.core.use_cases.abstract import AbstractUseCase
 from contracts import enums
 from contracts.entity.domain import params
 from contracts.entity.domain.exercise import flow
+from utils.audit.mixins import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
 CommandT = UserDataCommandProtocol[HasExerciseAction]
@@ -28,6 +29,7 @@ ResultT = TypeVar('ResultT')
 
 
 class ExerciseUseCaseStrategy(
+    BaseAuditable,
     AbstractUseCase[CommandT, ResultT],
     Generic[ParamsT, SpecT, DomainT, ResultT],
 ):

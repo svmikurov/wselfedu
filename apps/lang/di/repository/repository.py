@@ -3,6 +3,7 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Dependency, Factory
 
+from apps.core.repositories.progress import ProgressRepository
 from apps.lang import models, repositories
 from apps.lang.models import ExerciseConditions, TranslationConfiguration
 from apps.lang.repositories import (
@@ -40,6 +41,7 @@ class RepositoryContainer(DeclarativeContainer):
         parameters_manager=models.ExerciseConditions.objects,
         conf_manager=models.TranslationConfiguration.objects,
     )
+
     # ---------------------------------------------
     # Regular translation exercise candidates
     # ---------------------------------------------
@@ -48,10 +50,9 @@ class RepositoryContainer(DeclarativeContainer):
         manager=models.EnglishTranslation.objects,
     )
 
-    # ------------------------------------
+    # ---------------------------------------------
     # Regular exercise settings repository
-    # ------------------------------------
-
+    # ---------------------------------------------
     regular_parameters = Factory(
         RegularParametersRepository,
         parameters_manager=ExerciseConditions.objects,
@@ -65,10 +66,9 @@ class RepositoryContainer(DeclarativeContainer):
         repositories.StudySettingsRepository,
     )
 
-    # -----------------
+    # ---------------------------------------------
     # Translation study
-    # -----------------
-
+    # ---------------------------------------------
     regular_translation_exercise = Factory(
         repositories.TranslationExerciseRepository,
         manager=models.EnglishTranslation.objects,
@@ -82,12 +82,11 @@ class RepositoryContainer(DeclarativeContainer):
         manager=models.EnglishTranslation.objects,
     )
 
-    # ---------------------
+    # ---------------------------------------------
     # Progress repositories
-    # ---------------------
-
+    # ---------------------------------------------
     regular_translation_progress = Factory(
-        repositories.ProgressRepository,
+        ProgressRepository,
         manager=models.EnglishTranslation.objects,
     )
     assigned_translation_progress = Factory(

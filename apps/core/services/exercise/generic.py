@@ -26,6 +26,7 @@ from contracts.entity.domain.params import HasConditions, HasConfig
 from contracts.schemas.domain.exercise.flow import (
     ExplainExerciseDomainResult,
 )
+from utils.audit.mixins import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
 from .abstract import AbstractExerciseService
@@ -61,6 +62,7 @@ class _SpecT(
 
 
 class CreateExerciseService(
+    BaseAuditable,
     AbstractExerciseService[_SpecT, ResultT],
 ):
     """Creates exercise case."""

@@ -92,6 +92,7 @@ class WebHandlerContainer(DeclarativeContainer):
             ProcessExerciseAdapterStrategy,
             registry=presentation_adapter_registries,
         ),
+        name='Regular translation presentation',
         auditor=auditor,
     )
 

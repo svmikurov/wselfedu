@@ -6,13 +6,12 @@ from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from django.db.models import Manager, QuerySet
+    from django.db.models import QuerySet
 
     from apps.core import models as core_models
     from apps.users.models import Person
 
     from ... import models, types
-    from ...models.abstract import AbstractProgressModel
 
 
 class StudySettingsRepositoryABC(ABC):
@@ -40,29 +39,6 @@ class AssignedTranslationProgressRepositoryABC(ABC):
         self, user_pk: int, translation_pk: int, delta: int, max_progress: int
     ) -> None:
         """Update progress of study assigned English translation."""
-
-
-class ProgressRepositoryABC(ABC):
-    """ABC for item study progress repository."""
-
-    @abstractmethod
-    def update(self, user: Person, pk: int, delta: int) -> None:
-        """Update study progress.
-
-        Parameter
-        ---------
-        user : `Person`
-            Item owner.
-        pk : `int`
-            Item database identifier.
-        delta : `int`
-            Progress delta.
-        """
-
-    @property
-    @abstractmethod
-    def manager(self) -> Manager[AbstractProgressModel]:
-        """Get model."""
 
 
 class PresentationABC(ABC):

@@ -1,11 +1,16 @@
 """Language discipline DI container."""
 
 from dependency_injector.containers import DeclarativeContainer
-from dependency_injector.providers import Container, Dependency
+from dependency_injector.providers import (
+    Container,
+    DependenciesContainer,
+    Dependency,
+)
 
 from .config.container import ConfigurationContainer
 from .handler.web.container import WebHandlerContainer
 from .repository.repository import RepositoryContainer
+from .service.container import ServiceContainer
 from .use_case.container import UseCaseContainer
 
 
@@ -14,14 +19,17 @@ class LanguageContainer(DeclarativeContainer):
 
     # ===========================================
     # External dependencies
-    # -------------------------------------------
+    # ===========================================
     storage = Dependency()  # type: ignore[var-annotated]
     user_command_storage = Dependency()  # type: ignore[var-annotated]
     auditor = Dependency()  # type: ignore[var-annotated]
 
+    domains = DependenciesContainer()
+
     # ===========================================
     # Internal dependencies
-    # -------------------------------------------
+    # ===========================================
+
     repositories = Container(
         RepositoryContainer,
         storage=storage,
@@ -30,21 +38,19 @@ class LanguageContainer(DeclarativeContainer):
         ConfigurationContainer,
         repositories=repositories,
     )
-
-    # ===========================================
-    # Request handler dependencies
-    # -------------------------------------------
+    services = Container(
+        ServiceContainer,
+        domains=domains,
+        repositories=repositories,
+    )
     use_cases = Container(
         UseCaseContainer,
-        user_command_storage=user_command_storage,
-        repositories=repositories,
         configurations=configurations,
+        repositories=repositories,
+        services=services,
+        user_command_storage=user_command_storage,
         auditor=auditor,
     )
-
-    # ===========================================
-    # Request handler
-    # -------------------------------------------
     handlers = Container(
         WebHandlerContainer,
         use_cases=use_cases,

@@ -1,4 +1,4 @@
-"""Exercise process adapter."""
+"""Exercise progress command adapter."""
 
 from typing import TypeVar, override
 
@@ -17,7 +17,7 @@ from utils.audit.protocol import AuditorProtocol
 CaseT = TypeVar('CaseT')
 
 
-class ExerciseProcessAdapter(
+class ExerciseProgressAdapter(
     BaseAuditable,
     AbstractExerciseProcessAdapter[
         UserDataCommandProtocol[HasExerciseAction],

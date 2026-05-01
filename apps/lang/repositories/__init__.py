@@ -4,7 +4,6 @@ __all__ = [
     # ABC
     'RuleRepositoryABC',
     'PresentationABC',
-    'ProgressRepositoryABC',
     'TranslationRepoABC',
     'StudyParametersRepositoryABC',
     # Implementation
@@ -22,13 +21,11 @@ __all__ = [
     'StudySettingsRepository',
     'RegularParametersRepository',
     # Progress
-    'ProgressRepository',
     'AssignedTranslationProgressRepository',
     'TranslationRepository',
 ]
 from .legacy.abc import (
     PresentationABC,
-    ProgressRepositoryABC,
     RuleRepositoryABC,
     StudyParametersRepositoryABC,
     TranslationRepoABC,
@@ -45,7 +42,6 @@ from .legacy.exercise.translation.test import (
 from .legacy.parameters import StudyParametersRepository
 from .legacy.progress import (
     AssignedTranslationProgressRepository,
-    ProgressRepository,
 )
 from .legacy.rule import RuleRepository
 from .legacy.study_settings import StudySettingsRepository

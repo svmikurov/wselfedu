@@ -25,7 +25,7 @@ class BaseAuditable(Auditable):
         Provides handler's name that given on handler initialization,
         for example, initialization in DI container.
         """
-        return self._name  # type: ignore
+        return self._name or 'undefined'
 
     @cached_property
     def auditor(self) -> AuditorProtocol:

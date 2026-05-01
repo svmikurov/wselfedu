@@ -24,3 +24,26 @@ class AbstractUserFetchRepository(
     @abstractmethod
     def fetch(self, user: Person, filter: FilterT) -> ResultT:
         """Fetch."""
+
+
+# =================================================
+# ABC for exercise's repository
+# =================================================
+
+
+class AbstractProgressRepository(ABC):
+    """ABC for item study progress repository."""
+
+    @abstractmethod
+    def update(self, user: Person, pk: int, delta: int) -> None:
+        """Update study progress.
+
+        Parameter
+        ---------
+        user : `Person`
+            Item owner.
+        pk : `int`
+            Item database identifier.
+        delta : `int`
+            Progress delta.
+        """

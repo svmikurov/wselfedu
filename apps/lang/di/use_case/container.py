@@ -10,23 +10,16 @@ from dependency_injector.providers import (
     Factory,
 )
 
-from apps.core.adapters.exercise.process import (
+from apps.core.adapters.exercise import (
     ExerciseProcessAdapter,
+    ExerciseProgressAdapter,
 )
-from apps.core.builders.exercise.case import ExerciseCaseBuilder
 from apps.core.builders.exercise.task import (
     ExercisePresentationBuilder,
     TestExerciseTaskBuilder,
 )
-from apps.core.domains.exercise import PresentationDomain, TestDomain
-from apps.core.domains.exercise.deps.selector import (
-    CandidatesSelector,
-)
 from apps.core.resolvers.exercise.config_resolver import (
     ExerciseConfigurationResolver,
-)
-from apps.core.services.exercise.generic import (
-    CreateExerciseService,
 )
 from apps.core.use_cases.exercise.generic import (
     ExerciseUseCaseStrategy,
@@ -49,6 +42,7 @@ class UseCaseContainer(DeclarativeContainer):
     # External dependencies
     # =============================================
 
+    services = DependenciesContainer()
     repositories = DependenciesContainer()
     configurations = DependenciesContainer()
 
@@ -61,19 +55,12 @@ class UseCaseContainer(DeclarativeContainer):
 
     regular_translation_presentation_adapter_registry = Dict(
         {
-            ExerciseAction.CREATE_TASK: Factory(ExerciseProcessAdapter),
-        },
-    )
-    regular_translation_presentation_service_registry = Dict(
-        {
             ExerciseAction.CREATE_TASK: Factory(
-                CreateExerciseService,
-                candidates_repository=repositories.translation_candidates,
-                domain=Factory(
-                    PresentationDomain,
-                    selector=Factory(CandidatesSelector),
-                ),
-                builder=Factory(ExerciseCaseBuilder),
+                ExerciseProcessAdapter, name='Process exercise command adapter'
+            ),
+            ExerciseAction.UPDATE_PROGRESS: Factory(
+                ExerciseProgressAdapter,
+                name='Progress exercise command adapter',
             ),
         },
     )
@@ -89,9 +76,10 @@ class UseCaseContainer(DeclarativeContainer):
         storage=user_command_storage,
         config_resolver=configurations.exercise_config_resolver,
         adapter_registry=regular_translation_presentation_adapter_registry,
-        service_registry=regular_translation_presentation_service_registry,
+        service_registry=services.regular_translation_presentation_registry,
         builder_registry=regular_translation_presentation_builder_registry,
         auditor=auditor,
+        name='Exercise use case strategy',
     )
 
     # =============================================
@@ -108,23 +96,9 @@ class UseCaseContainer(DeclarativeContainer):
             ),
         ),
     )
-
     regular_translation_test_adapter_registry = Dict(
         {
             ExerciseAction.CREATE_TASK: Factory(ExerciseProcessAdapter),
-        },
-    )
-    regular_translation_test_service_registry = Dict(
-        {
-            ExerciseAction.CREATE_TASK: Factory(
-                CreateExerciseService,
-                candidates_repository=repositories.translation_candidates,
-                domain=Factory(
-                    TestDomain,
-                    selector=Factory(CandidatesSelector),
-                ),
-                builder=Factory(ExerciseCaseBuilder),
-            ),
         },
     )
     regular_translation_test_builder_registry = Dict(
@@ -139,7 +113,8 @@ class UseCaseContainer(DeclarativeContainer):
         storage=user_command_storage,
         config_resolver=regular_translation_test_config_resolver,
         adapter_registry=regular_translation_test_adapter_registry,
-        service_registry=regular_translation_test_service_registry,
+        service_registry=services.regular_translation_test_registry,
         builder_registry=regular_translation_test_builder_registry,
         auditor=auditor,
+        name='Regular translation test',
     )

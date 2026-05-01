@@ -3,9 +3,9 @@
 import logging
 from typing import override
 
+from apps.core.repositories.abstract import AbstractProgressRepository
 from apps.core.storages import services as storage
 from apps.lang import types
-from apps.lang.repositories import ProgressRepositoryABC
 from apps.lang.schemas import dto
 from apps.users.models import Person
 from contracts.schemas.domain.exercise.progress import (
@@ -22,7 +22,7 @@ class ProgressService(WordProgressServiceABC):
 
     def __init__(
         self,
-        repository: ProgressRepositoryABC,
+        repository: AbstractProgressRepository,
         case_storage: storage.TaskStorage[dto.CaseMeta],
         config: ProgressConfigDTO,
     ) -> None:
