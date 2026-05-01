@@ -21,8 +21,8 @@ HANDLERS = MainContainer.lang.handlers  # type: ignore[unused-ignore]
 
 
 class TranslationPresentationView(
-    ExercisePerformView[HandlerT, ResponseDtoT],  # type: ignore
     ExerciseLoopMixin,
+    ExercisePerformView[HandlerT, ResponseDtoT],  # type: ignore
 ):
     """Regular translation test exercise performing view."""
 
