@@ -131,14 +131,6 @@ class TestExerciseMeta(
 # =================================================
 
 
-class Option(
-    DefineField,
-    MeanField,
-    BaseDTO,
-):
-    """Exercise case option DTO."""
-
-
 class TestDomainResult(
     ValueField,
     OptionsField[OptionT],
