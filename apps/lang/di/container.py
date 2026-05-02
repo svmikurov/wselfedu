@@ -7,9 +7,9 @@ from dependency_injector.providers import (
     Dependency,
 )
 
-from .config.container import ConfigurationContainer
+from .config.container import LanguageConfigurationContainer
 from .handler.web.container import WebHandlerContainer
-from .repository.repository import RepositoryContainer
+from .repository.repository import LanguageRepositoryContainer
 from .service.container import ServiceContainer
 from .use_case.container import UseCaseContainer
 
@@ -20,22 +20,23 @@ class LanguageContainer(DeclarativeContainer):
     # ===========================================
     # External dependencies
     # ===========================================
+    domains = DependenciesContainer()
+
     storage = Dependency()  # type: ignore[var-annotated]
     user_command_storage = Dependency()  # type: ignore[var-annotated]
-    auditor = Dependency()  # type: ignore[var-annotated]
 
-    domains = DependenciesContainer()
+    auditor = Dependency()  # type: ignore[var-annotated]
 
     # ===========================================
     # Internal dependencies
     # ===========================================
 
     repositories = Container(
-        RepositoryContainer,
+        LanguageRepositoryContainer,
         storage=storage,
     )
-    configurations = Container(
-        ConfigurationContainer,
+    lang_configurations = Container(
+        LanguageConfigurationContainer,
         repositories=repositories,
     )
     services = Container(
@@ -45,7 +46,7 @@ class LanguageContainer(DeclarativeContainer):
     )
     use_cases = Container(
         UseCaseContainer,
-        configurations=configurations,
+        lang_config=lang_configurations,
         repositories=repositories,
         services=services,
         user_command_storage=user_command_storage,

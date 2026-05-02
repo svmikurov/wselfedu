@@ -44,7 +44,7 @@ class UseCaseContainer(DeclarativeContainer):
 
     services = DependenciesContainer()
     repositories = DependenciesContainer()
-    configurations = DependenciesContainer()
+    lang_config = DependenciesContainer()
 
     user_command_storage = Dependency()  # type: ignore[var-annotated]
     auditor = Dependency()  # type: ignore[var-annotated]
@@ -74,7 +74,7 @@ class UseCaseContainer(DeclarativeContainer):
         ExerciseUseCaseStrategy,
         prefix='regular_translation_presentation',
         storage=user_command_storage,
-        config_resolver=configurations.exercise_config_resolver,
+        config_resolver=lang_config.translation_exercise_config_resolver,
         adapter_registry=regular_translation_presentation_adapter_registry,
         service_registry=services.regular_translation_presentation_registry,
         builder_registry=regular_translation_presentation_builder_registry,

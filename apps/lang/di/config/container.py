@@ -1,4 +1,4 @@
-"""Configuration dependency."""
+"""language app's configuration DI container."""
 
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import (
@@ -12,8 +12,8 @@ from apps.core.resolvers.exercise.config_resolver import (
 from contracts.enums.exercise import ExerciseKind
 
 
-class ConfigurationContainer(DeclarativeContainer):
-    """Configuration DI container."""
+class LanguageConfigurationContainer(DeclarativeContainer):
+    """language app's configuration DI container."""
 
     # =============================================
     # External dependencies
@@ -25,7 +25,7 @@ class ConfigurationContainer(DeclarativeContainer):
     # Internal dependencies
     # =============================================
 
-    exercise_config_resolver = Factory(
+    translation_exercise_config_resolver = Factory(
         ExerciseConfigurationResolver,
         exercise_type=ExerciseKind.PRESENTATION,
         parameters_repository=repositories.translation_parameters,

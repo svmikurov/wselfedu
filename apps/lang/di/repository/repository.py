@@ -14,12 +14,12 @@ from apps.lang.repositories.exercise.candidates.translations import (
 )
 
 
-class RepositoryContainer(DeclarativeContainer):
+class LanguageRepositoryContainer(DeclarativeContainer):
     """Repository DI container."""
 
     # =============================================
     # External dependencies
-    # ---------------------------------------------
+    # =============================================
     storage = Dependency()  # type: ignore
 
     # =============================================
