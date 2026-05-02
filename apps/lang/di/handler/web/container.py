@@ -83,7 +83,7 @@ class WebHandlerContainer(DeclarativeContainer):
     )
     process_regular_translation_presentation = Factory(
         RequestHandler,
-        validator=validators.new_task,
+        validator=validators.exercise_request,
         assembler=Factory(UserDataAssembler),
         use_case=use_cases.process_regular_translation_presentation,
         adapter=Factory(
@@ -116,7 +116,7 @@ class WebHandlerContainer(DeclarativeContainer):
     )
     process_regular_translation_test = Factory(
         RequestHandler,
-        validator=validators.new_task,
+        validator=validators.exercise_request,
         assembler=Factory(UserDataAssembler),
         use_case=use_cases.process_regular_translation_test,
         adapter=Factory(
