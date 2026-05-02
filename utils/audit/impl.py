@@ -29,6 +29,8 @@ class NullAuditor(AbstractAuditor):
         pass
 
 
+# TODO: Update auditor
+# Implement single schema for string and json representation
 class Auditor(AbstractAuditor):
     """Auditor."""
 
