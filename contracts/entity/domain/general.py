@@ -1,6 +1,6 @@
 """General domain contracts."""
 
-from typing import Protocol, TypedDict, TypeVar
+from typing import Generic, Protocol, TypedDict, TypeVar
 
 ActionT = TypeVar('ActionT')
 DomainStatusT = TypeVar('DomainStatusT')
@@ -29,10 +29,10 @@ class HasText(Protocol):
 # =================================================
 
 
-class ActionTyped(TypedDict):
+class ActionTyped(TypedDict, Generic[ActionT]):
     """Typed dict for domain action."""
 
-    action: str
+    action: ActionT
 
 
 class HasAction(Protocol[ActionT]):
