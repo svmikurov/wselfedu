@@ -7,9 +7,7 @@ from typing import TYPE_CHECKING, Callable
 import pytest
 
 from apps.core.handlers.dto import RequestData
-from apps.core.validators.request.exercise.create_task import (
-    CreateExerciseTaskValidator,
-)
+from apps.core.validators.request.exercise import ExerciseRequestValidator
 from contracts.enums.exercise import ExerciseAction
 from interfaces.schemas.validator.task import CreateTaskWebValidated
 
@@ -51,7 +49,7 @@ def validator(
     schema_registry: RegistryT,
 ) -> ValidatorT:
     """Provide test exercise request validator."""
-    return CreateExerciseTaskValidator(schema_class_registry=schema_registry)
+    return ExerciseRequestValidator(schema_class_registry=schema_registry)
 
 
 @pytest.fixture

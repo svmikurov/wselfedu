@@ -1,4 +1,4 @@
-"""Exercise task action request data validator."""
+"""Validator for exercise action request data."""
 
 from __future__ import annotations
 
@@ -23,11 +23,11 @@ type DataT = RequestDataProtocol[ActionTyped[ExerciseAction]]
 type ValidatedT = HasAction[ExerciseAction]
 
 
-class CreateExerciseTaskValidator(
+class ExerciseRequestValidator(
     BaseAuditable,
     AbstractRequestValidator[DataT, ValidatedT],
 ):
-    """Exercise task action request data validator."""
+    """Validator for exercise action request data."""
 
     def __init__(
         self,
