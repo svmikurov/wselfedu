@@ -1,4 +1,4 @@
-"""Exercise progress repository."""
+"""Progress repository."""
 
 import logging
 from typing import override
@@ -7,29 +7,36 @@ from django.db import transaction
 from django.db.models import Manager
 from django.db.utils import IntegrityError
 
-from apps.core.repositories.abstract import AbstractProgressRepository
 from apps.lang import models
 from apps.lang.models.abstract import AbstractProgressModel
 from apps.study import models as study_models
-from apps.users.models import Person
+from apps.users.models.user import Person
+from interfaces.protocols.repository import ProgressUpdateConditionsProtocol
+
+from .abstract import AbstractProcessExerciseRepository
 
 log = logging.getLogger(__name__)
 
 
-class ProgressRepository(AbstractProgressRepository):
-    """Item study progress repository."""
+class ProgressRepository(
+    AbstractProcessExerciseRepository[ProgressUpdateConditionsProtocol, None]
+):
+    """Study progress repository."""
 
-    def __init__(
-        self,
-        manager: Manager[AbstractProgressModel],
-    ) -> None:
+    def __init__(self, manager: Manager[AbstractProgressModel]) -> None:
         """Construct the repository."""
         self._manager = manager
 
     @override
     @transaction.atomic
-    def update(self, user: Person, pk: int, delta: int) -> None:
-        """Update item study progress."""
+    def update(
+        self,
+        user: Person,
+        command: ProgressUpdateConditionsProtocol,
+    ) -> None:
+        """Update."""
+        pk = command.pk
+        delta = command.delta
         max_progress = self._get_max_progress(user)
 
         try:
