@@ -10,9 +10,9 @@ from apps.core.domains.exercise.test.dto import TestExerciseCase
 from contracts import NullProtocol
 from contracts.entity.response.base import OobResponseProtocol
 from contracts.schemas.domain.exercise.flow import TestExerciseTask
+from contracts.schemas.response.generic import OobResponseDTO
 from interfaces.schemas.domain.exercise import Option
-from interfaces.schemas.response.web import exercise as interfaces
-from interfaces.schemas.response.web.generic import OobResponseDTO
+from interfaces.schemas.web import task as interfaces
 from utils.audit.mixins import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 

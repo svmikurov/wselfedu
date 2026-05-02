@@ -14,7 +14,7 @@ from contracts.enums.exercise import (
     ExerciseAction,
     ExerciseStatus,
 )
-from interfaces.schemas.response.web.generic import OobResponseDTO
+from contracts.schemas.response.generic import OobResponseDTO
 
 type ResponseDtoT = OobResponseDTO[
     ExerciseStatus,

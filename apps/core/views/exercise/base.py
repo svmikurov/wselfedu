@@ -19,7 +19,7 @@ from contracts.entity.response.base import (
     OobResponseProtocol,
 )
 from contracts.enums.exercise import ExerciseStatus
-from interfaces.schemas.response.web.generic import OobResponseDTO
+from contracts.schemas.response.generic import OobResponseDTO
 
 from ..mixins import (
     ProcessHandlerPartialTemplateMixin,

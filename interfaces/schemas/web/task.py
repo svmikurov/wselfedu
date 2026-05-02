@@ -1,12 +1,11 @@
-"""Presentation exercise handler response contracts."""
+"""Presentation exercise handler response interfaces."""
 
 from contracts.enums import ExerciseStatus
 from contracts.schemas.base import BaseDTO
+from contracts.schemas.response.generic import OobResponseDTO
+from contracts.schemas.response.null import NullContext
+from contracts.schemas.response.types import AdaptedDomainResultT
 from interfaces.schemas.domain.exercise import Option
-from interfaces.schemas.response.web.generic import OobResponseDTO
-
-from ._types import AdaptedDomainResultT
-from .null import NullContext
 
 # =================================================
 # Components
@@ -37,7 +36,7 @@ ExerciseTaskResponse = OobResponseDTO[
     AdaptedDomainResultT,
     NullContext,
 ]
-"""Presentation exercise task response contract.
+"""Presentation exercise task response interfaces.
 
 Parameters
 ----------
@@ -54,9 +53,9 @@ oob_html : `str`
 
 
 PresentationTaskResponse = ExerciseTaskResponse[PresentationTaskSchema]
-"""Presentation exercise task response contract.
+"""Presentation exercise task response interface.
 """
 
 TestExerciseTaskResponse = ExerciseTaskResponse[TestTaskSchema]
-"""Test exercise task response contract.
+"""Test exercise task response interface.
 """

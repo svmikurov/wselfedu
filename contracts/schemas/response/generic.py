@@ -3,16 +3,16 @@
 from typing import Generic
 
 from contracts.schemas.base import ArbitraryDTO
-from contracts.schemas.response._types import (
-    AdaptedDomainResultT,
-    DomainResultStatusT,
-    ExtraContextT,
-)
 from contracts.schemas.response.mixins import (
     ContextField,
     DomainStatusField,
     ExtraContextField,
     OobField,
+)
+from contracts.schemas.response.types import (
+    AdaptedDomainResultT,
+    DomainResultStatusT,
+    ExtraContextT,
 )
 
 

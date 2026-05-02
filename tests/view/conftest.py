@@ -11,7 +11,7 @@ from django.test import RequestFactory
 from apps.core.handlers import RequestHandler
 from contracts.enums.exercise import ExerciseStatus
 from contracts.schemas.base import NullDTO
-from interfaces.schemas.response.web.generic import ResponseDTO
+from contracts.schemas.response.generic import ResponseDTO
 
 if TYPE_CHECKING:
     from django.core.handlers.wsgi import WSGIRequest
