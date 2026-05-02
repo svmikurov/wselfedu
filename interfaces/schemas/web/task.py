@@ -1,4 +1,4 @@
-"""Presentation exercise handler response interfaces."""
+"""Exercise task's WEB response interfaces."""
 
 from contracts.enums import ExerciseStatus
 from contracts.schemas.base import BaseDTO
@@ -7,8 +7,17 @@ from contracts.schemas.response.null import NullContext
 from contracts.schemas.response.types import AdaptedDomainResultT
 from interfaces.schemas.domain.exercise import Option
 
+__all__ = (
+    # Response's components
+    'PresentationTaskSchema',
+    'TestTaskSchema',
+    # Response's compositions
+    'PresentationTaskResponse',
+    'TestExerciseTaskResponse',
+)
+
 # =================================================
-# Components
+# Response's components
 # =================================================
 
 
@@ -28,8 +37,9 @@ class TestTaskSchema(BaseDTO):
 
 
 # =================================================
-# Compositions
+# Response's generics
 # =================================================
+
 
 ExerciseTaskResponse = OobResponseDTO[
     ExerciseStatus,
@@ -50,6 +60,11 @@ oob_html : `str`
     Out Of Band html.
 
 """
+
+
+# =================================================
+# Response's compositions
+# =================================================
 
 
 PresentationTaskResponse = ExerciseTaskResponse[PresentationTaskSchema]
