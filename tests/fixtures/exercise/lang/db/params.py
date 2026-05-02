@@ -27,7 +27,7 @@ def db_translation_lockup_conditions(
     translation_lockup_conditions: ConditionsProtocol,
 ) -> ConditionsProtocol:
     """Provide land discipline exercise conditions."""
-    res = ExerciseConditions.objects.create(
+    ExerciseConditions.objects.create(
         user=user,
         category_id=translation_lockup_conditions.category,
         # FIXME: Fix mark field
@@ -42,7 +42,6 @@ def db_translation_lockup_conditions(
         is_examine=translation_lockup_conditions.is_examine,
         is_know=translation_lockup_conditions.is_know,
     )
-    print(f'{res.__dict__ = }')
     return translation_lockup_conditions
 
 
