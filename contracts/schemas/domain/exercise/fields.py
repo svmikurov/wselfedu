@@ -112,6 +112,12 @@ class ProgressDataField(BaseDTO, Generic[ProgressT]):
     progress: ProgressT
 
 
+class IsKnownField(BaseDTO):
+    """Item study progress DTO integer field."""
+
+    is_known: bool
+
+
 # =================================================
 # Existing case
 # =================================================
