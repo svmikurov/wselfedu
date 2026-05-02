@@ -11,6 +11,7 @@ from contracts.entity.domain.general import (
 )
 from contracts.enums.exercise import ExerciseAction
 from contracts.schemas.request.exercise import ExerciseRequestDTO
+from utils.audit.mixins import BaseAuditable
 
 from ..abstract import AbstractRequestValidator
 
@@ -21,6 +22,7 @@ type _ValidatedT = HasAction[ExerciseAction]
 
 
 class CreateExerciseTaskValidator(
+    BaseAuditable,
     AbstractRequestValidator[_DataT, _ValidatedT],
 ):
     """Create exercise task WEB request data validator."""
