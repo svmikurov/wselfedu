@@ -11,23 +11,18 @@ from apps.lang.views import (
 urlpatterns = [
     # =============================================
     # Translation presentation
-    # ---------------------------------------------
-    # Renders presentation exercise template with JS business-logic to
-    # display presentation, request new case and update study progress.
+    # =============================================
+    # GET: renders initial template with first task, JS business-logic
+    # POST: renders partial templates with next task in exercise loop;
+    # handlers other requests (update progress, explain, ...)
     path(
         'translation/english/study/',
         TranslationPresentationView.as_view(),
         name='translation_english_study',
     ),
-    # Renders new presentation case.
-    path(
-        'translation/english/study/case/',
-        TemplateView.as_view(template_name='stub.html'),
-        name='translation_english_study_case',
-    ),
     # =============================================
-    # Translation test exercise
-    # ---------------------------------------------
+    # Translation test
+    # =============================================
     # Self-education
     path(
         'translation/english/test/',
