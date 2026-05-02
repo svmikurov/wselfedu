@@ -102,7 +102,7 @@ class ExerciseUseCaseStrategy(
             spec = adapter.adapt(command, parameters, None)
         else:
             spec = adapter.adapt(command, parameters, existing_domain)
-        self.auditor.record('command_adapter.ok', spec=spec)
+        self.auditor.record('service_specification.adapted', spec=spec)
 
         service = self._service_registry[action]
         self.auditor.record('service_strategy.select', obj=service)
