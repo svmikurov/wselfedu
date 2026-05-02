@@ -78,26 +78,21 @@ class RequestHandler(
             data=data,
         )
 
+        self.auditor.record('validator.call', obj=self._validator)
         validated = self._validator.validate(data)
-        self.auditor.record(
-            'validation.ok',
-            obj=self._validator,
-            validated=validated,
-        )
+        self.auditor.record('validator.ok', validated=validated)
 
+        self.auditor.record('assembler.call', obj=self._assembler)
         command = self._assembler.prepare(params, context, validated)
-        self.auditor.record(
-            'assembler.ok',
-            obj=self._assembler,
-            command=command,
-        )
+        self.auditor.record('assembler.ok', command=command)
 
         self.auditor.record('use_case.call', obj=self._use_case)
         domain_result = self._use_case.execute(command)
         self.auditor.record('use_case.ok', domain_result=domain_result)
 
-        self.auditor.record('response_adapter.start', obj=self._adapter)
+        self.auditor.record('adapter.call', obj=self._adapter)
         adapted = self._adapter.to_response(domain_result, context)
-        self.auditor.record('handler.finish', adapted=adapted)
+        self.auditor.record('adapter.ok', adapted=adapted)
 
+        self.auditor.record('handler.finish')
         return adapted
