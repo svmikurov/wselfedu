@@ -11,7 +11,7 @@ from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
     ExerciseSpecDTO,
 )
-from utils.audit.mixins import BaseAuditable
+from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
 CaseT = TypeVar('CaseT')

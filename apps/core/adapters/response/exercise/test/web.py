@@ -13,7 +13,7 @@ from contracts.schemas.domain.exercise.flow import TestExerciseTask
 from contracts.schemas.response.generic import OobResponseDTO
 from interfaces.schemas.domain.exercise import Option
 from interfaces.schemas.web import task as interfaces
-from utils.audit.mixins import BaseAuditable
+from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
 ExtraContext = TypeVar('ExtraContext', bound=Iterable[Any])

@@ -18,7 +18,7 @@ from apps.core.use_cases.abstract import AbstractUseCase
 from contracts import enums
 from contracts.entity.domain import params
 from contracts.entity.domain.exercise import flow
-from utils.audit.mixins import BaseAuditable
+from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
 CommandT = UserDataCommandProtocol[HasExerciseAction]

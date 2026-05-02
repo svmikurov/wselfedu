@@ -6,7 +6,7 @@ from apps.core.adapters.response.protocol import AdapterProtocol
 from apps.core.assemblers.protocol import AssemblerProtocol
 from apps.core.use_cases.protocol import UseCaseProtocol
 from apps.core.validators.request.protocol import RequestValidatorProtocol
-from utils.audit.mixins import BaseAuditable
+from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 from utils.logger.decorators import log_errors_to_file
 

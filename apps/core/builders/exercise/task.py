@@ -10,7 +10,7 @@ from contracts.schemas.domain.exercise.flow import (
 )
 from interfaces.protocols.domain import exercise as interfaces
 from interfaces.schemas.domain.exercise import Option
-from utils.audit.mixins import BaseAuditable
+from utils.audit.base import BaseAuditable
 
 from ..aliases import SpecT
 from ..protocol import SpecDtoBuilderProtocol

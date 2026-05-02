@@ -8,7 +8,7 @@ from apps.core.repositories.protocol import UserRepositoryProtocol
 from contracts.entity.general import NullProtocol
 from contracts.enums.exercise import ExerciseKind
 from contracts.schemas.base import NullDTO
-from utils.audit.mixins import BaseAuditable
+from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
 from ..abstract import AbstractResolver

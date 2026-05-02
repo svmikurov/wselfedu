@@ -26,7 +26,7 @@ from contracts.entity.domain.params import HasConditions, HasConfig
 from contracts.schemas.domain.exercise.flow import (
     ExplainExerciseDomainResult,
 )
-from utils.audit.mixins import BaseAuditable
+from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
 from .abstract import AbstractExerciseService

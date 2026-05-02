@@ -11,7 +11,7 @@ from contracts.entity.domain.general import (
 )
 from contracts.enums.exercise import ExerciseAction
 from contracts.schemas.request.exercise import ExerciseRequestDTO
-from utils.audit.mixins import BaseAuditable
+from utils.audit.base import BaseAuditable
 
 from ..abstract import AbstractRequestValidator
 
