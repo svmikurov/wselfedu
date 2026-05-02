@@ -87,7 +87,9 @@ class ExerciseUseCaseStrategy(
         service = self._service_registry[action]
         self.auditor.record('service_strategy.select', obj=service)
 
+        self.auditor.record('config_resolver.call', obj=self._config_resolver)
         parameters = self._config_resolver.resolve(command)
+        self.auditor.record('config_resolver.ok', parameters=parameters)
 
         # Case may not exist (not started yet)
         # StorageMissError is expected flow, not an exceptional error

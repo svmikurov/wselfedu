@@ -2,11 +2,16 @@
 
 from typing import Protocol, TypeVar
 
+from utils.audit.protocol import Auditable
+
 Command_contra = TypeVar('Command_contra', contravariant=True)
 Result_co = TypeVar('Result_co', covariant=True)
 
 
-class ResolverProtocol(Protocol[Command_contra, Result_co]):
+class ResolverProtocol(
+    Auditable,
+    Protocol[Command_contra, Result_co],
+):
     """Protocol for resolver."""
 
     def resolve(

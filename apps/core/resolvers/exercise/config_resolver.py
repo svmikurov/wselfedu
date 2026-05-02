@@ -8,6 +8,8 @@ from apps.core.repositories.protocol import UserRepositoryProtocol
 from contracts.entity.general import NullProtocol
 from contracts.enums.exercise import ExerciseKind
 from contracts.schemas.base import NullDTO
+from utils.audit.mixins import BaseAuditable
+from utils.audit.protocol import AuditorProtocol
 
 from ..abstract import AbstractResolver
 
@@ -15,6 +17,7 @@ from ..abstract import AbstractResolver
 # NOTE: Temporary simple implementation
 # TODO: Add cache store
 class ExerciseConfigurationResolver(
+    BaseAuditable,
     AbstractResolver[
         UserCommandProtocol,
         ExerciseParametersProtocol,
@@ -30,8 +33,11 @@ class ExerciseConfigurationResolver(
             ExerciseParametersProtocol,
         ],
         default: ExerciseParametersProtocol | None = None,
+        name: str | None = None,
+        auditor: AuditorProtocol | None = None,
     ) -> None:
         """Construct the resolver."""
+        super().__init__(name=name, auditor=auditor)
         self._exercise_type = exercise_type
         self._repository = parameters_repository
         self._default = default
@@ -44,12 +50,14 @@ class ExerciseConfigurationResolver(
         """Get exercise configuration."""
         match self._exercise_type:
             case ExerciseKind.PRESENTATION:
-                return self._repository.fetch(command.user, NullDTO())
+                params = self._repository.fetch(command.user, NullDTO())
 
             case ExerciseKind.TEST:
                 if not self._default:
                     raise AttributeError('Define default exercise config')
-                return self._default
+                params = self._default
 
             case _ as unexpected:
                 raise ValueError(f'Got unexpected exercise type: {unexpected}')
+
+        return params

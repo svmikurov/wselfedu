@@ -38,6 +38,7 @@ class LanguageContainer(DeclarativeContainer):
     lang_configurations = Container(
         LanguageConfigurationContainer,
         repositories=repositories,
+        auditor=auditor,
     )
     services = Container(
         ServiceContainer,

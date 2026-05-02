@@ -3,6 +3,7 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import (
     DependenciesContainer,
+    Dependency,
     Factory,
 )
 
@@ -21,6 +22,8 @@ class LanguageConfigurationContainer(DeclarativeContainer):
 
     repositories = DependenciesContainer()
 
+    auditor = Dependency()  # type: ignore[var-annotated]
+
     # =============================================
     # Internal dependencies
     # =============================================
@@ -30,4 +33,6 @@ class LanguageConfigurationContainer(DeclarativeContainer):
         exercise_type=ExerciseKind.PRESENTATION,
         parameters_repository=repositories.translation_parameters,
         default=None,
+        name='Exercise configuration resolver',
+        auditor=auditor,
     )
