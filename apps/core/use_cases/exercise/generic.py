@@ -79,27 +79,33 @@ class ExerciseUseCaseStrategy(
     @override
     def execute(self, command: CommandT) -> ResultT:
         """Process exercise."""
+        # Handled use cases: "create", "check",
+        # "update progress", and other actions.
+        # Each action is bound to a stored exercise case that has
+        # a hash key derived from the username and storage prefix.
         action = command.data.action
 
-        adapter = self._adapter_registry[action]
-        self.auditor.record('adapter_strategy.select', obj=adapter)
-
-        service = self._service_registry[action]
-        self.auditor.record('service_strategy.select', obj=service)
-
+        # Exercise has "create", "perform", and "display" parameters.
         self.auditor.record('config_resolver.call', obj=self._config_resolver)
         parameters = self._config_resolver.resolve(command)
         self.auditor.record('config_resolver.ok', parameters=parameters)
 
-        # Case may not exist (not started yet)
-        # StorageMissError is expected flow, not an exceptional error
+        # Action type specification is built using command and exercise
+        # parameters.
+        adapter = self._adapter_registry[action]
+        self.auditor.record('adapter_strategy.select', obj=adapter)
+        # Case may not exist (not started yet).
+        # StorageMissError is expected flow, not an exceptional error.
         try:
             existing_domain = self._storage.retrieve(command, self._prefix)
         except StorageMissError:
             spec = adapter.adapt(command, parameters, None)
         else:
             spec = adapter.adapt(command, parameters, existing_domain)
+        self.auditor.record('command_adapter.ok', spec=spec)
 
+        service = self._service_registry[action]
+        self.auditor.record('service_strategy.select', obj=service)
         case = service.execute(command.user, spec)
 
         if case.status == enums.ExerciseStatus.NEW_TASK:
