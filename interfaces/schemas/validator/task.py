@@ -1,9 +1,15 @@
-"""Create task WEB exercise interfaces."""
+"""WEB request interfaces for exercise study progress."""
 
 from contracts.schemas.domain.exercise.fields import ExerciseActionField
 
 
-class CreateTaskWebValidated(
+class ValidatedCreateTaskRequest(
     ExerciseActionField,
 ):
-    """Create task WEB request validated data."""
+    """Validated create task WEB request data.
+    
+    Parameter
+    ---------
+    action : `ExerciseAction`
+        Exercise action.
+    """

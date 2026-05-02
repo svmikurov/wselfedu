@@ -9,7 +9,7 @@ import pytest
 from apps.core.handlers.dto import RequestData
 from apps.core.validators.request.exercise import ExerciseRequestValidator
 from contracts.enums.exercise import ExerciseAction
-from interfaces.schemas.validator.task import CreateTaskWebValidated
+from interfaces.schemas.validator.task import ValidatedCreateTaskRequest
 
 if TYPE_CHECKING:
     from apps.core.handlers.protocol import RequestDataProtocol
@@ -40,7 +40,7 @@ def create_exercise_dto() -> CreateDtoT:
 def schema_registry() -> RegistryT:
     """Provide exercise action request validator schema registry."""
     return {
-        ExerciseAction.CREATE_TASK: CreateTaskWebValidated,
+        ExerciseAction.CREATE_TASK: ValidatedCreateTaskRequest,
     }
 
 
@@ -55,7 +55,7 @@ def validator(
 @pytest.fixture
 def validated() -> ValidatedT:
     """Provide test exercise request validator."""
-    return CreateTaskWebValidated(
+    return ValidatedCreateTaskRequest(
         action=ExerciseAction.CREATE_TASK,
     )
 
