@@ -57,7 +57,6 @@ class TestExerciseTaskBuilder(
         spec: SpecT,
     ) -> interfaces.TestTaskProtocol:
         """Build test exercise task DTO."""
-        print(f'{data = }')
         return TestExerciseTask(
             status=data.status,
             question_option_value=data.domain.question_option_value,
