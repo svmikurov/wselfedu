@@ -12,6 +12,7 @@ from .handler.web.container import WebHandlerContainer
 from .repository.repository import LanguageRepositoryContainer
 from .service.container import ServiceContainer
 from .use_case.container import UseCaseContainer
+from .validator.container import LangValidatorContainer
 
 
 class LanguageContainer(DeclarativeContainer):
@@ -40,6 +41,9 @@ class LanguageContainer(DeclarativeContainer):
         repositories=repositories,
         auditor=auditor,
     )
+    validators = Container(
+        LangValidatorContainer,
+    )
     services = Container(
         ServiceContainer,
         domains=domains,
@@ -55,6 +59,7 @@ class LanguageContainer(DeclarativeContainer):
     )
     handlers = Container(
         WebHandlerContainer,
+        validators=validators,
         use_cases=use_cases,
         user_command_storage=user_command_storage,
         auditor=auditor,

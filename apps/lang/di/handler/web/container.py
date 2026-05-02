@@ -22,9 +22,6 @@ from apps.core.adapters.response.null import NullResponseAdapter
 from apps.core.assemblers.assembler import UserAssembler, UserDataAssembler
 from apps.core.handlers.generic import RequestHandler
 from apps.core.repositories.use_case import RepositoryUseCase
-from apps.core.validators.request.exercise.create_task import (
-    CreateExerciseTaskValidator,
-)
 from apps.core.validators.request.null import NullValidator
 from apps.lang.factories.lockup_factory import UserTranslationLookupFactory
 from apps.lang.models import EnglishTranslation
@@ -39,6 +36,7 @@ class WebHandlerContainer(DeclarativeContainer):
     # External dependencies
     # ---------------------------------------------
     use_cases = DependenciesContainer()
+    validators = DependenciesContainer()
 
     user_command_storage = Dependency()  # type: ignore
     auditor = Dependency()  # type: ignore
@@ -85,7 +83,7 @@ class WebHandlerContainer(DeclarativeContainer):
     )
     process_regular_translation_presentation = Factory(
         RequestHandler,
-        validator=Factory(CreateExerciseTaskValidator),
+        validator=validators.new_task,
         assembler=Factory(UserDataAssembler),
         use_case=use_cases.process_regular_translation_presentation,
         adapter=Factory(
@@ -118,7 +116,7 @@ class WebHandlerContainer(DeclarativeContainer):
     )
     process_regular_translation_test = Factory(
         RequestHandler,
-        validator=Factory(CreateExerciseTaskValidator),
+        validator=validators.new_task,
         assembler=Factory(UserDataAssembler),
         use_case=use_cases.process_regular_translation_test,
         adapter=Factory(
