@@ -12,7 +12,7 @@ from apps.core.adapters.response.abstract import AbstractResponseAdapter
 from contracts import NullProtocol
 from contracts.enums import ExerciseStatus
 from contracts.schemas.domain.exercise.flow import PresentationTask
-from interfaces.schemas.web import task as interfaces
+from interfaces.schemas import web as interfaces
 
 
 class PresentationTaskWebAdapter(
