@@ -50,7 +50,7 @@ class Auditor(AbstractAuditor):
 
         obj_name = ''
         if obj and obj.name and obj.name != 'undefined':
-            obj_name = f' ===== {obj.name} ====='
+            obj_name = f' {obj.name}'
 
         obj_file_path = ''
         if obj:
@@ -67,7 +67,9 @@ class Auditor(AbstractAuditor):
 
         msg = f'[{self._auditor_id}] {step_name}{obj_name}'
         if obj_repr:
-            msg += f'\n{obj_repr}{details_repr}'
+            msg += f'\n{obj_repr}'
+        if details_repr:
+            msg += details_repr
 
         self._record(msg)
 
