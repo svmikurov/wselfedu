@@ -7,7 +7,7 @@ class ValidatedCreateTaskRequest(
     ExerciseActionField,
 ):
     """Validated create task WEB request data.
-    
+
     Parameter
     ---------
     action : `ExerciseAction`

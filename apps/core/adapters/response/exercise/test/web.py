@@ -69,7 +69,7 @@ class WebTestExerciseAdapter(
         return interfaces.TestExerciseTaskResponse(
             domain_status=domain_result.status,
             context=interfaces.TestTaskSchema(
-                question=domain_result.items[
+                question_text=domain_result.items[
                     domain_result.question_option_value
                 ].text,
                 options=domain_result.items,
@@ -113,7 +113,7 @@ class WebExplainAdapter(
         return OobResponseDTO(
             domain_status=ResponseStatusEnum.EXPLAIN_CASE,  # type: ignore
             context=interfaces.TestTaskSchema(
-                question=domain_result.question_text,
+                question_text=domain_result.question_text,
                 options=[
                     interfaces.Option(
                         value=option.options_value,

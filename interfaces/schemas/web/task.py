@@ -1,7 +1,13 @@
 """Exercise task's WEB response interfaces."""
 
 from contracts.enums import ExerciseStatus
-from contracts.schemas.base import BaseDTO
+from contracts.schemas.domain.exercise.fields import (
+    DefineField,
+    MeanField,
+    ProgressValueField,
+    QuestionTextField,
+)
+from contracts.schemas.fields import TextField, ValueField
 from contracts.schemas.response.generic import OobResponseDTO
 from contracts.schemas.response.null import NullContext
 from contracts.schemas.response.types import AdaptedDomainResultT
@@ -20,25 +26,46 @@ __all__ = (
 # =================================================
 
 
-class Option(BaseDTO):
-    """Test exercise option schema."""
+class Option(ValueField, TextField):
+    """Test exercise option schema.
 
-    value: int
-    text: str
-
-
-class PresentationTaskSchema(BaseDTO):
-    """Presentation task web schema."""
-
-    define: str
-    mean: str
-    progress: int
+    Parameter
+    ---------
+    value : `int`
+        Option value.
+    text : `str`
+        Option text.
+    """
 
 
-class TestTaskSchema(BaseDTO):
-    """Presentation task web schema."""
+class PresentationTaskSchema(
+    DefineField,
+    MeanField,
+    ProgressValueField,
+):
+    """Presentation task web schema.
 
-    question: str
+    Parameter
+    ---------
+    define : `str`
+    mean : `str`
+    progress_value: `int`
+    """
+
+
+class TestTaskSchema(
+    QuestionTextField,
+):
+    """Presentation task web schema.
+
+    Parameter
+    ---------
+    question_text : `str
+        Question text.
+    Options : `list[Option]`
+        Task options (value, text).
+    """
+
     options: list[Option]
 
 

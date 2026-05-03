@@ -51,7 +51,7 @@ class PresentationTaskWebAdapter(
             context=interfaces.PresentationTaskSchema(
                 define=domain_result.question_text,
                 mean=domain_result.answer_text,
-                progress=domain_result.progress_value,
+                progress_value=domain_result.progress_value,
             ),
             oob_html=self._build_oob(domain_result),
         )

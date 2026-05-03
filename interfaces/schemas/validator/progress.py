@@ -11,7 +11,7 @@ class ValidatedExerciseProgress(
     IsKnownField,
 ):
     """Validated update progress WEB request data.
-    
+
     Parameter
     ---------
     action : 'enums.ExerciseAction`
