@@ -1,7 +1,6 @@
 """Exercise candidates repository test."""
 
 import pytest
-from django.db.models import QuerySet
 
 from apps.core.repositories.protocol import UserRepositoryProtocol
 from apps.lang.models import EnglishTranslation
@@ -11,13 +10,11 @@ from apps.lang.repositories.exercise.candidates.translations import (
 from apps.users.models import Person
 from contracts import NullProtocol
 from contracts.schemas.base import NullDTO
+from interfaces.schemas.domain.exercise import CandidateSchema
 
 from .._types.resource import TranslationCandidates
 
-_Repository = UserRepositoryProtocol[
-    NullProtocol,
-    QuerySet[EnglishTranslation, EnglishTranslation],
-]
+_Repository = UserRepositoryProtocol[NullProtocol, list[CandidateSchema]]
 
 
 @pytest.fixture
