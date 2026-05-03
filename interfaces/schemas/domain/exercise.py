@@ -1,6 +1,29 @@
 """Exercise's domain schema interfaces."""
 
+from pydantic import ConfigDict
+
 from contracts.schemas.base import BaseDTO
+from contracts.schemas.domain.exercise.fields import (
+    DefineField,
+    MeanField,
+    ProgressValueField,
+)
+from contracts.schemas.fields import ResourceIdentifierField
+
+
+class CandidateSchema(
+    ResourceIdentifierField,
+    DefineField,
+    MeanField,
+    ProgressValueField,
+):
+    """Exercise task candidate schema."""
+
+    model_config = ConfigDict(  # type: ignore
+        extra='forbid',
+        frozen=True,
+        from_attributes=True,
+    )
 
 
 class Option(BaseDTO):
