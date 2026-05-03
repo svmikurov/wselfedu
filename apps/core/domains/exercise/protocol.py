@@ -5,13 +5,14 @@ from typing import Protocol, TypeVar
 from contracts.entity.domain import general, params
 from contracts.entity.domain.exercise import fields
 from contracts.enums import exercise as enums
+from interfaces.protocols.domain.exercise import Candidate, Candidates
 
 ExerciseConditionsT = TypeVar('ExerciseConditionsT')
 ExerciseConfigT = TypeVar('ExerciseConfigT')
 ExerciseConfig_contra = TypeVar('ExerciseConfig_contra', contravariant=True)
 ExerciseSettingsT = TypeVar('ExerciseSettingsT')
 
-CandidateT = TypeVar('CandidateT', bound=fields.Candidate)
+CandidateT = TypeVar('CandidateT', bound=Candidate)
 Case_co = TypeVar('Case_co', covariant=True)
 OptionT = TypeVar('OptionT')
 Option_co = TypeVar('Option_co', covariant=True)
@@ -169,7 +170,7 @@ class ExerciseDomainProtocol(
 
     def execute(
         self,
-        candidates: fields.Candidates,
+        candidates: Candidates,
         conf: ExerciseConfig_contra,
     ) -> Option_co:
         """Create exercise case."""

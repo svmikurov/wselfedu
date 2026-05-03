@@ -9,8 +9,7 @@ from apps.core.domains.exercise.protocol import (
 from contracts.entity.domain.exercise.flow import (
     PresentationDomainResultProtocol,
 )
-
-from .entity.domain.exercise.fields import Candidates
+from interfaces.protocols.domain.exercise import Candidates
 
 CaseAlias: TypeAlias = PresentationDomainResultProtocol
 CandidatesAlias: TypeAlias = Candidates

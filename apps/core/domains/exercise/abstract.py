@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
-from contracts.entity.domain.exercise.fields import Candidate, Candidates
+from interfaces.protocols.domain.exercise import Candidate, Candidates
 
 Conf = TypeVar('Conf')
 Case = TypeVar('Case')

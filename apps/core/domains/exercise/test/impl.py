@@ -7,13 +7,13 @@ from apps.core.exceptions import info
 from contracts import enums
 from contracts.aliases import CandidatesAlias
 from contracts.entity.domain.exercise.fields import (
-    Candidates,
     HasDisplayOrder,
     HasOptionCount,
     HasQuestionOptionValue,
 )
 from contracts.entity.domain.exercise.flow import TestDomainResultProtocol
 from contracts.schemas.domain.exercise.flow import TestExerciseDomainResult
+from interfaces.protocols.domain.exercise import Candidates
 
 from ..abstract import (
     AbstractCheckExerciseDomain,

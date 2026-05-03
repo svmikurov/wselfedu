@@ -2,10 +2,11 @@
 
 from contracts.entity.domain.exercise import fields
 from contracts.enums import DisplayOrder, ExerciseStatus
-from contracts.schemas.domain.exercise.flow import (
-    PresentationTask,
+from contracts.schemas.domain.exercise.flow import PresentationTask
+from interfaces.protocols.domain.exercise import (
+    Candidate,
+    PresentationTaskProtocol,
 )
-from interfaces.protocols.domain.exercise import PresentationTaskProtocol
 
 from ..exercise.protocol import HasPhases
 from .abstract import AbstractTaskBuilder
@@ -16,7 +17,7 @@ ANSWER_INDEX = 1
 
 class PresentationTaskBuilder(
     AbstractTaskBuilder[
-        fields.HasExerciseDomainOption,
+        fields.HasExerciseDomainOption[Candidate],
         HasPhases,
         PresentationTaskProtocol,
     ],
@@ -25,7 +26,7 @@ class PresentationTaskBuilder(
 
     def build(
         self,
-        case: fields.HasExerciseDomainOption,
+        case: fields.HasExerciseDomainOption[Candidate],
         conf: HasPhases,
     ) -> PresentationTaskProtocol:
         """Build presentation task."""
@@ -40,7 +41,7 @@ class PresentationTaskBuilder(
 
     def _get_question(
         self,
-        candidate: fields.Candidate,
+        candidate: Candidate,
         phases: list[DisplayOrder],
     ) -> str:
         """Get question text by display case phase order."""
@@ -48,7 +49,7 @@ class PresentationTaskBuilder(
 
     def _get_answer(
         self,
-        candidate: fields.Candidate,
+        candidate: Candidate,
         phases: list[DisplayOrder],
     ) -> str:
         """Get answer text by display case phase order."""

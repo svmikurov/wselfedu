@@ -19,12 +19,13 @@ from apps.core.services.exercise.protocol import ExerciseServiceProtocol
 from apps.core.use_cases.protocol import UseCaseProtocol
 from apps.core.validators.request.protocol import RequestValidatorProtocol
 from apps.lang.models import EnglishTranslation
-from contracts.entity.domain.exercise.fields import Candidates, HasDomain
+from contracts.entity.domain.exercise.fields import HasDomain
 from contracts.entity.general import NullProtocol
 from contracts.schemas.domain.exercise.flow import (
     PresentationExerciseDomainResult,
     TestExerciseDomainResult,
 )
+from interfaces.protocols.domain.exercise import Candidates
 
 # HACK: Fix Any type hint
 # HACK: Fix dependency from implementation
