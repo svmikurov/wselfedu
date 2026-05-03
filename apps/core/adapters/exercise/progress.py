@@ -41,9 +41,13 @@ class ExerciseProgressAdapter(
         existing_case: CaseT | None,
     ) -> ProgressUpdateConditionsProtocol:
         """Adapt exercise request data for exercise service spec."""
-        return ExerciseSpecDTO(
-            conditions=params.conditions,
-            conf=params.conf,
-            settings=params.settings,
-            existing_case=existing_case,
+        if existing_case is None:
+            raise ValueError(
+                'No existing (stored) exercise. '
+                'Not available update progress without exercise case.'
+            )
+
+        return ProgressUpdateConditions(
+            pk=existing_case.pk,
+            delta=1,
         )
