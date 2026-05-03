@@ -12,6 +12,7 @@ from apps.lang.models.abstract import AbstractProgressModel
 from apps.study import models as study_models
 from apps.users.models.user import Person
 from interfaces.protocols.repository import ProgressUpdateConditionsProtocol
+from utils.audit import AuditorProtocol, BaseAuditable
 
 from .abstract import AbstractProcessExerciseRepository
 
@@ -19,12 +20,19 @@ log = logging.getLogger(__name__)
 
 
 class ProgressRepository(
-    AbstractProcessExerciseRepository[ProgressUpdateConditionsProtocol, None]
+    BaseAuditable,
+    AbstractProcessExerciseRepository[ProgressUpdateConditionsProtocol, None],
 ):
     """Study progress repository."""
 
-    def __init__(self, manager: Manager[AbstractProgressModel]) -> None:
+    def __init__(
+        self,
+        manager: Manager[AbstractProgressModel],
+        name: str | None = None,
+        auditor: AuditorProtocol | None = None,
+    ) -> None:
         """Construct the repository."""
+        super().__init__(name=name, auditor=auditor)
         self._manager = manager
 
     @override

@@ -35,6 +35,7 @@ class LanguageContainer(DeclarativeContainer):
     repositories = Container(
         LanguageRepositoryContainer,
         storage=storage,
+        auditor=auditor,
     )
     lang_configurations = Container(
         LanguageConfigurationContainer,
@@ -48,6 +49,7 @@ class LanguageContainer(DeclarativeContainer):
         ServiceContainer,
         domains=domains,
         repositories=repositories,
+        auditor=auditor,
     )
     use_cases = Container(
         UseCaseContainer,

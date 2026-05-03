@@ -3,6 +3,7 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import (
     DependenciesContainer,
+    Dependency,
     Dict,
     Factory,
 )
@@ -22,6 +23,8 @@ class ServiceContainer(DeclarativeContainer):
     domains = DependenciesContainer()
     repositories = DependenciesContainer()
 
+    auditor = Dependency()  # type: ignore
+
     # =============================================
     # Internal dependencies
     # =============================================
@@ -39,12 +42,16 @@ class ServiceContainer(DeclarativeContainer):
         candidates_repository=repositories.translation_candidates,
         domain=domains.presentation,
         builder=exercise_case_builder,
+        auditor=auditor,
+        name='Create translation presentation service',
     )
     create_translation_test = Factory(
         services.CreateExerciseService,
         candidates_repository=repositories.translation_candidates,
         domain=domains.test,
         builder=exercise_case_builder,
+        auditor=auditor,
+        name='Create translation test exercise service',
     )
 
     # Progress
@@ -52,6 +59,8 @@ class ServiceContainer(DeclarativeContainer):
     translation_progress = Factory(
         services.UpdateProgressService,
         repository=repositories.regular_translation_progress,
+        auditor=auditor,
+        name='Update translation study progress service',
     )
 
     # =============================================

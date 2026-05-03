@@ -3,6 +3,7 @@
 from typing import Protocol, TypeVar
 
 from apps.users.models import Person
+from utils.audit.protocol import Auditable
 
 FilterData_contra = TypeVar('FilterData_contra', contravariant=True)
 UpdateData_contra = TypeVar('UpdateData_contra', contravariant=True)
@@ -23,7 +24,10 @@ class UserRepositoryProtocol(Protocol[FilterData_contra, Result_co]):
         """Fetch data."""
 
 
-class UserCommandRepositoryProtocol(Protocol[Command_contra, Result_co]):
+class UserCommandRepositoryProtocol(
+    Auditable,
+    Protocol[Command_contra, Result_co],
+):
     """Protocol for user command repository."""
 
     def update(self, user: Person, command: Command_contra) -> Result_co:

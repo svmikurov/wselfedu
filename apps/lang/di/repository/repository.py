@@ -21,6 +21,7 @@ class LanguageRepositoryContainer(DeclarativeContainer):
     # External dependencies
     # =============================================
     storage = Dependency()  # type: ignore
+    auditor = Dependency()  # type: ignore
 
     # =============================================
     # English language
@@ -88,6 +89,8 @@ class LanguageRepositoryContainer(DeclarativeContainer):
     regular_translation_progress = Factory(
         ProgressRepository,
         manager=models.EnglishTranslation.objects,
+        name='Regular translation study progress repository',
+        auditor=auditor,
     )
     assigned_translation_progress = Factory(
         repositories.AssignedTranslationProgressRepository,

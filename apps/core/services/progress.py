@@ -27,4 +27,9 @@ class UpdateProgressService(
 
     def execute(self, user: Person, spec: object) -> object:
         """Update progress."""
+        self.auditor.record(
+            'progress_repository.call',
+            obj=self._repository,
+            spec=spec,
+        )
         return self._repository.update(user, spec)
