@@ -134,12 +134,10 @@ class Candidate(
     general.HasResourceIdentifier,
     HasDefineText,
     HasMeanText,
-    # HasProgressValue,
+    HasProgressValue,
     Protocol,
 ):
     """Protocol for a single candidate item."""
-
-    progress: int
 
 
 class Candidates(Protocol):

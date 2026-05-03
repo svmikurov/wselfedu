@@ -35,7 +35,7 @@ class PresentationTaskBuilder(
             status=ExerciseStatus.NEW_TASK,
             question_text=self._get_question(option, conf.phases),
             answer_text=self._get_answer(option, conf.phases),
-            progress_value=option.progress,
+            progress_value=option.progress_value,
         )
 
     def _get_question(

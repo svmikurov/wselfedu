@@ -37,7 +37,7 @@ class ExercisePresentationBuilder(
             status=data.status,
             question_text=option.define,
             answer_text=option.mean,
-            progress_value=option.progress,
+            progress_value=option.progress_value,
         )
 
 
