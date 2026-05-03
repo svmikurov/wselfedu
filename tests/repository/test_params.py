@@ -8,7 +8,7 @@ from apps.core.domains.exercise.protocol import (
     ExerciseParametersProtocol,
     ExerciseSettingsProtocol,
 )
-from apps.core.repositories.protocol import UserRepositoryProtocol
+from apps.core.repositories.protocol import RepositoryProtocol
 from apps.lang.models import (
     ExerciseConditions,
     PresentationSettings,
@@ -21,7 +21,7 @@ from apps.users.models import Person
 from contracts import NullProtocol
 from contracts.schemas.base import NullDTO
 
-_RepositoryT = UserRepositoryProtocol[NullProtocol, ExerciseParametersProtocol]
+_RepositoryT = RepositoryProtocol[NullProtocol, ExerciseParametersProtocol]
 
 
 @pytest.fixture

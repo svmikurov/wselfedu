@@ -4,7 +4,7 @@ from typing import override
 
 from apps.core.assemblers.protocol import UserCommandProtocol
 from apps.core.domains.exercise.protocol import ExerciseParametersProtocol
-from apps.core.repositories.protocol import UserRepositoryProtocol
+from apps.core.repositories.protocol import RepositoryProtocol
 from contracts.entity.general import NullProtocol
 from contracts.enums.exercise import ExerciseKind
 from contracts.schemas.base import NullDTO
@@ -28,7 +28,7 @@ class ExerciseConfigurationResolver(
     def __init__(
         self,
         exercise_type: ExerciseKind,
-        parameters_repository: UserRepositoryProtocol[
+        parameters_repository: RepositoryProtocol[
             NullProtocol,
             ExerciseParametersProtocol,
         ],

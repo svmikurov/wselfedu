@@ -18,7 +18,7 @@ from apps.core.domains.exercise.test.dto import (
     TestExerciseMeta,
 )
 from apps.core.domains.task.protocol import TaskBuilderProtocol
-from apps.core.repositories.protocol import UserRepositoryProtocol
+from apps.core.repositories.protocol import RepositoryProtocol
 from apps.users.models import Person
 from contracts import aliases
 from contracts.entity.domain.exercise import fields
@@ -69,7 +69,7 @@ class CreateExerciseService(
 
     def __init__(
         self,
-        candidates_repository: UserRepositoryProtocol[
+        candidates_repository: RepositoryProtocol[
             ConditionsProtocol,
             aliases.CandidatesAlias,
         ],

@@ -22,7 +22,7 @@ from apps.core.handlers.protocol import (
     RequestDataProtocol,
     RequestHandlerProtocol,
 )
-from apps.core.repositories.protocol import UserRepositoryProtocol
+from apps.core.repositories.protocol import RepositoryProtocol
 from apps.core.views.auth import UserLoginRequiredMixin
 from apps.core.views.mixins import GetHandlerMixin, GetRepositoryMixin
 from di import MainContainer
@@ -126,7 +126,7 @@ class EnglishTranslationCreateView(
         self,
         request: HttpRequest,
         *args: object,
-        repository: UserRepositoryProtocol[Any, Any] = Provide[
+        repository: RepositoryProtocol[Any, Any] = Provide[
             REPOSITORIES.translation  # type: ignore
         ],
         **kwargs: object,

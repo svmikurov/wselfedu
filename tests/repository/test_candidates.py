@@ -2,7 +2,7 @@
 
 import pytest
 
-from apps.core.repositories.protocol import UserRepositoryProtocol
+from apps.core.repositories.protocol import RepositoryProtocol
 from apps.lang.models import EnglishTranslation
 from apps.lang.repositories.exercise.candidates.translations import (
     UserTranslationsRepository,
@@ -14,7 +14,7 @@ from interfaces.schemas.domain.exercise import TaskItem
 
 from .._types.resource import TranslationCandidates
 
-_Repository = UserRepositoryProtocol[NullProtocol, list[TaskItem]]
+_Repository = RepositoryProtocol[NullProtocol, list[TaskItem]]
 
 
 @pytest.fixture

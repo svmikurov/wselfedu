@@ -4,7 +4,7 @@ import pytest
 
 from apps.core.assemblers.protocol import UserCommandProtocol
 from apps.core.domains.exercise.protocol import ExerciseParametersProtocol
-from apps.core.repositories.protocol import UserRepositoryProtocol
+from apps.core.repositories.protocol import RepositoryProtocol
 from apps.core.resolvers.exercise.config_resolver import (
     ExerciseConfigurationResolver,
 )
@@ -19,7 +19,7 @@ from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
 )
 
-RepositoryT = UserRepositoryProtocol[
+RepositoryT = RepositoryProtocol[
     NullProtocol,
     ExerciseParametersProtocol,
 ]

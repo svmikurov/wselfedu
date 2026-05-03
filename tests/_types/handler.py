@@ -14,7 +14,7 @@ from apps.core.handlers.protocol import (
     RequestContextProtocol,
     RequestDataProtocol,
 )
-from apps.core.repositories.protocol import UserRepositoryProtocol
+from apps.core.repositories.protocol import RepositoryProtocol
 from apps.core.services.exercise.protocol import ExerciseServiceProtocol
 from apps.core.use_cases.protocol import UseCaseProtocol
 from apps.core.validators.request.protocol import RequestValidatorProtocol
@@ -99,7 +99,7 @@ OptionsDomainT: TypeAlias = ExerciseDomainProtocol[
     ExerciseConfigProtocol,
     TestExerciseDomainResult,
 ]
-RepositoryT: TypeAlias = UserRepositoryProtocol[
+RepositoryT: TypeAlias = RepositoryProtocol[
     object,
     object,
 ]

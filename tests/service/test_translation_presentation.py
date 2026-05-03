@@ -15,7 +15,7 @@ from apps.core.domains.exercise.protocol import (
     ExerciseConfigProtocol,
     HasCase,
 )
-from apps.core.repositories.protocol import UserRepositoryProtocol
+from apps.core.repositories.protocol import RepositoryProtocol
 from apps.core.services.exercise.generic import CreateExerciseService
 from apps.core.services.exercise.protocol import ExerciseServiceProtocol
 from apps.lang.models import EnglishTranslation
@@ -59,13 +59,11 @@ class _DomainResultProtocol(
 
 CaseT = TypeVar('CaseT')
 _Candidates: TypeAlias = list[TaskItem]
-_Repository = UserRepositoryProtocol[
+_Repository = RepositoryProtocol[
     ConditionsProtocol,
     aliases.CandidatesAlias,
 ]
-_TranslationRepository = UserRepositoryProtocol[
-    ConditionsProtocol, _Candidates
-]
+_TranslationRepository = RepositoryProtocol[ConditionsProtocol, _Candidates]
 _Selector = SelectorProtocol[ExerciseConfigProtocol]
 _Domain = aliases.ExerciseDomainAlias
 _ServiceT = ExerciseServiceProtocol[_SpecProtocol, _DomainResultProtocol]

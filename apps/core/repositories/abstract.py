@@ -5,7 +5,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, TypeVar, override
 
-from .protocol import UserCommandRepositoryProtocol, UserRepositoryProtocol
+from .protocol import CommandRepositoryProtocol, RepositoryProtocol
 
 if TYPE_CHECKING:
     from apps.users.models import Person
@@ -17,7 +17,7 @@ CommandT = TypeVar('CommandT')
 
 class AbstractUserFetchRepository(
     ABC,
-    UserRepositoryProtocol[FilterT, ResultT],
+    RepositoryProtocol[FilterT, ResultT],
 ):
     """ABC for fetch repository via user filter."""
 
@@ -34,7 +34,7 @@ class AbstractUserFetchRepository(
 
 class AbstractProcessExerciseRepository(
     ABC,
-    UserCommandRepositoryProtocol[CommandT, ResultT],
+    CommandRepositoryProtocol[CommandT, ResultT],
 ):
     """ABC for process exercise repository."""
 

@@ -3,7 +3,7 @@
 from typing import TypeVar
 
 from apps.core.builders.abstract import AbstractLockupConditionsFactory
-from apps.core.repositories.protocol import UserRepositoryProtocol
+from apps.core.repositories.protocol import RepositoryProtocol
 from apps.core.use_cases.abstract import AbstractUseCase
 
 LockupCommandT = TypeVar('LockupCommandT')
@@ -20,7 +20,7 @@ class RepositoryUseCase(AbstractUseCase[LockupCommandT, QueryResultT]):
             LockupCommandT,
             LockupConditionsT,
         ],
-        repository: UserRepositoryProtocol[LockupConditionsT, QueryResultT],
+        repository: RepositoryProtocol[LockupConditionsT, QueryResultT],
     ) -> None:
         """Construct the repository."""
         self._lockup_factory = lockup_factory

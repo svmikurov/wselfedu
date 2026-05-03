@@ -7,7 +7,7 @@ from django.db.models import QuerySet
 
 from apps.core.assemblers.command import UserDataCommand
 from apps.core.handlers.dto import RequestContext, RequestData
-from apps.core.repositories.protocol import UserRepositoryProtocol
+from apps.core.repositories.protocol import RepositoryProtocol
 from apps.lang.models import EnglishTranslation
 from apps.lang.repositories.exercise.candidates.translations import (
     UserTranslationsRepository,
@@ -107,7 +107,7 @@ def exercise_params() -> ExerciseParametersDTO:
 
 
 @pytest.fixture
-def translation_repository() -> UserRepositoryProtocol[object, object]:
+def translation_repository() -> RepositoryProtocol[object, object]:
     """Provide exercise config.."""
     return UserTranslationsRepository(
         manager=EnglishTranslation.objects,
@@ -118,7 +118,7 @@ def translation_repository() -> UserRepositoryProtocol[object, object]:
 def translation_candidates_db(
     user: Person,
     translations: list[EnglishTranslation],  # Populate DB
-    translation_repository: UserRepositoryProtocol[
+    translation_repository: RepositoryProtocol[
         NullDTO,
         QuerySet[EnglishTranslation],
     ],

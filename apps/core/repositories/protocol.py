@@ -13,7 +13,7 @@ Query_co = TypeVar('Query_co', covariant=True)
 Result_co = TypeVar('Result_co', covariant=True)
 
 
-class UserRepositoryProtocol(Protocol[FilterData_contra, Result_co]):
+class RepositoryProtocol(Protocol[FilterData_contra, Result_co]):
     """Protocol for user's resource repository provides DTO."""
 
     def fetch(
@@ -24,7 +24,7 @@ class UserRepositoryProtocol(Protocol[FilterData_contra, Result_co]):
         """Fetch data."""
 
 
-class UserCommandRepositoryProtocol(
+class CommandRepositoryProtocol(
     Auditable,
     Protocol[Command_contra, Result_co],
 ):

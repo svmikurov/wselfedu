@@ -4,14 +4,14 @@ from typing import TypeAlias
 
 import pytest
 
-from apps.core.repositories.protocol import UserRepositoryProtocol
+from apps.core.repositories.protocol import RepositoryProtocol
 from apps.users.models import Person
 from contracts.schemas.base import NullDTO
 from di import MainContainer
 from interfaces.schemas.domain.exercise import TaskItem
 
 _Translations: TypeAlias = list[TaskItem]
-_Repository: TypeAlias = UserRepositoryProtocol[object, _Translations]
+_Repository: TypeAlias = RepositoryProtocol[object, _Translations]
 
 
 @pytest.fixture

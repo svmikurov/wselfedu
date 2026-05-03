@@ -1,6 +1,6 @@
 """Update study progress service."""
 
-from apps.core.repositories.protocol import UserCommandRepositoryProtocol
+from apps.core.repositories.protocol import CommandRepositoryProtocol
 from apps.users.models.user import Person
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
@@ -17,7 +17,7 @@ class UpdateProgressService(
 
     def __init__(
         self,
-        repository: UserCommandRepositoryProtocol[object, object],
+        repository: CommandRepositoryProtocol[object, object],
         name: str | None = None,
         auditor: AuditorProtocol | None = None,
     ) -> None:
