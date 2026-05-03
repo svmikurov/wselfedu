@@ -81,6 +81,7 @@ class WebHandlerContainer(DeclarativeContainer):
             ),
         },
     )
+    # TODO: Rename to 'regular_translation_presentation' handler
     process_regular_translation_presentation = Factory(
         RequestHandler,
         validator=validators.exercise_request,
