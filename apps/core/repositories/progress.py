@@ -71,8 +71,8 @@ class ProgressRepository(
     def _get_max_progress(user: Person) -> int:
         # Get parameters
         parameters = (
-            models.ExerciseConditions.objects.filter(user=user)  # type: ignore
-            .select_related('progress')
+            models.ExerciseConditions.objects.filter(user=user)
+            .select_related('progress_bar')
             .first()
         )
 
