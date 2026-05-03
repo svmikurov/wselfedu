@@ -38,6 +38,8 @@ class PresentationExerciseDomainResult(ArbitraryDTO):
 class TestExerciseDomainResult(ArbitraryDTO):
     """Test exercise domain result DTO."""
 
+    __test__ = False
+
     question_option_value: int
     items: list[TaskItem]
     status: enums.ExerciseStatus

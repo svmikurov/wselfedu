@@ -3,6 +3,7 @@
 import pytest
 
 from contracts.aliases import CandidatesAlias
+from di import MainContainer
 
 from .._types.handler import (
     HandlerT,
@@ -10,6 +11,20 @@ from .._types.handler import (
     RequestDataT,
     RequestParamsT,
 )
+
+# =================================================
+# Tested handler
+# =================================================
+
+
+@pytest.fixture
+def regular_presentation_handler(
+    main_container: MainContainer,
+) -> HandlerT:
+    """Provide translation regular presentation exercise handler."""
+    return (  # type: ignore
+        main_container.lang.handlers.process_regular_translation_test()  # type: ignore
+    )
 
 
 @pytest.mark.django_db

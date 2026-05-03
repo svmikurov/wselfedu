@@ -9,6 +9,7 @@ from apps.core.handlers.generic import RequestHandler
 from apps.users.models.user import Person
 from contracts.enums import ExerciseAction
 from contracts.schemas.base import NullDTO
+from di import MainContainer
 
 from .._types.handler import (
     AdapterT,
@@ -20,6 +21,17 @@ from .._types.handler import (
     UseCaseT,
     ValidatorT,
 )
+
+
+@pytest.fixture
+def regular_presentation_handler(
+    main_container: MainContainer,
+) -> HandlerT:
+    """Provide translation regular presentation exercise handler."""
+    return (  # type: ignore
+        main_container.lang.handlers.process_regular_translation_test()  # type: ignore
+    )
+
 
 # =================================================
 # Request's DTOs

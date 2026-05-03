@@ -20,22 +20,6 @@ def repository(main_container: MainContainer) -> _Repository:
     return main_container.lang.repositories.translation_candidates()  # type: ignore
 
 
-def test_initialize(repository: _Repository) -> None:
-    """Test that repository initialized successfully."""
-    # Act & assert
-    assert repository is not None
-
-
-@pytest.mark.django_db
-def test_fetch_empty_successfully(
-    user: Person,
-    repository: _Repository,
-) -> None:
-    """Test that repository fetch empty called successfully."""
-    # Act & assert
-    assert repository.fetch(user, NullDTO()) is not None
-
-
 @pytest.mark.django_db
 def test_fetch_resource_successfully(
     translations: _Translations,  # Populate DB

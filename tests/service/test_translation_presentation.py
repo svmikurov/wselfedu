@@ -137,7 +137,7 @@ class TestTranslationPresentationService:
     @pytest.mark.django_db
     def test_execute_success(
         self,
-        translations: list[EnglishTranslation],  # populate DB
+        translations: list[TaskItem],  # populate DB
         user: Person,
         spec: _SpecProtocol,
         service: _ServiceT,
