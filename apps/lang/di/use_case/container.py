@@ -70,7 +70,7 @@ class UseCaseContainer(DeclarativeContainer):
         },
     )
 
-    process_regular_translation_presentation = Factory(
+    regular_translation_presentation = Factory(
         ExerciseUseCaseStrategy,
         prefix='regular_translation_presentation',
         storage=user_command_storage,

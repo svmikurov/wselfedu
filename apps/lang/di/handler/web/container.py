@@ -81,12 +81,11 @@ class WebHandlerContainer(DeclarativeContainer):
             ),
         },
     )
-    # TODO: Rename to 'regular_translation_presentation' handler
-    process_regular_translation_presentation = Factory(
+    regular_translation_presentation = Factory(
         RequestHandler,
         validator=validators.exercise_request,
         assembler=Factory(UserDataAssembler),
-        use_case=use_cases.process_regular_translation_presentation,
+        use_case=use_cases.regular_translation_presentation,
         adapter=Factory(
             ProcessExerciseAdapterStrategy,
             registry=presentation_adapter_registries,

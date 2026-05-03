@@ -33,12 +33,12 @@ class TestLanguageWebHandlersContainer:
 class TestCreateWebHandlers:
     """Test create exercise use case."""
 
-    def test_process_regular_translation_presentation_initialized(
+    def test_regular_translation_presentation_initialized(
         self,
         handlers: WebHandlerContainer,
     ) -> None:
         """Test that handler initialized."""
-        assert handlers.process_regular_translation_presentation is not None, (
+        assert handlers.regular_translation_presentation is not None, (
             'Process regular translation presentation '
             'handler was not initialized'
         )

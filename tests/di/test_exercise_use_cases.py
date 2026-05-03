@@ -49,7 +49,7 @@ def use_cases(main_container: MainContainer) -> UseCaseContainer:
 @pytest.fixture
 def use_case(use_cases: UseCaseContainer) -> _UseCaseT:
     """Provide regular translation presentation use case fixture."""
-    return use_cases.process_regular_translation_presentation()  # type: ignore
+    return use_cases.regular_translation_presentation()  # type: ignore
 
 
 @pytest.mark.django_db

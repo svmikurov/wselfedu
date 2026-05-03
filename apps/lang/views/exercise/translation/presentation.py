@@ -35,7 +35,7 @@ class TranslationPresentationView(
         request: HttpRequest,
         *args: object,
         handler: HandlerT = Provide[
-            HANDLERS.process_regular_translation_presentation  # type: ignore[attr-defined]
+            HANDLERS.regular_translation_presentation  # type: ignore[attr-defined]
         ],
         **kwargs: object,
     ) -> HttpResponseBase:

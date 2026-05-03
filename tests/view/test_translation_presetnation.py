@@ -30,7 +30,7 @@ class TestTranslationPresentationView:
     ) -> None:
         """Test GET request success with request handler mock."""
         # Act
-        with handlers.process_regular_translation_presentation.override(  # type: ignore[unused-ignore]
+        with handlers.regular_translation_presentation.override(  # type: ignore[unused-ignore]
             mock_create_exercise_action_handler,
         ):
             response = TranslationPresentationView.as_view()(
@@ -48,7 +48,7 @@ class TestTranslationPresentationView:
     ) -> None:
         """Test POST request success with request handler mock."""
         # Act
-        with handlers.process_regular_translation_presentation.override(  # type: ignore[unused-ignore]
+        with handlers.regular_translation_presentation.override(  # type: ignore[unused-ignore]
             mock_create_exercise_action_handler
         ):
             response = TranslationPresentationView.as_view()(
