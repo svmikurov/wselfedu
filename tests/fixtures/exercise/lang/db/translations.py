@@ -1,11 +1,11 @@
 """Translations DB fixtures."""
 
-from typing import Iterable
-
 import pytest
+from django.db.models import F
 
 from apps.lang import models
 from apps.users.models import Person
+from interfaces.schemas.domain.exercise import CandidateSchema
 
 from ..no_db.translations import TRANSLATIONS
 
@@ -13,7 +13,7 @@ from ..no_db.translations import TRANSLATIONS
 @pytest.fixture
 def translations(
     user: Person,
-) -> Iterable[models.EnglishTranslation]:
+) -> list[CandidateSchema]:
     """Populate DB with translations."""
     # Create native word model objects
     native_objs = [
@@ -36,5 +36,19 @@ def translations(
     # Populate native-english translation model objects
     models.EnglishTranslation.objects.bulk_create(translations_objs)
 
+    queryset = (
+        models.EnglishTranslation.objects.filter(
+            user=user,
+        )
+        .select_related('native', 'foreign')
+        .annotate(
+            define=F('native__word'),
+            mean=F('foreign__word'),
+            progress_value=F('progress'),
+        )
+    ).order_by('id')
+    candidates = [
+        CandidateSchema.model_validate(candidate) for candidate in queryset
+    ]
     # Return native-english translation model object list
-    return translations_objs
+    return candidates
