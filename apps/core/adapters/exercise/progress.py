@@ -4,17 +4,14 @@ from typing import TypeVar, override
 
 from apps.core.adapters.exercise.abstract import AbstractExerciseProcessAdapter
 from apps.core.assemblers.protocol import UserDataCommandProtocol
-from apps.core.domains.exercise.protocol import (
-    HasExerciseAction,
-)
-from contracts.schemas.domain.exercise.params import (
-    ExerciseParametersDTO,
-    ExerciseSpecDTO,
-)
-from utils.audit.base import BaseAuditable
-from utils.audit.protocol import AuditorProtocol
+from apps.core.domains.exercise.protocol import HasExerciseAction
+from contracts.schemas.domain.exercise.params import ExerciseParametersDTO
+from interfaces.protocols.domain.exercise import Candidate
+from interfaces.protocols.repository import ProgressUpdateConditionsProtocol
+from interfaces.schemas.repository import ProgressUpdateConditions
+from utils.audit import AuditorProtocol, BaseAuditable
 
-CaseT = TypeVar('CaseT')
+CaseT = TypeVar('CaseT', bound=Candidate)
 
 
 class ExerciseProgressAdapter(
@@ -23,7 +20,7 @@ class ExerciseProgressAdapter(
         UserDataCommandProtocol[HasExerciseAction],
         ExerciseParametersDTO,
         CaseT | None,
-        ExerciseSpecDTO[CaseT],
+        ProgressUpdateConditionsProtocol,
     ],
 ):
     """Exercise process command adapter."""
@@ -42,7 +39,7 @@ class ExerciseProgressAdapter(
         command: UserDataCommandProtocol[HasExerciseAction],
         params: ExerciseParametersDTO,
         existing_case: CaseT | None,
-    ) -> ExerciseSpecDTO[CaseT]:
+    ) -> ProgressUpdateConditionsProtocol:
         """Adapt exercise request data for exercise service spec."""
         return ExerciseSpecDTO(
             conditions=params.conditions,

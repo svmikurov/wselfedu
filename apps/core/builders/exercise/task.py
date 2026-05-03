@@ -60,7 +60,7 @@ class TestExerciseTaskBuilder(
         return TestExerciseTask(
             status=data.status,
             question_option_value=data.domain.question_option_value,
-            options=[  # type: ignore
+            options=[
                 Option(value=value, text=option.mean)
                 for value, option in enumerate(data.domain.options)
             ],

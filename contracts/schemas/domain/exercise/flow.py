@@ -27,23 +27,6 @@ class ExerciseFailure(ArbitraryDTO):
     exception: Exception
 
 
-class PresentationExerciseDomainResult(ArbitraryDTO, Generic[CandidateT]):
-    """Presentation exercise domain result DTO."""
-
-    option: CandidateT
-    status: enums.ExerciseStatus
-    exercise_kind: enums.ExerciseKind = enums.ExerciseKind.PRESENTATION
-
-
-class TestExerciseDomainResult(ArbitraryDTO, Generic[CandidateT]):
-    """Test exercise domain result DTO."""
-
-    question_option_value: int
-    options: CandidateT
-    status: enums.ExerciseStatus
-    exercise_kind: enums.ExerciseKind = enums.ExerciseKind.TEST
-
-
 # TODO: Implement explain DTO
 class ExplainExerciseDomainResult(BaseDTO):
     """Presentation exercise domain result DTO."""
@@ -59,20 +42,6 @@ class ExerciseCase(BaseDTO, Generic[DomainResult]):
 
     status: enums.ExerciseStatus
     domain: DomainResult
-
-
-class PresentationExerciseCase(BaseDTO):
-    """Presentation exercise case DTO."""
-
-    status: enums.ExerciseStatus
-    domain: PresentationExerciseDomainResult  # type: ignore
-
-
-class TestExerciseCase(BaseDTO):
-    """Test exercise case DTO."""
-
-    status: enums.ExerciseStatus
-    domain: TestExerciseDomainResult  # type: ignore
 
 
 # =================================================

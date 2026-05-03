@@ -98,7 +98,7 @@ def domain(
     selector: _Selector,
 ) -> _Domain:
     """Provide presentation exercise domain."""
-    return PresentationDomain(
+    return PresentationDomain(  # type: ignore
         selector=selector,
     )
 

@@ -98,7 +98,7 @@ class CreateExerciseService(
     ) -> ResultT:
         """Create and return exercise case."""
         candidates = self._repository.fetch(user, spec.conditions)
-        domain = self._domain.execute(candidates, spec.conf)
+        domain = self._domain.execute(candidates, spec.conf)  # type: ignore
         case = self._builder.build(domain, spec.conf)
         return case
 

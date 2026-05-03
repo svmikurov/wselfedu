@@ -7,20 +7,23 @@ as exercise candidates.
 from unittest.mock import Mock
 
 import pytest
-from django.db.models import QuerySet
 
 from apps.core.builders.exercise import case
 from apps.core.services.exercise.generic import CreateExerciseService
-from apps.lang.models import EnglishTranslation
 from apps.users.models import Person
 from contracts import enums
-from contracts.schemas.domain.exercise import flow
+from contracts.schemas.domain.exercise.flow import ExerciseCase
 from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
 )
+from interfaces.schemas.domain.exercise import (
+    CandidateSchema,
+    PresentationExerciseDomainResult,
+    TestExerciseDomainResult,
+)
 from tests._types import DomainT, RepositoryT, ServiceT, TaskBuilderT
 
-_Candidates = QuerySet[EnglishTranslation]
+_Candidates = list[CandidateSchema]
 _DomainT = DomainT
 _ServiceT = ServiceT
 _RepositoryT = RepositoryT
@@ -51,7 +54,7 @@ def mock_presentation_domain(
 ) -> _DomainT:
     """Provide presentation exercise domain mock."""
     mock = Mock(spec=_DomainT)
-    mock.execute.return_value = flow.PresentationExerciseDomainResult(
+    mock.execute.return_value = PresentationExerciseDomainResult(
         status=enums.ExerciseStatus.NEW_TASK,
         exercise_kind=enums.ExerciseKind.PRESENTATION,
         option=candidates_db[0],
@@ -65,7 +68,7 @@ def mock_test_domain(
 ) -> _DomainT:
     """Provide test exercise domain mock."""
     mock = Mock(spec=_DomainT)
-    mock.execute.return_value = flow.TestExerciseDomainResult(
+    mock.execute.return_value = TestExerciseDomainResult(
         status=enums.ExerciseStatus.NEW_TASK,
         question_option_value=1,
         exercise_kind=enums.ExerciseKind.TEST,
@@ -129,8 +132,8 @@ def test_presentation_service_result_dto(
     assert hasattr(case.domain, 'option')
 
     # - Presentation exercise domain result DTO is instance of
-    assert isinstance(case, flow.ExerciseCase)
-    assert isinstance(case.domain, flow.PresentationExerciseDomainResult)
+    assert isinstance(case, ExerciseCase)
+    assert isinstance(case.domain, PresentationExerciseDomainResult)
 
 
 @pytest.mark.django_db
@@ -155,5 +158,5 @@ def test_test_exercise_service_result_dto(
     assert hasattr(case.domain, 'options')
 
     # - Presentation exercise domain result DTO is instance of
-    assert isinstance(case, flow.ExerciseCase)
-    assert isinstance(case.domain, flow.TestExerciseDomainResult)
+    assert isinstance(case, ExerciseCase)
+    assert isinstance(case.domain, TestExerciseDomainResult)

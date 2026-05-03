@@ -11,10 +11,13 @@ from apps.core.domains.exercise.deps.selector import CandidatesSelector
 from apps.core.domains.exercise.presentation.impl import PresentationDomain
 from apps.core.domains.exercise.test.impl import TestDomain
 from apps.lang.models import EnglishTranslation
-from contracts.schemas.domain.exercise import flow
 from contracts.schemas.domain.exercise.params import ExerciseParametersDTO
 from interfaces.protocols.domain.exercise import Candidates
-from interfaces.schemas.domain.exercise import CandidateSchema
+from interfaces.schemas.domain.exercise import (
+    CandidateSchema,
+    PresentationExerciseDomainResult,
+    TestExerciseDomainResult,
+)
 from tests._types import DomainT, OptionsDomainT
 
 _CandidatesT = QuerySet[EnglishTranslation]
@@ -62,7 +65,7 @@ def test_presentation_domain_result(
     assert isinstance(res.option, CandidateSchema)
 
     # - Presentation exercise domain result DTO is instance of
-    assert isinstance(res, flow.PresentationExerciseDomainResult)
+    assert isinstance(res, PresentationExerciseDomainResult)
 
 
 @pytest.mark.django_db
@@ -86,4 +89,4 @@ def test_test_exercise_domain_result(
     assert isinstance(res.options[0], CandidateSchema)
 
     # - Test exercise domain result DTO is instance of
-    assert isinstance(res, flow.TestExerciseDomainResult)
+    assert isinstance(res, TestExerciseDomainResult)

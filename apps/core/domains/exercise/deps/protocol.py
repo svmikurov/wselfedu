@@ -3,6 +3,7 @@
 from typing import Protocol, TypeVar
 
 from contracts import aliases
+from interfaces.schemas.domain.exercise import CandidateSchema
 
 Conf_contra = TypeVar('Conf_contra', contravariant=True)
 
@@ -14,5 +15,5 @@ class SelectorProtocol(Protocol[Conf_contra]):
         self,
         candidates: aliases.CandidatesAlias,
         conf: Conf_contra,
-    ) -> aliases.CandidatesAlias:
+    ) -> list[CandidateSchema]:
         """Select data for exercise."""

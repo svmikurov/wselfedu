@@ -2,7 +2,8 @@
 
 from pydantic import ConfigDict
 
-from contracts.schemas.base import BaseDTO
+from contracts import enums
+from contracts.schemas.base import ArbitraryDTO, BaseDTO
 from contracts.schemas.domain.exercise.fields import (
     DefineField,
     MeanField,
@@ -33,13 +34,18 @@ class Option(BaseDTO):
     text: str
 
 
-class ExerciseTaskSchema(BaseDTO):
-    """Base exercise task schema."""
+class PresentationExerciseDomainResult(ArbitraryDTO):
+    """Presentation exercise domain result DTO."""
+
+    option: CandidateSchema
+    status: enums.ExerciseStatus
+    exercise_kind: enums.ExerciseKind = enums.ExerciseKind.PRESENTATION
 
 
-class PresentationExerciseTaskSchema(ExerciseTaskSchema):
-    """Presentation exercise task schema."""
+class TestExerciseDomainResult(ArbitraryDTO):
+    """Test exercise domain result DTO."""
 
-
-class TestExerciseTaskSchema(ExerciseTaskSchema):
-    """Task exercise tas schema."""
+    question_option_value: int
+    options: list[CandidateSchema]
+    status: enums.ExerciseStatus
+    exercise_kind: enums.ExerciseKind = enums.ExerciseKind.TEST

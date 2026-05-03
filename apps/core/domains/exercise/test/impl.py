@@ -12,8 +12,8 @@ from contracts.entity.domain.exercise.fields import (
     HasQuestionOptionValue,
 )
 from contracts.entity.domain.exercise.flow import TestDomainResultProtocol
-from contracts.schemas.domain.exercise.flow import TestExerciseDomainResult
 from interfaces.protocols.domain.exercise import Candidates
+from interfaces.schemas.domain.exercise import TestExerciseDomainResult
 
 from ..abstract import (
     AbstractCheckExerciseDomain,
@@ -55,7 +55,7 @@ class TestDomain(
 
     def execute(
         self,
-        candidates: CandidatesAlias,
+        candidates: CandidatesAlias,  # type: ignore
         conf: _ExerciseConfig,
     ) -> TestDomainResultProtocol:
         """Get test exercise data."""
@@ -66,7 +66,7 @@ class TestDomain(
         return TestExerciseDomainResult(
             status=enums.ExerciseStatus.NEW_TASK,
             question_option_value=option_value,
-            options=options,
+            options=options,  # type: ignore
         )
 
     def _get_options(
@@ -76,8 +76,7 @@ class TestDomain(
     ) -> Candidates:
         """Get test exercise options."""
         if len(candidates) >= option_count:
-            # FIXME: Fix type hint
-            return sample(tuple(candidates), option_count)  # type: ignore
+            return sample(tuple(candidates), option_count)
         else:
             raise info.NoExerciseItemsException('Not enough candidates')
 

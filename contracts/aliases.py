@@ -9,12 +9,12 @@ from apps.core.domains.exercise.protocol import (
 from contracts.entity.domain.exercise.flow import (
     PresentationDomainResultProtocol,
 )
-from interfaces.protocols.domain.exercise import Candidates
+from interfaces.schemas.domain.exercise import CandidateSchema
 
 CaseAlias: TypeAlias = PresentationDomainResultProtocol
-CandidatesAlias: TypeAlias = Candidates
+CandidatesAlias: TypeAlias = list[CandidateSchema]
 
 ExerciseDomainAlias: TypeAlias = ExerciseDomainProtocol[
     ExerciseConfigProtocol,
-    CaseAlias,
+    PresentationDomainResultProtocol,
 ]

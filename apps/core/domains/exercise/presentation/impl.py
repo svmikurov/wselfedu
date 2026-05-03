@@ -4,8 +4,10 @@ from random import choice
 
 from contracts import enums
 from contracts.aliases import CandidatesAlias
-from contracts.entity.domain.exercise import flow
-from contracts.schemas.domain.exercise.flow import (
+from contracts.entity.domain.exercise.flow import (
+    PresentationDomainResultProtocol,
+)
+from interfaces.schemas.domain.exercise import (
     PresentationExerciseDomainResult,
 )
 
@@ -19,7 +21,7 @@ __all__ = ('PresentationDomain',)
 class PresentationDomain(
     AbstractConfigurableCandidatesExerciseDomain[
         ExerciseConfigProtocol,
-        flow.PresentationDomainResultProtocol,
+        PresentationDomainResultProtocol,
     ],
 ):
     """Presentation exercise case domain."""
@@ -33,14 +35,14 @@ class PresentationDomain(
 
     def execute(
         self,
-        candidates: CandidatesAlias,
+        candidates: CandidatesAlias,  # type: ignore
         conf: ExerciseConfigProtocol,
-    ) -> flow.PresentationDomainResultProtocol:
+    ) -> PresentationDomainResultProtocol:
         """Get presentation exercise case data."""
         selected_candidates = self._selector.select(candidates, conf)
         option = choice(selected_candidates)
 
-        return PresentationExerciseDomainResult(
+        return PresentationExerciseDomainResult(  # type: ignore
             status=enums.ExerciseStatus.NEW_TASK,
             exercise_kind=enums.ExerciseKind.PRESENTATION,
             option=option,

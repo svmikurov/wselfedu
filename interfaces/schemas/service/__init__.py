@@ -1,0 +1,1 @@
+"""Service schema interface."""
