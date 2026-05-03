@@ -4,12 +4,19 @@ from unittest.mock import Mock
 
 import pytest
 
+from apps.core.handlers.dto import RequestContext, RequestData
 from apps.core.handlers.generic import RequestHandler
+from apps.users.models.user import Person
+from contracts.enums import ExerciseAction
+from contracts.schemas.base import NullDTO
 
 from .._types.handler import (
     AdapterT,
     AssemblerT,
     HandlerT,
+    RequestContextT,
+    RequestDataT,
+    RequestParamsT,
     UseCaseT,
     ValidatorT,
 )
@@ -17,6 +24,43 @@ from .._types.handler import (
 # =================================================
 # Request's DTOs
 # =================================================
+
+
+@pytest.fixture
+def null_request_params() -> RequestParamsT:
+    """Provide create task request parameters fixture."""
+    return NullDTO()
+
+
+@pytest.fixture
+def user_request_context(user: Person) -> RequestContextT:
+    """Provide create task request context fixture."""
+    return RequestContext(user=user)
+
+
+@pytest.fixture
+def create_request_data(user: Person) -> RequestDataT:
+    """Provide *create task* request data fixture."""
+    return RequestData(
+        data={
+            'action': ExerciseAction.CREATE_TASK,
+        }
+    )
+
+
+@pytest.fixture
+def update_progress_request_data(user: Person) -> RequestDataT:
+    """Provide *update progress* request data fixture."""
+    return RequestData(
+        data={
+            'action': ExerciseAction.UPDATE_PROGRESS,
+            'is_known': 'true',
+        }
+    )
+
+
+# Mocks
+# -----
 
 
 @pytest.fixture
