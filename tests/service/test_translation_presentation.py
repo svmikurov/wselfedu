@@ -1,10 +1,9 @@
 """Presentation exercise service tests."""
 
 from ast import TypeVar
-from typing import Any, Protocol
+from typing import Any, Protocol, TypeAlias
 
 import pytest
-from django.db.models import QuerySet
 
 from apps.core.builders.exercise.case import ExerciseCaseBuilder
 from apps.core.builders.protocol import SpecDtoBuilderProtocol
@@ -35,6 +34,7 @@ from contracts.entity.domain.params import (
 from contracts.schemas.domain.exercise.params import (
     ExerciseSpecDTO,
 )
+from interfaces.schemas.domain.exercise import CandidateSchema
 
 
 class _SpecProtocol(
@@ -58,14 +58,13 @@ class _DomainResultProtocol(
 
 
 CaseT = TypeVar('CaseT')
-
+_Candidates: TypeAlias = list[CandidateSchema]
 _Repository = UserRepositoryProtocol[
     ConditionsProtocol,
     aliases.CandidatesAlias,
 ]
 _TranslationRepository = UserRepositoryProtocol[
-    ConditionsProtocol,
-    QuerySet[EnglishTranslation, EnglishTranslation],
+    ConditionsProtocol, _Candidates
 ]
 _Selector = SelectorProtocol[ExerciseConfigProtocol]
 _Domain = aliases.ExerciseDomainAlias
