@@ -25,4 +25,4 @@ class CandidatesSelector(
                 f'Expected {self.MIN_CANDIDATES_COUNT} or more candidates, '
                 f'but got {len(candidates)}'
             )
-        return candidates.order_by('id')[: conf.item_count]
+        return candidates[: conf.item_count]
