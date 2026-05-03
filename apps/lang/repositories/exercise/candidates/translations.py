@@ -2,15 +2,16 @@
 
 from typing import TypeVar
 
-from django.db.models import F, Manager, QuerySet
+from django.db.models import F, Manager
 
 from apps.core.repositories.abstract import AbstractUserFetchRepository
 from apps.lang.models import EnglishTranslation
 from apps.users.models import Person
 from contracts import NullProtocol
+from interfaces.schemas.domain.exercise import CandidateSchema
 
 FilterT = TypeVar('FilterT')
-ResultT = QuerySet[EnglishTranslation]
+ResultT = list[CandidateSchema]
 
 
 class UserTranslationsRepository(
@@ -34,7 +35,7 @@ class UserTranslationsRepository(
         filter: NullProtocol,
     ) -> ResultT:
         """Fetch translations."""
-        return (
+        queryset = (
             self._manager.filter(
                 user=user,
             )
@@ -42,5 +43,12 @@ class UserTranslationsRepository(
             .annotate(
                 define=F('native__word'),
                 mean=F('foreign__word'),
+                progress_value=F('progress'),
             )
-        )
+        ).order_by('id')
+
+        candidates = [
+            CandidateSchema.model_validate(candidate) for candidate in queryset
+        ]
+
+        return candidates
