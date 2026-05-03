@@ -9,7 +9,7 @@ from contracts.schemas.domain.exercise.flow import (
     TestExerciseTask,
 )
 from interfaces.protocols.domain import exercise as interfaces
-from interfaces.schemas.domain.exercise import Option
+from interfaces.schemas.web.task import Option
 from utils.audit.base import BaseAuditable
 
 from ..aliases import SpecT

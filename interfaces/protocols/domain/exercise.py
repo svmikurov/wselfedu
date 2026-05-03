@@ -12,7 +12,7 @@ from contracts.entity.domain.exercise.fields import (
     HasTaskItems,
 )
 from contracts.entity.domain.general import HasResourceIdentifier
-from interfaces.schemas.domain.exercise import Option
+from interfaces.schemas.web.task import Option
 
 # =================================================
 # Exercise task

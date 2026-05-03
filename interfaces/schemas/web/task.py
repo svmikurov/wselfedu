@@ -5,7 +5,6 @@ from contracts.schemas.base import BaseDTO
 from contracts.schemas.response.generic import OobResponseDTO
 from contracts.schemas.response.null import NullContext
 from contracts.schemas.response.types import AdaptedDomainResultT
-from interfaces.schemas.domain.exercise import Option
 
 __all__ = (
     # Response's components
@@ -19,6 +18,13 @@ __all__ = (
 # =================================================
 # Response's components
 # =================================================
+
+
+class Option(BaseDTO):
+    """Test exercise option schema."""
+
+    value: int
+    text: str
 
 
 class PresentationTaskSchema(BaseDTO):

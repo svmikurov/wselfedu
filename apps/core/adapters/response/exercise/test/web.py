@@ -11,7 +11,6 @@ from contracts import NullProtocol
 from contracts.entity.response.base import OobResponseProtocol
 from contracts.schemas.domain.exercise.flow import TestExerciseTask
 from contracts.schemas.response.generic import OobResponseDTO
-from interfaces.schemas.domain.exercise import Option
 from interfaces.schemas.web import task as interfaces
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
@@ -29,7 +28,7 @@ _ResponseDTO: TypeAlias = OobResponseDTO[
 class WebTestExerciseAdapter(
     BaseAuditable,
     AbstractResponseAdapter[
-        TestExerciseTask[list[Option]],
+        TestExerciseTask[list[interfaces.Option]],
         NullProtocol,
         interfaces.TestExerciseTaskResponse,
     ],
@@ -63,7 +62,7 @@ class WebTestExerciseAdapter(
     @override
     def to_response(
         self,
-        domain_result: TestExerciseTask[list[Option]],
+        domain_result: TestExerciseTask[list[interfaces.Option]],
         request_context: NullProtocol,
     ) -> interfaces.TestExerciseTaskResponse:
         """Convert domain result to web representation context."""
@@ -116,7 +115,7 @@ class WebExplainAdapter(
             context=interfaces.TestTaskSchema(
                 question=domain_result.question_text,
                 options=[
-                    Option(
+                    interfaces.Option(
                         value=option.options_value,
                         text=option.text,
                     )
