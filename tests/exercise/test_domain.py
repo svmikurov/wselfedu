@@ -5,7 +5,7 @@ as exercise candidates.
 """
 
 import pytest
-from django.db.models import Model, QuerySet
+from django.db.models import QuerySet
 
 from apps.core.domains.exercise.deps.selector import CandidatesSelector
 from apps.core.domains.exercise.presentation.impl import PresentationDomain
@@ -14,6 +14,7 @@ from apps.lang.models import EnglishTranslation
 from contracts.schemas.domain.exercise import flow
 from contracts.schemas.domain.exercise.params import ExerciseParametersDTO
 from interfaces.protocols.domain.exercise import Candidates
+from interfaces.schemas.domain.exercise import CandidateSchema
 from tests._types import DomainT, OptionsDomainT
 
 _CandidatesT = QuerySet[EnglishTranslation]
@@ -57,8 +58,8 @@ def test_presentation_domain_result(
     assert hasattr(res, 'status')
     assert hasattr(res, 'option')  # <--- Note: Has one option
 
-    # - Option field value is Django Model instance
-    assert isinstance(res.option, Model)
+    # - Option field value is `CandidateSchema` instance
+    assert isinstance(res.option, CandidateSchema)
 
     # - Presentation exercise domain result DTO is instance of
     assert isinstance(res, flow.PresentationExerciseDomainResult)
@@ -80,8 +81,9 @@ def test_test_exercise_domain_result(
     assert hasattr(res, 'status')
     assert hasattr(res, 'options')  # <--- Note: Has some options
 
-    # - Options field is Django QuerySet instance
+    # - Options field is `CandidateSchema` instance
     assert isinstance(res.options, list)
+    assert isinstance(res.options[0], CandidateSchema)
 
     # - Test exercise domain result DTO is instance of
     assert isinstance(res, flow.TestExerciseDomainResult)
