@@ -10,11 +10,11 @@ from apps.lang.repositories.exercise.candidates.translations import (
 from apps.users.models import Person
 from contracts import NullProtocol
 from contracts.schemas.base import NullDTO
-from interfaces.schemas.domain.exercise import CandidateSchema
+from interfaces.schemas.domain.exercise import TaskItem
 
 from .._types.resource import TranslationCandidates
 
-_Repository = UserRepositoryProtocol[NullProtocol, list[CandidateSchema]]
+_Repository = UserRepositoryProtocol[NullProtocol, list[TaskItem]]
 
 
 @pytest.fixture

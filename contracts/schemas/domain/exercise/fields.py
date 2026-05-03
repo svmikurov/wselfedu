@@ -83,16 +83,16 @@ class OptionValue(BaseDTO):
     question_option_value: int
 
 
-class OptionField(BaseDTO, Generic[OptionT]):
-    """Option DTO field."""
+class TaskItemField(BaseDTO, Generic[OptionT]):
+    """task item DTO field."""
 
-    option: OptionT
+    item: OptionT
 
 
-class OptionsField(BaseDTO, Generic[OptionT]):
-    """Options DTO field."""
+class TaskItemsField(BaseDTO, Generic[OptionT]):
+    """Task items DTO field."""
 
-    options: OptionT
+    items: OptionT
 
 
 # =================================================

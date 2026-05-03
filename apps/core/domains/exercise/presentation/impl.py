@@ -45,5 +45,5 @@ class PresentationDomain(
         return PresentationExerciseDomainResult(  # type: ignore
             status=enums.ExerciseStatus.NEW_TASK,
             exercise_kind=enums.ExerciseKind.PRESENTATION,
-            option=option,
+            item=option,
         )

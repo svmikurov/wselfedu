@@ -24,7 +24,7 @@ class ExerciseDomainResultProtocol(
 
 class PresentationDomainResultProtocol(
     ExerciseDomainResultProtocol,
-    exercise.HasExerciseDomainOption[Candidate],
+    exercise.HasTaskItem[Candidate],
     Protocol,
 ):
     """Protocol for presentation exercise domain result DTO."""
@@ -33,7 +33,7 @@ class PresentationDomainResultProtocol(
 class TestDomainResultProtocol(
     ExerciseDomainResultProtocol,
     exercise.HasQuestionOptionValue,
-    exercise.HasExerciseDomainOptions[Candidates],
+    exercise.HasTaskItems[Candidates],
     Protocol,
 ):
     """Protocol for test exercise domain result DTO."""

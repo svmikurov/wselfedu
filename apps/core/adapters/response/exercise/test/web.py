@@ -70,10 +70,10 @@ class WebTestExerciseAdapter(
         return interfaces.TestExerciseTaskResponse(
             domain_status=domain_result.status,
             context=interfaces.TestTaskSchema(
-                question=domain_result.options[
+                question=domain_result.items[
                     domain_result.question_option_value
                 ].text,
-                options=domain_result.options,
+                options=domain_result.items,
             ),
         )
 
@@ -120,7 +120,7 @@ class WebExplainAdapter(
                         value=option.options_value,
                         text=option.text,
                     )
-                    for option in domain_result.options
+                    for option in domain_result.items
                 ],
             ),
             oob_html=self._build_oob(domain_result),

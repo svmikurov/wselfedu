@@ -12,8 +12,8 @@ from contracts.schemas.domain.exercise.fields import (
     DefineField,
     ExerciseStatusField,
     MeanField,
-    OptionsField,
     QuestionTextField,
+    TaskItemsField,
 )
 from contracts.schemas.fields import (
     ResourceIdentifierField,
@@ -72,7 +72,7 @@ class OptionMetaDTO(
 class TestExerciseCase(
     ExerciseStatusField,
     QuestionTextField,
-    OptionsField[OptionT],
+    TaskItemsField[OptionT],
     ArbitraryDTO,
     Generic[OptionT],
 ):
@@ -96,7 +96,7 @@ class TestExerciseMeta(
     QuestionTextField,
     AnswerTextField,
     ValueField,
-    OptionsField[OptionT],
+    TaskItemsField[OptionT],
     ArbitraryDTO,
     Generic[OptionT],
 ):
@@ -119,11 +119,11 @@ class TestExerciseMeta(
 
     def get_question_text(self, value: int) -> str:
         """Get option question text by value."""
-        return self.options[value].define  # type: ignore
+        return self.items[value].define  # type: ignore
 
     def get_answer_text(self, value: int) -> str:
         """Get option answer text by value."""
-        return self.options[value].mean  # type: ignore
+        return self.items[value].mean  # type: ignore
 
 
 # =================================================
@@ -133,7 +133,7 @@ class TestExerciseMeta(
 
 class TestDomainResult(
     ValueField,
-    OptionsField[OptionT],
+    TaskItemsField[OptionT],
     ArbitraryDTO,
 ):
     """Test exercise create domain result."""
@@ -141,9 +141,9 @@ class TestDomainResult(
     @property
     def question_text(self) -> str:
         """Get question text."""
-        return self.options[self.value - 1].define  # type: ignore
+        return self.items[self.value - 1].define  # type: ignore
 
     @property
     def answer_text(self) -> str:
         """Get answer text."""
-        return self.options[self.value - 1].mean  # type: ignore
+        return self.items[self.value - 1].mean  # type: ignore

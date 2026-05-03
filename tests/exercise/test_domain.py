@@ -14,8 +14,8 @@ from apps.lang.models import EnglishTranslation
 from contracts.schemas.domain.exercise.params import ExerciseParametersDTO
 from interfaces.protocols.domain.exercise import Candidates
 from interfaces.schemas.domain.exercise import (
-    CandidateSchema,
     PresentationExerciseDomainResult,
+    TaskItem,
     TestExerciseDomainResult,
 )
 from tests._types import DomainT, OptionsDomainT
@@ -59,10 +59,10 @@ def test_presentation_domain_result(
     # - Domain result DTO has fields
     assert hasattr(res, 'exercise_kind')
     assert hasattr(res, 'status')
-    assert hasattr(res, 'option')  # <--- Note: Has one option
+    assert hasattr(res, 'item')  # <--- Note: Has one option
 
     # - Option field value is `CandidateSchema` instance
-    assert isinstance(res.option, CandidateSchema)
+    assert isinstance(res.item, TaskItem)
 
     # - Presentation exercise domain result DTO is instance of
     assert isinstance(res, PresentationExerciseDomainResult)
@@ -82,11 +82,11 @@ def test_test_exercise_domain_result(
     # - Domain result DTO has fields
     assert hasattr(res, 'exercise_kind')
     assert hasattr(res, 'status')
-    assert hasattr(res, 'options')  # <--- Note: Has some options
+    assert hasattr(res, 'items')  # <--- Note: Has some options
 
     # - Options field is `CandidateSchema` instance
-    assert isinstance(res.options, list)
-    assert isinstance(res.options[0], CandidateSchema)
+    assert isinstance(res.items, list)
+    assert isinstance(res.items[0], TaskItem)
 
     # - Test exercise domain result DTO is instance of
     assert isinstance(res, TestExerciseDomainResult)

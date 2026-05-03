@@ -17,7 +17,7 @@ ANSWER_INDEX = 1
 
 class PresentationTaskBuilder(
     AbstractTaskBuilder[
-        fields.HasExerciseDomainOption[Candidate],
+        fields.HasTaskItem[Candidate],
         HasPhases,
         PresentationTaskProtocol,
     ],
@@ -26,11 +26,11 @@ class PresentationTaskBuilder(
 
     def build(
         self,
-        case: fields.HasExerciseDomainOption[Candidate],
+        case: fields.HasTaskItem[Candidate],
         conf: HasPhases,
     ) -> PresentationTaskProtocol:
         """Build presentation task."""
-        option = case.option
+        option = case.item
 
         return PresentationTask(
             status=ExerciseStatus.NEW_TASK,

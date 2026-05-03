@@ -12,13 +12,13 @@ from contracts.schemas.domain.exercise.fields import (
 from contracts.schemas.fields import ResourceIdentifierField
 
 
-class CandidateSchema(
+class TaskItem(
     ResourceIdentifierField,
     DefineField,
     MeanField,
     ProgressValueField,
 ):
-    """Exercise task candidate schema."""
+    """Exercise task item schema."""
 
     model_config = ConfigDict(  # type: ignore
         extra='forbid',
@@ -37,7 +37,7 @@ class Option(BaseDTO):
 class PresentationExerciseDomainResult(ArbitraryDTO):
     """Presentation exercise domain result DTO."""
 
-    option: CandidateSchema
+    item: TaskItem
     status: enums.ExerciseStatus
     exercise_kind: enums.ExerciseKind = enums.ExerciseKind.PRESENTATION
 
@@ -46,6 +46,6 @@ class TestExerciseDomainResult(ArbitraryDTO):
     """Test exercise domain result DTO."""
 
     question_option_value: int
-    options: list[CandidateSchema]
+    items: list[TaskItem]
     status: enums.ExerciseStatus
     exercise_kind: enums.ExerciseKind = enums.ExerciseKind.TEST

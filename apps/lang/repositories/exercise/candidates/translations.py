@@ -8,10 +8,10 @@ from apps.core.repositories.abstract import AbstractUserFetchRepository
 from apps.lang.models import EnglishTranslation
 from apps.users.models import Person
 from contracts import NullProtocol
-from interfaces.schemas.domain.exercise import CandidateSchema
+from interfaces.schemas.domain.exercise import TaskItem
 
 FilterT = TypeVar('FilterT')
-ResultT = list[CandidateSchema]
+ResultT = list[TaskItem]
 
 
 class UserTranslationsRepository(
@@ -48,7 +48,7 @@ class UserTranslationsRepository(
         ).order_by('id')
 
         candidates = [
-            CandidateSchema.model_validate(candidate) for candidate in queryset
+            TaskItem.model_validate(candidate) for candidate in queryset
         ]
 
         return candidates

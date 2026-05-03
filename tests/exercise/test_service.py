@@ -17,13 +17,13 @@ from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
 )
 from interfaces.schemas.domain.exercise import (
-    CandidateSchema,
     PresentationExerciseDomainResult,
+    TaskItem,
     TestExerciseDomainResult,
 )
 from tests._types import DomainT, RepositoryT, ServiceT, TaskBuilderT
 
-_Candidates = list[CandidateSchema]
+_Candidates = list[TaskItem]
 _DomainT = DomainT
 _ServiceT = ServiceT
 _RepositoryT = RepositoryT
@@ -57,7 +57,7 @@ def mock_presentation_domain(
     mock.execute.return_value = PresentationExerciseDomainResult(
         status=enums.ExerciseStatus.NEW_TASK,
         exercise_kind=enums.ExerciseKind.PRESENTATION,
-        option=candidates_db[0],
+        item=candidates_db[0],
     )
     return mock
 
@@ -72,7 +72,7 @@ def mock_test_domain(
         status=enums.ExerciseStatus.NEW_TASK,
         question_option_value=1,
         exercise_kind=enums.ExerciseKind.TEST,
-        options=candidates_db,
+        items=candidates_db,
     )
     return mock
 
@@ -129,7 +129,7 @@ def test_presentation_service_result_dto(
     # - Case builder result DTO has nested fields
     assert hasattr(case.domain, 'exercise_kind')
     assert hasattr(case.domain, 'status')
-    assert hasattr(case.domain, 'option')
+    assert hasattr(case.domain, 'item')
 
     # - Presentation exercise domain result DTO is instance of
     assert isinstance(case, ExerciseCase)
@@ -155,7 +155,7 @@ def test_test_exercise_service_result_dto(
     assert hasattr(case.domain, 'exercise_kind')
     assert hasattr(case.domain, 'status')
     assert hasattr(case.domain, 'question_option_value')
-    assert hasattr(case.domain, 'options')
+    assert hasattr(case.domain, 'items')
 
     # - Presentation exercise domain result DTO is instance of
     assert isinstance(case, ExerciseCase)

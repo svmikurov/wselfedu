@@ -32,7 +32,7 @@ class ExercisePresentationBuilder(
         spec: SpecT,
     ) -> interfaces.PresentationTaskProtocol:
         """Build presentation exercise task DTO."""
-        option = data.domain.option
+        option = data.domain.item
         return PresentationTask(
             status=data.status,
             question_text=option.define,
@@ -60,8 +60,8 @@ class TestExerciseTaskBuilder(
         return TestExerciseTask(
             status=data.status,
             question_option_value=data.domain.question_option_value,
-            options=[
+            items=[
                 Option(value=value, text=option.mean)
-                for value, option in enumerate(data.domain.options)
+                for value, option in enumerate(data.domain.items)
             ],
         )

@@ -5,11 +5,11 @@ from typing import Protocol
 from contracts.entity.domain.exercise.fields import (
     HasAnswerText,
     HasDefineText,
-    HasExerciseDomainOptions,
     HasMeanText,
     HasProgressValue,
     HasQuestionOptionValue,
     HasQuestionText,
+    HasTaskItems,
 )
 from contracts.entity.domain.general import HasResourceIdentifier
 from interfaces.schemas.domain.exercise import Option
@@ -43,7 +43,7 @@ class PresentationTaskProtocol(
 
 class TestTaskProtocol(
     HasQuestionOptionValue,
-    HasExerciseDomainOptions[list[Option]],
+    HasTaskItems[list[Option]],
     Protocol,
 ):
     """Protocol for test exercise task interface."""

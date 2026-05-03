@@ -156,13 +156,13 @@ class HasQuestionOptionValue(Protocol):
     question_option_value: int
 
 
-class HasExerciseDomainOption(Protocol[T]):
-    """Protocol for has *option* interface."""
+class HasTaskItem(Protocol[T]):
+    """Protocol for has task *item* interface."""
 
-    option: T
+    item: T
 
 
-class HasExerciseDomainOptions(Protocol[T]):
-    """Protocol for has *options* interface."""
+class HasTaskItems(Protocol[T]):
+    """Protocol for has task *items* interface."""
 
-    options: T
+    items: T

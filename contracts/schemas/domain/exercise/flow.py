@@ -85,7 +85,7 @@ class PresentationTask(
 class TestExerciseTask(
     Task,
     fields.OptionValue,
-    fields.OptionsField[CandidatesT],
+    fields.TaskItemsField[CandidatesT],
     Generic[CandidatesT],
     ArbitraryConfigurationMixin,
 ):

@@ -66,7 +66,7 @@ class TestDomain(
         return TestExerciseDomainResult(
             status=enums.ExerciseStatus.NEW_TASK,
             question_option_value=option_value,
-            options=options,  # type: ignore
+            items=options,  # type: ignore
         )
 
     def _get_options(

@@ -5,7 +5,7 @@ from django.db.models import F
 
 from apps.lang import models
 from apps.users.models import Person
-from interfaces.schemas.domain.exercise import CandidateSchema
+from interfaces.schemas.domain.exercise import TaskItem
 
 from ..no_db.translations import TRANSLATIONS
 
@@ -13,7 +13,7 @@ from ..no_db.translations import TRANSLATIONS
 @pytest.fixture
 def translations(
     user: Person,
-) -> list[CandidateSchema]:
+) -> list[TaskItem]:
     """Populate DB with translations."""
     # Create native word model objects
     native_objs = [
@@ -47,8 +47,6 @@ def translations(
             progress_value=F('progress'),
         )
     ).order_by('id')
-    candidates = [
-        CandidateSchema.model_validate(candidate) for candidate in queryset
-    ]
+    candidates = [TaskItem.model_validate(candidate) for candidate in queryset]
     # Return native-english translation model object list
     return candidates

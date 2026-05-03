@@ -34,7 +34,7 @@ from contracts.entity.domain.params import (
 from contracts.schemas.domain.exercise.params import (
     ExerciseSpecDTO,
 )
-from interfaces.schemas.domain.exercise import CandidateSchema
+from interfaces.schemas.domain.exercise import TaskItem
 
 
 class _SpecProtocol(
@@ -58,7 +58,7 @@ class _DomainResultProtocol(
 
 
 CaseT = TypeVar('CaseT')
-_Candidates: TypeAlias = list[CandidateSchema]
+_Candidates: TypeAlias = list[TaskItem]
 _Repository = UserRepositoryProtocol[
     ConditionsProtocol,
     aliases.CandidatesAlias,
