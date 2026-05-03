@@ -108,7 +108,7 @@ def translation_candidates_db(
     ],
 ) -> TranslationCandidates:
     """Provide translation exercise candidates."""
-    return translation_repository.fetch(user, NullDTO()).order_by('pk')  # type: ignore
+    return translation_repository.fetch(user, NullDTO())  # type: ignore
 
 
 # =================================================
