@@ -38,16 +38,16 @@ class ExerciseProgressAdapter(
         self,
         command: UserDataCommandProtocol[HasExerciseAction],
         params: ExerciseParametersDTO,
-        existing_case: CaseT | None,
+        case: CaseT | None,
     ) -> ProgressUpdateConditionsProtocol:
         """Adapt exercise request data for exercise service spec."""
-        if existing_case is None:
+        if case is None:
             raise ValueError(
                 'No existing (stored) exercise. '
                 'Not available update progress without exercise case.'
             )
 
         return ProgressUpdateConditions(
-            pk=existing_case.pk,
+            pk=case.pk,
             delta=1,
         )

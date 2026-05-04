@@ -28,6 +28,6 @@ class AbstractExerciseProcessAdapter(
         self,
         command: CommandT,
         params: ParamsT,
-        existing_case: ExistingCaseT | None,
+        case: ExistingCaseT | None,
     ) -> AdaptedT:
         """Adapt for exercise precess execute."""

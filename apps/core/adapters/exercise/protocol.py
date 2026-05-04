@@ -20,6 +20,6 @@ class ExerciseProcessAdapterProtocol(
         self,
         command: Command_contra,
         params: Params_contra,
-        existing_case: ExistingCase_contra,
+        case: ExistingCase_contra,
     ) -> Adapted_cov:
         """Adapt for exercise process execute."""
