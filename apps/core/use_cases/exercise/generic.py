@@ -87,8 +87,8 @@ class ExerciseUseCaseStrategy(
 
         # Exercise has "create", "perform", and "display" parameters.
         self.auditor.record('config_resolver.call', obj=self._config_resolver)
-        parameters = self._config_resolver.resolve(command)
-        self.auditor.record('config_resolver.ok', parameters=parameters)
+        params = self._config_resolver.resolve(command)
+        self.auditor.record('config_resolver.ok', parameters=params)
 
         # Action type specification is built using command and exercise
         # parameters.
@@ -97,15 +97,16 @@ class ExerciseUseCaseStrategy(
         # Case may not exist (not started yet).
         # StorageMissError is expected flow, not an exceptional error.
         try:
-            existing_domain = self._storage.retrieve(command, self._prefix)
+            stored = self._storage.retrieve(command, self._prefix)
         except StorageMissError:
-            spec = adapter.adapt(command, parameters, None)
+            spec = adapter.adapt(command, params, None)
         else:
-            spec = adapter.adapt(command, parameters, existing_domain)
+            self.auditor.record('adapter.call', params=params, stored=stored)
+            spec = adapter.adapt(command, params, stored)
         self.auditor.record('service_specification.adapted', spec=spec)
 
         service = self._service_registry[action]
-        self.auditor.record('service_strategy.select', obj=service)
+        self.auditor.record('selected_service.call', obj=service, spec=spec)
         case = service.execute(command.user, spec)
 
         if case.status == enums.ExerciseStatus.NEW_TASK:
