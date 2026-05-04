@@ -2,6 +2,8 @@
 
 from typing import Protocol, TypeVar
 
+from utils.audit.protocol import Auditable
+
 T = TypeVar('T')
 Command_contra = TypeVar('Command_contra', contravariant=True)
 StoredObject_contra = TypeVar('StoredObject_contra', contravariant=True)
@@ -54,6 +56,7 @@ class OptionalRetrieveCommandStorageProtocol(
 
 
 class CommandStorageProtocol(
+    Auditable,
     SaveCommandStorageProtocol[Command_contra, StoredObject],
     RetrieveCommandStorageProtocol[Command_contra, StoredObject],
     Protocol[Command_contra, StoredObject],
