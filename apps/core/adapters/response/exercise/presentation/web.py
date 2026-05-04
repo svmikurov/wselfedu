@@ -42,18 +42,16 @@ class PresentationTaskWebAdapter(
 
     def _build_oob(self, domain_result: PresentationTask) -> _Template:
         """Build OOB."""
-        templates: list[_Template] = self._extend_templates(
-            domain_result.status
-        )
+        templates: list[_Template] = self._get_templates(domain_result.status)
         context = domain_result.model_dump()
 
-        html = ''
+        htmls: list[str] = []
         for template in templates:
-            html += render_to_string(template, context)
+            htmls.append(render_to_string(template, context))
 
-        return html
+        return '\n'.join(htmls)
 
-    def _extend_templates(self, status: ExerciseStatus) -> list[_Template]:
+    def _get_templates(self, status: ExerciseStatus) -> list[_Template]:
         """Return partial templates for response."""
         if not self._template_registry:
             return self._templates
