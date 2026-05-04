@@ -68,7 +68,7 @@ class WebTestExerciseAdapter(
         """Convert domain result to web representation context."""
         return interfaces.TestExerciseTaskResponse(
             domain_status=domain_result.status,
-            context=interfaces.TestTaskSchema(
+            context=interfaces.TestTaskContext(
                 question_text=domain_result.items[
                     domain_result.question_option_value
                 ].text,
@@ -112,7 +112,7 @@ class WebExplainAdapter(
         """Convert domain result to web representation context."""
         return OobResponseDTO(
             domain_status=ResponseStatusEnum.EXPLAIN_CASE,  # type: ignore
-            context=interfaces.TestTaskSchema(
+            context=interfaces.TestTaskContext(
                 question_text=domain_result.question_text,
                 options=[
                     interfaces.Option(

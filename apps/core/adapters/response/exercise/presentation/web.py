@@ -48,7 +48,7 @@ class PresentationTaskWebAdapter(
         """Convert exercise case to web context."""
         return interfaces.PresentationTaskResponse(
             domain_status=ExerciseStatus.NEW_TASK,
-            context=interfaces.PresentationTaskSchema(
+            context=interfaces.PresentationTaskContext(
                 define=domain_result.question_text,
                 mean=domain_result.answer_text,
                 progress_value=domain_result.progress_value,

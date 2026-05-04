@@ -2,8 +2,8 @@
 
 __all__ = (
     # Response's components
-    'PresentationTaskSchema',
-    'TestTaskSchema',
+    'PresentationTaskContext',
+    'TestTaskContext',
     # Response's compositions
     'PresentationTaskResponse',
     'TestExerciseTaskResponse',
@@ -11,8 +11,8 @@ __all__ = (
 
 
 from .task import (
+    PresentationTaskContext,
     PresentationTaskResponse,
-    PresentationTaskSchema,
     TestExerciseTaskResponse,
-    TestTaskSchema,
+    TestTaskContext,
 )

@@ -14,8 +14,8 @@ from contracts.schemas.response.types import AdaptedDomainResultT
 
 __all__ = (
     # Response's components
-    'PresentationTaskSchema',
-    'TestTaskSchema',
+    'PresentationTaskContext',
+    'TestTaskContext',
     # Response's compositions
     'PresentationTaskResponse',
     'TestExerciseTaskResponse',
@@ -38,7 +38,7 @@ class Option(ValueField, TextField):
     """
 
 
-class PresentationTaskSchema(
+class PresentationTaskContext(
     DefineField,
     MeanField,
     ProgressValueField,
@@ -53,7 +53,7 @@ class PresentationTaskSchema(
     """
 
 
-class TestTaskSchema(
+class TestTaskContext(
     QuestionTextField,
 ):
     """Presentation task web schema.
@@ -100,10 +100,10 @@ oob_html : `str`
 # =================================================
 
 
-PresentationTaskResponse = ExerciseTaskResponse[PresentationTaskSchema]
+PresentationTaskResponse = ExerciseTaskResponse[PresentationTaskContext]
 """Presentation exercise task response interface.
 """
 
-TestExerciseTaskResponse = ExerciseTaskResponse[TestTaskSchema]
+TestExerciseTaskResponse = ExerciseTaskResponse[TestTaskContext]
 """Test exercise task response interface.
 """
