@@ -4,7 +4,8 @@ This module contains adapters for converting generic
 exercise cases to different output formats (API and Web).
 """
 
-from typing import override
+import logging
+from typing import TypeAlias, override
 
 from django.template.loader import render_to_string
 
@@ -13,6 +14,12 @@ from contracts import NullProtocol
 from contracts.enums import ExerciseStatus
 from contracts.schemas.domain.exercise.flow import PresentationTask
 from interfaces.schemas import web as interfaces
+
+log = logging.getLogger(__name__)
+
+_Template: TypeAlias = str
+"""Partial html template.
+"""
 
 
 class PresentationTaskWebAdapter(
@@ -26,17 +33,42 @@ class PresentationTaskWebAdapter(
 
     def __init__(
         self,
-        extra_oob_templates: list[str],
+        extra_oob_templates: list[_Template],
+        template_registry: dict[ExerciseStatus, list[_Template]] | None = None,
     ) -> None:
         """Construct the adapter."""
         self._templates = extra_oob_templates
+        self._template_registry = template_registry
 
-    def _build_oob(self, domain_result: PresentationTask) -> str:
+    def _build_oob(self, domain_result: PresentationTask) -> _Template:
         """Build OOB."""
+        templates: list[_Template] = self._extend_templates(
+            domain_result.status
+        )
+        context = domain_result.model_dump()
+
         html = ''
-        for template in self._templates:
-            html += render_to_string(template, domain_result.model_dump())
+        for template in templates:
+            html += render_to_string(template, context)
+
         return html
+
+    def _extend_templates(self, status: ExerciseStatus) -> list[_Template]:
+        """Return partial templates for response."""
+        if not self._template_registry:
+            return self._templates
+
+        try:
+            status_templates = self._template_registry[status]
+        except KeyError:
+            log.warning(
+                'Web response adapter template registry ',
+                f'have no templates for {status}',
+            )
+        else:
+            status_templates = []
+
+        return self._templates + status_templates
 
     # HACK: Update return type hint on protocol
     @override
