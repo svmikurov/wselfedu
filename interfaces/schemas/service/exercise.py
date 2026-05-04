@@ -7,7 +7,7 @@ from interfaces.schemas.domain.exercise import (
 )
 
 # =================================================
-# Exercise cases
+# Create exercise task cases
 # =================================================
 
 
@@ -32,4 +32,22 @@ class TestExerciseCase(ExerciseCase[TestExerciseDomainResult]):
         Exercise current status enumeration.
     domain : `TestExerciseDomainResult`
         Test exercise domain result.
+    """
+
+
+# =================================================
+# Update item study progress cases
+# =================================================
+
+
+class UpdateProgressCase(ExerciseCase[None]):
+    """Test exercise case DTO.
+
+    Parameters
+    ----------
+    status : `enums.ExerciseStatus`
+        Exercise current status enumeration.
+    domain : None
+        No return data from update progress service.
+
     """

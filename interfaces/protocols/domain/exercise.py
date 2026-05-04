@@ -5,17 +5,21 @@ from typing import Protocol
 from contracts.entity.domain.exercise.fields import (
     HasAnswerText,
     HasDefineText,
+    HasExerciseKind,
     HasMeanText,
     HasProgressValue,
     HasQuestionOptionValue,
     HasQuestionText,
+    HasTaskItem,
     HasTaskItems,
 )
 from contracts.entity.domain.general import HasResourceIdentifier
+from contracts.entity.general import HasStatus
+from contracts.enums import ExerciseStatus
 from interfaces.schemas.web.task import Option
 
 # =================================================
-# Exercise task
+# Exercise candidates
 # =================================================
 
 
@@ -30,6 +34,45 @@ class Candidate(
 
 
 Candidates = list[Candidate]
+
+
+# =================================================
+# Task item
+# =================================================
+
+
+class TaskItemProtocol(
+    HasResourceIdentifier,
+    HasDefineText,
+    HasMeanText,
+    HasProgressValue,
+    Protocol,
+):
+    """Protocol for task item."""
+
+
+# =================================================
+# Exercise domain result
+# =================================================
+
+
+class PresentationDomainResultProtocol(
+    HasTaskItem[TaskItemProtocol],
+    HasStatus[ExerciseStatus],
+    HasExerciseKind,
+    Protocol,
+):
+    """Protocol for presentation exercise domain result DTO."""
+
+
+class TestDomainResultProtocol(
+    HasQuestionOptionValue,
+    HasTaskItems[TaskItemProtocol],
+    HasStatus[ExerciseStatus],
+    HasExerciseKind,
+    Protocol,
+):
+    """Protocol for test exercise domain result DTO."""
 
 
 class PresentationTaskProtocol(
