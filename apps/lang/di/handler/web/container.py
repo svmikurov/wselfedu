@@ -65,30 +65,19 @@ class WebHandlerContainer(DeclarativeContainer):
         assembler=Factory(UserAssembler),
         use_case=use_cases.start_regular_translation_presentation,
         adapter=Factory(
-            PresentationTaskWebAdapte
+            PresentationTaskWebAdapter,
             templates=['lang/exercise/presentation/_mark_bar.html'],
         ),
     )
     # ---------------------------------------------
     # Process presentation exercise strategy
     # ---------------------------------------------
-    presentation_adapter_registries = Dict(
-        {
-            ExerciseStatus.NEW_TASK: Factory(
-                PresentationTaskWebAdapter,
-                templates=[],
-            ),
-            ExerciseStatus.UPDATED_PROGRESS: Factory(
-                NullResponseAdapter,
-            ),
-        },
-    )
     regular_translation_presentation = Factory(
         RequestHandler,
         validator=validators.exercise_request,
         assembler=Factory(UserDataAssembler),
         use_case=use_cases.regular_translation_presentation,
-        adapter=response_adapters.presentation,
+        adapter=response_adapters.presentation_strategy,
         name='Regular translation presentation',
         auditor=auditor,
     )

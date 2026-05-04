@@ -3,21 +3,16 @@
 from unittest.mock import Mock
 
 import pytest
-from django.db.models import QuerySet
 
 from apps.core.assemblers.command import UserDataCommand
 from apps.core.handlers.dto import RequestContext, RequestData
 from apps.core.repositories.protocol import RepositoryProtocol
 from apps.lang.models import EnglishTranslation
-from apps.lang.repositories.exercise.candidates.translations import (
-    UserTranslationsRepository,
-)
+from apps.lang.repositories.exercise import UserTranslationsRepository
 from apps.users.models import Person
 from contracts.enums.exercise import ExerciseAction
 from contracts.schemas.base import NullDTO
-from contracts.schemas.domain.exercise.params import (
-    ExerciseParametersDTO,
-)
+from contracts.schemas.domain.exercise import ExerciseParametersDTO
 from contracts.schemas.request.exercise import ExerciseRequestDTO
 
 from ._types.handler import (
@@ -25,7 +20,6 @@ from ._types.handler import (
     RequestDataT,
     RequestParamsT,
 )
-from ._types.resource import TranslationCandidates
 
 pytest_plugins = [
     'tests.fixtures.db_user',
@@ -112,16 +106,3 @@ def translation_repository() -> RepositoryProtocol[object, object]:
     return UserTranslationsRepository(
         manager=EnglishTranslation.objects,
     )
-
-
-@pytest.fixture
-def translation_candidates_db(
-    user: Person,
-    translations: list[EnglishTranslation],  # Populate DB
-    translation_repository: RepositoryProtocol[
-        NullDTO,
-        QuerySet[EnglishTranslation],
-    ],
-) -> TranslationCandidates:
-    """Provide translation exercise candidates."""
-    return translation_repository.fetch(user, NullDTO())  # type: ignore
