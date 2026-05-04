@@ -2,6 +2,8 @@
 
 from apps.core.repositories.protocol import CommandRepositoryProtocol
 from apps.users.models.user import Person
+from contracts.enums import ExerciseStatus
+from interfaces.schemas.service.exercise import UpdateProgressCase
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
@@ -32,4 +34,8 @@ class UpdateProgressService(
             obj=self._repository,
             spec=spec,
         )
-        return self._repository.update(user, spec)
+        self._repository.update(user, spec)
+        return UpdateProgressCase(
+            status=ExerciseStatus.UPDATED_PROGRESS,
+            domain=None,
+        )
