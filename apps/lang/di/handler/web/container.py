@@ -8,10 +8,8 @@ from dependency_injector.providers import (
     Factory,
 )
 
-from apps.core.adapters.response.exercise.presentation.web import (
+from apps.core.adapters.response import (
     PresentationTaskWebAdapter,
-)
-from apps.core.adapters.response.exercise.strategy import (
     ProcessExerciseAdapterStrategy,
 )
 from apps.core.adapters.response.exercise.test.web import (
@@ -37,6 +35,7 @@ class WebHandlerContainer(DeclarativeContainer):
     # ---------------------------------------------
     use_cases = DependenciesContainer()
     validators = DependenciesContainer()
+    response_adapters = DependenciesContainer()
 
     user_command_storage = Dependency()  # type: ignore
     auditor = Dependency()  # type: ignore
@@ -52,7 +51,7 @@ class WebHandlerContainer(DeclarativeContainer):
         use_case=use_cases.regular_translation_presentation,
         adapter=Factory(
             PresentationTaskWebAdapter,
-            extra_oob_templates=['lang/exercise/presentation/_mark_bar.html'],
+            templates=['lang/exercise/presentation/_mark_bar.html'],
         ),
     )
 
@@ -66,8 +65,8 @@ class WebHandlerContainer(DeclarativeContainer):
         assembler=Factory(UserAssembler),
         use_case=use_cases.start_regular_translation_presentation,
         adapter=Factory(
-            PresentationTaskWebAdapter,
-            extra_oob_templates=['lang/exercise/presentation/_mark_bar.html'],
+            PresentationTaskWebAdapte
+            templates=['lang/exercise/presentation/_mark_bar.html'],
         ),
     )
     # ---------------------------------------------
@@ -77,7 +76,10 @@ class WebHandlerContainer(DeclarativeContainer):
         {
             ExerciseStatus.NEW_TASK: Factory(
                 PresentationTaskWebAdapter,
-                extra_oob_templates=[],
+                templates=[],
+            ),
+            ExerciseStatus.UPDATED_PROGRESS: Factory(
+                NullResponseAdapter,
             ),
         },
     )
@@ -86,10 +88,7 @@ class WebHandlerContainer(DeclarativeContainer):
         validator=validators.exercise_request,
         assembler=Factory(UserDataAssembler),
         use_case=use_cases.regular_translation_presentation,
-        adapter=Factory(
-            ProcessExerciseAdapterStrategy,
-            registry=presentation_adapter_registries,
-        ),
+        adapter=response_adapters.presentation,
         name='Regular translation presentation',
         auditor=auditor,
     )
@@ -136,7 +135,7 @@ class WebHandlerContainer(DeclarativeContainer):
         use_case=use_cases.start_regular_translation_test,
         adapter=Factory(
             PresentationTaskWebAdapter,
-            extra_oob_templates=[],
+            templates=[],
         ),
     )
 

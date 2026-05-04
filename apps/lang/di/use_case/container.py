@@ -12,19 +12,20 @@ from dependency_injector.providers import (
 
 from apps.core.adapters.exercise import (
     ExerciseProcessAdapter,
-    ExerciseProgressAdapter,
+    ItemProgressUpdateAdapter,
 )
 from apps.core.builders.exercise.task import (
     ExercisePresentationBuilder,
     TestExerciseTaskBuilder,
 )
+from apps.core.builders.null import NullSpecDtoBuilder
 from apps.core.resolvers.exercise.config_resolver import (
     ExerciseConfigurationResolver,
 )
 from apps.core.use_cases.exercise.generic import (
     ExerciseUseCaseStrategy,
 )
-from contracts.enums.exercise import (
+from contracts.enums import (
     ExerciseAction,
     ExerciseKind,
     ExerciseStatus,
@@ -56,17 +57,19 @@ class UseCaseContainer(DeclarativeContainer):
     regular_translation_presentation_adapter_registry = Dict(
         {
             ExerciseAction.CREATE_TASK: Factory(
-                ExerciseProcessAdapter, name='Process exercise command adapter'
+                ExerciseProcessAdapter,
+                name='Create task command adapter',
             ),
             ExerciseAction.UPDATE_PROGRESS: Factory(
-                ExerciseProgressAdapter,
-                name='Progress exercise command adapter',
+                ItemProgressUpdateAdapter,
+                name='Update item progress study command adapter',
             ),
         },
     )
     regular_translation_presentation_builder_registry = Dict(
         {
             ExerciseStatus.NEW_TASK: Factory(ExercisePresentationBuilder),
+            ExerciseStatus.UPDATED_PROGRESS: Factory(NullSpecDtoBuilder),
         },
     )
 
