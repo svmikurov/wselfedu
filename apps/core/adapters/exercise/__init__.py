@@ -2,7 +2,7 @@
 
 __all__ = (
     'ExerciseProcessAdapter',
-    'ExerciseProgressAdapter',
+    'ItemProgressUpdateAdapter',
 )
 from .process import ExerciseProcessAdapter
-from .progress import ExerciseProgressAdapter
+from .progress import ItemProgressUpdateAdapter

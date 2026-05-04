@@ -6,15 +6,15 @@ from apps.core.adapters.exercise.abstract import AbstractExerciseProcessAdapter
 from apps.core.assemblers.protocol import UserDataCommandProtocol
 from apps.core.domains.exercise.protocol import HasExerciseAction
 from contracts.schemas.domain.exercise.params import ExerciseParametersDTO
-from interfaces.protocols.domain.exercise import Candidate
+from interfaces.protocols.domain import PresentationDomainResultProtocol
 from interfaces.protocols.repository import ProgressUpdateConditionsProtocol
 from interfaces.schemas.repository import ProgressUpdateConditions
 from utils.audit import AuditorProtocol, BaseAuditable
 
-CaseT = TypeVar('CaseT', bound=Candidate)
+CaseT = TypeVar('CaseT', bound=PresentationDomainResultProtocol)
 
 
-class ExerciseProgressAdapter(
+class ItemProgressUpdateAdapter(
     BaseAuditable,
     AbstractExerciseProcessAdapter[
         UserDataCommandProtocol[HasExerciseAction],
@@ -23,7 +23,7 @@ class ExerciseProgressAdapter(
         ProgressUpdateConditionsProtocol,
     ],
 ):
-    """Exercise process command adapter."""
+    """Item study progress update command adapter."""
 
     def __init__(
         self,
@@ -48,6 +48,6 @@ class ExerciseProgressAdapter(
             )
 
         return ProgressUpdateConditions(
-            pk=case.pk,
+            pk=case.item.pk,
             delta=1,
         )
