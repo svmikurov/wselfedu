@@ -1,9 +1,16 @@
 """Language discipline translation presentation exercise DI tests."""
 
+from unittest.mock import Mock
+
 import pytest
 
+from apps.core.storages.services.iabc import AbstractCommandStorage
+from contracts.enums import ExerciseStatus
 from di import MainContainer
-from interfaces.schemas.domain.exercise import TaskItem
+from interfaces.schemas.domain.exercise import (
+    PresentationExerciseDomainResult,
+    TaskItem,
+)
 
 from .._types.handler import (
     HandlerT,
@@ -59,14 +66,32 @@ def test_update_progress(
     null_request_params: RequestParamsT,
     user_request_context: RequestContextT,
     update_progress_request_data: RequestDataT,  # Update progress request data
-    regular_presentation_handler: HandlerT,
+    main_container: MainContainer,
 ) -> None:
     """Test *update progress* handler action completed successfully."""
-    assert (
-        regular_presentation_handler.execute(
+    # Arrange
+    mock_domain_result_storage = Mock(spec=AbstractCommandStorage)
+    mock_domain_result_storage.name = 'test_task'
+    mock_domain_result_storage.retrieve.return_value = (
+        PresentationExerciseDomainResult(
+            status=ExerciseStatus.NEW_TASK,
+            item=translations[0],
+        )
+    )
+
+    # Act
+    with main_container.lang.use_cases.user_command_storage.override(  # type: ignore[attr-defined]
+        mock_domain_result_storage
+    ):
+        handler = (
+            main_container.lang.handlers.regular_translation_presentation()  # type: ignore[attr-defined]
+        )
+        result = handler.execute(
             null_request_params,
             user_request_context,
             update_progress_request_data,
         )
-        is not None
-    )
+
+        # Assert
+        mock_domain_result_storage.retrieve.assert_called_once()
+        assert result is not None

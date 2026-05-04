@@ -5,12 +5,10 @@ as exercise candidates.
 """
 
 import pytest
-from django.db.models import QuerySet
 
 from apps.core.domains.exercise.deps.selector import CandidatesSelector
 from apps.core.domains.exercise.presentation.impl import PresentationDomain
 from apps.core.domains.exercise.test.impl import TestDomain
-from apps.lang.models import EnglishTranslation
 from contracts.schemas.domain.exercise.params import ExerciseParametersDTO
 from interfaces.protocols.domain.exercise import Candidates
 from interfaces.schemas.domain.exercise import (
@@ -20,17 +18,8 @@ from interfaces.schemas.domain.exercise import (
 )
 from tests._types import DomainT, OptionsDomainT
 
-_CandidatesT = QuerySet[EnglishTranslation]
 _DomainT = DomainT
 _OptionsDomainT = OptionsDomainT
-
-
-@pytest.fixture
-def candidates_db(
-    translation_candidates_db: _CandidatesT,
-) -> _CandidatesT:
-    """Provide exercise candidates."""
-    return translation_candidates_db
 
 
 @pytest.fixture
@@ -47,13 +36,13 @@ def test_exercise_domain() -> _DomainT:
 
 @pytest.mark.django_db
 def test_presentation_domain_result(
-    candidates_db: Candidates,
+    translations: Candidates,
     presentation_domain: _DomainT,
     exercise_params: ExerciseParametersDTO,
 ) -> None:
     """Test the presentation domain DTO."""
     # Act
-    res = presentation_domain.execute(candidates_db, exercise_params.conf)
+    res = presentation_domain.execute(translations, exercise_params.conf)
 
     # Assert
     # - Domain result DTO has fields
@@ -70,13 +59,13 @@ def test_presentation_domain_result(
 
 @pytest.mark.django_db
 def test_test_exercise_domain_result(
-    candidates_db: Candidates,
+    translations: Candidates,
     test_exercise_domain: _OptionsDomainT,
     exercise_params: ExerciseParametersDTO,
 ) -> None:
     """Test the test exercise domain DTO."""
     # Act
-    res = test_exercise_domain.execute(candidates_db, exercise_params.conf)
+    res = test_exercise_domain.execute(translations, exercise_params.conf)
 
     # Assert
     # - Domain result DTO has fields

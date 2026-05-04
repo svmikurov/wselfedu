@@ -16,14 +16,13 @@ from contracts.schemas.domain.exercise.flow import ExerciseCase
 from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
 )
+from interfaces.protocols.domain.exercise import Candidates
 from interfaces.schemas.domain.exercise import (
     PresentationExerciseDomainResult,
-    TaskItem,
     TestExerciseDomainResult,
 )
 from tests._types import DomainT, RepositoryT, ServiceT, TaskBuilderT
 
-_Candidates = list[TaskItem]
 _DomainT = DomainT
 _ServiceT = ServiceT
 _RepositoryT = RepositoryT
@@ -31,48 +30,36 @@ _TaskBuilderT = TaskBuilderT
 
 
 @pytest.fixture
-def candidates_db(
-    translation_candidates_db: _Candidates,
-) -> _Candidates:
-    """Provide exercise candidates."""
-    return translation_candidates_db
-
-
-@pytest.fixture
 def mock_candidates_repository(
-    candidates_db: _Candidates,
+    translations: Candidates,
 ) -> _RepositoryT:
     """Provide candidates repository mock."""
     mock = Mock(spec=_RepositoryT)
-    mock.return_value.fetch = candidates_db
+    mock.return_value.fetch = translations
     return mock
 
 
 @pytest.fixture
-def mock_presentation_domain(
-    candidates_db: _Candidates,
-) -> _DomainT:
+def mock_presentation_domain(translations: Candidates) -> _DomainT:
     """Provide presentation exercise domain mock."""
     mock = Mock(spec=_DomainT)
     mock.execute.return_value = PresentationExerciseDomainResult(
         status=enums.ExerciseStatus.NEW_TASK,
         exercise_kind=enums.ExerciseKind.PRESENTATION,
-        item=candidates_db[0],
+        item=translations[0],  # type: ignore
     )
     return mock
 
 
 @pytest.fixture
-def mock_test_domain(
-    candidates_db: _Candidates,
-) -> _DomainT:
+def mock_test_domain(translations: Candidates) -> _DomainT:
     """Provide test exercise domain mock."""
     mock = Mock(spec=_DomainT)
     mock.execute.return_value = TestExerciseDomainResult(
         status=enums.ExerciseStatus.NEW_TASK,
         question_option_value=1,
         exercise_kind=enums.ExerciseKind.TEST,
-        items=candidates_db,
+        items=translations,  # type: ignore
     )
     return mock
 
