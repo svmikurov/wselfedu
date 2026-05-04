@@ -1,5 +1,7 @@
 """Null builder."""
 
+from functools import cached_property
+
 from . import aliases
 from .protocol import SpecDtoBuilderProtocol
 
@@ -20,3 +22,8 @@ class NullSpecDtoBuilder(
     ) -> aliases.DtoT:
         """Build the DTO."""
         return data
+
+    @cached_property
+    def name(self) -> str:
+        """Return null builder name."""
+        return 'Null builder'
