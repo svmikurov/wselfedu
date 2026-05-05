@@ -64,6 +64,7 @@ class RequestContext(ArbitraryDTO):
     """Request context."""
 
     user: Person
+    is_htmx: bool = False
 
 
 # =================================================
