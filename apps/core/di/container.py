@@ -9,6 +9,7 @@ from ..storages.clients.django_cache import DjangoCache, DjangoKeyCache
 from ..storages.resolver import UserKeyCommandResolver
 from ..storages.services.service import UserCommandStorage, UserDataStorage
 from ..storages.services.task import TaskStorage
+from .adapter.container import ResponseAdaptersContainer
 from .configuration import ConfigurationContainer
 from .domain import DomainContainer
 
@@ -16,14 +17,27 @@ from .domain import DomainContainer
 class CoreContainer(DeclarativeContainer):
     """Core application dependency injection container."""
 
+    auditor = Factory(Auditor)
+
+    # =============================================
+    # Inner containers
+    # =============================================
+
     configuration = Container(
         ConfigurationContainer,
     )
-
     domains = Container(
         DomainContainer,
         exercise_config=configuration.exercise,
     )
+    response_adapters = Container(
+        ResponseAdaptersContainer,
+        auditor=auditor,
+    )
+
+    # =============================================
+    # Storages
+    # =============================================
 
     django_cache = Factory(  # type: ignore[var-annotated]
         DjangoCache,
@@ -31,7 +45,6 @@ class CoreContainer(DeclarativeContainer):
     django_key_cache = Factory(  # type: ignore[var-annotated]
         DjangoKeyCache,
     )
-
     # TODO: Rename to `django_cache`?
     task_storage = Factory(
         TaskStorage,
@@ -46,5 +59,3 @@ class CoreContainer(DeclarativeContainer):
         storage=django_key_cache,
         key_resolver=Factory(UserKeyCommandResolver),
     )
-
-    auditor = Factory(Auditor)
