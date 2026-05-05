@@ -3,6 +3,7 @@
 from typing import Any, Generic, TypeAlias, TypeVar
 
 from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render
 from django.views import View
 from django.views.generic.base import TemplateResponseMixin
 
@@ -14,7 +15,7 @@ from apps.core.handlers.dto import (
 )
 from apps.core.handlers.protocol import RequestHandlerProtocol
 from apps.core.views.auth import UserLoginRequiredMixin
-from apps.core.views.mixins import GetHandlerMixin
+from apps.core.views.mixins import GetHandlerMixin, IsHtmxMixin
 from apps.users.models import Person
 from contracts.entity.response.base import (
     OobResponseProtocol,
@@ -22,11 +23,7 @@ from contracts.entity.response.base import (
 from contracts.enums.exercise import ExerciseStatus
 from contracts.schemas.response.generic import OobResponseDTO
 
-from ..mixins import (
-    ProcessHandlerPartialTemplateMixin,
-    ProcessHandlerTemplateMixin,
-)
-from .mixins import ExerciseLoopMixin, ExercisePartialTemplateMixin
+from .mixins import ExerciseLoopMixin
 
 __all__ = ('ExercisePerformView',)
 
@@ -46,19 +43,7 @@ ProcessHandlerT = RequestHandlerProtocol[Any, Any, Any, _OobResponseDtoT]
 
 class ExercisePerformView(
     UserLoginRequiredMixin,
-    GetHandlerMixin[HandlerT],
-    ExercisePartialTemplateMixin[ResponseDtoT],
-    ProcessHandlerTemplateMixin[ResponseDtoT],
-    ProcessHandlerPartialTemplateMixin[ResponseDtoT],
-    View,
-    Generic[HandlerT, ResponseDtoT],
-):
-    """Base exercise performing view."""
-
-
-# IDEA: Relocate OOB creating to response adapter
-class IdeaExercisePerformView(
-    UserLoginRequiredMixin,
+    IsHtmxMixin,
     GetHandlerMixin[HandlerT],
     ExerciseLoopMixin,
     TemplateResponseMixin,
@@ -67,19 +52,24 @@ class IdeaExercisePerformView(
 ):
     """Base exercise performing view."""
 
+    # template
+
     def get(self, request: HttpRequest, **kwargs: object) -> HttpResponse:
         """Render initial template with process handler result."""
         result = self._start(**kwargs)
 
-        if request.headers.get('HX-Request') == 'true':
-            return HttpResponse(result)
+        if self.is_htmx:
+            return HttpResponse(result.oob_html)
         else:
-            raise NotImplementedError
+            return render(
+                request,
+                self.get_template_names(),
+                result.context.model_dump(),
+            )
 
     def post(self, request: HttpRequest, **kwargs: object) -> HttpResponse:
         """Render partial template with process handler result."""
-        result = self._process(**kwargs)
-        return HttpResponse(result)
+        return HttpResponse(self._process(**kwargs))
 
 
 # DEPRECATED: Remove, use `ExercisePerformView`
