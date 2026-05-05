@@ -10,7 +10,7 @@ from apps.core.views.exercise import ExercisePerformView
 from apps.core.views.exercise.mixins import ExerciseLoopMixin
 from di import MainContainer
 
-from ._types import HandlerT, ResponseDtoT
+from ._types import HandlerT
 
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponseBase
@@ -21,7 +21,7 @@ HANDLERS = MainContainer.lang.handlers
 
 
 class RegularTranslationTestPerformView(
-    ExercisePerformView[HandlerT, ResponseDtoT],  # type: ignore
+    ExercisePerformView[HandlerT],
     ExerciseLoopMixin,
 ):
     """Regular translation test exercise performing view."""
