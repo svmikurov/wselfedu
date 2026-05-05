@@ -7,26 +7,19 @@ from apps.lang.views import (
     RegularTranslationTestPerformView,
     TranslationPresentationView,
 )
-from apps.lang.views.exercise.translation.presentation import (
-    IdeaTranslationPresentationView,
-)
 
 urlpatterns = [
     # =============================================
     # Translation presentation
     # =============================================
     # GET: renders initial template with first task, JS business-logic
+    # for next exercise actions
     # POST: renders partial templates with next task in exercise loop;
     # handlers other requests (update progress, explain, ...)
     path(
         'translation/english/study/',
         TranslationPresentationView.as_view(),
         name='translation_english_study',
-    ),
-    path(
-        'translation/english/study/idea/',
-        IdeaTranslationPresentationView.as_view(),
-        name='translation_english_study_idea',
     ),
     # =============================================
     # Translation test
