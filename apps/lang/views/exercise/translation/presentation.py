@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING
 from dependency_injector.wiring import Provide, inject
 
 from apps.core.views.exercise import ExercisePerformView
+from apps.core.views.exercise.base import IdeaExercisePerformView
 from apps.core.views.exercise.mixins import ExerciseLoopMixin
 from di import MainContainer
 
@@ -27,6 +28,26 @@ class TranslationPresentationView(
     """Regular translation test exercise performing view."""
 
     TEMPLATE_PATH = 'lang/exercise/presentation/'
+    template_name = 'lang/exercise/presentation/index.html'
+
+    @inject
+    def dispatch(
+        self,
+        request: HttpRequest,
+        *args: object,
+        handler: HandlerT = Provide[
+            HANDLERS.regular_translation_presentation  # type: ignore[attr-defined]
+        ],
+        **kwargs: object,
+    ) -> HttpResponseBase:
+        """Inject request handler."""
+        self._handler = handler
+        return super().dispatch(request, *args, **kwargs)
+
+
+class IdeaTranslationPresentationView(IdeaExercisePerformView[HandlerT]):
+    """Regular translation test exercise performing view."""
+
     template_name = 'lang/exercise/presentation/index.html'
 
     @inject
