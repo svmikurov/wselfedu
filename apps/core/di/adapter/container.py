@@ -12,6 +12,7 @@ from contracts.enums import ExerciseStatus
 
 presentation_oob_htmls: list[str] = [
     'core/exercise/presentation/task.html',
+    'core/exercise/presentation/update_progress.html',
 ]
 
 
