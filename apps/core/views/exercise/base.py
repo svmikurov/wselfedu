@@ -2,8 +2,9 @@
 
 from typing import Any, Generic, TypeAlias, TypeVar
 
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.views import View
+from django.views.generic.base import TemplateResponseMixin
 
 from apps.core.handlers.dto import (
     DetailRequestParams,
@@ -25,9 +26,10 @@ from ..mixins import (
     ProcessHandlerPartialTemplateMixin,
     ProcessHandlerTemplateMixin,
 )
-from .mixins import ExercisePartialTemplateMixin
+from .mixins import ExerciseLoopMixin, ExercisePartialTemplateMixin
 
 __all__ = ('ExercisePerformView',)
+
 
 # DEPRECATED: Remove type alias after implementation deletion
 _OobResponseDtoT: TypeAlias = OobResponseDTO[object, object, object]
@@ -52,6 +54,32 @@ class ExercisePerformView(
     Generic[HandlerT, ResponseDtoT],
 ):
     """Base exercise performing view."""
+
+
+# IDEA: Relocate OOB creating to response adapter
+class IdeaExercisePerformView(
+    UserLoginRequiredMixin,
+    GetHandlerMixin[HandlerT],
+    ExerciseLoopMixin,
+    TemplateResponseMixin,
+    View,
+    Generic[HandlerT],
+):
+    """Base exercise performing view."""
+
+    def get(self, request: HttpRequest, **kwargs: object) -> HttpResponse:
+        """Render initial template with process handler result."""
+        result = self._start(**kwargs)
+
+        if request.headers.get('HX-Request') == 'true':
+            return HttpResponse(result)
+        else:
+            raise NotImplementedError
+
+    def post(self, request: HttpRequest, **kwargs: object) -> HttpResponse:
+        """Render partial template with process handler result."""
+        result = self._process(**kwargs)
+        return HttpResponse(result)
 
 
 # DEPRECATED: Remove, use `ExercisePerformView`
