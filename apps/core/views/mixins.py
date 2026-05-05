@@ -82,6 +82,17 @@ class GetHandlerMixin(Generic[T]):
         return self._handler
 
 
+class IsHtmxMixin:
+    """Mixin provides *is_htmx* property."""
+
+    request: HttpRequest
+
+    @property
+    def is_htmx(self) -> bool:
+        """Return *is_htmx* value."""
+        return self.request.headers.get('HX-Request') == 'true'
+
+
 # =================================================
 # Handler mixins
 # =================================================
