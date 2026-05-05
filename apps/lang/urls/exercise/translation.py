@@ -7,6 +7,9 @@ from apps.lang.views import (
     RegularTranslationTestPerformView,
     TranslationPresentationView,
 )
+from apps.lang.views.exercise.translation.presentation import (
+    IdeaTranslationPresentationView,
+)
 
 urlpatterns = [
     # =============================================
@@ -19,6 +22,11 @@ urlpatterns = [
         'translation/english/study/',
         TranslationPresentationView.as_view(),
         name='translation_english_study',
+    ),
+    path(
+        'translation/english/study/idea/',
+        IdeaTranslationPresentationView.as_view(),
+        name='translation_english_study_idea',
     ),
     # =============================================
     # Translation test
