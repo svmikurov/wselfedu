@@ -90,7 +90,7 @@ class StartExerciseMixin(
     def _start(self, **kwargs: object) -> OobResponseProtocol[ExerciseStatus]:
         return self.handler.execute(  # type: ignore
             params=NullDTO(),
-            context=RequestContext(user=self.user),  # type: ignore
+            context=RequestContext(user=self.user, is_htmx=self.is_htmx),  # type: ignore
             data=RequestData(data={'action': ExerciseAction.CREATE_TASK}),
         )
 
