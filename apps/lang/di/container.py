@@ -22,6 +22,7 @@ class LanguageContainer(DeclarativeContainer):
     # External dependencies
     # ===========================================
     domains = DependenciesContainer()
+    response_adapters = DependenciesContainer()
 
     storage = Dependency()  # type: ignore[var-annotated]
     user_command_storage = Dependency()  # type: ignore[var-annotated]
@@ -63,6 +64,7 @@ class LanguageContainer(DeclarativeContainer):
         WebHandlerContainer,
         validators=validators,
         use_cases=use_cases,
+        response_adapters=response_adapters,
         user_command_storage=user_command_storage,
         auditor=auditor,
     )
