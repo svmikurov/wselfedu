@@ -1,6 +1,8 @@
-<!--======= Mark translation =======-->
-<div id="knowledge-block" class="row g-2 mt-0 mb-2">
+{# Partial template for is known item study progress update #}
 
+{% load i18n %}
+
+<div id="knowledge-block" class="row g-2 mt-0 mb-2" hx-swap-oob="innerHTML">
   <div class="col-12 col-md-6">
     <button
         id="known-button"
@@ -13,15 +15,15 @@
             ? appLogger.info('Progress updated') 
             : appLogger.error('Progress not updated')"
     >
-        Знаю
+      {% trans 'button.title.known' %}
     </button>
   </div>
-
   <div class="col-12 col-md-6">
     <button
         id="unknown-button"
         class="wse-btn full-width height-huge"
         hx-post=""
+        hx-target="case-block"
         hx-vals='{"action": "update_progress", "is_known": false}'
         hx-trigger="click"
         hx-on:htmx:after-request="
@@ -29,7 +31,7 @@
             ? appLogger.info('Progress updated') 
             : appLogger.error('Progress not updated')"
     >
-        Не знаю
+      {% trans 'button.title.unknown' %}
     </button>
   </div>
 </div><!-- End Mark translation -->
