@@ -4,84 +4,75 @@ This module contains adapters for converting generic
 exercise cases to different output formats (API and Web).
 """
 
-import logging
 from typing import TypeAlias, override
 
 from django.template.loader import render_to_string
 
 from apps.core.adapters.response.abstract import AbstractResponseAdapter
-from contracts import NullProtocol
 from contracts.enums import ExerciseStatus
 from contracts.schemas.domain.exercise.flow import PresentationTask
-from interfaces.schemas import web as interfaces
+from interfaces.protocols.request import HasIsHtmx
+from interfaces.schemas.web.task import (
+    PresentationTaskContext,
+    PresentationTaskResponse,
+)
+from utils.audit.base import BaseAuditable
+from utils.audit.protocol import AuditorProtocol
 
-log = logging.getLogger(__name__)
-
-_Template: TypeAlias = str
-"""Partial html template.
+_HTML: TypeAlias = str
+"""Partial Out-Of-Band HTML template.
 """
 
 
 class PresentationTaskWebAdapter(
+    BaseAuditable,
     AbstractResponseAdapter[
         PresentationTask,
-        NullProtocol,
-        interfaces.PresentationTaskResponse,
-    ]
+        HasIsHtmx,
+        PresentationTaskResponse,
+    ],
 ):
     """WEB adapter for perform exercise task."""
 
     def __init__(
         self,
-        extra_oob_templates: list[_Template],
-        template_registry: dict[ExerciseStatus, list[_Template]] | None = None,
+        oob_templates: list[_HTML],
+        name: str | None = None,
+        auditor: AuditorProtocol | None = None,
     ) -> None:
         """Construct the adapter."""
-        self._templates = extra_oob_templates
-        self._template_registry = template_registry
+        super().__init__(name=name, auditor=auditor)
+        self._oob_templates = oob_templates
 
-    def _build_oob(self, domain_result: PresentationTask) -> _Template:
-        """Build OOB."""
-        templates: list[_Template] = self._get_templates(domain_result.status)
-        context = domain_result.model_dump()
+    def _get_oob_html(self, context: PresentationTaskContext) -> _HTML:
+        """Build Out-Of-Band HTML."""
+        oob_htmls: list[str] = []
+        for template in self.oob_templates:
+            oob_htmls.append(render_to_string(template, context.model_dump()))
+        return '\n'.join(oob_htmls)
 
-        htmls: list[str] = []
-        for template in templates:
-            htmls.append(render_to_string(template, context))
+    @property
+    def oob_templates(self) -> list[_HTML]:
+        """Return Out-Of-Band HTML templates."""
+        return self._oob_templates
 
-        return '\n'.join(htmls)
-
-    def _get_templates(self, status: ExerciseStatus) -> list[_Template]:
-        """Return partial templates for response."""
-        if not self._template_registry:
-            return self._templates
-
-        try:
-            status_templates = self._template_registry[status]
-        except KeyError:
-            log.warning(
-                'Web response adapter template registry ',
-                f'have no templates for {status}',
-            )
-        else:
-            status_templates = []
-
-        return self._templates + status_templates
-
-    # HACK: Update return type hint on protocol
+    # HACK: Update return type hint to protocol
     @override
     def to_response(
         self,
         domain_result: PresentationTask,
-        request_context: NullProtocol,
-    ) -> interfaces.PresentationTaskResponse:
+        request_context: HasIsHtmx,
+    ) -> PresentationTaskResponse:
         """Convert exercise case to web context."""
-        return interfaces.PresentationTaskResponse(
+        context = PresentationTaskContext(
+            define=domain_result.question_text,
+            mean=domain_result.answer_text,
+            progress_value=domain_result.progress_value,
+        )
+        return PresentationTaskResponse(
             domain_status=ExerciseStatus.NEW_TASK,
-            context=interfaces.PresentationTaskContext(
-                define=domain_result.question_text,
-                mean=domain_result.answer_text,
-                progress_value=domain_result.progress_value,
+            context=context,
+            oob_html=(
+                self._get_oob_html(context) if request_context.is_htmx else ''
             ),
-            oob_html=self._build_oob(domain_result),
         )
