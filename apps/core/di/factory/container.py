@@ -23,11 +23,11 @@ class CoreSpecFactoryContainer(DeclarativeContainer):
     # Exercise factories
     # ===========================================
 
-    create_exercise = Factory(  # type: ignore[var-annotated]
+    _create_exercise = Factory(  # type: ignore[var-annotated]
         CreateExerciseSpecFactory,
         name='Create exercise specification factory.',
     )
-    update_progress = Factory(  # type: ignore[var-annotated]
+    _update_progress = Factory(  # type: ignore[var-annotated]
         UpdateProgressSpecFactory,
         name='Update progress specification factory',
     )
@@ -38,7 +38,13 @@ class CoreSpecFactoryContainer(DeclarativeContainer):
 
     presentation_registry = Dict(
         {
-            ExerciseAction.CREATE_TASK: create_exercise,
-            ExerciseAction.UPDATE_PROGRESS: update_progress,
+            ExerciseAction.CREATE_TASK: _create_exercise,
+            ExerciseAction.UPDATE_PROGRESS: _update_progress,
+        },
+    )
+    test_registry = Dict(
+        {
+            ExerciseAction.CREATE_TASK: _create_exercise,
+            ExerciseAction.UPDATE_PROGRESS: _update_progress,
         },
     )

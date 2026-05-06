@@ -11,6 +11,10 @@ from apps.core.resolvers.exercise.config_resolver import (
     ExerciseConfigurationResolver,
 )
 from contracts.enums.exercise import ExerciseKind
+from contracts.schemas.domain.exercise.params import (
+    ExerciseParametersDTO,
+    TestExerciseConfigDTO,
+)
 
 
 class LanguageConfigurationContainer(DeclarativeContainer):
@@ -28,11 +32,24 @@ class LanguageConfigurationContainer(DeclarativeContainer):
     # Internal dependencies
     # =============================================
 
-    translation_exercise_config_resolver = Factory(
+    translation_presentation_resolver = Factory(
         ExerciseConfigurationResolver,
         exercise_type=ExerciseKind.PRESENTATION,
         parameters_repository=repositories.translation_parameters,
         default=None,
-        name='Exercise configuration resolver',
+        name='Translation presentation configuration resolver',
+        auditor=auditor,
+    )
+    # HACK: Implement default exercise parameters fetch
+    translation_test_resolver = Factory(
+        ExerciseConfigurationResolver,
+        exercise_type=ExerciseKind.TEST,
+        parameters_repository=repositories.translation_parameters,
+        default=ExerciseParametersDTO(
+            settings=TestExerciseConfigDTO(
+                option_count=7,
+            ),
+        ),
+        name='Translation test configuration resolver',
         auditor=auditor,
     )

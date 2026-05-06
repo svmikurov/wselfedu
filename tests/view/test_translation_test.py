@@ -26,7 +26,7 @@ def test_create_task_case(
 ) -> None:
     """Test create test exercise with GET method request."""
     # Act
-    with handlers.process_regular_translation_test.override(  # type: ignore[unused-ignore]
+    with handlers.regular_translation_test.override(  # type: ignore[unused-ignore]
         mock_create_exercise_action_handler,
     ):
         response = RegularTranslationTestPerformView.as_view()(

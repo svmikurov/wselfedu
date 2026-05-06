@@ -35,7 +35,7 @@ class RegularTranslationTestPerformView(
         request: HttpRequest,
         *args: object,
         handler: HandlerT = Provide[
-            HANDLERS.process_regular_translation_test  # type: ignore[attr-defined]
+            HANDLERS.regular_translation_test  # type: ignore[attr-defined]
         ],
         **kwargs: object,
     ) -> HttpResponseBase:

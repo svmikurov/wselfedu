@@ -53,9 +53,7 @@ class ExerciseConfigurationResolver(
                 params = self._repository.fetch(command.user, NullDTO())
 
             case ExerciseKind.TEST:
-                if not self._default:
-                    raise AttributeError('Define default exercise config')
-                params = self._default
+                params = self._repository.fetch(command.user, NullDTO())
 
             case _ as unexpected:
                 raise ValueError(f'Got unexpected exercise type: {unexpected}')

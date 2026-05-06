@@ -3,18 +3,18 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Dependency, Dict, Factory
 
-from apps.core.adapters.exercise import (
-    CreateExerciseSpecFactory,
-    UpdateProgressSpecFactory,
-)
 from apps.core.adapters.response import (
+    NullResponseAdapter,
     PresentationTaskWebAdapter,
     ProcessExerciseAdapterStrategy,
 )
-from apps.core.adapters.response.null import NullResponseAdapter
-from contracts.enums import ExerciseAction, ExerciseStatus
+from apps.core.adapters.response.exercise.test.web import (
+    WebExplainAdapter,
+    WebTestExerciseAdapter,
+)
+from contracts.enums import ExerciseStatus
 
-presentation_html: list[str] = [
+PRESENTATION_HTMLs: list[str] = [
     'core/exercise/presentation/task.html',
     'core/exercise/presentation/update_progress.html',
 ]
@@ -24,56 +24,62 @@ class ResponseAdaptersContainer(DeclarativeContainer):
     """Core response adapters DI container."""
 
     # ================================================
-    # External dependencies
+    # External dependency
     # ================================================
 
     auditor = Dependency()  # type: ignore
 
     # ================================================
-    # Adapters
+    # Exercise action result response adapter
     # ================================================
 
-    regular_presentation = Factory(
+    _null = Factory(NullResponseAdapter)
+
+    _presentation = Factory(
         PresentationTaskWebAdapter,
-        templates=presentation_html,
+        templates=PRESENTATION_HTMLs,
         name='Presentation response adapter',
         auditor=auditor,
     )
-    null_adapter = Factory(NullResponseAdapter)
-
-    # =============================================
-    # Presentation registries
-    # =============================================
-
-    presentation_registries = Dict(
-        {
-            ExerciseStatus.NEW_TASK: regular_presentation,
-            ExerciseStatus.UPDATED_PROGRESS: null_adapter,
-        },
+    _test = Factory(
+        WebTestExerciseAdapter,
+        templates=[],
+        name='Test exercise response adapter',
+        auditor=auditor,
+    )
+    _explain = Factory(  # type: ignore
+        WebExplainAdapter,
+        extra_templates=[],
     )
 
     # =============================================
-    # Presentation exercise strategy
+    # Exercise registry
+    # =============================================
+
+    _presentation_registry = Dict(
+        {
+            ExerciseStatus.NEW_TASK: _presentation,
+            ExerciseStatus.UPDATED_PROGRESS: _null,
+        },
+    )
+
+    _test_registry = Dict(
+        {
+            ExerciseStatus.NEW_TASK: _test,
+            ExerciseStatus.UPDATED_PROGRESS: _null,
+            ExerciseStatus.EXPLAIN: _explain,
+        }
+    )
+
+    # =============================================
+    # Exercise strategy
     # =============================================
 
     presentation_strategy = Factory(
         ProcessExerciseAdapterStrategy,
-        registry=presentation_registries,
+        registry=_presentation_registry,
     )
-
-    # =============================================
-    # Presentation exercise strategy
-    # =============================================
-
-    presentation_registry = Dict(
-        {
-            ExerciseAction.CREATE_TASK: Factory(
-                CreateExerciseSpecFactory,
-                name='Create task specification factory',
-            ),
-            ExerciseAction.UPDATE_PROGRESS: Factory(
-                UpdateProgressSpecFactory,
-                name='Update progress specification factory',
-            ),
-        },
+    test_strategy = Factory(
+        ProcessExerciseAdapterStrategy,
+        registry=_test_registry,
     )
