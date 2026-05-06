@@ -1,14 +1,7 @@
-"""Generic exercise response adapters.
+"""Presentation exercise task WEB adapter."""
 
-This module contains adapters for converting generic
-exercise cases to different output formats (API and Web).
-"""
+from typing import override
 
-from typing import TypeAlias, override
-
-from django.template.loader import render_to_string
-
-from apps.core.adapters.response.abstract import AbstractResponseAdapter
 from contracts.enums import ExerciseStatus
 from contracts.schemas.domain.exercise.flow import PresentationTask
 from interfaces.protocols.request import HasIsHtmx
@@ -16,45 +9,18 @@ from interfaces.schemas.web.task import (
     PresentationTaskContext,
     PresentationTaskResponse,
 )
-from utils.audit.base import BaseAuditable
-from utils.audit.protocol import AuditorProtocol
 
-_HTML: TypeAlias = str
-"""Partial HTML template.
-"""
+from ..base import BaseWebAdapter
 
 
 class PresentationTaskWebAdapter(
-    BaseAuditable,
-    AbstractResponseAdapter[
+    BaseWebAdapter[
         PresentationTask,
         HasIsHtmx,
         PresentationTaskResponse,
     ],
 ):
-    """WEB adapter for perform exercise task."""
-
-    def __init__(
-        self,
-        templates: list[_HTML],
-        name: str | None = None,
-        auditor: AuditorProtocol | None = None,
-    ) -> None:
-        """Construct the adapter."""
-        super().__init__(name=name, auditor=auditor)
-        self._templates = templates
-
-    def _get_html(self, context: PresentationTaskContext) -> _HTML:
-        """Build partial HTMLs."""
-        html: list[str] = []
-        for template in self.templates:
-            html.append(render_to_string(template, context.model_dump()))
-        return '\n'.join(html)
-
-    @property
-    def templates(self) -> list[_HTML]:
-        """Return partial HTML templates."""
-        return self._templates
+    """WEB adapter for exercise task."""
 
     # HACK: Update return type hint to protocol
     @override
