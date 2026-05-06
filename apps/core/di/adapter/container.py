@@ -14,13 +14,11 @@ from apps.core.adapters.response.exercise.test.web import (
 )
 from contracts.enums import ExerciseStatus
 
-PRESENTATION_TEMPLATES: list[str] = [
+PRESENTATION_TEMPLATES: tuple[str, ...] = (
     'core/exercise/presentation/task.html',
     'core/exercise/presentation/update_progress.html',
-]
-TEST_TEMPLATES: list[str] = [
-    'core/exercise/test/task.html',
-]
+)
+TEST_TEMPLATES: tuple[str] = ('core/exercise/test/task.html',)
 
 
 class ResponseAdaptersContainer(DeclarativeContainer):

@@ -32,7 +32,7 @@ class BaseWebAdapter(
 
     def __init__(
         self,
-        templates: list[HtmlT],
+        templates: tuple[HtmlT, ...],
         name: str | None = None,
         auditor: AuditorProtocol | None = None,
     ) -> None:
@@ -48,7 +48,7 @@ class BaseWebAdapter(
         return '\n'.join(html)
 
     @property
-    def templates(self) -> list[HtmlT]:
+    def templates(self) -> tuple[HtmlT, ...]:
         """Return partial HTML templates."""
         return self._templates
 
