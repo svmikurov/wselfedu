@@ -15,7 +15,7 @@ from contracts.schemas.request.exercise import ExerciseRequestDTO
 from interfaces.protocols.domain.exercise import PresentationTaskProtocol
 
 if TYPE_CHECKING:
-    from apps.lang.di.use_case.container import UseCaseContainer
+    from apps.lang.di.use_case.container import LangUseCaseContainer
     from apps.users.models import Person
     from di import MainContainer
 
@@ -41,13 +41,13 @@ def create_command(
 
 
 @pytest.fixture
-def use_cases(main_container: MainContainer) -> UseCaseContainer:
+def use_cases(main_container: MainContainer) -> LangUseCaseContainer:
     """Provide lang app use cases DI container."""
     return main_container.lang.use_cases  # type: ignore
 
 
 @pytest.fixture
-def use_case(use_cases: UseCaseContainer) -> _UseCaseT:
+def use_case(use_cases: LangUseCaseContainer) -> _UseCaseT:
     """Provide regular translation presentation use case fixture."""
     return use_cases.regular_translation_presentation()  # type: ignore
 

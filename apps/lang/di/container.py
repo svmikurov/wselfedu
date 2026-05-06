@@ -11,7 +11,7 @@ from .config.container import LanguageConfigurationContainer
 from .handler.web.container import WebHandlerContainer
 from .repository.repository import LanguageRepositoryContainer
 from .service.container import ServiceContainer
-from .use_case.container import UseCaseContainer
+from .use_case.container import LangUseCaseContainer
 from .validator.container import LangValidatorContainer
 
 
@@ -53,7 +53,7 @@ class LanguageContainer(DeclarativeContainer):
         auditor=auditor,
     )
     use_cases = Container(
-        UseCaseContainer,
+        LangUseCaseContainer,
         lang_config=lang_configurations,
         repositories=repositories,
         services=services,

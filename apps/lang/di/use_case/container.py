@@ -36,7 +36,7 @@ from contracts.schemas.domain.exercise.params import (
 )
 
 
-class UseCaseContainer(DeclarativeContainer):
+class LangUseCaseContainer(DeclarativeContainer):
     """Language discipline use case DI container."""
 
     # =============================================
