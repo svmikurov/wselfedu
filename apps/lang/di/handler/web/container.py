@@ -9,7 +9,6 @@ from dependency_injector.providers import (
 )
 
 from apps.core.adapters.response import (
-    PresentationTaskWebAdapter,
     ProcessExerciseAdapterStrategy,
 )
 from apps.core.adapters.response.exercise.test.web import (
@@ -32,7 +31,8 @@ class WebHandlerContainer(DeclarativeContainer):
 
     # =============================================
     # External dependencies
-    # ---------------------------------------------
+    # =============================================
+
     use_cases = DependenciesContainer()
     validators = DependenciesContainer()
     response_adapters = DependenciesContainer()
@@ -41,37 +41,9 @@ class WebHandlerContainer(DeclarativeContainer):
     auditor = Dependency()  # type: ignore
 
     # =============================================
-    # Regular translation presentation
+    # Translation presentation exercise strategy
     # =============================================
-    # QUESTION: Is deprecated?
-    regular_translation_presentation = Factory(
-        RequestHandler,
-        validator=Factory(NullValidator),
-        assembler=Factory(UserAssembler),
-        use_case=use_cases.regular_translation_presentation,
-        adapter=Factory(
-            PresentationTaskWebAdapter,
-            templates=['lang/exercise/presentation/_mark_bar.html'],
-        ),
-    )
 
-    # ---------------------------------------------
-    # Start presentation exercise
-    # ---------------------------------------------
-    # QUESTION: Is deprecated?
-    start_regular_translation_presentation = Factory(
-        RequestHandler,
-        validator=Factory(NullValidator),
-        assembler=Factory(UserAssembler),
-        use_case=use_cases.start_regular_translation_presentation,
-        adapter=Factory(
-            PresentationTaskWebAdapter,
-            templates=['lang/exercise/presentation/_mark_bar.html'],
-        ),
-    )
-    # ---------------------------------------------
-    # Process presentation exercise strategy
-    # ---------------------------------------------
     regular_translation_presentation = Factory(
         RequestHandler,
         validator=validators.exercise_request,
@@ -83,22 +55,18 @@ class WebHandlerContainer(DeclarativeContainer):
     )
 
     # =============================================
-    # Regular translation test
+    # Translation test exercise strategy
     # =============================================
 
-    # ---------------------------------------------
-    # Process test exercise strategy
-    # ---------------------------------------------
-    # TEST: Implement for translation test exercise
     web_test_exercise_adapter_registry = Dict(
         {
             ExerciseStatus.NEW_TASK: Factory(
                 WebTestExerciseAdapter,
-                extra_oob_templates=[],
+                templates=[],
             ),
             ExerciseStatus.EXPLAIN: Factory(
                 WebExplainAdapter,
-                extra_oob_templates=[],
+                extra_templates=[],
             ),
         }
     )
@@ -114,18 +82,6 @@ class WebHandlerContainer(DeclarativeContainer):
         ),
         name='Regular translation test',
         auditor=auditor,
-    )
-
-    # QUESTION: Is deprecated?
-    start_regular_translation_test = Factory(
-        RequestHandler,
-        validator=Factory(NullValidator),
-        assembler=Factory(UserAssembler),
-        use_case=use_cases.start_regular_translation_test,
-        adapter=Factory(
-            PresentationTaskWebAdapter,
-            templates=[],
-        ),
     )
 
     # =============================================
