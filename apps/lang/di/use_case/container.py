@@ -14,10 +14,8 @@ from apps.core.adapters.exercise import (
     CreateExerciseSpecFactory,
 )
 from apps.core.builders.exercise.task import (
-    ExercisePresentationBuilder,
     TestExerciseTaskBuilder,
 )
-from apps.core.builders.null import NullSpecDtoBuilder
 from apps.core.resolvers.exercise.config_resolver import (
     ExerciseConfigurationResolver,
 )
@@ -42,10 +40,11 @@ class LangUseCaseContainer(DeclarativeContainer):
     # External dependencies
     # =============================================
 
+    lang_config = DependenciesContainer()
     spec_factories = DependenciesContainer()
     services = DependenciesContainer()
     repositories = DependenciesContainer()
-    lang_config = DependenciesContainer()
+    use_case_result_builders = DependenciesContainer()
 
     user_command_storage = Dependency()  # type: ignore[var-annotated]
     auditor = Dependency()  # type: ignore[var-annotated]
@@ -54,13 +53,6 @@ class LangUseCaseContainer(DeclarativeContainer):
     # Regular translation presentation exercise
     # =============================================
 
-    regular_translation_presentation_builder_registry = Dict(
-        {
-            ExerciseStatus.NEW_TASK: Factory(ExercisePresentationBuilder),
-            ExerciseStatus.UPDATED_PROGRESS: Factory(NullSpecDtoBuilder),
-        },
-    )
-
     regular_translation_presentation = Factory(
         ExerciseUseCaseStrategy,
         prefix='regular_translation_presentation',
@@ -68,7 +60,7 @@ class LangUseCaseContainer(DeclarativeContainer):
         config_resolver=lang_config.translation_exercise_config_resolver,
         spec_factory_registry=spec_factories.presentation_registry,
         service_registry=services.regular_translation_presentation_registry,
-        builder_registry=regular_translation_presentation_builder_registry,
+        builder_registry=use_case_result_builders.presentation_registry,
         auditor=auditor,
         name='Exercise use case strategy',
     )

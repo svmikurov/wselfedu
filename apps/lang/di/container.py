@@ -23,6 +23,7 @@ class LanguageContainer(DeclarativeContainer):
     # ===========================================
     spec_factories = DependenciesContainer()
     domains = DependenciesContainer()
+    use_case_result_builders = DependenciesContainer()
     response_adapters = DependenciesContainer()
 
     storage = Dependency()  # type: ignore[var-annotated]
@@ -59,6 +60,7 @@ class LanguageContainer(DeclarativeContainer):
         repositories=repositories,
         spec_factories=spec_factories,
         services=services,
+        use_case_result_builders=use_case_result_builders,
         user_command_storage=user_command_storage,
         auditor=auditor,
     )

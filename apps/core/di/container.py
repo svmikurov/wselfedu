@@ -10,6 +10,7 @@ from ..storages.resolver import UserKeyCommandResolver
 from ..storages.services.service import UserCommandStorage, UserDataStorage
 from ..storages.services.task import TaskStorage
 from .adapter.container import ResponseAdaptersContainer
+from .builder import UseCaseResultBuilderContainer
 from .configuration import ConfigurationContainer
 from .domain import DomainContainer
 from .factory.container import CoreSpecFactoryContainer
@@ -39,6 +40,10 @@ class CoreContainer(DeclarativeContainer):
     response_adapters = Container(
         ResponseAdaptersContainer,
         auditor=auditor,
+    )
+    # Domain result builder DI container
+    use_case_result_builders = Container(
+        UseCaseResultBuilderContainer,
     )
 
     # =============================================

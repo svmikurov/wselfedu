@@ -41,6 +41,7 @@ class MainContainer(DeclarativeContainer):
         domains=core.domains,
         spec_factories=core.spec_factories,
         response_adapters=core.response_adapters,
+        use_case_result_builders=core.use_case_result_builders,
         user_command_storage=core.user_command_storage,
         auditor=core.auditor,
     )
