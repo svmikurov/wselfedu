@@ -7,7 +7,6 @@ from typing import TYPE_CHECKING
 from dependency_injector.wiring import Provide, inject
 
 from apps.core.views.exercise import ExercisePerformView
-from apps.core.views.exercise.mixins import ExerciseLoopMixin
 from di import MainContainer
 
 from ._types import HandlerT
@@ -20,13 +19,9 @@ __all__ = ('RegularTranslationTestPerformView',)
 HANDLERS = MainContainer.lang.handlers
 
 
-class RegularTranslationTestPerformView(
-    ExercisePerformView[HandlerT],
-    ExerciseLoopMixin,
-):
+class RegularTranslationTestPerformView(ExercisePerformView[HandlerT]):
     """Regular translation test exercise performing view."""
 
-    TEMPLATE_PATH = 'lang/exercise/test/'
     template_name = 'lang/exercise/test/index.html'
 
     @inject

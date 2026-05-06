@@ -4,19 +4,18 @@
 <link rel="stylesheet" href="{% static 'css/presentation.css' %}">
 {% endblock extra_css %}
 
-{{ debug }}
 <!--======= Test case =======-->
 <div id="case-block">
   <div>
     <div class="presentation-card-body">
       <div id="question" class="presentation-card-content">
-        {{ question }}
+        {{ question_text }}
       </div>
     </div>
   </div>
 
   <div>
-    {% for option in answer_text_options %}
+    {% for option in options %}
       <div class="py-1">
         <button class="wse-btn full-width height-huge"
                 style="justify-content: start; min-height: 5rem;"

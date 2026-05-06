@@ -14,9 +14,12 @@ from apps.core.adapters.response.exercise.test.web import (
 )
 from contracts.enums import ExerciseStatus
 
-PRESENTATION_HTMLs: list[str] = [
+PRESENTATION_TEMPLATES: list[str] = [
     'core/exercise/presentation/task.html',
     'core/exercise/presentation/update_progress.html',
+]
+TEST_TEMPLATES: list[str] = [
+    'core/exercise/test/task.html',
 ]
 
 
@@ -37,13 +40,13 @@ class ResponseAdaptersContainer(DeclarativeContainer):
 
     _presentation = Factory(
         PresentationTaskWebAdapter,
-        templates=PRESENTATION_HTMLs,
+        templates=PRESENTATION_TEMPLATES,
         name='Presentation response adapter',
         auditor=auditor,
     )
     _test = Factory(
         WebTestExerciseAdapter,
-        templates=[],
+        templates=TEST_TEMPLATES,
         name='Test exercise response adapter',
         auditor=auditor,
     )
