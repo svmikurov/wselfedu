@@ -39,6 +39,7 @@ class MainContainer(DeclarativeContainer):
     lang: Container[LanguageContainer] = Container(
         LanguageContainer,
         domains=core.domains,
+        spec_factories=core.spec_factories,
         response_adapters=core.response_adapters,
         user_command_storage=core.user_command_storage,
         auditor=core.auditor,

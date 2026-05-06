@@ -3,12 +3,16 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Dependency, Dict, Factory
 
+from apps.core.adapters.exercise import (
+    CreateExerciseSpecFactory,
+    UpdateProgressSpecFactory,
+)
 from apps.core.adapters.response import (
     PresentationTaskWebAdapter,
     ProcessExerciseAdapterStrategy,
 )
 from apps.core.adapters.response.null import NullResponseAdapter
-from contracts.enums import ExerciseStatus
+from contracts.enums import ExerciseAction, ExerciseStatus
 
 presentation_html: list[str] = [
     'core/exercise/presentation/task.html',
@@ -55,4 +59,21 @@ class ResponseAdaptersContainer(DeclarativeContainer):
     presentation_strategy = Factory(
         ProcessExerciseAdapterStrategy,
         registry=presentation_registries,
+    )
+
+    # =============================================
+    # Presentation exercise strategy
+    # =============================================
+
+    presentation_registry = Dict(
+        {
+            ExerciseAction.CREATE_TASK: Factory(
+                CreateExerciseSpecFactory,
+                name='Create task specification factory',
+            ),
+            ExerciseAction.UPDATE_PROGRESS: Factory(
+                UpdateProgressSpecFactory,
+                name='Update progress specification factory',
+            ),
+        },
     )

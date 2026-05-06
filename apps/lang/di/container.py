@@ -21,6 +21,7 @@ class LanguageContainer(DeclarativeContainer):
     # ===========================================
     # External dependencies
     # ===========================================
+    spec_factories = DependenciesContainer()
     domains = DependenciesContainer()
     response_adapters = DependenciesContainer()
 
@@ -56,6 +57,7 @@ class LanguageContainer(DeclarativeContainer):
         LangUseCaseContainer,
         lang_config=lang_configurations,
         repositories=repositories,
+        spec_factories=spec_factories,
         services=services,
         user_command_storage=user_command_storage,
         auditor=auditor,

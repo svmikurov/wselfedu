@@ -17,7 +17,7 @@ from utils.audit.protocol import AuditorProtocol
 CaseT = TypeVar('CaseT')
 
 
-class ExerciseSpecFactory(
+class CreateExerciseSpecFactory(
     BaseAuditable,
     AbstractExerciseSpecFactory[
         UserDataCommandProtocol[HasExerciseAction],

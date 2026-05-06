@@ -12,6 +12,7 @@ from ..storages.services.task import TaskStorage
 from .adapter.container import ResponseAdaptersContainer
 from .configuration import ConfigurationContainer
 from .domain import DomainContainer
+from .factory.container import CoreSpecFactoryContainer
 
 
 class CoreContainer(DeclarativeContainer):
@@ -25,6 +26,11 @@ class CoreContainer(DeclarativeContainer):
 
     configuration = Container(
         ConfigurationContainer,
+    )
+    # Service execute specification DI container
+    spec_factories = Container(
+        CoreSpecFactoryContainer,
+        auditor=auditor,
     )
     domains = Container(
         DomainContainer,

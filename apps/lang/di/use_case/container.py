@@ -11,8 +11,7 @@ from dependency_injector.providers import (
 )
 
 from apps.core.adapters.exercise import (
-    ExerciseSpecFactory,
-    UpdateProgressSpecFactory,
+    CreateExerciseSpecFactory,
 )
 from apps.core.builders.exercise.task import (
     ExercisePresentationBuilder,
@@ -43,6 +42,7 @@ class LangUseCaseContainer(DeclarativeContainer):
     # External dependencies
     # =============================================
 
+    spec_factories = DependenciesContainer()
     services = DependenciesContainer()
     repositories = DependenciesContainer()
     lang_config = DependenciesContainer()
@@ -54,18 +54,6 @@ class LangUseCaseContainer(DeclarativeContainer):
     # Regular translation presentation exercise
     # =============================================
 
-    regular_translation_presentation_spec_factory_registry = Dict(
-        {
-            ExerciseAction.CREATE_TASK: Factory(
-                ExerciseSpecFactory,
-                name='Create task specification factory',
-            ),
-            ExerciseAction.UPDATE_PROGRESS: Factory(
-                UpdateProgressSpecFactory,
-                name='Update progress specification factory',
-            ),
-        },
-    )
     regular_translation_presentation_builder_registry = Dict(
         {
             ExerciseStatus.NEW_TASK: Factory(ExercisePresentationBuilder),
@@ -78,7 +66,7 @@ class LangUseCaseContainer(DeclarativeContainer):
         prefix='regular_translation_presentation',
         storage=user_command_storage,
         config_resolver=lang_config.translation_exercise_config_resolver,
-        spec_factory_registry=regular_translation_presentation_spec_factory_registry,
+        spec_factory_registry=spec_factories.presentation_registry,
         service_registry=services.regular_translation_presentation_registry,
         builder_registry=regular_translation_presentation_builder_registry,
         auditor=auditor,
@@ -101,7 +89,7 @@ class LangUseCaseContainer(DeclarativeContainer):
     )
     test_exercise_spec_factory_registry = Dict(
         {
-            ExerciseAction.CREATE_TASK: Factory(ExerciseSpecFactory),
+            ExerciseAction.CREATE_TASK: Factory(CreateExerciseSpecFactory),
         },
     )
     regular_translation_test_builder_registry = Dict(
