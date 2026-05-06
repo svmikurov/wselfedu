@@ -19,23 +19,6 @@ from .._types.handler import (
     RequestParamsT,
 )
 
-# =================================================
-# Fixtures
-# =================================================
-
-
-@pytest.fixture
-def regular_presentation_handler(main_container: MainContainer) -> HandlerT:
-    """Provide translation regular presentation exercise handler."""
-    return (  # type: ignore
-        main_container.lang.handlers.regular_translation_presentation()  # type: ignore
-    )
-
-
-# =================================================
-# Tests
-# =================================================
-
 
 def test_handler_initialized(regular_presentation_handler: HandlerT) -> None:
     """Test that presentation exercise handle initialized."""
@@ -70,6 +53,7 @@ def test_update_progress(
 ) -> None:
     """Test *update progress* handler action completed successfully."""
     # Arrange
+    # The study item ID for progress update is stored.
     mock_domain_result_storage = Mock(spec=AbstractCommandStorage)
     mock_domain_result_storage.name = 'test_task'
     mock_domain_result_storage.retrieve.return_value = (

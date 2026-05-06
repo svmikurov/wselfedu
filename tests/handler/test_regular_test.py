@@ -2,7 +2,7 @@
 
 import pytest
 
-from contracts.aliases import CandidatesAlias
+from interfaces.schemas.domain.exercise import TaskItem
 
 from .._types.handler import (
     HandlerT,
@@ -10,40 +10,26 @@ from .._types.handler import (
     RequestDataT,
     RequestParamsT,
 )
-from .._types.resource import TranslationCandidates
 
 
-@pytest.fixture
-def candidates_db(
-    translations: TranslationCandidates,
-) -> TranslationCandidates:
-    """Provide *translation* candidates for exercise."""
-    return translations
+def test_handler_initialized(regular_test_handler: HandlerT) -> None:
+    """Test that test exercise handle initialized."""
+    assert regular_test_handler is not None
 
 
 @pytest.mark.django_db
 def test_create_new_case(
-    # Request parameters
+    translations: list[TaskItem],
     request_params: RequestParamsT,
     request_context: RequestContextT,
-    request_data_create_task: RequestDataT,
-    # Populate DB
-    candidates_db: CandidatesAlias,
-    # Tested handler
-    regular_presentation_handler: HandlerT,
+    request_data_create_task: RequestDataT,  # Create task request data
+    regular_test_handler: HandlerT,
 ) -> None:
-    """Test that translations presentation exercise handler created."""
-    # Act
-    regular_presentation_handler.execute(
-        request_params,
-        request_context,
-        request_data_create_task,
-    )
-
-
-def test_handler_initialized(
-    regular_presentation_handler: HandlerT,
-) -> None:
-    """Test that presentation exercise handle initialized."""
-    # Assert
-    assert regular_presentation_handler is not None
+    """Test *create task* handler action completed successfully."""
+    assert (
+        regular_test_handler.execute(
+            request_params,
+            request_context,
+            request_data_create_task,
+        )
+    ) is not None
