@@ -20,7 +20,7 @@ from contracts import NullProtocol
 from contracts.entity.domain.exercise import fields
 from contracts.enums.exercise import ExerciseStatus
 from contracts.schemas.response.generic import (
-    OobResponseDTO,
+    HtmlResponseDTO,
     ResponseDTO,
 )
 
@@ -111,7 +111,7 @@ class CalculationWebCaseAdapter(
     AdapterProtocol[
         StudentCalculationDTO,
         RequestContextProtocol,
-        OobResponseDTO[Any, Any, Any],
+        HtmlResponseDTO[Any, Any, Any],
     ]
 ):
     """Calculation exercise case web response adapter."""
@@ -121,9 +121,9 @@ class CalculationWebCaseAdapter(
         self,
         domain_result: StudentCalculationDTO,
         request_context: RequestContextProtocol,
-    ) -> OobResponseDTO[Any, Any, Any]:
+    ) -> HtmlResponseDTO[Any, Any, Any]:
         """Adapt current calculation case for web response."""
-        return OobResponseDTO(
+        return HtmlResponseDTO(
             domain_status=domain_result.exercise_status,
             context=ExerciseFormDTO(
                 question_text=domain_result.data.question_text,
@@ -136,7 +136,7 @@ class StudentCalculationWebCaseAdapter(
     AdapterProtocol[
         StudentCalculationDTO,
         RequestContextProtocol,
-        OobResponseDTO,  # type: ignore
+        HtmlResponseDTO,  # type: ignore
     ]
 ):
     """Calculation exercise case web response adapter."""
@@ -149,7 +149,7 @@ class StudentCalculationWebCaseAdapter(
         self,
         schema: StudentCalculationDTO,
         request_context: RequestContextProtocol,
-    ) -> OobResponseDTO:  # type: ignore
+    ) -> HtmlResponseDTO:  # type: ignore
         """Adapt current calculation case for web response."""
         # Response context contains question and form to answer input.
         adapted = self._domain_adapter.to_response(schema, request_context)
@@ -168,14 +168,14 @@ class StudentCalculationWebCaseAdapter(
                 'required_count': schema.availability.required_count,
             }
         )
-        return OobResponseDTO(
+        return HtmlResponseDTO(
             domain_status=adapted.domain_status,
             context=adapted.context,
             extra_context=context,
-            oob_html=self._get_oob_html(oob_context),
+            html=self._get_html(oob_context),
         )
 
-    def _get_oob_html(self, context: StudentDetailType) -> str:
+    def _get_html(self, context: StudentDetailType) -> str:
         return f"""
         <span id="user-balance" hx-swap-oob="true">
         {context.balance_total}

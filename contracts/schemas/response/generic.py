@@ -7,7 +7,7 @@ from contracts.schemas.response.mixins import (
     ContextField,
     DomainStatusField,
     ExtraContextField,
-    OobField,
+    HtmlField,
 )
 from contracts.schemas.response.types import (
     AdaptedDomainResultT,
@@ -36,8 +36,8 @@ class ResponseDTO(
     """
 
 
-class OobResponseDTO(
-    OobField,
+class HtmlResponseDTO(
+    HtmlField,
     ResponseDTO[DomainResultStatusT, AdaptedDomainResultT, ExtraContextT],
     Generic[DomainResultStatusT, AdaptedDomainResultT, ExtraContextT],
 ):
@@ -51,6 +51,6 @@ class OobResponseDTO(
         Response context with adapted domain result data.
     extra_context : `ExtraContextT`
         Extra context for response.
-    oob_html : `str`
+    html : `str`
         Out Of Band html.
     """

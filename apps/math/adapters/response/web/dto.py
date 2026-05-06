@@ -48,8 +48,8 @@ class ExerciseWebDTO(
         description='Additional exercise page context',
         default_factory=dict,
     )
-    oob_html: str = Field(
-        description='Out-Of-Band (OOB) HTML content for HTMX responses',
+    html: str = Field(
+        description='HTML',
         default_factory=str,
     )
 

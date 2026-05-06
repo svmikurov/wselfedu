@@ -34,10 +34,10 @@ class ExtraContextField(BaseModel, Generic[ExtraContextT]):
     )
 
 
-class OobField(BaseModel):
-    """Provides "Out Of Band" html DTO's field."""
+class HtmlField(BaseModel):
+    """Provides html DTO's field."""
 
-    oob_html: str = Field(
-        description='Out Of Band html',
+    html: str = Field(
+        description='HTML',
         default_factory=str,
     )

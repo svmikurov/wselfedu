@@ -20,7 +20,7 @@ from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
 _HTML: TypeAlias = str
-"""Partial Out-Of-Band HTML template.
+"""Partial HTML template.
 """
 
 
@@ -36,25 +36,25 @@ class PresentationTaskWebAdapter(
 
     def __init__(
         self,
-        oob_templates: list[_HTML],
+        templates: list[_HTML],
         name: str | None = None,
         auditor: AuditorProtocol | None = None,
     ) -> None:
         """Construct the adapter."""
         super().__init__(name=name, auditor=auditor)
-        self._oob_templates = oob_templates
+        self._templates = templates
 
-    def _get_oob_html(self, context: PresentationTaskContext) -> _HTML:
-        """Build Out-Of-Band HTML."""
-        oob_htmls: list[str] = []
-        for template in self.oob_templates:
-            oob_htmls.append(render_to_string(template, context.model_dump()))
-        return '\n'.join(oob_htmls)
+    def _get_html(self, context: PresentationTaskContext) -> _HTML:
+        """Build partial HTMLs."""
+        html: list[str] = []
+        for template in self.templates:
+            html.append(render_to_string(template, context.model_dump()))
+        return '\n'.join(html)
 
     @property
-    def oob_templates(self) -> list[_HTML]:
-        """Return Out-Of-Band HTML templates."""
-        return self._oob_templates
+    def templates(self) -> list[_HTML]:
+        """Return partial HTML templates."""
+        return self._templates
 
     # HACK: Update return type hint to protocol
     @override
@@ -72,7 +72,5 @@ class PresentationTaskWebAdapter(
         return PresentationTaskResponse(
             domain_status=ExerciseStatus.NEW_TASK,
             context=context,
-            oob_html=(
-                self._get_oob_html(context) if request_context.is_htmx else ''
-            ),
+            html=(self._get_html(context) if request_context.is_htmx else ''),
         )

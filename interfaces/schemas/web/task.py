@@ -8,7 +8,7 @@ from contracts.schemas.domain.exercise.fields import (
     QuestionTextField,
 )
 from contracts.schemas.fields import TextField, ValueField
-from contracts.schemas.response.generic import OobResponseDTO
+from contracts.schemas.response.generic import HtmlResponseDTO
 from contracts.schemas.response.null import NullContext
 from contracts.schemas.response.types import AdaptedDomainResultT
 
@@ -74,7 +74,7 @@ class TestTaskContext(
 # =================================================
 
 
-ExerciseTaskResponse = OobResponseDTO[
+ExerciseTaskResponse = HtmlResponseDTO[
     ExerciseStatus,
     AdaptedDomainResultT,
     NullContext,
@@ -89,8 +89,8 @@ context : `AdaptedDomainResultT`
     Response context with adapted domain result data.
 extra_context : `NullContext`
     Extra context for response.
-oob_html : `str`
-    Out Of Band html.
+html : `str`
+    Html.
 
 """
 

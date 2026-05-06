@@ -18,10 +18,10 @@ from apps.core.views.auth import UserLoginRequiredMixin
 from apps.core.views.mixins import GetHandlerMixin, IsHtmxMixin
 from apps.users.models import Person
 from contracts.entity.response.base import (
-    OobResponseProtocol,
+    HtmlResponseProtocol,
 )
 from contracts.enums.exercise import ExerciseStatus
-from contracts.schemas.response.generic import OobResponseDTO
+from contracts.schemas.response.generic import HtmlResponseDTO
 
 from .mixins import ExerciseLoopMixin
 
@@ -29,16 +29,16 @@ __all__ = ('ExercisePerformView',)
 
 
 # DEPRECATED: Remove type alias after implementation deletion
-_OobResponseDtoT: TypeAlias = OobResponseDTO[object, object, object]
+_HtmlResponseDtoT: TypeAlias = HtmlResponseDTO[object, object, object]
 
 HandlerT = TypeVar('HandlerT')
 ResponseDtoT = TypeVar(
     'ResponseDtoT',
-    bound=OobResponseProtocol[ExerciseStatus],
+    bound=HtmlResponseProtocol[ExerciseStatus],
 )
 
 # DEPRECATED: Remove type alias after implementation deletion
-ProcessHandlerT = RequestHandlerProtocol[Any, Any, Any, _OobResponseDtoT]
+ProcessHandlerT = RequestHandlerProtocol[Any, Any, Any, _HtmlResponseDtoT]
 
 
 class ExercisePerformView(
@@ -59,7 +59,7 @@ class ExercisePerformView(
         result = self._start(**kwargs)
 
         if self.is_htmx:
-            return HttpResponse(result.oob_html)
+            return HttpResponse(result.html)
         else:
             return render(
                 request,
@@ -81,14 +81,14 @@ class QueryExercisePerformMixin:
     request: HttpRequest
     start_handler: ProcessHandlerT
 
-    def _start(self, **kwargs: object) -> _OobResponseDtoT:
+    def _start(self, **kwargs: object) -> _HtmlResponseDtoT:
         return self.start_handler.execute(
             params=QueryRequestParams(query=self.request.GET.dict()),
             context=RequestContext(user=self.user),
             data=RequestData(data={}),
         )
 
-    def _process(self, **kwargs: object) -> _OobResponseDtoT:
+    def _process(self, **kwargs: object) -> _HtmlResponseDtoT:
         return self.process_handler.execute(  # type: ignore
             params=QueryRequestParams(query=self.request.GET.dict()),
             context=RequestContext(user=self.user),
@@ -105,14 +105,14 @@ class DetailExercisePerformMixin:
     request: HttpRequest
     start_handler: ProcessHandlerT
 
-    def _start(self, **kwargs: object) -> _OobResponseDtoT:
+    def _start(self, **kwargs: object) -> _HtmlResponseDtoT:
         return self.start_handler.execute(
             params=DetailRequestParams(pk=kwargs['pk']),  # type: ignore
             context=RequestContext(user=self.user),
             data=RequestData(data={}),
         )
 
-    def _process(self, **kwargs: object) -> _OobResponseDtoT:
+    def _process(self, **kwargs: object) -> _HtmlResponseDtoT:
         return self.process_handler.execute(  # type: ignore
             params=DetailRequestParams(pk=int(kwargs['pk'])),  # type: ignore
             context=RequestContext(user=self.user),

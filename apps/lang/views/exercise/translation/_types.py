@@ -14,9 +14,9 @@ from contracts.enums.exercise import (
     ExerciseAction,
     ExerciseStatus,
 )
-from contracts.schemas.response.generic import OobResponseDTO
+from contracts.schemas.response.generic import HtmlResponseDTO
 
-type ResponseDtoT = OobResponseDTO[
+type ResponseDtoT = HtmlResponseDTO[
     ExerciseStatus,
     # FIXME: Fix Any type hint
     Any,  # Adapted domain result data

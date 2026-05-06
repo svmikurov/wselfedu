@@ -17,7 +17,7 @@ from apps.core.handlers.protocol import (
     RequestHandlerProtocol,
 )
 from contracts.entity.general import NullProtocol
-from contracts.entity.response.base import OobResponseProtocol
+from contracts.entity.response.base import HtmlResponseProtocol
 from contracts.enums.exercise import (
     ExerciseAction,
     ExerciseStatus,
@@ -31,7 +31,7 @@ if TYPE_CHECKING:
 
 ResponseDtoT = TypeVar(
     'ResponseDtoT',
-    bound=OobResponseProtocol[ExerciseStatus],
+    bound=HtmlResponseProtocol[ExerciseStatus],
 )
 
 HandlerT = TypeVar(
@@ -40,7 +40,7 @@ HandlerT = TypeVar(
         NullProtocol,
         RequestContextProtocol,
         RequestDataProtocol[dict[str, str]],
-        OobResponseProtocol[ExerciseStatus],
+        HtmlResponseProtocol[ExerciseStatus],
     ],
 )
 
@@ -77,17 +77,17 @@ class ExercisePartialTemplateMixin(Generic[ResponseDtoT]):
         html = render_to_string(self.TEMPLATE_PATH + template, context)
 
         if request.headers.get('HX-Request'):
-            return mark_safe(html + schema.oob_html)
+            return mark_safe(html + schema.html)
 
         return html
 
 
 class StartExerciseMixin(
-    AbstractStartAction[OobResponseProtocol[ExerciseStatus]],
+    AbstractStartAction[HtmlResponseProtocol[ExerciseStatus]],
 ):
     """Execute start exercise handler's action."""
 
-    def _start(self, **kwargs: object) -> OobResponseProtocol[ExerciseStatus]:
+    def _start(self, **kwargs: object) -> HtmlResponseProtocol[ExerciseStatus]:
         return self.handler.execute(  # type: ignore
             params=NullDTO(),
             context=RequestContext(user=self.user, is_htmx=self.is_htmx),  # type: ignore
@@ -96,7 +96,7 @@ class StartExerciseMixin(
 
 
 class ProcessExerciseMixin(
-    AbstractProcessAction[OobResponseProtocol[ExerciseStatus]],
+    AbstractProcessAction[HtmlResponseProtocol[ExerciseStatus]],
 ):
     """Execute process exercise handler's action."""
 
@@ -104,7 +104,7 @@ class ProcessExerciseMixin(
 
     def _process(
         self, **kwargs: object
-    ) -> OobResponseProtocol[ExerciseStatus]:
+    ) -> HtmlResponseProtocol[ExerciseStatus]:
         return self.handler.execute(  # type: ignore
             params=NullDTO(),
             context=RequestContext(user=self.user),  # type: ignore

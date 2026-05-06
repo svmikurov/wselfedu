@@ -9,7 +9,7 @@ class NullContextProtocol(Protocol):
     __slots__ = ()
 
 
-class HasOob(Protocol):
-    """Protocol for has Out Of Bound interface."""
+class HasHtml(Protocol):
+    """Protocol for has HTML interface."""
 
-    oob_html: str
+    html: str

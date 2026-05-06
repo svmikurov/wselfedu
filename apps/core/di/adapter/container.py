@@ -10,7 +10,7 @@ from apps.core.adapters.response import (
 from apps.core.adapters.response.null import NullResponseAdapter
 from contracts.enums import ExerciseStatus
 
-presentation_oob_htmls: list[str] = [
+presentation_html: list[str] = [
     'core/exercise/presentation/task.html',
     'core/exercise/presentation/update_progress.html',
 ]
@@ -31,7 +31,7 @@ class ResponseAdaptersContainer(DeclarativeContainer):
 
     regular_presentation = Factory(
         PresentationTaskWebAdapter,
-        oob_templates=presentation_oob_htmls,
+        templates=presentation_html,
         name='Presentation response adapter',
         auditor=auditor,
     )

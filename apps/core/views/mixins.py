@@ -21,7 +21,7 @@ StartHandlerT = TypeVar('StartHandlerT')
 ProcessHandlerT = TypeVar('ProcessHandlerT')
 
 ResponseDtoT = TypeVar('ResponseDtoT')
-OobResponseDtoT = TypeVar('OobResponseDtoT')
+HtmlResponseDtoT = TypeVar('HtmlResponseDtoT')
 
 
 class InitialHtmlContextT(TypedDict, total=False):
