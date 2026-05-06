@@ -1,8 +1,8 @@
-"""Exercise progress command adapter."""
+"""Update study progress specification factory."""
 
 from typing import TypeVar, override
 
-from apps.core.adapters.exercise.abstract import AbstractExerciseProcessAdapter
+from apps.core.adapters.exercise.abstract import AbstractExerciseSpecFactory
 from apps.core.assemblers.protocol import UserDataCommandProtocol
 from apps.core.domains.exercise.protocol import HasExerciseAction
 from contracts.schemas.domain.exercise.params import ExerciseParametersDTO
@@ -14,33 +14,33 @@ from utils.audit import AuditorProtocol, BaseAuditable
 CaseT = TypeVar('CaseT', bound=PresentationDomainResultProtocol)
 
 
-class ItemProgressUpdateAdapter(
+class UpdateProgressSpecFactory(
     BaseAuditable,
-    AbstractExerciseProcessAdapter[
+    AbstractExerciseSpecFactory[
         UserDataCommandProtocol[HasExerciseAction],
         ExerciseParametersDTO,
         CaseT | None,
         ProgressUpdateConditionsProtocol,
     ],
 ):
-    """Item study progress update command adapter."""
+    """Update study progress specification factory."""
 
     def __init__(
         self,
         name: str | None = None,
         auditor: AuditorProtocol | None = None,
     ) -> None:
-        """Construct the adapter."""
+        """Construct the factory."""
         super().__init__(name=name, auditor=auditor)
 
     @override
-    def adapt(
+    def create(
         self,
         command: UserDataCommandProtocol[HasExerciseAction],
         params: ExerciseParametersDTO,
         case: CaseT | None,
     ) -> ProgressUpdateConditionsProtocol:
-        """Adapt exercise request data for exercise service spec."""
+        """Cerate the update study progress specification."""
         if case is None:
             raise ValueError(
                 'No existing (stored) exercise. '

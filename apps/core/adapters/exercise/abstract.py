@@ -1,33 +1,33 @@
-"""Protocol for exercise process parameters adapter."""
+"""Abstract base class for exercise specification factory."""
 
 from abc import ABC, abstractmethod
 from typing import TypeVar, override
 
-from .protocol import ExerciseProcessAdapterProtocol
+from .protocol import ExerciseSpecFactoryProtocol
 
 CommandT = TypeVar('CommandT')
 ParamsT = TypeVar('ParamsT')
 ExistingCaseT = TypeVar('ExistingCaseT')
-AdaptedT = TypeVar('AdaptedT')
+SpecT = TypeVar('SpecT')
 
 
-class AbstractExerciseProcessAdapter(
+class AbstractExerciseSpecFactory(
     ABC,
-    ExerciseProcessAdapterProtocol[
+    ExerciseSpecFactoryProtocol[
         CommandT,
         ParamsT,
         ExistingCaseT,
-        AdaptedT,
+        SpecT,
     ],
 ):
-    """Protocol for adapt parameters for exercise process interface."""
+    """ABC for exercise specification factory."""
 
     @override
     @abstractmethod
-    def adapt(
+    def create(
         self,
         command: CommandT,
         params: ParamsT,
         case: ExistingCaseT | None,
-    ) -> AdaptedT:
-        """Adapt for exercise precess execute."""
+    ) -> SpecT:
+        """Create the exercise specification."""

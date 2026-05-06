@@ -2,7 +2,7 @@
 
 from typing import Generic, TypeVar, override
 
-from apps.core.adapters.exercise.protocol import ExerciseProcessAdapterProtocol
+from apps.core.adapters.exercise.protocol import ExerciseSpecFactoryProtocol
 from apps.core.assemblers.protocol import UserDataCommandProtocol
 from apps.core.domains.exercise.protocol import (
     ExerciseConfigProtocol,
@@ -43,9 +43,9 @@ class ExerciseUseCaseStrategy(
             DomainT,
         ],
         config_resolver: ResolverProtocol[CommandT, ParamsT],
-        adapter_registry: dict[
+        spec_factory_registry: dict[
             enums.ExerciseAction,
-            ExerciseProcessAdapterProtocol[
+            ExerciseSpecFactoryProtocol[
                 CommandT, ParamsT, DomainT | None, SpecT
             ],
         ],
@@ -72,7 +72,7 @@ class ExerciseUseCaseStrategy(
         self._prefix = prefix
         self._storage = storage
         self._config_resolver = config_resolver
-        self._adapter_registry = adapter_registry
+        self._spec_factory_registry = spec_factory_registry
         self._service_registry = service_registry
         self._builder_registry = builder_registry
 
@@ -92,18 +92,19 @@ class ExerciseUseCaseStrategy(
 
         # Action type specification is built using command and exercise
         # parameters.
-        adapter = self._adapter_registry[action]
-        self.auditor.record('adapter_strategy.select', obj=adapter)
+        spec_factory = self._spec_factory_registry[action]
+        self.auditor.record('spec_factory.select', obj=spec_factory)
         # Case may not exist (not started yet).
         # StorageMissError is expected flow, not an exceptional error.
         try:
             stored = self._storage.retrieve(command, self._prefix)
         except StorageMissError:
-            spec = adapter.adapt(command, params, None)
+            self.auditor.record('factory.call', params=params)
+            spec = spec_factory.create(command, params, None)
         else:
-            self.auditor.record('adapter.call', params=params, stored=stored)
-            spec = adapter.adapt(command, params, stored)
-        self.auditor.record('service_specification.adapted', spec=spec)
+            self.auditor.record('factory.call', params=params, stored=stored)
+            spec = spec_factory.create(command, params, stored)
+        self.auditor.record('service_spec.created', spec=spec)
 
         service = self._service_registry[action]
         self.auditor.record('selected_service.call', obj=service, spec=spec)

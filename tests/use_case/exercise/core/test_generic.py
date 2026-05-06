@@ -21,7 +21,7 @@ def test_execute_new_case_command(
     domain_result: Mock,
     # Use case's dependencies
     mock_empty_storage: Mock,
-    mock_create_adapter: Mock,
+    mock_spec_factory: Mock,
     mock_create_service: Mock,
     mock_create_builder: Mock,
     # Use case
@@ -36,7 +36,7 @@ def test_execute_new_case_command(
         create_command,
         STORE_PREFIX,
     )
-    mock_create_adapter.adapt.assert_called_once_with(
+    mock_spec_factory.create.assert_called_once_with(
         create_command,
         mock_params,
         None,

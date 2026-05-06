@@ -1,8 +1,8 @@
 """Exercise adapter."""
 
 __all__ = (
-    'ExerciseProcessAdapter',
-    'ItemProgressUpdateAdapter',
+    'ExerciseSpecFactory',
+    'UpdateProgressSpecFactory',
 )
-from .process import ExerciseProcessAdapter
-from .progress import ItemProgressUpdateAdapter
+from .process import ExerciseSpecFactory
+from .progress import UpdateProgressSpecFactory

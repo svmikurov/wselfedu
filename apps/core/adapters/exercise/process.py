@@ -1,8 +1,8 @@
-"""Exercise process adapter."""
+"""Exercise specification factory."""
 
 from typing import TypeVar, override
 
-from apps.core.adapters.exercise.abstract import AbstractExerciseProcessAdapter
+from apps.core.adapters.exercise.abstract import AbstractExerciseSpecFactory
 from apps.core.assemblers.protocol import UserDataCommandProtocol
 from apps.core.domains.exercise.protocol import (
     HasExerciseAction,
@@ -17,33 +17,33 @@ from utils.audit.protocol import AuditorProtocol
 CaseT = TypeVar('CaseT')
 
 
-class ExerciseProcessAdapter(
+class ExerciseSpecFactory(
     BaseAuditable,
-    AbstractExerciseProcessAdapter[
+    AbstractExerciseSpecFactory[
         UserDataCommandProtocol[HasExerciseAction],
         ExerciseParametersDTO,
         CaseT | None,
         ExerciseSpecDTO[CaseT],
     ],
 ):
-    """Exercise process command adapter."""
+    """Exercise specification factory."""
 
     def __init__(
         self,
         name: str | None = None,
         auditor: AuditorProtocol | None = None,
     ) -> None:
-        """Construct the adapter."""
+        """Construct the factory."""
         super().__init__(name=name, auditor=auditor)
 
     @override
-    def adapt(
+    def create(
         self,
         command: UserDataCommandProtocol[HasExerciseAction],
         params: ExerciseParametersDTO,
         existing_case: CaseT | None,
     ) -> ExerciseSpecDTO[CaseT]:
-        """Adapt exercise request data for exercise service spec."""
+        """Create the exercise specification."""
         return ExerciseSpecDTO(
             conditions=params.conditions,
             conf=params.conf,

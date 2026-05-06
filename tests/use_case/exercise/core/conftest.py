@@ -20,12 +20,12 @@ from contracts.schemas.domain.exercise.params import (
 from contracts.schemas.request.exercise import ExerciseRequestDTO
 
 from ._types import (
-    AdapterT,
     BuilderT,
     CaseT,
     ResolverT,
     ResultT,
     ServiceT,
+    SpecFactoryT,
     StorageT,
     UseCaseT,
 )
@@ -135,10 +135,10 @@ def mock_config_resolver(
 
 
 @pytest.fixture
-def mock_create_adapter(mock_spec: Mock) -> AdapterT:
-    """Provide create exercise case adapter mock."""
-    mock = Mock(spec=AdapterT)
-    mock.adapt.return_value = mock_spec
+def mock_spec_factory(mock_spec: Mock) -> SpecFactoryT:
+    """Provide create exercise specification factory mock."""
+    mock = Mock(spec=SpecFactoryT)
+    mock.create.return_value = mock_spec
     return mock
 
 
@@ -168,12 +168,12 @@ def mock_create_builder(
 
 
 @pytest.fixture
-def mock_adapter_registry(
-    mock_create_adapter: AdapterT,
-) -> dict[ExerciseAction, AdapterT]:
-    """Provide mocked adapter mock registry."""
+def mock_spec_factory_registry(
+    mock_spec_factory: SpecFactoryT,
+) -> dict[ExerciseAction, SpecFactoryT]:
+    """Provide specification factory mock registry."""
     return {
-        ExerciseAction.CREATE_TASK: mock_create_adapter,
+        ExerciseAction.CREATE_TASK: mock_spec_factory,
     }
 
 
@@ -206,7 +206,7 @@ def mock_builder_registry(
 def use_case(
     mock_empty_storage: Mock,
     mock_config_resolver: ResolverT,
-    mock_adapter_registry: dict[ExerciseAction, AdapterT],
+    mock_spec_factory_registry: dict[ExerciseAction, SpecFactoryT],
     mock_service_registry: dict[ExerciseAction, ServiceT],
     mock_builder_registry: dict[ExerciseStatus, BuilderT],
 ) -> UseCaseT:
@@ -215,7 +215,7 @@ def use_case(
         prefix=STORE_PREFIX,
         storage=mock_empty_storage,
         config_resolver=mock_config_resolver,
-        adapter_registry=mock_adapter_registry,
+        spec_factory_registry=mock_spec_factory_registry,
         service_registry=mock_service_registry,  # type: ignore
         builder_registry=mock_builder_registry,  # type: ignore
     )

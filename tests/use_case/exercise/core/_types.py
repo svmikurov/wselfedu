@@ -2,7 +2,7 @@
 
 from typing import Any, TypeAlias
 
-from apps.core.adapters.exercise.protocol import ExerciseProcessAdapterProtocol
+from apps.core.adapters.exercise.protocol import ExerciseSpecFactoryProtocol
 from apps.core.assemblers.protocol import UserDataCommandProtocol
 from apps.core.domains.exercise.protocol import (
     ExerciseConfigProtocol,
@@ -50,7 +50,7 @@ ResolverT: TypeAlias = ResolverProtocol[
     CommandT,
     Params,
 ]
-AdapterT: TypeAlias = ExerciseProcessAdapterProtocol[
+SpecFactoryT: TypeAlias = ExerciseSpecFactoryProtocol[
     CommandT,
     ExerciseParametersProtocol,
     CaseT | None,
