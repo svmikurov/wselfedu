@@ -22,12 +22,24 @@ from .._types.handler import (
     ValidatorT,
 )
 
+# =================================================
+# Handler fixtures
+# =================================================
+
 
 @pytest.fixture
 def regular_presentation_handler(
     main_container: MainContainer,
 ) -> HandlerT:
     """Provide translation regular presentation exercise handler."""
+    return (  # type: ignore
+        main_container.lang.handlers.regular_translation_presentation()  # type: ignore
+    )
+
+
+@pytest.fixture
+def regular_test_handler(main_container: MainContainer) -> HandlerT:
+    """Provide translation regular test exercise handler."""
     return (  # type: ignore
         main_container.lang.handlers.process_regular_translation_test()  # type: ignore
     )

@@ -10,7 +10,6 @@ __all__ = (
     'RequestContextT',
     'RequestDataT',
     'RequestParamsT',
-    'TranslationCandidates',
     'TranslationsT',
 )
 
@@ -26,6 +25,5 @@ from .handler import (
     TaskBuilderT,
 )
 from .resource import (
-    TranslationCandidates,
     TranslationsT,
 )
