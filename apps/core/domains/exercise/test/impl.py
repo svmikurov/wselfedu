@@ -5,14 +5,16 @@ from random import randrange, sample
 from apps.core.domains.exercise.test.dto import OptionMetaDTO
 from apps.core.exceptions import info
 from contracts import enums
-from contracts.aliases import CandidatesAlias
 from contracts.entity.domain.exercise.fields import (
     HasDisplayOrder,
     HasOptionCount,
     HasQuestionOptionValue,
 )
 from contracts.entity.domain.exercise.flow import TestDomainResultProtocol
-from interfaces.protocols.domain.exercise import Candidates
+from interfaces.protocols.domain.exercise import (
+    CandidatesProtocol,
+    TaskItemsProtocol,
+)
 from interfaces.schemas.domain.exercise import TestExerciseDomainResult
 
 from ..abstract import (
@@ -55,7 +57,7 @@ class TestDomain(
 
     def execute(
         self,
-        candidates: CandidatesAlias,  # type: ignore
+        candidates: CandidatesProtocol,
         conf: _ExerciseConfig,
     ) -> TestDomainResultProtocol:
         """Get test exercise data."""
@@ -71,9 +73,9 @@ class TestDomain(
 
     def _get_options(
         self,
-        candidates: CandidatesAlias,
+        candidates: CandidatesProtocol,
         option_count: int,
-    ) -> Candidates:
+    ) -> TaskItemsProtocol:
         """Get test exercise options."""
         if len(candidates) >= option_count:
             return sample(tuple(candidates), option_count)

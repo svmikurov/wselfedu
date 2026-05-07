@@ -5,7 +5,10 @@ from typing import Protocol, TypeVar
 from contracts import enums
 from contracts.entity.domain.exercise import fields as exercise
 from contracts.entity.general import HasStatus
-from interfaces.protocols.domain.exercise import Candidate, Candidates
+from interfaces.protocols.domain.exercise import (
+    CandidateProtocol,
+    CandidatesProtocol,
+)
 
 DomainResultT = TypeVar('DomainResultT', bound='ExerciseDomainResultProtocol')
 
@@ -24,7 +27,7 @@ class ExerciseDomainResultProtocol(
 
 class PresentationDomainResultProtocol(
     ExerciseDomainResultProtocol,
-    exercise.HasTaskItem[Candidate],
+    exercise.HasTaskItem[CandidateProtocol],
     Protocol,
 ):
     """Protocol for presentation exercise domain result DTO."""
@@ -33,7 +36,7 @@ class PresentationDomainResultProtocol(
 class TestDomainResultProtocol(
     ExerciseDomainResultProtocol,
     exercise.HasQuestionOptionValue,
-    exercise.HasTaskItems[Candidates],
+    exercise.HasTaskItems[CandidatesProtocol],
     Protocol,
 ):
     """Protocol for test exercise domain result DTO."""

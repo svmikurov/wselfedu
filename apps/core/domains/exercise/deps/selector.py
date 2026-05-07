@@ -1,8 +1,8 @@
 """Domain resource selector."""
 
 from apps.core.exceptions import info
-from contracts.aliases import CandidatesAlias
 from contracts.entity.domain.exercise.fields import HasItemCount
+from interfaces.protocols.domain.exercise import CandidatesProtocol
 
 from ..deps.abstract import AbstractSelector
 
@@ -16,9 +16,9 @@ class CandidatesSelector(
 
     def select(
         self,
-        candidates: CandidatesAlias,
+        candidates: CandidatesProtocol,
         conf: HasItemCount,
-    ) -> CandidatesAlias:
+    ) -> CandidatesProtocol:
         """Select translation for exercise."""
         if len(candidates) < self.MIN_CANDIDATES_COUNT:
             raise info.NoExerciseItemsException(

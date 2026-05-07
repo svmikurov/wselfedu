@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar, override
 
-from contracts.aliases import CandidatesAlias
+from interfaces.protocols.domain.exercise import CandidatesProtocol
 
 from .protocol import SelectorProtocol
 
@@ -21,7 +21,7 @@ class AbstractSelector(
     @abstractmethod
     def select(
         self,
-        candidates: CandidatesAlias,
+        candidates: CandidatesProtocol,
         conf: Conf,
-    ) -> CandidatesAlias:
+    ) -> CandidatesProtocol:
         """Select data for exercise."""

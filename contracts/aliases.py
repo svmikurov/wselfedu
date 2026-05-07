@@ -9,10 +9,8 @@ from apps.core.domains.exercise.protocol import (
 from contracts.entity.domain.exercise.flow import (
     PresentationDomainResultProtocol,
 )
-from interfaces.schemas.domain.exercise import TaskItem
 
 CaseAlias: TypeAlias = PresentationDomainResultProtocol
-CandidatesAlias: TypeAlias = list[TaskItem]
 
 ExerciseDomainAlias: TypeAlias = ExerciseDomainProtocol[
     ExerciseConfigProtocol,

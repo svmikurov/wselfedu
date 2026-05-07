@@ -23,7 +23,7 @@ from interfaces.schemas.web.task import Option
 # =================================================
 
 
-class Candidate(
+class CandidateProtocol(
     HasResourceIdentifier,
     HasDefineText,
     HasMeanText,
@@ -33,7 +33,7 @@ class Candidate(
     """Protocol for a single candidate item."""
 
 
-Candidates = list[Candidate]
+CandidatesProtocol = list[CandidateProtocol]
 
 
 # =================================================
@@ -49,6 +49,9 @@ class TaskItemProtocol(
     Protocol,
 ):
     """Protocol for task item."""
+
+
+TaskItemsProtocol = list[TaskItemProtocol]
 
 
 # =================================================

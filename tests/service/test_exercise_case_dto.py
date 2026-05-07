@@ -16,7 +16,7 @@ from contracts.schemas.domain.exercise.flow import ExerciseCase
 from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
 )
-from interfaces.protocols.domain.exercise import Candidates
+from interfaces.protocols.domain.exercise import CandidatesProtocol
 from interfaces.schemas.domain.exercise import (
     PresentationExerciseDomainResult,
     TestExerciseDomainResult,
@@ -31,7 +31,7 @@ _TaskBuilderT = TaskBuilderT
 
 @pytest.fixture
 def mock_candidates_repository(
-    translations: Candidates,
+    translations: CandidatesProtocol,
 ) -> _RepositoryT:
     """Provide candidates repository mock."""
     mock = Mock(spec=_RepositoryT)
@@ -40,7 +40,7 @@ def mock_candidates_repository(
 
 
 @pytest.fixture
-def mock_presentation_domain(translations: Candidates) -> _DomainT:
+def mock_presentation_domain(translations: CandidatesProtocol) -> _DomainT:
     """Provide presentation exercise domain mock."""
     mock = Mock(spec=_DomainT)
     mock.execute.return_value = PresentationExerciseDomainResult(
@@ -52,7 +52,7 @@ def mock_presentation_domain(translations: Candidates) -> _DomainT:
 
 
 @pytest.fixture
-def mock_test_domain(translations: Candidates) -> _DomainT:
+def mock_test_domain(translations: CandidatesProtocol) -> _DomainT:
     """Provide test exercise domain mock."""
     mock = Mock(spec=_DomainT)
     mock.execute.return_value = TestExerciseDomainResult(

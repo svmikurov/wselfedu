@@ -20,7 +20,7 @@ from apps.core.use_cases.protocol import UseCaseProtocol
 from apps.core.validators.request.protocol import RequestValidatorProtocol
 from contracts.entity.domain.exercise.fields import HasDomain
 from contracts.entity.general import NullProtocol
-from interfaces.protocols.domain.exercise import Candidates
+from interfaces.protocols.domain.exercise import CandidatesProtocol
 from interfaces.schemas.domain.exercise import (
     PresentationExerciseDomainResult,
     TestExerciseDomainResult,
@@ -131,4 +131,4 @@ HandlerT: TypeAlias = RequestHandler[
 # Resource type aliases
 # =================================================
 
-TranslationCandidates: TypeAlias = Candidates
+TranslationCandidates: TypeAlias = CandidatesProtocol

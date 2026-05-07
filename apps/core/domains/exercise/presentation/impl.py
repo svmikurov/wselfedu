@@ -3,10 +3,10 @@
 from random import choice
 
 from contracts import enums
-from contracts.aliases import CandidatesAlias
 from contracts.entity.domain.exercise.flow import (
     PresentationDomainResultProtocol,
 )
+from interfaces.protocols.domain.exercise import CandidatesProtocol
 from interfaces.schemas.domain.exercise import (
     PresentationExerciseDomainResult,
 )
@@ -35,7 +35,7 @@ class PresentationDomain(
 
     def execute(
         self,
-        candidates: CandidatesAlias,  # type: ignore
+        candidates: CandidatesProtocol,
         conf: ExerciseConfigProtocol,
     ) -> PresentationDomainResultProtocol:
         """Get presentation exercise case data."""
@@ -45,5 +45,5 @@ class PresentationDomain(
         return PresentationExerciseDomainResult(  # type: ignore
             status=enums.ExerciseStatus.NEW_TASK,
             exercise_kind=enums.ExerciseKind.PRESENTATION,
-            item=option,
+            item=option,  # type: ignore
         )

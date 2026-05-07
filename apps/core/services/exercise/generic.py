@@ -26,6 +26,7 @@ from contracts.entity.domain.params import HasConditions, HasConfig
 from contracts.schemas.domain.exercise.flow import (
     ExplainExerciseDomainResult,
 )
+from interfaces.protocols.domain.exercise import CandidatesProtocol
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
@@ -71,7 +72,7 @@ class CreateExerciseService(
         self,
         candidates_repository: RepositoryProtocol[
             ConditionsProtocol,
-            aliases.CandidatesAlias,
+            CandidatesProtocol,
         ],
         domain: aliases.ExerciseDomainAlias,
         builder: TaskBuilderProtocol[
@@ -98,7 +99,7 @@ class CreateExerciseService(
     ) -> ResultT:
         """Create and return exercise case."""
         candidates = self._repository.fetch(user, spec.conditions)
-        domain = self._domain.execute(candidates, spec.conf)  # type: ignore
+        domain = self._domain.execute(candidates, spec.conf)
         case = self._builder.build(domain, spec.conf)
         return case
 
