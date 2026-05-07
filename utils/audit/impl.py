@@ -51,7 +51,7 @@ class Auditor(AbstractAuditor):
         message_parts = [class_name]
 
         obj_name = ''
-        if obj and obj.name and obj.name != 'undefined':
+        if obj and hasattr(obj, 'name') and obj.name != 'undefined':
             obj_name = f' {obj.name}'
 
         obj_file_path = ''
