@@ -21,6 +21,7 @@ class ServiceContainer(DeclarativeContainer):
     # =============================================
 
     domains = DependenciesContainer()
+    formatters = DependenciesContainer()
     repositories = DependenciesContainer()
 
     auditor = Dependency()  # type: ignore
@@ -41,7 +42,7 @@ class ServiceContainer(DeclarativeContainer):
         services.CreateExerciseService,
         candidates_repository=repositories.translation_candidates,
         domain=domains.presentation,
-        builder=exercise_case_builder,
+        formatter=formatters.presentation,
         auditor=auditor,
         name='Create translation presentation service',
     )
@@ -49,7 +50,7 @@ class ServiceContainer(DeclarativeContainer):
         services.CreateExerciseService,
         candidates_repository=repositories.translation_candidates,
         domain=domains.test,
-        builder=exercise_case_builder,
+        formatter=formatters.test,
         auditor=auditor,
         name='Create translation test exercise service',
     )

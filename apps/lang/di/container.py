@@ -24,6 +24,7 @@ class LanguageContainer(DeclarativeContainer):
 
     spec_factories = DependenciesContainer()
     domains = DependenciesContainer()
+    formatters = DependenciesContainer()
     use_case_result_builders = DependenciesContainer()
     response_adapters = DependenciesContainer()
 
@@ -51,6 +52,7 @@ class LanguageContainer(DeclarativeContainer):
     services = Container(
         ServiceContainer,
         domains=domains,
+        formatters=formatters,
         repositories=repositories,
         auditor=auditor,
     )
