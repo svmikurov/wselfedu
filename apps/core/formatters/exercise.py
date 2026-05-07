@@ -1,0 +1,85 @@
+"""Exercise domain result formatters."""
+
+from typing import TypeVar, override
+
+from contracts.entity.domain.exercise.fields import (
+    ExerciseCaseProtocol,
+    HasItem,
+)
+from contracts.enums import ExerciseStatus
+from contracts.schemas.domain.exercise.flow import (
+    ExerciseCase,
+    PresentationTask,
+    TestExerciseTask,
+)
+from interfaces.protocols.domain.exercise import (
+    PresentationTaskProtocol,
+    TaskItemProtocol,
+    TestDomainResultProtocol,
+    TestTaskProtocol,
+)
+from interfaces.schemas.web.task import Option
+
+from .abstract import AbstractConfFormatter
+
+DataT = TypeVar('DataT')
+SpecT = TypeVar('SpecT')
+DtoT = TypeVar('DtoT')
+
+
+class PresentationFormatter(
+    AbstractConfFormatter[
+        HasItem[TaskItemProtocol],
+        SpecT,
+        ExerciseCaseProtocol[PresentationTaskProtocol],
+    ],
+):
+    """Presentation exercise domain result formatter."""
+
+    @override
+    def format(
+        self,
+        data: HasItem[TaskItemProtocol],
+        conf: SpecT,
+    ) -> ExerciseCaseProtocol[PresentationTaskProtocol]:
+        """Build a presentation DTO according to the configuration."""
+        option = data.item
+        return ExerciseCase(
+            status=ExerciseStatus.NEW_TASK,
+            domain=PresentationTask(
+                question_text=option.define,
+                answer_text=option.mean,
+                progress_value=option.progress_value,
+            ),
+        )
+
+
+class TestFormatter(
+    AbstractConfFormatter[
+        TestDomainResultProtocol,
+        SpecT,
+        ExerciseCaseProtocol[TestTaskProtocol],
+    ],
+):
+    """Presentation exercise domain result formatter."""
+
+    __test__ = False
+
+    @override
+    def format(
+        self,
+        data: TestDomainResultProtocol,
+        conf: SpecT,
+    ) -> ExerciseCaseProtocol[TestTaskProtocol]:
+        """Build a test DTO according to the configuration."""
+        return ExerciseCase(
+            status=ExerciseStatus.NEW_TASK,
+            domain=TestExerciseTask(
+                question_option_value=data.question_option_value,
+                question_text='',
+                items=[  # type: ignore
+                    Option(value=value, text=option.mean)
+                    for value, option in enumerate(data.items)  # type: ignore
+                ],
+            ),
+        )
