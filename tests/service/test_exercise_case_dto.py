@@ -8,11 +8,15 @@ from unittest.mock import Mock
 
 import pytest
 
-from apps.core.builders.exercise import case
+from apps.core.formatters.exercise import PresentationFormatter, TestFormatter
 from apps.core.services.exercise.generic import CreateExerciseService
 from apps.users.models import Person
 from contracts import enums
-from contracts.schemas.domain.exercise.flow import ExerciseCase
+from contracts.schemas.domain.exercise.flow import (
+    ExerciseCase,
+    PresentationTask,
+    TestExerciseTask,
+)
 from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
 )
@@ -21,12 +25,12 @@ from interfaces.schemas.domain.exercise import (
     PresentationExerciseDomainResult,
     TestExerciseDomainResult,
 )
-from tests._types import DomainT, RepositoryT, ServiceT, TaskBuilderT
+from tests._types import DomainT, RepositoryT, ServiceT
 
 _DomainT = DomainT
 _ServiceT = ServiceT
 _RepositoryT = RepositoryT
-_TaskBuilderT = TaskBuilderT
+_TaskBuilderT = object
 
 
 @pytest.fixture
@@ -65,22 +69,28 @@ def mock_test_domain(translations: CandidatesProtocol) -> _DomainT:
 
 
 @pytest.fixture
-def service_result_builder() -> _TaskBuilderT:
-    """Provide presentation exercise service's result builder."""
-    return case.ExerciseCaseBuilder()  # type: ignore
+def presentation_formatter() -> _TaskBuilderT:
+    """Provide presentation exercise domain result formatter."""
+    return PresentationFormatter()
+
+
+@pytest.fixture
+def test_formatter() -> _TaskBuilderT:
+    """Provide test exercise domain result formatter."""
+    return TestFormatter()
 
 
 @pytest.fixture
 def presentation_service(
     mock_candidates_repository: Mock,
     mock_presentation_domain: Mock,
-    service_result_builder: _TaskBuilderT,
+    presentation_formatter: _TaskBuilderT,
 ) -> _ServiceT:
     """Provide presentation exercise service."""
     return CreateExerciseService(
         candidates_repository=mock_candidates_repository,
         domain=mock_presentation_domain,
-        builder=service_result_builder,  # type: ignore
+        formatter=presentation_formatter,  # type: ignore
     )
 
 
@@ -88,13 +98,13 @@ def presentation_service(
 def test_service(
     mock_candidates_repository: Mock,
     mock_test_domain: Mock,
-    service_result_builder: _TaskBuilderT,
+    test_formatter: _TaskBuilderT,
 ) -> _ServiceT:
     """Provide test exercise service."""
     return CreateExerciseService(
         candidates_repository=mock_candidates_repository,
         domain=mock_test_domain,
-        builder=service_result_builder,  # type: ignore
+        formatter=test_formatter,  # type: ignore
     )
 
 
@@ -114,13 +124,13 @@ def test_presentation_service_result_dto(
     assert hasattr(case, 'domain')
 
     # - Case builder result DTO has nested fields
-    assert hasattr(case.domain, 'exercise_kind')
-    assert hasattr(case.domain, 'status')
-    assert hasattr(case.domain, 'item')
+    assert hasattr(case.domain, 'question_text')
+    assert hasattr(case.domain, 'answer_text')
+    assert hasattr(case.domain, 'progress_value')
 
     # - Presentation exercise domain result DTO is instance of
     assert isinstance(case, ExerciseCase)
-    assert isinstance(case.domain, PresentationExerciseDomainResult)
+    assert isinstance(case.domain, PresentationTask)
 
 
 @pytest.mark.django_db
@@ -139,11 +149,10 @@ def test_test_exercise_service_result_dto(
     assert hasattr(case, 'domain')
 
     # - Case builder result DTO has nested fields
-    assert hasattr(case.domain, 'exercise_kind')
-    assert hasattr(case.domain, 'status')
+    assert hasattr(case.domain, 'question_text')
     assert hasattr(case.domain, 'question_option_value')
     assert hasattr(case.domain, 'items')
 
     # - Presentation exercise domain result DTO is instance of
     assert isinstance(case, ExerciseCase)
-    assert isinstance(case.domain, TestExerciseDomainResult)
+    assert isinstance(case.domain, TestExerciseTask)

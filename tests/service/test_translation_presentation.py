@@ -5,8 +5,6 @@ from typing import Any, Protocol, TypeAlias
 
 import pytest
 
-from apps.core.builders.exercise.case import ExerciseCaseBuilder
-from apps.core.builders.protocol import SpecDtoBuilderProtocol
 from apps.core.domains.exercise.deps.protocol import SelectorProtocol
 from apps.core.domains.exercise.deps.selector import CandidatesSelector
 from apps.core.domains.exercise.presentation.impl import PresentationDomain
@@ -15,6 +13,8 @@ from apps.core.domains.exercise.protocol import (
     ExerciseConfigProtocol,
     HasCase,
 )
+from apps.core.formatters.exercise import PresentationFormatter
+from apps.core.formatters.protocol import ConfFormatterProtocol
 from apps.core.repositories.protocol import RepositoryProtocol
 from apps.core.services.exercise.generic import CreateExerciseService
 from apps.core.services.exercise.protocol import ExerciseServiceProtocol
@@ -68,7 +68,7 @@ _TranslationRepository = RepositoryProtocol[ConditionsProtocol, _Candidates]
 _Selector = SelectorProtocol[ExerciseConfigProtocol]
 _Domain = aliases.ExerciseDomainAlias
 _ServiceT = ExerciseServiceProtocol[_SpecProtocol, _DomainResultProtocol]
-_Builder = SpecDtoBuilderProtocol[Any, Any, Any]
+_Formatter = ConfFormatterProtocol[Any, Any, Any]
 
 
 @pytest.fixture
@@ -103,22 +103,22 @@ def domain(
 
 
 @pytest.fixture
-def builder() -> _Builder:
+def formatter() -> _Formatter:
     """Provide presentation exercise domain DTO builder."""
-    return ExerciseCaseBuilder()
+    return PresentationFormatter()
 
 
 @pytest.fixture
 def service(
     repository: _Repository,
     domain: _Domain,
-    builder: _Builder,
+    formatter: _Formatter,
 ) -> _ServiceT:
     """Provide translation presentation service."""
     return CreateExerciseService(
         candidates_repository=repository,
         domain=domain,
-        builder=builder,  # type: ignore
+        formatter=formatter,
     )
 
 
