@@ -14,6 +14,7 @@ from .builder import UseCaseResultBuilderContainer
 from .configuration import ConfigurationContainer
 from .domain import DomainContainer
 from .factory.container import CoreSpecFactoryContainer
+from .formatter import FormatterContainer
 
 
 class CoreContainer(DeclarativeContainer):
@@ -36,6 +37,9 @@ class CoreContainer(DeclarativeContainer):
     domains = Container(
         DomainContainer,
         exercise_config=configuration.exercise,
+    )
+    formatters = Container(
+        FormatterContainer,
     )
     response_adapters = Container(
         ResponseAdaptersContainer,

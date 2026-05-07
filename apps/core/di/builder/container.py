@@ -3,6 +3,7 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Dict, Factory
 
+from apps.core.builders.exercise.case import ExerciseCaseBuilder
 from apps.core.builders.exercise.task import (
     ExercisePresentationBuilder,
     TestExerciseTaskBuilder,
@@ -26,6 +27,9 @@ class UseCaseResultBuilderContainer(DeclarativeContainer):
     _test = Factory(  # type: ignore
         TestExerciseTaskBuilder,
     )
+    _general = Factory(  # type: ignore
+        ExerciseCaseBuilder,
+    )
 
     # =============================================
     # Exercise domain result builder registry
@@ -33,13 +37,13 @@ class UseCaseResultBuilderContainer(DeclarativeContainer):
 
     presentation_registry = Dict(
         {
-            ExerciseStatus.NEW_TASK: _presentation,
+            ExerciseStatus.NEW_TASK: _null,
             ExerciseStatus.UPDATED_PROGRESS: _null,
         },
     )
     test_registry = Dict(
         {
-            ExerciseStatus.NEW_TASK: _test,
+            ExerciseStatus.NEW_TASK: _null,
             ExerciseStatus.UPDATED_PROGRESS: _null,
         },
     )
