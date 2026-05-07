@@ -1,7 +1,7 @@
 """Exercise phase (definition / mean / random) orderer."""
 
 from contracts.entity.domain.exercise import fields
-from contracts.enums import DisplayOrder, ExerciseStatus
+from contracts.enums import DisplayOrder
 from contracts.schemas.domain.exercise.flow import PresentationTask
 from interfaces.protocols.domain.exercise import (
     CandidateProtocol,
@@ -33,7 +33,6 @@ class PresentationTaskBuilder(
         option = case.item
 
         return PresentationTask(
-            status=ExerciseStatus.NEW_TASK,
             question_text=self._get_question(option, conf.phases),
             answer_text=self._get_answer(option, conf.phases),
             progress_value=option.progress_value,

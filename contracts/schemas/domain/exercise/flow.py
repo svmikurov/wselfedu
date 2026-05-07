@@ -49,6 +49,7 @@ class ExerciseCase(BaseDTO, Generic[DomainResult]):
 # =================================================
 
 
+# QUESTION: Is deprecated
 class Task(BaseDTO):
     """Exercise task DTO.
 
@@ -62,7 +63,6 @@ class Task(BaseDTO):
 
 
 class PresentationTask(
-    Task,
     fields.QuestionTextField,
     fields.AnswerTextField,
     fields.ProgressValueField,
@@ -71,8 +71,6 @@ class PresentationTask(
 
     Parameter
     ---------
-    status : `ExerciseStatus`
-        Current exercise status enumeration.
     question_text : `str`
         Task question text.
     answer_text : `str`
@@ -83,8 +81,8 @@ class PresentationTask(
 
 
 class TestExerciseTask(
-    Task,
     fields.OptionValue,
+    fields.QuestionTextField,
     fields.TaskItemsField[CandidatesT],
     Generic[CandidatesT],
     ArbitraryConfigurationMixin,
@@ -93,10 +91,12 @@ class TestExerciseTask(
 
     Parameter
     ---------
-    status : `ExerciseStatus`
-        Current exercise status enumeration.
     option_value : `int`
         The question's option value (options index value).
+    question_text : `str`
+        Task question text.
     options : list[CandidatesT]
         The exercise test's options.
     """
+
+    __test__ = False
