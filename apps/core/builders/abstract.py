@@ -1,15 +1,23 @@
 """Abstract base class for DTO builder."""
 
 from abc import ABC, abstractmethod
-from typing import Generic, override
+from typing import Generic, TypeVar, override
 
 from . import aliases
-from .protocol import DtoBuilderProtocol
+from .protocol import (
+    ConfDtoBuilderProtocol,
+    DtoBuilderProtocol,
+    SpecDtoBuilderProtocol,
+)
+
+DataT = TypeVar('DataT')
+SpecT = TypeVar('SpecT')
+DtoT = TypeVar('DtoT')
 
 
 class AbstractCaseFactory(
     ABC,
-    DtoBuilderProtocol[aliases.DTO_contra, aliases.DTO_co],
+    DtoBuilderProtocol[DataT, DtoT],
 ):
     """ABC for exercise case DTO builder."""
 
@@ -17,9 +25,39 @@ class AbstractCaseFactory(
     @abstractmethod
     def build(
         self,
-        data: aliases.DTO_contra,
-    ) -> aliases.DTO_co:
+        data: DataT,
+    ) -> DtoT:
         """Build exercise case DTO."""
+
+
+class AbstractSpecDtoBuilder(
+    SpecDtoBuilderProtocol[DataT, SpecT, DtoT],
+):
+    """ABC for a DTO builder that follows the specification."""
+
+    @override
+    @abstractmethod
+    def build(
+        self,
+        data: DataT,
+        spec: SpecT,
+    ) -> DtoT:
+        """Build a DTO according to the specification."""
+
+
+class AbstractConfDtoBuilderProtocol(
+    ConfDtoBuilderProtocol[DataT, SpecT, DtoT],
+):
+    """ABC for a DTO builder that follows the configuration."""
+
+    @override
+    @abstractmethod
+    def build(
+        self,
+        data: DataT,
+        conf: SpecT,
+    ) -> DtoT:
+        """Build a DTO according to the configuration."""
 
 
 # DEPRECATED: Is deprecated?
