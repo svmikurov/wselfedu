@@ -37,16 +37,16 @@ class WebTestExerciseAdapter(
     def to_response(
         self,
         # FIXME: Fix type hint
-        domain_result: ExerciseCaseProtocol[TestExerciseTask[list[Option]]],
+        use_case_result: ExerciseCaseProtocol[TestExerciseTask[list[Option]]],
         request_context: NullProtocol,
     ) -> TestExerciseTaskResponse:
         """Convert domain result to web representation context."""
         context = TestTaskContext(
-            question_text=domain_result.domain.question_text,
-            options=domain_result.domain.items,
+            question_text=use_case_result.domain.question_text,
+            options=use_case_result.domain.items,
         )
         return TestExerciseTaskResponse(
-            domain_status=domain_result.status,
+            domain_status=use_case_result.status,
             context=context,
         )
 
@@ -73,32 +73,32 @@ class WebExplainAdapter(
 
     def _build_html(
         self,
-        domain_result: TestExerciseCase[ExtraContextT],
+        use_case_result: TestExerciseCase[ExtraContextT],
     ) -> str:
         """Build HTML."""
         html = ''
         for template in self._templates:
-            html += render_to_string(template, domain_result.model_dump())
+            html += render_to_string(template, use_case_result.model_dump())
         return html
 
     @override
     def to_response(
         self,
-        domain_result: TestExerciseCase[ExtraContextT],
+        use_case_result: TestExerciseCase[ExtraContextT],
         request_context: NullProtocol,
     ) -> HtmlResponseProtocol[TestExerciseCase[ExtraContextT]]:
         """Convert domain result to web representation context."""
         return HtmlResponseDTO(
             domain_status=ResponseStatusEnum.EXPLAIN_CASE,  # type: ignore
             context=TestTaskContext(
-                question_text=domain_result.question_text,
+                question_text=use_case_result.question_text,
                 options=[
                     Option(
                         value=option.options_value,
                         text=option.text,
                     )
-                    for option in domain_result.items
+                    for option in use_case_result.items
                 ],
             ),
-            html=self._build_html(domain_result),
+            html=self._build_html(use_case_result),
         )

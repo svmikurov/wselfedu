@@ -119,14 +119,14 @@ class CalculationWebCaseAdapter(
     @override
     def to_response(
         self,
-        domain_result: StudentCalculationDTO,
+        use_case_result: StudentCalculationDTO,
         request_context: RequestContextProtocol,
     ) -> HtmlResponseDTO[Any, Any, Any]:
         """Adapt current calculation case for web response."""
         return HtmlResponseDTO(
-            domain_status=domain_result.exercise_status,
+            domain_status=use_case_result.exercise_status,
             context=ExerciseFormDTO(
-                question_text=domain_result.data.question_text,
+                question_text=use_case_result.data.question_text,
                 answer_input_form=forms.NumberInputForm(),
             ),
         )

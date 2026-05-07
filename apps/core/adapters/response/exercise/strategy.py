@@ -10,7 +10,7 @@ from utils.audit.impl import NullAuditor
 from utils.audit.protocol import AuditorProtocol
 
 RequestContext = TypeVar('RequestContext')
-DomainResult = TypeVar('DomainResult', bound=HasExerciseStatus)
+UseCaseResult = TypeVar('UseCaseResult', bound=HasExerciseStatus)
 Adapted = TypeVar('Adapted')
 
 __all__ = ('ProcessExerciseAdapterStrategy',)
@@ -19,8 +19,8 @@ log = logging.getLogger('audit')
 
 
 class ProcessExerciseAdapterStrategy(
-    AdapterProtocol[DomainResult, RequestContext, Adapted],
-    Generic[DomainResult, RequestContext, Adapted],
+    AdapterProtocol[UseCaseResult, RequestContext, Adapted],
+    Generic[UseCaseResult, RequestContext, Adapted],
 ):
     """Router for process exercise result adapter select."""
 
@@ -28,7 +28,7 @@ class ProcessExerciseAdapterStrategy(
         self,
         registry: dict[
             ExerciseStatus,
-            AdapterProtocol[DomainResult, RequestContext, Adapted],
+            AdapterProtocol[UseCaseResult, RequestContext, Adapted],
         ],
         auditor: AuditorProtocol | None = None,
         name: str | None = None,
@@ -46,18 +46,18 @@ class ProcessExerciseAdapterStrategy(
     @override
     def to_response(
         self,
-        domain_result: DomainResult,
+        use_case_result: UseCaseResult,
         request_context: RequestContext,
     ) -> Adapted:
         """Convert to response."""
         try:
-            adapter = self._registry[domain_result.status]
+            adapter = self._registry[use_case_result.status]
             self._auditor.record('adapter_strategy.select', obj=adapter)
         except KeyError:
             log.error('Adapter strategy error')
             raise
 
-        adapted = adapter.to_response(domain_result, request_context)
+        adapted = adapter.to_response(use_case_result, request_context)
         return adapted
 
     @property

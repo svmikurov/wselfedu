@@ -86,19 +86,17 @@ class TestFormatter(
         data: TestDomainResultProtocol,
         conf: SpecT,
     ) -> list[Option]:
-        options = [  # type: ignore
+        return [  # type: ignore
             Option(value=value, text=option.mean)
             for value, option in enumerate(data.items)  # type: ignore
         ]
-        print(f'{data = }')
-        print(f'{options = }')
-        return options
 
+    # FIXME: Fix type hint ignore
     def _get_question_text(
         self,
         data: TestDomainResultProtocol,
         conf: SpecT,
     ) -> str:
         question_option_value = data.question_option_value
-        question_option = data.items[question_option_value]
-        return question_option.define
+        question_option = data.items[question_option_value]  # type: ignore
+        return question_option.define  # type: ignore
