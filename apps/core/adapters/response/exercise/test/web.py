@@ -42,9 +42,7 @@ class WebTestExerciseAdapter(
     ) -> TestExerciseTaskResponse:
         """Convert domain result to web representation context."""
         context = TestTaskContext(
-            question_text=domain_result.domain.items[
-                domain_result.domain.question_option_value
-            ].text,
+            question_text=domain_result.domain.question_text,
             options=domain_result.domain.items,
         )
         return TestExerciseTaskResponse(

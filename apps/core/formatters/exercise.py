@@ -43,13 +43,13 @@ class PresentationFormatter(
         conf: SpecT,
     ) -> ExerciseCaseProtocol[PresentationTaskProtocol]:
         """Build a presentation DTO according to the configuration."""
-        option = data.item
+        task = data.item
         return ExerciseCase(
             status=ExerciseStatus.NEW_TASK,
             domain=PresentationTask(
-                question_text=option.define,
-                answer_text=option.mean,
-                progress_value=option.progress_value,
+                question_text=task.define,
+                answer_text=task.mean,
+                progress_value=task.progress_value,
             ),
         )
 
@@ -76,10 +76,29 @@ class TestFormatter(
             status=ExerciseStatus.NEW_TASK,
             domain=TestExerciseTask(
                 question_option_value=data.question_option_value,
-                question_text='',
-                items=[  # type: ignore
-                    Option(value=value, text=option.mean)
-                    for value, option in enumerate(data.items)  # type: ignore
-                ],
+                question_text=self._get_question_text(data, conf),
+                items=self._get_options(data, conf),
             ),
         )
+
+    def _get_options(
+        self,
+        data: TestDomainResultProtocol,
+        conf: SpecT,
+    ) -> list[Option]:
+        options = [  # type: ignore
+            Option(value=value, text=option.mean)
+            for value, option in enumerate(data.items)  # type: ignore
+        ]
+        print(f'{data = }')
+        print(f'{options = }')
+        return options
+
+    def _get_question_text(
+        self,
+        data: TestDomainResultProtocol,
+        conf: SpecT,
+    ) -> str:
+        question_option_value = data.question_option_value
+        question_option = data.items[question_option_value]
+        return question_option.define
