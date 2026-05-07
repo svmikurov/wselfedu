@@ -17,7 +17,7 @@ from apps.core.domains.exercise.test.dto import (
     OptionMetaDTO,
     TestExerciseMeta,
 )
-from apps.core.domains.task.protocol import TaskBuilderProtocol
+from apps.core.formatters.protocol import ConfFormatterProtocol
 from apps.core.repositories.protocol import RepositoryProtocol
 from apps.users.models import Person
 from contracts import aliases
@@ -75,7 +75,7 @@ class CreateExerciseService(
             CandidatesProtocol,
         ],
         domain: aliases.ExerciseDomainAlias,
-        builder: TaskBuilderProtocol[
+        formatter: ConfFormatterProtocol[
             aliases.CaseAlias,
             ExerciseConfigProtocol,
             ResultT,
@@ -89,7 +89,7 @@ class CreateExerciseService(
         super().__init__(name=name, auditor=auditor)
         self._repository = candidates_repository
         self._domain = domain
-        self._builder = builder
+        self._formatter = formatter
 
     @override
     def execute(
@@ -100,7 +100,7 @@ class CreateExerciseService(
         """Create and return exercise case."""
         candidates = self._repository.fetch(user, spec.conditions)
         domain = self._domain.execute(candidates, spec.conf)
-        case = self._builder.build(domain, spec.conf)
+        case = self._formatter.format(domain, spec.conf)
         return case
 
 

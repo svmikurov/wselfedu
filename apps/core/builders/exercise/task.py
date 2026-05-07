@@ -34,7 +34,6 @@ class ExercisePresentationBuilder(
         """Build presentation exercise task DTO."""
         option = data.domain.item
         return PresentationTask(
-            status=data.status,
             question_text=option.define,
             answer_text=option.mean,
             progress_value=option.progress_value,
@@ -58,8 +57,8 @@ class TestExerciseTaskBuilder(
     ) -> interfaces.TestTaskProtocol:
         """Build test exercise task DTO."""
         return TestExerciseTask(
-            status=data.status,
             question_option_value=data.domain.question_option_value,
+            question_text='',
             items=[
                 Option(value=value, text=option.mean)
                 for value, option in enumerate(data.domain.items)

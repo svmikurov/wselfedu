@@ -8,6 +8,7 @@ from apps.core.adapters.response.abstract import AbstractResponseAdapter
 from apps.core.adapters.response.status import ResponseStatusEnum
 from apps.core.domains.exercise.test.dto import TestExerciseCase
 from contracts import NullProtocol
+from contracts.entity.domain.exercise.fields import ExerciseCaseProtocol
 from contracts.entity.response.base import HtmlResponseProtocol
 from contracts.schemas.domain.exercise.flow import TestExerciseTask
 from contracts.schemas.response.generic import HtmlResponseDTO
@@ -24,7 +25,7 @@ ExtraContextT = TypeVar('ExtraContextT', bound=Iterable[Any])
 
 class WebTestExerciseAdapter(
     BaseWebAdapter[
-        TestExerciseTask[list[Option]],
+        ExerciseCaseProtocol[TestExerciseTask[list[Option]]],
         NullProtocol,
         TestExerciseTaskResponse,
     ],
@@ -35,15 +36,16 @@ class WebTestExerciseAdapter(
     @override
     def to_response(
         self,
-        domain_result: TestExerciseTask[list[Option]],
+        # FIXME: Fix type hint
+        domain_result: ExerciseCaseProtocol[TestExerciseTask[list[Option]]],
         request_context: NullProtocol,
     ) -> TestExerciseTaskResponse:
         """Convert domain result to web representation context."""
         context = TestTaskContext(
-            question_text=domain_result.items[
-                domain_result.question_option_value
+            question_text=domain_result.domain.items[
+                domain_result.domain.question_option_value
             ].text,
-            options=domain_result.items,
+            options=domain_result.domain.items,
         )
         return TestExerciseTaskResponse(
             domain_status=domain_result.status,
