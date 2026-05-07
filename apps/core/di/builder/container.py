@@ -35,6 +35,8 @@ class UseCaseResultBuilderContainer(DeclarativeContainer):
     # Exercise domain result builder registry
     # =============================================
 
+    # REVIEW: Is necessary the use case result registry?
+
     presentation_registry = Dict(
         {
             ExerciseStatus.NEW_TASK: _null,
