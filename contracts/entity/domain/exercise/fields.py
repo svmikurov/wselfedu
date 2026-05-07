@@ -63,6 +63,18 @@ class HasDisplayOrder(Protocol[T]):
     display_order: T
 
 
+class HasItem(Protocol[T]):
+    """Protocol for has *item* DTO interface."""
+
+    item: T
+
+
+class HasOption(Protocol[T]):
+    """Protocol for has *option* DTO interface."""
+
+    option: T
+
+
 class HasItemCount(Protocol):
     """Protocol for item count object interface."""
 
@@ -142,12 +154,12 @@ class HasDomain(Protocol[DomainT]):
     domain: DomainT
 
 
-class ExerciseDomainResultProtocol(
+class ExerciseCaseProtocol(
     HasExerciseStatus,
     HasDomain[DomainT],
     Protocol,
 ):
-    """Protocol for exercise result DTO interface."""
+    """Protocol for exercise case DTO interface."""
 
 
 class HasQuestionOptionValue(Protocol):
