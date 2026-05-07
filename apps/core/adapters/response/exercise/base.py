@@ -10,7 +10,7 @@ from interfaces.schemas.web.task import PresentationTaskContext
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
-DomainResultT = TypeVar('DomainResultT')
+UseCaseResultT = TypeVar('UseCaseResultT')
 ExtraContextT = TypeVar('ExtraContextT')
 ResponseDataT = TypeVar('ResponseDataT')
 
@@ -21,9 +21,9 @@ HtmlT: TypeAlias = str
 
 class BaseWebAdapter(
     BaseAuditable,
-    AbstractResponseAdapter[DomainResultT, ExtraContextT, ResponseDataT],
+    AbstractResponseAdapter[UseCaseResultT, ExtraContextT, ResponseDataT],
     ABC,
-    Generic[DomainResultT, ExtraContextT, ResponseDataT],
+    Generic[UseCaseResultT, ExtraContextT, ResponseDataT],
 ):
     """Base WEB adapter for perform exercise task.
 
@@ -56,7 +56,7 @@ class BaseWebAdapter(
     @abstractmethod
     def to_response(
         self,
-        domain_result: DomainResultT,
+        use_case_result: UseCaseResultT,
         request_context: ExtraContextT,
     ) -> ResponseDataT:
         """Convert domain schema to response representation."""

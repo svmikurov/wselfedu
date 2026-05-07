@@ -5,17 +5,17 @@ from typing import TypeVar, override
 
 from apps.core.adapters.response.protocol import AdapterProtocol
 
-DomainResult = TypeVar('DomainResult')
-ExtraContext = TypeVar('ExtraContext')
-ResponseData = TypeVar('ResponseData')
+UseCaseResultT = TypeVar('UseCaseResultT')
+ExtraContextT = TypeVar('ExtraContextT')
+ResponseDataT = TypeVar('ResponseDataT')
 
 
 class AbstractResponseAdapter(
     ABC,
     AdapterProtocol[
-        DomainResult,
-        ExtraContext,
-        ResponseData,
+        UseCaseResultT,
+        ExtraContextT,
+        ResponseDataT,
     ],
 ):
     """ABC for response adapter.
@@ -28,9 +28,9 @@ class AbstractResponseAdapter(
     @abstractmethod
     def to_response(
         self,
-        domain_result: DomainResult,
-        request_context: ExtraContext,
-    ) -> ResponseData:
+        use_case_result: UseCaseResultT,
+        request_context: ExtraContextT,
+    ) -> ResponseDataT:
         """Convert domain schema to response representation."""
 
     @property

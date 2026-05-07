@@ -17,7 +17,7 @@ class AdapterProtocol(
 
     def to_response(
         self,
-        domain_result: UseCaseResult_contra,
+        use_case_result: UseCaseResult_contra,
         request_context: Context_contra,
     ) -> ResponseData_co:
         """Convert to response."""
