@@ -2,8 +2,11 @@
 
 from typing import TypeVar, override
 
-from contracts.entity.domain.exercise.fields import ExerciseCaseProtocol
-from contracts.enums import ExerciseStatus
+from contracts.entity.domain.exercise.fields import (
+    ExerciseCaseProtocol,
+    HasDisplayOrder,
+)
+from contracts.enums import DisplayOrder, ExerciseStatus
 from contracts.schemas.domain.exercise.flow import (
     ExerciseCase,
     PresentationTask,
@@ -20,8 +23,11 @@ from interfaces.schemas.web.task import Option
 from .abstract import AbstractConfFormatter
 
 DataT = TypeVar('DataT')
-ConfigurationT = TypeVar('ConfigurationT')
+ConfigurationT = TypeVar('ConfigurationT', bound=HasDisplayOrder[DisplayOrder])
 DtoT = TypeVar('DtoT')
+
+QUESTION_INDEX = 0
+ANSWER_INDEX = 1
 
 
 class PresentationFormatter(
@@ -84,7 +90,7 @@ class TestFormatter(
         conf: ConfigurationT,
     ) -> list[Option]:
         return [  # type: ignore
-            Option(value=value, text=option.mean)
+            Option(value=value, text=self._get_answer(option, conf))
             for value, option in enumerate(data.items)  # type: ignore
         ]
 
@@ -96,4 +102,18 @@ class TestFormatter(
     ) -> str:
         question_option_value = data.question_option_value
         question_option = data.items[question_option_value]  # type: ignore
-        return question_option.define  # type: ignore
+        return self._get_question(question_option, conf)
+
+    def _get_question(
+        self, item: TestDomainResultProtocol, conf: ConfigurationT
+    ) -> str:
+        """Return option question text."""
+        orders = DisplayOrder.get_display_phases(conf.display_order)
+        return str(getattr(item, orders[QUESTION_INDEX]))
+
+    def _get_answer(
+        self, item: TestDomainResultProtocol, conf: ConfigurationT
+    ) -> str:
+        """Return option answer text."""
+        orders = DisplayOrder.get_display_phases(conf.display_order)
+        return str(getattr(item, orders[ANSWER_INDEX]))
