@@ -2,9 +2,9 @@
 
 from typing import TypeVar, override
 
-from apps.core.adapters.exercise.abstract import AbstractExerciseSpecFactory
 from apps.core.assemblers.protocol import UserDataCommandProtocol
 from apps.core.domains.exercise.protocol import HasExerciseAction
+from apps.core.factories.abstract import AbstractExerciseSpecFactory
 from contracts.schemas.domain.exercise.params import ExerciseParametersDTO
 from interfaces.protocols.domain import PresentationDomainResultProtocol
 from interfaces.protocols.repository import ProgressUpdateConditionsProtocol

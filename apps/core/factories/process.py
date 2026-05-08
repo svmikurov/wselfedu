@@ -2,11 +2,9 @@
 
 from typing import TypeVar, override
 
-from apps.core.adapters.exercise.abstract import AbstractExerciseSpecFactory
 from apps.core.assemblers.protocol import UserDataCommandProtocol
-from apps.core.domains.exercise.protocol import (
-    HasExerciseAction,
-)
+from apps.core.domains.exercise.protocol import HasExerciseAction
+from apps.core.factories.abstract import AbstractExerciseSpecFactory
 from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
     ExerciseSpecDTO,
@@ -26,7 +24,7 @@ class CreateExerciseSpecFactory(
         ExerciseSpecDTO[CaseT],
     ],
 ):
-    """Exercise specification factory."""
+    """Create task the specification factory."""
 
     def __init__(
         self,
@@ -43,7 +41,42 @@ class CreateExerciseSpecFactory(
         params: ExerciseParametersDTO,
         existing_case: CaseT | None,
     ) -> ExerciseSpecDTO[CaseT]:
-        """Create the exercise specification."""
+        """Create the create task exercise specification."""
+        return ExerciseSpecDTO(
+            conditions=params.conditions,
+            conf=params.conf,
+            settings=params.settings,
+            existing_case=existing_case,
+        )
+
+
+class CheckAnswerSpecFactory(
+    BaseAuditable,
+    AbstractExerciseSpecFactory[
+        UserDataCommandProtocol[HasExerciseAction],
+        ExerciseParametersDTO,
+        CaseT | None,
+        ExerciseSpecDTO[CaseT],
+    ],
+):
+    """Check answer the specification factory."""
+
+    def __init__(
+        self,
+        name: str | None = None,
+        auditor: AuditorProtocol | None = None,
+    ) -> None:
+        """Construct the factory."""
+        super().__init__(name=name, auditor=auditor)
+
+    @override
+    def create(
+        self,
+        command: UserDataCommandProtocol[HasExerciseAction],
+        params: ExerciseParametersDTO,
+        existing_case: CaseT | None,
+    ) -> ExerciseSpecDTO[CaseT]:
+        """Create the check answer exercise specification."""
         return ExerciseSpecDTO(
             conditions=params.conditions,
             conf=params.conf,

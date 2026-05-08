@@ -2,7 +2,8 @@
 
 __all__ = (
     'CreateExerciseSpecFactory',
+    'CheckAnswerSpecFactory',
     'UpdateProgressSpecFactory',
 )
-from .process import CreateExerciseSpecFactory
+from .process import CheckAnswerSpecFactory, CreateExerciseSpecFactory
 from .progress import UpdateProgressSpecFactory
