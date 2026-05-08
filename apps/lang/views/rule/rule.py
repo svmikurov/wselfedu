@@ -1,6 +1,5 @@
 """Language rule views."""
 
-# typ: ignore
 from typing import Any
 
 from dependency_injector.providers import Container
