@@ -1,4 +1,4 @@
-"""Language app's request data validator DI container."""
+"""Request data validator DI container."""
 
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Dict, Factory
@@ -13,8 +13,8 @@ from interfaces.schemas.validator import (
 )
 
 
-class LangValidatorContainer(DeclarativeContainer):
-    """Language app's request data validator DI container."""
+class ValidatorContainer(DeclarativeContainer):
+    """Request data validator DI container."""
 
     exercise_validate_schema_registry = Dict(
         {

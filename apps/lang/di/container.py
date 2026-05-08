@@ -7,12 +7,12 @@ from dependency_injector.providers import (
     Dependency,
 )
 
+from ...core.di.validator.container import ValidatorContainer
 from .config.container import LanguageConfigurationContainer
 from .handler.web.container import WebHandlerContainer
 from .repository.repository import LanguageRepositoryContainer
 from .service.container import ServiceContainer
 from .use_case.container import LangUseCaseContainer
-from .validator.container import LangValidatorContainer
 
 
 class LanguageContainer(DeclarativeContainer):
@@ -47,7 +47,7 @@ class LanguageContainer(DeclarativeContainer):
         auditor=auditor,
     )
     validators = Container(
-        LangValidatorContainer,
+        ValidatorContainer,
     )
     services = Container(
         ServiceContainer,
