@@ -39,6 +39,14 @@ class PhasesField(ArbitraryDTO):
     )
 
 
+class OptionValueField(ArbitraryDTO):
+    """User answer *option value* DTO field."""
+
+    option_value: int = Field(
+        description='User answer option value DTO field',
+    )
+
+
 # =================================================
 # Exercise task candidate
 # =================================================

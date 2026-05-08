@@ -41,7 +41,7 @@ class ServiceContainer(DeclarativeContainer):
     create_translation_presentation = Factory(
         services.CreateExerciseService,
         candidates_repository=repositories.translation_candidates,
-        domain=domains.presentation,
+        domain=domains.create_presentation,
         formatter=formatters.presentation,
         auditor=auditor,
         name='Create translation presentation service',
@@ -49,10 +49,16 @@ class ServiceContainer(DeclarativeContainer):
     create_translation_test = Factory(
         services.CreateExerciseService,
         candidates_repository=repositories.translation_candidates,
-        domain=domains.test,
+        domain=domains.create_test,
         formatter=formatters.test,
         auditor=auditor,
         name='Create translation test exercise service',
+    )
+    check_translation_test = Factory(  # type: ignore
+        services.CheckExerciseService,
+        domain=domains.check_test,
+        auditor=auditor,
+        name='Check answer on translation test exercise service',
     )
 
     # Progress
@@ -77,6 +83,7 @@ class ServiceContainer(DeclarativeContainer):
     regular_translation_test_registry = Dict(
         {
             ExerciseAction.CREATE_TASK: create_translation_test,
+            ExerciseAction.CHECK_ANSWER: check_translation_test,
             ExerciseAction.UPDATE_PROGRESS: translation_progress,
         },
     )

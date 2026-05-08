@@ -80,10 +80,8 @@ class CreateExerciseService(
             ExerciseConfigProtocol,
             ResultT,
         ],
-        *args: object,
         name: str | None = None,
         auditor: AuditorProtocol | None = None,
-        **kwargs: object,
     ) -> None:
         """Construct the service."""
         super().__init__(name=name, auditor=auditor)
@@ -109,7 +107,9 @@ class CreateExerciseService(
 # =================================================
 
 
+# FIXME: Fix type ignore
 class CheckExerciseService(
+    BaseAuditable,
     AbstractExerciseService[
         SpecT,
         ResultT,
@@ -124,8 +124,11 @@ class CheckExerciseService(
             SpecT,
             CheckResultT,
         ],
+        name: str | None = None,
+        auditor: AuditorProtocol | None = None,
     ) -> None:
         """Construct the service."""
+        super().__init__(name=name, auditor=auditor)
         self._domain = domain
 
     @override
@@ -135,6 +138,7 @@ class CheckExerciseService(
         spec: SpecT,
     ) -> ResultT:
         """Check user's solution."""
+        self.auditor.record('domain.call', obj=self._domain, spec=spec)  # type: ignore
         return self._domain.execute(user, spec)  # type: ignore
 
 

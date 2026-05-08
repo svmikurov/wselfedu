@@ -16,9 +16,9 @@ from interfaces.protocols.domain.exercise import (
     TaskItemsProtocol,
 )
 from interfaces.schemas.domain.exercise import TestExerciseDomainResult
+from utils.audit.base import BaseAuditable
 
 from ..abstract import (
-    AbstractCheckExerciseDomain,
     AbstractConfigurableCandidatesExerciseDomain,
 )
 from ..deps.protocol import SelectorProtocol
@@ -89,15 +89,16 @@ class TestDomain(
 
 
 class TestExerciseCheckDomain(
-    AbstractCheckExerciseDomain[
-        HasQuestionOptionValue,
-        TestExerciseMeta[OptionMetaDTO],
-        TextExerciseCheckResult,
+    BaseAuditable,
+    AbstractConfigurableCandidatesExerciseDomain[
+        _ExerciseConfig,
+        TestDomainResultProtocol,
     ],
 ):
     """Test exercise check user's answer domain business logic."""
 
-    def execute(
+    # FIXME: Fix type ignore
+    def execute(  # type: ignore
         self,
         answer: HasQuestionOptionValue,
         case_meta: TestExerciseMeta[OptionMetaDTO],

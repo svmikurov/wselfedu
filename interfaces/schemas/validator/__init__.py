@@ -2,8 +2,9 @@
 
 __all__ = (
     'ValidatedCreateTaskRequest',
+    'ValidatedCheckTestTaskRequest',
     'ValidatedExerciseProgress',
 )
 
 from .progress import ValidatedExerciseProgress
-from .task import ValidatedCreateTaskRequest
+from .task import ValidatedCheckTestTaskRequest, ValidatedCreateTaskRequest
