@@ -16,7 +16,12 @@ from apps.core.domains.exercise.deps.selector import (
 class DomainContainer(DeclarativeContainer):
     """Domain dependency injection container."""
 
+    # =============================================
+    # External dependency
+    # =============================================
+
     exercise_config = Dependency()  # type: ignore[var-annotated]
+    auditor = Dependency()  # type: ignore[var-annotated]
 
     # =============================================
     # Exercises
@@ -24,21 +29,23 @@ class DomainContainer(DeclarativeContainer):
 
     candidates_selector = Factory(CandidatesSelector)
 
-    test = Factory(
-        TestDomain,
-        selector=candidates_selector,
-    )
-    presentation = Factory(
+    # Presentation exercise
+    # ---------------------
+
+    create_presentation = Factory(
         PresentationDomain,
         selector=candidates_selector,
     )
 
-    # QUESTION: Deprecated below?
+    # Test exercise
+    # -------------
 
-    # -----------------------------------
-    # Test exercise domain business logic
-    # -----------------------------------
-
+    create_test = Factory(
+        TestDomain,
+        selector=candidates_selector,
+    )
     check_test = Factory(
         TestExerciseCheckDomain,
+        auditor=auditor,
+        name='Check user answer on test exercise domain',
     )

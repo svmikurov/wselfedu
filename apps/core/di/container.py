@@ -37,6 +37,7 @@ class CoreContainer(DeclarativeContainer):
     domains = Container(
         DomainContainer,
         exercise_config=configuration.exercise,
+        auditor=auditor,
     )
     formatters = Container(
         FormatterContainer,
