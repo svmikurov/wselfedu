@@ -2,6 +2,7 @@
 
 import logging
 from http import HTTPStatus
+from typing import Any
 
 from drf_spectacular.utils import (
     OpenApiExample,
@@ -17,7 +18,6 @@ import di
 from apps.core import views as core_views
 from apps.core.api import renderers
 from apps.lang.repositories import StudyParametersRepositoryABC
-from apps.lang.use_cases.exercise.abc import WordProgressServiceABC
 
 from .. import examples
 from .. import serializers as ser
@@ -131,6 +131,7 @@ class WordStudyViewSet(
 
     # TODO: Add status codes with exceptions
     # TODO: Update response status to 200?
+    # FIXME: Fix Any type hint
     @extend_schema(
         summary='Update word study progress',
         request=ser.WordStudyProgressSerializer,
@@ -141,7 +142,7 @@ class WordStudyViewSet(
     def progress(
         self,
         request: Request,
-        service: WordProgressServiceABC,
+        service: Any,  # noqa
     ) -> Response:
         """Update word study progress."""
         progress_serializer = ser.WordStudyProgressSerializer(
@@ -162,7 +163,7 @@ class WordStudyViewSet(
 
         try:
             service.update_progress(
-                request.user,  # type: ignore[arg-type]
+                request.user,
                 progress_serializer.validated_data,
             )
         except Exception as exc:
