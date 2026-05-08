@@ -4,22 +4,11 @@ from unittest.mock import Mock
 
 import pytest
 
-from apps.core.assemblers.command import UserDataCommand
-from apps.core.handlers.dto import RequestContext, RequestData
 from apps.core.repositories.protocol import RepositoryProtocol
 from apps.lang.models import EnglishTranslation
 from apps.lang.repositories.exercise import UserTranslationsRepository
 from apps.users.models import Person
-from contracts.enums.exercise import ExerciseAction
-from contracts.schemas.base import NullDTO
 from contracts.schemas.domain.exercise import ExerciseParametersDTO
-from contracts.schemas.request.exercise import ExerciseRequestDTO
-
-from ._types.handler import (
-    RequestContextT,
-    RequestDataT,
-    RequestParamsT,
-)
 
 pytest_plugins = [
     'tests.fixtures.db_user',
@@ -35,64 +24,6 @@ pytest_plugins = [
 def mock_user() -> Person:
     """Provide user mock."""
     return Mock(spec=Person)
-
-
-# =================================================
-# Request's DTOs
-# =================================================
-
-
-@pytest.fixture
-def request_params() -> RequestParamsT:
-    """Provide request parameters DTO fixture."""
-    return NullDTO()
-
-
-@pytest.fixture
-def request_context(
-    user: Person,
-) -> RequestContextT:
-    """Provide request parameters DTO fixture."""
-    return RequestContext(user=user)
-
-
-@pytest.fixture
-def request_data_create_task() -> RequestDataT:
-    """Provide the *create task* request parameters DTO fixture."""
-    return RequestData(
-        data={
-            'action': 'create_task',
-        },
-    )
-
-
-@pytest.fixture
-def request_data_check_test_answer() -> RequestDataT:
-    """Provide the *check answer* request parameters DTO fixture."""
-    return RequestData(
-        data={
-            'action': 'check_answer',
-            'option_value': 0,
-        },
-    )
-
-
-# =================================================
-# Commands
-# =================================================
-
-
-@pytest.fixture
-def create_command(
-    user: Person,
-) -> UserDataCommand[ExerciseRequestDTO]:
-    """Provide create exercise command fixture."""
-    return UserDataCommand(
-        user=user,
-        data=ExerciseRequestDTO(
-            action=ExerciseAction.CREATE_TASK,
-        ),
-    )
 
 
 # =================================================

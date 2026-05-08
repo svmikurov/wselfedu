@@ -4,11 +4,13 @@ from unittest.mock import Mock
 
 import pytest
 
+from apps.core.assemblers.command import UserDataCommand
 from apps.core.handlers.dto import RequestContext, RequestData
 from apps.core.handlers.generic import RequestHandler
 from apps.users.models.user import Person
 from contracts.enums import ExerciseAction
 from contracts.schemas.base import NullDTO
+from contracts.schemas.request.exercise import ExerciseRequestDTO
 from di import MainContainer
 
 from .._types.handler import (
@@ -49,11 +51,24 @@ def regular_test_handler(main_container: MainContainer) -> HandlerT:
 # Request's DTOs
 # =================================================
 
+# Request params
+# --------------
+
+
+@pytest.fixture
+def request_params() -> RequestParamsT:
+    """Provide request parameters DTO fixture."""
+    return NullDTO()
+
 
 @pytest.fixture
 def null_request_params() -> RequestParamsT:
     """Provide create task request parameters fixture."""
     return NullDTO()
+
+
+# Request context
+# ---------------
 
 
 @pytest.fixture
@@ -63,11 +78,34 @@ def user_request_context(user: Person) -> RequestContextT:
 
 
 @pytest.fixture
-def create_request_data(user: Person) -> RequestDataT:
+def request_context(
+    user: Person,
+) -> RequestContextT:
+    """Provide request parameters DTO fixture."""
+    return RequestContext(user=user)
+
+
+# Request data
+# ------------
+
+
+@pytest.fixture
+def create_task_request_data(user: Person) -> RequestDataT:
     """Provide *create task* request data fixture."""
     return RequestData(
         data={
             'action': ExerciseAction.CREATE_TASK,
+        }
+    )
+
+
+@pytest.fixture
+def check_test_request_data(user: Person) -> RequestDataT:
+    """Provide *check task* action request data fixture."""
+    return RequestData(
+        data={
+            'action': ExerciseAction.CHECK_ANSWER,
+            'option_value': 3,
         }
     )
 
@@ -103,6 +141,24 @@ def mock_request_context() -> Mock:
 def mock_request_data() -> Mock:
     """Provide request data DTO mock."""
     return Mock()
+
+
+# =================================================
+# Commands
+# =================================================
+
+
+@pytest.fixture
+def create_command(
+    user: Person,
+) -> UserDataCommand[ExerciseRequestDTO]:
+    """Provide create exercise command fixture."""
+    return UserDataCommand(
+        user=user,
+        data=ExerciseRequestDTO(
+            action=ExerciseAction.CREATE_TASK,
+        ),
+    )
 
 
 # =================================================

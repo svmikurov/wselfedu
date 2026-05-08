@@ -30,7 +30,7 @@ def test_create_new_case(
     translations: list[TaskItem],
     request_params: RequestParamsT,
     request_context: RequestContextT,
-    request_data_create_task: RequestDataT,  # Create task request data
+    create_task_request_data: RequestDataT,  # Create task request data
     regular_presentation_handler: HandlerT,
 ) -> None:
     """Test *create task* handler action completed successfully."""
@@ -38,7 +38,7 @@ def test_create_new_case(
         regular_presentation_handler.execute(
             request_params,
             request_context,
-            request_data_create_task,
+            create_task_request_data,
         )
     ) is not None
 
