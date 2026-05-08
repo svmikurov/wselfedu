@@ -58,10 +58,21 @@ def request_context(
 
 @pytest.fixture
 def request_data_create_task() -> RequestDataT:
-    """Provide request parameters DTO fixture."""
+    """Provide the *create task* request parameters DTO fixture."""
     return RequestData(
         data={
             'action': 'create_task',
+        },
+    )
+
+
+@pytest.fixture
+def request_data_check_test_answer() -> RequestDataT:
+    """Provide the *check answer* request parameters DTO fixture."""
+    return RequestData(
+        data={
+            'action': 'check_answer',
+            'option_value': 0,
         },
     )
 

@@ -33,3 +33,21 @@ def test_create_new_case(
             request_data_create_task,
         )
     ) is not None
+
+
+@pytest.mark.django_db
+def test_check_test_answer(
+    translations: list[TaskItem],
+    request_params: RequestParamsT,
+    request_context: RequestContextT,
+    request_data_check_test_answer: RequestDataT,  # Create task request data
+    regular_test_handler: HandlerT,
+) -> None:
+    """Test *check answer* handler action completed successfully."""
+    assert (
+        regular_test_handler.execute(
+            request_params,
+            request_context,
+            request_data_check_test_answer,
+        )
+    ) is not None
