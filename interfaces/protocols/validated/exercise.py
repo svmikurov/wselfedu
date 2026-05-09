@@ -11,7 +11,14 @@ class ValidatedCreateTaskRequestProtocol(
     HasAction[ExerciseAction],
     Protocol,
 ):
-    """Protocol for *create task* request data interface."""
+    """Protocol for *create task* request data interface.
+
+    Parameters
+    ----------
+    action : `ExerciseAction`
+        Exercise performing action (e.g., 'create task', 'check answer')
+
+    """
 
 
 class ValidatedCheckTestRequestProtocol(
@@ -19,4 +26,13 @@ class ValidatedCheckTestRequestProtocol(
     HasOptionValue,
     Protocol,
 ):
-    """Protocol for *check test answer* request data interface."""
+    """Protocol for *check test answer* request data interface.
+
+    Parameters
+    ----------
+    action : `ExerciseAction`
+        Exercise performing action (e.g., 'create task', 'check answer')
+    option_value : `int`
+        User answer test task option value.
+
+    """

@@ -14,7 +14,16 @@ class CreateTaskCommandProtocol(
     HasData[ValidatedCreateTaskRequestProtocol],
     Protocol,
 ):
-    """protocol for create task command."""
+    """Protocol for create task command.
+
+    Parameters
+    ----------
+    user : `Person`
+        The user who performs the exercise.
+    data : `ValidatedCreateTaskRequestProtocol`
+        Create task validated data.
+
+    """
 
 
 class CheckTestCommandProtocol(
@@ -22,4 +31,13 @@ class CheckTestCommandProtocol(
     HasData[ValidatedCheckTestRequestProtocol],
     Protocol,
 ):
-    """protocol for create task command."""
+    """Protocol for check task answer command.
+
+    Parameters
+    ----------
+    user : `Person`
+        The user who performs the exercise.
+    data : `ValidatedCheckTestRequestProtocol`
+        User answer validated data.
+
+    """

@@ -109,7 +109,7 @@ class PresentationDomainResultProtocol(
 
 class TestDomainResultProtocol(
     HasQuestionOptionValue,
-    HasTaskItems[TaskItemProtocol],
+    HasTaskItems[list[TaskItemProtocol]],
     HasStatus[ExerciseStatus],
     HasExerciseKind,
     Protocol,
@@ -119,9 +119,9 @@ class TestDomainResultProtocol(
     Parameters
     ----------
     question_option_value : `int`
-        Test task question option value (list index).
-    items : `list[Option]`
-        Test task options (value, text).
+        Test task item collection index of correct answer.
+    items : `list[TaskItemProtocol]`
+        Test task item collection for answer choice.
     status : `ExerciseStatus`
         Exercise status (e.g., new task).
     exercise_kind : `ExerciseKind`
