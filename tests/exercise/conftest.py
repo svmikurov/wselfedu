@@ -10,6 +10,7 @@ from apps.core.handlers.generic import RequestHandler
 from apps.users.models.user import Person
 from contracts.enums import ExerciseAction
 from contracts.schemas.base import NullDTO
+from contracts.schemas.domain.exercise.params import ExerciseSpecDTO
 from di import MainContainer
 from interfaces.protocols.command.exercise import (
     CheckTestCommandProtocol,
@@ -203,6 +204,27 @@ def check_test_command(
             action=ExerciseAction.CHECK_ANSWER,
             option_value=3,
         ),
+    )
+
+
+# =================================================
+# Service specifications
+# =================================================
+
+
+@pytest.fixture
+def mock_existing_case() -> Mock:
+    """Provide exercise case mock."""
+    return Mock()
+
+
+@pytest.fixture
+def create_task_spec(
+    mock_existing_case: Mock,
+) -> ExerciseSpecDTO[object]:
+    """Provide the create test task service specification."""
+    return ExerciseSpecDTO(
+        existing_case=mock_existing_case,
     )
 
 
