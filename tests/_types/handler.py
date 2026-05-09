@@ -3,7 +3,7 @@
 from typing import Any, TypeAlias
 
 from apps.core.adapters.response.protocol import AdapterProtocol
-from apps.core.assemblers.protocol import AssemblerProtocol
+from apps.core.assemblers.protocol import AuditableAssemblerProtocol
 from apps.core.builders.protocol import SpecDtoBuilderProtocol
 from apps.core.domains.exercise.protocol import (
     ExerciseConfigProtocol,
@@ -76,7 +76,7 @@ ValidatorT: TypeAlias = RequestValidatorProtocol[
     RequestDataT,
     ValidatedT,
 ]
-AssemblerT: TypeAlias = AssemblerProtocol[
+AssemblerT: TypeAlias = AuditableAssemblerProtocol[
     RequestParamsT,
     RequestContextT,
     ValidatedT,
