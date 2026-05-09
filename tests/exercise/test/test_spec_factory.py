@@ -80,7 +80,7 @@ def test_create_task_specification(
         default_parameters,
         None,  # Create specification without existing case
     ) == ExerciseSpecDTO(
-        existing_case=None,
+        case=None,
     )
 
 
@@ -98,5 +98,5 @@ def test_check_test_answer_specification(
         default_parameters,
         mock_existing_case,
     ) == ExerciseSpecDTO(
-        existing_case=mock_existing_case,
+        case=mock_existing_case,
     )

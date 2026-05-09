@@ -6,10 +6,15 @@ from contracts import enums
 from contracts.schemas.base import ArbitraryDTO
 from contracts.schemas.domain.exercise.fields import (
     DefineField,
+    IsCorrectAnswerField,
     MeanField,
     ProgressValueField,
 )
 from contracts.schemas.fields import ResourceIdentifierField
+
+# =================================================
+# Task
+# =================================================
 
 
 class TaskItem(
@@ -25,6 +30,11 @@ class TaskItem(
         frozen=True,
         from_attributes=True,
     )
+
+
+# =================================================
+# Exercise domain result
+# =================================================
 
 
 class PresentationExerciseDomainResult(ArbitraryDTO):
@@ -44,3 +54,14 @@ class TestExerciseDomainResult(ArbitraryDTO):
     items: list[TaskItem]
     status: enums.ExerciseStatus
     exercise_kind: enums.ExerciseKind = enums.ExerciseKind.TEST
+
+
+# =================================================
+# Task answer check result
+# =================================================
+
+
+class CheckTaskResult(IsCorrectAnswerField):
+    """Check task result schema."""
+
+    is_correct: bool

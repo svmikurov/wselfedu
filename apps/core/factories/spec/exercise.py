@@ -48,7 +48,7 @@ class CreateExerciseSpecFactory(
             conditions=params.conditions,
             conf=params.conf,
             settings=params.settings,
-            existing_case=case,
+            case=case,
         )
 
 
@@ -83,5 +83,5 @@ class CheckAnswerSpecFactory(
             conditions=params.conditions,
             conf=params.conf,
             settings=params.settings,
-            existing_case=existing_case,
+            case=existing_case,
         )

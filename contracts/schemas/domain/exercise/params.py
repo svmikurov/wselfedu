@@ -7,7 +7,7 @@ from pydantic import Field, field_validator
 from contracts.enums.exercise import DisplayOrder
 from contracts.schemas.base import ArbitraryDTO, BaseDTO
 from contracts.schemas.domain.exercise.fields import (
-    ExistingCaseField,
+    CaseField,
 )
 from contracts.schemas.domain.mixins import (
     WebParametersMixin,
@@ -134,7 +134,7 @@ class ExerciseSpecDTO(
     LookupConditionsField,
     ExerciseConfigField,
     ExerciseSettingsField,
-    ExistingCaseField[DomainResultT],
+    CaseField[DomainResultT],
     Generic[DomainResultT],
 ):
     """Exercise spec DTO."""

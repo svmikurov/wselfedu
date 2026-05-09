@@ -14,6 +14,7 @@ from contracts.entity.domain.exercise.fields import (
     HasExerciseKind,
     HasItemCount,
     HasMeanText,
+    HasOptionValue,
     HasPeriod,
     HasProgress,
     HasProgressValue,
@@ -252,7 +253,15 @@ class TestTaskProtocol(
 # =================================================
 
 
-class TestAnswerProtocol(Protocol):
-    """Protocol for test task answer interface."""
+class TestAnswerProtocol(
+    HasOptionValue,
+    Protocol,
+):
+    """Protocol for test task answer interface.
 
-    option_value: int
+    Parameters
+    ----------
+    option_value : `int`
+        User answer test task option value.
+
+    """

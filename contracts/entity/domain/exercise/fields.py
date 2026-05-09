@@ -131,6 +131,13 @@ class HasQuestionText(Protocol):
     question_text: str
 
 
+class HasAnswer(Protocol[T_co]):
+    """Protocol for *answer* DTO's field."""
+
+    @property
+    def answer(self) -> T_co: ...  # noqa
+
+
 class HasAnswerText(Protocol):
     """Protocol for *exercise answer* text."""
 

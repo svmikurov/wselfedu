@@ -5,6 +5,7 @@ from typing import Protocol
 from apps.core.domains.exercise.protocol import (
     HasExistingCase,
 )
+from contracts.entity.domain.exercise.fields import HasAnswer
 from contracts.entity.domain.params import (
     HasConditions,
     HasConfig,
@@ -14,6 +15,7 @@ from interfaces.protocols.domain.exercise import (
     ConditionsProtocol,
     ExerciseConfigProtocol,
     ExerciseSettingsProtocol,
+    TestAnswerProtocol,
     TestDomainResultProtocol,
 )
 
@@ -44,6 +46,7 @@ class CreateTaskSpecProtocol(
 
 
 class CheckTestSpecProtocol(
+    HasAnswer[TestAnswerProtocol],
     HasExistingCase[TestDomainResultProtocol],
     Protocol,
 ):
@@ -53,7 +56,7 @@ class CheckTestSpecProtocol(
     ----------
     answer : `TestAnswerProtocol`
         User answer.
-    existing_case : `TestDomainResultProtocol` | None
-        Stored performing task.
+    case : `TestDomainResultProtocol` | None
+        Stored performing test task, domain result.
 
     """

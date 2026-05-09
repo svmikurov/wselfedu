@@ -224,7 +224,7 @@ def create_task_spec(
 ) -> ExerciseSpecDTO[object]:
     """Provide the create test task service specification."""
     return ExerciseSpecDTO(
-        existing_case=mock_existing_case,
+        case=mock_existing_case,
     )
 
 

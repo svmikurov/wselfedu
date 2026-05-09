@@ -2,31 +2,22 @@
 
 from typing import Protocol, TypeVar, override
 
-from apps.core.assemblers.protocol import DataCommandProtocol
-from apps.core.domains.exercise.abstract import (
-    AbstractCheckExerciseDomain,
-)
-from apps.core.domains.exercise.dto import (
-    TextExerciseExplainDTO,
-)
-from apps.core.domains.exercise.test.dto import (
-    OptionMetaDTO,
-    TestExerciseMeta,
-)
+from apps.core.domains.exercise.protocol import HasCheckResult
 from apps.core.formatters.protocol import ConfFormatterProtocol
 from apps.core.repositories.protocol import RepositoryProtocol
 from apps.users.models import Person
 from contracts import aliases
 from contracts.entity.domain.exercise import fields
 from contracts.entity.domain.params import HasConditions, HasConfig
-from contracts.schemas.domain.exercise.flow import (
-    ExplainExerciseDomainResult,
-)
+from contracts.infra.domain.exercise import CheckTaskDomainProtocol
 from interfaces.protocols.domain.exercise import (
     CandidatesT,
     ConditionsProtocol,
     ExerciseConfigProtocol,
+    TestAnswerProtocol,
+    TestDomainResultProtocol,
 )
+from interfaces.protocols.spec.exercise import CheckTestSpecProtocol
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
@@ -35,18 +26,12 @@ from .abstract import AbstractExerciseService
 __all__ = (
     'CreateExerciseService',
     'CheckExerciseService',
-    'ExplainExerciseService',
 )
 
-SpecT = TypeVar('SpecT')
-CaseT = TypeVar('CaseT', bound=aliases.CaseAlias)
-TaskT = TypeVar('TaskT')
+CreateResultT = TypeVar('CreateResultT', bound=fields.HasExerciseStatus)
 
-BuilderT = TypeVar('BuilderT')
-CaseMetaT = TypeVar('CaseMetaT')
-ResultT = TypeVar('ResultT', bound=fields.HasExerciseStatus)
-UserAnswerT = TypeVar('UserAnswerT')
-CheckResultT = TypeVar('CheckResultT')
+CheckSpecT = TypeVar('CheckSpecT', bound=CheckTestSpecProtocol)
+CheckResultT = TypeVar('CheckResultT', bound=HasCheckResult)
 
 
 class _SpecT(
@@ -64,7 +49,7 @@ class _SpecT(
 
 class CreateExerciseService(
     BaseAuditable,
-    AbstractExerciseService[_SpecT, ResultT],
+    AbstractExerciseService[_SpecT, CreateResultT],
 ):
     """Creates exercise case."""
 
@@ -78,7 +63,7 @@ class CreateExerciseService(
         formatter: ConfFormatterProtocol[
             aliases.CaseAlias,
             ExerciseConfigProtocol,
-            ResultT,
+            CreateResultT,
         ],
         name: str | None = None,
         auditor: AuditorProtocol | None = None,
@@ -94,7 +79,7 @@ class CreateExerciseService(
         self,
         user: Person,
         spec: _SpecT,
-    ) -> ResultT:
+    ) -> CreateResultT:
         """Create and return exercise case."""
         candidates = self._repository.fetch(user, spec.conditions)
         domain = self._domain.execute(candidates, spec.conf)
@@ -107,21 +92,20 @@ class CreateExerciseService(
 # =================================================
 
 
-# FIXME: Fix type ignore
 class CheckExerciseService(
     BaseAuditable,
     AbstractExerciseService[
-        SpecT,
-        ResultT,
+        CheckSpecT,
+        CheckResultT,
     ],
 ):
     """Check exercise case."""
 
     def __init__(
         self,
-        domain: AbstractCheckExerciseDomain[
-            Person,
-            SpecT,
+        domain: CheckTaskDomainProtocol[
+            TestAnswerProtocol,
+            TestDomainResultProtocol,
             CheckResultT,
         ],
         name: str | None = None,
@@ -135,42 +119,13 @@ class CheckExerciseService(
     def execute(
         self,
         user: Person,
-        spec: SpecT,
-    ) -> ResultT:
+        spec: CheckSpecT,
+    ) -> CheckResultT:
         """Check user's solution."""
-        self.auditor.record('domain.call', obj=self._domain, spec=spec)  # type: ignore
-        return self._domain.execute(user, spec)  # type: ignore
+        # HACK: Implement no case handling
+        if not spec.case:
+            raise ValueError('Expected `TestDomainResultProtocol`, got None')
 
-
-# =================================================
-# Explain
-# =================================================
-
-
-class ExplainExerciseService(
-    AbstractExerciseService[
-        DataCommandProtocol[fields.HasQuestionOptionValue],
-        TestExerciseMeta[OptionMetaDTO],
-    ],
-):
-    """Explain exercise service."""
-
-    def execute(  # type: ignore
-        self,
-        command: DataCommandProtocol[fields.HasQuestionOptionValue],
-        case_meta: TestExerciseMeta[OptionMetaDTO],
-    ) -> object:
-        """Explain exercise."""
-        explain = TextExerciseExplainDTO(
-            question_text=case_meta.question_text,
-            answer_text=case_meta.answer_text,
-            selected_question_text=case_meta.get_question_text(
-                command.data.question_option_value
-            ),
-            selected_answer_text=case_meta.get_answer_text(
-                command.data.question_option_value,
-            ),
-        )
-        assert explain
-        # TODO: Update after explain DTO implementation
-        return ExplainExerciseDomainResult()
+        self.auditor.record('domain.call', obj=self._domain, spec=spec)
+        result = self._domain.execute(spec.answer, spec.case)
+        return result

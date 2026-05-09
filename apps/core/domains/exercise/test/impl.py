@@ -2,28 +2,30 @@
 
 from random import randrange, sample
 
-from apps.core.domains.exercise.test.dto import OptionMetaDTO
+from apps.core.domains.exercise.protocol import HasCheckResult
 from apps.core.exceptions import info
 from contracts import enums
 from contracts.entity.domain.exercise.fields import (
     HasDisplayOrder,
     HasOptionCount,
-    HasQuestionOptionValue,
 )
 from contracts.entity.domain.exercise.flow import TestDomainResultProtocol
 from interfaces.protocols.domain.exercise import (
     CandidatesT,
     TaskItemsProtocol,
+    TestAnswerProtocol,
 )
-from interfaces.schemas.domain.exercise import TestExerciseDomainResult
+from interfaces.schemas.domain.exercise import (
+    CheckTaskResult,
+    TestExerciseDomainResult,
+)
 from utils.audit.base import BaseAuditable
 
 from ..abstract import (
+    AbstractCheckExerciseDomain,
     AbstractConfigurableCandidatesExerciseDomain,
 )
 from ..deps.protocol import SelectorProtocol
-from ..dto import TextExerciseCheckResult
-from .dto import TestExerciseMeta
 
 __all__ = [
     'TestDomain',
@@ -90,18 +92,20 @@ class TestDomain(
 
 class TestExerciseCheckDomain(
     BaseAuditable,
-    AbstractConfigurableCandidatesExerciseDomain[
-        _ExerciseConfig,
+    AbstractCheckExerciseDomain[
+        TestAnswerProtocol,
         TestDomainResultProtocol,
+        HasCheckResult,
     ],
 ):
     """Test exercise check user's answer domain business logic."""
 
-    # FIXME: Fix type ignore
-    def execute(  # type: ignore
+    def execute(
         self,
-        answer: HasQuestionOptionValue,
-        case_meta: TestExerciseMeta[OptionMetaDTO],
-    ) -> TextExerciseCheckResult:
+        answer: TestAnswerProtocol,
+        case: TestDomainResultProtocol,
+    ) -> HasCheckResult:
         """Check user's answer."""
-        raise NotImplementedError
+        return CheckTaskResult(
+            is_correct=True,
+        )

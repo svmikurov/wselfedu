@@ -131,11 +131,11 @@ class IsKnownField(BaseDTO):
 # =================================================
 
 
-class ExistingCaseField(BaseDTO, Generic[DomainResult]):
-    """Existing case DTO field."""
+class CaseField(BaseDTO, Generic[DomainResult]):
+    """Case DTO field."""
 
-    existing_case: DomainResult | None = Field(
-        description=('Existing case of exercise'),
+    case: DomainResult | None = Field(
+        description=('Case of exercise'),
         default=None,
     )
 

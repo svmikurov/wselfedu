@@ -40,7 +40,7 @@ class HasExistingCase(Protocol[Option_co]):
     """Protocol fo has *existing case* interface."""
 
     @property
-    def existing_case(self) -> Option_co | None: ...  # noqa
+    def case(self) -> Option_co | None: ...  # noqa
 
 
 class GenericExerciseParameters(
@@ -102,8 +102,3 @@ class HasCheckResult(Protocol):
     """User answer check result."""
 
     is_correct: bool
-
-
-# =================================================
-# Exercise domain
-# =================================================

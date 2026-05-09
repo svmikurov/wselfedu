@@ -3,20 +3,19 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
+from contracts.infra.domain.exercise import CheckTaskDomainProtocol
 from interfaces.protocols.domain.exercise import (
     CandidateProtocol,
     CandidatesT,
 )
 
-Conf = TypeVar('Conf')
-Case = TypeVar('Case')
-Task = TypeVar('Task')
+ConfT = TypeVar('ConfT')
+CaseT = TypeVar('CaseT')
+TaskT = TypeVar('TaskT')
 
 CandidateT = TypeVar('CandidateT', bound=CandidateProtocol)
-
-CaseMeta = TypeVar('CaseMeta')
-UserAnswer = TypeVar('UserAnswer')
-CheckResult = TypeVar('CheckResult')
+UserAnswerT = TypeVar('UserAnswerT')
+ResultT = TypeVar('ResultT')
 
 
 # =================================================
@@ -26,7 +25,7 @@ CheckResult = TypeVar('CheckResult')
 
 class AbstractConfigurableCandidatesExerciseDomain(
     ABC,
-    Generic[Conf, Task],
+    Generic[ConfT, TaskT],
 ):
     """ABC for configurable exercise domain."""
 
@@ -34,8 +33,8 @@ class AbstractConfigurableCandidatesExerciseDomain(
     def execute(
         self,
         candidates: CandidatesT,
-        conf: Conf,
-    ) -> Task:
+        conf: ConfT,
+    ) -> TaskT:
         """Create exercise case."""
 
 
@@ -46,14 +45,14 @@ class AbstractConfigurableCandidatesExerciseDomain(
 
 class AbstractCheckExerciseDomain(
     ABC,
-    Generic[UserAnswer, CaseMeta, CheckResult],
+    CheckTaskDomainProtocol[UserAnswerT, CaseT, ResultT],
 ):
     """ABC for check user answer domain business logic."""
 
     @abstractmethod
     def execute(
         self,
-        answer: UserAnswer,
-        case: CaseMeta,
-    ) -> CheckResult:
+        answer: UserAnswerT,
+        case: CaseT,
+    ) -> ResultT:
         """Check user's answer."""
