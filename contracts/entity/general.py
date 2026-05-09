@@ -5,6 +5,7 @@ from typing import Protocol, TypeVar
 from apps.users.models import Person
 
 T = TypeVar('T')
+T_co = TypeVar('T_co', covariant=True)
 StatusT = TypeVar('StatusT')
 
 
@@ -62,6 +63,14 @@ class PersonProtocol(Protocol):
 
 
 class HasUser(Protocol):
-    """Protocol for has user model interface."""
+    """Protocol for has *user* interface."""
 
     user: Person
+
+
+class HasData(Protocol[T_co]):
+    """Protocol for has *data* interface."""
+
+    @property
+    def data(self) -> T_co:
+        """Provide data."""
