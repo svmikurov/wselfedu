@@ -3,7 +3,7 @@
 from typing import Generic, TypeVar
 
 from apps.core.adapters.response.protocol import AdapterProtocol
-from apps.core.assemblers.protocol import AssemblerProtocol
+from apps.core.assemblers.protocol import AuditableAssemblerProtocol
 from apps.core.use_cases.protocol import UseCaseProtocol
 from apps.core.validators.request.protocol import RequestValidatorProtocol
 from utils.audit.base import BaseAuditable
@@ -44,7 +44,7 @@ class RequestHandler(
             RequestData,
             Validated,
         ],
-        assembler: AssemblerProtocol[
+        assembler: AuditableAssemblerProtocol[
             RequestParams,
             RequestContext,
             Validated,
