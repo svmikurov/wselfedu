@@ -155,8 +155,9 @@ class TaskItemProtocol(
     """
 
 
-TaskItemsProtocol = list[TaskItemProtocol]
-
+TaskItemsT: TypeAlias = list[TaskItemProtocol]
+"""Task items.
+"""
 
 # =================================================
 # Exercise domain result

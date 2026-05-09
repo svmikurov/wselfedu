@@ -12,7 +12,7 @@ from contracts.entity.domain.exercise.fields import (
 from contracts.entity.domain.exercise.flow import TestDomainResultProtocol
 from interfaces.protocols.domain.exercise import (
     CandidatesT,
-    TaskItemsProtocol,
+    TaskItemsT,
     TestAnswerProtocol,
 )
 from interfaces.schemas.domain.exercise import (
@@ -77,7 +77,7 @@ class TestDomain(
         self,
         candidates: CandidatesT,
         option_count: int,
-    ) -> TaskItemsProtocol:
+    ) -> TaskItemsT:
         """Get test exercise options."""
         if len(candidates) >= option_count:
             return sample(tuple(candidates), option_count)
