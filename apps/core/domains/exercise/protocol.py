@@ -2,20 +2,16 @@
 
 from typing import Protocol, TypeVar
 
-from contracts.entity.domain import general, params
+from contracts.entity.domain import params
 from contracts.entity.domain.exercise import fields
 from contracts.enums import exercise as enums
-from interfaces.protocols.domain.exercise import (
-    CandidateProtocol,
-    CandidatesT,
-)
 
 ExerciseConditions_co = TypeVar('ExerciseConditions_co', covariant=True)
 ExerciseConfig_co = TypeVar('ExerciseConfig_co', covariant=True)
 ExerciseConfig_contra = TypeVar('ExerciseConfig_contra', contravariant=True)
 ExerciseSettings_co = TypeVar('ExerciseSettings_co', covariant=True)
 
-CandidateT = TypeVar('CandidateT', bound=CandidateProtocol)
+CandidateT = TypeVar('CandidateT')
 Case_co = TypeVar('Case_co', covariant=True)
 OptionT = TypeVar('OptionT')
 Option_co = TypeVar('Option_co', covariant=True)
@@ -25,36 +21,6 @@ class HasExerciseAction(Protocol):
     """Protocol for has exercise process *action* interface."""
 
     action: enums.ExerciseAction
-
-
-# Derived interface
-# -----------------
-
-
-class ConditionsProtocol(
-    general.HasCategory,
-    general.HasMark,
-    general.HasSource,
-    fields.HasPeriod,
-    fields.HasProgress,
-    Protocol,
-):
-    """Protocol for exercise conditions interface."""
-
-
-class ExerciseConfigProtocol(
-    fields.HasDisplayOrder[enums.DisplayOrder],
-    fields.HasItemCount,
-    Protocol,
-):
-    """Protocol for exercise configuration interface."""
-
-
-class ExerciseSettingsProtocol(
-    fields.HasTimeout,
-    Protocol,
-):
-    """Protocol for exercise settings interface."""
 
 
 # =================================================
@@ -95,27 +61,6 @@ class GenericExerciseParameters(
         Exercise type perform settings.
 
     """
-
-
-class ExerciseParametersProtocol(
-    GenericExerciseParameters[
-        ConditionsProtocol,
-        ExerciseConfigProtocol,
-        ExerciseSettingsProtocol,
-    ],
-    Protocol,
-):
-    """Exercise parameters."""
-
-
-class ExerciseSpecProtocol(
-    params.HasConditions[ConditionsProtocol],
-    params.HasConfig[ExerciseConfigProtocol],
-    params.HasSettings[ExerciseSettingsProtocol],
-    HasExistingCase[Option_co],
-    Protocol[Option_co],
-):
-    """Protocol for exercise spec interface."""
 
 
 # =================================================
@@ -162,19 +107,3 @@ class HasCheckResult(Protocol):
 # =================================================
 # Exercise domain
 # =================================================
-
-
-class ExerciseDomainProtocol(
-    Protocol[
-        ExerciseConfig_contra,
-        Option_co,
-    ],
-):
-    """Protocol for exercise domain interface."""
-
-    def execute(
-        self,
-        candidates: CandidatesT,
-        conf: ExerciseConfig_contra,
-    ) -> Option_co:
-        """Create exercise case."""

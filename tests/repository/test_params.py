@@ -2,12 +2,6 @@
 
 import pytest
 
-from apps.core.domains.exercise.protocol import (
-    ConditionsProtocol,
-    ExerciseConfigProtocol,
-    ExerciseParametersProtocol,
-    ExerciseSettingsProtocol,
-)
 from apps.core.repositories.protocol import RepositoryProtocol
 from apps.lang.models import (
     ExerciseConditions,
@@ -20,6 +14,12 @@ from apps.lang.repositories.exercise.params.translation_presentation import (
 from apps.users.models import Person
 from contracts import NullProtocol
 from contracts.schemas.base import NullDTO
+from interfaces.protocols.domain.exercise import (
+    ConditionsProtocol,
+    ExerciseConfigProtocol,
+    ExerciseParametersProtocol,
+    ExerciseSettingsProtocol,
+)
 
 _RepositoryT = RepositoryProtocol[NullProtocol, ExerciseParametersProtocol]
 

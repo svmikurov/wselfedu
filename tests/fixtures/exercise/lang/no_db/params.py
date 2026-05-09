@@ -2,15 +2,15 @@
 
 import pytest
 
-from apps.core.domains.exercise.protocol import (
-    ConditionsProtocol,
-    ExerciseConfigProtocol,
-    ExerciseSettingsProtocol,
-)
 from contracts.schemas.domain.exercise.params import (
     ExerciseConfigDTO,
     ExerciseSettingsDTO,
     LookupConditionsDTO,
+)
+from interfaces.protocols.domain.exercise import (
+    ConditionsProtocol,
+    ExerciseConfigProtocol,
+    ExerciseSettingsProtocol,
 )
 
 

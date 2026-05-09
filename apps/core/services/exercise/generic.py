@@ -9,10 +9,6 @@ from apps.core.domains.exercise.abstract import (
 from apps.core.domains.exercise.dto import (
     TextExerciseExplainDTO,
 )
-from apps.core.domains.exercise.protocol import (
-    ConditionsProtocol,
-    ExerciseConfigProtocol,
-)
 from apps.core.domains.exercise.test.dto import (
     OptionMetaDTO,
     TestExerciseMeta,
@@ -26,7 +22,11 @@ from contracts.entity.domain.params import HasConditions, HasConfig
 from contracts.schemas.domain.exercise.flow import (
     ExplainExerciseDomainResult,
 )
-from interfaces.protocols.domain.exercise import CandidatesT
+from interfaces.protocols.domain.exercise import (
+    CandidatesT,
+    ConditionsProtocol,
+    ExerciseConfigProtocol,
+)
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 

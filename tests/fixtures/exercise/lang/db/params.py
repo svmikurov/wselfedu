@@ -13,12 +13,12 @@ from apps.lang.models import (
 )
 
 if TYPE_CHECKING:
-    from apps.core.domains.exercise.protocol import (
+    from apps.users.models import Person
+    from interfaces.protocols.domain.exercise import (
         ConditionsProtocol,
         ExerciseConfigProtocol,
         ExerciseSettingsProtocol,
     )
-    from apps.users.models import Person
 
 
 @pytest.fixture

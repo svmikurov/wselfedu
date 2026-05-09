@@ -4,8 +4,6 @@ from typing import Any, TypeAlias
 
 from apps.core.assemblers.protocol import UserDataCommandProtocol
 from apps.core.domains.exercise.protocol import (
-    ExerciseConfigProtocol,
-    ExerciseParametersProtocol,
     ExerciseProcessResultProtocol,
     HasExerciseAction,
 )
@@ -16,6 +14,10 @@ from apps.core.services.protocol import UserServiceProtocol
 from apps.core.storages.services.protocol import CommandStorageProtocol
 from apps.core.use_cases.protocol import UseCaseProtocol
 from contracts.entity.domain.exercise import fields
+from interfaces.protocols.domain.exercise import (
+    ExerciseConfigProtocol,
+    ExerciseParametersProtocol,
+)
 
 # =================================================
 # DTOs

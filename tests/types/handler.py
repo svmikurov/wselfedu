@@ -5,13 +5,9 @@ from typing import Any, TypeAlias
 from apps.core.adapters.response.protocol import AdapterProtocol
 from apps.core.assemblers.protocol import AuditableAssemblerProtocol
 from apps.core.builders.protocol import SpecDtoBuilderProtocol
-from apps.core.domains.exercise.protocol import (
-    ExerciseConfigProtocol,
-    ExerciseDomainProtocol,
-)
 from apps.core.handlers.generic import RequestHandler
 from apps.core.handlers.protocol import (
-    RequestDataProtocol,
+    RequestDataProtocol
 )
 from apps.core.repositories.protocol import RepositoryProtocol
 from apps.core.services.exercise.protocol import ExerciseServiceProtocol
@@ -19,7 +15,11 @@ from apps.core.use_cases.protocol import UseCaseProtocol
 from apps.core.validators.request.protocol import RequestValidatorProtocol
 from contracts.entity.domain.exercise.fields import HasDomain
 from contracts.entity.general import NullProtocol
-from interfaces.protocols.domain.exercise import CandidatesT
+from contracts.infra.domain.exercise import ExerciseDomainProtocol
+from interfaces.protocols.domain.exercise import (
+    CandidatesT,
+    ExerciseConfigProtocol,
+)
 from interfaces.protocols.request.general import RequestContextProtocol
 from interfaces.schemas.domain.exercise import (
     PresentationExerciseDomainResult,

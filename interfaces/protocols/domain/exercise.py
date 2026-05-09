@@ -1,22 +1,97 @@
 """Protocols for exercise's domain interface."""
 
-from typing import Protocol, TypeAlias
+from typing import Protocol, TypeAlias, TypeVar
 
+from apps.core.domains.exercise.protocol import (
+    GenericExerciseParameters,
+    HasExistingCase,
+)
+from contracts import enums
 from contracts.entity.domain.exercise.fields import (
     HasAnswerText,
     HasDefineText,
+    HasDisplayOrder,
     HasExerciseKind,
+    HasItemCount,
     HasMeanText,
+    HasPeriod,
+    HasProgress,
     HasProgressValue,
     HasQuestionOptionValue,
     HasQuestionText,
     HasTaskItem,
     HasTaskItems,
+    HasTimeout,
 )
-from contracts.entity.domain.general import HasResourceIdentifier
+from contracts.entity.domain.general import (
+    HasCategory,
+    HasMark,
+    HasResourceIdentifier,
+    HasSource,
+)
+from contracts.entity.domain.params import (
+    HasConditions,
+    HasConfig,
+    HasSettings,
+)
 from contracts.entity.general import HasStatus
 from contracts.enums import ExerciseStatus
 from interfaces.schemas.web.task import Option
+
+Option_co = TypeVar('Option_co', covariant=True)
+
+
+# =================================================
+# Exercise parameters
+# =================================================
+
+
+class ConditionsProtocol(
+    HasCategory,
+    HasMark,
+    HasSource,
+    HasPeriod,
+    HasProgress,
+    Protocol,
+):
+    """Protocol for exercise conditions interface."""
+
+
+class ExerciseConfigProtocol(
+    HasDisplayOrder[enums.DisplayOrder],
+    HasItemCount,
+    Protocol,
+):
+    """Protocol for exercise configuration interface."""
+
+
+class ExerciseSettingsProtocol(
+    HasTimeout,
+    Protocol,
+):
+    """Protocol for exercise settings interface."""
+
+
+class ExerciseParametersProtocol(
+    GenericExerciseParameters[
+        ConditionsProtocol,
+        ExerciseConfigProtocol,
+        ExerciseSettingsProtocol,
+    ],
+    Protocol,
+):
+    """Exercise parameters."""
+
+
+class ExerciseSpecProtocol(
+    HasConditions[ConditionsProtocol],
+    HasConfig[ExerciseConfigProtocol],
+    HasSettings[ExerciseSettingsProtocol],
+    HasExistingCase[Option_co],
+    Protocol[Option_co],
+):
+    """Protocol for exercise spec interface."""
+
 
 # =================================================
 # Task candidates

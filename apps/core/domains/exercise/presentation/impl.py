@@ -6,14 +6,16 @@ from contracts import enums
 from contracts.entity.domain.exercise.flow import (
     PresentationDomainResultProtocol,
 )
-from interfaces.protocols.domain.exercise import CandidatesT
+from interfaces.protocols.domain.exercise import (
+    CandidatesT,
+    ExerciseConfigProtocol,
+)
 from interfaces.schemas.domain.exercise import (
     PresentationExerciseDomainResult,
 )
 
 from ..abstract import AbstractConfigurableCandidatesExerciseDomain
 from ..deps.protocol import SelectorProtocol
-from ..protocol import ExerciseConfigProtocol
 
 __all__ = ('PresentationDomain',)
 

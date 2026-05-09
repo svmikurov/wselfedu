@@ -8,11 +8,7 @@ import pytest
 from apps.core.domains.exercise.deps.protocol import SelectorProtocol
 from apps.core.domains.exercise.deps.selector import CandidatesSelector
 from apps.core.domains.exercise.presentation.impl import PresentationDomain
-from apps.core.domains.exercise.protocol import (
-    ConditionsProtocol,
-    ExerciseConfigProtocol,
-    HasCase,
-)
+from apps.core.domains.exercise.protocol import HasCase
 from apps.core.formatters.exercise import PresentationFormatter
 from apps.core.formatters.protocol import ConfFormatterProtocol
 from apps.core.repositories.protocol import RepositoryProtocol
@@ -34,7 +30,11 @@ from contracts.entity.domain.params import (
 from contracts.schemas.domain.exercise.params import (
     ExerciseSpecDTO,
 )
-from interfaces.protocols.domain.exercise import CandidatesT
+from interfaces.protocols.domain.exercise import (
+    CandidatesT,
+    ConditionsProtocol,
+    ExerciseConfigProtocol,
+)
 from interfaces.schemas.domain.exercise import TaskItem
 
 

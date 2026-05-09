@@ -4,8 +4,6 @@ from typing import Generic, TypeVar, override
 
 from apps.core.assemblers.protocol import UserDataCommandProtocol
 from apps.core.domains.exercise.protocol import (
-    ExerciseConfigProtocol,
-    ExerciseParametersProtocol,
     HasExerciseAction,
 )
 from apps.core.domains.task.protocol import TaskBuilderProtocol
@@ -18,6 +16,10 @@ from apps.core.use_cases.abstract import AbstractUseCase
 from contracts import enums
 from contracts.entity.domain import params
 from contracts.entity.domain.exercise import flow
+from interfaces.protocols.domain.exercise import (
+    ExerciseConfigProtocol,
+    ExerciseParametersProtocol,
+)
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
@@ -99,16 +101,19 @@ class ExerciseUseCaseStrategy(
         try:
             stored = self._storage.retrieve(command, self._prefix)
         except StorageMissError:
-            self.auditor.record('factory.call', params=params)
+            self.auditor.record('spec_factory.call', params=params)
             spec = spec_factory.create(command, params, None)
         else:
-            self.auditor.record('factory.call', params=params, stored=stored)
+            self.auditor.record(
+                'spec_factory.call', params=params, stored=stored
+            )
             spec = spec_factory.create(command, params, stored)
         self.auditor.record('service_spec.created', spec=spec)
 
         service = self._service_registry[action]
         self.auditor.record('selected_service.call', obj=service, spec=spec)
         case = service.execute(command.user, spec)
+        self.auditor.record('selected_service.ok', case=case)
 
         if case.status == enums.ExerciseStatus.NEW_TASK:
             self._storage.save(command, case.domain, self._prefix)

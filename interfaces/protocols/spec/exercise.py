@@ -3,9 +3,6 @@
 from typing import Protocol
 
 from apps.core.domains.exercise.protocol import (
-    ConditionsProtocol,
-    ExerciseConfigProtocol,
-    ExerciseSettingsProtocol,
     HasExistingCase,
 )
 from contracts.entity.domain.params import (
@@ -13,7 +10,12 @@ from contracts.entity.domain.params import (
     HasConfig,
     HasSettings,
 )
-from interfaces.protocols.domain.exercise import TestDomainResultProtocol
+from interfaces.protocols.domain.exercise import (
+    ConditionsProtocol,
+    ExerciseConfigProtocol,
+    ExerciseSettingsProtocol,
+    TestDomainResultProtocol,
+)
 
 
 class CreateTaskSpecProtocol(
