@@ -1,12 +1,17 @@
 """Exercise test types."""
 
-from typing import Callable
+from typing import Callable, Protocol
 
 from apps.core.handlers.protocol import RequestDataProtocol
 from apps.core.validators.request.protocol import RequestValidatorProtocol
 from contracts.entity.domain.general import HasAction
 from contracts.enums import ExerciseAction
 from interfaces.typed.exercise import TypedCheckTestAnswer, TypedCreateTask
+
+
+class RequestParams(Protocol):
+    """Request parameters protocol."""
+
 
 # Request data (protocols with generic typed dict)
 type CreateRequestDataT = RequestDataProtocol[TypedCreateTask]

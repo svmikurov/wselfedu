@@ -16,7 +16,7 @@ from interfaces.schemas.validator.task import (
 if TYPE_CHECKING:
     from apps.core.validators.request.protocol import RequestValidatorProtocol
 
-    from ._types import (
+    from .._types import (
         CheckRequestDataT,
         CheckValidatorT,
         CreateRequestDataT,

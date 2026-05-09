@@ -3,13 +3,13 @@
 import pytest
 
 from interfaces.schemas.domain.exercise import TaskItem
-
-from .._types.handler import (
+from tests.types.handler import (
     HandlerT,
     RequestContextT,
-    RequestDataT,
     RequestParamsT,
 )
+
+from .._types import CheckRequestDataT, CreateRequestDataT
 
 
 def test_handler_initialized(regular_test_handler: HandlerT) -> None:
@@ -22,7 +22,7 @@ def test_create_new_case(
     translations: list[TaskItem],
     request_params: RequestParamsT,
     request_context: RequestContextT,
-    create_task_request_data: RequestDataT,  # Create task request data
+    create_task_request_data: CreateRequestDataT,
     regular_test_handler: HandlerT,
 ) -> None:
     """Test *create task* handler action completed successfully."""
@@ -40,7 +40,7 @@ def test_check_test_answer(
     translations: list[TaskItem],
     request_params: RequestParamsT,
     request_context: RequestContextT,
-    check_test_request_data: RequestDataT,  # Create task request data
+    check_test_answer_request_data: CheckRequestDataT,
     regular_test_handler: HandlerT,
 ) -> None:
     """Test *check answer* handler action completed successfully."""
@@ -48,6 +48,6 @@ def test_check_test_answer(
         regular_test_handler.execute(
             request_params,
             request_context,
-            check_test_request_data,
+            check_test_answer_request_data,
         )
     ) is not None

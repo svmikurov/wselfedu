@@ -16,7 +16,7 @@ from interfaces.schemas.domain.exercise import (
     TaskItem,
     TestExerciseDomainResult,
 )
-from tests._types import DomainT, OptionsDomainT
+from tests.types import DomainT, OptionsDomainT
 
 _DomainT = DomainT
 _OptionsDomainT = OptionsDomainT

@@ -12,8 +12,7 @@ from contracts.enums import ExerciseAction
 from contracts.schemas.base import NullDTO
 from contracts.schemas.request.exercise import ExerciseRequestDTO
 from di import MainContainer
-
-from .._types.handler import (
+from tests.types.handler import (
     AdapterT,
     AssemblerT,
     HandlerT,
@@ -23,6 +22,8 @@ from .._types.handler import (
     UseCaseT,
     ValidatorT,
 )
+
+from ._types import CheckRequestDataT, CreateRequestDataT
 
 # =================================================
 # Handler fixtures
@@ -72,12 +73,6 @@ def null_request_params() -> RequestParamsT:
 
 
 @pytest.fixture
-def user_request_context(user: Person) -> RequestContextT:
-    """Provide create task request context fixture."""
-    return RequestContext(user=user)
-
-
-@pytest.fixture
 def request_context(
     user: Person,
 ) -> RequestContextT:
@@ -90,23 +85,25 @@ def request_context(
 
 
 @pytest.fixture
-def create_task_request_data(user: Person) -> RequestDataT:
-    """Provide *create task* request data fixture."""
+def create_task_request_data() -> CreateRequestDataT:
+    """Provide create exercise request's data DTO."""
+    # Request data DTO creates in view's method with GET request.
     return RequestData(
         data={
             'action': ExerciseAction.CREATE_TASK,
-        }
+        },
     )
 
 
 @pytest.fixture
-def check_test_request_data(user: Person) -> RequestDataT:
-    """Provide *check task* action request data fixture."""
+def check_test_answer_request_data() -> CheckRequestDataT:
+    """Provide check exercise request's data DTO."""
+    # Request data DTO creates in view's method with GET request.
     return RequestData(
         data={
             'action': ExerciseAction.CHECK_ANSWER,
-            'option_value': 3,
-        }
+            'option_value': '3',
+        },
     )
 
 

@@ -25,7 +25,7 @@ from interfaces.schemas.domain.exercise import (
     PresentationExerciseDomainResult,
     TestExerciseDomainResult,
 )
-from tests._types import DomainT, RepositoryT, ServiceT
+from tests.types import DomainT, RepositoryT, ServiceT
 
 _DomainT = DomainT
 _ServiceT = ServiceT

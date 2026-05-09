@@ -14,7 +14,7 @@ from interfaces.schemas.validator.task import (
 )
 
 if TYPE_CHECKING:
-    from ._types import (
+    from .._types import (
         CheckRequestDataT,
         CreateRequestDataT,
         ValidatedCheckT,

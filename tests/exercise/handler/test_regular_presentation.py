@@ -11,8 +11,7 @@ from interfaces.schemas.domain.exercise import (
     PresentationExerciseDomainResult,
     TaskItem,
 )
-
-from .._types.handler import (
+from tests.types.handler import (
     HandlerT,
     RequestContextT,
     RequestDataT,
@@ -47,7 +46,7 @@ def test_create_new_case(
 def test_update_progress(
     translations: list[TaskItem],
     null_request_params: RequestParamsT,
-    user_request_context: RequestContextT,
+    request_context: RequestContextT,
     update_progress_request_data: RequestDataT,  # Update progress request data
     main_container: MainContainer,
 ) -> None:
@@ -72,7 +71,7 @@ def test_update_progress(
         )
         result = handler.execute(
             null_request_params,
-            user_request_context,
+            request_context,
             update_progress_request_data,
         )
 
