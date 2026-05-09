@@ -13,7 +13,7 @@ from apps.core.use_cases.protocol import UseCaseProtocol
 from apps.core.validators.request.protocol import RequestValidatorProtocol
 from contracts.entity.domain.exercise.fields import HasDomain
 from contracts.entity.general import NullProtocol
-from contracts.infra.domain.exercise import ExerciseDomainProtocol
+from contracts.infra.domain.exercise import CreateTaskDomainProtocol
 from interfaces.protocols.domain.exercise import (
     CandidatesT,
     ExerciseConfigProtocol,
@@ -89,11 +89,11 @@ AdapterT: TypeAlias = AdapterProtocol[
     RequestContextT,
     ResponseDataT,
 ]
-DomainT: TypeAlias = ExerciseDomainProtocol[
+DomainT: TypeAlias = CreateTaskDomainProtocol[
     ExerciseConfigProtocol,
     PresentationExerciseDomainResult,
 ]
-OptionsDomainT: TypeAlias = ExerciseDomainProtocol[
+OptionsDomainT: TypeAlias = CreateTaskDomainProtocol[
     ExerciseConfigProtocol,
     TestExerciseDomainResult,
 ]
