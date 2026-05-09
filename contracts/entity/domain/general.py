@@ -35,6 +35,12 @@ class ActionTyped(TypedDict, Generic[ActionT]):
     action: ActionT
 
 
+class TypedOptionValue(TypedDict):
+    """Typed dict for option value."""
+
+    option_value: str
+
+
 class HasAction(Protocol[ActionT]):
     """Protocol for has *action* interface."""
 
