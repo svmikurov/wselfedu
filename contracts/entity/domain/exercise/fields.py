@@ -138,6 +138,17 @@ class HasAnswerText(Protocol):
 
 
 # =================================================
+# Exercise answer
+# =================================================
+
+
+class HasOptionValue(Protocol):
+    """Protocol for has *option_value* DTO field."""
+
+    option_value: int
+
+
+# =================================================
 # Exercise domain result / failure DTO's interface
 # =================================================
 
