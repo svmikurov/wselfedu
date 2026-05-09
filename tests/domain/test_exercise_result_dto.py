@@ -10,7 +10,7 @@ from apps.core.domains.exercise.deps.selector import CandidatesSelector
 from apps.core.domains.exercise.presentation.impl import PresentationDomain
 from apps.core.domains.exercise.test.impl import TestDomain
 from contracts.schemas.domain.exercise.params import ExerciseParametersDTO
-from interfaces.protocols.domain.exercise import CandidatesProtocol
+from interfaces.protocols.domain.exercise import CandidatesT
 from interfaces.schemas.domain.exercise import (
     PresentationExerciseDomainResult,
     TaskItem,
@@ -36,7 +36,7 @@ def test_exercise_domain() -> _DomainT:
 
 @pytest.mark.django_db
 def test_presentation_domain_result(
-    translations: CandidatesProtocol,
+    translations: CandidatesT,
     presentation_domain: _DomainT,
     exercise_params: ExerciseParametersDTO,
 ) -> None:
@@ -59,7 +59,7 @@ def test_presentation_domain_result(
 
 @pytest.mark.django_db
 def test_test_exercise_domain_result(
-    translations: CandidatesProtocol,
+    translations: CandidatesT,
     test_exercise_domain: _OptionsDomainT,
     exercise_params: ExerciseParametersDTO,
 ) -> None:

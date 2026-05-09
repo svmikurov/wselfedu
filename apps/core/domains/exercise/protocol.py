@@ -7,7 +7,7 @@ from contracts.entity.domain.exercise import fields
 from contracts.enums import exercise as enums
 from interfaces.protocols.domain.exercise import (
     CandidateProtocol,
-    CandidatesProtocol,
+    CandidatesT,
 )
 
 ExerciseConditionsT = TypeVar('ExerciseConditionsT')
@@ -173,7 +173,7 @@ class ExerciseDomainProtocol(
 
     def execute(
         self,
-        candidates: CandidatesProtocol,
+        candidates: CandidatesT,
         conf: ExerciseConfig_contra,
     ) -> Option_co:
         """Create exercise case."""

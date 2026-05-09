@@ -2,7 +2,7 @@
 
 from apps.core.exceptions import info
 from contracts.entity.domain.exercise.fields import HasItemCount
-from interfaces.protocols.domain.exercise import CandidatesProtocol
+from interfaces.protocols.domain.exercise import CandidatesT
 
 from ..deps.abstract import AbstractSelector
 
@@ -16,9 +16,9 @@ class CandidatesSelector(
 
     def select(
         self,
-        candidates: CandidatesProtocol,
+        candidates: CandidatesT,
         conf: HasItemCount,
-    ) -> CandidatesProtocol:
+    ) -> CandidatesT:
         """Select translation for exercise."""
         if len(candidates) < self.MIN_CANDIDATES_COUNT:
             raise info.NoExerciseItemsException(

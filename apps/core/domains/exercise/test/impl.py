@@ -12,7 +12,7 @@ from contracts.entity.domain.exercise.fields import (
 )
 from contracts.entity.domain.exercise.flow import TestDomainResultProtocol
 from interfaces.protocols.domain.exercise import (
-    CandidatesProtocol,
+    CandidatesT,
     TaskItemsProtocol,
 )
 from interfaces.schemas.domain.exercise import TestExerciseDomainResult
@@ -57,7 +57,7 @@ class TestDomain(
 
     def execute(
         self,
-        candidates: CandidatesProtocol,
+        candidates: CandidatesT,
         conf: _ExerciseConfig,
     ) -> TestDomainResultProtocol:
         """Get test exercise data."""
@@ -73,7 +73,7 @@ class TestDomain(
 
     def _get_options(
         self,
-        candidates: CandidatesProtocol,
+        candidates: CandidatesT,
         option_count: int,
     ) -> TaskItemsProtocol:
         """Get test exercise options."""

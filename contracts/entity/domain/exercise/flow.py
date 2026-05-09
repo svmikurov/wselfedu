@@ -7,7 +7,7 @@ from contracts.entity.domain.exercise import fields as exercise
 from contracts.entity.general import HasStatus
 from interfaces.protocols.domain.exercise import (
     CandidateProtocol,
-    CandidatesProtocol,
+    CandidatesT,
 )
 
 DomainResultT = TypeVar('DomainResultT', bound='ExerciseDomainResultProtocol')
@@ -36,7 +36,7 @@ class PresentationDomainResultProtocol(
 class TestDomainResultProtocol(
     ExerciseDomainResultProtocol,
     exercise.HasQuestionOptionValue,
-    exercise.HasTaskItems[CandidatesProtocol],
+    exercise.HasTaskItems[CandidatesT],
     Protocol,
 ):
     """Protocol for test exercise domain result DTO."""

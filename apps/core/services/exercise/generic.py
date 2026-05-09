@@ -26,7 +26,7 @@ from contracts.entity.domain.params import HasConditions, HasConfig
 from contracts.schemas.domain.exercise.flow import (
     ExplainExerciseDomainResult,
 )
-from interfaces.protocols.domain.exercise import CandidatesProtocol
+from interfaces.protocols.domain.exercise import CandidatesT
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
@@ -72,7 +72,7 @@ class CreateExerciseService(
         self,
         candidates_repository: RepositoryProtocol[
             ConditionsProtocol,
-            CandidatesProtocol,
+            CandidatesT,
         ],
         domain: aliases.ExerciseDomainAlias,
         formatter: ConfFormatterProtocol[

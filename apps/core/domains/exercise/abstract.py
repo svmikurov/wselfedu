@@ -5,7 +5,7 @@ from typing import Generic, TypeVar
 
 from interfaces.protocols.domain.exercise import (
     CandidateProtocol,
-    CandidatesProtocol,
+    CandidatesT,
 )
 
 Conf = TypeVar('Conf')
@@ -33,7 +33,7 @@ class AbstractConfigurableCandidatesExerciseDomain(
     @abstractmethod
     def execute(
         self,
-        candidates: CandidatesProtocol,
+        candidates: CandidatesT,
         conf: Conf,
     ) -> Task:
         """Create exercise case."""
@@ -54,6 +54,6 @@ class AbstractCheckExerciseDomain(
     def execute(
         self,
         answer: UserAnswer,
-        case_meta: CaseMeta,
+        case: CaseMeta,
     ) -> CheckResult:
         """Check user's answer."""

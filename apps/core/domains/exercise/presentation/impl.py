@@ -6,7 +6,7 @@ from contracts import enums
 from contracts.entity.domain.exercise.flow import (
     PresentationDomainResultProtocol,
 )
-from interfaces.protocols.domain.exercise import CandidatesProtocol
+from interfaces.protocols.domain.exercise import CandidatesT
 from interfaces.schemas.domain.exercise import (
     PresentationExerciseDomainResult,
 )
@@ -35,7 +35,7 @@ class PresentationDomain(
 
     def execute(
         self,
-        candidates: CandidatesProtocol,
+        candidates: CandidatesT,
         conf: ExerciseConfigProtocol,
     ) -> PresentationDomainResultProtocol:
         """Get presentation exercise case data."""

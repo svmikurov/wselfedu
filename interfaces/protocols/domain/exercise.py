@@ -1,6 +1,6 @@
 """Protocols for exercise's domain interface."""
 
-from typing import Protocol
+from typing import Protocol, TypeAlias
 
 from contracts.entity.domain.exercise.fields import (
     HasAnswerText,
@@ -19,7 +19,7 @@ from contracts.enums import ExerciseStatus
 from interfaces.schemas.web.task import Option
 
 # =================================================
-# Exercise candidates
+# Task candidates
 # =================================================
 
 
@@ -30,10 +30,25 @@ class CandidateProtocol(
     HasProgressValue,
     Protocol,
 ):
-    """Protocol for a single candidate item."""
+    """Protocol for a single candidate item.
+
+    Parameters
+    ----------
+    pk : `int`
+        Item resource database identifier.
+    define : `str`
+        Item definition string representation.
+    mean : `str`
+        Item meaning string representation.
+    progress_value : `int`
+        Item study progress value.
+
+    """
 
 
-CandidatesProtocol = list[CandidateProtocol]
+CandidatesT: TypeAlias = list[CandidateProtocol]
+"""Candidates for task creation.
+"""
 
 
 # =================================================
@@ -48,7 +63,20 @@ class TaskItemProtocol(
     HasProgressValue,
     Protocol,
 ):
-    """Protocol for task item."""
+    """Protocol for task item.
+
+    Parameters
+    ----------
+    pk : `int`
+        Item resource database identifier.
+    define : `str`
+        Item definition string representation.
+    mean : `str`
+        Item meaning string representation.
+    progress_value : `int`
+        Item study progress value.
+
+    """
 
 
 TaskItemsProtocol = list[TaskItemProtocol]
@@ -65,7 +93,18 @@ class PresentationDomainResultProtocol(
     HasExerciseKind,
     Protocol,
 ):
-    """Protocol for presentation exercise domain result DTO."""
+    """Protocol for presentation exercise domain result DTO.
+
+    Parameters
+    ----------
+    item : `TaskItemProtocol`
+        Presentation task.
+    status : `ExerciseStatus`
+        Exercise status (e.g., new task).
+    exercise_kind : `ExerciseKind`
+        Exercise kind (e.g., presentation, test)
+
+    """
 
 
 class TestDomainResultProtocol(
@@ -75,7 +114,20 @@ class TestDomainResultProtocol(
     HasExerciseKind,
     Protocol,
 ):
-    """Protocol for test exercise domain result DTO."""
+    """Protocol for test exercise domain result DTO.
+
+    Parameters
+    ----------
+    question_option_value : `int`
+        Test task question option value (list index).
+    items : `list[Option]`
+        Test task options (value, text).
+    status : `ExerciseStatus`
+        Exercise status (e.g., new task).
+    exercise_kind : `ExerciseKind`
+        Exercise kind (e.g., presentation, test)
+
+    """
 
 
 # =================================================
