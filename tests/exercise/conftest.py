@@ -9,7 +9,6 @@ from apps.core.handlers.dto import RequestContext, RequestData
 from apps.core.handlers.generic import RequestHandler
 from apps.users.models.user import Person
 from contracts.enums import ExerciseAction
-from contracts.schemas.base import NullDTO
 from contracts.schemas.domain.exercise.params import ExerciseSpecDTO
 from di import MainContainer
 from interfaces.protocols.command.exercise import (
@@ -26,7 +25,6 @@ from tests.types.handler import (
     HandlerT,
     RequestContextT,
     RequestDataT,
-    RequestParamsT,
     UseCaseT,
     ValidatorT,
 )
@@ -64,21 +62,6 @@ def regular_test_handler(main_container: MainContainer) -> HandlerT:
 # =================================================
 # Request's DTOs
 # =================================================
-
-# Request params
-# --------------
-
-
-@pytest.fixture
-def request_params() -> RequestParamsT:
-    """Provide request parameters DTO fixture."""
-    return NullDTO()
-
-
-@pytest.fixture
-def null_request_params() -> RequestParamsT:
-    """Provide create task request parameters fixture."""
-    return NullDTO()
 
 
 # Request context
@@ -142,9 +125,13 @@ def mock_request_params() -> Mock:
 
 
 @pytest.fixture
-def mock_request_context() -> Mock:
+def mock_request_context(
+    mock_user: Person,
+) -> Mock:
     """Provide request context DTO mock."""
-    return Mock()
+    mock = Mock()
+    mock.user.return_value = mock_user
+    return mock
 
 
 @pytest.fixture

@@ -56,7 +56,7 @@ def assembler() -> AssemblerT:
 
 @pytest.mark.django_db
 def test_create_command(
-    request_params: RequestParamsT,
+    mock_request_params: RequestParamsT,
     request_context: RequestContextT,
     validated_create: ValidatedCreateT,
     assembler: AssemblerT,
@@ -65,7 +65,7 @@ def test_create_command(
     """Create exercise task command test."""
     assert (
         assembler.prepare(
-            request_params,
+            mock_request_params,
             request_context,
             validated_create,
         )
@@ -75,7 +75,7 @@ def test_create_command(
 
 @pytest.mark.django_db
 def test_check_command(
-    request_params: RequestParamsT,
+    mock_request_params: RequestParamsT,
     request_context: RequestContextT,
     validated_check: ValidatedCreateT,
     assembler: AssemblerT,
@@ -84,7 +84,7 @@ def test_check_command(
     """Create exercise task command test."""
     assert (
         assembler.prepare(
-            request_params,
+            mock_request_params,
             request_context,
             validated_check,
         )

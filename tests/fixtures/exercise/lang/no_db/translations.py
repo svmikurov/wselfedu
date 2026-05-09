@@ -11,6 +11,6 @@ TRANSLATIONS: Final[tuple[tuple[str, str], ...]] = (
     ('красный', 'red'),
     ('зеленый', 'green'),
     ('оранжевый', 'orange'),
-    # TODO: Implement 'orange' adding?
+    # QUESTION: Add ('апельсин', 'orange')?
     # ('апельсин', 'orange'),
 )

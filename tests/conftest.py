@@ -11,6 +11,7 @@ from apps.lang.repositories.exercise import UserTranslationsRepository
 from apps.users.models import Person
 from contracts.schemas.domain.exercise import ExerciseParametersDTO
 from interfaces.schemas.domain.exercise import TaskItem
+from tests.fixtures.exercise.lang.no_db.translations import TRANSLATIONS
 
 pytest_plugins = [
     'tests.fixtures.db_user',
@@ -19,13 +20,21 @@ pytest_plugins = [
     'tests.fixtures.exercise.lang.db.params',
     'tests.fixtures.exercise.lang.db.translations',
     'tests.fixtures.exercise.lang.no_db.params',
+    # 'tests.fixtures.exercise.lang.no_db.translations',
 ]
+
+
+# =================================================
+# User
+# =================================================
 
 
 @pytest.fixture
 def mock_user() -> Person:
     """Provide user mock."""
-    return Mock(spec=Person)
+    mock = Mock(spec=Person)
+    mock.pk.return_value = 1
+    return mock
 
 
 # =================================================
@@ -52,7 +61,9 @@ def translation_repository() -> RepositoryProtocol[object, object]:
     )
 
 
-# Repository
+# =================================================
+# Repositories
+# =================================================
 
 
 @pytest.fixture
@@ -63,3 +74,17 @@ def mock_user_command_storage(
     mock = Mock(spec=AbstractCommandStorage)
     mock.name = 'test_task'
     return mock
+
+
+@pytest.fixture
+def translation_task_items() -> list[TaskItem]:
+    """Provide translation items without DB creation."""
+    return [
+        TaskItem(
+            pk=pk,
+            define=define,
+            mean=mean,
+            progress_value=0,
+        )
+        for pk, (define, mean) in enumerate(TRANSLATIONS, start=1)
+    ]

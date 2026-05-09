@@ -1,4 +1,7 @@
-"""Language discipline translation presentation exercise DI tests."""
+"""Language discipline translation presentation exercise DI tests.
+
+Applies existing DI containers for dependency test.
+"""
 
 from unittest.mock import Mock
 
@@ -26,7 +29,7 @@ def test_handler_initialized(regular_presentation_handler: HandlerT) -> None:
 @pytest.mark.django_db
 def test_create_new_case(
     translations: list[TaskItem],
-    request_params: RequestParamsT,
+    mock_request_params: RequestParamsT,
     request_context: RequestContextT,
     create_task_request_data: RequestDataT,  # Create task request data
     regular_presentation_handler: HandlerT,
@@ -34,7 +37,7 @@ def test_create_new_case(
     """Test *create task* handler action completed successfully."""
     assert (
         regular_presentation_handler.execute(
-            request_params,
+            mock_request_params,
             request_context,
             create_task_request_data,
         )
@@ -44,7 +47,7 @@ def test_create_new_case(
 @pytest.mark.django_db
 def test_update_progress(
     translations: list[TaskItem],
-    null_request_params: RequestParamsT,
+    mock_request_params: RequestParamsT,
     request_context: RequestContextT,
     update_progress_request_data: RequestDataT,  # Update progress request data
     mock_user_command_storage: Mock,
@@ -68,7 +71,7 @@ def test_update_progress(
             main_container.lang.handlers.regular_translation_presentation()  # type: ignore[attr-defined]
         )
         result = handler.execute(
-            null_request_params,
+            mock_request_params,
             request_context,
             update_progress_request_data,
         )
