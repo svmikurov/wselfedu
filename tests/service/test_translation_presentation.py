@@ -74,8 +74,7 @@ _Formatter = ConfFormatterProtocol[Any, Any, Any]
 @pytest.fixture
 def spec() -> _SpecProtocol:
     """Provide service spec parameter."""
-    # FIXME: Fix type ignore
-    return ExerciseSpecDTO()  # type: ignore
+    return ExerciseSpecDTO()
 
 
 @pytest.fixture

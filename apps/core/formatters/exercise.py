@@ -89,9 +89,9 @@ class TestFormatter(
         data: TestDomainResultProtocol,
         conf: ConfigurationT,
     ) -> list[Option]:
-        return [  # type: ignore
-            Option(value=value, text=self._get_answer(option, conf))
-            for value, option in enumerate(data.items)  # type: ignore
+        return [
+            Option(value=value, text=self._get_answer(option, conf))  # type: ignore
+            for value, option in enumerate(data.items)
         ]
 
     # FIXME: Fix type hint ignore
@@ -101,8 +101,8 @@ class TestFormatter(
         conf: ConfigurationT,
     ) -> str:
         question_option_value = data.question_option_value
-        question_option = data.items[question_option_value]  # type: ignore
-        return self._get_question(question_option, conf)
+        question_option = data.items[question_option_value]
+        return self._get_question(question_option, conf)  # type: ignore
 
     def _get_question(
         self, item: TestDomainResultProtocol, conf: ConfigurationT

@@ -46,8 +46,7 @@ class RegularTranslationPresentationRepository(
         filter: NullProtocol,
     ) -> ExerciseParametersProtocol:
         """Fetch exercise parameters DTO."""
-        # FIXME: Fix type ignore
-        return ExerciseParametersDTO(  # type: ignore[return-value]
+        return ExerciseParametersDTO(
             conditions=self._fetch_conditions(user, filter),
             settings=self._fetch_settings(user, filter),
             conf=self._fetch_configuration(user, filter),

@@ -10,10 +10,10 @@ from interfaces.protocols.domain.exercise import (
     CandidatesT,
 )
 
-ExerciseConditionsT = TypeVar('ExerciseConditionsT')
-ExerciseConfigT = TypeVar('ExerciseConfigT')
+ExerciseConditions_co = TypeVar('ExerciseConditions_co', covariant=True)
+ExerciseConfig_co = TypeVar('ExerciseConfig_co', covariant=True)
 ExerciseConfig_contra = TypeVar('ExerciseConfig_contra', contravariant=True)
-ExerciseSettingsT = TypeVar('ExerciseSettingsT')
+ExerciseSettings_co = TypeVar('ExerciseSettings_co', covariant=True)
 
 CandidateT = TypeVar('CandidateT', bound=CandidateProtocol)
 Case_co = TypeVar('Case_co', covariant=True)
@@ -70,17 +70,18 @@ class HasCase(Protocol[Option_co]):
         """Get case."""
 
 
-class HasExistingCase(Protocol[OptionT]):
+class HasExistingCase(Protocol[Option_co]):
     """Protocol fo has *existing case* interface."""
 
-    existing_case: OptionT
+    @property
+    def existing_case(self) -> Option_co | None: ...  # noqa
 
 
 class GenericExerciseParameters(
-    params.HasConditions[ExerciseConditionsT],
-    params.HasConfig[ExerciseConfigT],
-    params.HasSettings[ExerciseSettingsT],
-    Protocol[ExerciseConditionsT, ExerciseConfigT, ExerciseSettingsT],
+    params.HasConditions[ExerciseConditions_co],
+    params.HasConfig[ExerciseConfig_co],
+    params.HasSettings[ExerciseSettings_co],
+    Protocol[ExerciseConditions_co, ExerciseConfig_co, ExerciseSettings_co],
 ):
     """Generic exercise parameters.
 
@@ -111,8 +112,8 @@ class ExerciseSpecProtocol(
     params.HasConditions[ConditionsProtocol],
     params.HasConfig[ExerciseConfigProtocol],
     params.HasSettings[ExerciseSettingsProtocol],
-    HasExistingCase[OptionT],
-    Protocol[OptionT],
+    HasExistingCase[Option_co],
+    Protocol[Option_co],
 ):
     """Protocol for exercise spec interface."""
 

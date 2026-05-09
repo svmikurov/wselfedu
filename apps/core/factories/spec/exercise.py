@@ -9,6 +9,8 @@ from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
     ExerciseSpecDTO,
 )
+from interfaces.protocols.domain.exercise import TestDomainResultProtocol
+from interfaces.protocols.spec.exercise import CreateTaskSpecProtocol
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
@@ -20,8 +22,8 @@ class CreateExerciseSpecFactory(
     AbstractExerciseSpecFactory[
         UserDataCommandProtocol[HasExerciseAction],
         ExerciseParametersDTO,
-        CaseT | None,
-        ExerciseSpecDTO[CaseT],
+        TestDomainResultProtocol | None,
+        CreateTaskSpecProtocol,
     ],
 ):
     """Create task the specification factory."""
@@ -39,8 +41,8 @@ class CreateExerciseSpecFactory(
         self,
         command: UserDataCommandProtocol[HasExerciseAction],
         params: ExerciseParametersDTO,
-        case: CaseT | None,
-    ) -> ExerciseSpecDTO[CaseT]:
+        case: TestDomainResultProtocol | None,
+    ) -> CreateTaskSpecProtocol:
         """Create the create task exercise specification."""
         return ExerciseSpecDTO(
             conditions=params.conditions,

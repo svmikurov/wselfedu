@@ -2,9 +2,9 @@
 
 from typing import Protocol, TypeVar
 
-ConditionsT = TypeVar('ConditionsT')
-ConfigT = TypeVar('ConfigT')
-SettingsT = TypeVar('SettingsT')
+ConditionsT = TypeVar('ConditionsT', covariant=True)
+ConfigT = TypeVar('ConfigT', covariant=True)
+SettingsT = TypeVar('SettingsT', covariant=True)
 
 
 class HasConditions(Protocol[ConditionsT]):
@@ -17,7 +17,8 @@ class HasConditions(Protocol[ConditionsT]):
         - calculation operand conditions
     """
 
-    conditions: ConditionsT
+    @property
+    def conditions(self) -> ConditionsT: ...  # noqa
 
 
 class HasConfig(Protocol[ConfigT]):
@@ -30,7 +31,8 @@ class HasConfig(Protocol[ConfigT]):
         - item display order
     """
 
-    conf: ConfigT
+    @property
+    def conf(self) -> ConfigT: ...  # noqa
 
 
 class HasSettings(Protocol[SettingsT]):
@@ -42,4 +44,5 @@ class HasSettings(Protocol[SettingsT]):
         - question / answer timeout
     """
 
-    settings: SettingsT
+    @property
+    def settings(self) -> SettingsT: ...  # noqa

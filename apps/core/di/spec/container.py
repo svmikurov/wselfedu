@@ -24,7 +24,7 @@ class CoreSpecFactoryContainer(DeclarativeContainer):
     # Exercise factories
     # ===========================================
 
-    _create_exercise = Factory(  # type: ignore[var-annotated]
+    _create_exercise = Factory(
         CreateExerciseSpecFactory,
         name='Create task specification factory.',
     )
