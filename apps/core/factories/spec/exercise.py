@@ -39,14 +39,14 @@ class CreateExerciseSpecFactory(
         self,
         command: UserDataCommandProtocol[HasExerciseAction],
         params: ExerciseParametersDTO,
-        existing_case: CaseT | None,
+        case: CaseT | None,
     ) -> ExerciseSpecDTO[CaseT]:
         """Create the create task exercise specification."""
         return ExerciseSpecDTO(
             conditions=params.conditions,
             conf=params.conf,
             settings=params.settings,
-            existing_case=existing_case,
+            existing_case=case,
         )
 
 
