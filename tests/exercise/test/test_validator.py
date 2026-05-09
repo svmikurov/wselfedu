@@ -55,19 +55,21 @@ def validator(
 
 def test_validate_create_action_data(
     validator: CreateValidatorT,
-    create_request_data: CreateRequestDataT,
+    create_task_request_data: CreateRequestDataT,
     validated_create: ValidatedCreateT,
 ) -> None:
     """Test that create exercise action data validated."""
     # Act & Assert
-    assert validator.validate(create_request_data) == validated_create
+    assert validator.validate(create_task_request_data) == validated_create
 
 
 def test_validate_check_action_data(
     validator: CheckValidatorT,
-    check_request_data: CheckRequestDataT,
+    check_test_answer_request_data: CheckRequestDataT,
     validated_check: ValidatedCheckT,
 ) -> None:
     """Test that create exercise action data validated."""
     # Act & Assert
-    assert validator.validate(check_request_data) == validated_check
+    assert (
+        validator.validate(check_test_answer_request_data) == validated_check
+    )

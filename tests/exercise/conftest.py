@@ -11,6 +11,10 @@ from apps.users.models.user import Person
 from contracts.enums import ExerciseAction
 from contracts.schemas.base import NullDTO
 from di import MainContainer
+from interfaces.protocols.command.exercise import (
+    CheckTestCommandProtocol,
+    CreateTaskCommandProtocol,
+)
 from interfaces.schemas.validator.task import (
     ValidatedCheckTestAnswer,
     ValidatedCreateTask,
@@ -178,12 +182,26 @@ def validated_check() -> ValidatedCheckT:
 @pytest.fixture
 def create_task_command(
     user: Person,
-) -> UserDataCommand[ValidatedCreateTask]:
+) -> CreateTaskCommandProtocol:
     """Provide create exercise command fixture."""
     return UserDataCommand(
         user=user,
         data=ValidatedCreateTask(
             action=ExerciseAction.CREATE_TASK,
+        ),
+    )
+
+
+@pytest.fixture
+def check_test_command(
+    user: Person,
+) -> CheckTestCommandProtocol:
+    """Provide create exercise command fixture."""
+    return UserDataCommand(
+        user=user,
+        data=ValidatedCheckTestAnswer(
+            action=ExerciseAction.CHECK_ANSWER,
+            option_value=3,
         ),
     )
 

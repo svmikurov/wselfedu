@@ -11,6 +11,10 @@ from apps.core.assemblers.impl import UserDataAssembler
 if TYPE_CHECKING:
     from apps.core.assemblers.protocol import AssemblerProtocol
     from contracts.entity.general import NullProtocol
+    from interfaces.protocols.command.exercise import (
+        CheckTestCommandProtocol,
+        CreateTaskCommandProtocol,
+    )
     from interfaces.protocols.request.general import RequestContextProtocol
     from tests.types.handler import RequestContextT, RequestParamsT
 
@@ -20,7 +24,7 @@ if TYPE_CHECKING:
     )
 
     # Assembler types
-    type CreateAssemblerT = AssemblerProtocol[
+    type AssemblerT = AssemblerProtocol[
         NullProtocol,
         RequestContextProtocol,
         ValidatedCreateT,
@@ -40,7 +44,7 @@ if TYPE_CHECKING:
 
 
 @pytest.fixture
-def assembler() -> CreateAssemblerT:
+def assembler() -> AssemblerT:
     """Provide request handler command assembler."""
     return UserDataAssembler()
 
@@ -54,12 +58,35 @@ def assembler() -> CreateAssemblerT:
 def test_create_command(
     request_params: RequestParamsT,
     request_context: RequestContextT,
-    create_task_request_data: ValidatedCreateT,
-    assembler: CreateAssemblerT,
+    validated_create: ValidatedCreateT,
+    assembler: AssemblerT,
+    create_task_command: CreateTaskCommandProtocol,
 ) -> None:
     """Create exercise task command test."""
-    assembler.prepare(
-        request_params,
-        request_context,
-        create_task_request_data,
+    assert (
+        assembler.prepare(
+            request_params,
+            request_context,
+            validated_create,
+        )
+        == create_task_command
+    )
+
+
+@pytest.mark.django_db
+def test_check_command(
+    request_params: RequestParamsT,
+    request_context: RequestContextT,
+    validated_check: ValidatedCreateT,
+    assembler: AssemblerT,
+    check_test_command: CheckTestCommandProtocol,
+) -> None:
+    """Create exercise task command test."""
+    assert (
+        assembler.prepare(
+            request_params,
+            request_context,
+            validated_check,
+        )
+        == check_test_command
     )
