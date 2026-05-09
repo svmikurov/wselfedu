@@ -3,8 +3,8 @@
 from typing import override
 
 from contracts.entity.domain.exercise.fields import ExerciseCaseProtocol
+from contracts.entity.general import HasIsHtmx
 from contracts.schemas.domain.exercise.flow import PresentationTask
-from interfaces.protocols.request import HasIsHtmx
 from interfaces.schemas.web.task import (
     PresentationTaskContext,
     PresentationTaskResponse,

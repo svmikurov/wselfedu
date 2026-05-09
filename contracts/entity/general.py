@@ -46,6 +46,12 @@ class HasExtraContext(Protocol[T]):
     extra_context: T
 
 
+class HasIsHtmx(Protocol):
+    """Protocol for has *is_htmx* interface."""
+
+    is_htmx: bool
+
+
 class PersonProtocol(Protocol):
     """Protocol for user interface."""
 

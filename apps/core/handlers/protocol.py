@@ -56,12 +56,6 @@ class DetailQueryRequestParamsProtocol(
     """Protocol for request with detail query parameters DTO."""
 
 
-class RequestContextProtocol(Protocol):
-    """Protocol for request context DTO."""
-
-    user: Person
-
-
 class RequestDataProtocol(Protocol[RequestData]):
     """Protocol for request data DTO."""
 
