@@ -7,9 +7,16 @@ from contracts.entity.domain.general import HasAction
 from contracts.enums import ExerciseAction
 
 
-class CheckTestRequestDataProtocol(
+class ValidatedCreateTaskRequestProtocol(
+    HasAction[ExerciseAction],
+    Protocol,
+):
+    """Protocol for *create task* request data interface."""
+
+
+class ValidatedCheckTestRequestProtocol(
     HasAction[ExerciseAction],
     HasOptionValue,
     Protocol,
 ):
-    """Protocol for check test request data interface."""
+    """Protocol for *check test answer* request data interface."""
