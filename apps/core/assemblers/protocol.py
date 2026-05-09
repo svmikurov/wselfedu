@@ -23,7 +23,6 @@ QueryType = TypeVar('QueryType')
 
 
 class AssemblerProtocol(
-    Auditable,
     Protocol[
         Params_contra,
         Context_contra,
@@ -40,6 +39,18 @@ class AssemblerProtocol(
         data: Validated_contra,
     ) -> CommandData_cov:
         """Prepare request data for use case execute."""
+
+
+class AuditableAssemblerProtocol(
+    Auditable,
+    AssemblerProtocol[
+        Params_contra,
+        Context_contra,
+        Validated_contra,
+        CommandData_cov,
+    ],
+):
+    """Protocol for auditable assembler interface."""
 
 
 # =================================================
