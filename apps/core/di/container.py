@@ -13,8 +13,8 @@ from .adapter.container import ResponseAdaptersContainer
 from .builder import UseCaseResultBuilderContainer
 from .configuration import ConfigurationContainer
 from .domain import DomainContainer
-from .factory.container import CoreSpecFactoryContainer
 from .formatter import FormatterContainer
+from .spec.container import CoreSpecFactoryContainer
 
 
 class CoreContainer(DeclarativeContainer):
