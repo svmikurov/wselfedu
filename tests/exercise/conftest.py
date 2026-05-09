@@ -10,8 +10,11 @@ from apps.core.handlers.generic import RequestHandler
 from apps.users.models.user import Person
 from contracts.enums import ExerciseAction
 from contracts.schemas.base import NullDTO
-from contracts.schemas.request.exercise import ExerciseRequestDTO
 from di import MainContainer
+from interfaces.schemas.validator.task import (
+    ValidatedCheckTestAnswer,
+    ValidatedCreateTask,
+)
 from tests.types.handler import (
     AdapterT,
     AssemblerT,
@@ -23,7 +26,12 @@ from tests.types.handler import (
     ValidatorT,
 )
 
-from ._types import CheckRequestDataT, CreateRequestDataT
+from ._types import (
+    CheckRequestDataT,
+    CreateRequestDataT,
+    ValidatedCheckT,
+    ValidatedCreateT,
+)
 
 # =================================================
 # Handler fixtures
@@ -141,18 +149,40 @@ def mock_request_data() -> Mock:
 
 
 # =================================================
+# Validated data
+# =================================================
+
+
+@pytest.fixture
+def validated_create() -> ValidatedCreateT:
+    """Provide the *create task* DTO validated request data."""
+    return ValidatedCreateTask(
+        action=ExerciseAction.CREATE_TASK,
+    )
+
+
+@pytest.fixture
+def validated_check() -> ValidatedCheckT:
+    """Provide the *check test answer* DTO validated request data."""
+    return ValidatedCheckTestAnswer(
+        action=ExerciseAction.CHECK_ANSWER,
+        option_value=3,
+    )
+
+
+# =================================================
 # Commands
 # =================================================
 
 
 @pytest.fixture
-def create_command(
+def create_task_command(
     user: Person,
-) -> UserDataCommand[ExerciseRequestDTO]:
+) -> UserDataCommand[ValidatedCreateTask]:
     """Provide create exercise command fixture."""
     return UserDataCommand(
         user=user,
-        data=ExerciseRequestDTO(
+        data=ValidatedCreateTask(
             action=ExerciseAction.CREATE_TASK,
         ),
     )
