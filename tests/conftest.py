@@ -5,10 +5,12 @@ from unittest.mock import Mock
 import pytest
 
 from apps.core.repositories.protocol import RepositoryProtocol
+from apps.core.storages.services.iabc import AbstractCommandStorage
 from apps.lang.models import EnglishTranslation
 from apps.lang.repositories.exercise import UserTranslationsRepository
 from apps.users.models import Person
 from contracts.schemas.domain.exercise import ExerciseParametersDTO
+from interfaces.schemas.domain.exercise import TaskItem
 
 pytest_plugins = [
     'tests.fixtures.db_user',
@@ -48,3 +50,16 @@ def translation_repository() -> RepositoryProtocol[object, object]:
     return UserTranslationsRepository(
         manager=EnglishTranslation.objects,
     )
+
+
+# Repository
+
+
+@pytest.fixture
+def mock_user_command_storage(
+    translations: list[TaskItem],
+) -> Mock:
+    """Provide exercise case storage mock."""
+    mock = Mock(spec=AbstractCommandStorage)
+    mock.name = 'test_task'
+    return mock

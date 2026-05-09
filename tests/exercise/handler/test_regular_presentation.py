@@ -4,7 +4,6 @@ from unittest.mock import Mock
 
 import pytest
 
-from apps.core.storages.services.iabc import AbstractCommandStorage
 from contracts.enums import ExerciseStatus
 from di import MainContainer
 from interfaces.schemas.domain.exercise import (
@@ -48,14 +47,13 @@ def test_update_progress(
     null_request_params: RequestParamsT,
     request_context: RequestContextT,
     update_progress_request_data: RequestDataT,  # Update progress request data
+    mock_user_command_storage: Mock,
     main_container: MainContainer,
 ) -> None:
     """Test *update progress* handler action completed successfully."""
     # Arrange
     # The study item ID for progress update is stored.
-    mock_domain_result_storage = Mock(spec=AbstractCommandStorage)
-    mock_domain_result_storage.name = 'test_task'
-    mock_domain_result_storage.retrieve.return_value = (
+    mock_user_command_storage.retrieve.return_value = (
         PresentationExerciseDomainResult(
             status=ExerciseStatus.NEW_TASK,
             item=translations[0],
@@ -64,7 +62,7 @@ def test_update_progress(
 
     # Act
     with main_container.lang.use_cases.user_command_storage.override(  # type: ignore[attr-defined]
-        mock_domain_result_storage
+        mock_user_command_storage
     ):
         handler = (
             main_container.lang.handlers.regular_translation_presentation()  # type: ignore[attr-defined]
@@ -76,5 +74,5 @@ def test_update_progress(
         )
 
         # Assert
-        mock_domain_result_storage.retrieve.assert_called_once()
+        mock_user_command_storage.retrieve.assert_called_once()
         assert result is not None

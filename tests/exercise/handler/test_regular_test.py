@@ -1,8 +1,15 @@
 """Language discipline translation test exercise DI tests."""
 
+from unittest.mock import Mock
+
 import pytest
 
-from interfaces.schemas.domain.exercise import TaskItem
+from contracts.enums import ExerciseStatus
+from di import MainContainer
+from interfaces.schemas.domain.exercise import (
+    TaskItem,
+    TestExerciseDomainResult,
+)
 from tests.types.handler import (
     HandlerT,
     RequestContextT,
@@ -41,13 +48,29 @@ def test_check_test_answer(
     request_params: RequestParamsT,
     request_context: RequestContextT,
     check_test_answer_request_data: CheckRequestDataT,
-    regular_test_handler: HandlerT,
+    mock_user_command_storage: Mock,
+    main_container: MainContainer,
 ) -> None:
     """Test *check answer* handler action completed successfully."""
-    assert (
-        regular_test_handler.execute(
+    # Arrange
+    mock_user_command_storage.retrieve.return_value = TestExerciseDomainResult(
+        question_option_value=0,
+        status=ExerciseStatus.NEW_TASK,
+        items=translations,
+    )
+
+    # Act
+    with main_container.lang.use_cases.user_command_storage.override(  # type: ignore[attr-defined]
+        mock_user_command_storage
+    ):
+        handler = (
+            main_container.lang.handlers.regular_translation_test()  # type: ignore[attr-defined]
+        )
+        result = handler.execute(
             request_params,
             request_context,
             check_test_answer_request_data,
         )
-    ) is not None
+
+        # Assert
+        assert result is not None
