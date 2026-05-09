@@ -8,7 +8,7 @@ from dependency_injector.providers import (
 )
 
 from apps.core.adapters.response.null import NullResponseAdapter
-from apps.core.assemblers.assembler import UserAssembler, UserDataAssembler
+from apps.core.assemblers.impl import UserAssembler, UserDataAssembler
 from apps.core.handlers.generic import RequestHandler
 from apps.core.repositories.use_case import RepositoryUseCase
 from apps.core.validators.request.null import NullValidator
