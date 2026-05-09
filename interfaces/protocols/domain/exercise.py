@@ -245,3 +245,14 @@ class TestTaskProtocol(
         Test task options (value, text).
 
     """
+
+
+# =================================================
+# User answer
+# =================================================
+
+
+class TestAnswerProtocol(Protocol):
+    """Protocol for test task answer interface."""
+
+    option_value: int

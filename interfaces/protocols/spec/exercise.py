@@ -41,3 +41,19 @@ class CreateTaskSpecProtocol(
         after the current task has been completed.
 
     """
+
+
+class CheckTestSpecProtocol(
+    HasExistingCase[TestDomainResultProtocol],
+    Protocol,
+):
+    """Protocol for check test task service specification interface.
+
+    Parameters
+    ----------
+    answer : `TestAnswerProtocol`
+        User answer.
+    existing_case : `TestDomainResultProtocol` | None
+        Stored performing task.
+
+    """

@@ -6,9 +6,7 @@ from apps.core.adapters.response.protocol import AdapterProtocol
 from apps.core.assemblers.protocol import AuditableAssemblerProtocol
 from apps.core.builders.protocol import SpecDtoBuilderProtocol
 from apps.core.handlers.generic import RequestHandler
-from apps.core.handlers.protocol import (
-    RequestDataProtocol
-)
+from apps.core.handlers.protocol import RequestDataProtocol
 from apps.core.repositories.protocol import RepositoryProtocol
 from apps.core.services.exercise.protocol import ExerciseServiceProtocol
 from apps.core.use_cases.protocol import UseCaseProtocol
