@@ -78,13 +78,29 @@ class TestDomainResultProtocol(
     """Protocol for test exercise domain result DTO."""
 
 
+# =================================================
+# Tasks
+# =================================================
+
+
 class PresentationTaskProtocol(
     HasQuestionText,
     HasAnswerText,
     HasProgressValue,
     Protocol,
 ):
-    """Protocol for presentation exercise task interface."""
+    """Protocol for presentation exercise task interface.
+
+    Parameters
+    ----------
+    question_text : `str`
+        Task question text.
+    answer_text : `str`
+        Task correct answer text.
+    progress_value : `int`
+        Item study progress value.
+
+    """
 
 
 class TestTaskProtocol(
@@ -92,4 +108,13 @@ class TestTaskProtocol(
     HasTaskItems[list[Option]],
     Protocol,
 ):
-    """Protocol for test exercise task interface."""
+    """Protocol for test exercise task interface.
+
+    Parameters
+    ----------
+    question_option_value : `int`
+        Test task question option value (list index).
+    items : `list[Option]`
+        Test task options (value, text).
+
+    """
