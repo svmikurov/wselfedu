@@ -8,8 +8,8 @@ from apps.core.validators.request.exercise.create_task import (
 )
 from contracts.enums.exercise import ExerciseAction
 from interfaces.schemas.validator import (
-    ValidatedCheckTestTaskRequest,
-    ValidatedCreateTaskRequest,
+    ValidatedCheckTestAnswer,
+    ValidatedCreateTask,
     ValidatedExerciseProgress,
 )
 
@@ -19,8 +19,8 @@ class ValidatorContainer(DeclarativeContainer):
 
     exercise_validate_schema_registry = Dict(
         {
-            ExerciseAction.CREATE_TASK: ValidatedCreateTaskRequest,
-            ExerciseAction.CHECK_ANSWER: ValidatedCheckTestTaskRequest,
+            ExerciseAction.CREATE_TASK: ValidatedCreateTask,
+            ExerciseAction.CHECK_ANSWER: ValidatedCheckTestAnswer,
             ExerciseAction.UPDATE_PROGRESS: ValidatedExerciseProgress,
         }
     )

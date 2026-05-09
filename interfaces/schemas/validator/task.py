@@ -6,7 +6,7 @@ from contracts.schemas.domain.exercise.fields import (
 )
 
 
-class ValidatedCreateTaskRequest(
+class ValidatedCreateTask(
     ExerciseActionField,
 ):
     """Validated create task WEB request data.
@@ -19,7 +19,7 @@ class ValidatedCreateTaskRequest(
     """
 
 
-class ValidatedCheckTestTaskRequest(
+class ValidatedCheckTestAnswer(
     ExerciseActionField,
     OptionValueField,
 ):
