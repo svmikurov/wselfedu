@@ -48,3 +48,12 @@ class HasExtraContext(Protocol[T]):
 
 class PersonProtocol(Protocol):
     """Protocol for user interface."""
+
+    pk: int
+    username: str
+
+
+class HasUser(Protocol):
+    """Protocol for has user model interface."""
+
+    user: PersonProtocol
