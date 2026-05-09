@@ -5,10 +5,10 @@ from typing import TypeAlias, TypeVar
 from apps.core.handlers.protocol import (
     DetailRequestParamsProtocol,
     QueryRequestParamsProtocol,
-    RequestContextProtocol,
     RequestDataProtocol,
 )
 from contracts.entity.general import NullProtocol
+from interfaces.protocols.request.general import RequestContextProtocol
 
 from .abstract import AbstractAssembler
 from .protocol import (

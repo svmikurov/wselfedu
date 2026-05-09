@@ -2,10 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Protocol, TypeVar
-
-if TYPE_CHECKING:
-    from apps.users.models import Person
+from typing import Protocol, TypeVar
 
 HandlerT = TypeVar('HandlerT')
 

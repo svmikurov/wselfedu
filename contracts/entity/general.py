@@ -2,6 +2,8 @@
 
 from typing import Protocol, TypeVar
 
+from apps.users.models import Person
+
 T = TypeVar('T')
 StatusT = TypeVar('StatusT')
 
@@ -62,4 +64,4 @@ class PersonProtocol(Protocol):
 class HasUser(Protocol):
     """Protocol for has user model interface."""
 
-    user: PersonProtocol
+    user: Person

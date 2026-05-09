@@ -11,7 +11,6 @@ from apps.core.domains.exercise.protocol import (
 )
 from apps.core.handlers.generic import RequestHandler
 from apps.core.handlers.protocol import (
-    RequestContextProtocol,
     RequestDataProtocol,
 )
 from apps.core.repositories.protocol import RepositoryProtocol
@@ -21,6 +20,7 @@ from apps.core.validators.request.protocol import RequestValidatorProtocol
 from contracts.entity.domain.exercise.fields import HasDomain
 from contracts.entity.general import NullProtocol
 from interfaces.protocols.domain.exercise import CandidatesProtocol
+from interfaces.protocols.request.general import RequestContextProtocol
 from interfaces.schemas.domain.exercise import (
     PresentationExerciseDomainResult,
     TestExerciseDomainResult,

@@ -4,6 +4,7 @@ from typing import Protocol
 
 from contracts.entity.general import HasUser
 
+
 class HasIsHtmx(Protocol):
     """Protocol for has *is_htmx* interface."""
 

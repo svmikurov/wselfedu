@@ -8,7 +8,6 @@ from apps.core.adapters.response.abstract import (
 )
 from apps.core.adapters.response.protocol import AdapterProtocol
 from apps.core.adapters.response.status import ResponseStatusEnum
-from apps.core.handlers.protocol import RequestContextProtocol
 from apps.math import forms
 from apps.math.domains.dto import (
     CalculationCaseDTO,
@@ -23,6 +22,7 @@ from contracts.schemas.response.generic import (
     HtmlResponseDTO,
     ResponseDTO,
 )
+from interfaces.protocols.request.general import RequestContextProtocol
 
 from .dto import (
     ConditionsFormDTO,

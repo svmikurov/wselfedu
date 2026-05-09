@@ -5,7 +5,6 @@ from typing import Any
 from apps.core.assemblers.command import UserDataCommand
 from apps.core.handlers.generic import RequestHandler
 from apps.core.handlers.protocol import (
-    RequestContextProtocol,
     RequestDataProtocol,
 )
 from contracts import NullProtocol
@@ -15,6 +14,7 @@ from contracts.enums.exercise import (
     ExerciseStatus,
 )
 from contracts.schemas.response.generic import HtmlResponseDTO
+from interfaces.protocols.request.general import RequestContextProtocol
 
 type ResponseDtoT = HtmlResponseDTO[
     ExerciseStatus,

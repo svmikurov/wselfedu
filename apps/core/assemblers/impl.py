@@ -12,10 +12,10 @@ from apps.core.assemblers.protocol import (
 from apps.core.handlers.protocol import (
     DetailRequestParamsProtocol,
     QueryRequestParamsProtocol,
-    RequestContextProtocol,
 )
 from apps.core.parsers.protocol import RequestParamsQueryParserProtocol
 from contracts.entity.general import NullProtocol
+from interfaces.protocols.request.general import RequestContextProtocol
 
 from .abstract import AbstractAssembler
 from .command import (
