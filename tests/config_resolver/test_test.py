@@ -2,7 +2,6 @@
 
 import pytest
 
-from apps.core.repositories.protocol import RepositoryProtocol
 from apps.lang.models import ExerciseConditions, TranslationConfiguration
 from apps.lang.repositories.legacy.exercise.conditions import (
     RegularParametersRepository,
@@ -16,6 +15,7 @@ from kernel.resolver.config_resolver import (
     ExerciseConfigurationResolver,
 )
 from ports.contract.enums.exercise import ExerciseKind
+from ports.contract.infra.repository import RepositoryProtocol
 from ports.contract.infra.reslover import ResolverProtocol
 from ports.interfaces.protocols.command import UserCommandProtocol
 

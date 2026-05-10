@@ -4,7 +4,6 @@ from unittest.mock import Mock
 
 import pytest
 
-from apps.core.repositories.protocol import RepositoryProtocol
 from apps.core.storages.services.iabc import AbstractCommandStorage
 from apps.lang.models import EnglishTranslation
 from apps.lang.repositories.exercise import UserTranslationsRepository
@@ -15,6 +14,7 @@ from interfaces.schemas.domain.exercise import (
     TestExerciseDomainResult,
 )
 from ports.contract import enums
+from ports.contract.infra.repository import RepositoryProtocol
 from tests.fixtures.exercise.lang.no_db.translations import (
     TRANSLATION_INDEX,
     TRANSLATIONS,

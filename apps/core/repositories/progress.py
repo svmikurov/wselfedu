@@ -12,9 +12,8 @@ from apps.lang.models.abstract import AbstractProgressModel
 from apps.study import models as study_models
 from apps.users.models.user import Person
 from interfaces.protocols.repository import ProgressUpdateConditionsProtocol
+from ports.abstract.repository import AbstractProcessExerciseRepository
 from utils.audit import AuditorProtocol, BaseAuditable
-
-from .abstract import AbstractProcessExerciseRepository
 
 log = logging.getLogger(__name__)
 

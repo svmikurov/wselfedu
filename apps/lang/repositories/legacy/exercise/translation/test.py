@@ -2,8 +2,8 @@
 
 from django.db.models import F, Manager, QuerySet
 
-from apps.core.repositories.abstract import AbstractUserFetchRepository
 from apps.lang.models import EnglishTranslation
+from ports.abstract.repository import AbstractUserFetchRepository
 from ports.interfaces.schemas.command import UserCommand, UserDetailCommand
 
 __all__ = (

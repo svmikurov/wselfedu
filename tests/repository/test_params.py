@@ -2,7 +2,6 @@
 
 import pytest
 
-from apps.core.repositories.protocol import RepositoryProtocol
 from apps.lang.models import (
     ExerciseConditions,
     PresentationSettings,
@@ -20,6 +19,7 @@ from interfaces.protocols.domain.exercise import (
     ExerciseParametersProtocol,
     ExerciseSettingsProtocol,
 )
+from ports.contract.infra.repository import RepositoryProtocol
 
 _RepositoryT = RepositoryProtocol[NullProtocol, ExerciseParametersProtocol]
 

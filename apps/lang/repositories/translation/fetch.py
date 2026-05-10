@@ -4,8 +4,8 @@ from typing import Any, TypeAlias
 
 from django.db.models import Manager, QuerySet
 
-from apps.core.repositories.abstract import AbstractUserFetchRepository
 from apps.lang.models import EnglishTranslation
+from ports.abstract.repository import AbstractUserFetchRepository
 
 __all__ = ('TranslationListRepository',)
 

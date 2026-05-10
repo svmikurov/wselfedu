@@ -4,7 +4,6 @@ from typing import Any, override
 
 from django.db.models import Manager, Model
 
-from apps.core.repositories.abstract import AbstractUserFetchRepository
 from apps.lang.models import (
     ExerciseConditions,
     PresentationSettings,
@@ -21,6 +20,7 @@ from contracts.schemas.domain.exercise.params import (
 from interfaces.protocols.domain.exercise import (
     ExerciseParametersProtocol,
 )
+from ports.abstract.repository import AbstractUserFetchRepository
 from ports.contract.enums.exercise import DisplayOrder
 
 

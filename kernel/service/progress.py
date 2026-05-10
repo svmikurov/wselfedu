@@ -1,10 +1,10 @@
 """Update study progress service."""
 
-from apps.core.repositories.protocol import CommandRepositoryProtocol
 from apps.users.models.user import Person
 from interfaces.schemas.service.exercise import UpdateProgressCase
 from ports.abstract.service import AbstractUserSpecService
 from ports.contract.enums import ExerciseStatus
+from ports.contract.infra.repository import CommandRepositoryProtocol
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 

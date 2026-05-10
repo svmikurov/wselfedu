@@ -2,7 +2,6 @@
 
 from typing import Protocol, TypeVar, override
 
-from apps.core.repositories.protocol import RepositoryProtocol
 from apps.users.models import Person
 from contracts import aliases
 from contracts.entity.domain.exercise import fields
@@ -19,6 +18,7 @@ from interfaces.protocols.domain.exercise import (
 from interfaces.protocols.spec.exercise import CheckTestSpecProtocol
 from ports.abstract.service import AbstractUserSpecService
 from ports.contract.infra.formatter import ConfFormatterProtocol
+from ports.contract.infra.repository import RepositoryProtocol
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 

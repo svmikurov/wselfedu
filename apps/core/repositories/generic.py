@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Generic, TypedDict, TypeVar, override
 
 from apps.core.exceptions.storage import CacheMissError
-from apps.core.repositories.abstract import AbstractUserFetchRepository
+from ports.abstract.repository import AbstractUserFetchRepository
 from ports.interfaces.protocols.command import (
     UserCommandProtocol,
     UserDetailCommandProtocol,

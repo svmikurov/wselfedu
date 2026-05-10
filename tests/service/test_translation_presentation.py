@@ -5,7 +5,6 @@ from typing import Any, Protocol, TypeAlias
 
 import pytest
 
-from apps.core.repositories.protocol import RepositoryProtocol
 from apps.lang.models import EnglishTranslation
 from apps.lang.repositories.exercise.candidates.translations import (
     UserTranslationsRepository,
@@ -34,6 +33,7 @@ from kernel.domain.exercise import CandidatesSelector, PresentationDomain
 from kernel.formatter.exercise import PresentationFormatter
 from kernel.service.exercise import CreateExerciseService
 from ports.contract.infra.formatter import ConfFormatterProtocol
+from ports.contract.infra.repository import RepositoryProtocol
 from ports.contract.infra.service import UserSpecServiceProtocol
 
 

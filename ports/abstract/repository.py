@@ -5,7 +5,10 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, TypeVar, override
 
-from .protocol import CommandRepositoryProtocol, RepositoryProtocol
+from ports.contract.infra.repository import (
+    CommandRepositoryProtocol,
+    RepositoryProtocol,
+)
 
 if TYPE_CHECKING:
     from apps.users.models import Person

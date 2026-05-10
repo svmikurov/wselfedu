@@ -4,11 +4,11 @@ from typing import TypeVar
 
 from django.db.models import F, Manager
 
-from apps.core.repositories.abstract import AbstractUserFetchRepository
 from apps.lang.models import EnglishTranslation
 from apps.users.models import Person
 from contracts import NullProtocol
 from interfaces.schemas.domain.exercise import TaskItem
+from ports.abstract.repository import AbstractUserFetchRepository
 
 FilterT = TypeVar('FilterT')
 ResultT = list[TaskItem]
