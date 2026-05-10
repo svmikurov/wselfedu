@@ -11,9 +11,6 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 
 from apps.core.handlers.dto import RequestContext, RequestData
-from apps.core.handlers.protocol import (
-    RequestHandlerProtocol,
-)
 from contracts.entity.general import NullProtocol
 from contracts.entity.response.base import HtmlResponseProtocol
 from contracts.schemas.base import NullDTO
@@ -21,6 +18,9 @@ from interfaces.protocols.request.general import RequestContextProtocol
 from ports.contract.enums.exercise import (
     ExerciseAction,
     ExerciseStatus,
+)
+from ports.contract.infra.handler import (
+    RequestHandlerProtocol,
 )
 from ports.interfaces.protocols.web import RequestDataProtocol
 
