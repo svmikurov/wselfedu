@@ -1,1 +1,0 @@
-"""Assembler's command adapter."""
