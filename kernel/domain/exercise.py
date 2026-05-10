@@ -1,10 +1,13 @@
-"""Domain resource selector."""
+"""Exercise domain."""
 
 from apps.core.exceptions import info
 from contracts.entity.domain.exercise.fields import HasItemCount
 from interfaces.protocols.domain.exercise import CandidatesT
+from ports.abstract.domain.exercise import AbstractSelector
 
-from ..deps.abstract import AbstractSelector
+# =================================================
+# Exercise domain resource selector
+# =================================================
 
 
 class CandidatesSelector(

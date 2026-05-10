@@ -8,9 +8,7 @@ from apps.core.domains.exercise import (
     TestDomain,
     TestExerciseCheckDomain,
 )
-from apps.core.domains.exercise.deps.selector import (
-    CandidatesSelector,
-)
+from kernel.domain.exercise import CandidatesSelector
 
 
 class DomainContainer(DeclarativeContainer):

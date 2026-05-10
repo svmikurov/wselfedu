@@ -1,9 +1,10 @@
 """Abstract base classes for exercise domain."""
 
 from abc import ABC, abstractmethod
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, override
 
 from contracts.infra.domain.exercise import CheckTaskDomainProtocol
+from contracts.infra.domain.selector import SelectorProtocol
 from interfaces.protocols.domain.exercise import CandidatesT
 
 ConfT = TypeVar('ConfT')
@@ -12,6 +13,27 @@ TaskT = TypeVar('TaskT')
 
 UserAnswerT = TypeVar('UserAnswerT')
 ResultT = TypeVar('ResultT')
+
+# =================================================
+# Candidates selector
+# =================================================
+
+
+class AbstractSelector(
+    ABC,
+    SelectorProtocol[ConfT],
+    Generic[ConfT],
+):
+    """ABC for candidates selector by configuration."""
+
+    @override
+    @abstractmethod
+    def select(
+        self,
+        candidates: CandidatesT,
+        conf: ConfT,
+    ) -> CandidatesT:
+        """Select data for exercise."""
 
 
 # =================================================

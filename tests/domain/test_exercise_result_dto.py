@@ -7,7 +7,6 @@ as exercise candidates.
 import pytest
 
 from apps.core.domains.exercise import PresentationDomain, TestDomain
-from apps.core.domains.exercise.deps.selector import CandidatesSelector
 from contracts.schemas.domain.exercise.params import ExerciseParametersDTO
 from interfaces.protocols.domain.exercise import CandidatesT
 from interfaces.schemas.domain.exercise import (
@@ -15,6 +14,7 @@ from interfaces.schemas.domain.exercise import (
     TaskItem,
     TestExerciseDomainResult,
 )
+from kernel.domain.exercise import CandidatesSelector
 from tests.types import DomainT, OptionsDomainT
 
 _DomainT = DomainT
