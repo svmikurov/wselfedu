@@ -1,4 +1,4 @@
-"""Abstract base class for exercise domain business logic."""
+"""Abstract base classes for exercise domain."""
 
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
@@ -19,7 +19,7 @@ ResultT = TypeVar('ResultT')
 # =================================================
 
 
-class AbstractConfigurableCandidatesExerciseDomain(
+class AbstractCandidatesExerciseDomain(
     ABC,
     Generic[ConfT, TaskT],
 ):

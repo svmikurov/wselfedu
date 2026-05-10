@@ -14,14 +14,13 @@ from interfaces.protocols.domain.exercise import (
 from interfaces.schemas.domain.exercise import (
     PresentationExerciseDomainResult,
 )
-
-from .abstract import AbstractConfigurableCandidatesExerciseDomain
+from ports.abstract.domain.exercise import AbstractCandidatesExerciseDomain
 
 __all__ = ('PresentationDomain',)
 
 
 class PresentationDomain(
-    AbstractConfigurableCandidatesExerciseDomain[
+    AbstractCandidatesExerciseDomain[
         ExerciseConfigProtocol,
         PresentationDomainResultProtocol,
     ],

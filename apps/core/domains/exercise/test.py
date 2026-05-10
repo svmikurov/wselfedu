@@ -20,12 +20,11 @@ from interfaces.schemas.domain.exercise import (
     CheckTaskResult,
     TestExerciseDomainResult,
 )
-from utils.audit.base import BaseAuditable
-
-from .abstract import (
+from ports.abstract.domain.exercise import (
+    AbstractCandidatesExerciseDomain,
     AbstractCheckExerciseDomain,
-    AbstractConfigurableCandidatesExerciseDomain,
 )
+from utils.audit.base import BaseAuditable
 
 __all__ = [
     'TestDomain',
@@ -41,7 +40,7 @@ class _ExerciseConfig(
 
 
 class TestDomain(
-    AbstractConfigurableCandidatesExerciseDomain[
+    AbstractCandidatesExerciseDomain[
         _ExerciseConfig,
         TestDomainResultProtocol,
     ],
