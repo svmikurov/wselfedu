@@ -2,7 +2,6 @@
 
 from typing import TypeVar
 
-from apps.core.builders.protocol import SpecDtoBuilderProtocol
 from contracts.entity.domain.exercise.flow import (
     PresentationCaseProtocol,
     TestCaseProtocol,
@@ -13,6 +12,7 @@ from contracts.schemas.domain.exercise.flow import (
 )
 from interfaces.protocols.domain import exercise as interfaces
 from interfaces.schemas.web.task import Option
+from ports.contract.infra.builder import SpecDtoBuilderProtocol
 from utils.audit.base import BaseAuditable
 
 SpecT = TypeVar('SpecT')

@@ -2,7 +2,7 @@
 
 from typing import TypeVar
 
-from apps.core.builders.protocol import SpecDtoBuilderProtocol
+from ports.contract.infra.builder import SpecDtoBuilderProtocol
 
 DtoT = TypeVar('DtoT')
 Spec_contra = TypeVar('Spec_contra', contravariant=True)

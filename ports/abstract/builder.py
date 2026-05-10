@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar, override
 
-from apps.core.builders.protocol import (
+from ports.contract.infra.builder import (
     DtoBuilderProtocol,
     SpecDtoBuilderProtocol,
 )
