@@ -3,13 +3,13 @@
 import logging
 from typing import Hashable, TypeVar, override
 
-from apps.core.assemblers.command import UserCommand
 from apps.core.exceptions.storage import (
     CacheMissError,
     StorageProgrammingError,
 )
 from apps.core.storages.abstract import AbstractStoreKeyResolver
 from apps.core.storages.services.iabc import AbstractCommandStorage
+from ports.interfaces.schemas.command import UserCommand
 
 from ..clients.django_cache import DjangoKeyCache
 from ..resolver import generate_cache_key

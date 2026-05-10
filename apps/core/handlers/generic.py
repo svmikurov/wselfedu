@@ -2,9 +2,9 @@
 
 from typing import Generic, TypeVar
 
-from apps.core.assemblers.protocol import AuditableAssemblerProtocol
 from apps.core.use_cases.protocol import UseCaseProtocol
 from apps.core.validators.request.protocol import RequestValidatorProtocol
+from ports.contract.entity.command import AuditableAssemblerProtocol
 from ports.contract.infra.adapter import AdapterProtocol
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol

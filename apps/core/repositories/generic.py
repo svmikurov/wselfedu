@@ -4,12 +4,12 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Generic, TypedDict, TypeVar, override
 
-from apps.core.assemblers.protocol import (
+from apps.core.exceptions.storage import CacheMissError
+from apps.core.repositories.abstract import AbstractUserFetchRepository
+from ports.contract.entity.command import (
     UserCommandProtocol,
     UserDetailCommandProtocol,
 )
-from apps.core.exceptions.storage import CacheMissError
-from apps.core.repositories.abstract import AbstractUserFetchRepository
 
 if TYPE_CHECKING:
     from apps.core.storages.services.iabc import AbstractUserStorage

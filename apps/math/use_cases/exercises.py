@@ -5,12 +5,12 @@ from typing import override
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
-from apps.core.assemblers.command import UserCommand
 from apps.core.use_cases.abstract import AbstractUseCase
 from apps.math.domains.dto import StudentExerciseDTO
 from apps.math.models import StudentCalculationCondition
 from apps.study.models import ExerciseAvailability, ExerciseLog, ExerciseReward
 from apps.study.resolvers.protocol import CompletionResolverProtocol
+from ports.interfaces.schemas.command import UserCommand
 
 
 # HACK: Fix Any type hint

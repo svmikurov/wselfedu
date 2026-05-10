@@ -4,7 +4,6 @@ from unittest.mock import Mock
 
 import pytest
 
-from apps.core.assemblers.command import UserDataCommand
 from apps.core.exceptions.storage import StorageMissError
 from apps.core.services.protocol import UserServiceProtocol
 from apps.core.use_cases.exercise.generic import ExerciseUseCaseStrategy
@@ -18,6 +17,7 @@ from ports.contract.enums.exercise import (
     ExerciseAction,
     ExerciseStatus,
 )
+from ports.interfaces.schemas.command import UserDataCommand
 
 from ._types import (
     BuilderT,

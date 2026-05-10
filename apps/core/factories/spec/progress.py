@@ -2,13 +2,13 @@
 
 from typing import TypeVar, override
 
-from apps.core.assemblers.protocol import UserDataCommandProtocol
 from apps.core.factories.abstract import AbstractExerciseSpecFactory
 from contracts.entity.domain.exercise.fields import HasExerciseAction
 from contracts.schemas.domain.exercise.params import ExerciseParametersDTO
 from interfaces.protocols.domain import PresentationDomainResultProtocol
 from interfaces.protocols.repository import ProgressUpdateConditionsProtocol
 from interfaces.schemas.repository import ProgressUpdateConditions
+from ports.contract.entity.command import UserDataCommandProtocol
 from utils.audit import AuditorProtocol, BaseAuditable
 
 CaseT = TypeVar('CaseT', bound=PresentationDomainResultProtocol)

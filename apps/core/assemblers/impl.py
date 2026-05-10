@@ -2,13 +2,6 @@
 
 from typing import Generic, TypeVar, override
 
-from apps.core.assemblers.protocol import (
-    QueryCommandProtocol,
-    UserCommandProtocol,
-    UserDataCommandProtocol,
-    UserDetailCommandProtocol,
-    UserDetailDataCommandProtocol,
-)
 from apps.core.handlers.protocol import (
     DetailRequestParamsProtocol,
     QueryRequestParamsProtocol,
@@ -16,9 +9,14 @@ from apps.core.handlers.protocol import (
 from apps.core.parsers.protocol import RequestParamsQueryParserProtocol
 from contracts.entity.general import NullProtocol
 from interfaces.protocols.request.general import RequestContextProtocol
-
-from .abstract import AbstractAssembler
-from .command import (
+from ports.contract.entity.command import (
+    QueryCommandProtocol,
+    UserCommandProtocol,
+    UserDataCommandProtocol,
+    UserDetailCommandProtocol,
+    UserDetailDataCommandProtocol,
+)
+from ports.interfaces.schemas.command import (
     QueryCommand,
     UserCommand,
     UserDataCommand,
@@ -27,6 +25,8 @@ from .command import (
     UserQueryCommand,
     UserQueryDataCommand,
 )
+
+from .abstract import AbstractAssembler
 from .types import (
     UserAssemblerType,
     UserDetailAssemblerType,

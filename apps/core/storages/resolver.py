@@ -3,7 +3,7 @@
 import hashlib
 from typing import TypeVar
 
-from apps.core.assemblers.command import UserCommand
+from ports.interfaces.schemas.command import UserCommand
 
 from .abstract import AbstractStoreKeyResolver
 

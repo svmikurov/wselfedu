@@ -8,7 +8,6 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models import F, OuterRef, Subquery
 from django.utils import timezone
 
-from apps.core.assemblers.command import UserDetailCommand
 from apps.core.repositories.generic import UserResourceCachedRepository
 from apps.math.domains.dto import (
     CalculationConditionDTO,
@@ -25,6 +24,7 @@ from apps.study.models import (
     ExerciseReward,
 )
 from apps.study.resolvers.protocol import CompletionResolverProtocol
+from ports.interfaces.schemas.command import UserDetailCommand
 
 if TYPE_CHECKING:
     from django.db.models import Manager

@@ -2,9 +2,9 @@
 
 from django.db.models import F, Manager, QuerySet
 
-from apps.core.assemblers.command import UserCommand, UserDetailCommand
 from apps.core.repositories.abstract import AbstractUserFetchRepository
 from apps.lang.models import EnglishTranslation
+from ports.interfaces.schemas.command import UserCommand, UserDetailCommand
 
 __all__ = (
     'DetailTranslationRepository',

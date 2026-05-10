@@ -2,7 +2,6 @@
 
 from typing import Generic, TypeVar, override
 
-from apps.core.assemblers.protocol import UserDataCommandProtocol
 from apps.core.exceptions.storage import StorageMissError
 from apps.core.factories.protocol import ExerciseSpecFactoryProtocol
 from apps.core.resolvers.protocol import ResolverProtocol
@@ -17,6 +16,7 @@ from interfaces.protocols.domain.exercise import (
     ExerciseParametersProtocol,
 )
 from ports.contract import enums
+from ports.contract.entity.command import UserDataCommandProtocol
 from ports.contract.infra.protocol import TaskBuilderProtocol
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol

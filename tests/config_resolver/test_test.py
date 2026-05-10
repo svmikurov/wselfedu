@@ -2,7 +2,6 @@
 
 import pytest
 
-from apps.core.assemblers.protocol import UserCommandProtocol
 from apps.core.repositories.protocol import RepositoryProtocol
 from apps.core.resolvers.exercise.config_resolver import (
     ExerciseConfigurationResolver,
@@ -17,6 +16,7 @@ from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
 )
 from interfaces.protocols.domain.exercise import ExerciseParametersProtocol
+from ports.contract.entity.command import UserCommandProtocol
 from ports.contract.enums.exercise import ExerciseKind
 
 RepositoryT = RepositoryProtocol[

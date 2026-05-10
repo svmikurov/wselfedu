@@ -2,7 +2,6 @@
 
 from typing import Any, TypeAlias
 
-from apps.core.assemblers.protocol import AuditableAssemblerProtocol
 from apps.core.builders.protocol import SpecDtoBuilderProtocol
 from apps.core.handlers.generic import RequestHandler
 from apps.core.handlers.protocol import RequestDataProtocol
@@ -22,6 +21,7 @@ from interfaces.schemas.domain.exercise import (
     PresentationExerciseDomainResult,
     TestExerciseDomainResult,
 )
+from ports.contract.entity.command import AuditableAssemblerProtocol
 from ports.contract.infra.adapter import AdapterProtocol
 
 # HACK: Fix Any type hint

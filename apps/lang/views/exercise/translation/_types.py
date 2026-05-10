@@ -2,7 +2,6 @@
 
 from typing import Any
 
-from apps.core.assemblers.command import UserDataCommand
 from apps.core.handlers.generic import RequestHandler
 from apps.core.handlers.protocol import (
     RequestDataProtocol,
@@ -15,6 +14,7 @@ from ports.contract.enums.exercise import (
     ExerciseAction,
     ExerciseStatus,
 )
+from ports.interfaces.schemas.command import UserDataCommand
 
 type ResponseDtoT = HtmlResponseDTO[
     ExerciseStatus,
