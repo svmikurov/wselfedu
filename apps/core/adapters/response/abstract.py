@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar, override
 
-from apps.core.adapters.response.protocol import AdapterProtocol
+from ports.contract.infra.adapter import AdapterProtocol
 
 UseCaseResultT = TypeVar('UseCaseResultT')
 ExtraContextT = TypeVar('ExtraContextT')

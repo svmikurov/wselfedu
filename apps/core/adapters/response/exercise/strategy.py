@@ -3,9 +3,9 @@
 import logging
 from typing import Generic, TypeVar, override
 
-from apps.core.adapters.response.protocol import AdapterProtocol
 from contracts.entity.domain.exercise.fields import HasExerciseStatus
 from contracts.enums.exercise import ExerciseStatus
+from ports.contract.infra.adapter import AdapterProtocol
 from utils.audit.impl import NullAuditor
 from utils.audit.protocol import AuditorProtocol
 

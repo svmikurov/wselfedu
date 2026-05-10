@@ -2,10 +2,10 @@
 
 from typing import Generic, TypeVar
 
-from apps.core.adapters.response.protocol import AdapterProtocol
 from apps.core.assemblers.protocol import AuditableAssemblerProtocol
 from apps.core.use_cases.protocol import UseCaseProtocol
 from apps.core.validators.request.protocol import RequestValidatorProtocol
+from ports.contract.infra.adapter import AdapterProtocol
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 from utils.logger.decorators import log_errors_to_file
