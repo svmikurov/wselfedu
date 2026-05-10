@@ -17,7 +17,7 @@ class TaskBuilderProtocol(
 
     def build(
         self,
-        domain: Case_contra,
+        case: Case_contra,
         conf: Conf_contra,
     ) -> Task_cov:
         """Build exercise task."""
