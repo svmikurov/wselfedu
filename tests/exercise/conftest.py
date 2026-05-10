@@ -19,6 +19,7 @@ from interfaces.schemas.validator.task import (
     ValidatedCheckTestAnswer,
     ValidatedCreateTask,
 )
+from tests.fixtures.exercise.lang.no_db.translations import TRANSLATION_INDEX
 from tests.types.handler import (
     AdapterT,
     AssemblerT,
@@ -98,7 +99,7 @@ def check_test_answer_request_data() -> CheckRequestDataT:
     return RequestData(
         data={
             'action': ExerciseAction.CHECK_ANSWER,
-            'option_value': '3',
+            'option_value': str(TRANSLATION_INDEX),
         },
     )
 
@@ -158,7 +159,7 @@ def validated_check() -> ValidatedCheckT:
     """Provide the *check test answer* DTO validated request data."""
     return ValidatedCheckTestAnswer(
         action=ExerciseAction.CHECK_ANSWER,
-        option_value=3,
+        option_value=TRANSLATION_INDEX,
     )
 
 
@@ -189,7 +190,7 @@ def check_test_command(
         user=user,
         data=ValidatedCheckTestAnswer(
             action=ExerciseAction.CHECK_ANSWER,
-            option_value=3,
+            option_value=TRANSLATION_INDEX,
         ),
     )
 

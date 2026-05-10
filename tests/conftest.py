@@ -15,7 +15,10 @@ from interfaces.schemas.domain.exercise import (
     TaskItem,
     TestExerciseDomainResult,
 )
-from tests.fixtures.exercise.lang.no_db.translations import TRANSLATIONS
+from tests.fixtures.exercise.lang.no_db.translations import (
+    TRANSLATION_INDEX,
+    TRANSLATIONS,
+)
 
 pytest_plugins = [
     'tests.fixtures.db_user',
@@ -100,7 +103,7 @@ def create_translation_test_domain_result(
 ) -> TestExerciseDomainResult:
     """Provide create translation test domain result."""
     return TestExerciseDomainResult(
-        question_option_value=3,
+        question_option_value=TRANSLATION_INDEX,
         items=translation_task_items,
         status=enums.ExerciseStatus.NEW_TASK,
     )

@@ -12,6 +12,9 @@ from interfaces.protocols.domain.exercise import (
     ExerciseConfigProtocol,
     ExerciseSettingsProtocol,
 )
+from tests.fixtures.exercise.lang.no_db.translations import (
+    TRANSLATION_INDEX,
+)
 
 
 @pytest.fixture
@@ -34,6 +37,6 @@ def presentation_configuration() -> ExerciseConfigProtocol:
 def exercise_settings() -> ExerciseSettingsProtocol:
     """Provide exercise settings fixture."""
     return ExerciseSettingsDTO(
-        question_timeout=3,
+        question_timeout=TRANSLATION_INDEX,
         answer_timeout=5,
     )

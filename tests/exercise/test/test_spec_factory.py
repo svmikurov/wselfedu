@@ -16,6 +16,9 @@ from contracts.schemas.domain.exercise.params import (
 )
 from interfaces.schemas.domain.exercise import TestAnswer
 from interfaces.schemas.spec.exercise import CheckTestSpec
+from tests.fixtures.exercise.lang.no_db.translations import (
+    TRANSLATION_INDEX,
+)
 
 if TYPE_CHECKING:
     from apps.core.factories.protocol import ExerciseSpecFactoryProtocol
@@ -101,7 +104,7 @@ def test_check_test_answer_specification(
         create_translation_test_domain_result,
     ) == CheckTestSpec(
         answer=TestAnswer(
-            option_value=3,
+            option_value=TRANSLATION_INDEX,
         ),
         case=create_translation_test_domain_result,
     )
