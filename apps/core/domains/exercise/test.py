@@ -10,6 +10,7 @@ from contracts.entity.domain.exercise.fields import (
 )
 from contracts.entity.domain.exercise.flow import TestDomainResultProtocol
 from contracts.entity.domain.general import HasCheckResult
+from contracts.infra.domain.selector import SelectorProtocol
 from interfaces.protocols.domain.exercise import (
     CandidatesT,
     TaskItemsT,
@@ -25,7 +26,6 @@ from .abstract import (
     AbstractCheckExerciseDomain,
     AbstractConfigurableCandidatesExerciseDomain,
 )
-from .deps.protocol import SelectorProtocol
 
 __all__ = [
     'TestDomain',

@@ -5,7 +5,6 @@ from typing import Any, Protocol, TypeAlias
 
 import pytest
 
-from apps.core.domains.exercise.deps.protocol import SelectorProtocol
 from apps.core.domains.exercise.deps.selector import CandidatesSelector
 from apps.core.domains.exercise.presentation import PresentationDomain
 from apps.core.formatters.exercise import PresentationFormatter
@@ -27,6 +26,7 @@ from contracts.entity.domain.params import (
     HasConditions,
     HasConfig,
 )
+from contracts.infra.domain.selector import SelectorProtocol
 from contracts.schemas.domain.exercise.params import (
     ExerciseSpecDTO,
 )

@@ -3,9 +3,8 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar, override
 
+from contracts.infra.domain.selector import SelectorProtocol
 from interfaces.protocols.domain.exercise import CandidatesT
-
-from .protocol import SelectorProtocol
 
 Conf = TypeVar('Conf')
 
