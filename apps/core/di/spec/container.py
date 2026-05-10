@@ -8,7 +8,7 @@ from apps.core.factories import (
     CreateExerciseSpecFactory,
     UpdateProgressSpecFactory,
 )
-from contracts.enums import ExerciseAction
+from ports.contract.enums import ExerciseAction
 
 
 class CoreSpecFactoryContainer(DeclarativeContainer):

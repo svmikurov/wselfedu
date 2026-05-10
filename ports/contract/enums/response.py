@@ -1,6 +1,6 @@
 """Response status enumeration."""
 
-from contracts.enums.base import BaseEnum
+from ports.contract.enums.base import BaseEnum
 
 
 class ResponseStatusEnum(BaseEnum):

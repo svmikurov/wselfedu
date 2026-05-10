@@ -2,8 +2,8 @@
 
 from apps.core.repositories.protocol import CommandRepositoryProtocol
 from apps.users.models.user import Person
-from contracts.enums import ExerciseStatus
 from interfaces.schemas.service.exercise import UpdateProgressCase
+from ports.contract.enums import ExerciseStatus
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 

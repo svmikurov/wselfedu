@@ -5,9 +5,9 @@ from typing import override
 from apps.core.assemblers.protocol import UserCommandProtocol
 from apps.core.repositories.protocol import RepositoryProtocol
 from contracts.entity.general import NullProtocol
-from contracts.enums.exercise import ExerciseKind
 from contracts.schemas.base import NullDTO
 from interfaces.protocols.domain.exercise import ExerciseParametersProtocol
+from ports.contract.enums.exercise import ExerciseKind
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 

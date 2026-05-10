@@ -9,7 +9,7 @@ from apps.core.builders.exercise.task import (
     TestExerciseTaskBuilder,
 )
 from apps.core.builders.null import NullSpecDtoBuilder
-from contracts.enums import ExerciseStatus
+from ports.contract.enums import ExerciseStatus
 
 
 class UseCaseResultBuilderContainer(DeclarativeContainer):

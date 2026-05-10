@@ -20,8 +20,8 @@ from apps.users.models import Person
 from contracts.entity.response.base import (
     HtmlResponseProtocol,
 )
-from contracts.enums.exercise import ExerciseStatus
 from contracts.schemas.response.generic import HtmlResponseDTO
+from ports.contract.enums.exercise import ExerciseStatus
 
 from .mixins import ExerciseLoopMixin
 

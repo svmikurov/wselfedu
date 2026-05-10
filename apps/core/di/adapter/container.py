@@ -10,8 +10,8 @@ from apps.core.adapters.response import (
 from apps.core.adapters.response.exercise.test.web import (
     WebTestExerciseAdapter,
 )
-from contracts.enums import ExerciseStatus
 from kernel.adapter.null import NullResponseAdapter
+from ports.contract.enums import ExerciseStatus
 
 PRESENTATION_TEMPLATES: tuple[str, ...] = (
     'core/exercise/presentation/task.html',

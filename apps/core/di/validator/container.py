@@ -6,12 +6,12 @@ from dependency_injector.providers import Dict, Factory
 from apps.core.validators.request.exercise.create_task import (
     ExerciseRequestValidator,
 )
-from contracts.enums.exercise import ExerciseAction
 from interfaces.schemas.validator import (
     ValidatedCheckTestAnswer,
     ValidatedCreateTask,
     ValidatedExerciseProgress,
 )
+from ports.contract.enums.exercise import ExerciseAction
 
 
 class ValidatorContainer(DeclarativeContainer):

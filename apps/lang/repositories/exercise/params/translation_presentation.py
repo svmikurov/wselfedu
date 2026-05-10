@@ -12,7 +12,6 @@ from apps.lang.models import (
 )
 from apps.users.models import Person
 from contracts import NullProtocol
-from contracts.enums.exercise import DisplayOrder
 from contracts.schemas.domain.exercise.params import (
     ExerciseConfigDTO,
     ExerciseParametersDTO,
@@ -22,6 +21,7 @@ from contracts.schemas.domain.exercise.params import (
 from interfaces.protocols.domain.exercise import (
     ExerciseParametersProtocol,
 )
+from ports.contract.enums.exercise import DisplayOrder
 
 
 # REVIEW: Exercise parameters repo

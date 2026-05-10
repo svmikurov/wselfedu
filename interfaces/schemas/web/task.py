@@ -1,6 +1,5 @@
 """Exercise task's WEB response interfaces."""
 
-from contracts.enums import ExerciseStatus
 from contracts.schemas.domain.exercise.fields import (
     DefineField,
     MeanField,
@@ -11,6 +10,7 @@ from contracts.schemas.fields import TextField, ValueField
 from contracts.schemas.response.generic import HtmlResponseDTO
 from contracts.schemas.response.null import NullContext
 from contracts.schemas.response.types import AdaptedDomainResultT
+from ports.contract.enums import ExerciseStatus
 
 __all__ = (
     # Response's components

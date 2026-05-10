@@ -6,8 +6,8 @@ from apps.core.assemblers.command import UserDataCommand
 from apps.core.assemblers.protocol import UserDataCommandProtocol
 from apps.users.models import Person
 from contracts.entity.domain.exercise.fields import HasExerciseAction
-from contracts.enums.exercise import ExerciseAction
 from contracts.schemas.request.exercise import ExerciseRequestDTO
+from ports.contract.enums.exercise import ExerciseAction
 
 CommandT = UserDataCommandProtocol[HasExerciseAction]
 

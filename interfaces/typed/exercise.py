@@ -1,7 +1,7 @@
 """Exercise data typed dict."""
 
 from contracts.entity.domain.general import ActionTyped, TypedOptionValue
-from contracts.enums import ExerciseAction
+from ports.contract.enums import ExerciseAction
 
 
 class TypedCreateTask(

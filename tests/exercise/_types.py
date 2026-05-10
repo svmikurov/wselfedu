@@ -5,12 +5,12 @@ from typing import Callable, Protocol
 from apps.core.handlers.protocol import RequestDataProtocol
 from apps.core.validators.request.protocol import RequestValidatorProtocol
 from contracts.entity.domain.general import HasAction
-from contracts.enums import ExerciseAction
 from interfaces.protocols.validated.exercise import (
     ValidatedCheckTestRequestProtocol,
     ValidatedCreateTaskRequestProtocol,
 )
 from interfaces.typed.exercise import TypedCheckTestAnswer, TypedCreateTask
+from ports.contract.enums import ExerciseAction
 
 
 class RequestParams(Protocol):

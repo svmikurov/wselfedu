@@ -13,11 +13,11 @@ from apps.lang.repositories.legacy.exercise.conditions import (
     RegularParametersRepository,
 )
 from contracts.entity.general import NullProtocol
-from contracts.enums.exercise import ExerciseKind
 from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
 )
 from interfaces.protocols.domain.exercise import ExerciseParametersProtocol
+from ports.contract.enums.exercise import ExerciseKind
 
 RepositoryT = RepositoryProtocol[
     NullProtocol,

@@ -3,7 +3,6 @@
 from random import randrange, sample
 
 from apps.core.exceptions import info
-from contracts import enums
 from contracts.entity.domain.exercise.fields import (
     HasDisplayOrder,
     HasOptionCount,
@@ -24,6 +23,7 @@ from ports.abstract.domain.exercise import (
     AbstractCandidatesExerciseDomain,
     AbstractCheckExerciseDomain,
 )
+from ports.contract import enums
 from utils.audit.base import BaseAuditable
 
 __all__ = [

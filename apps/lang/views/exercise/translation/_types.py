@@ -9,12 +9,12 @@ from apps.core.handlers.protocol import (
 )
 from contracts import NullProtocol
 from contracts.entity.domain.general import HasAction
-from contracts.enums.exercise import (
+from contracts.schemas.response.generic import HtmlResponseDTO
+from interfaces.protocols.request.general import RequestContextProtocol
+from ports.contract.enums.exercise import (
     ExerciseAction,
     ExerciseStatus,
 )
-from contracts.schemas.response.generic import HtmlResponseDTO
-from interfaces.protocols.request.general import RequestContextProtocol
 
 type ResponseDtoT = HtmlResponseDTO[
     ExerciseStatus,

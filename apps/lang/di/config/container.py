@@ -10,11 +10,11 @@ from dependency_injector.providers import (
 from apps.core.resolvers.exercise.config_resolver import (
     ExerciseConfigurationResolver,
 )
-from contracts.enums.exercise import ExerciseKind
 from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
     TestExerciseConfigDTO,
 )
+from ports.contract.enums.exercise import ExerciseKind
 
 
 class LanguageConfigurationContainer(DeclarativeContainer):

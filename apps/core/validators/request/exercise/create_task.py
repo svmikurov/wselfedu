@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Callable
 
 from apps.core.handlers.protocol import RequestDataProtocol
 from contracts.entity.domain.general import ActionTyped, HasAction
-from contracts.enums.exercise import ExerciseAction
+from ports.contract.enums.exercise import ExerciseAction
 from utils.audit.base import BaseAuditable
 
 from ..abstract import AbstractRequestValidator

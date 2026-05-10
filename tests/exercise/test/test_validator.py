@@ -7,11 +7,11 @@ from typing import TYPE_CHECKING, Any
 import pytest
 
 from apps.core.validators.request.exercise import ExerciseRequestValidator
-from contracts.enums import ExerciseAction
 from interfaces.schemas.validator.task import (
     ValidatedCheckTestAnswer,
     ValidatedCreateTask,
 )
+from ports.contract.enums import ExerciseAction
 
 if TYPE_CHECKING:
     from apps.core.validators.request.protocol import RequestValidatorProtocol

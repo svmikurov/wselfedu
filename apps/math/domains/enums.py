@@ -1,6 +1,6 @@
 """Mathematical discipline domain entity enumerations."""
 
-from contracts.enums.base import BaseEnum
+from ports.contract.enums.base import BaseEnum
 
 
 class CalculationEnum(BaseEnum):

@@ -20,7 +20,7 @@ from apps.math.domains.dto import (
     CalculationResultDTO,
     CalculationSolutionDTO,
 )
-from contracts.enums.exercise import ExerciseStatus
+from ports.contract.enums.exercise import ExerciseStatus
 
 from ..domains.enums import CalculationEnum
 

@@ -10,14 +10,14 @@ from apps.core.services.protocol import UserServiceProtocol
 from apps.core.use_cases.exercise.generic import ExerciseUseCaseStrategy
 from apps.users.models import Person
 from contracts.entity.domain.exercise import flow
-from contracts.enums.exercise import (
-    ExerciseAction,
-    ExerciseStatus,
-)
 from contracts.schemas.domain.exercise.params import (
     ExerciseSpecDTO,
 )
 from contracts.schemas.request.exercise import ExerciseRequestDTO
+from ports.contract.enums.exercise import (
+    ExerciseAction,
+    ExerciseStatus,
+)
 
 from ._types import (
     BuilderT,

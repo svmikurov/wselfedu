@@ -10,9 +10,9 @@ from apps.core.assemblers.command import UserDataCommand
 from apps.core.assemblers.protocol import UserDataCommandProtocol
 from apps.core.use_cases.protocol import UseCaseProtocol
 from apps.lang.models import EnglishTranslation
-from contracts.enums.exercise import ExerciseAction
 from contracts.schemas.request.exercise import ExerciseRequestDTO
 from interfaces.protocols.domain.exercise import PresentationTaskProtocol
+from ports.contract.enums.exercise import ExerciseAction
 
 if TYPE_CHECKING:
     from apps.lang.di.use_case.container import LangUseCaseContainer

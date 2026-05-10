@@ -6,7 +6,6 @@ from contracts.entity.domain.exercise.fields import (
     ExerciseCaseProtocol,
     HasDisplayOrder,
 )
-from contracts.enums import DisplayOrder, ExerciseStatus
 from contracts.schemas.domain.exercise.flow import (
     ExerciseCase,
     PresentationTask,
@@ -19,6 +18,7 @@ from interfaces.protocols.domain.exercise import (
     TestTaskProtocol,
 )
 from interfaces.schemas.web.task import Option
+from ports.contract.enums import DisplayOrder, ExerciseStatus
 
 from .abstract import AbstractConfFormatter
 

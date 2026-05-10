@@ -10,7 +10,7 @@ from dependency_injector.providers import (
 
 from apps.core import services
 from apps.core.builders.exercise.case import ExerciseCaseBuilder
-from contracts.enums.exercise import ExerciseAction
+from ports.contract.enums.exercise import ExerciseAction
 
 
 class ServiceContainer(DeclarativeContainer):

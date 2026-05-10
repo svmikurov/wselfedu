@@ -17,12 +17,12 @@ from apps.core.handlers.protocol import (
 )
 from contracts.entity.general import NullProtocol
 from contracts.entity.response.base import HtmlResponseProtocol
-from contracts.enums.exercise import (
+from contracts.schemas.base import NullDTO
+from interfaces.protocols.request.general import RequestContextProtocol
+from ports.contract.enums.exercise import (
     ExerciseAction,
     ExerciseStatus,
 )
-from contracts.schemas.base import NullDTO
-from interfaces.protocols.request.general import RequestContextProtocol
 
 from ..abstract import AbstractProcessAction, AbstractStartAction
 

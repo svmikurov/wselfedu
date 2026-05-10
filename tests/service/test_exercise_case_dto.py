@@ -11,7 +11,6 @@ import pytest
 from apps.core.formatters.exercise import PresentationFormatter, TestFormatter
 from apps.core.services.exercise.generic import CreateExerciseService
 from apps.users.models import Person
-from contracts import enums
 from contracts.schemas.domain.exercise.flow import (
     ExerciseCase,
     PresentationTask,
@@ -25,6 +24,7 @@ from interfaces.schemas.domain.exercise import (
     PresentationExerciseDomainResult,
     TestExerciseDomainResult,
 )
+from ports.contract import enums
 from tests.types import DomainT, RepositoryT, ServiceT
 
 _DomainT = DomainT

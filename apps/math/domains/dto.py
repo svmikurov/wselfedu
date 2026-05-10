@@ -8,8 +8,8 @@ from pydantic import BaseModel, Field
 
 from apps.study.models.exercise.availability import PeriodExecuting
 from apps.study.models.exercise.reward import RewardType
-from contracts.enums.exercise import ExerciseStatus
 from contracts.schemas.base import BaseDTO
+from ports.contract.enums.exercise import ExerciseStatus
 
 Operation = Literal['add', 'sub', 'mul', 'div']
 

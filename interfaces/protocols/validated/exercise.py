@@ -4,7 +4,7 @@ from typing import Protocol
 
 from contracts.entity.domain.exercise.fields import HasOptionValue
 from contracts.entity.domain.general import HasAction
-from contracts.enums import ExerciseAction
+from ports.contract.enums import ExerciseAction
 
 
 class ValidatedCreateTaskRequestProtocol(

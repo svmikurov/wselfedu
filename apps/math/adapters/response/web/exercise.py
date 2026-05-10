@@ -3,7 +3,6 @@
 from decimal import Decimal
 from typing import Any, NamedTuple, Protocol, TypeVar, override
 
-from apps.core.adapters.response.status import ResponseStatusEnum
 from apps.math import forms
 from apps.math.domains.dto import (
     CalculationCaseDTO,
@@ -13,7 +12,6 @@ from apps.math.domains.dto import (
 )
 from contracts import NullProtocol
 from contracts.entity.domain.exercise import fields
-from contracts.enums.exercise import ExerciseStatus
 from contracts.schemas.response.generic import (
     HtmlResponseDTO,
     ResponseDTO,
@@ -22,6 +20,8 @@ from interfaces.protocols.request.general import RequestContextProtocol
 from ports.abstract.adapter import (
     AbstractResponseAdapter,
 )
+from ports.contract.enums.exercise import ExerciseStatus
+from ports.contract.enums.response import ResponseStatusEnum
 from ports.contract.infra.adapter import AdapterProtocol
 
 from .dto import (
