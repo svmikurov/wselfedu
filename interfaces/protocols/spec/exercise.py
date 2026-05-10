@@ -2,10 +2,7 @@
 
 from typing import Protocol
 
-from apps.core.domains.exercise.protocol import (
-    HasExistingCase,
-)
-from contracts.entity.domain.exercise.fields import HasAnswer
+from contracts.entity.domain.exercise.fields import HasAnswer, HasCase
 from contracts.entity.domain.params import (
     HasConditions,
     HasConfig,
@@ -24,7 +21,7 @@ class CreateTaskSpecProtocol(
     HasConditions[ConditionsProtocol],
     HasConfig[ExerciseConfigProtocol],
     HasSettings[ExerciseSettingsProtocol],
-    HasExistingCase[TestDomainResultProtocol],
+    HasCase[TestDomainResultProtocol],
     Protocol,
 ):
     """Protocol for create task service specification interface.
@@ -47,7 +44,7 @@ class CreateTaskSpecProtocol(
 
 class CheckTestSpecProtocol(
     HasAnswer[TestAnswerProtocol],
-    HasExistingCase[TestDomainResultProtocol],
+    HasCase[TestDomainResultProtocol],
     Protocol,
 ):
     """Protocol for check test task service specification interface.

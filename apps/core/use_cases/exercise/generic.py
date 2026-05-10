@@ -3,9 +3,6 @@
 from typing import Generic, TypeVar, override
 
 from apps.core.assemblers.protocol import UserDataCommandProtocol
-from apps.core.domains.exercise.protocol import (
-    HasExerciseAction,
-)
 from apps.core.domains.task.protocol import TaskBuilderProtocol
 from apps.core.exceptions.storage import StorageMissError
 from apps.core.factories.protocol import ExerciseSpecFactoryProtocol
@@ -16,6 +13,7 @@ from apps.core.use_cases.abstract import AbstractUseCase
 from contracts import enums
 from contracts.entity.domain import params
 from contracts.entity.domain.exercise import flow
+from contracts.entity.domain.exercise.fields import HasExerciseAction
 from interfaces.protocols.domain.exercise import (
     ExerciseConfigProtocol,
     ExerciseParametersProtocol,

@@ -2,12 +2,12 @@
 
 from typing import Protocol, TypeVar, override
 
-from apps.core.domains.exercise.protocol import HasCheckResult
 from apps.core.formatters.protocol import ConfFormatterProtocol
 from apps.core.repositories.protocol import RepositoryProtocol
 from apps.users.models import Person
 from contracts import aliases
 from contracts.entity.domain.exercise import fields
+from contracts.entity.domain.general import HasCheckResult
 from contracts.entity.domain.params import HasConditions, HasConfig
 from contracts.infra.domain.exercise import CheckTaskDomainProtocol
 from interfaces.protocols.domain.exercise import (

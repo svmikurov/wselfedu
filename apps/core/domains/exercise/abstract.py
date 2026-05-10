@@ -4,16 +4,12 @@ from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
 from contracts.infra.domain.exercise import CheckTaskDomainProtocol
-from interfaces.protocols.domain.exercise import (
-    CandidateProtocol,
-    CandidatesT,
-)
+from interfaces.protocols.domain.exercise import CandidatesT
 
 ConfT = TypeVar('ConfT')
 CaseT = TypeVar('CaseT')
 TaskT = TypeVar('TaskT')
 
-CandidateT = TypeVar('CandidateT', bound=CandidateProtocol)
 UserAnswerT = TypeVar('UserAnswerT')
 ResultT = TypeVar('ResultT')
 

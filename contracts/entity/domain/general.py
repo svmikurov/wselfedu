@@ -86,3 +86,14 @@ class DumpModelProtocol(Protocol[DumpData_co]):
 
     def model_dump(self) -> DumpData_co:
         """Dumb DTO model to dict."""
+
+
+# =================================================
+# User answer check result
+# =================================================
+
+
+class HasCheckResult(Protocol):
+    """User answer check result."""
+
+    is_correct: bool

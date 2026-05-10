@@ -216,6 +216,6 @@ def use_case(
         storage=mock_empty_storage,
         config_resolver=mock_config_resolver,
         spec_factory_registry=mock_spec_factory_registry,
-        service_registry=mock_service_registry,  # type: ignore
-        builder_registry=mock_builder_registry,  # type: ignore
+        service_registry=mock_service_registry,
+        builder_registry=mock_builder_registry,
     )

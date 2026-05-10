@@ -2,12 +2,12 @@
 
 from typing import Protocol, TypeVar
 
-ConditionsT = TypeVar('ConditionsT', covariant=True)
-ConfigT = TypeVar('ConfigT', covariant=True)
-SettingsT = TypeVar('SettingsT', covariant=True)
+Conditions_co = TypeVar('Conditions_co', covariant=True)
+Config_co = TypeVar('Config_co', covariant=True)
+Settings_co = TypeVar('Settings_co', covariant=True)
 
 
-class HasConditions(Protocol[ConditionsT]):
+class HasConditions(Protocol[Conditions_co]):
     """Protocol for has *conditions* interface.
 
     Contains lookup conditions for domain.
@@ -18,10 +18,10 @@ class HasConditions(Protocol[ConditionsT]):
     """
 
     @property
-    def conditions(self) -> ConditionsT: ...  # noqa
+    def conditions(self) -> Conditions_co: ...  # noqa
 
 
-class HasConfig(Protocol[ConfigT]):
+class HasConfig(Protocol[Config_co]):
     """Protocol for has *config* interface.
 
     Contains configuration for domain.
@@ -32,10 +32,10 @@ class HasConfig(Protocol[ConfigT]):
     """
 
     @property
-    def conf(self) -> ConfigT: ...  # noqa
+    def conf(self) -> Config_co: ...  # noqa
 
 
-class HasSettings(Protocol[SettingsT]):
+class HasSettings(Protocol[Settings_co]):
     """Protocol for has *settings* interface.
 
     Contains settings for user's interface to domain display.
@@ -45,4 +45,24 @@ class HasSettings(Protocol[SettingsT]):
     """
 
     @property
-    def settings(self) -> SettingsT: ...  # noqa
+    def settings(self) -> Settings_co: ...  # noqa
+
+
+class GenericExerciseParameters(
+    HasConditions[Conditions_co],
+    HasConfig[Config_co],
+    HasSettings[Settings_co],
+    Protocol[Conditions_co, Config_co, Settings_co],
+):
+    """Generic exercise parameters.
+
+    Parameters
+    ----------
+    conditions :
+        Study resource lockup or task create conditions.
+    conf :
+        Exercise type domain configuration.
+    settings :
+        Exercise type perform settings.
+
+    """

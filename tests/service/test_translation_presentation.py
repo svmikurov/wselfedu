@@ -8,7 +8,6 @@ import pytest
 from apps.core.domains.exercise.deps.protocol import SelectorProtocol
 from apps.core.domains.exercise.deps.selector import CandidatesSelector
 from apps.core.domains.exercise.presentation.impl import PresentationDomain
-from apps.core.domains.exercise.protocol import HasCase
 from apps.core.formatters.exercise import PresentationFormatter
 from apps.core.formatters.protocol import ConfFormatterProtocol
 from apps.core.repositories.protocol import RepositoryProtocol
@@ -21,6 +20,7 @@ from apps.lang.repositories.exercise.candidates.translations import (
 from apps.users.models import Person
 from contracts import aliases
 from contracts.entity.domain.exercise.fields import (
+    HasCase,
     HasExerciseStatus,
 )
 from contracts.entity.domain.params import (

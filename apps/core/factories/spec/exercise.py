@@ -3,14 +3,19 @@
 from typing import TypeVar, override
 
 from apps.core.assemblers.protocol import UserDataCommandProtocol
-from apps.core.domains.exercise.protocol import HasExerciseAction
 from apps.core.factories.abstract import AbstractExerciseSpecFactory
+from contracts.entity.domain.exercise.fields import HasExerciseAction
 from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
     ExerciseSpecDTO,
 )
 from interfaces.protocols.domain.exercise import TestDomainResultProtocol
-from interfaces.protocols.spec.exercise import CreateTaskSpecProtocol
+from interfaces.protocols.spec.exercise import (
+    CheckTestSpecProtocol,
+    CreateTaskSpecProtocol,
+)
+from interfaces.schemas.domain.exercise import TestAnswer
+from interfaces.schemas.spec.exercise import CheckTestSpec
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
@@ -58,7 +63,7 @@ class CheckAnswerSpecFactory(
         UserDataCommandProtocol[HasExerciseAction],
         ExerciseParametersDTO,
         CaseT | None,
-        ExerciseSpecDTO[CaseT],
+        CheckTestSpecProtocol,
     ],
 ):
     """Check answer the specification factory."""
@@ -71,17 +76,18 @@ class CheckAnswerSpecFactory(
         """Construct the factory."""
         super().__init__(name=name, auditor=auditor)
 
+    # HACK: Fix type ignore
     @override
     def create(
         self,
         command: UserDataCommandProtocol[HasExerciseAction],
         params: ExerciseParametersDTO,
-        existing_case: CaseT | None,
-    ) -> ExerciseSpecDTO[CaseT]:
+        case: CaseT | None,
+    ) -> CheckTestSpecProtocol:
         """Create the check answer exercise specification."""
-        return ExerciseSpecDTO(
-            conditions=params.conditions,
-            conf=params.conf,
-            settings=params.settings,
-            case=existing_case,
+        return CheckTestSpec(  # type: ignore
+            answer=TestAnswer(
+                option_value=command.data.option_value,  # type: ignore
+            ),
+            case=case,  # type: ignore
         )

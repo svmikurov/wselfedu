@@ -2,13 +2,10 @@
 
 from typing import Protocol, TypeAlias, TypeVar
 
-from apps.core.domains.exercise.protocol import (
-    GenericExerciseParameters,
-    HasExistingCase,
-)
 from contracts import enums
 from contracts.entity.domain.exercise.fields import (
     HasAnswerText,
+    HasCase,
     HasDefineText,
     HasDisplayOrder,
     HasExerciseKind,
@@ -26,11 +23,13 @@ from contracts.entity.domain.exercise.fields import (
 )
 from contracts.entity.domain.general import (
     HasCategory,
+    HasCheckResult,
     HasMark,
     HasResourceIdentifier,
     HasSource,
 )
 from contracts.entity.domain.params import (
+    GenericExerciseParameters,
     HasConditions,
     HasConfig,
     HasSettings,
@@ -88,7 +87,7 @@ class ExerciseSpecProtocol(
     HasConditions[ConditionsProtocol],
     HasConfig[ExerciseConfigProtocol],
     HasSettings[ExerciseSettingsProtocol],
-    HasExistingCase[Option_co],
+    HasCase[Option_co],
     Protocol[Option_co],
 ):
     """Protocol for exercise spec interface."""
@@ -255,6 +254,7 @@ class TestTaskProtocol(
 
 
 class TestAnswerProtocol(
+    HasStatus[enums.ExerciseStatus],
     HasOptionValue,
     Protocol,
 ):
@@ -262,7 +262,22 @@ class TestAnswerProtocol(
 
     Parameters
     ----------
+    status : `ExerciseStatus`
+        Exercise status.
     option_value : `int`
         User answer test task option value.
 
     """
+
+
+# =================================================
+# Check task answer domain result
+# =================================================
+
+
+class CheckTestAnswerDomainResultProtocol(
+    HasStatus[enums.ExerciseStatus],
+    HasCheckResult,
+    Protocol,
+):
+    """Protocol for check test answer domain result interface."""

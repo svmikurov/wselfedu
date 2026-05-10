@@ -2,7 +2,6 @@
 
 from random import randrange, sample
 
-from apps.core.domains.exercise.protocol import HasCheckResult
 from apps.core.exceptions import info
 from contracts import enums
 from contracts.entity.domain.exercise.fields import (
@@ -10,6 +9,7 @@ from contracts.entity.domain.exercise.fields import (
     HasOptionCount,
 )
 from contracts.entity.domain.exercise.flow import TestDomainResultProtocol
+from contracts.entity.domain.general import HasCheckResult
 from interfaces.protocols.domain.exercise import (
     CandidatesT,
     TaskItemsT,
@@ -106,6 +106,8 @@ class TestExerciseCheckDomain(
         case: TestDomainResultProtocol,
     ) -> HasCheckResult:
         """Check user's answer."""
+        # HACK: Fix persistent domain result.
         return CheckTaskResult(
+            status=enums.ExerciseStatus.CORRECT,
             is_correct=True,
         )

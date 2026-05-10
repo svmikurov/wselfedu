@@ -14,6 +14,12 @@ Case_co = TypeVar('Case_co', covariant=True)
 ExceptionT = TypeVar('ExceptionT')
 
 
+class HasExerciseAction(Protocol):
+    """Protocol for has exercise process *action* interface."""
+
+    action: enums.ExerciseAction
+
+
 # =================================================
 # Exercise kind
 # =================================================
@@ -160,10 +166,11 @@ class HasOptionValue(Protocol):
 # =================================================
 
 
-class HasCase(Protocol[CaseT]):
+class HasCase(Protocol[Case_co]):
     """Protocol fo has *case* interface."""
 
-    case: CaseT
+    @property
+    def case(self) -> Case_co | None: ...  # noqa
 
 
 class HasDomain(Protocol[DomainT]):
@@ -196,3 +203,13 @@ class HasTaskItems(Protocol[T]):
     """Protocol for has task *items* interface."""
 
     items: T
+
+
+# =================================================
+# User answer
+# =================================================
+
+
+# =================================================
+# Check user answer
+# =================================================

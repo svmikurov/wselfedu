@@ -3,10 +3,6 @@
 from typing import Any, TypeAlias
 
 from apps.core.assemblers.protocol import UserDataCommandProtocol
-from apps.core.domains.exercise.protocol import (
-    ExerciseProcessResultProtocol,
-    HasExerciseAction,
-)
 from apps.core.domains.task.protocol import TaskBuilderProtocol
 from apps.core.factories.protocol import ExerciseSpecFactoryProtocol
 from apps.core.resolvers.protocol import ResolverProtocol
@@ -14,6 +10,7 @@ from apps.core.services.protocol import UserServiceProtocol
 from apps.core.storages.services.protocol import CommandStorageProtocol
 from apps.core.use_cases.protocol import UseCaseProtocol
 from contracts.entity.domain.exercise import fields
+from contracts.entity.domain.exercise.fields import HasExerciseAction
 from interfaces.protocols.domain.exercise import (
     ExerciseConfigProtocol,
     ExerciseParametersProtocol,
@@ -60,10 +57,10 @@ SpecFactoryT: TypeAlias = ExerciseSpecFactoryProtocol[
 ]
 ServiceT: TypeAlias = UserServiceProtocol[
     SpecT,
-    ExerciseProcessResultProtocol[CaseT],
+    Any,
 ]
 BuilderT: TypeAlias = TaskBuilderProtocol[
-    ExerciseProcessResultProtocol[CaseT],
+    Any,
     ExerciseConfigProtocol,
     ResultT,
 ]
