@@ -3,7 +3,7 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Factory
 
-from apps.core.formatters.exercise import PresentationFormatter, TestFormatter
+from kernel.formatter.exercise import PresentationFormatter, TestFormatter
 
 
 class FormatterContainer(DeclarativeContainer):
