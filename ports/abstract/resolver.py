@@ -5,7 +5,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import TypeVar, override
 
-from .protocol import ResolverProtocol
+from ..contract.infra.reslover import ResolverProtocol
 
 __all__ = ('AbstractResolver',)
 

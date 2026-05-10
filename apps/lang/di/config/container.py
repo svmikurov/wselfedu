@@ -7,12 +7,12 @@ from dependency_injector.providers import (
     Factory,
 )
 
-from apps.core.resolvers.exercise.config_resolver import (
-    ExerciseConfigurationResolver,
-)
 from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
     TestExerciseConfigDTO,
+)
+from kernel.resolver.config_resolver import (
+    ExerciseConfigurationResolver,
 )
 from ports.contract.enums.exercise import ExerciseKind
 

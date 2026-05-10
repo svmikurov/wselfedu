@@ -1,7 +1,7 @@
 """Mathematical exercise request query parser."""
 
-from ports.abstract.parser import AbstractRequestParamsQueryParser
 from apps.math.domains.dto import CalculationConditionDTO
+from ports.abstract.parser import AbstractRequestParamsQueryParser
 
 from . import types
 

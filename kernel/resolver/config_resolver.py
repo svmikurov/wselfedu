@@ -6,12 +6,11 @@ from apps.core.repositories.protocol import RepositoryProtocol
 from contracts.entity.general import NullProtocol
 from contracts.schemas.base import NullDTO
 from interfaces.protocols.domain.exercise import ExerciseParametersProtocol
+from ports.abstract.resolver import AbstractResolver
 from ports.contract.enums.exercise import ExerciseKind
 from ports.interfaces.protocols.command import UserCommandProtocol
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
-
-from ..abstract import AbstractResolver
 
 
 # NOTE: Temporary simple implementation
