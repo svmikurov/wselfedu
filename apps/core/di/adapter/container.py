@@ -9,7 +9,6 @@ from apps.core.adapters.response import (
     ProcessExerciseAdapterStrategy,
 )
 from apps.core.adapters.response.exercise.test.web import (
-    WebExplainAdapter,
     WebTestExerciseAdapter,
 )
 from contracts.enums import ExerciseStatus
@@ -48,10 +47,6 @@ class ResponseAdaptersContainer(DeclarativeContainer):
         name='Test exercise response adapter',
         auditor=auditor,
     )
-    _explain = Factory(  # type: ignore
-        WebExplainAdapter,
-        extra_templates=[],
-    )
 
     # =============================================
     # Exercise registry
@@ -69,7 +64,6 @@ class ResponseAdaptersContainer(DeclarativeContainer):
             ExerciseStatus.NEW_TASK: _test,
             ExerciseStatus.UPDATED_PROGRESS: _null,
             ExerciseStatus.CORRECT: _null,
-            ExerciseStatus.EXPLAIN: _explain,
         }
     )
 

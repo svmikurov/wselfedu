@@ -2,16 +2,9 @@
 
 from typing import Any, Iterable, TypeVar, override
 
-from django.template.loader import render_to_string
-
-from apps.core.adapters.response.abstract import AbstractResponseAdapter
-from apps.core.adapters.response.status import ResponseStatusEnum
-from apps.core.domains.exercise.test.dto import TestExerciseCase
 from contracts import NullProtocol
 from contracts.entity.domain.exercise.fields import ExerciseCaseProtocol
-from contracts.entity.response.base import HtmlResponseProtocol
 from contracts.schemas.domain.exercise.flow import TestExerciseTask
-from contracts.schemas.response.generic import HtmlResponseDTO
 from interfaces.schemas.web.task import (
     Option,
     TestExerciseTaskResponse,
@@ -48,57 +41,4 @@ class WebTestExerciseAdapter(
         return TestExerciseTaskResponse(
             domain_status=use_case_result.status,
             context=context,
-        )
-
-
-# QUESTION: Is deprecated the web explain adapter
-class WebExplainAdapter(
-    AbstractResponseAdapter[
-        TestExerciseCase[ExtraContextT],
-        NullProtocol,
-        HtmlResponseProtocol[TestExerciseCase[ExtraContextT]],
-    ],
-):
-    """Web test exercise explain response adapter.
-
-    Returns response DTO.
-    """
-
-    def __init__(
-        self,
-        extra_templates: list[str],
-    ) -> None:
-        """Construct the adapter."""
-        self._templates = extra_templates
-
-    def _build_html(
-        self,
-        use_case_result: TestExerciseCase[ExtraContextT],
-    ) -> str:
-        """Build HTML."""
-        html = ''
-        for template in self._templates:
-            html += render_to_string(template, use_case_result.model_dump())
-        return html
-
-    @override
-    def to_response(
-        self,
-        use_case_result: TestExerciseCase[ExtraContextT],
-        request_context: NullProtocol,
-    ) -> HtmlResponseProtocol[TestExerciseCase[ExtraContextT]]:
-        """Convert domain result to web representation context."""
-        return HtmlResponseDTO(
-            domain_status=ResponseStatusEnum.EXPLAIN_CASE,  # type: ignore
-            context=TestTaskContext(
-                question_text=use_case_result.question_text,
-                options=[
-                    Option(
-                        value=option.options_value,
-                        text=option.text,
-                    )
-                    for option in use_case_result.items
-                ],
-            ),
-            html=self._build_html(use_case_result),
         )
