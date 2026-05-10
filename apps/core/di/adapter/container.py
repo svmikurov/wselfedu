@@ -68,6 +68,7 @@ class ResponseAdaptersContainer(DeclarativeContainer):
         {
             ExerciseStatus.NEW_TASK: _test,
             ExerciseStatus.UPDATED_PROGRESS: _null,
+            ExerciseStatus.CORRECT: _null,
             ExerciseStatus.EXPLAIN: _explain,
         }
     )
