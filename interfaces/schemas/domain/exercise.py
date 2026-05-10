@@ -8,6 +8,7 @@ from contracts.schemas.domain.exercise.fields import (
     DefineField,
     IsCorrectAnswerField,
     MeanField,
+    OptionValueField,
     ProgressValueField,
 )
 from contracts.schemas.fields import ResourceIdentifierField
@@ -59,6 +60,17 @@ class TestExerciseDomainResult(ArbitraryDTO):
 # =================================================
 # Task answer check result
 # =================================================
+
+
+class TestAnswer(OptionValueField):
+    """Test answer schema.
+
+    Parameters
+    ----------
+    option_value : `int`
+        User answer test task option value.
+
+    """
 
 
 class CheckTaskResult(IsCorrectAnswerField):
