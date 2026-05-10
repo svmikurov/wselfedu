@@ -11,7 +11,10 @@ from contracts.schemas.domain.exercise.fields import (
     OptionValueField,
     ProgressValueField,
 )
-from contracts.schemas.fields import ResourceIdentifierField
+from contracts.schemas.fields import (
+    ResourceIdentifierField,
+    StatusField,
+)
 
 # =================================================
 # Task
@@ -72,8 +75,20 @@ class TestAnswer(OptionValueField):
 
     """
 
+    __test__ = False
 
-class CheckTaskResult(IsCorrectAnswerField):
-    """Check task result schema."""
 
-    is_correct: bool
+class CheckTaskResult(
+    StatusField[enums.ExerciseStatus],
+    IsCorrectAnswerField,
+):
+    """Check task result schema.
+
+    Parameters
+    ----------
+    status : `ExerciseStatus`
+        Exercise status.
+    is_correct : `bool`
+        User task answer check result.
+
+    """
