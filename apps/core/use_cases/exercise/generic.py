@@ -17,7 +17,7 @@ from interfaces.protocols.domain.exercise import (
 )
 from ports.contract import enums
 from ports.contract.entity.command import UserDataCommandProtocol
-from ports.contract.infra.protocol import TaskBuilderProtocol
+from ports.contract.infra.builder import TaskBuilderProtocol
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
