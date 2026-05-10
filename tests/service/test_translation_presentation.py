@@ -6,7 +6,6 @@ from typing import Any, Protocol, TypeAlias
 import pytest
 
 from apps.core.formatters.exercise import PresentationFormatter
-from apps.core.formatters.protocol import ConfFormatterProtocol
 from apps.core.repositories.protocol import RepositoryProtocol
 from apps.core.services.exercise.generic import CreateExerciseService
 from apps.core.services.exercise.protocol import ExerciseServiceProtocol
@@ -35,6 +34,7 @@ from interfaces.protocols.domain.exercise import (
 )
 from interfaces.schemas.domain.exercise import TaskItem
 from kernel.domain.exercise import CandidatesSelector, PresentationDomain
+from ports.contract.infra.formatter import ConfFormatterProtocol
 
 
 class _SpecProtocol(

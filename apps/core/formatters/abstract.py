@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar, override
 
-from .protocol import ConfFormatterProtocol
+from ports.contract.infra.formatter import ConfFormatterProtocol
 
 DataT = TypeVar('DataT')
 SpecT = TypeVar('SpecT')
