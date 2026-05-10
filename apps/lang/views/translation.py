@@ -11,11 +11,6 @@ from django.views import generic
 from django_filters import views as filter_views
 
 from apps.core import views as core_views
-from apps.core.handlers.dto import (
-    QueryRequestParams,
-    RequestContext,
-    RequestData,
-)
 from apps.core.repositories.protocol import RepositoryProtocol
 from apps.core.views.auth import UserLoginRequiredMixin
 from apps.core.views.mixins import GetHandlerMixin, GetRepositoryMixin
@@ -25,6 +20,11 @@ from ports.contract.infra.handler import RequestHandlerProtocol
 from ports.interfaces.protocols.web import (
     QueryRequestParamsProtocol,
     RequestDataProtocol,
+)
+from ports.interfaces.schemas.request.handler import (
+    QueryRequestParams,
+    RequestContext,
+    RequestData,
 )
 
 from .. import filters, forms, models

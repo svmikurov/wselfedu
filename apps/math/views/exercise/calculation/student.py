@@ -6,7 +6,6 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
 
-from apps.core.handlers.dto import RequestContext, RequestData
 from apps.core.views import UserLoginRequiredMixin
 from apps.core.views.mixins import GetHandlerMixin
 from apps.math.handlers.types import (
@@ -14,6 +13,10 @@ from apps.math.handlers.types import (
 )
 from contracts.schemas.base import NullDTO
 from di import MainContainer
+from ports.interfaces.schemas.request.handler import (
+    RequestContext,
+    RequestData,
+)
 
 HANDLERS = MainContainer.math.web_view
 

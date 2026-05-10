@@ -2,14 +2,14 @@
 
 from typing import Any
 
-from apps.core.handlers.dto import (
-    RequestContext,
-    RequestData,
-)
 from apps.core.validators.request.null import NullValidator
 from apps.math.domains.dto import StudentExerciseDTO
 from kernel.handler.generic import RequestHandler
 from ports.interfaces.protocols.web import RequestDataProtocol
+from ports.interfaces.schemas.request.handler import (
+    RequestContext,
+    RequestData,
+)
 
 # FIXME:
 StudentExerciseListHandler = RequestHandler[

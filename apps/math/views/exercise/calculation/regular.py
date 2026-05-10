@@ -8,14 +8,14 @@ from dependency_injector.wiring import Provide, inject
 from django.http.request import HttpRequest
 from django.views.generic import TemplateView
 
-from apps.core.handlers.dto import (
+from apps.core.views.auth import UserLoginRequiredMixin
+from apps.core.views.mixins import GetHandlerMixin
+from di import MainContainer
+from ports.interfaces.schemas.request.handler import (
     QueryRequestParams,
     RequestContext,
     RequestData,
 )
-from apps.core.views.auth import UserLoginRequiredMixin
-from apps.core.views.mixins import GetHandlerMixin
-from di import MainContainer
 
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponseBase

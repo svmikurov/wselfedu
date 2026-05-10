@@ -8,9 +8,9 @@ from unittest.mock import Mock
 import pytest
 from django.test import RequestFactory
 
-from apps.core.handlers import RequestHandler
 from contracts.schemas.base import NullDTO
 from contracts.schemas.response.generic import ResponseDTO
+from kernel.handler.generic import RequestHandler
 from ports.contract.enums.exercise import ExerciseStatus
 
 if TYPE_CHECKING:

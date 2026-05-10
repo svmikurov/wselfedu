@@ -7,12 +7,6 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic.base import TemplateResponseMixin
 
-from apps.core.handlers.dto import (
-    DetailRequestParams,
-    QueryRequestParams,
-    RequestContext,
-    RequestData,
-)
 from apps.core.views.auth import UserLoginRequiredMixin
 from apps.core.views.mixins import GetHandlerMixin, IsHtmxMixin
 from apps.users.models import Person
@@ -22,6 +16,12 @@ from contracts.entity.response.base import (
 from contracts.schemas.response.generic import HtmlResponseDTO
 from ports.contract.enums.exercise import ExerciseStatus
 from ports.contract.infra.handler import RequestHandlerProtocol
+from ports.interfaces.schemas.request.handler import (
+    DetailRequestParams,
+    QueryRequestParams,
+    RequestContext,
+    RequestData,
+)
 
 from .mixins import ExerciseLoopMixin
 
