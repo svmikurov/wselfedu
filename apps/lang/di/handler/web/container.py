@@ -7,7 +7,6 @@ from dependency_injector.providers import (
     Factory,
 )
 
-from apps.core.assemblers.impl import UserAssembler, UserDataAssembler
 from apps.core.handlers.generic import RequestHandler
 from apps.core.repositories.use_case import RepositoryUseCase
 from apps.core.validators.request.null import NullValidator
@@ -15,6 +14,7 @@ from apps.lang.factories.lockup_factory import UserTranslationLookupFactory
 from apps.lang.models import EnglishTranslation
 from apps.lang.repositories.translation.fetch import TranslationListRepository
 from kernel.adapter.null import NullResponseAdapter
+from kernel.assembler.impl import UserAssembler, UserDataAssembler
 
 
 class WebHandlerContainer(DeclarativeContainer):

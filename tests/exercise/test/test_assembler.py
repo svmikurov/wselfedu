@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any
 
 import pytest
 
-from apps.core.assemblers.impl import UserDataAssembler
+from kernel.assembler.impl import UserDataAssembler
 
 if TYPE_CHECKING:
     from contracts.entity.general import NullProtocol
