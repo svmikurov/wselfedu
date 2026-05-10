@@ -5,8 +5,8 @@ from typing import Generic, TypeAlias, TypeVar, override
 
 from django.template.loader import render_to_string
 
-from apps.core.adapters.response.abstract import AbstractResponseAdapter
 from interfaces.schemas.web.task import PresentationTaskContext
+from ports.abstract.adapter import AbstractResponseAdapter
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 

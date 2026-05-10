@@ -4,10 +4,10 @@ from typing import Any
 
 from django.db.models import QuerySet
 
-from apps.core.adapters.response.abstract import AbstractResponseAdapter
 from apps.core.adapters.response.rule.dto import RuleClauseDTO, RuleDTO
 from apps.lang import models
 from contracts import NullProtocol
+from ports.abstract.adapter import AbstractResponseAdapter
 
 
 class WebRuleAdapter(

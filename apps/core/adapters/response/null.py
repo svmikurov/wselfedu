@@ -2,7 +2,7 @@
 
 from typing import override
 
-from .abstract import AbstractResponseAdapter
+from ports.abstract.adapter import AbstractResponseAdapter
 
 
 class NullResponseAdapter(AbstractResponseAdapter[object, object, object]):
