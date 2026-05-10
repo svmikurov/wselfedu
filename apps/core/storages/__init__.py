@@ -9,7 +9,8 @@ __all__ = [
     'TaskStorage',
 ]
 
+from ports.contract.infra.storage.task import TaskStorage
+
 from .clients import DjangoCache
 from .clients.iabc import StorageClient
 from .services.iabc import TaskStorageABC
-from .services.task import TaskStorage

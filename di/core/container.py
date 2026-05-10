@@ -9,7 +9,7 @@ from apps.core.storages.services.service import (
     UserCommandStorage,
     UserDataStorage,
 )
-from apps.core.storages.services.task import TaskStorage
+from ports.contract.infra.storage.task import TaskStorage
 from utils.audit.impl import Auditor
 
 from .adapter.container import ResponseAdaptersContainer

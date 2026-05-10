@@ -62,11 +62,3 @@ class CommandStorageProtocol(
     Protocol[Command_contra, StoredObject],
 ):
     """Protocol for command related storage interface."""
-
-
-class OptionalCommandStorageProtocol(
-    SaveCommandStorageProtocol[Command_contra, StoredObject],
-    OptionalRetrieveCommandStorageProtocol[Command_contra, StoredObject],
-    Protocol[Command_contra, StoredObject],
-):
-    """Protocol for command related storage interface."""

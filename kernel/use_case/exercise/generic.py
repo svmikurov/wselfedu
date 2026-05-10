@@ -3,7 +3,6 @@
 from typing import Generic, TypeVar, override
 
 from apps.core.exceptions.storage import StorageMissError
-from apps.core.storages.services.protocol import CommandStorageProtocol
 from contracts.entity.domain import params
 from contracts.entity.domain.exercise import flow
 from contracts.entity.domain.exercise.fields import HasExerciseAction
@@ -17,6 +16,7 @@ from ports.contract.infra.builder import TaskBuilderProtocol
 from ports.contract.infra.reslover import ResolverProtocol
 from ports.contract.infra.service import UserSpecServiceProtocol
 from ports.contract.infra.spec import ExerciseSpecFactoryProtocol
+from ports.contract.infra.storage.general import CommandStorageProtocol
 from ports.interfaces.protocols.command import UserDataCommandProtocol
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol

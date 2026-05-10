@@ -4,8 +4,8 @@ import logging
 import uuid
 from typing import Generic, Hashable, TypeVar, override
 
-from ..clients.django_cache import DjangoCache
-from .iabc import TaskStorageABC
+from apps.core.storages.clients.django_cache import DjangoCache
+from apps.core.storages.services.iabc import TaskStorageABC
 
 logger = logging.getLogger(__name__)
 
