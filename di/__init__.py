@@ -4,7 +4,7 @@ Defines which modules should be wired and provides the DI container
 instance.
 """
 
-from di.di_container import MainContainer
+from di.container import MainContainer
 
 WIRED_MODULES: list[str] = [
     # =============================================
