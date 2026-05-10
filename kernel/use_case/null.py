@@ -1,6 +1,6 @@
 """Null use case."""
 
-from .abstract import AbstractUseCase
+from ports.abstract.use_case import AbstractUseCase
 
 
 class NullUseCase(AbstractUseCase[object, object]):

@@ -2,7 +2,6 @@
 
 from typing import Callable, Protocol
 
-from apps.core.validators.request.protocol import RequestValidatorProtocol
 from contracts.entity.domain.general import HasAction
 from interfaces.protocols.validated.exercise import (
     ValidatedCheckTestRequestProtocol,
@@ -10,6 +9,7 @@ from interfaces.protocols.validated.exercise import (
 )
 from interfaces.typed.exercise import TypedCheckTestAnswer, TypedCreateTask
 from ports.contract.enums import ExerciseAction
+from ports.contract.infra.validator import RequestValidatorProtocol
 from ports.interfaces.protocols.web import RequestDataProtocol
 
 

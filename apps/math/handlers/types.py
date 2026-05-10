@@ -2,9 +2,9 @@
 
 from typing import Any
 
-from apps.core.validators.request.null import NullValidator
 from apps.math.domains.dto import StudentExerciseDTO
 from kernel.handler.generic import RequestHandler
+from kernel.validator.request.null import NullValidator
 from ports.interfaces.protocols.web import RequestDataProtocol
 from ports.interfaces.schemas.request.handler import (
     RequestContext,

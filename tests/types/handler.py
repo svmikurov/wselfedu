@@ -3,8 +3,6 @@
 from typing import Any, TypeAlias
 
 from apps.core.repositories.protocol import RepositoryProtocol
-from apps.core.use_cases.protocol import UseCaseProtocol
-from apps.core.validators.request.protocol import RequestValidatorProtocol
 from contracts.entity.domain.exercise.fields import HasDomain
 from contracts.entity.general import NullProtocol
 from contracts.infra.domain.exercise import CreateTaskDomainProtocol
@@ -21,6 +19,8 @@ from kernel.handler.generic import RequestHandler
 from ports.contract.infra.adapter import AdapterProtocol
 from ports.contract.infra.builder import SpecDtoBuilderProtocol
 from ports.contract.infra.service import UserSpecServiceProtocol
+from ports.contract.infra.use_case import UseCaseProtocol
+from ports.contract.infra.validator import RequestValidatorProtocol
 from ports.interfaces.protocols.command import AuditableAssemblerProtocol
 from ports.interfaces.protocols.web import RequestDataProtocol
 

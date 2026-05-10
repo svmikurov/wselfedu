@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar, override
 
-from .protocol import RequestValidatorProtocol
+from ports.contract.infra.validator import RequestValidatorProtocol
 
 RequestDataT = TypeVar('RequestDataT')
 ValidatedT = TypeVar('ValidatedT')

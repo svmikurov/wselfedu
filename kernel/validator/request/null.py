@@ -2,9 +2,8 @@
 
 from typing import TypeVar
 
+from ports.abstract.validator import AbstractRequestValidator
 from ports.interfaces.protocols.web import RequestDataProtocol
-
-from .abstract import AbstractRequestValidator
 
 Validated = TypeVar('Validated')
 

@@ -2,7 +2,7 @@
 
 from typing import Any
 
-from apps.core.validators.request.protocol import RequestValidatorProtocol
+from ports.contract.infra.validator import RequestValidatorProtocol
 
 from ..schemas import (  # type: ignore
     DetailTestRequestDTO,

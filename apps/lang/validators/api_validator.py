@@ -2,8 +2,8 @@
 
 from typing import Any
 
-from apps.core.validators.request.protocol import RequestValidatorProtocol
 from apps.study.api.v1 import serializers as study
+from ports.contract.infra.validator import RequestValidatorProtocol
 
 from .. import schemas, types
 from ..api.v1.serializers import base as lang

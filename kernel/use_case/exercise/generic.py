@@ -4,7 +4,6 @@ from typing import Generic, TypeVar, override
 
 from apps.core.exceptions.storage import StorageMissError
 from apps.core.storages.services.protocol import CommandStorageProtocol
-from apps.core.use_cases.abstract import AbstractUseCase
 from contracts.entity.domain import params
 from contracts.entity.domain.exercise import flow
 from contracts.entity.domain.exercise.fields import HasExerciseAction
@@ -12,6 +11,7 @@ from interfaces.protocols.domain.exercise import (
     ExerciseConfigProtocol,
     ExerciseParametersProtocol,
 )
+from ports.abstract.use_case import AbstractUseCase
 from ports.contract import enums
 from ports.contract.infra.builder import TaskBuilderProtocol
 from ports.contract.infra.reslover import ResolverProtocol

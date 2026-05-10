@@ -3,7 +3,6 @@
 from typing import Any, TypeAlias
 
 from apps.core.storages.services.protocol import CommandStorageProtocol
-from apps.core.use_cases.protocol import UseCaseProtocol
 from contracts.entity.domain.exercise import fields
 from contracts.entity.domain.exercise.fields import HasExerciseAction
 from interfaces.protocols.domain.exercise import (
@@ -14,6 +13,7 @@ from ports.contract.infra.builder import TaskBuilderProtocol
 from ports.contract.infra.reslover import ResolverProtocol
 from ports.contract.infra.service import UserSpecServiceProtocol
 from ports.contract.infra.spec import ExerciseSpecFactoryProtocol
+from ports.contract.infra.use_case import UseCaseProtocol
 from ports.interfaces.protocols.command import UserDataCommandProtocol
 
 # =================================================

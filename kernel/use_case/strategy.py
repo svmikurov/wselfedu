@@ -3,11 +3,10 @@
 import logging
 from typing import Generic, TypeVar, override
 
-from apps.core.use_cases.protocol import UseCaseProtocol
 from contracts.entity.domain.general import HasAction
+from ports.abstract.use_case import AbstractUseCase
+from ports.contract.infra.use_case import UseCaseProtocol
 from ports.interfaces.protocols.command import DataCommandProtocol
-
-from .abstract import AbstractUseCase
 
 ActionT = TypeVar('ActionT')
 ResultT = TypeVar('ResultT')

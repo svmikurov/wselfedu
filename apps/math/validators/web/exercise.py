@@ -2,13 +2,13 @@
 
 from typing import TypedDict
 
-from apps.core.validators.request.abstract import AbstractRequestValidator
 from apps.math.domains.dto import (
     CalculationAnswerDTO,
     CalculationConditionDTO,
     CalculationLoopDTO,
     Operation,
 )
+from ports.abstract.validator import AbstractRequestValidator
 from ports.interfaces.protocols.web import RequestDataProtocol
 
 

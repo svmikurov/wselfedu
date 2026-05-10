@@ -5,7 +5,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import TypeVar, override
 
-from .protocol import UseCaseProtocol
+from ports.contract.infra.use_case import UseCaseProtocol
 
 __all__ = ('AbstractUseCase',)
 

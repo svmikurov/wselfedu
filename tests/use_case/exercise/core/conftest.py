@@ -5,13 +5,13 @@ from unittest.mock import Mock
 import pytest
 
 from apps.core.exceptions.storage import StorageMissError
-from apps.core.use_cases.exercise.generic import ExerciseUseCaseStrategy
 from apps.users.models import Person
 from contracts.entity.domain.exercise import flow
 from contracts.schemas.domain.exercise.params import (
     ExerciseSpecDTO,
 )
 from contracts.schemas.request.exercise import ExerciseRequestDTO
+from kernel.use_case.exercise.generic import ExerciseUseCaseStrategy
 from ports.contract.enums.exercise import (
     ExerciseAction,
     ExerciseStatus,

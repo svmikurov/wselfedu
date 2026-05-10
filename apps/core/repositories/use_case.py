@@ -3,8 +3,8 @@
 from typing import TypeVar
 
 from apps.core.repositories.protocol import RepositoryProtocol
-from apps.core.use_cases.abstract import AbstractUseCase
 from ports.abstract.builder import AbstractLockupConditionsFactory
+from ports.abstract.use_case import AbstractUseCase
 
 LockupCommandT = TypeVar('LockupCommandT')
 LockupConditionsT = TypeVar('LockupConditionsT')

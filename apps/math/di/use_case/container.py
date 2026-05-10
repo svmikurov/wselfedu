@@ -7,9 +7,9 @@ from dependency_injector.providers import (
     Factory,
 )
 
-from apps.core.use_cases import null
 from apps.math.use_cases import exercises
 from apps.study.resolvers.completion import CompletionResolver
+from kernel.use_case import null
 
 
 class ExerciseUseCaseContainer(DeclarativeContainer):

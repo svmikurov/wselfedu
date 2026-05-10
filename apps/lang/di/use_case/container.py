@@ -7,7 +7,7 @@ from dependency_injector.providers import (
     Factory,
 )
 
-from apps.core.use_cases.exercise.generic import ExerciseUseCaseStrategy
+from kernel.use_case.exercise.generic import ExerciseUseCaseStrategy
 
 
 class LangUseCaseContainer(DeclarativeContainer):
