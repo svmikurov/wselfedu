@@ -3,7 +3,7 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Dependency, Dict, Factory
 
-from apps.core.factories import (
+from kernel.spec import (
     CheckAnswerSpecFactory,
     CreateExerciseSpecFactory,
     UpdateProgressSpecFactory,
