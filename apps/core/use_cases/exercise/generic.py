@@ -3,7 +3,6 @@
 from typing import Generic, TypeVar, override
 
 from apps.core.exceptions.storage import StorageMissError
-from apps.core.services.protocol import UserServiceProtocol
 from apps.core.storages.services.protocol import CommandStorageProtocol
 from apps.core.use_cases.abstract import AbstractUseCase
 from contracts.entity.domain import params
@@ -16,6 +15,7 @@ from interfaces.protocols.domain.exercise import (
 from ports.contract import enums
 from ports.contract.infra.builder import TaskBuilderProtocol
 from ports.contract.infra.reslover import ResolverProtocol
+from ports.contract.infra.service import UserSpecServiceProtocol
 from ports.contract.infra.spec import ExerciseSpecFactoryProtocol
 from ports.interfaces.protocols.command import UserDataCommandProtocol
 from utils.audit.base import BaseAuditable
@@ -51,7 +51,7 @@ class ExerciseUseCaseStrategy(
         ],
         service_registry: dict[
             enums.ExerciseAction,
-            UserServiceProtocol[
+            UserSpecServiceProtocol[
                 SpecT,
                 flow.ExerciseCaseProtocol[DomainT],
             ],

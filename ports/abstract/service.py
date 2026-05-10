@@ -5,7 +5,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, TypeVar, override
 
-from .protocol import ExerciseServiceProtocol
+from ports.contract.infra.service import UserSpecServiceProtocol
 
 if TYPE_CHECKING:
     from apps.users.models import Person
@@ -14,11 +14,11 @@ SpecT = TypeVar('SpecT')
 CaseT = TypeVar('CaseT')
 
 
-class AbstractExerciseService(
+class AbstractUserSpecService(
     ABC,
-    ExerciseServiceProtocol[SpecT, CaseT],
+    UserSpecServiceProtocol[SpecT, CaseT],
 ):
-    """ABC for exercise case services."""
+    """ABC for user's service follows the specification."""
 
     @override
     @abstractmethod

@@ -8,7 +8,6 @@ from unittest.mock import Mock
 
 import pytest
 
-from apps.core.services.exercise.generic import CreateExerciseService
 from apps.users.models import Person
 from contracts.schemas.domain.exercise.flow import (
     ExerciseCase,
@@ -24,6 +23,7 @@ from interfaces.schemas.domain.exercise import (
     TestExerciseDomainResult,
 )
 from kernel.formatter.exercise import PresentationFormatter, TestFormatter
+from kernel.service.exercise import CreateExerciseService
 from ports.contract import enums
 from tests.types import DomainT, RepositoryT, ServiceT
 

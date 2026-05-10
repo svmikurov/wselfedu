@@ -13,11 +13,11 @@ Spec_contra = TypeVar('Spec_contra', contravariant=True)
 Result_cov = TypeVar('Result_cov', covariant=True)
 
 
-class UserServiceProtocol(
+class UserSpecServiceProtocol(
     Auditable,
     Protocol[Spec_contra, Result_cov],
 ):
-    """Protocol for user's service."""
+    """Protocol for user's service follows the specification."""
 
     def execute(self, user: Person, spec: Spec_contra) -> Result_cov:
         """Execute."""

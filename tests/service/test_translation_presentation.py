@@ -6,8 +6,6 @@ from typing import Any, Protocol, TypeAlias
 import pytest
 
 from apps.core.repositories.protocol import RepositoryProtocol
-from apps.core.services.exercise.generic import CreateExerciseService
-from apps.core.services.exercise.protocol import ExerciseServiceProtocol
 from apps.lang.models import EnglishTranslation
 from apps.lang.repositories.exercise.candidates.translations import (
     UserTranslationsRepository,
@@ -34,7 +32,9 @@ from interfaces.protocols.domain.exercise import (
 from interfaces.schemas.domain.exercise import TaskItem
 from kernel.domain.exercise import CandidatesSelector, PresentationDomain
 from kernel.formatter.exercise import PresentationFormatter
+from kernel.service.exercise import CreateExerciseService
 from ports.contract.infra.formatter import ConfFormatterProtocol
+from ports.contract.infra.service import UserSpecServiceProtocol
 
 
 class _SpecProtocol(
@@ -66,7 +66,7 @@ _Repository = RepositoryProtocol[
 _TranslationRepository = RepositoryProtocol[ConditionsProtocol, _Candidates]
 _Selector = SelectorProtocol[ExerciseConfigProtocol]
 _Domain = aliases.ExerciseDomainAlias
-_ServiceT = ExerciseServiceProtocol[_SpecProtocol, _DomainResultProtocol]
+_ServiceT = UserSpecServiceProtocol[_SpecProtocol, _DomainResultProtocol]
 _Formatter = ConfFormatterProtocol[Any, Any, Any]
 
 

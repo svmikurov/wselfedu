@@ -3,17 +3,16 @@
 from apps.core.repositories.protocol import CommandRepositoryProtocol
 from apps.users.models.user import Person
 from interfaces.schemas.service.exercise import UpdateProgressCase
+from ports.abstract.service import AbstractUserSpecService
 from ports.contract.enums import ExerciseStatus
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
-
-from .abstract import AbstractUserService
 
 
 # FIXME: Fix `object` type hint
 class UpdateProgressService(
     BaseAuditable,
-    AbstractUserService[object, object],
+    AbstractUserSpecService[object, object],
 ):
     """Update the item study progress service."""
 

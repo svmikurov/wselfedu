@@ -8,8 +8,9 @@ from dependency_injector.providers import (
     Factory,
 )
 
-from apps.core import services
 from kernel.builder.exercise.case import ExerciseCaseBuilder
+from kernel.service.exercise import CheckExerciseService, CreateExerciseService
+from kernel.service.progress import UpdateProgressService
 from ports.contract.enums.exercise import ExerciseAction
 
 
@@ -39,7 +40,7 @@ class ServiceContainer(DeclarativeContainer):
     # Create
 
     create_translation_presentation = Factory(
-        services.CreateExerciseService,
+        CreateExerciseService,
         candidates_repository=repositories.translation_candidates,
         domain=domains.create_presentation,
         formatter=formatters.presentation,
@@ -47,7 +48,7 @@ class ServiceContainer(DeclarativeContainer):
         name='Create translation presentation service',
     )
     create_translation_test = Factory(
-        services.CreateExerciseService,
+        CreateExerciseService,
         candidates_repository=repositories.translation_candidates,
         domain=domains.create_test,
         formatter=formatters.test,
@@ -55,7 +56,7 @@ class ServiceContainer(DeclarativeContainer):
         name='Create translation test exercise service',
     )
     check_translation_test = Factory(  # type: ignore
-        services.CheckExerciseService,
+        CheckExerciseService,
         domain=domains.check_test,
         auditor=auditor,
         name='Check answer on translation test exercise service',
@@ -64,7 +65,7 @@ class ServiceContainer(DeclarativeContainer):
     # Progress
 
     translation_progress = Factory(
-        services.UpdateProgressService,
+        UpdateProgressService,
         repository=repositories.regular_translation_progress,
         auditor=auditor,
         name='Update translation study progress service',

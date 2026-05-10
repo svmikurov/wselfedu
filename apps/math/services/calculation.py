@@ -7,9 +7,6 @@ from typing import TYPE_CHECKING, Type
 from wse_exercises.core.math.base.exercise import CalcExercise
 from wse_exercises.core.math.base.services import OperandGeneratorABC
 
-from apps.core.services.exercise.abstract import (
-    AbstractExerciseService,
-)
 from apps.math.domains.dto import (
     CalculationAnswerDTO,
     CalculationCaseDTO,
@@ -20,6 +17,9 @@ from apps.math.domains.dto import (
     CalculationResultDTO,
     CalculationSolutionDTO,
 )
+from ports.abstract.service import (
+    AbstractUserSpecService,
+)
 from ports.contract.enums.exercise import ExerciseStatus
 
 from ..domains.enums import CalculationEnum
@@ -29,7 +29,7 @@ if TYPE_CHECKING:
 
 
 class CalculationCreateService(
-    AbstractExerciseService[
+    AbstractUserSpecService[
         CalculationConditionDTO,
         CalculationDomainDTO,
     ]
@@ -86,7 +86,7 @@ class CalculationCreateService(
 
 
 class CalculationCheckService(
-    AbstractExerciseService[
+    AbstractUserSpecService[
         CalculationAnswerDTO,
         CalculationMetaDTO,
     ]
@@ -104,7 +104,7 @@ class CalculationCheckService(
 
 
 class CalculationExplainService(
-    AbstractExerciseService[
+    AbstractUserSpecService[
         CalculationAnswerDTO,
         CalculationMetaDTO,
     ]

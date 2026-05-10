@@ -5,7 +5,6 @@ from unittest.mock import Mock
 import pytest
 
 from apps.core.exceptions.storage import StorageMissError
-from apps.core.services.protocol import UserServiceProtocol
 from apps.core.use_cases.exercise.generic import ExerciseUseCaseStrategy
 from apps.users.models import Person
 from contracts.entity.domain.exercise import flow
@@ -17,6 +16,7 @@ from ports.contract.enums.exercise import (
     ExerciseAction,
     ExerciseStatus,
 )
+from ports.contract.infra.service import UserSpecServiceProtocol
 from ports.interfaces.schemas.command import UserDataCommand
 
 from ._types import (
@@ -147,7 +147,7 @@ def mock_create_service(
     mock_case: Mock,
 ) -> ServiceT:
     """Provide create exercise case service mock."""
-    mock = Mock(spec=UserServiceProtocol)
+    mock = Mock(spec=UserSpecServiceProtocol)
     mock.execute.return_value = mock_case
     return mock
 

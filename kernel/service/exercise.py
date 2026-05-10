@@ -17,11 +17,10 @@ from interfaces.protocols.domain.exercise import (
     TestDomainResultProtocol,
 )
 from interfaces.protocols.spec.exercise import CheckTestSpecProtocol
+from ports.abstract.service import AbstractUserSpecService
 from ports.contract.infra.formatter import ConfFormatterProtocol
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
-
-from .abstract import AbstractExerciseService
 
 __all__ = (
     'CreateExerciseService',
@@ -49,7 +48,7 @@ class _SpecT(
 
 class CreateExerciseService(
     BaseAuditable,
-    AbstractExerciseService[_SpecT, CreateResultT],
+    AbstractUserSpecService[_SpecT, CreateResultT],
 ):
     """Creates exercise case."""
 
@@ -94,7 +93,7 @@ class CreateExerciseService(
 
 class CheckExerciseService(
     BaseAuditable,
-    AbstractExerciseService[
+    AbstractUserSpecService[
         CheckSpecT,
         CheckResultT,
     ],
