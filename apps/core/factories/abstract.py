@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar, override
 
-from .protocol import ExerciseSpecFactoryProtocol
+from ports.contract.infra.spec import ExerciseSpecFactoryProtocol
 
 CommandT = TypeVar('CommandT')
 ParamsT = TypeVar('ParamsT')

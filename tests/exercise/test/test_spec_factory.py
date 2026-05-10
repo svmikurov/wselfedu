@@ -21,12 +21,12 @@ from tests.fixtures.exercise.lang.no_db.translations import (
 )
 
 if TYPE_CHECKING:
-    from apps.core.factories.protocol import ExerciseSpecFactoryProtocol
     from interfaces.protocols.command.exercise import (
         CheckTestCommandProtocol,
         CreateTaskCommandProtocol,
     )
     from interfaces.schemas.domain.exercise import TestExerciseDomainResult
+    from ports.contract.infra.spec import ExerciseSpecFactoryProtocol
 
     type CreateTaskSpecFactoryT = ExerciseSpecFactoryProtocol[
         object, object, object, object
