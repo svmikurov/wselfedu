@@ -3,7 +3,6 @@
 from typing import Any, TypeAlias
 
 from apps.core.assemblers.protocol import UserDataCommandProtocol
-from apps.core.domains.task.protocol import TaskBuilderProtocol
 from apps.core.factories.protocol import ExerciseSpecFactoryProtocol
 from apps.core.resolvers.protocol import ResolverProtocol
 from apps.core.services.protocol import UserServiceProtocol
@@ -15,6 +14,7 @@ from interfaces.protocols.domain.exercise import (
     ExerciseConfigProtocol,
     ExerciseParametersProtocol,
 )
+from ports.contract.infra.protocol import TaskBuilderProtocol
 
 # =================================================
 # DTOs
