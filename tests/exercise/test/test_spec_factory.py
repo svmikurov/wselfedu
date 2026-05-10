@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from unittest.mock import Mock
 
 import pytest
 
@@ -15,6 +14,8 @@ from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
     ExerciseSpecDTO,
 )
+from interfaces.schemas.domain.exercise import TestAnswer
+from interfaces.schemas.spec.exercise import CheckTestSpec
 
 if TYPE_CHECKING:
     from apps.core.factories.protocol import ExerciseSpecFactoryProtocol
@@ -22,6 +23,7 @@ if TYPE_CHECKING:
         CheckTestCommandProtocol,
         CreateTaskCommandProtocol,
     )
+    from interfaces.schemas.domain.exercise import TestExerciseDomainResult
 
     type CreateTaskSpecFactoryT = ExerciseSpecFactoryProtocol[
         object, object, object, object
@@ -89,14 +91,17 @@ def test_check_test_answer_specification(
     check_test_command: CheckTestCommandProtocol,
     default_parameters: ExerciseParametersDTO,
     check_test_spec_factory: CreateTaskSpecFactoryT,
-    mock_existing_case: Mock,
+    create_translation_test_domain_result: TestExerciseDomainResult,
 ) -> None:
     """Test the check test task answer specification."""
     # Act & Assert
     assert check_test_spec_factory.create(
         check_test_command,
         default_parameters,
-        mock_existing_case,
-    ) == ExerciseSpecDTO(
-        case=mock_existing_case,
+        create_translation_test_domain_result,
+    ) == CheckTestSpec(
+        answer=TestAnswer(
+            option_value=3,
+        ),
+        case=create_translation_test_domain_result,
     )
