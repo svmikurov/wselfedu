@@ -3,10 +3,10 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Factory
 
-from apps.core.adapters.response.exercise.strategy import (
+from apps.math.adapters.response.web import exercise as adapters
+from kernel.adapter.response.exercise.strategy import (
     ProcessExerciseAdapterStrategy,
 )
-from apps.math.adapters.response.web import exercise as adapters
 
 
 class ExerciseWebAdapterContainer(DeclarativeContainer):

@@ -3,14 +3,14 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Dependency, Dict, Factory
 
-from apps.core.adapters.response import (
+from kernel.adapter.null import NullResponseAdapter
+from kernel.adapter.response import (
     PresentationTaskWebAdapter,
     ProcessExerciseAdapterStrategy,
 )
-from apps.core.adapters.response.exercise.test.web import (
+from kernel.adapter.response.exercise.test.web import (
     WebTestExerciseAdapter,
 )
-from kernel.adapter.null import NullResponseAdapter
 from ports.contract.enums import ExerciseStatus
 
 PRESENTATION_TEMPLATES: tuple[str, ...] = (
