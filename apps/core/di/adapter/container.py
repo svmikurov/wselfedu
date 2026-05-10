@@ -4,7 +4,6 @@ from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Dependency, Dict, Factory
 
 from apps.core.adapters.response import (
-    NullResponseAdapter,
     PresentationTaskWebAdapter,
     ProcessExerciseAdapterStrategy,
 )
@@ -12,6 +11,7 @@ from apps.core.adapters.response.exercise.test.web import (
     WebTestExerciseAdapter,
 )
 from contracts.enums import ExerciseStatus
+from kernel.adapter.null import NullResponseAdapter
 
 PRESENTATION_TEMPLATES: tuple[str, ...] = (
     'core/exercise/presentation/task.html',

@@ -1,8 +1,6 @@
 """Response core adapters."""
 
 __all__ = (
-    # Null adapter
-    'NullResponseAdapter',
     # Web adapters
     'PresentationTaskWebAdapter',
     # Adapter strategies
@@ -11,4 +9,3 @@ __all__ = (
 
 from .exercise.presentation.web import PresentationTaskWebAdapter
 from .exercise.strategy import ProcessExerciseAdapterStrategy
-from .null import NullResponseAdapter
