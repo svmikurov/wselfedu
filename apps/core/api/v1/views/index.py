@@ -10,10 +10,9 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from typing_extensions import TYPE_CHECKING
 
-from apps.core.types import IndexDataType
-
 # REVIEW: Update BalanceDataType dependency with generic type?
 from apps.users.contracts.general import BalanceDataType
+from ports.interfaces.schemas.response.api import IndexDataType
 
 from ..serializers.index import IndexSerializer
 

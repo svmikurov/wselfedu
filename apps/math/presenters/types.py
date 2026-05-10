@@ -2,7 +2,10 @@
 
 from typing import NotRequired, TypedDict
 
-from apps.core.types import CheckResultDataType, RelatedDataType
+from ports.interfaces.schemas.response.api import (
+    CheckResultDataType,
+    RelatedDataType,
+)
 
 from ..services.types import CalcTaskType
 

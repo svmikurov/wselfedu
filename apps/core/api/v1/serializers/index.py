@@ -2,8 +2,8 @@
 
 from rest_framework import serializers
 
-from apps.core.types import IndexDataType
 from apps.users.api.v1.serializers.balance import BalanceSerializer
+from ports.interfaces.schemas.response.api import IndexDataType
 
 
 class IndexSerializer(serializers.Serializer[IndexDataType]):

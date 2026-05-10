@@ -5,8 +5,8 @@ from typing import Any
 from drf_spectacular.utils import OpenApiExample, extend_schema_serializer
 from rest_framework import serializers
 
-from apps.core.types import CheckResultDataType
 from apps.math.services.types import CalcTaskType
+from ports.interfaces.schemas.response.api import CheckResultDataType
 
 CONFIG_EXAMPLE = {
     'min_value': 1,

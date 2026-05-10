@@ -6,8 +6,8 @@ from typing_extensions import override
 from wse_exercises.core.math import CalcTask
 
 from apps.core.storages.services.iabc import TaskStorageProto
-from apps.core.types import CheckResultDataType
 from apps.study.services.iabc import StrTaskCheckerProto
+from ports.interfaces.schemas.response.api import CheckResultDataType
 
 from ..services.protocol import ExerciseServiceProto
 from ..services.types import (
