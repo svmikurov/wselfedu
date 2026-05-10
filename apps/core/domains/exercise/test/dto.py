@@ -5,10 +5,8 @@ from typing import Generic, TypeVar
 from contracts.schemas.base import (
     ArbitraryDTO,
     BaseDTO,
-    ProtectDefaultStatusMixin,
 )
 from contracts.schemas.domain.exercise.fields import (
-    AnswerTextField,
     DefineField,
     ExerciseStatusField,
     MeanField,
@@ -88,62 +86,3 @@ class TestExerciseCase(
         Display answer text options.
 
     """
-
-
-class TestExerciseMeta(
-    ProtectDefaultStatusMixin,
-    ResourceIdentifierField,
-    QuestionTextField,
-    AnswerTextField,
-    ValueField,
-    TaskItemsField[OptionT],
-    ArbitraryDTO,
-    Generic[OptionT],
-):
-    """Test exercise meta to store for answer handle.
-
-    Parameter
-    ---------
-    pk : `int`
-        Stored exercise database item ID.
-    question_text : `str`
-        Display question text.
-    answer_text : `str`
-        Display answer text.
-    option_value : `int`
-        Correct answer option value.
-    options : `list[OptionMetaDTO]`
-        Exercise's options with them meta data.
-
-    """
-
-    def get_question_text(self, value: int) -> str:
-        """Get option question text by value."""
-        return self.items[value].define  # type: ignore
-
-    def get_answer_text(self, value: int) -> str:
-        """Get option answer text by value."""
-        return self.items[value].mean  # type: ignore
-
-
-# =================================================
-# Experimental test exercise case DTO
-# =================================================
-
-
-class TestDomainResult(
-    ValueField,
-    TaskItemsField[OptionT],
-    ArbitraryDTO,
-):
-    """Test exercise create domain result."""
-
-    @property
-    def question_text(self) -> str:
-        """Get question text."""
-        return self.items[self.value - 1].define  # type: ignore
-
-    @property
-    def answer_text(self) -> str:
-        """Get answer text."""
-        return self.items[self.value - 1].mean  # type: ignore
