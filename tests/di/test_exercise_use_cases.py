@@ -15,9 +15,9 @@ from ports.interfaces.protocols.command import UserDataCommandProtocol
 from ports.interfaces.schemas.command import UserDataCommand
 
 if TYPE_CHECKING:
-    from apps.lang.di.use_case.container import LangUseCaseContainer
     from apps.users.models import Person
     from di import MainContainer
+    from di.lang.use_case.container import LangUseCaseContainer
 
 
 _UseCaseT = UseCaseProtocol[

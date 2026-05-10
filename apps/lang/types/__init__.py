@@ -28,10 +28,8 @@ __all__ = [
     'PresentationT',
     'CaseSettingsDomain',
     'IdName',
-    'ApiRequest',
 ]
 
-from .presentation import ApiRequest
 from .types import (
     CaseCandidates,
     CaseParametersAPI,

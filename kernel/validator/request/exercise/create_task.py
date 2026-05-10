@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Callable
 
-from contracts.entity.domain.general import ActionTyped, HasAction
 from ports.abstract.validator import AbstractRequestValidator
+from ports.contract.entity.domain.general import ActionTyped, HasAction
 from ports.contract.enums.exercise import ExerciseAction
 from ports.interfaces.protocols.web import RequestDataProtocol
 from utils.audit.base import BaseAuditable

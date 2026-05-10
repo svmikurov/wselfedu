@@ -2,7 +2,7 @@
 
 from typing import Protocol
 
-from contracts.entity.general import HasResourceIdentifier
+from ports.contract.entity.general import HasResourceIdentifier
 
 # =================================================
 # Update progress repository protocol

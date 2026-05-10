@@ -10,9 +10,6 @@ from django.views.generic.base import TemplateResponseMixin
 from apps.core.views.auth import UserLoginRequiredMixin
 from apps.core.views.mixins import GetHandlerMixin, IsHtmxMixin
 from apps.users.models import Person
-from contracts.entity.response.base import (
-    HtmlResponseProtocol,
-)
 from contracts.schemas.response.generic import HtmlResponseDTO
 from ports.contract.enums.exercise import ExerciseStatus
 from ports.contract.infra.handler import RequestHandlerProtocol
@@ -21,6 +18,9 @@ from ports.interfaces.schemas.request.handler import (
     QueryRequestParams,
     RequestContext,
     RequestData,
+)
+from ports.interfaces.schemas.response.web.base import (
+    HtmlResponseProtocol,
 )
 
 from .mixins import ExerciseLoopMixin

@@ -2,18 +2,18 @@
 
 from typing import Protocol
 
-from contracts.entity.domain.exercise.fields import HasAnswer, HasCase
-from contracts.entity.domain.params import (
-    HasConditions,
-    HasConfig,
-    HasSettings,
-)
 from interfaces.protocols.domain.exercise import (
     ConditionsProtocol,
     ExerciseConfigProtocol,
     ExerciseSettingsProtocol,
     TestAnswerProtocol,
     TestDomainResultProtocol,
+)
+from ports.contract.entity.domain.exercise.fields import HasAnswer, HasCase
+from ports.contract.entity.domain.params import (
+    HasConditions,
+    HasConfig,
+    HasSettings,
 )
 
 

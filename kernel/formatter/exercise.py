@@ -2,10 +2,6 @@
 
 from typing import TypeVar, override
 
-from contracts.entity.domain.exercise.fields import (
-    ExerciseCaseProtocol,
-    HasDisplayOrder,
-)
 from contracts.schemas.domain.exercise.flow import (
     ExerciseCase,
     PresentationTask,
@@ -19,6 +15,10 @@ from interfaces.protocols.domain.exercise import (
 )
 from interfaces.schemas.web.task import Option
 from ports.abstract.formatter import AbstractConfFormatter
+from ports.contract.entity.domain.exercise.fields import (
+    ExerciseCaseProtocol,
+    HasDisplayOrder,
+)
 from ports.contract.enums import DisplayOrder, ExerciseStatus
 
 DataT = TypeVar('DataT')

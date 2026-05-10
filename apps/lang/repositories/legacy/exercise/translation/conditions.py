@@ -11,7 +11,7 @@ from django.utils import timezone
 from apps.lang import models, types
 from apps.study.models import ProgressBar
 from apps.users.models import Person
-from contracts.entity.domain.params import GenericExerciseParameters
+from ports.contract.entity.domain.params import GenericExerciseParameters
 
 from ..abc import CandidatesRepositoryABC
 

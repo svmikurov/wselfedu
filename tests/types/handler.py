@@ -2,8 +2,6 @@
 
 from typing import Any, TypeAlias
 
-from contracts.entity.domain.exercise.fields import HasDomain
-from contracts.entity.general import NullProtocol
 from contracts.infra.domain.exercise import CreateTaskDomainProtocol
 from interfaces.protocols.domain.exercise import (
     CandidatesT,
@@ -15,6 +13,8 @@ from interfaces.schemas.domain.exercise import (
     TestExerciseDomainResult,
 )
 from kernel.handler.generic import RequestHandler
+from ports.contract.entity.domain.exercise.fields import HasDomain
+from ports.contract.entity.general import NullProtocol
 from ports.contract.infra.adapter import AdapterProtocol
 from ports.contract.infra.builder import SpecDtoBuilderProtocol
 from ports.contract.infra.repository import RepositoryProtocol

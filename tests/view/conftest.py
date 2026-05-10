@@ -16,9 +16,9 @@ from ports.contract.enums.exercise import ExerciseStatus
 if TYPE_CHECKING:
     from django.core.handlers.wsgi import WSGIRequest
 
-    from apps.lang.di.handler.web.container import WebHandlerContainer
     from apps.users.models import Person
     from di import MainContainer
+    from di.lang.handler.web.container import WebHandlerContainer
 
 # =================================================
 # Handler fixtures

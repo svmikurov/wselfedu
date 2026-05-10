@@ -2,11 +2,11 @@
 
 from typing import Protocol
 
-from contracts.entity.general import HasData, HasUser
 from interfaces.protocols.validated.exercise import (
     ValidatedCheckTestRequestProtocol,
     ValidatedCreateTaskRequestProtocol,
 )
+from ports.contract.entity.general import HasData, HasUser
 
 
 class CreateTaskCommandProtocol(

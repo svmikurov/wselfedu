@@ -2,8 +2,8 @@
 
 from typing import Protocol, TypeVar
 
-from contracts.entity import general
 from ports.contract import enums
+from ports.contract.entity import general
 
 T = TypeVar('T')
 T_co = TypeVar('T_co', covariant=True)

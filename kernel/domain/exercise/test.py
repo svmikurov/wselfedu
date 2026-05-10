@@ -3,12 +3,6 @@
 from random import randrange, sample
 
 from apps.core.exceptions import info
-from contracts.entity.domain.exercise.fields import (
-    HasDisplayOrder,
-    HasOptionCount,
-)
-from contracts.entity.domain.exercise.flow import TestDomainResultProtocol
-from contracts.entity.domain.general import HasCheckResult
 from contracts.infra.domain.selector import SelectorProtocol
 from interfaces.protocols.domain.exercise import (
     CandidatesT,
@@ -24,6 +18,12 @@ from ports.abstract.domain.exercise import (
     AbstractCheckExerciseDomain,
 )
 from ports.contract import enums
+from ports.contract.entity.domain.exercise.fields import (
+    HasDisplayOrder,
+    HasOptionCount,
+)
+from ports.contract.entity.domain.exercise.flow import TestDomainResultProtocol
+from ports.contract.entity.domain.general import HasCheckResult
 from utils.audit.base import BaseAuditable
 
 __all__ = [

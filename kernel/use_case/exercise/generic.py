@@ -3,15 +3,15 @@
 from typing import Generic, TypeVar, override
 
 from apps.core.exceptions.storage import StorageMissError
-from contracts.entity.domain import params
-from contracts.entity.domain.exercise import flow
-from contracts.entity.domain.exercise.fields import HasExerciseAction
 from interfaces.protocols.domain.exercise import (
     ExerciseConfigProtocol,
     ExerciseParametersProtocol,
 )
 from ports.abstract.use_case import AbstractUseCase
 from ports.contract import enums
+from ports.contract.entity.domain import params
+from ports.contract.entity.domain.exercise import flow
+from ports.contract.entity.domain.exercise.fields import HasExerciseAction
 from ports.contract.infra.builder import TaskBuilderProtocol
 from ports.contract.infra.reslover import ResolverProtocol
 from ports.contract.infra.service import UserSpecServiceProtocol

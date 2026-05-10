@@ -6,7 +6,6 @@ from apps.lang.models import ExerciseConditions, TranslationConfiguration
 from apps.lang.repositories.legacy.exercise.conditions import (
     RegularParametersRepository,
 )
-from contracts.entity.general import NullProtocol
 from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
 )
@@ -14,6 +13,7 @@ from interfaces.protocols.domain.exercise import ExerciseParametersProtocol
 from kernel.resolver.config_resolver import (
     ExerciseConfigurationResolver,
 )
+from ports.contract.entity.general import NullProtocol
 from ports.contract.enums.exercise import ExerciseKind
 from ports.contract.infra.repository import RepositoryProtocol
 from ports.contract.infra.reslover import ResolverProtocol

@@ -2,13 +2,13 @@
 
 from typing import override
 
-from contracts.entity.domain.exercise.fields import ExerciseCaseProtocol
-from contracts.entity.general import HasIsHtmx
 from contracts.schemas.domain.exercise.flow import PresentationTask
 from interfaces.schemas.web.task import (
     PresentationTaskContext,
     PresentationTaskResponse,
 )
+from ports.contract.entity.domain.exercise.fields import ExerciseCaseProtocol
+from ports.contract.entity.general import HasIsHtmx
 
 from ..base import BaseWebAdapter
 

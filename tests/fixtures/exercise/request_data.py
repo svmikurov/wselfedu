@@ -3,8 +3,8 @@
 import pytest
 
 from apps.users.models import Person
-from contracts.entity.domain.exercise.fields import HasExerciseAction
 from contracts.schemas.request.exercise import ExerciseRequestDTO
+from ports.contract.entity.domain.exercise.fields import HasExerciseAction
 from ports.contract.enums.exercise import ExerciseAction
 from ports.interfaces.protocols.command import UserDataCommandProtocol
 from ports.interfaces.schemas.command import UserDataCommand

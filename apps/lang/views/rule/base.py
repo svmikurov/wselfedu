@@ -19,8 +19,8 @@ from di import MainContainer
 if TYPE_CHECKING:
     from dependency_injector.providers import Container
 
-    from apps.lang.di.container import LanguageContainer
     from apps.lang.repositories import RuleRepositoryABC
+    from di.lang.container import LanguageContainer
 
     type ContainerDI = Container[LanguageContainer]
     type WebAdapter = Any

@@ -2,7 +2,9 @@
 
 from typing import Protocol, TypeAlias, TypeVar
 
-from contracts.entity.domain.exercise.fields import (
+from interfaces.schemas.web.task import Option
+from ports.contract import enums
+from ports.contract.entity.domain.exercise.fields import (
     HasAnswerText,
     HasCase,
     HasDefineText,
@@ -20,22 +22,20 @@ from contracts.entity.domain.exercise.fields import (
     HasTaskItems,
     HasTimeout,
 )
-from contracts.entity.domain.general import (
+from ports.contract.entity.domain.general import (
     HasCategory,
     HasCheckResult,
     HasMark,
     HasResourceIdentifier,
     HasSource,
 )
-from contracts.entity.domain.params import (
+from ports.contract.entity.domain.params import (
     GenericExerciseParameters,
     HasConditions,
     HasConfig,
     HasSettings,
 )
-from contracts.entity.general import HasStatus
-from interfaces.schemas.web.task import Option
-from ports.contract import enums
+from ports.contract.entity.general import HasStatus
 from ports.contract.enums import ExerciseStatus
 
 Option_co = TypeVar('Option_co', covariant=True)

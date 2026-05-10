@@ -15,7 +15,7 @@ from apps.lang.views.exercise.translation.presentation import (
 if TYPE_CHECKING:
     from django.core.handlers.wsgi import WSGIRequest
 
-    from apps.lang.di.handler.web.container import WebHandlerContainer
+    from di.lang.handler.web.container import WebHandlerContainer
 
 
 @pytest.mark.django_db

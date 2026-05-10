@@ -2,10 +2,10 @@
 
 from typing import override
 
-from contracts.entity.general import NullProtocol
 from contracts.schemas.base import NullDTO
 from interfaces.protocols.domain.exercise import ExerciseParametersProtocol
 from ports.abstract.resolver import AbstractResolver
+from ports.contract.entity.general import NullProtocol
 from ports.contract.enums.exercise import ExerciseKind
 from ports.contract.infra.repository import RepositoryProtocol
 from ports.interfaces.protocols.command import UserCommandProtocol

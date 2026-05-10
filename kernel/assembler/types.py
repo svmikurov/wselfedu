@@ -2,9 +2,9 @@
 
 from typing import TypeAlias, TypeVar
 
-from contracts.entity.general import NullProtocol
 from interfaces.protocols.request.general import RequestContextProtocol
 from ports.abstract.assembler import AbstractAssembler
+from ports.contract.entity.general import NullProtocol
 from ports.interfaces.protocols.command import (
     QueryCommandProtocol,
     UserCommandProtocol,

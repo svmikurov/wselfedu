@@ -2,12 +2,12 @@
 
 from typing import TypeAlias
 
-from contracts.entity.domain.exercise.flow import (
-    PresentationDomainResultProtocol,
-)
 from contracts.infra.domain.exercise import CreateTaskDomainProtocol
 from interfaces.protocols.domain.exercise import (
     ExerciseConfigProtocol,
+)
+from ports.contract.entity.domain.exercise.flow import (
+    PresentationDomainResultProtocol,
 )
 
 CaseAlias: TypeAlias = PresentationDomainResultProtocol

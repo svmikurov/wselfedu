@@ -2,13 +2,13 @@
 
 from typing import Protocol, TypeVar
 
-from contracts.entity.domain.exercise import fields as exercise
-from contracts.entity.general import HasStatus
 from interfaces.protocols.domain.exercise import (
     CandidateProtocol,
     CandidatesT,
 )
 from ports.contract import enums
+from ports.contract.entity.domain.exercise import fields as exercise
+from ports.contract.entity.general import HasStatus
 
 DomainResultT = TypeVar('DomainResultT', bound='ExerciseDomainResultProtocol')
 

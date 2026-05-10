@@ -2,7 +2,7 @@
 
 from typing import Protocol
 
-from contracts.entity.general import HasUser
+from ports.contract.entity.general import HasUser
 
 
 class HasIsHtmx(Protocol):

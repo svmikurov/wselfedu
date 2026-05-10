@@ -2,12 +2,12 @@
 
 from typing import Any, TypeAlias
 
-from contracts.entity.domain.exercise import fields
-from contracts.entity.domain.exercise.fields import HasExerciseAction
 from interfaces.protocols.domain.exercise import (
     ExerciseConfigProtocol,
     ExerciseParametersProtocol,
 )
+from ports.contract.entity.domain.exercise import fields
+from ports.contract.entity.domain.exercise.fields import HasExerciseAction
 from ports.contract.infra.builder import TaskBuilderProtocol
 from ports.contract.infra.reslover import ResolverProtocol
 from ports.contract.infra.service import UserSpecServiceProtocol

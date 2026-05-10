@@ -2,16 +2,16 @@
 
 from typing import TypeVar
 
-from contracts.entity.domain.exercise.flow import (
-    PresentationCaseProtocol,
-    TestCaseProtocol,
-)
 from contracts.schemas.domain.exercise.flow import (
     PresentationTask,
     TestExerciseTask,
 )
 from interfaces.protocols.domain import exercise as interfaces
 from interfaces.schemas.web.task import Option
+from ports.contract.entity.domain.exercise.flow import (
+    PresentationCaseProtocol,
+    TestCaseProtocol,
+)
 from ports.contract.infra.builder import SpecDtoBuilderProtocol
 from utils.audit.base import BaseAuditable
 

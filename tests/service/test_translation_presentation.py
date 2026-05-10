@@ -11,14 +11,6 @@ from apps.lang.repositories.exercise.candidates.translations import (
 )
 from apps.users.models import Person
 from contracts import aliases
-from contracts.entity.domain.exercise.fields import (
-    HasCase,
-    HasExerciseStatus,
-)
-from contracts.entity.domain.params import (
-    HasConditions,
-    HasConfig,
-)
 from contracts.infra.domain.selector import SelectorProtocol
 from contracts.schemas.domain.exercise.params import (
     ExerciseSpecDTO,
@@ -32,6 +24,14 @@ from interfaces.schemas.domain.exercise import TaskItem
 from kernel.domain.exercise import CandidatesSelector, PresentationDomain
 from kernel.formatter.exercise import PresentationFormatter
 from kernel.service.exercise import CreateExerciseService
+from ports.contract.entity.domain.exercise.fields import (
+    HasCase,
+    HasExerciseStatus,
+)
+from ports.contract.entity.domain.params import (
+    HasConditions,
+    HasConfig,
+)
 from ports.contract.infra.formatter import ConfFormatterProtocol
 from ports.contract.infra.repository import RepositoryProtocol
 from ports.contract.infra.service import UserSpecServiceProtocol

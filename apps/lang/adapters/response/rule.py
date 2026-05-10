@@ -5,9 +5,9 @@ from typing import Any
 from django.db.models import QuerySet
 
 from apps.lang import models
-from contracts import NullProtocol
 from ports.abstract.adapter import AbstractResponseAdapter
-from ports.interfaces.schemas.web.rule import RuleClauseDTO, RuleDTO
+from ports.contract.entity.general import NullProtocol
+from ports.interfaces.schemas.response.web.rule import RuleClauseDTO, RuleDTO
 
 
 class WebRuleAdapter(

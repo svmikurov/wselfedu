@@ -7,8 +7,8 @@ from typing import TYPE_CHECKING
 import pytest
 
 if TYPE_CHECKING:
-    from apps.lang.di.use_case.container import LangUseCaseContainer
     from di import MainContainer
+    from di.lang.use_case.container import LangUseCaseContainer
 
 
 @pytest.fixture

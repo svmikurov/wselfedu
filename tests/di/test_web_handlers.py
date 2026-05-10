@@ -7,8 +7,8 @@ from typing import TYPE_CHECKING
 import pytest
 
 if TYPE_CHECKING:
-    from apps.lang.di.handler.web.container import WebHandlerContainer
     from di import MainContainer
+    from di.lang.handler.web.container import WebHandlerContainer
 
 
 @pytest.fixture

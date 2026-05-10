@@ -2,10 +2,10 @@
 
 from typing import TypeVar
 
-from contracts.entity.domain.exercise.fields import HasExerciseStatus
-from contracts.entity.domain.exercise.flow import ExerciseCaseProtocol
 from contracts.schemas.domain.exercise.flow import ExerciseCase
 from ports.abstract.builder import AbstractSpecDtoBuilder
+from ports.contract.entity.domain.exercise.fields import HasExerciseStatus
+from ports.contract.entity.domain.exercise.flow import ExerciseCaseProtocol
 
 CaseT = TypeVar('CaseT')
 SpecT = TypeVar('SpecT')

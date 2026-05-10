@@ -10,10 +10,10 @@ from django.views import generic
 
 from apps.core import views as core_views
 from apps.lang import forms, models
-from apps.lang.di.container import LanguageContainer
 from apps.users.models import Mentorship
 from di import MainContainer
-from ports.interfaces.schemas.web.rule import RuleDTO
+from di.lang.container import LanguageContainer
+from ports.interfaces.schemas.response.web.rule import RuleDTO
 
 from . import base
 from ._data import CONTEXT
@@ -97,7 +97,7 @@ class RuleListView(
             Mentorship.objects.filter(student=OuterRef('user'))
         )
         return (
-            models.Rule.objects.filter(user=self.user)  # typ: ignore
+            models.Rule.objects.filter(user=self.user)
             .select_related('user')
             .annotate(
                 user_is_mentor=mentor_exists,

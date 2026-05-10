@@ -2,12 +2,12 @@
 
 from typing import Callable, Protocol
 
-from contracts.entity.domain.general import HasAction
 from interfaces.protocols.validated.exercise import (
     ValidatedCheckTestRequestProtocol,
     ValidatedCreateTaskRequestProtocol,
 )
 from interfaces.typed.exercise import TypedCheckTestAnswer, TypedCreateTask
+from ports.contract.entity.domain.general import HasAction
 from ports.contract.enums import ExerciseAction
 from ports.contract.infra.validator import RequestValidatorProtocol
 from ports.interfaces.protocols.web import RequestDataProtocol

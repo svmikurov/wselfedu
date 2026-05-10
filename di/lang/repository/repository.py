@@ -59,7 +59,6 @@ class LanguageRepositoryContainer(DeclarativeContainer):
         parameters_manager=ExerciseConditions.objects,
         conf_manager=TranslationConfiguration.objects,
     )
-
     study_parameters = Factory(
         repositories.StudyParametersRepository,
     )

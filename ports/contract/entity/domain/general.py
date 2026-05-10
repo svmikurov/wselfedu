@@ -8,10 +8,6 @@ DumpData_co = TypeVar('DumpData_co', covariant=True)
 ContextT = TypeVar('ContextT')
 
 
-class NullProtocol(Protocol):
-    """Null interface."""
-
-
 class HasResourceIdentifier(Protocol):
     """Protocol for has resource identifier interface."""
 
