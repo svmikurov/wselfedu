@@ -7,7 +7,8 @@ from dependency_injector.providers import (
     Dependency,
 )
 
-from ...core.di.validator.container import ValidatorContainer
+from di.core.validator.container import ValidatorContainer
+
 from .config.container import LanguageConfigurationContainer
 from .handler.web.container import WebHandlerContainer
 from .repository.repository import LanguageRepositoryContainer

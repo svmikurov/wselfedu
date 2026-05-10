@@ -3,12 +3,15 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Container, Factory
 
+from apps.core.storages.clients.django_cache import DjangoCache, DjangoKeyCache
+from apps.core.storages.resolver import UserKeyCommandResolver
+from apps.core.storages.services.service import (
+    UserCommandStorage,
+    UserDataStorage,
+)
+from apps.core.storages.services.task import TaskStorage
 from utils.audit.impl import Auditor
 
-from ..storages.clients.django_cache import DjangoCache, DjangoKeyCache
-from ..storages.resolver import UserKeyCommandResolver
-from ..storages.services.service import UserCommandStorage, UserDataStorage
-from ..storages.services.task import TaskStorage
 from .adapter.container import ResponseAdaptersContainer
 from .builder import UseCaseResultBuilderContainer
 from .configuration import ConfigurationContainer

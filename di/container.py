@@ -3,12 +3,12 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Container
 
-from apps.core.di.container import CoreContainer
 from apps.glossary.di_container import GlossaryContainer
 from apps.lang.di.container import LanguageContainer
 from apps.math.di.container import MathematicalContainer
 from apps.study.di_container import StudyAppContainer
 from apps.users.di.container import UsersContainer
+from di.core.container import CoreContainer
 
 
 class MainContainer(DeclarativeContainer):
