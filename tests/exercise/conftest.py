@@ -5,7 +5,6 @@ from unittest.mock import Mock
 import pytest
 
 from apps.core.handlers.dto import RequestContext, RequestData
-from apps.core.handlers.generic import RequestHandler
 from apps.users.models.user import Person
 from contracts.schemas.domain.exercise.params import ExerciseSpecDTO
 from di import MainContainer
@@ -17,6 +16,7 @@ from interfaces.schemas.validator.task import (
     ValidatedCheckTestAnswer,
     ValidatedCreateTask,
 )
+from kernel.handler.generic import RequestHandler
 from ports.contract.enums import ExerciseAction
 from ports.interfaces.schemas.command import UserDataCommand
 from tests.fixtures.exercise.lang.no_db.translations import TRANSLATION_INDEX

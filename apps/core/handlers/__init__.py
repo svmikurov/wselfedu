@@ -2,6 +2,6 @@
 
 __all__ = ('RequestHandler',)
 
-from .generic import (
+from kernel.handler.generic import (
     RequestHandler,
 )

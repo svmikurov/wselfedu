@@ -2,11 +2,11 @@
 
 from typing import Any
 
-from apps.core.handlers.generic import RequestHandler
 from contracts import NullProtocol
 from contracts.entity.domain.general import HasAction
 from contracts.schemas.response.generic import HtmlResponseDTO
 from interfaces.protocols.request.general import RequestContextProtocol
+from kernel.handler.generic import RequestHandler
 from ports.contract.enums.exercise import (
     ExerciseAction,
     ExerciseStatus,

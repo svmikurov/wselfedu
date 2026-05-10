@@ -3,7 +3,6 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import DependenciesContainer, Factory
 
-from apps.core.handlers.generic import RequestHandler
 from apps.core.validators.request.null import NullValidator
 from apps.math.handlers.types import StudentExerciseListHandler
 from apps.math.parsers.exercise import CalculationParser
@@ -15,6 +14,7 @@ from kernel.assembler.impl import (
     UserQueryAssembler,
     UserQueryDataAssembler,
 )
+from kernel.handler.generic import RequestHandler
 
 
 class ExerciseWebHandlerContainer(DeclarativeContainer):
