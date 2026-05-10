@@ -18,9 +18,8 @@ from interfaces.protocols.domain.exercise import (
     TestTaskProtocol,
 )
 from interfaces.schemas.web.task import Option
+from ports.abstract.formatter import AbstractConfFormatter
 from ports.contract.enums import DisplayOrder, ExerciseStatus
-
-from .abstract import AbstractConfFormatter
 
 DataT = TypeVar('DataT')
 ConfigurationT = TypeVar('ConfigurationT', bound=HasDisplayOrder[DisplayOrder])
