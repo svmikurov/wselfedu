@@ -9,8 +9,12 @@ from apps.core.storages.services.iabc import AbstractCommandStorage
 from apps.lang.models import EnglishTranslation
 from apps.lang.repositories.exercise import UserTranslationsRepository
 from apps.users.models import Person
+from contracts import enums
 from contracts.schemas.domain.exercise import ExerciseParametersDTO
-from interfaces.schemas.domain.exercise import TaskItem
+from interfaces.schemas.domain.exercise import (
+    TaskItem,
+    TestExerciseDomainResult,
+)
 from tests.fixtures.exercise.lang.no_db.translations import TRANSLATIONS
 
 pytest_plugins = [
@@ -88,3 +92,15 @@ def translation_task_items() -> list[TaskItem]:
         )
         for pk, (define, mean) in enumerate(TRANSLATIONS, start=1)
     ]
+
+
+@pytest.fixture
+def create_translation_test_domain_result(
+    translation_task_items: list[TaskItem],
+) -> TestExerciseDomainResult:
+    """Provide create translation test domain result."""
+    return TestExerciseDomainResult(
+        question_option_value=3,
+        items=translation_task_items,
+        status=enums.ExerciseStatus.NEW_TASK,
+    )
