@@ -9,11 +9,11 @@ from django.urls import reverse, reverse_lazy
 from django.views import generic
 
 from apps.core import views as core_views
-from apps.core.adapters.response.rule.dto import RuleDTO
 from apps.lang import forms, models
 from apps.lang.di.container import LanguageContainer
 from apps.users.models import Mentorship
 from di import MainContainer
+from ports.interfaces.schemas.web.rule import RuleDTO
 
 from . import base
 from ._data import CONTEXT

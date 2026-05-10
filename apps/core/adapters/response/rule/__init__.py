@@ -1,1 +1,0 @@
-"""Discipline rule response."""
