@@ -9,6 +9,7 @@ from apps.core.handlers.protocol import (
 from apps.core.parsers.protocol import RequestParamsQueryParserProtocol
 from contracts.entity.general import NullProtocol
 from interfaces.protocols.request.general import RequestContextProtocol
+from ports.abstract.assembler import AbstractAssembler
 from ports.contract.entity.command import (
     QueryCommandProtocol,
     UserCommandProtocol,
@@ -26,7 +27,6 @@ from ports.interfaces.schemas.command import (
     UserQueryDataCommand,
 )
 
-from .abstract import AbstractAssembler
 from .types import (
     UserAssemblerType,
     UserDetailAssemblerType,
