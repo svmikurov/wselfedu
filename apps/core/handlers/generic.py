@@ -4,8 +4,8 @@ from typing import Generic, TypeVar
 
 from apps.core.use_cases.protocol import UseCaseProtocol
 from apps.core.validators.request.protocol import RequestValidatorProtocol
-from ports.contract.entity.command import AuditableAssemblerProtocol
 from ports.contract.infra.adapter import AdapterProtocol
+from ports.interfaces.protocols.command import AuditableAssemblerProtocol
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 from utils.logger.decorators import log_errors_to_file

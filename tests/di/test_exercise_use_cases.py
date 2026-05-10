@@ -10,8 +10,8 @@ from apps.core.use_cases.protocol import UseCaseProtocol
 from apps.lang.models import EnglishTranslation
 from contracts.schemas.request.exercise import ExerciseRequestDTO
 from interfaces.protocols.domain.exercise import PresentationTaskProtocol
-from ports.contract.entity.command import UserDataCommandProtocol
 from ports.contract.enums.exercise import ExerciseAction
+from ports.interfaces.protocols.command import UserDataCommandProtocol
 from ports.interfaces.schemas.command import UserDataCommand
 
 if TYPE_CHECKING:

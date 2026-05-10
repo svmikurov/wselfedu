@@ -12,9 +12,9 @@ from interfaces.protocols.domain.exercise import (
     ExerciseConfigProtocol,
     ExerciseParametersProtocol,
 )
-from ports.contract.entity.command import UserDataCommandProtocol
 from ports.contract.infra.builder import TaskBuilderProtocol
 from ports.contract.infra.spec import ExerciseSpecFactoryProtocol
+from ports.interfaces.protocols.command import UserDataCommandProtocol
 
 # =================================================
 # DTOs

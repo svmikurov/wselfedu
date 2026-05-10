@@ -15,7 +15,7 @@ if TYPE_CHECKING:
         CreateTaskCommandProtocol,
     )
     from interfaces.protocols.request.general import RequestContextProtocol
-    from ports.contract.entity.command import AssemblerProtocol
+    from ports.interfaces.protocols.command import AssemblerProtocol
     from tests.types.handler import RequestContextT, RequestParamsT
 
     from .._types import (

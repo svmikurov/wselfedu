@@ -6,8 +6,8 @@ from apps.core.repositories.protocol import RepositoryProtocol
 from contracts.entity.general import NullProtocol
 from contracts.schemas.base import NullDTO
 from interfaces.protocols.domain.exercise import ExerciseParametersProtocol
-from ports.contract.entity.command import UserCommandProtocol
 from ports.contract.enums.exercise import ExerciseKind
+from ports.interfaces.protocols.command import UserCommandProtocol
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 

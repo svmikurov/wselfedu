@@ -15,9 +15,9 @@ from interfaces.protocols.domain.exercise import (
     ExerciseParametersProtocol,
 )
 from ports.contract import enums
-from ports.contract.entity.command import UserDataCommandProtocol
 from ports.contract.infra.builder import TaskBuilderProtocol
 from ports.contract.infra.spec import ExerciseSpecFactoryProtocol
+from ports.interfaces.protocols.command import UserDataCommandProtocol
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 

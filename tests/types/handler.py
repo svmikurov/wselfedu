@@ -20,9 +20,9 @@ from interfaces.schemas.domain.exercise import (
     PresentationExerciseDomainResult,
     TestExerciseDomainResult,
 )
-from ports.contract.entity.command import AuditableAssemblerProtocol
 from ports.contract.infra.adapter import AdapterProtocol
 from ports.contract.infra.builder import SpecDtoBuilderProtocol
+from ports.interfaces.protocols.command import AuditableAssemblerProtocol
 
 # HACK: Fix Any type hint
 # HACK: Fix dependency from implementation

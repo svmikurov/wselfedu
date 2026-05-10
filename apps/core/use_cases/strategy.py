@@ -5,7 +5,7 @@ from typing import Generic, TypeVar, override
 
 from apps.core.use_cases.protocol import UseCaseProtocol
 from contracts.entity.domain.general import HasAction
-from ports.contract.entity.command import DataCommandProtocol
+from ports.interfaces.protocols.command import DataCommandProtocol
 
 from .abstract import AbstractUseCase
 

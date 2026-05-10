@@ -15,7 +15,7 @@ from interfaces.protocols.spec.exercise import (
 from interfaces.schemas.domain.exercise import TestAnswer
 from interfaces.schemas.spec.exercise import CheckTestSpec
 from ports.abstract.spec import AbstractExerciseSpecFactory
-from ports.contract.entity.command import UserDataCommandProtocol
+from ports.interfaces.protocols.command import UserDataCommandProtocol
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 

@@ -10,7 +10,7 @@ from apps.core.handlers.protocol import (
 from contracts.entity.general import NullProtocol
 from interfaces.protocols.request.general import RequestContextProtocol
 from ports.abstract.assembler import AbstractAssembler
-from ports.contract.entity.command import (
+from ports.interfaces.protocols.command import (
     QueryCommandProtocol,
     UserCommandProtocol,
     UserDetailCommandProtocol,

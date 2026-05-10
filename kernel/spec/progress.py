@@ -8,7 +8,7 @@ from interfaces.protocols.domain import PresentationDomainResultProtocol
 from interfaces.protocols.repository import ProgressUpdateConditionsProtocol
 from interfaces.schemas.repository import ProgressUpdateConditions
 from ports.abstract.spec import AbstractExerciseSpecFactory
-from ports.contract.entity.command import UserDataCommandProtocol
+from ports.interfaces.protocols.command import UserDataCommandProtocol
 from utils.audit import AuditorProtocol, BaseAuditable
 
 CaseT = TypeVar('CaseT', bound=PresentationDomainResultProtocol)

@@ -16,8 +16,8 @@ from contracts.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
 )
 from interfaces.protocols.domain.exercise import ExerciseParametersProtocol
-from ports.contract.entity.command import UserCommandProtocol
 from ports.contract.enums.exercise import ExerciseKind
+from ports.interfaces.protocols.command import UserCommandProtocol
 
 RepositoryT = RepositoryProtocol[
     NullProtocol,
