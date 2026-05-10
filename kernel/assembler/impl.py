@@ -2,9 +2,9 @@
 
 from typing import Generic, TypeVar, override
 
-from apps.core.parsers.protocol import RequestParamsQueryParserProtocol
 from contracts.entity.general import NullProtocol
 from interfaces.protocols.request.general import RequestContextProtocol
+from kernel.parser.request import RequestParamsQueryParserProtocol
 from ports.abstract.assembler import AbstractAssembler
 from ports.interfaces.protocols.command import (
     QueryCommandProtocol,

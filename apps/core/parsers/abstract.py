@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar, override
 
-from .protocol import RequestParamsQueryParserProtocol
+from kernel.parser.request import RequestParamsQueryParserProtocol
 
 QueryDataT = TypeVar('QueryDataT')
 QueryTypeT = TypeVar('QueryTypeT')
