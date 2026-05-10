@@ -3,12 +3,12 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Dependency, Factory
 
-from apps.core.domains.exercise import (
+from kernel.domain.exercise import (
+    CandidatesSelector,
     PresentationDomain,
     TestDomain,
     TestExerciseCheckDomain,
 )
-from kernel.domain.exercise import CandidatesSelector
 
 
 class DomainContainer(DeclarativeContainer):

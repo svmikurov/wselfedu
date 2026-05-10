@@ -5,7 +5,6 @@ from typing import Any, Protocol, TypeAlias
 
 import pytest
 
-from apps.core.domains.exercise.presentation import PresentationDomain
 from apps.core.formatters.exercise import PresentationFormatter
 from apps.core.formatters.protocol import ConfFormatterProtocol
 from apps.core.repositories.protocol import RepositoryProtocol
@@ -35,7 +34,7 @@ from interfaces.protocols.domain.exercise import (
     ExerciseConfigProtocol,
 )
 from interfaces.schemas.domain.exercise import TaskItem
-from kernel.domain.exercise import CandidatesSelector
+from kernel.domain.exercise import CandidatesSelector, PresentationDomain
 
 
 class _SpecProtocol(
