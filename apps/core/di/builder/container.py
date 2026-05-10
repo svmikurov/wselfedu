@@ -3,12 +3,12 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Dict, Factory
 
-from apps.core.builders.exercise.case import ExerciseCaseBuilder
-from apps.core.builders.exercise.task import (
+from kernel.builder.exercise.case import ExerciseCaseBuilder
+from kernel.builder.exercise.task import (
     ExercisePresentationBuilder,
     TestExerciseTaskBuilder,
 )
-from apps.core.builders.null import NullSpecDtoBuilder
+from kernel.builder.null import NullSpecDtoBuilder
 from ports.contract.enums import ExerciseStatus
 
 

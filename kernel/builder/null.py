@@ -1,23 +1,27 @@
 """Null builder."""
 
-from . import aliases
-from .protocol import SpecDtoBuilderProtocol
+from typing import TypeVar
+
+from apps.core.builders.protocol import SpecDtoBuilderProtocol
+
+DtoT = TypeVar('DtoT')
+Spec_contra = TypeVar('Spec_contra', contravariant=True)
 
 
 class NullSpecDtoBuilder(
     SpecDtoBuilderProtocol[
-        aliases.DtoT,
-        aliases.Spec_contra,
-        aliases.DtoT,
+        DtoT,
+        Spec_contra,
+        DtoT,
     ]
 ):
     """Null DTO builder with specification."""
 
     def build(
         self,
-        data: aliases.DtoT,
-        spec: aliases.Spec_contra,
-    ) -> aliases.DtoT:
+        data: DtoT,
+        spec: Spec_contra,
+    ) -> DtoT:
         """Build the DTO."""
         return data
 

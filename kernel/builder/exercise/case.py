@@ -5,8 +5,7 @@ from typing import TypeVar
 from contracts.entity.domain.exercise.fields import HasExerciseStatus
 from contracts.entity.domain.exercise.flow import ExerciseCaseProtocol
 from contracts.schemas.domain.exercise.flow import ExerciseCase
-
-from ..abstract import AbstractSpecDtoBuilder
+from ports.abstract.builder import AbstractSpecDtoBuilder
 
 CaseT = TypeVar('CaseT')
 SpecT = TypeVar('SpecT')

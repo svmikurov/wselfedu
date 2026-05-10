@@ -2,12 +2,12 @@
 
 from typing import override
 
-from apps.core.builders.abstract import AbstractCaseFactory
 from apps.math.domains.dto import (
     CalculationDomainDTO,
     CustomCalculationDTO,
     StudentCalculationDTO,
 )
+from ports.abstract.builder import AbstractCaseFactory
 
 
 class CustomCalculationDTOFactory(

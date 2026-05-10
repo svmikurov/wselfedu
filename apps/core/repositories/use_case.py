@@ -2,9 +2,9 @@
 
 from typing import TypeVar
 
-from apps.core.builders.abstract import AbstractLockupConditionsFactory
 from apps.core.repositories.protocol import RepositoryProtocol
 from apps.core.use_cases.abstract import AbstractUseCase
+from ports.abstract.builder import AbstractLockupConditionsFactory
 
 LockupCommandT = TypeVar('LockupCommandT')
 LockupConditionsT = TypeVar('LockupConditionsT')

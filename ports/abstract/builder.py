@@ -3,9 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar, override
 
-from . import aliases
-from .protocol import (
-    ConfDtoBuilderProtocol,
+from apps.core.builders.protocol import (
     DtoBuilderProtocol,
     SpecDtoBuilderProtocol,
 )
@@ -13,6 +11,9 @@ from .protocol import (
 DataT = TypeVar('DataT')
 SpecT = TypeVar('SpecT')
 DtoT = TypeVar('DtoT')
+
+LockupCommand = TypeVar('LockupCommand')
+LockupConditions = TypeVar('LockupConditions')
 
 
 class AbstractCaseFactory(
@@ -45,31 +46,16 @@ class AbstractSpecDtoBuilder(
         """Build a DTO according to the specification."""
 
 
-class AbstractConfDtoBuilderProtocol(
-    ConfDtoBuilderProtocol[DataT, SpecT, DtoT],
-):
-    """ABC for a DTO builder that follows the configuration."""
-
-    @override
-    @abstractmethod
-    def build(
-        self,
-        data: DataT,
-        conf: SpecT,
-    ) -> DtoT:
-        """Build a DTO according to the configuration."""
-
-
-# DEPRECATED: Is deprecated?
+# QUESTION: Is deprecated?
 class AbstractLockupConditionsFactory(
     ABC,
-    Generic[aliases.LockupCommand, aliases.LockupConditions],
+    Generic[LockupCommand, LockupConditions],
 ):
     """ABC for Database lockup conditions factory."""
 
     @abstractmethod
     def build(
         self,
-        command: aliases.LockupCommand,
-    ) -> aliases.LockupConditions:
+        command: LockupCommand,
+    ) -> LockupConditions:
         """Build lockup conditions."""

@@ -1,5 +1,8 @@
 """Exercise task DTO builder."""
 
+from typing import TypeVar
+
+from apps.core.builders.protocol import SpecDtoBuilderProtocol
 from contracts.entity.domain.exercise.flow import (
     PresentationCaseProtocol,
     TestCaseProtocol,
@@ -12,8 +15,7 @@ from interfaces.protocols.domain import exercise as interfaces
 from interfaces.schemas.web.task import Option
 from utils.audit.base import BaseAuditable
 
-from ..aliases import SpecT
-from ..protocol import SpecDtoBuilderProtocol
+SpecT = TypeVar('SpecT')
 
 
 class ExercisePresentationBuilder(

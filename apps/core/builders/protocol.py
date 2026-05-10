@@ -2,50 +2,33 @@
 
 from typing import Protocol, TypeVar
 
-from . import aliases
+DTO_contra = TypeVar('DTO_contra', contravariant=True)
+DTO_co = TypeVar('DTO_co', covariant=True)
+Spec_contra = TypeVar('Spec_contra', contravariant=True)
 
-ConfigurationT = TypeVar('ConfigurationT')
 
-
-class DtoBuilderProtocol(Protocol[aliases.DTO_contra, aliases.DTO_co]):
+class DtoBuilderProtocol(Protocol[DTO_contra, DTO_co]):
     """Protocol for a DTO builder interface."""
 
     def build(
         self,
-        data: aliases.DTO_contra,
-    ) -> aliases.DTO_co:
+        data: DTO_contra,
+    ) -> DTO_co:
         """Build the DTO."""
 
 
 class SpecDtoBuilderProtocol(
     Protocol[
-        aliases.DTO_contra,
-        aliases.Spec_contra,
-        aliases.DTO_co,
+        DTO_contra,
+        Spec_contra,
+        DTO_co,
     ]
 ):
     """Protocol for a DTO builder that follows the specification."""
 
     def build(
         self,
-        data: aliases.DTO_contra,
-        spec: aliases.Spec_contra,
-    ) -> aliases.DTO_co:
+        data: DTO_contra,
+        spec: Spec_contra,
+    ) -> DTO_co:
         """Build a DTO according to the specification."""
-
-
-class ConfDtoBuilderProtocol(
-    Protocol[
-        aliases.DTO_contra,
-        aliases.Spec_contra,
-        aliases.DTO_co,
-    ]
-):
-    """Protocol for a DTO builder that follows the configuration."""
-
-    def build(
-        self,
-        data: aliases.DTO_contra,
-        conf: aliases.Spec_contra,
-    ) -> aliases.DTO_co:
-        """Build a DTO according to the configuration."""
