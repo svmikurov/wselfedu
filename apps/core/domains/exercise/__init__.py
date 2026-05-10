@@ -8,10 +8,10 @@ __all__ = (
     'TestExerciseCheckDomain',
 )
 
-from .presentation.impl import (
+from .presentation import (
     PresentationDomain,
 )
-from .test.impl import (
+from .test import (
     TestDomain,
     TestExerciseCheckDomain,
 )

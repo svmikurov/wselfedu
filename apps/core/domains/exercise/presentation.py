@@ -14,8 +14,8 @@ from interfaces.schemas.domain.exercise import (
     PresentationExerciseDomainResult,
 )
 
-from ..abstract import AbstractConfigurableCandidatesExerciseDomain
-from ..deps.protocol import SelectorProtocol
+from .abstract import AbstractConfigurableCandidatesExerciseDomain
+from .deps.protocol import SelectorProtocol
 
 __all__ = ('PresentationDomain',)
 

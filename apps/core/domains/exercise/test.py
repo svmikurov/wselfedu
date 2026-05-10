@@ -21,11 +21,11 @@ from interfaces.schemas.domain.exercise import (
 )
 from utils.audit.base import BaseAuditable
 
-from ..abstract import (
+from .abstract import (
     AbstractCheckExerciseDomain,
     AbstractConfigurableCandidatesExerciseDomain,
 )
-from ..deps.protocol import SelectorProtocol
+from .deps.protocol import SelectorProtocol
 
 __all__ = [
     'TestDomain',
