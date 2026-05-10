@@ -2,7 +2,7 @@
 
 from typing import TypeVar
 
-from apps.core.handlers.protocol import RequestDataProtocol
+from ports.interfaces.protocols.web import RequestDataProtocol
 
 from .abstract import AbstractRequestValidator
 

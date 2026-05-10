@@ -16,16 +16,16 @@ from apps.core.handlers.dto import (
     RequestContext,
     RequestData,
 )
-from apps.core.handlers.protocol import (
-    QueryRequestParamsProtocol,
-    RequestDataProtocol,
-    RequestHandlerProtocol,
-)
+from apps.core.handlers.protocol import RequestHandlerProtocol
 from apps.core.repositories.protocol import RepositoryProtocol
 from apps.core.views.auth import UserLoginRequiredMixin
 from apps.core.views.mixins import GetHandlerMixin, GetRepositoryMixin
 from di import MainContainer
 from interfaces.protocols.request.general import RequestContextProtocol
+from ports.interfaces.protocols.web import (
+    QueryRequestParamsProtocol,
+    RequestDataProtocol,
+)
 
 from .. import filters, forms, models
 from ..repositories import TranslationRepoABC

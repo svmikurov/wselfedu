@@ -2,11 +2,6 @@
 
 from typing import TypeAlias, TypeVar
 
-from apps.core.handlers.protocol import (
-    DetailRequestParamsProtocol,
-    QueryRequestParamsProtocol,
-    RequestDataProtocol,
-)
 from contracts.entity.general import NullProtocol
 from interfaces.protocols.request.general import RequestContextProtocol
 from ports.abstract.assembler import AbstractAssembler
@@ -14,6 +9,11 @@ from ports.interfaces.protocols.command import (
     QueryCommandProtocol,
     UserCommandProtocol,
     UserDetailCommandProtocol,
+)
+from ports.interfaces.protocols.web import (
+    DetailRequestParamsProtocol,
+    QueryRequestParamsProtocol,
+    RequestDataProtocol,
 )
 
 QueryData = TypeVar('QueryData')

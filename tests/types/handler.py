@@ -3,7 +3,6 @@
 from typing import Any, TypeAlias
 
 from apps.core.handlers.generic import RequestHandler
-from apps.core.handlers.protocol import RequestDataProtocol
 from apps.core.repositories.protocol import RepositoryProtocol
 from apps.core.services.exercise.protocol import ExerciseServiceProtocol
 from apps.core.use_cases.protocol import UseCaseProtocol
@@ -23,6 +22,7 @@ from interfaces.schemas.domain.exercise import (
 from ports.contract.infra.adapter import AdapterProtocol
 from ports.contract.infra.builder import SpecDtoBuilderProtocol
 from ports.interfaces.protocols.command import AuditableAssemblerProtocol
+from ports.interfaces.protocols.web import RequestDataProtocol
 
 # HACK: Fix Any type hint
 # HACK: Fix dependency from implementation

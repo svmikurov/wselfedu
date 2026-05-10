@@ -2,7 +2,6 @@
 
 from typing import TypedDict
 
-from apps.core.handlers.protocol import RequestDataProtocol
 from apps.core.validators.request.abstract import AbstractRequestValidator
 from apps.math.domains.dto import (
     CalculationAnswerDTO,
@@ -10,6 +9,7 @@ from apps.math.domains.dto import (
     CalculationLoopDTO,
     Operation,
 )
+from ports.interfaces.protocols.web import RequestDataProtocol
 
 
 class QuestionData(TypedDict):

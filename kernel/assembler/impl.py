@@ -2,10 +2,6 @@
 
 from typing import Generic, TypeVar, override
 
-from apps.core.handlers.protocol import (
-    DetailRequestParamsProtocol,
-    QueryRequestParamsProtocol,
-)
 from apps.core.parsers.protocol import RequestParamsQueryParserProtocol
 from contracts.entity.general import NullProtocol
 from interfaces.protocols.request.general import RequestContextProtocol
@@ -16,6 +12,10 @@ from ports.interfaces.protocols.command import (
     UserDataCommandProtocol,
     UserDetailCommandProtocol,
     UserDetailDataCommandProtocol,
+)
+from ports.interfaces.protocols.web import (
+    DetailRequestParamsProtocol,
+    QueryRequestParamsProtocol,
 )
 from ports.interfaces.schemas.command import (
     QueryCommand,

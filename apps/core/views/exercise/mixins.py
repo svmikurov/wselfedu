@@ -12,7 +12,6 @@ from django.utils.translation import gettext as _
 
 from apps.core.handlers.dto import RequestContext, RequestData
 from apps.core.handlers.protocol import (
-    RequestDataProtocol,
     RequestHandlerProtocol,
 )
 from contracts.entity.general import NullProtocol
@@ -23,6 +22,7 @@ from ports.contract.enums.exercise import (
     ExerciseAction,
     ExerciseStatus,
 )
+from ports.interfaces.protocols.web import RequestDataProtocol
 
 from ..abstract import AbstractProcessAction, AbstractStartAction
 

@@ -3,9 +3,6 @@
 from typing import Any
 
 from apps.core.handlers.generic import RequestHandler
-from apps.core.handlers.protocol import (
-    RequestDataProtocol,
-)
 from contracts import NullProtocol
 from contracts.entity.domain.general import HasAction
 from contracts.schemas.response.generic import HtmlResponseDTO
@@ -13,6 +10,9 @@ from interfaces.protocols.request.general import RequestContextProtocol
 from ports.contract.enums.exercise import (
     ExerciseAction,
     ExerciseStatus,
+)
+from ports.interfaces.protocols.web import (
+    RequestDataProtocol,
 )
 from ports.interfaces.schemas.command import UserDataCommand
 
