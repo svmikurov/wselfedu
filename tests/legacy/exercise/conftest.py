@@ -23,7 +23,7 @@ from ports.interfaces.schemas.validator.task import (
     ValidatedCreateTask,
 )
 from tests.fixtures.exercise.lang.no_db.translations import TRANSLATION_INDEX
-from tests.types.handler import (
+from tests.legacy.types.handler import (
     AdapterT,
     AssemblerT,
     HandlerT,

@@ -13,7 +13,7 @@ from ports.interfaces.schemas.domain.exercise.exercise import (
     TaskItem,
     TestExerciseDomainResult,
 )
-from tests.types.handler import (
+from tests.legacy.types.handler import (
     HandlerT,
     RequestContextT,
     RequestParamsT,

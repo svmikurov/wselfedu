@@ -25,7 +25,7 @@ from ports.interfaces.schemas.domain.exercise.flow import (
 from ports.interfaces.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
 )
-from tests.types import DomainT, RepositoryT, ServiceT
+from tests.legacy.types import DomainT, RepositoryT, ServiceT
 
 _DomainT = DomainT
 _ServiceT = ServiceT

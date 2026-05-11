@@ -2,7 +2,7 @@
 
 from unittest.mock import Mock
 
-from tests.types.handler import (
+from tests.legacy.types.handler import (
     CommandDataT,
     HandlerT,
     RequestContextT,

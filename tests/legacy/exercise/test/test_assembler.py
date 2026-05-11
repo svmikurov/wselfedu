@@ -18,7 +18,7 @@ if TYPE_CHECKING:
     from ports.interfaces.protocols.request.general import (
         RequestContextProtocol,
     )
-    from tests.types.handler import RequestContextT, RequestParamsT
+    from tests.legacy.types.handler import RequestContextT, RequestParamsT
 
     from .._types import (
         ValidatedCheckT,
