@@ -13,11 +13,13 @@ from ports.contract.entity.domain import params
 from ports.contract.entity.domain.exercise import flow
 from ports.contract.entity.domain.exercise.fields import HasExerciseAction
 from ports.contract.infra.builder import TaskBuilderProtocol
-from ports.contract.infra.reslover import ResolverProtocol
+from ports.contract.infra.resolver import ResolverProtocol
 from ports.contract.infra.service import UserSpecServiceProtocol
 from ports.contract.infra.spec import ExerciseSpecFactoryProtocol
 from ports.contract.infra.storage.general import CommandStorageProtocol
-from ports.interfaces.protocols.command import UserDataCommandProtocol
+from ports.interfaces.protocols.command.assembler import (
+    UserDataCommandProtocol,
+)
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 

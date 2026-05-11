@@ -8,7 +8,6 @@ from interfaces.protocols.domain.exercise import (
     TestDomainResultProtocol,
     TestTaskProtocol,
 )
-from interfaces.schemas.web.task import Option
 from ports.abstract.formatter import AbstractConfFormatter
 from ports.contract.entity.domain.exercise.fields import (
     ExerciseCaseProtocol,
@@ -20,6 +19,7 @@ from ports.interfaces.schemas.domain.exercise.flow import (
     PresentationTask,
     TestExerciseTask,
 )
+from ports.interfaces.schemas.web.task import Option
 
 DataT = TypeVar('DataT')
 ConfigurationT = TypeVar('ConfigurationT', bound=HasDisplayOrder[DisplayOrder])

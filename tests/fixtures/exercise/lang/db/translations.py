@@ -5,7 +5,7 @@ from django.db.models import F
 
 from apps.lang import models
 from apps.users.models import Person
-from interfaces.schemas.domain.exercise import TaskItem
+from ports.interfaces.schemas.domain.exercise.exercise import TaskItem
 
 from ..no_db.translations import TRANSLATIONS
 

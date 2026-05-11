@@ -1,6 +1,6 @@
 """Exercise service schema interface."""
 
-from interfaces.schemas.domain.exercise import (
+from ports.interfaces.schemas.domain.exercise.exercise import (
     PresentationExerciseDomainResult,
     TestExerciseDomainResult,
 )

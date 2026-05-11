@@ -8,10 +8,6 @@ from interfaces.protocols.domain.exercise import (
     TaskItemsT,
     TestAnswerProtocol,
 )
-from interfaces.schemas.domain.exercise import (
-    CheckTaskResult,
-    TestExerciseDomainResult,
-)
 from ports.abstract.domain.exercise import (
     AbstractCandidatesExerciseDomain,
     AbstractCheckExerciseDomain,
@@ -24,6 +20,10 @@ from ports.contract.entity.domain.exercise.fields import (
 from ports.contract.entity.domain.exercise.flow import TestDomainResultProtocol
 from ports.contract.entity.domain.general import HasCheckResult
 from ports.contract.infra.domain.selector import SelectorProtocol
+from ports.interfaces.schemas.domain.exercise.exercise import (
+    CheckTaskResult,
+    TestExerciseDomainResult,
+)
 from utils.audit.base import BaseAuditable
 
 __all__ = [

@@ -13,8 +13,8 @@ from kernel.resolver.config_resolver import (
 from ports.contract.entity.general import NullProtocol
 from ports.contract.enums.exercise import ExerciseKind
 from ports.contract.infra.repository import RepositoryProtocol
-from ports.contract.infra.reslover import ResolverProtocol
-from ports.interfaces.protocols.command import UserCommandProtocol
+from ports.contract.infra.resolver import ResolverProtocol
+from ports.interfaces.protocols.command.assembler import UserCommandProtocol
 from ports.interfaces.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
 )

@@ -15,7 +15,6 @@ from interfaces.protocols.domain.exercise import (
     ConditionsProtocol,
     ExerciseConfigProtocol,
 )
-from interfaces.schemas.domain.exercise import TaskItem
 from kernel.domain.exercise import CandidatesSelector, PresentationDomain
 from kernel.formatter.exercise import PresentationFormatter
 from kernel.service.exercise import CreateExerciseService
@@ -35,6 +34,7 @@ from ports.contract.infra.domain.selector import SelectorProtocol
 from ports.contract.infra.formatter import ConfFormatterProtocol
 from ports.contract.infra.repository import RepositoryProtocol
 from ports.contract.infra.service import UserSpecServiceProtocol
+from ports.interfaces.schemas.domain.exercise.exercise import TaskItem
 from ports.interfaces.schemas.domain.exercise.params import (
     ExerciseSpecDTO,
 )

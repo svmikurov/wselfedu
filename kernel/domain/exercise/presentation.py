@@ -6,15 +6,15 @@ from interfaces.protocols.domain.exercise import (
     CandidatesT,
     ExerciseConfigProtocol,
 )
-from interfaces.schemas.domain.exercise import (
-    PresentationExerciseDomainResult,
-)
 from ports.abstract.domain.exercise import AbstractCandidatesExerciseDomain
 from ports.contract import enums
 from ports.contract.entity.domain.exercise.flow import (
     PresentationDomainResultProtocol,
 )
 from ports.contract.infra.domain.selector import SelectorProtocol
+from ports.interfaces.schemas.domain.exercise.exercise import (
+    PresentationExerciseDomainResult,
+)
 
 __all__ = ('PresentationDomain',)
 

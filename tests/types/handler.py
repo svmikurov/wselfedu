@@ -7,10 +7,6 @@ from interfaces.protocols.domain.exercise import (
     ExerciseConfigProtocol,
 )
 from interfaces.protocols.request.general import RequestContextProtocol
-from interfaces.schemas.domain.exercise import (
-    PresentationExerciseDomainResult,
-    TestExerciseDomainResult,
-)
 from kernel.handler.generic import RequestHandler
 from ports.contract.entity.domain.exercise.fields import HasDomain
 from ports.contract.entity.general import NullProtocol
@@ -21,8 +17,14 @@ from ports.contract.infra.repository import RepositoryProtocol
 from ports.contract.infra.service import UserSpecServiceProtocol
 from ports.contract.infra.use_case import UseCaseProtocol
 from ports.contract.infra.validator import RequestValidatorProtocol
-from ports.interfaces.protocols.command import AuditableAssemblerProtocol
+from ports.interfaces.protocols.command.assembler import (
+    AuditableAssemblerProtocol,
+)
 from ports.interfaces.protocols.web import RequestDataProtocol
+from ports.interfaces.schemas.domain.exercise.exercise import (
+    PresentationExerciseDomainResult,
+    TestExerciseDomainResult,
+)
 
 # HACK: Fix Any type hint
 # HACK: Fix dependency from implementation

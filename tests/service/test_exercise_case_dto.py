@@ -10,13 +10,13 @@ import pytest
 
 from apps.users.models import Person
 from interfaces.protocols.domain.exercise import CandidatesT
-from interfaces.schemas.domain.exercise import (
-    PresentationExerciseDomainResult,
-    TestExerciseDomainResult,
-)
 from kernel.formatter.exercise import PresentationFormatter, TestFormatter
 from kernel.service.exercise import CreateExerciseService
 from ports.contract import enums
+from ports.interfaces.schemas.domain.exercise.exercise import (
+    PresentationExerciseDomainResult,
+    TestExerciseDomainResult,
+)
 from ports.interfaces.schemas.domain.exercise.flow import (
     ExerciseCase,
     PresentationTask,

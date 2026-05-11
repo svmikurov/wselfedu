@@ -9,12 +9,14 @@ from interfaces.protocols.domain.exercise import (
 from ports.contract.entity.domain.exercise import fields
 from ports.contract.entity.domain.exercise.fields import HasExerciseAction
 from ports.contract.infra.builder import TaskBuilderProtocol
-from ports.contract.infra.reslover import ResolverProtocol
+from ports.contract.infra.resolver import ResolverProtocol
 from ports.contract.infra.service import UserSpecServiceProtocol
 from ports.contract.infra.spec import ExerciseSpecFactoryProtocol
 from ports.contract.infra.storage.general import CommandStorageProtocol
 from ports.contract.infra.use_case import UseCaseProtocol
-from ports.interfaces.protocols.command import UserDataCommandProtocol
+from ports.interfaces.protocols.command.assembler import (
+    UserDataCommandProtocol,
+)
 
 # =================================================
 # DTOs

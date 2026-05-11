@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Generic, TypedDict, TypeVar, override
 
 from apps.core.exceptions.storage import CacheMissError
 from ports.abstract.repository import AbstractUserFetchRepository
-from ports.interfaces.protocols.command import (
+from ports.interfaces.protocols.command.assembler import (
     UserCommandProtocol,
     UserDetailCommandProtocol,
 )

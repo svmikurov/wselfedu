@@ -6,27 +6,29 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from interfaces.schemas.domain.exercise import TestAnswer
-from interfaces.schemas.spec.exercise import CheckTestSpec
 from kernel.spec import (
     CheckAnswerSpecFactory,
     CreateExerciseSpecFactory,
 )
+from ports.interfaces.schemas.domain.exercise.exercise import TestAnswer
 from ports.interfaces.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
     ExerciseSpecDTO,
 )
+from ports.interfaces.schemas.spec.exercise import CheckTestSpec
 from tests.fixtures.exercise.lang.no_db.translations import (
     TRANSLATION_INDEX,
 )
 
 if TYPE_CHECKING:
-    from interfaces.protocols.command.exercise import (
+    from ports.contract.infra.spec import ExerciseSpecFactoryProtocol
+    from ports.interfaces.protocols.command.exercise import (
         CheckTestCommandProtocol,
         CreateTaskCommandProtocol,
     )
-    from interfaces.schemas.domain.exercise import TestExerciseDomainResult
-    from ports.contract.infra.spec import ExerciseSpecFactoryProtocol
+    from ports.interfaces.schemas.domain.exercise.exercise import (
+        TestExerciseDomainResult,
+    )
 
     type CreateTaskSpecFactoryT = ExerciseSpecFactoryProtocol[
         object, object, object, object

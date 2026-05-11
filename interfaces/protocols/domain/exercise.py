@@ -2,7 +2,6 @@
 
 from typing import Protocol, TypeAlias, TypeVar
 
-from interfaces.schemas.web.task import Option
 from ports.contract import enums
 from ports.contract.entity.domain.exercise.fields import (
     HasAnswerText,
@@ -37,6 +36,7 @@ from ports.contract.entity.domain.params import (
 )
 from ports.contract.entity.general import HasStatus
 from ports.contract.enums import ExerciseStatus
+from ports.interfaces.schemas.web.task import Option
 
 Option_co = TypeVar('Option_co', covariant=True)
 

@@ -6,18 +6,17 @@ from django.db.models import F, Manager
 
 from apps.lang.models import EnglishTranslation
 from apps.users.models import Person
-from interfaces.schemas.domain.exercise import TaskItem
 from ports.abstract.repository import AbstractUserFetchRepository
 from ports.contract.entity.general import NullProtocol
+from ports.interfaces.schemas.domain.exercise.exercise import TaskItem
 
 FilterT = TypeVar('FilterT')
-ResultT = list[TaskItem]
 
 
 class UserTranslationsRepository(
     AbstractUserFetchRepository[
         NullProtocol,
-        ResultT,
+        list[TaskItem],
     ],
 ):
     """User's translations repository."""
@@ -33,7 +32,7 @@ class UserTranslationsRepository(
         self,
         user: Person,
         filter: NullProtocol,
-    ) -> ResultT:
+    ) -> list[TaskItem]:
         """Fetch translations."""
         queryset = (
             self._manager.filter(

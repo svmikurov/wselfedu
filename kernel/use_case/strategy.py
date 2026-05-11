@@ -6,7 +6,7 @@ from typing import Generic, TypeVar, override
 from ports.abstract.use_case import AbstractUseCase
 from ports.contract.entity.domain.general import HasAction
 from ports.contract.infra.use_case import UseCaseProtocol
-from ports.interfaces.protocols.command import DataCommandProtocol
+from ports.interfaces.protocols.command.assembler import DataCommandProtocol
 
 ActionT = TypeVar('ActionT')
 ResultT = TypeVar('ResultT')

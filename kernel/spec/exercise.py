@@ -7,15 +7,17 @@ from interfaces.protocols.spec.exercise import (
     CheckTestSpecProtocol,
     CreateTaskSpecProtocol,
 )
-from interfaces.schemas.domain.exercise import TestAnswer
-from interfaces.schemas.spec.exercise import CheckTestSpec
 from ports.abstract.spec import AbstractExerciseSpecFactory
 from ports.contract.entity.domain.exercise.fields import HasExerciseAction
-from ports.interfaces.protocols.command import UserDataCommandProtocol
+from ports.interfaces.protocols.command.assembler import (
+    UserDataCommandProtocol,
+)
+from ports.interfaces.schemas.domain.exercise.exercise import TestAnswer
 from ports.interfaces.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
     ExerciseSpecDTO,
 )
+from ports.interfaces.schemas.spec.exercise import CheckTestSpec
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 

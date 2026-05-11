@@ -6,12 +6,12 @@ from typing import TYPE_CHECKING, Any
 
 import pytest
 
-from interfaces.schemas.validator.task import (
+from kernel.validator.request.exercise import ExerciseRequestValidator
+from ports.contract.enums import ExerciseAction
+from ports.interfaces.schemas.validator.task import (
     ValidatedCheckTestAnswer,
     ValidatedCreateTask,
 )
-from kernel.validator.request.exercise import ExerciseRequestValidator
-from ports.contract.enums import ExerciseAction
 
 if TYPE_CHECKING:
     from ports.contract.infra.validator import RequestValidatorProtocol

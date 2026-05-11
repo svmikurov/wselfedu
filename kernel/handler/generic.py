@@ -5,7 +5,9 @@ from typing import Generic, TypeVar
 from ports.contract.infra.adapter import AdapterProtocol
 from ports.contract.infra.use_case import UseCaseProtocol
 from ports.contract.infra.validator import RequestValidatorProtocol
-from ports.interfaces.protocols.command import AuditableAssemblerProtocol
+from ports.interfaces.protocols.command.assembler import (
+    AuditableAssemblerProtocol,
+)
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 from utils.logger.decorators import log_errors_to_file

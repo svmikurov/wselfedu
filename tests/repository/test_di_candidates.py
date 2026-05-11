@@ -6,9 +6,9 @@ import pytest
 
 from apps.users.models import Person
 from di import MainContainer
-from interfaces.schemas.domain.exercise import TaskItem
 from ports.contract.infra.repository import RepositoryProtocol
 from ports.interfaces.schemas.base import NullDTO
+from ports.interfaces.schemas.domain.exercise.exercise import TaskItem
 
 _Translations: TypeAlias = list[TaskItem]
 _Repository: TypeAlias = RepositoryProtocol[object, _Translations]

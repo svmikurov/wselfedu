@@ -2,14 +2,14 @@
 
 from typing import Any, Iterable, TypeVar, override
 
-from interfaces.schemas.web.task import (
+from ports.contract.entity.domain.exercise.fields import ExerciseCaseProtocol
+from ports.contract.entity.general import NullProtocol
+from ports.interfaces.schemas.domain.exercise.flow import TestExerciseTask
+from ports.interfaces.schemas.web.task import (
     Option,
     TestExerciseTaskResponse,
     TestTaskContext,
 )
-from ports.contract.entity.domain.exercise.fields import ExerciseCaseProtocol
-from ports.contract.entity.general import NullProtocol
-from ports.interfaces.schemas.domain.exercise.flow import TestExerciseTask
 
 from ..base import BaseWebAdapter
 

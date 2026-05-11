@@ -9,13 +9,13 @@ import pytest
 from kernel.assembler.impl import UserDataAssembler
 
 if TYPE_CHECKING:
-    from interfaces.protocols.command.exercise import (
+    from interfaces.protocols.request.general import RequestContextProtocol
+    from ports.contract.entity.general import NullProtocol
+    from ports.interfaces.protocols.command.assembler import AssemblerProtocol
+    from ports.interfaces.protocols.command.exercise import (
         CheckTestCommandProtocol,
         CreateTaskCommandProtocol,
     )
-    from interfaces.protocols.request.general import RequestContextProtocol
-    from ports.contract.entity.general import NullProtocol
-    from ports.interfaces.protocols.command import AssemblerProtocol
     from tests.types.handler import RequestContextT, RequestParamsT
 
     from .._types import (

@@ -5,7 +5,9 @@ import pytest
 from apps.users.models import Person
 from ports.contract.entity.domain.exercise.fields import HasExerciseAction
 from ports.contract.enums.exercise import ExerciseAction
-from ports.interfaces.protocols.command import UserDataCommandProtocol
+from ports.interfaces.protocols.command.assembler import (
+    UserDataCommandProtocol,
+)
 from ports.interfaces.schemas.command import UserDataCommand
 from ports.interfaces.schemas.request.exercise import ExerciseRequestDTO
 

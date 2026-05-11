@@ -8,11 +8,11 @@ from unittest.mock import Mock
 import pytest
 
 from di import MainContainer
-from interfaces.schemas.domain.exercise import (
+from ports.contract.enums import ExerciseStatus
+from ports.interfaces.schemas.domain.exercise.exercise import (
     TaskItem,
     TestExerciseDomainResult,
 )
-from ports.contract.enums import ExerciseStatus
 from tests.types.handler import (
     HandlerT,
     RequestContextT,

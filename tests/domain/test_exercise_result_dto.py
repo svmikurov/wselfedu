@@ -7,15 +7,15 @@ as exercise candidates.
 import pytest
 
 from interfaces.protocols.domain.exercise import CandidatesT
-from interfaces.schemas.domain.exercise import (
-    PresentationExerciseDomainResult,
-    TaskItem,
-    TestExerciseDomainResult,
-)
 from kernel.domain.exercise import (
     CandidatesSelector,
     PresentationDomain,
     TestDomain,
+)
+from ports.interfaces.schemas.domain.exercise.exercise import (
+    PresentationExerciseDomainResult,
+    TaskItem,
+    TestExerciseDomainResult,
 )
 from ports.interfaces.schemas.domain.exercise.params import (
     ExerciseParametersDTO,

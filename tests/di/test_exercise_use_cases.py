@@ -10,7 +10,9 @@ from apps.lang.models import EnglishTranslation
 from interfaces.protocols.domain.exercise import PresentationTaskProtocol
 from ports.contract.enums.exercise import ExerciseAction
 from ports.contract.infra.use_case import UseCaseProtocol
-from ports.interfaces.protocols.command import UserDataCommandProtocol
+from ports.interfaces.protocols.command.assembler import (
+    UserDataCommandProtocol,
+)
 from ports.interfaces.schemas.command import UserDataCommand
 from ports.interfaces.schemas.request.exercise import ExerciseRequestDTO
 

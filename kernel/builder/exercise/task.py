@@ -3,7 +3,6 @@
 from typing import TypeVar
 
 from interfaces.protocols.domain import exercise as interfaces
-from interfaces.schemas.web.task import Option
 from ports.contract.entity.domain.exercise.flow import (
     PresentationCaseProtocol,
     TestCaseProtocol,
@@ -13,6 +12,7 @@ from ports.interfaces.schemas.domain.exercise.flow import (
     PresentationTask,
     TestExerciseTask,
 )
+from ports.interfaces.schemas.web.task import Option
 from utils.audit.base import BaseAuditable
 
 SpecT = TypeVar('SpecT')

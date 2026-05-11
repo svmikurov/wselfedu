@@ -3,15 +3,15 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Dict, Factory
 
-from interfaces.schemas.validator import (
-    ValidatedCheckTestAnswer,
-    ValidatedCreateTask,
-    ValidatedExerciseProgress,
-)
 from kernel.validator.request.exercise.create_task import (
     ExerciseRequestValidator,
 )
 from ports.contract.enums.exercise import ExerciseAction
+from ports.interfaces.schemas.validator import (
+    ValidatedCheckTestAnswer,
+    ValidatedCreateTask,
+    ValidatedExerciseProgress,
+)
 
 
 class ValidatorContainer(DeclarativeContainer):
