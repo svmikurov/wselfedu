@@ -1,6 +1,6 @@
 """Base exercise view."""
 
-from typing import Any, Generic, TypeAlias, TypeVar
+from typing import Any, Generic, TypeVar
 
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
@@ -10,35 +10,30 @@ from django.views.generic.base import TemplateResponseMixin
 from apps.core.views.auth import UserLoginRequiredMixin
 from apps.core.views.mixins import GetHandlerMixin, IsHtmxMixin
 from apps.users.models import Person
+from ports.contract.entity.domain.general import DumpModelProtocol
 from ports.contract.enums.exercise import ExerciseStatus
 from ports.contract.infra.handler import RequestHandlerProtocol
-from ports.interfaces.protocols.web.response import (
-    HtmlResponseProtocol,
-)
+from ports.contract.response.web import HtmlResponseProtocol
 from ports.interfaces.schemas.request.handler import (
     DetailRequestParams,
     QueryRequestParams,
     RequestContext,
     RequestData,
 )
-from ports.interfaces.schemas.response.web.generic import HtmlResponseDTO
 
 from .mixins import ExerciseLoopMixin
 
 __all__ = ('ExercisePerformView',)
 
 
-# DEPRECATED: Remove type alias after implementation deletion
-_HtmlResponseDtoT: TypeAlias = HtmlResponseDTO[object, object, object]
-
 HandlerT = TypeVar('HandlerT')
-ResponseDtoT = TypeVar(
-    'ResponseDtoT',
-    bound=HtmlResponseProtocol[ExerciseStatus],
-)
+_DTO = DumpModelProtocol[dict[str, str]]
+_Response = HtmlResponseProtocol[ExerciseStatus, _DTO, _DTO]
+ResponseDtoT = TypeVar('ResponseDtoT', bound=_Response)
+
 
 # DEPRECATED: Remove type alias after implementation deletion
-ProcessHandlerT = RequestHandlerProtocol[Any, Any, Any, _HtmlResponseDtoT]
+ProcessHandlerT = RequestHandlerProtocol[Any, Any, Any, Any]
 
 
 class ExercisePerformView(
@@ -69,7 +64,7 @@ class ExercisePerformView(
 
     def post(self, request: HttpRequest, **kwargs: object) -> HttpResponse:
         """Render partial template with process handler result."""
-        return HttpResponse(self._process(**kwargs))
+        return HttpResponse(self._process(**kwargs).html)
 
 
 # DEPRECATED: Remove, use `ExercisePerformView`
@@ -81,14 +76,14 @@ class QueryExercisePerformMixin:
     request: HttpRequest
     start_handler: ProcessHandlerT
 
-    def _start(self, **kwargs: object) -> _HtmlResponseDtoT:
-        return self.start_handler.execute(
+    def _start(self, **kwargs: object) -> _Response:
+        return self.start_handler.execute(  # type: ignore
             params=QueryRequestParams(query=self.request.GET.dict()),
             context=RequestContext(user=self.user),
             data=RequestData(data={}),
         )
 
-    def _process(self, **kwargs: object) -> _HtmlResponseDtoT:
+    def _process(self, **kwargs: object) -> _Response:
         return self.process_handler.execute(  # type: ignore
             params=QueryRequestParams(query=self.request.GET.dict()),
             context=RequestContext(user=self.user),
@@ -105,14 +100,14 @@ class DetailExercisePerformMixin:
     request: HttpRequest
     start_handler: ProcessHandlerT
 
-    def _start(self, **kwargs: object) -> _HtmlResponseDtoT:
-        return self.start_handler.execute(
+    def _start(self, **kwargs: object) -> _Response:
+        return self.start_handler.execute(  # type: ignore
             params=DetailRequestParams(pk=kwargs['pk']),  # type: ignore
             context=RequestContext(user=self.user),
             data=RequestData(data={}),
         )
 
-    def _process(self, **kwargs: object) -> _HtmlResponseDtoT:
+    def _process(self, **kwargs: object) -> _Response:
         return self.process_handler.execute(  # type: ignore
             params=DetailRequestParams(pk=int(kwargs['pk'])),  # type: ignore
             context=RequestContext(user=self.user),

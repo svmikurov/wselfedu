@@ -2,7 +2,7 @@
 
 from typing import Protocol
 
-from ports.contract.entity.domain.exercise.fields import HasOptionValue
+from ports.contract.entity.domain.exercise import HasOptionValue
 from ports.contract.entity.domain.general import HasAction
 from ports.contract.enums import ExerciseAction
 

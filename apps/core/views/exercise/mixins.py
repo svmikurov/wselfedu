@@ -10,6 +10,7 @@ from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 
+from ports.contract.entity.domain.general import DumpModelProtocol
 from ports.contract.entity.general import NullProtocol
 from ports.contract.enums.exercise import (
     ExerciseAction,
@@ -18,9 +19,9 @@ from ports.contract.enums.exercise import (
 from ports.contract.infra.handler import (
     RequestHandlerProtocol,
 )
+from ports.contract.response.web import HtmlResponseProtocol
 from ports.interfaces.protocols.request.general import RequestContextProtocol
 from ports.interfaces.protocols.web import RequestDataProtocol
-from ports.interfaces.protocols.web.response import HtmlResponseProtocol
 from ports.interfaces.schemas.base import NullDTO
 from ports.interfaces.schemas.request.handler import (
     RequestContext,
@@ -32,10 +33,9 @@ from ..abstract import AbstractProcessAction, AbstractStartAction
 if TYPE_CHECKING:
     from django.http import HttpRequest
 
-ResponseDtoT = TypeVar(
-    'ResponseDtoT',
-    bound=HtmlResponseProtocol[ExerciseStatus],
-)
+_DTO = DumpModelProtocol[dict[str, str]]
+_Response = HtmlResponseProtocol[ExerciseStatus, _DTO, _DTO]
+ResponseDtoT = TypeVar('ResponseDtoT', bound=_Response)
 
 HandlerT = TypeVar(
     'HandlerT',
@@ -43,7 +43,7 @@ HandlerT = TypeVar(
         NullProtocol,
         RequestContextProtocol,
         RequestDataProtocol[dict[str, str]],
-        HtmlResponseProtocol[ExerciseStatus],
+        _Response,
     ],
 )
 
@@ -86,11 +86,11 @@ class ExercisePartialTemplateMixin(Generic[ResponseDtoT]):
 
 
 class StartExerciseMixin(
-    AbstractStartAction[HtmlResponseProtocol[ExerciseStatus]],
+    AbstractStartAction[_Response],
 ):
     """Execute start exercise handler's action."""
 
-    def _start(self, **kwargs: object) -> HtmlResponseProtocol[ExerciseStatus]:
+    def _start(self, **kwargs: object) -> _Response:
         return self.handler.execute(  # type: ignore
             params=NullDTO(),
             context=RequestContext(user=self.user, is_htmx=self.is_htmx),  # type: ignore
@@ -99,15 +99,13 @@ class StartExerciseMixin(
 
 
 class ProcessExerciseMixin(
-    AbstractProcessAction[HtmlResponseProtocol[ExerciseStatus]],
+    AbstractProcessAction[_Response],
 ):
     """Execute process exercise handler's action."""
 
     request: HttpRequest
 
-    def _process(
-        self, **kwargs: object
-    ) -> HtmlResponseProtocol[ExerciseStatus]:
+    def _process(self, **kwargs: object) -> _Response:
         return self.handler.execute(  # type: ignore
             params=NullDTO(),
             context=RequestContext(user=self.user),  # type: ignore

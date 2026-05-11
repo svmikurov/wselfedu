@@ -5,7 +5,7 @@ from dependency_injector.providers import Dependency, Dict, Factory
 
 from kernel.adapter.null import NullResponseAdapter
 from kernel.adapter.response import (
-    PresentationTaskWebAdapter,
+    CreatePresentationWebAdapter,
     ProcessExerciseAdapterStrategy,
 )
 from kernel.adapter.response.exercise.test.web import (
@@ -36,7 +36,7 @@ class ResponseAdaptersContainer(DeclarativeContainer):
     _null = Factory(NullResponseAdapter)
 
     _presentation = Factory(
-        PresentationTaskWebAdapter,
+        CreatePresentationWebAdapter,
         templates=PRESENTATION_TEMPLATES,
         name='Presentation response adapter',
         auditor=auditor,

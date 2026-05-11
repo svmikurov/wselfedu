@@ -4,10 +4,12 @@ from typing import Generic, TypeVar, override
 
 from apps.core.exceptions.storage import StorageMissError
 from ports.abstract.use_case import AbstractUseCase
-from ports.contract import enums
-from ports.contract.entity.domain import params
-from ports.contract.entity.domain.exercise import flow
-from ports.contract.entity.domain.exercise.fields import HasExerciseAction
+from ports.contract.entity.domain.exercise import (
+    HasExerciseAction,
+    HasExerciseStatus,
+)
+from ports.contract.entity.domain.params import HasConfig
+from ports.contract.enums import ExerciseAction, ExerciseStatus
 from ports.contract.infra.builder import TaskBuilderProtocol
 from ports.contract.infra.resolver import ResolverProtocol
 from ports.contract.infra.service import UserSpecServiceProtocol
@@ -20,13 +22,14 @@ from ports.interfaces.protocols.domain.exercise import (
     ExerciseConfigProtocol,
     ExerciseParametersProtocol,
 )
+from ports.interfaces.protocols.service.exercise import ExerciseCaseProtocol
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
 CommandT = UserDataCommandProtocol[HasExerciseAction]
 ParamsT = TypeVar('ParamsT', bound=ExerciseParametersProtocol)
-SpecT = TypeVar('SpecT', bound=params.HasConfig[ExerciseConfigProtocol])
-DomainT = TypeVar('DomainT', bound=flow.ExerciseDomainResultProtocol)
+SpecT = TypeVar('SpecT', bound=HasConfig[ExerciseConfigProtocol])
+DomainT = TypeVar('DomainT', bound=HasExerciseStatus)
 ResultT = TypeVar('ResultT')
 
 
@@ -46,22 +49,22 @@ class ExerciseUseCaseStrategy(
         ],
         config_resolver: ResolverProtocol[CommandT, ParamsT],
         spec_factory_registry: dict[
-            enums.ExerciseAction,
+            ExerciseAction,
             ExerciseSpecFactoryProtocol[
                 CommandT, ParamsT, DomainT | None, SpecT
             ],
         ],
         service_registry: dict[
-            enums.ExerciseAction,
+            ExerciseAction,
             UserSpecServiceProtocol[
                 SpecT,
-                flow.ExerciseCaseProtocol[DomainT],
+                ExerciseCaseProtocol[DomainT, ResultT],
             ],
         ],
         builder_registry: dict[
-            enums.ExerciseStatus,
+            ExerciseStatus,
             TaskBuilderProtocol[
-                flow.ExerciseCaseProtocol[DomainT],
+                HasExerciseStatus,
                 SpecT,
                 ResultT,
             ],
@@ -115,9 +118,10 @@ class ExerciseUseCaseStrategy(
         case = service.execute(command.user, spec)
         self.auditor.record('selected_service.ok', case=case)
 
-        if case.status == enums.ExerciseStatus.NEW_TASK:
+        if case.status == ExerciseStatus.NEW_TASK:
             self._storage.save(command, case.domain, self._prefix)
 
+        # Exercise use case result builder
         builder = self._builder_registry[case.status]
         result = builder.build(case, spec)
         self.auditor.record('exercise_build.ok', obj=builder)

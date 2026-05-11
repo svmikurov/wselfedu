@@ -1,4 +1,4 @@
-"""Protocols for web response interface."""
+"""Response's general interface."""
 
 from typing import Protocol, TypeVar
 
@@ -7,16 +7,23 @@ from ports.contract.entity.domain.general import (
     HasDomainStatus,
 )
 from ports.contract.entity.general import HasContext, HasExtraContext
-from ports.contract.response.general import HasHtml
 
+_DTO = DumpModelProtocol[dict[str, str]]
 DomainResultStatusT = TypeVar('DomainResultStatusT')
-ContextT = DumpModelProtocol[dict[str, str]]
+ContextT = TypeVar('ContextT', bound=_DTO)
+ExtraContextT = TypeVar('ExtraContextT', bound=_DTO)
+
+
+class HasHtml(Protocol):
+    """Protocol for has *html* DTO field."""
+
+    html: str
 
 
 class HtmlResponseProtocol(
     HasDomainStatus[DomainResultStatusT],
     HasContext[ContextT],
-    HasExtraContext[ContextT],
+    HasExtraContext[ExtraContextT],
     HasHtml,
     Protocol,
 ):
@@ -26,9 +33,9 @@ class HtmlResponseProtocol(
     ----------
     domain_status : `DomainResultStatusT`
         Domain result status.
-    context : `DumpModelProtocol[dict[str, str]]`
+    context : `ContextT`
         Response context.
-    extra_context : `DumpModelProtocol[dict[str, str]]`
+    extra_context : `ExtraContextT`
         Response extra context.
     html : `str`
         HTML code.

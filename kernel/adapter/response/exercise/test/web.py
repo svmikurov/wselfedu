@@ -3,7 +3,8 @@
 from typing import Any, Iterable, TypeVar, override
 
 from ports.contract.entity.general import NullProtocol
-from ports.interfaces.protocols.service.exercise import TestTaskProtocol
+from ports.contract.enums import ExerciseStatus
+from ports.interfaces.protocols.domain.exercise import TestTaskProtocol
 from ports.interfaces.schemas.web.task import (
     TestExerciseTaskResponse,
     TestTaskContext,
@@ -34,9 +35,9 @@ class WebTestExerciseAdapter(
         """Convert domain result to web representation context."""
         context = TestTaskContext(
             question_text=use_case_result.question_text,
-            options=use_case_result.items,
+            options=use_case_result.options,  # type: ignore
         )
         return TestExerciseTaskResponse(
-            domain_status=use_case_result.status,
+            domain_status=ExerciseStatus.NEW_TASK,
             context=context,
         )

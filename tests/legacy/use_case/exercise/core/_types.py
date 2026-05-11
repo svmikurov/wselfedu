@@ -2,8 +2,10 @@
 
 from typing import Any, TypeAlias
 
-from ports.contract.entity.domain.exercise import fields
-from ports.contract.entity.domain.exercise.fields import HasExerciseAction
+from ports.contract.entity.domain.exercise import (
+    HasExerciseAction,
+    HasExerciseStatus,
+)
 from ports.contract.infra.builder import TaskBuilderProtocol
 from ports.contract.infra.resolver import ResolverProtocol
 from ports.contract.infra.service import UserSpecServiceProtocol
@@ -31,10 +33,10 @@ Params: TypeAlias = Any
 SpecT: TypeAlias = Any
 """Specification DTO for exercise case perform.
 """
-CaseT: TypeAlias = fields.HasExerciseStatus
+CaseT: TypeAlias = HasExerciseStatus
 """Exercise perform result DTO.
 """
-ResultT: TypeAlias = fields.HasExerciseStatus
+ResultT: TypeAlias = HasExerciseStatus
 """Use case result DTO.
 """
 

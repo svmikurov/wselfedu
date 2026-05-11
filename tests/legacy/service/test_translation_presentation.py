@@ -13,12 +13,9 @@ from apps.users.models import Person
 from kernel.domain.exercise import CandidatesSelector, PresentationDomain
 from kernel.formatter.exercise import PresentationFormatter
 from kernel.service.exercise import CreateExerciseService
-from ports.contract.entity.domain.exercise.fields import (
+from ports.contract.entity.domain.exercise import (
     HasCase,
     HasExerciseStatus,
-)
-from ports.contract.entity.domain.exercise.flow import (
-    PresentationDomainResultProtocol,
 )
 from ports.contract.entity.domain.params import (
     HasConditions,
@@ -29,6 +26,7 @@ from ports.contract.infra.domain.selector import SelectorProtocol
 from ports.contract.infra.formatter import ConfFormatterProtocol
 from ports.contract.infra.repository import RepositoryProtocol
 from ports.contract.infra.service import UserSpecServiceProtocol
+from ports.interfaces.protocols.domain import PresentationDomainResultProtocol
 from ports.interfaces.protocols.domain.exercise import (
     CandidatesT,
     ConditionsProtocol,

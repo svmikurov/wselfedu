@@ -1,9 +1,10 @@
 """Contracts for exercise domain."""
 
 from typing import Protocol, TypeVar
-from ports.contract.enums import ExerciseAction, ExerciseKind, ExerciseStatus
+
 from ports.contract.entity.domain.general import HasText, HasValue
 from ports.contract.entity.general import HasStatus
+from ports.contract.enums import ExerciseAction, ExerciseKind, ExerciseStatus
 
 T = TypeVar('T')
 T_co = TypeVar('T_co', covariant=True)
@@ -197,10 +198,11 @@ class HasDomain(Protocol[T]):
     domain: T
 
 
-class HasTask(Protocol[T]):
+class HasTask(Protocol[T_co]):
     """Protocol for has *task* DTO field."""
 
-    task: T
+    @property
+    def task(self) -> T_co: ...  # noqa
 
 
 class HasCase(Protocol[T_co]):

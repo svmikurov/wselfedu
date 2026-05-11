@@ -13,7 +13,9 @@ from apps.math.domains.dto import (
 from ports.abstract.adapter import (
     AbstractResponseAdapter,
 )
-from ports.contract.entity.domain.exercise import fields
+from ports.contract.entity.domain.exercise import (
+    HasExerciseStatus,
+)
 from ports.contract.entity.general import NullProtocol
 from ports.contract.enums.exercise import ExerciseStatus
 from ports.contract.enums.response import ResponseStatusEnum
@@ -31,7 +33,7 @@ from .dto import (
 )
 
 type UseCaseData = Any
-DomainType = TypeVar('DomainType', bound=fields.HasExerciseStatus)
+DomainType = TypeVar('DomainType', bound=HasExerciseStatus)
 
 
 class StudentDetailType(NamedTuple):

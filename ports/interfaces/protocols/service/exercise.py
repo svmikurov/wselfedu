@@ -2,7 +2,7 @@
 
 from typing import Protocol, TypeVar
 
-from ports.contract.entity.domain.exercise.fields import (
+from ports.contract.entity.domain.exercise import (
     HasDomain,
     HasExerciseStatus,
     HasTask,
@@ -15,13 +15,13 @@ from ports.interfaces.protocols.domain.exercise import (
 )
 
 DomainT = TypeVar('DomainT')
-TaskT = TypeVar('TaskT')
+TaskT_co = TypeVar('TaskT_co', covariant=True)
 
 
 class ExerciseCaseProtocol(
     HasExerciseStatus,
     HasDomain[DomainT],
-    HasTask[TaskT],
+    HasTask[TaskT_co],
     Protocol,
 ):
     """Protocol for exercise case DTO interface."""

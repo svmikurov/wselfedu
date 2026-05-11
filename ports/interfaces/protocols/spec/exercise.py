@@ -2,7 +2,7 @@
 
 from typing import Protocol
 
-from ports.contract.entity.domain.exercise.fields import HasAnswer, HasCase
+from ports.contract.entity.domain.exercise import HasAnswer, HasCase
 from ports.contract.entity.domain.params import (
     HasConditions,
     HasConfig,

@@ -8,17 +8,17 @@ from ports.abstract.domain.exercise import (
     AbstractCheckExerciseDomain,
 )
 from ports.contract import enums
-from ports.contract.entity.domain.exercise.fields import (
+from ports.contract.entity.domain.exercise import (
+    HasCheckResult,
     HasDisplayOrder,
     HasOptionCount,
 )
-from ports.contract.entity.domain.exercise.flow import TestDomainResultProtocol
-from ports.contract.entity.domain.general import HasCheckResult
 from ports.contract.infra.domain.selector import SelectorProtocol
 from ports.interfaces.protocols.domain.exercise import (
     CandidatesT,
     TaskItemsT,
     TestAnswerProtocol,
+    TestDomainResultProtocol,
 )
 from ports.interfaces.schemas.domain.exercise.exercise import (
     CheckTaskResult,

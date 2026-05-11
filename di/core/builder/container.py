@@ -3,10 +3,6 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Dict, Factory
 
-from kernel.builder.exercise.task import (
-    ExercisePresentationBuilder,
-    TestExerciseTaskBuilder,
-)
 from kernel.builder.null import NullSpecDtoBuilder
 from ports.contract.enums import ExerciseStatus
 
@@ -18,14 +14,8 @@ class UseCaseResultBuilderContainer(DeclarativeContainer):
     # Exercise domain result builders
     # =============================================
 
+    # REVIEW: Is necessary the use case result builder
     _null = Factory(NullSpecDtoBuilder)  # type: ignore
-
-    _presentation = Factory(  # type: ignore
-        ExercisePresentationBuilder,
-    )
-    _test = Factory(  # type: ignore
-        TestExerciseTaskBuilder,
-    )
 
     # =============================================
     # Exercise domain result builder registry

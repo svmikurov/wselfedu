@@ -2,17 +2,16 @@
 
 from typing import TypeVar, override
 
-from ports.contract.entity.domain.exercise.aliases import (
-    PresentationCaseT,
-    TestCaseT,
-)
-
 from ports.abstract.formatter import AbstractConfFormatter
-from ports.contract.entity.domain.exercise.fields import HasDisplayOrder
+from ports.contract.entity.domain.exercise import HasDisplayOrder
 from ports.contract.enums import DisplayOrder, ExerciseStatus
 from ports.interfaces.protocols.domain.exercise import (
     PresentationDomainResultProtocol,
     TestDomainResultProtocol,
+)
+from ports.interfaces.protocols.service.exercise import (
+    PresentationCaseProtocol,
+    TestCaseProtocol,
 )
 from ports.interfaces.schemas.domain.exercise.flow import (
     ExerciseCase,
@@ -33,7 +32,7 @@ class PresentationFormatter(
     AbstractConfFormatter[
         PresentationDomainResultProtocol,
         ConfigurationT,
-        PresentationCaseT,
+        PresentationCaseProtocol,
     ],
 ):
     """Presentation exercise domain result formatter."""
@@ -43,7 +42,7 @@ class PresentationFormatter(
         self,
         data: PresentationDomainResultProtocol,
         conf: ConfigurationT,
-    ) -> PresentationCaseT:
+    ) -> PresentationCaseProtocol:
         """Build a presentation DTO according to the configuration."""
         task = data.item
         return ExerciseCase(
@@ -61,7 +60,7 @@ class TestFormatter(
     AbstractConfFormatter[
         TestDomainResultProtocol,
         ConfigurationT,
-        TestCaseT,
+        TestCaseProtocol,
     ],
 ):
     """Test exercise domain result formatter."""
@@ -73,12 +72,12 @@ class TestFormatter(
         self,
         data: TestDomainResultProtocol,
         conf: ConfigurationT,
-    ) -> TestCaseT:
+    ) -> TestCaseProtocol:
         """Build a test DTO according to the configuration."""
         return ExerciseCase(
             status=ExerciseStatus.NEW_TASK,
             domain=data,
-            task=TestTask(
+            task=TestTask(  # type: ignore
                 question_option_value=data.question_option_value,
                 question_text=self._get_question_text(data, conf),
                 items=self._get_options(data, conf),

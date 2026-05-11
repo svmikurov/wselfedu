@@ -2,10 +2,10 @@
 
 __all__ = (
     # Web adapters
-    'PresentationTaskWebAdapter',
+    'CreatePresentationWebAdapter',
     # Adapter strategies
     'ProcessExerciseAdapterStrategy',
 )
 
-from .exercise.presentation.web import PresentationTaskWebAdapter
+from .exercise.presentation.web import CreatePresentationWebAdapter
 from .exercise.strategy import ProcessExerciseAdapterStrategy

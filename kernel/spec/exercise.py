@@ -3,7 +3,7 @@
 from typing import TypeVar, override
 
 from ports.abstract.spec import AbstractExerciseSpecFactory
-from ports.contract.entity.domain.exercise.fields import HasExerciseAction
+from ports.contract.entity.domain.exercise import HasExerciseAction
 from ports.interfaces.protocols.command.assembler import (
     UserDataCommandProtocol,
 )

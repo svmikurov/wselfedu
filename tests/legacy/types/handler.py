@@ -3,7 +3,7 @@
 from typing import Any, TypeAlias
 
 from kernel.handler.generic import RequestHandler
-from ports.contract.entity.domain.exercise.fields import HasDomain
+from ports.contract.entity.domain.exercise import HasDomain
 from ports.contract.entity.general import NullProtocol
 from ports.contract.infra.adapter import AdapterProtocol
 from ports.contract.infra.builder import SpecDtoBuilderProtocol

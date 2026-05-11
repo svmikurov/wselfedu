@@ -3,8 +3,8 @@
 from typing import Callable, Protocol
 
 from ports.contract.entity.domain.general import (
-    TypedAction,
     HasAction,
+    TypedAction,
     TypedOptionValue,
 )
 from ports.contract.enums import ExerciseAction

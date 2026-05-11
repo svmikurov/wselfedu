@@ -3,39 +3,28 @@
 from typing import Protocol, TypeAlias, TypeVar
 
 from ports.contract import enums
-from ports.contract.entity.domain.exercise.fields import (
+from ports.contract.entity.domain.exercise import (
     HasAnswerText,
     HasCase,
+    HasCheckResult,
     HasDefineText,
     HasDisplayOrder,
     HasExerciseKind,
+    HasItem,
     HasItemCount,
+    HasItems,
     HasMeanText,
-    HasOption,
+    HasOptions,
     HasOptionValue,
     HasPeriod,
     HasProgress,
     HasProgressValue,
     HasQuestionOptionValue,
     HasQuestionText,
-    HasItem,
-    HasItems,
     HasTimeout,
-)
-from ports.contract.entity.domain.exercise.task import (
-    HasAnswerText,
-    HasCase,
-    HasExerciseKind,
-    HasOption,
-    HasOptionValue,
-    HasQuestionOptionValue,
-    HasQuestionText,
-    HasItem,
-    HasItems,
 )
 from ports.contract.entity.domain.general import (
     HasCategory,
-    HasCheckResult,
     HasMark,
     HasResourceIdentifier,
     HasSource,
@@ -50,9 +39,6 @@ from ports.contract.entity.general import HasStatus
 from ports.contract.enums import ExerciseStatus
 
 Option_co = TypeVar('Option_co', covariant=True)
-
-
-
 
 
 # =================================================
@@ -247,7 +233,7 @@ class PresentationTaskProtocol(
 
 class TestTaskProtocol(
     HasQuestionText,
-    HasOption[OptionProtocol],
+    HasOptions,
     Protocol,
 ):
     """Protocol for test exercise task interface.
@@ -256,7 +242,7 @@ class TestTaskProtocol(
     ----------
     question_text : `str`
         Test task question option value (list index).
-    items : `list[Option]`
+    options : `list[OptionProtocol]`
         Test task options (value, text).
 
     """

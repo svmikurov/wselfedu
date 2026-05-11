@@ -2,14 +2,9 @@
 
 from typing import override
 
-from ports.interfaces.protocols.service.exercise import (
-    ExerciseCaseProtocol
-)
-from ports.interfaces.protocols.domain.exercise import (
-    ExerciseDomainResultProtocol
-)
 from ports.contract.entity.general import HasIsHtmx
-from ports.interfaces.schemas.domain.exercise.flow import PresentationTask
+from ports.contract.enums import ExerciseStatus
+from ports.interfaces.protocols.domain.exercise import PresentationTaskProtocol
 from ports.interfaces.schemas.web.task import (
     PresentationTaskContext,
     PresentationTaskResponse,
@@ -17,35 +12,31 @@ from ports.interfaces.schemas.web.task import (
 
 from ..base import BaseWebAdapter
 
-ExerciseCaseT = ExerciseCaseProtocol[
-    ExerciseDomainResultProtocol, PresentationTask
-]
 
-
-class PresentationTaskWebAdapter(
+class CreatePresentationWebAdapter(
     BaseWebAdapter[
-        ExerciseCaseT,
+        PresentationTaskProtocol,
         HasIsHtmx,
         PresentationTaskResponse,
     ],
 ):
-    """WEB adapter for exercise task."""
+    """WEB adapter for create exercise presentation task."""
 
     # HACK: Update return type hint to protocol
     @override
     def to_response(
         self,
-        use_case_result: ExerciseCaseT,
+        use_case_result: PresentationTaskProtocol,
         request_context: HasIsHtmx,
     ) -> PresentationTaskResponse:
         """Convert exercise case to web context."""
         context = PresentationTaskContext(
-            define=use_case_result.task.question_text,
-            mean=use_case_result.task.answer_text,
-            progress_value=use_case_result.task.progress_value,
+            define=use_case_result.question_text,
+            mean=use_case_result.answer_text,
+            progress_value=use_case_result.progress_value,
         )
         return PresentationTaskResponse(
-            domain_status=use_case_result.status,
+            domain_status=ExerciseStatus.NEW_TASK,
             context=context,
             html=(self._get_html(context) if request_context.is_htmx else ''),
         )

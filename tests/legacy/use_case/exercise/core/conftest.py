@@ -7,16 +7,13 @@ import pytest
 from apps.core.exceptions.storage import StorageMissError
 from apps.users.models import Person
 from kernel.use_case.exercise.generic import ExerciseUseCaseStrategy
-from ports.contract.entity.domain.exercise import flow
 from ports.contract.enums.exercise import (
     ExerciseAction,
     ExerciseStatus,
 )
 from ports.contract.infra.service import UserSpecServiceProtocol
 from ports.interfaces.schemas.command import UserDataCommand
-from ports.interfaces.schemas.domain.exercise.params import (
-    ExerciseSpecDTO,
-)
+from ports.interfaces.schemas.domain.exercise.params import ExerciseSpecDTO
 from ports.interfaces.schemas.request.exercise import ExerciseRequestDTO
 
 from ._types import (
@@ -64,7 +61,7 @@ def stored_case() -> CaseT:
 @pytest.fixture
 def domain_result() -> CaseT:
     """Provide exercise domain result mock."""
-    return Mock(spec=flow.ExerciseDomainResultProtocol)
+    return Mock()
 
 
 @pytest.fixture
@@ -84,7 +81,7 @@ def mock_case(
     domain_result: Mock,
 ) -> Mock:
     """Provide exercise case mock."""
-    mock = Mock(spec=flow.ExerciseCaseProtocol)
+    mock = Mock()
     mock.status = ExerciseStatus.NEW_TASK
     mock.domain = domain_result
     return mock

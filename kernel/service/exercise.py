@@ -4,11 +4,10 @@ from typing import Protocol, TypeAlias, TypeVar, override
 
 from apps.users.models import Person
 from ports.abstract.service import AbstractUserSpecService
-from ports.contract.entity.domain.exercise import fields
-from ports.contract.entity.domain.exercise.flow import (
-    PresentationDomainResultProtocol,
+from ports.contract.entity.domain.exercise import (
+    HasCheckResult,
+    HasExerciseStatus,
 )
-from ports.contract.entity.domain.general import HasCheckResult
 from ports.contract.entity.domain.params import HasConditions, HasConfig
 from ports.contract.infra.domain.exercise import (
     CheckTaskDomainProtocol,
@@ -20,6 +19,7 @@ from ports.interfaces.protocols.domain.exercise import (
     CandidatesT,
     ConditionsProtocol,
     ExerciseConfigProtocol,
+    PresentationDomainResultProtocol,
     TestAnswerProtocol,
     TestDomainResultProtocol,
 )
@@ -32,7 +32,7 @@ __all__ = (
     'CheckExerciseService',
 )
 
-CreateResultT = TypeVar('CreateResultT', bound=fields.HasExerciseStatus)
+CreateResultT = TypeVar('CreateResultT', bound=HasExerciseStatus)
 
 CheckSpecT = TypeVar('CheckSpecT', bound=CheckTestSpecProtocol)
 CheckResultT = TypeVar('CheckResultT', bound=HasCheckResult)
