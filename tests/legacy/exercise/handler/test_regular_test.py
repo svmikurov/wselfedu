@@ -3,16 +3,9 @@
 Applies existing DI containers for dependency test.
 """
 
-from unittest.mock import Mock
-
 import pytest
 
-from di import MainContainer
-from ports.contract.enums import ExerciseStatus
-from ports.interfaces.schemas.domain.exercise.exercise import (
-    TaskItem,
-    TestTaskDomainResult,
-)
+from ports.interfaces.schemas.domain.exercise.exercise import TaskItem
 from tests.legacy.types.handler import (
     HandlerT,
     RequestContextT,
@@ -50,30 +43,26 @@ def test_check_test_answer(
     translations: list[TaskItem],
     mock_request_params: RequestParamsT,
     request_context: RequestContextT,
+    create_task_request_data: CreateRequestDataT,
     check_test_answer_request_data: CheckRequestDataT,
-    mock_user_command_storage: Mock,
-    main_container: MainContainer,
+    regular_test_handler: HandlerT,
 ) -> None:
     """Test *check answer* handler action completed successfully."""
     # Arrange
-    mock_user_command_storage.retrieve.return_value = TestTaskDomainResult(
-        question_option_value=0,
-        status=ExerciseStatus.NEW_TASK,
-        items=translations,
+    # - Save the current case for answer check.
+    # HACK: Update the current case saving for test isolation.
+    regular_test_handler.execute(
+        mock_request_params,
+        request_context,
+        create_task_request_data,
     )
 
-    # Act
-    with main_container.lang.use_cases.user_command_storage.override(  # type: ignore[attr-defined]
-        mock_user_command_storage
-    ):
-        handler = (
-            main_container.lang.handlers.regular_translation_test()  # type: ignore[attr-defined]
-        )
-        result = handler.execute(
+    # Act & assert
+    assert (
+        regular_test_handler.execute(
             mock_request_params,
             request_context,
             check_test_answer_request_data,
         )
-
-        # Assert
-        assert result is not None
+        is not None
+    )

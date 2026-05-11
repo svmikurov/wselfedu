@@ -13,7 +13,8 @@ from ports.interfaces.schemas.domain.exercise import fields
 CandidateT = TypeVar('CandidateT')
 CandidatesT = TypeVar('CandidatesT')
 
-DomainResult = TypeVar('DomainResult')
+DomainResultT = TypeVar('DomainResultT')
+TaskT = TypeVar('TaskT')
 
 
 # =================================================
@@ -37,11 +38,26 @@ class ExplainExerciseDomainResult(BaseDTO):
 # =================================================
 
 
-class ExerciseCase(BaseDTO, Generic[DomainResult]):
-    """Exercise case DTO."""
+class ExerciseCase(
+    BaseDTO,
+    Generic[DomainResultT, TaskT],
+):
+    """Exercise case DTO.
+
+    Parameters
+    ----------
+    status : `ExerciseStatus`
+        Domain create task status, for registry choice.
+    domain : `DomainResultT`
+        Domain create task result, for user answer handling.
+    task : `TaskT`
+        Task, for context task representation.
+
+    """
 
     status: enums.ExerciseStatus
-    domain: DomainResult
+    domain: DomainResultT
+    task: TaskT
 
 
 # =================================================
@@ -53,10 +69,11 @@ class ExerciseCase(BaseDTO, Generic[DomainResult]):
 class Task(BaseDTO):
     """Exercise task DTO.
 
-    Parameter
-    ---------
+    Parameters
+    ----------
     status : `ExerciseStatus`
         Current exercise status enumeration.
+
     """
 
     status: enums.ExerciseStatus
@@ -69,18 +86,19 @@ class PresentationTask(
 ):
     """Presentation exercise task DTO.
 
-    Parameter
-    ---------
+    Parameters
+    ----------
     question_text : `str`
         Task question text.
     answer_text : `str`
         Task answer text.
     progress_value: `int`
         Current item study progress value.
+
     """
 
 
-class TestExerciseTask(
+class TestTask(
     fields.OptionValue,
     fields.QuestionTextField,
     fields.TaskItemsField[CandidatesT],
@@ -89,14 +107,15 @@ class TestExerciseTask(
 ):
     """Test exercise task DTO.
 
-    Parameter
-    ---------
-    option_value : `int`
-        The question's option value (options index value).
-    question_text : `str`
-        Task question text.
-    options : list[CandidatesT]
-        The exercise test's options.
+    Parameters
+    ----------
+    status : `ExerciseStatus`
+        Exercise task status (e.g., 'new_case')
+    context : ...
+        Context (human readable) task representation.
+    domain : ...
+        Domain task representation.
+
     """
 
     __test__ = False

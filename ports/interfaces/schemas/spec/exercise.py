@@ -15,6 +15,6 @@ class CheckTestSpec(BaseDTO):
     answer: TestAnswer = Field(
         description='User answer on test task',
     )
-    case: TestTaskDomainResult | None = Field(
+    domain: TestTaskDomainResult | None = Field(
         description='Stored performing test task, domain result',
     )

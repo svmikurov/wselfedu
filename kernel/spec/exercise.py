@@ -91,5 +91,5 @@ class CheckAnswerSpecFactory(
             answer=TestAnswer(
                 option_value=command.data.option_value,  # type: ignore
             ),
-            case=case,  # type: ignore
+            case=case,
         )

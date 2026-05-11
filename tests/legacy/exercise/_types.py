@@ -3,7 +3,7 @@
 from typing import Callable, Protocol
 
 from ports.contract.entity.domain.general import (
-    ActionTyped,
+    TypedAction,
     HasAction,
     TypedOptionValue,
 )
@@ -21,13 +21,13 @@ class RequestParams(Protocol):
 
 
 class TypedCreateTask(
-    ActionTyped[ExerciseAction],
+    TypedAction[ExerciseAction],
 ):
     """Create task typed request data."""
 
 
 class TypedCheckTestAnswer(
-    ActionTyped[ExerciseAction],
+    TypedAction[ExerciseAction],
     TypedOptionValue,
 ):
     """Check test answer typed request data."""

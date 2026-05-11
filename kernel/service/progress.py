@@ -37,4 +37,5 @@ class UpdateProgressService(
         return UpdateProgressCase(
             status=ExerciseStatus.UPDATED_PROGRESS,
             domain=None,
+            task=None,
         )

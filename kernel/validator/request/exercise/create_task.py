@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Callable
 
 from ports.abstract.validator import AbstractRequestValidator
-from ports.contract.entity.domain.general import ActionTyped, HasAction
+from ports.contract.entity.domain.general import TypedAction, HasAction
 from ports.contract.enums.exercise import ExerciseAction
 from ports.interfaces.protocols.web import RequestDataProtocol
 from utils.audit.base import BaseAuditable
@@ -18,7 +18,7 @@ if TYPE_CHECKING:
         Callable[..., HasAction[ExerciseAction]],
     ]
 
-type DataT = RequestDataProtocol[ActionTyped[ExerciseAction]]
+type DataT = RequestDataProtocol[TypedAction[ExerciseAction]]
 type ValidatedT = HasAction[ExerciseAction]
 
 

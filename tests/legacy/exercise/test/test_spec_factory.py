@@ -108,5 +108,5 @@ def test_check_test_answer_specification(
         answer=TestAnswer(
             option_value=TRANSLATION_INDEX,
         ),
-        case=create_translation_test_domain_result,
+        domain=create_translation_test_domain_result,
     )

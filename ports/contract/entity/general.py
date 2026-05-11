@@ -31,10 +31,12 @@ class HasException(Protocol[T]):
     exception: T
 
 
-class HasStatus(Protocol[StatusT]):
+class HasStatus(Protocol[T_co]):
     """Protocol for has *status* interface."""
 
-    status: StatusT
+    @property
+    def status(self) -> T_co:
+        """Status."""
 
 
 class HasContext(Protocol[T]):

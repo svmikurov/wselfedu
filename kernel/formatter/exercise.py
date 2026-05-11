@@ -2,22 +2,22 @@
 
 from typing import TypeVar, override
 
-from ports.abstract.formatter import AbstractConfFormatter
-from ports.contract.entity.domain.exercise.fields import (
-    ExerciseCaseProtocol,
-    HasDisplayOrder,
+from ports.contract.entity.domain.exercise.aliases import (
+    PresentationCaseT,
+    TestCaseT,
 )
+
+from ports.abstract.formatter import AbstractConfFormatter
+from ports.contract.entity.domain.exercise.fields import HasDisplayOrder
 from ports.contract.enums import DisplayOrder, ExerciseStatus
 from ports.interfaces.protocols.domain.exercise import (
     PresentationDomainResultProtocol,
-    PresentationTaskProtocol,
     TestDomainResultProtocol,
-    TestTaskProtocol,
 )
 from ports.interfaces.schemas.domain.exercise.flow import (
     ExerciseCase,
     PresentationTask,
-    TestExerciseTask,
+    TestTask,
 )
 from ports.interfaces.schemas.web.task import Option
 
@@ -33,7 +33,7 @@ class PresentationFormatter(
     AbstractConfFormatter[
         PresentationDomainResultProtocol,
         ConfigurationT,
-        ExerciseCaseProtocol[PresentationTaskProtocol],
+        PresentationCaseT,
     ],
 ):
     """Presentation exercise domain result formatter."""
@@ -43,12 +43,13 @@ class PresentationFormatter(
         self,
         data: PresentationDomainResultProtocol,
         conf: ConfigurationT,
-    ) -> ExerciseCaseProtocol[PresentationTaskProtocol]:
+    ) -> PresentationCaseT:
         """Build a presentation DTO according to the configuration."""
         task = data.item
         return ExerciseCase(
             status=ExerciseStatus.NEW_TASK,
-            domain=PresentationTask(
+            domain=data,
+            task=PresentationTask(
                 question_text=task.define,
                 answer_text=task.mean,
                 progress_value=task.progress_value,
@@ -60,7 +61,7 @@ class TestFormatter(
     AbstractConfFormatter[
         TestDomainResultProtocol,
         ConfigurationT,
-        ExerciseCaseProtocol[TestTaskProtocol],
+        TestCaseT,
     ],
 ):
     """Test exercise domain result formatter."""
@@ -72,11 +73,12 @@ class TestFormatter(
         self,
         data: TestDomainResultProtocol,
         conf: ConfigurationT,
-    ) -> ExerciseCaseProtocol[TestTaskProtocol]:
+    ) -> TestCaseT:
         """Build a test DTO according to the configuration."""
         return ExerciseCase(
             status=ExerciseStatus.NEW_TASK,
-            domain=TestExerciseTask(
+            domain=data,
+            task=TestTask(
                 question_option_value=data.question_option_value,
                 question_text=self._get_question_text(data, conf),
                 items=self._get_options(data, conf),

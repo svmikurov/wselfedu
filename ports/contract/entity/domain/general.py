@@ -20,12 +20,18 @@ class HasText(Protocol):
     text: str
 
 
+class HasValue(Protocol):
+    """Protocol for has *value* interface."""
+
+    value: int
+
+
 # =================================================
 # Domain action / status contracts
 # =================================================
 
 
-class ActionTyped(TypedDict, Generic[ActionT]):
+class TypedAction(TypedDict, Generic[ActionT]):
     """Typed dict for domain action."""
 
     action: ActionT
@@ -50,7 +56,7 @@ class HasDomainStatus(Protocol[DomainStatusT]):
 
 
 # =================================================
-# Single parameter contracts
+# Item meta data
 # =================================================
 
 
@@ -82,14 +88,3 @@ class DumpModelProtocol(Protocol[DumpData_co]):
 
     def model_dump(self) -> DumpData_co:
         """Dumb DTO model to dict."""
-
-
-# =================================================
-# User answer check result
-# =================================================
-
-
-class HasCheckResult(Protocol):
-    """User answer check result."""
-
-    is_correct: bool

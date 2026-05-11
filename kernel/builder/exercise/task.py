@@ -2,15 +2,15 @@
 
 from typing import TypeVar
 
-from ports.contract.entity.domain.exercise.flow import (
+from ports.contract.infra.builder import SpecDtoBuilderProtocol
+from ports.interfaces.protocols.domain import exercise as interfaces
+from ports.interfaces.protocols.service.exercise import (
     PresentationCaseProtocol,
     TestCaseProtocol,
 )
-from ports.contract.infra.builder import SpecDtoBuilderProtocol
-from ports.interfaces.protocols.domain import exercise as interfaces
 from ports.interfaces.schemas.domain.exercise.flow import (
     PresentationTask,
-    TestExerciseTask,
+    TestTask,
 )
 from ports.interfaces.schemas.web.task import Option
 from utils.audit.base import BaseAuditable
@@ -26,7 +26,7 @@ class ExercisePresentationBuilder(
         interfaces.PresentationTaskProtocol,
     ],
 ):
-    """Exercise case DTO null builder."""
+    """Presentation exercise task DTO builder."""
 
     def build(
         self,
@@ -58,7 +58,7 @@ class TestExerciseTaskBuilder(
         spec: SpecT,
     ) -> interfaces.TestTaskProtocol:
         """Build test exercise task DTO."""
-        return TestExerciseTask(
+        return TestTask(
             question_option_value=data.domain.question_option_value,
             question_text='',
             items=[

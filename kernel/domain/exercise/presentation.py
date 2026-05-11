@@ -43,7 +43,7 @@ class PresentationDomain(
         selected_candidates = self._selector.select(candidates, conf)
         option = choice(selected_candidates)
 
-        return PresentationTaskDomainResult(  # type: ignore
+        return PresentationTaskDomainResult(
             status=enums.ExerciseStatus.NEW_TASK,
             exercise_kind=enums.ExerciseKind.PRESENTATION,
             item=option,  # type: ignore

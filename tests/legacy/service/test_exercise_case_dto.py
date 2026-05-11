@@ -20,7 +20,7 @@ from ports.interfaces.schemas.domain.exercise.exercise import (
 from ports.interfaces.schemas.domain.exercise.flow import (
     ExerciseCase,
     PresentationTask,
-    TestExerciseTask,
+    TestTask,
 )
 from ports.interfaces.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
@@ -155,4 +155,4 @@ def test_test_exercise_service_result_dto(
 
     # - Presentation exercise domain result DTO is instance of
     assert isinstance(case, ExerciseCase)
-    assert isinstance(case.domain, TestExerciseTask)
+    assert isinstance(case.domain, TestTask)

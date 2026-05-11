@@ -3,7 +3,6 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Dict, Factory
 
-from kernel.builder.exercise.case import ExerciseCaseBuilder
 from kernel.builder.exercise.task import (
     ExercisePresentationBuilder,
     TestExerciseTaskBuilder,
@@ -26,9 +25,6 @@ class UseCaseResultBuilderContainer(DeclarativeContainer):
     )
     _test = Factory(  # type: ignore
         TestExerciseTaskBuilder,
-    )
-    _general = Factory(  # type: ignore
-        ExerciseCaseBuilder,
     )
 
     # =============================================

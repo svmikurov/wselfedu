@@ -11,15 +11,27 @@ from ports.contract.entity.domain.exercise.fields import (
     HasExerciseKind,
     HasItemCount,
     HasMeanText,
+    HasOption,
     HasOptionValue,
     HasPeriod,
     HasProgress,
     HasProgressValue,
     HasQuestionOptionValue,
     HasQuestionText,
-    HasTaskItem,
-    HasTaskItems,
+    HasItem,
+    HasItems,
     HasTimeout,
+)
+from ports.contract.entity.domain.exercise.task import (
+    HasAnswerText,
+    HasCase,
+    HasExerciseKind,
+    HasOption,
+    HasOptionValue,
+    HasQuestionOptionValue,
+    HasQuestionText,
+    HasItem,
+    HasItems,
 )
 from ports.contract.entity.domain.general import (
     HasCategory,
@@ -36,9 +48,11 @@ from ports.contract.entity.domain.params import (
 )
 from ports.contract.entity.general import HasStatus
 from ports.contract.enums import ExerciseStatus
-from ports.interfaces.schemas.web.task import Option
 
 Option_co = TypeVar('Option_co', covariant=True)
+
+
+
 
 
 # =================================================
@@ -164,7 +178,7 @@ TaskItemsT: TypeAlias = list[TaskItemProtocol]
 
 
 class PresentationDomainResultProtocol(
-    HasTaskItem[TaskItemProtocol],
+    HasItem[TaskItemProtocol],
     HasStatus[ExerciseStatus],
     HasExerciseKind,
     Protocol,
@@ -185,7 +199,7 @@ class PresentationDomainResultProtocol(
 
 class TestDomainResultProtocol(
     HasQuestionOptionValue,
-    HasTaskItems[list[TaskItemProtocol]],
+    HasItems[list[TaskItemProtocol]],
     HasStatus[ExerciseStatus],
     HasExerciseKind,
     Protocol,
@@ -232,15 +246,15 @@ class PresentationTaskProtocol(
 
 
 class TestTaskProtocol(
-    HasQuestionOptionValue,
-    HasTaskItems[list[Option]],
+    HasQuestionText,
+    HasOption[OptionProtocol],
     Protocol,
 ):
     """Protocol for test exercise task interface.
 
     Parameters
     ----------
-    question_option_value : `int`
+    question_text : `str`
         Test task question option value (list index).
     items : `list[Option]`
         Test task options (value, text).
