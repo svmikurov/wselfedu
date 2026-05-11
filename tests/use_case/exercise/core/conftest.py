@@ -6,10 +6,6 @@ import pytest
 
 from apps.core.exceptions.storage import StorageMissError
 from apps.users.models import Person
-from contracts.schemas.domain.exercise.params import (
-    ExerciseSpecDTO,
-)
-from contracts.schemas.request.exercise import ExerciseRequestDTO
 from kernel.use_case.exercise.generic import ExerciseUseCaseStrategy
 from ports.contract.entity.domain.exercise import flow
 from ports.contract.enums.exercise import (
@@ -18,6 +14,10 @@ from ports.contract.enums.exercise import (
 )
 from ports.contract.infra.service import UserSpecServiceProtocol
 from ports.interfaces.schemas.command import UserDataCommand
+from ports.interfaces.schemas.domain.exercise.params import (
+    ExerciseSpecDTO,
+)
+from ports.interfaces.schemas.request.exercise import ExerciseRequestDTO
 
 from ._types import (
     BuilderT,

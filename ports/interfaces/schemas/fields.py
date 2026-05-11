@@ -4,7 +4,7 @@ from typing import Generic, TypeVar
 
 from pydantic import Field
 
-from contracts.schemas.base import ArbitraryDTO, BaseDTO
+from ports.interfaces.schemas.base import ArbitraryDTO, BaseDTO
 
 T = TypeVar('T')
 

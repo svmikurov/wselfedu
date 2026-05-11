@@ -4,7 +4,7 @@ from typing import Any
 
 from pydantic import Field
 
-from contracts.schemas.base import BaseDTO
+from ports.interfaces.schemas.base import BaseDTO
 
 
 class ProgressDTO(BaseDTO):

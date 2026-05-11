@@ -2,7 +2,7 @@
 
 from pydantic import Field
 
-from contracts.schemas.fields import ResourceIdentifierField
+from ports.interfaces.schemas.fields import ResourceIdentifierField
 
 # =================================================
 # Update progress repository schema

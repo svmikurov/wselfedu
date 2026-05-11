@@ -10,7 +10,6 @@ from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 
-from contracts.schemas.base import NullDTO
 from interfaces.protocols.request.general import RequestContextProtocol
 from ports.contract.entity.general import NullProtocol
 from ports.contract.enums.exercise import (
@@ -21,11 +20,12 @@ from ports.contract.infra.handler import (
     RequestHandlerProtocol,
 )
 from ports.interfaces.protocols.web import RequestDataProtocol
+from ports.interfaces.protocols.web.response import HtmlResponseProtocol
+from ports.interfaces.schemas.base import NullDTO
 from ports.interfaces.schemas.request.handler import (
     RequestContext,
     RequestData,
 )
-from ports.interfaces.schemas.response.web.base import HtmlResponseProtocol
 
 from ..abstract import AbstractProcessAction, AbstractStartAction
 

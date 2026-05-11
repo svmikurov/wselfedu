@@ -5,10 +5,10 @@ from typing import NamedTuple
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Configuration, Factory
 
-from contracts.schemas.domain.exercise.progress import (
+from ports.contract.enums.exercise import DisplayOrder
+from ports.interfaces.schemas.domain.exercise.progress import (
     ProgressConfigDTO,
 )
-from ports.contract.enums.exercise import DisplayOrder
 
 
 # TODO: Remove this stub after implementation

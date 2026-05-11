@@ -2,11 +2,11 @@
 
 from pydantic import Field
 
-from contracts.schemas.base import BaseDTO
 from interfaces.schemas.domain.exercise import (
     TestAnswer,
     TestExerciseDomainResult,
 )
+from ports.interfaces.schemas.base import BaseDTO
 
 
 class CheckTestSpec(BaseDTO):

@@ -4,15 +4,15 @@ from typing import Generic, TypeVar
 
 from pydantic import Field, field_validator
 
-from contracts.schemas.base import ArbitraryDTO, BaseDTO
-from contracts.schemas.domain.exercise.fields import (
-    CaseField,
-)
-from contracts.schemas.domain.mixins import (
+from ports.contract.entity.domain.mixins import (
     WebParametersMixin,
     WebSettingsMixin,
 )
 from ports.contract.enums.exercise import DisplayOrder
+from ports.interfaces.schemas.base import ArbitraryDTO, BaseDTO
+from ports.interfaces.schemas.domain.exercise.fields import (
+    CaseField,
+)
 
 DomainResultT = TypeVar('DomainResultT')
 

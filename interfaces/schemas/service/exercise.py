@@ -1,10 +1,10 @@
 """Exercise service schema interface."""
 
-from contracts.schemas.domain.exercise.flow import ExerciseCase
 from interfaces.schemas.domain.exercise import (
     PresentationExerciseDomainResult,
     TestExerciseDomainResult,
 )
+from ports.interfaces.schemas.domain.exercise.flow import ExerciseCase
 
 # =================================================
 # Create exercise task cases

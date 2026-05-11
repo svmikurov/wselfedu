@@ -2,15 +2,15 @@
 
 import pytest
 
-from contracts.schemas.domain.exercise.params import (
-    ExerciseConfigDTO,
-    ExerciseSettingsDTO,
-    LookupConditionsDTO,
-)
 from interfaces.protocols.domain.exercise import (
     ConditionsProtocol,
     ExerciseConfigProtocol,
     ExerciseSettingsProtocol,
+)
+from ports.interfaces.schemas.domain.exercise.params import (
+    ExerciseConfigDTO,
+    ExerciseSettingsDTO,
+    LookupConditionsDTO,
 )
 from tests.fixtures.exercise.lang.no_db.translations import (
     TRANSLATION_INDEX,

@@ -1,9 +1,8 @@
 """Generic exercise service."""
 
-from typing import Protocol, TypeVar, override
+from typing import Protocol, TypeAlias, TypeVar, override
 
 from apps.users.models import Person
-from contracts import aliases
 from interfaces.protocols.domain.exercise import (
     CandidatesT,
     ConditionsProtocol,
@@ -14,9 +13,15 @@ from interfaces.protocols.domain.exercise import (
 from interfaces.protocols.spec.exercise import CheckTestSpecProtocol
 from ports.abstract.service import AbstractUserSpecService
 from ports.contract.entity.domain.exercise import fields
+from ports.contract.entity.domain.exercise.flow import (
+    PresentationDomainResultProtocol,
+)
 from ports.contract.entity.domain.general import HasCheckResult
 from ports.contract.entity.domain.params import HasConditions, HasConfig
-from ports.contract.infra.domain.exercise import CheckTaskDomainProtocol
+from ports.contract.infra.domain.exercise import (
+    CheckTaskDomainProtocol,
+    CreateTaskDomainProtocol,
+)
 from ports.contract.infra.formatter import ConfFormatterProtocol
 from ports.contract.infra.repository import RepositoryProtocol
 from utils.audit.base import BaseAuditable
@@ -31,6 +36,13 @@ CreateResultT = TypeVar('CreateResultT', bound=fields.HasExerciseStatus)
 
 CheckSpecT = TypeVar('CheckSpecT', bound=CheckTestSpecProtocol)
 CheckResultT = TypeVar('CheckResultT', bound=HasCheckResult)
+
+CaseAlias: TypeAlias = PresentationDomainResultProtocol
+
+ExerciseDomainAlias: TypeAlias = CreateTaskDomainProtocol[
+    ExerciseConfigProtocol,
+    PresentationDomainResultProtocol,
+]
 
 
 class _SpecT(
@@ -58,9 +70,9 @@ class CreateExerciseService(
             ConditionsProtocol,
             CandidatesT,
         ],
-        domain: aliases.ExerciseDomainAlias,
+        domain: ExerciseDomainAlias,
         formatter: ConfFormatterProtocol[
-            aliases.CaseAlias,
+            CaseAlias,
             ExerciseConfigProtocol,
             CreateResultT,
         ],

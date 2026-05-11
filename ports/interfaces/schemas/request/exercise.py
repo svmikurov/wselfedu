@@ -1,6 +1,6 @@
 """General WEB exercise request contracts."""
 
-from contracts.schemas.domain.exercise.fields import (
+from ports.interfaces.schemas.domain.exercise.fields import (
     ExerciseActionField,
 )
 

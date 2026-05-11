@@ -1,19 +1,18 @@
 """General WEB response contracts."""
 
-from typing import Generic
+from typing import Generic, TypeVar
 
-from contracts.schemas.base import ArbitraryDTO
-from contracts.schemas.response.mixins import (
+from ports.interfaces.schemas.base import ArbitraryDTO
+from ports.interfaces.schemas.response.web.mixins import (
     ContextField,
     DomainStatusField,
     ExtraContextField,
     HtmlField,
 )
-from contracts.schemas.response.types import (
-    AdaptedDomainResultT,
-    DomainResultStatusT,
-    ExtraContextT,
-)
+
+DomainResultStatusT = TypeVar('DomainResultStatusT')
+AdaptedDomainResultT = TypeVar('AdaptedDomainResultT')
+ExtraContextT = TypeVar('ExtraContextT')
 
 
 class ResponseDTO(

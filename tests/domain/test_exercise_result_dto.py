@@ -6,7 +6,6 @@ as exercise candidates.
 
 import pytest
 
-from contracts.schemas.domain.exercise.params import ExerciseParametersDTO
 from interfaces.protocols.domain.exercise import CandidatesT
 from interfaces.schemas.domain.exercise import (
     PresentationExerciseDomainResult,
@@ -17,6 +16,9 @@ from kernel.domain.exercise import (
     CandidatesSelector,
     PresentationDomain,
     TestDomain,
+)
+from ports.interfaces.schemas.domain.exercise.params import (
+    ExerciseParametersDTO,
 )
 from tests.types import DomainT, OptionsDomainT
 

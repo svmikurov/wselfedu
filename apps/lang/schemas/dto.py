@@ -2,7 +2,7 @@
 
 import uuid
 
-from contracts.schemas.base import BaseDTO
+from ports.interfaces.schemas.base import BaseDTO
 
 # DEPRECATED: Delete
 

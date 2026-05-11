@@ -10,10 +10,6 @@ from apps.lang.repositories.exercise.candidates.translations import (
     UserTranslationsRepository,
 )
 from apps.users.models import Person
-from contracts import aliases
-from contracts.schemas.domain.exercise.params import (
-    ExerciseSpecDTO,
-)
 from interfaces.protocols.domain.exercise import (
     CandidatesT,
     ConditionsProtocol,
@@ -27,14 +23,28 @@ from ports.contract.entity.domain.exercise.fields import (
     HasCase,
     HasExerciseStatus,
 )
+from ports.contract.entity.domain.exercise.flow import (
+    PresentationDomainResultProtocol,
+)
 from ports.contract.entity.domain.params import (
     HasConditions,
     HasConfig,
 )
+from ports.contract.infra.domain.exercise import CreateTaskDomainProtocol
 from ports.contract.infra.domain.selector import SelectorProtocol
 from ports.contract.infra.formatter import ConfFormatterProtocol
 from ports.contract.infra.repository import RepositoryProtocol
 from ports.contract.infra.service import UserSpecServiceProtocol
+from ports.interfaces.schemas.domain.exercise.params import (
+    ExerciseSpecDTO,
+)
+
+CaseAlias: TypeAlias = PresentationDomainResultProtocol
+
+ExerciseDomainAlias: TypeAlias = CreateTaskDomainProtocol[
+    ExerciseConfigProtocol,
+    PresentationDomainResultProtocol,
+]
 
 
 class _SpecProtocol(
@@ -58,6 +68,8 @@ class _DomainResultProtocol(
 
 
 CaseT = TypeVar('CaseT')
+
+
 _Candidates: TypeAlias = list[TaskItem]
 _Repository = RepositoryProtocol[
     ConditionsProtocol,
@@ -65,7 +77,7 @@ _Repository = RepositoryProtocol[
 ]
 _TranslationRepository = RepositoryProtocol[ConditionsProtocol, _Candidates]
 _Selector = SelectorProtocol[ExerciseConfigProtocol]
-_Domain = aliases.ExerciseDomainAlias
+_Domain = ExerciseDomainAlias
 _ServiceT = UserSpecServiceProtocol[_SpecProtocol, _DomainResultProtocol]
 _Formatter = ConfFormatterProtocol[Any, Any, Any]
 

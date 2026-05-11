@@ -1,1 +1,0 @@
-"""Response's contract schemas."""

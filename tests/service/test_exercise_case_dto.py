@@ -9,14 +9,6 @@ from unittest.mock import Mock
 import pytest
 
 from apps.users.models import Person
-from contracts.schemas.domain.exercise.flow import (
-    ExerciseCase,
-    PresentationTask,
-    TestExerciseTask,
-)
-from contracts.schemas.domain.exercise.params import (
-    ExerciseParametersDTO,
-)
 from interfaces.protocols.domain.exercise import CandidatesT
 from interfaces.schemas.domain.exercise import (
     PresentationExerciseDomainResult,
@@ -25,6 +17,14 @@ from interfaces.schemas.domain.exercise import (
 from kernel.formatter.exercise import PresentationFormatter, TestFormatter
 from kernel.service.exercise import CreateExerciseService
 from ports.contract import enums
+from ports.interfaces.schemas.domain.exercise.flow import (
+    ExerciseCase,
+    PresentationTask,
+    TestExerciseTask,
+)
+from ports.interfaces.schemas.domain.exercise.params import (
+    ExerciseParametersDTO,
+)
 from tests.types import DomainT, RepositoryT, ServiceT
 
 _DomainT = DomainT

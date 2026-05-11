@@ -5,7 +5,6 @@ from unittest.mock import Mock
 import pytest
 
 from apps.users.models.user import Person
-from contracts.schemas.domain.exercise.params import ExerciseSpecDTO
 from di import MainContainer
 from interfaces.protocols.command.exercise import (
     CheckTestCommandProtocol,
@@ -18,6 +17,7 @@ from interfaces.schemas.validator.task import (
 from kernel.handler.generic import RequestHandler
 from ports.contract.enums import ExerciseAction
 from ports.interfaces.schemas.command import UserDataCommand
+from ports.interfaces.schemas.domain.exercise.params import ExerciseSpecDTO
 from ports.interfaces.schemas.request.handler import (
     RequestContext,
     RequestData,

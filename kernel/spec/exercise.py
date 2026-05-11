@@ -2,10 +2,6 @@
 
 from typing import TypeVar, override
 
-from contracts.schemas.domain.exercise.params import (
-    ExerciseParametersDTO,
-    ExerciseSpecDTO,
-)
 from interfaces.protocols.domain.exercise import TestDomainResultProtocol
 from interfaces.protocols.spec.exercise import (
     CheckTestSpecProtocol,
@@ -16,6 +12,10 @@ from interfaces.schemas.spec.exercise import CheckTestSpec
 from ports.abstract.spec import AbstractExerciseSpecFactory
 from ports.contract.entity.domain.exercise.fields import HasExerciseAction
 from ports.interfaces.protocols.command import UserDataCommandProtocol
+from ports.interfaces.schemas.domain.exercise.params import (
+    ExerciseParametersDTO,
+    ExerciseSpecDTO,
+)
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 

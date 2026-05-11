@@ -1,6 +1,6 @@
 """WEB request interfaces for exercise study progress."""
 
-from contracts.schemas.domain.exercise.fields import (
+from ports.interfaces.schemas.domain.exercise.fields import (
     ExerciseActionField,
     OptionValueField,
 )

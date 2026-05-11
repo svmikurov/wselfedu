@@ -4,9 +4,9 @@ from typing import Generic, TypeVar
 
 from pydantic import Field
 
-from contracts.schemas import fields as general
-from contracts.schemas.base import ArbitraryDTO, BaseDTO
 from ports.contract.enums import exercise
+from ports.interfaces.schemas import fields as general
+from ports.interfaces.schemas.base import ArbitraryDTO, BaseDTO
 
 ProgressT = TypeVar('ProgressT')
 OptionT = TypeVar('OptionT')

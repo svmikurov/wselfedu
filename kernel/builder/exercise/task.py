@@ -2,10 +2,6 @@
 
 from typing import TypeVar
 
-from contracts.schemas.domain.exercise.flow import (
-    PresentationTask,
-    TestExerciseTask,
-)
 from interfaces.protocols.domain import exercise as interfaces
 from interfaces.schemas.web.task import Option
 from ports.contract.entity.domain.exercise.flow import (
@@ -13,6 +9,10 @@ from ports.contract.entity.domain.exercise.flow import (
     TestCaseProtocol,
 )
 from ports.contract.infra.builder import SpecDtoBuilderProtocol
+from ports.interfaces.schemas.domain.exercise.flow import (
+    PresentationTask,
+    TestExerciseTask,
+)
 from utils.audit.base import BaseAuditable
 
 SpecT = TypeVar('SpecT')

@@ -5,10 +5,10 @@ from typing import TypeAlias
 import pytest
 
 from apps.users.models import Person
-from contracts.schemas.base import NullDTO
 from di import MainContainer
 from interfaces.schemas.domain.exercise import TaskItem
 from ports.contract.infra.repository import RepositoryProtocol
+from ports.interfaces.schemas.base import NullDTO
 
 _Translations: TypeAlias = list[TaskItem]
 _Repository: TypeAlias = RepositoryProtocol[object, _Translations]

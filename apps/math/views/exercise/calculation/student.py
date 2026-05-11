@@ -11,8 +11,8 @@ from apps.core.views.mixins import GetHandlerMixin
 from apps.math.handlers.types import (
     StudentExerciseListHandler as ExerciseListHandler,
 )
-from contracts.schemas.base import NullDTO
 from di import MainContainer
+from ports.interfaces.schemas.base import NullDTO
 from ports.interfaces.schemas.request.handler import (
     RequestContext,
     RequestData,

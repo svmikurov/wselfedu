@@ -1,16 +1,17 @@
 """Exercise task's WEB response interfaces."""
 
-from contracts.schemas.domain.exercise.fields import (
+from typing import TypeVar
+
+from ports.contract.enums import ExerciseStatus
+from ports.interfaces.schemas.domain.exercise.fields import (
     DefineField,
     MeanField,
     ProgressValueField,
     QuestionTextField,
 )
-from contracts.schemas.fields import TextField, ValueField
-from contracts.schemas.response.generic import HtmlResponseDTO
-from contracts.schemas.response.null import NullContext
-from contracts.schemas.response.types import AdaptedDomainResultT
-from ports.contract.enums import ExerciseStatus
+from ports.interfaces.schemas.fields import TextField, ValueField
+from ports.interfaces.schemas.response.web.generic import HtmlResponseDTO
+from ports.interfaces.schemas.response.web.null import NullContext
 
 __all__ = (
     # Response's components
@@ -20,6 +21,9 @@ __all__ = (
     'PresentationTaskResponse',
     'TestExerciseTaskResponse',
 )
+
+AdaptedDomainResultT = TypeVar('AdaptedDomainResultT')
+
 
 # =================================================
 # Response's components

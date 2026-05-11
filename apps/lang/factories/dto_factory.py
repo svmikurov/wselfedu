@@ -2,10 +2,10 @@
 
 from typing import override
 
-from contracts.schemas.domain.exercise.flow import (
+from ports.abstract.builder import AbstractCaseFactory
+from ports.interfaces.schemas.domain.exercise.flow import (
     PresentationTask,
 )
-from ports.abstract.builder import AbstractCaseFactory
 
 
 # HACK: Simple implementation

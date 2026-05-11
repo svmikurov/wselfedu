@@ -2,19 +2,19 @@
 
 from pydantic import ConfigDict
 
-from contracts.schemas.base import ArbitraryDTO
-from contracts.schemas.domain.exercise.fields import (
+from ports.contract import enums
+from ports.interfaces.schemas.base import ArbitraryDTO
+from ports.interfaces.schemas.domain.exercise.fields import (
     DefineField,
     IsCorrectAnswerField,
     MeanField,
     OptionValueField,
     ProgressValueField,
 )
-from contracts.schemas.fields import (
+from ports.interfaces.schemas.fields import (
     ResourceIdentifierField,
     StatusField,
 )
-from ports.contract import enums
 
 # =================================================
 # Task

@@ -8,13 +8,13 @@ from apps.core.storages.services.iabc import AbstractCommandStorage
 from apps.lang.models import EnglishTranslation
 from apps.lang.repositories.exercise import UserTranslationsRepository
 from apps.users.models import Person
-from contracts.schemas.domain.exercise import ExerciseParametersDTO
 from interfaces.schemas.domain.exercise import (
     TaskItem,
     TestExerciseDomainResult,
 )
 from ports.contract import enums
 from ports.contract.infra.repository import RepositoryProtocol
+from ports.interfaces.schemas.domain.exercise import ExerciseParametersDTO
 from tests.fixtures.exercise.lang.no_db.translations import (
     TRANSLATION_INDEX,
     TRANSLATIONS,

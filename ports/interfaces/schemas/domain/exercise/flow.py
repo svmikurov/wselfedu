@@ -2,13 +2,13 @@
 
 from typing import Generic, TypeVar
 
-from contracts.schemas.base import (
+from ports.contract import enums
+from ports.interfaces.schemas.base import (
     ArbitraryConfigurationMixin,
     ArbitraryDTO,
     BaseDTO,
 )
-from contracts.schemas.domain.exercise import fields
-from ports.contract import enums
+from ports.interfaces.schemas.domain.exercise import fields
 
 CandidateT = TypeVar('CandidateT')
 CandidatesT = TypeVar('CandidatesT')

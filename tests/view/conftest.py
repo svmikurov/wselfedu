@@ -8,10 +8,10 @@ from unittest.mock import Mock
 import pytest
 from django.test import RequestFactory
 
-from contracts.schemas.base import NullDTO
-from contracts.schemas.response.generic import ResponseDTO
 from kernel.handler.generic import RequestHandler
 from ports.contract.enums.exercise import ExerciseStatus
+from ports.interfaces.schemas.base import NullDTO
+from ports.interfaces.schemas.response.web.generic import ResponseDTO
 
 if TYPE_CHECKING:
     from django.core.handlers.wsgi import WSGIRequest

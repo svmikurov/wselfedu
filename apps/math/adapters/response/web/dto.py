@@ -5,7 +5,7 @@ from __future__ import annotations
 from django.forms import Form
 from pydantic import BaseModel, ConfigDict, Field
 
-from contracts.schemas.domain.exercise.fields import (
+from ports.interfaces.schemas.domain.exercise.fields import (
     ExerciseStatusField,
 )
 

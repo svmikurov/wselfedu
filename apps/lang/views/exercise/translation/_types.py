@@ -2,7 +2,6 @@
 
 from typing import Any
 
-from contracts.schemas.response.generic import HtmlResponseDTO
 from interfaces.protocols.request.general import RequestContextProtocol
 from kernel.handler.generic import RequestHandler
 from ports.contract.entity.domain.general import HasAction
@@ -15,6 +14,7 @@ from ports.interfaces.protocols.web import (
     RequestDataProtocol,
 )
 from ports.interfaces.schemas.command import UserDataCommand
+from ports.interfaces.schemas.response.web.generic import HtmlResponseDTO
 
 type ResponseDtoT = HtmlResponseDTO[
     ExerciseStatus,

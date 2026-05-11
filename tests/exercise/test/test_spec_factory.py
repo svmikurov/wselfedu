@@ -6,15 +6,15 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from contracts.schemas.domain.exercise.params import (
-    ExerciseParametersDTO,
-    ExerciseSpecDTO,
-)
 from interfaces.schemas.domain.exercise import TestAnswer
 from interfaces.schemas.spec.exercise import CheckTestSpec
 from kernel.spec import (
     CheckAnswerSpecFactory,
     CreateExerciseSpecFactory,
+)
+from ports.interfaces.schemas.domain.exercise.params import (
+    ExerciseParametersDTO,
+    ExerciseSpecDTO,
 )
 from tests.fixtures.exercise.lang.no_db.translations import (
     TRANSLATION_INDEX,
