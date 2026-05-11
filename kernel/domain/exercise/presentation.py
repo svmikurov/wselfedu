@@ -13,7 +13,7 @@ from ports.interfaces.protocols.domain.exercise import (
     ExerciseConfigProtocol,
 )
 from ports.interfaces.schemas.domain.exercise.exercise import (
-    PresentationExerciseDomainResult,
+    PresentationTaskDomainResult,
 )
 
 __all__ = ('PresentationDomain',)
@@ -43,7 +43,7 @@ class PresentationDomain(
         selected_candidates = self._selector.select(candidates, conf)
         option = choice(selected_candidates)
 
-        return PresentationExerciseDomainResult(  # type: ignore
+        return PresentationTaskDomainResult(  # type: ignore
             status=enums.ExerciseStatus.NEW_TASK,
             exercise_kind=enums.ExerciseKind.PRESENTATION,
             item=option,  # type: ignore

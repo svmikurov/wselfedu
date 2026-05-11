@@ -27,7 +27,7 @@ if TYPE_CHECKING:
         CreateTaskCommandProtocol,
     )
     from ports.interfaces.schemas.domain.exercise.exercise import (
-        TestExerciseDomainResult,
+        TestTaskDomainResult,
     )
 
     type CreateTaskSpecFactoryT = ExerciseSpecFactoryProtocol[
@@ -96,7 +96,7 @@ def test_check_test_answer_specification(
     check_test_command: CheckTestCommandProtocol,
     default_parameters: ExerciseParametersDTO,
     check_test_spec_factory: CreateTaskSpecFactoryT,
-    create_translation_test_domain_result: TestExerciseDomainResult,
+    create_translation_test_domain_result: TestTaskDomainResult,
 ) -> None:
     """Test the check test task answer specification."""
     # Act & Assert

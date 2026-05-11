@@ -13,7 +13,7 @@ from ports.contract.infra.repository import RepositoryProtocol
 from ports.interfaces.schemas.domain.exercise import ExerciseParametersDTO
 from ports.interfaces.schemas.domain.exercise.exercise import (
     TaskItem,
-    TestExerciseDomainResult,
+    TestTaskDomainResult,
 )
 from tests.fixtures.exercise.lang.no_db.translations import (
     TRANSLATION_INDEX,
@@ -89,9 +89,9 @@ def translation_task_items() -> list[TaskItem]:
 @pytest.fixture
 def create_translation_test_domain_result(
     translation_task_items: list[TaskItem],
-) -> TestExerciseDomainResult:
+) -> TestTaskDomainResult:
     """Provide create translation test domain result."""
-    return TestExerciseDomainResult(
+    return TestTaskDomainResult(
         question_option_value=TRANSLATION_INDEX,
         items=translation_task_items,
         status=enums.ExerciseStatus.NEW_TASK,

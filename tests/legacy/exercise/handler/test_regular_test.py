@@ -11,7 +11,7 @@ from di import MainContainer
 from ports.contract.enums import ExerciseStatus
 from ports.interfaces.schemas.domain.exercise.exercise import (
     TaskItem,
-    TestExerciseDomainResult,
+    TestTaskDomainResult,
 )
 from tests.legacy.types.handler import (
     HandlerT,
@@ -56,7 +56,7 @@ def test_check_test_answer(
 ) -> None:
     """Test *check answer* handler action completed successfully."""
     # Arrange
-    mock_user_command_storage.retrieve.return_value = TestExerciseDomainResult(
+    mock_user_command_storage.retrieve.return_value = TestTaskDomainResult(
         question_option_value=0,
         status=ExerciseStatus.NEW_TASK,
         items=translations,

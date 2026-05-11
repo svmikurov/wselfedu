@@ -22,7 +22,7 @@ from ports.interfaces.protocols.domain.exercise import (
 )
 from ports.interfaces.schemas.domain.exercise.exercise import (
     CheckTaskResult,
-    TestExerciseDomainResult,
+    TestTaskDomainResult,
 )
 from utils.audit.base import BaseAuditable
 
@@ -66,7 +66,7 @@ class TestDomain(
         selected_candidates = self._selector.select(candidates, conf)
         options = self._get_options(selected_candidates, conf.option_count)
 
-        return TestExerciseDomainResult(
+        return TestTaskDomainResult(
             status=enums.ExerciseStatus.NEW_TASK,
             question_option_value=option_value,
             items=options,  # type: ignore

@@ -22,8 +22,8 @@ from ports.interfaces.protocols.domain.exercise import (
 from ports.interfaces.protocols.request.general import RequestContextProtocol
 from ports.interfaces.protocols.web import RequestDataProtocol
 from ports.interfaces.schemas.domain.exercise.exercise import (
-    PresentationExerciseDomainResult,
-    TestExerciseDomainResult,
+    PresentationTaskDomainResult,
+    TestTaskDomainResult,
 )
 
 # HACK: Fix Any type hint
@@ -93,11 +93,11 @@ AdapterT: TypeAlias = AdapterProtocol[
 ]
 DomainT: TypeAlias = CreateTaskDomainProtocol[
     ExerciseConfigProtocol,
-    PresentationExerciseDomainResult,
+    PresentationTaskDomainResult,
 ]
 OptionsDomainT: TypeAlias = CreateTaskDomainProtocol[
     ExerciseConfigProtocol,
-    TestExerciseDomainResult,
+    TestTaskDomainResult,
 ]
 RepositoryT: TypeAlias = RepositoryProtocol[
     object,

@@ -14,8 +14,8 @@ from kernel.service.exercise import CreateExerciseService
 from ports.contract import enums
 from ports.interfaces.protocols.domain.exercise import CandidatesT
 from ports.interfaces.schemas.domain.exercise.exercise import (
-    PresentationExerciseDomainResult,
-    TestExerciseDomainResult,
+    PresentationTaskDomainResult,
+    TestTaskDomainResult,
 )
 from ports.interfaces.schemas.domain.exercise.flow import (
     ExerciseCase,
@@ -47,7 +47,7 @@ def mock_candidates_repository(
 def mock_presentation_domain(translations: CandidatesT) -> _DomainT:
     """Provide presentation exercise domain mock."""
     mock = Mock(spec=_DomainT)
-    mock.execute.return_value = PresentationExerciseDomainResult(
+    mock.execute.return_value = PresentationTaskDomainResult(
         status=enums.ExerciseStatus.NEW_TASK,
         exercise_kind=enums.ExerciseKind.PRESENTATION,
         item=translations[0],  # type: ignore
@@ -59,7 +59,7 @@ def mock_presentation_domain(translations: CandidatesT) -> _DomainT:
 def mock_test_domain(translations: CandidatesT) -> _DomainT:
     """Provide test exercise domain mock."""
     mock = Mock(spec=_DomainT)
-    mock.execute.return_value = TestExerciseDomainResult(
+    mock.execute.return_value = TestTaskDomainResult(
         status=enums.ExerciseStatus.NEW_TASK,
         question_option_value=1,
         exercise_kind=enums.ExerciseKind.TEST,

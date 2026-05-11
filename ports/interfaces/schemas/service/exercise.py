@@ -1,8 +1,8 @@
 """Exercise service schema interface."""
 
 from ports.interfaces.schemas.domain.exercise.exercise import (
-    PresentationExerciseDomainResult,
-    TestExerciseDomainResult,
+    PresentationTaskDomainResult,
+    TestTaskDomainResult,
 )
 from ports.interfaces.schemas.domain.exercise.flow import ExerciseCase
 
@@ -11,7 +11,7 @@ from ports.interfaces.schemas.domain.exercise.flow import ExerciseCase
 # =================================================
 
 
-class PresentationExerciseCase(ExerciseCase[PresentationExerciseDomainResult]):
+class PresentationExerciseCase(ExerciseCase[PresentationTaskDomainResult]):
     """Presentation exercise case DTO.
 
     Parameter
@@ -23,7 +23,7 @@ class PresentationExerciseCase(ExerciseCase[PresentationExerciseDomainResult]):
     """
 
 
-class TestExerciseCase(ExerciseCase[TestExerciseDomainResult]):
+class TestExerciseCase(ExerciseCase[TestTaskDomainResult]):
     """Test exercise case DTO.
 
     Parameter

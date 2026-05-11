@@ -13,9 +13,9 @@ from kernel.domain.exercise import (
 )
 from ports.interfaces.protocols.domain.exercise import CandidatesT
 from ports.interfaces.schemas.domain.exercise.exercise import (
-    PresentationExerciseDomainResult,
+    PresentationTaskDomainResult,
     TaskItem,
-    TestExerciseDomainResult,
+    TestTaskDomainResult,
 )
 from ports.interfaces.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
@@ -58,7 +58,7 @@ def test_presentation_domain_result(
     assert isinstance(res.item, TaskItem)
 
     # - Presentation exercise domain result DTO is instance of
-    assert isinstance(res, PresentationExerciseDomainResult)
+    assert isinstance(res, PresentationTaskDomainResult)
 
 
 @pytest.mark.django_db
@@ -82,4 +82,4 @@ def test_test_exercise_domain_result(
     assert isinstance(res.items[0], TaskItem)
 
     # - Test exercise domain result DTO is instance of
-    assert isinstance(res, TestExerciseDomainResult)
+    assert isinstance(res, TestTaskDomainResult)

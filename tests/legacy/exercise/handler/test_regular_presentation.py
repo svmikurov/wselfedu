@@ -10,7 +10,7 @@ import pytest
 from di import MainContainer
 from ports.contract.enums import ExerciseStatus
 from ports.interfaces.schemas.domain.exercise.exercise import (
-    PresentationExerciseDomainResult,
+    PresentationTaskDomainResult,
     TaskItem,
 )
 from tests.legacy.types.handler import (
@@ -57,7 +57,7 @@ def test_update_progress(
     # Arrange
     # The study item ID for progress update is stored.
     mock_user_command_storage.retrieve.return_value = (
-        PresentationExerciseDomainResult(
+        PresentationTaskDomainResult(
             status=ExerciseStatus.NEW_TASK,
             item=translations[0],
         )

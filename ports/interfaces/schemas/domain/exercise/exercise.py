@@ -27,7 +27,20 @@ class TaskItem(
     MeanField,
     ProgressValueField,
 ):
-    """Exercise task item schema."""
+    """Exercise task item schema.
+
+    Parameters
+    ----------
+    pk : `int`
+        Task item database indentifier.
+    define : `str`
+        Task item definition.
+    mean : `str`
+        Task item meaning.
+    progress_value : `int`
+        Item study integer progress value.
+
+    """
 
     model_config = ConfigDict(  # type: ignore
         extra='forbid',
@@ -41,16 +54,16 @@ class TaskItem(
 # =================================================
 
 
-class PresentationExerciseDomainResult(ArbitraryDTO):
-    """Presentation exercise domain result DTO."""
+class PresentationTaskDomainResult(ArbitraryDTO):
+    """Presentation task domain result DTO."""
 
     item: TaskItem
     status: enums.ExerciseStatus
     exercise_kind: enums.ExerciseKind = enums.ExerciseKind.PRESENTATION
 
 
-class TestExerciseDomainResult(ArbitraryDTO):
-    """Test exercise domain result DTO."""
+class TestTaskDomainResult(ArbitraryDTO):
+    """Test task domain result DTO."""
 
     __test__ = False
 
