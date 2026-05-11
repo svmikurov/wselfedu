@@ -10,7 +10,6 @@ from apps.math.domains.dto import (
     StudentCalculationDTO,
     StudentExerciseDTO,
 )
-from interfaces.protocols.request.general import RequestContextProtocol
 from ports.abstract.adapter import (
     AbstractResponseAdapter,
 )
@@ -19,6 +18,7 @@ from ports.contract.entity.general import NullProtocol
 from ports.contract.enums.exercise import ExerciseStatus
 from ports.contract.enums.response import ResponseStatusEnum
 from ports.contract.infra.adapter import AdapterProtocol
+from ports.interfaces.protocols.request.general import RequestContextProtocol
 from ports.interfaces.schemas.response.web.generic import (
     HtmlResponseDTO,
     ResponseDTO,

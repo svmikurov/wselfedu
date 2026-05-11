@@ -9,10 +9,10 @@ from unittest.mock import Mock
 import pytest
 
 from apps.users.models import Person
-from interfaces.protocols.domain.exercise import CandidatesT
 from kernel.formatter.exercise import PresentationFormatter, TestFormatter
 from kernel.service.exercise import CreateExerciseService
 from ports.contract import enums
+from ports.interfaces.protocols.domain.exercise import CandidatesT
 from ports.interfaces.schemas.domain.exercise.exercise import (
     PresentationExerciseDomainResult,
     TestExerciseDomainResult,

@@ -14,9 +14,9 @@ from apps.core import views as core_views
 from apps.core.views.auth import UserLoginRequiredMixin
 from apps.core.views.mixins import GetHandlerMixin, GetRepositoryMixin
 from di import MainContainer
-from interfaces.protocols.request.general import RequestContextProtocol
 from ports.contract.infra.handler import RequestHandlerProtocol
 from ports.contract.infra.repository import RepositoryProtocol
+from ports.interfaces.protocols.request.general import RequestContextProtocol
 from ports.interfaces.protocols.web import (
     QueryRequestParamsProtocol,
     RequestDataProtocol,

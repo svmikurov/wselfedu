@@ -2,7 +2,6 @@
 
 from typing import Any
 
-from interfaces.protocols.request.general import RequestContextProtocol
 from kernel.handler.generic import RequestHandler
 from ports.contract.entity.domain.general import HasAction
 from ports.contract.entity.general import NullProtocol
@@ -10,6 +9,7 @@ from ports.contract.enums.exercise import (
     ExerciseAction,
     ExerciseStatus,
 )
+from ports.interfaces.protocols.request.general import RequestContextProtocol
 from ports.interfaces.protocols.web import (
     RequestDataProtocol,
 )

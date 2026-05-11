@@ -2,18 +2,18 @@
 
 from typing import TypeVar, override
 
-from interfaces.protocols.domain.exercise import (
-    PresentationDomainResultProtocol,
-    PresentationTaskProtocol,
-    TestDomainResultProtocol,
-    TestTaskProtocol,
-)
 from ports.abstract.formatter import AbstractConfFormatter
 from ports.contract.entity.domain.exercise.fields import (
     ExerciseCaseProtocol,
     HasDisplayOrder,
 )
 from ports.contract.enums import DisplayOrder, ExerciseStatus
+from ports.interfaces.protocols.domain.exercise import (
+    PresentationDomainResultProtocol,
+    PresentationTaskProtocol,
+    TestDomainResultProtocol,
+    TestTaskProtocol,
+)
 from ports.interfaces.schemas.domain.exercise.flow import (
     ExerciseCase,
     PresentationTask,

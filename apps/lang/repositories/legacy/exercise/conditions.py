@@ -4,9 +4,11 @@ from django.db.models import Manager, Model
 
 from apps.lang.models import ExerciseConditions, TranslationConfiguration
 from apps.users.models.user import Person
-from interfaces.protocols.domain.exercise import ExerciseParametersProtocol
 from ports.abstract.repository import AbstractUserFetchRepository
 from ports.contract.entity.general import NullProtocol
+from ports.interfaces.protocols.domain.exercise import (
+    ExerciseParametersProtocol,
+)
 from ports.interfaces.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
     ExerciseSettingsDTO,

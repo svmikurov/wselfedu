@@ -2,12 +2,14 @@
 
 from typing import TypeVar, override
 
-from interfaces.protocols.domain import PresentationDomainResultProtocol
-from interfaces.protocols.repository import ProgressUpdateConditionsProtocol
 from ports.abstract.spec import AbstractExerciseSpecFactory
 from ports.contract.entity.domain.exercise.fields import HasExerciseAction
 from ports.interfaces.protocols.command.assembler import (
     UserDataCommandProtocol,
+)
+from ports.interfaces.protocols.domain import PresentationDomainResultProtocol
+from ports.interfaces.protocols.repository import (
+    ProgressUpdateConditionsProtocol,
 )
 from ports.interfaces.schemas.domain.exercise.params import (
     ExerciseParametersDTO,

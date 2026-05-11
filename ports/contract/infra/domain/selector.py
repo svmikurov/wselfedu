@@ -2,7 +2,7 @@
 
 from typing import Protocol, TypeVar
 
-from interfaces.protocols.domain.exercise import CandidatesT
+from ports.interfaces.protocols.domain.exercise import CandidatesT
 
 Conf_contra = TypeVar('Conf_contra', contravariant=True)
 

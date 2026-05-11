@@ -2,15 +2,15 @@
 
 from typing import TypeVar, override
 
-from interfaces.protocols.domain.exercise import TestDomainResultProtocol
-from interfaces.protocols.spec.exercise import (
-    CheckTestSpecProtocol,
-    CreateTaskSpecProtocol,
-)
 from ports.abstract.spec import AbstractExerciseSpecFactory
 from ports.contract.entity.domain.exercise.fields import HasExerciseAction
 from ports.interfaces.protocols.command.assembler import (
     UserDataCommandProtocol,
+)
+from ports.interfaces.protocols.domain.exercise import TestDomainResultProtocol
+from ports.interfaces.protocols.spec.exercise import (
+    CheckTestSpecProtocol,
+    CreateTaskSpecProtocol,
 )
 from ports.interfaces.schemas.domain.exercise.exercise import TestAnswer
 from ports.interfaces.schemas.domain.exercise.params import (

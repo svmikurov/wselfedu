@@ -2,7 +2,6 @@
 
 from typing import TypeAlias, TypeVar
 
-from interfaces.protocols.request.general import RequestContextProtocol
 from ports.abstract.assembler import AbstractAssembler
 from ports.contract.entity.general import NullProtocol
 from ports.interfaces.protocols.command.assembler import (
@@ -10,6 +9,7 @@ from ports.interfaces.protocols.command.assembler import (
     UserCommandProtocol,
     UserDetailCommandProtocol,
 )
+from ports.interfaces.protocols.request.general import RequestContextProtocol
 from ports.interfaces.protocols.web import (
     DetailRequestParamsProtocol,
     QueryRequestParamsProtocol,

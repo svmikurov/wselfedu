@@ -14,7 +14,7 @@ from apps.lang.models import (
 
 if TYPE_CHECKING:
     from apps.users.models import Person
-    from interfaces.protocols.domain.exercise import (
+    from ports.interfaces.protocols.domain.exercise import (
         ConditionsProtocol,
         ExerciseConfigProtocol,
         ExerciseSettingsProtocol,

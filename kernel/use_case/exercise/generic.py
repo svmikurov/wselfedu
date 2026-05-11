@@ -3,10 +3,6 @@
 from typing import Generic, TypeVar, override
 
 from apps.core.exceptions.storage import StorageMissError
-from interfaces.protocols.domain.exercise import (
-    ExerciseConfigProtocol,
-    ExerciseParametersProtocol,
-)
 from ports.abstract.use_case import AbstractUseCase
 from ports.contract import enums
 from ports.contract.entity.domain import params
@@ -19,6 +15,10 @@ from ports.contract.infra.spec import ExerciseSpecFactoryProtocol
 from ports.contract.infra.storage.general import CommandStorageProtocol
 from ports.interfaces.protocols.command.assembler import (
     UserDataCommandProtocol,
+)
+from ports.interfaces.protocols.domain.exercise import (
+    ExerciseConfigProtocol,
+    ExerciseParametersProtocol,
 )
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol

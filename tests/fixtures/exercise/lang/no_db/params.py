@@ -2,7 +2,7 @@
 
 import pytest
 
-from interfaces.protocols.domain.exercise import (
+from ports.interfaces.protocols.domain.exercise import (
     ConditionsProtocol,
     ExerciseConfigProtocol,
     ExerciseSettingsProtocol,

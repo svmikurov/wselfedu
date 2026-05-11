@@ -2,7 +2,7 @@
 
 from typing import Protocol, TypeVar
 
-from interfaces.protocols.domain.exercise import CandidatesT
+from ports.interfaces.protocols.domain.exercise import CandidatesT
 from utils.audit.protocol import Auditable
 
 ExerciseConfig_contra = TypeVar('ExerciseConfig_contra', contravariant=True)

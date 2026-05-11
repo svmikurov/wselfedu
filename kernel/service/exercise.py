@@ -3,14 +3,6 @@
 from typing import Protocol, TypeAlias, TypeVar, override
 
 from apps.users.models import Person
-from interfaces.protocols.domain.exercise import (
-    CandidatesT,
-    ConditionsProtocol,
-    ExerciseConfigProtocol,
-    TestAnswerProtocol,
-    TestDomainResultProtocol,
-)
-from interfaces.protocols.spec.exercise import CheckTestSpecProtocol
 from ports.abstract.service import AbstractUserSpecService
 from ports.contract.entity.domain.exercise import fields
 from ports.contract.entity.domain.exercise.flow import (
@@ -24,6 +16,14 @@ from ports.contract.infra.domain.exercise import (
 )
 from ports.contract.infra.formatter import ConfFormatterProtocol
 from ports.contract.infra.repository import RepositoryProtocol
+from ports.interfaces.protocols.domain.exercise import (
+    CandidatesT,
+    ConditionsProtocol,
+    ExerciseConfigProtocol,
+    TestAnswerProtocol,
+    TestDomainResultProtocol,
+)
+from ports.interfaces.protocols.spec.exercise import CheckTestSpecProtocol
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 

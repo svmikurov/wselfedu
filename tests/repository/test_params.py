@@ -11,14 +11,14 @@ from apps.lang.repositories.exercise.params.translation_presentation import (
     RegularTranslationPresentationRepository,
 )
 from apps.users.models import Person
-from interfaces.protocols.domain.exercise import (
+from ports.contract.entity.general import NullProtocol
+from ports.contract.infra.repository import RepositoryProtocol
+from ports.interfaces.protocols.domain.exercise import (
     ConditionsProtocol,
     ExerciseConfigProtocol,
     ExerciseParametersProtocol,
     ExerciseSettingsProtocol,
 )
-from ports.contract.entity.general import NullProtocol
-from ports.contract.infra.repository import RepositoryProtocol
 from ports.interfaces.schemas.base import NullDTO
 
 _RepositoryT = RepositoryProtocol[NullProtocol, ExerciseParametersProtocol]

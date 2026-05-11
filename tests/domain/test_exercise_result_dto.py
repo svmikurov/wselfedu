@@ -6,12 +6,12 @@ as exercise candidates.
 
 import pytest
 
-from interfaces.protocols.domain.exercise import CandidatesT
 from kernel.domain.exercise import (
     CandidatesSelector,
     PresentationDomain,
     TestDomain,
 )
+from ports.interfaces.protocols.domain.exercise import CandidatesT
 from ports.interfaces.schemas.domain.exercise.exercise import (
     PresentationExerciseDomainResult,
     TaskItem,

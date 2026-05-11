@@ -1,9 +1,9 @@
 """Exercise domain."""
 
 from apps.core.exceptions import info
-from interfaces.protocols.domain.exercise import CandidatesT
 from ports.abstract.domain.exercise import AbstractSelector
 from ports.contract.entity.domain.exercise.fields import HasItemCount
+from ports.interfaces.protocols.domain.exercise import CandidatesT
 
 # =================================================
 # Exercise domain resource selector

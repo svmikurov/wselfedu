@@ -10,12 +10,12 @@ from apps.lang.models import (
     TranslationConfiguration,
 )
 from apps.users.models import Person
-from interfaces.protocols.domain.exercise import (
-    ExerciseParametersProtocol,
-)
 from ports.abstract.repository import AbstractUserFetchRepository
 from ports.contract.entity.general import NullProtocol
 from ports.contract.enums.exercise import DisplayOrder
+from ports.interfaces.protocols.domain.exercise import (
+    ExerciseParametersProtocol,
+)
 from ports.interfaces.schemas.domain.exercise.params import (
     ExerciseConfigDTO,
     ExerciseParametersDTO,

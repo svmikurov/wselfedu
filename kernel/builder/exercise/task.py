@@ -2,12 +2,12 @@
 
 from typing import TypeVar
 
-from interfaces.protocols.domain import exercise as interfaces
 from ports.contract.entity.domain.exercise.flow import (
     PresentationCaseProtocol,
     TestCaseProtocol,
 )
 from ports.contract.infra.builder import SpecDtoBuilderProtocol
+from ports.interfaces.protocols.domain import exercise as interfaces
 from ports.interfaces.schemas.domain.exercise.flow import (
     PresentationTask,
     TestExerciseTask,

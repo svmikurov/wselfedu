@@ -3,11 +3,6 @@
 from random import randrange, sample
 
 from apps.core.exceptions import info
-from interfaces.protocols.domain.exercise import (
-    CandidatesT,
-    TaskItemsT,
-    TestAnswerProtocol,
-)
 from ports.abstract.domain.exercise import (
     AbstractCandidatesExerciseDomain,
     AbstractCheckExerciseDomain,
@@ -20,6 +15,11 @@ from ports.contract.entity.domain.exercise.fields import (
 from ports.contract.entity.domain.exercise.flow import TestDomainResultProtocol
 from ports.contract.entity.domain.general import HasCheckResult
 from ports.contract.infra.domain.selector import SelectorProtocol
+from ports.interfaces.protocols.domain.exercise import (
+    CandidatesT,
+    TaskItemsT,
+    TestAnswerProtocol,
+)
 from ports.interfaces.schemas.domain.exercise.exercise import (
     CheckTaskResult,
     TestExerciseDomainResult,

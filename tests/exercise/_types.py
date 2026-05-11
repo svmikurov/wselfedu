@@ -2,19 +2,35 @@
 
 from typing import Callable, Protocol
 
-from interfaces.protocols.validated.exercise import (
+from ports.contract.entity.domain.general import (
+    ActionTyped,
+    HasAction,
+    TypedOptionValue,
+)
+from ports.contract.enums import ExerciseAction
+from ports.contract.infra.validator import RequestValidatorProtocol
+from ports.interfaces.protocols.validated.exercise import (
     ValidatedCheckTestRequestProtocol,
     ValidatedCreateTaskRequestProtocol,
 )
-from interfaces.typed.exercise import TypedCheckTestAnswer, TypedCreateTask
-from ports.contract.entity.domain.general import HasAction
-from ports.contract.enums import ExerciseAction
-from ports.contract.infra.validator import RequestValidatorProtocol
 from ports.interfaces.protocols.web import RequestDataProtocol
 
 
 class RequestParams(Protocol):
     """Request parameters protocol."""
+
+
+class TypedCreateTask(
+    ActionTyped[ExerciseAction],
+):
+    """Create task typed request data."""
+
+
+class TypedCheckTestAnswer(
+    ActionTyped[ExerciseAction],
+    TypedOptionValue,
+):
+    """Check test answer typed request data."""
 
 
 # Request data (protocols with generic typed dict)

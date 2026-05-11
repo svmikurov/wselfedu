@@ -2,12 +2,14 @@
 
 from typing import override
 
-from interfaces.protocols.domain.exercise import ExerciseParametersProtocol
 from ports.abstract.resolver import AbstractResolver
 from ports.contract.entity.general import NullProtocol
 from ports.contract.enums.exercise import ExerciseKind
 from ports.contract.infra.repository import RepositoryProtocol
 from ports.interfaces.protocols.command.assembler import UserCommandProtocol
+from ports.interfaces.protocols.domain.exercise import (
+    ExerciseParametersProtocol,
+)
 from ports.interfaces.schemas.base import NullDTO
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol

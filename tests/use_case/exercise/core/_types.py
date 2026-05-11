@@ -2,10 +2,6 @@
 
 from typing import Any, TypeAlias
 
-from interfaces.protocols.domain.exercise import (
-    ExerciseConfigProtocol,
-    ExerciseParametersProtocol,
-)
 from ports.contract.entity.domain.exercise import fields
 from ports.contract.entity.domain.exercise.fields import HasExerciseAction
 from ports.contract.infra.builder import TaskBuilderProtocol
@@ -16,6 +12,10 @@ from ports.contract.infra.storage.general import CommandStorageProtocol
 from ports.contract.infra.use_case import UseCaseProtocol
 from ports.interfaces.protocols.command.assembler import (
     UserDataCommandProtocol,
+)
+from ports.interfaces.protocols.domain.exercise import (
+    ExerciseConfigProtocol,
+    ExerciseParametersProtocol,
 )
 
 # =================================================

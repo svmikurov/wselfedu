@@ -2,11 +2,6 @@
 
 from typing import Any, TypeAlias
 
-from interfaces.protocols.domain.exercise import (
-    CandidatesT,
-    ExerciseConfigProtocol,
-)
-from interfaces.protocols.request.general import RequestContextProtocol
 from kernel.handler.generic import RequestHandler
 from ports.contract.entity.domain.exercise.fields import HasDomain
 from ports.contract.entity.general import NullProtocol
@@ -20,6 +15,11 @@ from ports.contract.infra.validator import RequestValidatorProtocol
 from ports.interfaces.protocols.command.assembler import (
     AuditableAssemblerProtocol,
 )
+from ports.interfaces.protocols.domain.exercise import (
+    CandidatesT,
+    ExerciseConfigProtocol,
+)
+from ports.interfaces.protocols.request.general import RequestContextProtocol
 from ports.interfaces.protocols.web import RequestDataProtocol
 from ports.interfaces.schemas.domain.exercise.exercise import (
     PresentationExerciseDomainResult,
