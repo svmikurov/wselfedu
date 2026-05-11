@@ -3,7 +3,6 @@
 from random import randrange, sample
 
 from apps.core.exceptions import info
-from contracts.infra.domain.selector import SelectorProtocol
 from interfaces.protocols.domain.exercise import (
     CandidatesT,
     TaskItemsT,
@@ -24,6 +23,7 @@ from ports.contract.entity.domain.exercise.fields import (
 )
 from ports.contract.entity.domain.exercise.flow import TestDomainResultProtocol
 from ports.contract.entity.domain.general import HasCheckResult
+from ports.contract.infra.domain.selector import SelectorProtocol
 from utils.audit.base import BaseAuditable
 
 __all__ = [

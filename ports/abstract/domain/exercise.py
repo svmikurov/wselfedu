@@ -3,9 +3,9 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar, override
 
-from contracts.infra.domain.exercise import CheckTaskDomainProtocol
-from contracts.infra.domain.selector import SelectorProtocol
 from interfaces.protocols.domain.exercise import CandidatesT
+from ports.contract.infra.domain.exercise import CheckTaskDomainProtocol
+from ports.contract.infra.domain.selector import SelectorProtocol
 
 ConfT = TypeVar('ConfT')
 CaseT = TypeVar('CaseT')

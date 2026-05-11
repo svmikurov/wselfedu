@@ -2,7 +2,6 @@
 
 from random import choice
 
-from contracts.infra.domain.selector import SelectorProtocol
 from interfaces.protocols.domain.exercise import (
     CandidatesT,
     ExerciseConfigProtocol,
@@ -15,6 +14,7 @@ from ports.contract import enums
 from ports.contract.entity.domain.exercise.flow import (
     PresentationDomainResultProtocol,
 )
+from ports.contract.infra.domain.selector import SelectorProtocol
 
 __all__ = ('PresentationDomain',)
 
