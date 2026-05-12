@@ -6,7 +6,6 @@ from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Generic, TypeVar
 
 if TYPE_CHECKING:
-    from apps.lang.schemas import ParametersSchema  # type: ignore
     from apps.users.models import Person
 
 T = TypeVar('T')
@@ -24,5 +23,5 @@ class CandidatesRepositoryABC(ABC, Generic[T]):
     """ABC repository to fetch candidates for exercise."""
 
     @abstractmethod
-    def fetch(self, user: Person, conditions: ParametersSchema) -> T:
+    def fetch(self, user: Person, conditions: object) -> T:
         """Fetch candidates for exercise by conditions."""
