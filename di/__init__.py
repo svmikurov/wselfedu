@@ -15,8 +15,7 @@ WIRED_MODULES: list[str] = [
     # Language discipline
     # ---------------------------------------------
     'apps.lang.api.v1.views.study',
-    'apps.lang.views.exercise.translation.presentation',
-    'apps.lang.views.exercise.translation.test',
+    'apps.lang.views.exercise.translation',
     'apps.lang.views.translation',
     # =============================================
     # Mathematical discipline

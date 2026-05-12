@@ -1,4 +1,4 @@
-"""English translation perform views."""
+"""English discipline translation exercise views."""
 
 from __future__ import annotations
 
@@ -31,6 +31,26 @@ class TranslationPresentationView(ExercisePerformView[HandlerT]):
         *args: object,
         handler: HandlerT = Provide[
             HANDLERS.regular_translation_presentation  # type: ignore[attr-defined]
+        ],
+        **kwargs: object,
+    ) -> HttpResponseBase:
+        """Inject request handler."""
+        self._handler = handler
+        return super().dispatch(request, *args, **kwargs)
+
+
+class RegularTranslationTestPerformView(ExercisePerformView[HandlerT]):
+    """Regular translation test exercise performing view."""
+
+    template_name = 'lang/exercise/test/index.html'
+
+    @inject
+    def dispatch(
+        self,
+        request: HttpRequest,
+        *args: object,
+        handler: HandlerT = Provide[
+            HANDLERS.regular_translation_test  # type: ignore[attr-defined]
         ],
         **kwargs: object,
     ) -> HttpResponseBase:

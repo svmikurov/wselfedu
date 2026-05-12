@@ -25,11 +25,9 @@ __all__ = [
 from .exercise.settings import (
     study_settings_view,
 )
-from .exercise.translation.presentation import (
-    TranslationPresentationView,
-)
-from .exercise.translation.test import (
+from .exercise.translation import (
     RegularTranslationTestPerformView,
+    TranslationPresentationView,
 )
 from .rule import (
     ClauseCreateView,

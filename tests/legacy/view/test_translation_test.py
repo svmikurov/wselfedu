@@ -8,7 +8,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from apps.lang.views.exercise.translation.test import (
+from apps.lang.views.exercise.translation import (
     RegularTranslationTestPerformView,
 )
 

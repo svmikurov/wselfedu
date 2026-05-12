@@ -8,7 +8,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from apps.lang.views.exercise.translation.presentation import (
+from apps.lang.views.exercise.translation import (
     TranslationPresentationView,
 )
 
