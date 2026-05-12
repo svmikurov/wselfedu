@@ -47,3 +47,9 @@ class ExceptionField(ArbitraryDTO, Generic[T]):
     """Provides *exception* DTO's field."""
 
     exception: T
+
+
+class TaskField(BaseDTO, Generic[T]):
+    """Provides *task* DTO's field."""
+
+    task: T

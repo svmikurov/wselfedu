@@ -31,6 +31,7 @@ class AbstractCaseFactory(
         """Build exercise case DTO."""
 
 
+# TODO: Rename class
 class AbstractSpecDtoBuilder(
     SpecDtoBuilderProtocol[CaseT, SpecT, DtoT],
 ):

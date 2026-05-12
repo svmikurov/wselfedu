@@ -12,23 +12,22 @@ from apps.users.models import Person
 from kernel.formatter.exercise import PresentationFormatter, TestFormatter
 from kernel.service.exercise import CreateExerciseService
 from ports.contract import enums
-from ports.interfaces.protocols.domain.exercise import CandidatesT
+from ports.contract.infra.service import (
+    PresentationServiceProtocol,
+    TestServiceProtocol,
+)
+from ports.interfaces.protocols.domain.exercise import (
+    CandidatesT,
+    ExerciseConfigProtocol,
+)
 from ports.interfaces.schemas.domain.exercise.exercise import (
     PresentationTaskDomainResult,
     TestTaskDomainResult,
 )
-from ports.interfaces.schemas.domain.exercise.flow import (
-    ExerciseCase,
-    PresentationTask,
-    TestTask,
-)
-from ports.interfaces.schemas.domain.exercise.params import (
-    ExerciseParametersDTO,
-)
-from tests.legacy.types import DomainT, RepositoryT, ServiceT
+from ports.interfaces.schemas.domain.exercise.flow import ExerciseCase
+from tests.legacy.types import DomainT, RepositoryT
 
 _DomainT = DomainT
-_ServiceT = ServiceT
 _RepositoryT = RepositoryT
 _TaskBuilderT = object
 
@@ -85,7 +84,7 @@ def presentation_service(
     mock_candidates_repository: Mock,
     mock_presentation_domain: Mock,
     presentation_formatter: _TaskBuilderT,
-) -> _ServiceT:
+) -> PresentationServiceProtocol:
     """Provide presentation exercise service."""
     return CreateExerciseService(
         candidates_repository=mock_candidates_repository,
@@ -99,7 +98,7 @@ def test_service(
     mock_candidates_repository: Mock,
     mock_test_domain: Mock,
     test_formatter: _TaskBuilderT,
-) -> _ServiceT:
+) -> TestServiceProtocol:
     """Provide test exercise service."""
     return CreateExerciseService(
         candidates_repository=mock_candidates_repository,
@@ -111,8 +110,8 @@ def test_service(
 @pytest.mark.django_db
 def test_presentation_service_result_dto(
     mock_user: Person,
-    exercise_params: ExerciseParametersDTO,
-    presentation_service: _ServiceT,
+    exercise_params: ExerciseConfigProtocol,
+    presentation_service: PresentationServiceProtocol,
 ) -> None:
     """Test the presentation domain result DTO."""
     # Act
@@ -122,22 +121,24 @@ def test_presentation_service_result_dto(
     # - Case builder result DTO has fields
     assert hasattr(case, 'status')
     assert hasattr(case, 'domain')
+    assert hasattr(case, 'task')
 
     # - Case builder result DTO has nested fields
-    assert hasattr(case.domain, 'question_text')
-    assert hasattr(case.domain, 'answer_text')
-    assert hasattr(case.domain, 'progress_value')
+    assert hasattr(case.domain, 'item')
+    assert hasattr(case.task, 'question_text')
+    assert hasattr(case.task, 'answer_text')
+    assert hasattr(case.task, 'progress_value')
 
     # - Presentation exercise domain result DTO is instance of
     assert isinstance(case, ExerciseCase)
-    assert isinstance(case.domain, PresentationTask)
+    assert isinstance(case.domain, PresentationTaskDomainResult)
 
 
 @pytest.mark.django_db
 def test_test_exercise_service_result_dto(
     mock_user: Person,
-    exercise_params: ExerciseParametersDTO,
-    test_service: _ServiceT,
+    exercise_params: ExerciseConfigProtocol,
+    test_service: TestServiceProtocol,
 ) -> None:
     """Test the test domain result DTO."""
     # Act
@@ -147,12 +148,14 @@ def test_test_exercise_service_result_dto(
     # - Case builder result DTO has fields
     assert hasattr(case, 'status')
     assert hasattr(case, 'domain')
+    assert hasattr(case, 'task')
 
     # - Case builder result DTO has nested fields
-    assert hasattr(case.domain, 'question_text')
     assert hasattr(case.domain, 'question_option_value')
     assert hasattr(case.domain, 'items')
+    assert hasattr(case.task, 'question_text')
+    assert hasattr(case.task, 'options')
 
     # - Presentation exercise domain result DTO is instance of
     assert isinstance(case, ExerciseCase)
-    assert isinstance(case.domain, TestTask)
+    assert isinstance(case.domain, TestTaskDomainResult)

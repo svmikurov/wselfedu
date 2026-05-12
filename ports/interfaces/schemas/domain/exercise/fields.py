@@ -47,6 +47,27 @@ class OptionValueField(ArbitraryDTO):
     )
 
 
+class Option(
+    general.ValueField,
+    general.TextField,
+):
+    """Test exercise option schema.
+
+    Parameter
+    ---------
+    value : `int`
+        Option value.
+    text : `str`
+        Option text.
+    """
+
+
+class OptionsField(BaseDTO):
+    """Options DTO field."""
+
+    options: list[Option]
+
+
 # =================================================
 # Exercise task candidate
 # =================================================

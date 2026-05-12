@@ -6,10 +6,10 @@ from ports.contract.enums import ExerciseStatus
 from ports.interfaces.schemas.domain.exercise.fields import (
     DefineField,
     MeanField,
+    Option,
     ProgressValueField,
     QuestionTextField,
 )
-from ports.interfaces.schemas.fields import TextField, ValueField
 from ports.interfaces.schemas.response.web.generic import HtmlResponseDTO
 from ports.interfaces.schemas.response.web.null import NullContext
 
@@ -28,18 +28,6 @@ AdaptedDomainResultT = TypeVar('AdaptedDomainResultT')
 # =================================================
 # Response's components
 # =================================================
-
-
-class Option(ValueField, TextField):
-    """Test exercise option schema.
-
-    Parameter
-    ---------
-    value : `int`
-        Option value.
-    text : `str`
-        Option text.
-    """
 
 
 class PresentationTaskContext(
@@ -66,7 +54,7 @@ class TestTaskContext(
     ---------
     question_text : `str
         Question text.
-    Options : `list[Option]`
+    options : `list[Option]`
         Task options (value, text).
     """
 

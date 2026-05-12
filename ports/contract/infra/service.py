@@ -4,6 +4,13 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Protocol, TypeVar
 
+from ports.interfaces.protocols.domain import (
+    ExerciseConfigProtocol,
+)
+from ports.interfaces.protocols.service import (
+    PresentationCaseProtocol,
+    TestCaseProtocol,
+)
 from utils.audit.protocol import Auditable
 
 if TYPE_CHECKING:
@@ -21,3 +28,14 @@ class UserSpecServiceProtocol(
 
     def execute(self, user: Person, spec: Spec_contra) -> Result_cov:
         """Execute."""
+
+
+PresentationServiceProtocol = UserSpecServiceProtocol[
+    ExerciseConfigProtocol,
+    PresentationCaseProtocol,
+]
+
+TestServiceProtocol = UserSpecServiceProtocol[
+    ExerciseConfigProtocol,
+    TestCaseProtocol,
+]

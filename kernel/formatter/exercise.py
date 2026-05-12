@@ -13,12 +13,12 @@ from ports.interfaces.protocols.service.exercise import (
     PresentationCaseProtocol,
     TestCaseProtocol,
 )
+from ports.interfaces.schemas.domain.exercise.fields import Option
 from ports.interfaces.schemas.domain.exercise.flow import (
     ExerciseCase,
     PresentationTask,
     TestTask,
 )
-from ports.interfaces.schemas.web.task import Option
 
 DataT = TypeVar('DataT')
 ConfigurationT = TypeVar('ConfigurationT', bound=HasDisplayOrder[DisplayOrder])
@@ -78,9 +78,8 @@ class TestFormatter(
             status=ExerciseStatus.NEW_TASK,
             domain=data,
             task=TestTask(  # type: ignore
-                question_option_value=data.question_option_value,
                 question_text=self._get_question_text(data, conf),
-                items=self._get_options(data, conf),
+                options=self._get_options(data, conf),
             ),
         )
 

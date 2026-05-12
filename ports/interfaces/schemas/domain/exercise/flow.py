@@ -99,22 +99,18 @@ class PresentationTask(
 
 
 class TestTask(
-    fields.OptionValue,
     fields.QuestionTextField,
-    fields.TaskItemsField[CandidatesT],
-    Generic[CandidatesT],
+    fields.OptionsField,
     ArbitraryConfigurationMixin,
 ):
     """Test exercise task DTO.
 
     Parameters
     ----------
-    status : `ExerciseStatus`
-        Exercise task status (e.g., 'new_case')
-    context : ...
-        Context (human readable) task representation.
-    domain : ...
-        Domain task representation.
+    question_text : `str`
+        Test question text.
+    options : `Option`
+        Test answer options.
 
     """
 

@@ -2,7 +2,6 @@
 
 from ports.interfaces.schemas.domain.exercise.exercise import (
     PresentationTaskDomainResult,
-    TaskItem,
     TestTaskDomainResult,
 )
 from ports.interfaces.schemas.domain.exercise.flow import (
@@ -17,7 +16,7 @@ from ports.interfaces.schemas.domain.exercise.flow import (
 
 
 class PresentationExerciseCase(
-    ExerciseCase[PresentationTaskDomainResult, TestTask[TaskItem]]
+    ExerciseCase[PresentationTaskDomainResult, TestTask]
 ):
     """Presentation exercise case DTO.
 

@@ -3,8 +3,9 @@
 from typing import Any, Iterable, TypeVar, override
 
 from ports.contract.entity.general import NullProtocol
-from ports.contract.enums import ExerciseStatus
-from ports.interfaces.protocols.domain.exercise import TestTaskProtocol
+from ports.interfaces.protocols.use_case.exercise import (
+    TestUseCaseResultProtocol,
+)
 from ports.interfaces.schemas.web.task import (
     TestExerciseTaskResponse,
     TestTaskContext,
@@ -17,27 +18,26 @@ ExtraContextT = TypeVar('ExtraContextT', bound=Iterable[Any])
 
 class WebTestExerciseAdapter(
     BaseWebAdapter[
-        TestTaskProtocol,
+        TestUseCaseResultProtocol,
         NullProtocol,
         TestExerciseTaskResponse,
     ],
 ):
     """Web test exercise response adapter."""
 
-    # HACK: Update return type hint on protocol
+    # FIXME: Fix type ignore
     @override
     def to_response(
         self,
-        # FIXME: Fix type hint
-        use_case_result: TestTaskProtocol,
+        use_case_result: TestUseCaseResultProtocol,
         request_context: NullProtocol,
     ) -> TestExerciseTaskResponse:
         """Convert domain result to web representation context."""
         context = TestTaskContext(
-            question_text=use_case_result.question_text,
-            options=use_case_result.options,  # type: ignore
+            question_text=use_case_result.task.question_text,
+            options=use_case_result.task.options,  # type: ignore
         )
         return TestExerciseTaskResponse(
-            domain_status=ExerciseStatus.NEW_TASK,
+            domain_status=use_case_result.status,
             context=context,
         )
