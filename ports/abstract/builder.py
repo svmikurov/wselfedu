@@ -8,7 +8,7 @@ from ports.contract.infra.builder import (
     SpecDtoBuilderProtocol,
 )
 
-DataT = TypeVar('DataT')
+CaseT = TypeVar('CaseT')
 SpecT = TypeVar('SpecT')
 DtoT = TypeVar('DtoT')
 
@@ -18,7 +18,7 @@ LockupConditions = TypeVar('LockupConditions')
 
 class AbstractCaseFactory(
     ABC,
-    DtoBuilderProtocol[DataT, DtoT],
+    DtoBuilderProtocol[CaseT, DtoT],
 ):
     """ABC for exercise case DTO builder."""
 
@@ -26,13 +26,13 @@ class AbstractCaseFactory(
     @abstractmethod
     def build(
         self,
-        data: DataT,
+        case: CaseT,
     ) -> DtoT:
         """Build exercise case DTO."""
 
 
 class AbstractSpecDtoBuilder(
-    SpecDtoBuilderProtocol[DataT, SpecT, DtoT],
+    SpecDtoBuilderProtocol[CaseT, SpecT, DtoT],
 ):
     """ABC for a DTO builder that follows the specification."""
 
@@ -40,7 +40,7 @@ class AbstractSpecDtoBuilder(
     @abstractmethod
     def build(
         self,
-        data: DataT,
+        case: CaseT,
         spec: SpecT,
     ) -> DtoT:
         """Build a DTO according to the specification."""
