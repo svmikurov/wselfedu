@@ -1,6 +1,5 @@
 """Language discipline app types."""
 
-import logging
 import uuid
 from typing import (
     Literal,
@@ -9,7 +8,7 @@ from typing import (
     TypedDict,
 )
 
-log = logging.getLogger(__name__)
+from ports.interfaces.typed.api.general import CodeName, IdName
 
 type Language = Literal['native', 'foreign']
 type TranslateOrder = Literal['define', 'explain', 'random']
@@ -28,20 +27,6 @@ class HasIdName(Protocol):
     """Protocol for id-name option interface."""
 
     id: int
-    name: str
-
-
-class IdName(TypedDict):
-    """Id-name option type."""
-
-    id: int
-    name: str
-
-
-class CodeName(TypedDict):
-    """Code-name option type."""
-
-    code: TranslateOrder
     name: str
 
 

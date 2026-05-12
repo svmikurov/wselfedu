@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, override
 
 from apps.lang import models
-from apps.lang.types import types
+from ports.refactor import lang
 
 from .abc import StudySettingsRepositoryABC
 
@@ -20,14 +20,14 @@ class StudySettingsRepository(StudySettingsRepositoryABC):
     """Provides study repository."""
 
     @override
-    def fetch(self, user: Person) -> types.CaseStudySettingsWEB:
+    def fetch(self, user: Person) -> lang.CaseStudySettingsWEB:
         """Get study settings for presentation case."""
         translation_parameters = models.ExerciseConditions.get_instants(user)
         translation_conf = models.TranslationConfiguration.get_instants(user)
         presentation_settings = models.PresentationSettings.get_instants(user)
 
         mark = self._get_pk(translation_parameters.mark)
-        return types.CaseStudySettingsWEB(
+        return lang.CaseStudySettingsWEB(
             # Translation parameters
             category=self._get_pk(translation_parameters.category),
             # TODO: Fix mark getting

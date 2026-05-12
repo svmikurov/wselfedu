@@ -1,8 +1,7 @@
 """Language application API documentation response data examples."""
 
-from apps.lang import types
+from ports.refactor.lang import types
 
-# HACK: Fix type ignore
 SET_WORD_STUDY_PARAMETERS_DATA: types.CaseSettingsAPI = {
     'categories': [
         {'id': 1, 'name': 'cat 1'},
@@ -21,8 +20,8 @@ SET_WORD_STUDY_PARAMETERS_DATA: types.CaseSettingsAPI = {
         {'id': 2, 'name': 'week_before'},
     ],
     'display_orders': [
-        {'code': 'from_native', 'name': 'С родного языка'},  # type: ignore[typeddict-item]
-        {'code': 'to_native', 'name': 'На родной язык'},  # type: ignore[typeddict-item]
+        {'code': 'from_native', 'name': 'С родного языка'},
+        {'code': 'to_native', 'name': 'На родной язык'},
         {'code': 'random', 'name': 'Случайный порядок'},
     ],
     'category': {'id': 1, 'name': 'cat 1'},
@@ -30,7 +29,7 @@ SET_WORD_STUDY_PARAMETERS_DATA: types.CaseSettingsAPI = {
     'word_source': {'id': 1, 'name': 'source 1'},
     'start_period': {'id': 2, 'name': 'week_before'},
     'end_period': {'id': 1, 'name': 'today'},
-    'display_order': {'code': 'to_native', 'name': 'На родной язык'},  # type: ignore[typeddict-item]
+    'display_order': {'code': 'to_native', 'name': 'На родной язык'},
     'is_study': True,
     'is_repeat': True,
     'is_examine': True,
@@ -40,14 +39,13 @@ SET_WORD_STUDY_PARAMETERS_DATA: types.CaseSettingsAPI = {
     'answer_timeout': 5,
 }
 
-# HACK: Fix type ignore
 WORD_STUDY_PARAMETERS_DATA: types.CaseParametersAPI = {
     'category': {'id': 1, 'name': 'cat 1'},
     'mark': [{'id': 2, 'name': 'mark 2'}],
     'word_source': {'id': 1, 'name': 'source 1'},
     'start_period': {'id': 2, 'name': 'week_before'},
     'end_period': {'id': 1, 'name': 'today'},
-    'display_order': {'code': 'to_native', 'name': 'На родной язык'},  # type: ignore[typeddict-item]
+    'display_order': {'code': 'to_native', 'name': 'На родной язык'},
     'is_study': True,
     'is_repeat': True,
     'is_examine': True,

@@ -1,13 +1,13 @@
-"""Presentation types."""
+"""General typed data."""
 
 from typing import Literal, TypedDict
 
 type TranslationOrder = Literal['from_native', 'to_native', 'random']
 
 
-# --------------
-# Api data types
-# --------------
+# =================================================
+# General data
+# =================================================
 
 
 class IdName(TypedDict):
@@ -15,6 +15,11 @@ class IdName(TypedDict):
 
     id: int
     name: str
+
+
+# =================================================
+# Exercise data
+# =================================================
 
 
 class CodeName(TypedDict):

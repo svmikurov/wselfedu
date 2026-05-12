@@ -2,7 +2,7 @@
 
 from rest_framework import serializers
 
-from apps.lang import types
+from ports.refactor.lang import types
 
 
 class ProgressPhaseSerializer(serializers.Serializer[types.ProgressPhase]):

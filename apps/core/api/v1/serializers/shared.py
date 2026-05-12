@@ -2,17 +2,17 @@
 
 from rest_framework import serializers
 
-from apps.lang import types
+from ports.interfaces.typed.api.general import CodeName, IdName
 
 
-class IdNameSerializer(serializers.Serializer[types.IdName]):
+class IdNameSerializer(serializers.Serializer[IdName]):
     """Serializer for objects with id and name fields."""
 
     id = serializers.IntegerField()
     name = serializers.CharField()
 
 
-class CodeNameSerializer(serializers.Serializer[types.CodeName]):
+class CodeNameSerializer(serializers.Serializer[CodeName]):
     """Serializer for objects with code and name fields."""
 
     code = serializers.CharField()

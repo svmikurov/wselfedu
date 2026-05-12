@@ -3,7 +3,7 @@
 from rest_framework import serializers
 
 from apps.core.api.v1 import serializers as core
-from apps.lang import types
+from ports.refactor.lang import types
 
 
 class OptionsSerializer(serializers.Serializer[types.OptionsAPI]):

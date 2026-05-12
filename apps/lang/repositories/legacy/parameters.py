@@ -8,7 +8,9 @@ from django.db import transaction
 from django.db.models import QuerySet
 
 from apps.core import models as models_core
-from apps.lang import models, types
+from apps.lang import models
+from ports.interfaces.typed.api.general import IdName
+from ports.refactor.lang import types
 
 if TYPE_CHECKING:
     from apps.users.models import Person
@@ -33,7 +35,7 @@ if TYPE_CHECKING:
 class StudyParametersRepository:
     """Word study params repository."""
 
-    def _get_id_name(self, queryset: OptionsQuerySetT) -> list[types.IdName]:
+    def _get_id_name(self, queryset: OptionsQuerySetT) -> list[IdName]:
         return list(queryset.values('id', 'name'))
 
     @override

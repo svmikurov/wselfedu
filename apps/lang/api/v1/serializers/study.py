@@ -2,9 +2,9 @@
 
 from rest_framework import serializers
 
-from apps.lang import types
 from apps.lang.models.abstract import AbstractWordModel
 from apps.study.api.v1 import serializers as study
+from ports.refactor.lang import types
 
 from . import base
 

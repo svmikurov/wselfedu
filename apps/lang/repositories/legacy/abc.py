@@ -10,8 +10,9 @@ if TYPE_CHECKING:
 
     from apps.core import models as core_models
     from apps.users.models import Person
+    from ports.refactor.lang import types
 
-    from ... import models, types
+    from ... import models
 
 
 class StudySettingsRepositoryABC(ABC):

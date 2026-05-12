@@ -2,7 +2,7 @@
 
 from pydantic import BaseModel
 
-from .. import types
+from ports.refactor.lang import types
 
 
 class WordStudyStoredCase(BaseModel):

@@ -1,7 +1,6 @@
 """Language app types."""
 
 __all__ = [
-    'CodeName',
     'Language',
     'CaseParametersAPI',
     'TranslationCaseFixed',
@@ -27,19 +26,16 @@ __all__ = [
     'CaseCandidates',
     'PresentationT',
     'CaseSettingsDomain',
-    'IdName',
 ]
 
-from .types import (
+from ports.refactor.lang.types import (
     CaseCandidates,
     CaseParametersAPI,
     CaseSettingsAPI,
     CaseSettingsDomain,
     CaseSettingsWEB,
     CaseStudySettingsWEB,
-    CodeName,
     HasIdName,
-    IdName,
     InfoT,
     Language,
     Option,

@@ -8,10 +8,11 @@ from datetime import datetime, timedelta
 from django.db.models import F, Manager, Q, QuerySet
 from django.utils import timezone
 
-from apps.lang import models, types
+from apps.lang import models
 from apps.study.models import ProgressBar
 from apps.users.models import Person
 from ports.contract.entity.domain.params import GenericExerciseParameters
+from ports.refactor.lang import types
 
 from ..abc import CandidatesRepositoryABC
 

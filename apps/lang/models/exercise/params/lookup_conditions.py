@@ -7,10 +7,11 @@ from typing import TYPE_CHECKING, Final, Self
 from django.db import models
 
 from apps.core.models import AbstractBaseModel
+from ports.interfaces.typed.api.general import IdName
 
 if TYPE_CHECKING:
-    from apps.lang import types
     from apps.users.models import Person
+    from ports.refactor.lang import types
 
 __all__ = ('ExerciseConditions',)
 
@@ -129,7 +130,7 @@ class ExerciseConditions(AbstractBaseModel):
 
         db_table = 'lang_exercise_configuration'
 
-    def obj_to_id_name(self, field: types.Option) -> types.IdName | None:
+    def obj_to_id_name(self, field: types.Option) -> IdName | None:
         """Convert object to {id, name} dict."""
         obj = getattr(self, field, None)
         if obj and hasattr(obj, 'id') and hasattr(obj, 'name') and obj.id:
