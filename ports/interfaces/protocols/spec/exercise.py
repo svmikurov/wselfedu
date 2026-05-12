@@ -2,7 +2,7 @@
 
 from typing import Protocol
 
-from ports.contract.entity.domain.exercise import HasAnswer, HasCase
+from ports.contract.entity.domain.exercise import HasAnswer, HasCase, HasDomain
 from ports.contract.entity.domain.params import (
     HasConditions,
     HasConfig,
@@ -44,7 +44,7 @@ class CreateTaskSpecProtocol(
 
 class CheckTestSpecProtocol(
     HasAnswer[TestAnswerProtocol],
-    HasCase[TestDomainResultProtocol],
+    HasDomain[TestDomainResultProtocol],
     Protocol,
 ):
     """Protocol for check test task service specification interface.

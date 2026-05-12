@@ -134,9 +134,9 @@ class CheckExerciseService(
     ) -> CheckResultT:
         """Check user's solution."""
         # HACK: Implement no case handling
-        if not spec.case:
+        if not spec.domain:
             raise ValueError('Expected stored exercise, got None')
 
         self.auditor.record('domain.call', obj=self._domain, spec=spec)
-        result = self._domain.execute(spec.answer, spec.case)
+        result = self._domain.execute(spec.answer, spec.domain)
         return result
