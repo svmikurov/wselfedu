@@ -3,8 +3,8 @@
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Dict, Factory
 
-from kernel.builder.exercise import ExerciseUseCaseResultBuilder
 from kernel.builder.null import NullSpecDtoBuilder
+from kernel.builder.use_case.exercise import ExerciseUseCaseResultBuilder
 from ports.contract.enums import ExerciseStatus
 
 

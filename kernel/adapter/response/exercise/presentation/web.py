@@ -4,7 +4,9 @@ from typing import override
 
 from ports.contract.entity.general import HasIsHtmx
 from ports.contract.enums import ExerciseStatus
-from ports.interfaces.protocols.domain.exercise import PresentationTaskProtocol
+from ports.interfaces.protocols.use_case.exercise import (
+    PresentationUseCaseResultProtocol,
+)
 from ports.interfaces.schemas.web.task import (
     PresentationTaskContext,
     PresentationTaskResponse,
@@ -15,7 +17,7 @@ from ..base import BaseWebAdapter
 
 class CreatePresentationWebAdapter(
     BaseWebAdapter[
-        PresentationTaskProtocol,
+        PresentationUseCaseResultProtocol,
         HasIsHtmx,
         PresentationTaskResponse,
     ],
@@ -26,14 +28,14 @@ class CreatePresentationWebAdapter(
     @override
     def to_response(
         self,
-        use_case_result: PresentationTaskProtocol,
+        use_case_result: PresentationUseCaseResultProtocol,
         request_context: HasIsHtmx,
     ) -> PresentationTaskResponse:
         """Convert exercise case to web context."""
         context = PresentationTaskContext(
-            define=use_case_result.question_text,
-            mean=use_case_result.answer_text,
-            progress_value=use_case_result.progress_value,
+            define=use_case_result.task.question_text,
+            mean=use_case_result.task.answer_text,
+            progress_value=use_case_result.task.progress_value,
         )
         return PresentationTaskResponse(
             domain_status=ExerciseStatus.NEW_TASK,

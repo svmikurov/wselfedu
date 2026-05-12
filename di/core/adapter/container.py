@@ -38,14 +38,14 @@ class ResponseAdaptersContainer(DeclarativeContainer):
     _presentation = Factory(
         CreatePresentationWebAdapter,
         templates=PRESENTATION_TEMPLATES,
-        name='Presentation response adapter',
         auditor=auditor,
+        name='Presentation exercise response adapter',
     )
     _test = Factory(
         WebTestExerciseAdapter,
         templates=TEST_TEMPLATES,
-        name='Test exercise response adapter',
         auditor=auditor,
+        name='Test exercise response adapter',
     )
 
     # =============================================
@@ -74,8 +74,12 @@ class ResponseAdaptersContainer(DeclarativeContainer):
     presentation_strategy = Factory(
         ProcessExerciseAdapterStrategy,
         registry=_presentation_registry,
+        auditor=auditor,
+        name='Presentation exercise response adapter strategy',
     )
     test_strategy = Factory(
         ProcessExerciseAdapterStrategy,
         registry=_test_registry,
+        auditor=auditor,
+        name='Test exercise response adapter strategy',
     )
