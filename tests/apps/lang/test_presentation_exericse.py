@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from http import HTTPStatus
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 from unittest.mock import Mock
 
 import pytest
@@ -16,6 +16,7 @@ from ports.interfaces.schemas.request.handler import (
     RequestContext,
     RequestData,
 )
+from ports.interfaces.typed.web.exercise import TypedCreateTask
 
 from ._types import RequestArgs
 
@@ -23,6 +24,7 @@ if TYPE_CHECKING:
     from django.test import Client, RequestFactory
 
     from apps.users.models import Person
+    from ports.interfaces.typed.web.exercise import PresentationActionDataU
 
     from ._types import PresentationHandlerT
 
@@ -123,14 +125,14 @@ class TestPresentationExerciseRequestParameters:
     @pytest.mark.parametrize(
         'data',
         (
-            {
-                'action': ExerciseAction.CREATE_TASK,
-            },
+            TypedCreateTask(
+                action=ExerciseAction.CREATE_TASK,
+            ),
         ),
     )
     def test_process_handler_request_parameters(
         self,
-        data: dict[str, Any],
+        data: PresentationActionDataU,
         person_schema: Person,
         mock_handler: Mock,
         view: TranslationPresentationView,

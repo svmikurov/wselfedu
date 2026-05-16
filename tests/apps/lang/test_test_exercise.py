@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from http import HTTPStatus
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 from unittest.mock import Mock
 
 import pytest
@@ -16,6 +16,7 @@ from ports.interfaces.schemas.request.handler import (
     RequestContext,
     RequestData,
 )
+from ports.interfaces.typed.web.exercise import TypedCheckTest, TypedCreateTask
 
 from ._types import RequestArgs
 
@@ -23,6 +24,7 @@ if TYPE_CHECKING:
     from django.test import Client, RequestFactory
 
     from apps.users.models import Person
+    from ports.interfaces.typed.web.exercise import TestActionDataU
 
     from ._types import TestHandlerT
 
@@ -103,7 +105,9 @@ class TestTestExerciseRequestParameters:
         expected_args = RequestArgs(
             params=NullDTO(),
             context=RequestContext(user=person_schema),
-            data=RequestData(data={'action': ExerciseAction.CREATE_TASK}),
+            data=RequestData(
+                data=TypedCreateTask(action=ExerciseAction.CREATE_TASK)
+            ),
         )
 
         request = request_factory.get('/')
@@ -123,19 +127,19 @@ class TestTestExerciseRequestParameters:
     @pytest.mark.parametrize(
         'data',
         (
-            {
-                'action': ExerciseAction.CREATE_TASK,
-            },
-            {
-                'action': ExerciseAction.CHECK_ANSWER,
-                'option_value': '3',
-            },
+            TypedCreateTask(
+                action=ExerciseAction.CREATE_TASK,
+            ),
+            TypedCheckTest(
+                action=ExerciseAction.CHECK_ANSWER,
+                option_value='3',
+            ),
         ),
         ids=['create_task', 'check_answer_with_option'],
     )
     def test_process_handler_request_parameters(
         self,
-        data: dict[str, Any],
+        data: TestActionDataU,
         person_schema: Person,
         mock_handler: Mock,
         request_factory: RequestFactory,

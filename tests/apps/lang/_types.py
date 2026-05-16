@@ -8,6 +8,7 @@ from ports.interfaces.schemas.request.handler import (
     RequestContext,
     RequestData,
 )
+from ports.interfaces.typed.web.exercise import ExerciseActionU
 
 ParamsT = TypeVar('ParamsT')
 
@@ -21,4 +22,4 @@ class RequestArgs(Generic[ParamsT]):
 
     params: ParamsT
     context: RequestContext
-    data: RequestData[dict[str, Any]]
+    data: RequestData[ExerciseActionU]
