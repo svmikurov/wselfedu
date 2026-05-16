@@ -9,7 +9,7 @@ from dependency_injector.wiring import Provide, inject
 from apps.core.views.exercise import ExercisePerformView
 from di import MainContainer
 
-from ._types import HandlerT
+from ._types import PresentationHandlerT, TestHandlerT
 
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponseBase
@@ -19,7 +19,7 @@ __all__ = ('TranslationPresentationView',)
 HANDLERS = MainContainer.lang.handlers  # type: ignore[unused-ignore]
 
 
-class TranslationPresentationView(ExercisePerformView[HandlerT]):
+class TranslationPresentationView(ExercisePerformView[PresentationHandlerT]):
     """Regular translation test exercise performing view."""
 
     template_name = 'lang/exercise/presentation/index.html'
@@ -29,7 +29,7 @@ class TranslationPresentationView(ExercisePerformView[HandlerT]):
         self,
         request: HttpRequest,
         *args: object,
-        handler: HandlerT = Provide[
+        handler: PresentationHandlerT = Provide[
             HANDLERS.regular_translation_presentation  # type: ignore[attr-defined]
         ],
         **kwargs: object,
@@ -39,7 +39,7 @@ class TranslationPresentationView(ExercisePerformView[HandlerT]):
         return super().dispatch(request, *args, **kwargs)
 
 
-class RegularTranslationTestPerformView(ExercisePerformView[HandlerT]):
+class RegularTranslationTestPerformView(ExercisePerformView[TestHandlerT]):
     """Regular translation test exercise performing view."""
 
     template_name = 'lang/exercise/test/index.html'
@@ -49,7 +49,7 @@ class RegularTranslationTestPerformView(ExercisePerformView[HandlerT]):
         self,
         request: HttpRequest,
         *args: object,
-        handler: HandlerT = Provide[
+        handler: TestHandlerT = Provide[
             HANDLERS.regular_translation_test  # type: ignore[attr-defined]
         ],
         **kwargs: object,

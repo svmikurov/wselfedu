@@ -15,20 +15,37 @@ from ports.interfaces.protocols.web import (
 )
 from ports.interfaces.schemas.command import UserDataCommand
 from ports.interfaces.schemas.response.web.generic import HtmlResponseDTO
+from ports.interfaces.typed.web.exercise import (
+    PresentationActionDataU,
+    TestActionDataU,
+)
+
+# FIXME: Fix Any type hint
+
+type RequestParamsT = NullProtocol
 
 type ResponseDtoT = HtmlResponseDTO[
     ExerciseStatus,
-    # FIXME: Fix Any type hint
     Any,  # Adapted domain result data
     dict[str, Any],  # Extra context
 ]
-type HandlerT = RequestHandler[
-    NullProtocol,  # No request parameters
-    RequestContextProtocol,  # Authentication required
-    RequestDataProtocol[dict[str, Any]],  # Exercise performing request data
-    HasAction[ExerciseAction],  # Validated data
-    UserDataCommand[HasAction[ExerciseAction]],  # User's request command
-    # FIXME: Fix Any type hint
-    Any,  # Domain result
-    ResponseDtoT,  # Response data for page template
+
+type PresentationHandlerT = RequestHandler[
+    RequestParamsT,
+    RequestContextProtocol,
+    RequestDataProtocol[PresentationActionDataU],
+    HasAction[ExerciseAction],
+    UserDataCommand[HasAction[ExerciseAction]],
+    Any,
+    ResponseDtoT,
+]
+
+type TestHandlerT = RequestHandler[
+    RequestParamsT,
+    RequestContextProtocol,
+    RequestDataProtocol[TestActionDataU],
+    HasAction[ExerciseAction],
+    UserDataCommand[HasAction[ExerciseAction]],
+    Any,
+    ResponseDtoT,
 ]
