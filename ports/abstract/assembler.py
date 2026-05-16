@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar, override
 
-from ports.interfaces.protocols.command.assembler import AssemblerProtocol
+from ports.contract.infra.assembler import AssemblerProtocol
 
 RequestParams = TypeVar('RequestParams')
 RequestContext = TypeVar('RequestContext')

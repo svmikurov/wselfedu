@@ -10,9 +10,7 @@ from ports.contract.typed.exercise import (
 )
 
 
-class CreateTaskRequestData(
-    TypedAction[Literal[ExerciseAction.CREATE_TASK]]
-):
+class CreateTaskRequestData(TypedAction[Literal[ExerciseAction.CREATE_TASK]]):
     """Typed create task request data.
 
     Parameters

@@ -10,7 +10,7 @@ from kernel.assembler.impl import UserDataAssembler
 
 if TYPE_CHECKING:
     from ports.contract.entity.general import NullProtocol
-    from ports.interfaces.protocols.command.assembler import AssemblerProtocol
+    from ports.contract.infra.assembler import AssemblerProtocol
     from ports.interfaces.protocols.command.exercise import (
         CheckTestCommandProtocol,
         CreateTaskCommandProtocol,

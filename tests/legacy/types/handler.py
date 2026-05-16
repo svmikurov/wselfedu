@@ -6,15 +6,13 @@ from kernel.handler.generic import RequestHandler
 from ports.contract.entity.domain.exercise import HasDomain
 from ports.contract.entity.general import NullProtocol
 from ports.contract.infra.adapter import AdapterProtocol
+from ports.contract.infra.assembler import AuditableAssemblerProtocol
 from ports.contract.infra.builder import SpecDtoBuilderProtocol
 from ports.contract.infra.domain.exercise import CreateTaskDomainProtocol
 from ports.contract.infra.repository import RepositoryProtocol
 from ports.contract.infra.service import UserSpecServiceProtocol
 from ports.contract.infra.use_case import UseCaseProtocol
 from ports.contract.infra.validator import RequestValidatorProtocol
-from ports.interfaces.protocols.command.assembler import (
-    AuditableAssemblerProtocol,
-)
 from ports.interfaces.protocols.domain.exercise import (
     CandidatesT,
     ExerciseConfigProtocol,
