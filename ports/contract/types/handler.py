@@ -14,8 +14,8 @@ from ports.interfaces.protocols.web import (
     RequestDataProtocol,
 )
 from ports.interfaces.request.web.exercise import (
-    PresentationRequestDataU,
-    TestRequestDataU,
+    PresentationDataU,
+    TestDataU,
 )
 from ports.interfaces.schemas.command import UserDataCommand
 from ports.interfaces.schemas.response.web.generic import HtmlResponseDTO
@@ -33,7 +33,7 @@ type ResponseDtoT = HtmlResponseDTO[
 type PresentationHandlerT = RequestHandler[
     RequestParamsT,
     RequestContextProtocol,
-    RequestDataProtocol[PresentationRequestDataU],
+    RequestDataProtocol[PresentationDataU],
     HasAction[ExerciseAction],
     UserDataCommand[HasAction[ExerciseAction]],
     Any,
@@ -43,7 +43,7 @@ type PresentationHandlerT = RequestHandler[
 type TestHandlerT = RequestHandler[
     RequestParamsT,
     RequestContextProtocol,
-    RequestDataProtocol[TestRequestDataU],
+    RequestDataProtocol[TestDataU],
     HasAction[ExerciseAction],
     UserDataCommand[HasAction[ExerciseAction]],
     Any,

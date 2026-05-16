@@ -12,8 +12,8 @@ from django.urls import reverse_lazy
 from apps.lang.views import TranslationPresentationView
 from ports.contract.enums import ExerciseAction
 from ports.interfaces.request.web.exercise import (
-    CreateTaskRequestData,
-    UpdateProgressRequestData,
+    CreateTaskData,
+    UpdateProgressData,
 )
 from ports.interfaces.schemas.base import NullDTO
 from ports.interfaces.schemas.request.handler import (
@@ -28,7 +28,7 @@ if TYPE_CHECKING:
 
     from apps.users.models import Person
     from ports.contract.types.handler import PresentationHandlerT
-    from ports.interfaces.request.web.exercise import PresentationRequestDataU
+    from ports.interfaces.request.web.exercise import PresentationDataU
 
 
 @pytest.fixture
@@ -127,10 +127,10 @@ class TestPresentationExerciseRequestParameters:
     @pytest.mark.parametrize(
         'data',
         (
-            CreateTaskRequestData(
+            CreateTaskData(
                 action=ExerciseAction.CREATE_TASK,
             ),
-            UpdateProgressRequestData(
+            UpdateProgressData(
                 action=ExerciseAction.UPDATE_PROGRESS,
                 is_known='true',
             ),
@@ -138,7 +138,7 @@ class TestPresentationExerciseRequestParameters:
     )
     def test_process_handler_request_parameters(
         self,
-        data: PresentationRequestDataU,
+        data: PresentationDataU,
         person_schema: Person,
         mock_handler: Mock,
         view: TranslationPresentationView,

@@ -10,8 +10,8 @@ from ports.contract.typed.exercise import (
 )
 
 
-class CreateTaskRequestData(TypedAction[Literal[ExerciseAction.CREATE_TASK]]):
-    """Typed create task request data.
+class CreateTaskData(TypedAction[Literal[ExerciseAction.CREATE_TASK]]):
+    """Create task request typed data.
 
     Parameters
     ----------
@@ -21,11 +21,11 @@ class CreateTaskRequestData(TypedAction[Literal[ExerciseAction.CREATE_TASK]]):
     """
 
 
-class CheckTestRequestData(
+class CheckTestData(
     TypedAction[Literal[ExerciseAction.CHECK_ANSWER]],
     TypedOptionValue,
 ):
-    """Typed user test answer request data.
+    """User test answer request typed data.
 
     Parameters
     ----------
@@ -37,11 +37,11 @@ class CheckTestRequestData(
     """
 
 
-class UpdateProgressRequestData(
+class UpdateProgressData(
     TypedAction[Literal[ExerciseAction.UPDATE_PROGRESS]],
     TypedIsKnown,
 ):
-    """Typed item study progress update data.
+    """Item study progress update typed data.
 
     Parameters
     ----------
@@ -58,17 +58,17 @@ class UpdateProgressRequestData(
 # =================================================
 
 
-type PresentationRequestDataU = Union[
-    CreateTaskRequestData,
-    UpdateProgressRequestData,
+type PresentationDataU = Union[
+    CreateTaskData,
+    UpdateProgressData,
 ]
 
-type TestRequestDataU = Union[
-    CreateTaskRequestData,
-    CheckTestRequestData,
+type TestDataU = Union[
+    CreateTaskData,
+    CheckTestData,
 ]
 
-type ExerciseRequestDataU = Union[
-    PresentationRequestDataU,
-    TestRequestDataU,
+type ExerciseDataU = Union[
+    PresentationDataU,
+    TestDataU,
 ]

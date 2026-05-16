@@ -12,8 +12,8 @@ from django.urls import reverse_lazy
 from apps.lang.views import TranslationTestView
 from ports.contract.enums import ExerciseAction
 from ports.interfaces.request.web.exercise import (
-    CheckTestRequestData,
-    CreateTaskRequestData,
+    CheckTestData,
+    CreateTaskData,
 )
 from ports.interfaces.schemas.base import NullDTO
 from ports.interfaces.schemas.request.handler import (
@@ -28,7 +28,7 @@ if TYPE_CHECKING:
 
     from apps.users.models import Person
     from ports.contract.types.handler import TestHandlerT
-    from ports.interfaces.request.web.exercise import TestRequestDataU
+    from ports.interfaces.request.web.exercise import TestDataU
 
 
 @pytest.fixture
@@ -108,7 +108,7 @@ class TestTestExerciseRequestParameters:
             params=NullDTO(),
             context=RequestContext(user=person_schema),
             data=RequestData(
-                data=CreateTaskRequestData(action=ExerciseAction.CREATE_TASK)
+                data=CreateTaskData(action=ExerciseAction.CREATE_TASK)
             ),
         )
 
@@ -129,10 +129,10 @@ class TestTestExerciseRequestParameters:
     @pytest.mark.parametrize(
         'data',
         (
-            CreateTaskRequestData(
+            CreateTaskData(
                 action=ExerciseAction.CREATE_TASK,
             ),
-            CheckTestRequestData(
+            CheckTestData(
                 action=ExerciseAction.CHECK_ANSWER,
                 option_value='3',
             ),
@@ -141,7 +141,7 @@ class TestTestExerciseRequestParameters:
     )
     def test_process_handler_request_parameters(
         self,
-        data: TestRequestDataU,
+        data: TestDataU,
         person_schema: Person,
         mock_handler: Mock,
         request_factory: RequestFactory,

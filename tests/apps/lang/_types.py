@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from typing import Generic, TypeVar
 
-from ports.interfaces.request.web.exercise import ExerciseRequestDataU
+from ports.interfaces.request.web.exercise import ExerciseDataU
 from ports.interfaces.schemas.request.handler import (
     RequestContext,
     RequestData,
@@ -18,4 +18,4 @@ class RequestArgs(Generic[ParamsT]):
 
     params: ParamsT
     context: RequestContext
-    data: RequestData[ExerciseRequestDataU]
+    data: RequestData[ExerciseDataU]
