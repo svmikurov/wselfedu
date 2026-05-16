@@ -27,9 +27,8 @@ if TYPE_CHECKING:
     from django.test import Client, RequestFactory
 
     from apps.users.models import Person
-    from ports.interfaces.request.web.exercise import PresentationActionDataU
-
-    from ._types import PresentationHandlerT
+    from ports.contract.types.handler import PresentationHandlerT
+    from ports.interfaces.request.web.exercise import PresentationRequestDataU
 
 
 @pytest.fixture
@@ -139,7 +138,7 @@ class TestPresentationExerciseRequestParameters:
     )
     def test_process_handler_request_parameters(
         self,
-        data: PresentationActionDataU,
+        data: PresentationRequestDataU,
         person_schema: Person,
         mock_handler: Mock,
         view: TranslationPresentationView,

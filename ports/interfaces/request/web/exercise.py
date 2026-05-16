@@ -58,17 +58,17 @@ class UpdateProgressRequestData(
 # =================================================
 
 
-type PresentationActionDataU = Union[
+type PresentationRequestDataU = Union[
     CreateTaskRequestData,
     UpdateProgressRequestData,
 ]
 
-type TestActionDataU = Union[
+type TestRequestDataU = Union[
     CreateTaskRequestData,
     CheckTestRequestData,
 ]
 
-type ExerciseActionU = Union[
-    PresentationActionDataU,
-    TestActionDataU,
+type ExerciseRequestDataU = Union[
+    PresentationRequestDataU,
+    TestRequestDataU,
 ]

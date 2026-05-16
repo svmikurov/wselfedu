@@ -14,8 +14,7 @@ if TYPE_CHECKING:
     from django.test import Client
 
     from di import MainContainer
-
-    from ._types import PresentationHandlerT
+    from ports.contract.types.handler import PresentationHandlerT
 
 
 # =================================================

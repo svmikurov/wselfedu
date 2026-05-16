@@ -8,8 +8,7 @@ from dependency_injector.wiring import Provide, inject
 
 from apps.core.views.exercise import ExercisePerformView
 from di import MainContainer
-
-from ._types import PresentationHandlerT, TestHandlerT
+from ports.contract.types.handler import PresentationHandlerT, TestHandlerT
 
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponseBase

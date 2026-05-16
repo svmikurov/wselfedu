@@ -1,4 +1,4 @@
-"""Translation exercise types."""
+"""Request handler types."""
 
 from typing import Any
 
@@ -14,8 +14,8 @@ from ports.interfaces.protocols.web import (
     RequestDataProtocol,
 )
 from ports.interfaces.request.web.exercise import (
-    PresentationActionDataU,
-    TestActionDataU,
+    PresentationRequestDataU,
+    TestRequestDataU,
 )
 from ports.interfaces.schemas.command import UserDataCommand
 from ports.interfaces.schemas.response.web.generic import HtmlResponseDTO
@@ -33,7 +33,7 @@ type ResponseDtoT = HtmlResponseDTO[
 type PresentationHandlerT = RequestHandler[
     RequestParamsT,
     RequestContextProtocol,
-    RequestDataProtocol[PresentationActionDataU],
+    RequestDataProtocol[PresentationRequestDataU],
     HasAction[ExerciseAction],
     UserDataCommand[HasAction[ExerciseAction]],
     Any,
@@ -43,7 +43,7 @@ type PresentationHandlerT = RequestHandler[
 type TestHandlerT = RequestHandler[
     RequestParamsT,
     RequestContextProtocol,
-    RequestDataProtocol[TestActionDataU],
+    RequestDataProtocol[TestRequestDataU],
     HasAction[ExerciseAction],
     UserDataCommand[HasAction[ExerciseAction]],
     Any,
