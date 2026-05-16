@@ -16,7 +16,6 @@ from ports.interfaces.schemas.command import UserDataCommand
 from ports.interfaces.schemas.domain.exercise.params import ExerciseSpecDTO
 from ports.interfaces.schemas.request.handler import (
     RequestContext,
-    RequestData,
 )
 from ports.interfaces.schemas.validator.task import (
     ValidatedCheckTestAnswer,
@@ -28,14 +27,11 @@ from tests.legacy.types.handler import (
     AssemblerT,
     HandlerT,
     RequestContextT,
-    RequestDataT,
     UseCaseT,
     ValidatorT,
 )
 
-from ._types import (
-    CheckRequestDataT,
-    CreateRequestDataT,
+from ..._types import (
     ValidatedCheckT,
     ValidatedCreateT,
 )
@@ -78,44 +74,6 @@ def request_context(
 ) -> RequestContextT:
     """Provide request parameters DTO fixture."""
     return RequestContext(user=user)
-
-
-# Request data
-# ------------
-
-
-@pytest.fixture
-def create_task_request_data() -> CreateRequestDataT:
-    """Provide create exercise request's data DTO."""
-    # Request data DTO creates in view's method with GET request.
-    return RequestData(
-        data={
-            'action': ExerciseAction.CREATE_TASK,
-        },
-    )
-
-
-@pytest.fixture
-def check_test_answer_request_data() -> CheckRequestDataT:
-    """Provide check exercise request's data DTO."""
-    # Request data DTO creates in view's method with GET request.
-    return RequestData(
-        data={
-            'action': ExerciseAction.CHECK_ANSWER,
-            'option_value': str(TRANSLATION_INDEX),
-        },
-    )
-
-
-@pytest.fixture
-def update_progress_request_data(user: Person) -> RequestDataT:
-    """Provide *update progress* request data fixture."""
-    return RequestData(
-        data={
-            'action': ExerciseAction.UPDATE_PROGRESS,
-            'is_known': 'true',
-        }
-    )
 
 
 # Mocks

@@ -20,7 +20,7 @@ if TYPE_CHECKING:
     )
     from tests.legacy.types.handler import RequestContextT, RequestParamsT
 
-    from .._types import (
+    from ...._types import (
         ValidatedCheckT,
         ValidatedCreateT,
     )

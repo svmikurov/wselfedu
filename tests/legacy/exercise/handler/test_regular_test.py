@@ -12,7 +12,7 @@ from tests.legacy.types.handler import (
     RequestParamsT,
 )
 
-from .._types import CheckRequestDataT, CreateRequestDataT
+from ...._types import CheckRequestDataT, CreateRequestDataT
 
 
 def test_handler_initialized(regular_test_handler: HandlerT) -> None:
