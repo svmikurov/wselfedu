@@ -42,7 +42,7 @@ class TestTranslationPresentationView:
 
     def test_post_request_create_action(
         self,
-        request_post_method: WSGIRequest,
+        request_post_method_with_htmx: WSGIRequest,
         handlers: WebHandlerContainer,
         mock_create_exercise_action_handler: Mock,
     ) -> None:
@@ -52,7 +52,7 @@ class TestTranslationPresentationView:
             mock_create_exercise_action_handler
         ):
             response = TranslationPresentationView.as_view()(
-                request_post_method,
+                request_post_method_with_htmx,
             )
 
         # Assert

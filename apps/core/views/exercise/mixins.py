@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING, Generic, TypeVar
 
+from django.core.exceptions import SuspiciousOperation
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
@@ -106,9 +107,14 @@ class ProcessExerciseMixin(
     request: HttpRequest
 
     def _process(self, **kwargs: object) -> _Response:
+        if not self.is_htmx:  # type: ignore
+            raise SuspiciousOperation(
+                'POST requests for exercise processing must be HTMX requests'
+            )
+
         return self.handler.execute(  # type: ignore
             params=NullDTO(),
-            context=RequestContext(user=self.user),  # type: ignore
+            context=RequestContext(user=self.user, is_htmx=self.is_htmx),  # type: ignore
             data=RequestData(data=self.request.POST.dict()),
         )
 

@@ -2,20 +2,13 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Generic, TypeVar
+from typing import TYPE_CHECKING
 from unittest.mock import Mock
 
 import pytest
 from django.test import RequestFactory
 
 from apps.users.models import Person
-from ports.contract.enums import ExerciseAction
-from ports.interfaces.schemas.base import NullDTO
-from ports.interfaces.schemas.request.handler import (
-    RequestContext,
-    RequestData,
-)
 
 if TYPE_CHECKING:
     from django.test import Client
@@ -25,15 +18,13 @@ if TYPE_CHECKING:
     from ._types import PresentationHandlerT
 
 
-ParamsT = TypeVar('ParamsT')
-
 # =================================================
-# User
+# Django Person model
 # =================================================
 
 
 @pytest.fixture
-def user_schema() -> Person:
+def person_schema() -> Person:
     """Provide user schema fixture."""
     return Person()
 
@@ -59,38 +50,6 @@ def request_factory(mock_user: Person) -> RequestFactory:
 
 
 # =================================================
-# Request parameters
-# =================================================
-
-
-@dataclass(frozen=True)
-class RequestParams(Generic[ParamsT]):
-    """Handler request parameters data."""
-
-    params: ParamsT
-    context: RequestContext
-    data: RequestData[dict[str, Any]]
-
-
-@pytest.fixture
-def create_request_parameters(
-    user_schema: Person,
-) -> object:
-    """Create translation request parameters."""
-    return RequestParams(
-        params=NullDTO(),
-        context=RequestContext(
-            user=user_schema,
-        ),
-        data=RequestData(
-            data={
-                'action': ExerciseAction.CREATE_TASK,
-            },
-        ),
-    )
-
-
-# =================================================
 # Dependencies
 # =================================================
 
@@ -99,8 +58,16 @@ def create_request_parameters(
 def regular_translation_presentation(
     main_container: MainContainer,
 ) -> PresentationHandlerT:
-    """Provide regular translation presentation handler."""
+    """Provide regular translation presentation exercise handler."""
     return main_container.lang.handlers.regular_translation_presentation  # type: ignore
+
+
+@pytest.fixture
+def regular_translation_test(
+    main_container: MainContainer,
+) -> PresentationHandlerT:
+    """Provide regular translation test exercise handler."""
+    return main_container.lang.handlers.regular_translation_test  # type: ignore
 
 
 @pytest.fixture

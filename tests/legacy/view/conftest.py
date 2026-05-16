@@ -11,7 +11,7 @@ from django.test import RequestFactory
 from kernel.handler.generic import RequestHandler
 from ports.contract.enums.exercise import ExerciseStatus
 from ports.interfaces.schemas.base import NullDTO
-from ports.interfaces.schemas.response.web.generic import ResponseDTO
+from ports.interfaces.schemas.response.web.generic import HtmlResponseDTO
 
 if TYPE_CHECKING:
     from django.core.handlers.wsgi import WSGIRequest
@@ -36,7 +36,7 @@ def mock_create_exercise_action_handler() -> Mock:
     """Provide request handler mock."""
     mock = Mock(spec=RequestHandler)
     # View has exercise process result status mapping.
-    mock.execute.return_value = ResponseDTO(
+    mock.execute.return_value = HtmlResponseDTO(
         domain_status=ExerciseStatus.NEW_TASK,
         context=NullDTO(),
     )
@@ -57,8 +57,8 @@ def request_get_method(user: Person) -> WSGIRequest:
 
 
 @pytest.fixture
-def request_post_method(user: Person) -> WSGIRequest:
+def request_post_method_with_htmx(user: Person) -> WSGIRequest:
     """Provide request with POST method fixture."""
-    request = RequestFactory().post('')
+    request = RequestFactory().post('', headers={'HX-Request': 'true'})
     request.user = user
     return request

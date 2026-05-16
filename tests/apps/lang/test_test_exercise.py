@@ -1,4 +1,4 @@
-"""Translation presentation exercise WEB request tests."""
+"""Translation test exercise WEB request tests."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from unittest.mock import Mock
 import pytest
 from django.urls import reverse_lazy
 
-from apps.lang.views import TranslationPresentationView
+from apps.lang.views import RegularTranslationTestPerformView
 from ports.contract.enums import ExerciseAction
 from ports.interfaces.schemas.base import NullDTO
 from ports.interfaces.schemas.request.handler import (
@@ -24,39 +24,39 @@ if TYPE_CHECKING:
 
     from apps.users.models import Person
 
-    from ._types import PresentationHandlerT
+    from ._types import TestHandlerT
 
 
 @pytest.fixture
 def view(
     person_schema: Person,
     mock_handler: Mock,
-) -> TranslationPresentationView:
+) -> RegularTranslationTestPerformView:
     """Provide translation presentation view."""
-    view = TranslationPresentationView()
+    view = RegularTranslationTestPerformView()
     view.user = person_schema
     view._handler = mock_handler
     return view
 
 
 @pytest.mark.django_db
-class TestPresentationExerciseRequest:
-    """Presentation exercise web request tests.
+class TestTestExerciseRequest:
+    """Test exercise WEB request tests.
 
     Django integration request methods tests.
     """
 
-    url = reverse_lazy('lang:translation_english_study')
+    url = reverse_lazy('lang:translation_english_test')
 
     def test_get_method(
         self,
         auth_client: Client,
-        regular_translation_presentation: PresentationHandlerT,
+        regular_translation_test: TestHandlerT,
         mock_handler: Mock,
     ) -> None:
         """Test the GET request method."""
         # Act
-        with regular_translation_presentation.override(mock_handler):  # type: ignore
+        with regular_translation_test.override(mock_handler):  # type: ignore
             response = auth_client.get(self.url)
 
             # Assert
@@ -66,12 +66,12 @@ class TestPresentationExerciseRequest:
     def test_post_method(
         self,
         auth_client: Client,
-        regular_translation_presentation: PresentationHandlerT,
+        regular_translation_test: TestHandlerT,
         mock_handler: Mock,
     ) -> None:
         """Test the POST request method."""
         # Act
-        with regular_translation_presentation.override(mock_handler):  # type: ignore
+        with regular_translation_test.override(mock_handler):  # type: ignore
             response = auth_client.post(
                 self.url,
                 headers={'HX-Request': 'true'},
@@ -82,22 +82,22 @@ class TestPresentationExerciseRequest:
             assert response.status_code == HTTPStatus.OK
 
 
-class TestPresentationExerciseRequestParameters:
-    """Presentation exercise web request parameters for presentation.
+class TestTestExerciseRequestParameters:
+    """Test exercise WEB request parameters for test exercise.
 
-    Prepare request parameters for presentation handler.
+    Prepare request parameters for test exercise handler.
     """
 
     def test_start_handler_request_parameters(
         self,
         person_schema: Person,
         mock_handler: Mock,
-        view: TranslationPresentationView,
+        view: RegularTranslationTestPerformView,
         request_factory: RequestFactory,
     ) -> None:
         """Test the request parameters for start handler.
 
-        GET method for start exercise and initial template rendering.
+        GET method.
         """
         # Arranger
         expected_args = RequestArgs(
@@ -106,7 +106,7 @@ class TestPresentationExerciseRequestParameters:
             data=RequestData(data={'action': ExerciseAction.CREATE_TASK}),
         )
 
-        request = request_factory.get('')
+        request = request_factory.get('/')
         view.request = request
 
         # Act
@@ -126,19 +126,23 @@ class TestPresentationExerciseRequestParameters:
             {
                 'action': ExerciseAction.CREATE_TASK,
             },
+            {
+                'action': ExerciseAction.CHECK_ANSWER,
+                'option_value': '3',
+            },
         ),
+        ids=['create_task', 'check_answer_with_option'],
     )
     def test_process_handler_request_parameters(
         self,
         data: dict[str, Any],
         person_schema: Person,
         mock_handler: Mock,
-        view: TranslationPresentationView,
         request_factory: RequestFactory,
     ) -> None:
         """Test the request parameters for start handler.
 
-        POST method for exercise loop nad partial template rendering.
+        POST method.
         """
         # Arranger
         expected_args = RequestArgs(
@@ -147,8 +151,12 @@ class TestPresentationExerciseRequestParameters:
             data=RequestData(data=data),
         )
 
+        view = RegularTranslationTestPerformView()
+        view.user = person_schema
+        view._handler = mock_handler
+
         request = request_factory.post(
-            '',
+            '/',
             data=data,
             headers={'HX-Request': 'true'},
         )
@@ -156,6 +164,8 @@ class TestPresentationExerciseRequestParameters:
 
         # Act
         view.post(request)
+
+        print(f'{view.request.headers = }')
 
         # Assert
         mock_handler.execute.assert_called_once()
