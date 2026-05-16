@@ -19,10 +19,26 @@ class TypedCheckTest(TypedDict):
 
 
 type PresentationActionDataU = TypedCreateTask
+"""
+Parameters
+----------
+action : `ExerciseAction`
+    Exercise action enumeration.
+"""
+
 type TestActionDataU = Union[
     TypedCreateTask,
     TypedCheckTest,
 ]
+"""
+Parameters
+----------
+action : `ExerciseAction`
+    Exercise action enumeration.
+option_value : `str`
+    User answer test option value.
+"""
+
 type ExerciseActionU = Union[
     PresentationActionDataU,
     TestActionDataU,
