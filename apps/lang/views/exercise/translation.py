@@ -13,7 +13,10 @@ from ports.contract.types.handler import PresentationHandlerT, TestHandlerT
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponseBase
 
-__all__ = ('TranslationPresentationView',)
+__all__ = (
+    'TranslationPresentationView',
+    'TranslationTestView',
+)
 
 HANDLERS = MainContainer.lang.handlers  # type: ignore[unused-ignore]
 
@@ -38,7 +41,7 @@ class TranslationPresentationView(ExercisePerformView[PresentationHandlerT]):
         return super().dispatch(request, *args, **kwargs)
 
 
-class RegularTranslationTestPerformView(ExercisePerformView[TestHandlerT]):
+class TranslationTestView(ExercisePerformView[TestHandlerT]):
     """Regular translation test exercise performing view."""
 
     template_name = 'lang/exercise/test/index.html'

@@ -4,8 +4,8 @@ from django.urls import path
 from django.views.generic import TemplateView
 
 from apps.lang.views import (
-    RegularTranslationTestPerformView,
     TranslationPresentationView,
+    TranslationTestView,
 )
 
 urlpatterns = [
@@ -27,7 +27,7 @@ urlpatterns = [
     # Self-education
     path(
         'translation/english/test/',
-        RegularTranslationTestPerformView.as_view(),
+        TranslationTestView.as_view(),
         name='translation_english_test',
     ),
     # Mentorship

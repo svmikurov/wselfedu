@@ -19,15 +19,15 @@ __all__ = [
     'ClauseUpdateView',
     # Exercise
     'TranslationPresentationView',
-    'RegularTranslationTestPerformView',
+    'TranslationTestView',
 ]
 
 from .exercise.settings import (
     study_settings_view,
 )
 from .exercise.translation import (
-    RegularTranslationTestPerformView,
     TranslationPresentationView,
+    TranslationTestView,
 )
 from .rule import (
     ClauseCreateView,

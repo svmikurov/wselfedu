@@ -9,7 +9,7 @@ from unittest.mock import Mock
 import pytest
 
 from apps.lang.views.exercise.translation import (
-    RegularTranslationTestPerformView,
+    TranslationTestView,
 )
 
 if TYPE_CHECKING:
@@ -29,7 +29,7 @@ def test_create_task_case(
     with handlers.regular_translation_test.override(  # type: ignore[unused-ignore]
         mock_create_exercise_action_handler,
     ):
-        response = RegularTranslationTestPerformView.as_view()(
+        response = TranslationTestView.as_view()(
             request_get_method,
         )
 

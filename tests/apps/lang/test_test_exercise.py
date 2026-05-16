@@ -9,7 +9,7 @@ from unittest.mock import Mock
 import pytest
 from django.urls import reverse_lazy
 
-from apps.lang.views import RegularTranslationTestPerformView
+from apps.lang.views import TranslationTestView
 from ports.contract.enums import ExerciseAction
 from ports.interfaces.request.web.exercise import (
     CheckTestRequestData,
@@ -35,9 +35,9 @@ if TYPE_CHECKING:
 def view(
     person_schema: Person,
     mock_handler: Mock,
-) -> RegularTranslationTestPerformView:
+) -> TranslationTestView:
     """Provide translation presentation view."""
-    view = RegularTranslationTestPerformView()
+    view = TranslationTestView()
     view.user = person_schema
     view._handler = mock_handler
     return view
@@ -96,7 +96,7 @@ class TestTestExerciseRequestParameters:
         self,
         person_schema: Person,
         mock_handler: Mock,
-        view: RegularTranslationTestPerformView,
+        view: TranslationTestView,
         request_factory: RequestFactory,
     ) -> None:
         """Test the request parameters for start handler.
@@ -157,7 +157,7 @@ class TestTestExerciseRequestParameters:
             data=RequestData(data=data),
         )
 
-        view = RegularTranslationTestPerformView()
+        view = TranslationTestView()
         view.user = person_schema
         view._handler = mock_handler
 
