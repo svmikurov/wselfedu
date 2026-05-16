@@ -8,7 +8,7 @@ from typing import (
     TypedDict,
 )
 
-from ports.interfaces.typed.api.general import CodeName, IdName
+from ports.interfaces.request.api.general import CodeName, IdName
 
 type Language = Literal['native', 'foreign']
 type TranslateOrder = Literal['define', 'explain', 'random']

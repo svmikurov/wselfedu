@@ -4,11 +4,11 @@ from dataclasses import dataclass
 from typing import Any, Generic, TypeVar
 
 from kernel.handler.generic import RequestHandler
+from ports.interfaces.request.web.exercise import ExerciseActionU
 from ports.interfaces.schemas.request.handler import (
     RequestContext,
     RequestData,
 )
-from ports.interfaces.typed.web.exercise import ExerciseActionU
 
 ParamsT = TypeVar('ParamsT')
 

@@ -13,12 +13,12 @@ from ports.interfaces.protocols.request.general import RequestContextProtocol
 from ports.interfaces.protocols.web import (
     RequestDataProtocol,
 )
-from ports.interfaces.schemas.command import UserDataCommand
-from ports.interfaces.schemas.response.web.generic import HtmlResponseDTO
-from ports.interfaces.typed.web.exercise import (
+from ports.interfaces.request.web.exercise import (
     PresentationActionDataU,
     TestActionDataU,
 )
+from ports.interfaces.schemas.command import UserDataCommand
+from ports.interfaces.schemas.response.web.generic import HtmlResponseDTO
 
 # FIXME: Fix Any type hint
 

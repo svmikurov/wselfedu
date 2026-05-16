@@ -2,7 +2,7 @@
 
 from rest_framework import serializers
 
-from ports.interfaces.typed.api.general import CodeName, IdName
+from ports.interfaces.request.api.general import CodeName, IdName
 
 
 class IdNameSerializer(serializers.Serializer[IdName]):
