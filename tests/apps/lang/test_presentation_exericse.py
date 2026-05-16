@@ -146,7 +146,7 @@ class TestPresentationExerciseRequestParameters:
     ) -> None:
         """Test the request parameters for start handler.
 
-        POST method for exercise loop nad partial template rendering.
+        POST method for exercise loop and partial template rendering.
         """
         # Arranger
         expected_args = RequestArgs(

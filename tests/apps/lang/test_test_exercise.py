@@ -162,7 +162,7 @@ class TestTestExerciseRequestParameters:
         view._handler = mock_handler
 
         request = request_factory.post(
-            '/',
+            '',
             data=data,
             headers={'HX-Request': 'true'},
         )
