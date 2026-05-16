@@ -5,8 +5,8 @@ from typing import Generic, Literal, TypedDict, TypeVar
 T = TypeVar('T')
 
 
-class TypedExerciseAction(TypedDict, Generic[T]):
-    """Typed exercise action string representation."""
+class TypedAction(TypedDict, Generic[T]):
+    """Typed action representation."""
 
     action: T
 
@@ -18,6 +18,6 @@ class TypedOptionValue(TypedDict):
 
 
 class TypedIsKnown(TypedDict):
-    """Typed *is_known* boolean value string representation."""
+    """Typed *is_known* boolean literal representation."""
 
     is_known: Literal['true', 'false']

@@ -4,14 +4,14 @@ from typing import Literal, Union
 
 from ports.contract.enums import ExerciseAction
 from ports.contract.typed.exercise import (
-    TypedExerciseAction,
+    TypedAction,
     TypedIsKnown,
     TypedOptionValue,
 )
 
 
 class CreateTaskRequestData(
-    TypedExerciseAction[Literal[ExerciseAction.CREATE_TASK]]
+    TypedAction[Literal[ExerciseAction.CREATE_TASK]]
 ):
     """Typed create task request data.
 
@@ -24,7 +24,7 @@ class CreateTaskRequestData(
 
 
 class CheckTestRequestData(
-    TypedExerciseAction[Literal[ExerciseAction.CHECK_ANSWER]],
+    TypedAction[Literal[ExerciseAction.CHECK_ANSWER]],
     TypedOptionValue,
 ):
     """Typed user test answer request data.
@@ -40,7 +40,7 @@ class CheckTestRequestData(
 
 
 class UpdateProgressRequestData(
-    TypedExerciseAction[Literal[ExerciseAction.UPDATE_PROGRESS]],
+    TypedAction[Literal[ExerciseAction.UPDATE_PROGRESS]],
     TypedIsKnown,
 ):
     """Typed item study progress update data.
