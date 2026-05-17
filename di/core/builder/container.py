@@ -35,5 +35,6 @@ class UseCaseResultBuilderContainer(DeclarativeContainer):
             ExerciseStatus.NEW_TASK: _task,
             ExerciseStatus.UPDATED_PROGRESS: _null,
             ExerciseStatus.CORRECT: _null,
+            ExerciseStatus.WRONG: _null,
         },
     )
