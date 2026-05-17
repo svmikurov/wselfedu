@@ -9,13 +9,13 @@ from ports.abstract.domain.exercise import (
 )
 from ports.contract import enums
 from ports.contract.entity.domain.exercise import (
-    HasCheckResult,
     HasDisplayOrder,
     HasOptionCount,
 )
 from ports.contract.infra.domain.selector import SelectorProtocol
 from ports.interfaces.protocols.domain.exercise import (
     CandidatesT,
+    CheckTestAnswerDomainResultProtocol,
     TaskItemsT,
     TestAnswerProtocol,
     TestDomainResultProtocol,
@@ -94,7 +94,7 @@ class TestExerciseCheckDomain(
     AbstractCheckExerciseDomain[
         TestAnswerProtocol,
         TestDomainResultProtocol,
-        HasCheckResult,
+        CheckTestAnswerDomainResultProtocol,
     ],
 ):
     """Test exercise check user's answer domain business logic."""
@@ -103,10 +103,14 @@ class TestExerciseCheckDomain(
         self,
         answer: TestAnswerProtocol,
         case: TestDomainResultProtocol,
-    ) -> HasCheckResult:
+    ) -> CheckTestAnswerDomainResultProtocol:
         """Check user's answer."""
-        # HACK: Fix persistent domain result.
+        if answer.option_value == case.question_option_value:
+            return CheckTaskResult(
+                status=enums.ExerciseStatus.CORRECT,
+                is_correct=True,
+            )
         return CheckTaskResult(
-            status=enums.ExerciseStatus.CORRECT,
-            is_correct=True,
+            status=enums.ExerciseStatus.WRONG,
+            is_correct=False,
         )
