@@ -2,7 +2,12 @@
 
 from unittest.mock import Mock
 
-from tests.legacy.types.handler import (
+import pytest
+
+from kernel.handler.generic import RequestHandler
+from tests.types.handler import (
+    AdapterT,
+    AssemblerT,
     CommandDataT,
     HandlerT,
     RequestContextT,
@@ -10,8 +15,71 @@ from tests.legacy.types.handler import (
     RequestParamsT,
     ResponseDataT,
     UseCaseResultT,
+    UseCaseT,
     ValidatedT,
+    ValidatorT,
 )
+
+
+@pytest.fixture
+def mock_validator(
+    mock_validated: Mock,
+) -> ValidatorT:
+    """Provide validator mock."""
+    mock = Mock(spec=ValidatorT)
+    mock.validate.return_value = mock_validated
+    return mock
+
+
+@pytest.fixture
+def mock_assembler(
+    mock_command: Mock,
+) -> AssemblerT:
+    """Provide assembler mock."""
+    mock = Mock(spec=AssemblerT)
+    mock.prepare.return_value = mock_command
+    return mock
+
+
+@pytest.fixture
+def mock_use_case(
+    mock_use_case_result: Mock,
+) -> UseCaseT:
+    """Provide use case mock."""
+    mock = Mock(spec=UseCaseT)
+    mock.execute.return_value = mock_use_case_result
+    return mock
+
+
+@pytest.fixture
+def mock_adapter(
+    mock_response_data: Mock,
+) -> AdapterT:
+    """Provide adapter mock."""
+    mock = Mock(spec=AdapterT)
+    mock.to_response.return_value = mock_response_data
+    return mock
+
+
+# =================================================
+# Handler
+# =================================================
+
+
+@pytest.fixture
+def handler(
+    mock_validator: ValidatorT,
+    mock_assembler: AssemblerT,
+    mock_use_case: UseCaseT,
+    mock_adapter: AdapterT,
+) -> HandlerT:
+    """Provide request handler fixture with mocked dependencies."""
+    return RequestHandler(
+        validator=mock_validator,
+        assembler=mock_assembler,
+        use_case=mock_use_case,
+        adapter=mock_adapter,
+    )
 
 
 def test_dependencies_called(

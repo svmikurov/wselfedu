@@ -14,19 +14,15 @@ from ports.interfaces.protocols.command.exercise import (
 )
 from ports.interfaces.schemas.command import UserDataCommand
 from ports.interfaces.schemas.domain.exercise.params import ExerciseSpecDTO
-from ports.interfaces.schemas.request.handler import (
-    RequestContext,
-)
 from ports.interfaces.schemas.validator.task import (
     ValidatedCheckTestAnswer,
     ValidatedCreateTask,
 )
 from tests.fixtures.exercise.lang.no_db.translations import TRANSLATION_INDEX
-from tests.legacy.types.handler import (
+from tests.types.handler import (
     AdapterT,
     AssemblerT,
     HandlerT,
-    RequestContextT,
     UseCaseT,
     ValidatorT,
 )
@@ -64,43 +60,8 @@ def regular_test_handler(main_container: MainContainer) -> HandlerT:
 # =================================================
 
 
-# Request context
-# ---------------
-
-
-@pytest.fixture
-def request_context(
-    user: Person,
-) -> RequestContextT:
-    """Provide request parameters DTO fixture."""
-    return RequestContext(user=user)
-
-
 # Mocks
 # -----
-
-
-@pytest.fixture
-def mock_request_params() -> Mock:
-    """Provide request parameters DTO mock."""
-    return Mock()
-
-
-@pytest.fixture
-def mock_request_context(
-    mock_user: Person,
-) -> Mock:
-    """Provide request context DTO mock."""
-    mock = Mock()
-    mock.user.return_value = mock_user
-    return mock
-
-
-@pytest.fixture
-def mock_request_data() -> Mock:
-    """Provide request data DTO mock."""
-    return Mock()
-
 
 # =================================================
 # Validated data
@@ -175,40 +136,6 @@ def create_task_spec(
     return ExerciseSpecDTO(
         case=mock_existing_case,
     )
-
-
-# =================================================
-# Inner DTOs
-# =================================================
-
-
-@pytest.fixture
-def mock_validated() -> Mock:
-    """Provide validated request data DTO mock."""
-    return Mock()
-
-
-@pytest.fixture
-def mock_command() -> Mock:
-    """Provide command data DTO mock."""
-    return Mock()
-
-
-@pytest.fixture
-def mock_use_case_result() -> Mock:
-    """Provide use case result DTO mock."""
-    return Mock()
-
-
-# =================================================
-# Outer DTO
-# =================================================
-
-
-@pytest.fixture
-def mock_response_data() -> Mock:
-    """Provide request handler response DTO mock."""
-    return Mock()
 
 
 # =================================================

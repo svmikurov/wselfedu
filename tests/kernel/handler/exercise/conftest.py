@@ -21,7 +21,15 @@ def presentation_handler(
     main_container: MainContainer,
 ) -> PresentationHandlerT:
     """Provide presentation exercise request DI handler."""
-    return main_container.lang.handlers.regular_translation_presentation  # type: ignore
+    return main_container.lang.handlers.regular_translation_presentation()  # type: ignore
+
+
+@pytest.fixture
+def test_handler(
+    main_container: MainContainer,
+) -> PresentationHandlerT:
+    """Provide test exercise request DI handler."""
+    return main_container.lang.handlers.regular_translation_test()  # type: ignore
 
 
 @pytest.fixture

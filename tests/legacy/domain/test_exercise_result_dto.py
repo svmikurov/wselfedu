@@ -20,7 +20,7 @@ from ports.interfaces.schemas.domain.exercise.exercise import (
 from ports.interfaces.schemas.domain.exercise.params import (
     ExerciseParametersDTO,
 )
-from tests.legacy.types import DomainT, OptionsDomainT
+from tests.types import DomainT, OptionsDomainT
 
 _DomainT = DomainT
 _OptionsDomainT = OptionsDomainT

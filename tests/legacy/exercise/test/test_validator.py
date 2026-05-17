@@ -15,11 +15,12 @@ from ports.interfaces.schemas.validator.task import (
 
 if TYPE_CHECKING:
     from ports.contract.infra.validator import RequestValidatorProtocol
-
-    from ...._types import (
+    from ports.interfaces.protocols.handler.exercise import (
         CheckRequestDataT,
-        CheckValidatorT,
         CreateRequestDataT,
+    )
+    from tests._types import (
+        CheckValidatorT,
         CreateValidatorT,
         RegistryT,
         ValidatedCheckT,

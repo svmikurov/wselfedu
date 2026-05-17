@@ -25,7 +25,7 @@ from ports.interfaces.schemas.domain.exercise.exercise import (
     TestTaskDomainResult,
 )
 from ports.interfaces.schemas.domain.exercise.flow import ExerciseCase
-from tests.legacy.types import DomainT, RepositoryT
+from tests.types import DomainT, RepositoryT
 
 _DomainT = DomainT
 _RepositoryT = RepositoryT
