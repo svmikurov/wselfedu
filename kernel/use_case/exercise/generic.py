@@ -3,7 +3,6 @@
 from typing import Generic, TypeVar, override
 
 from apps.core.exceptions.storage import StorageMissError
-from apps.users.models.user import Person
 from ports.abstract.use_case import AbstractUseCase
 from ports.contract.entity.domain.exercise import (
     HasExerciseAction,
@@ -24,6 +23,8 @@ from ports.interfaces.protocols.domain.exercise import (
     ExerciseParametersProtocol,
 )
 from ports.interfaces.protocols.service.exercise import ExerciseCaseProtocol
+from ports.interfaces.schemas.command import UserDataCommand
+from ports.interfaces.schemas.validator.task import ValidatedCreateTask
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
@@ -85,27 +86,32 @@ class ExerciseUseCaseStrategy(
     @override
     def execute(self, command: CommandT) -> ResultT:
         """Process exercise."""
-        # Handled use cases: "create", "check",
-        # "update progress", and other actions.
-        # Each action is bound to a stored exercise case that has
-        # a hash key derived from the username and storage prefix.
-        action = self._get_initial_action(command)
-
         # Exercise has "create", "perform", and "display" parameters.
         params = self._resolve_params(command)
+        # Case may not exist (exercise not started yet).
+        stored = self._get_stored(command)
+        current_command = command
 
-        # Action type specification is built using command and exercise
-        # parameters.
-        spec = self._build_spec(command, params, action)
+        while True:
+            spec = self._build_spec(current_command, params, stored)
+            case = self._execute_service(current_command, spec)
 
-        case = self._execute_service(command.user, spec, action)
+            if case.status == ExerciseStatus.NEW_TASK:
+                self._storage.save(current_command, case.domain, self._prefix)
 
-        if case.status == ExerciseStatus.NEW_TASK:
-            self._storage.save(command, case.domain, self._prefix)
+            next_action = self._get_next_action(case)
+            if next_action:
+                current_command = self._prepare_next_command(
+                    current_command, next_action
+                )
+            else:
+                return self._build_result(case, spec)
 
-        return self._build_result(case, spec)
+    # =============================================
+    # Utility methods
+    # =============================================
 
-    def _get_initial_action(self, command: CommandT) -> ExerciseAction:
+    def _get_action(self, command: CommandT) -> ExerciseAction:
         return command.data.action
 
     def _resolve_params(self, command: CommandT) -> ParamsT:
@@ -114,40 +120,33 @@ class ExerciseUseCaseStrategy(
         self.auditor.record('config_resolver.ok', parameters=params)
         return params
 
+    def _get_stored(self, command: CommandT) -> DomainT | None:
+        # StorageMissError is expected flow, not an exceptional error.
+        try:
+            return self._storage.retrieve(command, self._prefix)
+        except StorageMissError:
+            return None
+
     def _build_spec(
         self,
         command: CommandT,
         params: ParamsT,
-        action: ExerciseAction,
+        stored: DomainT | None,
     ) -> SpecT:
-        spec_factory = self._spec_factory_registry[action]
+        spec_factory = self._spec_factory_registry[self._get_action(command)]
         self.auditor.record('spec_factory.select', obj=spec_factory)
-
-        # Case may not exist (not started yet).
-        # StorageMissError is expected flow, not an exceptional error.
-        try:
-            stored = self._storage.retrieve(command, self._prefix)
-        except StorageMissError:
-            self.auditor.record('spec_factory.call', params=params)
-            spec = spec_factory.create(command, params, None)
-        else:
-            self.auditor.record(
-                'spec_factory.call', params=params, stored=stored
-            )
-            spec = spec_factory.create(command, params, stored)
-
+        spec = spec_factory.create(command, params, stored)
         self.auditor.record('service_spec.created', spec=spec)
         return spec
 
     def _execute_service(
         self,
-        user: Person,
+        command: CommandT,
         spec: SpecT,
-        action: ExerciseAction,
     ) -> ExerciseCaseProtocol[DomainT, ResultT]:
-        service = self._service_registry[action]
+        service = self._service_registry[self._get_action(command)]
         self.auditor.record('selected_service.call', obj=service, spec=spec)
-        case = service.execute(user, spec)
+        case = service.execute(command.user, spec)
         self.auditor.record('selected_service.ok', case=case)
         return case
 
@@ -160,3 +159,32 @@ class ExerciseUseCaseStrategy(
         result = builder.build(case, spec)
         self.auditor.record('exercise_build.ok', obj=builder)
         return result
+
+    # =============================================
+    # Workflow loop methods
+    # =============================================
+
+    # TODO: Add milestone action
+    def _get_next_action(
+        self,
+        case: ExerciseCaseProtocol[DomainT, ResultT],
+    ) -> ExerciseAction | None:
+        match case.status:
+            case ExerciseStatus.CORRECT:
+                return ExerciseAction.CREATE_TASK
+            case ExerciseStatus.WRONG:
+                return ExerciseAction.CREATE_TASK
+            case _:
+                return None
+
+    def _prepare_next_command(
+        self,
+        command: CommandT,
+        next_action: ExerciseAction,
+    ) -> CommandT:
+        return UserDataCommand(
+            user=command.user,
+            data=ValidatedCreateTask(
+                action=next_action,
+            ),
+        )
