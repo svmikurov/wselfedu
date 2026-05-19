@@ -7,6 +7,8 @@ from dependency_injector.providers import (
     Dependency,
 )
 
+# REFACTOR: Relocate validator container definition
+# to core container
 from di.core.validator.container import ValidatorContainer
 
 from .config.container import LanguageConfigurationContainer
