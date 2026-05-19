@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Final, Self
 from django.db import models
 
 from apps.core.models import AbstractBaseModel
-from ports.interfaces.request.api.general import IdName
+from ports.interfaces.request_data.api.general import IdName
 
 if TYPE_CHECKING:
     from apps.users.models import Person

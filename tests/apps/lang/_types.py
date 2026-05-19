@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from typing import Generic, TypeVar
 
-from ports.interfaces.request.web.exercise import ExerciseDataU
+from ports.interfaces.request_data.web.exercise import ExerciseDataU
 from ports.interfaces.schemas.request.handler import (
     RequestContext,
     RequestData,

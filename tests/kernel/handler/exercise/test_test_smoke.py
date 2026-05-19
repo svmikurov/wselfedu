@@ -8,7 +8,7 @@ from unittest.mock import Mock
 import pytest
 
 from ports.contract.enums import ExerciseAction, ExerciseStatus
-from ports.interfaces.request.web.exercise import CheckTestData
+from ports.interfaces.request_data.web.exercise import CheckTestData
 from ports.interfaces.schemas.base import NullDTO
 from ports.interfaces.schemas.domain.exercise.exercise import (
     TestTaskDomainResult,

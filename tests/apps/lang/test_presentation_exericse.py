@@ -11,7 +11,7 @@ from django.urls import reverse_lazy
 
 from apps.lang.views import TranslationPresentationView
 from ports.contract.enums import ExerciseAction
-from ports.interfaces.request.web.exercise import (
+from ports.interfaces.request_data.web.exercise import (
     CreateTaskData,
     UpdateProgressData,
 )
@@ -28,7 +28,7 @@ if TYPE_CHECKING:
 
     from apps.users.models import Person
     from ports.contract.types.handler import PresentationHandlerT
-    from ports.interfaces.request.web.exercise import PresentationDataU
+    from ports.interfaces.request_data.web.exercise import PresentationDataU
 
 
 @pytest.fixture

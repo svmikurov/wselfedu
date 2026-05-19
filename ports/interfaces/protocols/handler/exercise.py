@@ -1,7 +1,7 @@
 """Protocols for exercise reqeust handler DTO inteface."""
 
 from ports.interfaces.protocols.web import RequestDataProtocol
-from ports.interfaces.request.web.exercise import (
+from ports.interfaces.request_data.web.exercise import (
     CheckTestData,
     CreateTaskData,
     UpdateProgressData,

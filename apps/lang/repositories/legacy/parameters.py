@@ -9,7 +9,7 @@ from django.db.models import QuerySet
 
 from apps.core import models as models_core
 from apps.lang import models
-from ports.interfaces.request.api.general import IdName
+from ports.interfaces.request_data.api.general import IdName
 from ports.refactor.lang import types
 
 if TYPE_CHECKING:

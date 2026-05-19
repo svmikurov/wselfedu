@@ -11,7 +11,7 @@ from django.urls import reverse_lazy
 
 from apps.lang.views import TranslationTestView
 from ports.contract.enums import ExerciseAction
-from ports.interfaces.request.web.exercise import (
+from ports.interfaces.request_data.web.exercise import (
     CheckTestData,
     CreateTaskData,
 )
@@ -28,7 +28,7 @@ if TYPE_CHECKING:
 
     from apps.users.models import Person
     from ports.contract.types.handler import TestHandlerT
-    from ports.interfaces.request.web.exercise import TestDataU
+    from ports.interfaces.request_data.web.exercise import TestDataU
 
 
 @pytest.fixture

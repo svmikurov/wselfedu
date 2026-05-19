@@ -13,7 +13,7 @@ from ports.interfaces.protocols.request.general import RequestContextProtocol
 from ports.interfaces.protocols.web import (
     RequestDataProtocol,
 )
-from ports.interfaces.request.web.exercise import (
+from ports.interfaces.request_data.web.exercise import (
     PresentationDataU,
     TestDataU,
 )
