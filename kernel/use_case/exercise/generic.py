@@ -90,26 +90,27 @@ class ExerciseUseCaseStrategy(
         params = self._resolve_params(command)
         # Case may not exist (exercise not started yet).
         stored = self._get_stored(command)
-        current_command = command
+        current_cmd = command
 
         while True:
-            spec = self._build_spec(current_command, params, stored)
-            case = self._execute_service(current_command, spec)
+            spec = self._build_spec(current_cmd, params, stored)
+            case = self._execute_service(current_cmd, spec)
+            next_action = self._get_next_action(case)
 
             if case.status == ExerciseStatus.NEW_TASK:
-                self._storage.save(current_command, case.domain, self._prefix)
+                self._save_domain_result(current_cmd, case.domain)
 
-            next_action = self._get_next_action(case)
             if next_action:
-                current_command = self._prepare_next_command(
-                    current_command, next_action
-                )
+                current_cmd = self._get_next_command(current_cmd, next_action)
             else:
                 return self._build_result(case, spec)
 
     # =============================================
     # Utility methods
     # =============================================
+
+    def _save_domain_result(self, command: CommandT, domain: DomainT) -> None:
+        self._storage.save(command, domain, self._prefix)
 
     def _get_action(self, command: CommandT) -> ExerciseAction:
         return command.data.action
@@ -177,7 +178,7 @@ class ExerciseUseCaseStrategy(
             case _:
                 return None
 
-    def _prepare_next_command(
+    def _get_next_command(
         self,
         command: CommandT,
         next_action: ExerciseAction,
