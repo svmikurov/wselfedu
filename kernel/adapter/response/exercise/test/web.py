@@ -2,7 +2,7 @@
 
 from typing import override
 
-from ports.contract.entity.general import NullProtocol
+from ports.contract.entity.general import HasIsHtmx
 from ports.interfaces.protocols.use_case.exercise import (
     TestUseCaseResultProtocol,
 )
@@ -39,4 +39,5 @@ class WebTestExerciseAdapter(
         return TestExerciseTaskResponse(
             domain_status=use_case_result.status,
             context=context,
+            html=(self._get_html(context) if request_context.is_htmx else ''),
         )
