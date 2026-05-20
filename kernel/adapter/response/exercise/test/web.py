@@ -17,7 +17,8 @@ from ..base import BaseWebAdapter
 class WebTestExerciseAdapter(
     BaseWebAdapter[
         TestUseCaseResultProtocol,
-        NullProtocol,
+        TestTaskContext,
+        HasIsHtmx,
         TestExerciseTaskResponse,
     ],
 ):
@@ -28,7 +29,7 @@ class WebTestExerciseAdapter(
     def to_response(
         self,
         use_case_result: TestUseCaseResultProtocol,
-        request_context: NullProtocol,
+        request_context: HasIsHtmx,
     ) -> TestExerciseTaskResponse:
         """Convert domain result to web representation context."""
         context = TestTaskContext(

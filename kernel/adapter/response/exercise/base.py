@@ -1,16 +1,17 @@
 """Base WEB adapter."""
 
 from abc import ABC, abstractmethod
-from typing import Generic, TypeAlias, TypeVar, override
+from typing import Any, Generic, TypeAlias, TypeVar, override
 
 from django.template.loader import render_to_string
 
 from ports.abstract.adapter import AbstractResponseAdapter
-from ports.interfaces.schemas.web.task import PresentationTaskContext
+from ports.contract.entity.domain.general import DumpModelProtocol
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
 UseCaseResultT = TypeVar('UseCaseResultT')
+ContextT = TypeVar('ContextT', bound=DumpModelProtocol[Any])
 ExtraContextT = TypeVar('ExtraContextT')
 ResponseDataT = TypeVar('ResponseDataT')
 
@@ -23,7 +24,7 @@ class BaseWebAdapter(
     BaseAuditable,
     AbstractResponseAdapter[UseCaseResultT, ExtraContextT, ResponseDataT],
     ABC,
-    Generic[UseCaseResultT, ExtraContextT, ResponseDataT],
+    Generic[UseCaseResultT, ContextT, ExtraContextT, ResponseDataT],
 ):
     """Base WEB adapter for perform exercise task.
 
@@ -40,7 +41,7 @@ class BaseWebAdapter(
         super().__init__(name=name, auditor=auditor)
         self._templates = templates
 
-    def _get_html(self, context: PresentationTaskContext) -> HtmlT:
+    def _get_html(self, context: ContextT) -> HtmlT:
         """Build partial HTMLs."""
         html: list[str] = []
         for template in self.templates:

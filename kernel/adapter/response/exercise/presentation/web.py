@@ -18,6 +18,7 @@ from ..base import BaseWebAdapter
 class CreatePresentationWebAdapter(
     BaseWebAdapter[
         PresentationUseCaseResultProtocol,
+        PresentationTaskContext,
         HasIsHtmx,
         PresentationTaskResponse,
     ],
