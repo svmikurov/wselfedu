@@ -14,7 +14,7 @@ from ports.interfaces.protocols.command.assembler import (
 )
 from ports.interfaces.protocols.domain.exercise import PresentationTaskProtocol
 from ports.interfaces.schemas.command import UserDataCommand
-from ports.interfaces.schemas.request.exercise import ExerciseRequestDTO
+from ports.interfaces.schemas.handler import CreateTaskSchema
 
 if TYPE_CHECKING:
     from apps.users.models import Person
@@ -23,20 +23,20 @@ if TYPE_CHECKING:
 
 
 _UseCaseT = UseCaseProtocol[
-    UserDataCommandProtocol[ExerciseRequestDTO],
+    UserDataCommandProtocol[CreateTaskSchema],
     PresentationTaskProtocol,
 ]
-_CommandT = UserDataCommand[ExerciseRequestDTO]
+_CommandT = UserDataCommand[CreateTaskSchema]
 
 
 @pytest.fixture
 def create_command(
     user: Person,
-) -> UserDataCommand[ExerciseRequestDTO]:
+) -> UserDataCommand[CreateTaskSchema]:
     """Provide request create exercise case command DTO fixture."""
     return UserDataCommand(
         user=user,
-        data=ExerciseRequestDTO(
+        data=CreateTaskSchema(
             action=ExerciseAction.CREATE_TASK,
         ),
     )

@@ -14,7 +14,7 @@ from ports.contract.enums.exercise import (
 from ports.contract.infra.service import UserSpecServiceProtocol
 from ports.interfaces.schemas.command import UserDataCommand
 from ports.interfaces.schemas.domain.exercise.params import ExerciseSpecDTO
-from ports.interfaces.schemas.request.exercise import ExerciseRequestDTO
+from ports.interfaces.schemas.handler import CreateTaskSchema
 
 from ._types import (
     BuilderT,
@@ -37,11 +37,11 @@ STORE_PREFIX = 'test_prefix'
 @pytest.fixture
 def create_command(
     mock_user: Person,
-) -> UserDataCommand[ExerciseRequestDTO]:
+) -> UserDataCommand[CreateTaskSchema]:
     """Provide create exercise command fixture."""
     return UserDataCommand(
         user=mock_user,
-        data=ExerciseRequestDTO(
+        data=CreateTaskSchema(
             action=ExerciseAction.CREATE_TASK,
         ),
     )

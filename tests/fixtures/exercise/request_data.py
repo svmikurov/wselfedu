@@ -9,7 +9,7 @@ from ports.interfaces.protocols.command.assembler import (
     UserDataCommandProtocol,
 )
 from ports.interfaces.schemas.command import UserDataCommand
-from ports.interfaces.schemas.request.exercise import ExerciseRequestDTO
+from ports.interfaces.schemas.handler import CreateTaskSchema
 
 CommandT = UserDataCommandProtocol[HasExerciseAction]
 
@@ -17,7 +17,7 @@ CommandT = UserDataCommandProtocol[HasExerciseAction]
 @pytest.fixture
 def validated() -> HasExerciseAction:
     """Provide new case validated dto."""
-    return ExerciseRequestDTO(
+    return CreateTaskSchema(
         action=ExerciseAction.CREATE_TASK,
     )
 
