@@ -1,6 +1,6 @@
 """Test exercise response adapters."""
 
-from typing import Any, Iterable, TypeVar, override
+from typing import override
 
 from ports.contract.entity.general import NullProtocol
 from ports.interfaces.protocols.use_case.exercise import (
@@ -12,8 +12,6 @@ from ports.interfaces.schemas.web.task import (
 )
 
 from ..base import BaseWebAdapter
-
-ExtraContextT = TypeVar('ExtraContextT', bound=Iterable[Any])
 
 
 class WebTestExerciseAdapter(
