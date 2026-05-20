@@ -7,10 +7,10 @@ from kernel.validator.request.exercise.create_task import (
     ExerciseRequestValidator,
 )
 from ports.contract.enums.exercise import ExerciseAction
-from ports.interfaces.schemas.validator import (
-    ValidatedCheckTestAnswer,
-    ValidatedCreateTask,
-    ValidatedExerciseProgress,
+from ports.interfaces.schemas.handler import (
+    CheckTestAnswerSchema,
+    CreateTaskSchema,
+    ProgressUpdateSchema,
 )
 
 
@@ -19,9 +19,9 @@ class ValidatorContainer(DeclarativeContainer):
 
     exercise_validate_schema_registry = Dict(
         {
-            ExerciseAction.CREATE_TASK: ValidatedCreateTask,
-            ExerciseAction.CHECK_ANSWER: ValidatedCheckTestAnswer,
-            ExerciseAction.UPDATE_PROGRESS: ValidatedExerciseProgress,
+            ExerciseAction.CREATE_TASK: CreateTaskSchema,
+            ExerciseAction.CHECK_ANSWER: CheckTestAnswerSchema,
+            ExerciseAction.UPDATE_PROGRESS: ProgressUpdateSchema,
         }
     )
 

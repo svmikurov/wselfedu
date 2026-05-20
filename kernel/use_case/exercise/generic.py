@@ -24,7 +24,7 @@ from ports.interfaces.protocols.domain.exercise import (
 )
 from ports.interfaces.protocols.service.exercise import ExerciseCaseProtocol
 from ports.interfaces.schemas.command import UserDataCommand
-from ports.interfaces.schemas.validator.task import ValidatedCreateTask
+from ports.interfaces.schemas.handler.task import CreateTaskSchema
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
@@ -184,7 +184,7 @@ class ExerciseUseCaseStrategy(
     ) -> CommandT:
         return UserDataCommand(
             user=command.user,
-            data=ValidatedCreateTask(
+            data=CreateTaskSchema(
                 action=next_action,
             ),
         )

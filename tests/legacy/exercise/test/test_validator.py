@@ -8,9 +8,9 @@ import pytest
 
 from kernel.validator.request.exercise import ExerciseRequestValidator
 from ports.contract.enums import ExerciseAction
-from ports.interfaces.schemas.validator.task import (
-    ValidatedCheckTestAnswer,
-    ValidatedCreateTask,
+from ports.interfaces.schemas.handler.task import (
+    CheckTestAnswerSchema,
+    CreateTaskSchema,
 )
 
 if TYPE_CHECKING:
@@ -36,8 +36,8 @@ if TYPE_CHECKING:
 def schema_registry() -> RegistryT:
     """Provide exercise action request validator schema registry."""
     return {
-        ExerciseAction.CREATE_TASK: ValidatedCreateTask,
-        ExerciseAction.CHECK_ANSWER: ValidatedCheckTestAnswer,
+        ExerciseAction.CREATE_TASK: CreateTaskSchema,
+        ExerciseAction.CHECK_ANSWER: CheckTestAnswerSchema,
     }
 
 

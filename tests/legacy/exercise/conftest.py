@@ -14,9 +14,9 @@ from ports.interfaces.protocols.command.exercise import (
 )
 from ports.interfaces.schemas.command import UserDataCommand
 from ports.interfaces.schemas.domain.exercise.params import ExerciseSpecDTO
-from ports.interfaces.schemas.validator.task import (
-    ValidatedCheckTestAnswer,
-    ValidatedCreateTask,
+from ports.interfaces.schemas.handler.task import (
+    CheckTestAnswerSchema,
+    CreateTaskSchema,
 )
 from tests.fixtures.exercise.lang.no_db.translations import TRANSLATION_INDEX
 from tests.types.handler import (
@@ -71,7 +71,7 @@ def regular_test_handler(main_container: MainContainer) -> HandlerT:
 @pytest.fixture
 def validated_create() -> ValidatedCreateT:
     """Provide the *create task* DTO validated request data."""
-    return ValidatedCreateTask(
+    return CreateTaskSchema(
         action=ExerciseAction.CREATE_TASK,
     )
 
@@ -79,7 +79,7 @@ def validated_create() -> ValidatedCreateT:
 @pytest.fixture
 def validated_check() -> ValidatedCheckT:
     """Provide the *check test answer* DTO validated request data."""
-    return ValidatedCheckTestAnswer(
+    return CheckTestAnswerSchema(
         action=ExerciseAction.CHECK_ANSWER,
         option_value=TRANSLATION_INDEX,
     )
@@ -97,7 +97,7 @@ def create_task_command(
     """Provide create exercise command fixture."""
     return UserDataCommand(
         user=user,
-        data=ValidatedCreateTask(
+        data=CreateTaskSchema(
             action=ExerciseAction.CREATE_TASK,
         ),
     )
@@ -110,7 +110,7 @@ def check_test_command(
     """Provide create exercise command fixture."""
     return UserDataCommand(
         user=user,
-        data=ValidatedCheckTestAnswer(
+        data=CheckTestAnswerSchema(
             action=ExerciseAction.CHECK_ANSWER,
             option_value=TRANSLATION_INDEX,
         ),
