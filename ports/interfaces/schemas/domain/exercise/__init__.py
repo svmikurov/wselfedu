@@ -6,9 +6,11 @@ __all__ = (
     # Exercise domain result
     'PresentationTaskDomainResult',
     'TestTaskDomainResult',
+    'ExplainTaskResult',
 )
 
 from .exercise import (
+    ExplainTaskResult,
     PresentationTaskDomainResult,
     TestTaskDomainResult,
 )
