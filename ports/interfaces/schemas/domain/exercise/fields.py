@@ -11,6 +11,7 @@ from ports.interfaces.schemas.base import ArbitraryDTO, BaseDTO
 ProgressT = TypeVar('ProgressT')
 OptionT = TypeVar('OptionT')
 DomainResult = TypeVar('DomainResult')
+T = TypeVar('T')
 
 # =================================================
 # Process exercise case
@@ -92,6 +93,18 @@ class MeanField(BaseDTO):
 # =================================================
 # Exercise case
 # =================================================
+
+
+class QuestionField(BaseDTO, Generic[T]):
+    """Provides *question* DTO generic field."""
+
+    question: T
+
+
+class AnswerField(BaseDTO, Generic[T]):
+    """Provides *answer* DTO generic field."""
+
+    answer: T
 
 
 class QuestionTextField(BaseDTO):
@@ -188,3 +201,32 @@ class SelectedAnswerTextField(BaseDTO):
     selected_answer_text: str = Field(
         description='User answer text option select',
     )
+
+
+# =================================================
+# Explain
+# =================================================
+
+
+class QuestionDefineField(BaseDTO):
+    """Task question define DTO field."""
+
+    question_define: str
+
+
+class QuestionMeanField(BaseDTO):
+    """Task question mean DTO field."""
+
+    question_mean: str
+
+
+class AnswerDefineField(BaseDTO):
+    """User answer definion DTO field."""
+
+    answer_define: str
+
+
+class AnswerMeanField(BaseDTO):
+    """User answer meaning DTO field."""
+
+    answer_mean: str
