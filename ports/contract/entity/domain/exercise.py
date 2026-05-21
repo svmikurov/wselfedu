@@ -94,6 +94,30 @@ class HasMeanText(Protocol):
 # =================================================
 
 
+class HasQuestionDefine(Protocol):
+    """Protocol for *question_define* DTO field."""
+
+    question_define: str
+
+
+class HasQuestionMean(Protocol):
+    """Protocol for *question_mean* DTO field."""
+
+    question_mean: str
+
+
+class HasAnswerDefine(Protocol):
+    """Protocol for *answer_define* DTO field."""
+
+    answer_define: str
+
+
+class HasAnswerMean(Protocol):
+    """Protocol for *answer_mean* DTO field."""
+
+    answer_mean: str
+
+
 class HasQuestionText(Protocol):
     """Protocol for *question_text* DTO field."""
 
