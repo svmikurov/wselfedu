@@ -74,7 +74,7 @@ class ServiceContainer(DeclarativeContainer):
         ExplainAserAnswerService,
         domain=domains.explain_test_answer,
         auditor=auditor,
-        name='Expalin user answer service',
+        name='Expalin user test answer service',
     )
 
     # =============================================
@@ -91,7 +91,7 @@ class ServiceContainer(DeclarativeContainer):
         {
             ExerciseAction.CREATE_TASK: _create_translation_test,
             ExerciseAction.CHECK_ANSWER: _check_translation_test,
+            ExerciseAction.EXPLAIN_ANSWER: _expalin_test_answer,
             ExerciseAction.UPDATE_PROGRESS: _translation_progress,
-            ExerciseAction.EXPLAIN_TASK: _expalin_test_answer,
         },
     )
