@@ -50,3 +50,16 @@ class ProgressUpdateSchema(
         Is known task item.
 
     """
+
+
+class ExplainTaskSchema(
+    ExerciseActionField,
+):
+    """Explain task schema.
+
+    Parameters
+    ----------
+    action : 'ExerciseAction`
+        Exercise action.
+
+    """
