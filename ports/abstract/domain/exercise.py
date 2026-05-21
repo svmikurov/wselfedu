@@ -3,11 +3,15 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar, override
 
-from ports.contract.infra.domain.exercise import CheckTaskDomainProtocol
+from ports.contract.infra.domain.exercise import (
+    CheckTaskDomainProtocol,
+    ExpalinAnswerDomainProtocol,
+)
 from ports.contract.infra.domain.selector import SelectorProtocol
 from ports.interfaces.protocols.domain.exercise import CandidatesT
 
 ConfT = TypeVar('ConfT')
+DomainT = TypeVar('DomainT')
 CaseT = TypeVar('CaseT')
 TaskT = TypeVar('TaskT')
 
@@ -72,5 +76,25 @@ class AbstractCheckExerciseDomain(
         self,
         answer: UserAnswerT,
         case: CaseT,
+    ) -> ResultT:
+        """Check user's answer."""
+
+
+# =================================================
+# Explain answer
+# =================================================
+
+
+class AbstractExplainAnswerDomain(
+    ABC,
+    ExpalinAnswerDomainProtocol[UserAnswerT, DomainT, ResultT],
+):
+    """ABC for explain user test answer domain business logic."""
+
+    @abstractmethod
+    def execute(
+        self,
+        answer: UserAnswerT,
+        domain: DomainT,
     ) -> ResultT:
         """Check user's answer."""

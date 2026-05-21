@@ -48,7 +48,6 @@ class DomainContainer(DeclarativeContainer):
         auditor=auditor,
         name='Check user answer on test exercise domain',
     )
-
     explain_test_answer = Factory(
         ExplainTestAnswerDomain,
         auditor=auditor,

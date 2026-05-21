@@ -6,6 +6,7 @@ from apps.core.exceptions import info
 from ports.abstract.domain.exercise import (
     AbstractCandidatesExerciseDomain,
     AbstractCheckExerciseDomain,
+    AbstractExplainAnswerDomain,
 )
 from ports.contract import enums
 from ports.contract.entity.domain.exercise import (
@@ -16,12 +17,14 @@ from ports.contract.infra.domain.selector import SelectorProtocol
 from ports.interfaces.protocols.domain.exercise import (
     CandidatesT,
     CheckTestAnswerDomainResultProtocol,
+    ExplainAnswerDomainResultProtocol,
     TaskItemsT,
     TestAnswerProtocol,
     TestDomainResultProtocol,
 )
 from ports.interfaces.schemas.domain.exercise.exercise import (
     CheckTaskResult,
+    ExplainTaskResult,
     TestTaskDomainResult,
 )
 from utils.audit.base import BaseAuditable
@@ -37,6 +40,11 @@ class _ExerciseConfig(
     HasOptionCount,
 ):
     """Exercise config interface."""
+
+
+# =================================================
+# Create
+# =================================================
 
 
 class TestDomain(
@@ -113,4 +121,36 @@ class TestExerciseCheckDomain(
         return CheckTaskResult(
             status=enums.ExerciseStatus.WRONG,
             is_correct=False,
+        )
+
+
+# =================================================
+# Explain
+# =================================================
+
+
+class ExplainTestAnswerDomain(
+    BaseAuditable,
+    AbstractExplainAnswerDomain[
+        TestAnswerProtocol,
+        TestDomainResultProtocol,
+        ExplainAnswerDomainResultProtocol,
+    ],
+):
+    """Explain user test answer domain business logic."""
+
+    def execute(
+        self,
+        answer: TestAnswerProtocol,
+        domain: TestDomainResultProtocol,
+    ) -> ExplainAnswerDomainResultProtocol:
+        """Explain user and correct answers."""
+        question_option = domain.items[domain.question_option_value]
+        answer_option = domain.items[answer.option_value]
+
+        return ExplainTaskResult(
+            question_define=question_option.define,
+            question_mean=question_option.mean,
+            answer_define=answer_option.define,
+            answer_mean=answer_option.mean,
         )
