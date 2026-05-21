@@ -19,30 +19,40 @@ from ports.interfaces.protocols.domain.exercise import (
     CandidatesT,
     ConditionsProtocol,
     ExerciseConfigProtocol,
+    ExplainAnswerDomainResultProtocol,
     PresentationDomainResultProtocol,
     TestAnswerProtocol,
     TestDomainResultProtocol,
 )
-from ports.interfaces.protocols.spec.exercise import CheckTestSpecProtocol
+from ports.interfaces.protocols.spec.exercise import (
+    CheckTestSpecProtocol,
+    ExplainTaskSpecProtocol,
+)
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
 __all__ = (
     'CreateExerciseService',
     'CheckExerciseService',
+    'ExplainAserAnswerService',
 )
 
-CreateResultT = TypeVar('CreateResultT', bound=HasExerciseStatus)
-
-CheckSpecT = TypeVar('CheckSpecT', bound=CheckTestSpecProtocol)
-CheckResultT = TypeVar('CheckResultT', bound=HasCheckResult)
-
 CaseAlias: TypeAlias = PresentationDomainResultProtocol
-
 ExerciseDomainAlias: TypeAlias = CreateTaskDomainProtocol[
     ExerciseConfigProtocol,
     PresentationDomainResultProtocol,
 ]
+
+# Create task type vars
+CreateResultT = TypeVar('CreateResultT', bound=HasExerciseStatus)
+
+# Check answer type vars
+CheckSpecT = TypeVar('CheckSpecT', bound=CheckTestSpecProtocol)
+CheckResultT = TypeVar('CheckResultT', bound=HasCheckResult)
+
+# Explaine service type vars
+ExpalinSpecT = TypeVar('ExpalinSpecT', bound=ExplainTaskSpecProtocol)
+ExpalinResultT = TypeVar('ExpalinResultT', bound=ExplainTaskSpecProtocol)
 
 
 class _SpecT(
@@ -132,6 +142,50 @@ class CheckExerciseService(
         user: Person,
         spec: CheckSpecT,
     ) -> CheckResultT:
+        """Check user's solution."""
+        # HACK: Implement no case handling
+        if not spec.domain:
+            raise ValueError('Expected stored exercise, got None')
+
+        self.auditor.record('domain.call', obj=self._domain, spec=spec)
+        result = self._domain.execute(spec.answer, spec.domain)
+        return result
+
+
+# =================================================
+# Explain
+# =================================================
+
+
+class ExplainAserAnswerService(
+    BaseAuditable,
+    AbstractUserSpecService[
+        ExpalinSpecT,
+        ExpalinResultT,
+    ],
+):
+    """Exercise definition meaning explain."""
+
+    def __init__(
+        self,
+        domain: CheckTaskDomainProtocol[
+            TestAnswerProtocol,
+            ExplainAnswerDomainResultProtocol,
+            ExpalinResultT,
+        ],
+        name: str | None = None,
+        auditor: AuditorProtocol | None = None,
+    ) -> None:
+        """Construct the service."""
+        super().__init__(name=name, auditor=auditor)
+        self._domain = domain
+
+    @override
+    def execute(
+        self,
+        user: Person,
+        spec: ExpalinSpecT,
+    ) -> ExpalinResultT:
         """Check user's solution."""
         # HACK: Implement no case handling
         if not spec.domain:
