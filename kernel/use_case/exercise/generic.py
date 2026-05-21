@@ -23,8 +23,6 @@ from ports.interfaces.protocols.domain.exercise import (
     ExerciseParametersProtocol,
 )
 from ports.interfaces.protocols.service.exercise import ExerciseCaseProtocol
-from ports.interfaces.schemas.command import UserDataCommand
-from ports.interfaces.schemas.handler.task import CreateTaskSchema
 from utils.audit.base import BaseAuditable
 from utils.audit.protocol import AuditorProtocol
 
@@ -135,7 +133,13 @@ class ExerciseUseCaseStrategy(
         stored: DomainT | None,
     ) -> SpecT:
         spec_factory = self._spec_factory_registry[self._get_action(command)]
-        self.auditor.record('spec_factory.select', obj=spec_factory)
+        self.auditor.record(
+            'spec_factory.select',
+            obj=spec_factory,
+            command=command,
+            params=params,
+            stored=stored,
+        )
         spec = spec_factory.create(command, params, stored)
         self.auditor.record('service_spec.created', spec=spec)
         return spec
@@ -170,22 +174,22 @@ class ExerciseUseCaseStrategy(
         self,
         case: ExerciseCaseProtocol[DomainT, ResultT],
     ) -> ExerciseAction | None:
+        action: ExerciseAction | None
+
         match case.status:
             case ExerciseStatus.CORRECT:
-                return ExerciseAction.CREATE_TASK
+                action = ExerciseAction.CREATE_TASK
             case ExerciseStatus.WRONG:
-                return ExerciseAction.CREATE_TASK
+                action = ExerciseAction.EXPLAIN_TASK
             case _:
-                return None
+                action = None
+
+        self.auditor.record(f'nex_action.{action or "no_action_to_execute"}')
+        return action
 
     def _get_next_command(
         self,
         command: CommandT,
         next_action: ExerciseAction,
     ) -> CommandT:
-        return UserDataCommand(
-            user=command.user,
-            data=CreateTaskSchema(
-                action=next_action,
-            ),
-        )
+        return command
