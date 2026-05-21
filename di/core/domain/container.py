@@ -5,6 +5,7 @@ from dependency_injector.providers import Dependency, Factory
 
 from kernel.domain.exercise import (
     CandidatesSelector,
+    ExplainTestAnswerDomain,
     PresentationDomain,
     TestDomain,
     TestExerciseCheckDomain,
@@ -46,4 +47,10 @@ class DomainContainer(DeclarativeContainer):
         TestExerciseCheckDomain,
         auditor=auditor,
         name='Check user answer on test exercise domain',
+    )
+
+    explain_test_answer = Factory(
+        ExplainTestAnswerDomain,
+        auditor=auditor,
+        name='Explain user test answer domain',
     )
