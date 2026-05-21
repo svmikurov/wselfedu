@@ -12,6 +12,7 @@ from ports.interfaces.protocols.domain.exercise import (
     ConditionsProtocol,
     ExerciseConfigProtocol,
     ExerciseSettingsProtocol,
+    ExplainAnswerDomainResultProtocol,
     TestAnswerProtocol,
     TestDomainResultProtocol,
 )
@@ -55,5 +56,22 @@ class CheckTestSpecProtocol(
         User answer.
     case : `TestDomainResultProtocol` | None
         Stored performing test task, domain result.
+
+    """
+
+
+class ExplainTaskSpecProtocol(
+    HasAnswer[TestAnswerProtocol],
+    HasDomain[ExplainAnswerDomainResultProtocol],
+    Protocol,
+):
+    """Protocol for expalin task service specification interface.
+
+    Paramters
+    ---------
+    answer : `TestAnswerProtocol`
+        User answer.
+    domain : `ExplainAnswerDomainResultProtocol`
+        Stored test task domain result.
 
     """
