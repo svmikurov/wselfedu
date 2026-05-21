@@ -3,6 +3,7 @@
 from ports.contract.enums.base import BaseEnum
 
 
+# REVIEW: Deprecated?
 class ResponseStatusEnum(BaseEnum):
     """Response status enumeration."""
 
