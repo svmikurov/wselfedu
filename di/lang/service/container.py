@@ -8,7 +8,11 @@ from dependency_injector.providers import (
     Factory,
 )
 
-from kernel.service.exercise import CheckExerciseService, CreateExerciseService
+from kernel.service.exercise import (
+    CheckExerciseService,
+    CreateExerciseService,
+    ExplainAserAnswerService,
+)
 from kernel.service.progress import UpdateProgressService
 from ports.contract.enums.exercise import ExerciseAction
 
@@ -27,16 +31,12 @@ class ServiceContainer(DeclarativeContainer):
     auditor = Dependency()  # type: ignore
 
     # =============================================
-    # Internal dependencies
-    # =============================================
-
-    # =============================================
     # Exercise's services
     # =============================================
 
     # Presentation
     # - create
-    create_translation_presentation = Factory(
+    _create_translation_presentation = Factory(
         CreateExerciseService,
         candidates_repository=repositories.translation_candidates,
         domain=domains.create_presentation,
@@ -47,7 +47,7 @@ class ServiceContainer(DeclarativeContainer):
 
     # Test
     # - create
-    create_translation_test = Factory(
+    _create_translation_test = Factory(
         CreateExerciseService,
         candidates_repository=repositories.translation_candidates,
         domain=domains.create_test,
@@ -56,19 +56,25 @@ class ServiceContainer(DeclarativeContainer):
         name='Create translation test exercise service',
     )
     # - check
-    check_translation_test = Factory(  # type: ignore
+    _check_translation_test = Factory(  # type: ignore
         CheckExerciseService,
         domain=domains.check_test,
         auditor=auditor,
         name='Check answer on translation test exercise service',
     )
 
-    # Progress
-    translation_progress = Factory(
+    _translation_progress = Factory(
         UpdateProgressService,
         repository=repositories.regular_translation_progress,
         auditor=auditor,
         name='Update translation study progress service',
+    )
+
+    _expalin_test_answer = Factory(  # type: ignore[var-annotated]
+        ExplainAserAnswerService,
+        domain=domains.explain_test_answer,
+        auditor=auditor,
+        name='Expalin user answer service',
     )
 
     # =============================================
@@ -77,14 +83,15 @@ class ServiceContainer(DeclarativeContainer):
 
     regular_translation_presentation_registry = Dict(
         {
-            ExerciseAction.CREATE_TASK: create_translation_presentation,
-            ExerciseAction.UPDATE_PROGRESS: translation_progress,
+            ExerciseAction.CREATE_TASK: _create_translation_presentation,
+            ExerciseAction.UPDATE_PROGRESS: _translation_progress,
         },
     )
     regular_translation_test_registry = Dict(
         {
-            ExerciseAction.CREATE_TASK: create_translation_test,
-            ExerciseAction.CHECK_ANSWER: check_translation_test,
-            ExerciseAction.UPDATE_PROGRESS: translation_progress,
+            ExerciseAction.CREATE_TASK: _create_translation_test,
+            ExerciseAction.CHECK_ANSWER: _check_translation_test,
+            ExerciseAction.UPDATE_PROGRESS: _translation_progress,
+            ExerciseAction.EXPLAIN_TASK: _expalin_test_answer,
         },
     )
