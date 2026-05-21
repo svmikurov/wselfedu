@@ -6,6 +6,7 @@ from dependency_injector.providers import Dependency, Dict, Factory
 from kernel.spec import (
     CheckAnswerSpecFactory,
     CreateExerciseSpecFactory,
+    ExplainTaskSpecFactory,
     UpdateProgressSpecFactory,
 )
 from ports.contract.enums import ExerciseAction
@@ -36,6 +37,10 @@ class CoreSpecFactoryContainer(DeclarativeContainer):
         UpdateProgressSpecFactory,
         name='Update progress specification factory',
     )
+    _explain_answer = Factory(
+        ExplainTaskSpecFactory,
+        name='Explain user answer specification factory',
+    )
 
     # ===========================================
     # Exercise specification factory registry
@@ -52,5 +57,6 @@ class CoreSpecFactoryContainer(DeclarativeContainer):
             ExerciseAction.CREATE_TASK: _create_exercise,
             ExerciseAction.CHECK_ANSWER: _check_exercise,
             ExerciseAction.UPDATE_PROGRESS: _update_progress,
+            ExerciseAction.EXPLAIN_ANSWER: _explain_answer,
         },
     )
