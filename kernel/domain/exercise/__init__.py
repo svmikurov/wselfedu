@@ -8,8 +8,9 @@ __all__ = (
     # Test exercise
     'TestDomain',
     'TestExerciseCheckDomain',
+    'ExplainTestAnswerDomain',
 )
 
 from .presentation import PresentationDomain
 from .selector import CandidatesSelector
-from .test import TestDomain, TestExerciseCheckDomain
+from .test import ExplainTestAnswerDomain, TestDomain, TestExerciseCheckDomain
