@@ -53,3 +53,15 @@ class TaskField(BaseDTO, Generic[T]):
     """Provides *task* DTO's field."""
 
     task: T
+
+
+class DomainField(BaseDTO, Generic[T]):
+    """Provides *domain* DTO generic field."""
+
+    domain: T | None
+
+
+class OptionDomainField(BaseDTO, Generic[T]):
+    """Provides option *domain* DTO generic field."""
+
+    domain: T
