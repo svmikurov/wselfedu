@@ -19,15 +19,24 @@ class ExerciseKind(BaseEnum):
 
 
 class ExerciseAction(BaseEnum):
-    """Exercise action request enumeration."""
+    """Exercise action request enumeration.
+    
+    Paramters
+    ---------
+    EXPLAIN_TASK : `str`
+        Explain defintion meanig.
+    EXPLAIN_EXERCISE : `str`
+        Explain exercise completion.
+    ...
+
+    """
 
     CREATE_TASK = 'create_task'
     CHECK_ANSWER = 'check_answer'
     UPDATE_PROGRESS = 'update_progress'
     UPDATE_FAVORITES = 'update_favorites'
     EXPLAIN_TASK = 'explain_task'
-    EXPLAIN_CASE = 'explain_case'
-    EXPLAIN_OPTION = 'explain_option'
+    EXPLAIN_EXERCISE = 'explain_exercise'
 
 
 class ExerciseStatus(BaseEnum):
