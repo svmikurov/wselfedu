@@ -4,6 +4,8 @@ from typing import Protocol, TypeAlias, TypeVar
 
 from ports.contract import enums
 from ports.contract.entity.domain.exercise import (
+    HasAnswerDefine,
+    HasAnswerMean,
     HasAnswerText,
     HasCase,
     HasCheckResult,
@@ -19,6 +21,8 @@ from ports.contract.entity.domain.exercise import (
     HasPeriod,
     HasProgress,
     HasProgressValue,
+    HasQuestionDefine,
+    HasQuestionMean,
     HasQuestionOptionValue,
     HasQuestionText,
     HasTimeout,
@@ -159,7 +163,7 @@ TaskItemsT: TypeAlias = list[TaskItemProtocol]
 """
 
 # =================================================
-# Exercise domain result
+# Task domain result
 # =================================================
 
 
@@ -169,7 +173,7 @@ class PresentationDomainResultProtocol(
     HasExerciseKind,
     Protocol,
 ):
-    """Protocol for presentation exercise domain result DTO.
+    """Protocol for presentation exercise task domain result DTO.
 
     Parameters
     ----------
@@ -190,7 +194,7 @@ class TestDomainResultProtocol(
     HasExerciseKind,
     Protocol,
 ):
-    """Protocol for test exercise domain result DTO.
+    """Protocol for test exercise task domain result DTO.
 
     Parameters
     ----------
@@ -281,3 +285,31 @@ class CheckTestAnswerDomainResultProtocol(
     Protocol,
 ):
     """Protocol for check test answer domain result interface."""
+
+
+# =================================================
+# Expalain user answer domain result
+# =================================================
+
+
+class ExplainAnswerDomainResultProtocol(
+    HasQuestionDefine,
+    HasQuestionMean,
+    HasAnswerDefine,
+    HasAnswerMean,
+    Protocol,
+):
+    """Protocol for explain user answer domain result interface.
+
+    Parameters
+    ----------
+    question_define : `str`
+        Task question definition.
+    question_mean : `str`
+        Task question meaning.
+    answer_define : `str`
+        User answer definion.
+    answer_mean : `str`
+        User answer meaning.
+
+    """
