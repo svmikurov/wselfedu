@@ -1,9 +1,0 @@
-{% load crispy_forms_tags %}
-<form method="post">{% csrf_token %}
-  {{ form | crispy }}
-  <div class="d-flex justify-content-end pt-2">
-    <button type="submit" name="submit" class="wse-btn">
-      Сохранить
-    </button>
-  </div>
-</form>

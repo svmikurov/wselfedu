@@ -1,1 +1,0 @@
-"""Contains management commands."""

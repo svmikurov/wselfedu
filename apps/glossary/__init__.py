@@ -1,1 +1,0 @@
-"""Glossary app package."""

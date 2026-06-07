@@ -1,1 +1,0 @@
-"""Exercise configuration resolver tests."""

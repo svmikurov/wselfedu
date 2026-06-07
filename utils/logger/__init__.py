@@ -1,1 +1,0 @@
-"""Defines logger components."""

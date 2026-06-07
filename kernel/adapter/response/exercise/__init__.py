@@ -1,1 +1,0 @@
-"""Exercise response core DTOs."""
