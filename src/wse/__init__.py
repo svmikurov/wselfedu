@@ -1,0 +1,1 @@
+"""WSE project source."""
