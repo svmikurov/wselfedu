@@ -4,28 +4,42 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from wse.config import DATA_PATH
 from wse.domain.entities import ItemStudy
 from wse.infrastructure.abstract import AbstractRepository
+from wse.utils.io import load_json
 
 if TYPE_CHECKING:
-    from wse.domain.protocols import Learnable
+    from pathlib import Path
 
+    from wse.domain.protocols import UniqueLearnable
 
-CANDIDATES: set[Learnable] = {
-    ItemStudy(1, 'definition-1', 'explanation-1'),
-    ItemStudy(2, 'definition-2', 'explanation-2'),
-    ItemStudy(3, 'definition-3', 'explanation-3'),
-    ItemStudy(4, 'definition-4', 'explanation-4'),
-    ItemStudy(5, 'definition-5', 'explanation-5'),
-}
+CANDIDATES_PATH = DATA_PATH / 'candidates.json'
 
 
 class InMemoryCandidatesRepository(AbstractRepository):
     """Temporary repository for candidates."""
 
     def __init__(self) -> None:
-        self._candidates = CANDIDATES
+        self._candidates = self._get_candidates()
 
-    def list(self) -> list[Learnable]:
+    def list(self) -> list[UniqueLearnable]:
         """Get candidates."""
         return list(self._candidates)
+
+    @staticmethod
+    def _get_candidates(path: Path = CANDIDATES_PATH) -> set[UniqueLearnable]:
+        """Build candidate instances from JSON data."""
+        items = load_json(path)
+        if not isinstance(items, list):
+            raise ValueError(f'Expected `list`, got {type(items).__name__}')
+
+        candidates: set[UniqueLearnable] = set()
+        for data in items:
+            if not isinstance(data, dict):
+                raise ValueError(
+                    f'Expected `dict` per item, got {type(data).__name__}'
+                )
+            candidates.add(ItemStudy(**data))
+
+        return candidates

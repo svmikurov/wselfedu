@@ -6,12 +6,16 @@ from dependency_injector.containers import (
 )
 from dependency_injector.providers import (
     Container,
+    DependenciesContainer,
     Dependency,
     Factory,
 )
 
 from wse.application.use_case import CreateTaskUseCase
-from wse.domain.services.task import CreateTaskService
+from wse.domain.services.task import (
+    CreatePresentationService,
+    CreateTestingService,
+)
 from wse.infrastructure.in_memory_repository import (
     InMemoryCandidatesRepository,
 )
@@ -20,7 +24,8 @@ from wse.infrastructure.in_memory_repository import (
 class DomainContainer(DeclarativeContainer):
     """Domain layer service the dependency injection container."""
 
-    create_task = Factory(CreateTaskService)
+    presentation = Factory(CreatePresentationService)
+    testing = Factory(CreateTestingService)
 
 
 class InfrastructureContainer(DeclarativeContainer):
@@ -35,14 +40,14 @@ class ApplicationContainer(DeclarativeContainer):
     # External dependencies
 
     repository = Dependency()  # type: ignore[var-annotated]
-    domain = Dependency()  # type: ignore[var-annotated]
+    domains = DependenciesContainer()
 
     # Dependencies
 
-    create_task_use_case = Factory(
+    create_presentation_use_case = Factory(
         CreateTaskUseCase,
         repository=repository,
-        domain=domain,
+        domain=domains.presentation,
     )
 
 
@@ -53,10 +58,10 @@ class MainContainer(DeclarativeContainer):
         modules=['..entrypoints.flask_app.views']
     )
 
-    domain = Container(DomainContainer)
-    infra = Container(InfrastructureContainer)
-    app = Container(
+    domains = Container(DomainContainer)
+    infrastructures = Container(InfrastructureContainer)
+    applications = Container(
         ApplicationContainer,
-        repository=infra.in_memory_candidates,
-        domain=domain.create_task,
+        repository=infrastructures.in_memory_candidates,
+        domains=domains,
     )

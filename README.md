@@ -9,7 +9,7 @@ poetry config virtualenvs.in-project true
 
 ## Install dependencies
 ```bash
-make install
+make setup
 ```
 
 ## Show available commands

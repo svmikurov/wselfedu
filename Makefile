@@ -59,3 +59,4 @@ help:
 	@echo "  make clean        - Remove cache files"
 	@echo "  make docs-build   - Build HTML documentation"
 	@echo "  make docs-open    - Build docs and open in browser"
+	@echo "  make run-flask    - Run flask entrypoint"

@@ -69,6 +69,8 @@
     "pycache",
     "mypy",
     "pytest",
+    // Documentaiton
+    "DTOs",
     // Sphinx directives
     "toctree",
   ]
