@@ -1,1 +1,0 @@
-"""Contains Users app serializers."""

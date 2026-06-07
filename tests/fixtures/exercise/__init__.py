@@ -1,1 +1,0 @@
-"""Exercise database fixtures."""

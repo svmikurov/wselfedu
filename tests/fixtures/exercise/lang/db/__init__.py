@@ -1,1 +1,0 @@
-"""Language discipline DB fixtures."""

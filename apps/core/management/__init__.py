@@ -1,1 +1,0 @@
-"""Contains managements components."""

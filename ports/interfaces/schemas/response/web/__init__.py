@@ -1,1 +1,0 @@
-"""Web response rule schemas."""
