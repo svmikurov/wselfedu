@@ -74,5 +74,7 @@
     // Sphinx directives
     "toctree",
     "maxdepth",
+    // Project
+    "learnables"
   ]
 }
