@@ -5,10 +5,15 @@ from __future__ import annotations
 from random import randrange, sample
 from typing import TYPE_CHECKING
 
-from .values import Option, Testing
+from .values import CheckingResult, Option, Testing
 
 if TYPE_CHECKING:
-    from .protocols import Testable, UniqueLearnable
+    from .protocols import (
+        CheckableOption,
+        HasIsCorrect,
+        Testable,
+        UniqueLearnable,
+    )
 
 
 def create_testing_task(candidates: list[UniqueLearnable]) -> Testable:
@@ -31,3 +36,8 @@ def create_testing_task(candidates: list[UniqueLearnable]) -> Testable:
     )
 
     return task
+
+
+def check_testing_answer(spec: CheckableOption) -> HasIsCorrect:
+    """Check a testing task user answer."""
+    return CheckingResult(is_correct=spec.answer_value == spec.question_value)
