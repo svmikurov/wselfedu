@@ -35,6 +35,11 @@ class HasQuestionText(Protocol):
     def question_text(self) -> str: ...
 
 
+class HasAnswerValue(Protocol):
+    @property
+    def answer_value(self) -> int: ...
+
+
 class HasOptionValue(Protocol):
     @property
     def option_value(self) -> int: ...
@@ -48,6 +53,11 @@ class HasOptionText(Protocol):
 class HasOptions(Protocol[T]):
     @property
     def options(self) -> list[T]: ...
+
+
+class HasIsCorrect(Protocol):
+    @property
+    def is_correct(self) -> bool: ...
 
 
 # #################################################
@@ -80,5 +90,12 @@ class Testable(
     HasQuestionText,
     HasQuestionValue,
     HasOptions[Selectable],
+    Protocol,
+): ...
+
+
+class CheckableOption(
+    HasQuestionValue,
+    HasAnswerValue,
     Protocol,
 ): ...
