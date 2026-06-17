@@ -11,19 +11,22 @@ if TYPE_CHECKING:
     from .protocols import (
         CheckableOption,
         HasIsCorrect,
+        HasLearnables,
         Testable,
         UniqueLearnable,
     )
 
 
-def create_testing_task(candidates: list[UniqueLearnable]) -> Testable:
+def create_testing_task(
+    spec: HasLearnables[list[UniqueLearnable]],
+) -> Testable:
     """Create a testing task from the given candidates."""
     options_count = 3
 
     selected_index = randrange(options_count)
     user_value = selected_index + 1
 
-    studied_items = sample(candidates, options_count)
+    studied_items = sample(spec.learnables, options_count)
     question_item = studied_items[selected_index]
 
     task = Testing(
