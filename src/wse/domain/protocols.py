@@ -3,11 +3,17 @@
 from typing import Protocol, TypeVar
 
 T = TypeVar('T')
+T_cov = TypeVar('T_cov', covariant=True)
 
 
 # #################################################
 # Components
 # #################################################
+
+
+class HasLearnables(Protocol[T_cov]):
+    @property
+    def learnables(self) -> T_cov: ...
 
 
 class HasIdentifier(Protocol):
