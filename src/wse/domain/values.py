@@ -28,6 +28,8 @@ class Option:
 class Testing:
     """Value object for a testing exercise task."""
 
+    __test__ = False
+
     question_text: str
     question_value: int
     options: list[Selectable]
