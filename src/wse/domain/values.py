@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from .protocols import Selectable
+    from .protocols import Selectable, UniqueLearnable
 
 
 @dataclass(frozen=True, slots=True)
@@ -31,6 +31,13 @@ class Testing:
     question_text: str
     question_value: int
     options: list[Selectable]
+
+
+@dataclass(frozen=True, slots=True)
+class TaskCreating:
+    """Value object for task creating."""
+
+    learnables: list[UniqueLearnable]
 
 
 @dataclass(frozen=True, slots=True)
