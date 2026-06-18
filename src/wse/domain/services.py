@@ -17,30 +17,39 @@ if TYPE_CHECKING:
     )
 
 
-def create_testing_task(
-    spec: HasLearnables[list[UniqueLearnable]],
-) -> Testable:
-    """Create a testing task from the given candidates."""
-    options_count = 3
+class CreateTestingService:
+    """Domain service for testing creation."""
 
-    selected_index = randrange(options_count)
-    user_value = selected_index + 1
+    def create(
+        self,
+        spec: HasLearnables[list[UniqueLearnable]],
+    ) -> Testable:
+        """Create a testing task from the given candidates."""
+        options_count = 3
 
-    studied_items = sample(spec.learnables, options_count)
-    question_item = studied_items[selected_index]
+        selected_index = randrange(options_count)
+        user_value = selected_index + 1
 
-    task = Testing(
-        question_text=question_item.define,
-        question_value=user_value,
-        options=[
-            Option(option_value=value, option_text=item.explain)
-            for value, item in enumerate(studied_items, start=1)
-        ],
-    )
+        studied_items = sample(spec.learnables, options_count)
+        question_item = studied_items[selected_index]
 
-    return task
+        task = Testing(
+            question_text=question_item.define,
+            question_value=user_value,
+            options=[
+                Option(option_value=value, option_text=item.explain)
+                for value, item in enumerate(studied_items, start=1)
+            ],
+        )
+
+        return task
 
 
-def check_testing_answer(spec: CheckableOption) -> HasIsCorrect:
-    """Check a testing task user answer."""
-    return CheckingResult(is_correct=spec.answer_value == spec.question_value)
+class CheckTestingService:
+    """Domain service for testing answer check."""
+
+    def check(self, spec: CheckableOption) -> HasIsCorrect:
+        """Check a testing task user answer."""
+        return CheckingResult(
+            is_correct=spec.answer_value == spec.question_value
+        )
