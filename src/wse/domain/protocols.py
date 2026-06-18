@@ -114,6 +114,19 @@ class CheckableOption(
 
 
 ###################################################
+# Services
+###################################################
+
+
+class ExerciseCreatable(Protocol[T_contra, T_cov]):
+    def create(self, spec: T_contra) -> T_cov: ...
+
+
+class AnswerCheckable(Protocol[T_contra, T_cov]):
+    def check(self, spec: T_contra) -> T_cov: ...
+
+
+###################################################
 # Input interfaces
 ###################################################
 
@@ -121,3 +134,4 @@ class CheckableOption(
 class Repository(Protocol[T]):
     def add(self, item: T) -> None: ...
     def get(self, key: str) -> T: ...
+    def list(self) -> list[T]: ...
