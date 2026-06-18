@@ -4,6 +4,7 @@ from typing import Protocol, TypeVar
 
 T = TypeVar('T')
 T_cov = TypeVar('T_cov', covariant=True)
+T_contra = TypeVar('T_contra', contravariant=True)
 
 
 # #################################################
@@ -61,6 +62,11 @@ class HasOptions(Protocol[T]):
     def options(self) -> list[T]: ...
 
 
+class HasSessionIdentifier(Protocol):
+    @property
+    def session_id(self) -> str: ...
+
+
 class HasIsCorrect(Protocol):
     @property
     def is_correct(self) -> bool: ...
@@ -105,3 +111,13 @@ class CheckableOption(
     HasAnswerValue,
     Protocol,
 ): ...
+
+
+###################################################
+# Input interfaces
+###################################################
+
+
+class Repository(Protocol[T]):
+    def add(self, item: T) -> None: ...
+    def get(self, key: str) -> T: ...
