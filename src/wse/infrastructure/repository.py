@@ -1,32 +1,32 @@
 """Repository."""
 
-from typing import Generic, TypeVar, override
+from typing import TypeVar, override
 
-from wse.domain.protocols import HasSessionIdentifier
+from wse.domain.protocols import HasIdentifier, HasSessionIdentifier
 
-from .abstract import AbstractRepository
+from .abstract import AbstractInMemoryRepository
 
-T = TypeVar('T', bound=HasSessionIdentifier)
+ItemT = TypeVar('ItemT')
+KeyT = TypeVar('KeyT')
 
 
-class InMemoryRepository(AbstractRepository[T], Generic[T]):
-    """In memory repository."""
-
-    def __init__(self) -> None:
-        super().__init__()
-        self._items: set[T] = set()
-
-    @override
-    def add(self, item: T) -> None:
-        """Add item."""
-        self._items.add(item)
+class InMemoryLearnableRepository(
+    AbstractInMemoryRepository[int, HasIdentifier]
+):
+    """In memory learnable repository."""
 
     @override
-    def get(self, key: str) -> T:
+    def get(self, key: int) -> HasIdentifier:
+        """Get item."""
+        return next(item for item in self._items if item.pk == key)
+
+
+class InMemoryTaskRepository(
+    AbstractInMemoryRepository[str, HasSessionIdentifier]
+):
+    """In memory task repository."""
+
+    @override
+    def get(self, key: str) -> HasSessionIdentifier:
         """Get item."""
         return next(item for item in self._items if item.session_id == key)
-
-    @override
-    def list(self) -> list[T]:
-        """Get items."""
-        return list(self._items)
