@@ -11,3 +11,4 @@ class Task(Generic[T]):
     """Testing task DTO."""
 
     task: T
+    session_id: str
