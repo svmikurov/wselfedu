@@ -32,7 +32,7 @@ class Testing:
 
     question_text: str
     question_value: int
-    options: list[Selectable]
+    options: tuple[Selectable, ...]
 
 
 @dataclass(frozen=True, slots=True)

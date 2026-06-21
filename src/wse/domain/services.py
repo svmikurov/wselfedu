@@ -36,10 +36,10 @@ class CreateTestingService:
         task = Testing(
             question_text=question_item.define,
             question_value=user_value,
-            options=[
+            options=tuple(
                 Option(option_value=value, option_text=item.explain)
                 for value, item in enumerate(studied_items, start=1)
-            ],
+            ),
         )
 
         return task
