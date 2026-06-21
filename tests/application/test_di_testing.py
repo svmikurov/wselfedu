@@ -18,7 +18,7 @@ def test_returns_created_task(
     create_cmd = commands.CreateTestingTask(session_id=SESSION_ID)
 
     mock_learnable_repo = Mock(spec=Repository)
-    mock_learnable_repo.all.return_value = learnables
+    mock_learnable_repo.list.return_value = learnables
 
     mock_task_repo = Mock(spec=Repository)
 
@@ -35,7 +35,7 @@ def test_returns_created_task(
         assert task_dto.task is not None
         assert task_dto.session_id == SESSION_ID
 
-        mock_learnable_repo.all.assert_called_once()
+        mock_learnable_repo.list.assert_called_once()
 
         saved_task = mock_task_repo.add.call_args[0][0]
         assert saved_task == task_dto

@@ -49,7 +49,7 @@ class CreateTestingUseCase(
         self, cmd: CerateTestingCommandProto
     ) -> TaskDtoProto[Testable]:
         """Create the testing task."""
-        learnables = self._learnables_repo.all()
+        learnables = self._learnables_repo.list()
         params = values.TestingParameters(
             option_count=3,
         )
