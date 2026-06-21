@@ -75,6 +75,9 @@
     "toctree",
     "maxdepth",
     // Project
-    "learnables"
+    "learnables",
+    // Dependencies
+    "autouse",
+    "usefixtures",
   ]
 }
