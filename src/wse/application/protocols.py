@@ -11,12 +11,37 @@ class HasTask(Protocol[T_cov]):
     def task(self) -> T_cov: ...
 
 
+class HasSessionIdentifier(Protocol):
+    @property
+    def session_id(self) -> str: ...
+
+
+class HasIsCorrect(Protocol):
+    @property
+    def is_correct(self) -> bool: ...
+
+
+class HasAnswerValue(Protocol):
+    @property
+    def answer_value(self) -> int: ...
+
+
 ###################################################
 # Commands
 ###################################################
 
 
-class CerateTestingCommandProto(Protocol): ...
+class CerateTestingCommandProto(
+    HasSessionIdentifier,
+    Protocol,
+): ...
+
+
+class CheckTestingCommandProto(
+    HasSessionIdentifier,
+    HasAnswerValue,
+    Protocol,
+): ...
 
 
 ###################################################
@@ -24,9 +49,16 @@ class CerateTestingCommandProto(Protocol): ...
 ###################################################
 
 
-class TaskProto(
+class TaskDtoProto(
     HasTask[T_cov],
+    HasSessionIdentifier,
     Protocol[T_cov],
+): ...
+
+
+class CheckResultDtoProto(
+    HasIsCorrect,
+    Protocol,
 ): ...
 
 
