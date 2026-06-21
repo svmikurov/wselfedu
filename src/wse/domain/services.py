@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from random import randrange, sample
 from typing import TYPE_CHECKING
 
@@ -11,10 +12,11 @@ if TYPE_CHECKING:
     from .protocols import (
         CheckableOption,
         HasIsCorrect,
-        HasLearnables,
         Testable,
-        UniqueLearnable,
+        TestingCreatableSpec,
     )
+
+log = logging.getLogger(__name__)
 
 
 class CreateTestingService:
@@ -22,15 +24,16 @@ class CreateTestingService:
 
     def create(
         self,
-        spec: HasLearnables[list[UniqueLearnable]],
+        spec: TestingCreatableSpec,
     ) -> Testable:
         """Create a testing task from the given candidates."""
-        options_count = 3
+        option_count = spec.params.option_count
+        learnables = spec.learnables
 
-        selected_index = randrange(options_count)
+        selected_index = randrange(option_count)
         user_value = selected_index + 1
 
-        studied_items = sample(spec.learnables, options_count)
+        studied_items = sample(learnables, option_count)
         question_item = studied_items[selected_index]
 
         task = Testing(
