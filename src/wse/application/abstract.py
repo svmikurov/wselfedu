@@ -4,12 +4,12 @@ from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
 CommandT = TypeVar('CommandT')
-TaskT = TypeVar('TaskT')
+ResultT = TypeVar('ResultT')
 
 
-class AbstractCreateTaskUseCase(ABC, Generic[CommandT, TaskT]):
-    """ABC for create task use case."""
+class AbstractUseCase(ABC, Generic[CommandT, ResultT]):
+    """ABC for use case."""
 
     @abstractmethod
-    def execute(self, cmd: CommandT) -> TaskT:
-        """Create a task."""
+    def execute(self, cmd: CommandT) -> ResultT:
+        """Execute a command."""
