@@ -20,6 +20,16 @@ class HasLearnables(Protocol[T_cov]):
     def learnables(self) -> T_cov: ...
 
 
+class HasOptionCount(Protocol):
+    @property
+    def option_count(self) -> int: ...
+
+
+class HasParams(Protocol[T_cov]):
+    @property
+    def params(self) -> T_cov: ...
+
+
 class HasIdentifier(Protocol):
     @property
     def pk(self) -> int: ...
@@ -106,12 +116,25 @@ class Testable(
     HasQuestionValue,
     HasOptions[Selectable],
     Protocol,
-): ...
+):
+    __test__ = False  # type: ignore[misc]
 
 
 class CheckableOption(
     HasQuestionValue,
     HasAnswerValue,
+    Protocol,
+): ...
+
+
+###################################################
+# Specifications
+###################################################
+
+
+class TestingCreatableSpec(
+    HasLearnables[list[UniqueLearnable]],
+    HasParams[HasOptionCount],
     Protocol,
 ): ...
 
@@ -136,5 +159,5 @@ class AnswerCheckable(Protocol[T_contra, T_cov]):
 
 class Repository(Protocol[KeyT, ItemT]):
     def add(self, item: ItemT) -> None: ...
-    def list(self) -> list[ItemT]: ...
+    def all(self) -> tuple[ItemT]: ...
     def get(self, key: KeyT) -> ItemT: ...
