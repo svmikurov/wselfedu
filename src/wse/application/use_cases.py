@@ -34,25 +34,34 @@ class CreateTestingUseCase(
 
     def __init__(
         self,
-        repo: Repository[int, UniqueLearnable],
+        learnables_repo: Repository[int, UniqueLearnable],
         service: ExerciseCreatable[
-            HasLearnables[list[UniqueLearnable]],
+            HasLearnables[tuple[UniqueLearnable, ...]],
             Testable,
         ],
+        task_repo: Repository[str, TaskDtoProto[Testable]],
     ) -> None:
-        self._repo = repo
+        self._learnables_repo = learnables_repo
+        self._task_repo = task_repo
         self._service = service
 
     def execute(
         self, cmd: CerateTestingCommandProto
     ) -> TaskDtoProto[Testable]:
         """Create the testing task."""
-        learnables = self._repo.list()
+        learnables = self._learnables_repo.all()
+        params = values.TestingParameters(
+            option_count=3,
+        )
+
         # TODO: Inject a specification builder
-        spec = values.TaskCreating(learnables)
+        spec = values.TaskCreating(learnables, params)
         task = self._service.create(spec)
         # TODO: Inject a DTO mapper
-        return dto.Task(task=task, session_id=cmd.session_id)
+        result = dto.Task(task=task, session_id=cmd.session_id)
+
+        self._task_repo.add(result)
+        return result
 
 
 class CheckTestingUseCase(
