@@ -34,21 +34,7 @@ if TYPE_CHECKING:
 ###################################################
 
 
-@pytest.fixture
-def learnable_repo(
-    learnables: list[UniqueLearnable],
-) -> Repository[int, HasIdentifier]:
-    """Provide a learnables repository."""
-    repo = repository.InMemoryLearnableRepository()
-    for item in learnables:
-        repo.add(item)
-    return repo
-
-
-@pytest.fixture
-def testable_repo() -> Repository[str, HasSessionIdentifier]:
-    """Provide a testable repository."""
-    return repository.InMemoryTaskRepository()
+# Tested use cases dependencies: Domain services
 
 
 @pytest.fixture
@@ -63,6 +49,29 @@ def check_service() -> AnswerCheckable:
     return services.CheckTestingService()
 
 
+# Tested use cases dependencies: Repositories
+
+
+@pytest.fixture
+def learnable_repo(
+    learnables: list[UniqueLearnable],
+) -> Repository[int, HasIdentifier]:
+    """Provide a learnables repository."""
+    repo = repository.InMemoryLearnableRepository()
+    for item in learnables:
+        repo.add(item)
+    return repo
+
+
+@pytest.fixture
+def task_repo() -> Repository[str, HasSessionIdentifier]:
+    """Provide a task repository."""
+    return repository.InMemoryTaskRepository()
+
+
+# Tested use cases
+
+
 @pytest.fixture
 def create_use_case(
     learnable_repo: Repository[int, UniqueLearnable],
@@ -74,11 +83,14 @@ def create_use_case(
 
 @pytest.fixture
 def check_use_case(
-    testable_repo: Repository[str, TaskDtoProto[Testable]],
+    task_repo: Repository[str, TaskDtoProto[Testable]],
     check_service: AnswerCheckable,
 ) -> Executable[CheckTestingCommandProto, CheckResultDtoProto]:
     """Provide a create testing task use case."""
-    return use_cases.CheckTestingUseCase(testable_repo, check_service)
+    return use_cases.CheckTestingUseCase(task_repo, check_service)
+
+
+# Task
 
 
 @pytest.fixture
@@ -95,16 +107,18 @@ def task(create_use_case: Executable) -> TaskDtoProto[Testable]:
 ###################################################
 
 
-def test_create_testing_task(task: TaskDtoProto[Testable]) -> None:
+def test_testing_task_created_with_attribute_types(
+    task: TaskDtoProto[Testable],
+) -> None:
     # Assert
     assert task is not None
     assert task.task is not None
     assert isinstance(task.session_id, str)
 
 
-def test_check_testing_answer(
+def test_checked_correct_testing_answer(
     task: TaskDtoProto[Testable],
-    testable_repo: Repository[str, HasSessionIdentifier],
+    task_repo: Repository[str, HasSessionIdentifier],
     check_use_case: Executable,
 ) -> None:
     # Arrange
@@ -113,7 +127,7 @@ def test_check_testing_answer(
         session_id=task.session_id,
         answer_value=correct_answer,
     )
-    testable_repo.add(task)
+    task_repo.add(task)
 
     # Act
     result = check_use_case.execute(check_cmd)
@@ -121,3 +135,23 @@ def test_check_testing_answer(
     # Assert
     assert result is not None
     assert result.is_correct is True
+
+
+def test_checked_incorrect_testing_answer(
+    task: TaskDtoProto[Testable],
+    task_repo: Repository[str, HasSessionIdentifier],
+    check_use_case: Executable,
+) -> None:
+    # Arrange
+    check_cmd = commands.CheckTestingAnswer(
+        session_id=task.session_id,
+        answer_value=1 if task.task.question_value != 1 else 2,
+    )
+    task_repo.add(task)
+
+    # Act
+    result = check_use_case.execute(check_cmd)
+
+    # Assert
+    assert result is not None
+    assert result.is_correct is False
