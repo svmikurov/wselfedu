@@ -19,7 +19,7 @@ class AbstractRepository(ABC, Generic[KeyT, ItemT]):
         """Get item."""
 
     @abstractmethod
-    def list(self) -> list[ItemT]:
+    def all(self) -> tuple[ItemT, ...]:
         """Get items."""
 
 
@@ -38,9 +38,9 @@ class AbstractInMemoryRepository(
         self._items.add(item)
 
     @override
-    def list(self) -> list[ItemT]:
-        """Get items."""
-        return list(self._items)
+    def all(self) -> tuple[ItemT, ...]:
+        """Get all items."""
+        return tuple(self._items)
 
     @abstractmethod
     def get(self, key: KeyT) -> ItemT:
