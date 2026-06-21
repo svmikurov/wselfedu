@@ -6,6 +6,9 @@ T = TypeVar('T')
 T_cov = TypeVar('T_cov', covariant=True)
 T_contra = TypeVar('T_contra', contravariant=True)
 
+ItemT = TypeVar('ItemT')
+KeyT = TypeVar('KeyT', contravariant=True)
+
 
 # #################################################
 # Components
@@ -57,9 +60,9 @@ class HasOptionText(Protocol):
     def option_text(self) -> str: ...
 
 
-class HasOptions(Protocol[T]):
+class HasOptions(Protocol[T_cov]):
     @property
-    def options(self) -> list[T]: ...
+    def options(self) -> tuple[T_cov, ...]: ...
 
 
 class HasSessionIdentifier(Protocol):
@@ -131,7 +134,7 @@ class AnswerCheckable(Protocol[T_contra, T_cov]):
 ###################################################
 
 
-class Repository(Protocol[T]):
-    def add(self, item: T) -> None: ...
-    def get(self, key: str) -> T: ...
-    def list(self) -> list[T]: ...
+class Repository(Protocol[KeyT, ItemT]):
+    def add(self, item: ItemT) -> None: ...
+    def list(self) -> list[ItemT]: ...
+    def get(self, key: KeyT) -> ItemT: ...
