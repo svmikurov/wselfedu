@@ -50,7 +50,7 @@ def test_create_testing_task(testing_task: Testable) -> None:
     assert hasattr(testing_task, 'question_text')
     assert isinstance(testing_task.question_text, str)
     assert hasattr(testing_task, 'options')
-    assert isinstance(testing_task.options, list)
+    assert isinstance(testing_task.options, tuple)
 
     option = testing_task.options[0]
     assert hasattr(option, 'option_value')
