@@ -8,7 +8,7 @@ import pytest
 
 from wse.application import commands, use_cases
 from wse.domain import services
-from wse.infrastructure import repository
+from wse.infrastructure import repositories
 
 if TYPE_CHECKING:
     from wse.application.protocols import (
@@ -57,7 +57,7 @@ def learnable_repo(
     learnables: list[UniqueLearnable],
 ) -> Repository[int, HasIdentifier]:
     """Provide a learnables repository."""
-    repo = repository.InMemoryLearnableRepository()
+    repo = repositories.InMemoryLearnableRepository()
     for item in learnables:
         repo.add(item)
     return repo
@@ -66,7 +66,7 @@ def learnable_repo(
 @pytest.fixture
 def task_repo() -> Repository[str, HasSessionIdentifier]:
     """Provide a task repository."""
-    return repository.InMemoryTaskRepository()
+    return repositories.InMemoryTaskRepository()
 
 
 # Tested use cases
