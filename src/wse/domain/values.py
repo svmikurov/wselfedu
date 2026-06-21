@@ -55,3 +55,15 @@ class CheckingResult:
     """Value object for a answer check result."""
 
     is_correct: bool
+
+
+###################################################
+# Task configuration
+###################################################
+
+
+@dataclass(frozen=True, slots=True)
+class TestingParameters:
+    """Value object fot testing task parameters."""
+
+    option_count: int
