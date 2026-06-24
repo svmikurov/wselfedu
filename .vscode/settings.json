@@ -79,7 +79,8 @@
     // Dependencies
     "autouse",
     "usefixtures",
-    //Web site
+    // Site
     "htmx",
+    "testid",
   ]
 }
