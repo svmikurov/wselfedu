@@ -1,4 +1,4 @@
-"""Exercise view tests."""
+"""Exercise page test."""
 
 from __future__ import annotations
 
@@ -12,5 +12,6 @@ if TYPE_CHECKING:
 
 
 def test_exercise_page_returns_http_200(client: Client) -> None:
-    response = client.get(reverse('exercise'))
+    url = reverse('testing')
+    response = client.get(url)
     assert response.status_code == HTTPStatus.OK
