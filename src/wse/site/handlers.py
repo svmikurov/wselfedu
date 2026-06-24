@@ -1,12 +1,24 @@
 """Request handlers."""
 
-from typing import Any
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, TypeVar
+
+from .dtos import ResponseDto
+
+if TYPE_CHECKING:
+    from .protocols import HasContext, SimpleRequestParamsProto
+
+ContextT = TypeVar('ContextT')
+DataT = TypeVar('DataT')
 
 
 class ExerciseHandler:
     """Exercise performing request handler."""
 
-    def execute(self, **data: object) -> dict[str, Any]:
+    def execute(
+        self,
+        params: SimpleRequestParamsProto[ContextT, DataT],
+    ) -> HasContext[dict[str, str]]:
         """Execute the exercise request."""
-        print('DEBUG: Execute method called')
-        return {'no_key': 'no_value'}
+        return ResponseDto(context={'no_key': 'no_value'})

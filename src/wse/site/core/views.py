@@ -2,40 +2,35 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Generic, TypeVar
+from typing import TYPE_CHECKING, Any
 
 from dependency_injector.wiring import Provide, inject
-from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
 from django.views.generic.base import ContextMixin, TemplateResponseMixin
 
 from wse.di.site import DjangoSiteContainer
 from wse.domain.enums import ExerciseAction
-from wse.site import dtos
-from wse.site.protocols import HtmlResponsible
+from wse.site import dtos, exceptions
 
 if TYPE_CHECKING:
-    from django.http import HttpRequest
+    from django.http import HttpRequest, HttpResponse
     from django.http.response import HttpResponseBase
 
+    from wse.application.protocols import Executable
+    from wse.site.protocols import HtmlResponsible
 
-T = TypeVar('T')
-HandlerT = TypeVar('HandlerT')
-ResponseT = TypeVar('ResponseT', bound=HtmlResponsible)
-
-
-class SuspiciousOperation(Exception):
-    """The user did something suspicious."""
+# FIXME: Fix Any typing
+type HandlerT = Executable[Any, HtmlResponsible]
+type ResponseT = HtmlResponsible
 
 
-class ExercisePerformView(
+class TestingExercisePerformView(
     TemplateResponseMixin,
     ContextMixin,
     View,
-    Generic[HandlerT, ResponseT],
 ):
-    """Exercise performing view."""
+    """Testing exercise performing view."""
 
     template_name = 'exercise.html'
 
@@ -51,9 +46,7 @@ class ExercisePerformView(
         self._handler = handler
         return super().dispatch(request, *args, **kwargs)
 
-    ###############################################
     # Request methods
-    ###############################################
 
     def get(self, request: HttpRequest, **kwargs: object) -> HttpResponse:
         """Render initial template with process handler result."""
@@ -65,39 +58,45 @@ class ExercisePerformView(
             return render(
                 request,
                 self.get_template_names(),
-                result,
+                result.context,
             )
 
     def post(self, request: HttpRequest, **kwargs: object) -> HttpResponse:
         """Render partial template with process handler result."""
         return HttpResponse(self._process(**kwargs).html)
 
-    ###############################################
-    # Handler call
-    ###############################################
+    # Handler calls
+
+    # HACK: Uses hardcoded arguments for the handler.
+    # TODO: Call the handler with the current method's parameters
+    # instead.
 
     def _start(self, **kwargs: object) -> ResponseT:
-        return self.handler.execute(  # type: ignore
-            params=dtos.NullDTO(),
-            context=dtos.RequestContext(),
-            data=dtos.RequestData(data={'action': ExerciseAction.CREATE_TASK}),
+        return self.handler.execute(
+            dtos.RequestParams(
+                query=dtos.NullDTO(),
+                context=dtos.RequestContext(),
+                data=dtos.RequestData(
+                    data={'action': ExerciseAction.CREATE_TASK}
+                ),
+            )
         )
 
     def _process(self, **kwargs: object) -> ResponseT:
         if not self.is_htmx:
-            raise SuspiciousOperation(
+            raise exceptions.SuspiciousOperation(
                 'POST requests for exercise processing must be HTMX requests'
             )
 
-        return self.handler.execute(  # type: ignore
-            params=dtos.NullDTO(),
-            context=dtos.RequestContext(),
-            data=dtos.RequestData(data=self.request.POST.dict()),
+        return self.handler.execute(
+            dtos.RequestParams(
+                query=dtos.NullDTO(),
+                context=dtos.RequestContext(),
+                data=dtos.RequestData(data=self.request.POST.dict()),
+            )
         )
 
-    ###############################################
     # Properties
-    ###############################################
 
     @property
     def is_htmx(self) -> bool:
