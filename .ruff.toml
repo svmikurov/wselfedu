@@ -31,10 +31,11 @@ ignore = [
 ]
 
 [lint.per-file-ignores]
-"tests/*" = ["D101", "D102", "D103"]
+"tests/*" = ["D102", "D103"]
 "*/ports/*" = ["D101", "D102", "D103"]
 "*/protocols/*" = ["D101", "D102", "D103"]
 "*/protocols.py" = ["D101", "D102", "D103"]
+"*/site/config/settings.py" = ["E501"]
 
 [lint.flake8-quotes]
 inline-quotes = "single"

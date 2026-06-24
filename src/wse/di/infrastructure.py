@@ -6,8 +6,8 @@ from dependency_injector.providers import Factory
 from wse.infrastructure import repositories
 
 
-class InfrastructureContainer(DeclarativeContainer):
-    """Infrastructure DI container."""
+class RepositoryContainer(DeclarativeContainer):
+    """Repository DI container."""
 
     learnable = Factory(repositories.InMemoryLearnableRepository)
     task = Factory(repositories.InMemoryLearnableRepository)

@@ -1,0 +1,1 @@
+"""Foreign application migrations."""

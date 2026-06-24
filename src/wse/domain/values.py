@@ -53,7 +53,7 @@ class TaskCreating:
 
     @property
     def option_count(self) -> int:
-        """Get option count."""
+        """Testing task option count."""
         return self.params.option_count
 
     def _validate(self) -> None:

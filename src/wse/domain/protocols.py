@@ -133,7 +133,7 @@ class CheckableOption(
 
 
 class TestingCreatableSpec(
-    HasLearnables[list[UniqueLearnable]],
+    HasLearnables[tuple[UniqueLearnable, ...]],
     HasParams[HasOptionCount],
     Protocol,
 ): ...
@@ -153,7 +153,7 @@ class AnswerCheckable(Protocol[T_contra, T_cov]):
 
 
 ###################################################
-# Input interfaces
+# Input (external) interfaces
 ###################################################
 
 

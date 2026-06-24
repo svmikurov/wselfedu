@@ -16,7 +16,7 @@ class ApplicationContainer(DeclarativeContainer):
     ###############################################
 
     services = Container(domain.DomainContainer)
-    repositories = Container(infrastructure.InfrastructureContainer)
+    repositories = Container(infrastructure.RepositoryContainer)
 
     ###############################################
     # Use cases

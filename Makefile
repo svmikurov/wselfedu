@@ -27,6 +27,7 @@ format:
 # Install dependencies
 setup:
 	poetry install
+	poetry run playwright install firefox
 
 # Remove cache files
 clean:
@@ -45,6 +46,9 @@ docs-open: docs-build
 run-flask:
 	@poetry run flask --app src/wse/entrypoints/flask_app/app.py run --port 5005 --debug
 
+run-django:
+	@poetry run src/wse/site/manage.py runserver
+
 # Show available commands
 help:
 	@echo "Available commands:"
@@ -59,4 +63,5 @@ help:
 	@echo "  make clean        - Remove cache files"
 	@echo "  make docs-build   - Build HTML documentation"
 	@echo "  make docs-open    - Build docs and open in browser"
-	@echo "  make run-flask    - Run flask entrypoint"
+	@echo "  make run-flask    - Run Flask entrypoint"
+	@echo "  make run-django   - Run Django entrypoint"
