@@ -7,13 +7,16 @@ from unittest.mock import Mock
 
 import pytest
 
-from tests.fixtures.model import (
+from tests.factories.mock import (
+    create_learnable_repo_mock,
+    create_task_repo_mock,
+)
+from tests.factories.model import (
     CORRECT_ANSWER_OPTION_VALUE,
     INCORRECT_ANSWER_OPTION_VALUE,
     TASK_SESSION_ID,
 )
 from wse.application import commands, dto
-from wse.domain.protocols import Repository
 
 if TYPE_CHECKING:
     from wse.application.protocols import (
@@ -31,13 +34,13 @@ if TYPE_CHECKING:
 
 
 @pytest.fixture
-def create_testing_command() -> CerateTestingCommandProto:
+def command_create_testing() -> CerateTestingCommandProto:
     """Provide a check testing task command."""
     return commands.CreateTestingTask(session_id=TASK_SESSION_ID)
 
 
 @pytest.fixture
-def check_testing_command_with_correct_answer() -> CheckTestingCommandProto:
+def command_check_testing_with_correct_answer() -> CheckTestingCommandProto:
     """Provide a check testing answer command with correct answer."""
     return commands.CheckTestingAnswer(
         session_id=TASK_SESSION_ID,
@@ -46,7 +49,7 @@ def check_testing_command_with_correct_answer() -> CheckTestingCommandProto:
 
 
 @pytest.fixture
-def check_testing_command_with_incorrect_answer() -> CheckTestingCommandProto:
+def command_check_testing_with_incorrect_answer() -> CheckTestingCommandProto:
     """Provide a check testing answer command with incorrect answer."""
     return commands.CheckTestingAnswer(
         session_id=TASK_SESSION_ID,
@@ -75,17 +78,13 @@ def testing_task_dto(
 @pytest.fixture
 def mock_learnable_repo(learnables: tuple[UniqueLearnable, ...]) -> Mock:
     """Provide a learnable repository mock with added learnables."""
-    repo = Mock(spec=Repository)
-    repo.list.return_value = learnables
-    return repo
+    return create_learnable_repo_mock(learnables)
 
 
 @pytest.fixture
 def mock_task_repo(testing_task_dto: TaskDtoProto) -> Mock:
     """Provide a task repository mock."""
-    repo = Mock(spec=Repository)
-    repo.get.return_value = testing_task_dto
-    return repo
+    return create_task_repo_mock(testing_task_dto)
 
 
 ###################################################

@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from unittest.mock import Mock
 
-from tests.fixtures.model import TASK_SESSION_ID
+from tests.factories.model import TASK_SESSION_ID
 from wse.application import dto
 
 if TYPE_CHECKING:
@@ -21,21 +21,21 @@ class TestCreateTestingTaskUseCase:
 
     def test_creates_task_from_learnables(
         self,
-        create_testing_command: CerateTestingCommandProto,
+        command_create_testing: CerateTestingCommandProto,
         container_with_mocks_for_task_execution: ApplicationContainer,
     ) -> None:
         # Arrange
         use_case = container_with_mocks_for_task_execution.create_testing()
 
         # Act
-        task_dto = use_case.execute(create_testing_command)
+        task_dto = use_case.execute(command_create_testing)
 
         # Assert
         assert task_dto.session_id == TASK_SESSION_ID
 
     def test_created_task_have_been_saved(
         self,
-        create_testing_command: CerateTestingCommandProto,
+        command_create_testing: CerateTestingCommandProto,
         mock_task_repo: Mock,
         container_with_mocks_for_task_execution: ApplicationContainer,
     ) -> None:
@@ -43,7 +43,7 @@ class TestCreateTestingTaskUseCase:
         use_case = container_with_mocks_for_task_execution.create_testing()
 
         # Act
-        task_dto = use_case.execute(create_testing_command)
+        task_dto = use_case.execute(command_create_testing)
 
         # Assert
         mock_task_repo.add.assert_called_once()
@@ -61,7 +61,7 @@ class TestCheckTestingAnswerUseCase:
 
     def test_returns_true_when_answer_correct(
         self,
-        check_testing_command_with_correct_answer: CheckTestingCommandProto,
+        command_check_testing_with_correct_answer: CheckTestingCommandProto,
         mock_task_repo: Mock,
         container_with_mocks_for_task_execution: ApplicationContainer,
     ) -> None:
@@ -69,7 +69,7 @@ class TestCheckTestingAnswerUseCase:
         use_case = container_with_mocks_for_task_execution.check_testing()
 
         # Act
-        result = use_case.execute(check_testing_command_with_correct_answer)
+        result = use_case.execute(command_check_testing_with_correct_answer)
 
         # Assert
         assert result is not None
@@ -80,14 +80,14 @@ class TestCheckTestingAnswerUseCase:
     def test_returns_false_when_answer_incorrect(
         self,
         mock_task_repo: Mock,
-        check_testing_command_with_incorrect_answer: CheckTestingCommandProto,
+        command_check_testing_with_incorrect_answer: CheckTestingCommandProto,
         container_with_mocks_for_task_execution: ApplicationContainer,
     ) -> None:
         # Arrange
         use_case = container_with_mocks_for_task_execution.check_testing()
 
         # Act
-        result = use_case.execute(check_testing_command_with_incorrect_answer)
+        result = use_case.execute(command_check_testing_with_incorrect_answer)
 
         # Assert
         assert result is not None
