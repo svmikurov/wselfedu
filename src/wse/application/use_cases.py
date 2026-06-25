@@ -18,9 +18,9 @@ from .protocols import (
 
 if TYPE_CHECKING:
     from wse.domain.protocols import (
-        AnswerCheckable,
+        Checkable,
         CheckableOption,
-        ExerciseCreatable,
+        Creatable,
         HasLearnables,
         Repository,
         UniqueLearnable,
@@ -35,7 +35,7 @@ class CreateTestingUseCase(
     def __init__(
         self,
         learnables_repo: Repository[int, UniqueLearnable],
-        service: ExerciseCreatable[
+        service: Creatable[
             HasLearnables[tuple[UniqueLearnable, ...]],
             Testable,
         ],
@@ -72,7 +72,7 @@ class CheckTestingUseCase(
     def __init__(
         self,
         repo: Repository[str, TaskDtoProto[Testable]],
-        service: AnswerCheckable[CheckableOption, CheckResultDtoProto],
+        service: Checkable[CheckableOption, CheckResultDtoProto],
     ) -> None:
         self._repo = repo
         self._service = service

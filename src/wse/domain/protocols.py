@@ -144,11 +144,11 @@ class TestingCreatableSpec(
 ###################################################
 
 
-class ExerciseCreatable(Protocol[T_contra, T_cov]):
+class Creatable(Protocol[T_contra, T_cov]):
     def create(self, spec: T_contra) -> T_cov: ...
 
 
-class AnswerCheckable(Protocol[T_contra, T_cov]):
+class Checkable(Protocol[T_contra, T_cov]):
     def check(self, spec: T_contra) -> T_cov: ...
 
 

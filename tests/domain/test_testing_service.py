@@ -10,22 +10,20 @@ from wse.domain import services
 
 if TYPE_CHECKING:
     from wse.domain.protocols import (
-        ExerciseCreatable,
+        Creatable,
         Testable,
         TestingCreatableSpec,
     )
 
 
 @pytest.fixture
-def create_testing_service() -> ExerciseCreatable[
-    TestingCreatableSpec, Testable
-]:
+def create_testing_service() -> Creatable[TestingCreatableSpec, Testable]:
     """Provide a create testing service."""
     return services.CreateTestingService()
 
 
 def test_create_testing_task(
-    create_testing_service: ExerciseCreatable[TestingCreatableSpec, Testable],
+    create_testing_service: Creatable[TestingCreatableSpec, Testable],
     create_testing_spec: TestingCreatableSpec,
 ) -> None:
     # Act
