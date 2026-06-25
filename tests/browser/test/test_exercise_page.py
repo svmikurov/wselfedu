@@ -2,12 +2,12 @@
 
 from playwright.sync_api import expect
 
-from tests.browser.pom.page.testing_exercise import TestingExercisePage
 from tests.factories.mock import create_learnable_repo_mock
 from tests.factories.model import get_learnables
 from wse.di import django_site_container
 
-from .pom.test.base import BaseTest
+from ..page.testing_exercise import TestingExercisePage
+from .base import BaseTest
 
 
 class TestTestingExercisePage(BaseTest):
