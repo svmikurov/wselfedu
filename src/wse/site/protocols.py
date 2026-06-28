@@ -28,6 +28,11 @@ class HasContext(Protocol[T_cov]):
     def context(self) -> T_cov: ...
 
 
+class HasSessionIdentifier(Protocol):
+    @property
+    def session_id(self) -> str: ...
+
+
 class HasData(Protocol[T_cov]):
     @property
     def data(self) -> T_cov: ...
