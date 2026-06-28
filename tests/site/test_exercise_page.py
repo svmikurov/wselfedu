@@ -24,7 +24,7 @@ def mock_learnable_repo(learnables: tuple[UniqueLearnable, ...]) -> Mock:
     return create_learnable_repo_mock(learnables)
 
 
-@pytest.mark.usefixtures('mock_learnable_repo')
+@pytest.mark.django_db
 def test_exercise_page_returns_http_200(
     client: Client,
     mock_learnable_repo: Mock,
