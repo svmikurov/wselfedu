@@ -13,6 +13,8 @@ from wse.di.site import DjangoSiteContainer
 from wse.domain.enums import ExerciseAction
 from wse.site import dtos, exceptions
 
+from ..utils import get_or_create_session_key
+
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponse
     from django.http.response import HttpResponseBase
@@ -67,15 +69,13 @@ class TestingExercisePerformView(
 
     # Handler calls
 
-    # HACK: Uses hardcoded arguments for the handler.
-    # TODO: Call the handler with the current method's parameters
-    # instead.
-
     def _start(self, **kwargs: object) -> ResponseT:
         return self.handler.execute(
             dtos.RequestParams(
                 query=dtos.NullDTO(),
-                context=dtos.RequestContext(),
+                context=dtos.RequestContext(
+                    session_id=get_or_create_session_key(self.request)
+                ),
                 data=dtos.RequestData(
                     data={'action': ExerciseAction.CREATE_TASK}
                 ),
@@ -91,7 +91,9 @@ class TestingExercisePerformView(
         return self.handler.execute(
             dtos.RequestParams(
                 query=dtos.NullDTO(),
-                context=dtos.RequestContext(),
+                context=dtos.RequestContext(
+                    session_id=get_or_create_session_key(self.request)
+                ),
                 data=dtos.RequestData(data=self.request.POST.dict()),
             )
         )
