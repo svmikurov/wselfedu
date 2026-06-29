@@ -7,7 +7,7 @@ instance.
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Container, Factory
 
-from wse.site.handlers import ExerciseHandler
+from wse.site import adapters, assemblers, handlers, validators
 
 from . import application
 
@@ -15,11 +15,24 @@ from . import application
 class DjangoSiteContainer(DeclarativeContainer):
     """Django site entrypoint DI container."""
 
+    # External dependencies
+
     use_cases = Container(
         application.ApplicationContainer,
     )
 
-    testing = Factory(  # type: ignore[var-annotated]
-        ExerciseHandler,
+    # Internal dependencies
+
+    null_validator = Factory(validators.NullValidator)
+    null_assembler = Factory(assemblers.NullAssembler)
+    null_adapter = Factory(adapters.NullAdapter)
+
+    # Request handlers
+
+    testing = Factory(
+        handlers.ExerciseHandler,
+        validator=null_validator,
+        assembler=null_assembler,
         use_case=use_cases.create_testing,
+        adapter=null_adapter,
     )
