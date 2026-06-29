@@ -33,7 +33,7 @@ def test_exercise_page_returns_http_200(
     url = reverse('testing')
 
     # Act
-    with django_site_container.use_cases.repositories.learnable.override(
+    with django_site_container.use_cases.repositories.learnable.override(  # type: ignore
         mock_learnable_repo
     ):
         response = client.get(url)

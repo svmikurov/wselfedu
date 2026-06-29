@@ -85,5 +85,4 @@ class CheckTestingUseCase(
             answer_value=cmd.answer_value,
         )
         result = self._service.check(spec)
-        # FIXME: Fix type ignore
-        return result  # type: ignore[no-any-return]
+        return result

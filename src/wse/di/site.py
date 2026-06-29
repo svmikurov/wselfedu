@@ -19,7 +19,7 @@ class DjangoSiteContainer(DeclarativeContainer):
         application.ApplicationContainer,
     )
 
-    testing = Factory(
+    testing = Factory(  # type: ignore[var-annotated]
         ExerciseHandler,
         use_case=use_cases.create_testing,
     )

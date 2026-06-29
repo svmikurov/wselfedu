@@ -20,7 +20,7 @@ class TestTestingExercisePage(BaseTest):
 
     def test_page_have_question_text(self) -> None:
         # Act
-        with django_site_container.use_cases.repositories.learnable.override(
+        with django_site_container.use_cases.repositories.learnable.override(  # type: ignore
             self.mock_learnable_repo
         ):
             self.page.open()

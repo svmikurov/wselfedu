@@ -65,7 +65,7 @@ def command_check_testing_with_incorrect_answer() -> CheckTestingCommandProto:
 @pytest.fixture
 def testing_task_dto(
     testing_task: Testable,
-) -> TaskDtoProto:
+) -> TaskDtoProto[Testable]:
     """Provide a testing task DTO."""
     return dto.Task(task=testing_task, session_id=TASK_SESSION_ID)
 
@@ -82,7 +82,7 @@ def mock_learnable_repo(learnables: tuple[UniqueLearnable, ...]) -> Mock:
 
 
 @pytest.fixture
-def mock_task_repo(testing_task_dto: TaskDtoProto) -> Mock:
+def mock_task_repo(testing_task_dto: TaskDtoProto[Testable]) -> Mock:
     """Provide a task repository mock."""
     return create_task_repo_mock(testing_task_dto)
 

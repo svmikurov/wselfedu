@@ -11,7 +11,7 @@ from wse.domain.values import Option, Testing
 from wse.utils.io import load_json
 
 if TYPE_CHECKING:
-    from tests.types import LearnableTypedData
+    from tests.test_types import LearnableTypedData
     from wse.application.protocols import TaskDtoProto
     from wse.domain.protocols import Testable, UniqueLearnable
 
@@ -46,6 +46,6 @@ def create_testing_task(
     )
 
 
-def create_testing_task_dto(testing_task: Testable) -> TaskDtoProto:
+def create_testing_task_dto(testing_task: Testable) -> TaskDtoProto[Testable]:
     """Provide a testing task DTO."""
     return Task(task=testing_task, session_id=TASK_SESSION_ID)

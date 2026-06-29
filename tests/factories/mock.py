@@ -9,7 +9,7 @@ from wse.domain.protocols import Repository
 
 if TYPE_CHECKING:
     from wse.application.protocols import TaskDtoProto
-    from wse.domain.protocols import UniqueLearnable
+    from wse.domain.protocols import Testable, UniqueLearnable
 
 
 def create_learnable_repo_mock(
@@ -21,7 +21,7 @@ def create_learnable_repo_mock(
     return repo
 
 
-def create_task_repo_mock(testing_task_dto: TaskDtoProto) -> Mock:
+def create_task_repo_mock(testing_task_dto: TaskDtoProto[Testable]) -> Mock:
     """Create a task repository mock."""
     repo = Mock(spec=Repository)
     repo.get.return_value = testing_task_dto
