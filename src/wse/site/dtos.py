@@ -48,15 +48,6 @@ class RequestData:
     data: dict[str, Any]
 
 
-@dataclass(frozen=True, slots=True)
-class RequestParams(Generic[QueryT, ContextT, DataT]):
-    """Request handling parameters DTO."""
-
-    query: QueryT
-    context: ContextT
-    data: DataT
-
-
 # Response
 
 
