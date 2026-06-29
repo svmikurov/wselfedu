@@ -24,7 +24,7 @@ if TYPE_CHECKING:
     from ..abstract import AbstractRequestHandler
 
 # FIXME: Fix Any typing
-type HandlerT = AbstractRequestHandler[Any, HtmlResponsible]
+type HandlerT = AbstractRequestHandler[Any, Any, Any, HtmlResponsible]
 type ResponseT = HtmlResponsible
 
 
@@ -72,15 +72,11 @@ class TestingExercisePerformView(
 
     def _start(self, **kwargs: object) -> ResponseT:
         return self.handler.handle(
-            dtos.RequestParams(
-                query=dtos.NullDTO(),
-                context=dtos.RequestContext(
-                    session_id=get_or_create_session_key(self.request)
-                ),
-                data=dtos.RequestData(
-                    data={'action': ExerciseAction.CREATE_TASK}
-                ),
-            )
+            params=dtos.NullDTO(),
+            context=dtos.RequestContext(
+                session_id=get_or_create_session_key(self.request)
+            ),
+            data={'action': ExerciseAction.CREATE_TASK},
         )
 
     def _process(self, **kwargs: object) -> ResponseT:
@@ -90,13 +86,11 @@ class TestingExercisePerformView(
             )
 
         return self.handler.handle(
-            dtos.RequestParams(
-                query=dtos.NullDTO(),
-                context=dtos.RequestContext(
-                    session_id=get_or_create_session_key(self.request)
-                ),
-                data=dtos.RequestData(data=self.request.POST.dict()),
-            )
+            params=dtos.NullDTO(),
+            context=dtos.RequestContext(
+                session_id=get_or_create_session_key(self.request)
+            ),
+            data=self.request.POST.dict(),
         )
 
     # Properties
