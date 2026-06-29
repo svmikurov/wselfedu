@@ -5,7 +5,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Generic, TypeVar, override
 
 from .abstract import AbstractRequestHandler
-from .protocols import HasContext, HasSessionIdentifier
 
 if TYPE_CHECKING:
     from wse.application.protocols import Executable
@@ -13,13 +12,13 @@ if TYPE_CHECKING:
     from .protocols import Preparable, ResponseAdaptable, Validatable
 
 RequestParamsT = TypeVar('RequestParamsT')
-RequestContextT = TypeVar('RequestContextT', bound=HasSessionIdentifier)
-RequestDataT = TypeVar('RequestDataT', bound=dict[str, object])
+RequestContextT = TypeVar('RequestContextT')
+RequestDataT = TypeVar('RequestDataT')
 
 ValidatedT = TypeVar('ValidatedT')
 CommandT = TypeVar('CommandT')
 ResultT = TypeVar('ResultT')
-AdaptedT = TypeVar('AdaptedT', bound=HasContext[dict[str, str]])
+AdaptedT = TypeVar('AdaptedT')
 
 
 class ExerciseHandler(
