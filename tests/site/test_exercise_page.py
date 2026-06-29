@@ -19,24 +19,46 @@ if TYPE_CHECKING:
 
 
 @pytest.fixture
+def testing_exercise_url() -> str:
+    """Provide a testing exercise url."""
+    return reverse('testing')
+
+
+@pytest.fixture
 def mock_learnable_repo(learnables: tuple[UniqueLearnable, ...]) -> Mock:
     """Provide a learnable repository mock with added learnables."""
     return create_learnable_repo_mock(learnables)
 
 
 @pytest.mark.django_db
-def test_exercise_page_returns_http_200(
+def test_start_exercise_page_returns_http_200(
     client: Client,
+    testing_exercise_url: str,
     mock_learnable_repo: Mock,
 ) -> None:
-    # Arrange
-    url = reverse('testing')
-
     # Act
     with django_site_container.use_cases.repositories.learnable.override(  # type: ignore
         mock_learnable_repo
     ):
-        response = client.get(url)
+        response = client.get(testing_exercise_url)
+
+        # Assert
+        assert response.status_code == HTTPStatus.OK
+
+
+@pytest.mark.django_db
+def test_perform_exercise_page_returns_http_200(
+    client: Client,
+    testing_exercise_url: str,
+    mock_learnable_repo: Mock,
+) -> None:
+    # Act
+    with django_site_container.use_cases.repositories.learnable.override(  # type: ignore
+        mock_learnable_repo
+    ):
+        response = client.post(
+            testing_exercise_url, headers={'HX-Request': 'true'}
+        )
 
         # Assert
         assert response.status_code == HTTPStatus.OK
