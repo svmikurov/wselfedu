@@ -1,4 +1,4 @@
-"""Request handlers."""
+"""Request handler."""
 
 from __future__ import annotations
 
@@ -21,7 +21,7 @@ ResultT = TypeVar('ResultT')
 AdaptedT = TypeVar('AdaptedT')
 
 
-class ExerciseHandler(
+class RequestHandler(
     AbstractRequestHandler[
         RequestParamsT,
         RequestContextT,
@@ -38,7 +38,7 @@ class ExerciseHandler(
         AdaptedT,
     ],
 ):
-    """Exercise performing request handler."""
+    """Request handler."""
 
     def __init__(
         self,
@@ -64,7 +64,7 @@ class ExerciseHandler(
         context: RequestContextT,
         data: RequestDataT,
     ) -> AdaptedT:
-        """Handle the exercise request."""
+        """Handle a request."""
         validated = self._validator.validate(data)
         command = self._assembler.prepare(params, context, validated)
         result = self._use_case.execute(command)

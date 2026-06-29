@@ -5,18 +5,19 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 from dependency_injector.wiring import Provide, inject
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
 from django.views.generic.base import ContextMixin, TemplateResponseMixin
 
 from wse.di.site import DjangoSiteContainer
 from wse.domain.enums import ExerciseAction
-from wse.site import dtos, exceptions
+from wse.site import dto, exceptions
 
 from ..utils import get_or_create_session_key
 
 if TYPE_CHECKING:
-    from django.http import HttpRequest, HttpResponse
+    from django.http import HttpRequest
     from django.http.response import HttpResponseBase
 
     from wse.site.protocols import HtmlResponsible
@@ -72,8 +73,8 @@ class TestingExercisePerformView(
 
     def _start(self, **kwargs: object) -> ResponseT:
         return self.handler.handle(
-            params=dtos.NullDTO(),
-            context=dtos.RequestContext(
+            params=dto.NullDTO(),
+            context=dto.RequestContext(
                 session_id=get_or_create_session_key(self.request)
             ),
             data={'action': ExerciseAction.CREATE_TASK},
@@ -86,8 +87,8 @@ class TestingExercisePerformView(
             )
 
         return self.handler.handle(
-            params=dtos.NullDTO(),
-            context=dtos.RequestContext(
+            params=dto.NullDTO(),
+            context=dto.RequestContext(
                 session_id=get_or_create_session_key(self.request)
             ),
             data=self.request.POST.dict(),

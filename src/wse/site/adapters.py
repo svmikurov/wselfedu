@@ -3,7 +3,7 @@
 from wse.application.protocols import HasTask
 from wse.domain.protocols import Testable
 
-from . import dtos
+from . import dto
 from .abstract import AbstractAdapter
 from .context_contract import CreateTestingTaskContext
 from .protocols import HasContext, NullProto
@@ -34,6 +34,6 @@ class CreateTestingAdapter(
         context: NullProto,
     ) -> HasContext[CreateTestingTaskContext]:
         """Adapt for web response context."""
-        return dtos.ResponseDto(
+        return dto.ResponseDto(
             context={'question_text': source.task.question_text},
         )

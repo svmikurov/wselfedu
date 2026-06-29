@@ -6,7 +6,7 @@ from unittest.mock import Mock
 import pytest
 
 from wse.application.protocols import Executable
-from wse.site.handlers import ExerciseHandler
+from wse.site.handler import RequestHandler
 from wse.site.protocols import Preparable, ResponseAdaptable, Validatable
 
 RequestParamsT = TypeVar('RequestParamsT')
@@ -62,9 +62,7 @@ def mock_result() -> Mock:
 
 
 @pytest.fixture
-def mock_validator(
-    mock_validated: Mock,
-) -> Mock:
+def mock_validator(mock_validated: Mock) -> Mock:
     """Provide a request data validator mock."""
     mock = Mock(spec=Validatable)
     mock.validate.return_value = mock_validated
@@ -72,9 +70,7 @@ def mock_validator(
 
 
 @pytest.fixture
-def mock_assembler(
-    mock_command: Mock,
-) -> Mock:
+def mock_assembler(mock_command: Mock) -> Mock:
     """Provide a create use case command assembler mock."""
     mock = Mock(spec=Preparable)
     mock.prepare.return_value = mock_command
@@ -82,9 +78,7 @@ def mock_assembler(
 
 
 @pytest.fixture
-def mock_use_case(
-    mock_result: Mock,
-) -> Mock:
+def mock_use_case(mock_result: Mock) -> Mock:
     """Provide an use case mock."""
     mock = Mock(spec=Executable)
     mock.execute.return_value = mock_result
@@ -109,7 +103,7 @@ def handler(
     ],
     mock_use_case: Executable[CommandT, ResultT],
     mock_adapter: ResponseAdaptable[ResultT, RequestContextT, AdaptedT],
-) -> ExerciseHandler[
+) -> RequestHandler[
     RequestParamsT,
     RequestContextT,
     RequestDataT,
@@ -119,7 +113,7 @@ def handler(
     AdaptedT,
 ]:
     """Provide a request handler."""
-    return ExerciseHandler(
+    return RequestHandler(
         validator=mock_validator,
         assembler=mock_assembler,
         use_case=mock_use_case,
@@ -135,7 +129,7 @@ def test_request_handler_dependencies_called(
     mock_assembler: Mock,
     mock_use_case: Mock,
     mock_adapter: Mock,
-    handler: ExerciseHandler[Mock, Mock, Mock, Mock, Mock, Mock, Mock],
+    handler: RequestHandler[Mock, Mock, Mock, Mock, Mock, Mock, Mock],
     mock_request_params: Mock,
     mock_request_context: Mock,
     mock_request_data: Mock,

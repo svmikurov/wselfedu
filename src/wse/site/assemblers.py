@@ -5,7 +5,7 @@ from typing import override
 from wse.application.commands import CreateTestingTask
 
 from .abstract import AbstractAssembler
-from .dtos import NullDTO
+from .dto import NullDTO
 from .protocols import HasSessionIdentifier, NullProto
 
 
