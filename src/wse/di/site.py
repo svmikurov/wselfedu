@@ -23,16 +23,22 @@ class DjangoSiteContainer(DeclarativeContainer):
 
     # Internal dependencies
 
-    null_validator = Factory(validators.NullValidator)
-    null_assembler = Factory(assemblers.NullAssembler)
-    null_adapter = Factory(adapters.NullAdapter)
+    null_validator = Factory(
+        validators.NullValidator,
+    )
+    create_testing_assembler = Factory(
+        assemblers.CreateTestingTaskAssembler,
+    )
+    create_testing_adapter = Factory(
+        adapters.CreateTestingAdapter,
+    )
 
     # Request handlers
 
     testing = Factory(
         handlers.ExerciseHandler,
         validator=null_validator,
-        assembler=null_assembler,
+        assembler=create_testing_assembler,
         use_case=use_cases.create_testing,
-        adapter=null_adapter,
+        adapter=create_testing_adapter,
     )
