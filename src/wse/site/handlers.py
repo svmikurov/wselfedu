@@ -2,55 +2,72 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, TypeVar, override
-
-from wse.application.commands import CreateTestingTask
+from typing import TYPE_CHECKING, Generic, TypeVar, override
 
 from .abstract import AbstractRequestHandler
-from .dtos import ResponseDto
-from .protocols import (
-    HasContext,
-    HasSessionIdentifier,
-    SimpleRequestParamsProto,
-)
+from .protocols import HasContext, HasSessionIdentifier
 
 if TYPE_CHECKING:
-    from wse.application.protocols import (
-        CerateTestingCommandProto,
-        Executable,
-        TaskDtoProto,
-    )
-    from wse.domain.protocols import Testable
+    from wse.application.protocols import Executable
 
+    from .protocols import Preparable, ResponseAdaptable, Validatable
 
-ContextT = TypeVar('ContextT', bound=HasSessionIdentifier)
-DataT = TypeVar('DataT')
+RequestParamsT = TypeVar('RequestParamsT')
+RequestContextT = TypeVar('RequestContextT', bound=HasSessionIdentifier)
+RequestDataT = TypeVar('RequestDataT', bound=dict[str, object])
 
-type UseCaseT = Executable[CerateTestingCommandProto, TaskDtoProto[Testable]]
+ValidatedT = TypeVar('ValidatedT')
+CommandT = TypeVar('CommandT')
+ResultT = TypeVar('ResultT')
+AdaptedT = TypeVar('AdaptedT', bound=HasContext[dict[str, str]])
 
 
 class ExerciseHandler(
     AbstractRequestHandler[
-        SimpleRequestParamsProto[ContextT, DataT],
-        HasContext[dict[str, str]],
-    ]
+        RequestParamsT,
+        RequestContextT,
+        RequestDataT,
+        AdaptedT,
+    ],
+    Generic[
+        RequestParamsT,
+        RequestContextT,
+        RequestDataT,
+        ValidatedT,
+        CommandT,
+        ResultT,
+        AdaptedT,
+    ],
 ):
     """Exercise performing request handler."""
 
     def __init__(
         self,
-        use_case: UseCaseT,
+        validator: Validatable[RequestDataT, ValidatedT],
+        assembler: Preparable[
+            RequestParamsT,
+            RequestContextT,
+            ValidatedT,
+            CommandT,
+        ],
+        use_case: Executable[CommandT, ResultT],
+        adapter: ResponseAdaptable[ResultT, RequestContextT, AdaptedT],
     ) -> None:
+        self._assembler = assembler
+        self._validator = validator
         self._use_case = use_case
+        self._adapter = adapter
 
     @override
     def handle(
         self,
-        params: SimpleRequestParamsProto[ContextT, DataT],
-    ) -> HasContext[dict[str, str]]:
+        params: RequestParamsT,
+        context: RequestContextT,
+        data: RequestDataT,
+    ) -> AdaptedT:
         """Handle the exercise request."""
-        command = CreateTestingTask(session_id=params.context.session_id)
+        validated = self._validator.validate(data)
+        command = self._assembler.prepare(params, context, validated)
         result = self._use_case.execute(command)
-        return ResponseDto(
-            context={'question_text': result.task.question_text}
-        )
+        adapted = self._adapter.to_response(result, context)
+        return adapted
