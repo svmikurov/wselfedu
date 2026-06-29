@@ -82,5 +82,7 @@
     // Site
     "htmx",
     "testid",
+    "validatable",
+    "preparable",
   ]
 }
