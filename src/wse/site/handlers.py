@@ -2,12 +2,17 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Generic, TypeVar
+from typing import TYPE_CHECKING, TypeVar, override
 
 from wse.application.commands import CreateTestingTask
 
+from .abstract import AbstractRequestHandler
 from .dtos import ResponseDto
-from .protocols import HasSessionIdentifier
+from .protocols import (
+    HasContext,
+    HasSessionIdentifier,
+    SimpleRequestParamsProto,
+)
 
 if TYPE_CHECKING:
     from wse.application.protocols import (
@@ -17,7 +22,6 @@ if TYPE_CHECKING:
     )
     from wse.domain.protocols import Testable
 
-    from .protocols import HasContext, SimpleRequestParamsProto
 
 ContextT = TypeVar('ContextT', bound=HasSessionIdentifier)
 DataT = TypeVar('DataT')
@@ -25,7 +29,12 @@ DataT = TypeVar('DataT')
 type UseCaseT = Executable[CerateTestingCommandProto, TaskDtoProto[Testable]]
 
 
-class ExerciseHandler(Generic[ContextT, DataT]):
+class ExerciseHandler(
+    AbstractRequestHandler[
+        SimpleRequestParamsProto[ContextT, DataT],
+        HasContext[dict[str, str]],
+    ]
+):
     """Exercise performing request handler."""
 
     def __init__(
@@ -34,11 +43,12 @@ class ExerciseHandler(Generic[ContextT, DataT]):
     ) -> None:
         self._use_case = use_case
 
-    def execute(
+    @override
+    def handle(
         self,
         params: SimpleRequestParamsProto[ContextT, DataT],
     ) -> HasContext[dict[str, str]]:
-        """Execute the exercise request."""
+        """Handle the exercise request."""
         command = CreateTestingTask(session_id=params.context.session_id)
         result = self._use_case.execute(command)
         return ResponseDto(

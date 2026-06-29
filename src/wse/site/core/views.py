@@ -19,11 +19,12 @@ if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponse
     from django.http.response import HttpResponseBase
 
-    from wse.application.protocols import Executable
     from wse.site.protocols import HtmlResponsible
 
+    from ..abstract import AbstractRequestHandler
+
 # FIXME: Fix Any typing
-type HandlerT = Executable[Any, HtmlResponsible]
+type HandlerT = AbstractRequestHandler[Any, HtmlResponsible]
 type ResponseT = HtmlResponsible
 
 
@@ -70,7 +71,7 @@ class TestingExercisePerformView(
     # Handler calls
 
     def _start(self, **kwargs: object) -> ResponseT:
-        return self.handler.execute(
+        return self.handler.handle(
             dtos.RequestParams(
                 query=dtos.NullDTO(),
                 context=dtos.RequestContext(
@@ -88,7 +89,7 @@ class TestingExercisePerformView(
                 'POST requests for exercise processing must be HTMX requests'
             )
 
-        return self.handler.execute(
+        return self.handler.handle(
             dtos.RequestParams(
                 query=dtos.NullDTO(),
                 context=dtos.RequestContext(
