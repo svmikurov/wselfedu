@@ -20,9 +20,9 @@ if TYPE_CHECKING:
     from django.http import HttpRequest
     from django.http.response import HttpResponseBase
 
-    from wse.site.protocols import HtmlResponsible
+    from wse.site.interfaces.protocols import HtmlResponsible
 
-    from ..abstract import AbstractRequestHandler
+    from ..handlers.abstract import AbstractRequestHandler
 
 # FIXME: Fix Any typing
 type HandlerT = AbstractRequestHandler[Any, Any, Any, HtmlResponsible]

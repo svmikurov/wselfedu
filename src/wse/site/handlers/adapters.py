@@ -3,10 +3,10 @@
 from wse.application.protocols import HasTask
 from wse.domain.protocols import Testable
 
-from . import dto
+from .. import dto
+from ..interfaces.response import CreateTestingTaskContext
+from ..interfaces.protocols import HasContext, NullProto
 from .abstract import AbstractAdapter
-from .context_contract import CreateTestingTaskContext
-from .protocols import HasContext, NullProto
 
 
 class NullAdapter(

@@ -1,7 +1,7 @@
 """Application layer validators."""
 
+from ..interfaces.protocols import NullProto
 from .abstract import AbstractValidator
-from .protocols import NullProto
 
 
 class NullValidator(AbstractValidator[NullProto, NullProto]):

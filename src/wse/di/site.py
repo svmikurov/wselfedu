@@ -7,7 +7,7 @@ instance.
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Container, Factory
 
-from wse.site import adapters, assemblers, handler, validators
+from wse.site.handlers import adapters, assemblers, generic, validators
 
 from . import application
 
@@ -36,7 +36,7 @@ class DjangoSiteContainer(DeclarativeContainer):
     # Request handlers
 
     testing = Factory(
-        handler.RequestHandler,
+        generic.RequestHandler,
         validator=null_validator,
         assembler=create_testing_assembler,
         use_case=use_cases.create_testing,

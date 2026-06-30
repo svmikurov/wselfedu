@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from typing import Any, Generic, TypeVar
 
 from . import exceptions
-from .protocols import HasData
+from .interfaces.protocols import HasData
 
 T = TypeVar('T')
 

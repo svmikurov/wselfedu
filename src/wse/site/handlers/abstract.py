@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar, override
 
-from .protocols import Preparable, ResponseAdaptable, Validatable
+from ..interfaces.protocols import Preparable, ResponseAdaptable, Validatable
 
 RequestParamsT = TypeVar('RequestParamsT')
 RequestContextT = TypeVar('RequestContextT')

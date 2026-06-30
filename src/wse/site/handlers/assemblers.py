@@ -4,9 +4,9 @@ from typing import override
 
 from wse.application.commands import CreateTestingTask
 
+from ..dto import NullDTO
+from ..interfaces.protocols import HasSessionIdentifier, NullProto
 from .abstract import AbstractAssembler
-from .dto import NullDTO
-from .protocols import HasSessionIdentifier, NullProto
 
 
 class NullAssembler(

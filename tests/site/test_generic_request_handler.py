@@ -6,8 +6,12 @@ from unittest.mock import Mock
 import pytest
 
 from wse.application.protocols import Executable
-from wse.site.handler import RequestHandler
-from wse.site.protocols import Preparable, ResponseAdaptable, Validatable
+from wse.site.handlers.generic import RequestHandler
+from wse.site.interfaces.protocols import (
+    Preparable,
+    ResponseAdaptable,
+    Validatable,
+)
 
 RequestParamsT = TypeVar('RequestParamsT')
 RequestContextT = TypeVar('RequestContextT')

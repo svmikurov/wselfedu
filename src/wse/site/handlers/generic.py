@@ -1,4 +1,4 @@
-"""Request handler."""
+"""Generic request handler."""
 
 from __future__ import annotations
 
@@ -9,7 +9,11 @@ from .abstract import AbstractRequestHandler
 if TYPE_CHECKING:
     from wse.application.protocols import Executable
 
-    from .protocols import Preparable, ResponseAdaptable, Validatable
+    from ..interfaces.protocols import (
+        Preparable,
+        ResponseAdaptable,
+        Validatable,
+    )
 
 RequestParamsT = TypeVar('RequestParamsT')
 RequestContextT = TypeVar('RequestContextT')

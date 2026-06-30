@@ -1,4 +1,4 @@
-"""HTTP response context contract."""
+"""HTTP response context interface."""
 
 from typing import TypedDict
 
