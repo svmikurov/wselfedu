@@ -5,9 +5,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
+from .constraints import TaskConstraints
 from .exceptions import (
     EmptyLearnablesError,
-    InvalidOptionCountError,
     NotEnoughLearnablesError,
 )
 
@@ -69,18 +69,12 @@ class TaskCreating:
 
     def _validate_option_count(self) -> None:
         """Ensure option count is valid."""
-        if self.option_count < 1:
-            raise InvalidOptionCountError(
-                f'Cannot create testing task: '
-                f'option count = {self.option_count} < 1'
-            )
+        TaskConstraints.validate_options(self.option_count)
 
-        available = len(self.learnables)
-
-        if available < self.option_count:
+        if len(self.learnables) < self.option_count:
             raise NotEnoughLearnablesError(
-                f'Cannot create testing task: need {self.option_count} '
-                f'learnables, but only {available} available'
+                required=self.option_count,
+                actual=len(self.learnables),
             )
 
 

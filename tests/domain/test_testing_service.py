@@ -8,12 +8,13 @@ import pytest
 
 from tests.factories.model import TESTING_TASK_OPTION_COUNT, get_learnables
 from wse.domain import exceptions, services, values
+from wse.domain.constraints import TaskConstraints
 
 if TYPE_CHECKING:
     from wse.domain.protocols import HasOptionCount, Testable, UniqueLearnable
 
 
-def create_testing_task_uses_service(
+def create_testing_task_via_service(
     learnables: tuple[UniqueLearnable, ...] | None = None,
     params: HasOptionCount | None = None,
 ) -> Testable:
@@ -33,7 +34,7 @@ def task(
     learnables: tuple[UniqueLearnable, ...],
 ) -> Testable:
     """Provide task created by domain service."""
-    return create_testing_task_uses_service(learnables)
+    return create_testing_task_via_service(learnables)
 
 
 def test_task_contains_attributes(task: Testable) -> None:
@@ -56,17 +57,12 @@ def test_task_contains_attributes(task: Testable) -> None:
 
 @pytest.mark.parametrize(
     'option_count',
-    [1, 3],
-    ids=['min option count', 'more option count'],
+    [TaskConstraints.MIN_OPTIONS, TaskConstraints.MAX_OPTIONS],
+    ids=['min option count', 'max option count'],
 )
 def test_testing_task_contains_option_count(option_count: int) -> None:
-    # Arrange
-    learnables_count = len(get_learnables())
-    if option_count > learnables_count:
-        pytest.skip(f'{option_count = } > {learnables_count = }')
-
     # Act
-    testing_task = create_testing_task_uses_service(
+    testing_task = create_testing_task_via_service(
         params=values.TestingParameters(option_count=option_count)
     )
 
@@ -78,7 +74,7 @@ def test_testing_task_contains_option_count(option_count: int) -> None:
     'option_count, expected_exception',
     [
         (0, exceptions.InvalidOptionCountError),
-        (100, exceptions.NotEnoughLearnablesError),
+        (100, exceptions.InvalidOptionCountError),
     ],
     ids=['zero option count', 'option count more than learnable count'],
 )
@@ -88,7 +84,7 @@ def test_exception_raises_when_incorrect_option_count(
 ) -> None:
     # Act & Assert
     with pytest.raises(expected_exception):
-        create_testing_task_uses_service(
+        create_testing_task_via_service(
             params=values.TestingParameters(option_count=option_count)
         )
 
