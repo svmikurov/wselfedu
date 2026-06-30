@@ -17,3 +17,7 @@ class EmptyLearnablesError(DomainError):
     """Raised when learnables is empty."""
 
     pass
+
+
+class InvalidOptionCountError(DomainError):
+    """Raises when testing exercise option count is invalid."""
