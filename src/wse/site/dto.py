@@ -56,3 +56,7 @@ class ResponseDto(Generic[T]):
     """Response DTO."""
 
     context: T
+    html: str = field(
+        default_factory=str,
+        metadata={'description': 'Partial HTML for htmx'},
+    )
