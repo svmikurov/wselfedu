@@ -2,16 +2,17 @@
 
 from __future__ import annotations
 
-import logging
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from .exceptions import EmptyLearnablesError, NotEnoughLearnablesError
+from .exceptions import (
+    EmptyLearnablesError,
+    InvalidOptionCountError,
+    NotEnoughLearnablesError,
+)
 
 if TYPE_CHECKING:
     from .protocols import HasOptionCount, Selectable, UniqueLearnable
-
-log = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True, slots=True)
@@ -64,21 +65,19 @@ class TaskCreating:
     def _validate_not_empty(self) -> None:
         """Ensure learnables is not empty."""
         if not self.learnables:
-            log.error('TaskCreating: learnables collection is empty')
             raise EmptyLearnablesError('Learnables cannot be empty')
 
     def _validate_option_count(self) -> None:
         """Ensure option count is valid."""
+        if self.option_count < 1:
+            raise InvalidOptionCountError(
+                f'Cannot create testing task: '
+                f'option count = {self.option_count} < 1'
+            )
+
         available = len(self.learnables)
 
         if available < self.option_count:
-            log.warning(
-                'Not enough learnables for testing task creation: '
-                'required=%d, option count=%d',
-                self.option_count,
-                available,
-            )
-
             raise NotEnoughLearnablesError(
                 f'Cannot create testing task: need {self.option_count} '
                 f'learnables, but only {available} available'
