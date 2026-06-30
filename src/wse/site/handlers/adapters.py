@@ -4,8 +4,8 @@ from wse.application.protocols import HasTask
 from wse.domain.protocols import Testable
 
 from .. import dto
+from ..interfaces.protocols import HasContext, HasHtml, NullProto
 from ..interfaces.response import CreateTestingTaskContext
-from ..interfaces.protocols import HasContext, NullProto
 from .abstract import AbstractAdapter
 
 
@@ -36,4 +36,25 @@ class CreateTestingAdapter(
         """Adapt for web response context."""
         return dto.ResponseDto(
             context={'question_text': source.task.question_text},
+        )
+
+
+class CheckTestingAdapter(
+    AbstractAdapter[
+        NullProto,
+        NullProto,
+        HasHtml,
+    ]
+):
+    """Adapter for check testing task web response context."""
+
+    def to_response(
+        self,
+        source: NullProto,
+        context: NullProto,
+    ) -> HasHtml:
+        """Adapt a testing answer check result for web response."""
+        # HACK: Implement result context rendering
+        return dto.ResponseDto(
+            context={},
         )
