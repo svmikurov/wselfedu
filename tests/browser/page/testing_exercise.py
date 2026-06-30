@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 from .base import BasePage
 
 if TYPE_CHECKING:
-    from playwright.sync_api import Page
+    from playwright.sync_api import Locator, Page
 
 
 class TestingExercisePage(BasePage):
@@ -23,3 +23,7 @@ class TestingExercisePage(BasePage):
 
     def _set_locators(self) -> None:
         self.question_text = self._page.get_by_test_id('question-text')
+
+    def get_testing_option_locator(self, option_value: int) -> Locator:
+        """Get option locator by option value."""
+        return self._page.get_by_test_id(f'option-{option_value}')
