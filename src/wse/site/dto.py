@@ -29,6 +29,9 @@ class RequestContext:
     session_id: str = field(
         metadata={'description': 'Task session identifier'},
     )
+    is_htmx: bool = field(
+        metadata={'description': 'Is request with htmx'},
+    )
 
     def __post_init__(self) -> None:
         self._validate()

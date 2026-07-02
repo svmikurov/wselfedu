@@ -36,6 +36,11 @@ class HasHtml(Protocol):
     def html(self) -> str: ...
 
 
+class HasIsHtmx(Protocol):
+    @property
+    def is_htmx(self) -> bool: ...
+
+
 class HasContext(Protocol[T_cov]):
     @property
     def context(self) -> T_cov: ...

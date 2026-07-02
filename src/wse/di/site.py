@@ -31,6 +31,7 @@ class DjangoSiteContainer(DeclarativeContainer):
     )
     create_testing_adapter = Factory(
         adapters.CreateTestingAdapter,
+        templates=['exercise/testing.html'],
     )
 
     # Request handlers

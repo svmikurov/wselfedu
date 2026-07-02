@@ -75,7 +75,8 @@ class TestingExercisePerformView(
         return self.handler.handle(
             params=dto.NullDTO(),
             context=dto.RequestContext(
-                session_id=get_or_create_session_key(self.request)
+                session_id=get_or_create_session_key(self.request),
+                is_htmx=self.is_htmx,
             ),
             data={'action': ExerciseAction.CREATE_TASK},
         )
@@ -89,7 +90,8 @@ class TestingExercisePerformView(
         return self.handler.handle(
             params=dto.NullDTO(),
             context=dto.RequestContext(
-                session_id=get_or_create_session_key(self.request)
+                session_id=get_or_create_session_key(self.request),
+                is_htmx=self.is_htmx,
             ),
             data=self.request.POST.dict(),
         )

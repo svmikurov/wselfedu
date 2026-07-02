@@ -48,7 +48,9 @@ class AbstractAdapter(
     @override
     @abstractmethod
     def to_response(
-        self, source: ResultT, context: RequestContextT
+        self,
+        source: ResultT,
+        context: RequestContextT,
     ) -> AdaptedT:
         """Adapt source for response context."""
 
