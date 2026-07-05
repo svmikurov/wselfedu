@@ -4,7 +4,7 @@ type-check:
 
 # Run tests
 test:
-	poetry run pytest
+	poetry run pytest -v
 
 # Lint code (read-only, no fixes)
 lint:
