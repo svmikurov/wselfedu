@@ -1,5 +1,6 @@
 """Testing exercise POM test."""
 
+import pytest
 from playwright.sync_api import Locator, expect
 
 from tests.factories.mock import (
@@ -55,3 +56,9 @@ class TestTestingExercisePage(BaseTestSetup):
 
             # - that page contain correct answer button
             expect(self.correct_answer_option_locator).to_be_visible()
+
+    @pytest.mark.skip(reason='Not implemented yet')
+    def test_should_display_next_task_on_correct_answer(self) -> None: ...
+
+    @pytest.mark.skip(reason='Not implemented yet')
+    def test_should_display_explanation_on_incorrect_answer(self) -> None: ...
