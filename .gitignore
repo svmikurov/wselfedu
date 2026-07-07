@@ -5,3 +5,5 @@ build/
 *.drawio.bkp*
 *.drawio.dtmp*
 *.sqlite3
+*.swp
+*.swo
