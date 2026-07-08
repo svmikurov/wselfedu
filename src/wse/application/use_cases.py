@@ -2,17 +2,19 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
-from wse.domain import values
+from wse.domain import enums, values
 from wse.domain.protocols import Testable
 
 from . import dto
 from .abstract import AbstractUseCase
 from .protocols import (
-    CreateTaskCommandProto,
     CheckResultDtoProto,
     CheckTestingCommandProto,
+    CreateTaskCommandProto,
+    Executable,
+    HasExerciseAction,
     TaskDtoProto,
 )
 
@@ -45,9 +47,7 @@ class CreateTestingUseCase(
         self._task_repo = task_repo
         self._service = service
 
-    def execute(
-        self, cmd: CreateTaskCommandProto
-    ) -> TaskDtoProto[Testable]:
+    def execute(self, cmd: CreateTaskCommandProto) -> TaskDtoProto[Testable]:
         """Create the testing task."""
         learnables = self._learnables_repo.list()
         params = values.TestingParameters(
@@ -85,4 +85,22 @@ class CheckTestingUseCase(
             answer_value=cmd.answer_value,
         )
         result = self._service.check(spec)
+        return result
+
+
+class ExerciseUseCaseStrategy(
+    AbstractUseCase[CreateTaskCommandProto, object],
+):
+    """Use case strategy for exercise action."""
+
+    def __init__(
+        self,
+        use_case_registry: dict[enums.ExerciseAction, Executable[Any, Any]],
+    ) -> None:
+        self._use_case_registry = use_case_registry
+
+    def execute(self, cmd: HasExerciseAction[enums.ExerciseAction]) -> object:
+        """Execute exercise."""
+        use_case = self._use_case_registry[cmd.exercise_action]
+        result = use_case.execute(cmd)
         return result
