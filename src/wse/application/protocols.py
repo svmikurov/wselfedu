@@ -31,7 +31,7 @@ class HasAnswerValue(Protocol):
 ###################################################
 
 
-class CerateTestingCommandProto(
+class CreateTaskCommandProto(
     HasSessionIdentifier,
     Protocol,
 ): ...

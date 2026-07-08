@@ -20,8 +20,8 @@ from wse.application import commands, dto
 
 if TYPE_CHECKING:
     from wse.application.protocols import (
-        CerateTestingCommandProto,
         CheckTestingCommandProto,
+        CreateTaskCommandProto,
         TaskDtoProto,
     )
     from wse.di.application import ApplicationContainer
@@ -34,7 +34,7 @@ if TYPE_CHECKING:
 
 
 @pytest.fixture
-def command_create_testing() -> CerateTestingCommandProto:
+def command_create_testing() -> CreateTaskCommandProto:
     """Provide a check testing task command."""
     return commands.CreateTestingTask(session_id=TASK_SESSION_ID)
 

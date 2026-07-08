@@ -10,7 +10,7 @@ from wse.domain.protocols import Testable
 from . import dto
 from .abstract import AbstractUseCase
 from .protocols import (
-    CerateTestingCommandProto,
+    CreateTaskCommandProto,
     CheckResultDtoProto,
     CheckTestingCommandProto,
     TaskDtoProto,
@@ -28,7 +28,7 @@ if TYPE_CHECKING:
 
 
 class CreateTestingUseCase(
-    AbstractUseCase[CerateTestingCommandProto, TaskDtoProto[Testable]]
+    AbstractUseCase[CreateTaskCommandProto, TaskDtoProto[Testable]]
 ):
     """Use case for testing task creation."""
 
@@ -46,7 +46,7 @@ class CreateTestingUseCase(
         self._service = service
 
     def execute(
-        self, cmd: CerateTestingCommandProto
+        self, cmd: CreateTaskCommandProto
     ) -> TaskDtoProto[Testable]:
         """Create the testing task."""
         learnables = self._learnables_repo.list()
