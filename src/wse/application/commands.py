@@ -2,12 +2,15 @@
 
 from dataclasses import dataclass
 
+from wse.domain.enums import ExerciseAction
+
 
 @dataclass(frozen=True, slots=True)
 class CreateTestingTask:
     """Command for create a testing task."""
 
     session_id: str
+    exercise_action: ExerciseAction = ExerciseAction.CREATE_TASK
 
 
 @dataclass(frozen=True, slots=True)
@@ -16,3 +19,4 @@ class CheckTestingAnswer:
 
     session_id: str
     answer_value: int
+    exercise_action: ExerciseAction = ExerciseAction.CHECK_ANSWER
