@@ -2,6 +2,8 @@
 
 from typing import Protocol, TypeVar
 
+from wse.domain import enums
+
 T_cov = TypeVar('T_cov', covariant=True)
 T_contra = TypeVar('T_contra', contravariant=True)
 
@@ -9,6 +11,11 @@ T_contra = TypeVar('T_contra', contravariant=True)
 class HasTask(Protocol[T_cov]):
     @property
     def task(self) -> T_cov: ...
+
+
+class HasExerciseAction(Protocol[T_cov]):
+    @property
+    def exercise_action(self) -> T_cov: ...
 
 
 class HasSessionIdentifier(Protocol):
@@ -32,12 +39,14 @@ class HasAnswerValue(Protocol):
 
 
 class CreateTaskCommandProto(
+    HasExerciseAction[enums.ExerciseAction],
     HasSessionIdentifier,
     Protocol,
 ): ...
 
 
 class CheckTestingCommandProto(
+    HasExerciseAction[enums.ExerciseAction],
     HasSessionIdentifier,
     HasAnswerValue,
     Protocol,
