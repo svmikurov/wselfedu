@@ -99,7 +99,7 @@ class ExerciseUseCaseStrategy(
     ) -> None:
         self._use_case_registry = use_case_registry
 
-    def execute(self, cmd: HasExerciseAction[enums.ExerciseAction]) -> object:
+    def execute(self, cmd: HasExerciseAction) -> object:
         """Execute exercise."""
         use_case = self._use_case_registry[cmd.exercise_action]
         result = use_case.execute(cmd)

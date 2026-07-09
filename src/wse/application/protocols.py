@@ -13,9 +13,9 @@ class HasTask(Protocol[T_cov]):
     def task(self) -> T_cov: ...
 
 
-class HasExerciseAction(Protocol[T_cov]):
+class HasExerciseAction(Protocol):
     @property
-    def exercise_action(self) -> T_cov: ...
+    def exercise_action(self) -> enums.ExerciseAction: ...
 
 
 class HasSessionIdentifier(Protocol):
@@ -39,14 +39,14 @@ class HasAnswerValue(Protocol):
 
 
 class CreateTaskCommandProto(
-    HasExerciseAction[enums.ExerciseAction],
+    HasExerciseAction,
     HasSessionIdentifier,
     Protocol,
 ): ...
 
 
 class CheckTestingCommandProto(
-    HasExerciseAction[enums.ExerciseAction],
+    HasExerciseAction,
     HasSessionIdentifier,
     HasAnswerValue,
     Protocol,
