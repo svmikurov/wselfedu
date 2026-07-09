@@ -10,7 +10,6 @@ from tests.factories.model import (
     TASK_SESSION_ID,
     create_testing_task,
     create_testing_task_dto,
-    get_learnables,
 )
 from wse.application.commands import CheckTestingAnswer, CreateTestingTask
 from wse.application.protocols import (
@@ -21,13 +20,27 @@ from wse.application.protocols import (
     TaskDtoProto,
 )
 from wse.application.use_cases import ExerciseUseCaseStrategy
-from wse.domain import enums
-from wse.domain.protocols import Testable
+from wse.domain.enums import ExerciseAction
+from wse.domain.protocols import Testable, UniqueLearnable
 
-UseCaseT = Executable[
-    HasExerciseAction[enums.ExerciseAction],
-    TaskDtoProto[Testable],
-]
+UseCaseT = Executable[HasExerciseAction, TaskDtoProto[Testable]]
+
+
+###################################################
+# Exercise tasks
+###################################################
+
+
+@pytest.fixture
+def first_task(learnables: tuple[UniqueLearnable, ...]) -> Testable:
+    """Provide a first task in exercise loop."""
+    return create_testing_task(learnables, correct_value=3)
+
+
+@pytest.fixture
+def second_task(learnables: tuple[UniqueLearnable, ...]) -> Testable:
+    """Provide a second task in exercise loop."""
+    return create_testing_task(learnables, correct_value=2)
 
 
 ###################################################
@@ -36,17 +49,16 @@ UseCaseT = Executable[
 
 
 @pytest.fixture
-def testing_task_dto() -> TaskDtoProto[Testable]:
-    """Provide the testing task."""
-    task = create_testing_task(get_learnables())
-    return create_testing_task_dto(task)
-
-
-@pytest.fixture
-def create_task_use_case(testing_task_dto: TaskDtoProto[Testable]) -> UseCaseT:
+def create_task_use_case(
+    first_task: Testable,
+    second_task: Testable,
+) -> UseCaseT:
     """Provide the create task use case mock."""
+    task_loop = (first_task, second_task)
     mock = Mock(spec=Executable)
-    mock.execute.return_value = testing_task_dto
+    mock.execute.side_effect = [
+        create_testing_task_dto(task) for task in task_loop
+    ]
     return mock
 
 
@@ -60,17 +72,17 @@ def check_task_use_case() -> UseCaseT:
 def use_case_registry(
     create_task_use_case: UseCaseT,
     check_task_use_case: UseCaseT,
-) -> dict[enums.ExerciseAction, UseCaseT]:
+) -> dict[ExerciseAction, UseCaseT]:
     """Provide the exercise use case registry."""
     return {
-        enums.ExerciseAction.CREATE_TASK: create_task_use_case,
-        enums.ExerciseAction.CHECK_ANSWER: check_task_use_case,
+        ExerciseAction.CREATE_TASK: create_task_use_case,
+        ExerciseAction.CHECK_ANSWER: check_task_use_case,
     }
 
 
 @pytest.fixture
 def exercise_use_case_strategy(
-    use_case_registry: dict[enums.ExerciseAction, UseCaseT],
+    use_case_registry: dict[ExerciseAction, UseCaseT],
 ) -> ExerciseUseCaseStrategy:
     """Provide the exercise use case strategy."""
     return ExerciseUseCaseStrategy(
@@ -121,14 +133,14 @@ def test_should_provide_task_when_no_active_task(
     ],
     create_task_use_case: Mock,
     create_task_command: CreateTaskCommandProto,
-    testing_task: Testable,
+    first_task: Testable,
 ) -> None:
     # Act
     result = exercise_use_case_strategy.execute(create_task_command)
 
     # Assert
     create_task_use_case.execute.assert_called_once_with(create_task_command)
-    assert result.task == testing_task
+    assert result.task == first_task
 
 
 @pytest.mark.skip(reason='Not implemented yet')
@@ -140,18 +152,24 @@ def test_should_advance_to_next_question_on_correct_answer(
         CreateTaskCommandProto,
         TaskDtoProto[Testable],
     ],
-    check_task_use_case: Mock,
-    check_correct_answer_command: CheckTestingCommandProto,
-    testing_task: Testable,
+    create_task_command: CreateTaskCommandProto,
+    second_task: Testable,
 ) -> None:
+    # Arrange
+    # HACK: Refactor the task creation
+    task_dto = exercise_use_case_strategy.execute(create_task_command)
+    correct_value = task_dto.task.question_value
+
+    check_correct_answer_command = CheckTestingAnswer(
+        session_id=TASK_SESSION_ID,
+        answer_value=correct_value,
+    )
+
     # Act
     result = exercise_use_case_strategy.execute(check_correct_answer_command)
 
     # Assert
-    check_task_use_case.execute.assert_called_once_with(
-        check_correct_answer_command
-    )
-    assert result.task == testing_task
+    assert result.task == second_task
 
 
 @pytest.mark.skip(reason='Not implemented yet')
