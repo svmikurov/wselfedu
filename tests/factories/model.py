@@ -18,7 +18,6 @@ if TYPE_CHECKING:
 # Testing exercise test configuration
 TASK_SESSION_ID: str = 'test_session_123'
 TESTING_TASK_OPTION_COUNT: int = 3
-CORRECT_ANSWER_LEARNABLE_INDEX: int = 0
 CORRECT_ANSWER_OPTION_VALUE: int = 1
 INCORRECT_ANSWER_OPTION_VALUE: int = 2
 
@@ -32,10 +31,10 @@ def get_learnables() -> tuple[UniqueLearnable, ...]:
 def create_testing_task(
     learnables: tuple[UniqueLearnable, ...],
     option_count: int = TESTING_TASK_OPTION_COUNT,
-    correct_index: int = CORRECT_ANSWER_LEARNABLE_INDEX,
     correct_value: int = CORRECT_ANSWER_OPTION_VALUE,
 ) -> Testable:
     """Create a testing exercise task."""
+    correct_index = correct_value - 1
     return Testing(
         question_text=learnables[correct_index].define,
         question_value=correct_value,
