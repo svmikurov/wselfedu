@@ -11,7 +11,7 @@ from wse.application import dto
 if TYPE_CHECKING:
     from wse.application.protocols import (
         CheckTestingCommandProto,
-        CreateTaskCommandProto,
+        TaskCommandProto,
     )
     from wse.di.application import ApplicationContainer
 
@@ -21,7 +21,7 @@ class TestCreateTestingTaskUseCase:
 
     def test_creates_task_from_learnables(
         self,
-        command_create_testing: CreateTaskCommandProto,
+        command_create_testing: TaskCommandProto,
         container_with_mocks_for_task_execution: ApplicationContainer,
     ) -> None:
         # Arrange
@@ -35,7 +35,7 @@ class TestCreateTestingTaskUseCase:
 
     def test_created_task_have_been_saved(
         self,
-        command_create_testing: CreateTaskCommandProto,
+        command_create_testing: TaskCommandProto,
         mock_task_repo: Mock,
         container_with_mocks_for_task_execution: ApplicationContainer,
     ) -> None:

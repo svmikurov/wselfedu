@@ -38,7 +38,7 @@ class HasAnswerValue(Protocol):
 ###################################################
 
 
-class CreateTaskCommandProto(
+class TaskCommandProto(
     HasExerciseAction,
     HasSessionIdentifier,
     Protocol,
@@ -46,8 +46,7 @@ class CreateTaskCommandProto(
 
 
 class CheckTestingCommandProto(
-    HasExerciseAction,
-    HasSessionIdentifier,
+    TaskCommandProto,
     HasAnswerValue,
     Protocol,
 ): ...

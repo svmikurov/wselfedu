@@ -14,7 +14,7 @@ from tests.factories.model import (
 from wse.application.commands import CheckTestingAnswer, CreateTestingTask
 from wse.application.protocols import (
     CheckTestingCommandProto,
-    CreateTaskCommandProto,
+    TaskCommandProto,
     Executable,
     HasExerciseAction,
     TaskDtoProto,
@@ -96,7 +96,7 @@ def exercise_use_case_strategy(
 
 
 @pytest.fixture
-def create_task_command() -> CreateTaskCommandProto:
+def create_task_command() -> TaskCommandProto:
     """Provide the create task command."""
     return CreateTestingTask(
         session_id=TASK_SESSION_ID,
@@ -128,11 +128,11 @@ def check_incorrect_answer_command() -> CheckTestingCommandProto:
 
 def test_should_provide_task_when_no_active_task(
     exercise_use_case_strategy: Executable[
-        CreateTaskCommandProto,
+        TaskCommandProto,
         TaskDtoProto[Testable],
     ],
     create_task_use_case: Mock,
-    create_task_command: CreateTaskCommandProto,
+    create_task_command: TaskCommandProto,
     first_task: Testable,
 ) -> None:
     # Act
@@ -149,10 +149,10 @@ def test_should_return_active_task_if_exists() -> None: ...
 
 def test_should_advance_to_next_question_on_correct_answer(
     exercise_use_case_strategy: Executable[
-        CreateTaskCommandProto,
+        TaskCommandProto,
         TaskDtoProto[Testable],
     ],
-    create_task_command: CreateTaskCommandProto,
+    create_task_command: TaskCommandProto,
     second_task: Testable,
 ) -> None:
     # Arrange

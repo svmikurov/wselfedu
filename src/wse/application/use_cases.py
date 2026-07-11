@@ -12,7 +12,7 @@ from .abstract import AbstractUseCase
 from .protocols import (
     CheckResultDtoProto,
     CheckTestingCommandProto,
-    CreateTaskCommandProto,
+    TaskCommandProto,
     Executable,
     HasExerciseAction,
     TaskDtoProto,
@@ -30,7 +30,7 @@ if TYPE_CHECKING:
 
 
 class CreateTestingUseCase(
-    AbstractUseCase[CreateTaskCommandProto, TaskDtoProto[Testable]]
+    AbstractUseCase[TaskCommandProto, TaskDtoProto[Testable]]
 ):
     """Use case for testing task creation."""
 
@@ -47,7 +47,7 @@ class CreateTestingUseCase(
         self._task_repo = task_repo
         self._service = service
 
-    def execute(self, cmd: CreateTaskCommandProto) -> TaskDtoProto[Testable]:
+    def execute(self, cmd: TaskCommandProto) -> TaskDtoProto[Testable]:
         """Create the testing task."""
         learnables = self._learnables_repo.list()
         params = values.TestingParameters(
@@ -89,7 +89,7 @@ class CheckTestingUseCase(
 
 
 class ExerciseUseCaseStrategy(
-    AbstractUseCase[CreateTaskCommandProto, object],
+    AbstractUseCase[TaskCommandProto, object],
 ):
     """Use case strategy for exercise action."""
 
