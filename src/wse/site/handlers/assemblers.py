@@ -2,7 +2,7 @@
 
 from typing import override
 
-from wse.application.commands import CreateTestingTask
+from wse.application.commands import TaskPerform
 
 from ..dto import NullDTO
 from ..interfaces.protocols import HasSessionIdentifier, NullProto
@@ -22,7 +22,7 @@ class NullAssembler(
         return NullDTO()
 
 
-class CreateTestingTaskAssembler(
+class TaskAssembler(
     AbstractAssembler[
         NullProto,
         HasSessionIdentifier,
@@ -30,7 +30,7 @@ class CreateTestingTaskAssembler(
         HasSessionIdentifier,
     ],
 ):
-    """Assembler for create testing exercise task command."""
+    """Builds a command to perform an exercise task."""
 
     @override
     def prepare(
@@ -39,7 +39,7 @@ class CreateTestingTaskAssembler(
         context: HasSessionIdentifier,
         validated: NullProto,
     ) -> HasSessionIdentifier:
-        """Return null command."""
-        return CreateTestingTask(
+        """Build a command to perform the exercise task."""
+        return TaskPerform(
             session_id=context.session_id,
         )

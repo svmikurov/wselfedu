@@ -27,7 +27,7 @@ class DjangoSiteContainer(DeclarativeContainer):
         validators.NullValidator,
     )
     create_testing_assembler = Factory(
-        assemblers.CreateTestingTaskAssembler,
+        assemblers.TaskAssembler,
     )
     create_testing_adapter = Factory(
         adapters.CreateTestingAdapter,

@@ -6,7 +6,7 @@ from wse.domain.enums import ExerciseAction
 
 
 @dataclass(frozen=True, slots=True)
-class CreateTestingTask:
+class TaskPerform:
     """Command for create a testing task."""
 
     session_id: str

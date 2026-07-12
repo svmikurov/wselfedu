@@ -12,9 +12,9 @@ from .abstract import AbstractUseCase
 from .protocols import (
     CheckResultDtoProto,
     CheckTestingCommandProto,
-    TaskCommandProto,
     Executable,
     HasExerciseAction,
+    TaskCommandProto,
     TaskDtoProto,
 )
 

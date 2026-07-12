@@ -11,12 +11,12 @@ from tests.factories.model import (
     create_testing_task,
     create_testing_task_dto,
 )
-from wse.application.commands import CheckTestingAnswer, CreateTestingTask
+from wse.application.commands import CheckTestingAnswer, TaskPerform
 from wse.application.protocols import (
     CheckTestingCommandProto,
-    TaskCommandProto,
     Executable,
     HasExerciseAction,
+    TaskCommandProto,
     TaskDtoProto,
 )
 from wse.application.use_cases import ExerciseUseCaseStrategy
@@ -98,7 +98,7 @@ def exercise_use_case_strategy(
 @pytest.fixture
 def create_task_command() -> TaskCommandProto:
     """Provide the create task command."""
-    return CreateTestingTask(
+    return TaskPerform(
         session_id=TASK_SESSION_ID,
     )
 

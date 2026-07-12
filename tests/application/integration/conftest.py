@@ -36,7 +36,7 @@ if TYPE_CHECKING:
 @pytest.fixture
 def command_create_testing() -> TaskCommandProto:
     """Provide a check testing task command."""
-    return commands.CreateTestingTask(session_id=TASK_SESSION_ID)
+    return commands.TaskPerform(session_id=TASK_SESSION_ID)
 
 
 @pytest.fixture
