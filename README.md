@@ -12,6 +12,11 @@ poetry config virtualenvs.in-project true
 make setup
 ```
 
+## Domain-Design-Development glossary with business rules.
+```bash
+make docs-open
+```
+
 ## Show available commands
 ```bash
 make help
