@@ -59,7 +59,7 @@ class Exercise(Generic[CheckAnswerCommandT]):
         if self._is_correct_answer is not None:
             raise RuntimeError('Answer already checked')
 
-        spec = self._prepare_create_spec()
+        spec = self._prepare_check_spec()
         self._is_correct_answer = self._check_strategy.execute(spec)
         self._emit_answer_checked()
 
