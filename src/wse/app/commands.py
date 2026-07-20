@@ -1,4 +1,4 @@
-"""Domain layer commands."""
+"""Application layer commands."""
 
 
 class Command:
