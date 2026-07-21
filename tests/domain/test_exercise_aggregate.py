@@ -1,4 +1,4 @@
-"""Exercise tests."""
+"""Exercise aggregate tests."""
 
 from __future__ import annotations
 
