@@ -41,6 +41,18 @@ class HasEvents(Protocol):
     def events(self) -> list[Event]: ...
 
 
+class HasEventsBoolean(Protocol):
+    def has_events(self) -> bool: ...
+
+
+class EventPoppable(Protocol[T_co]):
+    def pop_event(self) -> T_co: ...
+
+
+class Handable(Protocol[T_contra, T_co]):
+    def handle(self, cmd: T_contra) -> T_co: ...
+
+
 ###################################################
 # Methods
 ###################################################
@@ -59,7 +71,7 @@ class AnswerCheckable(Protocol[T_contra]):
 
 
 ###################################################
-# Models
+# Model
 ###################################################
 
 
@@ -77,3 +89,17 @@ class ExerciseProtocol(
     HasEvents,
     Protocol[CheckAnswerCommandT],
 ): ...
+
+
+###################################################
+# Aggregate
+###################################################
+
+
+class EventSourcedAggregate(
+    HasEventsBoolean,
+    EventPoppable[Event],
+    Handable[T_contra, T_co],
+    Protocol[T_contra, T_co],
+):
+    """Aggregate that handles commands and exposes domain events."""
