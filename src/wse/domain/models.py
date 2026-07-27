@@ -6,17 +6,20 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Generic, TypeVar
 
 from . import events
-from .commands import Command
 
 if TYPE_CHECKING:
     from wse.domain.protocols import Executable, TaskProtocol
 
-CheckAnswerCommandT = TypeVar('CheckAnswerCommandT', bound=Command)
+CheckAnswerCommandT = TypeVar('CheckAnswerCommandT')
 
 __all__ = (
     'Exercise',
     'Task',
 )
+
+
+class Specification:
+    """Specification."""
 
 
 class Exercise(Generic[CheckAnswerCommandT]):
@@ -37,28 +40,41 @@ class Exercise(Generic[CheckAnswerCommandT]):
         self._task: TaskProtocol | None = None
         self._is_correct_answer: bool | None = None
 
+    def handle(self, event: events.Event) -> None:
+        """Handle event."""
+        match type(event):
+            case events.TaskRequested:
+                self.create_task()
+            case events.CheckRequested:
+                self.check_answer(event)
+
     def create_task(self) -> None:
         """Create a task."""
-        self._task = self._create_strategy.execute(self._get_create_task_cmd())
+        spec = self._prepare_create_spec()
+        self._task = self._create_strategy.execute(spec)
         self._emit_task_created()
 
-    def check_answer(self, cmd: CheckAnswerCommandT) -> None:
+    def check_answer(self, event: events.Event) -> None:
         """Check a user answer."""
         if self._is_correct_answer is not None:
             raise RuntimeError('Answer already checked')
 
-        self._is_correct_answer = self._check_strategy.execute(cmd)
+        spec = self._prepare_create_spec()
+        self._is_correct_answer = self._check_strategy.execute(spec)
         self._emit_answer_checked()
 
         if self._is_correct_answer is True:
             self.create_task()
 
-    # Command methods
+    # Specification
 
-    # HACK: Implement create task command
-    def _get_create_task_cmd(self) -> Command:
-        """Get a create task command."""
-        return Command()
+    def _prepare_create_spec(self) -> Specification:
+        """Prepare a create task specification."""
+        return Specification()
+
+    def _prepare_check_spec(self) -> Specification:
+        """Prepare a check answer specification."""
+        return Specification()
 
     # Event methods
 
