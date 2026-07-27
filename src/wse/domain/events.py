@@ -1,25 +1,41 @@
 """Domain events."""
 
+from dataclasses import dataclass
+
+from .protocols import TaskProtocol
+
 
 class Event:
     """Base domain event."""
 
 
-class TaskRequested(Event):
+###################################################
+# Task events
+###################################################
+
+
+class TaskEvent(Event):
+    """Base task event."""
+
+
+class TaskRequested(TaskEvent):
     """Task was requested."""
 
 
-class TaskCreated(Event):
+@dataclass
+class TaskCreated(TaskEvent):
     """Task was created."""
 
+    task: TaskProtocol
 
-class CheckRequested(Event):
+
+class CheckRequested(TaskEvent):
     """Answer check was requested."""
 
 
-class AnswerVerified(Event):
+class AnswerVerified(TaskEvent):
     """User's answer was correct."""
 
 
-class IncorrectAnswerGiven(Event):
+class IncorrectAnswerGiven(TaskEvent):
     """User's answer was incorrect."""
