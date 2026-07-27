@@ -7,21 +7,16 @@ from unittest.mock import Mock
 
 import pytest
 
-from wse.app import commands
-from wse.domain import events, factories, models
+from tests.fixtures.exercise import QUESTION_TEXT, SESSION_ID
+from wse.domain import commands, events, factories, model
 from wse.domain.protocols import Executable
 
 if TYPE_CHECKING:
+    from typing import TypeAlias
+
     from wse.domain.protocols import ExerciseProtocol, TaskProtocol
 
-SESSION_ID = 'session_id_123'
-QUESTION_TEXT = 'question_text'
-
-
-@pytest.fixture
-def task() -> TaskProtocol:
-    """Provide a task."""
-    return models.Task(question_text=QUESTION_TEXT)
+    AggregateT: TypeAlias = ExerciseProtocol[Any, Any, Any, Any, Any]
 
 
 @pytest.fixture
@@ -36,18 +31,6 @@ def create_strategy(task: TaskProtocol) -> Mock:
 def check_strategy() -> Mock:
     """Provide a mock for check answer strategy."""
     return Mock(spec=Executable)
-
-
-@pytest.fixture
-def exercise(
-    create_strategy: Mock, check_strategy: Mock
-) -> ExerciseProtocol[Any]:
-    """Provide an exercise instance with mocked strategies."""
-    factory = factories.ExerciseFactory(
-        create_strategy=create_strategy,
-        check_strategy=check_strategy,
-    )
-    return factory.create(session_id=SESSION_ID)
 
 
 @pytest.fixture
@@ -70,7 +53,7 @@ def test_factory_creates_exercise_with_session_id(
     exercise = factory.create(session_id=SESSION_ID)
 
     # Assert: Exercise instance created
-    assert isinstance(exercise, models.Exercise), (
+    assert isinstance(exercise, model.Exercise), (
         'Factory should return Exercise instance'
     )
 
@@ -83,9 +66,9 @@ def test_factory_creates_exercise_with_session_id(
 
 
 def test_create_task_creates_task_and_emits_event(
+    exercise: AggregateT,
     create_strategy: Mock,
     check_strategy: Mock,
-    exercise: ExerciseProtocol[Any],
 ) -> None:
     # Act
     exercise.create_task()
@@ -107,7 +90,7 @@ def test_create_task_creates_task_and_emits_event(
 
 
 def test_check_answer_emits_verified_event_on_correct_answer(
-    exercise: ExerciseProtocol[Any],
+    exercise: AggregateT,
     check_strategy: Mock,
     check_answer_command: commands.Command,
 ) -> None:
@@ -128,7 +111,7 @@ def test_check_answer_emits_verified_event_on_correct_answer(
 
 
 def test_check_answer_emits_incorrect_answer_event(
-    exercise: ExerciseProtocol[Any],
+    exercise: AggregateT,
     check_strategy: Mock,
     check_answer_command: commands.Command,
 ) -> None:
@@ -151,7 +134,7 @@ def test_check_answer_emits_incorrect_answer_event(
 
 
 def test_check_answer_emits_task_created_on_correct_answer(
-    exercise: ExerciseProtocol[Any],
+    exercise: AggregateT,
     check_strategy: Mock,
     check_answer_command: commands.Command,
 ) -> None:
@@ -166,3 +149,16 @@ def test_check_answer_emits_task_created_on_correct_answer(
         e for e in exercise.events if isinstance(e, events.TaskCreated)
     ]
     assert len(task_created_events) == 1
+
+
+def test_task_created_event_popped(
+    exercise: AggregateT,
+) -> None:
+    # Arrange: Add task created event
+    exercise.create_task()
+
+    # Act
+    event = exercise.pop_event()
+
+    # Assert
+    assert isinstance(event, events.TaskCreated)
