@@ -18,6 +18,7 @@ if TYPE_CHECKING:
 
     UseCaseT: TypeAlias = Executable[Any, Any]
     AggregateT: TypeAlias = ExerciseProtocol[Any, Any, Any, Any, Any]
+    CollectorT: TypeAlias = AbstractResultCollector[Any, Any]
 
 
 @pytest.fixture
@@ -35,7 +36,7 @@ def handlers_mock() -> Mock:
 
 
 @pytest.fixture
-def result_collector() -> AbstractResultCollector[Any, Any]:
+def result_collector() -> CollectorT:
     """Provide a use case result collector."""
     return ExerciseResultCollector()
 
@@ -44,7 +45,7 @@ def result_collector() -> AbstractResultCollector[Any, Any]:
 def exercise_use_case(
     aggregate_factory_mock: Mock,
     handlers_mock: Mock,
-    result_collector: Mock,
+    result_collector: CollectorT,
 ) -> UseCaseT:
     """Provide a exercise use case with mocked dependencies."""
     return ExerciseUseCase(
