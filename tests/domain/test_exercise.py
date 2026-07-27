@@ -7,7 +7,8 @@ from unittest.mock import Mock
 
 import pytest
 
-from wse.domain import commands, events, factories, models
+from wse.app import commands
+from wse.domain import events, factories, models
 from wse.domain.protocols import Executable
 
 if TYPE_CHECKING:
