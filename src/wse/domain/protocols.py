@@ -1,11 +1,12 @@
 """Domain layer protocols."""
 
-from typing import Any, Protocol, TypeVar
+from typing import Protocol, TypeVar
 
-from .events import Event
-
-T_co = TypeVar('T_co', covariant=True)
-T_contra = TypeVar('T_contra', contravariant=True)
+Command_contra = TypeVar('Command_contra', contravariant=True)
+EventT = TypeVar('EventT')
+Event_co = TypeVar('Event_co', covariant=True)
+Task_co = TypeVar('Task_co', covariant=True)
+Result_co = TypeVar('Result_co', covariant=True)
 
 CreateTaskCommandT = TypeVar('CreateTaskCommandT', contravariant=True)
 CheckAnswerCommandT = TypeVar('CheckAnswerCommandT', contravariant=True)
@@ -26,9 +27,9 @@ class HasQuestionText(Protocol):
     def question_text(self) -> str: ...
 
 
-class HasTask(Protocol[T_co]):
+class HasTask(Protocol[Task_co]):
     @property
-    def task(self) -> T_co: ...
+    def task(self) -> Task_co: ...
 
 
 class HasIsCorrectAnswer(Protocol):
@@ -36,21 +37,21 @@ class HasIsCorrectAnswer(Protocol):
     def is_correct_answer(self) -> bool: ...
 
 
-class HasEvents(Protocol):
+class HasEvents(Protocol[EventT]):
     @property
-    def events(self) -> list[Event]: ...
+    def events(self) -> list[EventT]: ...
 
 
 class HasEventsBoolean(Protocol):
     def has_events(self) -> bool: ...
 
 
-class EventPoppable(Protocol[T_co]):
-    def pop_event(self) -> T_co: ...
+class EventPoppable(Protocol[Event_co]):
+    def pop_event(self) -> Event_co: ...
 
 
-class Handable(Protocol[T_contra, T_co]):
-    def handle(self, cmd: T_contra) -> T_co: ...
+class Handable(Protocol[Command_contra, Result_co]):
+    def handle(self, cmd: Command_contra) -> Result_co: ...
 
 
 ###################################################
@@ -58,16 +59,46 @@ class Handable(Protocol[T_contra, T_co]):
 ###################################################
 
 
-class Executable(Protocol[T_co]):
-    def execute(self, cmd: Any) -> T_co: ...
+class Executable(Protocol[Command_contra, Result_co]):
+    def execute(self, cmd: Command_contra) -> Result_co: ...
 
 
-class TaskCreatable(Protocol):
-    def create_task(self) -> None: ...
+class TaskCreatable(Protocol[Task_co]):
+    def create_task(self) -> Task_co: ...
 
 
-class AnswerCheckable(Protocol[T_contra]):
-    def check_answer(self, cmd: T_contra) -> None: ...
+class AnswerCheckable(Protocol[Command_contra]):
+    def check_answer(self, cmd: Command_contra) -> bool: ...
+
+
+###################################################
+# Aggregate composition
+###################################################
+
+
+class EventSourcedAggregate(
+    HasEventsBoolean,
+    EventPoppable[Event_co],
+    Handable[Command_contra, Result_co],
+    Protocol[Command_contra, Result_co, Event_co],
+):
+    """Aggregate that handles commands and exposes domain events."""
+
+
+class EventSourcedExercise(
+    EventSourcedAggregate[Command_contra, Result_co, Event_co],
+    HasTask[Task_co],
+    Protocol[Command_contra, Result_co, Event_co, Task_co],
+):
+    """Aggregate that handles commands and exposes domain events."""
+
+
+###################################################
+# Commands
+###################################################
+
+
+class CommandProtocol(Protocol): ...
 
 
 ###################################################
@@ -82,24 +113,13 @@ class TaskProtocol(
 
 
 class ExerciseProtocol(
-    TaskCreatable,
-    AnswerCheckable[CheckAnswerCommandT],
-    HasTask[TaskProtocol],
+    TaskCreatable[Task_co],
+    AnswerCheckable[Command_contra],
+    Handable[Command_contra, Result_co],
+    HasTask[Task_co],
     HasIsCorrectAnswer,
-    HasEvents,
-    Protocol[CheckAnswerCommandT],
-): ...
-
-
-###################################################
-# Aggregate
-###################################################
-
-
-class EventSourcedAggregate(
+    EventPoppable[Event_co],
     HasEventsBoolean,
-    EventPoppable[Event],
-    Handable[T_contra, T_co],
-    Protocol[T_contra, T_co],
-):
-    """Aggregate that handles commands and exposes domain events."""
+    HasEvents[EventT],
+    Protocol[Command_contra, Event_co, EventT, Task_co, Result_co],
+): ...
