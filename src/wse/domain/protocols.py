@@ -8,9 +8,6 @@ Event_co = TypeVar('Event_co', covariant=True)
 Task_co = TypeVar('Task_co', covariant=True)
 Result_co = TypeVar('Result_co', covariant=True)
 
-CreateTaskCommandT = TypeVar('CreateTaskCommandT', contravariant=True)
-CheckAnswerCommandT = TypeVar('CheckAnswerCommandT', contravariant=True)
-
 
 ###################################################
 # Attributes
@@ -112,6 +109,7 @@ class TaskProtocol(
 ): ...
 
 
+# REVIEW: Reduce type variable count
 class ExerciseProtocol(
     TaskCreatable[Task_co],
     AnswerCheckable[Command_contra],
