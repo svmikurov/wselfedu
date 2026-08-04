@@ -24,6 +24,11 @@ class HasQuestionText(Protocol):
     def question_text(self) -> str: ...
 
 
+class HasAnswerText(Protocol):
+    @property
+    def answer_text(self) -> str: ...
+
+
 class HasTask(Protocol[Task_co]):
     @property
     def task(self) -> Task_co: ...
@@ -62,6 +67,10 @@ class Executable(Protocol[Command_contra, Result_co]):
 
 class TaskCreatable(Protocol[Task_co]):
     def create_task(self) -> Task_co: ...
+
+
+class Creatable(Protocol[Task_co]):
+    def create(self) -> Task_co: ...
 
 
 class AnswerCheckable(Protocol[Command_contra]):
@@ -109,6 +118,13 @@ class TaskProtocol(
 ): ...
 
 
+class PresentationTaskProtocol(
+    HasQuestionText,
+    HasAnswerText,
+    Protocol,
+): ...
+
+
 # REVIEW: Reduce type variable count
 class ExerciseProtocol(
     TaskCreatable[Task_co],
@@ -120,4 +136,10 @@ class ExerciseProtocol(
     HasEventsBoolean,
     HasEvents[EventT],
     Protocol[Command_contra, Event_co, EventT, Task_co, Result_co],
+): ...
+
+
+class Presentable(
+    Creatable[Task_co],
+    Protocol,
 ): ...
