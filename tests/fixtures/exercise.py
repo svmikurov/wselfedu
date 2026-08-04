@@ -11,12 +11,17 @@ from wse.domain import commands, factories, model
 from wse.domain.protocols import Executable
 
 SESSION_ID = 'session_id_123'
-QUESTION_TEXT = 'question_text'
+QUESTION_TEXT = 'question_text_123'
+ANSWER_TEXT = 'answer_text_123'
 
 if TYPE_CHECKING:
     from typing import TypeAlias
 
-    from wse.domain.protocols import ExerciseProtocol, TaskProtocol
+    from wse.domain.protocols import (
+        ExerciseProtocol,
+        PresentationTaskProtocol,
+        TaskProtocol,
+    )
 
     AggregateT: TypeAlias = ExerciseProtocol[Any, Any, Any, Any, Any]
 
@@ -25,6 +30,15 @@ if TYPE_CHECKING:
 def task() -> TaskProtocol:
     """Provide a task."""
     return model.Task(question_text=QUESTION_TEXT)
+
+
+@pytest.fixture
+def presentation_task() -> PresentationTaskProtocol:
+    """Provide a presentation exercise task."""
+    return model.PresentationTask(
+        question_text=QUESTION_TEXT,
+        answer_text=ANSWER_TEXT,
+    )
 
 
 @pytest.fixture
@@ -57,7 +71,8 @@ def mock_check_strategy() -> Mock:
 
 @pytest.fixture
 def exercise(
-    mock_create_strategy: Mock, mock_check_strategy: Mock,
+    mock_create_strategy: Mock,
+    mock_check_strategy: Mock,
 ) -> AggregateT:
     """Provide an exercise instance with mocked strategies."""
     factory = factories.ExerciseFactory(
