@@ -42,7 +42,7 @@ def check_answer_command() -> commands.Command:
 
 
 @pytest.fixture
-def create_strategy(task: TaskProtocol) -> Mock:
+def mock_create_strategy(task: TaskProtocol) -> Mock:
     """Provide a mock for create task strategy."""
     mock = Mock(spec=Executable)
     mock.execute.return_value = task
@@ -50,16 +50,18 @@ def create_strategy(task: TaskProtocol) -> Mock:
 
 
 @pytest.fixture
-def check_strategy() -> Mock:
+def mock_check_strategy() -> Mock:
     """Provide a mock for check answer strategy."""
     return Mock(spec=Executable)
 
 
 @pytest.fixture
-def exercise(create_strategy: Mock, check_strategy: Mock) -> AggregateT:
+def exercise(
+    mock_create_strategy: Mock, mock_check_strategy: Mock,
+) -> AggregateT:
     """Provide an exercise instance with mocked strategies."""
     factory = factories.ExerciseFactory(
-        create_strategy=create_strategy,
-        check_strategy=check_strategy,
+        create_strategy=mock_create_strategy,
+        check_strategy=mock_check_strategy,
     )
     return factory.create(session_id=SESSION_ID)

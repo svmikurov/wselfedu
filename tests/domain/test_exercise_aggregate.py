@@ -9,44 +9,23 @@ import pytest
 
 from tests.fixtures.exercise import QUESTION_TEXT, SESSION_ID
 from wse.domain import commands, events, factories, model
-from wse.domain.protocols import Executable
 
 if TYPE_CHECKING:
     from typing import TypeAlias
 
-    from wse.domain.protocols import ExerciseProtocol, TaskProtocol
+    from wse.domain.protocols import ExerciseProtocol
 
     AggregateT: TypeAlias = ExerciseProtocol[Any, Any, Any, Any, Any]
 
 
-@pytest.fixture
-def create_strategy(task: TaskProtocol) -> Mock:
-    """Provide a mock for create task strategy."""
-    mock = Mock(spec=Executable)
-    mock.execute.return_value = task
-    return mock
-
-
-@pytest.fixture
-def check_strategy() -> Mock:
-    """Provide a mock for check answer strategy."""
-    return Mock(spec=Executable)
-
-
-@pytest.fixture
-def check_answer_command() -> commands.Command:
-    """Provide a check answer command."""
-    return commands.Command()
-
-
 def test_factory_creates_exercise_with_session_id(
-    create_strategy: Mock,
-    check_strategy: Mock,
+    mock_create_strategy: Mock,
+    mock_check_strategy: Mock,
 ) -> None:
     # Arrange
     factory = factories.ExerciseFactory(
-        create_strategy=create_strategy,
-        check_strategy=check_strategy,
+        create_strategy=mock_create_strategy,
+        check_strategy=mock_check_strategy,
     )
 
     # Act
@@ -67,17 +46,17 @@ def test_factory_creates_exercise_with_session_id(
 
 def test_create_task_creates_task_and_emits_event(
     exercise: AggregateT,
-    create_strategy: Mock,
-    check_strategy: Mock,
+    mock_create_strategy: Mock,
+    mock_check_strategy: Mock,
 ) -> None:
     # Act
     exercise.create_task()
 
     # Assert: Create strategy called once
-    create_strategy.execute.assert_called_once()
+    mock_create_strategy.execute.assert_called_once()
 
     # Assert: Check strategy not called
-    check_strategy.execute.assert_not_called()
+    mock_check_strategy.execute.assert_not_called()
 
     # Assert: Task created event added
     task_created_events = [
@@ -91,11 +70,11 @@ def test_create_task_creates_task_and_emits_event(
 
 def test_check_answer_emits_verified_event_on_correct_answer(
     exercise: AggregateT,
-    check_strategy: Mock,
+    mock_check_strategy: Mock,
     check_answer_command: commands.Command,
 ) -> None:
     # Arrange
-    check_strategy.execute.return_value = True
+    mock_check_strategy.execute.return_value = True
 
     # Act
     exercise.check_answer(check_answer_command)
@@ -112,11 +91,11 @@ def test_check_answer_emits_verified_event_on_correct_answer(
 
 def test_check_answer_emits_incorrect_answer_event(
     exercise: AggregateT,
-    check_strategy: Mock,
+    mock_check_strategy: Mock,
     check_answer_command: commands.Command,
 ) -> None:
     # Arrange
-    check_strategy.execute.return_value = False
+    mock_check_strategy.execute.return_value = False
 
     # Act
     exercise.check_answer(check_answer_command)
@@ -135,11 +114,11 @@ def test_check_answer_emits_incorrect_answer_event(
 
 def test_check_answer_emits_task_created_on_correct_answer(
     exercise: AggregateT,
-    check_strategy: Mock,
+    mock_check_strategy: Mock,
     check_answer_command: commands.Command,
 ) -> None:
     # Arrange: Answer is correct
-    check_strategy.execute.return_value = True
+    mock_check_strategy.execute.return_value = True
 
     # Act
     exercise.check_answer(check_answer_command)
