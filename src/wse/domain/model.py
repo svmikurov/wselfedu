@@ -18,7 +18,12 @@ CommandT = TypeVar('CommandT', bound=CommandProtocol)
 __all__ = (
     'Exercise',
     'Task',
+    'Presentation',
+    'PresentationTask',
 )
+
+# REFACTOR: Add parent class for Exercise and Presentation
+# with common methods
 
 
 class Specification:
@@ -137,3 +142,52 @@ class Task:
     """Task model."""
 
     question_text: str
+
+
+@dataclass(frozen=True, slots=True)
+class PresentationTask:
+    """Presentation exercise task model."""
+
+    question_text: str
+    answer_text: str
+
+
+class Presentation:
+    """Presentation exercise."""
+
+    def __init__(
+        self,
+        session_id: str,
+        create_strategy: Executable[Specification, TaskProtocol],
+    ) -> None:
+        self._create_strategy = create_strategy
+
+        self._session_id = session_id
+
+        self._events: list[ev.TaskEvent] = []
+        self._task: TaskProtocol | None = None
+
+    def create(self) -> TaskProtocol:
+        """Create presentation task."""
+        spec = self._prepare_create_spec()
+        self._task = self._create_strategy.execute(spec)
+        self._emit_task_created()
+        return self.task
+
+    def _prepare_create_spec(self) -> Specification:
+        """Prepare a create task specification."""
+        return Specification()
+
+    def _emit_task_created(self) -> None:
+        if self._task is None:
+            raise RuntimeError('No task has been created yet')
+
+        task = ev.TaskCreated(task=self._task)
+        self._events.append(task)
+
+    @property
+    def task(self) -> TaskProtocol:
+        """Task."""
+        if self._task is None:
+            raise RuntimeError('No task has been created yet')
+        return self._task
