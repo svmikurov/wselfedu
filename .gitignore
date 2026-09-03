@@ -2,6 +2,7 @@
 .pytest_cache
 __pycache__
 build/
+.env
 *.drawio.bkp*
 *.drawio.dtmp*
 *.sqlite3
