@@ -5,6 +5,7 @@ exclude = [
     ".idea/*",
     ".venv*",
     "docs/*",
+    "migrations",
 ]
 
 [lint]
