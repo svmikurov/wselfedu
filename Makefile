@@ -1,67 +1,39 @@
-# Check types (mypy)
-type-check:
+include mk/docs.mk
+include mk/help.mk
+
+type-check:  ## Check types with mypy
 	poetry run mypy .
 
-# Run tests
-test:
+test:  ## Run tests
 	poetry run pytest -v
 
-# Lint code (read-only, no fixes)
-lint:
+lint: ## Check code style (read-only)
 	poetry run ruff check
 
-# Auto-fix lint issues
-fix:
+fix:  ## Auto-fix lint issues
 	poetry run ruff check --fix
 
-# CI pipeline (read-only checks, no changes)
-ci: lint type-check test
+ci: lint type-check test  ## CI check (read-only: lint + type-check + test)
 
-# Full pre-commit check (format + fix + type-check + test)
-check: format fix type-check test
+check: format fix type-check test  ## Full check (format + fix + type-check + test)
 
-# Format code
-format:
+format:  ## Format code with ruff
 	poetry run ruff format
 
-# Install dependencies
-setup:
+setup:  ## Install dependencies
 	poetry install
 	poetry run playwright install firefox
 
-# Remove cache files
-clean:
+clean: ## Remove cache files
 	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
 	find . -type d -name ".pytest_cache" -exec rm -rf {} + 2>/dev/null || true
 	find . -type d -name ".mypy_cache" -exec rm -rf {} + 2>/dev/null || true
 
-# Build documentation (HTML)
-docs-build:
-	poetry run make -C docs clean html
+run:  ## Run docker compose with build
+	docker compose -f docker-compose.dev.django_orm.yml up --build
 
-# Build docs and open in default browser
-docs-open: docs-build
-	xdg-open docs/build/html/index.html
-
-run-flask:
-	@poetry run flask --app src/wse/entrypoints/flask_app/app.py run --port 5005 --debug
-
-run-django:
-	@poetry run src/wse/site/manage.py runserver
-
-# Show available commands
-help:
-	@echo "Available commands:"
-	@echo "  make setup        - Install dependencies"
-	@echo "  make test         - Run tests"
-	@echo "  make lint         - Check code style (read-only)"
-	@echo "  make fix          - Auto-fix lint issues"
-	@echo "  make type-check   - Check types with mypy"
-	@echo "  make format       - Format code with ruff"
-	@echo "  make check        - Full check (format + fix + type-check + test)"
-	@echo "  make ci           - CI check (read-only: lint + type-check + test)"
-	@echo "  make clean        - Remove cache files"
-	@echo "  make docs-build   - Build HTML documentation"
-	@echo "  make docs-open    - Build docs and open in browser"
-	@echo "  make run-flask    - Run Flask entrypoint"
-	@echo "  make run-django   - Run Django entrypoint"
+rebuild:  ## Rebuild docker compose with clean
+	docker compose -f docker-compose.dev.django_orm.yml down -v || true
+	docker rmi wse-django-orm wse-postgres 2>/dev/null || true
+	docker builder prune -f || true
+	docker compose -f docker-compose.dev.django_orm.yml up --build
