@@ -1,0 +1,50 @@
+networks:
+  internal:
+    driver: bridge
+
+services:
+  wse-postgres:
+    container_name: wse-postgres
+    image: wse-postgres
+    build:
+      context: ./docker/db/postgres/
+      dockerfile: Dockerfile
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+
+  wse-django-orm:
+    container_name: wse-django-orm
+    image: wse-django-orm
+    build:
+      context: .
+      dockerfile: ./docker/db/django_orm/Dockerfile
+    env_file:
+      - .env
+    expose:
+      - 8000
+    ports:
+      - "8000:8000"
+    networks:
+      - internal
+    command: >
+      sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      wse-postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
