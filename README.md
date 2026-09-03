@@ -1,5 +1,20 @@
 # WSE
 
+## Documentation
+```bash
+docker build -f docker/docs/Dockerfile -t wse-docs .
+docker run -d -p 8010:8000 --name wse-docs wse-docs
+```
+
+## Docker
+Run project
+```bash
+# Copy environment example
+cp .env.example .env
+# Run project
+make run
+```
+
 ## Install the Poetry dependency
 This project uses Poetry for dependency management.
 ```bash
