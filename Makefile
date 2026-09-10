@@ -1,4 +1,5 @@
 include mk/docs.mk
+include mk/infrastructure.mk
 include mk/help.mk
 
 type-check:  ## Check types with mypy
@@ -28,12 +29,3 @@ clean: ## Remove cache files
 	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
 	find . -type d -name ".pytest_cache" -exec rm -rf {} + 2>/dev/null || true
 	find . -type d -name ".mypy_cache" -exec rm -rf {} + 2>/dev/null || true
-
-run:  ## Run docker compose with build
-	docker compose -f docker-compose.dev.django_orm.yml up --build
-
-rebuild:  ## Rebuild docker compose with clean
-	docker compose -f docker-compose.dev.django_orm.yml down -v || true
-	docker rmi wse-django-orm wse-postgres 2>/dev/null || true
-	docker builder prune -f || true
-	docker compose -f docker-compose.dev.django_orm.yml up --build
