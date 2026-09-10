@@ -40,6 +40,8 @@ services:
     command: >
       sh -c "python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./src/wse/infrastructure/db/django_orm:/app
     depends_on:
       wse-postgres:
         condition: service_healthy
