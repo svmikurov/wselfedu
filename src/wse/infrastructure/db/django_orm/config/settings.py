@@ -21,7 +21,7 @@ SECRET_KEY = os.getenv(
 
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     # Application separation uses for database table groups
     'users',
     'glossary',
+    'foreign',
 ]
 
 MIDDLEWARE = [
