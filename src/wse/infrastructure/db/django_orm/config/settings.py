@@ -1,6 +1,6 @@
 """Django settings for config project.
 
-This configuration is optimized for development database migrations 
+This configuration is optimized for development database migrations
 and admin interface.
 """
 
