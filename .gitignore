@@ -8,3 +8,4 @@ build/
 *.sqlite3
 *.swp
 *.swo
+db*
