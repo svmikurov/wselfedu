@@ -2,8 +2,8 @@
 # INFRASTRUCTURE
 # =============================================================================
 
-# Docker
-# ~~~~~~
+# Docker commands
+# ~~~~~~~~~~~~~~~
 
 run-django-orm:  ## Run Docker Compose with a build Django ORM admin
 	docker compose -f docker-compose.dev.django_orm.yml up --build
@@ -14,8 +14,8 @@ rebuild-django-orm:  ## Rebuild Docker Compose with a clean Django ORM admin
 	docker builder prune -f || true
 	docker compose -f docker-compose.dev.django_orm.yml up --build
 
-# Socket
-# ~~~~~~
+# Socket commands
+# ~~~~~~~~~~~~~~~
 
 run-socket-server:  ## Run socket server example
 	poetry run python3 src/wse/infrastructure/endpoints/server.py
