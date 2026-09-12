@@ -20,10 +20,12 @@ class SocketServer:
 
     def run(self) -> None:
         """Run server."""
-        print('Socket server running')
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.bind((self._host, self._port))
             s.listen()
+    
+            print('Socket server is running')
+    
             conn, addr = s.accept()
             with conn:
                 print(f'Connected by {addr}')
