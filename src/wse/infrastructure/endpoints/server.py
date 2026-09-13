@@ -6,7 +6,6 @@ HOST = '127.0.0.1'
 PORT = 65432
 
 
-
 class SocketServer:
     """Socket server."""
 
@@ -23,9 +22,9 @@ class SocketServer:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.bind((self._host, self._port))
             s.listen()
-    
+
             print('Socket server is running')
-    
+
             conn, addr = s.accept()
             with conn:
                 print(f'Connected by {addr}')
