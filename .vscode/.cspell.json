@@ -1,0 +1,42 @@
+{
+    "language": "en,ru",  
+    "words": [
+      // Project
+      "Mikurov",
+      "venv",
+      "virtualenvs",
+      "pycache",
+      // Sphinx directives
+      "toctree",
+      "maxdepth",
+      // Dependencies
+      "pydantic",
+      "mypy",
+      "pytest",
+      "fastapi",
+      "sse_starlette",
+      // Dependency objects
+      "autouse",
+      "usefixtures",
+      // -- Sockets --
+      // Naming
+      "sock",               // socket
+      "lsock",              // listenibg socket
+      "inb",
+      "outb",
+      "fileobj",            // File object
+      // - EndSockets -
+      // Russian
+      "версионирование",
+      "версионирования",
+      "сратегия",
+      "ендпойнтов",
+      // Site
+      "htmx",
+      "testid",
+      "validatable",
+      "preparable",
+      // 
+      "Микуров"
+    ],
+  }

@@ -60,29 +60,12 @@
     "SECURITY:": {"foreground": "#FFFFFF", "background": "#C62828"}
   },
   // Item enumeraion //
-  // Code spell
-  "cSpell.words": [
-    // Project settings
-    "Mikurov",
-    "venv",
-    "virtualenvs",
-    "pycache",
-    "mypy",
-    "pytest",
-    // Documentaiton
-    "DTOs",
-    // Sphinx directives
-    "toctree",
-    "maxdepth",
-    // Project
-    "learnables",
-    // Dependencies
-    "autouse",
-    "usefixtures",
-    // Site
-    "htmx",
-    "testid",
-    "validatable",
-    "preparable",
-  ]
+  // Word cspell
+  "cSpell.enabled": true,
+  "cSpell.customDictionaries": {
+    "project-words": {
+      "file": ".cspell.json",
+      "addWords": true
+    }
+  },
 }
