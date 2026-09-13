@@ -25,6 +25,7 @@
       "inb",
       "outb",
       "fileobj",            // File object
+      "connid",             // Connection ID
       // - EndSockets -
       // Russian
       "версионирование",
