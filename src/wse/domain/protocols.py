@@ -2,6 +2,7 @@
 
 from typing import Protocol, TypeVar
 
+LearnableT = TypeVar('LearnableT')
 Command_contra = TypeVar('Command_contra', contravariant=True)
 EventT = TypeVar('EventT')
 Event_co = TypeVar('Event_co', covariant=True)
@@ -14,9 +15,24 @@ Result_co = TypeVar('Result_co', covariant=True)
 ###################################################
 
 
+class HasDefine(Protocol):
+    @property
+    def define(self) -> str: ...
+
+
+class HasExplain(Protocol):
+    @property
+    def explain(self) -> str: ...
+
+
 class HasSessionIdentifier(Protocol):
     @property
     def session_id(self) -> str: ...
+
+
+class HasLearnable(Protocol[LearnableT]):
+    @property
+    def learnables(self) -> list[LearnableT]: ...
 
 
 class HasQuestionText(Protocol):
@@ -110,6 +126,13 @@ class CommandProtocol(Protocol): ...
 ###################################################
 # Model
 ###################################################
+
+
+class Learnable(
+    HasDefine,
+    HasExplain,
+    Protocol,
+): ...
 
 
 class TaskProtocol(
