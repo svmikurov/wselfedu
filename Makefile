@@ -1,31 +1,33 @@
-include mk/docs.mk
-include mk/infrastructure.mk
-include mk/help.mk
+# =============================================================================
+# Makefile commands
+# =============================================================================
 
-type-check:  ## Check types with mypy
-	poetry run mypy .
+include .envs/docs
 
-test:  ## Run tests
-	poetry run pytest -v
+include tools/make/app.mk
+include tools/make/code-quality.mk
+include tools/make/docs.mk
+include tools/make/docker.mk
 
-lint: ## Check code style (read-only)
-	poetry run ruff check
+HELP_FORMAT := %-25s %s\n
 
-fix:  ## Auto-fix lint issues
-	poetry run ruff check --fix
+# Help
+# ====
 
-ci: lint type-check test  ## CI check (read-only: lint + type-check + test)
+help:
+	@echo "=================================================================="
+	@echo "Makefile commands help"
+	@echo "=================================================================="
+	@echo ""
+	@printf "$(HELP_FORMAT)" "help-app"				"Show help for project commands"
+	@printf "$(HELP_FORMAT)" "help-code-quality"	"Show help for code quality commands"
+	@printf "$(HELP_FORMAT)" "docker-help"    		"Show help for docker commands"
+	@printf "$(HELP_FORMAT)" ""    ""
 
-check: format fix type-check test  ## Full check (format + fix + type-check + test)
 
-format:  ## Format code with ruff
-	poetry run ruff format
-
-setup:  ## Install dependencies
-	poetry install
-	poetry run playwright install firefox
-
-clean: ## Remove cache files
-	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
-	find . -type d -name ".pytest_cache" -exec rm -rf {} + 2>/dev/null || true
-	find . -type d -name ".mypy_cache" -exec rm -rf {} + 2>/dev/null || true
+help-all:
+	@echo ""
+	@echo "All Makefile commands help"
+	@$(MAKE) --no-print-directory help-app
+	@$(MAKE) --no-print-directory help-code-quality
+	@$(MAKE) --no-print-directory help-docker
