@@ -1,0 +1,4 @@
+DB_NAME=django_db
+DB_USER=django_user
+DB_HOST=wse-postgres
+DB_PORT=5432

@@ -1,0 +1,2 @@
+POSTGRES_USER=django_user
+POSTGRES_DB=django_db
