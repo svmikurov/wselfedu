@@ -9,7 +9,7 @@ from .abstract import AbstractRequestHandler
 if TYPE_CHECKING:
     from wse.app.protocols import Executable
 
-    from ..protocols import (
+    from .protocols import (
         Preparable,
         ResponseAdaptable,
         Validatable,
