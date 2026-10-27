@@ -19,7 +19,7 @@ run-flask:  ## Run application via Flask entrypoint
 help-app:
 	@echo ""
 	@echo "=================================================================="
-	@echo "Project commands"
+	@echo "Project commands help"
 	@echo "=================================================================="
 	@echo ""
 	@printf "$(HELP_FORMAT)" "setup"		"Install project with dependencies"

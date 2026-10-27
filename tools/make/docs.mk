@@ -23,7 +23,7 @@ docs-docker-stop: ## Stop documentation server
 help-docs-docker:
 	@echo ""
 	@echo "=================================================================="
-	@echo "Documentation commands"
+	@echo "Documentation commands help"
 	@echo "=================================================================="
 	@echo ""
 	@printf "$(HELP_FORMAT)" "docs-docker-build" "Build documentation image"

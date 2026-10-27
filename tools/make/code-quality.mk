@@ -45,7 +45,7 @@ check: check-code test ## Full check (format + fix + type-check + test)
 help-code-quality:
 	@echo ""
 	@echo "=================================================================="
-	@echo "Code quality commands"
+	@echo "Code quality commands help"
 	@echo "=================================================================="
 	@echo ""
 	@echo "Linter commands"
