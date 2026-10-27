@@ -1,11 +1,36 @@
-.venv*
-.pytest_cache
-__pycache__
-build/
-.env
-*.drawio.bkp*
-*.drawio.dtmp*
+# Environment
+.envs/
+.venv/
+
+# Database
 *.sqlite3
-*.swp
-*.swo
 db*
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Tools
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Test coverage
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# Documentation
+_statics/
+
+# Drawio
+*.bkp
+*.dtmp
+
+# IDE
+.idea/
+.vscode/
