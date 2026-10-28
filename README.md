@@ -22,8 +22,12 @@ make setup
 ## Run project
 
 ```bash
-# Copy environment example
-cp -r .envs.example/ .envs/
+# Set or copy environments
+cp -r envs.example/ .envs/
+
+# Set or copy secrets
+cp -r secrets.example/ .secrets/
+
 # Run project
 ...
 ```
@@ -31,23 +35,14 @@ cp -r .envs.example/ .envs/
 
 ## Documentation
 
-### Run via Docker
-
 ```bash
-docker build -f docker/docs/Dockerfile -t wse-docs .
-docker run -d -p 8010:8000 --name wse-docs wse-docs
+make docs-docker-build
+make docs-docker-run
+make docs-docker-stop
 ```
 
-### Run via venv
+## Show available commands
 
-### Domain-Design-Development glossary with business rules.
-```bash
-make docs-open
-```
-
-## Help
-
-### Show available commands
 ```bash
 make help
 ```
