@@ -2,6 +2,9 @@
 .envs/
 .venv/
 
+# Secrets
+.secrets/
+
 # Database
 *.sqlite3
 
