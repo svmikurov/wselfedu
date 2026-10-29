@@ -1,1 +1,7 @@
+SECRET_KEY=django-insecure-g_-pd#*g+vu8_u=ds!45#c&^7wvyd5=zkbnop+(q36&4!!i5jp
 DEBUG=True
+
+DATABASE_NAME=django_db
+DATABASE_USER=django_user
+DATABASE_HOST=wse-postgres
+DATABASE_PORT=5432

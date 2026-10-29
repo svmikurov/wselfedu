@@ -3,7 +3,7 @@
 .venv/
 
 # Secrets
-.secrets/
+secrets/
 
 # Database
 *.sqlite3

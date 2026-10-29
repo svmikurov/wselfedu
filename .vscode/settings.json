@@ -9,7 +9,8 @@
     "**/__pycache__": true,
     ".ruff_cache*": true,
     ".mypy_cache*": true,
-    ".pytest_cache": true
+    ".pytest_cache": true,
+    ".venv": true,
   },
   "explorer.autoReveal": false,
   // Type check //

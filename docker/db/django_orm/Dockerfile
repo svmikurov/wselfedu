@@ -10,4 +10,5 @@ COPY docker/db/django_orm/requirements.txt /temp/requirements.txt
 RUN pip3 install -r /temp/requirements.txt --no-cache-dir
 
 COPY src/wse/infrastructure/db/django_orm /app
-COPY .env /app/.env
+
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000", "--noreload"]

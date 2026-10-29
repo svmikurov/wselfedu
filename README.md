@@ -26,7 +26,7 @@ make setup
 cp -r envs.example/ .envs/
 
 # Set or copy secrets
-cp -r secrets.example/ .secrets/
+make docker-add-secrets
 
 # Run project
 ...
