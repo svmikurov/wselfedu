@@ -1,4 +1,9 @@
 {
+  // Tips //
+  // Не показывать рекомендации расширений
+  "extensions.ignoreRecommendations": true,
+  // Отключить всплывающие советы
+  "workbench.tips.enabled": false,
   // Explorer //
   "files.exclude": {
     "**/__pycache__": true,
@@ -59,7 +64,6 @@
     "HACK:": {"foreground": "#FFFFFF", "background": "#6A1B9A"},
     "SECURITY:": {"foreground": "#FFFFFF", "background": "#C62828"}
   },
-  // Item enumeraion //
   // Word cspell
   "cSpell.enabled": true,
   "cSpell.customDictionaries": {
