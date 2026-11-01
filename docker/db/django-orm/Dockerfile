@@ -6,8 +6,9 @@ EXPOSE 8000
 
 WORKDIR /app
 
-COPY docker/db/django_orm/requirements.txt /temp/requirements.txt
+COPY docker/db/django-orm/requirements.txt /temp/requirements.txt
 RUN pip3 install -r /temp/requirements.txt --no-cache-dir
 
 COPY src/wse/infrastructure/db/django_orm /app
-COPY .env /app/.env
+
+CMD ["python", "manage.py", "runserver", "--noreload"]

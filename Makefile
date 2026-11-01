@@ -2,14 +2,14 @@
 # Makefile commands
 # =============================================================================
 
-include .envs/docs
+-include .envs/docs
 
 include tools/make/app.mk
 include tools/make/code-quality.mk
 include tools/make/docs.mk
-include tools/make/docker.mk
+include tools/make/compose.mk
 
-HELP_FORMAT := %-25s %s\n
+HELP_FORMAT =   \033[36m%-30s\033[0m %s\n
 
 # Help
 # ====
@@ -20,9 +20,11 @@ help:
 	@echo "=================================================================="
 	@echo ""
 	@printf "$(HELP_FORMAT)" "help-app"				"Show help for project commands"
+	@echo ""
 	@printf "$(HELP_FORMAT)" "help-code-quality"	"Show help for code quality commands"
-	@printf "$(HELP_FORMAT)" "docker-help"    		"Show help for docker commands"
-	@printf "$(HELP_FORMAT)" ""    ""
+	@echo ""
+	@printf "$(HELP_FORMAT)" "compose-help"    		"Show help for docker commands"
+	@echo ""
 
 
 help-all:
@@ -30,4 +32,4 @@ help-all:
 	@echo "All Makefile commands help"
 	@$(MAKE) --no-print-directory help-app
 	@$(MAKE) --no-print-directory help-code-quality
-	@$(MAKE) --no-print-directory help-docker
+	@$(MAKE) --no-print-directory compose-help

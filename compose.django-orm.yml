@@ -1,0 +1,56 @@
+name: wse
+
+services:
+  postgres:
+    build:
+      context: ./docker/db/postgres/
+      dockerfile: Dockerfile
+    env_file:
+      - .envs/db
+    environment:
+      - POSTGRES_PASSWORD_FILE=/run/secrets/database_password
+    secrets:
+      - database_password
+    networks:
+      - internal
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+    restart: unless-stopped
+
+  django-orm:
+    build:
+      context: .
+      dockerfile: ./docker/db/django-orm/Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - .envs/app
+    environment:
+      - DATABASE_PASSWORD_FILE=/run/secrets/database_password
+    secrets:
+      - database_password
+    networks:
+      - internal
+    volumes:
+      - ./src/wse/infrastructure/db/django_orm:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+networks:
+  internal:
+    driver: bridge
+
+volumes:
+  postgres_data:
+
+secrets:
+  database_password:
+    file: ./secrets/database_password

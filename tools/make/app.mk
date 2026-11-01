@@ -2,6 +2,13 @@
 # Project commands
 # =============================================================================
 
+environments:  # Generate ./envs/* from .envs.example/*
+	cp -r .envs.example/ .envs/
+
+secrets:  # Generate ./secrets/* from .envs/*.secrets example
+	@mkdir -p secrets
+	@printf '%s' "$$DATABASE_PASSWORD" > secrets/database-password
+
 setup: ## Install project with dependencies
 	poetry install
 
@@ -13,6 +20,9 @@ clean: ## Remove cache files
 run-flask:  ## Run application via Flask entrypoint
 	@poetry run flask --app src/wse/entrypoints/flask_app/app.py run --port 5005 --debug
 
+run-django-orm:
+	poetry run python3 src/wse/infrastructure/db/django_orm/manage.py runserver
+
 # Help
 # ====
 
@@ -21,6 +31,10 @@ help-app:
 	@echo "=================================================================="
 	@echo "Project commands help"
 	@echo "=================================================================="
+	@echo ""
+	@printf "$(HELP_FORMAT)" "environments"	"Generate ./envs/* from .envs.example/*"
+	@echo ""
+	@printf "$(HELP_FORMAT)" "secrets"		"Generate ./secrets/* from .envs/*.secrets example"
 	@echo ""
 	@printf "$(HELP_FORMAT)" "setup"		"Install project with dependencies"
 	@echo ""
